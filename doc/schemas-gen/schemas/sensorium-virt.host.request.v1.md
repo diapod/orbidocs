@@ -34,7 +34,7 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-virt.host.request.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`operation`](#field-operation) | `yes` | enum: `fixture.prepare`, `environment.inspect`, `environment.drain`, `environment.teardown`, `host.reconcile` |  |
+| [`operation`](#field-operation) | `yes` | enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `host.reconcile` |  |
 | [`payload`](#field-payload) | `yes` | object |  |
 
 ## Definitions
@@ -44,6 +44,8 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 | [`ref`](#def-ref) | string |  |
 | [`fixturePrepare`](#def-fixtureprepare) | object |  |
 | [`environmentBinding`](#def-environmentbinding) | object |  |
+| [`vfkitAllocate`](#def-vfkitallocate) | object |  |
+| [`environmentLimits`](#def-environmentlimits) | object |  |
 | [`emptyPayload`](#def-emptypayload) | object |  |
 
 ## Conditional Rules
@@ -85,10 +87,41 @@ When:
 {
   "properties": {
     "operation": {
+      "const": "vfkit.allocate"
+    }
+  },
+  "required": [
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload": {
+      "$ref": "#/$defs/vfkitAllocate"
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "operation": {
       "enum": [
         "environment.inspect",
+        "environment.start",
         "environment.drain",
-        "environment.teardown"
+        "environment.teardown",
+        "environment.recover"
       ]
     }
   },
@@ -110,7 +143,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 
@@ -157,7 +190,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `fixture.prepare`, `environment.inspect`, `environment.drain`, `environment.teardown`, `host.reconcile`
+- Shape: enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `host.reconcile`
 
 <a id="field-payload"></a>
 ## `payload`
@@ -179,6 +212,16 @@ Then:
 
 <a id="def-environmentbinding"></a>
 ## `$defs.environmentBinding`
+
+- Shape: object
+
+<a id="def-vfkitallocate"></a>
+## `$defs.vfkitAllocate`
+
+- Shape: object
+
+<a id="def-environmentlimits"></a>
+## `$defs.environmentLimits`
 
 - Shape: object
 

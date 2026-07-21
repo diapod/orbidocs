@@ -1,0 +1,25 @@
+{
+  "schema": "sensorium-virt.host.request.v1",
+  "schema/v": 1,
+  "operation": "vfkit.allocate",
+  "payload": {
+    "workspace/ref": "workspace:full-system-proof",
+    "root/ref": "root:system",
+    "operational/context": {
+      "schema": "sensorium-operational-context.v1",
+      "schema/v": 1,
+      "impact/class": "experimental"
+    },
+    "operational/context-policy-ref": "policy:sensorium-workbench-operational-context-v1",
+    "limits": {
+      "cpu/vcpus": 2,
+      "memory/bytes": 536870912,
+      "storage/bytes": 8589934592,
+      "processes/max": 512,
+      "operation/timeout-ms": 30000,
+      "channel/frame-bytes-max": 65536,
+      "channel/queue-depth-max": 64
+    },
+    "binary/path": "/tmp/untrusted-vfkit"
+  }
+}

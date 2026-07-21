@@ -27,7 +27,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-20. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+Change basis: this refresh incorporates the current worktree state on 2026-07-21. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -46,9 +46,23 @@ requires explicit literal-boolean local development/conformance opt-in, and is
 never an automatic fallback from supervised daemon admission; missing capability
 dimensions refuse;
 `fixture-copy.v1` exercises their admission, recovery, quarantine, supersession,
-projection, and teardown path. P071 and Solution 042 remain at `98%` because no
-process-isolated backend exists yet: VMM host operations, the guest agent, vfkit
-runtime, and deployment evidence remain open.
+projection, and teardown path. The daemon-owned `vfkit-system.v1` host-lifecycle
+slice now adds digest-pinned profile admission, private APFS-disk/EFI/socket
+allocation, closed-argv process launch, exact PID/start-marker, socket-inode,
+resource and CSPRNG boot-nonce identity, cooperative drain, teardown, recovery,
+reconciliation, and quarantine. It now commits a durable launch intent before
+process creation, fsyncs cloned boot artifacts, restricts disabled profiles to
+teardown/reconcile, and uses a typed fixed vfkit API operation set. The socket
+root is opened without following symlinks, pinned by descriptor identity, and
+rechecked before use. A feature-gated 17-test
+process harness covers process identity persisted before socket readiness,
+interrupted-launch recovery, dead listeners, replay, dirty exit, missing storage,
+fresh boot nonces, generation supersession, PID reuse, binary and socket
+substitution, socket-root replacement, and orphan cleanup without claiming Apple
+Virtualization Framework or guest evidence.
+P071 and Solution 042 remain at `98%` because the nonce/generation-bound guest
+agent, real full-system vfkit image/deployment and platform resource evidence,
+and virtualized Workbench PTY/file integration remain open.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -703,9 +717,15 @@ Recent component deltas:
   rechecks
   operator-configured source/context/limits,
   host mutations serialize across processes, and directory enumeration is capped
-  before materialization. VMM process/socket/platform authority, the nonce/generation-
-  bound guest agent, vfkit runtime, and deployment evidence are not implemented,
-  so Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
+  before materialization. The daemon-owned vfkit host lifecycle, exact process/
+  socket/resource recovery identity, pre-spawn launch intent, fsync-backed boot
+  artifacts, boot nonce, closed launch/API profile, disabled-profile terminal
+  cleanup semantics, descriptor-pinned socket root, and feature-gated 17-case
+  process-level crash/substitution harness are
+  implemented. The nonce/generation-
+  bound guest agent, real full-system vfkit deployment and platform-resource
+  evidence, and virtualized Workbench integration are not implemented, so
+  Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
   post-MVP hardening rather than a current blocker.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay

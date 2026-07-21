@@ -26,9 +26,12 @@
     "operation": {
       "enum": [
         "fixture.prepare",
+        "vfkit.allocate",
+        "environment.start",
         "environment.inspect",
         "environment.drain",
         "environment.teardown",
+        "environment.recover",
         "host.reconcile"
       ]
     },
@@ -60,10 +63,31 @@
       "if": {
         "properties": {
           "operation": {
+            "const": "vfkit.allocate"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/vfkitAllocate"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
             "enum": [
               "environment.inspect",
+              "environment.start",
               "environment.drain",
-              "environment.teardown"
+              "environment.teardown",
+              "environment.recover"
             ]
           }
         },
@@ -174,6 +198,93 @@
         },
         "source/generation-ref": {
           "$ref": "#/$defs/ref"
+        }
+      }
+    },
+    "vfkitAllocate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace/ref",
+        "root/ref",
+        "operational/context",
+        "operational/context-policy-ref",
+        "limits"
+      ],
+      "properties": {
+        "workspace/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "root/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "idempotency/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "not": {
+            "pattern": "\\u0000"
+          }
+        },
+        "operational/context": {
+          "$ref": "sensorium-operational-context.v1.schema.json"
+        },
+        "operational/context-policy-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "limits": {
+          "$ref": "#/$defs/environmentLimits"
+        }
+      }
+    },
+    "environmentLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cpu/vcpus",
+        "memory/bytes",
+        "storage/bytes",
+        "processes/max",
+        "operation/timeout-ms",
+        "channel/frame-bytes-max",
+        "channel/queue-depth-max"
+      ],
+      "properties": {
+        "cpu/vcpus": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "memory/bytes": {
+          "type": "integer",
+          "minimum": 67108864,
+          "maximum": 1099511627776,
+          "multipleOf": 1048576
+        },
+        "storage/bytes": {
+          "type": "integer",
+          "minimum": 1048576,
+          "maximum": 17592186044416
+        },
+        "processes/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "operation/timeout-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400000
+        },
+        "channel/frame-bytes-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "channel/queue-depth-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
         }
       }
     },

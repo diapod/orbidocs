@@ -44,13 +44,19 @@ answers and revocation, durable-grant grantability checks, inactive-binding
 diagnostics, and dedicated operator UI. Native broker providers, explicit
 artifact handoff, the Rust actuation bridge, a managed fixture-copy virtual
 executor, and Agent/Corpus/Room tool-request lineage are also implemented.
-The property-attested process-isolated backend architecture is frozen, with
-vfkit as the first Apple Silicon implementation slice, but the new capability,
-normalized-plan, image, recovery, and guest-frame contracts, host broker, guest
-agent, runtime, and deployment evidence remain unimplemented. The freeze now also
-requires closed capability vocabularies, plan-bound operational context and policy
-floors, evidence-based logical image equivalence, and sanitized classified serial
-diagnostics. The existing Workbench environment/export contracts remain landed.
+The property-attested process-isolated backend architecture is frozen, and the
+first `vfkit-system.v1` host-lifecycle slice is implemented for
+`macos-vz-arm64.v1`. The daemon-owned broker now covers allocation, closed-argv
+launch, inspection, cooperative drain, teardown, recovery, exact process/socket/
+resource identity, boot nonces, reconciliation, and quarantine without exposing
+VMM administration sockets to Python. Process-level fake-vfkit evidence covers
+replay, dirty exit, PID reuse, socket and binary substitution, missing storage,
+and orphan cleanup. The guest agent, full-system image integration, real-vfkit
+deployment evidence, and virtualized Workbench PTY/file channel remain
+unimplemented. The freeze also requires closed capability vocabularies,
+plan-bound operational context and policy floors, evidence-based logical image
+equivalence, and sanitized classified serial diagnostics. The existing Workbench
+environment/export contracts remain landed.
 
 ## Date
 
@@ -1608,7 +1614,7 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-virt-image-manifest.v1` | Logical full-system image whose shared userspace/SBOM/provenance/agent/protocol digests prove variant equivalence while exact boot artifacts remain variant-specific. |
 | `sensorium-virt-recovery-record.v1` | Host-private identity for VMM process, sockets, working storage, boot nonce, source generation, platform resources, and reconciliation status. |
 | `sensorium-virt-guest-frame.v1` | Bounded handshake and operation envelope for the guest channel, including environment/generation binding, sequence, deadline, chunk caps, and payload digest. |
-| `sensorium-virt.host.request.v1` | Closed internal ingress envelope for fixture prepare, exact environment binding operations, and authoritative host reconciliation. |
+| `sensorium-virt.host.request.v1` | Closed internal ingress envelope for fixture and vfkit allocation, exact environment start/inspect/drain/teardown/recover bindings, and authoritative host reconciliation. Caller payloads never select host paths, VMM binaries, sockets, or argv. |
 | `sensorium-terminal-session.v1` | Session descriptor: command profile, workspace, classification, limits, status. |
 | `sensorium-terminal-command.v1` | Structured command intent with command profile, argv data, idempotency key, and normalized argv digest. |
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
@@ -2020,6 +2026,13 @@ behavior.
     boundaries expose only a bounded typed code plus a stable public message. Raw host
     paths, subprocess stderr, internal exception text, and capability failure details
     remain host-local diagnostics.
+53. **Disabling a VMM profile preserves only terminal cleanup authority.** A
+    literal `vfkit.enabled = false` denies allocate, start, recover, inspect, and
+    drain. When the complete operator-pinned profile remains available, the daemon
+    may load it only for `environment.teardown` and `host.reconcile`; this permits
+    bounded resource removal without silently retaining the ordinary lifecycle.
+    A missing `enabled` field is reported as not configured, not as an explicit
+    operator disable.
 
 ## Next Actions And Implementation Tracker
 
@@ -2499,18 +2512,50 @@ evidence) · `[!]` blocked/needs decision.
   connector also refuses a host plan whose `backend/id` differs from the configured
   executor kind. Schema-gate regression coverage removes one required capability
   dimension and proves that missing properties are refusal, not a wildcard.
-- [ ] Extend the host broker with VMM process launch, API/control socket allocation,
-  platform resource controls, boot identity, and platform-specific recovery for
-  `vfkit-system.v1`; keep that authority out of the Python connector.
+- [x] Extend the host broker with VMM process launch, API/control socket allocation,
+  bounded VMM resource-plan projection, boot identity, and platform-specific
+  recovery for
+  `vfkit-system.v1`; keep that authority out of the Python connector. The daemon
+  loads an operator-authored, digest-pinned vfkit profile and admits only the
+  closed `vfkit.allocate` and lifecycle operations. The broker owns private
+  state, fsync-backed APFS-cloned raw disk and EFI variable store allocation,
+  short private Unix socket paths, CSPRNG boot nonces, exact PID/start-marker and
+  socket-inode identities, with a durable launch intent committed before process
+  creation and process identity persisted before waiting for socket readiness.
+  Startup recovery finds and terminates an exact matching launch that escaped the
+  PID commit, while content-bound replay, generation supersession, cooperative
+  stop, deterministic teardown, orphan detection, and quarantine remain enforced.
+  The vfkit API client exposes a closed typed lifecycle operation set rather than
+  accepting free-form method, endpoint, or body strings. A disabled profile keeps
+  only teardown/reconcile authority as resolved decision 53. The socket root is
+  opened with no-follow directory semantics, permissioned through its descriptor,
+  pinned by device/inode identity, and rechecked before lifecycle use. The
+  feature-gated 17-case process harness includes refusal of the fake VMM without
+  conformance authority, dead-listener, interrupted-launch, boot-nonce freshness,
+  socket-root substitution, and generation-supersession evidence in addition to
+  the original lifecycle cases.
+  The fake VMM binary and non-macOS conformance constructor are absent from normal
+  builds, and the fake binary refuses without the marker emitted only by that
+  constructor. An operator-authored binary digest remains an explicit host trust
+  decision; vendor-only provenance requires package policy or an allowlist rather
+  than heuristic recognition of executable bytes.
+  Host paths and VMM arguments never enter the caller request or response.
 - [ ] Implement and package `orbiplex-workbench-guest` with generation/plan/image/
   nonce-bound virtio-vsock handshake, bounded process and PTY control, chunked
   file/patch/export frames, defense-in-depth guest resource limits, quiesce, and
   shutdown.
-- [ ] Implement `vfkit-system.v1` as the first process-isolated backend on
+- [x] Implement the host-lifecycle adapter for `vfkit-system.v1` as the first
+  process-isolated backend slice on
   `macos-vz-arm64.v1`: pinned binary, EFI full-system GNU/Linux arm64 image, APFS
   working-disk clone, private EFI variable store, dedicated vsock-to-UDS control
-  socket, closed block/vsock/rng/serial device set, and no NIC, host share, Rosetta,
-  SSH, credential injection, or memory snapshots.
+  socket, closed block/vsock/rng device set, and no NIC, serial channel, host share,
+  Rosetta, SSH, credential injection, or memory snapshots. The target profile's
+  output-only diagnostic serial remains disabled until retained output has a
+  continuously enforced byte bound; periodic truncation is not such evidence. A
+  separate fake-vfkit process
+  harness exercises the exact command surface and lifecycle without claiming
+  full-system or Apple Virtualization Framework evidence. Real-vfkit boot and
+  guest-channel evidence remain owned by the next item.
 - [ ] Run vfkit deployment evidence for systemd/PID 1, harmless kernel and mount
   operations, local package installation, host non-interference, no-secret/no-
   network posture, P083 two-controller PTY fencing, file/patch/export behavior,

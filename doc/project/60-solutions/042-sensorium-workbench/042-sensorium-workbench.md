@@ -13,6 +13,9 @@ Based on:
 - `doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md`
 - `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
 - `node:sensorium-actuation-core`
+- `node:sensorium-virt-core`
+- `node:sensorium-virt-host`
+- `node:daemon/src/sensorium_virt_integration.rs`
 - `node:interaction-broker-core`
 - `node:middleware-modules/sensorium-workbench`
 
@@ -112,12 +115,17 @@ required Rust actuation companion-process boundary without a Python validation
 fallback, and Agent/Corpus/Room tool request lineage admission through Sensorium
 Core. Workbench screen snapshots and terminal events are now implemented as
 separate read-only Sensorium Interface source projections, including a
-collaborative WSS Room latest-state acceptance path. Remaining solution work is
-the property-attested process-isolated backend runtime and optional daemon
-command-BDO signal policy beyond the implemented `TERM` cancel path. That
-architecture is now frozen around separate VMM-lifecycle and guest-channel ports,
-`vfkit-system.v1` as the first Apple Silicon implementation slice, and Cloud
-Hypervisor as the first Linux deployment profile.
+collaborative WSS Room latest-state acceptance path. The first
+property-attested process-isolated host-lifecycle runtime is now implemented:
+the daemon-owned `vfkit-system.v1` broker validates a pinned Apple Silicon
+profile, allocates private raw-disk/EFI/socket resources, launches a closed
+device set, records exact process/socket/resource and boot-nonce identity, and
+owns inspect, drain, teardown, recovery, reconciliation, and quarantine. A
+process-level fake-vfkit suite proves replay and principal crash/substitution
+refusals without exposing VMM administration sockets to Python. Remaining
+solution work is the nonce/generation-bound guest channel, real full-system
+vfkit deployment and resource evidence, later Linux backends, and optional
+daemon command-BDO signal policy beyond the implemented `TERM` cancel path.
 
 Proposal 083 defines the hard-MVP release-blocking path for separately granted
 terminal input, resize, and signal actuation. Its P083-002 through P083-011 runtime
@@ -136,7 +144,7 @@ P083-013 relay carrier remains deferred until P070 Phase 6A.
 
 ## Date
 
-2026-07-04
+2026-07-21
 
 ## History
 
@@ -641,10 +649,25 @@ Status:
   processless fixture records. The vertical smoke proves dirty-restart recovery,
   managed-copy patch/export, teardown, and source immutability. It intentionally
   refuses PTY;
-- `process-isolated runtime pending`: backend names are not isolation evidence.
-  Phase 4 still requires VMM process/socket/platform authority, a nonce/generation-
-  bound guest agent, `vfkit-system.v1`, and deployment evidence before virtualized
-  PTY is enabled.
+- `process-isolated guest runtime pending`: backend names are not isolation
+  evidence. The daemon-owned `vfkit-system.v1` host adapter now provides the
+  closed VMM lifecycle, a durable pre-spawn launch intent, fsync-backed boot
+  artifacts, typed fixed API operations, and exact recovery identity persisted
+  before socket readiness. Its feature-gated 17-case process conformance covers
+  fake-VMM refusal without conformance authority, interrupted launch recovery,
+  dead listeners, replay, dirty exit, PID reuse, binary/socket and socket-root
+  substitution, missing storage, fresh boot nonces, generation supersession, and
+  orphan cleanup. The fake VMM and non-macOS conformance constructor are absent
+  from normal builds, and the fake binary requires the marker emitted only by that
+  constructor. The production socket root is opened without following symlinks
+  and pinned by descriptor identity. A disabled profile retains only teardown/
+  reconcile authority.
+  Its current closed device set is block, vsock, and entropy; diagnostic serial
+  remains disabled until retained output has a continuously enforced byte bound.
+  Phase 4 still requires the nonce/
+  generation-bound guest agent, a pinned full-system image, real-vfkit boot and
+  platform resource evidence, and P083 PTY conformance before virtualized PTY is
+  enabled.
 
 Frozen reference sequence:
 
