@@ -77,7 +77,7 @@ Następnie sprawdź konfigurację przed uruchomieniem:
 
 ```sh
 cargo run -p orbiplex-node-daemon -- check-config \
-  --config-dir "$ORBIPLEX_CONFIG_DIR"
+  --data-dir "$ORBIPLEX_DATA_DIR"
 ```
 
 Loader ma odrzucić nieważny podpis, niespełniony threshold, nieznaną politykę

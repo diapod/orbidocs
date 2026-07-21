@@ -243,6 +243,47 @@ JSON-e Flow albo supervised role middleware
   -> artifact.delivery.send
 ```
 
+[HOWTO Sensorium](sensorium-howto.pl.md) szczegółowo opisuje granice katalogu
+działań, dyrektywy, zgody, operacji Workbench i przekazania artefaktu.
+
+### Operacje Sensorium Workbench
+
+Operacje Sensorium Workbench nie stają się senderami ani acceptorami Artifact
+Delivery tylko dlatego, że produkują lub konsumują artefakty. Workbench jest
+właścicielem lokalnego skutku dotyczącego workspace'u, terminala, pliku, patcha
+albo sandboxa. Artifact Delivery pozostaje właścicielem transportu, admission
+odbiorcy, wyboru trasy, retry i dowodu dostarczenia.
+
+Na ścieżce wychodzącej output terminala pozostaje efemeryczny, dopóki jawna
+operacja capture go nie utrwali. Terminal capture wymaga zarówno ograniczonego
+grantu terminal-read, jak i osobnego grantu artifact-write. Powstały lokalny
+artefakt nie jest wysyłany niejawnie: jawny handoff rozwiązuje go przez host
+object boundary i przekazuje związaną ze schematem kopertę do
+`artifact.delivery.send`.
+
+Na ścieżce przychodzącej poprawne admission AD dowodzi, że oczekiwany artefakt
+został dostarczony i przyjęty jako artefakt. Nie upoważnia Workbench do
+zastosowania patcha ani wykonania treści. Patch application osobno weryfikuje
+digest, rozmiar i provenance artefaktu, ograniczenie do workspace'u, grant
+`sensorium.workbench.patch` oraz wymaganą zgodę operatora lub aktywną lease.
+
+```text
+Workbench capture/export
+  -> local artifact ref
+  -> explicit artifact handoff
+  -> artifact.delivery.send
+
+AD admission of patch artifact
+  -> verified artifact ref
+  -> separate Workbench patch admission
+  -> patch.apply
+```
+
+Zachowuje to główną regułę klasyfikacyjną: posiadanie albo dostarczenie
+artefaktu nie jest autorytetem do wywołania jego lokalnego skutku. Szczegółowa
+polityka Workbench należy do
+[Solution 042](../../project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md#patch-and-artifact-mediated-writes).
+
 ### JSON-e Flows
 
 JSON-e Flow middleware może używać Artifact Delivery outbound przez wpisanie

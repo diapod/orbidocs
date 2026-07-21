@@ -10,6 +10,8 @@ profile-distributed, or operator-installed regardless of execution type.
 
 For the detailed type descriptions, registration shapes, and examples, see [Middleware
 HOWTO](../howto/middleware-howto.en.md#what-are-middleware-types).
+For the boundary between the pure evaluator and host-owned flow steps, see the
+[JSON-e and JSON-e Flows FAQ](json-e-and-json-e-flows-faq.en.md).
 
 ## When should a module use `channel_json`?
 

@@ -77,7 +77,7 @@ Validate configuration before startup:
 
 ```sh
 cargo run -p orbiplex-node-daemon -- check-config \
-  --config-dir "$ORBIPLEX_CONFIG_DIR"
+  --data-dir "$ORBIPLEX_DATA_DIR"
 ```
 
 The loader must reject an invalid signature, unmet threshold, unknown custody

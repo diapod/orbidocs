@@ -41,7 +41,7 @@ subsystem and its rebuildable read sidecar. After changing configuration, run:
 
 ```sh
 cargo run -p orbiplex-node-daemon -- check-config \
-  --config-dir "$ORBIPLEX_CONFIG_DIR"
+  --data-dir "$ORBIPLEX_DATA_DIR"
 ```
 
 Then start the daemon and inspect its normal operator status. When Memarium is

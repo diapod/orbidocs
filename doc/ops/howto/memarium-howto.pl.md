@@ -44,7 +44,7 @@ zmianie konfiguracji najpierw uruchom:
 
 ```sh
 cargo run -p orbiplex-node-daemon -- check-config \
-  --config-dir "$ORBIPLEX_CONFIG_DIR"
+  --data-dir "$ORBIPLEX_DATA_DIR"
 ```
 
 Następnie uruchom daemon i sprawdź jego zwykły status operatorski. Jeżeli

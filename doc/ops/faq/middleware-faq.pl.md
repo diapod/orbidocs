@@ -11,6 +11,8 @@ operatora niezależnie od typu wykonania.
 
 Szczegółowe opisy typów, kształty rejestracji i przykłady są w [Middleware
 HOWTO](../howto/middleware-howto.pl.md).
+Granica pomiędzy czystym interpreterem a krokami przepływu należącymi do hosta jest
+opisana w [FAQ JSON-e i JSON-e Flows](json-e-and-json-e-flows-faq.pl.md).
 
 ## Kiedy moduł powinien używać `channel_json`?
 

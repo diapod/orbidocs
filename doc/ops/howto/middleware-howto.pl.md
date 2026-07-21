@@ -137,10 +137,11 @@ pub fn register_builtin_middleware(registry: &mut HostRegistry) {
 
 ### Czysty JSON-e
 
-Czysty middleware `json_e` jest deklaratywnym transformatorem danych. Konkretna
-zarejestrowana definicja JSON-e jest traktowana operacyjnie jako osobny komponent
-middleware, nawet jeżeli daemon wykonuje ją przez współdzielony executor.
-Otrzymuje wyprojektowany przez operatora kontekst JSON, renderuje wartość JSON, a
+Czysty middleware `json_e` jest deklaratywnym transformatorem danych. Jego kontrakt
+executora jest zaimplementowany w `middleware-runtime`; daemon udostępnia dziś
+bezpośrednią rejestrację providerów z konfiguracji operatora dla `json_e_flow`, ale nie
+równoległą mapę usług czystego JSON-e. Czysty executor otrzymuje wyprojektowany przez
+operatora kontekst JSON, renderuje wartość JSON, a
 host waliduje tę wartość względem oczekiwanego kontraktu wyjściowego. Nie ma
 ambient authority: nie może otwierać plików, wołać sieci, mutować storage,
 wywoływać host capabilities ani oglądać danych, które nie zostały
@@ -152,12 +153,12 @@ przejść do JSON-e Flow albo supervised module.
 
 #### Kształt rejestracji
 
-- Wpis konfiguracji JSON deklarujący tożsamość middleware'u, szablon, limity,
-  projekcję kontekstu, profil helperów i kontrakt wyjściowy.
-- Opcjonalny fragment konfiguracji dostarczony przez pakiet pod
-  `middleware-packages/<id>/config/`.
-- Rekordy trace generowane przez hosta, zawierające id szablonu, digest,
-  podsumowanie wejścia/wyjścia i wynik walidacji.
+- `JsonEExecutorConfig` deklarujący tożsamość middleware, szablon, limity, projekcję
+  kontekstu, profil helperów i kontrakt wyjściowy.
+- Bezpośrednie użycie przez executor `middleware-runtime` w integracjach na poziomie
+  crate i testach.
+- Dla wdrożenia operatorskiego przez obecny daemon: bezefektowa definicja
+  `middleware_json_e_flow_services`, używająca tylko `render`, `validate` i `respond`.
 
 #### Zastosowania
 
@@ -166,24 +167,10 @@ przejść do JSON-e Flow albo supervised module.
 - Renderowanie prostego `service-dispatch-response` bez procesu.
 - Wybór route'a albo adnotacja żądania na podstawie jawnych danych.
 
-#### Przykłady
+#### Przykład
 
-```json
-{
-  "schema": "middleware-json-e.v1",
-  "id": "example.normalizer",
-  "profile_version": "orbiplex.json_e.v1",
-  "limits": { "timeout_ms": 100 },
-  "context_projection": {
-    "title": "$.request.title"
-  },
-  "template": {
-    "decision": "allow",
-    "payload": { "title": "${title}" }
-  },
-  "output_contract": "middleware-decision.v1"
-}
-```
+Kompletny kontrakt czystego executora znajduje się w [HOWTO JSON-e i JSON-e
+Flows](json-e-and-json-e-flows-howto.pl.md#napisz-czysty-adapter-roli-w-json-e).
 
 ### JSON-e Flow
 
@@ -216,32 +203,11 @@ roboczym albo złożoną polityką domenową, lepszy jest supervised HTTP middle
 - Niskokodowy middleware dla operatorów, którzy nie powinni potrzebować skryptów
   na poziomie systemu operacyjnego.
 
-#### Przykłady
+#### Przykład
 
-```json
-{
-  "id": "example.role.summary",
-  "module_id": "example.json-e-flow.roles",
-  "profile_version": "orbiplex.json_e_flow.v1",
-  "limits": { "timeout_ms": 500, "max_steps": 8 },
-  "bindings": {
-    "role_capability_id": "role/example.summary.execute"
-  },
-  "allowed_calls": [
-    { "capability": "memarium.write", "operation": "write" }
-  ],
-  "steps": [
-    {
-      "id": "response",
-      "kind": "respond",
-      "template": {
-        "status": "ok",
-        "result": { "summary": "${request.input.text}" }
-      }
-    }
-  ]
-}
-```
+Aktualny względem schemy przepływ, mocki dry-run, pakowanie, obsługa operacji
+odroczonych i wzorce integracyjne znajdują się w [HOWTO JSON-e i JSON-e
+Flows](json-e-and-json-e-flows-howto.pl.md#zbuduj-may-json-e-flow).
 
 ### Command/Stdio
 

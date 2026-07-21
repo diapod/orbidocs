@@ -237,6 +237,48 @@ JSON-e Flow or supervised role middleware
   -> artifact.delivery.send
 ```
 
+The [Sensorium HOWTO](sensorium-howto.en.md) covers the action catalog, directive,
+consent, Workbench operation, and artifact handoff boundaries in detail.
+
+### Sensorium Workbench Operations
+
+Sensorium Workbench operations do not become Artifact Delivery senders or
+acceptors merely because they produce or consume artifacts. Workbench owns the
+local workspace, terminal, file, patch, and sandbox effect. Artifact Delivery
+owns transport, recipient admission, route selection, retry, and delivery
+evidence.
+
+On the outbound path, terminal output remains ephemeral until an explicit
+capture operation persists it. Terminal capture requires both the scoped
+terminal-read grant and a separate artifact-write grant. The resulting local
+artifact is not sent implicitly: an explicit handoff resolves it through the
+host object boundary and submits a schema-bound envelope to
+`artifact.delivery.send`.
+
+On the inbound path, successful AD admission proves that the expected artifact
+was delivered and accepted as an artifact. It does not authorize Workbench to
+apply a patch or execute content. Patch application separately verifies the
+artifact digest, size, and provenance, workspace containment, the
+`sensorium.workbench.patch` grant, and any required operator approval or active
+lease.
+
+```text
+Workbench capture/export
+  -> local artifact ref
+  -> explicit artifact handoff
+  -> artifact.delivery.send
+
+AD admission of patch artifact
+  -> verified artifact ref
+  -> separate Workbench patch admission
+  -> patch.apply
+```
+
+This preserves the central classification rule: possession or delivery of an
+artifact is not authority to cause its local effect. Detailed Workbench policy
+belongs to
+[Solution 042](../../project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md#patch-and-artifact-mediated-writes).
+
 ### JSON-e Flows
 
 JSON-e Flow middleware can use Artifact Delivery outbound by listing

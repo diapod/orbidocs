@@ -170,9 +170,10 @@ pub fn register_builtin_middleware(registry: &mut HostRegistry) {
 
 ### Pure JSON-e
 
-Pure `json_e` middleware is a declarative data transformer. A concrete registered
-JSON-e definition is treated as a separate operational middleware component, even
-though the daemon evaluates it through a shared executor. It receives an
+Pure `json_e` middleware is a declarative data transformer. Its executor contract is
+implemented in `middleware-runtime`; the daemon currently exposes direct
+operator-configured provider registration for `json_e_flow`, not a parallel pure
+JSON-e service map. A pure executor receives an
 operator-projected JSON context, renders a JSON value, and the host validates that
 value against an expected output contract. It has no ambient authority: it cannot
 open files, call the network, mutate storage, invoke host capabilities, or inspect
@@ -184,11 +185,13 @@ supervised module.
 
 #### Registration shape
 
-- A JSON config entry declaring middleware identity, template, limits, context
+- A `JsonEExecutorConfig` declaring middleware identity, template, limits, context
   projection, helper profile, and output contract.
-- Optional package-shipped config fragment under `middleware-packages/<id>/config/`.
-- Host-generated trace records with template id, digest, input/output summary, and
-  validation result.
+- Direct use through the `middleware-runtime` executor in crate integrations and
+  tests.
+- For operator deployment through the current daemon, an effect-free
+  `middleware_json_e_flow_services` definition using only `render`, `validate`, and
+  `respond`.
 
 #### Use cases
 
@@ -197,24 +200,10 @@ supervised module.
 - Render a simple `service-dispatch-response` without a process.
 - Select a route or annotate a request using explicit data.
 
-#### Examples
+#### Example
 
-```json
-{
-  "schema": "middleware-json-e.v1",
-  "id": "example.normalizer",
-  "profile_version": "orbiplex.json_e.v1",
-  "limits": { "timeout_ms": 100 },
-  "context_projection": {
-    "title": "$.request.title"
-  },
-  "template": {
-    "decision": "allow",
-    "payload": { "title": "${title}" }
-  },
-  "output_contract": "middleware-decision.v1"
-}
-```
+See the complete pure executor contract in the [JSON-e and JSON-e Flows
+HOWTO](json-e-and-json-e-flows-howto.en.md#author-a-pure-json-e-role-adapter).
 
 ### JSON-e Flow
 
@@ -244,32 +233,11 @@ complex domain policy, use supervised HTTP middleware instead.
 - Publish a workflow-step completion record after a successful capability call.
 - Provide low-code middleware for operators who should not need OS-level scripting.
 
-#### Examples
+#### Example
 
-```json
-{
-  "id": "example.role.summary",
-  "module_id": "example.json-e-flow.roles",
-  "profile_version": "orbiplex.json_e_flow.v1",
-  "limits": { "timeout_ms": 500, "max_steps": 8 },
-  "bindings": {
-    "role_capability_id": "role/example.summary.execute"
-  },
-  "allowed_calls": [
-    { "capability": "memarium.write", "operation": "write" }
-  ],
-  "steps": [
-    {
-      "id": "response",
-      "kind": "respond",
-      "template": {
-        "status": "ok",
-        "result": { "summary": "${request.input.text}" }
-      }
-    }
-  ]
-}
-```
+See a schema-current flow, dry-run mocks, packaging, deferred-operation behavior, and
+integration patterns in the [JSON-e and JSON-e Flows
+HOWTO](json-e-and-json-e-flows-howto.en.md#build-a-small-json-e-flow).
 
 ### Command/Stdio
 
