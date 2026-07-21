@@ -1,0 +1,16 @@
+{
+  "schema": "sensorium-virt-guest-frame.v1",
+  "schema/v": 1,
+  "frame/kind": "handshake",
+  "environment/ref": "environment:fixture-story",
+  "source/generation-ref": "source-generation:fixture-story-v1",
+  "plan/digest": "sha256:7cdfa237c635a6fd2d5c92e8537f6fcd5cb89e66db31cb54e72951d8a374744e",
+  "image/manifest-digest": "sha256:4f70fd2d3f862bbeebc3f0d45b972a7844c1a3fd94321cadbaf487bec9eeb435",
+  "guest-agent/protocol-version": 1,
+  "guest/cid": 3,
+  "boot/nonce": "0123456789abcdef0123456789abcdef",
+  "sequence": 0,
+  "deadline-at": "2026-07-20T12:00:30Z",
+  "payload/length": 0,
+  "payload/digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

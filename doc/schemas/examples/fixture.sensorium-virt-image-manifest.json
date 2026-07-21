@@ -1,0 +1,21 @@
+{
+  "schema": "sensorium-virt-image-manifest.v1",
+  "schema/v": 1,
+  "image/ref": "virt-image:fixture-workspace-v1",
+  "userspace/rootfs-digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "sbom/digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "build-provenance/ref": "provenance:fixture-workspace-v1",
+  "build-provenance/digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "guest-agent/digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+  "guest-protocol/schema-set-digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+  "guest-protocol/version": 1,
+  "variants": [{
+    "variant/ref": "virt-image-variant:fixture-copy-v1",
+    "backend/id": "fixture-copy.v1",
+    "architecture": "arm64",
+    "boot/mode": "none",
+    "storage/format": "directory-copy",
+    "artifact/ref": "artifact:fixture-workspace-v1",
+    "artifact/digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+  }]
+}

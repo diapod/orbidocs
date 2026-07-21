@@ -227,6 +227,24 @@ schema_for_file() {
     *.sensorium-virt-teardown-result.json)
       echo "$SCHEMAS_DIR/sensorium-virt-teardown-result.v1.schema.json"
       ;;
+    *.sensorium-virt-backend-capabilities.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-backend-capabilities.v1.schema.json"
+      ;;
+    *.sensorium-virt-environment-plan.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-environment-plan.v1.schema.json"
+      ;;
+    *.sensorium-virt-image-manifest.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-image-manifest.v1.schema.json"
+      ;;
+    *.sensorium-virt-recovery-record.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-recovery-record.v1.schema.json"
+      ;;
+    *.sensorium-virt-guest-frame.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-guest-frame.v1.schema.json"
+      ;;
+    *.sensorium-virt-host-request.json)
+      echo "$SCHEMAS_DIR/sensorium-virt.host.request.v1.schema.json"
+      ;;
     *.sensorium-workbench-tool-request.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-tool-request.v1.schema.json"
       ;;

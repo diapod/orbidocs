@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-environment-plan:v1",
+  "title": "Sensorium Virt Environment Plan v1",
+  "description": "Host-normalized immutable allocation plan for a Sensorium Virt environment.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": [
+    "schema", "schema/v", "plan/ref", "plan/digest", "idempotency/key",
+    "environment/ref", "source/generation-ref", "backend/capabilities-ref",
+    "backend/capabilities-digest", "backend/id", "platform/ref", "image/ref",
+    "image/variant-ref", "image/manifest-digest", "locality", "host/architecture",
+    "guest/architecture", "isolation/class", "system/fidelity", "control",
+    "boot/mode", "storage/format", "device/classes", "console/mode", "network/profile",
+    "host-filesystem-sharing/mode", "credential-injection/mode", "resource-enforcement/classes",
+    "lifecycle/operations", "operational/context", "operational/context-candidate-digest",
+    "operational/context-policy-ref", "attached-resource-contexts", "limits"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-virt-environment-plan.v1" },
+    "schema/v": { "const": 1 },
+    "plan/ref": { "$ref": "#/$defs/ref" },
+    "plan/digest": { "$ref": "#/$defs/digest" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "environment/ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "backend/capabilities-ref": { "$ref": "#/$defs/ref" },
+    "backend/capabilities-digest": { "$ref": "#/$defs/digest" },
+    "backend/id": { "$ref": "#/$defs/ref" },
+    "platform/ref": { "$ref": "#/$defs/ref" },
+    "image/ref": { "$ref": "#/$defs/ref" },
+    "image/variant-ref": { "$ref": "#/$defs/ref" },
+    "image/manifest-digest": { "$ref": "#/$defs/digest" },
+    "locality": { "enum": ["local-only", "remote-sandbox"] },
+    "host/architecture": { "$ref": "#/$defs/architecture" },
+    "guest/architecture": { "$ref": "#/$defs/architecture" },
+    "isolation/class": { "enum": ["none", "process-sandbox", "shared-kernel-container", "hardware-vm"] },
+    "system/fidelity": { "enum": ["filesystem-view", "process-runtime", "shared-kernel-linux", "full-system-linux"] },
+    "control": { "$ref": "sensorium-virt-backend-capabilities.v1.schema.json#/$defs/controlSelection" },
+    "boot/mode": { "enum": ["none", "efi", "direct-kernel"] },
+    "storage/format": { "enum": ["directory-copy", "raw", "kernel-initrd-rootfs"] },
+    "device/classes": { "$ref": "sensorium-virt-backend-capabilities.v1.schema.json#/$defs/deviceClasses" },
+    "console/mode": { "enum": ["none", "diagnostic-output-only"] },
+    "network/profile": { "enum": ["none", "isolated", "egress-allowlisted"] },
+    "host-filesystem-sharing/mode": { "enum": ["denied", "read-only", "read-write"] },
+    "credential-injection/mode": { "enum": ["denied", "explicit-scoped"] },
+    "resource-enforcement/classes": { "$ref": "sensorium-virt-backend-capabilities.v1.schema.json#/$defs/resourceClasses" },
+    "lifecycle/operations": { "$ref": "sensorium-virt-backend-capabilities.v1.schema.json#/$defs/lifecycleOperations" },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+    "operational/context-candidate-digest": { "$ref": "#/$defs/digest" },
+    "operational/context-policy-ref": { "$ref": "#/$defs/ref" },
+    "attached-resource-contexts": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["resource/ref", "operational/context", "context/digest"],
+        "properties": {
+          "resource/ref": { "$ref": "#/$defs/ref" },
+          "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+          "context/digest": { "$ref": "#/$defs/digest" }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cpu/vcpus", "memory/bytes", "storage/bytes", "processes/max", "operation/timeout-ms", "channel/frame-bytes-max", "channel/queue-depth-max"],
+      "properties": {
+        "cpu/vcpus": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "memory/bytes": { "type": "integer", "minimum": 67108864, "maximum": 1099511627776 },
+        "storage/bytes": { "type": "integer", "minimum": 1048576, "maximum": 17592186044416 },
+        "processes/max": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "operation/timeout-ms": { "type": "integer", "minimum": 1, "maximum": 86400000 },
+        "channel/frame-bytes-max": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "channel/queue-depth-max": { "type": "integer", "minimum": 1, "maximum": 4096 }
+      }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "architecture": { "enum": ["x86_64", "arm64"] }
+  }
+}

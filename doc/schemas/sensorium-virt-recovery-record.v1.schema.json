@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-recovery-record:v1",
+  "title": "Sensorium Virt Recovery Record v1",
+  "description": "Host-private durable identity used to recover or quarantine one Sensorium Virt environment.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "recovery/ref", "environment/ref", "source/generation-ref", "plan/digest", "image/manifest-digest", "backend/id", "backend/version", "backend/binary-digest", "lifecycle/status", "working-storage", "resource/identities", "recorded-at"],
+  "properties": {
+    "schema": { "const": "sensorium-virt-recovery-record.v1" },
+    "schema/v": { "const": 1 },
+    "recovery/ref": { "$ref": "#/$defs/ref" },
+    "environment/ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "plan/digest": { "$ref": "#/$defs/digest" },
+    "image/manifest-digest": { "$ref": "#/$defs/digest" },
+    "backend/id": { "$ref": "#/$defs/ref" },
+    "backend/version": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$" },
+    "backend/binary-digest": { "$ref": "#/$defs/digest" },
+    "lifecycle/status": { "enum": ["allocating", "ready", "draining", "closed", "failed", "expired", "quarantined"] },
+    "process": {
+      "type": "object", "additionalProperties": false, "required": ["pid", "start-marker"],
+      "properties": { "pid": { "type": "integer", "minimum": 1 }, "start-marker": { "type": "string", "minLength": 1, "maxLength": 256 } }
+    },
+    "control-socket": {
+      "type": "object", "additionalProperties": false, "required": ["path/ref", "identity"],
+      "properties": { "path/ref": { "$ref": "#/$defs/ref" }, "identity": { "type": "string", "minLength": 1, "maxLength": 256 } }
+    },
+    "boot/nonce": { "type": "string", "minLength": 32, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$" },
+    "working-storage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["storage/ref", "path/ref", "identity", "retention/policy"],
+      "properties": {
+        "storage/ref": { "$ref": "#/$defs/ref" }, "path/ref": { "$ref": "#/$defs/ref" },
+        "identity": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "retention/policy": { "enum": ["delete-on-teardown", "retain-on-failure", "provider-managed"] }
+      }
+    },
+    "resource/identities": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "quarantine/reason": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "recorded-at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [{ "if": { "properties": { "lifecycle/status": { "const": "quarantined" } }, "required": ["lifecycle/status"] }, "then": { "required": ["quarantine/reason"] } }],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}

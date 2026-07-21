@@ -1608,6 +1608,7 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-virt-image-manifest.v1` | Logical full-system image whose shared userspace/SBOM/provenance/agent/protocol digests prove variant equivalence while exact boot artifacts remain variant-specific. |
 | `sensorium-virt-recovery-record.v1` | Host-private identity for VMM process, sockets, working storage, boot nonce, source generation, platform resources, and reconciliation status. |
 | `sensorium-virt-guest-frame.v1` | Bounded handshake and operation envelope for the guest channel, including environment/generation binding, sequence, deadline, chunk caps, and payload digest. |
+| `sensorium-virt.host.request.v1` | Closed internal ingress envelope for fixture prepare, exact environment binding operations, and authoritative host reconciliation. |
 | `sensorium-terminal-session.v1` | Session descriptor: command profile, workspace, classification, limits, status. |
 | `sensorium-terminal-command.v1` | Structured command intent with command profile, argv data, idempotency key, and normalized argv digest. |
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
@@ -1933,7 +1934,11 @@ behavior.
     conjunctively against a normalized environment requirement. Missing or
     unverified isolation, fidelity, transport, device, network, host-share, or
     resource-enforcement properties fail closed. The selected plan and image are
-    digest-bound to idempotency and recovery.
+    digest-bound to idempotency and recovery. Operator configuration pins the
+    required properties and registries, not fixture-generated image or capability
+    refs whose values are content-derived. Workbench verifies that the returned
+    `backend/id` equals the selected executor; exact capability, variant, and image
+    refs/digests remain host-derived evidence bound by the normalized plan.
 42. **Reference full-system backend sequence.** `vfkit-system.v1` on
     `macos-vz-arm64.v1` is the first developer reference and first implementation
     slice. `cloud-hypervisor-system.v1` on `linux-kvm-x86_64.v1` is the first Linux
@@ -1946,6 +1951,10 @@ behavior.
     mechanics. `GuestWorkbenchChannel` owns bounded process, PTY, file, patch,
     export, quiesce, and shutdown mechanics over one shared guest protocol. SSH,
     a network interface, and host filesystem sharing are not Workbench semantics.
+    Each backend advertises the exact supported lifecycle subset. The processless
+    `fixture-copy.v1` allocation reaches `ready` atomically and therefore does not
+    advertise a separate `start`; its `recover` support is the host-owned
+    reconciliation sweep, not caller-selected resurrection of one environment.
 44. **Rust owns validation and host authority; Python owns connector mechanics.**
     A pure `sensorium-virt-core` validates capabilities and plans. A daemon-owned
     host broker allocates storage and platform resources, launches and reconciles
@@ -1968,7 +1977,11 @@ behavior.
     source generation. It recovers only an exact live match; partial or unknown
     resources are quarantined and torn down. Memory snapshots and live migration
     remain excluded until freshness and authority semantics receive a separate
-    contract.
+    contract. A `hardware-vm` record in `ready` or `draining` must carry process,
+    control-socket, and boot-nonce identity; a processless fixture record omits
+    those fields. `recorded-at` is validated evidence, not an ordering authority:
+    lifecycle transitions and exact generation/resource identities establish
+    freshness even when a host wall clock moves backwards.
 48. **Operational context is part of the normalized VM plan.** The host resolves
     the exact P082 context before allocation and binds the candidate digest,
     effective value, and policy ref into the plan digest. Non-`none` networking or
@@ -1978,7 +1991,11 @@ behavior.
     source generation without backend or carrier reinterpretation. The reference
     full-system configuration proof is `test`; a contained offline disposable VM may
     remain `experimental`, because isolation class and operational impact are
-    orthogonal.
+    orthogonal. The candidate digest binds the pre-policy candidate and therefore
+    intentionally need not equal the digest of the effective context after a floor
+    or attached-resource raise. The current Workbench default remains `test`;
+    selecting `research` or `experimental` for a contained offline environment is
+    an explicit operator decision, not an inferred downgrade.
 49. **Logical image equivalence requires comparable provenance.** Backend variants
     share one logical image ref only when the manifest proves identical canonical
     userspace/rootfs, SBOM, build provenance, guest-agent binary, and guest-protocol/
@@ -1994,6 +2011,15 @@ behavior.
     captures inherit environment classification and operational context, carry
     digest/truncation metadata, pass configured redaction, and are sanitized against
     ANSI and other control-sequence injection at the operator presentation boundary.
+52. **The standalone Sensorium Virt companion is an explicit development path.**
+    `virt_host.standalone_companion_enabled` is a literal boolean, defaults to false,
+    and may be enabled only for local development or conformance. A missing or
+    ill-typed value cannot enable it. Supervised channel mode never falls back to
+    the companion when the daemon runtime or `sensorium.virt.host` capability is
+    absent; the environment refuses admission instead. Both the daemon and companion
+    boundaries expose only a bounded typed code plus a stable public message. Raw host
+    paths, subprocess stderr, internal exception text, and capability failure details
+    remain host-local diagnostics.
 
 ## Next Actions And Implementation Tracker
 
@@ -2420,24 +2446,62 @@ evidence) · `[!]` blocked/needs decision.
   is `vfkit-system.v1` on `macos-vz-arm64.v1`, then
   `cloud-hypervisor-system.v1` on `linux-kvm-x86_64.v1`, followed by a separately
   hardened Firecracker profile.
-- [ ] Publish `sensorium-virt-backend-capabilities.v1`,
+- [x] Publish `sensorium-virt-backend-capabilities.v1`,
   `sensorium-virt-environment-plan.v1`, `sensorium-virt-image-manifest.v1`,
-  `sensorium-virt-recovery-record.v1`, and `sensorium-virt-guest-frame.v1` with
+  `sensorium-virt-recovery-record.v1`, `sensorium-virt-guest-frame.v1`, and the
+  closed internal `sensorium-virt.host.request.v1` envelope with
   positive and refusal fixtures. Capability dimensions must use the closed V1
   vocabularies above and refuse unknown enum values and unregistered backend or
   platform refs. The normalized plan must bind the exact P082 operational context,
   its candidate digest, policy ref, selected network/host-share floor, and attached-
   resource context. The image manifest must prove logical-variant equivalence from
   common userspace, SBOM, provenance, guest-agent, and protocol/schema-set digests.
-  Evolve the environment projection to carry only exact refs/digests from those
-  host-owned contracts rather than backend claims.
-- [ ] Implement `sensorium-virt-core` capability/plan/image/lifecycle/recovery
-  validation plus a bounded fail-closed companion surface for the Python adapter.
-- [ ] Implement the daemon-owned host broker for exact working-storage allocation,
-  VMM process launch, API/control socket allocation, platform resource controls,
-  authoritative startup enumeration, quarantine, and deterministic teardown. Do
-  not delegate arbitrary process, host-path, network-device, or VMM-admin authority
-  to the Python connector.
+  The canonical schemas, positive examples, refusal fixtures, Node protocol mirrors,
+  and schema-gate mappings are present.
+- [x] Evolve the environment projection to carry only exact refs/digests from those
+  host-owned contracts rather than backend claims. The fixture projection now
+  carries the host-returned plan, capabilities, image-variant, generation, and
+  recovery refs/digests; the same metadata is persisted in the Workbench store.
+- [x] Implement `sensorium-virt-core` capability/plan/image/lifecycle/recovery and
+  guest-frame validation plus a bounded fail-closed companion surface for the
+  Python adapter. The pure Rust crate covers all P082 impact classes including
+  `research`, rejects duplicate set entries, unregistered
+  backend/platform refs, mismatched canonical digests, property or image-variant
+  mismatches, digest-valid but semantically unbounded plans, illegal lifecycle
+  transitions, stale recovery and guest bindings, malformed recovery process/
+  control-socket identity or timestamps, and dishonest payload length/digest
+  declarations.
+- [x] Implement the first daemon-owned host-broker slice for exact fixture working-
+  storage allocation, authoritative startup enumeration, contradictory/orphaned
+  state quarantine, content-bound idempotency, generation supersession, inspect,
+  drain, and deterministic teardown. In supervised operation `fixture-copy.v1`
+  reaches this authority through the internal, non-passportable
+  `sensorium.virt.host` channel capability, restricted to the
+  `sensorium-workbench` module. The daemon selects the state root and admits
+  `fixture.prepare` only when source path, workspace/root refs, operational
+  context, policy ref, and copy limits match layered operator configuration.
+  The bounded `sensorium-virt.host.request.v1` companion remains only for local
+  development and conformance, requires explicit
+  literal-boolean `virt_host.standalone_companion_enabled = true`, and defaults to
+  disabled; an ill-typed value is a configuration error and remains disabled.
+  Supervised channel mode never falls back to it when daemon admission is
+  unavailable. Mutations are serialized by a broker lock shared across daemon and
+  companion processes; tree, state, and configuration directory enumeration is
+  capped before materialization. Python no longer creates or removes managed
+  environment trees and receives no arbitrary process, host-path, network-device,
+  or VMM-admin operation.
+  Both the daemon admission path and the standalone companion validate the closed
+  host request through Node schema-gate. Reconciliation returns full aggregate
+  counts plus at most 64 structured diagnostics with opaque record/resource refs
+  and an explicit truncation marker; host refusal envelopes and Workbench errors use
+  allowlisted public messages, so raw host paths, subprocess diagnostics, capability
+  failure details, and unbounded error strings do not cross into Workbench. The
+  connector also refuses a host plan whose `backend/id` differs from the configured
+  executor kind. Schema-gate regression coverage removes one required capability
+  dimension and proves that missing properties are refusal, not a wildcard.
+- [ ] Extend the host broker with VMM process launch, API/control socket allocation,
+  platform resource controls, boot identity, and platform-specific recovery for
+  `vfkit-system.v1`; keep that authority out of the Python connector.
 - [ ] Implement and package `orbiplex-workbench-guest` with generation/plan/image/
   nonce-bound virtio-vsock handshake, bounded process and PTY control, chunked
   file/patch/export frames, defense-in-depth guest resource limits, quiesce, and

@@ -1,0 +1,20 @@
+{
+  "schema": "sensorium-virt.host.request.v1",
+  "schema/v": 1,
+  "operation": "fixture.prepare",
+  "payload": {
+    "source/path": "/srv/orbiplex/fixtures/workspace",
+    "workspace/ref": "workspace:fixture",
+    "root/ref": "root:fixture",
+    "idempotency/key": "virt-fixture:prepare:1",
+    "operational/context": {
+      "schema": "sensorium-operational-context.v1",
+      "schema/v": 1,
+      "impact/class": "test",
+      "context/summary": "Disposable fixture environment"
+    },
+    "operational/context-policy-ref": "policy:sensorium-workbench-operational-context-v1",
+    "files/max": 1024,
+    "bytes/max": 16777216
+  }
+}

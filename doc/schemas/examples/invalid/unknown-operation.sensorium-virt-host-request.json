@@ -1,0 +1,9 @@
+{
+  "schema": "sensorium-virt.host.request.v1",
+  "schema/v": 1,
+  "operation": "environment.start",
+  "payload": {
+    "environment/ref": "environment:fixture",
+    "source/generation-ref": "source-generation:fixture"
+  }
+}

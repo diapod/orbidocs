@@ -1,0 +1,9 @@
+{
+  "schema": "sensorium-virt-backend-capabilities.v1", "schema/v": 1,
+  "capabilities/ref": "virt-capabilities:invalid", "backend/id": "unknown.v1", "backend/provider": "unknown", "backend/version": "1",
+  "backend/binary-digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "platform/ref": "unknown.v1", "locality": "local-only",
+  "host/architecture": "arm64", "guest/architecture": "arm64", "isolation/class": "marketing-secure", "system/fidelity": "full-system-linux",
+  "control": { "transport": "virtio-vsock", "guest/endpoint": "af-vsock", "host/endpoint": "unix-domain-socket", "channel/binding": "environment-generation-boot-nonce" },
+  "boot/modes": ["efi"], "storage/formats": ["raw"], "device/classes": ["virtio-block"], "console/mode": "none", "network/profiles": ["none"],
+  "host-filesystem-sharing/mode": "denied", "credential-injection/mode": "denied", "resource-enforcement/classes": [], "lifecycle/operations": ["allocate"]
+}

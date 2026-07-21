@@ -36,10 +36,19 @@ separate ports; vfkit on Apple Silicon is the first implementation slice; Cloud
 Hypervisor is the first Linux deployment profile; and Firecracker is the subsequent
 minimal-device profile. The contract freeze also covers closed semantic vocabularies,
 plan-bound operational context and policy floors, digest-proven logical image
-equivalence, and classified control-sequence-safe serial diagnostics. P071 and
-Solution 042 remain at `98%` until the new
-capability/plan/image/recovery/guest-frame contracts, Rust validator and host broker,
-guest agent, vfkit runtime, and deployment evidence exist.
+equivalence, and classified control-sequence-safe serial diagnostics. The five
+backend-neutral contracts, closed host request envelope, pure Rust validator/
+companion, and first host-broker slice now exist. Both host entry paths use the
+Node schema-gate, the core covers `research` and live-hardware-VM recovery identity,
+Workbench rejects backend substitution, and reconciliation diagnostics are
+structured, opaque, and capped. The standalone companion is disabled by default,
+requires explicit literal-boolean local development/conformance opt-in, and is
+never an automatic fallback from supervised daemon admission; missing capability
+dimensions refuse;
+`fixture-copy.v1` exercises their admission, recovery, quarantine, supersession,
+projection, and teardown path. P071 and Solution 042 remain at `98%` because no
+process-isolated backend exists yet: VMM host operations, the guest agent, vfkit
+runtime, and deployment evidence remain open.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -663,10 +672,22 @@ Recent component deltas:
   stabilize. The frozen contracts additionally require closed versioned capability
   values, a normalized-plan-bound P082 operational context with conservative
   network/host-share floors, digest-proven logical image equivalence, and classified
-  control-sequence-safe serial diagnostics. The required capability/plan/image/recovery/guest-frame contracts,
-  host broker, nonce/generation-bound guest agent, vfkit runtime, and deployment
-  evidence are not implemented, so Proposal
-  071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
+  control-sequence-safe serial diagnostics. The required capability/plan/image/
+  recovery/guest-frame contracts, closed host request envelope, pure validator,
+  bounded companion, and first daemon host-broker fixture slice are implemented.
+  Schema-gate covers the host boundary and all five contract families; Workbench
+  refuses backend substitution and recovery diagnostics are structured and capped.
+  The fixture path remains covered by a dirty-restart
+  vertical smoke. Supervised Workbench uses the restricted non-passportable
+  `sensorium.virt.host` channel capability; the companion is disabled by default,
+  requires explicit literal-boolean local development/conformance opt-in, and is
+  never a fallback when supervised daemon admission is unavailable. Daemon admission
+  rechecks
+  operator-configured source/context/limits,
+  host mutations serialize across processes, and directory enumeration is capped
+  before materialization. VMM process/socket/platform authority, the nonce/generation-
+  bound guest agent, vfkit runtime, and deployment evidence are not implemented,
+  so Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
   post-MVP hardening rather than a current blocker.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay

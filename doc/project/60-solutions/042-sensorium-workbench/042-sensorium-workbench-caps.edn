@@ -160,7 +160,8 @@
              "sensorium-virt-environment-plan.v1"
              "sensorium-virt-image-manifest.v1"
              "sensorium-virt-recovery-record.v1"
-             "sensorium-virt-guest-frame.v1"]
+             "sensorium-virt-guest-frame.v1"
+             "sensorium-virt.host.request.v1"]
    :responsibilities
    ["Interpret the same environment terminal file artifact and teardown contracts over virtualized backends"
     "Match normalized environment requirements against host-attested locality isolation fidelity transport device network host-share lifecycle and resource properties"
@@ -174,7 +175,7 @@
     "Treat diagnostic serial as bounded classified untrusted bytes and sanitize operator presentation"
     "Preserve Workbench contracts across backend changes"]
    :status :partial
-   :status-detail "fixture-copy.v1 implements bounded managed-copy allocation, patch, export, lifecycle projection, and teardown while refusing PTY. The property-based backend model, closed capability vocabularies, plan-bound operational context and floors, evidence-based logical image equivalence, sanitized diagnostic serial, vfkit-first reference sequence, separate VMM and guest ports, no-snapshot recovery posture, and conformance gate are frozen; the new capability/plan/image/recovery/guest-frame contracts, host broker, guest agent, vfkit runtime/evidence, and later Linux backends remain unimplemented."}
+   :status-detail "The five backend-neutral contracts, closed host request contract, pure sensorium-virt-core, bounded development companion, and first daemon host-broker slice are implemented. Supervised fixture-copy.v1 uses the internal non-passportable sensorium.virt.host channel capability; daemon admission pins its state root and rechecks operator-authored source, refs, context, policy, and limits. Both host entry paths use Node schema-gate, Workbench refuses backend substitution, and reconciliation exposes capped structured diagnostics without raw host paths. It provides allocation, startup enumeration, quarantine, replay, generation supersession, inspect, drain, teardown, exact evidence projection, and SQLite metadata persistence while refusing PTY. The property-based VMM model, sanitized diagnostic serial, vfkit-first reference sequence, separate VMM and guest ports, no-snapshot recovery posture, and conformance gate are frozen; VMM host operations, the guest agent, vfkit runtime/evidence, and later Linux backends remain unimplemented."}
 
   {:cap/id :sensorium-workbench-agent-corpus-tool-use
    :title "Agent Corpus and Room Tool Use"

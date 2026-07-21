@@ -54,11 +54,12 @@ Related schemas:
 - `sensorium-virt-workspace-export.v1`
 - `sensorium-virt-export-result.v1`
 - `sensorium-virt-teardown-result.v1`
-- `sensorium-virt-backend-capabilities.v1` (planned)
-- `sensorium-virt-environment-plan.v1` (planned)
-- `sensorium-virt-image-manifest.v1` (planned)
-- `sensorium-virt-recovery-record.v1` (planned)
-- `sensorium-virt-guest-frame.v1` (planned)
+- `sensorium-virt-backend-capabilities.v1`
+- `sensorium-virt-environment-plan.v1`
+- `sensorium-virt-image-manifest.v1`
+- `sensorium-virt-recovery-record.v1`
+- `sensorium-virt-guest-frame.v1`
+- `sensorium-virt.host.request.v1`
 - `sensorium-workbench-tool-request.v1`
 - `sensorium-interface-descriptor.v1`
 - `sensorium-interface-frame.v1`
@@ -78,7 +79,10 @@ watch event batches, terminal liveness/progress probes, terminal waits, and
 terminal watch event batches. The daemon also projects admitted broker
 wait/watch/probe submissions into metadata-only audit events. The current
 implementation also covers a managed fixture-copy virtualized executor with
-explicit export/teardown, daemon BDO registration/polling for long-running Workbench terminal
+host-owned allocation/reconcile/quarantine/teardown, exact normalized-plan,
+capability, image-variant, generation, and recovery evidence, explicit export/
+teardown, closed schema-gated host ingress, bounded structured reconciliation
+diagnostics, daemon BDO registration/polling for long-running Workbench terminal
 commands, broker projection of Workbench provider operator status, and dynamic
 observed-state joins for artifact, environment, approval, and Memarium-query
 providers. The first host-owned operator consent spine is also implemented for
@@ -581,11 +585,12 @@ Related schemas:
 - `sensorium-virt-workspace-export.v1`
 - `sensorium-virt-export-result.v1`
 - `sensorium-virt-teardown-result.v1`
-- `sensorium-virt-backend-capabilities.v1` (planned)
-- `sensorium-virt-environment-plan.v1` (planned)
-- `sensorium-virt-image-manifest.v1` (planned)
-- `sensorium-virt-recovery-record.v1` (planned)
-- `sensorium-virt-guest-frame.v1` (planned)
+- `sensorium-virt-backend-capabilities.v1`
+- `sensorium-virt-environment-plan.v1`
+- `sensorium-virt-image-manifest.v1`
+- `sensorium-virt-recovery-record.v1`
+- `sensorium-virt-guest-frame.v1`
+- `sensorium-virt.host.request.v1`
 
 Responsibilities:
 
@@ -612,14 +617,33 @@ Responsibilities:
 
 Status:
 
-- `partial`: `fixture-copy.v1` is a concrete managed-copy executor with bounded
-  allocation, patch, export, SQLite lifecycle projection, and operator-confirmed
-  teardown tests. It intentionally refuses PTY;
-- `design frozen, runtime pending`: backend names are not isolation evidence.
-  Phase 4 requires a host-attested capability descriptor, normalized plan and
-  image digests, closed semantic vocabularies, plan-bound operational context,
-  evidence-based image-variant equivalence, fail-closed Rust validation, a daemon-
-  owned host broker, and a nonce/generation-bound guest agent before virtualized
+- `implemented fixture admission spine`: the five backend-neutral contracts,
+  closed host request contract,
+  positive/refusal fixtures, pure `sensorium-virt-core`, bounded companion, and
+  first daemon host-broker slice are live. Supervised Workbench reaches it through
+  the internal non-passportable `sensorium.virt.host` channel capability; the
+  daemon fixes its state root and revalidates fixture source, refs, operational
+  context, policy, and limits against layered operator configuration. The
+  standalone companion is a local-development/conformance path only, defaults to
+  disabled, and requires explicit literal-boolean
+  `virt_host.standalone_companion_enabled = true`; ill-typed values refuse.
+  Supervised channel mode never falls back to it when daemon admission is absent.
+  `fixture-copy.v1` uses bounded allocation, startup enumeration, quarantine,
+  cross-process mutation serialization, content-bound replay, generation
+  supersession, inspect/drain/teardown, exact evidence projection, and SQLite
+  metadata persistence. Both host entry paths use Node schema-gate, Workbench
+  rejects backend substitution, and reconciliation exposes capped structured
+  diagnostics without raw host paths or internal failure text. Host and Workbench
+  boundaries emit only allowlisted public refusal messages. Contract verification
+  covers `research`,
+  rejects digest-valid but semantically invalid plans, and requires process,
+  control-socket, and boot-nonce identity for a live hardware VM while permitting
+  processless fixture records. The vertical smoke proves dirty-restart recovery,
+  managed-copy patch/export, teardown, and source immutability. It intentionally
+  refuses PTY;
+- `process-isolated runtime pending`: backend names are not isolation evidence.
+  Phase 4 still requires VMM process/socket/platform authority, a nonce/generation-
+  bound guest agent, `vfkit-system.v1`, and deployment evidence before virtualized
   PTY is enabled.
 
 Frozen reference sequence:
@@ -671,9 +695,9 @@ when all highest-impact roots agree on the exact context, and requires actuation
 authority to match both environment ref and current generation. P071 Phase 5 and the
 P082/P083 trackers contain the runtime and refusal evidence.
 
-Status: `done post-MVP` for operational-impact publication; the property-attested
-Sensorium Virt contracts, host broker, guest agent, vfkit runtime/evidence, and
-subsequent Linux profiles remain the incomplete P071 Phase 4 work.
+Status: `done post-MVP` for operational-impact publication and the fixture
+admission spine; VMM-capable host-broker operations, guest agent, vfkit runtime/
+evidence, and subsequent Linux profiles remain the incomplete P071 Phase 4 work.
 
 ### Agent, Corpus, and Room Tool Use
 

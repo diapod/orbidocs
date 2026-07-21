@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-backend-capabilities:v1",
+  "title": "Sensorium Virt Backend Capabilities v1",
+  "description": "Host-attested, closed capability descriptor for one Sensorium Virt backend configuration.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": [
+    "schema", "schema/v", "capabilities/ref", "backend/id", "backend/provider",
+    "backend/version", "backend/binary-digest", "platform/ref", "locality",
+    "host/architecture", "guest/architecture", "isolation/class", "system/fidelity",
+    "control", "boot/modes", "storage/formats", "device/classes", "console/mode",
+    "network/profiles", "host-filesystem-sharing/mode", "credential-injection/mode",
+    "resource-enforcement/classes", "lifecycle/operations"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-virt-backend-capabilities.v1" },
+    "schema/v": { "const": 1 },
+    "capabilities/ref": { "$ref": "#/$defs/ref" },
+    "backend/id": { "$ref": "#/$defs/ref" },
+    "backend/provider": { "$ref": "#/$defs/token" },
+    "backend/version": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$" },
+    "backend/binary-digest": { "$ref": "#/$defs/digest" },
+    "platform/ref": { "$ref": "#/$defs/ref" },
+    "locality": { "enum": ["local-only", "remote-sandbox"] },
+    "host/architecture": { "$ref": "#/$defs/architecture" },
+    "guest/architecture": { "$ref": "#/$defs/architecture" },
+    "isolation/class": { "enum": ["none", "process-sandbox", "shared-kernel-container", "hardware-vm"] },
+    "system/fidelity": { "enum": ["filesystem-view", "process-runtime", "shared-kernel-linux", "full-system-linux"] },
+    "control": { "$ref": "#/$defs/controlSelection" },
+    "boot/modes": { "$ref": "#/$defs/bootModes" },
+    "storage/formats": { "$ref": "#/$defs/storageFormats" },
+    "device/classes": { "$ref": "#/$defs/deviceClasses" },
+    "console/mode": { "enum": ["none", "diagnostic-output-only"] },
+    "network/profiles": { "$ref": "#/$defs/networkProfiles" },
+    "host-filesystem-sharing/mode": { "enum": ["denied", "read-only", "read-write"] },
+    "credential-injection/mode": { "enum": ["denied", "explicit-scoped"] },
+    "resource-enforcement/classes": { "$ref": "#/$defs/resourceClasses" },
+    "lifecycle/operations": { "$ref": "#/$defs/lifecycleOperations" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },
+    "token": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9][a-z0-9.-]*$" },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "architecture": { "enum": ["x86_64", "arm64"] },
+    "controlSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transport", "guest/endpoint", "host/endpoint", "channel/binding"],
+      "properties": {
+        "transport": { "enum": ["none", "local-process", "virtio-vsock"] },
+        "guest/endpoint": { "enum": ["none", "af-vsock"] },
+        "host/endpoint": { "enum": ["none", "af-vsock", "unix-domain-socket"] },
+        "channel/binding": { "enum": ["none", "environment-generation-boot-nonce"] }
+      }
+    },
+    "bootModes": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["none", "efi", "direct-kernel"] } },
+    "storageFormats": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["directory-copy", "raw", "kernel-initrd-rootfs"] } },
+    "deviceClasses": { "type": "array", "maxItems": 5, "uniqueItems": true, "items": { "enum": ["virtio-block", "virtio-vsock", "virtio-rng", "diagnostic-serial", "virtio-net"] } },
+    "networkProfiles": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["none", "isolated", "egress-allowlisted"] } },
+    "resourceClasses": { "type": "array", "maxItems": 10, "uniqueItems": true, "items": { "enum": ["host-cpu", "host-memory", "host-process", "host-storage", "host-io", "guest-vcpu", "guest-memory", "guest-pids", "guest-storage", "channel-bounds"] } },
+    "lifecycleOperations": { "type": "array", "minItems": 1, "maxItems": 6, "uniqueItems": true, "items": { "enum": ["allocate", "start", "inspect", "drain", "teardown", "recover"] } }
+  }
+}

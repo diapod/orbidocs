@@ -1,0 +1,16 @@
+{
+  "schema": "sensorium-virt-recovery-record.v1",
+  "schema/v": 1,
+  "recovery/ref": "virt-recovery:fixture-story",
+  "environment/ref": "environment:fixture-story",
+  "source/generation-ref": "source-generation:fixture-story-v1",
+  "plan/digest": "sha256:7cdfa237c635a6fd2d5c92e8537f6fcd5cb89e66db31cb54e72951d8a374744e",
+  "image/manifest-digest": "sha256:4f70fd2d3f862bbeebc3f0d45b972a7844c1a3fd94321cadbaf487bec9eeb435",
+  "backend/id": "fixture-copy.v1",
+  "backend/version": "1",
+  "backend/binary-digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "lifecycle/status": "ready",
+  "working-storage": { "storage/ref": "virt-storage:fixture-story", "path/ref": "managed-path:fixture-story", "identity": "fixture-story-root-v1", "retention/policy": "delete-on-teardown" },
+  "resource/identities": ["resource:fixture-story-root"],
+  "recorded-at": "2026-07-20T12:00:00Z"
+}

@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt.host.request:v1",
+  "title": "Sensorium Virt Host Request v1",
+  "description": "Bounded internal request envelope for daemon-owned Sensorium Virt host authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "operation",
+    "payload"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-virt.host.request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "operation": {
+      "enum": [
+        "fixture.prepare",
+        "environment.inspect",
+        "environment.drain",
+        "environment.teardown",
+        "host.reconcile"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "fixture.prepare"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/fixturePrepare"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "environment.inspect",
+              "environment.drain",
+              "environment.teardown"
+            ]
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/environmentBinding"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "host.reconcile"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/emptyPayload"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    },
+    "fixturePrepare": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source/path",
+        "workspace/ref",
+        "root/ref",
+        "operational/context",
+        "operational/context-policy-ref",
+        "files/max",
+        "bytes/max"
+      ],
+      "properties": {
+        "source/path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096,
+          "not": {
+            "pattern": "\\u0000"
+          }
+        },
+        "workspace/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "root/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "idempotency/key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "not": {
+            "pattern": "\\u0000"
+          }
+        },
+        "operational/context": {
+          "$ref": "sensorium-operational-context.v1.schema.json"
+        },
+        "operational/context-policy-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "files/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "bytes/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16777216
+        }
+      }
+    },
+    "environmentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment/ref",
+        "source/generation-ref"
+      ],
+      "properties": {
+        "environment/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "source/generation-ref": {
+          "$ref": "#/$defs/ref"
+        }
+      }
+    },
+    "emptyPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "maxProperties": 0
+    }
+  }
+}
