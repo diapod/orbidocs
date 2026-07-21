@@ -278,9 +278,11 @@ separate integrations with their owning components and capability gates.
 ## Next Actions
 
 1. Preserve the local baseline and no-contact invariants as UI surfaces evolve.
-2. Implement the post-MVP local-model packaging tracker in Proposal 066:
-   distributor manifests, operator-endorsed imports, the host-owned asset store,
-   atomic activation/rollback, and the macOS/Linux release profiles.
+2. Complete the remaining post-MVP local-model packaging rows in Proposal 066:
+   daemon-owned operator-question/signer wiring, distributor-signed runtime
+   manifests, package-to-supervisor activation, and process acceptance for the
+   macOS arm64/Metal and Linux x86_64/CPU release profiles. The host-owned asset
+   store and journaled install/activation/rollback lifecycle are already landed.
 3. Preserve the process-level escalation/acceptance smoke as Agent, notification,
    and local-control surfaces evolve.
 

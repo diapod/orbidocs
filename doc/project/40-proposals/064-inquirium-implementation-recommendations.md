@@ -2461,6 +2461,27 @@ Inquirium Core:
    and NSE diagnostics. These measurements inform selection but are not v1
    correctness gates.
 
+Current implementation evidence covers the effect-free plan, signed authority
+registry, bounded local/HTTPS staging, verified lifecycle journal, recovery,
+generation-guarded activation, rollback/removal, and the release gate enforced
+inside each journaled profile transition. Durable leases and random attempt refs
+serialize competing install/recovery workers; one-shot source trust is committed
+only after that exact claim exists. Rollback binds the expected current
+generation and receipt to the exact target, while release admission compares the
+duplicate-free manifest/receipt/profile asset sets and repeats before commit.
+HTTPS resolution rejects any special-use destination and pins the complete
+public address set into the request client, preventing a second DNS lookup from
+rebinding an admitted origin; transfer progress has a separate rolling floor in
+addition to the large-file total timeout. Receipt state is checked again in the
+same SQLite transaction that advances the active generation, and every CAS object
+is digest/size verified before the transition begins. Primary failures precede operator-visible, restart-recoverable
+install/removal cleanup rather than being obscured by it. The
+remaining product boundary is intentionally above those mechanisms: the daemon
+must derive authority projections from its operator-question and signer strata,
+then bind an activated package profile into the existing supervisor and
+conformance registry. Internal admitted-authority DTOs are not wire credentials
+and must never be populated directly from caller JSON.
+
 The first release matrix is macOS arm64/Metal and Linux x86_64/CPU. A parallel
 MLX-family evaluation on Apple Silicon must choose a supervised loopback server
 that speaks the same OpenAI-compatible contract as the managed
@@ -2597,6 +2618,12 @@ Status values:
 - `done` — implemented and covered by tests, schema validation, or documented
   operator evidence,
 - `deferred` — intentionally postponed.
+
+The tracker below covers the completed Inquirium organ/runtime implementation
+slice used by the hard-MVP readiness calculation. Post-MVP local-model package
+productization is tracked separately in Proposal 066 under
+`assistant-model-*`; its partial release and operator-wiring rows do not reopen
+the completed P064 hard-MVP slice.
 
 **Invariants to preserve (landed decisions with sharp edges).** These are
 implemented and easy to break in a well-meaning refactor; treat each change as
