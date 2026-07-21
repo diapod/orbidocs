@@ -34,7 +34,7 @@ Bounded generation-, plan-, image-, and boot-bound frame for the Workbench guest
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-virt-guest-frame.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`frame/kind`](#field-frame-kind) | `yes` | enum: `handshake`, `operation`, `chunk`, `result`, `quiesce`, `shutdown` |  |
+| [`frame/kind`](#field-frame-kind) | `yes` | enum: `handshake`, `request`, `chunk`, `result`, `error` |  |
 | [`environment/ref`](#field-environment-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`plan/digest`](#field-plan-digest) | `yes` | ref: `#/$defs/digest` |  |
@@ -70,9 +70,10 @@ When:
   "properties": {
     "frame/kind": {
       "enum": [
-        "operation",
+        "request",
         "chunk",
-        "result"
+        "result",
+        "error"
       ]
     }
   },
@@ -118,7 +119,12 @@ Then:
     "chunk/index",
     "chunk/count",
     "payload/base64"
-  ]
+  ],
+  "properties": {
+    "payload/length": {
+      "maximum": 65536
+    }
+  }
 }
 ```
 
@@ -140,7 +146,7 @@ Then:
 ## `frame/kind`
 
 - Required: `yes`
-- Shape: enum: `handshake`, `operation`, `chunk`, `result`, `quiesce`, `shutdown`
+- Shape: enum: `handshake`, `request`, `chunk`, `result`, `error`
 
 <a id="field-environment-ref"></a>
 ## `environment/ref`

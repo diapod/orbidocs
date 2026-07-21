@@ -12,7 +12,7 @@
   "properties": {
     "schema": { "const": "sensorium-virt-guest-frame.v1" },
     "schema/v": { "const": 1 },
-    "frame/kind": { "enum": ["handshake", "operation", "chunk", "result", "quiesce", "shutdown"] },
+    "frame/kind": { "enum": ["handshake", "request", "chunk", "result", "error"] },
     "environment/ref": { "$ref": "#/$defs/ref" },
     "source/generation-ref": { "$ref": "#/$defs/ref" },
     "plan/digest": { "$ref": "#/$defs/digest" },
@@ -25,14 +25,14 @@
     "sequence": { "type": "integer", "minimum": 0 },
     "deadline-at": { "type": "string", "format": "date-time" },
     "chunk/index": { "type": "integer", "minimum": 0, "maximum": 65535 },
-    "chunk/count": { "type": "integer", "minimum": 1, "maximum": 65536 },
+    "chunk/count": { "type": "integer", "minimum": 1, "maximum": 128 },
     "payload/length": { "type": "integer", "minimum": 0, "maximum": 1048576 },
     "payload/digest": { "$ref": "#/$defs/digest" },
     "payload/base64": { "type": "string", "maxLength": 1398104, "contentEncoding": "base64" }
   },
   "allOf": [
-    { "if": { "properties": { "frame/kind": { "enum": ["operation", "chunk", "result"] } }, "required": ["frame/kind"] }, "then": { "required": ["operation/id", "operation/kind"] } },
-    { "if": { "properties": { "frame/kind": { "const": "chunk" } }, "required": ["frame/kind"] }, "then": { "required": ["chunk/index", "chunk/count", "payload/base64"] } }
+    { "if": { "properties": { "frame/kind": { "enum": ["request", "chunk", "result", "error"] } }, "required": ["frame/kind"] }, "then": { "required": ["operation/id", "operation/kind"] } },
+    { "if": { "properties": { "frame/kind": { "const": "chunk" } }, "required": ["frame/kind"] }, "then": { "required": ["chunk/index", "chunk/count", "payload/base64"], "properties": { "payload/length": { "maximum": 65536 } } } }
   ],
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "maxLength": 256, "not": { "pattern": "\\u0000" } },

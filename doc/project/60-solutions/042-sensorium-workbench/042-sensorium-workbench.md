@@ -122,9 +122,12 @@ profile, allocates private raw-disk/EFI/socket resources, launches a closed
 device set, records exact process/socket/resource and boot-nonce identity, and
 owns inspect, drain, teardown, recovery, reconciliation, and quarantine. A
 process-level fake-vfkit suite proves replay and principal crash/substitution
-refusals without exposing VMM administration sockets to Python. Remaining
-solution work is the nonce/generation-bound guest channel, real full-system
-vfkit deployment and resource evidence, later Linux backends, and optional
+refusals without exposing VMM administration sockets to Python. The packaged
+Rust guest and host channel now add exact generation/plan/image/nonce binding,
+bounded process/PTY/file/lifecycle operations, chunked transfer, and real-binary
+local conformance. Remaining solution work is a pinned full-system image, real
+vfkit deployment and resource evidence, the virtualized Workbench adapter, later
+Linux backends, and optional
 daemon command-BDO signal policy beyond the implemented `TERM` cancel path.
 
 Proposal 083 defines the hard-MVP release-blocking path for separately granted
@@ -649,11 +652,12 @@ Status:
   processless fixture records. The vertical smoke proves dirty-restart recovery,
   managed-copy patch/export, teardown, and source immutability. It intentionally
   refuses PTY;
-- `process-isolated guest runtime pending`: backend names are not isolation
+- `process-isolated guest runtime implemented; deployment evidence pending`:
+  backend names are not isolation
   evidence. The daemon-owned `vfkit-system.v1` host adapter now provides the
   closed VMM lifecycle, a durable pre-spawn launch intent, fsync-backed boot
   artifacts, typed fixed API operations, and exact recovery identity persisted
-  before socket readiness. Its feature-gated 17-case process conformance covers
+  before socket readiness. Its feature-gated 18-case process conformance covers
   fake-VMM refusal without conformance authority, interrupted launch recovery,
   dead listeners, replay, dirty exit, PID reuse, binary/socket and socket-root
   substitution, missing storage, fresh boot nonces, generation supersession, and
@@ -664,10 +668,20 @@ Status:
   reconcile authority.
   Its current closed device set is block, vsock, and entropy; diagnostic serial
   remains disabled until retained output has a continuously enforced byte bound.
-  Phase 4 still requires the nonce/
-  generation-bound guest agent, a pinned full-system image, real-vfkit boot and
-  platform resource evidence, and P083 PTY conformance before virtualized PTY is
-  enabled.
+  The packaged Rust guest and host channel now implement the nonce/generation/
+  plan/image-bound handshake, closed request/result/error vocabulary, monotonic
+  sequencing, one total process-output budget, ioctl-backed PTY resize, atomically
+  durable content-bound patch staging, chunked file/patch/export, lifecycle
+  inspect, quiesce, and shutdown. The vfkit broker derives the expected channel binding
+  from its current recovery record and rechecks endpoint identity across connect.
+  This is `protocol implemented`. A feature-gated local transport runs the real
+  guest binary and covers admission refusal, outcome/evidence combinations,
+  deadline non-extension, exact wire bounds, partial transfers, lost patch-stage
+  receipts, stale nonce, replay, overflow, disconnect, and the full mechanics path;
+  this is `conformance proven` without claiming VM evidence. `Deployment evidence
+  pending` is a separate state: Phase 4 still requires a pinned
+  full-system image, real-vfkit boot and platform resource evidence, and P083 PTY
+  conformance before virtualized PTY is enabled.
 
 Frozen reference sequence:
 
@@ -718,8 +732,8 @@ when all highest-impact roots agree on the exact context, and requires actuation
 authority to match both environment ref and current generation. P071 Phase 5 and the
 P082/P083 trackers contain the runtime and refusal evidence.
 
-Status: `done post-MVP` for operational-impact publication and the fixture
-admission spine; VMM-capable host-broker operations, guest agent, vfkit runtime/
+Status: `done post-MVP` for operational-impact publication, the fixture admission
+spine, and the backend-neutral guest runtime; the pinned image, real vfkit runtime/
 evidence, and subsequent Linux profiles remain the incomplete P071 Phase 4 work.
 
 ### Agent, Corpus, and Room Tool Use

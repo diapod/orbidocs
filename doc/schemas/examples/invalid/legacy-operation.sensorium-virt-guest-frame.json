@@ -1,0 +1,18 @@
+{
+  "schema": "sensorium-virt-guest-frame.v1",
+  "schema/v": 1,
+  "frame/kind": "operation",
+  "environment/ref": "environment:invalid",
+  "source/generation-ref": "generation:invalid",
+  "plan/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "image/manifest-digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "guest-agent/protocol-version": 1,
+  "guest/cid": 3,
+  "boot/nonce": "0123456789abcdef0123456789abcdef",
+  "operation/id": "operation:invalid",
+  "operation/kind": "file-read",
+  "sequence": 1,
+  "deadline-at": "2026-07-20T12:00:30Z",
+  "payload/length": 0,
+  "payload/digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

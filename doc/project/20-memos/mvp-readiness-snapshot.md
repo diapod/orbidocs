@@ -54,15 +54,20 @@ reconciliation, and quarantine. It now commits a durable launch intent before
 process creation, fsyncs cloned boot artifacts, restricts disabled profiles to
 teardown/reconcile, and uses a typed fixed vfkit API operation set. The socket
 root is opened without following symlinks, pinned by descriptor identity, and
-rechecked before use. A feature-gated 17-test
+rechecked before use. A feature-gated 18-test
 process harness covers process identity persisted before socket readiness,
 interrupted-launch recovery, dead listeners, replay, dirty exit, missing storage,
 fresh boot nonces, generation supersession, PID reuse, binary and socket
 substitution, socket-root replacement, and orphan cleanup without claiming Apple
 Virtualization Framework or guest evidence.
-P071 and Solution 042 remain at `98%` because the nonce/generation-bound guest
-agent, real full-system vfkit image/deployment and platform resource evidence,
-and virtualized Workbench PTY/file integration remain open.
+P071 and Solution 042 remain at `98%`. The nonce/generation/plan/image-bound guest
+agent and host channel have the explicit states `protocol implemented` and
+real-binary local `conformance proven`: admission is typed, process output has one
+total budget, PTY resize is ioctl-backed, patch staging is atomically durable and
+content-bound, endpoint identity is rechecked, and deadline/boundary/disconnect
+cases are covered. `Deployment evidence pending` remains distinct: a pinned
+full-system vfkit image/deployment, platform resource evidence, and virtualized
+Workbench PTY/file integration remain open.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -735,10 +740,17 @@ Recent component deltas:
   before materialization. The daemon-owned vfkit host lifecycle, exact process/
   socket/resource recovery identity, pre-spawn launch intent, fsync-backed boot
   artifacts, boot nonce, closed launch/API profile, disabled-profile terminal
-  cleanup semantics, descriptor-pinned socket root, and feature-gated 17-case
+  cleanup semantics, descriptor-pinned socket root, and feature-gated 18-case
   process-level crash/substitution harness are
-  implemented. The nonce/generation-
-  bound guest agent, real full-system vfkit deployment and platform-resource
+  implemented. The nonce/generation/plan/image-bound Rust guest agent and host
+  channel are now `protocol implemented` with bounded process/PTY/file mechanics,
+  a single aggregate process-output budget, ioctl-backed resize, atomic
+  content-bound patch staging, endpoint identity checks, lifecycle inspect/
+  quiesce/shutdown, chunked transfers, and honest outcomes. The separate
+  `conformance proven` state comes from the real-binary local-transport harness,
+  including admission, deadline, outcome/evidence, boundary, partial-transfer,
+  and lost-receipt cases. `Deployment evidence pending` remains explicit: a pinned
+  full-system image, real vfkit deployment and platform-resource
   evidence, and virtualized Workbench integration are not implemented, so
   Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
   post-MVP hardening rather than a current blocker.

@@ -51,9 +51,13 @@ launch, inspection, cooperative drain, teardown, recovery, exact process/socket/
 resource identity, boot nonces, reconciliation, and quarantine without exposing
 VMM administration sockets to Python. Process-level fake-vfkit evidence covers
 replay, dirty exit, PID reuse, socket and binary substitution, missing storage,
-and orphan cleanup. The guest agent, full-system image integration, real-vfkit
-deployment evidence, and virtualized Workbench PTY/file channel remain
-unimplemented. The freeze also requires closed capability vocabularies,
+and orphan cleanup. The packaged guest agent and host channel now cover exact
+generation/plan/image/nonce binding, bounded process/PTY/file/lifecycle mechanics,
+one total process-output budget, ioctl-backed PTY resize, atomically durable
+content-bound patch staging, endpoint-identity revalidation, chunked transfer,
+and local-transport conformance. Full-system image integration,
+real-vfkit deployment evidence, and the virtualized Workbench PTY/file adapter
+remain unimplemented. The freeze also requires closed capability vocabularies,
 plan-bound operational context and policy floors, evidence-based logical image
 equivalence, and sanitized classified serial diagnostics. The existing Workbench
 environment/export contracts remain landed.
@@ -886,7 +890,7 @@ GuestWorkbenchChannel
   handshake spawn_process open_pty
   terminal_input terminal_resize terminal_signal
   file_snapshot file_read patch_stage artifact_export
-  quiesce shutdown
+  inspect quiesce shutdown
 ```
 
 The ports are logical contracts; they need not be one Rust trait across a process
@@ -944,6 +948,33 @@ is refused before any command is dispatched. Operation frames additionally bind
 the environment, generation, operation id, sequence, deadline, payload length,
 chunk count, and digest. Queues and reassembly buffers have hard byte, frame,
 chunk, and time caps.
+
+The implemented V1 wire vocabulary is closed to `handshake`, `request`, `chunk`,
+`result`, and `error`. `sensorium-virt-core` owns the shared bindings, typed
+operation set, honest `succeeded`/`refused`/`unknown` evidence rules, and hard
+frame/chunk/transfer limits. The host derives the expected handshake exclusively
+from the current vfkit recovery record and releases its broker lock before channel
+I/O. It rechecks endpoint device/inode identity across connect; endpoint replacement
+or listener loss refuses before the handshake, while the full handshake binding
+remains the channel authority. The packaged Rust guest uses the same engine over Linux AF_VSOCK and a
+feature-gated local Unix transport used only for conformance. That harness runs the
+real guest binary and proves process, PTY, file, patch, export, lifecycle inspect,
+quiesce, shutdown, admission refusal, deadline non-extension, exact wire bounds,
+partial-transfer refusal, and content-bound replay after a lost patch-stage receipt,
+in addition to stale-nonce, replay, overflow, and disconnect behavior; it is not VM, image,
+systemd, kernel, cgroup, network, or vfkit deployment evidence.
+
+`output/bytes-max` is one decoded-byte budget for a process result, shared by
+stdout and stderr rather than multiplied per stream. PTY resize uses the terminal
+ioctl directly and does not require an image-specific `stty` executable.
+`patch-stage` is staging, not application: it atomically stores exact content
+under a path/content/length-bound stage ref, returns that same ref for an exact
+retry, never mutates the target, exposes count and bytes through `inspect`, and
+retains at most 64 stages and 64 MiB in environment state until teardown. A
+disconnect before complete transfer publishes no stage; a lost response after
+commit is resolved by exact replay. Request parsing and pre-dispatch admission
+failures are `refused` with admission evidence. `unknown` is reserved for an
+admitted effect whose outcome cannot be proved.
 
 The guest agent owns no authorization policy. It executes only normalized,
 already-admitted mechanics and returns untrusted observations. Root inside the
@@ -2530,7 +2561,7 @@ evidence) · `[!]` blocked/needs decision.
   only teardown/reconcile authority as resolved decision 53. The socket root is
   opened with no-follow directory semantics, permissioned through its descriptor,
   pinned by device/inode identity, and rechecked before lifecycle use. The
-  feature-gated 17-case process harness includes refusal of the fake VMM without
+  feature-gated 18-case process harness includes refusal of the fake VMM without
   conformance authority, dead-listener, interrupted-launch, boot-nonce freshness,
   socket-root substitution, and generation-supersession evidence in addition to
   the original lifecycle cases.
@@ -2540,10 +2571,23 @@ evidence) · `[!]` blocked/needs decision.
   decision; vendor-only provenance requires package policy or an allowlist rather
   than heuristic recognition of executable bytes.
   Host paths and VMM arguments never enter the caller request or response.
-- [ ] Implement and package `orbiplex-workbench-guest` with generation/plan/image/
+- [x] Implement and package `orbiplex-workbench-guest` with generation/plan/image/
   nonce-bound virtio-vsock handshake, bounded process and PTY control, chunked
-  file/patch/export frames, defense-in-depth guest resource limits, quiesce, and
-  shutdown.
+  file/patch/export frames, defense-in-depth guest resource limits, lifecycle
+  inspect, quiesce, and shutdown. `sensorium-virt-host::GuestWorkbenchChannel`
+  validates exact bindings,
+  monotonic sequence, deadlines, outcomes, and transfer metadata. The vfkit broker
+  derives the channel binding from its authoritative live recovery record. A
+  feature-gated local-transport suite runs the actual guest binary and covers the
+  happy path plus stale nonce, replayed sequence, malformed request and transfer
+  admission, exact output and wire bounds, deadline non-extension, partial
+  transfer, and durable exact patch-stage replay after a lost
+  receipt, quiesce refusal, and deterministic shutdown without claiming full-system
+  deployment evidence. Host-channel tests separately cover endpoint replacement,
+  dead listeners, exact maximum response transfer, and oversized response metadata.
+  Readiness is tracked as three distinct facts: guest
+  `protocol implemented`; real-binary local `conformance proven`; full-system
+  vfkit `deployment evidence pending`.
 - [x] Implement the host-lifecycle adapter for `vfkit-system.v1` as the first
   process-isolated backend slice on
   `macos-vz-arm64.v1`: pinned binary, EFI full-system GNU/Linux arm64 image, APFS
