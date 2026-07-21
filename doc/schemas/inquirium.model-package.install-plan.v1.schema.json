@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-install-plan:v1",
+  "title": "Inquirium Model Package Install Plan v1",
+  "description": "Deterministic and inert preview of model-package installation work; this contract cannot report executed effects.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md", "doc/project/40-proposals/066-inquirium-assistant-channel.md"],
+  "required": ["schema", "schema/v", "plan/ref", "package/ref", "manifest/digest", "target-profile/ref", "status", "blockers", "steps", "effects/executed"],
+  "properties": {
+    "schema": { "const": "inquirium.model-package.install-plan.v1" },
+    "schema/v": { "const": 1 },
+    "plan/ref": { "type": "string", "pattern": "^model-install-plan:sha256:[A-Za-z0-9_-]{43}$" },
+    "package/ref": { "type": "string", "pattern": "^model-package/.+$", "maxLength": 512 },
+    "manifest/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "target-profile/ref": { "type": "string", "pattern": "^profile/.+$", "maxLength": 512 },
+    "status": { "enum": ["ready", "blocked"] },
+    "blockers": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/blocker" } },
+    "steps": { "type": "array", "maxItems": 128, "items": { "$ref": "#/$defs/step" } },
+    "effects/executed": { "const": false }
+  },
+  "allOf": [
+    { "if": { "properties": { "status": { "const": "ready" } }, "required": ["status"] }, "then": { "properties": { "blockers": { "maxItems": 0 } } } },
+    { "if": { "properties": { "status": { "const": "blocked" } }, "required": ["status"] }, "then": { "properties": { "blockers": { "minItems": 1 } } } }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "assetRef": { "type": "string", "pattern": "^model-asset:sha256:[A-Za-z0-9_-]{43}$" },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code"],
+      "properties": {
+        "code": { "enum": ["missing_manifest_authority", "manifest_authority_mismatch", "missing_source_authority", "asset_descriptor_conflict"] },
+        "asset/ref": { "$ref": "#/$defs/assetRef" },
+        "source/key": { "type": "string", "minLength": 1, "maxLength": 2048 }
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["operation"],
+      "oneOf": [
+        { "additionalProperties": false, "required": ["operation", "authority/ref", "manifest/digest"], "properties": { "operation": { "const": "verify_manifest_authority" }, "authority/ref": { "type": "string", "pattern": "^authority/.+$" }, "manifest/digest": { "$ref": "#/$defs/digest" } } },
+        { "additionalProperties": false, "required": ["operation", "asset/ref", "digest"], "properties": { "operation": { "const": "use_existing_asset" }, "asset/ref": { "$ref": "#/$defs/assetRef" }, "digest": { "$ref": "#/$defs/digest" } } },
+        { "additionalProperties": false, "required": ["operation", "asset/ref", "digest", "size/bytes", "source/key", "trust/ref"], "properties": { "operation": { "const": "stage_asset" }, "asset/ref": { "$ref": "#/$defs/assetRef" }, "digest": { "$ref": "#/$defs/digest" }, "size/bytes": { "type": "integer", "minimum": 1 }, "source/key": { "type": "string", "minLength": 1 }, "trust/ref": { "type": "string", "pattern": "^model-source-trust/.+$" } } },
+        { "additionalProperties": false, "required": ["operation", "asset/ref", "digest", "size/bytes"], "properties": { "operation": { "const": "verify_asset" }, "asset/ref": { "$ref": "#/$defs/assetRef" }, "digest": { "$ref": "#/$defs/digest" }, "size/bytes": { "type": "integer", "minimum": 1 } } },
+        { "additionalProperties": false, "required": ["operation", "package/ref", "manifest/digest"], "properties": { "operation": { "const": "prepare_install_receipt" }, "package/ref": { "type": "string", "pattern": "^model-package/.+$" }, "manifest/digest": { "$ref": "#/$defs/digest" } } },
+        { "additionalProperties": false, "required": ["operation", "profile/ref", "package/ref", "manifest/digest"], "properties": { "operation": { "const": "run_baseline_conformance" }, "profile/ref": { "type": "string", "pattern": "^profile/.+$" }, "package/ref": { "type": "string", "pattern": "^model-package/.+$" }, "manifest/digest": { "$ref": "#/$defs/digest" } } },
+        { "additionalProperties": false, "required": ["operation", "profile/ref", "manifest/digest"], "properties": { "operation": { "const": "retain_rollback_profile" }, "profile/ref": { "type": "string", "pattern": "^profile/.+$" }, "manifest/digest": { "$ref": "#/$defs/digest" } } },
+        { "additionalProperties": false, "required": ["operation", "profile/ref", "manifest/digest"], "properties": { "operation": { "const": "propose_activation" }, "profile/ref": { "type": "string", "pattern": "^profile/.+$" }, "manifest/digest": { "$ref": "#/$defs/digest" } } }
+      ]
+    }
+  }
+}

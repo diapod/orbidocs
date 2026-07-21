@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-active-profile:v1",
+  "title": "Inquirium Model Package Active Profile v1",
+  "description": "Generation-counted pointer to one verified active local model package profile and its rollback predecessor.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md", "doc/project/40-proposals/066-inquirium-assistant-channel.md"],
+  "required": ["schema", "schema/v", "profile/ref", "generation", "package/ref", "manifest/digest", "receipt/ref", "asset/refs", "activated-at", "conformance/report-ref"],
+  "properties": {
+    "schema": { "const": "inquirium.model-package.active-profile.v1" },
+    "schema/v": { "const": 1 },
+    "profile/ref": { "type": "string", "pattern": "^profile/.+$", "maxLength": 512 },
+    "generation": { "type": "integer", "minimum": 1 },
+    "package/ref": { "type": "string", "pattern": "^model-package/.+$", "maxLength": 512 },
+    "manifest/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "receipt/ref": { "type": "string", "pattern": "^model-install-receipt/.+$", "maxLength": 512 },
+    "asset/refs": { "type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": { "type": "string", "pattern": "^model-asset:sha256:[A-Za-z0-9_-]{43}$" } },
+    "activated-at": { "type": "string", "format": "date-time" },
+    "conformance/report-ref": { "type": "string", "pattern": "^conformance-report/.+$", "maxLength": 512 },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile/ref", "package/ref", "manifest/digest", "receipt/ref"],
+      "properties": {
+        "profile/ref": { "type": "string", "pattern": "^profile/.+$", "maxLength": 512 },
+        "package/ref": { "type": "string", "pattern": "^model-package/.+$", "maxLength": 512 },
+        "manifest/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "receipt/ref": { "type": "string", "pattern": "^model-install-receipt/.+$", "maxLength": 512 }
+      }
+    }
+  }
+}

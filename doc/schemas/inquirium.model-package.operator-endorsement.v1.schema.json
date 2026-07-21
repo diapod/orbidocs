@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-operator-endorsement:v1",
+  "title": "Inquirium Model Package Operator Endorsement v1",
+  "description": "Node- and profile-scoped operator endorsement for an otherwise unsigned local model package manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md", "doc/project/40-proposals/066-inquirium-assistant-channel.md"],
+  "required": ["schema", "schema/v", "endorsement/ref", "package/ref", "manifest/digest", "node/ref", "profile/ref", "operator/ref", "question/ref", "decision/ref", "endorsed-at", "signature"],
+  "properties": {
+    "schema": { "const": "inquirium.model-package.operator-endorsement.v1" },
+    "schema/v": { "const": 1 },
+    "endorsement/ref": { "type": "string", "pattern": "^model-package-endorsement/.+$", "maxLength": 512 },
+    "package/ref": { "type": "string", "pattern": "^model-package/.+$", "maxLength": 512 },
+    "manifest/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "node/ref": { "type": "string", "pattern": "^node:did:key:.+$", "maxLength": 512 },
+    "profile/ref": { "type": "string", "pattern": "^profile/.+$", "maxLength": 512 },
+    "operator/ref": { "type": "string", "pattern": "^participant:did:key:.+$", "maxLength": 512 },
+    "question/ref": { "type": "string", "pattern": "^question/.+$", "maxLength": 512 },
+    "decision/ref": { "type": "string", "pattern": "^operator-decision/.+$", "maxLength": 512 },
+    "endorsed-at": { "type": "string", "format": "date-time" },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signing/domain", "key/id", "algorithm", "value", "signed-at"],
+      "properties": {
+        "signing/domain": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "key/id": { "type": "string", "pattern": "^key/.+$", "maxLength": 512 },
+        "algorithm": { "const": "ed25519" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" },
+        "signed-at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

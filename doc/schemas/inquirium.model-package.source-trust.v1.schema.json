@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-source-trust:v1",
+  "title": "Inquirium Model Package Source Trust v1",
+  "description": "Operator-signed, revocable local authority for one model-package source boundary.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md", "doc/project/40-proposals/066-inquirium-assistant-channel.md"],
+  "required": ["schema", "schema/v", "trust/ref", "scope", "mode", "target", "operator/ref", "decision/ref", "granted-at", "signature"],
+  "properties": {
+    "schema": { "const": "inquirium.model-package.source-trust.v1" },
+    "schema/v": { "const": 1 },
+    "trust/ref": { "type": "string", "pattern": "^model-source-trust/.+$", "maxLength": 512 },
+    "scope": { "const": "local-model-provisioning" },
+    "mode": { "enum": ["one_shot", "durable"] },
+    "target": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["kind", "origin", "redirect/origins"], "properties": { "kind": { "const": "https_origin" }, "origin": { "type": "string", "pattern": "^https://", "format": "uri", "maxLength": 2048 }, "redirect/origins": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "pattern": "^https://", "format": "uri", "maxLength": 2048 } } } },
+        { "type": "object", "additionalProperties": false, "required": ["kind", "canonical/root"], "properties": { "kind": { "const": "local_root" }, "canonical/root": { "type": "string", "pattern": "^/", "maxLength": 4096 } } }
+      ]
+    },
+    "operator/ref": { "type": "string", "pattern": "^participant:did:key:.+$", "maxLength": 512 },
+    "decision/ref": { "type": "string", "pattern": "^operator-decision/.+$", "maxLength": 512 },
+    "granted-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "revoked-at": { "type": "string", "format": "date-time" },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signing/domain", "key/id", "algorithm", "value", "signed-at"],
+      "properties": {
+        "signing/domain": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "key/id": { "type": "string", "pattern": "^key/.+$", "maxLength": 512 },
+        "algorithm": { "const": "ed25519" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" },
+        "signed-at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "allOf": [
+    { "if": { "properties": { "mode": { "const": "one_shot" } }, "required": ["mode"] }, "then": { "required": ["expires-at"] } }
+  ]
+}

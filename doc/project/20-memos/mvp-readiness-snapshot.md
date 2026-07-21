@@ -200,6 +200,24 @@ structured-output repair and rail diagnostics, egress-class ceilings, shared
 participant-id and monotonicity primitives, and explicit local-model
 diagnosis/provisioning commands.
 
+Post-MVP local-model productization now also has six accepted package/lifecycle
+contracts and a dedicated content-addressed asset store. Control metadata stays
+under `data-dir`; bulk bytes resolve from explicit configuration, then
+`ORBIPLEX_MODEL_ROOT`, then the `data-dir` default. Marker/registry identity and
+exclusive locking enforce one owner and writer. Managed authority is separated
+from mutable engine/workspace interoperability, native files require verified
+import, host-registered runtime layouts project only allowlisted child
+environment, layout preparation checks containment before creating children,
+launch materializations are re-verified, failed publication is rolled back or
+discarded, and recovery detects same-size digest corruption. Journaled root
+migration recovers both pre- and post-commit crashes without creating two active
+roots and refuses symlinked provisional authority trees. A deterministic
+plan-only installer still fixes `effects/executed` to `false`. Download,
+effectful install/verify/activate, operator recovery rebind after
+root/control-plane loss, rollback, removal, and distributable provider packages
+remain open. These items are explicitly outside the P066 hard-MVP denominator,
+so the Inquirium readiness percentages do not change.
+
 The current Inquirium closure also adds archive-before-prune context-grant
 revocation and bounded scheduler maintenance, non-empty participant projection
 rebuild from validated Memarium facts, resolved retention admission, exact

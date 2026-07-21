@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-manifest:v1",
+  "title": "Inquirium Model Package Manifest v1",
+  "description": "Content-addressed manifest for one operator-admissible local model runtime and its assets.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/066-inquirium-assistant-channel.md"
+  ],
+  "required": ["schema", "schema/v", "package/ref", "package/version", "manifest/digest", "created-at", "authority/mode", "platform", "runtime", "model", "resource-requirements", "provenance", "assets", "signatures"],
+  "properties": {
+    "schema": { "const": "inquirium.model-package.manifest.v1" },
+    "schema/v": { "const": 1 },
+    "package/ref": { "$ref": "#/$defs/packageRef" },
+    "package/version": { "$ref": "#/$defs/label" },
+    "manifest/digest": { "$ref": "#/$defs/digest" },
+    "created-at": { "type": "string", "format": "date-time" },
+    "authority/mode": { "enum": ["distributor_signed", "operator_endorsed"] },
+    "platform": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["os", "architecture", "backend"], "properties": { "os": { "const": "macos" }, "architecture": { "const": "arm64" }, "backend": { "const": "metal" } } },
+        { "type": "object", "additionalProperties": false, "required": ["os", "architecture", "backend"], "properties": { "os": { "const": "linux" }, "architecture": { "const": "x86_64" }, "backend": { "const": "cpu" } } }
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "version", "asset/ref", "arguments", "health/path", "invoke/path"],
+      "properties": {
+        "family": { "$ref": "#/$defs/label" },
+        "version": { "$ref": "#/$defs/label" },
+        "asset/ref": { "$ref": "#/$defs/assetRef" },
+        "arguments": { "type": "array", "minItems": 1, "maxItems": 64, "items": { "type": "string", "minLength": 1, "maxLength": 1024 } },
+        "health/path": { "$ref": "#/$defs/httpPath" },
+        "invoke/path": { "$ref": "#/$defs/httpPath" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "name", "quantization", "context/max-tokens", "asset/ref", "license/id", "model-card/ref"],
+      "properties": {
+        "family": { "$ref": "#/$defs/label" },
+        "name": { "$ref": "#/$defs/label" },
+        "quantization": { "$ref": "#/$defs/label" },
+        "context/max-tokens": { "type": "integer", "minimum": 2048, "maximum": 4294967295 },
+        "asset/ref": { "$ref": "#/$defs/assetRef" },
+        "license/id": { "$ref": "#/$defs/label" },
+        "license/ref": { "type": "string", "pattern": "^license/.+$", "maxLength": 512 },
+        "model-card/ref": { "type": "string", "pattern": "^model-card/.+$", "maxLength": 512 }
+      }
+    },
+    "resource-requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["memory/min-bytes", "disk/required-bytes", "cpu/min-cores"],
+      "properties": {
+        "memory/min-bytes": { "type": "integer", "minimum": 1 },
+        "disk/required-bytes": { "type": "integer", "minimum": 1 },
+        "cpu/min-cores": { "type": "integer", "minimum": 1, "maximum": 65535 }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publisher/ref", "release/ref", "source/ref"],
+      "properties": {
+        "publisher/ref": { "type": "string", "pattern": "^publisher/.+$", "maxLength": 512 },
+        "release/ref": { "type": "string", "pattern": "^release/.+$", "maxLength": 512 },
+        "source/ref": { "type": "string", "pattern": "^source/.+$", "maxLength": 512 },
+        "build/ref": { "type": "string", "pattern": "^build/.+$", "maxLength": 512 }
+      }
+    },
+    "assets": { "type": "array", "minItems": 2, "maxItems": 32, "items": { "$ref": "#/$defs/asset" } },
+    "signatures": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/signature" } }
+  },
+  "$defs": {
+    "label": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "assetRef": { "type": "string", "pattern": "^model-asset:sha256:[A-Za-z0-9_-]{43}$" },
+    "packageRef": { "type": "string", "pattern": "^model-package/.+$", "maxLength": 512 },
+    "httpPath": { "type": "string", "pattern": "^/[^?#]*$", "maxLength": 512 },
+    "source": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["kind", "uri"], "properties": { "kind": { "const": "https" }, "uri": { "type": "string", "format": "uri", "pattern": "^https://", "maxLength": 2048 } } },
+        { "type": "object", "additionalProperties": false, "required": ["kind", "path/ref"], "properties": { "kind": { "const": "local_import" }, "path/ref": { "type": "string", "pattern": "^local-source/.+$", "maxLength": 512 } } }
+      ]
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset/ref", "kind", "digest", "size/bytes", "file/name", "media/type", "executable", "source"],
+      "properties": {
+        "asset/ref": { "$ref": "#/$defs/assetRef" },
+        "kind": { "enum": ["runtime", "model", "auxiliary"] },
+        "digest": { "$ref": "#/$defs/digest" },
+        "size/bytes": { "type": "integer", "minimum": 1 },
+        "file/name": { "type": "string", "minLength": 1, "maxLength": 255, "pattern": "^[^/\\\\]+$" },
+        "media/type": { "$ref": "#/$defs/label" },
+        "executable": { "type": "boolean" },
+        "source": { "$ref": "#/$defs/source" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signing/domain", "key/id", "algorithm", "value", "signed-at"],
+      "properties": {
+        "signing/domain": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "key/id": { "type": "string", "pattern": "^key/.+$", "maxLength": 512 },
+        "algorithm": { "const": "ed25519" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" },
+        "signed-at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

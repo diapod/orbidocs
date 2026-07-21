@@ -512,11 +512,15 @@ into a production installation path without changing Inquirium semantics.
    size, digest, size, resource requirements, source, license, and model-card
    reference are release data, not permanent proposal constants.
 5. **Dedicated host-owned asset store.** Runtime and model artifacts live in an
-   immutable, content-addressed store under the node data directory. Active
-   profiles and rollback candidates refer to digests. This store is separate
-   from middleware modules and from the transport-oriented object store; it owns
-   quotas, references, interrupted-stage cleanup, and bounded garbage
-   collection.
+   immutable, content-addressed store under a host-resolved model-storage root.
+   The bulk root may be outside the node data directory so an operator can place
+   large model assets on a dedicated volume. Store metadata, authority records,
+   active-profile state, and recovery journals remain under the node data
+   directory; moving bulk bytes must not move the control plane or its source of
+   truth. Active profiles and rollback candidates refer to digests. This store is
+   separate from middleware modules and from the transport-oriented object
+   store; it owns quotas, references, interrupted-stage cleanup, and bounded
+   garbage collection.
 6. **Explicit update authority.** Discovery of a newer signed manifest may be
    automatic, but installation and activation require an operator decision.
    There is no silent model replacement and no remote fallback. Updates retain
@@ -564,6 +568,132 @@ manifest, source trust, operator endorsement, installation receipt, and active
 profile projection. A signature over a digest-bearing manifest is the authority
 boundary; neither a mutable path nor a provider model name is sufficient
 identity.
+
+### 8.5.2 Model Storage Root And Native Runtime Layouts
+
+The model-storage root is host-owned deployment configuration, not package
+manifest authority. The host resolves exactly one bulk root at startup in this
+order:
+
+1. the explicit `inquirium.model_storage.root` configuration value;
+2. the fixed `ORBIPLEX_MODEL_ROOT` environment variable;
+3. `<data-dir>/storage/inquirium-model-assets`.
+
+The resolved root must be absolute, canonicalized, writable, and bound to the
+node's asset-store metadata through a versioned root marker, stable
+`storage/root-id`, and one `control-plane/owner-id`. The first profile is
+single-owner and single-writer: one `managed/` tree may be governed by exactly
+one node data directory and its asset-store registry. A second node or a rebuilt
+control plane cannot attach to it implicitly. It must either use a distinct root
+or enter an explicit operator-authorized recovery/rebind flow with garbage
+collection disabled until the authoritative reference projection has been
+rebuilt and every retained object re-verified. This prevents one node's local
+pin set from deleting bytes still referenced by another node.
+
+The control registry generates the owner identity once and persists it under
+`data-dir`; it is deliberately not an operator-configurable identifier. Trusted
+reopen and migration code may carry the persisted identity as an exact
+expectation, but a fresh registry cannot claim an existing root by copying its
+marker value into configuration. Loss of that registry enters the recovery
+ceremony above.
+
+If an explicitly configured or environment-selected root is missing,
+unavailable, locked by another owner, or no longer matches its recorded
+identity, startup and model installation fail closed. The host must not silently
+fall back to the default under `data-dir`, because doing so could fill the wrong
+disk or make an active profile appear to have lost its assets. The canonical
+model root, rather than `data-dir`, is the containment and anti-symlink anchor
+for `managed/`, `engines/`, and `workspaces/`; the metadata database remains
+separately contained under canonical `data-dir`.
+
+The root separates three ownership and lifecycle domains:
+
+```text
+<model-root>/
+  .orbiplex-model-root.v1
+  managed/
+    objects/sha256/
+    staging/
+  engines/
+    <runtime-family>/
+      host/
+        models/
+        runtimes/
+        cache/
+      shared/
+        models/
+        runtimes/
+        cache/
+  workspaces/
+    fine-tuning/
+    conversions/
+    experiments/
+```
+
+`managed/` is the immutable Orbiplex content-addressed store and is the only
+tree governed by its pinning and garbage-collection rules. It is not an
+interoperability write surface. Host-exclusive ownership and restrictive
+permissions are part of its integrity contract; external read-only access may
+be permitted, but external read-write access is unsupported and invalidates the
+store's immutability guarantee. The host must refuse use when permissions,
+ownership, root identity, or object verification no longer support that
+assumption.
+
+`engines/` preserves runtime-native directory layouts where interoperability
+with external tools is valuable. The namespace is a runtime or engine family,
+not a remote provider: remote API providers do not own local model bytes, while
+distinct local engines may require incompatible cache and file layouts.
+Within each engine family, `host/` is the host-owned launch/runtime view and
+`shared/` is the explicitly mutable interoperability view. The distinct
+`host/` name avoids implying that engine materializations participate in the
+pinning and garbage-collection semantics of root-level `managed/` CAS.
+`workspaces/` contains mutable operator experiments and training/conversion
+outputs. These two trees are the supported external read-write surfaces and are
+therefore treated as untrusted mutable inputs. Their outputs become installable
+only after explicit import, digesting, manifest construction, and the normal
+trust and endorsement path. Mutable workspace or engine-cache paths are never
+model identity.
+
+An engine tree is a materialized view over admitted assets, not an alternative
+authority store. Materialization should prefer reflink/copy-on-write where the
+filesystem supports it and otherwise use a verified copy. It must not expose
+immutable CAS objects through writable hard links or mutable symlinks. Existing
+native caches may be inspected and explicitly imported, but the host must not
+silently adopt arbitrary pre-existing bytes as verified assets. A supervised
+runtime may load only from the host-exclusive CAS or from a host-owned immutable
+launch materialization whose digest is re-verified immediately before use.
+Writable shared engine paths cannot use a materialize-once-trust-forever rule;
+they must be copied and verified into a host-owned launch view before admission.
+
+Garbage collection of the managed tree must not recursively delete engine
+caches or operator workspaces; each domain has a separate quota and lifecycle
+policy. Logical quotas are admission ceilings, not physical-space reservations
+on a volume that other software can consume. Every stage/write path must handle
+`ENOSPC` and short writes as an ordinary typed failure: partial stage data is
+never committed, and bounded recovery removes or resumes interrupted stages
+without changing active-profile state. Profile v1 requires `managed/staging/`
+and `managed/objects/` to reside on the same filesystem so final publication is
+an atomic rename; a layout that cannot prove this property is rejected.
+
+Each supported runtime family may declare a host-maintained, versioned storage
+layout that maps semantic directories to a closed allowlist of native environment
+variables, for example a model directory expected by a supervised local server.
+These variables are rendered only into that adapter/runtime process environment.
+Package manifests cannot inject arbitrary environment names or values, and the
+daemon's global process environment is never mutated. A runtime-family layout
+must define containment, ownership, migration, and cleanup behavior before the
+host may materialize assets into it.
+
+Changing the model root uses an explicit, journaled migration state machine.
+The old root remains authoritative while objects are copied and verified under
+a provisional destination marker. Only after every required digest and pin is
+present may one atomic control-plane transaction advance the root generation and
+activate the destination owner binding. A crash before that commit resumes or
+rolls back the incomplete destination while the old root stays valid; a crash
+after it treats the new root as authoritative. The host must never publish two
+simultaneously active owner markers. Loss of the old root or `data-dir` is a
+separate recovery ceremony, not a successful migration inferred from whichever
+directory remains accessible.
 
 Alternatives not selected for v1 are Ollama as the canonical managed package,
 silently bundled model weights, reuse of middleware-module or transport-object
@@ -1425,8 +1555,10 @@ No unresolved questions remain for this proposal's current contract.
 2. Build distributor packaging and real operator installation UX around the
    landed baseline profile renderer; the tool records artifact lifecycle data
    but intentionally does not install binaries or model weights. Follow the
-   frozen production packaging profile in Decision 8.5.1 and the post-MVP
-   productization tracker below.
+   frozen production packaging profile in Decisions 8.5.1 and 8.5.2 and the
+   post-MVP productization tracker below. Resolve the model-storage root before
+   adding download or activation effects so large assets never acquire an
+   implicit physical location.
 3. Keep the `inquirium-core` dependency-direction gate in CI as the vocabulary
    grows across summarize/transform/image and future audio/training contracts.
 4. Add broader tests proving no Messaging dispatch, no relationship record
@@ -1515,9 +1647,14 @@ They are intentionally excluded from the MVP readiness percentage.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `assistant-model-package-contracts` | Freeze host-local package manifest, source-trust, operator-endorsement, install-receipt, and active-profile contracts. | `todo` | Schemas bind canonical digests, sizes, platform/backend, model card, license, provenance, source policy, operator signature, lifecycle state, and rollback refs; unknown security-sensitive fields fail closed. |
-| `assistant-model-asset-store` | Add a dedicated content-addressed runtime/model asset store under `data-dir`. | `todo` | Immutable staged artifacts, quotas, reference-aware GC, partial-download cleanup, active/rollback pinning, explicit migrations, WAL, `busy_timeout`, and crash recovery are covered by tests. |
-| `assistant-model-package-installer` | Implement `plan -> install -> verify -> activate`, status, rollback, and remove. | `todo` | The installer accepts signed distributor manifests or operator-endorsed imports, never mutates the active profile before verification, and preserves the previous verified profile for rollback. |
+| `assistant-model-package-contracts` | Freeze host-local package manifest, source-trust, operator-endorsement, install-receipt, and active-profile contracts. | `done` | Six accepted JSON Schemas are present in `node/protocol/contracts/schemas/`, mirrored from `orbidocs:doc/schemas/`, registered at Schema Gate import/export boundaries, and exercised by `schema-gate/tests/inquirium_model_package_contracts.rs`. Every family has a structural negative boundary assertion, including unknown manifest fields, non-HTTPS trust, missing endorsement signature, invalid receipt state, zero profile generation, and attempted effectful install plan. Together with `node/inquirium-model-package-core`, they bind canonical manifest digests, immutable asset descriptors, supported platform/backend pairs, model card, license, provenance, source policy, operator signatures, lifecycle state, active generation, rollback refs, and the inert install-plan shape. Semantic tests reject stale digests, asset aliases, unsafe runtime placeholders, non-executable runtimes, and unknown fields. Cryptographic key trust remains host-owned admission rather than a claim of this contract crate. |
+| `assistant-model-asset-store` | Add a dedicated content-addressed runtime/model asset store with control metadata under `data-dir` and bulk bytes under the resolved model-storage root. | `done` | `node/inquirium-model-asset-store` keeps its versioned SQLite/WAL control registry under canonical `data-dir` while immutable objects and bounded staging live under the resolved model root. It provides streaming digest/size verification, atomic publication with rollback on post-rename or registry failure, quotas, active/installed/rollback pins, reference-aware GC, stale-stage cleanup, size-and-digest recovery diagnostics, explicit SQLite durability settings, schema migration/refusal, restrictive read-only permissions, and typed capacity failures. Download/resume and effectful installer operations remain separate tracker items rather than hidden store behavior. |
+| `assistant-model-storage-root` | Resolve a configurable, single-owner bulk model root without moving host-owned control metadata. | `done` | Daemon config and the store implement `inquirium.model_storage.root` -> `ORBIPLEX_MODEL_ROOT` -> `<data-dir>/storage/inquirium-model-assets`. Explicit/environment roots must be absolute existing real directories and never silently fall back. A canonical versioned marker, random root and non-configurable persisted owner refs, generation, SQLite identity binding, and exclusive file lock reject path drift, marker tampering, a mismatched owner, or a second live writer before GC or asset use. Runtime layout preparation revalidates its mutable engines parent before creating children. Containment is anchored to the model root while control metadata remains under `data-dir`. |
+| `assistant-model-storage-domains` | Separate immutable managed assets, runtime-native engine trees, and mutable operator workspaces. | `done` | The store creates host-exclusive `managed/{objects,staging}`, mutable `engines/<family>/{host,shared}`, and mutable `workspaces` as distinct roots. The `host/` name identifies the host-owned runtime view without conflating it with root-level CAS authority. Managed GC traverses only content-addressed objects; native/shared bytes enter it solely through explicit descriptor-bound verified import. Objects and staging must share one filesystem, publication is rename-based, stage write/open failures discard the partial database/file state, and `ENOSPC` is a typed capacity failure. External physical use remains outside logical quota guarantees by design. |
+| `assistant-model-runtime-storage-layouts` | Define versioned per-runtime storage layouts and native environment projection. | `done` | `RuntimeStorageLayoutRegistry` validates unique lowercase runtime families, positive layout versions, semantic model/runtime/cache areas, and a host allowlist of native environment names. It rejects execution-sensitive variables such as `PATH`, `LD_*`, and `DYLD_*`, renders only canonical contained paths under one engine family, and returns a child-environment map without mutating daemon-global state. Store APIs accept the registry rather than raw package-supplied layouts; the future effectful installer may pass the projection only into the existing supervised-child environment boundary. |
+| `assistant-model-native-materialization` | Materialize admitted immutable assets into interoperable runtime-native layouts without trusting external mutation. | `done` | The store verifies the source CAS object, materializes into the host-owned runtime view by reflink on supported Linux/macOS filesystems or verified-copy fallback, verifies the destination before publication, restricts its permissions, and re-verifies digest and size immediately before returning a launch path. It creates no writable hard-link or symlink alias. Existing shared native files require explicit descriptor-bound import and are streamed through normal staging before becoming authority. |
+| `assistant-model-storage-root-migration` | Migrate or recover a model root without producing two active owners or a partially authoritative destination. | `done` | A journaled `copying -> committed` migration holds both root locks, rejects equal/overlapping roots, reused migration refs, non-empty destination authority trees, and pending stages, then verifies every object before one SQLite transaction advances identity and generation. Restart rolls back an uncommitted source marker and cleans only its matching owned provisional CAS, or promotes a committed provisional destination and retires the source. Cleanup validates the provisional marker and refuses symlinked authority trees before deletion. Tests cover both crash boundaries, competing destination locks, retained pins, no implicit interop copy, symlink refusal, and refusal to reopen the retired root. Lost-root or lost-`data-dir` rebind remains deliberately unsupported without a future explicit operator recovery ceremony; accessible bytes alone are never inferred as authority. |
+| `assistant-model-package-installer` | Implement `plan -> install -> verify -> activate`, status, rollback, and remove. | `in-progress` | `node/inquirium-model-package-installer` implements the deterministic plan-only phase over admitted manifest/source authority plus real asset-store inventory. It emits a canonical schema-gated plan with typed blockers and `effects/executed = false`; it has no downloader, process control, activation API, or implicit signature authority. Install, verify, activate, status, rollback, and remove effects remain open. |
 | `assistant-model-source-trust` | Add operator-managed HTTPS-origin and canonical-local-root trust. | `todo` | Notification/operator-question approval can grant one-shot or durable provisioning-only trust; rules are revocable, auditable, symlink-safe, redirect-bounded, and never bypass final digest/manifest admission. |
 | `assistant-model-operator-endorsement` | Permit operator-owned models through detached manifest signatures. | `todo` | The host computes the manifest and digest, renders bounded review data, requires a fresh operator-bound decision and signer, records the detached signature and audit fact, and keeps unapproved or changed artifacts unroutable. |
 | `assistant-model-llama-server-package` | Ship the canonical managed `llama-server` profile for macOS arm64/Metal and Linux x86_64/CPU. | `todo` | Distributor manifests, supervised lifecycle, loopback binding, resource diagnostics, installation fixtures, and baseline conformance pass on both supported profiles. |
