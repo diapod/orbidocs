@@ -297,6 +297,19 @@ observation passage closed before terminal bytes reach a model, with lower-strat
 P064/P071/P082 tests owning the vectors that the composed story does not duplicate.
 P082 owns this freshness predicate; Story 012 adds no TTL.
 
+The additive `profile-vfkit-full-system.json` keeps the completed baseline
+unchanged while composing three stronger strata: real full-system vfkit
+deployment evidence, the guest Workbench-to-P082/P083 bridge, and this
+three-node collaboration smoke. Its machine-checked report calls the boundary
+`composed-strata` and sets `single-runtime-vertical-proof = false`. A later
+profile may make that stronger claim only after the deterministic repair fixture
+is delivered inside the guest as a digest-pinned artifact rather than copied
+from a host path.
+
+The Story consumer validates `bytes/base64`, `bytes/count`, and `bytes/sha256`
+before interpreting a terminal marker. Chair admission also uses the current Room
+membership high-water sequence rather than a creation-time or fixture constant.
+
 ## Failure Modes and Mitigations
 
 | Failure mode | Risk | Mitigation |
@@ -334,3 +347,9 @@ P082 owns this freshness predicate; Story 012 adds no TTL.
   test through independent B/C deliberation, C revocation, dirty B restart, local
   repair, passing-state observation by B plus continued refusal for C, and an
   unpublished answer draft.
+- [x] The additive vfkit profile composes full-system, interface/fencing, and
+  collaborative evidence without weakening or relabeling the completed baseline.
+- [x] Terminal marker checks consume verified byte evidence and Chair authority
+  binds the current Room membership high-water sequence.
+- [ ] One-runtime vfkit Story 012 evidence uses a pinned guest fixture rather
+  than a host-path copy.

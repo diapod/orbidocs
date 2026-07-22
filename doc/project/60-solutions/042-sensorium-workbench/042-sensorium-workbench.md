@@ -38,6 +38,7 @@ Related schemas:
 - `sensorium-file-read-result.v1`
 - `sensorium-workbench-patch.v1`
 - `sensorium-workbench-patch-apply-result.v1`
+- `sensorium-workbench-patch-stage-result.v1`
 - `sensorium-workbench-outcome.v1`
 - `sensorium-workbench-error-codes.v1`
 - `sensorium-relative-path-address.v1`
@@ -134,9 +135,18 @@ cursor with exact bytes, explicit eviction gaps, post-exit replay, and future-cu
 refusal. A pinned full-system GNU/Linux arm64 image and real-vfkit
 deployment harness now additionally prove the guest channel, systemd, kernel/
 mount/package operations, no-NIC/no-share posture, bounded guest resources,
-recovery, and teardown. Remaining solution work is the P083-backed virtualized
-Workbench adapter, additive Story 012 evidence, later Linux backends, and optional
-daemon command-BDO signal policy beyond the implemented `TERM` cancel path.
+recovery, and teardown. The virtualized Workbench adapter now selects
+`vfkit-system.v1` for `microvm` roots through the daemon-owned host capability,
+maps guest file, export, patch-stage, and PTY operations onto existing Workbench
+contracts, writes guest output into the P082 terminal event source, and leaves
+P083 as the only remote actuation authority. Patch-stage replay is content- and
+generation-bound, completed PTYs are reaped before guest quiescence is reported,
+and an unprovable guest PTY outcome terminates waits as `unknown`. Its additive Story 012 profile
+combines real-vfkit, interface/fencing, and collaborative evidence while naming
+the result `composed-strata`; a single-runtime story fixture inside the pinned
+guest artifact remains stronger follow-up evidence. Later Linux backends and
+optional daemon command-BDO signal policy beyond the implemented `TERM` cancel
+path also remain post-baseline work.
 
 Proposal 083 defines the hard-MVP release-blocking path for separately granted
 terminal input, resize, and signal actuation. Its P083-002 through P083-011 runtime
@@ -655,14 +665,18 @@ Status:
   context, policy, and limits against layered operator configuration. The
   standalone companion is a local-development/conformance path only, defaults to
   disabled, and requires explicit literal-boolean
-  `virt_host.standalone_companion_enabled = true`; ill-typed values refuse.
-  Supervised channel mode never falls back to it when daemon admission is absent.
+  `virt_host.standalone_companion_enabled = true` plus the closed
+  `virt_host.standalone_companion_purpose = development|conformance`; missing,
+  ill-typed, or production-purpose values refuse. Supervised production/channel
+  mode never falls back to it when daemon admission is absent.
   `fixture-copy.v1` uses bounded allocation, startup enumeration, quarantine,
   cross-process mutation serialization, content-bound replay, generation
   supersession, inspect/drain/teardown, exact evidence projection, and SQLite
   metadata persistence. Both host entry paths use Node schema-gate, Workbench
-  rejects backend substitution, and reconciliation exposes capped structured
-  diagnostics without raw host paths or internal failure text. Host and Workbench
+  rejects backend substitution and missing plan/recovery bindings before comparing
+  their values, and reconciliation exposes capped structured diagnostics without
+  raw host paths or internal failure text. Python guest-root normalization is early
+  feedback only; Rust guest containment remains authoritative. Host and Workbench
   boundaries emit only allowlisted public refusal messages. Contract verification
   covers `research`,
   rejects digest-valid but semantically invalid plans, and requires process,
@@ -761,8 +775,14 @@ P082/P083 trackers contain the runtime and refusal evidence.
 
 Status: `done post-MVP` for operational-impact publication, the fixture admission
 spine, backend-neutral guest runtime, and real-vfkit host/guest deployment profile;
-P083-backed virtualized Workbench integration, additive Story 012 evidence, and
-subsequent Linux profiles remain the incomplete P071 Phase 4 work.
+P083-backed virtualized Workbench integration and additive Story 012 composed
+evidence are implemented. Restarted guest PTY sessions and command replays now
+return a typed relink result, and terminal close uses a local `closing`
+transition to serialize concurrent effects without retaining a lock across guest
+I/O; dedicated acceptance checks cover restart supersession and concurrent
+environment teardown. Exact Rust checks are resolved by `libtest --list` before
+execution instead of parsing progress text. One-runtime Story 012 vfkit evidence and subsequent
+Linux profiles remain the incomplete P071 Phase 4 work.
 
 ### Agent, Corpus, and Room Tool Use
 

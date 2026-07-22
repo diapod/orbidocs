@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-patch-stage-result:v1",
+  "title": "Sensorium Workbench Patch Stage Result v1",
+  "description": "Content-bound receipt for patch bytes staged inside one Workbench guest generation without applying them.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": ["schema", "schema/v", "stage/ref", "stage/status", "address", "content/sha256", "content/length", "target/existed", "retention/policy", "replayed", "source/generation-ref", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-workbench-patch-stage-result.v1" },
+    "schema/v": { "const": 1 },
+    "stage/ref": { "$ref": "#/$defs/ref" },
+    "stage/status": { "const": "staged" },
+    "address": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workspace/ref", "root/ref", "relative/path"],
+      "properties": {
+        "workspace/ref": { "$ref": "#/$defs/ref" },
+        "root/ref": { "$ref": "#/$defs/ref" },
+        "relative/path": { "$ref": "#/$defs/relativePath" }
+      }
+    },
+    "content/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "content/length": { "type": "integer", "minimum": 1, "maximum": 524288 },
+    "target/existed": { "type": "boolean" },
+    "retention/policy": { "const": "environment-state-until-teardown" },
+    "replayed": { "type": "boolean" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "not": { "pattern": "\\u0000" } },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "anyOf": [
+        { "pattern": "^/" },
+        { "pattern": "(^|/)\\.\\.($|/)" },
+        { "pattern": "^\\./" },
+        { "pattern": "/\\.(/|$)" },
+        { "pattern": "\\u0000" }
+      ] }
+    }
+  }
+}

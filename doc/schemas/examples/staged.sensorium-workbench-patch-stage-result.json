@@ -1,0 +1,29 @@
+{
+  "schema": "sensorium-workbench-patch-stage-result.v1",
+  "schema/v": 1,
+  "stage/ref": "patch-stage:sha256:fixture",
+  "stage/status": "staged",
+  "address": {
+    "workspace/ref": "workspace:story-012",
+    "root/ref": "root:guest",
+    "relative/path": "etc/example.conf.patch"
+  },
+  "content/sha256": "sha256:YWJj",
+  "content/length": 3,
+  "target/existed": false,
+  "retention/policy": "environment-state-until-teardown",
+  "replayed": false,
+  "source/generation-ref": "source-generation:guest-1",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [
+        { "kind": "person", "id": "participant:did:key:z6MkpatchStageSubject" }
+      ]
+    },
+    "declassify_trail": []
+  }
+}

@@ -294,6 +294,9 @@
           "$ref": "#/$defs/guestOpenPty"
         },
         {
+          "$ref": "#/$defs/guestTerminalRead"
+        },
+        {
           "$ref": "#/$defs/guestTerminalInput"
         },
         {
@@ -406,6 +409,39 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 524288
+        }
+      }
+    },
+    "guestTerminalRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "session/ref",
+        "cursor/after",
+        "bytes/max",
+        "wait-ms"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "terminal-read"
+        },
+        "session/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "cursor/after": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bytes/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 524288
+        },
+        "wait-ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
         }
       }
     },

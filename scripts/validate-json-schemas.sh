@@ -212,6 +212,9 @@ schema_for_file() {
     *.sensorium-workbench-patch-apply-result.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-patch-apply-result.v1.schema.json"
       ;;
+    *.sensorium-workbench-patch-stage-result.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-patch-stage-result.v1.schema.json"
+      ;;
     *.sensorium-workbench-outcome.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-outcome.v1.schema.json"
       ;;

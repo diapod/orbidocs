@@ -43,7 +43,8 @@ Node schema-gate, the core covers `research` and live-hardware-VM recovery ident
 Workbench rejects backend substitution, and reconciliation diagnostics are
 structured, opaque, and capped. The standalone companion is disabled by default,
 requires explicit literal-boolean local development/conformance opt-in, and is
-never an automatic fallback from supervised daemon admission; missing capability
+paired with a closed `development|conformance` purpose. It is never an automatic
+fallback from supervised production daemon admission; missing capability
 dimensions refuse;
 `fixture-copy.v1` exercises their admission, recovery, quarantine, supersession,
 projection, and teardown path. The daemon-owned `vfkit-system.v1` host-lifecycle
@@ -60,7 +61,7 @@ interrupted-launch recovery, dead listeners, replay, dirty exit, missing storage
 fresh boot nonces, generation supersession, PID reuse, binary and socket
 substitution, socket-root replacement, and orphan cleanup without claiming Apple
 Virtualization Framework or guest evidence.
-P071 and Solution 042 remain at `98%`. The nonce/generation/plan/image-bound guest
+P071 and Solution 042 are now at `99%`. The nonce/generation/plan/image-bound guest
 agent and host channel have the explicit states `protocol implemented` and
 real-binary local `conformance proven`: admission is typed, process output has one
 total budget, PTY resize is ioctl-backed, patch staging is atomically durable and
@@ -72,18 +73,32 @@ observed CPU/RAM/disk/TasksMax plan and PID refusal, dirty recovery, replay/refu
 real PTY/file mechanics, and deterministic teardown. Atomic image metadata and a
 digest-bound completion record prevent partial builds from becoming evidence; the
 schema-gated report binds exact VMM/image/firmware/guest pins and functional timing
-budgets. Readiness markers are not evidence. P083 two-controller routing through the virtualized
-Workbench adapter and additive Story 012 evidence remain open.
+budgets. Readiness markers are not evidence. The `microvm` Workbench adapter now
+routes guest file, export, patch-stage, and PTY operations through daemon-owned
+`sensorium.virt.host`, projects PTY output through P082, and retains P083 as the
+sole remote control authority. The additive Story 012 vfkit profile composes these
+strata without claiming one-runtime vertical evidence; that stronger pinned-fixture
+run is the remaining one-percent evidence item. Patch-stage idempotency is bound to
+the exact address, source generation, content digest, and length; `unknown` guest
+PTY outcomes terminate waits honestly, and guest quiescence reaps completed PTYs
+before reporting its active count. Restarted guest sessions and command replays
+return `workbench-restart-required-relink`; a new generation can create a fresh
+session while the old authority remains retired. Terminal close commits a local
+`closing` transition before guest I/O, refuses concurrent effects, and composes
+idempotently with environment teardown without retaining the terminal lock over
+provider I/O. The live-feed harness now resolves exact Rust test names through
+bounded `libtest --list` output and carries dedicated restart and close-race
+checks.
 
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,
 and future-cursor refusal. Follow-up conformance keeps two PTYs active together,
 proves per-session byte and cursor isolation, distinguishes `high-water + 1`
 refusal from retained-floor gap recovery, projects Workbench gaps before retained
-P082 events, and preserves source-reported gaps across direct-peer reconnect. It
-does not yet route the real vfkit PTY through the
-virtualized Workbench adapter or P083 two-controller fencing, so the P071 and
-Solution 042 `98%` estimates remain unchanged.
+P082 events, and preserves source-reported gaps across direct-peer reconnect.
+The same harness now includes the microVM Workbench bridge and existing P083
+two-controller fencing. It is component-level composition evidence; the real
+full-system deployment proof remains separately owned by the vfkit harness.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -813,9 +828,11 @@ Recent component deltas:
   host-local capability in addition to the exact source-issued subscribe Passport;
   peer time/message bytes, pre-decode result bytes, terminal-vs-retryable failures,
   and consumer-side byte-evidence validation are explicitly bounded.
-  Virtualized Workbench/P083 routing and additive Story 012 evidence are not yet
-  implemented, so Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
-  post-MVP hardening rather than a current blocker.
+  Virtualized Workbench/P083 routing and additive Story 012 composed evidence are
+  implemented. Proposal 071 and Solution 042 are therefore at `99%`; only a
+  single-runtime full-system story using a pinned guest fixture remains before
+  this evidence line reaches 100. Richer command-BDO signal policy is post-MVP
+  hardening rather than a current blocker.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay
   deferred, so the component is not yet marked post-MVP ready.
@@ -944,7 +961,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `99` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
@@ -1002,7 +1019,7 @@ Recent component deltas:
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
-| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `98` |
+| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `99` |
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |

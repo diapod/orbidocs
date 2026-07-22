@@ -968,6 +968,8 @@ quiesce, shutdown, admission refusal, deadline non-extension, exact wire bounds,
 partial-transfer refusal, and content-bound replay after a lost patch-stage receipt,
 in addition to stale-nonce, replay, overflow, and disconnect behavior; it is not VM, image,
 systemd, kernel, cgroup, network, or vfkit deployment evidence.
+`quiesce` first reaps completed PTY children, so its active-session count describes
+live authority rather than retained process bookkeeping.
 
 `output/bytes-max` is one decoded-byte budget for a process result, shared by
 stdout and stderr rather than multiplied per stream. PTY resize uses the terminal
@@ -2058,8 +2060,10 @@ behavior.
     ANSI and other control-sequence injection at the operator presentation boundary.
 52. **The standalone Sensorium Virt companion is an explicit development path.**
     `virt_host.standalone_companion_enabled` is a literal boolean, defaults to false,
-    and may be enabled only for local development or conformance. A missing or
-    ill-typed value cannot enable it. Supervised channel mode never falls back to
+    and may be enabled only together with the closed
+    `virt_host.standalone_companion_purpose = development|conformance` value. A
+    missing, ill-typed, or production-purpose value cannot enable it. Supervised
+    production/channel mode never falls back to
     the companion when the daemon runtime or `sensorium.virt.host` capability is
     absent; the environment refuses admission instead. Both the daemon and companion
     boundaries expose only a bounded typed code plus a stable public message. Raw host
@@ -2547,8 +2551,10 @@ evidence) · `[!]` blocked/needs decision.
   context, policy ref, and copy limits match layered operator configuration.
   The bounded `sensorium-virt.host.request.v1` companion remains only for local
   development and conformance, requires explicit
-  literal-boolean `virt_host.standalone_companion_enabled = true`, and defaults to
-  disabled; an ill-typed value is a configuration error and remains disabled.
+  literal-boolean `virt_host.standalone_companion_enabled = true` plus a closed
+  `virt_host.standalone_companion_purpose = development|conformance`, and defaults
+  to disabled; missing, ill-typed, or production-purpose values are configuration
+  errors and remain disabled.
   Supervised channel mode never falls back to it when daemon admission is
   unavailable. Mutations are serialized by a broker lock shared across daemon and
   companion processes; tree, state, and configuration directory enumeration is
@@ -2562,8 +2568,13 @@ evidence) · `[!]` blocked/needs decision.
   allowlisted public messages, so raw host paths, subprocess diagnostics, capability
   failure details, and unbounded error strings do not cross into Workbench. The
   connector also refuses a host plan whose `backend/id` differs from the configured
-  executor kind. Schema-gate regression coverage removes one required capability
-  dimension and proves that missing properties are refusal, not a wildcard.
+  executor kind. It validates required refs and digests in the plan and recovery
+  record independently before comparing their bindings, so two missing values
+  cannot agree. Python guest-root normalization is early configuration feedback,
+  while Rust guest `resolve_contained` remains the authoritative per-operation
+  containment boundary. Schema-gate regression coverage removes one required
+  capability dimension and proves that missing properties are refusal, not a
+  wildcard.
 - [x] Extend the host broker with VMM process launch, API/control socket allocation,
   bounded VMM resource-plan projection, boot identity, and platform-specific
   recovery for
@@ -2647,12 +2658,35 @@ evidence) · `[!]` blocked/needs decision.
   runner schema-gate a closed redacted report with VMM/image/firmware/guest pins
   and without host paths, guest output, credentials, or serial bytes. An external
   marker may signal that the runner finished, but is never accepted as evidence.
-- [ ] Route the real guest PTY and file channel through the virtualized Workbench
-  adapter and P083 two-controller fencing. Compose the existing unit/process
-  crash-point, unknown-capability, image-equivalence, operational-context, and
-  serial-refusal evidence with this deployment profile, then add the full-system
-  collaborative scenario as an additive Story 012 profile rather than a
-  reinterpretation of the completed story.
+- [x] Route the guest PTY and file channel through the virtualized Workbench
+  adapter and existing P083 two-controller fencing. `microvm` roots select the
+  exact `vfkit-system.v1` executor through daemon-owned `sensorium.virt.host`;
+  file snapshot/read, artifact export, PTY open/read/input/resize/signal/cancel,
+  and content-bound `patch.stage` reuse the existing Workbench contracts. Guest
+  PTY output enters the same durable terminal-event log consumed by P082, while
+  P083 remains the sole remote control authority above the backend boundary.
+  Restart may rebind the live VM, but retires prior process-local PTY authority.
+  Reuse of that session or its command idempotency key returns the typed
+  `workbench-restart-required-relink` outcome and requires a new session under
+  the current generation. Terminal close commits a local `closing` transition
+  before guest I/O, refuses concurrent effects, and permits environment teardown
+  to complete the same authority retirement without holding the terminal lock
+  across provider I/O. Dedicated acceptance checks prove both restart
+  supersession and the close/teardown race.
+  Workbench patch-stage replay binds the key to address, source generation,
+  content digest, and content length; conflicting reuse is refused. An `unknown`
+  guest PTY outcome is terminal for waiters without claiming success or failure.
+  The live-feed harness resolves each exact Rust test through bounded
+  `libtest --list --format=terse` output before execution rather than parsing
+  human progress text.
+- [x] Add `story-012-vfkit-full-system` as an additive profile rather than
+  reinterpreting the completed Story 012 baseline. Its runner composes real
+  vfkit deployment evidence, the Workbench/P082/P083 bridge, and the existing
+  three-node story smoke under an explicit `composed-strata` evidence boundary.
+- [ ] Replace that composed evidence with one-runtime vertical Story 012 vfkit
+  evidence after the repair fixture is delivered to the guest as a pinned
+  artifact instead of a host-path copy. The current additive profile explicitly
+  does not claim this stronger fact.
 - [ ] Implement `cloud-hypervisor-system.v1` as the first Linux deployment profile
   after the backend-neutral vfkit slice proves the contracts. Require an explicit
   raw image, pinned firmware/VMM digest, dedicated unprivileged identity, cgroup v2,
