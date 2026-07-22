@@ -167,6 +167,55 @@ each source class paired with its qualifier digest in request metadata and the d
 Inquirium trace. The composition root supplies the trace projection directly;
 `agent-core` does not interpret or persist that vertical vocabulary.
 
+### Neutral Consumer Policy and Authority Binding
+
+The implemented `agent.binding.v1` binds one Agent to one consumer, session source,
+output sink, grant set, budget, memory policy, review policy, and, for collaborative
+consumers, participant and Room membership-attestation refs. A planned compatible
+binding revision generalizes the consumer-policy and authority-evidence portion without
+adding Room, Corpus, Assistant Channel, Sensorium, or other vertical vocabulary to
+Agent Core.
+
+The neutral extension carries only host-authored, content-addressed evidence:
+
+| Field | Meaning |
+|---|---|
+| `consumer-policy/ref` | immutable reference to the consumer-owned effective policy |
+| `consumer-policy/digest` | canonical digest verified when binding, recovering, and using authority |
+| `authority-evidence/refs` | sorted, unique, bounded refs proving the external authority used at admission |
+
+The baseline cap is the shared Agent Core constant
+`AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16`. Schema validation, binding admission,
+recovery, and adapters import that value instead of repeating a literal. Bodies remain
+in their owning stores and are interpreted only by a registered daemon composition
+adapter. The current collaborative `membership-attestation/ref` is the first
+specialized v1 evidence ref; a later neutral revision may project it into
+`authority-evidence/refs`, but must not weaken its existing validation or silently
+accept both values when they conflict.
+
+These fields are evidence, not capabilities. The binding's `grants` continue to name
+only capabilities the Agent may request, and every concrete use still rechecks the
+current consumer policy, owning-domain authority, target, lease, classification,
+idempotency, and host policy. The binding-level `human-in-loop` value is a minimum
+review floor; a consumer policy may require stricter review per operation but cannot
+lower it. Caller-supplied refs are unresolved intent until the host validates them and
+constructs the persisted binding.
+
+The binding request digest covers the effective consumer-policy ref and digest,
+authority-evidence refs, grants, budget, and output sink. Recovery refuses missing,
+altered, conflicting, or unverifiable evidence. Revocation or narrowing in the owning
+domain removes the affected effective operations and releases related leases; if the
+binding can no longer satisfy its consumer contract, the host suspends or quarantines
+the Agent according to current operator policy rather than retaining stale authority.
+
+For Corpus chairing, the daemon adapter may resolve a Corpus chair-control policy and
+current scoped Room delegation into generic capability grants and evidence refs. Agent
+Core sees neither floor modes nor moderation operations. `CollaborativeChair` remains
+the neutral consumer kind; dependency-direction checks and contract tests must reject
+any floor, voice, kick, ban, Room scope, or Corpus policy vocabulary added to
+`agent-core`. The Agent emits inert effect proposals, while Corpus and Room retain their
+separate canonical admission paths.
+
 ### Lifecycle and Identity
 
 An Agent is node-local and addressable by an opaque `agent/id`. Its lifecycle is
@@ -324,6 +373,12 @@ identity, distributed leases, clock, migration, and split-brain concerns.
 - **Aggregate status leaks generated content:** operator list and diagnostics
   expose fixed metadata and refs only, use bounded pagination/cardinality, and
   remain unavailable to module-authenticated callers.
+- **A consumer-policy ref is mistaken for authority:** refs and digests are admission
+  evidence only; every operation rechecks current owning-domain authority, effective
+  policy, binding grants, review floor, target, lease, and classification.
+- **Consumer policy changes while an Agent is active:** recovery and runtime use verify
+  the bound digest and reconcile current authority; narrowing removes operations and
+  leases, while an unsatisfied consumer contract suspends or quarantines the Agent.
 
 ## Open Questions
 
@@ -351,6 +406,12 @@ an extension hidden inside this solution.
    passing composed three-node runner on the release gate: it reuses Story 011's
    bootstrap and proves distinct participant evidence, local repair observation,
    observer revocation, dirty restart, and unpublished chair output.
+6. Introduce the neutral consumer-policy and authority-evidence binding revision only
+   with a concrete consumer adapter and golden recovery vectors. Keep current v1
+   collaborative binding behavior valid until that revision has explicit migration,
+   conflict, revocation, and fail-closed recovery tests. Define
+   `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` in Agent Core and import it at every schema,
+   admission, recovery, and adapter boundary.
 
 ## Must Implement
 
@@ -373,6 +434,8 @@ an extension hidden inside this solution.
 - Assistant Channel escalation and render-only outcome acceptance;
 - FlowNode bindings, JSON-e Flow Agent grants, and static observation wiring;
 - Corpus chair and selected-participant bindings;
+- neutral content-addressed consumer-policy and authority-evidence binding for
+  operator-bounded domain integrations;
 - additional capability-specific effect-policy adapters;
 - specialized projection caches justified by measured workload.
 
