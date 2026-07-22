@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:sensorium-terminal-event:v1",
   "title": "Sensorium Terminal Event v1",
-  "description": "Append-only terminal event emitted by a Workbench PTY/session resource.",
+  "description": "Bounded append-only terminal event. PTY output carries exact bytes; accepted input never carries input content.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -13,18 +13,53 @@
     "schema": { "const": "sensorium-terminal-event.v1" },
     "schema/v": { "const": 1 },
     "terminal.session/ref": { "$ref": "#/$defs/ref" },
-    "command/id": { "$ref": "#/$defs/ref" },
-    "event.seq/no": { "type": "integer", "minimum": 0 },
-    "event/kind": { "enum": ["stdout", "stderr", "status", "exit", "signal", "resize", "input-accepted", "input-rejected"] },
-    "bytes/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
-    "bytes/count": { "type": "integer", "minimum": 0 },
+    "command/ref": { "$ref": "#/$defs/ref" },
+    "event.seq/no": { "type": "integer", "minimum": 1 },
+    "event/kind": { "enum": ["output", "status", "exit", "resize", "input-accepted", "input-rejected"] },
+    "bytes/base64": { "type": "string", "minLength": 1, "maxLength": 21848, "pattern": "^[A-Za-z0-9+/]+={0,2}$" },
+    "bytes/sha256": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{32,}$", "maxLength": 128 },
+    "bytes/count": { "type": "integer", "minimum": 1, "maximum": 262144 },
+    "status": { "enum": ["open", "running", "waiting-for-input", "completed", "failed", "timed-out", "terminated", "closed"] },
     "exit/code": { "type": "integer" },
-    "status": { "enum": ["running", "done", "failed", "maybe-hung", "waiting-for-input", "no-progress"] },
+    "rows": { "type": "integer", "minimum": 1, "maximum": 1000 },
+    "cols": { "type": "integer", "minimum": 1, "maximum": 1000 },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9][a-z0-9.-]*$" },
     "observed_at": { "type": "string", "format": "date-time" },
-    "classification": { "$ref": "classification.v1.schema.json" },
-    "capture/ref": { "$ref": "#/$defs/ref" }
+    "classification": { "$ref": "classification.v1.schema.json" }
   },
+  "oneOf": [
+    {
+      "properties": { "event/kind": { "const": "output" } },
+      "required": ["event/kind", "bytes/base64", "bytes/sha256", "bytes/count"],
+      "not": { "anyOf": [{ "required": ["status"] }, { "required": ["exit/code"] }, { "required": ["rows"] }, { "required": ["cols"] }, { "required": ["reason/code"] }] }
+    },
+    {
+      "properties": { "event/kind": { "const": "status" } },
+      "required": ["event/kind", "status"],
+      "not": { "anyOf": [{ "required": ["bytes/base64"] }, { "required": ["bytes/sha256"] }, { "required": ["bytes/count"] }, { "required": ["exit/code"] }, { "required": ["rows"] }, { "required": ["cols"] }, { "required": ["reason/code"] }] }
+    },
+    {
+      "properties": { "event/kind": { "const": "exit" } },
+      "required": ["event/kind", "status", "exit/code"],
+      "not": { "anyOf": [{ "required": ["bytes/base64"] }, { "required": ["bytes/sha256"] }, { "required": ["bytes/count"] }, { "required": ["rows"] }, { "required": ["cols"] }, { "required": ["reason/code"] }] }
+    },
+    {
+      "properties": { "event/kind": { "const": "resize" } },
+      "required": ["event/kind", "rows", "cols"],
+      "not": { "anyOf": [{ "required": ["bytes/base64"] }, { "required": ["bytes/sha256"] }, { "required": ["bytes/count"] }, { "required": ["status"] }, { "required": ["exit/code"] }, { "required": ["reason/code"] }] }
+    },
+    {
+      "properties": { "event/kind": { "const": "input-accepted" } },
+      "required": ["event/kind", "bytes/count"],
+      "not": { "anyOf": [{ "required": ["bytes/base64"] }, { "required": ["bytes/sha256"] }, { "required": ["status"] }, { "required": ["exit/code"] }, { "required": ["rows"] }, { "required": ["cols"] }, { "required": ["reason/code"] }] }
+    },
+    {
+      "properties": { "event/kind": { "const": "input-rejected" } },
+      "required": ["event/kind", "bytes/count", "reason/code"],
+      "not": { "anyOf": [{ "required": ["bytes/base64"] }, { "required": ["bytes/sha256"] }, { "required": ["status"] }, { "required": ["exit/code"] }, { "required": ["rows"] }, { "required": ["cols"] }] }
+    }
+  ],
   "$defs": {
-    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "\\u0000" } }
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "not": { "pattern": "\\u0000" } }
   }
 }

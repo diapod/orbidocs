@@ -58,6 +58,15 @@
       "notes": "Subscription authority creates a bounded caller-bound lease and does not imply arbitrary one-shot read authority."
     },
     {
+      "capability/id": "sensorium.interface.remote-feed",
+      "required/grants": ["grant/sensorium.interface.remote-feed"],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "auto-with-grant",
+      "autonomy/floor": "observation-only",
+      "coi/policy": "declaration-required",
+      "notes": "Recipient-side remote-feed authority permits bounded authenticated peer egress only; every source operation still requires a separate current sensorium.interface.subscribe Passport scoped to the exact remote node and interface."
+    },
+    {
       "capability/id": "sensorium.interface.invoke",
       "required/grants": ["grant/sensorium.interface.invoke"],
       "caller/posture": "host-grant-required",

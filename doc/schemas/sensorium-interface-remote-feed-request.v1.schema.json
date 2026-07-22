@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-interface-remote-feed-request:v1",
+  "title": "Sensorium Interface Remote Feed Request v1",
+  "description": "Starts one bounded owner-bound local projection of a remote Sensorium Interface subscription.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/082-sensorium-interfaces.md"],
+  "required": ["schema", "schema/v", "remote/node-id", "interface/id", "lease/requested-seconds", "batch"],
+  "properties": {
+    "schema": { "const": "sensorium-interface-remote-feed-request.v1" },
+    "schema/v": { "const": 1 },
+    "remote/node-id": { "type": "string", "minLength": 6, "maxLength": 512, "pattern": "^node:[^\\u0000]+$" },
+    "interface/id": { "type": "string", "minLength": 21, "maxLength": 512, "pattern": "^sensorium-interface:[^\\u0000]+$" },
+    "cursor/after": { "type": ["string", "null"], "minLength": 1, "maxLength": 4096 },
+    "lease/requested-seconds": { "type": "integer", "minimum": 1, "maximum": 300 },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frames/max", "bytes/max", "wait/max-ms"],
+      "properties": {
+        "frames/max": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "bytes/max": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "wait/max-ms": { "type": "integer", "minimum": 0, "maximum": 1000 }
+      }
+    }
+  }
+}

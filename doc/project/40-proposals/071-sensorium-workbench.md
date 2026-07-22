@@ -374,27 +374,21 @@ The terminal event stream is append-only:
   "schema": "sensorium-terminal-event.v1",
   "schema/v": 1,
   "terminal.session/ref": "terminal-session:story009-abc",
-  "correlation/id": "workbench-loop:story009-001",
-  "seq/no": 42,
-  "event/type": "output",
-  "stream": "pty",
-  "bytes/encoding": "utf-8",
-  "text": "cargo test ...",
-  "truncated": false,
+  "command/ref": "command:story009-test",
+  "event.seq/no": 42,
+  "event/kind": "output",
+  "bytes/base64": "Y2FyZ28gdGVzdCAuLi4K",
+  "bytes/sha256": "sha256:aa6Fud_IA0XPRXzUS1xggKYcwW52ndR6bTRdHNHOrwA",
+  "bytes/count": 15,
+  "observed_at": "2026-07-22T10:00:00Z",
   "classification": {
     "schema": "classification.v1",
     "source_tier": "Personal",
     "effective_tier": "Personal",
-    "provenance": {
-      "kind": "local-space",
-      "space": "Personal"
-    },
+    "provenance": { "kind": "local-space", "space": "Personal" },
     "bound_subjects": {
       "personal_or_community": [
-        {
-          "kind": "role",
-          "id": "node-operator"
-        }
+        { "kind": "person", "id": "participant:did:key:z6MkTerminalViewer" }
       ]
     },
     "declassify_trail": []
@@ -402,7 +396,15 @@ The terminal event stream is append-only:
 }
 ```
 
-Terminal events are session-local observations. The authoritative directive
+`output` events preserve exact PTY bytes as base64 plus a digest and count;
+UTF-8 text is a presentation concern, not the wire truth. Lifecycle, resize,
+accepted-input, and rejected-input events use closed kind-specific shapes. Input
+events may retain only a byte count and reason code, never raw input content.
+
+Terminal events are session-local observations. Their connector-local replay log
+has explicit event, byte, and age caps. A cursor older than the retained floor
+produces an explicit gap before newer events; a closed terminal produces an
+explicit terminal end rather than an empty non-terminal batch. The authoritative directive
 outcome is a separate host audit fact that links caller, grant, directive id,
 session ref, status, byte counts, timing, and artifact refs. Raw output becomes
 durable only when capture policy stores it as an artifact or classified fact.
@@ -2100,8 +2102,10 @@ evidence) · `[!]` blocked/needs decision.
   bound without sharing Workbench process lifecycle.
 - [x] Define `sensorium-workbench-environment.v1`.
 - [x] Define terminal session/command/raw-input/event/snapshot schemas. The accepted
-  terminal observation model is a bounded viewport snapshot with cursor and backlog
-  digest/ref.
+  terminal observation model separates a bounded viewport snapshot from an
+  append-only exact-byte event feed. The event schema uses closed per-kind shapes,
+  digest-bound base64 output, content-free input acknowledgements, and explicit
+  lifecycle events.
 - [x] Define watch/wait/probe schemas, status values, cursor rules, and timeout
   semantics. The initial host-owned watch/wait/probe contract lives in
   `node/interaction-broker-core`, including bounded caps, deadlines,
@@ -2183,8 +2187,10 @@ evidence) · `[!]` blocked/needs decision.
   spawns structured argv commands through a PTY without shell interpolation,
   admits variable arguments only through explicit `allowed_argv_prefixes`,
   hard-denies dangerous environment override keys, records terminal events in
-  SQLite, exposes event cursors, and supports resize/signal/close under explicit
-  terminal grants. Factory config keeps the runtime disabled until an operator
+  SQLite with full-record event/byte/age retention caps, exposes event cursors and
+  explicit retained-floor gaps, and supports resize/signal/close under explicit
+  terminal grants. Output events preserve exact PTY bytes; accepted or rejected
+  input records never retain input content. Factory config keeps the runtime disabled until an operator
   sets `terminal_enabled: true` and provides command profiles.
 - [x] Enforce PTY session, reader-task, input queue, and event buffer caps with
   explicit overload/refusal outcomes. Laptop defaults remain `2` sessions,
@@ -2606,6 +2612,15 @@ evidence) · `[!]` blocked/needs decision.
   Readiness is tracked as three distinct facts: guest
   `protocol implemented`; real-binary local `conformance proven`; full-system
   vfkit `deployment evidence proven`.
+- [x] Add an independent bounded guest `terminal-read` operation. The guest retains
+  exact PTY output chunks behind a monotonically increasing cursor, reports an
+  explicit dropped-through gap after bounded eviction, rejects future cursors,
+  and keeps terminal output readable after process exit until ordinary bounded
+  pressure reclaims it. Real-binary conformance keeps two PTYs open together,
+  proves that their retained bytes and cursors do not cross, refuses
+  `high-water + 1`, and distinguishes that refusal from a successful read with
+  explicit eviction-gap evidence. Input, resize, and signal remain separate
+  effect operations.
 - [x] Implement the host-lifecycle adapter for `vfkit-system.v1` as the first
   process-isolated backend slice on
   `macos-vz-arm64.v1`: pinned binary, EFI full-system GNU/Linux arm64 image, APFS
@@ -2659,7 +2674,13 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Expose Workbench terminal screen snapshots as a P082 `latest-state`
   source without granting terminal control.
 - [x] Expose Workbench terminal events as a separate P082 `ordered-events`
-  source with bounded replay and explicit gap semantics.
+  source with exact-byte schema validation, bounded replay, explicit gap and end
+  semantics, and generation-bound cursors.
+- [x] Expose an owner-bound local live event feed for both local and direct-peer
+  subscriptions. Loopback SSE projects already admitted local subscriptions; the
+  direct-peer feed uses the ordinary Passport-bound P082 pull path, validates each
+  returned result and inline payload, and presents it through a local SSE endpoint
+  without turning the cursor or feed ref into authority.
 - [x] Prove the collaborative read-only terminal view through the WSS Room
   adapter, including current Room-plus-interface authority intersection,
   cursor omission, grant-revocation close, and durable Room survival.

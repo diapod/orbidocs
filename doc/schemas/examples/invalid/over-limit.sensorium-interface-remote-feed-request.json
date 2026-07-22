@@ -1,0 +1,12 @@
+{
+  "schema": "sensorium-interface-remote-feed-request.v1",
+  "schema/v": 1,
+  "remote/node-id": "node:remote-example",
+  "interface/id": "sensorium-interface:terminal-example",
+  "lease/requested-seconds": 300,
+  "batch": {
+    "frames/max": 64,
+    "bytes/max": 1048576,
+    "wait/max-ms": 1001
+  }
+}

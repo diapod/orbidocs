@@ -17,6 +17,7 @@ Based on:
 - `node:sensorium-virt-host`
 - `node:sensorium-virt-host/tests/vfkit_deployment.rs`
 - `node:tools/acceptance/sensorium-virt-vfkit`
+- `node:tools/acceptance/sensorium-terminal-live-feed`
 - `node:daemon/src/sensorium_virt_integration.rs`
 - `node:interaction-broker-core`
 - `node:middleware-modules/sensorium-workbench`
@@ -128,7 +129,9 @@ process-level fake-vfkit suite proves replay and principal crash/substitution
 refusals without exposing VMM administration sockets to Python. The packaged
 Rust guest and host channel now add exact generation/plan/image/nonce binding,
 bounded process/PTY/file/lifecycle operations, chunked transfer, and real-binary
-local conformance. A pinned full-system GNU/Linux arm64 image and real-vfkit
+local conformance. The guest now also supports an independent bounded terminal-read
+cursor with exact bytes, explicit eviction gaps, post-exit replay, and future-cursor
+refusal. A pinned full-system GNU/Linux arm64 image and real-vfkit
 deployment harness now additionally prove the guest channel, systemd, kernel/
 mount/package operations, no-NIC/no-share posture, bounded guest resources,
 recovery, and teardown. Remaining solution work is the P083-backed virtualized
@@ -567,20 +570,27 @@ Related schemas:
 - `sensorium-terminal-event.v1`
 - `sensorium-interface-descriptor.v1`
 - `sensorium-interface-frame.v1`
+- `sensorium-interface-remote-feed-request.v1`
 
 Responsibilities:
 
 - expose terminal screen snapshots as one `latest-state` source;
-- expose terminal events as a separate `ordered-events` source;
+- expose terminal events as a separate exact-byte `ordered-events` source with
+  bounded event/byte/age retention plus explicit gap and terminal end;
 - preserve Workbench classification, workspace/session binding, and bounded
   source semantics without granting terminal control;
 - let Solution 046 own publication, interface grants, subscriptions, direct-peer
   admission, SSE, and Room carrier behavior.
+- expose local or direct-peer admitted subscriptions as owner-bound loopback SSE
+  without treating a feed ref or cursor as authority.
 
 Status:
 
 - `implemented`: the daemon adapts both Workbench source classes through the
-  Interaction Broker. The WSS Room acceptance path projects a cursor-free latest
+  Interaction Broker. Local SSE presents already admitted local subscriptions;
+  the recipient-side direct-peer feed selects a current signed Passport, pins and
+  validates each returned batch and inline terminal payload, and exposes it only to
+  the creating local caller. The WSS Room acceptance path projects a cursor-free latest
   screen snapshot to the intersection of current Room observers and current
   interface grantees, closes on interface-grant revocation, and leaves the
   durable Room open. Ordered terminal events are refused by the MVP Room carrier.
@@ -627,6 +637,8 @@ Responsibilities:
 - separate `EnvironmentBackend` lifecycle mechanics from the bounded
   `GuestWorkbenchChannel` process, PTY, file, patch, export, quiesce, and
   shutdown protocol;
+- keep terminal reads independent from PTY input/effect calls, cursor-bound,
+  exact-byte, and explicitly gapped after bounded guest-side eviction;
 - keep backend/plan/image validation and VMM launch/recovery authority in Rust
   and the daemon-owned host broker while the Python connector owns bounded
   adapter and guest-RPC mechanics;

@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-20.
+Snapshot date: 2026-07-22.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -75,6 +75,16 @@ schema-gated report binds exact VMM/image/firmware/guest pins and functional tim
 budgets. Readiness markers are not evidence. P083 two-controller routing through the virtualized
 Workbench adapter and additive Story 012 evidence remain open.
 
+The 2026-07-22 terminal live-feed slice adds an independent bounded guest
+`terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,
+and future-cursor refusal. Follow-up conformance keeps two PTYs active together,
+proves per-session byte and cursor isolation, distinguishes `high-water + 1`
+refusal from retained-floor gap recovery, projects Workbench gaps before retained
+P082 events, and preserves source-reported gaps across direct-peer reconnect. It
+does not yet route the real vfkit PTY through the
+virtualized Workbench adapter or P083 two-controller fencing, so the P071 and
+Solution 042 `98%` estimates remain unchanged.
+
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
 classification and Passport bindings, durable host lifecycle, Sensorium and
@@ -100,6 +110,18 @@ actuation verticals.
 These additions improve extensibility and evidence
 collection without changing the component's `100` readiness estimate. P082 is now
 listed as a hard-MVP blocker whose implementation gate is already satisfied.
+
+P082-022 now completes the local and direct-peer terminal live-feed projection.
+The canonical terminal event contract preserves exact bytes, uses closed event-kind
+shapes, and never retains input content. Workbench enforces event, byte, and age
+retention with explicit gaps; the source adapter maps closure to terminal end. A
+recipient-side owner-bound feed reuses signed-Passport direct-peer pull-batch and
+presents validated batches through loopback SSE. The executable component pack
+proves schema negatives, non-UTF-8 bytes, local SSE, direct-peer ownership/cursors,
+remote SSE, stale-cursor reconnect gaps, Workbench-to-P082 gap projection,
+retention gaps, and isolated reads over two simultaneous guest PTYs. A two-deployed-node
+profile remains optional stronger deployment evidence, so P082 and Solution 046
+remain at `100%`.
 
 The 2026-07-17 Agent review promotes Proposal 073 to Solution 047 and makes the
 node-local Agent organ an explicit hard-MVP release blocker. Its complete
@@ -772,6 +794,14 @@ Recent component deltas:
   real PTY/file mechanics, dirty recovery, stale-generation refusal, deterministic
   teardown, atomic digest-bound build completion, and a schema-gated report with
   exact artifact pins and functional timing budgets.
+  The guest additionally exposes a bounded independent terminal-read cursor with
+  exact output bytes, explicit eviction gaps, post-exit replay, and future-cursor
+  refusal. Workbench terminal output now has a closed exact-byte event contract,
+  bounded event/byte/age retention, and local or owner-bound direct-peer live SSE
+  projection through P082. Recipient-side remote feed egress requires its own
+  host-local capability in addition to the exact source-issued subscribe Passport;
+  peer time/message bytes, pre-decode result bytes, terminal-vs-retryable failures,
+  and consumer-side byte-evidence validation are explicitly bounded.
   Virtualized Workbench/P083 routing and additive Story 012 evidence are not yet
   implemented, so Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
   post-MVP hardening rather than a current blocker.

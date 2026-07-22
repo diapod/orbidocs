@@ -1,0 +1,21 @@
+{
+  "schema": "sensorium-terminal-event.v1",
+  "schema/v": 1,
+  "terminal.session/ref": "terminal-session:invalid",
+  "event.seq/no": 2,
+  "event/kind": "input-accepted",
+  "bytes/base64": "c2VjcmV0",
+  "bytes/sha256": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "bytes/count": 6,
+  "observed_at": "2026-07-22T10:00:02Z",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:did:key:z6MkInvalid" }]
+    },
+    "declassify_trail": []
+  }
+}

@@ -173,6 +173,9 @@ schema_for_file() {
     *.sensorium-interface-read-result.json)
       echo "$SCHEMAS_DIR/sensorium-interface-read-result.v1.schema.json"
       ;;
+    *.sensorium-interface-remote-feed-request.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-remote-feed-request.v1.schema.json"
+      ;;
     *.sensorium-interface-subscribe-request.json)
       echo "$SCHEMAS_DIR/sensorium-interface-subscribe-request.v1.schema.json"
       ;;

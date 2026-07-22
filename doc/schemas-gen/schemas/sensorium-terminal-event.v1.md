@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-terminal-event.v1.schema.json`](../../schemas/sensorium-terminal-event.v1.schema.json)
 
-Append-only terminal event emitted by a Workbench PTY/session resource.
+Bounded append-only terminal event. PTY output carries exact bytes; accepted input never carries input content.
 
 ## Governing Basis
 
@@ -35,16 +35,19 @@ Append-only terminal event emitted by a Workbench PTY/session resource.
 | [`schema`](#field-schema) | `yes` | const: `sensorium-terminal-event.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`terminal.session/ref`](#field-terminal-session-ref) | `yes` | ref: `#/$defs/ref` |  |
-| [`command/id`](#field-command-id) | `no` | ref: `#/$defs/ref` |  |
+| [`command/ref`](#field-command-ref) | `no` | ref: `#/$defs/ref` |  |
 | [`event.seq/no`](#field-event-seq-no) | `yes` | integer |  |
-| [`event/kind`](#field-event-kind) | `yes` | enum: `stdout`, `stderr`, `status`, `exit`, `signal`, `resize`, `input-accepted`, `input-rejected` |  |
+| [`event/kind`](#field-event-kind) | `yes` | enum: `output`, `status`, `exit`, `resize`, `input-accepted`, `input-rejected` |  |
+| [`bytes/base64`](#field-bytes-base64) | `no` | string |  |
 | [`bytes/sha256`](#field-bytes-sha256) | `no` | string |  |
 | [`bytes/count`](#field-bytes-count) | `no` | integer |  |
+| [`status`](#field-status) | `no` | enum: `open`, `running`, `waiting-for-input`, `completed`, `failed`, `timed-out`, `terminated`, `closed` |  |
 | [`exit/code`](#field-exit-code) | `no` | integer |  |
-| [`status`](#field-status) | `no` | enum: `running`, `done`, `failed`, `maybe-hung`, `waiting-for-input`, `no-progress` |  |
+| [`rows`](#field-rows) | `no` | integer |  |
+| [`cols`](#field-cols) | `no` | integer |  |
+| [`reason/code`](#field-reason-code) | `no` | string |  |
 | [`observed_at`](#field-observed-at) | `yes` | string |  |
 | [`classification`](#field-classification) | `yes` | ref: `classification.v1.schema.json` |  |
-| [`capture/ref`](#field-capture-ref) | `no` | ref: `#/$defs/ref` |  |
 
 ## Definitions
 
@@ -71,8 +74,8 @@ Append-only terminal event emitted by a Workbench PTY/session resource.
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
 
-<a id="field-command-id"></a>
-## `command/id`
+<a id="field-command-ref"></a>
+## `command/ref`
 
 - Required: `no`
 - Shape: ref: `#/$defs/ref`
@@ -87,7 +90,13 @@ Append-only terminal event emitted by a Workbench PTY/session resource.
 ## `event/kind`
 
 - Required: `yes`
-- Shape: enum: `stdout`, `stderr`, `status`, `exit`, `signal`, `resize`, `input-accepted`, `input-rejected`
+- Shape: enum: `output`, `status`, `exit`, `resize`, `input-accepted`, `input-rejected`
+
+<a id="field-bytes-base64"></a>
+## `bytes/base64`
+
+- Required: `no`
+- Shape: string
 
 <a id="field-bytes-sha256"></a>
 ## `bytes/sha256`
@@ -101,17 +110,35 @@ Append-only terminal event emitted by a Workbench PTY/session resource.
 - Required: `no`
 - Shape: integer
 
+<a id="field-status"></a>
+## `status`
+
+- Required: `no`
+- Shape: enum: `open`, `running`, `waiting-for-input`, `completed`, `failed`, `timed-out`, `terminated`, `closed`
+
 <a id="field-exit-code"></a>
 ## `exit/code`
 
 - Required: `no`
 - Shape: integer
 
-<a id="field-status"></a>
-## `status`
+<a id="field-rows"></a>
+## `rows`
 
 - Required: `no`
-- Shape: enum: `running`, `done`, `failed`, `maybe-hung`, `waiting-for-input`, `no-progress`
+- Shape: integer
+
+<a id="field-cols"></a>
+## `cols`
+
+- Required: `no`
+- Shape: integer
+
+<a id="field-reason-code"></a>
+## `reason/code`
+
+- Required: `no`
+- Shape: string
 
 <a id="field-observed-at"></a>
 ## `observed_at`
@@ -124,12 +151,6 @@ Append-only terminal event emitted by a Workbench PTY/session resource.
 
 - Required: `yes`
 - Shape: ref: `classification.v1.schema.json`
-
-<a id="field-capture-ref"></a>
-## `capture/ref`
-
-- Required: `no`
-- Shape: ref: `#/$defs/ref`
 
 ## Definition Semantics
 

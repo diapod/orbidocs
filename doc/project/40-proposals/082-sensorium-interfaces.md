@@ -207,6 +207,8 @@ Instead:
 - `sensorium.interface.read` authorizes bounded on-demand reads;
 - `sensorium.interface.subscribe` authorizes creation and use of a bounded
   subscription;
+- `sensorium.interface.remote-feed` authorizes a local caller to initiate one
+  bounded authenticated peer egress feed on the recipient host;
 - `sensorium.interface.manage` authorizes publication, suspension, withdrawal, and
   grant administration on the source node.
 
@@ -216,6 +218,7 @@ The V1 registry posture is frozen with the operation classes:
 |---|---|---|---:|---:|---:|---:|---:|---:|
 | `sensorium.interface.read` | `sensorium/interface.read` | `host-local`, `federated` | true | true | true | false | true | true |
 | `sensorium.interface.subscribe` | `sensorium/interface.subscribe` | `host-local`, `federated` | true | true | true | false | true | true |
+| `sensorium.interface.remote-feed` | `sensorium/interface.remote-feed` | `host-local` | true | false | false | false | true | false |
 | `sensorium.interface.manage` | `sensorium/interface.manage` | `host-local` | true | false | false | false | true | false |
 
 Advertising `read` or `subscribe` declares protocol support only. It never advertises
@@ -225,6 +228,13 @@ a valid Passport is evidence; the source node still performs local admission and
 current restriction checks on every operation. The machine registry and its
 authorization-policy sidecar MUST carry these flags explicitly; implementation
 defaults may not infer them from the capability name.
+
+Recipient-side remote-feed authority and source-side subscription authority are
+deliberately separate. A local `sensorium.interface.remote-feed` grant permits the
+daemon to initiate bounded authenticated peer egress, but carries no source read
+authority and is not Passport-eligible. Every remote source operation independently
+requires a current `sensorium.interface.subscribe` Passport scoped to the exact
+remote node, interface, operation, lease, classification, and batch limits.
 
 `read` and `subscribe` remain separate because they grant different authority and
 create different state. `read` authorizes one bounded stateless result. `subscribe`
@@ -666,6 +676,9 @@ Batch and frame rules:
   `artifact/ref`, never both;
 - inline payloads pass the schema gate against the descriptor's
   `output/schema-ref` and byte cap before becoming typed values;
+- every inline payload contract that carries byte-evidence MUST register a
+  consumer-side integrity validator; schema validation alone is insufficient, and
+  the consumer re-computes the declared count and digest before presenting bytes;
 - large, binary, or durable values use an Artifact Delivery pointer rather than a
   larger frame;
 - a `gap` identifies the lost or unavailable cursor interval and the recovery
@@ -1366,7 +1379,7 @@ baseline; decisions 7-10 close the evidence-gated follow-up review:
 | P082-001 | Freeze the proposal architecture, V1 decisions, bounds, named invariants, and implementation order | done | This document records the frozen resource/capability split, one pull-batch contract, direct-only descriptor disclosure, Passport reuse, classification placement, and local management posture. |
 | P082-002 | Extend P047 and the shared classification core with `Surface::Interface` plus exact descriptor topic-class matching | done | `orbiplex-node-classification` implements `Surface::Interface`; tests reject other surfaces, topic mismatch, expiry, revocation, and consumed one-shot facts. |
 | P082-003 | Freeze descriptor/interface-status, read request/result, subscribe request/status/command, frame schemas, and typed errors | done | Eight closed schemas plus core semantic validation cover terminal, latest-state no-replay, ordered replay bounds, byte caps, classification equality, conflicting frame payload sources, and unknown-field refusal. |
-| P082-004 | Register `read`, `subscribe`, and local `manage` with the exact flags and authorization-policy posture frozen above | done | Machine registry, Rust constants, policy sidecar, and human registry agree; only read/subscribe are Passport-eligible and generic advertisement exposes no descriptor. |
+| P082-004 | Register `read`, `subscribe`, local `remote-feed`, and local `manage` with the exact flags and authorization-policy posture frozen above | done | Machine registry, Rust constants, policy sidecar, and human registry agree; only read/subscribe are Passport-eligible, remote-feed separately gates recipient-side authenticated peer egress, and generic advertisement exposes no descriptor. |
 | P082-005 | Seed a shared checked-in Orbiplex vendor media-type inventory and register the P082 read-result type | done | `vendor-media-types.v1` binds the P082 read-result media type uniquely and is validated by protocol/schema-gate tests. |
 | P082-006 | Implement the pure lifecycle, batch-cursor binding, delivery-policy, classification, and limit core | done | `sensorium-interface-core` has no daemon, transport, SQLite, async-runtime, or concrete provider dependency and proves the named semantic invariants. |
 | P082-007 | Add schema-gate families and positive/negative fixtures | done | Schema-gate embeds all eight schemas and validates positive, cross-field-negative, and unsupported-boundary fixtures. |
@@ -1384,6 +1397,7 @@ baseline; decisions 7-10 close the evidence-gated follow-up review:
 | P082-019 | Add and run the host/direct-peer/SSE/Room conformance and load harness, then synchronize solution and readiness artifacts | done | `node:tools/conformance/sensorium_interfaces_conformance.py` prebuilds daemon/core plus the required Workbench contract bridge with a separate build timeout, uses exact full Rust test names with one test thread, fails fast by default, distinguishes build/test timeouts and unrecognized libtest output, emits only output digests on failure, and now extends the original bounded host, signed peer, SSE, and Room observation checks with the P083 load, restart, partial-failure, Room baton, and real Workbench PTY matrix. |
 | P082-020 | Make the Room latest-state adapter relay-epoch-aware after P070 Phase 6A | done | An active Room projection publishes one schema-gated `sensorium-interface-read-result.v1` containing a single inline cursor-free latest-state snapshot into the current bounded relay epoch after rechecking Room and interface authority. Reconnect uses only `(relay/epoch, relay/seq-no)` carrier state, never a source cursor; epoch change or expired replay yields a typed refresh boundary and a fresh subscription returns the current bounded latest-state view. Relay publication failure closes the pump and records a payload-free degraded reason. The resource-bound result is also the ingress unit for the bounded Room Sensorium Interface Broker source consumed by Story 012's daemon-owned resolver. `agent-core` carries only an opaque observation source ref, generic bounds, and the horizontal P081 causal context preserved from the read result; it has no Sensorium Interface or Room semantics. |
 | P082-021 | Add operational-impact publication and propagation for enacted resources | done | `sensorium-operational-context.v1` is schema-gated with a 512-byte UTF-8 summary cap and is universally required beside `source/generation-ref` in the common resource, observation descriptors, and read results; the proposed wire-optional rollout was not used. P083 reuses the same pair in actuation descriptors, statuses, invoke admission, and receipts. The observation lifecycle status remains a metadata-only publication signal rather than duplicating the descriptor context. The daemon maintains one current publication per normalized source/projection/direction slot, serializes immutable replacement with actuation and read admission, requires a bounded trimmed replacement reason, withdraws the prior publication, closes its subscriptions, and returns typed invalid-context, generation-mismatch, and superseded-publication failures without a TTL heuristic. Host policy can only raise the class while preserving source-owned summary provenance. Bounded operator inspection exposes replacement reasons and counts. Core, schema-gate, runtime race, multibyte, stale-generation, supersession, terminal relay-ordering, and Story 012 tests cover the positive and refusal paths. |
+| P082-022 | Complete the local and direct-peer live terminal event feed | done | `sensorium-terminal-event.v1` is a closed exact-byte contract with digest-bound output, content-free input acknowledgements, lifecycle events, and schema negatives for missing or cross-kind fields. Workbench retains a bounded event/byte/age replay log, reports explicit gaps after eviction, and emits terminal end after close. The P082 adapter validates and normalizes every event, projects a provider retention gap before retained events, preserves source generation and cursor bounds, and closes the durable subscription on terminal end. Loopback SSE serves already admitted local subscriptions; an owner-bound recipient-side feed requires separate local `sensorium.interface.remote-feed` authority for peer egress and an ordinary signed `sensorium.interface.subscribe` Passport for the exact source. The peer wait is capped at five seconds, WSS rejects messages above 1 MiB before application decoding, and the returned result is measured against requested `batch.bytes_max` before typed deserialization. Only transport unavailability is retried; denial, oversize, schema, binding, or byte-evidence failure is terminal. Every inline byte-evidence schema must register a consumer integrity validator. Reconnect forwards cursors, preserves source-reported gaps, and exposes admitted remote batches through local SSE. The acceptance pack covers schema refusal, exact non-UTF-8 bytes, local feed, Workbench-to-P082 gap projection, direct-peer cursor ownership and stale-cursor reconnect, remote SSE, Workbench retention, and isolated bounded reads over two simultaneous guest PTYs. |
 
 ## Open Questions
 
@@ -1405,3 +1419,6 @@ requires operational evidence and an explicit contract revision.
    as an explicit contract revision with operational evidence.
 4. Collect relay latency, cursor-expiry, and failover evidence through P070 Phase 6A;
    do not add an Interface-specific relay, membership service, or failover protocol.
+5. Add a two-deployed-node direct-peer terminal-feed profile only when deployment
+   evidence beyond the existing real peer-runtime transport test is needed; keep it
+   an evidence layer over the same Passport, pull-batch, cursor, and SSE contracts.

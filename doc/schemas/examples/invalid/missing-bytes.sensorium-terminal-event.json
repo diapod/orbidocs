@@ -1,0 +1,16 @@
+{
+  "schema": "sensorium-terminal-event.v1",
+  "schema/v": 1,
+  "terminal.session/ref": "terminal-session:invalid",
+  "event.seq/no": 1,
+  "event/kind": "output",
+  "observed_at": "2026-07-22T10:00:01Z",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Public",
+    "effective_tier": "Public",
+    "provenance": { "kind": "local-space", "space": "Public" },
+    "bound_subjects": {},
+    "declassify_trail": []
+  }
+}

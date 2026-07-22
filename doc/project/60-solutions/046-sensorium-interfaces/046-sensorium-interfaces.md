@@ -16,11 +16,13 @@ Based on:
 - `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 - `node:sensorium-interface-core`
 - `node:daemon/src/sensorium_interface_runtime.rs`
+- `node:daemon/src/sensorium_interface_remote_feed.rs`
 - `node:daemon/src/sensorium_interface_runtime/actuation_runtime.rs`
 - `node:daemon/src/sensorium_interface_room_projection.rs`
 - `node:daemon/src/peer_runtime_host.rs`
 - `node:daemon/src/host_capabilities_host.rs`
 - `node:tools/conformance/sensorium_interfaces_conformance.py`
+- `node:tools/acceptance/sensorium-terminal-live-feed/run.py`
 
 Related schemas:
 
@@ -33,6 +35,8 @@ Related schemas:
 - `sensorium-interface-subscription-command.v1`
 - `sensorium-interface-subscription-status.v1`
 - `sensorium-interface-frame.v1`
+- `sensorium-terminal-event.v1`
+- `sensorium-interface-remote-feed-request.v1`
 - `sensorium-interface-resource.v1`
 - `sensorium-interface-actuation-descriptor.v1`
 - `sensorium-interface-actuation-status.v1`
@@ -72,10 +76,16 @@ extension into this solution and satisfies the P083 hard-MVP release blocker.
 P070 Phase 6A now also supplies the shared relay-epoch carrier used by the Room
 latest-state pump and the closed P083 status/claim/control/invoke/receipt classes;
 direct peer remains an optional latency path and owns no additional authority.
+P082-022 additionally completes a canonical exact-byte terminal event contract,
+bounded Workbench replay with explicit gaps and terminal end, an owner-bound
+recipient-side direct-peer feed, and local SSE presentation for both local and
+remote admitted subscriptions. Recipient-side peer egress requires the separate
+host-local `sensorium.interface.remote-feed` grant; source reads continue to require
+an exact signed `sensorium.interface.subscribe` Passport.
 
 ## Date
 
-2026-07-17
+2026-07-22
 
 ## History
 
@@ -106,7 +116,14 @@ The Sensorium Interfaces runtime owns publication, grants, subscriptions,
 cursors, classification checks, lifecycle, and revocation. Direct peer, SSE, and
 Room WSS are edge adapters and never become authority.
 
-The implemented V1 delivery contract is bounded cursor-based pull-batch.
+The implemented V1 delivery contract is bounded cursor-based pull-batch. Local
+and direct-peer live terminal views are projections over that same contract: the
+recipient host advances the admitted subscription and presents batches through
+loopback SSE rather than introducing provider push or carrier authority. A
+Workbench retention gap is projected before retained events, while recipient
+reconnect forwards its stale cursor and preserves the source-reported gap. The
+real guest proof keeps two PTYs live together and demonstrates that their bytes
+and cursors remain isolated.
 Provider push, global descriptor discovery, and automatic stream persistence are
 outside this solution's MVP boundary.
 
@@ -206,6 +223,9 @@ Responsibilities:
 - require all four built-in adapters at daemon startup while treating readiness
   snapshots as advisory and each bounded source read as authoritative;
 - preserve source classification and apply redaction before publication.
+- validate Workbench terminal output as exact bytes with matching digest/count,
+  preserve explicit retained-floor gaps, and map terminal source closure to one
+  terminal batch without advancing past unconsumed capped events.
 
 Status: `done`.
 
@@ -216,7 +236,8 @@ Responsibilities:
 - implement publish, suspend, withdraw, grant, revoke, inspect, subscribe,
   renew, close, and read-next lifecycle operations;
 - register `sensorium.interface.read`, `sensorium.interface.subscribe`, and the
-  host-local `sensorium.interface.manage` capability;
+  host-local `sensorium.interface.remote-feed` and `sensorium.interface.manage`
+  capabilities;
 - persist immutable management facts and rebuild disposable publication,
   grant, idempotency, and subscription projections after restart;
 - bind grants and subscriptions to canonical namespaced actor refs, exact
@@ -241,6 +262,15 @@ Responsibilities:
   lease, and revocation freshness;
 - expose local SSE only over loopback and only for an already admitted,
   caller-bound subscription;
+- allow a recipient-side direct-peer feed only with local remote-feed authority,
+  then select an active signed subscribe Passport for the authenticated source
+  node, pin the returned resource, subscription, delivery kind, and caps, and expose
+  it only to its creating local caller through loopback SSE;
+- bound every peer wait to five seconds, reject WSS messages above 1 MiB before
+  application decoding, and measure the result against requested `batch.bytes_max`
+  before typed deserialization; retry only transport unavailability;
+- register a consumer-side integrity validator for every inline schema that carries
+  byte-evidence and re-compute its count and digest before presentation;
 - identify SSE and Room projection read-next operations separately in canonical
   causal context;
 - project WSS Room views as a dedicated `latest-state` session whose recipient
@@ -270,6 +300,9 @@ Responsibilities:
   classification lattice and that schema-gate rejects structurally conflicting
   frame payload sources;
 - prove local SSE batch delivery and terminal close after grant revocation;
+- prove exact non-UTF-8 terminal bytes, bounded Workbench retention gaps, terminal
+  end, owner-bound direct-peer cursor advancement, and remote pull-batch projection
+  through local SSE;
 - prove collaborative Workbench terminal-view projection through Room WSS,
   including recipient revocation and durable Room survival;
 - expose schemas and the local SSE route through the daemon API projection;
@@ -471,6 +504,11 @@ Status: `deferred`.
 | Source reports `no-change` | Adapter mistakenly closes the stream | Preserve `no-change` as a non-terminal batch outcome. |
 | Ordered events are projected through MVP Room WSS | Cursor leakage or false replay guarantees | Refuse attachment before starting the carrier pump. |
 | Source or carrier exceeds bounds | Memory growth or oversized live frame | Enforce request, frame, batch, source-read, and Room-message caps independently. |
+| Workbench evicts terminal events before a subscriber catches up | Silent loss or a cursor that falsely claims continuity | Persist a bounded retained floor and emit an explicit gap before the next available event. |
+| A remote host returns malformed or mismatched terminal evidence | Recipient renders corrupted bytes or accepts another subscription's data | Schema-gate the complete read result and each inline payload, pin resource/subscription/delivery/caps, and verify output count and digest before SSE projection. |
+| A local subscription grant is reused to initiate peer egress | Observation authority silently widens into network authority | Require separate host-local `sensorium.interface.remote-feed` authority, then independently require an exact source-issued subscribe Passport. |
+| A peer stalls or returns an oversized or malformed result | A feed blocks indefinitely, allocates beyond its contract, or retries a terminal integrity failure | Bound peer wait and carrier bytes, enforce requested result bytes before typed decode, and retry only transport-unavailable failures. |
+| A remote feed ref or cursor is reused by another local caller | Local authority is confused with possession of presentation state | Bind every feed to the authenticated creating module and recheck ownership on read and close. |
 | Repeated Room projections exhaust host threads or retain terminal payloads | Resource exhaustion over time | Cap active pumps at 64 and reap terminal daemon and carrier entries together. |
 | Resource lookup denial reveals existence | Descriptor enumeration oracle | Return one generic external denial and retain details only in local traces. |
 | Daemon restarts with active subscriptions | Authority or terminal state drifts | Rebuild from durable facts and persisted subscription status before accepting work. |
@@ -506,3 +544,6 @@ implementation choices.
 4. Collect P082-020/P083-013 relay latency, cursor-expiry, and failover evidence through
    the shared Room diagnostics rather than adding Sensorium-specific reachability or
    failover logic.
+5. Add a multiprocess two-deployed-node direct-peer terminal-feed run only as
+   stronger deployment evidence; retain the implemented peer-runtime transport test
+   as the component-level proof and do not fork the live-feed contract.

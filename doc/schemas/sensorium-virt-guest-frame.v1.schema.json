@@ -21,7 +21,7 @@
     "guest/cid": { "type": "integer", "minimum": 3, "maximum": 4294967295 },
     "boot/nonce": { "type": "string", "minLength": 32, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$" },
     "operation/id": { "$ref": "#/$defs/ref" },
-    "operation/kind": { "enum": ["spawn-process", "open-pty", "terminal-input", "terminal-resize", "terminal-signal", "file-snapshot", "file-read", "patch-stage", "artifact-export", "inspect", "quiesce", "shutdown"] },
+    "operation/kind": { "enum": ["spawn-process", "open-pty", "terminal-input", "terminal-read", "terminal-resize", "terminal-signal", "file-snapshot", "file-read", "patch-stage", "artifact-export", "inspect", "quiesce", "shutdown"] },
     "sequence": { "type": "integer", "minimum": 0 },
     "deadline-at": { "type": "string", "format": "date-time" },
     "chunk/index": { "type": "integer", "minimum": 0, "maximum": 65535 },

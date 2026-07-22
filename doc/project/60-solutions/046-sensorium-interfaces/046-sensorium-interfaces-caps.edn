@@ -71,14 +71,19 @@
    :based-on ["doc/project/40-proposals/070-room-primitive.md"
               "doc/project/40-proposals/082-sensorium-interfaces.md"]
    :schemas ["sensorium-interface-read-result.v1"
+             "sensorium-interface-remote-feed-request.v1"
+             "sensorium-terminal-event.v1"
              "vendor-media-type-registry.v1"]
    :responsibilities
    ["Expose local host-capability and authenticated direct-peer pull-batch"
     "Expose loopback-only module-authenticated SSE over admitted subscriptions"
+    "Gate recipient-side peer egress separately from source-issued subscription authority"
+    "Bound peer time and bytes before typed result decoding"
+    "Reverify registered inline byte-evidence at the consumer"
     "Project WSS Room latest state without source cursors"
     "Refuse ordered Room projection and close only the projection carrier"]
    :status :done
-   :status-detail "Direct-peer Passport admission, local SSE, and WSS Room latest-state projection are implemented with per-emission authority checks and generic external denials."}
+   :status-detail "Direct-peer Passport admission, separately authorized recipient egress, bounded local SSE, consumer byte-evidence validation, and WSS Room latest-state projection are implemented with per-emission authority checks and generic external denials."}
 
   {:cap/id :sensorium-interface-acceptance
    :title "Sensorium Interface Acceptance"
