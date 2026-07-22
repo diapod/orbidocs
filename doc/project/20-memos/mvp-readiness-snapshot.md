@@ -252,11 +252,18 @@ silently downloading it; Python and Rust also share a Unicode/nested JCS parity
 fixture. HTTPS package fetch requires exclusively public DNS results, pins the
 resolved set per request against rebinding, and applies both total and rolling
 transfer-progress bounds. Activation re-verifies referenced CAS bytes instead
-of trusting receipt history alone. Daemon operator-question/signer wiring, real TLS
-redirect acceptance, distributor-signed `llama-server` releases, package-to-
-supervisor activation on macOS/Linux, and operator recovery rebind after
-root/control-plane loss remain open. These items are explicitly outside the P066
-hard-MVP denominator, so the Inquirium readiness percentages do not change.
+of trusting receipt history alone. The daemon now owns the operator-question,
+notification, signer, release-policy, deferred install/recovery, and package-to-
+supervisor bridge. Managed candidates remain quarantined through process health
+and conformance and become routable only after the durable profile transition;
+a fake `llama-server` process acceptance test proves that boundary. Empty
+egress metadata remains an admission assertion rather than OS-level network
+isolation evidence. Real bounded no-egress enforcement, TLS redirect acceptance,
+production distributor-signed `llama-server` releases, real process acceptance
+on macOS arm64/Metal and Linux x86_64/CPU, and operator rebind after
+root/control-plane loss remain open. These items are explicitly
+outside the P066 hard-MVP denominator, so the Inquirium readiness percentages do
+not change.
 
 The current Inquirium closure also adds archive-before-prune context-grant
 revocation and bounded scheduler maintenance, non-empty participant projection
