@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-floor-lease:v1",
+  "title": "Room Floor Lease v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/070-room-primitive.md"],
+  "required": ["schema/v", "lease/ref", "room/id", "subject", "issuer/subject", "policy/generation", "issuance/seq-no", "renewal/no", "issued-at", "expires-at"],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "lease/ref": { "type": "string", "pattern": "^room-floor-lease:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "issuer/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "policy/generation": { "type": "integer", "minimum": 1 },
+    "issuance/seq-no": { "type": "integer", "minimum": 1 },
+    "renewal/no": { "type": "integer", "minimum": 0, "maximum": 8 },
+    "issued-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" }
+  }
+}

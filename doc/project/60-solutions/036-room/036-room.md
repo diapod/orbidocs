@@ -24,6 +24,12 @@ Related schemas:
 - `room-event.v1`
 - `room-policy.v1`
 - `room-live-message.v1`
+- `room-live-message.v2`
+- `room-access-denial.v1`
+- `room-floor-policy.v1`
+- `room-floor-lease.v1`
+- `room-moderation-intent.v1`
+- `room-moderation-audit.v1`
 - `room-membership-attestation.v1`
 - `room-membership-attestation-request.v1`
 - `room-attestation-audit.v1`
@@ -34,7 +40,8 @@ Related schemas:
 
 ## Status
 
-Implemented solution through both relocatable relay profiles.
+Implemented solution through both relocatable relay profiles and the generic
+moderation/floor-control extension.
 
 This means the hard-MVP Room foundation is present: durable records,
 deterministic projection, membership attestation, and node-local live transport
@@ -48,6 +55,22 @@ all-members-behind-CGNAT topology without granting the relay Room membership or 
 access. Live session refs remain 256-bit CSPRNG bearer secrets and are excluded from
 message payloads, acknowledgements, fan-out delivery, member-visible status, durable
 Room facts, and shared Corpus observations.
+
+The post-MVP Phase 7 extension is also implemented without changing Room's role.
+Scoped `moderate`/`delegate` authority compiles to the existing grants and ordered
+projection; `speak` replacement, member removal, and durable access denial converge
+through `refresh_projection`. Floor policy is durable while floor leases and queues are
+bounded and ephemeral, so restart or generation replacement revokes them fail closed.
+Expired leases are pruned before lease operations, live send, and operator-status
+projection; membership refresh separately removes lease and queue entries that no longer
+have current `speak`.
+`room-live-message.v2` replaces the sender nonce with one stable Room-scoped
+`message/ref` and at most eight non-authoritative reply refs. Sealed relay rotation now
+uses the derived decrypting-recipient-set high-water: join and recipient removal rotate,
+whereas mute and floor changes do not. A non-idempotent sequence conflict stops the
+current projection until an authoritative rebuild; Room status exposes the typed
+projection state and a bounded technical conflict reason. The relay same-epoch conflict
+remains the narrow exception resolved by a strictly newer valid relay epoch.
 
 ## Date
 
@@ -98,7 +121,8 @@ The durable plane records signed facts:
 
 The live plane carries bounded non-retentive messages:
 
-- `room-live-message.v1` is validated by the room live contract.
+- `room-live-message.v2` is the canonical contract; the v1 nonce shape has one explicit
+  compatibility adapter and cannot coexist with v2 identity fields.
 - Join, send, drop, close, and cleanup are guarded by room-scoped passport or
   membership attestation.
 - The host returns a random bearer session ref only to the joining client; subsequent
@@ -106,6 +130,22 @@ The live plane carries bounded non-retentive messages:
   projection needs or receives the bearer.
 - Durable projection membership remains decisive, so stale live credentials
   cannot override revoked or expired membership.
+
+Moderation is projection-owned rather than carrier-owned. The opening
+`authority/subject` is non-removable; UI labels such as `op` and `voice` are read-model
+aliases only. Closed scopes narrow the existing `moderate` and `delegate` grants.
+Mute/unmute replaces only the complete membership grant snapshot's `speak` bit; kick
+revokes membership; ban adds a durable denial that precedes positive authority; and
+reinstatement removes only that denial without recreating membership. Typed intents are
+inert until current Room authority admits the corresponding fact. Durable commit occurs
+before transport refresh, and cleanup failure is exposed only as bounded metadata.
+
+Floor control has closed `open`, `moderated`, and `round-robin` modes. Controlled sends
+require both current `speak` and a current generation-bound floor lease. Queue depth,
+outstanding leases, TTL, and renewals are bounded; ambiguous owner, expiry, restart,
+failover, or policy-generation replacement removes effective floor authority. Lease
+admission, assignment, release, send, and status paths prune expiry before using or
+reporting the ephemeral floor state.
 
 Membership query is an authorization surface. Runtime issuance uses
 `room-membership-attestation-request.v1` over POST and returns signed
@@ -238,6 +278,12 @@ Based on:
 Related schemas:
 
 - `room-live-message.v1`
+- `room-live-message.v2`
+- `room-access-denial.v1`
+- `room-floor-policy.v1`
+- `room-floor-lease.v1`
+- `room-moderation-intent.v1`
+- `room-moderation-audit.v1`
 - `room-membership-attestation.v1`
 
 Responsibilities:
@@ -440,7 +486,9 @@ Status:
   does not redeliver, and endpoint/session/sequence recovery is process-tested.
   P070 Phase 6A supplies relocatable member-visible WSS/TLS endpoint epochs and Phase 6B
   supplies the non-member sealed relay profile. Matrix is an optional bridge profile,
-  not a liveness dependency or second Corpus room semantics.
+  not a liveness dependency or second Corpus room semantics. Phase 7 adds generic
+  moderation, floor, denial, and reply-linkage primitives; Corpus consumes them through
+  its own policy adapter and does not add domain roles to Room Core.
 
 ## Out of Scope
 
@@ -468,6 +516,9 @@ Status:
 - signed membership attestations;
 - metadata-only attestation audit facts;
 - bounded non-retentive live room messages;
+- scoped moderation and access-denial projections;
+- bounded ephemeral floor leases and queue state;
+- metadata-only moderation decisions and diagnostics;
 - one authority-selected WSS relay endpoint and relay epoch projection;
 - signed pairwise sender-key distributions and authenticated encrypted relay deliveries
   for non-member federation relays;

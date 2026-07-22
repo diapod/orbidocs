@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "audit/ref": "room-moderation-audit:alpha:7",
+  "room/id": "room:deliberation:alpha",
+  "action": "deny",
+  "decision": "admitted",
+  "actor/subject": { "kind": "nym", "id": "nym:did:key:room-root" },
+  "target/subject": { "kind": "nym", "id": "nym:did:key:participant-b" },
+  "scope": "membership/deny",
+  "policy/generation": 2,
+  "room/seq-no": 7,
+  "reason/code": "operator-temporary-ban",
+  "at": "2026-07-22T10:00:00Z"
+}

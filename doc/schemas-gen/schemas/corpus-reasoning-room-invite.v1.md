@@ -19,7 +19,7 @@ Source schema: [`doc/schemas/corpus-reasoning-room-invite.v1.schema.json`](../..
 | [`room/id`](#field-room-id) | `yes` | string |  |
 | [`subject`](#field-subject) | `yes` | ref: `corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject` |  |
 | [`transport`](#field-transport) | `yes` | object |  |
-| [`room-policy`](#field-room-policy) | `yes` | ref: `corpus-reasoning-room-policy.v1.schema.json` |  |
+| [`room-policy`](#field-room-policy) | `yes` | unspecified |  |
 | [`membership-attestation`](#field-membership-attestation) | `yes` | ref: `room-membership-attestation.v1.schema.json` |  |
 | [`policy/digest`](#field-policy-digest) | `yes` | string |  |
 | [`access/list`](#field-access-list) | `yes` | array |  |
@@ -71,7 +71,7 @@ Source schema: [`doc/schemas/corpus-reasoning-room-invite.v1.schema.json`](../..
 ## `room-policy`
 
 - Required: `yes`
-- Shape: ref: `corpus-reasoning-room-policy.v1.schema.json`
+- Shape: unspecified
 
 <a id="field-membership-attestation"></a>
 ## `membership-attestation`

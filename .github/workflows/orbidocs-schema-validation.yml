@@ -65,6 +65,9 @@ jobs:
       - name: Verify Mermaid diagram links
         run: make check-mermaid-links
 
+      - name: Verify Node schema sync target validation
+        run: make check-sync-schema-targets
+
       - name: Verify generated documentation artifacts
         run: |
           make docs-gen

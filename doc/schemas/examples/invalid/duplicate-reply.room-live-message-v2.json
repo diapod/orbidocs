@@ -1,0 +1,11 @@
+{
+  "schema/v": 2,
+  "room/id": "room:deliberation:alpha",
+  "from/subject": { "kind": "nym", "id": "nym:did:key:participant-a" },
+  "seq/no": 4,
+  "message/ref": "room-message:alpha-participant-a-4",
+  "reply/refs": ["room-message:alpha-participant-b-3", "room-message:alpha-participant-b-3"],
+  "size/bytes": 11,
+  "content/type": "text/plain",
+  "content": "hello room!"
+}

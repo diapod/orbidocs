@@ -25,6 +25,7 @@ Related schemas:
 - `agent.step-trace.v1`
 - `agent.memory-policy.v1`
 - `agent.binding.v1`
+- `agent.binding.v2`
 - `agent.effect-proposal.v1`
 - `agent.effect-proposal-outcome.v1`
 - `agent.effect.dispatch.request.v1`
@@ -171,10 +172,12 @@ Inquirium trace. The composition root supplies the trace projection directly;
 
 The implemented `agent.binding.v1` binds one Agent to one consumer, session source,
 output sink, grant set, budget, memory policy, review policy, and, for collaborative
-consumers, participant and Room membership-attestation refs. A planned compatible
-binding revision generalizes the consumer-policy and authority-evidence portion without
-adding Room, Corpus, Assistant Channel, Sensorium, or other vertical vocabulary to
-Agent Core.
+consumers, participant and Room membership-attestation refs. The implemented compatible
+`agent.binding.v2` revision generalizes the consumer-policy and authority-evidence
+portion without adding Room, Corpus, Assistant Channel, Sensorium, or other vertical
+vocabulary to Agent Core. V1 remains valid, while a v2 binding is admitted and recovered
+only through a registered owning-domain resolver that verifies the exact current policy,
+digest, review floor, and evidence set.
 
 The neutral extension carries only host-authored, content-addressed evidence:
 
@@ -188,10 +191,10 @@ The baseline cap is the shared Agent Core constant
 `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16`. Schema validation, binding admission,
 recovery, and adapters import that value instead of repeating a literal. Bodies remain
 in their owning stores and are interpreted only by a registered daemon composition
-adapter. The current collaborative `membership-attestation/ref` is the first
-specialized v1 evidence ref; a later neutral revision may project it into
-`authority-evidence/refs`, but must not weaken its existing validation or silently
-accept both values when they conflict.
+adapter. The collaborative v1 `membership-attestation/ref` remains the first
+specialized evidence ref. The implemented v2 resolver projects that authority into
+`authority-evidence/refs` while preserving the same validation and rejecting a v1/v2
+conflict rather than silently accepting both values.
 
 These fields are evidence, not capabilities. The binding's `grants` continue to name
 only capabilities the Agent may request, and every concrete use still rechecks the
@@ -406,12 +409,11 @@ an extension hidden inside this solution.
    passing composed three-node runner on the release gate: it reuses Story 011's
    bootstrap and proves distinct participant evidence, local repair observation,
    observer revocation, dirty restart, and unpublished chair output.
-6. Introduce the neutral consumer-policy and authority-evidence binding revision only
-   with a concrete consumer adapter and golden recovery vectors. Keep current v1
-   collaborative binding behavior valid until that revision has explicit migration,
-   conflict, revocation, and fail-closed recovery tests. Define
-   `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` in Agent Core and import it at every schema,
-   admission, recovery, and adapter boundary.
+6. Keep the implemented neutral consumer-policy and authority-evidence binding v2 on
+   its current-policy recovery gate. Corpus is the first concrete resolver and golden
+   recovery consumer. Preserve v1 compatibility, exact v1/v2 conflict refusal,
+   revocation checks, and `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` as the one imported
+   bound across schema, admission, recovery, and adapter layers.
 
 ## Must Implement
 

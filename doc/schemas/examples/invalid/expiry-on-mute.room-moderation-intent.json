@@ -1,0 +1,13 @@
+{
+  "schema/v": 1,
+  "intent/ref": "room-moderation:mute-alice-7",
+  "idempotency/key": "room-moderation:mute-alice-7",
+  "room/id": "room:test:alpha",
+  "action": "mute",
+  "target/subject": { "kind": "nym", "id": "did:key:z6MkAlice" },
+  "expected/high-water": 7,
+  "policy/generation": 1,
+  "expires-at": "2026-07-22T10:05:00Z",
+  "reason/code": "floor-order",
+  "requested-at": "2026-07-22T10:00:00Z"
+}

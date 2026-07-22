@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-chair-control-policy:v1",
+  "title": "Corpus Reasoning Chair Control Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/070-room-primitive.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "required": ["schema", "policy/ref", "query/id", "round/id", "room/id", "chair/subject", "policy/generation", "requested", "effective", "issued-at", "expires-at"],
+  "properties": {
+    "schema": { "const": "corpus-reasoning-chair-control-policy.v1" },
+    "policy/ref": { "type": "string", "pattern": "^corpus-chair-control-policy:[^\\s]+$", "maxLength": 512 },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "round/id": { "type": "string", "pattern": "^round:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "chair/subject": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "chair/agent-ref": { "type": "string", "pattern": "^agent:[^\\s]+$", "maxLength": 512 },
+    "policy/generation": { "type": "integer", "minimum": 1 },
+    "requested": { "$ref": "#/$defs/control-values" },
+    "effective": { "$ref": "#/$defs/control-values" },
+    "issued-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "control-values": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["floor/mode", "controls/floor", "controls/voice", "controls/kick", "controls/ban", "review/voice", "review/kick", "review/ban", "ban/max-ttl-seconds", "ban/permanent", "fallback"],
+      "properties": {
+        "floor/mode": { "enum": ["organic", "moderated", "baton"] },
+        "controls/floor": { "type": "boolean" },
+        "controls/voice": { "type": "boolean" },
+        "controls/kick": { "type": "boolean" },
+        "controls/ban": { "type": "boolean" },
+        "review/voice": { "enum": ["allow", "require-human", "deny"] },
+        "review/kick": { "enum": ["allow", "require-human", "deny"] },
+        "review/ban": { "enum": ["allow", "require-human", "deny"] },
+        "ban/max-ttl-seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+        "ban/permanent": { "type": "boolean" },
+        "fallback": { "enum": ["accountable-requester", "admitted-replacement", "suspend"] }
+      }
+    }
+  }
+}

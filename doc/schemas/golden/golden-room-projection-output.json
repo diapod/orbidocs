@@ -14,6 +14,7 @@
   },
   "high-water/seq-no": 1,
   "membership/high-water-seq-no": 1,
+  "recipient-set/high-water-seq-no": 1,
   "members": {
     "nym:did:key:p1": {
       "subject": {

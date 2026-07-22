@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-live-message:v2",
+  "title": "RoomLiveMessage v2",
+  "description": "Ephemeral live-room frame with stable message identity and bounded conversational reply hints.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/070-room-primitive.md"],
+  "required": ["schema/v", "room/id", "from/subject", "seq/no", "message/ref", "size/bytes", "content/type", "content"],
+  "properties": {
+    "schema/v": { "const": 2 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "from/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "seq/no": { "type": "integer", "minimum": 0 },
+    "message/ref": { "type": "string", "pattern": "^room-message:[^\\s]+$", "maxLength": 288 },
+    "reply/refs": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^room-message:[^\\s]+$", "maxLength": 288 }
+    },
+    "size/bytes": { "type": "integer", "minimum": 0 },
+    "content/type": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "content": { "type": "string" },
+    "content/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$" },
+    "sent-at": { "type": "string", "format": "date-time" },
+    "extensions": { "$ref": "room.v1.schema.json#/$defs/extensions" }
+  }
+}

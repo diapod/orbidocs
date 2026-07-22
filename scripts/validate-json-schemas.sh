@@ -413,6 +413,12 @@ schema_for_file() {
     *.corpus-reasoning-bid-state.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-bid-state.v1.schema.json"
       ;;
+    *.corpus-reasoning-chair-control-policy.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-chair-control-policy.v1.schema.json"
+      ;;
+    *.corpus-reasoning-room-policy-v2.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v2.schema.json"
+      ;;
     *.corpus-reasoning-room-policy.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v1.schema.json"
       ;;
@@ -688,6 +694,24 @@ schema_for_file() {
       ;;
     *.room-live-message.json)
       echo "$SCHEMAS_DIR/room-live-message.v1.schema.json"
+      ;;
+    *.room-live-message-v2.json)
+      echo "$SCHEMAS_DIR/room-live-message.v2.schema.json"
+      ;;
+    *.room-access-denial.json)
+      echo "$SCHEMAS_DIR/room-access-denial.v1.schema.json"
+      ;;
+    *.room-floor-policy.json)
+      echo "$SCHEMAS_DIR/room-floor-policy.v1.schema.json"
+      ;;
+    *.room-floor-lease.json)
+      echo "$SCHEMAS_DIR/room-floor-lease.v1.schema.json"
+      ;;
+    *.room-moderation-intent.json)
+      echo "$SCHEMAS_DIR/room-moderation-intent.v1.schema.json"
+      ;;
+    *.room-moderation-audit.json)
+      echo "$SCHEMAS_DIR/room-moderation-audit.v1.schema.json"
       ;;
     *.room-membership.json)
       echo "$SCHEMAS_DIR/room-membership.v1.schema.json"

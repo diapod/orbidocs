@@ -1,0 +1,38 @@
+{
+  "schema": "corpus-reasoning-chair-control-policy.v1",
+  "policy/ref": "corpus-chair-control-policy:deliberation-test",
+  "query/id": "query:deliberation-test",
+  "round/id": "round:deliberation-test",
+  "room/id": "room:deliberation-test",
+  "chair/subject": "nym:did:key:zChair",
+  "chair/agent-ref": "agent:chair",
+  "policy/generation": 1,
+  "requested": {
+    "floor/mode": "moderated",
+    "controls/floor": true,
+    "controls/voice": true,
+    "controls/kick": true,
+    "controls/ban": true,
+    "review/voice": "allow",
+    "review/kick": "require-human",
+    "review/ban": "require-human",
+    "ban/max-ttl-seconds": 3600,
+    "ban/permanent": false,
+    "fallback": "accountable-requester"
+  },
+  "effective": {
+    "floor/mode": "moderated",
+    "controls/floor": true,
+    "controls/voice": true,
+    "controls/kick": true,
+    "controls/ban": true,
+    "review/voice": "allow",
+    "review/kick": "require-human",
+    "review/ban": "require-human",
+    "ban/max-ttl-seconds": 900,
+    "ban/permanent": false,
+    "fallback": "accountable-requester"
+  },
+  "issued-at": "2026-07-15T10:00:00Z",
+  "expires-at": "2026-07-15T10:05:00Z"
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-moderation-intent:v1",
+  "title": "Room Moderation Intent v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/070-room-primitive.md"],
+  "required": ["schema/v", "intent/ref", "idempotency/key", "room/id", "action", "target/subject", "expected/high-water", "policy/generation", "reason/code", "requested-at"],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "intent/ref": { "type": "string", "pattern": "^room-moderation:[^\\s]+$", "maxLength": 512 },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "action": { "enum": ["invite", "kick", "remove", "deny", "reinstate", "mute", "unmute", "floor-assign", "floor-advance", "floor-release"] },
+    "target/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "expected/high-water": { "type": "integer", "minimum": 1 },
+    "policy/generation": { "type": "integer", "minimum": 1 },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "supersedes/ref": { "type": "string", "pattern": "^room-denial:[^\\s]+$", "maxLength": 512 },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "reason/ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "requested-at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "action": { "const": "deny" } }, "required": ["action"] },
+      "then": { "not": { "required": ["supersedes/ref"] } }
+    },
+    {
+      "if": { "properties": { "action": { "const": "reinstate" } }, "required": ["action"] },
+      "then": { "required": ["supersedes/ref"], "not": { "required": ["expires-at"] } }
+    },
+    {
+      "if": { "properties": { "action": { "not": { "enum": ["deny", "reinstate"] } } }, "required": ["action"] },
+      "then": { "not": { "anyOf": [{ "required": ["expires-at"] }, { "required": ["supersedes/ref"] }] } }
+    }
+  ]
+}

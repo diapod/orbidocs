@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-access-denial:v1",
+  "title": "Room Access Denial v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/070-room-primitive.md"],
+  "required": ["schema/v", "room/id", "denial/ref", "op", "subject", "authority/subject", "seq/no", "issued-at", "reason/code"],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "denial/ref": { "type": "string", "pattern": "^room-denial:[^\\s]+$", "maxLength": 512 },
+    "op": { "enum": ["deny", "reinstate"] },
+    "subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "authority/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "seq/no": { "type": "integer", "minimum": 1 },
+    "issued-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "supersedes/ref": { "type": "string", "pattern": "^room-denial:[^\\s]+$", "maxLength": 512 },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "reason/ref": { "type": "string", "minLength": 1, "maxLength": 512 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "op": { "const": "deny" } }, "required": ["op"] },
+      "then": { "not": { "required": ["supersedes/ref"] } }
+    },
+    {
+      "if": { "properties": { "op": { "const": "reinstate" } }, "required": ["op"] },
+      "then": { "required": ["supersedes/ref"], "not": { "required": ["expires-at"] } }
+    }
+  ]
+}

@@ -19,6 +19,8 @@ Related schemas:
 - `corpus-reasoning-bid-state.v1`
 - `corpus-reasoning-answer.v1`
 - `corpus-reasoning-room-policy.v1`
+- `corpus-reasoning-room-policy.v2`
+- `corpus-reasoning-chair-control-policy.v1`
 - `corpus-reasoning-room-invite.v1`
 - `corpus-reasoning-turn-proposal.v1`
 - `service-offer.v1`
@@ -28,11 +30,14 @@ Related schemas:
 - `room-policy.v1`
 - `room-membership-attestation.v1`
 - `agent.binding.v1`
+- `agent.binding.v2`
 - `agent.outcome.v1`
 - `corpus-chair-admission.v1`
 - `corpus-agent-answer-draft.accept.request.v1`
 - `corpus-agent-answer-draft.v1`
 - `classification.v1`
+- `room-moderation-intent.v1`
+- `room-moderation-audit.v1`
 
 ## Status
 
@@ -59,6 +64,20 @@ answer-draft acceptance is implemented;
 a separate Corpus-owned local-control transition now validates ready quorum,
 room high-water, chair identity, evidence, and idempotency before signing and
 publishing the final answer. The Agent still has no publication authority.
+The optional Agent-chair moderation profile is also implemented. Distributor and
+operator ceilings resolve requested controls once into an immutable effective policy.
+Room policy v2 binds its exact ref and digest; Agent binding v2 separately binds that
+policy and the current membership/delegation evidence. Corpus maps organic, moderated,
+and baton modes to Room's open, moderated, and round-robin modes, while voice, kick,
+ban, and floor proposals remain inert until canonical Room admission. Every use
+rechecks current policy, binding, review floor, scoped delegation, target, generation,
+high-water, TTL, and the current distributor/operator ceilings. A changed monotone
+intersection invalidates the old policy generation and requires explicit re-admission;
+it is neither honored until expiry nor silently rewritten. Chair loss revokes
+delegation and floor authority without electing a replacement from connected presence.
+The v1 Room policy remains valid without v2 Chair-control fields; their absence maps to
+Room's `open` floor and never to an implicit controlled denial. Only v2 requires and
+resolves the exact Chair-control policy binding.
 
 ## Date
 
@@ -285,6 +304,7 @@ Based on:
 Related schemas:
 
 - `agent.binding.v1`
+- `agent.binding.v2`
 - `agent.outcome.v1`
 - `room-membership-attestation.v1`
 - `corpus-chair-admission.v1`
@@ -293,10 +313,18 @@ Related schemas:
 - `corpus-reasoning-role-assignment.v1`
 - `corpus-reasoning-instruction-overlay.v1`
 - `corpus-reasoning-answer.v1`
+- `corpus-reasoning-chair-control-policy.v1`
+- `corpus-reasoning-room-policy.v2`
+- `room-moderation-intent.v1`
+- `room-moderation-audit.v1`
 
 Responsibilities:
 
 - allow the requester to appoint its own bounded Agent as chair delegate;
+- resolve requester controls under distributor/operator ceilings and bind the exact
+  effective policy to Room policy v2 and Agent binding v2;
+- map Corpus voice, kick, ban, and floor vocabulary into generic Room scopes and
+  generation-bound intents without teaching `agent-core` Corpus semantics;
 - require a pre-existing local Corpus round and signed, fresh Room evidence from
   that round's node-local authority, with a canonical Ed25519 `did:key` signer;
 - keep the accountable chair subject explicit in Room policy;
@@ -325,8 +353,13 @@ Status:
   accepted role assignments and instruction overlays, restart-safe append-only
   delta projection, registered policy evaluation, role-aware Inquirium
   operation-scope prompt framing, inert draft acceptance, and separately
-  authorized signed answer publication. Remote Room-authority trust and arbiter
-  election remain post-MVP.
+  authorized signed answer publication;
+- `done` for optional operator-bounded Chair moderation: exact current-policy recovery,
+  scoped Room delegation, HIL-gated effects, voice revoke/restore, bounded ban expiry,
+  floor-generation invalidation, metadata-only audit, and lifecycle reconciliation.
+  Story 011 is the process acceptance consumer; Room's member-visible and sealed
+  carrier profiles remain the transport evidence rather than Corpus-local transport
+  implementations. Remote Room-authority trust and arbiter election remain post-MVP.
 
 ### Optional Shared Enacted Views
 

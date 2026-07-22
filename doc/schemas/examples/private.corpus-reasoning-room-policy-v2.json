@@ -1,0 +1,23 @@
+{
+  "schema/v": 2,
+  "query/id": "query:deliberation-test",
+  "room/id": "room:deliberation-test",
+  "exposure": "private-to-swarm",
+  "answer/acceptance": "chair-signed",
+  "chair/mode": "requester-appointed",
+  "chair/nym": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+  "chair/credentials": "capability-passport:chair",
+  "chair/agent-ref": "agent:chair",
+  "chair-control-policy/ref": "corpus-chair-control-policy:deliberation-test",
+  "chair-control-policy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "quorum/required": 2,
+  "tie-break": "chair",
+  "revocation-policy": "chair-or-requester",
+  "budget": { "time-ms": 120000, "steps": 12, "tokens": 200000 },
+  "access/list": [
+    { "kind": "nym", "id": "did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG" },
+    { "kind": "nym", "id": "did:key:zExpert" }
+  ],
+  "created-at": "2026-07-15T10:00:00Z",
+  "expires-at": "2026-07-15T10:05:00Z"
+}

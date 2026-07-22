@@ -1,0 +1,14 @@
+{
+  "schema/v": 1,
+  "room/id": "room:deliberation:alpha",
+  "policy/ref": "room-floor-policy:alpha:2",
+  "mode": "moderated",
+  "generation": 2,
+  "queue/max": 16,
+  "lease/ttl-seconds": 30,
+  "lease/renewal-max": 2,
+  "lease/outstanding-max": 1,
+  "authority/subject": { "kind": "nym", "id": "nym:did:key:room-root" },
+  "seq/no": 8,
+  "issued-at": "2026-07-22T10:00:01Z"
+}

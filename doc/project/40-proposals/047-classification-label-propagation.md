@@ -385,7 +385,8 @@ it, a safe system is an unusable system. The quarantine surface must expose:
   Community),
 - an audit record of every operator action with `correlation_id`.
 
-A CLI surface (`orbictl memarium quarantine ...`) is the minimum; a TUI/web
+A CLI surface (`orbiplex-node-launcher memarium quarantine ...` and
+`orbiplex-node-launcher memarium declassify ...`) is the minimum; a TUI/web
 surface is recommended but not required for v1.
 
 ### 7. Edge-First Enforcement
@@ -578,8 +579,8 @@ without breaking existing senders.
      carries `classification`; observers that re-emit must preserve it.
    - `memarium.crisis_status` / `memarium.crisis_resolve` — Crisis is
      orthogonal (§1), so classification is passed through unchanged.
-9. CLI `orbictl memarium quarantine {list,accept,reject,declassify}` for
-   operator UX (§6).
+9. CLI `orbiplex-node-launcher memarium quarantine {list,accept,reject}` and
+   `orbiplex-node-launcher memarium declassify` for operator UX (§6).
 10. Property-test suite per Acceptance Criteria, runnable in CI.
 
 ## Acceptance Criteria
@@ -612,8 +613,10 @@ without breaking existing senders.
     `effective_tier`,
   - Public-surface egress rejects every envelope carrying full
     `bound_subjects.personal_or_community`.
-- Operator UX: CLI `orbictl memarium quarantine {list,accept,reject,declassify}`
-  implemented and covered by integration tests.
+- Operator UX: CLI
+  `orbiplex-node-launcher memarium quarantine {list,accept,reject}` and
+  `orbiplex-node-launcher memarium declassify` implemented and covered by
+  integration tests.
 - Operator documentation (`orbidocs/doc/ops/`) includes a runbook for
   declassification and for handling ingress quarantine.
 - Proposal 036 and `orbidocs/doc/project/60-solutions/002-memarium/002-memarium.md` updated

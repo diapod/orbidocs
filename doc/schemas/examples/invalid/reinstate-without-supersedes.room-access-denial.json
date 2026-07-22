@@ -1,0 +1,11 @@
+{
+  "schema/v": 1,
+  "room/id": "room:deliberation:alpha",
+  "denial/ref": "room-denial:alpha:reinstate",
+  "op": "reinstate",
+  "subject": { "kind": "nym", "id": "nym:did:key:participant-b" },
+  "authority/subject": { "kind": "nym", "id": "nym:did:key:room-root" },
+  "seq/no": 8,
+  "issued-at": "2026-07-22T10:10:00Z",
+  "reason/code": "operator-reinstate"
+}

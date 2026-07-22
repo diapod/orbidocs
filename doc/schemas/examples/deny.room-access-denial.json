@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "room/id": "room:deliberation:alpha",
+  "denial/ref": "room-denial:alpha:participant-b",
+  "op": "deny",
+  "subject": { "kind": "nym", "id": "nym:did:key:participant-b" },
+  "authority/subject": { "kind": "nym", "id": "nym:did:key:room-root" },
+  "seq/no": 7,
+  "issued-at": "2026-07-22T10:00:00Z",
+  "expires-at": "2026-07-22T10:10:00Z",
+  "reason/code": "operator-temporary-ban"
+}

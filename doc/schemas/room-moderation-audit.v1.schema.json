@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-moderation-audit:v1",
+  "title": "Room Moderation Audit v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/070-room-primitive.md"],
+  "required": ["schema/v", "audit/ref", "room/id", "action", "decision", "actor/subject", "policy/generation", "room/seq-no", "reason/code", "at"],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "audit/ref": { "type": "string", "pattern": "^room-moderation-audit:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "$ref": "room.v1.schema.json#/$defs/room_id" },
+    "action": { "enum": ["invite", "kick", "remove", "deny", "reinstate", "mute", "unmute", "floor-assign", "floor-advance", "floor-release"] },
+    "decision": { "enum": ["admitted", "refused", "replayed", "expired", "cleanup-degraded"] },
+    "actor/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "target/subject": { "$ref": "room.v1.schema.json#/$defs/subject" },
+    "scope": { "enum": ["membership/invite", "membership/remove", "membership/deny", "grant/speak", "moderation/delegate"] },
+    "policy/generation": { "type": "integer", "minimum": 0 },
+    "room/seq-no": { "type": "integer", "minimum": 0 },
+    "reason/code": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "at": { "type": "string", "format": "date-time" }
+  }
+}

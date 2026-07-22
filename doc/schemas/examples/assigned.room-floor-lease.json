@@ -1,0 +1,12 @@
+{
+  "schema/v": 1,
+  "lease/ref": "room-floor-lease:alpha:participant-a:1",
+  "room/id": "room:deliberation:alpha",
+  "subject": { "kind": "nym", "id": "nym:did:key:participant-a" },
+  "issuer/subject": { "kind": "nym", "id": "nym:did:key:chair" },
+  "policy/generation": 2,
+  "issuance/seq-no": 1,
+  "renewal/no": 0,
+  "issued-at": "2026-07-22T10:00:02Z",
+  "expires-at": "2026-07-22T10:00:32Z"
+}

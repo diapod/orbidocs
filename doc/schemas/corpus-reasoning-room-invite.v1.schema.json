@@ -50,7 +50,12 @@
         }
       }
     },
-    "room-policy": { "$ref": "corpus-reasoning-room-policy.v1.schema.json" },
+    "room-policy": {
+      "oneOf": [
+        { "$ref": "corpus-reasoning-room-policy.v1.schema.json" },
+        { "$ref": "corpus-reasoning-room-policy.v2.schema.json" }
+      ]
+    },
     "membership-attestation": { "$ref": "room-membership-attestation.v1.schema.json" },
     "policy/digest": {
       "type": "string",

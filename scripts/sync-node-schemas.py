@@ -11,6 +11,11 @@ SCHEMAS_DIR = ROOT / "doc" / "schemas"
 EXAMPLES_DIR = SCHEMAS_DIR / "examples"
 INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
+NODE_WORKSPACE_SENTINELS = (
+    Path("Cargo.toml"),
+    Path("protocol/Cargo.toml"),
+    Path("schema-gate/Cargo.toml"),
+)
 
 SCHEMA_WHITELIST = (
     "node-identity.v1.schema.json",
@@ -48,6 +53,12 @@ SCHEMA_WHITELIST = (
     "room-event.v1.schema.json",
     "room-policy.v1.schema.json",
     "room-live-message.v1.schema.json",
+    "room-live-message.v2.schema.json",
+    "room-access-denial.v1.schema.json",
+    "room-floor-policy.v1.schema.json",
+    "room-floor-lease.v1.schema.json",
+    "room-moderation-intent.v1.schema.json",
+    "room-moderation-audit.v1.schema.json",
     "room-relay-endpoint.v1.schema.json",
     "room-relay-delivery.v1.schema.json",
     "room-relay-sender-key-distribution.v1.schema.json",
@@ -91,7 +102,9 @@ SCHEMA_WHITELIST = (
     "corpus-reasoning-bid.v1.schema.json",
     "corpus-reasoning-answer.v1.schema.json",
     "corpus-reasoning-bid-state.v1.schema.json",
+    "corpus-reasoning-chair-control-policy.v1.schema.json",
     "corpus-reasoning-room-policy.v1.schema.json",
+    "corpus-reasoning-room-policy.v2.schema.json",
     "corpus-reasoning-room-invite.v1.schema.json",
     "corpus-reasoning-turn-proposal.v1.schema.json",
     "corpus-reasoning-role-assignment.v1.schema.json",
@@ -298,6 +311,8 @@ EXAMPLE_WHITELIST = (
     "fish-water.corpus-reasoning-answer.json",
     "active.corpus-reasoning-bid-state.json",
     "private.corpus-reasoning-room-policy.json",
+    "moderated.corpus-reasoning-chair-control-policy.json",
+    "private.corpus-reasoning-room-policy-v2.json",
     "expert.corpus-reasoning-room-invite.json",
     "expert-contribution.corpus-reasoning-turn-proposal.json",
     "basic.service-offer-relay.json",
@@ -393,6 +408,12 @@ EXAMPLE_WHITELIST = (
     "close.room-event.json",
     "closed-private.room-policy.json",
     "basic.room-live-message.json",
+    "reply.room-live-message-v2.json",
+    "deny.room-access-denial.json",
+    "moderated.room-floor-policy.json",
+    "assigned.room-floor-lease.json",
+    "mute.room-moderation-intent.json",
+    "admitted.room-moderation-audit.json",
     "member.room-relay-endpoint.json",
     "federation.room-relay-endpoint.json",
     "basic.room-relay-delivery.json",
@@ -506,6 +527,12 @@ INVALID_EXAMPLE_WHITELIST = (
     "grant-without-grants.room-membership.json",
     "mediated-policy-with-live.room-policy.json",
     "live-message-with-session-bearer.room-live-message.json",
+    "duplicate-reply.room-live-message-v2.json",
+    "reinstate-without-supersedes.room-access-denial.json",
+    "unknown-mode.room-floor-policy.json",
+    "expiry-on-mute.room-moderation-intent.json",
+    "widened.corpus-reasoning-chair-control-policy.json",
+    "missing-policy-ref.corpus-reasoning-room-policy-v2.json",
     "inac-push-missing-artifact.inac-control.json",
     "raw-handle.contact-lookup.artifact-delivery-envelope.json",
     "unsupported-mode.contact-lookup.artifact-delivery-envelope.json",
@@ -573,7 +600,9 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
     "topic-resolution.v1.schema.json",
     "corpus-reasoning-bid.v1.schema.json",
     "corpus-reasoning-answer.v1.schema.json",
+    "corpus-reasoning-chair-control-policy.v1.schema.json",
     "corpus-reasoning-room-policy.v1.schema.json",
+    "corpus-reasoning-room-policy.v2.schema.json",
     "corpus-reasoning-room-invite.v1.schema.json",
     "corpus-reasoning-turn-proposal.v1.schema.json",
     "room.v1.schema.json",
@@ -581,6 +610,12 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
     "room-event.v1.schema.json",
     "room-policy.v1.schema.json",
     "room-live-message.v1.schema.json",
+    "room-live-message.v2.schema.json",
+    "room-access-denial.v1.schema.json",
+    "room-floor-policy.v1.schema.json",
+    "room-floor-lease.v1.schema.json",
+    "room-moderation-intent.v1.schema.json",
+    "room-moderation-audit.v1.schema.json",
     "room-relay-endpoint.v1.schema.json",
     "room-relay-delivery.v1.schema.json",
     "room-relay-sender-key-distribution.v1.schema.json",
@@ -614,6 +649,25 @@ def copy_shared_schemas(schema_target: Path) -> None:
         shutil.copy2(source, target)
 
 
+def resolve_node_root(node_src: str) -> Path:
+    """Resolve and validate the Node workspace root before writing contracts."""
+    node_root = (ROOT / node_src).resolve()
+    if node_root.parts[-2:] == ("protocol", "contracts"):
+        raise ValueError(
+            "--node-src must name the Node workspace root, not its protocol/contracts directory"
+        )
+    missing = [
+        str(relative)
+        for relative in NODE_WORKSPACE_SENTINELS
+        if not (node_root / relative).is_file()
+    ]
+    if missing:
+        raise ValueError(
+            f"--node-src does not name a Node workspace root; missing: {', '.join(missing)}"
+        )
+    return node_root
+
+
 def main() -> int:
     import argparse
 
@@ -621,7 +675,10 @@ def main() -> int:
     parser.add_argument("--node-src", default="../node")
     args = parser.parse_args()
 
-    node_root = (ROOT / args.node_src).resolve()
+    try:
+        node_root = resolve_node_root(args.node_src)
+    except ValueError as error:
+        parser.error(str(error))
     contracts_root = node_root / "protocol" / "contracts"
     schema_target = contracts_root / "schemas"
     example_target = contracts_root / "examples"

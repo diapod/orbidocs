@@ -374,6 +374,13 @@ canonical modes. `voice` is likewise a human-facing alias for `speak`, not a sec
 grant. Permanent Agent-issued bans are denied by default. The root Room authority
 cannot be muted, removed, banned, or demoted through this policy.
 
+The v1 policy deliberately has no separate `review/floor` axis. Enabling
+`controls/floor` is the operator-bounded review decision; assign, advance, and release
+then schedule subjects that already hold `speak` and do not alter membership or grant
+authority. Voice, kick, and ban remain separate review-bearing effects. A future policy
+that makes floor scheduling itself high-impact requires an additive contract revision
+rather than an adapter-local review rule.
+
 `CORPUS_CHAIR_FLOOR_MODE_MAP` in `corpus-core` is the single closed mapping from
 `organic | moderated | baton` to P070 `open | moderated | round-robin`. Configuration
 may select or narrow its keys but cannot redefine their Room meanings. Adding another
@@ -385,6 +392,12 @@ effective `ban/max-ttl-seconds` is the monotone minimum of protocol, distributor
 operator, requester, Agent-profile, and current Room-delegation ceilings. Requested and
 effective values are persisted together. No later endpoint, HIL path, or effect adapter
 may apply an independent, more permissive TTL calculation.
+
+Distributor or operator ceiling changes take effect fail-closed. Before opening a Room
+or admitting a moderation effect, the host recomputes the monotone intersection. If it
+differs from the persisted effective value, the old policy generation becomes unusable
+and the requester must admit a new content-addressed generation; the host does not
+silently mutate the durable policy or honor it until its original TTL expires.
 
 The policy grants only permission to propose typed controls. The Agent emits inert
 floor, speak, removal, or denial intents; the host verifies the recovered binding,
@@ -580,8 +593,8 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-bid.v1` | new | MVP | Envelope: `decision` + `bid/valid-until` + `policy/digest` + embedded `procurement-offer.v1`. |
 | `corpus-reasoning-bid-state.v1` | new | MVP | Asker read-model: per-candidate state + timestamps + reason + AD `delivery/attempt-id`. |
 | `corpus-reasoning-room-policy.v1` | new | post-MVP | Exposure, acceptance, chair + credentials, quorum, budgets (incl. tokens). |
-| `corpus-reasoning-chair-control-policy.v1` | planned | post-MVP, P070 Phase 7 | Content-addressed requester intent plus distributor/operator-resolved effective Agent-chair floor, voice, kick, ban, review, expiry, and fallback policy. The next Corpus room-policy revision binds its ref and digest. |
-| `corpus-reasoning-room-invite.v1` | new | post-MVP | Room subject + live-transport binding + policy digest. |
+| `corpus-reasoning-chair-control-policy.v1` | implemented | post-MVP, P070 Phase 7 | Content-addressed requester intent plus distributor/operator-resolved effective Agent-chair floor, voice, kick, ban, review, expiry, and fallback policy. `corpus-reasoning-room-policy.v2` binds its exact ref and digest. |
+| `corpus-reasoning-room-invite.v1` | implemented | post-MVP | Room subject + live-transport binding + exact v1 or v2 policy digest. The stable invite envelope accepts both policy revisions and validates the embedded revision at the Corpus boundary. |
 | `corpus-reasoning-role-assignment.v1` | new | post-MVP | Chair-issued participant role assignment with local-acceptance semantics. |
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
@@ -1858,29 +1871,29 @@ runtime, no N-way settlement.
   refused or explicitly non-independent late contributions, and bounded
   disagreement-preserving answer provenance.
 
-#### Phase 8A — Operator-bounded Agent-chair moderation `[ ] depends on P070 Phase 7`
+#### Phase 8A — Operator-bounded Agent-chair moderation `[x] P070 Phase 7 implemented`
 
-- [ ] Freeze `corpus-reasoning-chair-control-policy.v1` and the next compatible
+- [x] Freeze `corpus-reasoning-chair-control-policy.v1` and the next compatible
   `corpus-reasoning-room-policy` revision that binds its exact ref and digest. Carry
   requested and effective values separately; bind query, round, Room, accountable
   chair, optional Agent, policy generation, issue/expiry, floor mode, per-control
   review, temporary-ban ceiling, and fallback. Add positive and closed-schema negative
   fixtures plus canonical digest golden vectors, and register the exact schema family
   in the JSON-schema validation/sync mapping rather than relying on filename discovery.
-- [ ] Add distributor/operator configuration for Agent-chair availability, allowed
+- [x] Add distributor/operator configuration for Agent-chair availability, allowed
   floor modes, default mode, per-control `allow | require-human | deny`, maximum ban
   TTL, permanent-ban policy, and fallback. Resolve it once at admission through the
   documented monotone intersection; requester fields can only narrow it. Resolve the
   effective ban TTL as the minimum ceiling inside this same pass, never in a later
   endpoint or effect adapter. Persist requested/effective policy, ref, and digest, and
   refuse unknown, stale, widened, or ambiguous values.
-- [ ] Compile Corpus `organic | moderated | baton` into Room
+- [x] Compile Corpus `organic | moderated | baton` into Room
   `open | moderated | round-robin` through one named
   `CORPUS_CHAIR_FLOOR_MODE_MAP` in `corpus-core`, without introducing Corpus-owned
   floor state or adapter-local translations. Bind floor operations to the exact Room,
   current policy generation, Chair Agent, floor lease, expiry, and idempotency key;
   restart or Chair replacement invalidates stale floor authority.
-- [ ] Compile optional `voice`, kick, and ban controls into typed inert Agent effect
+- [x] Compile optional `voice`, kick, and ban controls into typed inert Agent effect
   proposals backed respectively by P070 `grant/speak`, `membership/remove`, and
   `membership/deny` scopes. Recheck the current Agent binding, operator review rule,
   Room delegation and projection, target, and TTL before canonical Room admission.
@@ -1889,17 +1902,24 @@ runtime, no N-way settlement.
   every other grant unchanged. The durable snapshot therefore advances general Room
   membership high-water and attestation freshness, but it MUST NOT advance P070's
   derived sealed recipient-set epoch or rotate sender keys.
-- [ ] Implement Chair failure and replacement policy. Stop, timeout, quarantine,
+- [x] Implement Chair failure and replacement policy. Stop, timeout, quarantine,
   policy revocation, or binding loss releases the floor and control authority, then
   deterministically returns control to the accountable requester, appoints an already
   admitted replacement, or suspends deliberation according to policy. Connected
   presence alone cannot trigger promotion.
-- [ ] Add node-local and federated process acceptance covering organic, moderated, and
+- [x] Add node-local and federated process acceptance covering organic, moderated, and
   baton deliberation; operator denial; requester narrowing; HIL approval/refusal for
   kick and ban; voice revoke/restore; bounded ban expiry; Chair crash/restart and
   replacement; stale delegation and policy generations; exact retry; sealed relay
   fencing; and proof that Agent proposals cannot mutate Room or publish the Corpus
   answer without their separate canonical admissions.
+
+Implementation evidence spans `corpus-core`, the daemon-owned Corpus policy store and
+host adapter, `agent.binding.v2` recovery, Room Phase 7 admission, and Story 011. The
+process profile resolves distributor/operator ceilings, persists one exact Chair policy,
+binds it into Room policy v2 and the Chair Agent, proves pre-approval moderation denial,
+admits `mute` and `unmute` after HIL approval, checks exact replay, restarts the authority
+node, and still requires a separate Corpus transition before any answer is published.
 
 #### Optional shared enacted views `[x] P082 runtime implemented`
 

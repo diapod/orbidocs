@@ -688,6 +688,13 @@ Recent component deltas:
   room-high-water, chair, evidence, output-digest, and idempotency validation;
   the first profile is text-only and uses the dedicated
   `corpus-reasoning-answer-signature.v1` domain.
+  Phase 8A now adds the optional operator-bounded Chair control plane without changing
+  hard-MVP readiness: distributor/operator ceilings resolve one effective policy;
+  Corpus Room policy v2 and Agent binding v2 bind its exact digest and current Room
+  evidence; voice, kick, ban, and floor requests remain inert Agent effects until HIL
+  and canonical Room admission; and scheduler reconciliation removes stale Chair
+  delegation, floor authority, and expired bans. Story 011 covers the process-level
+  Chair voice-control path over the existing federated Room topology.
   Remaining post-MVP work includes remote Room-authority trust, arbiter election,
   multi-provider final answer composition, and N-way settlement. Matrix is an optional bridge
   profile rather than a Corpus or Room liveness dependency; Sensorium Interface views
@@ -721,7 +728,11 @@ Recent component deltas:
   checkpoint commit, explicit member-visible versus sealed wire discriminators,
   schema-ref registry coherence, sealed reconnect, a bounded metadata-only relay audit,
   and a 21-check multiprocess host-TLS acceptance report with closed evidence shapes
-  covering leave rotation and sealed-profile failover. P070 is therefore at `100%` and
+  covering leave rotation and sealed-profile failover. Phase 7 now adds closed scoped
+  moderation, durable access denial, bounded ephemeral floor leases, stable message v2
+  refs with reply linkage, metadata-only diagnostics, and a recipient-set-derived
+  sealed epoch that rotates for audience changes but not mute/floor changes. P070 is
+  therefore at `100%` and
   post-MVP ready for its declared Room scope. This changes neither the hard-MVP readiness
   verdict nor Matrix's status as an optional bridge profile.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
