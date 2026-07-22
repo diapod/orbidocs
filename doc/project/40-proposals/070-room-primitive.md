@@ -305,14 +305,27 @@ The endpoint fact carries an explicit crypto profile from the first implementati
   packages signed with Ed25519 domain separation. Encrypted frames bind room, relay
   epoch, membership epoch, sender, sender sequence, ciphertext digest, and signer, so
   possession of another member's decryption material does not grant impersonation.
-  Every membership fact advances a monotonic membership high-water; join, leave, grant,
-  or revoke therefore fences prior ciphertext and rotates active sender-key material
-  with bounded O(n) fan-out per active sender. Runtime relay transitions serialize
+  The wire `membership/epoch` is derived from the monotonic Room membership high-water:
+  it is the `seq/no` of the latest admitted change to the decrypting recipient set, not
+  a separately mutable Room counter. Join, leave/remove, ban, or another grant change
+  that actually changes that recipient set advances this crypto epoch, fences prior
+  ciphertext, and rotates active sender-key material with bounded O(n) fan-out per
+  active sender. A `speak` grant change and an ephemeral floor change do not alter the
+  decrypting audience and therefore do not rotate sender keys. Join rotates rather than
+  reusing the prior key, so a newly admitted recipient does not receive key material
+  capable of opening pre-join ciphertext. These rules apply only to
+  `sealed-sender-key-v1`; `member-visible-tls-v1` has no group sender key to rotate.
+  Runtime relay transitions serialize
   projection refresh, publication, resume, and lifecycle changes so a frame cannot be
   admitted through an interleaving between membership authorization and carrier-state
   rotation. The accepted durable membership projection is the rotation trigger: its
-  high-water refreshes and fences host relay state, while each active sender consumes
-  the same projection to generate and pairwise-distribute fresh sender-key material.
+  relevant recipient-set high-water refreshes and fences host relay state, while each
+  active sender consumes the same projection to generate and pairwise-distribute fresh
+  sender-key material.
+  The implemented Phase 6B baseline still rotates conservatively whenever
+  `membership/high-water-seq-no` advances. Phase 7 must introduce the recipient-set
+  change classifier and golden vectors before the runtime may apply the narrower rule;
+  until then the broader rotation is correct but potentially more expensive.
   The host relay and federation relay never perform that redistribution because neither
   is allowed to possess the sender key. The relay sees outer connection, sender, epoch,
   sequence, timing, and size metadata, but not plaintext payload class, schema, content,
@@ -392,6 +405,166 @@ specific room-policy fields:
 Future policy fields may refine those projections, but they must not silently advertise
 one P005 profile and behave as another.
 
+### 4A. Root Authority and Scoped Moderation
+
+Room moderation is expressed through existing Room authority and grants, not through
+IRC-compatible wire flags. A UI MAY render the opening `authority/subject` and a
+properly delegated moderator as `op`, and a member holding `speak` as `voice`, but
+those labels are read-model projections only. They do not create authority and MUST
+NOT be accepted as input at an admission boundary. Corpus `Chair` is governed by the
+same rule and becomes Room authority only after canonical scoped Room admission.
+
+The opening authority is the Room's non-removable root while the Room remains active.
+It may close the Room, change policy within the policy contract, and issue or revoke
+bounded moderator delegations. A moderator is a delegate, not a second owner. The
+delegation MUST carry closed scopes, expiry, issuer, sequence, and revocation lineage;
+it is non-transitive unless a separate scope explicitly permits delegation. The
+baseline moderation scopes distinguish:
+
+| Scope | Permitted effect | Baseline issuer |
+|---|---|---|
+| `membership/invite` | issue a Room-bound invitation | root or explicitly scoped moderator |
+| `membership/remove` | remove a non-root member and drop live sessions | root or explicitly scoped moderator |
+| `membership/deny` | ban or reinstate a non-root subject | root or explicitly scoped moderator |
+| `grant/speak` | grant or revoke `speak` for a non-root member | root or explicitly scoped moderator |
+| `moderation/delegate` | issue or revoke moderator scopes | root only by default |
+
+These are subscopes that narrow the existing closed `moderate` and `delegate` grants;
+they are not additional top-level Room grants. Their validator reuses the same closed
+supported-value gate as the existing Room grant vocabulary and refuses every unknown
+scope. A moderator is therefore a holder of `moderate` constrained by explicit scopes,
+not a competing authority class.
+
+Neither `moderate` nor any scoped delegation permits transfer of root authority,
+removal or banning of the root, lifecycle mutation outside the delegated scope, or
+policy mutation by implication. A consumer role is equally non-authoritative: Corpus
+may map its current `Chair` to a scoped Room delegation, but Room never infers Chair
+status from a Corpus message, Agent outcome, or model output.
+
+After schema, Room-id, and canonical subject validation, the first authority check for
+every moderation target is whether it is the opening/root authority. A matching target
+fails closed before delegation lookup, policy evaluation, mutation, or transport work.
+This ordering is an invariant of the pure projection path, not a UI safeguard.
+
+### 4B. Speak Grants and Ephemeral Floor Control
+
+`speak` is the durable right to submit live Room messages. Revoking it is a membership
+projection change and MUST affect existing sessions without relying on reconnect or
+presence. Every send is admitted against the current projection; a bearer minted while
+`speak` was present cannot preserve that right after revocation.
+
+Mute and unmute do not introduce a new durable fact kind. Under the current
+`room-membership.v1` snapshot semantics, mute is `RoomMembershipOp::Grant` carrying the
+complete current grant set with `speak` omitted, and unmute is `Grant` carrying the
+complete admitted set with `speak` restored. `RoomMembershipOp::Revoke` and `Leave`
+remove the member; they MUST NOT be overloaded to mean one-grant removal. Kick reuses
+that existing member-revocation path and `RoomEventKind::MemberRevoked` vocabulary.
+The host derives each replacement snapshot from the current projection and changes
+only `speak`; a caller cannot submit the remaining grant set or widen another grant as
+part of a voice intent.
+
+Orderly turn taking is a separate, ephemeral policy layer. Repeatedly rewriting
+durable `speak` grants for each utterance would turn conversational scheduling into
+authority-history churn, so controlled rooms use bounded floor leases. Room policy
+defines one of three modes:
+
+| Mode | Send condition after membership and denial checks |
+|---|---|
+| `open` | current `speak` grant |
+| `moderated` | current `speak` grant and a current floor lease |
+| `round-robin` | current `speak` grant and the floor lease issued by the deterministic queue projection |
+
+A floor lease binds the Room, subject, policy generation, issuance sequence, and a
+short expiry. It grants no membership, moderation, observation, voting, actuation, or
+durable authority. Queue size, lease TTL, renewal count, and outstanding leases are
+bounded. On restart, relay failover, policy-generation change, timeout, or ambiguous
+lease ownership, the floor fails closed and must be reissued. Moderator override is an
+explicit control intent and remains constrained by the moderator's current scope. Floor
+modes are a closed enum and unknown values fail at schema and typed DTO boundaries;
+extension maps cannot smuggle another execution mode.
+
+The effective live-message decision is therefore one composed admission result:
+
+```text
+member
+AND room is active
+AND no effective access denial
+AND current speak grant
+AND (floor mode is open OR current floor lease matches)
+```
+
+The transport consumes this decision but does not derive it. Room Core/Room Service
+compose membership, denial, `speak`, and floor into the projection above the transport
+trait, then reuse the existing `RoomLiveTransport::refresh_projection` operation to
+reconcile active sessions. Implementations MUST NOT add carrier-specific mute, floor,
+or denial methods. This keeps WSS, Matrix, and future carriers behaviorally equivalent.
+
+### 4C. Kick, Ban, Reinstatement, and Fencing
+
+Kick and ban are deliberately different operations:
+
+| Operation | Durable consequence | Live consequence |
+|---|---|---|
+| kick/remove | membership is removed; no standing denial is created | current sessions are dropped |
+| ban/deny | an access-denial fact overrides positive admission evidence | sessions are dropped and rejoin is refused |
+| unban/reinstate | the denial is superseded | no membership or grant is silently restored |
+| mute | `speak` is revoked while membership may remain | later sends are refused; observation may continue |
+| unmute | `speak` is granted under current authority | later sends may proceed subject to floor policy |
+
+The access-denial projection is evaluated before invitations, passports, membership
+attestations, and positive grants. Its record binds Room, subject, issuer authority,
+reason code or private reason reference, sequence, optional expiry, and supersession.
+The root authority cannot be denied by this mechanism. Expired or reinstated denials
+remain auditable facts but no longer affect admission.
+
+Although `room-access-denial.v1` is a separate record shape, it is folded in the same
+ordered Room projection pass and shares the Room `seq/no` authority order. It MUST NOT
+create a parallel denial database, independently advancing high-water, or a second
+authorization read-model that can disagree with membership.
+
+Control follows facts-before-effects: validate authority, commit the durable fact,
+refresh the deterministic projection, and only then narrow or remove live sessions.
+Carrier cleanup failure is degraded state, never rollback of the committed denial or
+grant decision. Member-visible TLS needs projection refresh and affected-session drop,
+but no crypto rotation. In the sealed relay profile, membership removal or ban advances
+the recipient-set-derived membership epoch described in Section 3B and rotates active
+sender keys before further protected content is emitted. Mute, unmute, and floor
+changes do not rotate. Stale attestations, bearers, cursors, frames, and prior-epoch
+ciphertext cannot restore access.
+
+Every typed moderation intent emits a bounded metadata-only audit fact for admitted,
+refused, replayed, expired, and cleanup-degraded decisions. It records refs, actor,
+scope, target, policy generation, decision/reason code, Room sequence, and timestamps,
+never private reason text, bearer material, keys, or live content. Intent replay uses
+the host's existing actor-bound idempotency discipline and registry; Room MUST NOT add a
+private idempotency store with different conflict semantics.
+
+### 4D. Message Identity and Reply Linkage
+
+The next live-message contract revision adds a stable, opaque, Room-scoped
+`message/ref`. The sender supplies it before first admission and reuses it for retries;
+the live runtime binds it to the exact `(room/id, from, seq/no)` tuple. Reusing one ref
+for a different tuple or payload is a conflict and fails closed. Carriers may add their
+own delivery identifiers, but they do not replace the Room message reference.
+
+In `room-live-message.v2`, `message/ref` replaces the v1 `nonce` as the sender-supplied
+stable idempotency identity; v2 MUST NOT carry both fields. The exact replay comparison
+uses `(room/id, from/subject, seq/no, message/ref, content/digest)`. A v1 compatibility
+adapter may project its validated nonce into a message ref, but the canonical v2 value
+has one source and a conflict never selects one identity over the other.
+
+A message MAY contain a unique bounded list of reply refs, with eight as the baseline
+maximum. The refs express conversational linkage to one or more earlier messages. They
+do not prove delivery or observation, authorize content retrieval, require the target
+to remain in a replay buffer, or promote either message to a durable fact. A missing
+target is therefore valid on an ephemeral plane and is rendered as unavailable context,
+not treated as an integrity failure. A participant that needs durable evidence must
+explicitly capture it under a separate classification and retention contract.
+Reply refs are conversational hints and remain separate from P081
+`causal-context.v1` `causation/refs`, which express execution lineage. A reply MUST NOT
+be promoted into a receipt, trace edge, causal proof, or effect dependency merely
+because the referenced message is locally available.
+
 ### 5. Projection of Existing Rooms
 
 - **answer-room (P003)**: re-expressed as a `room.v1` opened by a `question-envelope`,
@@ -410,10 +583,10 @@ primitive instead of maintaining a compatibility projection first.
 | Schema | Status | Purpose |
 |---|---|---|
 | `room.v1` | new | Subject-addressed room identity, opener, policy ref, lifecycle status. Signed. |
-| `room-membership.v1` | new | Signed join/leave/grant/revoke with rights. Durable. |
-| `room-event.v1` | new | Signed lifecycle and authority-delegation events. Phase 6A adds closed delegation scopes, bounded expiry, and explicit revocation linkage for `relay/manage`. Durable. |
+| `room-membership.v1` | new | Signed join/leave/full-grant-snapshot/revoke with rights. Durable; Phase 7 mute/unmute reuses grant snapshots rather than adding a fact kind. |
+| `room-event.v1` | new | Signed lifecycle and authority-delegation events. Phase 6A adds closed delegation scopes, bounded expiry, and explicit revocation linkage for `relay/manage`; Phase 7 adds moderation subscopes of `moderate`/`delegate`. Durable. |
 | `room-policy.v1` | new | Access list, exposure, expiry; reuses P009/P005 vocabularies. |
-| `room-live-message.v1` | new (ephemeral wire) | Validated live frame: carrier-authenticated session boundary outside the payload, `seq/no`, max size, replay handling. The bearer session ref is not part of the frame. Validated but not persisted; not a fact. |
+| `room-live-message.v1` | new (ephemeral wire) | Validated live frame: carrier-authenticated session boundary outside the payload, sender-supplied `nonce`, `seq/no`, max size, replay handling. The bearer session ref is not part of the frame. Validated but not persisted; not a fact. |
 | `room-membership-attestation.v1` | new | Signed projection answering membership/authority queries (subject, grants, signer, high-water). |
 | `room-membership-attestation-request.v1` | new | Explicit request contract for runtime attestation issuance: request mode, requester, subject, requested grants, TTL, and room-scoped authorization. |
 | `room-attestation-audit.v1` | new | Metadata-only operator-visible audit fact for issued, refused, deduplicated, and rate-limited attestation requests. |
@@ -421,6 +594,11 @@ primitive instead of maintaining a compatibility projection first.
 | `room-relay-delivery.v1` | implemented Phase 6A | Ephemeral member-visible carrier header with required `delivery/kind: member-visible`, adding `relay/epoch` and `relay/seq-no` around an already validated Room live or projection payload; it is not a durable fact. |
 | `room-relay-sender-key-distribution.v1` | implemented Phase 6B | Signed recipient-private sender-key package bound to Room, relay epoch, membership epoch, sender, and recipient. It is delivered through an existing pairwise sealed channel and is never relay fan-out content. |
 | `room-relay-sealed-delivery.v1` | implemented Phase 6B | Ephemeral relay delivery with required `delivery/kind: sealed`, carrying an authenticated encrypted sender frame plus relay ordering metadata. Plaintext payload metadata remains inside the ciphertext. |
+| `room-access-denial.v1` | planned Phase 7 | Durable authority-signed ban/reinstatement record whose effective denial precedes positive Room admission evidence. |
+| `room-floor-policy.v1` | planned Phase 7 | Bounded `open`, `moderated`, or `round-robin` policy, generation, queue limits, and lease bounds. |
+| `room-floor-lease.v1` | planned Phase 7 (ephemeral) | Short-lived subject- and generation-bound permission to use an existing `speak` grant in a controlled-floor mode. It grants no membership. |
+| `room-moderation-audit.v1` | planned Phase 7 | Bounded metadata-only audit fact for admitted, refused, replayed, expired, and cleanup-degraded moderation intents. |
+| `room-live-message.v2` | planned Phase 7 (ephemeral wire) | Replaces v1 `nonce` with stable Room-scoped `message/ref` and adds bounded reply linkage without adding shared retention. |
 
 ## Relationship to Existing Mechanisms
 
@@ -450,11 +628,22 @@ primitive instead of maintaining a compatibility projection first.
 | Relay becomes policy authority | A carrier can mint membership or effects | Relay validates evidence and caps only; durable Room projection and domain-specific fencing remain decisive. |
 | Two endpoints claim one epoch | Split live view | Fail closed on same-epoch conflict; only a newer authority-signed epoch performs failover. |
 | Failover tries to merge ephemeral histories | DAG/CRDT complexity enters Room Core | Start a new relay epoch and refresh from durable facts/read-models; never merge epochs. |
-| Federation relay reads private content | Confidentiality breach | Require `sealed-sender-key-v1`; disclose metadata leakage and rotate active sender keys after membership change. |
+| Federation relay reads private content | Confidentiality breach | Require `sealed-sender-key-v1`; disclose metadata leakage and rotate active sender keys after decrypting-recipient-set changes. |
 | Idle NAT binding disappears | Silent live disconnect | Bounded approximately 25-second keepalive plus jittered reconnect and cursor resubscription. |
 | Room authority selects an arbitrary URL | SSRF-like egress or trust bypass | Require an exact match to referenced endpoint evidence plus host egress and Node Transport trust policy before dialing. |
 | Malicious relay drops or delays frames | False assumption of complete delivery | Treat relay sequence as gap detection only; domain acknowledgements, idempotency, facts, and retry remain authoritative. Fail over on bounded liveness policy. |
 | Superseded relay continues sending | Split live view or rollback | Bind sessions and cursors to the accepted active epoch and refuse every lower-epoch frame after supersession. |
+| UI `op` or consumer `Chair` is accepted as authority | Consumer labels bypass Room admission | Treat labels as read-model aliases only; require a current scoped Room delegation. |
+| Revoked `speak` survives in an old session | Muted participant can continue sending | Re-evaluate the current projection for every send and fail closed on stale authority. |
+| Floor scheduling is represented by durable grant churn | Agora history grows with conversational timing | Keep `speak` durable and represent turn allocation as bounded ephemeral floor leases. |
+| A positive passport bypasses a ban | Denied subject rejoins through stale evidence | Evaluate current access denial before every positive invitation, passport, attestation, or grant. |
+| Ban commits but carrier cleanup fails | Runtime appears to restore authority | Keep the denial authoritative and report bounded cleanup as degraded state. |
+| Reply refs imply hidden transcript retention | Ephemeral conversation becomes durable by accident | Permit unresolved refs and require explicit classified capture for durable evidence. |
+| Moderation state is implemented beside the Room projection | Membership and denial authorities diverge | Fold membership, scoped delegation, denial, and policy in one ordered Room projection and expose one effective decision. |
+| A carrier grows its own mute or floor API | Transport behavior diverges from Room authority | Compose the effective projection above the trait and reuse `refresh_projection` for every carrier. |
+| Mute or floor rotates sealed sender keys | Conversational scheduling causes avoidable O(n) crypto churn | Keep the derived sealed recipient-set epoch unchanged; rotate only for actual decrypting-recipient changes after the Phase 7 classifier lands. |
+| `nonce` and `message/ref` coexist in v2 | Two conflicting message identities create replay ambiguity | Replace nonce in v2 and allow only a validating v1 compatibility projection. |
+| Reply linkage is treated as causal evidence | Conversation hints become false receipts or execution lineage | Keep reply refs outside P081 causal context, traces, receipts, and effect dependencies. |
 
 ## Resolved Decisions
 
@@ -565,6 +754,37 @@ primitive instead of maintaining a compatibility projection first.
     not authority. `sealed-sender-key-v1` does not expose a full recipient array in its
     relay delivery; deployments requiring recipient-set confidentiality must use that
     profile and still account for traffic-analysis leakage.
+26. **Moderation authority.** `op` is a possible UI alias, not a Room grant or wire
+    role, and is never admission input. Root authority remains non-removable while the
+    Room is active; after canonical target validation, the projection rejects a root
+    target before evaluating delegation or policy. Moderators act only through closed,
+    expiring, revocable, non-transitive subscopes of `moderate` or `delegate`. Consumer
+    roles such as Corpus `Chair` do not become Room authority without canonical
+    admission.
+27. **Voice and floor separation.** The durable `speak` grant answers whether a member
+    may speak at all. Temporary floor leases answer whether that member may speak now
+    under a moderated or round-robin policy. Mute/unmute reuse full grant snapshots in
+    `room-membership.v1`; kick reuses member revocation. Neither mechanism substitutes
+    for the other or adds a transport operation.
+28. **Access-denial precedence.** An effective Room ban is a durable deny overlay that
+    precedes positive invitations, passports, attestations, membership, and grants.
+    Reinstatement removes the denial but does not recreate prior positive authority.
+29. **Reply semantics.** Stable message and reply references belong to the ephemeral
+    Room contract. They express linkage without requiring history, dereferenceability,
+    shared capture, durable fact status, or P081 causal lineage. In v2, `message/ref`
+    replaces v1 `nonce`; they are never parallel identity sources.
+30. **Projection-owned moderation.** Membership, scoped moderation, access denial,
+    `speak`, and floor policy compose into one effective Room projection. Existing
+    `RoomLiveTransport::refresh_projection` reconciles carriers; Room adds no
+    carrier-specific moderation methods.
+31. **Sealed rotation scope.** `membership/epoch` is derived from the latest
+    recipient-set-changing membership high-water. The target Phase 7 rule rotates on
+    join and decrypting-recipient removal/ban, not on `speak` or floor changes, and
+    applies only to `sealed-sender-key-v1`. The implemented Phase 6B runtime retains
+    conservative all-membership-change rotation until that classifier is proven.
+32. **Moderation audit and replay.** Typed controls produce metadata-only audit facts
+    and reuse host actor-bound idempotency semantics. Room does not create a private
+    idempotency database or persist live content in the audit path.
 
 ## Implementation Contract
 
@@ -703,8 +923,8 @@ Room authority evolves through durable records:
 | none | `opened` | `opened` | Creates the room and initial authority. |
 | `opened` | `delegated` | `delegated` | Allowed only by current authority and within explicit scope/expiry. |
 | `delegated` | `delegation-revoked` | `opened` | Revokes scoped authority; prior delegated actions remain auditable facts. |
-| `opened` or `delegated` | `member-granted` | unchanged | Adds or extends grants for one subject. |
-| `opened` or `delegated` | `member-revoked` | unchanged | Removes grants for one subject and triggers live drop. |
+| `opened` or `delegated` | `member-granted` | unchanged | Replaces the subject's complete admitted grant snapshot. |
+| `opened` or `delegated` | `member-revoked` | unchanged | Removes membership and all grants for one subject, then triggers live drop. |
 | `opened` or `delegated` | `ready` | unchanged | Durable only when it affects authority, budget, or lifecycle. |
 | `opened` or `delegated` | `expired` | `expired` | Terminal for live transport; projection remains queryable. |
 | `opened` or `delegated` | `closed` | `closed` | Terminal for live transport; projection remains queryable. |
@@ -1058,6 +1278,37 @@ object with the top-level `signature` field removed. Verifiers therefore check t
 room id, subject, granted rights, high-water sequence, source refs, signer ref, and
 validity window as one signed value; the signature never signs itself.
 
+### Phase 7 Implementation Shape
+
+Phase 7 extends the existing strata rather than adding a moderation service beside
+Room:
+
+- extend the pure `RoomProjection` fold with scoped moderation and access-denial input;
+  after schema and canonical identity validation, reject a root target before every
+  other authority decision;
+- reuse `RoomMembershipOp`, `RoomEventKind`, the closed `ROOM_GRANTS` validator, and
+  scoped authority-delegation machinery. Mute/unmute are full grant-set snapshots,
+  member removal is the existing revoke path, and moderation scopes narrow
+  `moderate`/`delegate` rather than extending the top-level grant vocabulary;
+- compose floor policy and leases above `RoomLiveTransport`, then reconcile all
+  carriers through the existing `refresh_projection` method. Do not add mute, floor,
+  kick, ban, or denial methods to the transport trait;
+- define floor modes as a closed enum with `deny_unknown_fields`, and define one shared
+  `ROOM_REPLY_REFS_MAX` constant with baseline value `8`; schema and runtime validators
+  import the same bound instead of repeating a literal;
+- fold `room-access-denial.v1` into the same ordered Room `seq/no` stream and projection;
+  do not create a second high-water or authority store;
+- reuse the host's actor-bound idempotency registry and conflict semantics for typed
+  controls. Emit `room-moderation-audit.v1` only after bounded metadata validation and
+  never include live payload, private reason text, bearer, or crypto material;
+- land member-visible moderation first because it needs projection refresh and session
+  drop only. Add recipient-set classification and selective sealed rotation as a
+  separately tested profile-gated slice; keep conservative Phase 6B rotation until it
+  passes the sealed-relay golden and adversarial vectors;
+- register each frozen schema in schema-gate import/export mapping and the schema sync
+  checker, with positive and negative fixtures for unknown fields, unsupported enum
+  values, root targeting, ref bounds, identity conflict, and projection-order drift.
+
 ## Implementation Tracker
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code
@@ -1338,6 +1589,99 @@ selection and failover independently of group encryption.
   at 64 transition records. Status, audit, and report must first match closed
   metadata-only field allowlists; recursive sensitive-key and private-marker scanning
   remains defense-in-depth evidence rather than the canonical redaction mechanism.
+
+### Phase 7 — Generic moderation, floor control, and message linkage
+
+This is consumer-neutral Room work. Terms such as `op` and `voice` MAY be used as UI
+aliases, but they are not wire-level roles: Room owns scoped moderation authority,
+the existing `speak` grant, temporary floor allocation, and access denial. A Corpus
+`Chair` or another consumer-specific role may request or map to these primitives, but
+Room MUST NOT infer that domain role or transfer its authority automatically.
+P069 Phase 8A is the first planned consumer of this generic surface and must map its
+domain vocabulary through canonical Room admission rather than extending Room Core.
+
+- [ ] Freeze the moderation vocabulary and authority matrix before extending runtime
+  behavior. The opening `authority/subject` remains the non-removable root authority
+  while the Room is active. Define which actions require root authority, scoped
+  `moderate` authority, ordinary membership, or current `speak` plus floor authority;
+  explicitly forbid a moderator from transferring root authority, delegating another
+  moderator unless separately authorized, changing lifecycle/policy outside its scope,
+  or removing, muting, banning, or demoting the root authority. After schema and
+  canonical target validation, make root targeting the first fail-closed projection
+  authority check.
+- [ ] Extend durable authority delegation with closed moderation scopes rather than an
+  ambient `op` bit. At minimum, distinguish participant invitation, participant removal,
+  access denial/reinstatement, and `speak` grant/revocation. Each delegation binds the
+  Room, subject, issuer, scope, expiry, sequence, and revocation reference; it is
+  non-transitive by default, monotonically narrowable, and ineffective after expiry,
+  revocation, Room closure, or an authority projection conflict. Model every scope as a
+  closed narrowing of existing `moderate` or `delegate`, not as a new top-level grant.
+- [ ] Make `speak` changes effective on active sessions without treating connection
+  presence as authority. Sending MUST re-check the current Room projection, and stale
+  bearer sessions MUST fail closed after grant replacement. Reuse
+  `RoomMembershipOp::Grant` with a complete grant snapshot for mute/unmute, the existing
+  revoke path for member removal, and `RoomLiveTransport::refresh_projection` for
+  carrier convergence; add no transport-specific operation. Derive the snapshot from
+  the current projection and prove every non-`speak` grant remains byte-equivalent.
+- [ ] Define a bounded, ephemeral floor-control contract for orderly turn taking instead
+  of rewriting durable membership facts for every utterance. Add explicit `open`,
+  `moderated`, and `round-robin` modes plus short-lived floor leases bound to Room,
+  subject, policy generation, issuance sequence, and expiry. Effective send authority
+  in controlled modes is `current speak grant AND current floor lease`; restart,
+  failover, stale generation, timeout, and ambiguous ownership all revoke the floor
+  fail closed. Operator/moderator override and queue bounds must be explicit. Use a
+  closed enum plus `deny_unknown_fields`; unknown modes fail at both schema and DTO
+  boundaries.
+- [ ] Define a durable Room access-denial record and projection with precedence over
+  invitations, passports, membership attestations, and positive grants. Ban records
+  bind Room, subject, issuer authority, reason code/ref, sequence, optional expiry, and
+  supersession/reinstatement evidence. Reinstatement removes only the denial and MUST
+  NOT silently restore former membership or grants. Kick remains a distinct immediate
+  session-and-membership action without an implicit durable ban. Fold denial into the
+  same ordered projection and Room high-water; no parallel authority store is allowed.
+- [ ] Implement kick, ban, unban, mute, unmute, invite, and remove as typed,
+  idempotent control intents admitted through current Room authority rather than
+  caller-supplied role labels. Admission and durable fact commit precede transport
+  effects; projection refresh then drops or narrows affected live sessions. Partial
+  carrier cleanup is reported as degraded state and cannot roll back the authoritative
+  denial or grant decision. Reuse host actor-bound idempotency and emit bounded
+  `room-moderation-audit.v1` decisions; do not add a Room-local replay store.
+- [ ] Land member-visible moderation fencing first. Ban and membership removal refresh
+  the projection and drop affected sessions; mute/unmute and floor changes refresh
+  effective send authority. `member-visible-tls-v1` has no sender key and performs no
+  crypto rotation.
+- [ ] Add the separately profile-gated sealed moderation slice. Derive
+  `membership/epoch` from the latest decrypting-recipient-set change, rotate on join and
+  recipient removal/ban, and do not rotate for `speak` or floor changes. Replace the
+  current conservative all-membership-change trigger only after golden and adversarial
+  vectors prove old-epoch refusal, pre-join isolation, bounded redistribution, and
+  restart/failover recovery.
+- [ ] Add stable, carrier-neutral message references and bounded reply linkage to the
+  next live-message contract revision. Replace v1 `nonce` with one sender-supplied
+  Room-scoped immutable `message/ref`; v2 cannot carry both. Bind exact replay to sender,
+  sequence, ref, and payload digest. Add a unique reply-ref set bounded by the shared
+  `ROOM_REPLY_REFS_MAX = 8` constant. Reply refs remain non-durable conversation hints,
+  not P081 causal refs, receipts, trace edges, or retrieval authority.
+- [ ] Provide metadata-only moderation diagnostics and operator affordances showing
+  effective authority, `speak` state, floor owner/queue occupancy, active denials,
+  policy generation, membership high-water, sealed recipient-set epoch where relevant,
+  and degraded cleanup reason. Diagnostics must not expose bearer tokens, sender keys,
+  sealed payloads, live message content, or private reason text, and available actions
+  must be derived from current authority rather than rendered from static UI assumptions.
+- [ ] Add schema fixtures, pure projection golden vectors, adversarial tests, and a
+  multiprocess federated acceptance profile. Cover unauthorized delegation, moderator
+  re-delegation, root-authority removal, grant races, duplicate and expired floor
+  leases, queue overflow, kick versus ban, unban without regrant, stale attestation and
+  bearer replay, member-visible no-rotation, selective sealed-key rotation, nonce/ref
+  conflict, reply-ref bounds, unknown floor modes, missing referenced messages, relay
+  failover, idempotent retries, audit redaction, and deterministic replay on independent
+  nodes. Wire all frozen schemas into schema-gate mappings and positive/negative fixture
+  checks.
+- [ ] Document consumer mappings without coupling Room to them. Corpus may map its
+  current `Chair` to a bounded moderator delegation and use floor control for carousel
+  deliberation; other components may choose different role names and policies. No
+  consumer role, model output, or Agent decision becomes Room authority until the
+  canonical Room admission path commits the corresponding scoped fact.
 
 ## Open Questions
 
