@@ -34,7 +34,7 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-virt.host.request.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`operation`](#field-operation) | `yes` | enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `host.reconcile` |  |
+| [`operation`](#field-operation) | `yes` | enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `guest.invoke`, `host.reconcile` |  |
 | [`payload`](#field-payload) | `yes` | object |  |
 
 ## Definitions
@@ -44,6 +44,20 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 | [`ref`](#def-ref) | string |  |
 | [`fixturePrepare`](#def-fixtureprepare) | object |  |
 | [`environmentBinding`](#def-environmentbinding) | object |  |
+| [`guestInvoke`](#def-guestinvoke) | object |  |
+| [`guestRequest`](#def-guestrequest) | unspecified |  |
+| [`guestArgv`](#def-guestargv) | array |  |
+| [`guestPath`](#def-guestpath) | string |  |
+| [`guestSpawnProcess`](#def-guestspawnprocess) | object |  |
+| [`guestOpenPty`](#def-guestopenpty) | object |  |
+| [`guestTerminalInput`](#def-guestterminalinput) | object |  |
+| [`guestTerminalResize`](#def-guestterminalresize) | object |  |
+| [`guestTerminalSignal`](#def-guestterminalsignal) | object |  |
+| [`guestFileSnapshot`](#def-guestfilesnapshot) | object |  |
+| [`guestFileRead`](#def-guestfileread) | object |  |
+| [`guestPatchStage`](#def-guestpatchstage) | object |  |
+| [`guestArtifactExport`](#def-guestartifactexport) | object |  |
+| [`guestLifecycle`](#def-guestlifecycle) | object |  |
 | [`vfkitAllocate`](#def-vfkitallocate) | object |  |
 | [`environmentLimits`](#def-environmentlimits) | object |  |
 | [`emptyPayload`](#def-emptypayload) | object |  |
@@ -87,6 +101,35 @@ When:
 {
   "properties": {
     "operation": {
+      "const": "guest.invoke"
+    }
+  },
+  "required": [
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload": {
+      "$ref": "#/$defs/guestInvoke"
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "operation": {
       "const": "vfkit.allocate"
     }
   },
@@ -108,7 +151,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 
@@ -143,7 +186,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -190,7 +233,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `host.reconcile`
+- Shape: enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `guest.invoke`, `host.reconcile`
 
 <a id="field-payload"></a>
 ## `payload`
@@ -212,6 +255,76 @@ Then:
 
 <a id="def-environmentbinding"></a>
 ## `$defs.environmentBinding`
+
+- Shape: object
+
+<a id="def-guestinvoke"></a>
+## `$defs.guestInvoke`
+
+- Shape: object
+
+<a id="def-guestrequest"></a>
+## `$defs.guestRequest`
+
+- Shape: unspecified
+
+<a id="def-guestargv"></a>
+## `$defs.guestArgv`
+
+- Shape: array
+
+<a id="def-guestpath"></a>
+## `$defs.guestPath`
+
+- Shape: string
+
+<a id="def-guestspawnprocess"></a>
+## `$defs.guestSpawnProcess`
+
+- Shape: object
+
+<a id="def-guestopenpty"></a>
+## `$defs.guestOpenPty`
+
+- Shape: object
+
+<a id="def-guestterminalinput"></a>
+## `$defs.guestTerminalInput`
+
+- Shape: object
+
+<a id="def-guestterminalresize"></a>
+## `$defs.guestTerminalResize`
+
+- Shape: object
+
+<a id="def-guestterminalsignal"></a>
+## `$defs.guestTerminalSignal`
+
+- Shape: object
+
+<a id="def-guestfilesnapshot"></a>
+## `$defs.guestFileSnapshot`
+
+- Shape: object
+
+<a id="def-guestfileread"></a>
+## `$defs.guestFileRead`
+
+- Shape: object
+
+<a id="def-guestpatchstage"></a>
+## `$defs.guestPatchStage`
+
+- Shape: object
+
+<a id="def-guestartifactexport"></a>
+## `$defs.guestArtifactExport`
+
+- Shape: object
+
+<a id="def-guestlifecycle"></a>
+## `$defs.guestLifecycle`
 
 - Shape: object
 

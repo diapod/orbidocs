@@ -32,6 +32,7 @@
         "environment.drain",
         "environment.teardown",
         "environment.recover",
+        "guest.invoke",
         "host.reconcile"
       ]
     },
@@ -55,6 +56,25 @@
         "properties": {
           "payload": {
             "$ref": "#/$defs/fixturePrepare"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "guest.invoke"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/guestInvoke"
           }
         }
       }
@@ -198,6 +218,388 @@
         },
         "source/generation-ref": {
           "$ref": "#/$defs/ref"
+        }
+      }
+    },
+    "guestInvoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment/ref",
+        "source/generation-ref",
+        "guest/request",
+        "timeout-ms"
+      ],
+      "properties": {
+        "environment/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "source/generation-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "guest/request": {
+          "$ref": "#/$defs/guestRequest"
+        },
+        "transfer/base64": {
+          "type": "string",
+          "maxLength": 699052,
+          "contentEncoding": "base64"
+        },
+        "timeout-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "guest/request": {
+                "properties": {
+                  "operation/kind": {
+                    "const": "patch-stage"
+                  }
+                },
+                "required": [
+                  "operation/kind"
+                ]
+              }
+            },
+            "required": [
+              "guest/request"
+            ]
+          },
+          "then": {
+            "required": [
+              "transfer/base64"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "transfer/base64"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "guestRequest": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/guestSpawnProcess"
+        },
+        {
+          "$ref": "#/$defs/guestOpenPty"
+        },
+        {
+          "$ref": "#/$defs/guestTerminalInput"
+        },
+        {
+          "$ref": "#/$defs/guestTerminalResize"
+        },
+        {
+          "$ref": "#/$defs/guestTerminalSignal"
+        },
+        {
+          "$ref": "#/$defs/guestFileSnapshot"
+        },
+        {
+          "$ref": "#/$defs/guestFileRead"
+        },
+        {
+          "$ref": "#/$defs/guestPatchStage"
+        },
+        {
+          "$ref": "#/$defs/guestArtifactExport"
+        },
+        {
+          "$ref": "#/$defs/guestLifecycle"
+        }
+      ]
+    },
+    "guestArgv": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "maxLength": 4096,
+        "not": {
+          "pattern": "\\u0000"
+        }
+      }
+    },
+    "guestPath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    },
+    "guestSpawnProcess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "argv",
+        "cwd",
+        "timeout-ms",
+        "output/bytes-max"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "spawn-process"
+        },
+        "argv": {
+          "$ref": "#/$defs/guestArgv"
+        },
+        "cwd": {
+          "$ref": "#/$defs/guestPath"
+        },
+        "timeout-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        },
+        "output/bytes-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 524288
+        }
+      }
+    },
+    "guestOpenPty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "argv",
+        "cwd",
+        "rows",
+        "columns",
+        "output/bytes-max"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "open-pty"
+        },
+        "argv": {
+          "$ref": "#/$defs/guestArgv"
+        },
+        "cwd": {
+          "$ref": "#/$defs/guestPath"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "output/bytes-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 524288
+        }
+      }
+    },
+    "guestTerminalInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "session/ref",
+        "input/base64",
+        "input/digest",
+        "read-wait-ms"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "terminal-input"
+        },
+        "session/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "input/base64": {
+          "type": "string",
+          "maxLength": 87384,
+          "contentEncoding": "base64"
+        },
+        "input/digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "read-wait-ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        }
+      }
+    },
+    "guestTerminalResize": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "session/ref",
+        "rows",
+        "columns"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "terminal-resize"
+        },
+        "session/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        }
+      }
+    },
+    "guestTerminalSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "session/ref",
+        "signal"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "terminal-signal"
+        },
+        "session/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "signal": {
+          "enum": [
+            "interrupt",
+            "terminate",
+            "kill"
+          ]
+        }
+      }
+    },
+    "guestFileSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "path",
+        "entries/max"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "file-snapshot"
+        },
+        "path": {
+          "$ref": "#/$defs/guestPath"
+        },
+        "entries/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        }
+      }
+    },
+    "guestFileRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "path",
+        "bytes/max"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "file-read"
+        },
+        "path": {
+          "$ref": "#/$defs/guestPath"
+        },
+        "bytes/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 524288
+        }
+      }
+    },
+    "guestPatchStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "path",
+        "transfer/length",
+        "transfer/digest"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "patch-stage"
+        },
+        "path": {
+          "$ref": "#/$defs/guestPath"
+        },
+        "transfer/length": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 524288
+        },
+        "transfer/digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "guestArtifactExport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind",
+        "path",
+        "bytes/max"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "artifact-export"
+        },
+        "path": {
+          "$ref": "#/$defs/guestPath"
+        },
+        "bytes/max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 524288
+        }
+      }
+    },
+    "guestLifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation/kind"
+      ],
+      "properties": {
+        "operation/kind": {
+          "enum": [
+            "inspect",
+            "quiesce",
+            "shutdown"
+          ]
         }
       }
     },

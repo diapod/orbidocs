@@ -43,7 +43,7 @@ Bounded generation-, plan-, image-, and boot-bound frame for the Workbench guest
 | [`guest/cid`](#field-guest-cid) | `yes` | integer |  |
 | [`boot/nonce`](#field-boot-nonce) | `yes` | string |  |
 | [`operation/id`](#field-operation-id) | `no` | ref: `#/$defs/ref` |  |
-| [`operation/kind`](#field-operation-kind) | `no` | enum: `spawn-process`, `open-pty`, `terminal-input`, `terminal-resize`, `terminal-signal`, `file-snapshot`, `file-read`, `patch-stage`, `artifact-export`, `quiesce`, `shutdown` |  |
+| [`operation/kind`](#field-operation-kind) | `no` | enum: `spawn-process`, `open-pty`, `terminal-input`, `terminal-resize`, `terminal-signal`, `file-snapshot`, `file-read`, `patch-stage`, `artifact-export`, `inspect`, `quiesce`, `shutdown` |  |
 | [`sequence`](#field-sequence) | `yes` | integer |  |
 | [`deadline-at`](#field-deadline-at) | `yes` | string |  |
 | [`chunk/index`](#field-chunk-index) | `no` | integer |  |
@@ -200,7 +200,7 @@ Then:
 ## `operation/kind`
 
 - Required: `no`
-- Shape: enum: `spawn-process`, `open-pty`, `terminal-input`, `terminal-resize`, `terminal-signal`, `file-snapshot`, `file-read`, `patch-stage`, `artifact-export`, `quiesce`, `shutdown`
+- Shape: enum: `spawn-process`, `open-pty`, `terminal-input`, `terminal-resize`, `terminal-signal`, `file-snapshot`, `file-read`, `patch-stage`, `artifact-export`, `inspect`, `quiesce`, `shutdown`
 
 <a id="field-sequence"></a>
 ## `sequence`

@@ -55,9 +55,12 @@ and orphan cleanup. The packaged guest agent and host channel now cover exact
 generation/plan/image/nonce binding, bounded process/PTY/file/lifecycle mechanics,
 one total process-output budget, ioctl-backed PTY resize, atomically durable
 content-bound patch staging, endpoint-identity revalidation, chunked transfer,
-and local-transport conformance. Full-system image integration,
-real-vfkit deployment evidence, and the virtualized Workbench PTY/file adapter
-remain unimplemented. The freeze also requires closed capability vocabularies,
+and local-transport conformance. A pinned full-system GNU/Linux arm64 image
+builder and real-vfkit harness now prove EFI boot, the virtio-vsock guest channel,
+systemd/PID 1, bounded PTY/file mechanics, offline package use, constrained guest
+resources, dirty-restart recovery, and deterministic teardown on Apple Silicon.
+Routing that PTY/file channel through the virtualized Workbench adapter and P083
+two-controller authority remains unimplemented. The freeze also requires closed capability vocabularies,
 plan-bound operational context and policy floors, evidence-based logical image
 equivalence, and sanitized classified serial diagnostics. The existing Workbench
 environment/export contracts remain landed.
@@ -804,7 +807,7 @@ that one VMM is portable across macOS and Linux:
 
 | Profile | Role | Required substrate | Initial posture |
 | --- | --- | --- | --- |
-| `vfkit-system.v1` on `macos-vz-arm64.v1` | first developer reference backend and first implementation slice | Apple Silicon, Apple Virtualization Framework, pinned vfkit binary | full GNU/Linux arm64 system; EFI boot; raw working disk and per-environment EFI variable store; `virtio-blk`, `virtio-vsock`, `virtio-rng`, bounded diagnostic serial; no NIC |
+| `vfkit-system.v1` on `macos-vz-arm64.v1` | first developer reference backend and first implementation slice | Apple Silicon, Apple Virtualization Framework, pinned vfkit binary | full GNU/Linux arm64 system; EFI boot; raw working disk and per-environment EFI variable store; `virtio-blk`, `virtio-vsock`, `virtio-rng`; no NIC or serial device in the first deployment profile |
 | `cloud-hypervisor-system.v1` on `linux-kvm-x86_64.v1` | first Linux full-system deployment backend | Linux/KVM, cgroup v2, pinned Cloud Hypervisor binary, host filesystem confinement | full GNU/Linux x86_64 system; firmware boot from an explicit raw image; block, vsock, entropy, bounded diagnostic serial; no NIC by default |
 | `firecracker-system.v1` on a compatible `linux-kvm-*.v1` platform | second Linux backend and hardened minimal-device profile | Linux/KVM and a jailer-equivalent launch boundary | introduced after the guest protocol and image manifest are stable; only the common block, vsock, entropy, console, resource, and teardown substrate is portable |
 
@@ -1646,6 +1649,7 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-virt-recovery-record.v1` | Host-private identity for VMM process, sockets, working storage, boot nonce, source generation, platform resources, and reconciliation status. |
 | `sensorium-virt-guest-frame.v1` | Bounded handshake and operation envelope for the guest channel, including environment/generation binding, sequence, deadline, chunk caps, and payload digest. |
 | `sensorium-virt.host.request.v1` | Closed internal ingress envelope for fixture and vfkit allocation, exact environment start/inspect/drain/teardown/recover bindings, and authoritative host reconciliation. Caller payloads never select host paths, VMM binaries, sockets, or argv. |
+| `sensorium-virt-vfkit-deployment-report.v1` | Closed metadata-only evidence report with the exact vfkit check set, VMM/image/firmware/guest digests, operational context, functional timing budgets, and bounded measurements. |
 | `sensorium-terminal-session.v1` | Session descriptor: command profile, workspace, classification, limits, status. |
 | `sensorium-terminal-command.v1` | Structured command intent with command profile, argv data, idempotency key, and normalized argv digest. |
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
@@ -2004,8 +2008,10 @@ behavior.
     digests, sequence, deadlines, byte/chunk caps, and payload digests. The guest
     owns no policy and all returned state remains untrusted.
 46. **Default VM posture is no-device network and no host sharing.** The initial
-    vfkit and Cloud Hypervisor profiles attach only block, vsock, entropy, and
-    bounded diagnostic serial devices. vfkit maps guest AF_VSOCK to one broker-
+    vfkit deployment profile attaches only block, vsock, and entropy; diagnostic
+    serial remains disabled until its retained output has a continuously enforced
+    bound. A later Cloud Hypervisor profile may add the separately evidenced,
+    output-only bounded diagnostic serial device. vfkit maps guest AF_VSOCK to one broker-
     allocated host Unix socket. OCI may distribute pinned image artifacts but
     does not own lifecycle. Isolated networking is a later, separately evidenced
     platform profile.
@@ -2064,6 +2070,14 @@ behavior.
     bounded resource removal without silently retaining the ordinary lifecycle.
     A missing `enabled` field is reported as not configured, not as an explicit
     operator disable.
+54. **Guest operations are serialized per environment in V1.** The production
+    guest agent owns one `GuestRuntime` and synchronously accepts one connection,
+    executes at most one operation, and closes that exchange before accepting the
+    next connection. The host lifecycle lock protects authoritative record and
+    endpoint selection but is not held across guest I/O. Multiple pending host
+    connections therefore do not imply parallel guest effects. Any future
+    parallelism requires a separate partitioned-concurrency contract with explicit
+    ordering and conflict semantics.
 
 ## Next Actions And Implementation Tracker
 
@@ -2493,7 +2507,8 @@ evidence) · `[!]` blocked/needs decision.
 - [x] Publish `sensorium-virt-backend-capabilities.v1`,
   `sensorium-virt-environment-plan.v1`, `sensorium-virt-image-manifest.v1`,
   `sensorium-virt-recovery-record.v1`, `sensorium-virt-guest-frame.v1`, and the
-  closed internal `sensorium-virt.host.request.v1` envelope with
+  closed internal `sensorium-virt.host.request.v1` envelope plus
+  `sensorium-virt-vfkit-deployment-report.v1` with
   positive and refusal fixtures. Capability dimensions must use the closed V1
   vocabularies above and refuse unknown enum values and unregistered backend or
   platform refs. The normalized plan must bind the exact P082 operational context,
@@ -2583,11 +2598,14 @@ evidence) · `[!]` blocked/needs decision.
   admission, exact output and wire bounds, deadline non-extension, partial
   transfer, and durable exact patch-stage replay after a lost
   receipt, quiesce refusal, and deterministic shutdown without claiming full-system
-  deployment evidence. Host-channel tests separately cover endpoint replacement,
+  deployment evidence. A production-exchange test pins one operation per
+  connection; together with the synchronous single-runtime accept loop this
+  establishes per-environment operation serialization without holding the host
+  lifecycle lock across provider I/O. Host-channel tests separately cover endpoint replacement,
   dead listeners, exact maximum response transfer, and oversized response metadata.
   Readiness is tracked as three distinct facts: guest
   `protocol implemented`; real-binary local `conformance proven`; full-system
-  vfkit `deployment evidence pending`.
+  vfkit `deployment evidence proven`.
 - [x] Implement the host-lifecycle adapter for `vfkit-system.v1` as the first
   process-isolated backend slice on
   `macos-vz-arm64.v1`: pinned binary, EFI full-system GNU/Linux arm64 image, APFS
@@ -2600,15 +2618,26 @@ evidence) · `[!]` blocked/needs decision.
   harness exercises the exact command surface and lifecycle without claiming
   full-system or Apple Virtualization Framework evidence. Real-vfkit boot and
   guest-channel evidence remain owned by the next item.
-- [ ] Run vfkit deployment evidence for systemd/PID 1, harmless kernel and mount
-  operations, local package installation, host non-interference, no-secret/no-
-  network posture, P083 two-controller PTY fencing, file/patch/export behavior,
-  resource exhaustion, stale nonce/generation refusal, crash-point recovery,
-  idempotency conflicts, teardown, unknown capability and image-equivalence refusal,
-  operational-context floor/inheritance, serial ANSI/control injection sanitization,
-  explicit-capture classification, and bounded performance measurements. Add the
-  resulting full-system collaborative scenario as an additive Story 012 profile,
-  not a reinterpretation of the completed story.
+- [x] Build the pinned full-system GNU/Linux arm64 image and run real-vfkit
+  deployment evidence for verified guest readiness, systemd/PID 1, harmless
+  kernel and mount operations, offline package installation, no-NIC/no-SSH/no-
+  share/no-credential posture, real PTY, file/read/patch-stage/export behavior,
+  bounded process output, observed CPU/RAM/disk/TasksMax plan, guest PID exhaustion, generation/plan/image/nonce
+  handshake, stale-generation refusal, dirty-restart recovery, content-bound
+  idempotency conflict/refusal, cooperative drain, deterministic teardown, and
+  bounded measurements under explicit functional deadlines. The image builder
+  pins source and builder digests, serializes concurrent builds, writes metadata
+  atomically, and emits manifest, SBOM, provenance, firmware, guest-agent, and a
+  final digest-bound completion record. The exact ignored deployment test and its
+  runner schema-gate a closed redacted report with VMM/image/firmware/guest pins
+  and without host paths, guest output, credentials, or serial bytes. An external
+  marker may signal that the runner finished, but is never accepted as evidence.
+- [ ] Route the real guest PTY and file channel through the virtualized Workbench
+  adapter and P083 two-controller fencing. Compose the existing unit/process
+  crash-point, unknown-capability, image-equivalence, operational-context, and
+  serial-refusal evidence with this deployment profile, then add the full-system
+  collaborative scenario as an additive Story 012 profile rather than a
+  reinterpretation of the completed story.
 - [ ] Implement `cloud-hypervisor-system.v1` as the first Linux deployment profile
   after the backend-neutral vfkit slice proves the contracts. Require an explicit
   raw image, pinned firmware/VMM digest, dedicated unprivileged identity, cgroup v2,

@@ -1,0 +1,16 @@
+{
+  "schema": "sensorium-virt.host.request.v1",
+  "schema/v": 1,
+  "operation": "guest.invoke",
+  "payload": {
+    "environment/ref": "environment:full-system-proof",
+    "source/generation-ref": "source-generation:full-system-proof:1",
+    "guest/request": {
+      "operation/kind": "patch-stage",
+      "path": "change.patch",
+      "transfer/length": 1,
+      "transfer/digest": "sha256:2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+    },
+    "timeout-ms": 6000
+  }
+}

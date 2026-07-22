@@ -15,6 +15,8 @@ Based on:
 - `node:sensorium-actuation-core`
 - `node:sensorium-virt-core`
 - `node:sensorium-virt-host`
+- `node:sensorium-virt-host/tests/vfkit_deployment.rs`
+- `node:tools/acceptance/sensorium-virt-vfkit`
 - `node:daemon/src/sensorium_virt_integration.rs`
 - `node:interaction-broker-core`
 - `node:middleware-modules/sensorium-workbench`
@@ -63,6 +65,7 @@ Related schemas:
 - `sensorium-virt-recovery-record.v1`
 - `sensorium-virt-guest-frame.v1`
 - `sensorium-virt.host.request.v1`
+- `sensorium-virt-vfkit-deployment-report.v1`
 - `sensorium-workbench-tool-request.v1`
 - `sensorium-interface-descriptor.v1`
 - `sensorium-interface-frame.v1`
@@ -125,9 +128,11 @@ process-level fake-vfkit suite proves replay and principal crash/substitution
 refusals without exposing VMM administration sockets to Python. The packaged
 Rust guest and host channel now add exact generation/plan/image/nonce binding,
 bounded process/PTY/file/lifecycle operations, chunked transfer, and real-binary
-local conformance. Remaining solution work is a pinned full-system image, real
-vfkit deployment and resource evidence, the virtualized Workbench adapter, later
-Linux backends, and optional
+local conformance. A pinned full-system GNU/Linux arm64 image and real-vfkit
+deployment harness now additionally prove the guest channel, systemd, kernel/
+mount/package operations, no-NIC/no-share posture, bounded guest resources,
+recovery, and teardown. Remaining solution work is the P083-backed virtualized
+Workbench adapter, additive Story 012 evidence, later Linux backends, and optional
 daemon command-BDO signal policy beyond the implemented `TERM` cancel path.
 
 Proposal 083 defines the hard-MVP release-blocking path for separately granted
@@ -602,6 +607,7 @@ Related schemas:
 - `sensorium-virt-recovery-record.v1`
 - `sensorium-virt-guest-frame.v1`
 - `sensorium-virt.host.request.v1`
+- `sensorium-virt-vfkit-deployment-report.v1`
 
 Responsibilities:
 
@@ -652,7 +658,7 @@ Status:
   processless fixture records. The vertical smoke proves dirty-restart recovery,
   managed-copy patch/export, teardown, and source immutability. It intentionally
   refuses PTY;
-- `process-isolated guest runtime implemented; deployment evidence pending`:
+- `process-isolated guest runtime and first deployment profile proven`:
   backend names are not isolation
   evidence. The daemon-owned `vfkit-system.v1` host adapter now provides the
   closed VMM lifecycle, a durable pre-spawn launch intent, fsync-backed boot
@@ -678,16 +684,25 @@ Status:
   guest binary and covers admission refusal, outcome/evidence combinations,
   deadline non-extension, exact wire bounds, partial transfers, lost patch-stage
   receipts, stale nonce, replay, overflow, disconnect, and the full mechanics path;
-  this is `conformance proven` without claiming VM evidence. `Deployment evidence
-  pending` is a separate state: Phase 4 still requires a pinned
-  full-system image, real-vfkit boot and platform resource evidence, and P083 PTY
-  conformance before virtualized PTY is enabled.
+  one production connection carries at most one operation, and the synchronous
+  single-runtime guest loop serializes effects per environment without extending
+  the host lifecycle lock across guest I/O. This is `conformance proven`. The pinned-image builder and exact real-vfkit
+  deployment harness now add the separate `deployment evidence proven` state for
+  the host/guest substrate: EFI full-system boot, verified AF_VSOCK handshake,
+  systemd/PID 1, harmless kernel and mount operations, offline package install,
+  no-NIC/no-SSH/no-share/no-credential posture, real PTY, file/patch/export,
+  bounded output, observed CPU/RAM/disk/TasksMax plan and PID exhaustion, dirty recovery, replay/conflict refusal,
+  stale-generation refusal, cooperative drain, deterministic teardown, and a
+  schema-gated redacted timing report under explicit functional budgets. The
+  builder completion record and report bind the executed VMM, image, firmware,
+  and guest-agent digests; an external readiness marker is not evidence. P083 two-controller routing remains required
+  before virtualized PTY is enabled.
 
 Frozen reference sequence:
 
 | Profile | Role | Boundary |
 | --- | --- | --- |
-| `vfkit-system.v1` / `macos-vz-arm64.v1` | first developer reference and first process-isolated implementation slice | pinned vfkit over Apple Virtualization Framework; EFI full GNU/Linux arm64 image; APFS raw-disk clone; dedicated virtio-vsock-to-UDS control channel; block/vsock/rng/bounded serial only; no NIC, SSH, host share, Rosetta, credentials, or snapshots |
+| `vfkit-system.v1` / `macos-vz-arm64.v1` | first developer reference and first process-isolated implementation slice | pinned vfkit over Apple Virtualization Framework; EFI full GNU/Linux arm64 image; APFS raw-disk clone; dedicated virtio-vsock-to-UDS control channel; block/vsock/rng only; no serial device, NIC, SSH, host share, Rosetta, credentials, or snapshots |
 | `cloud-hypervisor-system.v1` / `linux-kvm-x86_64.v1` | first Linux deployment profile | pinned Cloud Hypervisor and firmware; explicit raw image; unprivileged identity, cgroup v2, host filesystem confinement, closed devices, no NIC by default, and the same guest protocol |
 | `firecracker-system.v1` / compatible Linux KVM profile | subsequent minimal-device hardening backend | introduced after the image manifest and guest protocol stabilize; must pass the same backend-neutral conformance suite under a jailer-equivalent host boundary |
 
@@ -733,8 +748,9 @@ authority to match both environment ref and current generation. P071 Phase 5 and
 P082/P083 trackers contain the runtime and refusal evidence.
 
 Status: `done post-MVP` for operational-impact publication, the fixture admission
-spine, and the backend-neutral guest runtime; the pinned image, real vfkit runtime/
-evidence, and subsequent Linux profiles remain the incomplete P071 Phase 4 work.
+spine, backend-neutral guest runtime, and real-vfkit host/guest deployment profile;
+P083-backed virtualized Workbench integration, additive Story 012 evidence, and
+subsequent Linux profiles remain the incomplete P071 Phase 4 work.
 
 ### Agent, Corpus, and Room Tool Use
 

@@ -65,9 +65,15 @@ agent and host channel have the explicit states `protocol implemented` and
 real-binary local `conformance proven`: admission is typed, process output has one
 total budget, PTY resize is ioctl-backed, patch staging is atomically durable and
 content-bound, endpoint identity is rechecked, and deadline/boundary/disconnect
-cases are covered. `Deployment evidence pending` remains distinct: a pinned
-full-system vfkit image/deployment, platform resource evidence, and virtualized
-Workbench PTY/file integration remain open.
+cases are covered. The pinned full-system GNU/Linux arm64 image and real-vfkit
+harness now add `deployment evidence proven` for EFI boot, AF_VSOCK guest
+readiness, systemd/PID 1, kernel/mount/package mechanics, no-NIC/no-share posture,
+observed CPU/RAM/disk/TasksMax plan and PID refusal, dirty recovery, replay/refusal,
+real PTY/file mechanics, and deterministic teardown. Atomic image metadata and a
+digest-bound completion record prevent partial builds from becoming evidence; the
+schema-gated report binds exact VMM/image/firmware/guest pins and functional timing
+budgets. Readiness markers are not evidence. P083 two-controller routing through the virtualized
+Workbench adapter and additive Story 012 evidence remain open.
 
 The 2026-07-16 refresh additionally closes Proposal 082 and promotes Solution
 046. Sensorium Interfaces now has the pure pull-batch core, eight schemas,
@@ -746,13 +752,21 @@ Recent component deltas:
   channel are now `protocol implemented` with bounded process/PTY/file mechanics,
   a single aggregate process-output budget, ioctl-backed resize, atomic
   content-bound patch staging, endpoint identity checks, lifecycle inspect/
-  quiesce/shutdown, chunked transfers, and honest outcomes. The separate
+  quiesce/shutdown, chunked transfers, and honest outcomes. The V1 production
+  guest uses one synchronous runtime and one operation per connection, so effects
+  are serialized per environment without retaining the host lifecycle lock across
+  guest I/O. The separate
   `conformance proven` state comes from the real-binary local-transport harness,
   including admission, deadline, outcome/evidence, boundary, partial-transfer,
-  and lost-receipt cases. `Deployment evidence pending` remains explicit: a pinned
-  full-system image, real vfkit deployment and platform-resource
-  evidence, and virtualized Workbench integration are not implemented, so
-  Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
+  and lost-receipt cases. A pinned full-system GNU/Linux arm64 image and real-vfkit
+  harness now prove the third `deployment evidence proven` state for the
+  host/guest substrate, including systemd, kernel/mount/package operations,
+  no-NIC/no-share posture, observed CPU/RAM/disk/TasksMax plan and PID refusal,
+  real PTY/file mechanics, dirty recovery, stale-generation refusal, deterministic
+  teardown, atomic digest-bound build completion, and a schema-gated report with
+  exact artifact pins and functional timing budgets.
+  Virtualized Workbench/P083 routing and additive Story 012 evidence are not yet
+  implemented, so Proposal 071 and Solution 042 remain at `98%`. Richer command-BDO signal policy is also
   post-MVP hardening rather than a current blocker.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay

@@ -1,0 +1,20 @@
+{
+  "schema": "sensorium-virt.host.request.v1",
+  "schema/v": 1,
+  "operation": "guest.invoke",
+  "payload": {
+    "environment/ref": "environment:full-system-proof",
+    "source/generation-ref": "source-generation:full-system-proof:1",
+    "guest/request": {
+      "operation/kind": "spawn-process",
+      "argv": [
+        "/usr/bin/systemctl",
+        "is-system-running"
+      ],
+      "cwd": ".",
+      "timeout-ms": 5000,
+      "output/bytes-max": 65536
+    },
+    "timeout-ms": 6000
+  }
+}

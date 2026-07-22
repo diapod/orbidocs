@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-vfkit-deployment-report:v1",
+  "title": "Sensorium Virt vfkit Deployment Report v1",
+  "description": "Closed, metadata-only evidence report for one real vfkit full-system deployment run.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/071-sensorium-workbench.md"],
+  "required": [
+    "schema", "schema/v", "status", "checks", "measurements", "budgets",
+    "backend/id", "backend/binary-digest", "platform/ref", "image/manifest-digest", "image/manifest-file-digest",
+    "image/artifact-digest", "firmware/digest", "guest-agent/digest", "operational/context"
+  ],
+  "properties": {
+    "schema": { "const": "sensorium-virt-vfkit-deployment-report.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "const": "passed" },
+    "checks": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "content-bound-allocation-replay",
+          "idempotency-conflict-refusal",
+          "full-system-agent-ready",
+          "dirty-restart-recovery",
+          "generation-plan-image-nonce-handshake",
+          "systemd-pid1",
+          "guest-kernel-and-mount",
+          "offline-package-install",
+          "no-network-share-ssh-or-host-secret",
+          "file-patch-stage-export",
+          "real-pty-roundtrip",
+          "bounded-process-output",
+          "guest-resource-plan-observed",
+          "guest-pid-exhaustion-bounded",
+          "stale-generation-refusal",
+          "quiesce-refusal",
+          "deterministic-teardown"
+        ]
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allocate-ms", "allocate-to-agent-ready-ms", "drain-teardown-ms"],
+      "properties": {
+        "allocate-ms": { "type": "integer", "minimum": 0, "maximum": 60000 },
+        "allocate-to-agent-ready-ms": { "type": "integer", "minimum": 0, "maximum": 120000 },
+        "drain-teardown-ms": { "type": "integer", "minimum": 0, "maximum": 30000 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allocate-ms-max", "allocate-to-agent-ready-ms-max", "drain-teardown-ms-max"],
+      "properties": {
+        "allocate-ms-max": { "const": 60000 },
+        "allocate-to-agent-ready-ms-max": { "const": 120000 },
+        "drain-teardown-ms-max": { "const": 30000 }
+      }
+    },
+    "backend/id": { "const": "vfkit-system.v1" },
+    "backend/binary-digest": { "$ref": "#/$defs/digest" },
+    "platform/ref": { "const": "macos-vz-arm64.v1" },
+    "image/manifest-digest": { "$ref": "#/$defs/digest" },
+    "image/manifest-file-digest": { "$ref": "#/$defs/digest" },
+    "image/artifact-digest": { "$ref": "#/$defs/digest" },
+    "firmware/digest": { "$ref": "#/$defs/digest" },
+    "guest-agent/digest": { "$ref": "#/$defs/digest" },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}
