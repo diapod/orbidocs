@@ -1,0 +1,62 @@
+{
+  "schema": "story-012-powerdns-full-system-report.v1",
+  "schema/v": 1,
+  "status": "passed",
+  "profile/id": "story-012-powerdns-bielik-vfkit",
+  "backend/id": "vfkit-system.v1",
+  "platform/ref": "macos-vz-arm64.v1",
+  "evidence/boundary": "single-host-full-system",
+  "checks": [
+    "pinned-powerdns-guest-fixture",
+    "exact-powerdns-package-pins",
+    "single-host-three-node-vfkit",
+    "two-real-bielik-runtimes",
+    "agent-output-backed-corpus-turns",
+    "read-only-terminal-room-projection",
+    "exclusive-host-approved-configuration",
+    "localhost-only-powerdns-listener",
+    "exact-localdomain-a-records",
+    "observer-revocation",
+    "dirty-recipient-restart",
+    "stale-generation-refusal",
+    "artifact-export",
+    "unpublished-corpus-draft"
+  ],
+  "artifact/refs": ["artifact:story-012-powerdns-export"],
+  "corpus/draft-ref": "corpus-agent-answer-draft:story-012-powerdns",
+  "model": {
+    "alias": "Bielik-1.5B-v3.0-Instruct",
+    "runtime/count": 2,
+    "runtime/nodes": ["node-b", "node-c"],
+    "runtime/refs": ["runtime/baseline-assistant-llama-server"],
+    "binding/ref": "model.binding/baseline-assistant-llama-server",
+    "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "agent-product/digests": [
+      "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+    ]
+  },
+  "guest": {
+    "fixture/ref": "story-fixture:story-012-powerdns-localdomain-v1",
+    "fixture/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "apt/packages": [
+      "pdns-backend-bind=4.8.3-4build3",
+      "pdns-server=4.8.3-4build3"
+    ],
+    "image/artifact-digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "image/manifest-digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "dns/assertions": [
+    { "query/id": 4608, "name": "a.localdomain", "expected/address": "127.0.0.1", "actual/address": "127.0.0.1", "peer/address": "127.0.0.1" },
+    { "query/id": 4609, "name": "b.localdomain", "expected/address": "127.0.0.2", "actual/address": "127.0.0.2", "peer/address": "127.0.0.1" },
+    { "query/id": 4610, "name": "c.localdomain", "expected/address": "127.0.0.3", "actual/address": "127.0.0.3", "peer/address": "127.0.0.1" }
+  ],
+  "measurements": {
+    "duration/ms": 420000,
+    "deliberation/ms": 180000
+  },
+  "budgets": {
+    "duration/ms-max": 1200000,
+    "deliberation/ms-max": 600000
+  }
+}

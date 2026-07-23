@@ -1128,6 +1128,13 @@ Corpus, Agent, and shared-terminal topology to prove collaborative GNU/Linux
 service configuration. It is additive post-MVP acceptance evidence and does not
 reinterpret the completed baseline Story 012 gate.
 
+The additive PowerDNS/Bielik specialization uses the same Workbench runtime and
+P083 authority boundary. Its image builder may attach vfkit NAT only to the
+disposable build VM while installing exact package versions; the final runtime
+profile remains no-NIC. Agent/model output stays inert, and node A executes only
+the checked-in deterministic configuration sequence after HIL and exclusive
+lease admission.
+
 An environment also declares its operational impact through the P082-owned
 `sensorium-operational-context.v1` value. A connector or backend may supply an
 operator-configured candidate default, but the exact normalized plan pins the
@@ -2730,6 +2737,14 @@ evidence) · `[!]` blocked/needs decision.
   B/C deliberation, exclusive repair, observer revocation, dirty recipient
   restart, stale-generation refusal, artifact export, and an unpublished Corpus
   draft.
+- [ ] **In progress, additive post-MVP and non-blocking for the completed
+  baseline gate:** retain the Story 012 PowerDNS/Bielik
+  `single-host-full-system` report. The closed profile, schema-gated report,
+  exact package/fixture
+  image builder, P083 deterministic apply path, localhost-only listener check,
+  authoritative DNS assertions, and structural tests are implemented. Closure
+  requires the expensive run with real model bytes and cannot be inferred from
+  the already-passing manifest-repair vertical.
 - [ ] **In progress:** complete deployment evidence for
   `cloud-hypervisor-system.v1` as the first Linux deployment profile after the
   backend-neutral vfkit slice proves the contracts.

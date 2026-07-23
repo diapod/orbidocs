@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-powerdns-full-system-report:v1",
+  "title": "Story 012 PowerDNS Full-System Report v1",
+  "description": "Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik full-system acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/066-inquirium-assistant-channel.md",
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "profile/id",
+    "backend/id",
+    "platform/ref",
+    "evidence/boundary",
+    "checks",
+    "artifact/refs",
+    "corpus/draft-ref",
+    "model",
+    "guest",
+    "dns/assertions",
+    "measurements",
+    "budgets"
+  ],
+  "properties": {
+    "schema": { "const": "story-012-powerdns-full-system-report.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "const": "passed" },
+    "profile/id": { "const": "story-012-powerdns-bielik-vfkit" },
+    "backend/id": { "const": "vfkit-system.v1" },
+    "platform/ref": { "const": "macos-vz-arm64.v1" },
+    "evidence/boundary": { "const": "single-host-full-system" },
+    "checks": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "pinned-powerdns-guest-fixture",
+          "exact-powerdns-package-pins",
+          "single-host-three-node-vfkit",
+          "two-real-bielik-runtimes",
+          "agent-output-backed-corpus-turns",
+          "read-only-terminal-room-projection",
+          "exclusive-host-approved-configuration",
+          "localhost-only-powerdns-listener",
+          "exact-localdomain-a-records",
+          "observer-revocation",
+          "dirty-recipient-restart",
+          "stale-generation-refusal",
+          "artifact-export",
+          "unpublished-corpus-draft"
+        ]
+      }
+    },
+    "artifact/refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "corpus/draft-ref": { "$ref": "#/$defs/ref" },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alias",
+        "runtime/count",
+        "runtime/nodes",
+        "runtime/refs",
+        "binding/ref",
+        "artifact/digest",
+        "agent-product/digests"
+      ],
+      "properties": {
+        "alias": { "const": "Bielik-1.5B-v3.0-Instruct" },
+        "runtime/count": { "const": 2 },
+        "runtime/nodes": {
+          "const": ["node-b", "node-c"]
+        },
+        "runtime/refs": {
+          "const": ["runtime/baseline-assistant-llama-server"]
+        },
+        "binding/ref": { "const": "model.binding/baseline-assistant-llama-server" },
+        "artifact/digest": { "$ref": "#/$defs/base64url-digest" },
+        "agent-product/digests": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/base64url-digest" }
+        }
+      }
+    },
+    "guest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture/ref",
+        "fixture/digest",
+        "apt/packages",
+        "image/artifact-digest",
+        "image/manifest-digest"
+      ],
+      "properties": {
+        "fixture/ref": { "const": "story-fixture:story-012-powerdns-localdomain-v1" },
+        "fixture/digest": { "$ref": "#/$defs/hex-digest" },
+        "apt/packages": {
+          "const": [
+            "pdns-backend-bind=4.8.3-4build3",
+            "pdns-server=4.8.3-4build3"
+          ]
+        },
+        "image/artifact-digest": { "$ref": "#/$defs/hex-digest" },
+        "image/manifest-digest": { "$ref": "#/$defs/hex-digest" }
+      }
+    },
+    "dns/assertions": {
+      "const": [
+        {
+          "query/id": 4608,
+          "name": "a.localdomain",
+          "expected/address": "127.0.0.1",
+          "actual/address": "127.0.0.1",
+          "peer/address": "127.0.0.1"
+        },
+        {
+          "query/id": 4609,
+          "name": "b.localdomain",
+          "expected/address": "127.0.0.2",
+          "actual/address": "127.0.0.2",
+          "peer/address": "127.0.0.1"
+        },
+        {
+          "query/id": 4610,
+          "name": "c.localdomain",
+          "expected/address": "127.0.0.3",
+          "actual/address": "127.0.0.3",
+          "peer/address": "127.0.0.1"
+        }
+      ]
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration/ms", "deliberation/ms"],
+      "properties": {
+        "duration/ms": { "type": "integer", "minimum": 0, "maximum": 1200000 },
+        "deliberation/ms": { "type": "integer", "minimum": 0, "maximum": 600000 }
+      }
+    },
+    "budgets": {
+      "const": {
+        "duration/ms-max": 1200000,
+        "deliberation/ms-max": 600000
+      }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "hex-digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "base64url-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

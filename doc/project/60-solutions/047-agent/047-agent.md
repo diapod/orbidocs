@@ -161,6 +161,14 @@ fixture is digest-pinned in the full-system guest; B/C observation, exact revoke
 dirty B restart, stale-generation denial, repaired passing state, export, and the
 unpublished draft are recorded by the closed `single-runtime-vertical` report.
 
+The prepared PowerDNS/Bielik specialization strengthens that proof without
+changing Agent Core. B and C select exact node-local Inquirium runtimes; the
+acceptance layer verifies each content-addressed Agent product and projects only
+its bounded text into an inert Corpus turn. Agent output never becomes terminal
+input. A separate host-owned HIL/P083 transition applies deterministic fixture
+code. Structural evidence is implemented; a retained real-run report remains
+pending.
+
 The implemented post-MVP operational-context extension remains source-owned by P082.
 Agent Core carries only bounded generic qualifier refs and strict digests; the daemon
 validates the exact source value, current generation, and effective publication,
@@ -422,6 +430,10 @@ an extension hidden inside this solution.
    recovery consumer. Preserve v1 compatibility, exact v1/v2 conflict refusal,
    revocation checks, and `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` as the one imported
    bound across schema, admission, recovery, and adapter layers.
+7. Retain one passing Story 012 PowerDNS/Bielik single-host report with two real
+   local model runtimes. Treat it as composed acceptance of the existing Agent
+   observation/product/effect boundaries, not as a new Agent authority or as
+   multi-host evidence.
 
 ## Must Implement
 

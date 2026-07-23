@@ -94,6 +94,13 @@ provider I/O. The live-feed harness now resolves exact Rust test names through
 bounded `libtest --list` output and carries dedicated restart and close-race
 checks.
 
+An additional post-MVP Story 012 PowerDNS/Bielik profile is structurally ready:
+it pins the exact guest fixture and package versions, supervises separate real
+local model runtimes for B and C, verifies content-addressed Agent products before
+their inert Corpus projection, and keeps deterministic host-owned P083 actuation
+separate from model text. Its retained real-run report is still pending. This
+does not reduce the completed vfkit reference-profile or hard-MVP percentages.
+
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,
 and future-cursor refusal. Follow-up conformance keeps two PTYs active together,

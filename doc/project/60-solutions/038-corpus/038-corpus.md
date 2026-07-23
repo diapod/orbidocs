@@ -390,6 +390,13 @@ repair, exact revocation, dirty recipient restart, stale-generation refusal,
 artifact export, and the inert Corpus draft under the
 `single-runtime-vertical` evidence boundary.
 
+The prepared PowerDNS/Bielik specialization keeps Corpus semantics unchanged:
+two verified real Agent products become inert reasoning turns, while deterministic
+host-owned code alone crosses HIL and P083 to configure the guest. Its closed
+`single-host-full-system` report remains pending until one real run proves the
+localhost-only PowerDNS listener and exact `localdomain` answers; structural
+profile validation is not treated as runtime evidence.
+
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:
 it tests real process and network boundaries without presenting one kernel and

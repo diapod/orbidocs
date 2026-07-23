@@ -1,6 +1,7 @@
 # Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal
 
-Status: Implemented; baseline and vfkit single-runtime acceptance pass
+Status: Implemented; baseline and vfkit manifest-repair acceptance pass; additive
+PowerDNS/Bielik single-host profile ready for its retained real run
 
 Related:
 
@@ -306,6 +307,37 @@ and inert Corpus-draft lifecycle. Its schema-gated report names the evidence
 boundary `single-runtime-vertical`; it does not infer that claim from independent
 harness results.
 
+The additive `profile-powerdns-bielik-vfkit.json` is the first full-system
+service-configuration specialization. The image builder pins
+`pdns-server=4.8.3-4build3`, `pdns-backend-bind=4.8.3-4build3`, the closed
+PowerDNS fixture, and the final image digest. Build-time vfkit NAT exists only
+while obtaining those exact Ubuntu packages; runtime vfkit still has no NIC,
+host share, or SSH service.
+
+Nodes B and C each supervise a separate direct local `llama-server` over HTTP
+and select the same stable Bielik alias through their own Inquirium runtime
+candidate. The acceptance consumer verifies the actual Agent product in the
+daemon object store by digest and uses its bounded text as an inert Corpus turn.
+No model output is interpreted as a command. After the existing HIL gate, node A
+alone applies checked-in deterministic configuration through the P083 exclusive
+lease. Success requires PowerDNS to listen only on `127.0.0.1:53`, answer
+authoritatively for `localdomain`, and return exactly `a -> 127.0.0.1`,
+`b -> 127.0.0.2`, and `c -> 127.0.0.3`. The report consumes the guest's
+structured PASS evidence and retains the observed transaction ids, expected and
+actual addresses, and localhost peer rather than reconstructing a declarative
+success list.
+
+Its evidence boundary is deliberately `single-host-full-system`: the three Node
+processes, two local model processes, and one full-system VM cross real
+HTTP/WSS, PTY, and vsock boundaries on one macOS host. This is not evidence for
+separate host failure domains. Structural validation is complete; a `passed`
+report remains pending until the expensive runner executes with real
+`llama-server`, Bielik GGUF bytes, and the prepared PowerDNS image.
+This additive post-MVP profile is manual or dedicated-runner evidence and does
+not replace, reopen, or gate the completed baseline Story 012 acceptance.
+The report is registered in Schema Gate with positive and fail-closed duplicate-
+check fixtures; structural schema passage still does not substitute for a real run.
+
 The Story consumer validates `bytes/base64`, `bytes/count`, and `bytes/sha256`
 before interpreting a terminal marker. Chair admission also uses the current Room
 membership high-water sequence rather than a creation-time or fixture constant.
@@ -355,3 +387,9 @@ membership high-water sequence rather than a creation-time or fixture constant.
 - [x] One-runtime vfkit Story 012 evidence uses a digest-pinned guest fixture
   rather than a host-path copy and emits the closed
   `story-012-vfkit-full-system-report.v1` artifact.
+- [ ] Retain one passing `story-012-powerdns-full-system-report.v1` from the
+  additive post-MVP single-host profile using two real local Bielik runtimes and the
+  exact PowerDNS guest image. The profile, runner, digest-verified Agent-product
+  bridge, deterministic host-owned actuation fixture, localhost/DNS assertions,
+  structural tests, and schema-gated closed report validator are implemented; the real run
+  is intentionally not inferred from those structural gates.

@@ -1978,6 +1978,14 @@ node, and still requires a separate Corpus transition before any answer is publi
   unpublished answer draft. The schema-gated report claims
   `single-runtime-vertical` rather than inferring the result from separately run
   harnesses.
+- [ ] **In progress:** retain one passing additive Story 012 PowerDNS/Bielik
+  single-host full-system report. The implemented profile starts separate real
+  local model runtimes for B and C, verifies each Agent product by content
+  address before using its text as an inert Corpus turn, keeps model output away
+  from actuation, and applies only the deterministic host-owned PowerDNS fixture
+  through HIL plus the existing P083 lease. The real run must prove the exact
+  localhost-only listener and three `localdomain` A records; structural
+  validation alone does not close this item.
 
 #### Phase 9 — N-way settlement
 
