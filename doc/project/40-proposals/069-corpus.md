@@ -1978,14 +1978,38 @@ node, and still requires a separate Corpus transition before any answer is publi
   unpublished answer draft. The schema-gated report claims
   `single-runtime-vertical` rather than inferring the result from separately run
   harnesses.
-- [ ] **In progress:** retain one passing additive Story 012 PowerDNS/Bielik
+- [x] Retain one passing additive Story 012 PowerDNS/Bielik
   single-host full-system report. The implemented profile starts separate real
   local model runtimes for B and C, verifies each Agent product by content
   address before using its text as an inert Corpus turn, keeps model output away
   from actuation, and applies only the deterministic host-owned PowerDNS fixture
-  through HIL plus the existing P083 lease. The real run must prove the exact
-  localhost-only listener and three `localdomain` A records; structural
-  validation alone does not close this item.
+  through HIL plus the existing P083 lease. The retained 2026-07-23 run proves
+  the exact localhost-only listener and three `localdomain` A records; its two
+  distinct inference refs prove independent calls without assuming deterministic
+  products must have different digests.
+- [x] Implement the stronger Story 012 deliberation policy as an additive
+  consumer profile: requester opening, accepted solver/reviewer instruction
+  overlays, the canonical `baton -> round-robin` mapping, at least two and at
+  most 64 ordered cycles under a five-minute deadline, and one host-owned failed
+  experiment whose terminal evidence is visible before the correction cycle.
+  Corpus still admits only inert turns; it neither parses model prose into an
+  effect nor owns P083 authority.
+- [ ] Preserve a replacement expensive Story 012 report proving the role-aware
+  multi-cycle path with real Bielik runtimes and vfkit. Until then the retained
+  2026-07-23 report remains valid for its earlier narrower profile and MUST NOT
+  be cited as evidence for overlays, floor sequencing, or correction after the
+  failed experiment.
+- [ ] Define and exercise the optional typed deliberation-to-effect handoff for
+  Story 012 successors. Corpus may carry an inert
+  `inquirium.candidate-plan.v1` or experiment proposal from the requester-selected
+  local compiler, local Chair Agent, remote Chair Agent, or designated participant
+  Agent. Node A must verify attribution and perform grant, review, budget,
+  classification, generation, lease, and Sensorium admission. Room `op`, `voice`,
+  Chair, and membership are not terminal authority. Admitted remote control uses
+  P083 / Solution 046 Sensorium Interactive Interfaces claim/control/invoke rather
+  than a Corpus-local transport. Absence of a local model is acceptable when a
+  closed host compiler recognizes the proposal; free-form Room prose never becomes
+  an effect.
 
 #### Phase 9 — N-way settlement
 

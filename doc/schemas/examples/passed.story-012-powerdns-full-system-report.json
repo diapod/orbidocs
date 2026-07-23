@@ -20,7 +20,9 @@
     "dirty-recipient-restart",
     "stale-generation-refusal",
     "artifact-export",
-    "unpublished-corpus-draft"
+    "unpublished-corpus-draft",
+    "role-aware-baton-deliberation",
+    "failed-experiment-correction"
   ],
   "artifact/refs": ["artifact:story-012-powerdns-export"],
   "corpus/draft-ref": "corpus-agent-answer-draft:story-012-powerdns",
@@ -31,10 +33,47 @@
     "runtime/refs": ["runtime/baseline-assistant-llama-server"],
     "binding/ref": "model.binding/baseline-assistant-llama-server",
     "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "inference/refs": [
+      "inquiry:story-012-node-b:1",
+      "inquiry:story-012-node-c:1"
+    ],
     "agent-product/digests": [
       "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+      "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     ]
+  },
+  "deliberation": {
+    "mode": "baton",
+    "room/floor-mode": "round-robin",
+    "requester-opening/ref": "query:story-012-powerdns-localdomain",
+    "cycles": 2,
+    "cycle/limit": 64,
+    "stop/reason": "deadline-reached",
+    "turn/refs": [
+      "corpus-turn:story-012:solver:1",
+      "corpus-turn:story-012:reviewer:1",
+      "corpus-turn:story-012:solver:2",
+      "corpus-turn:story-012:reviewer:2"
+    ],
+    "overlay/refs": [
+      "corpus-instruction-overlay:story-012:solver:1",
+      "corpus-instruction-overlay:story-012:reviewer:1",
+      "corpus-instruction-overlay:story-012:solver:2",
+      "corpus-instruction-overlay:story-012:reviewer:2"
+    ],
+    "inference/refs": [
+      "inquiry:story-012-node-b:1",
+      "inquiry:story-012-node-c:1",
+      "inquiry:story-012-node-b:2",
+      "inquiry:story-012-node-c:2"
+    ],
+    "experiment/count": 1,
+    "experiment/outcome": "candidate-rejected-by-verifier",
+    "experiment/event-count": 4,
+    "resolution/path": "fixture-fallback",
+    "fallback/reason": "no-admissible-candidate-after-bounded-review",
+    "effective-wall-time/ms-max": 300000,
+    "hard-wall-time/ms-max": 360000
   },
   "guest": {
     "fixture/ref": "story-fixture:story-012-powerdns-localdomain-v1",

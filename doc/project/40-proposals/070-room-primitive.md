@@ -122,7 +122,8 @@ shared record substrate that already carries `association-room-proposal.v1`):
   join/leave/acks. Authority changes (e.g. arbiter election in P069) are themselves
   signed `room-event.v1` records.
 - **Record kinds**: `room.v1`, `room-membership.v1`, `room-event.v1`, and, after
-  Phase 6A, `room-relay-endpoint.v1` as Agora `record/kind` values.
+  Phase 6A, `room-relay-endpoint.v1`; Phase 8 adds `room-topic.v1` and
+  `room-summary.v1`. All are Agora `record/kind` values in the same Room topic.
 - **Ordering / high-water**: each room carries a monotonic `seq/no`; consumers track a
   per-room high-water mark; out-of-order or gapped records are buffered or refused per
   policy, not silently merged.
@@ -135,7 +136,9 @@ shared record substrate that already carries `association-room-proposal.v1`):
   grant as an extension requiring an explicit schema/policy extension; arbitrary
   strings are not accepted at the security gate. P083-009 enacted `actuate` as the
   explicit collaborative Sensorium actuation extension; it never replaces exact
-  Sensorium Interface authority or a current control lease.
+  Sensorium Interface authority or a current control lease. `moderate` also gates
+  changes to the Room's descriptive `topic` and `summary`; this is an additional
+  effect of the existing grant, not a new grant value.
 - **Query attestation**: membership/authority queries return a signed
   `room-membership-attestation.v1` (subject, grants, lifecycle, signer, high-water
   `seq/no`, source record refs), not a bare boolean, so a relying party can audit why a
@@ -427,6 +430,7 @@ baseline moderation scopes distinguish:
 | `membership/remove` | remove a non-root member and drop live sessions | root or explicitly scoped moderator |
 | `membership/deny` | ban or reinstate a non-root subject | root or explicitly scoped moderator |
 | `grant/speak` | grant or revoke `speak` for a non-root member | root or explicitly scoped moderator |
+| `metadata/update` | append or clear Room `topic` and `summary`; never change `name` | root or explicitly scoped moderator |
 | `moderation/delegate` | issue or revoke moderator scopes | root only by default |
 
 These are subscopes that narrow the existing closed `moderate` and `delegate` grants;
@@ -571,6 +575,63 @@ Reply refs are conversational hints and remain separate from P081
 be promoted into a receipt, trace edge, causal proof, or effect dependency merely
 because the referenced message is locally available.
 
+### 4E. Descriptive Name, Topic, and Summary
+
+Room description follows the mutability of the represented value rather than placing
+three editable fields in one row:
+
+- `name` is an optional opener-set field of `room.v1`. Its absence projects as the
+  empty string. It is immutable because the signed opening fact is immutable; Room has
+  no name-change fact or update operation.
+- `topic` is the value of the latest accepted `room-topic.v1` fact in the Room's
+  monotonic `seq/no` stream. The empty string explicitly clears it.
+- `summary` is the value of the latest accepted `room-summary.v1` fact in the same
+  stream. The empty string explicitly clears it.
+
+The current root authority satisfies the metadata moderation check directly. Every
+non-root actor changing `topic` or `summary` MUST hold current active `moderate`
+authority narrowed by the closed `metadata/update` scope, including expiry,
+revocation, and Room-lifecycle checks. `metadata/update` is not a new top-level grant
+and does not imply any membership, floor, relay, or delegation authority. Admission
+validates and authorizes before appending the fact or changing the projection.
+Metadata changes do not target another subject, so the non-removable-root target rule
+is irrelevant to this operation and MUST NOT be repurposed as a denial.
+
+`room-topic.v1` and `room-summary.v1` carry `room/id`, the value, `set-by/subject`,
+`seq/no`, and `created-at`. They are Room payloads signed by their enclosing
+`agora-record.v1`; they do not add an inner signature. `set-by/subject` MUST match the
+authenticated actor and the enclosing author evidence accepted at the Agora/Room
+boundary. Duplicate facts retain ordinary digest-idempotency semantics. A different
+fact at the same `seq/no` is a projection conflict, not a latest-wins tie-break.
+
+The authoritative semantic limits are measured by Unicode scalar values in the pure
+Room core: `name <= 32`, `topic <= 64`, and `summary <= 3000`, using the equivalent of
+Rust `.chars().count()`. Every value MUST also reject a Unicode control character
+unless that character is whitespace; this rejects NUL and other non-whitespace control
+characters while allowing intentional whitespace. JSON parsing supplies the UTF-8/
+Unicode validity boundary. The wire schemas use coarse `maxLength` ceilings of 128,
+256, and 12000 respectively, but those ceilings are not byte limits and do not replace
+the semantic core checks. Admission additionally enforces UTF-8 byte ceilings of 128,
+256, and 12000 before a value can consume projection or audit resources.
+
+The opening `name` is bound to the exact accepted opening payload. Replay of the same
+opening digest is idempotent; another `room.v1` for the same Room that differs in
+`name` or any other opening identity field is an opening conflict and fails closed.
+No later fact may reinterpret an absent or empty opening name as mutable state.
+
+All three values inherit the Room policy's current `exposure`. If the host or a
+consumer binds Room content to an explicit classification/declassification contract,
+the descriptive values inherit that same contract; Room does not infer a
+classification from `exposure`, create an ambient default, or authorize a downgrade.
+They are content-like descriptive data, not routing metadata, authority, membership,
+or discovery evidence. Membership attestations do not include them. A query,
+projection, notification, relay diagnostic, or non-member surface MUST NOT disclose
+them beyond the audience authorized by the current Room policy and any explicit
+content-classification contract merely because `name` looks harmless.
+`set-by/subject`, source record ref, and accepted sequence provide the bounded audit
+lineage for the effective topic and summary without copying their text into
+metadata-only audit records.
+
 ### 5. Projection of Existing Rooms
 
 - **answer-room (P003)**: re-expressed as a `room.v1` opened by a `question-envelope`,
@@ -588,9 +649,11 @@ primitive instead of maintaining a compatibility projection first.
 
 | Schema | Status | Purpose |
 |---|---|---|
-| `room.v1` | new | Subject-addressed room identity, opener, policy ref, lifecycle status. Signed. |
+| `room.v1` | implemented; Phase 8 extension planned | Subject-addressed room identity, immutable optional opener-set `name`, opener, policy ref, and lifecycle status. Signed by the enclosing Agora record. |
 | `room-membership.v1` | new | Signed join/leave/full-grant-snapshot/revoke with rights. Durable; Phase 7 mute/unmute reuses grant snapshots rather than adding a fact kind. |
 | `room-event.v1` | new | Signed lifecycle and authority-delegation events. Phase 6A adds closed delegation scopes, bounded expiry, and explicit revocation linkage for `relay/manage`; Phase 7 adds moderation subscopes of `moderate`/`delegate`. Durable. |
+| `room-topic.v1` | planned Phase 8 | Durable append-only, `moderate`-gated topic fact. The highest accepted global Room `seq/no` wins; an empty value clears the projection. Signed by the enclosing Agora record. |
+| `room-summary.v1` | planned Phase 8 | Durable append-only, `moderate`-gated summary fact with the same ordering, clearing, exposure, and signing rules as the topic fact. |
 | `room-policy.v1` | new | Access list, exposure, expiry; reuses P009/P005 vocabularies. |
 | `room-live-message.v1` | new (ephemeral wire) | Validated live frame: carrier-authenticated session boundary outside the payload, sender-supplied `nonce`, `seq/no`, max size, replay handling. The bearer session ref is not part of the frame. Validated but not persisted; not a fact. |
 | `room-membership-attestation.v1` | new | Signed projection answering membership/authority queries (subject, grants, signer, high-water). |
@@ -650,6 +713,10 @@ primitive instead of maintaining a compatibility projection first.
 | Mute or floor rotates sealed sender keys | Conversational scheduling causes avoidable O(n) crypto churn | Keep the derived sealed recipient-set epoch unchanged; rotate only for actual decrypting-recipient changes after the Phase 7 classifier lands. |
 | `nonce` and `message/ref` coexist in v2 | Two conflicting message identities create replay ambiguity | Replace nonce in v2 and allow only a validating v1 compatibility projection. |
 | Reply linkage is treated as causal evidence | Conversation hints become false receipts or execution lineage | Keep reply refs outside P081 causal context, traces, receipts, and effect dependencies. |
+| Descriptive metadata is treated as routing or authority | A human-readable label widens discovery, membership, or effects | Keep `name`, `topic`, and `summary` content-like and exposure-governed; they grant no authority and never replace Room ids, policy refs, or attestations. |
+| A private Room summary leaks through an attestation, notification, or diagnostic | Up to 3000 scalar values of problem context escape the authorized audience | Exclude descriptive text from membership attestations and metadata-only audit; disclose it only through a Room projection authorized by current exposure and any explicit content-classification contract. |
+| A later opening or in-place update changes `name` | Replay produces different Room identity from the same durable history | Bind `name` to the sole accepted opening payload; exact replay is idempotent and any differing opening is a typed conflict. Define no name-update operation. |
+| Character and byte limits are conflated | Multibyte text is refused inconsistently or oversized input consumes resources | Enforce scalar-value limits in `room-core`, independent UTF-8 byte ceilings at admission, and coarse schema ceilings; prove both with multibyte fixtures. |
 
 ## Resolved Decisions
 
@@ -791,6 +858,13 @@ primitive instead of maintaining a compatibility projection first.
 32. **Moderation audit and replay.** Typed controls produce metadata-only audit facts
     and reuse host actor-bound idempotency semantics. Room does not create a private
     idempotency database or persist live content in the audit path.
+33. **Descriptive metadata mutability.** `name` belongs only to the immutable
+    `room.v1` opening payload. Mutable `topic` and `summary` are separate append-only
+    Room facts folded latest-wins by the shared global `seq/no`; clearing is represented
+    by an accepted empty value, never by deletion. Current root authority or current
+    `moderate` authority narrowed by `metadata/update` may set them. All three values
+    remain content-like, exposure-governed, non-authoritative data and are excluded
+    from membership attestations and metadata-only diagnostics.
 
 ## Implementation Contract
 
@@ -799,14 +873,27 @@ plane and the live plane must remain separate in code: durable records form auth
 while live transports only carry ephemeral coordination frames under the authority of
 the durable projection.
 
+The descriptive metadata extension adds these named invariants:
+
+- `inv-room-name-immutable`: `name` is fixed by the one accepted Room opening; exact
+  replay is idempotent and no later record may change it;
+- `inv-room-metadata-moderate-gated`: `topic` and `summary` are appended only after
+  current root or `moderate` authority scoped to `metadata/update` succeeds, before
+  any projection effect;
+- `inv-room-metadata-char-bounded`: scalar-value limits and non-whitespace-control
+  refusal are enforced in the pure core, independently of UTF-8 byte ceilings;
+- `inv-room-metadata-exposure-bounded`: descriptive values inherit Room exposure and
+  any explicit content-classification contract, and never become routing, membership,
+  or attestation metadata.
+
 ### Substrate and Canonicalization
 
 Room domain records are payloads carried by the existing Agora envelope when they become
 durable/federated facts:
 
-- `room.v1`, `room-membership.v1`, `room-event.v1`, and
-  `room-relay-endpoint.v1` are `content/schema` values inside `agora-record.v1`, not
-  replacements for the Agora envelope;
+- `room.v1`, `room-membership.v1`, `room-event.v1`, `room-topic.v1`,
+  `room-summary.v1`, and `room-relay-endpoint.v1` are `content/schema` values inside
+  `agora-record.v1`, not replacements for the Agora envelope;
 - `record/id`, `record/kind`, `topic/key`, `author/participant-id`,
   `author/nym-proof`, `record/parent`, `record/supersedes`, relay metadata, and
   envelope signatures remain Agora concerns;
@@ -870,14 +957,25 @@ Runtime work MUST NOT begin until the first contract gate exists:
    same accepted durable records produce byte-identical canonical membership views and
    the same projection digest.
 
+Before Phase 8 runtime work, extend that gate with closed schemas and positive examples
+for the optional `room.v1.name`, `room-topic.v1`, and `room-summary.v1`; schema-gate
+import/export registration; core/admission vectors for exact scalar and byte bounds;
+moderation refusal; opening immutability conflict; exposure redaction; and a deterministic
+metadata replay vector. A semantic over-limit value that remains below a coarse schema
+ceiling MUST reach and fail the Room core test, rather than being mislabeled as a JSON
+Schema refusal.
+
 ### Durable Store and Projection Contract
 
 The durable room plane is append-only. Implementations should separate:
 
-1. **Fact store**: accepted `room.v1`, `room-membership.v1`, and `room-event.v1` records,
-   keyed by `room/id`, `seq/no`, record digest, and signer.
+1. **Fact store**: accepted `room.v1`, `room-membership.v1`, `room-event.v1`,
+   `room-topic.v1`, and `room-summary.v1` records, keyed by `room/id`, `seq/no`, record
+   digest, and signer.
 2. **Projection**: deterministic read-model folded from facts into lifecycle, current
-   authority, current members, grants, room policy, and high-water `seq/no`.
+   authority, current members, grants, room policy, immutable opening `name`, effective
+   latest `topic` and `summary`, their bounded setter/source lineage, and high-water
+   `seq/no`.
 3. **Attestation layer**: signed answers over the projection, never direct authority.
 
 Projection rules:
@@ -893,6 +991,11 @@ Projection rules:
   and no unrelated next fact clears the conflict; the projection records the typed
   `relay/conflict-epoch` discriminator instead of deriving state from diagnostic text;
 - gaps are buffered or refused according to local policy, never skipped;
+- the first accepted opening fixes `name`; any differing opening for the same Room is a
+  conflict, while exact replay is idempotent;
+- accepted topic/summary facts replace only their corresponding effective projection
+  value and lineage when their global Room `seq/no` advances; they do not create a
+  second metadata high-water;
 - expired rooms cannot accept new live joins or live frames;
 - revoked grants take effect in the projection before live transport authorization;
 - delegated authority applies only inside its scope and before its expiry.
@@ -1142,6 +1245,7 @@ fields.
 {
   "schema/v": 1,
   "room/id": "room:<authority>:<id>",
+  "name": "Mail server diagnosis",
   "opener/subject": { "kind": "nym", "id": "nym:did:key:..." },
   "authority/subject": { "kind": "nym", "id": "nym:did:key:..." },
   "policy/ref": "room-policy:<digest>",
@@ -1150,6 +1254,37 @@ fields.
   "expires-at": "2026-06-23T10:30:00Z"
 }
 ```
+
+`room-topic.v1` and `room-summary.v1` (durable Room payloads; signed by their
+enclosing Agora records):
+
+```json
+{
+  "schema/v": 1,
+  "room/id": "room:<authority>:<id>",
+  "topic": "Diagnose rejected outbound mail",
+  "set-by/subject": { "kind": "nym", "id": "nym:did:key:moderator" },
+  "seq/no": 5,
+  "created-at": "2026-06-23T10:02:00Z"
+}
+```
+
+```json
+{
+  "schema/v": 1,
+  "room/id": "room:<authority>:<id>",
+  "summary": "Inspect DNS, queue state, TLS policy, and the latest delivery logs.",
+  "set-by/subject": { "kind": "nym", "id": "nym:did:key:moderator" },
+  "seq/no": 6,
+  "created-at": "2026-06-23T10:02:30Z"
+}
+```
+
+The setter is not self-asserted authority. The admission boundary binds it to the
+authenticated actor and enclosing Agora author evidence, checks current root or
+`moderate` authority scoped to `metadata/update`, validates content, then appends the
+fact. Reversing that order would permit an unauthorized write even if the projection
+later hid it.
 
 `room-membership.v1`:
 
@@ -1262,9 +1397,10 @@ transient. Removing the last authorized recipient clears the projection audience
 before close, so bounded relay replay cannot retain an authorized latest-state view.
 
 Agora topic key: `orbiplex/room/v1/<authority>/<room-id>`; record kinds `room.v1`,
-`room-membership.v1`, `room-event.v1`, and `room-relay-endpoint.v1`; consumers fold
-them into a membership/lifecycle and carrier
-endpoint projection keyed by `room/id` with a per-room high-water `seq/no`.
+`room-membership.v1`, `room-event.v1`, `room-topic.v1`, `room-summary.v1`, and
+`room-relay-endpoint.v1`; consumers fold them into one membership/lifecycle,
+descriptive-metadata, and carrier-endpoint projection keyed by `room/id` with one
+per-room high-water `seq/no`.
 
 `room-membership-attestation.v1` (signed query result):
 
@@ -1319,6 +1455,29 @@ Room:
 - register each frozen schema in schema-gate import/export mapping and the schema sync
   checker, with positive and negative fixtures for unknown fields, unsupported enum
   values, root targeting, ref bounds, identity conflict, and projection-order drift.
+
+### Phase 8 Implementation Shape
+
+Phase 8 adds descriptive values without creating a mutable Room row or a second
+moderation service:
+
+- extend the existing `room.v1` DTO with optional `name`, projecting absence as `""`;
+- add `room-topic.v1` and `room-summary.v1` DTOs as ordinary durable Room facts in the
+  shared global `seq/no` stream and Agora topic;
+- centralize scalar count, UTF-8 byte count, and control-character checks in pure
+  `room-core` helpers used by opening, topic, summary, replay, and service admission;
+- extend the closed moderation-scope vocabulary with `metadata/update`, then reuse the
+  current root/scoped `moderate` authority evaluator and host actor-bound idempotency
+  semantics; authorize before fact commit or projection mutation;
+- fold accepted metadata facts into the existing Room projection and source lineage;
+  add no metadata table, independent high-water, or in-place update path;
+- expose descriptive fields only through exposure-authorized Room read models and,
+  where present, the same explicit content-classification contract as Room content.
+  Keep them out of membership attestations, carrier diagnostics, notification pings,
+  and metadata-only audit bodies;
+- register schemas and examples through schema-gate and Node schema sync, then prove
+  deterministic Agora replay and restart reconstruction before adding UI editing
+  controls.
 
 ## Implementation Tracker
 
@@ -1702,11 +1861,53 @@ The tests cover projection replay, root and scope refusal, restart-invalidated f
 leases, member-visible convergence without sender-key churn, sealed recipient-set
 epochs, and the Corpus consumer bridge without moving Corpus roles into Room Core.
 
+### Phase 8 — Exposure-governed descriptive metadata
+
+This phase is post-MVP descriptive state. It does not reopen the completed Room
+authority, membership, relay, or moderation baselines.
+
+- [ ] Freeze and register the contracts: add optional immutable `name` to `room.v1`;
+  add closed `room-topic.v1` and `room-summary.v1` schemas, positive/empty examples,
+  Agora record-kind mappings, schema-gate ingress/export mappings, Node schema sync,
+  and generated docs. Keep signatures in `agora-record.v1`, not inside Room payloads.
+- [ ] Add shared `room-core` validation with authoritative Unicode scalar limits
+  `32/64/3000`, UTF-8 byte ceilings `128/256/12000`, and refusal of every
+  non-whitespace control character. Prove empty values, exactly-at-limit multibyte
+  values, and refusal at 33/65/3001 scalars with emoji fixtures; separately prove the
+  byte ceilings and coarse schema ceilings so each failing layer is named honestly.
+- [ ] Extend the pure Room DTO and projection fold with immutable opening `name` plus
+  latest-wins `topic` and `summary` lineage. Exact opening replay is idempotent; a
+  differing opening is a typed conflict. Metadata facts use the existing global Room
+  high-water and same-sequence digest conflict semantics, never an independent
+  metadata sequence or mutable row.
+- [ ] Add typed topic/summary control intents to the existing Room moderation/service
+  path. Bind `set-by/subject` to the authenticated actor and Agora author evidence,
+  extend the closed scope vocabulary and typed evaluator with `metadata/update`,
+  require current root or active `moderate` authority carrying that scope, validate
+  and authorize before append, and reuse host actor-bound idempotency.
+  Missing/revoked/expired authority and closed/expired Room state fail before storage
+  or projection effects.
+- [ ] Persist and replay topic/summary facts through the existing Agora Room projector,
+  rebuild all three values after restart, and expose them only through Room read models
+  authorized by current exposure and, where present, the same explicit
+  content-classification contract as Room content. Membership attestations,
+  notification pings, carrier diagnostics, and metadata-only audit must omit the text.
+  Non-member projections default to omission and may include it only when the current
+  exposure and any explicit classification contract authorize that audience.
+  Operator evidence may expose bounded setter/source refs and sequences without
+  copying private content.
+- [ ] Add schema, core, service, replay, exposure, and multiprocess acceptance tests.
+  Cover unknown fields, malformed subjects, NUL/controls, scalar and byte bounds,
+  empty clearing, unauthorized moderation, immutable-name conflict, duplicate replay,
+  same-sequence digest conflict, deterministic latest-wins projection on two nodes,
+  restart reconstruction, and absence of private descriptive text from attestations,
+  diagnostics, notifications, and redacted audit.
+
 ## Open Questions
 
-No unresolved question blocks Phase 6A or Phase 6B. MLS, QUIC, and direct-pair hole
-punching are explicit evidence-gated future profiles, not implementation choices inside
-the relocatable relay baseline.
+No unresolved question blocks Phase 6A, Phase 6B, or Phase 8. MLS, QUIC, and
+direct-pair hole punching are explicit evidence-gated future profiles, not
+implementation choices inside the relocatable relay baseline.
 
 ## Next Actions
 
@@ -1716,6 +1917,8 @@ the relocatable relay baseline.
    timings are not a production SLO or a reason to tune defaults from one machine.
 2. Keep direct peer an optional latency adapter; do not move membership, grants,
    leases, or source cursors into either carrier.
-3. Collect non-member relay observations at realistic Room sizes before replacing the
+3. Implement Phase 8 contract and pure-projection tests before exposing editable
+   metadata controls in daemon or Node UI surfaces.
+4. Collect non-member relay observations at realistic Room sizes before replacing the
    bounded O(n) sender-key distribution profile. MLS or another tree profile requires
    measured pressure plus a separate contract, implementation, and security review.

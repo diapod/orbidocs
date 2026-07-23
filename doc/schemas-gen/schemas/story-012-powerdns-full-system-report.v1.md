@@ -48,17 +48,22 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 | [`corpus/draft-ref`](#field-corpus-draft-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`model`](#field-model) | `yes` | object |  |
 | [`guest`](#field-guest) | `yes` | object |  |
-| [`dns/assertions`](#field-dns-assertions) | `yes` | const: `[{'query/id': 4608, 'name': 'a.localdomain', 'expected/address': '127.0.0.1', 'actual/address': '127.0.0.1', 'peer/address': '127.0.0.1'}, {'query/id': 4609, 'name': 'b.localdomain', 'expected/address': '127.0.0.2', 'actual/address': '127.0.0.2', 'peer/address': '127.0.0.1'}, {'query/id': 4610, 'name': 'c.localdomain', 'expected/address': '127.0.0.3', 'actual/address': '127.0.0.3', 'peer/address': '127.0.0.1'}]` |  |
+| [`dns/assertions`](#field-dns-assertions) | `yes` | array |  |
 | [`measurements`](#field-measurements) | `yes` | object |  |
-| [`budgets`](#field-budgets) | `yes` | const: `{'duration/ms-max': 1200000, 'deliberation/ms-max': 600000}` |  |
+| [`budgets`](#field-budgets) | `yes` | object |  |
+| [`deliberation`](#field-deliberation) | `no` | object |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
+| [`inference-ref`](#def-inference-ref) | unspecified |  |
 | [`hex-digest`](#def-hex-digest) | string |  |
 | [`base64url-digest`](#def-base64url-digest) | string |  |
+| [`dns-assertion-a`](#def-dns-assertion-a) | object |  |
+| [`dns-assertion-b`](#def-dns-assertion-b) | object |  |
+| [`dns-assertion-c`](#def-dns-assertion-c) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -137,7 +142,7 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 ## `dns/assertions`
 
 - Required: `yes`
-- Shape: const: `[{'query/id': 4608, 'name': 'a.localdomain', 'expected/address': '127.0.0.1', 'actual/address': '127.0.0.1', 'peer/address': '127.0.0.1'}, {'query/id': 4609, 'name': 'b.localdomain', 'expected/address': '127.0.0.2', 'actual/address': '127.0.0.2', 'peer/address': '127.0.0.1'}, {'query/id': 4610, 'name': 'c.localdomain', 'expected/address': '127.0.0.3', 'actual/address': '127.0.0.3', 'peer/address': '127.0.0.1'}]`
+- Shape: array
 
 <a id="field-measurements"></a>
 ## `measurements`
@@ -149,7 +154,13 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 ## `budgets`
 
 - Required: `yes`
-- Shape: const: `{'duration/ms-max': 1200000, 'deliberation/ms-max': 600000}`
+- Shape: object
+
+<a id="field-deliberation"></a>
+## `deliberation`
+
+- Required: `no`
+- Shape: object
 
 ## Definition Semantics
 
@@ -157,6 +168,11 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 ## `$defs.ref`
 
 - Shape: string
+
+<a id="def-inference-ref"></a>
+## `$defs.inference-ref`
+
+- Shape: unspecified
 
 <a id="def-hex-digest"></a>
 ## `$defs.hex-digest`
@@ -167,3 +183,18 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 ## `$defs.base64url-digest`
 
 - Shape: string
+
+<a id="def-dns-assertion-a"></a>
+## `$defs.dns-assertion-a`
+
+- Shape: object
+
+<a id="def-dns-assertion-b"></a>
+## `$defs.dns-assertion-b`
+
+- Shape: object
+
+<a id="def-dns-assertion-c"></a>
+## `$defs.dns-assertion-c`
+
+- Shape: object

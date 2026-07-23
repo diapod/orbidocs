@@ -1,7 +1,7 @@
 # Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal
 
-Status: Implemented; baseline and vfkit manifest-repair acceptance pass; additive
-PowerDNS/Bielik single-host profile ready for its retained real run
+Status: Implemented; baseline, vfkit manifest-repair, and additive
+PowerDNS/Bielik single-host acceptance pass
 
 Related:
 
@@ -319,20 +319,67 @@ and select the same stable Bielik alias through their own Inquirium runtime
 candidate. The acceptance consumer verifies the actual Agent product in the
 daemon object store by digest and uses its bounded text as an inert Corpus turn.
 No model output is interpreted as a command. After the existing HIL gate, node A
-alone applies checked-in deterministic configuration through the P083 exclusive
-lease. Success requires PowerDNS to listen only on `127.0.0.1:53`, answer
+alone may apply bounded host-owned experiments and the checked-in deterministic
+configuration through P083 exclusive leases. Success requires PowerDNS to listen
+only on `127.0.0.1:53`, answer
 authoritatively for `localdomain`, and return exactly `a -> 127.0.0.1`,
 `b -> 127.0.0.2`, and `c -> 127.0.0.3`. The report consumes the guest's
 structured PASS evidence and retains the observed transaction ids, expected and
 actual addresses, and localhost peer rather than reconstructing a declarative
 success list.
 
+The current additive runner strengthens the deliberation without widening that
+effect boundary. The requester query is the opening contribution; accepted
+Corpus instruction overlays frame B as `solver` and C as `reviewer`. A controlled
+Chair Agent maps Corpus `baton` to Room `round-robin`, producing the ordered cycle
+`requester context -> solver -> reviewer`. The soft deadline is five minutes,
+the structural guard is 64 cycles, and at least two cycles are required. After
+the first solver/reviewer pair, node A applies one bounded deliberately incorrect
+candidate through a short-lived P083 lease; the DNS verifier rejects it and the
+failure becomes fresh read-only terminal evidence for later cycles. Every later
+turn can therefore revise an earlier claim from conversation and measured guest
+state. Natural-language output is never compiled into terminal input. If no
+structured admissible candidate exists when the deadline or cycle guard is
+reached, node A applies the checked-in fixture through a fresh lease.
+
+This bounded executor keeps the acceptance effective even when node A has no
+local model or terminal-capable Agent: it can execute only the host-owned
+experiment catalog and fixture. It does not solve the general transfer of
+deliberation intent into actuation. That later path must carry a typed inert
+`inquirium.candidate-plan.v1` or experiment proposal from the deliberation,
+attribute it to the requester-selected executor, join node A's admission, and
+compile through the ordinary Sensorium boundary. The requester may select a
+local host compiler, a local Chair Agent, or a remote Chair/designated participant
+Agent. Room role and membership never imply terminal authority: remote execution
+uses the P083 / Solution 046 Sensorium Interactive Interfaces
+claim/control/invoke path and still requires a separate resource-scoped Sensorium
+grant, current generation, bounded lease, review policy, and local refusal path.
+Free-form Room text is never an executable fallback.
+
 Its evidence boundary is deliberately `single-host-full-system`: the three Node
 processes, two local model processes, and one full-system VM cross real
 HTTP/WSS, PTY, and vsock boundaries on one macOS host. This is not evidence for
 separate host failure domains. Structural validation is complete; a `passed`
-report remains pending until the expensive runner executes with real
-`llama-server`, Bielik GGUF bytes, and the prepared PowerDNS image.
+report was retained from the 2026-07-23 expensive run with real `llama-server`,
+Bielik GGUF bytes, and the prepared PowerDNS image. The run completed in
+124,394 ms, including 17,148 ms of deliberation, and records distinct
+host-issued inference refs for B and C. Equal product digests remain valid for
+deterministic responses and are not used as execution identity.
+The profile therefore proves two separately supervised invocations whose
+returned bytes converged; it does not claim epistemically independent first
+judgments. Such a stronger claim would require an explicit isolation and
+diversity policy rather than an output-digest inequality check.
+The duration is an observed wall-clock measurement, not a cold-cache benchmark:
+model and operating-system cache state was not controlled by this profile.
+The retained report predates the role-aware multi-cycle extension and does not
+prove its overlays, floor sequencing, failed-experiment feedback, or revisions.
+Those properties are implemented and structurally tested but remain pending one
+new expensive retained run; the earlier report remains valid for its narrower
+evidence boundary.
+The retained report is
+`node:tools/acceptance/story-012-shared-chair-terminal/reports/2026-07-23.story-012-powerdns-full-system.macos-arm64.json`
+with file digest
+`sha256:2dd351f4df724a57c5ed3c68c98fbd20da2349038dd5d40af21212bc1a3f70d8`.
 This additive post-MVP profile is manual or dedicated-runner evidence and does
 not replace, reopen, or gate the completed baseline Story 012 acceptance.
 The report is registered in Schema Gate with positive and fail-closed duplicate-
@@ -387,9 +434,29 @@ membership high-water sequence rather than a creation-time or fixture constant.
 - [x] One-runtime vfkit Story 012 evidence uses a digest-pinned guest fixture
   rather than a host-path copy and emits the closed
   `story-012-vfkit-full-system-report.v1` artifact.
-- [ ] Retain one passing `story-012-powerdns-full-system-report.v1` from the
+- [x] Retain one passing `story-012-powerdns-full-system-report.v1` from the
   additive post-MVP single-host profile using two real local Bielik runtimes and the
   exact PowerDNS guest image. The profile, runner, digest-verified Agent-product
   bridge, deterministic host-owned actuation fixture, localhost/DNS assertions,
-  structural tests, and schema-gated closed report validator are implemented; the real run
-  is intentionally not inferred from those structural gates.
+  structural tests, and schema-gated closed report validator are implemented.
+  The 2026-07-23 retained report proves the real run independently of those
+  structural gates.
+- [x] Implement the additive role-aware PowerDNS deliberation runner: requester
+  opening, solver/reviewer overlays, Corpus `baton` to Room `round-robin`, two
+  required and at most 64 cycles under a five-minute deadline, one bounded
+  verifier-rejected guest experiment, correction from fresh terminal evidence,
+  and fresh P083 leases for experiment and fixture fallback.
+- [ ] Run the expensive role-aware profile with real Bielik runtimes and vfkit,
+  then replace the retained report only after its closed `deliberation` evidence
+  passes the profile validator and Schema Gate. The historical 14-check report
+  remains valid single-turn evidence; the role-aware runner emits a distinct
+  16-check claim that is invalid without the closed `deliberation` section.
+- [ ] Add an adaptive follow-up profile in which a typed inert
+  `inquirium.candidate-plan.v1` or experiment proposal crosses from Corpus
+  deliberation to a requester-selected executor: deterministic local compiler,
+  local Chair Agent, remote Chair Agent, or designated participant Agent. Remote
+  plans remain inert until node A verifies attribution and a separate
+  resource-scoped Sensorium grant, review, classification, generation, lease,
+  budget, and idempotency policy. Execute admitted remote control through P083 /
+  Solution 046 rather than a Story-local proxy. Reject free-form prose and prove
+  revocation.

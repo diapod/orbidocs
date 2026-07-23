@@ -94,12 +94,25 @@ provider I/O. The live-feed harness now resolves exact Rust test names through
 bounded `libtest --list` output and carries dedicated restart and close-race
 checks.
 
-An additional post-MVP Story 012 PowerDNS/Bielik profile is structurally ready:
-it pins the exact guest fixture and package versions, supervises separate real
-local model runtimes for B and C, verifies content-addressed Agent products before
-their inert Corpus projection, and keeps deterministic host-owned P083 actuation
-separate from model text. Its retained real-run report is still pending. This
-does not reduce the completed vfkit reference-profile or hard-MVP percentages.
+An additional post-MVP Story 012 PowerDNS/Bielik profile now has retained real
+evidence: the 2026-07-23 macOS arm64 run pins the exact guest fixture and package
+versions, supervises separate real local model runtimes for B and C, verifies
+content-addressed Agent products before their inert Corpus projection, and keeps
+deterministic host-owned P083 actuation separate from model text. It completed in
+124,394 ms and proved the exact localhost-only PowerDNS records. Because this is
+additive post-MVP evidence, it does not change the completed vfkit reference-profile
+or hard-MVP percentages.
+The elapsed time is observational rather than a cold-cache performance claim;
+the profile did not control model or operating-system cache state.
+The runner now also implements a post-MVP requester/solver/reviewer baton loop,
+with two required and at most 64 cycles under a five-minute deadline, one
+verifier-rejected guest experiment, terminal-evidence correction, and separate
+short P083 leases per actuation. That additive revision awaits a replacement
+expensive retained report; the earlier report remains narrower evidence and the
+hard-MVP percentages remain unchanged.
+An adaptive successor that accepts an attributed remote
+`inquirium.candidate-plan.v1` and delegates control through P083/Solution 046 is
+tracked separately as post-MVP work; Room role alone remains non-authoritative.
 
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,
@@ -768,9 +781,12 @@ Recent component deltas:
   moderation, durable access denial, bounded ephemeral floor leases, stable message v2
   refs with reply linkage, metadata-only diagnostics, and a recipient-set-derived
   sealed epoch that rotates for audience changes but not mute/floor changes. P070 is
-  therefore at `100%` and
-  post-MVP ready for its declared Room scope. This changes neither the hard-MVP readiness
-  verdict nor Matrix's status as an optional bridge profile.
+  therefore still at `100%` for hard-MVP and remains MVP-ready. The newly specified
+  post-MVP Phase 8 adds immutable opening `name` plus exposure-governed append-only
+  `topic` and `summary` facts; its contracts, projection, authorization, replay, and
+  refusal evidence are not implemented yet, so P070 is no longer marked post-MVP ready.
+  This changes neither the hard-MVP readiness verdict nor Matrix's status as an optional
+  bridge profile.
 - Sensorium Workbench is now tracked through Proposal 071 and promoted to
   Solution 042 as a post-MVP actuator foundation. The opt-in supervised Python
   connector now has a complete local foundation: allowlisted workspaces,
@@ -991,7 +1007,7 @@ Recent component deltas:
 | [Proposal 066: Inquirium Assistant Channel](../40-proposals/066-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
-| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
+| [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `false` | `100` |
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |

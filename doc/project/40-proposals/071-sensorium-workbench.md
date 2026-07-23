@@ -2737,14 +2737,31 @@ evidence) · `[!]` blocked/needs decision.
   B/C deliberation, exclusive repair, observer revocation, dirty recipient
   restart, stale-generation refusal, artifact export, and an unpublished Corpus
   draft.
-- [ ] **In progress, additive post-MVP and non-blocking for the completed
-  baseline gate:** retain the Story 012 PowerDNS/Bielik
+- [x] **Additive post-MVP and non-blocking for the completed baseline gate:**
+  retain the Story 012 PowerDNS/Bielik
   `single-host-full-system` report. The closed profile, schema-gated report,
   exact package/fixture
   image builder, P083 deterministic apply path, localhost-only listener check,
-  authoritative DNS assertions, and structural tests are implemented. Closure
-  requires the expensive run with real model bytes and cannot be inferred from
-  the already-passing manifest-repair vertical.
+  authoritative DNS assertions, and structural tests are implemented. The
+  retained 2026-07-23 run supplies the required real model and guest evidence;
+  this result is not inferred from the manifest-repair vertical.
+- [x] Keep the role-aware Story 012 correction loop on the existing P082/P083
+  boundaries: the shared PTY remains read-only for participants, one bounded
+  deliberately wrong host-owned experiment is admitted through its own short
+  P083 lease, its verifier failure advances the latest-state projection, and the
+  deterministic fallback obtains a fresh lease after bounded deliberation.
+  No lease spans model inference and no model text becomes PTY input.
+- [ ] Run and retain the expensive role-aware PowerDNS profile. The earlier
+  retained report predates the multi-cycle terminal-feedback path and remains
+  narrower evidence rather than an implicit pass for this extension.
+- [ ] Add a delegated adaptive-executor acceptance profile only after Corpus and
+  Agent can carry an attributed inert `inquirium.candidate-plan.v1`. Requester
+  policy may designate a remote Chair or participant Agent, but Room authority
+  must not widen Workbench authority: node A still requires a separate
+  resource-scoped Sensorium grant, current generation, review decision, bounded
+  lease, and revocation check before any terminal effect. Remote control MUST
+  reuse P083 / Solution 046 claim/control/invoke and MUST NOT add a Workbench-
+  local relay or prose-to-command bridge.
 - [ ] **In progress:** complete deployment evidence for
   `cloud-hypervisor-system.v1` as the first Linux deployment profile after the
   backend-neutral vfkit slice proves the contracts.

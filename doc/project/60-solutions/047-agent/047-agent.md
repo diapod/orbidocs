@@ -161,13 +161,23 @@ fixture is digest-pinned in the full-system guest; B/C observation, exact revoke
 dirty B restart, stale-generation denial, repaired passing state, export, and the
 unpublished draft are recorded by the closed `single-runtime-vertical` report.
 
-The prepared PowerDNS/Bielik specialization strengthens that proof without
+The evidenced PowerDNS/Bielik specialization strengthens that proof without
 changing Agent Core. B and C select exact node-local Inquirium runtimes; the
 acceptance layer verifies each content-addressed Agent product and projects only
 its bounded text into an inert Corpus turn. Agent output never becomes terminal
 input. A separate host-owned HIL/P083 transition applies deterministic fixture
-code. Structural evidence is implemented; a retained real-run report remains
-pending.
+code. The retained 2026-07-23 report proves two distinct inference refs, exact
+guest DNS behavior, and the unchanged effect boundary within budget.
+
+The additive role-aware runner uses an operator-defined Agent admission profile
+instead of weakening the conservative default: participant budgets admit at
+most 64 solver/reviewer cycles and the Chair budget covers the corresponding
+floor transitions, all under a five-minute deliberation deadline plus bounded
+in-flight grace. Role overlays and prior Room turns remain inert input data.
+Each terminal experiment or fallback obtains and releases its own P083 lease;
+Agent never holds terminal authority across inference. This stronger path is
+implemented but remains pending a replacement expensive report, so the retained
+2026-07-23 report is not cited as evidence for multi-cycle correction.
 
 The implemented post-MVP operational-context extension remains source-owned by P082.
 Agent Core carries only bounded generic qualifier refs and strict digests; the daemon
@@ -281,6 +291,12 @@ Only admitted proposals are compiled by a registered closed policy adapter into
 an execution plan for the owning host surface. Unknown effect kinds fail closed;
 there is no generic fallback. Execution produces a separate durable outcome and
 exact replay does not invoke the target again.
+
+One Agent session retains at most 512 durable effect proposals. Operator status
+projects only the latest 64 metadata entries plus the total count, while the
+node-wide active proposal-ref index remains bounded to 16,384. This separation
+admits long but bounded controller loops without turning status into an
+unbounded historical read.
 
 ### Outcomes Remain Inert
 
@@ -430,10 +446,20 @@ an extension hidden inside this solution.
    recovery consumer. Preserve v1 compatibility, exact v1/v2 conflict refusal,
    revocation checks, and `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` as the one imported
    bound across schema, admission, recovery, and adapter layers.
-7. Retain one passing Story 012 PowerDNS/Bielik single-host report with two real
-   local model runtimes. Treat it as composed acceptance of the existing Agent
+7. Keep the retained Story 012 PowerDNS/Bielik single-host report in the
+   regression set. Treat it as composed acceptance of the existing Agent
    observation/product/effect boundaries, not as a new Agent authority or as
    multi-host evidence.
+8. For adaptive deliberation-to-actuation consumers, accept only typed inert
+   `inquirium.candidate-plan.v1` or experiment proposals. Requester policy may
+   designate a local Agent, deterministic host compiler, remote Chair Agent, or
+   another participant Agent as proposer/executor. Remote origin never bypasses
+   node A's admission: attribution plus a separate resource-scoped Sensorium
+   grant, current generation, review, classification, budget, lease, and
+   idempotency checks remain mandatory. Room role and membership are not effect
+   authority, and Room prose is never interpreted as an effect. Remote terminal
+   control reuses P083 / Solution 046 Sensorium Interactive Interfaces
+   claim/control/invoke rather than introducing an Agent-specific carrier.
 
 ## Must Implement
 

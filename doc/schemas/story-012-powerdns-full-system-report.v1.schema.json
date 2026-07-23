@@ -30,6 +30,33 @@
     "measurements",
     "budgets"
   ],
+  "oneOf": [
+    {
+      "description": "Legacy single-turn evidence retained before the baton extension.",
+      "properties": {
+        "checks": {
+          "not": {
+            "contains": {
+              "enum": [
+                "role-aware-baton-deliberation",
+                "failed-experiment-correction"
+              ]
+            }
+          }
+        }
+      },
+      "not": { "required": ["deliberation"] }
+    },
+    {
+      "description": "Role-aware baton evidence with failed-experiment correction.",
+      "required": ["deliberation"],
+      "properties": {
+        "checks": {
+          "minItems": 16
+        }
+      }
+    }
+  ],
   "properties": {
     "schema": { "const": "story-012-powerdns-full-system-report.v1" },
     "schema/v": { "const": 1 },
@@ -41,7 +68,7 @@
     "checks": {
       "type": "array",
       "minItems": 14,
-      "maxItems": 14,
+      "maxItems": 16,
       "uniqueItems": true,
       "items": {
         "enum": [
@@ -58,7 +85,9 @@
           "dirty-recipient-restart",
           "stale-generation-refusal",
           "artifact-export",
-          "unpublished-corpus-draft"
+          "unpublished-corpus-draft",
+          "role-aware-baton-deliberation",
+          "failed-experiment-correction"
         ]
       }
     },
@@ -80,6 +109,7 @@
         "runtime/refs",
         "binding/ref",
         "artifact/digest",
+        "inference/refs",
         "agent-product/digests"
       ],
       "properties": {
@@ -93,11 +123,17 @@
         },
         "binding/ref": { "const": "model.binding/baseline-assistant-llama-server" },
         "artifact/digest": { "$ref": "#/$defs/base64url-digest" },
-        "agent-product/digests": {
+        "inference/refs": {
           "type": "array",
           "minItems": 2,
           "maxItems": 2,
           "uniqueItems": true,
+          "items": { "$ref": "#/$defs/inference-ref" }
+        },
+        "agent-product/digests": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
           "items": { "$ref": "#/$defs/base64url-digest" }
         }
       }
@@ -126,29 +162,15 @@
       }
     },
     "dns/assertions": {
-      "const": [
-        {
-          "query/id": 4608,
-          "name": "a.localdomain",
-          "expected/address": "127.0.0.1",
-          "actual/address": "127.0.0.1",
-          "peer/address": "127.0.0.1"
-        },
-        {
-          "query/id": 4609,
-          "name": "b.localdomain",
-          "expected/address": "127.0.0.2",
-          "actual/address": "127.0.0.2",
-          "peer/address": "127.0.0.1"
-        },
-        {
-          "query/id": 4610,
-          "name": "c.localdomain",
-          "expected/address": "127.0.0.3",
-          "actual/address": "127.0.0.3",
-          "peer/address": "127.0.0.1"
-        }
-      ]
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        { "$ref": "#/$defs/dns-assertion-a" },
+        { "$ref": "#/$defs/dns-assertion-b" },
+        { "$ref": "#/$defs/dns-assertion-c" }
+      ],
+      "items": false
     },
     "measurements": {
       "type": "object",
@@ -160,15 +182,118 @@
       }
     },
     "budgets": {
-      "const": {
-        "duration/ms-max": 1200000,
-        "deliberation/ms-max": 600000
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration/ms-max", "deliberation/ms-max"],
+      "properties": {
+        "duration/ms-max": { "const": 1200000 },
+        "deliberation/ms-max": { "const": 600000 }
+      }
+    },
+    "deliberation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "room/floor-mode",
+        "requester-opening/ref",
+        "cycles",
+        "cycle/limit",
+        "stop/reason",
+        "turn/refs",
+        "overlay/refs",
+        "inference/refs",
+        "experiment/count",
+        "experiment/outcome",
+        "experiment/event-count",
+        "resolution/path",
+        "fallback/reason",
+        "effective-wall-time/ms-max",
+        "hard-wall-time/ms-max"
+      ],
+      "properties": {
+        "mode": { "const": "baton" },
+        "room/floor-mode": { "const": "round-robin" },
+        "requester-opening/ref": { "$ref": "#/$defs/ref" },
+        "cycles": { "type": "integer", "minimum": 2, "maximum": 64 },
+        "cycle/limit": { "const": 64 },
+        "stop/reason": { "enum": ["deadline-reached", "cycle-limit-reached"] },
+        "turn/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/ref" }
+        },
+        "overlay/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/ref" }
+        },
+        "inference/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/inference-ref" }
+        },
+        "experiment/count": { "const": 1 },
+        "experiment/outcome": { "const": "candidate-rejected-by-verifier" },
+        "experiment/event-count": { "type": "integer", "minimum": 1 },
+        "resolution/path": { "const": "fixture-fallback" },
+        "fallback/reason": { "const": "no-admissible-candidate-after-bounded-review" },
+        "effective-wall-time/ms-max": { "const": 300000 },
+        "hard-wall-time/ms-max": { "const": 360000 }
       }
     }
   },
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "inference-ref": {
+      "allOf": [
+        { "$ref": "#/$defs/ref" },
+        { "not": { "pattern": "^sensorium-control-lease:" } }
+      ]
+    },
     "hex-digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
-    "base64url-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+    "base64url-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "dns-assertion-a": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query/id", "name", "expected/address", "actual/address", "peer/address"],
+      "properties": {
+        "query/id": { "const": 4608 },
+        "name": { "const": "a.localdomain" },
+        "expected/address": { "const": "127.0.0.1" },
+        "actual/address": { "const": "127.0.0.1" },
+        "peer/address": { "const": "127.0.0.1" }
+      }
+    },
+    "dns-assertion-b": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query/id", "name", "expected/address", "actual/address", "peer/address"],
+      "properties": {
+        "query/id": { "const": 4609 },
+        "name": { "const": "b.localdomain" },
+        "expected/address": { "const": "127.0.0.2" },
+        "actual/address": { "const": "127.0.0.2" },
+        "peer/address": { "const": "127.0.0.1" }
+      }
+    },
+    "dns-assertion-c": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query/id", "name", "expected/address", "actual/address", "peer/address"],
+      "properties": {
+        "query/id": { "const": 4610 },
+        "name": { "const": "c.localdomain" },
+        "expected/address": { "const": "127.0.0.3" },
+        "actual/address": { "const": "127.0.0.3" },
+        "peer/address": { "const": "127.0.0.1" }
+      }
+    }
   }
 }

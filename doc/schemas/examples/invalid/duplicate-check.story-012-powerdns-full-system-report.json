@@ -31,9 +31,13 @@
     "runtime/refs": ["runtime/baseline-assistant-llama-server"],
     "binding/ref": "model.binding/baseline-assistant-llama-server",
     "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "inference/refs": [
+      "inquiry:story-012-node-b:1",
+      "inquiry:story-012-node-c:1"
+    ],
     "agent-product/digests": [
       "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+      "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     ]
   },
   "guest": {
