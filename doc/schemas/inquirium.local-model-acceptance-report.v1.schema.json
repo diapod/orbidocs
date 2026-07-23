@@ -13,7 +13,7 @@
     "schema": { "const": "inquirium.local-model-acceptance-report.v1" },
     "schema/v": { "const": 1 },
     "status": { "const": "passed" },
-    "platform/ref": { "const": "macos-arm64-metal" },
+    "platform/ref": { "enum": ["macos-arm64-metal", "linux-x86_64-cpu"] },
     "llama-server": {
       "type": "object",
       "additionalProperties": false,

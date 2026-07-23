@@ -28,7 +28,7 @@ Closed metadata-only evidence that one real local model package passed lifecycle
 | [`schema`](#field-schema) | `yes` | const: `inquirium.local-model-acceptance-report.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`status`](#field-status) | `yes` | const: `passed` |  |
-| [`platform/ref`](#field-platform-ref) | `yes` | const: `macos-arm64-metal` |  |
+| [`platform/ref`](#field-platform-ref) | `yes` | enum: `macos-arm64-metal`, `linux-x86_64-cpu` |  |
 | [`llama-server`](#field-llama-server) | `yes` | object |  |
 | [`model`](#field-model) | `yes` | object |  |
 | [`checks`](#field-checks) | `yes` | array |  |
@@ -65,7 +65,7 @@ Closed metadata-only evidence that one real local model package passed lifecycle
 ## `platform/ref`
 
 - Required: `yes`
-- Shape: const: `macos-arm64-metal`
+- Shape: enum: `macos-arm64-metal`, `linux-x86_64-cpu`
 
 <a id="field-llama-server"></a>
 ## `llama-server`

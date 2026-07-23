@@ -302,12 +302,17 @@ macOS arm64/Metal suite now proves the complete lifecycle with a pinned,
 self-contained `llama-server` and the real revision-pinned Bielik Q8_0 bytes:
 authority ceremony, CAS reuse, conformance, alias-stable model snapshot, real
 inference, dirty-restart adoption, upgrade, rollback, and reference-aware
-removal all pass and produce a schema-gated metadata-only report. Empty egress
-metadata remains an admission assertion rather than OS-level network isolation
-evidence. Real bounded no-egress enforcement, TLS redirect acceptance,
-production distributor-signed `llama-server` releases, real process acceptance
-on Linux x86_64/CPU, and operator rebind after
-root/control-plane loss remain open. These items are explicitly
+removal all pass and produce a schema-gated metadata-only report. Managed
+package children now run under an OS-enforced no-egress launch mode on macOS
+and Linux x86_64, conformance asserts that mode, and exact dirty-restart adoption
+requires matching durable isolation evidence. The offline distributor release
+tool, exact approved-release catalog, key rotation/revocation mechanics, and
+redirect refusal matrix are implemented. A Linux x86_64/CPU profile now shares
+the same lifecycle/report contract and has native ELF/dependency gates, but a
+real Linux host report remains outstanding. Publication of a production-key-
+signed `llama-server` release, the proposed federation-root provider-key
+endorsement contract, real process acceptance on Linux x86_64/CPU, and operator
+rebind after root/control-plane loss remain open. These items are explicitly
 outside the P066 hard-MVP denominator, so the Inquirium readiness percentages do
 not change.
 
