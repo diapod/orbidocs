@@ -269,6 +269,9 @@ schema_for_file() {
     *.inquirium.adapter.response.json)
       echo "$SCHEMAS_DIR/inquirium.adapter.response.v1.schema.json"
       ;;
+    *.inquirium.local-model-acceptance-report.json)
+      echo "$SCHEMAS_DIR/inquirium.local-model-acceptance-report.v1.schema.json"
+      ;;
     *.training-job.json)
       echo "$SCHEMAS_DIR/training-job.v1.schema.json"
       ;;

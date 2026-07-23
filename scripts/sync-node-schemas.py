@@ -198,6 +198,7 @@ SCHEMA_WHITELIST = (
     "inquirium.model-package.install-receipt.v1.schema.json",
     "inquirium.model-package.active-profile.v1.schema.json",
     "inquirium.model-package.install-plan.v1.schema.json",
+    "inquirium.local-model-acceptance-report.v1.schema.json",
     "inac-control.v1.schema.json",
     "notification.v1.schema.json",
     "notification-create.v1.schema.json",
@@ -447,6 +448,7 @@ EXAMPLE_WHITELIST = (
     "scheduler.trace-link.json",
     "accepted.corpus-reasoning-role-assignment.json",
     "accepted.corpus-reasoning-instruction-overlay.json",
+    "passed.inquirium.local-model-acceptance-report.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -538,6 +540,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "unknown-mode.room-floor-policy.json",
     "expiry-on-mute.room-moderation-intent.json",
     "widened.corpus-reasoning-chair-control-policy.json",
+    "over-budget.inquirium.local-model-acceptance-report.json",
     "missing-policy-ref.corpus-reasoning-room-policy-v2.json",
     "inac-push-missing-artifact.inac-control.json",
     "raw-handle.contact-lookup.artifact-delivery-envelope.json",

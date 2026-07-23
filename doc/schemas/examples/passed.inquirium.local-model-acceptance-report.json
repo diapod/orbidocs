@@ -1,0 +1,30 @@
+{
+  "schema": "inquirium.local-model-acceptance-report.v1",
+  "schema/v": 1,
+  "status": "passed",
+  "platform/ref": "macos-arm64-metal",
+  "llama-server": {
+    "version": "1-c588c4f4",
+    "sha256": "sha256:ERERERERERERERERERERERERERERERERERERERERERE",
+    "source-commit": "c588c4f47683e73ad2d69f50480bec6cc85fd0f7"
+  },
+  "model": {
+    "alias": "Bielik-1.5B-v3.0-Instruct",
+    "gguf-sha256": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "revision": "99d72cc757be4f8b958018f12d6898bad5c19c9e"
+  },
+  "checks": [
+    "binary-self-contained",
+    "authorization-ceremony",
+    "cas-reuse",
+    "activation-conformance",
+    "real-inference",
+    "dirty-restart",
+    "upgrade-rollback",
+    "removal",
+    "negative-matrix"
+  ],
+  "measurements": { "install-ms": 1000, "warmup-ms": 2000, "first-inference-ms": 3000 },
+  "budgets": { "install-ms-max": 1800000, "warmup-ms-max": 300000, "first-inference-ms-max": 120000 },
+  "generations": { "active-profile": 3 }
+}

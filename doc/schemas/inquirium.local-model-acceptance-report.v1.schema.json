@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-local-model-acceptance-report:v1",
+  "title": "Inquirium Local Model Acceptance Report v1",
+  "description": "Closed metadata-only evidence that one real local model package passed lifecycle and inference acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/60-solutions/046-inquirium.md", "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"],
+  "required": ["schema", "schema/v", "status", "platform/ref", "llama-server", "model", "checks", "measurements", "budgets", "generations"],
+  "properties": {
+    "schema": { "const": "inquirium.local-model-acceptance-report.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "const": "passed" },
+    "platform/ref": { "const": "macos-arm64-metal" },
+    "llama-server": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "sha256", "source-commit"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "source-commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alias", "gguf-sha256", "revision"],
+      "properties": {
+        "alias": { "const": "Bielik-1.5B-v3.0-Instruct" },
+        "gguf-sha256": { "$ref": "#/$defs/digest" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "binary-self-contained",
+          "authorization-ceremony",
+          "cas-reuse",
+          "activation-conformance",
+          "real-inference",
+          "dirty-restart",
+          "upgrade-rollback",
+          "removal",
+          "negative-matrix"
+        ]
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["install-ms", "warmup-ms", "first-inference-ms"],
+      "properties": {
+        "install-ms": { "type": "integer", "minimum": 0, "maximum": 1800000 },
+        "warmup-ms": { "type": "integer", "minimum": 0, "maximum": 300000 },
+        "first-inference-ms": { "type": "integer", "minimum": 0, "maximum": 120000 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["install-ms-max", "warmup-ms-max", "first-inference-ms-max"],
+      "properties": {
+        "install-ms-max": { "const": 1800000 },
+        "warmup-ms-max": { "const": 300000 },
+        "first-inference-ms-max": { "const": 120000 }
+      }
+    },
+    "generations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["active-profile"],
+      "properties": {
+        "active-profile": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}
