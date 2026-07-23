@@ -383,6 +383,13 @@ separately evidenced by P070 rather than being simulated by Corpus. The profile'
 closed refusal matrix distinguishes direct composed-process checks from named
 lower-stratum P070/P082/P083 evidence owners.
 
+The additive vfkit v2 profile supplies the deterministic repair fixture inside
+the digest-pinned full-system guest and drives that same Story 012 behavior through
+one Workbench runtime. Its closed report proves P082 observation, P083-exclusive
+repair, exact revocation, dirty recipient restart, stale-generation refusal,
+artifact export, and the inert Corpus draft under the
+`single-runtime-vertical` evidence boundary.
+
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:
 it tests real process and network boundaries without presenting one kernel and

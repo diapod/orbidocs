@@ -155,6 +155,12 @@ state for B while C remains refused. Its 17-entry refusal matrix names whether
 each claim is evidenced directly by the composed runner or by the owning
 P070/P082/P083 lower-stratum suite.
 
+The additive vfkit v2 profile keeps Agent substrate-neutral while proving the
+same passage lifecycle through one virtualized Workbench runtime. The repair
+fixture is digest-pinned in the full-system guest; B/C observation, exact revoke,
+dirty B restart, stale-generation denial, repaired passing state, export, and the
+unpublished draft are recorded by the closed `single-runtime-vertical` report.
+
 The implemented post-MVP operational-context extension remains source-owned by P082.
 Agent Core carries only bounded generic qualifier refs and strict digests; the daemon
 validates the exact source value, current generation, and effective publication,
@@ -406,9 +412,11 @@ an extension hidden inside this solution.
    and Agent passage, preserve its validated P081 causal context, keep content
    ephemeral, and deny dynamic wiring, implicit actuation, or membership-derived
    authority. New sources extend daemon wiring, not `agent-core`. Keep the
-   passing composed three-node runner on the release gate: it reuses Story 011's
-   bootstrap and proves distinct participant evidence, local repair observation,
-   observer revocation, dirty restart, and unpublished chair output.
+   passing baseline and vfkit-v2 runners on the release gate: they reuse Story
+   011's bootstrap and prove distinct participant evidence, local repair
+   observation, observer revocation, dirty restart, and unpublished chair output;
+   the vfkit profile additionally binds those facts to one digest-pinned
+   full-system Workbench runtime.
 6. Keep the implemented neutral consumer-policy and authority-evidence binding v2 on
    its current-policy recovery gate. Corpus is the first concrete resolver and golden
    recovery consumer. Preserve v1 compatibility, exact v1/v2 conflict refusal,

@@ -1968,9 +1968,16 @@ node, and still requires a separate Corpus transition before any answer is publi
   of recipient B, local-only repair, a newer passing latest-state projection for B
   while C remains refused, unchanged absence of ambient terminal actuation, and
   Corpus acceptance of the chair result only as an unpublished answer draft. The
-  profile closes all 16 refusal claims through either direct composed-process
+  profile closes all 17 refusal claims through either direct composed-process
   evidence or a named lower-stratum P070/P082/P083 owner. P070's separate host-TLS
   pack remains the external relay deployment evidence.
+- [x] Run the additive full-system vfkit profile as one vertical Workbench
+  runtime. The deterministic repair fixture is digest-pinned in the guest image;
+  failing and passing PTY state traverse P082, repair is fenced by P083, and the
+  three-node Corpus/Agent round retains revocation, dirty restart, export, and an
+  unpublished answer draft. The schema-gated report claims
+  `single-runtime-vertical` rather than inferring the result from separately run
+  harnesses.
 
 #### Phase 9 — N-way settlement
 

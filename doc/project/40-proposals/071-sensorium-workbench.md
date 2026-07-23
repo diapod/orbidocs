@@ -26,7 +26,7 @@ Based on:
 
 ## Status
 
-Accepted / implemented local foundation.
+Accepted / implemented.
 
 The settled solution surface is promoted to
 `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`.
@@ -59,8 +59,13 @@ and local-transport conformance. A pinned full-system GNU/Linux arm64 image
 builder and real-vfkit harness now prove EFI boot, the virtio-vsock guest channel,
 systemd/PID 1, bounded PTY/file mechanics, offline package use, constrained guest
 resources, dirty-restart recovery, and deterministic teardown on Apple Silicon.
-Routing that PTY/file channel through the virtualized Workbench adapter and P083
-two-controller authority remains unimplemented. The freeze also requires closed capability vocabularies,
+The virtualized Workbench adapter routes that PTY/file channel through daemon-owned
+`sensorium.virt.host`; terminal output enters P082 and P083 remains the sole remote
+control authority. The additive Story 012 profile now runs the digest-pinned repair
+fixture inside that same full-system guest and proves the complete three-node
+collaboration, revoke, dirty restart, repair, passing observation, export, and
+unpublished Corpus draft under a schema-gated `single-runtime-vertical` report.
+The freeze also requires closed capability vocabularies,
 plan-bound operational context and policy floors, evidence-based logical image
 equivalence, and sanitized classified serial diagnostics. The existing Workbench
 environment/export contracts remain landed.
@@ -1082,10 +1087,10 @@ The first backend is complete only when deployment evidence covers:
 - bounded `allocate -> agent ready`, PTY round-trip, file/patch/export, physical
   disk amplification, teardown, and reconciliation measurements.
 
-A future full-system Story 012 profile may reuse the existing three-node Room,
+The implemented full-system Story 012 profile reuses the existing three-node Room,
 Corpus, Agent, and shared-terminal topology to prove collaborative GNU/Linux
-service configuration. It is an additive post-MVP acceptance profile; it does
-not retroactively change the completed Story 012 gate.
+service configuration. It is additive post-MVP acceptance evidence and does not
+reinterpret the completed baseline Story 012 gate.
 
 An environment also declares its operational impact through the P082-owned
 `sensorium-operational-context.v1` value. A connector or backend may supply an
@@ -2680,13 +2685,14 @@ evidence) · `[!]` blocked/needs decision.
   `libtest --list --format=terse` output before execution rather than parsing
   human progress text.
 - [x] Add `story-012-vfkit-full-system` as an additive profile rather than
-  reinterpreting the completed Story 012 baseline. Its runner composes real
-  vfkit deployment evidence, the Workbench/P082/P083 bridge, and the existing
-  three-node story smoke under an explicit `composed-strata` evidence boundary.
-- [ ] Replace that composed evidence with one-runtime vertical Story 012 vfkit
-  evidence after the repair fixture is delivered to the guest as a pinned
-  artifact instead of a host-path copy. The current additive profile explicitly
-  does not claim this stronger fact.
+  reinterpreting the completed Story 012 baseline. Its v2 runner installs the
+  deterministic repair fixture in the digest-pinned guest image and uses one
+  Workbench runtime for the real vfkit guest, P082 observation, P083 repair
+  lease, and three-node collaboration. The closed schema-gated report claims
+  `single-runtime-vertical` only after proving failing and passing PTY evidence,
+  B/C deliberation, exclusive repair, observer revocation, dirty recipient
+  restart, stale-generation refusal, artifact export, and an unpublished Corpus
+  draft.
 - [ ] Implement `cloud-hypervisor-system.v1` as the first Linux deployment profile
   after the backend-neutral vfkit slice proves the contracts. Require an explicit
   raw image, pinned firmware/VMM digest, dedicated unprivileged identity, cgroup v2,

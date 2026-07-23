@@ -27,7 +27,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-21. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+Change basis: this refresh incorporates the current worktree state on 2026-07-23. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -61,7 +61,8 @@ interrupted-launch recovery, dead listeners, replay, dirty exit, missing storage
 fresh boot nonces, generation supersession, PID reuse, binary and socket
 substitution, socket-root replacement, and orphan cleanup without claiming Apple
 Virtualization Framework or guest evidence.
-P071 and Solution 042 are now at `99%`. The nonce/generation/plan/image-bound guest
+P071 and Solution 042 are now at `100%` for the implemented vfkit reference
+profile. The nonce/generation/plan/image-bound guest
 agent and host channel have the explicit states `protocol implemented` and
 real-binary local `conformance proven`: admission is typed, process output has one
 total budget, PTY resize is ioctl-backed, patch staging is atomically durable and
@@ -76,9 +77,12 @@ schema-gated report binds exact VMM/image/firmware/guest pins and functional tim
 budgets. Readiness markers are not evidence. The `microvm` Workbench adapter now
 routes guest file, export, patch-stage, and PTY operations through daemon-owned
 `sensorium.virt.host`, projects PTY output through P082, and retains P083 as the
-sole remote control authority. The additive Story 012 vfkit profile composes these
-strata without claiming one-runtime vertical evidence; that stronger pinned-fixture
-run is the remaining one-percent evidence item. Patch-stage idempotency is bound to
+sole remote control authority. The additive Story 012 vfkit v2 profile installs
+the deterministic repair fixture in the digest-pinned guest image and uses one
+Workbench runtime for the guest, P082/P083 bridge, and complete three-node story.
+Its schema-gated `single-runtime-vertical` report proves failing/passing PTY state,
+exclusive repair, observer revocation, dirty recipient restart, stale-generation
+refusal, export, and an unpublished Corpus draft. Patch-stage idempotency is bound to
 the exact address, source generation, content digest, and length; `unknown` guest
 PTY outcomes terminate waits honestly, and guest quiescence reaps completed PTYs
 before reporting its active count. Restarted guest sessions and command replays
@@ -828,11 +832,12 @@ Recent component deltas:
   host-local capability in addition to the exact source-issued subscribe Passport;
   peer time/message bytes, pre-decode result bytes, terminal-vs-retryable failures,
   and consumer-side byte-evidence validation are explicitly bounded.
-  Virtualized Workbench/P083 routing and additive Story 012 composed evidence are
-  implemented. Proposal 071 and Solution 042 are therefore at `99%`; only a
-  single-runtime full-system story using a pinned guest fixture remains before
-  this evidence line reaches 100. Richer command-BDO signal policy is post-MVP
-  hardening rather than a current blocker.
+  Virtualized Workbench/P083 routing and the additive Story 012 vfkit v2 vertical
+  are implemented. The fixture is digest-pinned in the guest image and the closed
+  report proves the complete story through one Workbench runtime. Proposal 071
+  and Solution 042 are therefore at `100%` for the vfkit reference profile.
+  Cloud Hypervisor, Firecracker, and richer command-BDO signal policy remain
+  separately evidenced post-MVP extensions rather than current blockers.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay
   deferred, so the component is not yet marked post-MVP ready.
@@ -961,7 +966,7 @@ Recent component deltas:
 | [Proposal 067: Shared Offer Catalog over Agora](../40-proposals/067-shared-offer-catalog-over-agora.md) | `true` | `true` | `false` | `100` |
 | [Proposal 069: Corpus — Topic-Routed Collaborative Reasoning](../40-proposals/069-corpus.md) | `true` | `true` | `false` | `100` |
 | [Proposal 070: Room — Generic Subject-Addressed Room Primitive](../40-proposals/070-room-primitive.md) | `true` | `true` | `true` | `100` |
-| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `99` |
+| [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
@@ -1019,7 +1024,7 @@ Recent component deltas:
 | [Notifications](../60-solutions/039-notifications/039-notifications.md) | `true` | `true` | `false` | `90` |
 | [Capability-Limited Restrictions](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Federation Root and Network Selector](../60-solutions/041-federation-root/041-federation-root.md) | `true` | `true` | `false` | `92` |
-| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `99` |
+| [Sensorium Workbench](../60-solutions/042-sensorium-workbench/042-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Horizontal Protocol Primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Inquirium](../60-solutions/044-inquirium/044-inquirium.md) | `false` | `true` | `false` | `100` |
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |

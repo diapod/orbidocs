@@ -50,6 +50,7 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 | [`guestPath`](#def-guestpath) | string |  |
 | [`guestSpawnProcess`](#def-guestspawnprocess) | object |  |
 | [`guestOpenPty`](#def-guestopenpty) | object |  |
+| [`guestTerminalRead`](#def-guestterminalread) | object |  |
 | [`guestTerminalInput`](#def-guestterminalinput) | object |  |
 | [`guestTerminalResize`](#def-guestterminalresize) | object |  |
 | [`guestTerminalSignal`](#def-guestterminalsignal) | object |  |
@@ -285,6 +286,11 @@ Then:
 
 <a id="def-guestopenpty"></a>
 ## `$defs.guestOpenPty`
+
+- Shape: object
+
+<a id="def-guestterminalread"></a>
+## `$defs.guestTerminalRead`
 
 - Shape: object
 

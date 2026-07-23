@@ -17,6 +17,7 @@ Based on:
 - `node:sensorium-virt-host`
 - `node:sensorium-virt-host/tests/vfkit_deployment.rs`
 - `node:tools/acceptance/sensorium-virt-vfkit`
+- `node:tools/acceptance/story-012-shared-chair-terminal`
 - `node:tools/acceptance/sensorium-terminal-live-feed`
 - `node:daemon/src/sensorium_virt_integration.rs`
 - `node:interaction-broker-core`
@@ -68,6 +69,7 @@ Related schemas:
 - `sensorium-virt-guest-frame.v1`
 - `sensorium-virt.host.request.v1`
 - `sensorium-virt-vfkit-deployment-report.v1`
+- `story-012-vfkit-full-system-report.v1`
 - `sensorium-workbench-tool-request.v1`
 - `sensorium-interface-descriptor.v1`
 - `sensorium-interface-frame.v1`
@@ -75,7 +77,7 @@ Related schemas:
 
 ## Status
 
-Implemented local foundation with post-MVP backend hardening remaining.
+Implemented; additional Linux backends remain optional follow-up profiles.
 
 The contract, schema, conformance-vector, capability-registration, opt-in local
 connector foundation, and daemon-owned Interaction Broker runtime slice exist.
@@ -141,10 +143,13 @@ maps guest file, export, patch-stage, and PTY operations onto existing Workbench
 contracts, writes guest output into the P082 terminal event source, and leaves
 P083 as the only remote actuation authority. Patch-stage replay is content- and
 generation-bound, completed PTYs are reaped before guest quiescence is reported,
-and an unprovable guest PTY outcome terminates waits as `unknown`. Its additive Story 012 profile
-combines real-vfkit, interface/fencing, and collaborative evidence while naming
-the result `composed-strata`; a single-runtime story fixture inside the pinned
-guest artifact remains stronger follow-up evidence. Later Linux backends and
+and an unprovable guest PTY outcome terminates waits as `unknown`. Its additive
+Story 012 v2 profile delivers the repair fixture inside the digest-pinned guest
+image and runs real vfkit, Workbench, P082/P083, Room, Agent, and Corpus through
+one Workbench runtime. The closed report names the evidence boundary
+`single-runtime-vertical` and proves failing/passing PTY observation, exclusive
+repair, revoke, dirty restart, stale-generation refusal, export, and an
+unpublished draft. Later Linux backends and
 optional daemon command-BDO signal policy beyond the implemented `TERM` cancel
 path also remain post-baseline work.
 
@@ -774,15 +779,16 @@ authority to match both environment ref and current generation. P071 Phase 5 and
 P082/P083 trackers contain the runtime and refusal evidence.
 
 Status: `done post-MVP` for operational-impact publication, the fixture admission
-spine, backend-neutral guest runtime, and real-vfkit host/guest deployment profile;
-P083-backed virtualized Workbench integration and additive Story 012 composed
-evidence are implemented. Restarted guest PTY sessions and command replays now
+spine, backend-neutral guest runtime, real-vfkit host/guest deployment, P083-backed
+virtualized Workbench integration, and the additive one-runtime Story 012 vfkit
+vertical. Restarted guest PTY sessions and command replays now
 return a typed relink result, and terminal close uses a local `closing`
 transition to serialize concurrent effects without retaining a lock across guest
 I/O; dedicated acceptance checks cover restart supersession and concurrent
 environment teardown. Exact Rust checks are resolved by `libtest --list` before
-execution instead of parsing progress text. One-runtime Story 012 vfkit evidence and subsequent
-Linux profiles remain the incomplete P071 Phase 4 work.
+execution instead of parsing progress text. Cloud Hypervisor and Firecracker
+remain separately evidenced future Linux profiles, not completion blockers for
+the implemented vfkit reference profile.
 
 ### Agent, Corpus, and Room Tool Use
 

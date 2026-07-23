@@ -254,6 +254,9 @@ schema_for_file() {
     *.sensorium-virt-vfkit-deployment-report.json)
       echo "$SCHEMAS_DIR/sensorium-virt-vfkit-deployment-report.v1.schema.json"
       ;;
+    *.story-012-vfkit-full-system-report.json)
+      echo "$SCHEMAS_DIR/story-012-vfkit-full-system-report.v1.schema.json"
+      ;;
     *.sensorium-workbench-tool-request.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-tool-request.v1.schema.json"
       ;;

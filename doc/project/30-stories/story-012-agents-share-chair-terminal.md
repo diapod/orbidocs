@@ -1,6 +1,6 @@
 # Story 012: Remote Agents Solve a Problem Through a Shared Chair Terminal
 
-Status: Implemented; composed three-node acceptance passes
+Status: Implemented; baseline and vfkit single-runtime acceptance pass
 
 Related:
 
@@ -227,7 +227,7 @@ snapshot, but it must not silently become a transcript store or summarizer.
 | Workbench terminal source | available | isolated PTY, bounded visible-screen snapshot, exact environment generation/context, local actuation authority, and classified explicit capture |
 | Sensorium Interface Room projection | available | exact grants, complete context-bearing `latest-state`, recipient intersection, host-only terminal status, supersession, revocation, recipient-side restart recovery, and no terminal control; the source-host pump remains process-local and must be recreated after a source-host restart |
 | Agent observation admission | available | substrate-neutral need/binding/evidence in `agent-core`, bounded neutral context qualifiers, preserved P081 source causality, static fail-closed JSON-e wiring, daemon-owned Room/Sensorium resolution, process-local revocable latest-state inbox, resource-bound Interaction Broker source, host-owned pre-inference caution, prompt-free trace, and restart/retention refusal tests |
-| Story 012 process runner | available | a composed three-node runner extends the shared Story 011 topology without copying its trust/bootstrap logic |
+| Story 012 process runner | available | the baseline runner extends the shared Story 011 topology; the additive vfkit v2 profile runs the pinned guest fixture and full collaboration through one Workbench runtime without copying trust/bootstrap logic |
 
 The acceptance pack must refuse execution while any gate is missing. Marking a
 documentation row complete is not sufficient evidence; the runner must probe the
@@ -298,13 +298,13 @@ P064/P071/P082 tests owning the vectors that the composed story does not duplica
 P082 owns this freshness predicate; Story 012 adds no TTL.
 
 The additive `profile-vfkit-full-system.json` keeps the completed baseline
-unchanged while composing three stronger strata: real full-system vfkit
-deployment evidence, the guest Workbench-to-P082/P083 bridge, and this
-three-node collaboration smoke. Its machine-checked report calls the boundary
-`composed-strata` and sets `single-runtime-vertical-proof = false`. A later
-profile may make that stronger claim only after the deterministic repair fixture
-is delivered inside the guest as a digest-pinned artifact rather than copied
-from a host path.
+unchanged while proving the stronger vertical in one Workbench runtime. Version 2
+boots the pinned full-system guest, verifies the digest-pinned in-guest repair
+fixture, projects failing and passing PTY state through P082, fences repair through
+P083, and runs the same three-node collaboration, revoke, dirty restart, export,
+and inert Corpus-draft lifecycle. Its schema-gated report names the evidence
+boundary `single-runtime-vertical`; it does not infer that claim from independent
+harness results.
 
 The Story consumer validates `bytes/base64`, `bytes/count`, and `bytes/sha256`
 before interpreting a terminal marker. Chair admission also uses the current Room
@@ -347,9 +347,11 @@ membership high-water sequence rather than a creation-time or fixture constant.
   test through independent B/C deliberation, C revocation, dirty B restart, local
   repair, passing-state observation by B plus continued refusal for C, and an
   unpublished answer draft.
-- [x] The additive vfkit profile composes full-system, interface/fencing, and
-  collaborative evidence without weakening or relabeling the completed baseline.
+- [x] The additive vfkit v2 profile proves full-system, interface/fencing, and
+  collaborative behavior through one Workbench runtime without weakening or
+  relabeling the completed baseline.
 - [x] Terminal marker checks consume verified byte evidence and Chair authority
   binds the current Room membership high-water sequence.
-- [ ] One-runtime vfkit Story 012 evidence uses a pinned guest fixture rather
-  than a host-path copy.
+- [x] One-runtime vfkit Story 012 evidence uses a digest-pinned guest fixture
+  rather than a host-path copy and emits the closed
+  `story-012-vfkit-full-system-report.v1` artifact.

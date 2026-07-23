@@ -1,0 +1,31 @@
+{
+  "schema": "story-012-vfkit-full-system-report.v1",
+  "schema/v": 1,
+  "status": "passed",
+  "profile/id": "story-012-vfkit-full-system",
+  "backend/id": "vfkit-system.v1",
+  "platform/ref": "macos-vz-arm64.v1",
+  "evidence/boundary": "single-runtime-vertical",
+  "checks": [
+    "pinned-guest-fixture",
+    "single-runtime-three-node-vfkit",
+    "failing-terminal-observed",
+    "two-agent-deliberation",
+    "exclusive-repair-lease",
+    "passing-terminal-observed",
+    "observer-revocation",
+    "dirty-recipient-restart",
+    "stale-generation-refusal",
+    "artifact-export",
+    "unpublished-corpus-draft"
+  ],
+  "artifact/refs": ["artifact:story-012-vfkit-export"],
+  "corpus/draft-ref": "corpus-agent-answer-draft:story-012",
+  "digests": {
+    "image/artifact": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "image/manifest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "story-012/fixture": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "measurements": {"duration/ms": 76770},
+  "budgets": {"duration/ms-max": 900000}
+}

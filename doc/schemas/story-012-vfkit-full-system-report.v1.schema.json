@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-vfkit-full-system-report:v1",
+  "title": "Story 012 vfkit Full-System Vertical Report v1",
+  "description": "Closed evidence report for the Story 012 single-runtime vfkit full-system vertical.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "profile/id",
+    "backend/id",
+    "platform/ref",
+    "evidence/boundary",
+    "checks",
+    "artifact/refs",
+    "corpus/draft-ref",
+    "digests",
+    "measurements",
+    "budgets"
+  ],
+  "properties": {
+    "schema": { "const": "story-012-vfkit-full-system-report.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "const": "passed" },
+    "profile/id": { "const": "story-012-vfkit-full-system" },
+    "backend/id": { "const": "vfkit-system.v1" },
+    "platform/ref": { "const": "macos-vz-arm64.v1" },
+    "evidence/boundary": { "const": "single-runtime-vertical" },
+    "checks": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "pinned-guest-fixture",
+          "single-runtime-three-node-vfkit",
+          "failing-terminal-observed",
+          "two-agent-deliberation",
+          "exclusive-repair-lease",
+          "passing-terminal-observed",
+          "observer-revocation",
+          "dirty-recipient-restart",
+          "stale-generation-refusal",
+          "artifact-export",
+          "unpublished-corpus-draft"
+        ]
+      }
+    },
+    "artifact/refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "corpus/draft-ref": { "$ref": "#/$defs/ref" },
+    "digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["image/artifact", "image/manifest", "story-012/fixture"],
+      "properties": {
+        "image/artifact": { "$ref": "#/$defs/digest" },
+        "image/manifest": { "$ref": "#/$defs/digest" },
+        "story-012/fixture": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration/ms"],
+      "properties": {
+        "duration/ms": { "type": "integer", "minimum": 0, "maximum": 900000 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration/ms-max"],
+      "properties": {
+        "duration/ms-max": { "const": 900000 }
+      }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}
