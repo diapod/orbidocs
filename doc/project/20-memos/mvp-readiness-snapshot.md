@@ -836,8 +836,17 @@ Recent component deltas:
   are implemented. The fixture is digest-pinned in the guest image and the closed
   report proves the complete story through one Workbench runtime. Proposal 071
   and Solution 042 are therefore at `100%` for the vfkit reference profile.
-  Cloud Hypervisor, Firecracker, and richer command-BDO signal policy remain
-  separately evidenced post-MVP extensions rather than current blockers.
+  The Cloud Hypervisor extension is now implementation-complete through daemon
+  admission, Workbench routing, the shared guest contract, macOS fake-process
+  conformance, fail-closed Landlock ABI v3 preflight with an attested
+  `host-filesystem-allowlist` enforcement class, exact-process dirty-restart
+  reconciliation, exact multi-backend manifest-variant selection, authoritative
+  cgroup cleanup, a closed schema-gated deployment report, and a Linux x86_64
+  host/guest/schema/daemon/Workbench compile/conformance gate. Its tracker remains
+  `in progress`, because the checked-in deployment runner has not yet passed on a
+  Linux x86_64 host with real `/dev/kvm`; QEMU/TCG and fake evidence do not satisfy
+  that gate. Firecracker and richer command-BDO signal policy remain separately
+  evidenced post-MVP extensions rather than current blockers.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay
   deferred, so the component is not yet marked post-MVP ready.

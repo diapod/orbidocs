@@ -34,7 +34,7 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-virt.host.request.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`operation`](#field-operation) | `yes` | enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `guest.invoke`, `host.reconcile` |  |
+| [`operation`](#field-operation) | `yes` | enum: `fixture.prepare`, `vfkit.allocate`, `cloud-hypervisor.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `guest.invoke`, `host.reconcile` |  |
 | [`payload`](#field-payload) | `yes` | object |  |
 
 ## Definitions
@@ -131,7 +131,10 @@ When:
 {
   "properties": {
     "operation": {
-      "const": "vfkit.allocate"
+      "enum": [
+        "vfkit.allocate",
+        "cloud-hypervisor.allocate"
+      ]
     }
   },
   "required": [
@@ -234,7 +237,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `fixture.prepare`, `vfkit.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `guest.invoke`, `host.reconcile`
+- Shape: enum: `fixture.prepare`, `vfkit.allocate`, `cloud-hypervisor.allocate`, `environment.start`, `environment.inspect`, `environment.drain`, `environment.teardown`, `environment.recover`, `guest.invoke`, `host.reconcile`
 
 <a id="field-payload"></a>
 ## `payload`

@@ -1,0 +1,48 @@
+{
+  "schema": "sensorium-virt-cloud-hypervisor-deployment-report.v1",
+  "schema/v": 1,
+  "status": "passed",
+  "checks": [
+    "content-bound-allocation-replay",
+    "idempotency-conflict-refusal",
+    "full-system-agent-ready",
+    "dirty-restart-recovery",
+    "generation-plan-image-nonce-handshake",
+    "systemd-pid1",
+    "guest-kernel-and-mount",
+    "offline-package-install",
+    "no-network-share-ssh-or-host-secret",
+    "file-patch-stage-export",
+    "real-pty-roundtrip",
+    "bounded-process-output",
+    "bounded-serial-diagnostics",
+    "guest-resource-plan-observed",
+    "guest-pid-exhaustion-bounded",
+    "stale-generation-refusal",
+    "quiesce-refusal",
+    "deterministic-teardown"
+  ],
+  "measurements": {
+    "allocate-ms": 10000,
+    "allocate-to-agent-ready-ms": 120001,
+    "drain-teardown-ms": 11000
+  },
+  "budgets": {
+    "allocate-ms-max": 60000,
+    "allocate-to-agent-ready-ms-max": 120000,
+    "drain-teardown-ms-max": 30000
+  },
+  "backend/id": "cloud-hypervisor-system.v1",
+  "backend/binary-digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "platform/ref": "linux-kvm-x86_64.v1",
+  "image/manifest-digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "image/manifest-file-digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+  "image/artifact-digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "firmware/digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+  "guest-agent/digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+  "operational/context": {
+    "schema": "sensorium-operational-context.v1",
+    "schema/v": 1,
+    "impact/class": "test"
+  }
+}

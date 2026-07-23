@@ -27,6 +27,7 @@
       "enum": [
         "fixture.prepare",
         "vfkit.allocate",
+        "cloud-hypervisor.allocate",
         "environment.start",
         "environment.inspect",
         "environment.drain",
@@ -83,7 +84,10 @@
       "if": {
         "properties": {
           "operation": {
-            "const": "vfkit.allocate"
+            "enum": [
+              "vfkit.allocate",
+              "cloud-hypervisor.allocate"
+            ]
           }
         },
         "required": [

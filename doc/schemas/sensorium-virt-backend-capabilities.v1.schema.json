@@ -61,7 +61,7 @@
     "storageFormats": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["directory-copy", "raw", "kernel-initrd-rootfs"] } },
     "deviceClasses": { "type": "array", "maxItems": 5, "uniqueItems": true, "items": { "enum": ["virtio-block", "virtio-vsock", "virtio-rng", "diagnostic-serial", "virtio-net"] } },
     "networkProfiles": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["none", "isolated", "egress-allowlisted"] } },
-    "resourceClasses": { "type": "array", "maxItems": 10, "uniqueItems": true, "items": { "enum": ["host-cpu", "host-memory", "host-process", "host-storage", "host-io", "guest-vcpu", "guest-memory", "guest-pids", "guest-storage", "channel-bounds"] } },
+    "resourceClasses": { "type": "array", "maxItems": 11, "uniqueItems": true, "items": { "enum": ["host-cpu", "host-memory", "host-process", "host-storage", "host-io", "host-filesystem-allowlist", "guest-vcpu", "guest-memory", "guest-pids", "guest-storage", "channel-bounds"] } },
     "lifecycleOperations": { "type": "array", "minItems": 1, "maxItems": 6, "uniqueItems": true, "items": { "enum": ["allocate", "start", "inspect", "drain", "teardown", "recover"] } }
   }
 }

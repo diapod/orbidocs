@@ -70,6 +70,23 @@ plan-bound operational context and policy floors, evidence-based logical image
 equivalence, and sanitized classified serial diagnostics. The existing Workbench
 environment/export contracts remain landed.
 
+The `cloud-hypervisor-system.v1` implementation slice is also landed behind the
+same daemon-owned host contract. It includes operator-only profile admission,
+binary/firmware/raw-image pinning, a closed REST and device builder, durable
+lifecycle and recovery identities, an output-only continuously bounded serial
+tail, cgroup v2 and non-root process identity, Cloud Hypervisor's default seccomp
+posture, explicit Landlock rules, the common guest protocol, SMBIOS bootstrap,
+authoritative cgroup cleanup during quarantine/orphan reconciliation, and Workbench
+executor routing. The image resolver admits a multi-backend logical manifest but
+requires exactly one matching Cloud Hypervisor x86_64/EFI/raw variant. macOS
+fake-process conformance proves the command,
+API, replay, substitution-refusal, serial-bound, and lifecycle mechanics without
+claiming KVM. A Linux x86_64 CI compile/conformance gate and a separate real-KVM
+deployment runner with a closed schema-gated evidence report are checked in. This
+item remains **in progress** until that
+runner produces passing evidence on Linux x86_64 with `/dev/kvm`; QEMU/TCG and
+the fake VMM cannot satisfy the deployment gate.
+
 ## Date
 
 2026-06-23
@@ -859,8 +876,24 @@ memory snapshots are denied. Serial diagnostics follow the same bounded, classif
 sanitized output-only policy. Disk format is
 explicit; format autodetection and backing-file chains are not admitted.
 The Linux host broker runs the VMM under a dedicated unprivileged identity,
-cgroup v2 limits, seccomp, and a file allowlist enforced by Landlock where the
-pinned host/VMM combination supports it or by an equally explicit host wrapper.
+cgroup v2 limits, seccomp, and a file allowlist enforced by Landlock. The
+`cloud-hypervisor-system.v1` production configuration queries the host Landlock
+ABI before it can publish capabilities or accept allocation and requires ABI v3
+or newer, matching the pinned VMM's hard-requirement mode. The normalized plan
+requires the closed `host-filesystem-allowlist` resource-enforcement class; an
+unsupported kernel therefore cannot advertise or allocate this profile. A future
+backend may use an equally explicit host wrapper, but must publish a distinct
+closed enforcement class and pass separate conformance.
+The closed launcher does not expose Cloud Hypervisor's `--seccomp` option, so the
+VMM's built-in seccomp remains enabled with its default trapping action. The host
+cgroup's fixed `pids.max = 64` bounds VMM-side tasks and is deliberately distinct
+from the plan's `processes/max`, which is projected into guest-agent admission.
+The image-specific deployment evidence separately proves the pinned guest service
+`TasksMax`; a host cgroup limit never substitutes for that guest-side proof. REST
+I/O budgets are operation-classed and closed in code: `2 s` for ping, create, and
+info, `15 s` for boot, `10 s` for guest shutdown, and `5 s` for VMM shutdown.
+Socket publication is followed by a bounded API ping retry for transient local
+connect refusal; malformed API responses and exhaustion remain terminal failures.
 If the selected profile requires one of these controls and the host cannot prove
 it, allocation fails closed.
 
@@ -1055,6 +1088,9 @@ resource-control identities, source generation, and any network resources.
 Linux-specific fields such as cgroup, netns, TAP, UID/GID, and `/proc` start time
 are present only for Linux profiles; macOS records equivalent process, socket,
 disk, and launch identities without pretending that Linux primitives exist.
+For Cloud Hypervisor, the reuse-safe process marker binds `/proc/<pid>/stat`,
+`comm`, `cmdline`, and `/proc/<pid>/exe` identity while the recovery record and
+current host configuration independently bind the pinned binary digest.
 
 Before accepting new environment requests, the broker compares durable records
 with live processes, sockets, disks, and platform resource controls; inspects the
@@ -1657,8 +1693,9 @@ shape: `schema`, `source_tier`, `effective_tier`, `provenance`,
 | `sensorium-virt-image-manifest.v1` | Logical full-system image whose shared userspace/SBOM/provenance/agent/protocol digests prove variant equivalence while exact boot artifacts remain variant-specific. |
 | `sensorium-virt-recovery-record.v1` | Host-private identity for VMM process, sockets, working storage, boot nonce, source generation, platform resources, and reconciliation status. |
 | `sensorium-virt-guest-frame.v1` | Bounded handshake and operation envelope for the guest channel, including environment/generation binding, sequence, deadline, chunk caps, and payload digest. |
-| `sensorium-virt.host.request.v1` | Closed internal ingress envelope for fixture and vfkit allocation, exact environment start/inspect/drain/teardown/recover bindings, and authoritative host reconciliation. Caller payloads never select host paths, VMM binaries, sockets, or argv. |
+| `sensorium-virt.host.request.v1` | Closed internal ingress envelope for fixture, vfkit, and Cloud Hypervisor allocation, exact environment start/inspect/drain/teardown/recover bindings, and authoritative host reconciliation. Caller payloads never select host paths, VMM binaries, sockets, or argv. |
 | `sensorium-virt-vfkit-deployment-report.v1` | Closed metadata-only evidence report with the exact vfkit check set, VMM/image/firmware/guest digests, operational context, functional timing budgets, and bounded measurements. |
+| `sensorium-virt-cloud-hypervisor-deployment-report.v1` | Closed metadata-only Linux/KVM evidence report with the exact Cloud Hypervisor check set, VMM/image/firmware/guest digests, operational context, continuously bounded serial evidence, and measurements constrained by explicit functional budgets. |
 | `sensorium-terminal-session.v1` | Session descriptor: command profile, workspace, classification, limits, status. |
 | `sensorium-terminal-command.v1` | Structured command intent with command profile, argv data, idempotency key, and normalized argv digest. |
 | `sensorium-terminal-input.v1` | Bounded raw input event to an existing session. |
@@ -2693,11 +2730,23 @@ evidence) · `[!]` blocked/needs decision.
   B/C deliberation, exclusive repair, observer revocation, dirty recipient
   restart, stale-generation refusal, artifact export, and an unpublished Corpus
   draft.
-- [ ] Implement `cloud-hypervisor-system.v1` as the first Linux deployment profile
-  after the backend-neutral vfkit slice proves the contracts. Require an explicit
-  raw image, pinned firmware/VMM digest, dedicated unprivileged identity, cgroup v2,
-  host filesystem confinement, closed devices, no default NIC, and the same guest
-  protocol and conformance suite.
+- [ ] **In progress:** complete deployment evidence for
+  `cloud-hypervisor-system.v1` as the first Linux deployment profile after the
+  backend-neutral vfkit slice proves the contracts.
+  The backend, daemon admission, Workbench routing, binary/firmware/raw-image
+  pinning, closed REST/device builder, durable lifecycle/recovery, continuously
+  bounded output-only serial, Linux cgroup v2/non-root identity, default seccomp,
+  fail-closed Landlock ABI v3 preflight plus the attested
+  `host-filesystem-allowlist` enforcement class, explicit Landlock rules, SMBIOS
+  guest bootstrap, macOS fake-process conformance, exact-process dirty-restart
+  reconciliation, bounded API readiness, authoritative cgroup cleanup, exact Cloud Hypervisor manifest-variant selection,
+  operation-classed REST I/O budgets and an explicit host-task/guest-process limit
+  separation,
+  Linux x86_64 host/guest/schema/daemon/Workbench compile and conformance CI gate,
+  and schema-gated real deployment runner are landed.
+  Completion still requires that runner to pass on a physical or remote Linux
+  x86_64 KVM host with the pinned full-system image. QEMU/TCG and fake-process
+  evidence are explicitly non-substitutable for this final gate.
 - [ ] Implement `firecracker-system.v1` only after the guest protocol and image
   manifest stabilize; require the same backend-neutral conformance plus a
   jailer-equivalent host profile. Keep Incus, crosvm, OCI-to-VM runtimes, Kata,

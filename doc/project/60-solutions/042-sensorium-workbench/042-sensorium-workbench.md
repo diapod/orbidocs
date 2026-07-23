@@ -786,9 +786,25 @@ return a typed relink result, and terminal close uses a local `closing`
 transition to serialize concurrent effects without retaining a lock across guest
 I/O; dedicated acceptance checks cover restart supersession and concurrent
 environment teardown. Exact Rust checks are resolved by `libtest --list` before
-execution instead of parsing progress text. Cloud Hypervisor and Firecracker
-remain separately evidenced future Linux profiles, not completion blockers for
-the implemented vfkit reference profile.
+execution instead of parsing progress text. The Cloud Hypervisor Linux backend is
+now `implementation landed` and `fake conformance passed`: it reuses the same
+guest contract behind daemon-owned profile admission and adds pinned VMM,
+firmware, raw disk, closed REST/device construction, durable recovery, bounded
+diagnostic serial, cgroup v2, non-root identity, default seccomp, explicit
+Landlock with an ABI v3 preflight and an attested `host-filesystem-allowlist`
+enforcement class, SMBIOS guest bootstrap, cgroup cleanup during
+quarantine/orphan recovery, exact-process cleanup for contradictory dirty-restart
+records,
+exact selection of one matching variant from a multi-backend image manifest,
+operation-classed REST I/O budgets, bounded API readiness, and separate
+host-VMM-task versus guest-process
+limits.
+Its Linux x86_64 host/guest/schema/daemon/Workbench compile/conformance CI gate and
+schema-gated real-KVM runner are present, but `deployment evidence proven` remains
+pending until the runner passes with `/dev/kvm` on Linux x86_64. QEMU/TCG and the
+fake VMM are not substitutes. Firecracker remains a later separately evidenced
+profile; neither extension changes completion of the implemented vfkit reference
+profile.
 
 ### Agent, Corpus, and Room Tool Use
 
