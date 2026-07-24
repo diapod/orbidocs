@@ -597,6 +597,7 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-room-invite.v1` | implemented | post-MVP | Room subject + live-transport binding + exact v1 or v2 policy digest. The stable invite envelope accepts both policy revisions and validates the embedded revision at the Corpus boundary. |
 | `corpus-reasoning-role-assignment.v1` | new | post-MVP | Chair-issued participant role assignment with local-acceptance semantics. |
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
+| `corpus-reasoning-experiment-proposal.v1` | implemented | post-MVP | Signed portable envelope binding one content-addressed inert `inquirium.candidate-plan.v1` to the exact query, Room, retained turn, author node, requester-selected executor, classification, expiry, and HIL requirement. A portable candidate must omit `adapter.manifest/ref`; that field remains optional producer provenance only for the separate adapter-authored compilation path. The envelope carries no adapter, Sensorium grant, generation, or lease authority. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
 | `corpus-reasoning-answer.v1` | new | post-MVP, first slice implemented | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
@@ -1999,9 +2000,10 @@ node, and still requires a separate Corpus transition before any answer is publi
   2026-07-23 report remains valid for its earlier narrower profile and MUST NOT
   be cited as evidence for overlays, floor sequencing, or correction after the
   failed experiment.
-- [ ] Define and exercise the optional typed deliberation-to-effect handoff for
+- [x] Define and exercise the optional typed deliberation-to-effect handoff for
   Story 012 successors. Corpus may carry an inert
-  `inquirium.candidate-plan.v1` or experiment proposal from the requester-selected
+  `inquirium.candidate-plan.v1` through a signed
+  `corpus-reasoning-experiment-proposal.v1` from the requester-selected
   local compiler, local Chair Agent, remote Chair Agent, or designated participant
   Agent. Node A must verify attribution and perform grant, review, budget,
   classification, generation, lease, and Sensorium admission. Room `op`, `voice`,
@@ -2009,7 +2011,27 @@ node, and still requires a separate Corpus transition before any answer is publi
   P083 / Solution 046 Sensorium Interactive Interfaces claim/control/invoke rather
   than a Corpus-local transport. Absence of a local model is acceptable when a
   closed host compiler recognizes the proposal; free-form Room prose never becomes
-  an effect.
+  an effect. The implemented first vertical uses a requester-owned local Chair
+  Agent: Node A verifies the solver-bound signature, retained Room turn, and exact
+  mapping from the author's Room invite to the signing node, resolves
+  distributor/operator/interface executor ceilings, digest-checks the plan artifact,
+  compiles an entirely pending `InquiryFlowV1`, prepares a metadata-only passage over
+  one fresh terminal latest-state snapshot, verifies the content-addressed Agent
+  product under a closed `propose|no-effect` decision contract, and prevents
+  `no-effect` from reaching claim or invoke. For `propose`, node A binds the exact
+  flow node, interface pair, grant, generation, operational context, method, input
+  schema, payload digest, classification, lease ceiling, and proposal expiry before
+  requiring an admitted operator-question decision,
+  and lets the P083 coordinator acquire and release the control lease only around
+  `invoke`. Remote Chair, designated-participant, and deterministic compiler modes
+  remain portable policy vocabulary, but daemon admission fails closed with
+  `executor_mode_not_implemented` until their passage adapters are implemented and
+  evidenced. The executable first slice is therefore exactly `observe_only` and
+  `local_agent`. Every admitted effect reuses the ordinary Agent
+  operator-question/finalize ceremony rather than a Corpus-specific approval
+  path. A separate host-owned effect-node limit defaults to one per plan and is
+  operator-configurable only up to the hard maximum of eight; the independent
+  64-node CandidatePlan graph bound does not widen this HIL fan-out ceiling.
 
 #### Phase 9 — N-way settlement
 

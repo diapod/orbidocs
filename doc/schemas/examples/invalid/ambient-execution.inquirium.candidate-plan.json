@@ -1,0 +1,19 @@
+{
+  "schema": "inquirium.candidate-plan.v1",
+  "plan/ref": "candidate-plan:invalid-ambient-execution",
+  "execute": true,
+  "nodes": [
+    {
+      "node/ref": "candidate-node:effect",
+      "kind": "effect_proposal",
+      "capability/ref": "sensorium.interface.invoke",
+      "input": {}
+    }
+  ],
+  "budget": {
+    "max-steps": 1,
+    "max-tokens": 1,
+    "max-cost-micros": 0,
+    "wall-time-ms": 1
+  }
+}

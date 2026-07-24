@@ -1,0 +1,42 @@
+{
+  "schema": "inquirium.candidate-plan.v1",
+  "plan/ref": "candidate-plan/story-012-powerdns-experiment-1",
+  "nodes": [
+    {
+      "node/ref": "candidate-node:consider-terminal-state",
+      "kind": "inquiry",
+      "operation": "generate",
+      "input": {
+        "instruction": "Choose one bounded experiment from the admitted plan and current terminal state."
+      }
+    },
+    {
+      "node/ref": "candidate-node:propose-workbench-effect",
+      "kind": "effect_proposal",
+      "capability/ref": "sensorium.interface.invoke",
+      "input": {
+        "action_id": "sensorium.workbench.terminal.input"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from/ref": "candidate-node:consider-terminal-state",
+      "to/ref": "candidate-node:propose-workbench-effect",
+      "condition": "on_success"
+    }
+  ],
+  "budget": {
+    "max-steps": 2,
+    "max-tokens": 2048,
+    "max-cost-micros": 0,
+    "wall-time-ms": 60000
+  },
+  "cancellation": {
+    "cancel-on-budget-exhaustion": true,
+    "cancel-on-loop-bound": true
+  },
+  "metadata": {
+    "purpose": "story-012-powerdns-experiment"
+  }
+}

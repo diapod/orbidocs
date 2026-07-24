@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-22.
+Snapshot date: 2026-07-24.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -27,7 +27,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-23. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+Change basis: this refresh incorporates the current worktree state on 2026-07-24. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -110,9 +110,22 @@ verifier-rejected guest experiment, terminal-evidence correction, and separate
 short P083 leases per actuation. That additive revision awaits a replacement
 expensive retained report; the earlier report remains narrower evidence and the
 hard-MVP percentages remain unchanged.
-An adaptive successor that accepts an attributed remote
-`inquirium.candidate-plan.v1` and delegates control through P083/Solution 046 is
-tracked separately as post-MVP work; Room role alone remains non-authoritative.
+The adaptive local successor is now implemented as post-MVP work: a signed
+`corpus-reasoning-experiment-proposal.v1` binds one content-addressed
+`inquirium.candidate-plan.v1` to an admitted Room turn and requester-selected
+local Chair Agent. Node A binds the signing node to the author's canonical Room
+invite, resolves monotone executor ceilings, compiles a pending flow, prepares one
+fresh latest-state passage, verifies one content-addressed Agent product under a
+closed `propose|no-effect` decision contract, and prevents `no-effect` from reaching
+claim or invoke. For `propose`, it rechecks the exact interface, grant, generation,
+operational context, method, input schema, payload digest, classification, lease
+ceiling, and proposal expiry before requiring an admitted operator-question
+decision and delegating the exact approved effect to P083, whose lease exists only
+around invoke. The portable policy also names remote Chair, designated-participant,
+and deterministic compiler executors, but daemon admission rejects them until their
+passage adapters have executable evidence. Room
+role alone remains non-authoritative. This additive post-MVP slice does not alter
+the hard-MVP percentages.
 
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,

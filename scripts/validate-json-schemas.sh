@@ -443,6 +443,12 @@ schema_for_file() {
     *.corpus-reasoning-turn-proposal.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-turn-proposal.v1.schema.json"
       ;;
+    *.corpus-reasoning-experiment-proposal.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-experiment-proposal.v1.schema.json"
+      ;;
+    *.inquirium.candidate-plan.json)
+      echo "$SCHEMAS_DIR/inquirium.candidate-plan.v1.schema.json"
+      ;;
     *.corpus-reasoning-role-assignment.json|*corpus-reasoning-role-assignment-widening.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-role-assignment.v1.schema.json"
       ;;

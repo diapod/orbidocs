@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium.candidate-plan:v1",
+  "title": "Inquirium Candidate Plan v1",
+  "description": "A bounded model-authored plan candidate. The value is inert until a host compiles and admits each effect.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "plan/ref",
+    "nodes",
+    "budget"
+  ],
+  "properties": {
+    "schema": { "const": "inquirium.candidate-plan.v1" },
+    "plan/ref": { "$ref": "#/$defs/ref" },
+    "adapter.manifest/ref": {
+      "description": "Optional producer provenance for adapter-authored plans. Portable envelope-admitted plans omit this local implementation reference.",
+      "$ref": "#/$defs/ref"
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/edge" }
+    },
+    "budget": { "$ref": "#/$defs/budget" },
+    "cancellation": { "$ref": "#/$defs/cancellation" },
+    "metadata": {
+      "type": "object",
+      "maxProperties": 64
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "operation": {
+      "enum": [
+        "generate",
+        "embed",
+        "batch_embed",
+        "classify",
+        "rerank",
+        "summarize",
+        "transform",
+        "image_generate",
+        "image_edit",
+        "train_adapt"
+      ]
+    },
+    "node": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["node/ref", "kind", "operation", "input"],
+          "properties": {
+            "node/ref": { "$ref": "#/$defs/ref" },
+            "kind": { "const": "inquiry" },
+            "operation": { "$ref": "#/$defs/operation" },
+            "input": {}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["node/ref", "kind", "capability/ref", "input"],
+          "properties": {
+            "node/ref": { "$ref": "#/$defs/ref" },
+            "kind": { "const": "effect_proposal" },
+            "capability/ref": { "$ref": "#/$defs/ref" },
+            "input": {}
+          }
+        }
+      ]
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from/ref", "to/ref", "condition"],
+      "properties": {
+        "from/ref": { "$ref": "#/$defs/ref" },
+        "to/ref": { "$ref": "#/$defs/ref" },
+        "condition": { "enum": ["always", "on_success", "on_failure"] },
+        "max-traversals": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max-steps", "max-tokens", "max-cost-micros", "wall-time-ms"],
+      "properties": {
+        "max-steps": { "type": "integer", "minimum": 1 },
+        "max-tokens": { "type": "integer", "minimum": 1 },
+        "max-cost-micros": { "type": "integer", "minimum": 0 },
+        "wall-time-ms": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "cancellation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cancel-on-budget-exhaustion", "cancel-on-loop-bound"],
+      "properties": {
+        "cancel-on-budget-exhaustion": { "type": "boolean" },
+        "cancel-on-loop-bound": { "type": "boolean" }
+      }
+    }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ]
+}

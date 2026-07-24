@@ -401,11 +401,34 @@ The additive role-aware revision remains a consumer profile over those same
 contracts. The requester query opens the round, accepted instruction overlays
 distinguish solver from reviewer, and the controlled Chair maps `baton` to Room
 `round-robin`. The runner permits up to 64 ordered cycles under a five-minute
-deadline and feeds one verifier-rejected host-owned experiment back through the
-read-only terminal projection before the correction cycle. Corpus still admits
-only inert turns and does not compile model prose into effects. This revision is
+deadline and feeds one verifier-rejected experiment back through the read-only
+terminal projection before the correction cycle. The experiment is no longer
+derived from free-form prose: a remote solver node signs a
+`corpus-reasoning-experiment-proposal.v1` that content-addresses an inert
+`inquirium.candidate-plan.v1` without a local `adapter.manifest/ref` and binds its query, Room, admitted turn, author,
+requester-selected executor, classification, and expiry. The requester daemon
+resolves monotone distributor/operator/interface executor ceilings, verifies the
+retained turn and signature, binds the signer node to the author's canonical
+Room invite, compiles an entirely pending `InquiryFlowV1`, and
+persists only metadata for the executor passage. The local Chair Agent receives
+the plan plus one fresh terminal latest-state projection. The requester verifies
+the content-addressed Inquirium product and accepts only a closed `propose|no-effect`
+decision for the compiled flow node; `no-effect` cannot reach claim or invoke. For
+`propose`, the daemon binds and rechecks the exact actuation interface, grant,
+generation, operational context, method, input schema, payload digest,
+classification, lease ceiling, and portable-proposal expiry. It then requires the
+admitted operator-question decision before the existing P083 coordinator performs
+`claim -> invoke -> release`; no control lease spans inference. Corpus remains a
+carrier and admission owner, never a terminal actuator. This revision is
 implemented but awaits a new retained expensive report; the earlier report does
-not prove the added deliberation behavior.
+not prove the added deliberation behavior. The executable first slice admits only
+`observe_only` and `local_agent`; `deterministic_host_compiler`,
+`remote_chair_agent`, and `designated_participant_agent` fail closed until their
+passage adapters exist. Every effect
+reuses the ordinary Agent operator-question/finalize lifecycle. To bound approval
+fan-out independently of the 64-node graph ceiling, host configuration defaults to
+one effect-proposal node per plan and may raise that value only to the hard maximum
+of eight.
 
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:

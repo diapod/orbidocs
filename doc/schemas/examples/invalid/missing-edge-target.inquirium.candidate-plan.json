@@ -1,0 +1,24 @@
+{
+  "schema": "inquirium.candidate-plan.v1",
+  "plan/ref": "candidate-plan:invalid-edge",
+  "nodes": [
+    {
+      "node/ref": "candidate-node:known",
+      "kind": "inquiry",
+      "operation": "generate",
+      "input": {}
+    }
+  ],
+  "edges": [
+    {
+      "from/ref": "candidate-node:known",
+      "condition": "always"
+    }
+  ],
+  "budget": {
+    "max-steps": 1,
+    "max-tokens": 1,
+    "max-cost-micros": 0,
+    "wall-time-ms": 1
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-experiment-proposal:v1",
+  "title": "Corpus Reasoning Experiment Proposal v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "proposal/ref",
+    "query/id",
+    "room/id",
+    "turn/id",
+    "author",
+    "author/node-id",
+    "executor",
+    "candidate-plan/ref",
+    "candidate-plan/artifact-ref",
+    "candidate-plan/digest",
+    "class/key",
+    "human-in-loop/required",
+    "proposed-at",
+    "expires-at",
+    "idempotency/key",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "turn/id": {
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "author": { "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject" },
+    "author/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "executor": { "$ref": "#/$defs/executor" },
+    "candidate-plan/ref": {
+      "type": "string",
+      "pattern": "^candidate-plan/[^\\s]+$",
+      "maxLength": 512
+    },
+    "candidate-plan/artifact-ref": {
+      "type": "string",
+      "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "candidate-plan/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "class/key": { "enum": ["Public", "Community", "Personal"] },
+    "human-in-loop/required": { "const": true },
+    "proposed-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "signature": { "$ref": "#/$defs/signature" }
+  },
+  "$defs": {
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "enum": [
+            "observe-only",
+            "local-agent",
+            "deterministic-host-compiler",
+            "remote-chair-agent",
+            "designated-participant-agent"
+          ]
+        },
+        "node/id": { "type": "string", "pattern": "^node:did:key:[^\\s]+$", "maxLength": 512 },
+        "agent/ref": { "type": "string", "pattern": "^agent:[^\\s]+$", "maxLength": 512 },
+        "participant": { "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "enum": ["observe-only", "deterministic-host-compiler"] } } },
+          "then": { "not": { "anyOf": [ { "required": ["node/id"] }, { "required": ["agent/ref"] }, { "required": ["participant"] } ] } }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "local-agent" } } },
+          "then": { "required": ["agent/ref"], "not": { "anyOf": [ { "required": ["node/id"] }, { "required": ["participant"] } ] } }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "remote-chair-agent" } } },
+          "then": { "required": ["node/id", "agent/ref"], "not": { "required": ["participant"] } }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "designated-participant-agent" } } },
+          "then": { "required": ["node/id", "agent/ref", "participant"] }
+        }
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value", "key/public"],
+      "properties": {
+        "alg": { "const": "ed25519+domain-v1" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" },
+        "key/public": { "type": "string", "pattern": "^z[A-Za-z0-9]+$", "maxLength": 128 }
+      }
+    }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/60-solutions/038-corpus/038-corpus.md",
+    "doc/project/60-solutions/047-agent/047-agent.md",
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md"
+  ]
+}

@@ -350,7 +350,9 @@ deliberation intent into actuation. That later path must carry a typed inert
 attribute it to the requester-selected executor, join node A's admission, and
 compile through the ordinary Sensorium boundary. The requester may select a
 local host compiler, a local Chair Agent, or a remote Chair/designated participant
-Agent. Room role and membership never imply terminal authority: remote execution
+Agent. The first implemented vertical enables only the local Agent; the other modes
+fail daemon admission until their passage adapters have evidence. Room role and
+membership never imply terminal authority: remote execution
 uses the P083 / Solution 046 Sensorium Interactive Interfaces
 claim/control/invoke path and still requires a separate resource-scoped Sensorium
 grant, current generation, bounded lease, review policy, and local refusal path.
@@ -450,13 +452,25 @@ membership high-water sequence rather than a creation-time or fixture constant.
   then replace the retained report only after its closed `deliberation` evidence
   passes the profile validator and Schema Gate. The historical 14-check report
   remains valid single-turn evidence; the role-aware runner emits a distinct
-  16-check claim that is invalid without the closed `deliberation` section.
-- [ ] Add an adaptive follow-up profile in which a typed inert
+  17-check claim that is invalid without the closed `deliberation` section.
+- [x] Add the first adaptive follow-up profile in which a typed inert
   `inquirium.candidate-plan.v1` or experiment proposal crosses from Corpus
-  deliberation to a requester-selected executor: deterministic local compiler,
-  local Chair Agent, remote Chair Agent, or designated participant Agent. Remote
-  plans remain inert until node A verifies attribution and a separate
+  deliberation to the requester-selected local Chair Agent. The portable policy
+  also names deterministic local compiler, remote Chair Agent, and designated
+  participant Agent modes, but daemon admission rejects those modes until their
+  passage adapters have executable evidence. Every plan remains inert until node A verifies
+  attribution and a separate
   resource-scoped Sensorium grant, review, classification, generation, lease,
-  budget, and idempotency policy. Execute admitted remote control through P083 /
-  Solution 046 rather than a Story-local proxy. Reject free-form prose and prove
-  revocation.
+  budget, and idempotency policy. The implemented local vertical binds the signed
+  proposal to a retained solver turn and the author's Room invite, compiles a
+  pending `InquiryFlowV1`, prepares fresh latest-state evidence, performs an Agent
+  passage, verifies the content-addressed Inquirium product under a closed
+  `propose|no-effect` decision contract, and prevents `no-effect` from claiming or
+  invoking. For `propose`, node A rechecks the exact flow node, interface, grant,
+  generation, operational context, method, input schema, payload digest,
+  classification, lease ceiling, and proposal expiry, requires an admitted
+  operator-question decision, and lets
+  P083 acquire and release the lease only around invoke. Execute future admitted
+  remote control through P083 / Solution 046 rather than a Story-local proxy;
+  the remote executor carrier remains additive work and is not claimed by this
+  local evidence. Free-form prose is rejected as effect authority.

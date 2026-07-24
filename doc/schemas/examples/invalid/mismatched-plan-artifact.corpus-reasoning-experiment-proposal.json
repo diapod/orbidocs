@@ -1,0 +1,23 @@
+{
+  "schema/v": 1,
+  "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "turn/id": "corpus-turn:sha256:9ZehrEOIubus093kwJsgZ3G6ZDhNbC1MnTj-2s36yw0",
+  "author": { "kind": "nym", "id": "did:key:z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ" },
+  "author/node-id": "node:did:key:z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ",
+  "executor": { "mode": "local-agent", "agent/ref": "agent:requester-executor" },
+  "candidate-plan/ref": "candidate-plan/experiment-test",
+  "candidate-plan/artifact-ref": "object-store:sha512:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "class/key": "Community",
+  "human-in-loop/required": true,
+  "proposed-at": "2026-07-24T10:00:00Z",
+  "expires-at": "2026-07-24T10:05:00Z",
+  "idempotency/key": "experiment-test",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "718iNeiugf9F7Cl5d0IHqeFXp56KP3ftYxzbOsvRmwuBBpXF4heacetz9kZb5j0jKhj2czVPjeTjfqUJOh1-DA",
+    "key/public": "z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ"
+  }
+}

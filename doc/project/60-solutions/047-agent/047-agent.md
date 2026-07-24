@@ -460,6 +460,20 @@ an extension hidden inside this solution.
    authority, and Room prose is never interpreted as an effect. Remote terminal
    control reuses P083 / Solution 046 Sensorium Interactive Interfaces
    claim/control/invoke rather than introducing an Agent-specific carrier.
+9. Keep the implemented Corpus experiment executor adapter narrow. The Agent
+   consumes an admitted portable `CandidatePlan` with no local adapter-manifest
+   provenance and one fresh, digest-bound latest-state
+   passage before returning one closed `propose|no-effect` product decision; the
+   proposal carries no lease, and `no-effect` cannot claim or invoke. After HIL, the
+   daemon revalidates the current Agent binding, proposal expiry, passage, exact
+   flow node, actuation grant, generation, operational context, method, input
+   schema, payload digest, classification, and lease ceiling, then asks the existing
+   P083 coordinator to claim, invoke, and immediately release the exact interface
+   generation. Local in-process dispatch removes HTTP/relay
+   overhead only; it does not remove P083 admission, fencing, idempotency, or receipt
+   semantics. Remote and deterministic executor modes remain portable vocabulary but
+   daemon admission refuses them until an authorized Room relay/direct-peer or host
+   compiler passage adapter has equivalent implementation evidence.
 
 ## Must Implement
 
