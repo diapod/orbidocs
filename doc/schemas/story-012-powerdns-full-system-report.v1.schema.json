@@ -39,7 +39,8 @@
             "contains": {
               "enum": [
                 "role-aware-baton-deliberation",
-                "failed-experiment-correction"
+                "failed-experiment-correction",
+                "typed-experiment-admission-loop"
               ]
             }
           }
@@ -52,7 +53,7 @@
       "required": ["deliberation"],
       "properties": {
         "checks": {
-          "minItems": 16
+          "minItems": 17
         }
       }
     }
@@ -68,7 +69,7 @@
     "checks": {
       "type": "array",
       "minItems": 14,
-      "maxItems": 16,
+      "maxItems": 17,
       "uniqueItems": true,
       "items": {
         "enum": [
@@ -87,7 +88,8 @@
           "artifact-export",
           "unpublished-corpus-draft",
           "role-aware-baton-deliberation",
-          "failed-experiment-correction"
+          "failed-experiment-correction",
+          "typed-experiment-admission-loop"
         ]
       }
     },
@@ -196,6 +198,8 @@
       "required": [
         "mode",
         "room/floor-mode",
+        "roles",
+        "speaker/order",
         "requester-opening/ref",
         "cycles",
         "cycle/limit",
@@ -204,20 +208,32 @@
         "overlay/refs",
         "inference/refs",
         "experiment/count",
-        "experiment/outcome",
-        "experiment/event-count",
+        "experiments",
         "resolution/path",
-        "fallback/reason",
+        "fallback/used",
+        "room-prose/direct-effect-count",
         "effective-wall-time/ms-max",
         "hard-wall-time/ms-max"
       ],
       "properties": {
         "mode": { "const": "baton" },
         "room/floor-mode": { "const": "round-robin" },
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["solver", "reviewer"],
+          "properties": {
+            "solver": { "const": "node-b" },
+            "reviewer": { "const": "node-c" }
+          }
+        },
+        "speaker/order": {
+          "const": ["requester-opening", "solver", "reviewer"]
+        },
         "requester-opening/ref": { "$ref": "#/$defs/ref" },
         "cycles": { "type": "integer", "minimum": 2, "maximum": 64 },
         "cycle/limit": { "const": 64 },
-        "stop/reason": { "enum": ["deadline-reached", "cycle-limit-reached"] },
+        "stop/reason": { "const": "corrected-plan-applied" },
         "turn/refs": {
           "type": "array",
           "minItems": 4,
@@ -239,11 +255,40 @@
           "uniqueItems": true,
           "items": { "$ref": "#/$defs/inference-ref" }
         },
-        "experiment/count": { "const": 1 },
-        "experiment/outcome": { "const": "candidate-rejected-by-verifier" },
-        "experiment/event-count": { "type": "integer", "minimum": 1 },
-        "resolution/path": { "const": "fixture-fallback" },
-        "fallback/reason": { "const": "no-admissible-candidate-after-bounded-review" },
+        "experiment/count": { "const": 2 },
+        "experiments": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                { "$ref": "#/$defs/experiment" },
+                {
+                  "properties": {
+                    "attempt": { "const": 1 },
+                    "outcome": { "const": "failed-terminal-experiment" }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/experiment" },
+                {
+                  "properties": {
+                    "attempt": { "const": 2 },
+                    "outcome": { "const": "applied-after-terminal-feedback" }
+                  }
+                }
+              ]
+            }
+          ],
+          "items": false
+        },
+        "resolution/path": { "const": "corrected-candidate-plan" },
+        "fallback/used": { "const": false },
+        "room-prose/direct-effect-count": { "const": 0 },
         "effective-wall-time/ms-max": { "const": 300000 },
         "hard-wall-time/ms-max": { "const": 360000 }
       }
@@ -259,6 +304,56 @@
     },
     "hex-digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "base64url-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt",
+        "outcome",
+        "proposal/ref",
+        "passage/ref",
+        "flow/ref",
+        "execution/ref",
+        "execution/status",
+        "effect/proposal-ref",
+        "executor/inference-ref",
+        "executor/product-ref",
+        "executor/product-digest",
+        "agent/decision",
+        "hil/question-ref",
+        "hil/decision",
+        "p083/lifecycle",
+        "lease/released",
+        "terminal/event-count"
+      ],
+      "properties": {
+        "attempt": { "type": "integer", "minimum": 1, "maximum": 2 },
+        "outcome": {
+          "enum": [
+            "failed-terminal-experiment",
+            "applied-after-terminal-feedback"
+          ]
+        },
+        "proposal/ref": { "$ref": "#/$defs/ref" },
+        "passage/ref": { "$ref": "#/$defs/ref" },
+        "flow/ref": { "$ref": "#/$defs/ref" },
+        "execution/ref": { "$ref": "#/$defs/ref" },
+        "execution/status": { "const": "terminal" },
+        "effect/proposal-ref": { "$ref": "#/$defs/ref" },
+        "executor/inference-ref": { "$ref": "#/$defs/inference-ref" },
+        "executor/product-ref": {
+          "type": "string",
+          "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "executor/product-digest": { "$ref": "#/$defs/base64url-digest" },
+        "agent/decision": { "const": "propose" },
+        "hil/question-ref": { "$ref": "#/$defs/ref" },
+        "hil/decision": { "const": "approved" },
+        "p083/lifecycle": { "const": ["claim", "invoke", "release"] },
+        "lease/released": { "const": true },
+        "terminal/event-count": { "type": "integer", "minimum": 1 }
+      }
+    },
     "dns-assertion-a": {
       "type": "object",
       "additionalProperties": false,

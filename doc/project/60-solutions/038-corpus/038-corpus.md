@@ -393,7 +393,7 @@ artifact export, and the inert Corpus draft under the
 The evidenced PowerDNS/Bielik specialization keeps Corpus semantics unchanged:
 two verified real Agent products become inert reasoning turns, while deterministic
 host-owned code alone crosses HIL and P083 to configure the guest. Its closed
-`single-host-full-system` report was retained from the 2026-07-23 real run and
+`single-host-full-system` report was retained from the 2026-07-24 real run and
 proves the localhost-only PowerDNS listener and exact `localdomain` answers.
 Structural profile validation remains distinct from that runtime evidence.
 
@@ -402,10 +402,11 @@ contracts. The requester query opens the round, accepted instruction overlays
 distinguish solver from reviewer, and the controlled Chair maps `baton` to Room
 `round-robin`. The runner permits up to 64 ordered cycles under a five-minute
 deadline and feeds one verifier-rejected experiment back through the read-only
-terminal projection before the correction cycle. The experiment is no longer
-derived from free-form prose: a remote solver node signs a
-`corpus-reasoning-experiment-proposal.v1` that content-addresses an inert
-`inquirium.candidate-plan.v1` without a local `adapter.manifest/ref` and binds its query, Room, admitted turn, author,
+terminal projection before the correction cycle. The experiment is not executed
+from free-form prose: the acceptance runner constructs an inert
+`inquirium.candidate-plan.v1`, and a remote solver node signs a
+`corpus-reasoning-experiment-proposal.v1` that content-addresses that plan without
+a local `adapter.manifest/ref` and binds its query, Room, admitted turn, author,
 requester-selected executor, classification, and expiry. The requester daemon
 resolves monotone distributor/operator/interface executor ceilings, verifies the
 retained turn and signature, binds the signer node to the author's canonical
@@ -419,16 +420,45 @@ generation, operational context, method, input schema, payload digest,
 classification, lease ceiling, and portable-proposal expiry. It then requires the
 admitted operator-question decision before the existing P083 coordinator performs
 `claim -> invoke -> release`; no control lease spans inference. Corpus remains a
-carrier and admission owner, never a terminal actuator. This revision is
-implemented but awaits a new retained expensive report; the earlier report does
-not prove the added deliberation behavior. The executable first slice admits only
+carrier and admission owner, never a terminal actuator. The retained 2026-07-24
+report proves this revision with separate solver/reviewer roles, two round-robin
+cycles, failed and corrected experiments, Agent `propose`, admitted HIL, P083
+`claim -> invoke -> release`, and zero effects derived directly from Room prose.
+The executable first slice admits only
 `observe_only` and `local_agent`; `deterministic_host_compiler`,
 `remote_chair_agent`, and `designated_participant_agent` fail closed until their
 passage adapters exist. Every effect
 reuses the ordinary Agent operator-question/finalize lifecycle. To bound approval
 fan-out independently of the 64-node graph ceiling, host configuration defaults to
 one effect-proposal node per plan and may raise that value only to the hard maximum
-of eight.
+of eight. A separate host limit admits two distinct experiment proposals per round
+by default and may be raised only to eight; exact proposal and idempotency replays
+do not consume another slot.
+
+Corpus now preserves an append-only metadata execution join from proposal and
+compiled flow node through the Agent binding to the exact P083 operation and
+receipt. Startup changes unfinished `prepared` or `dispatched` joins to `unknown`
+and never repeats the effect. Recovery drains 1,024-record pages up to a 16-page
+startup ceiling and refuses startup explicitly if work remains. A terminal exact
+replay returns the retained receipt without another claim or invoke, while
+ambiguous, refused, and concurrent attempts fail closed. The Story 012 consumer
+uses two separately signed experiment proposals over host-constructed plans: a
+deliberate failure followed by a corrected plan after a newer terminal latest-state. Its
+fixture fallback is deadline-only diagnostic recovery and cannot satisfy the
+closed 17-check report.
+
+That retained profile does not prove that plan contents were derived from solver
+or reviewer text: its acceptance runner constructs both plans in host-owned code
+and binds them to retained turns. The planned additive
+`story-012-powerdns-bielik-critique-gated-vfkit` profile closes this evidence gap
+without making prose executable. It permits bounded technical and shell fragments
+as inert Room content, requires an Agent-authored content-addressed CandidatePlan,
+then orders an exact proposal-bound and terminal-state-bound
+`accept|revise|reject` review before a fail-closed Chair
+`block|request-revision|admit-reviewed-candidate` decision. Only the exact reviewed
+plan may proceed to the existing host admission, HIL, and P083 path. The profile is
+not runnable evidence until its review and Chair-decision contracts, runner, report
+revision, and real vfkit/Bielik result exist.
 
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:

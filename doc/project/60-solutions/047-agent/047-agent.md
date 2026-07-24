@@ -166,7 +166,7 @@ changing Agent Core. B and C select exact node-local Inquirium runtimes; the
 acceptance layer verifies each content-addressed Agent product and projects only
 its bounded text into an inert Corpus turn. Agent output never becomes terminal
 input. A separate host-owned HIL/P083 transition applies deterministic fixture
-code. The retained 2026-07-23 report proves two distinct inference refs, exact
+code. The retained 2026-07-24 report proves two distinct inference refs, exact
 guest DNS behavior, and the unchanged effect boundary within budget.
 
 The additive role-aware runner uses an operator-defined Agent admission profile
@@ -175,9 +175,18 @@ most 64 solver/reviewer cycles and the Chair budget covers the corresponding
 floor transitions, all under a five-minute deliberation deadline plus bounded
 in-flight grace. Role overlays and prior Room turns remain inert input data.
 Each terminal experiment or fallback obtains and releases its own P083 lease;
-Agent never holds terminal authority across inference. This stronger path is
-implemented but remains pending a replacement expensive report, so the retained
-2026-07-23 report is not cited as evidence for multi-cycle correction.
+Agent never holds terminal authority across inference. The retained 2026-07-24
+report proves this stronger path with separate solver/reviewer roles, two
+round-robin cycles, terminal-feedback correction, Agent `propose`, HIL, P083
+release, and no effect derived directly from Room prose.
+
+The planned Story 012 critique-gated technical profile adds no Room or shell
+semantics to Agent Core. A participant Agent may return inert technical prose and
+a content-addressed CandidatePlan product; Corpus owns the typed review and Chair
+decision, while the daemon adapter verifies their exact refs and digests. The Chair
+Agent can block, request revision, or propose host admission of the reviewed plan,
+but cannot execute prose, bypass HIL, or hold a Sensorium lease during inference.
+This remains planned consumer evidence, not an implemented Agent capability claim.
 
 The implemented post-MVP operational-context extension remains source-owned by P082.
 Agent Core carries only bounded generic qualifier refs and strict digests; the daemon

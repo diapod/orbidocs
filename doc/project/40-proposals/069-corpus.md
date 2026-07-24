@@ -1984,22 +1984,42 @@ node, and still requires a separate Corpus transition before any answer is publi
   local model runtimes for B and C, verifies each Agent product by content
   address before using its text as an inert Corpus turn, keeps model output away
   from actuation, and applies only the deterministic host-owned PowerDNS fixture
-  through HIL plus the existing P083 lease. The retained 2026-07-23 run proves
+  through HIL plus the existing P083 lease. The retained 2026-07-24 run proves
   the exact localhost-only listener and three `localdomain` A records; its two
   distinct inference refs prove independent calls without assuming deterministic
-  products must have different digests.
+  products must have different digests. The same closed report proves distinct
+  solver/reviewer roles, two round-robin cycles, a failed first experiment and
+  corrected plan after fresh terminal feedback, Agent `propose` decisions,
+  admitted HIL, P083 `claim -> invoke -> release`, and zero effects derived
+  directly from Room prose.
 - [x] Implement the stronger Story 012 deliberation policy as an additive
   consumer profile: requester opening, accepted solver/reviewer instruction
   overlays, the canonical `baton -> round-robin` mapping, at least two and at
-  most 64 ordered cycles under a five-minute deadline, and one host-owned failed
-  experiment whose terminal evidence is visible before the correction cycle.
+  most 64 ordered cycles under a five-minute deadline, one typed failed
+  experiment whose terminal evidence is visible before the correction cycle,
+  and a second separately signed CandidatePlan that corrects the guest through
+  a fresh HIL decision and P083 lease. In this evidenced profile, both plans are
+  constructed by host-owned acceptance code and bound to retained solver turns;
+  the report proves feedback and authority mechanics, not semantic derivation of
+  either plan from model prose.
   Corpus still admits only inert turns; it neither parses model prose into an
   effect nor owns P083 authority.
-- [ ] Preserve a replacement expensive Story 012 report proving the role-aware
-  multi-cycle path with real Bielik runtimes and vfkit. Until then the retained
-  2026-07-23 report remains valid for its earlier narrower profile and MUST NOT
-  be cited as evidence for overlays, floor sequencing, or correction after the
-  failed experiment.
+- [x] Persist the experiment execution join as append-only Corpus metadata over
+  proposal, plan, flow node, Agent binding, P083 operation, request digest,
+  source generation, receipt, and lease-release result. Restart converts an
+  unfinished `prepared` or `dispatched` execution to `unknown` without retrying
+  the effect. Exact terminal replay returns the retained receipt without another
+  claim/invoke; `unknown`, `refused`, and concurrent `dispatched` attempts fail
+  closed. Startup recovery drains bounded pages of 1,024 records up to a
+  16-page ceiling and refuses startup explicitly if work remains, rather than
+  silently leaving an active execution. Current Room membership is rechecked
+  before passage and execution, so author removal invalidates previously
+  admitted effect authority.
+- [x] Preserve a replacement expensive Story 012 report proving the role-aware
+  multi-cycle path with real Bielik runtimes and vfkit. The retained 2026-07-24
+  report passes the closed 17-check validator and Schema Gate and is the evidence
+  for overlays, floor sequencing, terminal-feedback correction, HIL/P083
+  lifecycle, and the absence of effects derived directly from Room prose.
 - [x] Define and exercise the optional typed deliberation-to-effect handoff for
   Story 012 successors. Corpus may carry an inert
   `inquirium.candidate-plan.v1` through a signed
@@ -2012,7 +2032,8 @@ node, and still requires a separate Corpus transition before any answer is publi
   than a Corpus-local transport. Absence of a local model is acceptable when a
   closed host compiler recognizes the proposal; free-form Room prose never becomes
   an effect. The implemented first vertical uses a requester-owned local Chair
-  Agent: Node A verifies the solver-bound signature, retained Room turn, and exact
+  Agent: Node A verifies the solver-turn-bound proposal signature, retained Room
+  turn, and exact
   mapping from the author's Room invite to the signing node, resolves
   distributor/operator/interface executor ceilings, digest-checks the plan artifact,
   compiles an entirely pending `InquiryFlowV1`, prepares a metadata-only passage over
@@ -2030,8 +2051,33 @@ node, and still requires a separate Corpus transition before any answer is publi
   `local_agent`. Every admitted effect reuses the ordinary Agent
   operator-question/finalize ceremony rather than a Corpus-specific approval
   path. A separate host-owned effect-node limit defaults to one per plan and is
-  operator-configurable only up to the hard maximum of eight; the independent
-  64-node CandidatePlan graph bound does not widen this HIL fan-out ceiling.
+  operator-configurable only up to the hard maximum of eight; a separate
+  host-owned experiment-proposal limit defaults to two distinct proposals per
+  round and is configurable only up to eight. Exact proposal and idempotency
+  replays consume no additional slot. The independent 64-node CandidatePlan graph
+  bound does not widen either HIL fan-out ceiling.
+- [x] Define the additive Story 012 critique-gated technical deliberation profile.
+  It permits bounded shell, file, configuration, diagnostic, verification, and
+  rollback fragments as inert Room evidence; orders each cycle as
+  `solver -> reviewer -> Chair`; requires proposal, terminal-state, review, and
+  reviewed-plan digest lineage; defaults Chair decisions to `block`; and preserves
+  ordinary host admission, HIL, and P083 as the only effect path. The checked-in
+  profile is structurally validated and remains `planned`.
+- [ ] Freeze typed `corpus-reasoning-experiment-review.v1` and
+  `corpus-reasoning-chair-experiment-decision.v1` contracts. A review must bind the
+  exact experiment proposal, CandidatePlan, and fresh terminal-state digests and may
+  `accept`, `revise` with a replacement plan, or `reject`. A Chair decision must bind
+  that review and exact reviewed plan and may only `block`, `request-revision`, or
+  `admit-reviewed-candidate`. Missing or conflicting lineage fails closed.
+- [ ] Implement Agent-authored CandidatePlan publication and the critique-gated
+  runner without a prose parser. Prove one unsafe technical proposal reaches a
+  reviewer and is blocked by the Chair with no lease or effect; then prove an exact
+  reviewed or revised plan crosses host admission, HIL, and P083. A host-created
+  fixture merely attached to a solver turn cannot satisfy this gate.
+- [ ] Add a closed report revision and retain a real vfkit/Bielik run proving the
+  technical proposal, reviewer verdict, Chair decision, exact admitted plan digest,
+  terminal-feedback lineage, HIL, P083 lifecycle, and zero direct effects from Room
+  prose.
 
 #### Phase 9 — N-way settlement
 

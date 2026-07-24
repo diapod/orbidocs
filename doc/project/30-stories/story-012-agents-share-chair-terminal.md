@@ -335,12 +335,16 @@ Chair Agent maps Corpus `baton` to Room `round-robin`, producing the ordered cyc
 `requester context -> solver -> reviewer`. The soft deadline is five minutes,
 the structural guard is 64 cycles, and at least two cycles are required. After
 the first solver/reviewer pair, node A applies one bounded deliberately incorrect
-candidate through a short-lived P083 lease; the DNS verifier rejects it and the
-failure becomes fresh read-only terminal evidence for later cycles. Every later
-turn can therefore revise an earlier claim from conversation and measured guest
-state. Natural-language output is never compiled into terminal input. If no
-structured admissible candidate exists when the deadline or cycle guard is
-reached, node A applies the checked-in fixture through a fresh lease.
+CandidatePlan through a short-lived P083 lease; the DNS verifier rejects it and
+the failure becomes fresh read-only terminal evidence for the second cycle. That
+cycle observes the newer terminal state before node A submits a distinct corrected
+CandidatePlan through a fresh Agent decision, HIL decision, and P083 lease. Both
+plans are currently constructed by host-owned acceptance code and bound to solver
+turns; their commands are not derived from the model text. The profile therefore
+proves feedback and control mechanics, not causal authorship of the plans by the
+deliberating Agents. Natural-language output is never compiled into terminal input.
+The checked-in fixture is permitted only after the deadline as explicit diagnostic
+recovery; a run that needs it cannot emit the promoted 17-check report.
 
 This bounded executor keeps the acceptance effective even when node A has no
 local model or terminal-capable Agent: it can execute only the host-owned
@@ -358,13 +362,53 @@ claim/control/invoke path and still requires a separate resource-scoped Sensoriu
 grant, current generation, bounded lease, review policy, and local refusal path.
 Free-form Room text is never an executable fallback.
 
+### Critique-gated technical deliberation successor
+
+The additive planned profile
+`node:tools/acceptance/story-012-shared-chair-terminal/profile-powerdns-bielik-critique-gated-vfkit.json`
+closes that causal gap without turning Room prose into terminal input. Its Room
+policy permits bounded shell fragments, file paths, configuration fragments,
+diagnostic and verification commands, and rollback instructions as inert technical
+evidence. It rejects credentials, binary payloads, unbounded scripts, ambient
+authority claims, and direct terminal input. The profile narrows the ordinary
+64 KiB Room message ceiling to 16 KiB per technical contribution.
+
+The baton becomes
+`requester opening -> solver -> reviewer -> Chair`. A solver contribution must
+state a hypothesis, evidence refs, proposed changes, verification, and rollback,
+and must publish a content-addressed inert CandidatePlan. The reviewer emits an
+exactly bound `accept|revise|reject` judgment over the proposal digest and fresh
+terminal-state digest. `revise` must identify a replacement CandidatePlan rather
+than silently changing prose. The Chair defaults to `block` and may emit only
+`block`, `request-revision`, or `admit-reviewed-candidate`, bound to the exact
+review and reviewed plan digest.
+
+Chair admission still does not execute anything. Node A validates the selected
+artifact, compiles a pending InquiryFlow, rechecks current grants, classification,
+budget, generation, idempotency, and Room authority, obtains HIL for the exact
+effect, and invokes Workbench only through P083 `claim -> invoke -> release`. A
+missing review, stale terminal-state binding, digest mismatch, rejected proposal,
+or unavailable Chair resolves to no effect. No control lease spans inference.
+
+The profile remains `planned`. It requires typed Corpus review and Chair-decision
+contracts, an Agent-authored CandidatePlan publication path, a runner proving both
+a blocked unsafe proposal and an admitted reviewed replacement, a closed report
+revision, and retained real vfkit/Bielik evidence. The deterministic fixture cannot
+satisfy that evidence claim.
+
+The host bounds approval pressure independently from the story fixture: it
+admits two distinct experiment proposals per round by default, permits an
+operator override only up to eight, and does not charge exact proposal or
+idempotency replay as a new proposal. Each plan remains independently limited to
+one effect proposal by default and eight at the hard ceiling.
+
 Its evidence boundary is deliberately `single-host-full-system`: the three Node
 processes, two local model processes, and one full-system VM cross real
 HTTP/WSS, PTY, and vsock boundaries on one macOS host. This is not evidence for
 separate host failure domains. Structural validation is complete; a `passed`
-report was retained from the 2026-07-23 expensive run with real `llama-server`,
+report was retained from the 2026-07-24 expensive run with real `llama-server`,
 Bielik GGUF bytes, and the prepared PowerDNS image. The run completed in
-124,394 ms, including 17,148 ms of deliberation, and records distinct
+155,637 ms, including 45,496 ms of deliberation, and records distinct
 host-issued inference refs for B and C. Equal product digests remain valid for
 deterministic responses and are not used as execution identity.
 The profile therefore proves two separately supervised invocations whose
@@ -373,15 +417,17 @@ judgments. Such a stronger claim would require an explicit isolation and
 diversity policy rather than an output-digest inequality check.
 The duration is an observed wall-clock measurement, not a cold-cache benchmark:
 model and operating-system cache state was not controlled by this profile.
-The retained report predates the role-aware multi-cycle extension and does not
-prove its overlays, floor sequencing, failed-experiment feedback, or revisions.
-Those properties are implemented and structurally tested but remain pending one
-new expensive retained run; the earlier report remains valid for its narrower
-evidence boundary.
+The retained report also proves the role-aware multi-cycle extension: distinct
+solver and reviewer roles, two round-robin cycles, a verifier-rejected first
+experiment followed by a host-submitted corrected CandidatePlan after fresh
+terminal feedback, Agent `propose` decisions, admitted HIL, and separate P083
+`claim -> invoke -> release` lifecycles. Its closed evidence records zero effects
+derived directly from Room prose; it does not claim that either plan was derived
+from that prose.
 The retained report is
-`node:tools/acceptance/story-012-shared-chair-terminal/reports/2026-07-23.story-012-powerdns-full-system.macos-arm64.json`
+`node:tools/acceptance/story-012-shared-chair-terminal/reports/2026-07-24.story-012-powerdns-full-system.macos-arm64.json`
 with file digest
-`sha256:2dd351f4df724a57c5ed3c68c98fbd20da2349038dd5d40af21212bc1a3f70d8`.
+`sha256:706e1c78f069a2277cb86dde79919880e6450a1505d2aa8df08d26ab0a739de4`.
 This additive post-MVP profile is manual or dedicated-runner evidence and does
 not replace, reopen, or gate the completed baseline Story 012 acceptance.
 The report is registered in Schema Gate with positive and fail-closed duplicate-
@@ -399,6 +445,8 @@ membership high-water sequence rather than a creation-time or fixture constant.
 | Remote Agent receives an actuation grant | participant controls the chair terminal | close the observer capability set to `read` and `subscribe`; refuse `invoke` and `manage` in profile validation |
 | Old screen snapshots are replayed as a transcript | stale or excessive context | use cursor-free coalesced `latest-state`; reject ordered-event interfaces |
 | Terminal bytes enter durable Agent memory | credential or source leakage | retain only refs, classification, policy digest, and host-keyed content digest |
+| A technical Room fragment is treated as executable input | prompt injection crosses into Workbench | keep prose inert; require a content-addressed CandidatePlan, bound review, Chair decision, host admission, HIL, and P083 |
+| Chair admits a plan other than the one reviewed | critique is bypassed after approval | bind Chair decision to review ref and reviewed plan digest; mismatch resolves to `block` |
 | Revocation closes the Room | collaboration state is lost with one view | close only the projection/subscription and preserve the durable Room |
 | Restart silently widens authority | stale grants or relay epochs revive | rebuild from durable facts, recheck revocation, and require a fresh current-state delivery |
 | Agent or observed data changes source wiring | confused deputy selects an authority-bearing source | accept only operator-authored, digest-pinned static mappings; rendered flow data may select or narrow but never create or widen them |
@@ -441,18 +489,22 @@ membership high-water sequence rather than a creation-time or fixture constant.
   exact PowerDNS guest image. The profile, runner, digest-verified Agent-product
   bridge, deterministic host-owned actuation fixture, localhost/DNS assertions,
   structural tests, and schema-gated closed report validator are implemented.
-  The 2026-07-23 retained report proves the real run independently of those
+  The 2026-07-24 retained report proves the real run independently of those
   structural gates.
 - [x] Implement the additive role-aware PowerDNS deliberation runner: requester
   opening, solver/reviewer overlays, Corpus `baton` to Room `round-robin`, two
   required and at most 64 cycles under a five-minute deadline, one bounded
-  verifier-rejected guest experiment, correction from fresh terminal evidence,
-  and fresh P083 leases for experiment and fixture fallback.
-- [ ] Run the expensive role-aware profile with real Bielik runtimes and vfkit,
-  then replace the retained report only after its closed `deliberation` evidence
-  passes the profile validator and Schema Gate. The historical 14-check report
-  remains valid single-turn evidence; the role-aware runner emits a distinct
-  17-check claim that is invalid without the closed `deliberation` section.
+  verifier-rejected guest experiment, a separately admitted corrected CandidatePlan
+  from fresh terminal evidence, append-only proposal/flow/operation/receipt
+  execution projections, restart quarantine without blind retry, and fresh P083
+  leases. Fixture fallback is forbidden before the deadline and cannot produce a
+  passing 17-check report.
+- [x] Run the expensive role-aware profile with real Bielik runtimes and vfkit,
+  and replace the retained report only after its closed `deliberation` evidence
+  passes the exact 17-check profile validator and Schema Gate. The retained
+  2026-07-24 report proves separate roles, two round-robin cycles, failed and
+  corrected experiments, Agent `propose`, HIL, P083 lease release, and no effect
+  derived directly from Room prose.
 - [x] Add the first adaptive follow-up profile in which a typed inert
   `inquirium.candidate-plan.v1` or experiment proposal crosses from Corpus
   deliberation to the requester-selected local Chair Agent. The portable policy
@@ -474,3 +526,20 @@ membership high-water sequence rather than a creation-time or fixture constant.
   remote control through P083 / Solution 046 rather than a Story-local proxy;
   the remote executor carrier remains additive work and is not claimed by this
   local evidence. Free-form prose is rejected as effect authority.
+- [x] Define the additive critique-gated technical deliberation profile with
+  bounded shell/configuration guidance as inert Room evidence, ordered
+  `solver -> reviewer -> Chair` control, fail-closed Chair decisions, exact digest
+  lineage, and unchanged HIL/P083 effect authority. The checked-in profile is
+  structurally validated and intentionally marked `planned`.
+- [ ] Freeze typed `corpus-reasoning-experiment-review.v1` and
+  `corpus-reasoning-chair-experiment-decision.v1` contracts, plus positive and
+  fail-closed fixtures for missing review, stale terminal evidence, unbound
+  replacement plans, digest substitution, and Chair bypass.
+- [ ] Implement the critique-gated runner and Agent-authored CandidatePlan
+  publication path. It must prove an unsafe technical proposal is blocked with no
+  lease or effect, then prove a reviewer-accepted or reviewer-revised exact plan
+  crosses host admission. Host-constructed fixtures cannot satisfy this gate.
+- [ ] Add a closed report revision and retain one real vfkit/Bielik run only after
+  it proves technical proposal lineage, reviewer verdict, Chair decision, exact
+  admitted plan digest, HIL, P083 lifecycle, and zero direct effects from Room
+  prose.

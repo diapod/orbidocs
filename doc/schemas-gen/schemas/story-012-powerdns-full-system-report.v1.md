@@ -61,6 +61,7 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 | [`inference-ref`](#def-inference-ref) | unspecified |  |
 | [`hex-digest`](#def-hex-digest) | string |  |
 | [`base64url-digest`](#def-base64url-digest) | string |  |
+| [`experiment`](#def-experiment) | object |  |
 | [`dns-assertion-a`](#def-dns-assertion-a) | object |  |
 | [`dns-assertion-b`](#def-dns-assertion-b) | object |  |
 | [`dns-assertion-c`](#def-dns-assertion-c) | object |  |
@@ -183,6 +184,11 @@ Closed metadata-only report for the Story 012 single-host PowerDNS and Bielik fu
 ## `$defs.base64url-digest`
 
 - Shape: string
+
+<a id="def-experiment"></a>
+## `$defs.experiment`
+
+- Shape: object
 
 <a id="def-dns-assertion-a"></a>
 ## `$defs.dns-assertion-a`

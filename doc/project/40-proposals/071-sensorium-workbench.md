@@ -2743,7 +2743,7 @@ evidence) · `[!]` blocked/needs decision.
   exact package/fixture
   image builder, P083 deterministic apply path, localhost-only listener check,
   authoritative DNS assertions, and structural tests are implemented. The
-  retained 2026-07-23 run supplies the required real model and guest evidence;
+  retained 2026-07-24 run supplies the required real model and guest evidence;
   this result is not inferred from the manifest-repair vertical.
 - [x] Keep the role-aware Story 012 correction loop on the existing P082/P083
   boundaries: the shared PTY remains read-only for participants, one bounded
@@ -2751,9 +2751,10 @@ evidence) · `[!]` blocked/needs decision.
   P083 lease, its verifier failure advances the latest-state projection, and the
   deterministic fallback obtains a fresh lease after bounded deliberation.
   No lease spans model inference and no model text becomes PTY input.
-- [ ] Run and retain the expensive role-aware PowerDNS profile. The earlier
-  retained report predates the multi-cycle terminal-feedback path and remains
-  narrower evidence rather than an implicit pass for this extension.
+- [x] Run and retain the expensive role-aware PowerDNS profile. The retained
+  2026-07-24 report passes the closed 17-check validator and Schema Gate and
+  proves the multi-cycle terminal-feedback path with fresh per-effect P083
+  leases and no direct Room-prose actuation.
 - [ ] Add a delegated adaptive-executor acceptance profile only after Corpus and
   Agent can carry an attributed inert `inquirium.candidate-plan.v1`. Requester
   policy may designate a remote Chair or participant Agent, but Room authority

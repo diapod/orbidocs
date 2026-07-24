@@ -1,11 +1,12 @@
 {
-  "schema": "story-012-powerdns-full-system-report.v1",
-  "schema/v": 1,
-  "status": "passed",
-  "profile/id": "story-012-powerdns-bielik-vfkit",
+  "artifact/refs": [
+    "artifact:workbench:1ecdf87050cec6e02de74581"
+  ],
   "backend/id": "vfkit-system.v1",
-  "platform/ref": "macos-vz-arm64.v1",
-  "evidence/boundary": "single-host-full-system",
+  "budgets": {
+    "deliberation/ms-max": 600000,
+    "duration/ms-max": 1200000
+  },
   "checks": [
     "pinned-powerdns-guest-fixture",
     "exact-powerdns-package-pins",
@@ -22,80 +23,161 @@
     "artifact-export",
     "unpublished-corpus-draft",
     "role-aware-baton-deliberation",
-    "failed-experiment-correction"
+    "failed-experiment-correction",
+    "typed-experiment-admission-loop"
   ],
-  "artifact/refs": ["artifact:story-012-powerdns-export"],
-  "corpus/draft-ref": "corpus-agent-answer-draft:story-012-powerdns",
-  "model": {
-    "alias": "Bielik-1.5B-v3.0-Instruct",
-    "runtime/count": 2,
-    "runtime/nodes": ["node-b", "node-c"],
-    "runtime/refs": ["runtime/baseline-assistant-llama-server"],
-    "binding/ref": "model.binding/baseline-assistant-llama-server",
-    "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
-    "inference/refs": [
-      "inquiry:story-012-node-b:1",
-      "inquiry:story-012-node-c:1"
-    ],
-    "agent-product/digests": [
-      "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    ]
-  },
+  "corpus/draft-ref": "corpus-agent-answer-draft:sha256:PIyJKZQFjWAj-UQjMmdtEdTUbQ8s2lUaZ_a-NqUF7aw",
   "deliberation": {
-    "mode": "baton",
-    "room/floor-mode": "round-robin",
-    "requester-opening/ref": "query:story-012-powerdns-localdomain",
-    "cycles": 2,
     "cycle/limit": 64,
-    "stop/reason": "deadline-reached",
-    "turn/refs": [
-      "corpus-turn:story-012:solver:1",
-      "corpus-turn:story-012:reviewer:1",
-      "corpus-turn:story-012:solver:2",
-      "corpus-turn:story-012:reviewer:2"
+    "cycles": 2,
+    "effective-wall-time/ms-max": 300000,
+    "experiment/count": 2,
+    "experiments": [
+      {
+        "agent/decision": "propose",
+        "attempt": 1,
+        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-1",
+        "execution/ref": "corpus-experiment-execution:1gwTFe_1uxRQaIlP86_daRtlSCqsFGbWxaqT9JtAGDY",
+        "execution/status": "terminal",
+        "executor/inference-ref": "inquiry:story-012-experiment-executor:1",
+        "executor/product-digest": "sha256:VzGUqAcbUYnxaTSlUoAPCaek4NBKPf-jEFkRamtCX8M",
+        "executor/product-ref": "object-store:sha256:VzGUqAcbUYnxaTSlUoAPCaek4NBKPf-jEFkRamtCX8M",
+        "flow/ref": "inquiry-flow:rOeKGUFmoz6MsAOWIFRHB-803K-kdE-_V5GdoCqZZuo",
+        "hil/decision": "approved",
+        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
+        "lease/released": true,
+        "outcome": "failed-terminal-experiment",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ],
+        "passage/ref": "corpus-experiment-passage:6pm3ez5wtdW0hieQuZtQonAUOjGS7RvLNIvE-XPMplk",
+        "proposal/ref": "corpus-experiment:sha256:Y0K-MOrCxxizuckmnZhaqX7sxz8Z7trorDEL5JXcQVo",
+        "terminal/event-count": 13
+      },
+      {
+        "agent/decision": "propose",
+        "attempt": 2,
+        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-2",
+        "execution/ref": "corpus-experiment-execution:2exRSWfkKkMdNoVdi7HTmcVsw_gEWzmdt65yLJykPh4",
+        "execution/status": "terminal",
+        "executor/inference-ref": "inquiry:story-012-experiment-executor:2",
+        "executor/product-digest": "sha256:7yWfGoSa2AlZyGr8PT0Oj_uhhVB_s9OP-DKYio6LJuM",
+        "executor/product-ref": "object-store:sha256:7yWfGoSa2AlZyGr8PT0Oj_uhhVB_s9OP-DKYio6LJuM",
+        "flow/ref": "inquiry-flow:YGy-tCmHgyXuCe0rfg0FBWdSw-IryCuRoJzu6XzaSO4",
+        "hil/decision": "approved",
+        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
+        "lease/released": true,
+        "outcome": "applied-after-terminal-feedback",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ],
+        "passage/ref": "corpus-experiment-passage:DX_EW8RSSgaJeRRQI1QUplVl0cprUWvQ8C9ampuFGrA",
+        "proposal/ref": "corpus-experiment:sha256:KDlY0rwk-TKgxr89q5mVywXGo3504g4PjfQuZiVesM8",
+        "terminal/event-count": 19
+      }
     ],
-    "overlay/refs": [
-      "corpus-instruction-overlay:story-012:solver:1",
-      "corpus-instruction-overlay:story-012:reviewer:1",
-      "corpus-instruction-overlay:story-012:solver:2",
-      "corpus-instruction-overlay:story-012:reviewer:2"
-    ],
+    "fallback/used": false,
+    "hard-wall-time/ms-max": 360000,
     "inference/refs": [
       "inquiry:story-012-node-b:1",
       "inquiry:story-012-node-c:1",
-      "inquiry:story-012-node-b:2",
-      "inquiry:story-012-node-c:2"
+      "inquiry:story-012-node-b:3",
+      "inquiry:story-012-node-c:3"
     ],
-    "experiment/count": 1,
-    "experiment/outcome": "candidate-rejected-by-verifier",
-    "experiment/event-count": 4,
-    "resolution/path": "fixture-fallback",
-    "fallback/reason": "no-admissible-candidate-after-bounded-review",
-    "effective-wall-time/ms-max": 300000,
-    "hard-wall-time/ms-max": 360000
+    "mode": "baton",
+    "overlay/refs": [
+      "corpus-instruction-overlay:sha256:nlP6n3iTyKwE_OLmdRU444HDiNgF9VIB1KDP8nU618k",
+      "corpus-instruction-overlay:sha256:VLl6i-dFDMIDOKfeBwRQ7dL91pi3yCb6xXfloqwOGpE",
+      "corpus-instruction-overlay:sha256:F9O5WA99OicxB2QfTRuhJNPC2zkLXlUnX0p-R-yUtjs",
+      "corpus-instruction-overlay:sha256:0YTsYJEppDTbcdejxwWBt1mtUgolWaPF1iGoA4r9GDU"
+    ],
+    "requester-opening/ref": "query:story-012-powerdns-localdomain",
+    "resolution/path": "corrected-candidate-plan",
+    "roles": {
+      "reviewer": "node-c",
+      "solver": "node-b"
+    },
+    "room-prose/direct-effect-count": 0,
+    "room/floor-mode": "round-robin",
+    "speaker/order": [
+      "requester-opening",
+      "solver",
+      "reviewer"
+    ],
+    "stop/reason": "corrected-plan-applied",
+    "turn/refs": [
+      "corpus-turn:sha256:NPp3LUXcLbR19RZIsibkArmEG3OWWwz_0efeWLA39rs",
+      "corpus-turn:sha256:5nnLYj_ncE0fPq3HhLy798g2y4b38sf2atn8QYWydmU",
+      "corpus-turn:sha256:hRIPcqOFxn0cKMUgujUxFuTufsNV0HD7diaIMdpKdvc",
+      "corpus-turn:sha256:ppwescfDirE-y7oNoQw42Vd-qPykyX8K0_yClHm6RfI"
+    ]
   },
+  "dns/assertions": [
+    {
+      "actual/address": "127.0.0.1",
+      "expected/address": "127.0.0.1",
+      "name": "a.localdomain",
+      "peer/address": "127.0.0.1",
+      "query/id": 4608
+    },
+    {
+      "actual/address": "127.0.0.2",
+      "expected/address": "127.0.0.2",
+      "name": "b.localdomain",
+      "peer/address": "127.0.0.1",
+      "query/id": 4609
+    },
+    {
+      "actual/address": "127.0.0.3",
+      "expected/address": "127.0.0.3",
+      "name": "c.localdomain",
+      "peer/address": "127.0.0.1",
+      "query/id": 4610
+    }
+  ],
+  "evidence/boundary": "single-host-full-system",
   "guest": {
-    "fixture/ref": "story-fixture:story-012-powerdns-localdomain-v1",
-    "fixture/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "apt/packages": [
       "pdns-backend-bind=4.8.3-4build3",
       "pdns-server=4.8.3-4build3"
     ],
-    "image/artifact-digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-    "image/manifest-digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    "fixture/digest": "sha256:b5b8b619ec17cfe4e6c6cba3a21f13677d7efc4cd7977710f33b31cbaff4eef5",
+    "fixture/ref": "story-fixture:story-012-powerdns-localdomain-v1",
+    "image/artifact-digest": "sha256:2b7a510258bd597e04e6722a20c23ed912695b67f1b396aa2df43e626f117c5c",
+    "image/manifest-digest": "sha256:dbc9f534c2f2c84de4a9dd06ff3924695979408850894d9afd6cb3f03eb6d4fe"
   },
-  "dns/assertions": [
-    { "query/id": 4608, "name": "a.localdomain", "expected/address": "127.0.0.1", "actual/address": "127.0.0.1", "peer/address": "127.0.0.1" },
-    { "query/id": 4609, "name": "b.localdomain", "expected/address": "127.0.0.2", "actual/address": "127.0.0.2", "peer/address": "127.0.0.1" },
-    { "query/id": 4610, "name": "c.localdomain", "expected/address": "127.0.0.3", "actual/address": "127.0.0.3", "peer/address": "127.0.0.1" }
-  ],
   "measurements": {
-    "duration/ms": 420000,
-    "deliberation/ms": 180000
+    "deliberation/ms": 45496,
+    "duration/ms": 155637
   },
-  "budgets": {
-    "duration/ms-max": 1200000,
-    "deliberation/ms-max": 600000
-  }
+  "model": {
+    "agent-product/digests": [
+      "sha256:bLfnaX5xwpGldd21UItn0lEXEyqT8wvCjt83OM9uqR0",
+      "sha256:H3_KBh9s4kIzYbxMLaai9MH7VyHKMkHbTb_tCQTyOb4"
+    ],
+    "alias": "Bielik-1.5B-v3.0-Instruct",
+    "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "binding/ref": "model.binding/baseline-assistant-llama-server",
+    "inference/refs": [
+      "inquiry:story-012-node-b:3",
+      "inquiry:story-012-node-c:3"
+    ],
+    "runtime/count": 2,
+    "runtime/nodes": [
+      "node-b",
+      "node-c"
+    ],
+    "runtime/refs": [
+      "runtime/baseline-assistant-llama-server"
+    ]
+  },
+  "platform/ref": "macos-vz-arm64.v1",
+  "profile/id": "story-012-powerdns-bielik-vfkit",
+  "schema": "story-012-powerdns-full-system-report.v1",
+  "schema/v": 1,
+  "status": "passed"
 }

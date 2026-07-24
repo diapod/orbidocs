@@ -95,11 +95,11 @@ bounded `libtest --list` output and carries dedicated restart and close-race
 checks.
 
 An additional post-MVP Story 012 PowerDNS/Bielik profile now has retained real
-evidence: the 2026-07-23 macOS arm64 run pins the exact guest fixture and package
+evidence: the 2026-07-24 macOS arm64 run pins the exact guest fixture and package
 versions, supervises separate real local model runtimes for B and C, verifies
 content-addressed Agent products before their inert Corpus projection, and keeps
 deterministic host-owned P083 actuation separate from model text. It completed in
-124,394 ms and proved the exact localhost-only PowerDNS records. Because this is
+155,637 ms and proved the exact localhost-only PowerDNS records. Because this is
 additive post-MVP evidence, it does not change the completed vfkit reference-profile
 or hard-MVP percentages.
 The elapsed time is observational rather than a cold-cache performance claim;
@@ -107,9 +107,11 @@ the profile did not control model or operating-system cache state.
 The runner now also implements a post-MVP requester/solver/reviewer baton loop,
 with two required and at most 64 cycles under a five-minute deadline, one
 verifier-rejected guest experiment, terminal-evidence correction, and separate
-short P083 leases per actuation. That additive revision awaits a replacement
-expensive retained report; the earlier report remains narrower evidence and the
-hard-MVP percentages remain unchanged.
+short P083 leases per actuation. The retained report proves separate roles, two
+round-robin cycles, failed and corrected experiments after fresh terminal
+feedback, Agent `propose`, admitted HIL, P083 `claim -> invoke -> release`, and
+zero effects derived directly from Room prose. The hard-MVP percentages remain
+unchanged because this profile is additive post-MVP evidence.
 The adaptive local successor is now implemented as post-MVP work: a signed
 `corpus-reasoning-experiment-proposal.v1` binds one content-addressed
 `inquirium.candidate-plan.v1` to an admitted Room turn and requester-selected
@@ -126,6 +128,31 @@ and deterministic compiler executors, but daemon admission rejects them until th
 passage adapters have executable evidence. Room
 role alone remains non-authoritative. This additive post-MVP slice does not alter
 the hard-MVP percentages.
+
+The same post-MVP slice now persists an append-only Corpus experiment execution
+join through the exact P083 operation and receipt, quarantines unfinished work as
+`unknown` after restart without blind retry, drains recovery in bounded
+1,024-record pages with an explicit 16-page startup ceiling, and rechecks current
+Room membership before passage and effect. The host separately caps distinct
+experiment proposals per round at two by default and eight at the hard ceiling;
+exact replay does not consume another slot. The role-aware runner now requires a
+failed first plan
+and a separately admitted corrected plan after fresh terminal feedback; fallback
+is deadline-only and cannot emit the promoted 17-check report. The retained real
+vfkit/Bielik report passes that closed validator; hard-MVP percentages remain
+unchanged because the profile is additive. Both plans in that evidenced runner are
+host-constructed and bound to retained solver turns, so the report proves feedback
+and authority mechanics rather than semantic derivation from model prose.
+
+A further additive Story 012 profile now defines critique-gated technical
+deliberation. It permits bounded shell and configuration fragments only as inert
+Room evidence, requires an Agent-authored content-addressed CandidatePlan, binds a
+reviewer verdict to the exact proposal and terminal-state digests, and defaults the
+Chair to `block` unless it can bind an exact reviewed plan. Host admission, HIL,
+and P083 remain the sole effect path. The profile and its fail-closed structural
+validator are present, but typed review and Chair-decision schemas, the runner,
+closed report revision, and retained vfkit/Bielik evidence remain post-MVP tasks.
+It therefore does not change any readiness percentage.
 
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,
