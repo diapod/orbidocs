@@ -447,18 +447,24 @@ deliberate failure followed by a corrected plan after a newer terminal latest-st
 fixture fallback is deadline-only diagnostic recovery and cannot satisfy the
 closed 17-check report.
 
-That retained profile does not prove that plan contents were derived from solver
+That retained 17-check profile does not prove that plan contents were derived from solver
 or reviewer text: its acceptance runner constructs both plans in host-owned code
-and binds them to retained turns. The planned additive
+and binds them to retained turns. The additive
 `story-012-powerdns-bielik-critique-gated-vfkit` profile closes this evidence gap
 without making prose executable. It permits bounded technical and shell fragments
 as inert Room content, requires an Agent-authored content-addressed CandidatePlan,
 then orders an exact proposal-bound and terminal-state-bound
 `accept|revise|reject` review before a fail-closed Chair
 `block|request-revision|admit-reviewed-candidate` decision. Only the exact reviewed
-plan may proceed to the existing host admission, HIL, and P083 path. The profile is
-not runnable evidence until its review and Chair-decision contracts, runner, report
-revision, and real vfkit/Bielik result exist.
+plan may proceed to the existing host admission, HIL, and P083 path. The signed
+review and Chair-decision contracts, pure gate resolver, Agent-product-bound
+CandidatePlan publication, append-only host recovery, critique-gated runner, and
+closed 26-check report revision are implemented. The profile is `ready`: a retained
+2026-07-25 macOS arm64 run passes all checks with two real Bielik runtimes, a failed
+experiment, reviewer revision, HIL, P083 lease release, and no direct effect from
+Room prose. Its story policy supplies one closed allowlisted command template for
+reproducibility; therefore the result proves exact model-product carriage and
+critique lineage, not unconstrained plan synthesis.
 
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:

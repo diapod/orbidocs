@@ -1,0 +1,413 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-powerdns-critique-gated-full-system-report:v1",
+  "title": "Story 012 Critique-Gated PowerDNS Full-System Report v1",
+  "description": "Closed metadata-only report for the Story 012 single-host critique-gated PowerDNS and Bielik full-system acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/066-inquirium-assistant-channel.md",
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "profile/id",
+    "backend/id",
+    "platform/ref",
+    "evidence/boundary",
+    "checks",
+    "artifact/refs",
+    "corpus/draft-ref",
+    "model",
+    "guest",
+    "dns/assertions",
+    "measurements",
+    "budgets",
+    "deliberation"
+  ],
+  "properties": {
+    "schema": { "const": "story-012-powerdns-critique-gated-full-system-report.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "const": "passed" },
+    "profile/id": { "const": "story-012-powerdns-bielik-critique-gated-vfkit" },
+    "backend/id": { "const": "vfkit-system.v1" },
+    "platform/ref": { "const": "macos-vz-arm64.v1" },
+    "evidence/boundary": { "const": "single-host-full-system" },
+    "checks": {
+      "type": "array",
+      "minItems": 26,
+      "maxItems": 26,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "pinned-powerdns-guest-fixture",
+          "exact-powerdns-package-pins",
+          "single-host-three-node-vfkit",
+          "two-real-bielik-runtimes",
+          "agent-output-backed-corpus-turns",
+          "read-only-terminal-room-projection",
+          "exclusive-host-approved-configuration",
+          "localhost-only-powerdns-listener",
+          "exact-localdomain-a-records",
+          "observer-revocation",
+          "dirty-recipient-restart",
+          "stale-generation-refusal",
+          "artifact-export",
+          "unpublished-corpus-draft",
+          "role-aware-baton-deliberation",
+          "failed-experiment-correction",
+          "typed-experiment-admission-loop",
+          "technical-guidance-remains-inert",
+          "solver-plan-content-addressed",
+          "review-binds-proposal-and-terminal-state",
+          "review-precedes-chair-decision",
+          "chair-block-produces-no-effect",
+          "chair-revision-binds-replacement-plan",
+          "chair-admits-reviewed-plan-only",
+          "reviewed-plan-host-admission",
+          "no-room-prose-direct-effect"
+        ]
+      }
+    },
+    "artifact/refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "corpus/draft-ref": { "$ref": "#/$defs/ref" },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alias",
+        "runtime/count",
+        "runtime/nodes",
+        "runtime/refs",
+        "binding/ref",
+        "artifact/digest",
+        "inference/refs",
+        "agent-product/digests"
+      ],
+      "properties": {
+        "alias": { "const": "Bielik-1.5B-v3.0-Instruct" },
+        "runtime/count": { "const": 2 },
+        "runtime/nodes": {
+          "const": ["node-b", "node-c"]
+        },
+        "runtime/refs": {
+          "const": ["runtime/baseline-assistant-llama-server"]
+        },
+        "binding/ref": { "const": "model.binding/baseline-assistant-llama-server" },
+        "artifact/digest": { "$ref": "#/$defs/base64url-digest" },
+        "inference/refs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/inference-ref" }
+        },
+        "agent-product/digests": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/base64url-digest" }
+        }
+      }
+    },
+    "guest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture/ref",
+        "fixture/digest",
+        "apt/packages",
+        "image/artifact-digest",
+        "image/manifest-digest"
+      ],
+      "properties": {
+        "fixture/ref": { "const": "story-fixture:story-012-powerdns-localdomain-v1" },
+        "fixture/digest": { "$ref": "#/$defs/hex-digest" },
+        "apt/packages": {
+          "const": [
+            "pdns-backend-bind=4.8.3-4build3",
+            "pdns-server=4.8.3-4build3"
+          ]
+        },
+        "image/artifact-digest": { "$ref": "#/$defs/hex-digest" },
+        "image/manifest-digest": { "$ref": "#/$defs/hex-digest" }
+      }
+    },
+    "dns/assertions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        { "$ref": "#/$defs/dns-assertion-a" },
+        { "$ref": "#/$defs/dns-assertion-b" },
+        { "$ref": "#/$defs/dns-assertion-c" }
+      ],
+      "items": false
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration/ms", "deliberation/ms"],
+      "properties": {
+        "duration/ms": { "type": "integer", "minimum": 0, "maximum": 1200000 },
+        "deliberation/ms": { "type": "integer", "minimum": 0, "maximum": 600000 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration/ms-max", "deliberation/ms-max"],
+      "properties": {
+        "duration/ms-max": { "const": 1200000 },
+        "deliberation/ms-max": { "const": 600000 }
+      }
+    },
+    "deliberation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "room/floor-mode",
+        "roles",
+        "speaker/order",
+        "requester-opening/ref",
+        "cycles",
+        "cycle/limit",
+        "stop/reason",
+        "turn/refs",
+        "overlay/refs",
+        "inference/refs",
+        "experiment/count",
+        "experiments",
+        "resolution/path",
+        "fallback/used",
+        "room-prose/direct-effect-count",
+        "critique-gate",
+        "effective-wall-time/ms-max",
+        "hard-wall-time/ms-max"
+      ],
+      "properties": {
+        "mode": { "const": "baton" },
+        "room/floor-mode": { "const": "round-robin" },
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["solver", "reviewer"],
+          "properties": {
+            "solver": { "const": "node-b" },
+            "reviewer": { "const": "node-c" }
+          }
+        },
+        "speaker/order": {
+          "const": ["requester-opening", "solver", "reviewer"]
+        },
+        "requester-opening/ref": { "$ref": "#/$defs/ref" },
+        "cycles": { "type": "integer", "minimum": 2, "maximum": 64 },
+        "cycle/limit": { "const": 64 },
+        "stop/reason": { "const": "corrected-plan-applied" },
+        "turn/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/ref" }
+        },
+        "overlay/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/ref" }
+        },
+        "inference/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/inference-ref" }
+        },
+        "experiment/count": { "const": 2 },
+        "experiments": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                { "$ref": "#/$defs/experiment" },
+                {
+                  "properties": {
+                    "attempt": { "const": 1 },
+                    "outcome": { "const": "failed-terminal-experiment" },
+                    "review/verdict": { "const": "accept" },
+                    "chair-block/tested": { "const": true }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/experiment" },
+                {
+                  "properties": {
+                    "attempt": { "const": 2 },
+                    "outcome": { "const": "applied-after-terminal-feedback" },
+                    "review/verdict": { "const": "revise" },
+                    "chair-block/tested": { "const": false }
+                  }
+                }
+              ]
+            }
+          ],
+          "items": false
+        },
+        "resolution/path": { "const": "corrected-candidate-plan" },
+        "fallback/used": { "const": false },
+        "room-prose/direct-effect-count": { "const": 0 },
+        "critique-gate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "solver-plan/source",
+            "review/source",
+            "chair/source",
+            "chair-block/count",
+            "prose/direct-effect-count"
+          ],
+          "properties": {
+            "solver-plan/source": { "const": "agent-product-marker" },
+            "review/source": { "const": "agent-product-marker" },
+            "chair/source": { "const": "agent-product-marker" },
+            "chair-block/count": { "const": 1 },
+            "prose/direct-effect-count": { "const": 0 }
+          }
+        },
+        "effective-wall-time/ms-max": { "const": 300000 },
+        "hard-wall-time/ms-max": { "const": 360000 }
+      }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
+    "inference-ref": {
+      "allOf": [
+        { "$ref": "#/$defs/ref" },
+        { "not": { "pattern": "^sensorium-control-lease:" } }
+      ]
+    },
+    "hex-digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "base64url-digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt",
+        "outcome",
+        "proposal/ref",
+        "passage/ref",
+        "flow/ref",
+        "execution/ref",
+        "execution/status",
+        "effect/proposal-ref",
+        "executor/inference-ref",
+        "executor/product-ref",
+        "executor/product-digest",
+        "agent/decision",
+        "hil/question-ref",
+        "hil/decision",
+        "p083/lifecycle",
+        "lease/released",
+        "terminal/event-count",
+        "plan-publication/ref",
+        "review/ref",
+        "review/verdict",
+        "chair-decision/ref",
+        "chair/product-ref",
+        "chair-block/tested",
+        "terminal-state/digest"
+      ],
+      "properties": {
+        "attempt": { "type": "integer", "minimum": 1, "maximum": 2 },
+        "outcome": {
+          "enum": [
+            "failed-terminal-experiment",
+            "applied-after-terminal-feedback"
+          ]
+        },
+        "proposal/ref": { "$ref": "#/$defs/ref" },
+        "passage/ref": { "$ref": "#/$defs/ref" },
+        "flow/ref": { "$ref": "#/$defs/ref" },
+        "execution/ref": { "$ref": "#/$defs/ref" },
+        "execution/status": { "const": "terminal" },
+        "effect/proposal-ref": { "$ref": "#/$defs/ref" },
+        "executor/inference-ref": { "$ref": "#/$defs/inference-ref" },
+        "executor/product-ref": {
+          "type": "string",
+          "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "executor/product-digest": { "$ref": "#/$defs/base64url-digest" },
+        "agent/decision": { "const": "propose" },
+        "hil/question-ref": { "$ref": "#/$defs/ref" },
+        "hil/decision": { "const": "approved" },
+        "p083/lifecycle": { "const": ["claim", "invoke", "release"] },
+        "lease/released": { "const": true },
+        "terminal/event-count": { "type": "integer", "minimum": 1 }
+        ,"plan-publication/ref": { "$ref": "#/$defs/ref" }
+        ,"review/ref": { "$ref": "#/$defs/ref" }
+        ,"review/verdict": { "enum": ["accept", "revise"] }
+        ,"chair-decision/ref": { "$ref": "#/$defs/ref" }
+        ,"chair/product-ref": { "$ref": "#/$defs/ref" }
+        ,"chair-block/tested": { "type": "boolean" }
+        ,"terminal-state/digest": { "$ref": "#/$defs/base64url-digest" }
+      }
+    },
+    "dns-assertion-a": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query/id", "name", "expected/address", "actual/address", "peer/address"],
+      "properties": {
+        "query/id": { "const": 4608 },
+        "name": { "const": "a.localdomain" },
+        "expected/address": { "const": "127.0.0.1" },
+        "actual/address": { "const": "127.0.0.1" },
+        "peer/address": { "const": "127.0.0.1" }
+      }
+    },
+    "dns-assertion-b": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query/id", "name", "expected/address", "actual/address", "peer/address"],
+      "properties": {
+        "query/id": { "const": 4609 },
+        "name": { "const": "b.localdomain" },
+        "expected/address": { "const": "127.0.0.2" },
+        "actual/address": { "const": "127.0.0.2" },
+        "peer/address": { "const": "127.0.0.1" }
+      }
+    },
+    "dns-assertion-c": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query/id", "name", "expected/address", "actual/address", "peer/address"],
+      "properties": {
+        "query/id": { "const": 4610 },
+        "name": { "const": "c.localdomain" },
+        "expected/address": { "const": "127.0.0.3" },
+        "actual/address": { "const": "127.0.0.3" },
+        "peer/address": { "const": "127.0.0.1" }
+      }
+    }
+  }
+}

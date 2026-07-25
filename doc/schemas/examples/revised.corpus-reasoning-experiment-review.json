@@ -1,0 +1,36 @@
+{
+  "schema/v": 1,
+  "review/ref": "corpus-experiment-review:sha256:Ellb5qL8qdlj2gWf4SU5mRI-vgkexcCw9ZkoWdSYZC8",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "proposal/digest": "sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "candidate-plan/ref": "candidate-plan/experiment-test",
+  "candidate-plan/artifact-ref": "object-store:sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "reviewer": {
+    "kind": "nym",
+    "id": "did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"
+  },
+  "reviewer/node-id": "node:did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe",
+  "reviewer-turn/id": "corpus-turn:sha256:GVlxfK6n2SgRv0tkQA181b88-wTQ3-KmVjBtRaAOIjU",
+  "terminal-state/digest": "sha256:HGOIR_h0pDqf5eVav6YpfriR2koC5oYNq8VfxupVQTI",
+  "verdict": "revise",
+  "findings": [
+    "Use an exact argv command and verify the resulting DNS state."
+  ],
+  "replacement": {
+    "candidate-plan/ref": "candidate-plan/reviewed-experiment-test",
+    "candidate-plan/artifact-ref": "object-store:sha256:LqJfisVQMjry9QeKWutvN5Lw-shqYeF6pbQySWfF7ao",
+    "candidate-plan/digest": "sha256:LqJfisVQMjry9QeKWutvN5Lw-shqYeF6pbQySWfF7ao"
+  },
+  "class/key": "Community",
+  "reviewed-at": "2026-07-24T10:01:00Z",
+  "expires-at": "2026-07-24T10:05:00Z",
+  "idempotency/key": "experiment-review-test",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "O20dvIcL8dbvYeCsuqn55UE31H3IoGZ9LpfV7mER8k-jKdQTKbCkPH3Rgiym5WREm0PjwtKbJb84YqMuy3liAg",
+    "key/public": "z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"
+  }
+}

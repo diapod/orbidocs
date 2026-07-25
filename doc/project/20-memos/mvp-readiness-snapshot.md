@@ -144,15 +144,19 @@ unchanged because the profile is additive. Both plans in that evidenced runner a
 host-constructed and bound to retained solver turns, so the report proves feedback
 and authority mechanics rather than semantic derivation from model prose.
 
-A further additive Story 012 profile now defines critique-gated technical
+A further additive Story 012 profile now implements critique-gated technical
 deliberation. It permits bounded shell and configuration fragments only as inert
-Room evidence, requires an Agent-authored content-addressed CandidatePlan, binds a
-reviewer verdict to the exact proposal and terminal-state digests, and defaults the
-Chair to `block` unless it can bind an exact reviewed plan. Host admission, HIL,
-and P083 remain the sole effect path. The profile and its fail-closed structural
-validator are present, but typed review and Chair-decision schemas, the runner,
-closed report revision, and retained vfkit/Bielik evidence remain post-MVP tasks.
-It therefore does not change any readiness percentage.
+Room evidence, requires an Agent-product-bound content-addressed CandidatePlan,
+binds a signed reviewer verdict to the exact proposal and terminal-state digests,
+and defaults the signed Chair decision to `block` unless it can bind an exact
+reviewed plan. Pure Corpus transitions, Schema Gate fixtures, append-only daemon
+facts and recovery, host admission, the critique-gated runner, and a closed
+26-check report revision are implemented; HIL and P083 remain the sole effect
+path. A retained 2026-07-25 macOS arm64 run passes all 26 checks with two real
+Bielik runtimes, one failed experiment, a reviewer-revised replacement plan,
+HIL, P083 lease release, and zero direct effects from Room prose. The profile is
+`ready`. This is additive post-MVP evidence and does not change any readiness
+percentage.
 
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,

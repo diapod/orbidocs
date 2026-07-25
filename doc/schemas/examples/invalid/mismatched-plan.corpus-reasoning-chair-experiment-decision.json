@@ -1,0 +1,22 @@
+{
+  "schema/v": 1,
+  "decision/ref": "corpus-experiment-chair-decision:sha256:2UjTzNrE1yFmmGhxutqasP7aHwkGep1jtpF98qMPx74",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "review/ref": "corpus-experiment-review:sha256:Ellb5qL8qdlj2gWf4SU5mRI-vgkexcCw9ZkoWdSYZC8",
+  "review/digest": "sha256:Ellb5qL8qdlj2gWf4SU5mRI-vgkexcCw9ZkoWdSYZC8",
+  "reviewed-candidate-plan/ref": "candidate-plan/substituted",
+  "reviewed-candidate-plan/artifact-ref": "object-store:sha256:LqJfisVQMjry9QeKWutvN5Lw-shqYeF6pbQySWfF7ao",
+  "reviewed-candidate-plan/digest": "sha256:LqJfisVQMjry9QeKWutvN5Lw-shqYeF6pbQySWfF7ao",
+  "chair": { "kind": "nym", "id": "did:key:z6MknUTxEAW2fexT3XGTBm5DK7ChSwTJ9rNbvGvPhaYP4AUN" },
+  "chair/node-id": "node:did:key:z6MknUTxEAW2fexT3XGTBm5DK7ChSwTJ9rNbvGvPhaYP4AUN",
+  "chair-agent/ref": "agent:requester-chair",
+  "decision": "admit-reviewed-candidate",
+  "reason/code": "reviewed-plan-admitted",
+  "class/key": "Community",
+  "decided-at": "2026-07-24T10:02:00Z",
+  "expires-at": "2026-07-24T10:05:00Z",
+  "idempotency/key": "experiment-chair-decision-test",
+  "signature": { "alg": "ed25519+domain-v1", "value": "9Vz_4R1gTCS8YEBFusmlXrYSvdcm_5HgiUQykIZKkOe01VgkD_pyBV33nG68n1mSv79pUqHZFdZRwMWHb1uJAQ", "key/public": "z6MknUTxEAW2fexT3XGTBm5DK7ChSwTJ9rNbvGvPhaYP4AUN" }
+}

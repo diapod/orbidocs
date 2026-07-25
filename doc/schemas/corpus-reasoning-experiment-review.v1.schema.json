@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-experiment-review:v1",
+  "title": "Corpus Reasoning Experiment Review v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "review/ref",
+    "query/id",
+    "room/id",
+    "proposal/ref",
+    "proposal/digest",
+    "candidate-plan/ref",
+    "candidate-plan/artifact-ref",
+    "candidate-plan/digest",
+    "reviewer",
+    "reviewer/node-id",
+    "reviewer-turn/id",
+    "terminal-state/digest",
+    "verdict",
+    "findings",
+    "class/key",
+    "reviewed-at",
+    "expires-at",
+    "idempotency/key",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": { "const": 1 },
+    "review/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "proposal/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "candidate-plan/ref": {
+      "type": "string",
+      "pattern": "^candidate-plan/[^\\s]+$",
+      "maxLength": 512
+    },
+    "candidate-plan/artifact-ref": {
+      "type": "string",
+      "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "candidate-plan/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "reviewer": { "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject" },
+    "reviewer/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "reviewer-turn/id": {
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "terminal-state/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "verdict": { "enum": ["accept", "revise", "reject"] },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1024 }
+    },
+    "replacement": { "$ref": "#/$defs/candidate-plan-binding" },
+    "class/key": { "enum": ["Public", "Community", "Personal"] },
+    "reviewed-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "signature": { "$ref": "#/$defs/signature" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "verdict": { "const": "revise" } },
+        "required": ["verdict"]
+      },
+      "then": { "required": ["replacement"] },
+      "else": { "not": { "required": ["replacement"] } }
+    }
+  ],
+  "$defs": {
+    "candidate-plan-binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate-plan/ref",
+        "candidate-plan/artifact-ref",
+        "candidate-plan/digest"
+      ],
+      "properties": {
+        "candidate-plan/ref": {
+          "type": "string",
+          "pattern": "^candidate-plan/[^\\s]+$",
+          "maxLength": 512
+        },
+        "candidate-plan/artifact-ref": {
+          "type": "string",
+          "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "candidate-plan/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value", "key/public"],
+      "properties": {
+        "alg": { "const": "ed25519+domain-v1" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" },
+        "key/public": { "type": "string", "pattern": "^z[A-Za-z0-9]+$", "maxLength": 128 }
+      }
+    }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/60-solutions/038-corpus/038-corpus.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ]
+}

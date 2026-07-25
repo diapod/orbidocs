@@ -364,7 +364,7 @@ Free-form Room text is never an executable fallback.
 
 ### Critique-gated technical deliberation successor
 
-The additive planned profile
+The additive `ready` profile
 `node:tools/acceptance/story-012-shared-chair-terminal/profile-powerdns-bielik-critique-gated-vfkit.json`
 closes that causal gap without turning Room prose into terminal input. Its Room
 policy permits bounded shell fragments, file paths, configuration fragments,
@@ -390,11 +390,17 @@ effect, and invokes Workbench only through P083 `claim -> invoke -> release`. A
 missing review, stale terminal-state binding, digest mismatch, rejected proposal,
 or unavailable Chair resolves to no effect. No control lease spans inference.
 
-The profile remains `planned`. It requires typed Corpus review and Chair-decision
-contracts, an Agent-authored CandidatePlan publication path, a runner proving both
-a blocked unsafe proposal and an admitted reviewed replacement, a closed report
-revision, and retained real vfkit/Bielik evidence. The deterministic fixture cannot
-satisfy that evidence claim.
+The typed Corpus review and Chair-decision contracts, Agent-product-bound
+CandidatePlan publication path, durable host admission, critique-gated runner, and
+closed 26-check report revision are implemented. A retained 2026-07-25 macOS arm64
+run passes all 26 checks with two real Bielik runtimes and no deadline fixture.
+The deterministic fixture cannot satisfy that evidence claim.
+
+For reproducibility, the story policy supplies a closed allowlisted command-plan
+template to the solver. The real model must carry the exact CandidatePlan marker in
+its verified Agent product, and the acceptance runner publishes those retained
+bytes with the product ref and digest; there is no prose fallback. This proves
+typed product provenance and critique authority, not unconstrained plan synthesis.
 
 The host bounds approval pressure independently from the story fixture: it
 admits two distinct experiment proposals per round by default, permits an
@@ -530,16 +536,19 @@ membership high-water sequence rather than a creation-time or fixture constant.
   bounded shell/configuration guidance as inert Room evidence, ordered
   `solver -> reviewer -> Chair` control, fail-closed Chair decisions, exact digest
   lineage, and unchanged HIL/P083 effect authority. The checked-in profile is
-  structurally validated and intentionally marked `planned`.
-- [ ] Freeze typed `corpus-reasoning-experiment-review.v1` and
+  structurally validated and marked `ready`.
+- [x] Freeze typed `corpus-reasoning-experiment-review.v1` and
   `corpus-reasoning-chair-experiment-decision.v1` contracts, plus positive and
   fail-closed fixtures for missing review, stale terminal evidence, unbound
   replacement plans, digest substitution, and Chair bypass.
-- [ ] Implement the critique-gated runner and Agent-authored CandidatePlan
+- [x] Implement the critique-gated runner and Agent-authored CandidatePlan
   publication path. It must prove an unsafe technical proposal is blocked with no
   lease or effect, then prove a reviewer-accepted or reviewer-revised exact plan
   crosses host admission. Host-constructed fixtures cannot satisfy this gate.
-- [ ] Add a closed report revision and retain one real vfkit/Bielik run only after
-  it proves technical proposal lineage, reviewer verdict, Chair decision, exact
-  admitted plan digest, HIL, P083 lifecycle, and zero direct effects from Room
-  prose.
+- [x] Add a closed 26-check report revision proving technical proposal lineage,
+  reviewer verdict, Chair decision, exact admitted plan digest, HIL, P083 lifecycle,
+  and zero direct effects from Room prose.
+- [x] Retain one real vfkit/Bielik run that passes the closed critique-gated report
+  validator without using the deadline-only deterministic fixture. The retained
+  2026-07-25 macOS arm64 run passes all 26 checks with two round-robin cycles, one
+  failed experiment, one reviewed correction, HIL, and P083 lease release.

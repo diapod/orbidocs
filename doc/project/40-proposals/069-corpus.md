@@ -2062,22 +2062,25 @@ node, and still requires a separate Corpus transition before any answer is publi
   `solver -> reviewer -> Chair`; requires proposal, terminal-state, review, and
   reviewed-plan digest lineage; defaults Chair decisions to `block`; and preserves
   ordinary host admission, HIL, and P083 as the only effect path. The checked-in
-  profile is structurally validated and remains `planned`.
-- [ ] Freeze typed `corpus-reasoning-experiment-review.v1` and
+  profile is structurally validated and is `ready` with retained real evidence.
+- [x] Freeze typed `corpus-reasoning-experiment-review.v1` and
   `corpus-reasoning-chair-experiment-decision.v1` contracts. A review must bind the
   exact experiment proposal, CandidatePlan, and fresh terminal-state digests and may
   `accept`, `revise` with a replacement plan, or `reject`. A Chair decision must bind
   that review and exact reviewed plan and may only `block`, `request-revision`, or
   `admit-reviewed-candidate`. Missing or conflicting lineage fails closed.
-- [ ] Implement Agent-authored CandidatePlan publication and the critique-gated
+- [x] Implement Agent-authored CandidatePlan publication and the critique-gated
   runner without a prose parser. Prove one unsafe technical proposal reaches a
   reviewer and is blocked by the Chair with no lease or effect; then prove an exact
   reviewed or revised plan crosses host admission, HIL, and P083. A host-created
   fixture merely attached to a solver turn cannot satisfy this gate.
-- [ ] Add a closed report revision and retain a real vfkit/Bielik run proving the
-  technical proposal, reviewer verdict, Chair decision, exact admitted plan digest,
-  terminal-feedback lineage, HIL, P083 lifecycle, and zero direct effects from Room
-  prose.
+- [x] Add a closed 26-check report revision proving the technical proposal,
+  reviewer verdict, Chair decision, exact admitted plan digest, terminal-feedback
+  lineage, HIL, P083 lifecycle, and zero direct effects from Room prose.
+- [x] Retain a real vfkit/Bielik run that passes that closed report revision without
+  the deadline-only deterministic fixture. The retained 2026-07-25 macOS arm64
+  report passes all 26 checks with two real Bielik runtimes, a failed experiment,
+  reviewer revision, HIL, P083 release, and no direct Room-prose effect.
 
 #### Phase 9 — N-way settlement
 
