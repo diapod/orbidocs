@@ -105,8 +105,9 @@ order to show the mechanism itself without intrusive concretization.
 
 We can notice that each layer arises from a deeper one as its abstraction, and
 the concretes of the lower layers become the building material of the higher
-ones, analogously to Abelson and Sussman's *stratified design* ("MIT AI Memo
-986"), in which implementations become abstractions for subsequent levels.
+ones, analogously to Abelson and Sussman's *stratified design* (["MIT AI Memo
+986"](https://archive.org/details/bitsavers_mitaiaimAI_1190659)), in which
+implementations become abstractions for subsequent levels.
 
 The same axis can be read in several complementary ways, which becomes visible
 when stratification is placed, for example, beside communication theory and the
@@ -115,16 +116,40 @@ decomposition (as layers of experience: consciousness, subjectivity, person,
 culture, objectivity), the same gradient may also carry epistemizing scaling:
 the gradual concretization of a phenomenon into a "thing" (for example:
 phenomenon → figure → something → sign → meaning → concept → item → object →
-thing). Such axes may run in parallel: the layer from which one speaks, the
+thing).
+
+Such axes may run in parallel: the layer from which one speaks, the
 perspective in which one speaks, and the degree to which experience has already
 been reified. The ontological basis extends the axis even earlier than
 consciousness, toward the apophatic level zero that the genealogy of experience
 usually does not thematize.
 
-Consciousness has an innate ability to "drill through abstractions," that is,
-to access any level directly without going through the intermediate layers. One
-might say that, being more function-like, consciousness *is*, among other
-things, precisely such an ability.
+On the basis of the original genealogy we can also construct a third, dual
+reading: for each transition of epistemization one can name the act of
+determination that introduces it: appearing → differentiation → individuation →
+reference → signification → generalization → objectification → objectivation →
+reification. The states answer the question "what?", while the acts answer
+"how?". On this reading a "thing" is not something given but a stack of acts —
+which is why, read backwards, it "dissolves" toward the phenomenon and toward
+level zero.
+
+| state transition | introduced artifact/act |
+|---|---|
+| ∅ → phenomenon | appearing |
+| phenomenon → figure | differentiation (figure–ground) |
+| figure → something | individuation (this–here) |
+| something → sign | reference (standing-for) |
+| sign → meaning | signification |
+| meaning → concept | generalization |
+| concept → item | objectification |
+| item → object | objectivation |
+| object → thing | reification |
+
+Finally, it is worth noting that consciousness has an innate ability to "drill
+through abstractions," that is, to access any level directly without going
+through the intermediate layers. One might say that, being more function-like,
+consciousness so understood *is*, among other things, precisely such an
+ability.
 
 This is a structural capacity and does not require special conditions, but
 without practical introspection it may remain unrecognized, much as the ability
@@ -408,6 +433,36 @@ enforces low privacy, the star topology of the network. This is accidental reifi
 spread across medium, economy, and habit — not the failure of a single layer, but the
 stiffening of the whole stack. Deliberate concretization works the other way: it
 re-fluidizes what reverse adaptation has stiffened.
+
+#### Inference to Architecture
+
+When the gradient of levels of experiencing mentioned in the second postulate is
+related to the matrix of software architecture, we obtain a register of
+**contracts and edges**. The layers become layers of data processing, while the
+acts become admission operations. Among other things, this guards against
+reification and premature concretization.
+
+| state (*what?*) | act (*how*) | Orbiplex layer/operation |
+|---|---|---|
+| phenomenon | appearing | raw signal at the edge (before admission) |
+| figure / something | differentiation, individuation | Sensorium: candidate → admitted `sensorium-observation.v1` (id, ttl, admission metadata) |
+| sign | reference | `artifact-object-pointer.v1` / refs — something begins to *point* |
+| meaning | signification | `classification.v1` — the edge at which tier and sense are bound |
+| concept | generalization | schema / taxonomy (schema-gate, `taxonomy/id`) |
+| item | objectification | intentional domain object: `corpus-reasoning-query`, `RoomSubject` |
+| object | objectivation | durable fact: Memarium write, *facts-before-effects* |
+| thing | reification | federation-shared record: Agora topic-addressed record, Public tier, `federation-root` |
+
+This is the same axis along which we already enforce the stratification edge →
+admission → classification → domain object → durable fact → federation record.
+**The axis of acts is an enumeration of the edges at which validation gates
+operate.** It is no longer merely a generalized observation but a catalog of the
+kinds of elements in the architecture.
+
+It is worth noting that the direction of this axis is increasing bindingness,
+not increasing truth: the federation-shared record is the terminus of acts of
+determination, not a source of truth to which the lower layers would have to
+tune themselves.
 
 #### Closest Information-Architecture Concepts
 

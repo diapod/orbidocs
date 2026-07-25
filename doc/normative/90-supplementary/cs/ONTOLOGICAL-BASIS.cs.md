@@ -95,8 +95,8 @@ Lidská zkušenost má vrstvenou architekturu:
 
 Každá vrstva vyrůstá z hlubší jako její abstrakt a konkrétní prvky nižších vrstev
 se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratified design*
-Abelsona a Sussmana („MIT AI Memo 986“), kde se implementace stávají abstrakcemi
-dalších úrovní.
+Abelsona a Sussmana ([„MIT AI Memo 986“](https://archive.org/details/bitsavers_mitaiaimAI_1190659)),
+kde se implementace stávají abstrakcemi dalších úrovní.
 
 Tutéž osu lze číst několika komplementárními způsoby, což se stává viditelným,
 když stratifikaci postavíme například vedle teorie komunikace a pozice subjektu
@@ -104,14 +104,37 @@ ve sdělení. Vedle genealogického rozkladu (jako vrstev zkušenosti: vědomí,
 subjektivita, osoba, kultura, objektivita) může tentýž gradient nést také
 epistemizační škálování, tedy postupnou konkretizaci fenoménu ve „věc“
 (například fenomén → podoba → něco → znak → význam → pojem → předmět → objekt →
-věc). Takové osy mohou běžet paralelně: vrstva, z níž se mluví, perspektiva,
+věc).
+
+Takové osy mohou běžet paralelně: vrstva, z níž se mluví, perspektiva,
 v níž se mluví, a míra, v jaké už byla zkušenost reifikována. Ontologický základ
 prodlužuje osu ještě před vědomí, směrem k apofatické nulové úrovni, kterou
 genealogie zkušenosti obvykle netematizuje.
 
-Vědomí má vrozenou schopnost „vrtat díry do abstrakcí“, tedy přímého přístupu
-(prosvětlování) k libovolné úrovni bez prostředních vrstev. Lze říci, že tím, že
-je spíše funkcí, vědomí mimo jiné *je* právě takovou schopností.
+Na základě původní genealogie lze také zkonstruovat třetí, duální čtení: pro
+každý přechod epistemizace lze pojmenovat akt určení, který jej zavádí: jevení
+se → rozlišování → vydělení → odkazování → zvýznamnění → zobecnění →
+zpředmětnění → objektivizace → zvěcnění. Stavy odpovídají na otázku „co?“,
+zatímco akty na otázku „jak?“. V tomto pojetí „věc“ není zastaná, nýbrž je
+stohem aktů – proto se při čtení zpět „rozpouští“ směrem k fenoménu a k nulové
+úrovni.
+
+| přechod stavů | zaváděný artefakt/akt |
+|---|---|
+| ∅ → fenomén | jevení se |
+| fenomén → podoba | rozlišování (figura–pozadí) |
+| podoba → něco | vydělení (toto–zde) |
+| něco → znak | odkazování (za–něco) |
+| znak → význam | zvýznamnění |
+| význam → pojem | zobecnění |
+| pojem → předmět | zpředmětnění |
+| předmět → objekt | objektivizace |
+| objekt → věc | zvěcnění |
+
+Nakonec stojí za zmínku, že vědomí má vrozenou schopnost „vrtat díry do
+abstrakcí“, tedy přímého přístupu k libovolné úrovni bez prostředních vrstev.
+Lze říci, že tím, že je spíše funkcí, vědomí takto chápané mimo jiné *je* právě
+takovou schopností.
 
 Jde o strukturální možnost (nevyžaduje zvláštní podmínky), ale bez praktické
 introspekce může zůstat nerozpoznaná, podobně jako schopnost pozorovat vlastní
@@ -370,6 +393,33 @@ databáze), prefabrikovaná sídliště vynucující nízké soukromí, hvězdic
 Je to náhodná reifikace rozprostřená přes médium, ekonomiku a návyk – nikoli selhání
 jediné vrstvy, nýbrž ztuhnutí celého vrstvení. Vědomá konkretizace působí opačně: znovu
 zkapalňuje to, co reverse adaptation stačila ztužit.
+
+#### Inference k architektuře
+
+Když gradient úrovní zakoušení zmíněný v druhém postulátu vztáhneme k matrici
+softwarové architektury, získáme registr **kontraktů a hran**. Vrstvy se stávají
+vrstvami zpracování dat a akty operacemi přijetí (admise). To mimo jiné chrání
+před reifikací a předčasnou konkretizací.
+
+| stav (*co?*) | akt (*jak*) | vrstva/operace Orbiplexu |
+|---|---|---|
+| fenomén | jevení se | surový signál na hraně (před přijetím) |
+| podoba / něco | rozlišování, vydělení | Sensorium: candidate → admitted `sensorium-observation.v1` (id, ttl, metadata přijetí) |
+| znak | odkazování | `artifact-object-pointer.v1` / refs – něco začíná *ukazovat* |
+| význam | zvýznamnění | `classification.v1` – hrana, na níž se váže tier a smysl |
+| pojem | zobecnění | schéma / taxonomie (schema-gate, `taxonomy/id`) |
+| předmět | zpředmětnění | intencionální objekt domény: `corpus-reasoning-query`, `RoomSubject` |
+| objekt | objektivizace | trvalý fakt: zápis do Memaria, *facts-before-effects* |
+| věc | zvěcnění | federačně sdílený záznam: Agora topic-addressed record, tier Public, `federation-root` |
+
+Je to táž osa, podél níž již vynucujeme stratifikaci hrana → přijetí →
+klasifikace → doménový objekt → trvalý fakt → federační záznam. **Osa aktů je
+výčtem hran, na nichž působí validační brány.** Není už jen zobecněným
+pozorováním, nýbrž soupisem druhů prvků v architektuře.
+
+Stojí za zmínku, že směr této osy je rostoucí provázanost, nikoli rostoucí
+pravdivost: federačně sdílený záznam je terminálem aktů určení, nikoli zdrojem
+pravdy, jemuž by se nižší vrstvy měly přizpůsobovat.
 
 #### Nejbližší koncepce informační architektury
 

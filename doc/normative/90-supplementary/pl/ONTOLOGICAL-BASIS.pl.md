@@ -101,8 +101,9 @@ mechanizm bez nachalnej konkretyzacji.
 
 Możemy zauważyć, że każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety
 niższych warstw stają się budulcem wyższych – analogicznie do *stratified design*
-Abelsona i Sussmana ("MIT AI Memo 986"), gdzie implementacje stają się abstrakcjami
-kolejnych poziomów.
+Abelsona i Sussmana (["MIT AI Memo
+986"](https://archive.org/details/bitsavers_mitaiaimAI_1190659)), gdzie implementacje
+stają się abstrakcjami kolejnych poziomów.
 
 Tę samą oś można czytać na różne komplementarne sposoby, co staje się widoczne, gdy
 stratyfikację zestawić na przykład z teorią komunikacji i pozycji podmiotu
@@ -110,15 +111,37 @@ w przekazie. Poza rozkładem genealogicznym (jako warstw doświadczenia: świad
 podmiotowość, osoba, kultura, obiektywność) ten sam gradient może nieść również
 skalowanie epistemizacyjne, czyli stopniową konkretyzację fenomenu w "rzecz"
 (np. fenomen → postać → coś → znak → znaczenie → pojęcie → przedmiot → obiekt →
-rzecz). Tego typu osie mogą biec równolegle: warstwa, z której się mówi, perspektywa,
+rzecz).
+
+Tego typu osie mogą biec równolegle: warstwa, z której się mówi, perspektywa,
 w której się mówi, i stopień, w jakim doświadczenie zostało już
 zreifikowane. Ontologiczna podstawa przedłuża oś jeszcze wcześniej niż świadomość, ku
 apofatycznemu poziomowi zero, którego genealogia doświadczenia zwykle nie tematyzuje.
 
-Świadomość ma wrodzoną zdolność "wiercenia dziur w abstrakcjach", czyli
-bezpośredniego dostępu (prześwietlania) do dowolnego poziomu z pominięciem warstw
-pośrednich. Można powiedzieć, że będąc bardziej funkcją, świadomość *jest* między
-innymi taką zdolnością.
+Na bazie pierwotnej genealogii możemy też skonstruować trzeci, dualny odczyt: dla
+każdego przejścia epistemizacji nazwać można akt determinacji, który je wprowadza:
+jawienie się → różnicowanie → wyodrębnienie → odniesienie → usensownienie →
+uogólnienie → uprzedmiotowienie → obiektywizacja → urzeczowienie. Stany odpowiadają
+na pytanie "co?", zaś akty na pytanie "jak?". W tym ujęciu "rzecz" nie jest zastana,
+lecz jest stosem aktów – dlatego czytana wstecz "rozpuszcza się" ku fenomenowi
+i ku poziomowi zerowemu.
+
+| przejście stanów | wprowadzany artefakt/akt |
+|---|---|
+| ∅ → fenomen | jawienie się |
+| fenomen → postać | różnicowanie (figura–tło) |
+| postać → coś | wyodrębnienie (to–oto) |
+| coś → znak | odniesienie (za–coś) |
+| znak → znaczenie | usensownienie |
+| znaczenie → pojęcie | uogólnienie |
+| pojęcie → przedmiot | uprzedmiotowienie |
+| przedmiot → obiekt | obiektywizacja |
+| obiekt → rzecz | urzeczowienie |
+
+Na koniec warto zauważyć, że świadomość ma wrodzoną zdolność "wiercenia dziur
+w abstrakcjach", czyli bezpośredniego dostępu do dowolnego poziomu z pominięciem
+warstw pośrednich. Można powiedzieć, że będąc bardziej funkcją, świadomość tak
+rozumiana *jest* między innymi taką zdolnością.
 
 Jest to możność strukturalna (nie wymaga specjalnych warunków), ale bez praktycznej
 introspekcji może pozostać nierozpoznana, podobnie jak zdolność obserwowania własnych
@@ -387,6 +410,33 @@ prywatność, gwiaździsta topologia sieci. To przypadkowa reifikacja rozłożon
 medium, ekonomię i nawyk – nie awaria pojedynczej warstwy, lecz zastygnięcie całego
 stosu. Świadoma konkretyzacja działa w drugą stronę: upłynnia to, co *reverse
 adaptation* zdążyła usztywnić.
+
+#### Inferencja do architektury
+
+Gdy wspomniany w drugim postulacie gradient poziomów doświadczania odniesiemy do
+matrycy architektury oprogramowania, otrzymujemy rejestr **kontraktów
+i brzegów**. Warstwy stają się warstwami przetwarzania danych, zaś akty operacjami
+admisji. Chroni to m.in. przed reifikacją i przedwczesną konkretyzacją.
+
+| stan (*co?*) | akt (*jak?*) | warstwa/operacja Orbipleksu |
+|---|---|---|
+| fenomen | jawienie się | surowy sygnał na brzegu (przed przyjęciem) |
+| postać / coś | różnicowanie, wyodrębnienie | Sensorium: candidate → admitted `sensorium-observation.v1` (id, ttl, metadata admisji) |
+| znak | odniesienie | `artifact-object-pointer.v1` / refs – coś zaczyna *wskazywać* |
+| znaczenie | usensownienie | `classification.v1` – brzeg, na którym wiąże się tier i sens |
+| pojęcie | uogólnienie | schemat / taksonomia (schema-gate, `taxonomy/id`) |
+| przedmiot | uprzedmiotowienie | intencjonalny obiekt domeny: `corpus-reasoning-query`, `RoomSubject` |
+| obiekt | obiektywizacja | trwały fakt: zapis Memarium, *facts-before-effects* |
+| rzecz | urzeczowienie | rekord współdzielony federacyjnie: Agora topic-addressed record, tier Public, `federation-root` |
+
+Jest to ta sama oś, wzdłuż której już egzekwujemy stratyfikację brzeg → admisja →
+klasyfikacja → obiekt domenowy → trwały fakt → rekord federacyjny. **Oś aktów jest
+wyliczeniem brzegów, na których działają bramki walidacji**. Nie jest już tylko
+uogólnioną obserwacją, lecz wykazem rodzajów elementów w architekturze.
+
+Warto zauważyć, że kierunek tej osi to rosnące powiązanie, a nie rosnąca prawdziwość:
+rekord federacyjny jest terminalem aktów determinacji, a nie źródłem prawdy, do
+którego niższe warstwy miałyby się dostroić.
 
 #### Najbliższe koncepcje architektury informacji
 
