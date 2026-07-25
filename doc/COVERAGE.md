@@ -82,7 +82,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-bid.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid.v1.md) | `14` | `0` | `yes` | `yes` | `2` | `3` |
 | [`corpus-reasoning-chair-control-policy.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-chair-control-policy.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `1` |
-| [`corpus-reasoning-chair-experiment-decision.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-chair-experiment-decision.v1.md) | `20` | `0` | `yes` | `yes` | `1` | `1` |
+| [`corpus-reasoning-chair-experiment-decision.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-chair-experiment-decision.v1.md) | `20` | `0` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-experiment-proposal.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-experiment-proposal.v1.md) | `17` | `0` | `yes` | `yes` | `1` | `3` |
 | [`corpus-reasoning-experiment-review.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-experiment-review.v1.md) | `21` | `0` | `yes` | `yes` | `1` | `2` |
 | [`corpus-reasoning-instruction-overlay.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-instruction-overlay.v1.md) | `22` | `0` | `yes` | `yes` | `1` | `0` |
@@ -804,4 +804,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `307`
 - Generated schema docs: `307`
 - Positive examples: `306`
-- Negative examples: `235`
+- Negative examples: `234`
