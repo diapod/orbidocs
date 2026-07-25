@@ -35,6 +35,14 @@ terminal, or collaboration runtime:
 - the destination daemon resolves a generic Agent observation need through
   Interaction Broker and the Room/Sensorium adapter.
 
+The active execution profile is the VFKit-backed variant from the shared Story 012
+vertical: a digest-pinned full-system guest is started and observed as the chair
+terminal source, with additive vfkit/profile wiring from the Story 012 acceptance
+trackers (including the critique-gated extension). In practice, this story is
+implemented and validated as the same deliberation/repair loop over a Workbench
+runtime backed by that VM environment, with direct control remaining local to the
+chair node.
+
 The profile is executable. Its process runner reuses the extracted Story 011
 three-node federation/bootstrap layer, then composes the Workbench, Sensorium
 Interface, Room observation, Agent, and story fixture layers without creating a
