@@ -263,6 +263,9 @@ schema_for_file() {
     *.story-012-powerdns-full-system-report.json)
       echo "$SCHEMAS_DIR/story-012-powerdns-full-system-report.v1.schema.json"
       ;;
+    *.story-012-powerdns-critique-gated-full-system-report.json)
+      echo "$SCHEMAS_DIR/story-012-powerdns-critique-gated-full-system-report.v1.schema.json"
+      ;;
     *.sensorium-workbench-tool-request.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-tool-request.v1.schema.json"
       ;;
@@ -445,6 +448,12 @@ schema_for_file() {
       ;;
     *.corpus-reasoning-experiment-proposal.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-experiment-proposal.v1.schema.json"
+      ;;
+    *.corpus-reasoning-chair-experiment-decision.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-chair-experiment-decision.v1.schema.json"
+      ;;
+    *.corpus-reasoning-experiment-review.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-experiment-review.v1.schema.json"
       ;;
     *.inquirium.candidate-plan.json)
       echo "$SCHEMAS_DIR/inquirium.candidate-plan.v1.schema.json"

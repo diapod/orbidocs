@@ -513,7 +513,11 @@ INVALID_EXAMPLE_WHITELIST = (
     "mismatched-plan-artifact.corpus-reasoning-experiment-proposal.json",
     "missing-replacement.corpus-reasoning-experiment-review.json",
     "unknown-field.corpus-reasoning-experiment-review.json",
-    "mismatched-plan.corpus-reasoning-chair-experiment-decision.json",
+    # `mismatched-plan.corpus-reasoning-chair-experiment-decision.json` is a
+    # signature-integrity negative (the reviewed-plan ref is re-pointed after
+    # signing, so only the Ed25519 signature is invalid). The Node schema gate
+    # rejects it via the semantic `decision.validate()`; the doc validator is
+    # pure JSON Schema and cannot verify signatures, so it is not synced here.
     "ambient-execution.inquirium.candidate-plan.json",
     "missing-edge-target.inquirium.candidate-plan.json",
     "corpus-reasoning-instruction-overlay-ambient.json",
