@@ -115,12 +115,13 @@ rule allows closures to form without itself being one of them. We treat it solel
 an illustrative model. We do not inherit its machinery of reduction or its order of
 evaluation.
 
-**Anchoring in known traditions:** apophaticism (*via negativa*, *śūnyatā*), but
-with an explicit epistemic limiter and self-recognition of ephemerality, close
-to Nāgārjuna's "emptiness of emptiness" (*śūnyatā-śūnyatā*). It differs, for
-example, from analytic idealism, which claims that consciousness is knowable as
-the foundation, from schools that stop at universal consciousness as ground, and
-from eliminativism, which claims that there is nothing there to know.
+**Anchoring in known traditions:** apophaticism (Latin *via negativa*, Sanskrit
+*śūnyatā*), but with an explicit epistemic limiter and self-recognition of
+ephemerality, close to Nāgārjuna's "emptiness of emptiness" (Sanskrit
+*śūnyatā-śūnyatā*). It differs, for example, from analytic idealism, which claims
+that consciousness is knowable as the foundation, from schools that stop at
+universal consciousness as ground, and from eliminativism, which claims that there
+is nothing there to know.
 
 Apophatic enactivism also differs from panpsychism, which predicates of the
 foundation that it experiences and attributes a capacity for experience to partial
@@ -266,16 +267,50 @@ recognized. Traces are countable, not beings. Moments understood in this way do 
 form, as in Abhidharmic classifications, a fixed taxonomy or a countable sequence
 from which a stream would then have to be assembled.
 
-Because closures are anonymous, the persistence of a person (from layer 0.1.1.1)
-requires a separate account and need not rely on a predefined hidden bearer. One
-working model consistent with this assumption treats the person as an intensional
-identifier: not a pointer to a persistent object, but a description evaluated anew,
-whose referent is whatever currently satisfies it. In this model, personal
-continuity is the self-referential stability of evaluation, not the persistence of
-the referent. It is enough that the context keeps returning a similar answer. Memory
-participates not as a store, but through the identifier's participation in the
-retrieval key: a memory is indexed as someone's rather than assigned to someone
-after the fact.
+#### Genesis of the person
+
+The person is not a given layer in this model, but emerges from subjectivity: a
+perspective that establishes a distinction between the position of experiencing and
+what is experienced. The mechanism of this emergence is identification, understood
+not as an act performed by an already formed person, but as the recursive binding of
+the subjective perspective to certain clusters of experience, including bodily
+sensations, self-references, self-image, memory traces, and reflections of one's own
+actions in the responses of the environment. Repetition of this binding stabilizes
+a sense of persistence and creates the conditions for what we model below as an
+intensional identifier.
+
+The person formed in this way fulfills two roles at once, and both shape them.
+Downward, the person acts as a translation gateway: in their own register, they
+formulate claims about the organism, experience, and subjectivity. Upward, the
+person becomes concrete input to the culture layer: interactions with other persons
+and cultural patterns place them in the social landscape and leave traces in their
+memory and in shared records. This feedback is not one-way: the person may accept,
+negotiate, reject, and transform social attributions, while co-shaping culture
+through their own actions.
+
+This construction is not yet an error in itself: a higher layer builds abstractions
+from the concretes of a lower layer, and that is how the whole stack works. Theft of
+ontology occurs only with amnesia: downward, when one's own translation is taken as
+the direct voice of the organism or subjectivity, and upward, when social
+descriptions and roles are experienced as one's own essence (cf. Freud's
+*Über-Ich*). The person is therefore a structure especially susceptible to
+reification in both directions, not a structure born of reification.
+
+We treat this sequence as a working structural-developmental reconstruction, not as
+a direct observation of one's own ontogenesis or a strict chronology of its stages.
+
+#### Persistence of the person
+
+The persistence of a person formed in this way (from layer 0.1.1.1) requires a
+separate account. Anonymous closures do not provide the person with a predefined,
+hidden bearer. One working model consistent with this assumption treats the person
+as an intensional identifier: not a pointer to a persistent object, but a
+description evaluated anew, whose referent is whatever currently satisfies it. In
+this model, personal continuity is the self-referential stability of evaluation,
+not the persistence of the referent. It is enough that the context keeps returning
+a similar answer. Memory participates not as a store, but through the identifier's
+participation in the retrieval key: a memory is indexed as someone's rather than
+assigned to someone after the fact.
 
 The self-reference concerns the evaluation mechanism, not the content of the
 description: the description does not contain itself, but its result co-creates the
@@ -286,16 +321,24 @@ immutability of its result. We do not treat this as an exhaustive theory of the
 person, but as an anti-substantialist model useful for understanding identity,
 memory, and identifiers in the architecture.
 
+The question of who maintains the identifier does not require us to identify either
+"the person", which would lead to a vicious circle, or "a lower layer", which would
+introduce a homunculus. The person is precisely the stabilizing loop, and its update
+is not an external action performed upon it, but another iteration of the process
+that constitutes it.
+
 **Anchoring in known traditions:** holarchies (Koestler, Wilber), but with two
 important differences: the architectural precision of *stratified design* and
 the idea of *drilling through abstractions*, which holarchies do not model. The
 process of building layers is close to enactive autopoiesis (Varela, Thompson),
-but extended to culture and objectivity.
-
-In turn, the anti-substantialist theory of the person as a self-maintaining
-intensional pattern, expressed in the language of recursion and context, most
-closely resembles a synthesis of Gallagher's and Dennett's approaches with
-enactivism.
+but extended to culture and objectivity. In turn, the anti-substantialist theory of
+the person as a self-maintaining intensional pattern, expressed in the language of
+recursion and context, most closely resembles a synthesis of Gallagher's and
+Dennett's approaches with enactivism. The social dimension of this process is close
+to G.H. Mead's social theory of the self, especially the mechanism of taking the
+attitude of the "generalized other" ("Mind, Self, and Society", 1934), and to
+Vygotsky's thesis on the social origin and internalization of higher psychological
+functions ("Mind in Society", 1978).
 
 **Consequences for DIA:** the whole swarm architecture — node, agent, memarium,
 sensorium, inquirium, and protocol — is designed in layers in the spirit of stratification. The
@@ -368,9 +411,9 @@ truth just as well as it can serve fear, the need for recognition, or the desire
 for control, thereby introducing suffering into the system.
 
 **Anchoring in known traditions:** emergentism, anti-eliminativism, and the
-Buddhist critique of conceptual proliferation (*papañca*). It is close to
-Varela's critique of the computational theory of mind, but extended by the
-social dimension of dethronement.
+Buddhist critique of conceptual proliferation (Pali *papañca*). It is close to
+Varela's critique of the computational theory of mind, but extended by the social
+dimension of dethronement.
 
 **Consequences for DIA:** the value of cooperation over domination by intellect:
 the swarm takes over part of the burden of analysis, so that people need not

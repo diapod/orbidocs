@@ -106,12 +106,12 @@ abstrakce umožňuje vznikat uzávěrům, aniž by samo bylo jedním z nich. Ch�
 výhradně jako ilustrativní model. Nepřebíráme s ním aparát redukce ani pořadí
 vyhodnocování.
 
-**Ukotvení ve známých tradicích:** apofatismus (*via negativa*, *śūnyatā*), ale
-s explicitním epistemickým omezením a seberozpoznáním efemérnosti, blízkým
-nágárdžunovské „prázdnotě prázdnoty“ (*śūnyatā-śūnyatā*). Liší se například od
-analytického idealismu (který tvrdí, že vědomí je poznatelné jako základ), od škol,
-které se zastavují u univerzálního vědomí jako základu, i od eliminativismu
-(který tvrdí, že není co poznávat).
+**Ukotvení ve známých tradicích:** apofatismus (latinsky *via negativa*, sanskrtské
+*śūnyatā*), ale s explicitním epistemickým omezením a seberozpoznáním efemérnosti,
+blízkým nágárdžunovské „prázdnotě prázdnoty“ (sanskrtské
+*śūnyatā-śūnyatā*). Liší se například od analytického idealismu (který tvrdí, že
+vědomí je poznatelné jako základ), od škol, které se zastavují u univerzálního vědomí
+jako základu, i od eliminativismu (který tvrdí, že není co poznávat).
 
 Apofatický enaktivismus se liší také od panpsychismu, který o základu vypovídá, že
 zakouší, a připisuje schopnost zakoušení dílčím prvkům. Z perspektivy stratifikace
@@ -246,15 +246,46 @@ jsoucna. Takto chápané okamžiky nevytvářejí, jako v abhidharmických klasi
 pevnou taxonomii ani spočitatelnou posloupnost, z níž by bylo třeba následně sestavit
 proud.
 
-Jsou-li uzávěry anonymní, vyžaduje trvalost osoby (z vrstvy 0.1.1.1) samostatné
-vysvětlení a nemusí spočívat na předem daném skrytém nositeli. Jedním z pracovních
-modelů slučitelných s tímto předpokladem je osoba jako intenzionální identifikátor:
-nikoli ukazatel na trvající objekt, ale znovu a znovu vyhodnocovaný popis, jehož
-referentem je to, co jej právě splňuje. V tomto modelu je kontinuita osoby
-sebereferenční stabilitou vyhodnocování, nikoli trvalostí referentu. Stačí, že kontext
-stále vrací podobnou odpověď. Paměť se na tom podílí nikoli jako úložiště, ale tím, že
-se identifikátor stává součástí vybavovacího klíče: vzpomínka je indexována jako
-něčí, nikoli někomu přiřazena až dodatečně.
+#### Geneze osoby
+
+Osoba není v tomto modelu danou vrstvou, nýbrž se vynořuje ze subjektivity:
+perspektivy ustavující rozdíl mezi pozicí zakoušení a tím, co je zakoušeno.
+Mechanismem tohoto vynořování je ztotožnění, chápané nikoli jako akt hotové osoby,
+ale jako rekurzivní vázání subjektivní perspektivy na určité shluky zkušenosti,
+mimo jiné tělesné pocity, sebereference, obraz sebe sama, paměťové stopy a odrazy
+vlastního jednání v reakcích okolí. Opakování tohoto vázání stabilizuje pocit trvání
+a vytváří podmínky pro to, co níže modelujeme jako intencionální identifikátor.
+
+Takto vzniklá osoba plní současně dvě role a obě ji utvářejí. Směrem dolů působí
+jako překladová brána: ve vlastním registru vypovídá o organismu, zkušenosti a
+subjektivitě. Směrem nahoru se stává konkrétem vrstvy kultury: interakce s jinými
+osobami a kulturní vzorce ji zasazují do společenské krajiny. Zanechávají přitom
+stopy v její paměti i ve společných záznamech. Tato zpětná vazba není jednostranná: osoba
+může společenská přisouzení přijímat, vyjednávat, odmítat a proměňovat; vlastním
+jednáním přitom spoluutváří kulturu.
+
+Sama tato konstrukce ještě není chybou: vyšší vrstva staví abstrakce z konkrétů
+nižší vrstvy, a tak funguje celý stoh. Ke krádeži ontologie dochází teprve s amnézií:
+směrem dolů, když je vlastní překlad pokládán za přímý hlas organismu nebo
+subjektivity, a směrem nahoru, když jsou společenské popisy a role prožívány jako
+vlastní esence (srov. Freudovo *Über-Ich*). Osoba je tedy strukturou obzvlášť
+náchylnou k reifikaci v obou směrech, nikoli strukturou zrozenou z reifikace.
+
+Tuto posloupnost chápeme jako pracovní strukturálně-vývojovou rekonstrukci, nikoli
+jako přímé pozorování vlastní ontogeneze ani jako přísnou chronologii jejích etap.
+
+#### Trvalost osoby
+
+Trvalost takto vzniklé osoby (z vrstvy 0.1.1.1) vyžaduje samostatné vysvětlení.
+Anonymní uzávěry jí totiž neposkytují předem daného skrytého nositele. Osobu lze
+v jednom z pracovních modelů slučitelných s tímto předpokladem chápat jako
+intencionální identifikátor: nikoli ukazatel na trvající objekt, ale znovu a znovu
+vyhodnocovaný popis, jehož referentem je to, co jej právě splňuje. V tomto modelu
+je kontinuita osoby sebereferenční stabilitou vyhodnocování, nikoli trvalostí
+referentu. Stačí, že
+kontext stále vrací podobnou odpověď. Paměť se na tom podílí nikoli jako úložiště,
+ale tím, že se identifikátor stává součástí vybavovacího klíče: vzpomínka je
+indexována jako něčí, nikoli někomu přiřazena až dodatečně.
 
 Sebereference se zde týká mechanismu vyhodnocování, nikoli obsahu popisu: popis
 neobsahuje sám sebe, ale jeho výsledek spoluutváří klíč, kterým získáváme paměťové
@@ -264,14 +295,21 @@ rekurze, nikoli neměnností jejího výsledku. Nepokládáme to za vyčerpávaj
 osoby, ale za antisubstancialistický model užitečný pro porozumění identitě, paměti a
 identifikátorům v architektuře.
 
+Otázka, kdo identifikátor udržuje, nevyžaduje označit ani „osobu“, což by vedlo k
+bludnému kruhu, ani „nižší vrstvu“, což by zavádělo homunkula. Osoba je právě onou
+stabilizující se smyčkou a její aktualizace není vnějším úkonem prováděným na ní,
+nýbrž dalším průchodem procesu, který ji ustavuje.
+
 **Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber), ale se dvěma
 podstatnými rozdíly – architektonickou přesností *stratified design* a *drilling
 through abstractions*, které holarchie nemodelují. Proces budování vrstev je blízký
 enaktivní autopoiesis (Varela, Thompson), ale rozšířený na kulturu a objektivitu.
-
 Antisubstancialistická teorie osoby jako sebeudržujícího se intencionálního vzorce,
 vyjádřená jazykem rekurze a kontextu, pak nejvíce připomíná syntézu Gallagherova a
-Dennettova přístupu s enaktivismem.
+Dennettova přístupu s enaktivismem. Společenský rozměr tohoto procesu je blízký
+Meadově sociální teorii já, zejména mechanismu přejímání postoje „zobecněného
+druhého“ („Mind, Self, and Society“, 1934), a Vygotského tezi o sociálním původu a
+internalizaci vyšších psychických funkcí („Mind in Society“, 1978).
 
 **Důsledky pro DIA:** celá architektura roje – uzel, agent, memarium, sensorium,
 inquirium a protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota *oddělování úrovní*
@@ -336,7 +374,7 @@ sloužit pravdě jako obsluhovat strach, potřebu uznání či touhu po kontrole
 a vnášet do systému utrpení.
 
 **Ukotvení ve známých tradicích:** emergentismus, anti-eliminativismus, buddhistická
-kritika pojmové proliferace (*papañca*). Je to blízké Varelovi v kritice
+kritika pojmové proliferace (pálijské *papañca*). Je to blízké Varelovi v kritice
 výpočetní teorie mysli, ale rozšířené o společenský rozměr detronizace.
 
 **Důsledky pro DIA:** hodnota spolupráce nad dominancí intelektu – roj přebírá část

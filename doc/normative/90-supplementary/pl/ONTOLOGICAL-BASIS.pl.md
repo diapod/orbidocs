@@ -111,12 +111,13 @@ zawiązywać domknięcia, sama nie będąc żadnym z nich. Traktujemy go wyłąc
 model ilustracyjny. Nie dziedziczymy wraz z nim maszynerii redukcji ani porządku
 obliczania.
 
-**Zakotwiczenie w znanych tradycjach:** apofatyzm (*via negativa*, *śūnyatā*), ale
-z jawnym epistemicznym ogranicznikiem i autorozpoznaniem efemeryczności, bliskim
-nāgārjunowskiej "pustości pustości" (*śūnyatā-śūnyatā*). Odróżnia się na przykład od
-idealizmu analitycznego (który twierdzi, że świadomość jest poznawalna jako
-fundament), od szkół, które zatrzymują się na świadomości uniwersalnej jako gruncie,
-a także od eliminatywizmu (który twierdzi, że nie ma czego poznawać).
+**Zakotwiczenie w znanych tradycjach:** apofatyzm (łac. *via negativa*,
+skt. *śūnyatā*), ale z jawnym epistemicznym ogranicznikiem i autorozpoznaniem
+efemeryczności, bliskim nāgārjunowskiej "pustości pustości"
+(skt. *śūnyatā-śūnyatā*). Odróżnia się na przykład od idealizmu analitycznego (który
+twierdzi, że świadomość jest poznawalna jako fundament), od szkół, które zatrzymują
+się na świadomości uniwersalnej jako gruncie, a także od eliminatywizmu (który
+twierdzi, że nie ma czego poznawać).
 
 Apofatyczny enaktywizm odróżnia się także od panpsychizmu, który orzeka
 o fundamencie, że jest doświadczający, i przypisuje zdolność doświadczania cząstkowym
@@ -258,12 +259,45 @@ a nie do tego, co rozpoznawane. Policzalne są ślady, a nie byty. Tak rozumia
 momenty nie tworzą (jak w klasyfikacjach abhidharmicznych) ustalonej taksonomii ani
 przeliczalnego przebiegu, z którego trzeba by potem złożyć strumień.
 
-Skoro domknięcia są anonimowe, trwałość osoby (z warstwy 0.1.1.1) wymaga osobnego
-wyjaśnienia i nie musi polegać na predefiniowanym, ukrytym nosicielu. Jednym
-z roboczych modeli zgodnych z tym założeniem jest osoba jako identyfikator
-intensjonalny: nie wskaźnik do trwającego obiektu, lecz opis wciąż na nowo ewaluowany,
-którego odniesieniem jest to, co akurat go spełnia. W tym modelu ciągłość osoby jest
-samoodwoławczą stabilnością ewaluacji, a nie trwałością odniesienia. Wystarczy, że
+#### Geneza osoby
+
+Osoba nie jest w tym modelu warstwą daną, lecz wyłania się z podmiotowości:
+perspektywy ustanawiającej różnicę między pozycją doświadczania a tym, co
+doświadczane. Mechanizmem tego wyłaniania jest utożsamienie, rozumiane nie jako akt
+gotowej osoby, lecz jako rekursywne wiązanie perspektywy podmiotowej z pewnymi
+klastrami doświadczenia, m.in. odczuciami ciała, samoodniesieniami, obrazem siebie,
+śladami pamięciowymi oraz odbiciem własnych działań w reakcjach otoczenia.
+Powtarzalność tego wiązania stabilizuje poczucie trwania i tworzy warunki dla tego,
+co niżej modelujemy jako identyfikator intensjonalny.
+
+Tak powstała osoba pełni dwie role naraz i obie ją kształtują. Ku dołowi działa jako
+bramka przekładu: orzeka we własnym rejestrze o organizmie, doświadczeniu
+i podmiotowości. Ku górze staje się konkretem warstwy kultury: interakcje z innymi
+osobami i wzorce kulturowe umieszczają ją w krajobrazie społecznym oraz pozostawiają
+ślady w jej pamięci i zapisach wspólnych. Sprzężenie to nie jest jednostronne: osoba
+może przyjmować, negocjować, odrzucać i przekształcać społeczne przypisania, a przez
+własne działanie współkształtuje kulturę.
+
+Sama ta konstrukcja nie jest jeszcze błędem: warstwa wyższa buduje abstrakcje
+z konkretów warstwy niższej i tak działa cały stos. Do kradzieży ontologii dochodzi
+dopiero wraz z amnezją: ku dołowi, gdy własny przekład zostaje uznany za bezpośredni
+głos organizmu lub podmiotowości, oraz ku górze, gdy społeczne opisy i role zostają
+przeżyte jako własna esencja (por. freudowskie *Über-Ich*). Osoba jest więc strukturą
+szczególnie podatną na reifikację w obu kierunkach, a nie strukturą z reifikacji
+zrodzoną.
+
+Sekwencję tę traktujemy jako roboczą rekonstrukcję strukturalno-rozwojową, nie jako
+bezpośrednią obserwację własnej ontogenezy ani ścisłą chronologię jej etapów.
+
+#### Trwałość osoby
+
+Trwałość tak powstałej osoby (z warstwy 0.1.1.1) wymaga osobnego wyjaśnienia.
+Anonimowe domknięcia nie dostarczają jej bowiem predefiniowanego, ukrytego
+nosiciela. Jednym z roboczych modeli zgodnych z tym założeniem jest osoba jako
+identyfikator intensjonalny: nie wskaźnik do trwającego obiektu, lecz opis wciąż na
+nowo ewaluowany, którego odniesieniem jest to, co akurat go spełnia. W tym modelu
+ciągłość osoby jest samoodwoławczą stabilnością ewaluacji, a nie trwałością
+odniesienia. Wystarczy, że
 kontekst wciąż zwraca podobną odpowiedź. Pamięć uczestniczy w tym nie jako magazyn,
 lecz przez udział identyfikatora w kluczu przywołania: wspomnienie jest indeksowane
 jako czyjeś, a nie przypisywane komuś po fakcie.
@@ -276,6 +310,12 @@ tej rekursji, nie niezmiennością jej wyniku. Nie traktujemy tego jako wyczerpu
 teorii osoby, lecz jako antysubstancjalistyczny model przydatny do rozumienia
 tożsamości, pamięci i identyfikatorów w architekturze.
 
+Pytanie o to, kto podtrzymuje identyfikator, nie wymaga wskazania ani "osoby", co
+prowadziłoby do błędnego koła, ani "warstwy niższej", co wprowadzałoby homunkulusa.
+Osoba jest właśnie stabilizującą się pętlą, a jej aktualizacja nie jest zewnętrzną
+czynnością wykonywaną na niej, lecz kolejnym przebiegiem procesu, który ją
+konstytuuje.
+
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber), ale z dwoma
 istotnymi różnicami – architektoniczna precyzja *stratified design* oraz *drilling
 through abstractions*, którego holarchie nie modelują. Proces budowania warstw jest
@@ -283,7 +323,10 @@ bliski enaktywnej autopojezie (Varela, Thompson), ale rozciągnięty na kulturę
 i obiektywność. Z kolei wyrażona językiem rekursji i kontekstu
 antysubstancjalistyczna teoria osoby jako samopodtrzymującego się wzorca
 intensjonalnego najbardziej przypomina syntezę podejść Gallaghera, Dennetta
-i enaktywizmu.
+i enaktywizmu. Społeczny wymiar tego procesu jest bliski społecznej teorii jaźni
+G.H. Meada, zwłaszcza mechanizmowi przyjmowania postawy "uogólnionego innego"
+("Mind, Self, and Society", 1934), oraz Wygotskiego tezie o społecznym pochodzeniu
+i internalizacji wyższych funkcji psychicznych ("Mind in Society", 1978).
 
 **Konsekwencje dla DIA:** cała architektura roju – węzeł, agent, memarium, sensorium,
 inquirium i protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
@@ -350,7 +393,7 @@ dobrze służyć prawdzie, jak i obsługiwać lęk, potrzebę uznania czy pragn
 kontroli, wprowadzając do systemu cierpienie.
 
 **Zakotwiczenie w znanych tradycjach:** emergentyzm, anty-eliminatywizm, buddyjska
-krytyka proliferacji pojęciowej (*papañca*). Bliskie Vareli w krytyce obliczeniowej
+krytyka proliferacji pojęciowej (pali. *papañca*). Bliskie Vareli w krytyce obliczeniowej
 teorii umysłu, ale rozszerzone o społeczny wymiar detronizacji.
 
 **Konsekwencje dla DIA:** wartość współpracy ponad dominacją intelektu – rój
