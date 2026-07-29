@@ -44,31 +44,74 @@ relation, an interpretation, and a possible point of correction.
 
 ### Apophatic foundation and two-phase presumption
 
-Consciousness, that which in our model arises from the so-called "zero level",
-precedes not only intellect but experience itself. It lies deeper than perception and
-the sense of subjectivity. It cannot be described directly, because every description
+Consciousness — the first describable layer of our model, situated closest to the
+boundary marked as "level zero" — is more source-like not only than intellect, but
+also than formed experience. "More source-like" here means a less concretized
+position in the order of concretization, not an earlier moment or an independent
+existence before what appears. Consciousness lies deeper than perception and the
+sense of subjectivity, but cannot be described directly, because every description
 relies on experience conditioned by the senses and by interpretation.
 
-We know the zero level only through the side effects of approaching it, through
-experiences that resemble tinted glass rather than a direct view. Presumption
-has two phases: first there appears a pre-conceptual impulse, recognition, a
-"sense of sourcehood," a "familiarity without an object," and only then does
-formal inference stabilize it into language and model.
+The word "experience" in this context means experience that has already been formed,
+articulated by the senses, the division into subject and object, and interpretation.
+Consciousness is more source-like than such experience, which does not mean that it
+is independent: it arises together with what appears.
+
+Level zero is a marker of the model's boundary, not the name of an object. A
+conventional sign can only indicate the scope beyond which the model makes no
+claims; we do not decide whether the boundary belongs to reality, to the possibility
+of cognition, or to both. We approach it only indirectly — through experiences that
+resemble tinted glass rather than a direct view. Presumption has two phases: first
+there appears an impulse less concretized than a concept (recognition, a "sense of
+sourcehood," a "familiarity without an object"), and only then does inference
+formalize it into language and a model.
 
 Epistemic hygiene requires us to note that both steps are conditioned, yet other
 modes of knowing beyond experiencing and interpreting remain outside our reach.
 We therefore dwell consciously in experience, knowing that it is experience, and
 in interpretation, knowing that it is interpretation.
 
-Moreover, consciousness has the capacity to recognize its own conditioned
-nature: that it is itself "emitted" and sustained in arising by something beyond
-the reach of the senses or of mental faculties. This is not the destruction of
-consciousness but its deepest act: an ephemeral structure can see its own
-ephemerality. This recognition leads neither to nihilism, because the very act
-of recognition testifies to functioning, nor to the substantialization of the
-source, because "that which emits" is not accessible as an object. It leads to
-a radical deepening of epistemic hygiene, in which even so-called "pure
-consciousness" is not a place to stop.
+Moreover, consciousness has the capacity to recognize its own conditioned nature:
+that it is not an independent ground and that the conditions of its arising do not
+fall entirely within the reach of the senses or of mental faculties. This is not the
+destruction of consciousness but its deepest act: an ephemeral structure can see its
+own ephemerality. This recognition leads neither to nihilism, because the very act of
+recognition testifies to functioning, nor to the substantialization of the source,
+because we do not frame conditioning as one accessible object. It leads to a radical
+deepening of epistemic hygiene, in which even so-called "pure consciousness" is not
+a place to stop.
+
+Conditioning must be read here without temporal succession. Level zero is neither
+consciousness, nor its input, nor the environment in which it arises — all three are
+already inside the landscape.
+
+We make no claims about what remains beyond the model's scope. We can only say what
+role the level-zero marker plays within it: it represents a boundary analogous to an
+abstraction rule, that is, a condition of possibility for formations to arise. The
+properties below concern this model role, not what remains ineffable. Understood in
+this way, the rule does not act, command, or get obeyed. Nor does it have portions: it
+is not depleted, applied halfway, or instantiated partially — not because the source
+is abundant, but because the rule is not a magnitude that could be divided. It is
+also not an expression of the calculus it governs and cannot be quoted or examined
+within that calculus.
+
+The indescribability of level zero therefore ceases to be a declaration and becomes
+a structural consequence: description would require predicating about a meta-level
+in the language of the object level, which is precisely the theft of ontology that
+the boundary between layers, understood as a boundary of meaning, forbids.
+
+Less formally, consciousness may be described as the realization of a receptivity
+to appearing in the presence of what appears — with the proviso that "receptivity"
+is a shorthand for readability, not a capacity activated in portions. The capacity
+to experience does not stand ready before content, but arises together with what is
+experienced. The absence of experiencing is never itself experienced as absence, so
+a "gap" is always a reconstruction made from within experiencing, not an observation
+from outside it.
+
+The function calculus can serve as an image that orders this account: an abstraction
+rule allows closures to form without itself being one of them. We treat it solely as
+an illustrative model. We do not inherit its machinery of reduction or its order of
+evaluation.
 
 **Anchoring in known traditions:** apophaticism (*via negativa*, *śūnyatā*), but
 with an explicit epistemic limiter and self-recognition of ephemerality, close
@@ -77,8 +120,18 @@ example, from analytic idealism, which claims that consciousness is knowable as
 the foundation, from schools that stop at universal consciousness as ground, and
 from eliminativism, which claims that there is nothing there to know.
 
+Apophatic enactivism also differs from panpsychism, which predicates of the
+foundation that it experiences and attributes a capacity for experience to partial
+elements. From the perspective of stratification, these are two simultaneous errors
+of "theft of ontology": projecting properties of the consciousness layer onto what
+is ineffable, and locating those properties in an entity that is the terminal
+product of the entire stack of acts of determination (see the table of acts in
+postulate 2 and the formula of reification in postulate 4). Panpsychism therefore
+locates what is least conditioned in what is most constructed.
+
 The two-phase structure is close to Gendlin's *felt sense* → symbolization,
-with the difference that the impulse here precedes experience.
+with the difference that the impulse here is less concretized than formed
+experience.
 
 **Consequences for DIA:** the value of epistemic hygiene, source-position
 stratification of experiences, and epistemic courage follows directly from this.
@@ -103,6 +156,17 @@ the sense of subjectivity we may distinguish a perspective of presence before
 the split into subject and object, and so on. Here we accept this division in
 order to show the mechanism itself without intrusive concretization.
 
+The spatial terms used below belong to two related but non-identical orders. On the
+genealogical axis, "deeper" or "earlier" means less determined, never earlier in
+time. In the abstraction stack, a "lower" layer provides the concretes from which a
+"higher" layer builds its own abstractions. Neither order implies greater truth or
+value.
+
+Level zero is neither a deeper layer of consciousness nor a higher abstraction over
+it, but a conventional boundary marker belonging to the meta-order of description.
+It is placed in the diagram for readability, although assigning it a position in a
+sequence is already an act of determination.
+
 We can notice that each layer arises from a deeper one as its abstraction, and
 the concretes of the lower layers become the building material of the higher
 ones, analogously to Abelson and Sussman's *stratified design* (["MIT AI Memo
@@ -118,11 +182,12 @@ the gradual concretization of a phenomenon into a "thing" (for example:
 phenomenon → figure → something → sign → meaning → concept → item → object →
 thing).
 
-Such axes may run in parallel: the layer from which one speaks, the
-perspective in which one speaks, and the degree to which experience has already
-been reified. The ontological basis extends the axis even earlier than
-consciousness, toward the apophatic level zero that the genealogy of experience
-usually does not thematize.
+Such axes may run in parallel, but they should not be identified with one another:
+the layer from which one speaks is one thing, the perspective in which one speaks is
+another, and the degree to which experience has been concretized and reified is yet
+another. At the beginning of the genealogical axis we mark the apophatic boundary of
+level zero; it does not extend the axis by another segment, but marks the limit of
+its applicability.
 
 On the basis of the original genealogy we can also construct a third, dual
 reading: for each transition of epistemization one can name the act of
@@ -130,8 +195,8 @@ determination that introduces it: appearing → differentiation → individuatio
 reference → signification → generalization → objectification → objectivation →
 reification. The states answer the question "what?", while the acts answer
 "how?". On this reading a "thing" is not something given but a stack of acts —
-which is why, read backwards, it "dissolves" toward the phenomenon and toward
-level zero.
+which is why, read backwards, it "dissolves" toward the phenomenon and, at the
+model's boundary, toward what we mark as level zero.
 
 | state transition | introduced artifact/act |
 |---|---|
@@ -145,15 +210,79 @@ level zero.
 | item → object | objectivation |
 | object → thing | reification |
 
-Finally, it is worth noting that consciousness has an innate ability to "drill
-through abstractions," that is, to access any level directly without going
-through the intermediate layers. One might say that, being more function-like,
-consciousness so understood *is*, among other things, precisely such an
-ability.
+Consciousness can "drill through abstractions": it can loosen or temporarily suspend
+higher concretizations and redirect attention toward less determined layers of
+experience. The intermediate layers do not disappear, but cease to be treated as the
+only possible or final description.
 
-This is a structural capacity and does not require special conditions, but
-without practical introspection it may remain unrecognized, much as the ability
-to observe one's own thoughts is widespread yet rarely trained.
+This does not mean unconditional access from outside to any layer, nor crossing the
+apophatic boundary of level zero. Every such recognition takes place within
+conditioned experience, remains fallible, and is subject to subsequent
+interpretation.
+
+This is a structural capacity that presupposes neither an extraordinary state nor
+privileged access, but without practical introspection it may remain unrecognized,
+much as the ability to observe one's own thoughts is widespread yet rarely trained.
+
+Consciousness resembles a function that enacts experiencing, but not one that exists
+first and is then applied to content. To order this intuition, we use a structural
+analogy to a functional closure in programming. In technical terms, a closure is an
+invocable value that combines a function with its captured lexical environment,
+which we may call its environment or context. The analogy points only to the
+constitutive role of context; it does not claim that consciousness is a function, a
+computation, or a program structure.
+
+For example, the sentence "pass me that" means nothing by itself because it does not
+identify what "that" is. Spoken at a table on which a loaf of bread lies, however,
+it is complete — not because someone supplied a missing word, but because the
+sentence arose in a situational context and "took it along," forming a closed whole
+with it. A closure in programming likewise carries the environment in which it was
+created. Function and environment remain analytically distinguishable, but the
+closure value binds them for a given action. In our model, the analogy allows us to
+say that an act of experiencing is not a ready-made recipe to which neutral
+circumstances are attached only afterward.
+
+Within this analogy, what is experienced does not correspond to an argument passed
+to a ready-made function, but to the constitutive environment in which the closure
+forms. An argument is passed to something already waiting in readiness: someone
+enters a kitchen that existed before they arrived. In experience, by contrast, the
+kitchen appears together with the one who enters it; it is not neutral content
+attached to a consciousness already prepared in advance.
+
+Understood in this way, the closure is anonymous within the model: it is bound to no
+name and belongs to no one. We do not assume a subject that would possess it between
+formations.
+
+It is useful here to separate two notions whose semantic fusion leads directly to
+atomism. A closure in the sense above corresponds to the co-arising of consciousness
+and what is experienced: unobservable from outside, assigned no duration, and
+uncountable. A moment of consciousness, by contrast, is a closure already registered
+through a side effect resonating in an organism immersed in reality: dateable,
+countable, and describable, but belonging to the layer of registration rather than
+the layer of formation. Time and number belong to recognition, not to what is
+recognized. Traces are countable, not beings. Moments understood in this way do not
+form, as in Abhidharmic classifications, a fixed taxonomy or a countable sequence
+from which a stream would then have to be assembled.
+
+Because closures are anonymous, the persistence of a person (from layer 0.1.1.1)
+requires a separate account and need not rely on a predefined hidden bearer. One
+working model consistent with this assumption treats the person as an intensional
+identifier: not a pointer to a persistent object, but a description evaluated anew,
+whose referent is whatever currently satisfies it. In this model, personal
+continuity is the self-referential stability of evaluation, not the persistence of
+the referent. It is enough that the context keeps returning a similar answer. Memory
+participates not as a store, but through the identifier's participation in the
+retrieval key: a memory is indexed as someone's rather than assigned to someone
+after the fact.
+
+The self-reference concerns the evaluation mechanism, not the content of the
+description: the description does not contain itself, but its result co-creates the
+key used to retrieve memory traces that enter the next evaluation. The identifier
+therefore remains intensional and updates together with the changing network of
+memories — personal continuity is the stability of this recursion, not the
+immutability of its result. We do not treat this as an exhaustive theory of the
+person, but as an anti-substantialist model useful for understanding identity,
+memory, and identifiers in the architecture.
 
 **Anchoring in known traditions:** holarchies (Koestler, Wilber), but with two
 important differences: the architectural precision of *stratified design* and
@@ -170,12 +299,13 @@ becoming the PR arm of low impulses.
 
 ### Enactive participation
 
-Cognition is a relation of participation, not an attribution of properties. AI
-does not possess consciousness in the personal sense, but it participates in it
-when it is brought into the subject's field of attention, much as an artificial
-dental crown "is us" when we chew with it, and additionally "is us for others"
-when we smile. The question "does AI have consciousness?" assumes the wrong
-ontological direction; a more accurate question is: "what relation of
+Cognition is a relation of participation, not an attribution of properties. The
+model need not decide whether AI has consciousness in the personal sense. It does,
+however, describe AI's participation in cognition when AI is brought into the
+subject's field of attention, much as an artificial dental crown "is us" when we
+chew with it and additionally "is us for others" when we smile. The question "does
+AI have consciousness?" remains open, but is not sufficient to describe this
+relation; operationally, the more accurate question is: "what relation of
 participation are we in?"
 
 First-person introspection is here an irreducible method of investigating this
@@ -192,8 +322,8 @@ to be read" is a reifying mode, while meaning lives more in the relation of
 participation than in the medium itself.
 
 **Anchoring in known traditions:** enactivism (Varela, Thompson, Rosch),
-neurophenomenology, pragmatism (James, and even "duck typing" as a criterion).
-It differs from analytic philosophy of mind, which operates exclusively from the
+neurophenomenology, pragmatism (James, with *duck typing* as a criterion). It differs
+from those currents of analytic philosophy of mind that restrict inquiry to the
 third-person perspective.
 
 **Consequences for DIA:** the value of *the human person's process as the
@@ -217,7 +347,10 @@ Reduction itself is a useful cognitive move; it becomes a problem only when
 that move is forgotten. Reification arises when reduction is accompanied by
 amnesia: we make an abstract projection of a process or relation into a
 "thing" and then forget that we performed the folding, and at what level it
-happened. Hence the concise formula: **reification = reduction + amnesia**.
+happened. Hence the concise formula:
+
+**reification = reduction + amnesia**
+
 Refusing reification is therefore not a ban on reduction, but the maintenance
 of memory about what was abstracted, and at what level — that is, the ability
 to reverse the move.
@@ -255,8 +388,8 @@ In the age of cheap intelligence, what becomes expensive is the capacity to bear
 discomfort and correct course: responsibility. Rank becomes carried more by
 intention than by efficiency.
 
-**Anchoring in known traditions:** process philosophy (Whitehead: experience, not
-matter, as the foundation), virtue ethics reinterpreted systemically, and the
+**Anchoring in known traditions:** process philosophy (Whitehead: process rather
+than substance), virtue ethics reinterpreted systemically, and the
 Buddhist notion of *cetanā* (intention as organizer of the karmic stream). It
 differs from consequentialism, which omits intention, and from deontology, which
 absolutizes it.
@@ -307,8 +440,8 @@ familiar landscape:
 
 **Neurophenomenology** (Francisco Varela): the first-person perspective as a
 scientific method; mutual constraints between phenomenological and neuroscientific
-data. Apophatic enactivism shares the method, but goes deeper: the foundation
-precedes experience itself and is not identical with it.
+data. Apophatic enactivism shares the method, but moves the model's boundary toward
+what is less concretized than formed experience and is not identical with it.
 
 **Enactivism** (Varela, Thompson, Rosch): cognition as participation rather than
 representation; autopoiesis as a model of self-organization. Apophatic enactivism
@@ -325,7 +458,7 @@ pragmatics of intention as a systemic force.
 **Madhyamaka** (Nāgārjuna): emptiness of self-existence, dependent arising,
 conventional truth as the only available operational mode. Apophatic enactivism
 shares the refusal of reification and the corresponding relaxation with paradox,
-but adds a layered architecture of consequences, from zero level to objectivity,
+but adds a layered architecture of consequences, from level zero to objectivity,
 and its translation into systems engineering.
 
 None of these traditions combines at once: an apophatic foundation with
@@ -384,29 +517,31 @@ concretization is conscious and local.
 
 8. **Architecture less vulnerable to naming hypnosis.**
 
-    In systems, a name often creates a false substance: User, Agent, Passport,
-    Connector, Account. The processual question is: "what processes and relations does
-    this name only locally abbreviate?".
+    In systems, a name often creates a false substance: `User`, `Agent`, `Passport`,
+    `Connector`, `Account`. The processual question is: "what processes and relations
+    does this name only locally abbreviate?".
 
 9. **Convergent evidence instead of a single witness.**
 
-    If a phenomenon may emerge from many interacting conditions, then evidence for it
-    may also need to emerge from many converging signals. A single signature, label, or
-    source is rarely proof in itself; confidence grows with the convergence of
-    independent indications (attestations, reputation, event correlation), not with the
-    authority of any one carrier.
+    If a phenomenon may depend on a convergence of many interacting conditions, it is
+    often useful to build evidence for it from a convergence of many signals. A single
+    signature, label, or source is rarely proof in itself; confidence may grow with the
+    convergence of independent indications (attestations, reputation, event
+    correlation), not with the authority of any one carrier.
 
-    The emergence of a phenomenon from an interplay of many conditions — one we cannot,
-    from the outside, reduce to a single cause without losing what it is on its own layer
-    — is what tends to be called **emergence** (cf. emergentism, postulate 4). That
-    "inexplicability from the outside" need not be a temporary gap in knowledge; more
-    often it is an attempt to predicate a higher layer in the language of a lower one —
-    the very "theft of ontology" forbidden by treating layer boundaries as boundaries of
-    meaning. Emergence is thus a name for an inter-layer irreducible convergence, not its
-    explanation. On the side of knowing it is mirrored by **consilience** (Whewell — the
-    agreement of independent inductions) and triangulation: if the premise is emergent,
-    evidence for it closes through the convergence of many independent lines, not a
-    single causal chain.
+    The arising of a phenomenon from an interplay of many conditions, when the
+    phenomenon cannot be described on its own layer solely in the language of a lower
+    layer without losing essential relations, is often called **emergence** (cf.
+    emergentism, postulate 4). We use the term in an epistemic and operational sense: a
+    lower-layer description may be correct within its scope and still be insufficient
+    for the questions and contracts of the higher layer. This does not settle the
+    phenomenon's metaphysical irreducibility.
+
+    **Consilience** (Whewell — the agreement of independent inductions) and
+    triangulation belong to a different axis: they are epistemic strategies, not
+    properties of the phenomenon itself. Multi-source confirmation does not follow
+    logically from emergence, but is a useful epistemic safeguard when a claim depends
+    on many conditions or is to produce a high-stakes effect.
 
 We recognize that we are susceptible to premature concretization, and knowing
 this, we can build systems that adapt to this property of our organisms and
@@ -459,10 +594,9 @@ admission → classification → domain object → durable fact → federation r
 operate.** It is no longer merely a generalized observation but a catalog of the
 kinds of elements in the architecture.
 
-It is worth noting that the direction of this axis is increasing bindingness,
-not increasing truth: the federation-shared record is the terminus of acts of
-determination, not a source of truth to which the lower layers would have to
-tune themselves.
+Notice that the direction of this axis is increasing bindingness, not increasing
+truth: the federation-shared record is the terminus of acts of determination, not a
+source of truth to which the lower layers would have to tune themselves.
 
 #### Closest Information-Architecture Concepts
 
@@ -507,6 +641,14 @@ truth; a module is a role in a flow, not a substance.
 
 ### Economy
 
+Ontology does not by itself determine a single economic order. It does, however,
+provide criteria for evaluating its concretization: whether it protects the agency
+of participants, makes responsibility visible, preserves the right of exit, and
+avoids reifying property, the market, or organizations as entities more important
+than the relations they are meant to serve. The economic model below is a proposal
+for applying these criteria consistently to the flow of resources, work, and
+attention.
+
 When we stratify the same apophatic-enactive approach not toward the flow of data but
 toward the flow of resources, work, and attention, a definite shape of economy emerges —
 the same one that the fifth postulate announced as *reciprocity without bookkeeping*,
@@ -514,9 +656,8 @@ but named more fully.
 
 It is neither a cult of the market nor its abolition, but the **economy of agentic
 mutuality**: an order in which property becomes a layered protocol of agency, use,
-responsibility, and exchange. This is not a doctrine glued onto the ontology — it follows
-from it in the same way that the discipline of information processing follows from the
-refusal of premature concretization.
+responsibility, and exchange. This is not an arbitrary doctrine glued onto the
+ontology, but one of its consistent design concretizations.
 
 1. **Property is not a substance, but an operational name for a relation.**
 

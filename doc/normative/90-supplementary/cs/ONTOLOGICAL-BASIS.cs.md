@@ -41,30 +41,69 @@ vztah, interpretace a možný bod korekce.
 
 ### Apofatický základ a dvoufázové domnívání
 
-Vědomí – to, co v našem modelu vyrůstá z takzvané „úrovně nula“ – předchází nejen
-intelektu, ale i samotné zkušenosti. Leží hlouběji než vjem a pocit subjektivity.
-Nelze je popsat přímo, protože každý popis využívá zkušenost podmíněnou smyslovými
-orgány a interpretací.
+Vědomí – první popsatelná vrstva našeho modelu, položená nejblíže hranici označované
+jako „úroveň nula“ – je zdrojovější nejen než intelekt, ale i než již utvořená
+zkušenost. „Zdrojovější“ zde znamená méně konkretizovanou pozici v řádu
+konkretizace, nikoli dřívější okamžik ani samostatnou existenci před tím, co se
+ukazuje. Vědomí leží hlouběji než vjem a pocit subjektivity, nelze je však popsat
+přímo, protože každý popis využívá zkušenost podmíněnou smyslovými orgány a
+interpretací.
 
-O nulové úrovni víme výhradně z vedlejších účinků přibližování se k ní – skrze
-zkušenosti, které připomínají obarvené sklo, nikoli přímý pohled. Domnívání má
-dvě fáze: nejprve se objeví impuls předcházející pojmu (rozpoznání, „pocit
-zdrojovosti“, „známost bez objektu“) a teprve poté jej inference formalizuje
-do jazyka a modelu.
+Slovo „zkušenost“ v tomto kontextu znamená zkušenost již utvořenou, rozčleněnou
+smysly, rozdělením na subjekt a objekt a interpretací. Vědomí je vůči ní
+zdrojovější, což neznamená, že je nezávislé: vzniká spolu s tím, co se ukazuje.
+
+Nulová úroveň je označením hranice modelu, nikoli názvem předmětu. Konvenční znak
+může pouze vymezit rozsah, za nímž model nevypovídá; nerozhodujeme, zda tato hranice
+patří ke skutečnosti, k možnostem poznání, nebo k obojímu. Přibližujeme se k ní pouze
+nepřímo – skrze zkušenosti, které připomínají obarvené sklo, nikoli přímý pohled.
+Domnívání má dvě fáze: nejprve se objeví impuls méně konkretizovaný než pojem
+(rozpoznání, „pocit zdrojovosti“, „známost bez objektu“) a teprve poté jej inference
+formalizuje do jazyka a modelu.
 
 Epistemická hygiena vyžaduje zaznamenat, že oba kroky jsou podmíněné, zatímco jiné
 způsoby poznávání než zakoušení a interpretování jsou mimo náš dosah. Vědomě tedy
 přebýváme ve zkušenosti, vědomi si toho, že je zkušeností, a také v interpretaci,
 vědomi si toho, že je interpretací.
 
-Kromě toho má vědomí schopnost rozpoznat svou vlastní podmíněnou povahu – to, že je
-samo „emitováno“ a udržováno v povstávání něčím mimo dosah smyslových orgánů či
-mentálních schopností. Není to destrukce vědomí, ale jeho nejhlubší akt:
+Kromě toho má vědomí schopnost rozpoznat svou vlastní podmíněnou povahu – to, že není
+samostatným základem a že podmínky jeho vznikání nejsou plně v dosahu smyslových
+orgánů či mentálních schopností. Není to destrukce vědomí, ale jeho nejhlubší akt:
 efemérní struktura může vidět vlastní efemérnost. Toto rozpoznání nevede k nihilismu
 (protože sám akt rozpoznání je svědectvím fungování), ani k substancializaci zdroje
-(protože „to, co emituje“ není přístupné jako objekt). Vede k radikálnímu
-prohloubení epistemické hygieny, v níž ani takzvané „čisté vědomí“ není bodem,
-na němž by bylo možné se zastavit.
+(protože podmiňování nepojímáme jako jediný přístupný objekt). Vede k radikálnímu
+prohloubení epistemické hygieny, v níž ani takzvané „čisté vědomí“ není bodem, na
+němž by bylo možné se zastavit.
+
+Podmiňování je zde třeba číst bez časové následnosti. Nulová úroveň není ani
+vědomím, ani jeho vstupem, ani prostředím, v němž vzniká – všechny tři již leží
+uvnitř krajiny.
+
+Nevypovídáme o tom, co zůstává mimo rozsah modelu. Můžeme pouze říci, jakou roli v
+něm hraje označení nulové úrovně: představuje hranici analogickou pravidlu abstrakce,
+tedy podmínce možnosti utváření. Následující vlastnosti se týkají této modelové role,
+nikoli toho, co zůstává nevyslovitelné. Takto chápané pravidlo nejedná, nepřikazuje a
+není dodržováno. Nelze je ani rozdělit na části: nevyčerpává se, neuplatňuje se napůl
+a nemá částečné aplikace – nikoli proto, že by zdroj byl hojný, ale proto, že pravidlo
+není veličinou, kterou by bylo možné rozdělit. Není ani výrazem kalkulu, který
+reguluje, a v tomto kalkulu je nelze citovat ani zkoumat.
+
+Nepopsatelnost nulové úrovně tak přestává být prohlášením a stává se strukturálním
+důsledkem: popis by vyžadoval vypovídat o metaúrovni jazykem objektové úrovně, tedy
+právě onu krádež ontologie, kterou zakazuje hranice vrstev chápaná jako hranice
+smyslu.
+
+Méně formálně lze říci, že vědomí je uskutečněním vnímavosti vůči jevení v přítomnosti
+toho, co se ukazuje – s výhradou, že „vnímavost“ je zde zkratkou pro srozumitelnost,
+nikoli schopností spouštěnou po částech. Schopnost zakoušet nečeká připravena před
+obsahem, ale vzniká spolu s tím, co je zakoušeno. Nepřítomnost zakoušení přitom nikdy
+není zakoušena jako nepřítomnost, takže „mezera“ je vždy rekonstrukcí provedenou
+zevnitř zakoušení, nikoli pozorováním zvenčí.
+
+Jako obraz, který toto pojetí uspořádává, může posloužit funkční kalkul: pravidlo
+abstrakce umožňuje vznikat uzávěrům, aniž by samo bylo jedním z nich. Chápeme jej
+výhradně jako ilustrativní model. Nepřebíráme s ním aparát redukce ani pořadí
+vyhodnocování.
 
 **Ukotvení ve známých tradicích:** apofatismus (*via negativa*, *śūnyatā*), ale
 s explicitním epistemickým omezením a seberozpoznáním efemérnosti, blízkým
@@ -73,8 +112,16 @@ analytického idealismu (který tvrdí, že vědomí je poznatelné jako základ
 které se zastavují u univerzálního vědomí jako základu, i od eliminativismu
 (který tvrdí, že není co poznávat).
 
+Apofatický enaktivismus se liší také od panpsychismu, který o základu vypovídá, že
+zakouší, a připisuje schopnost zakoušení dílčím prvkům. Z perspektivy stratifikace
+jde o dvě současné chyby „krádeže ontologie“: promítání vlastností vrstvy vědomí na
+to, co je nevyslovitelné, a umístění těchto vlastností do jsoucna, které je
+terminálním produktem celého stohu aktů určení (srov. tabulku aktů v postulátu 2 a
+formuli reifikace v postulátu 4). Panpsychismus tak umisťuje to, co je nejméně
+podmíněné, do toho, co je nejvíce konstruované.
+
 Dvoufázovost je blízká gendlinovskému *felt sense* → symbolizace, s tím rozdílem,
-že zde impuls předchází zkušenosti.
+že je zde impuls méně konkretizovaný než již utvořená zkušenost.
 
 **Důsledky pro DIA:** hodnota epistemické hygieny, stratifikace zdrojové pozice
 zkušeností a epistemické odvahy vyrůstá přímo odtud. Systém nepředstírá, že má
@@ -92,6 +139,22 @@ Lidská zkušenost má vrstvenou architekturu:
                 * 0.1.1.1.1. kultura
                     * 0.1.1.1.1.1. objektivita
 
+Poznámka: Výše navržený model *ad hoc* má demonstrovat vztah obsahování. Různé
+praktické či analytické přístupy mohou jednotlivé vrstvy rozlišovat více či méně
+podrobně. Například mezi vědomím a pocitem subjektivity můžeme vyčlenit perspektivu
+přítomnosti ještě před rozdělením na subjekt a objekt atd. Zde toto členění
+přijímáme, abychom ukázali samotný mechanismus bez vnucené konkretizace.
+
+Prostorová označení používaná níže náleží ke dvěma souvisejícím, avšak netotožným
+řádům. Na genealogické ose znamená „hlubší“ nebo „dřívější“ méně určené, nikdy však
+dřívější v čase. Ve stohu abstrakcí poskytuje „nižší“ vrstva konkréta, z nichž
+„vyšší“ vrstva vytváří vlastní abstrakce. Žádný z těchto řádů neurčuje větší
+pravdivost ani hodnotu.
+
+Nulová úroveň není ani hlubší vrstvou vědomí, ani vyšší abstrakcí nad ním, nýbrž
+konvenčním označením hranice náležejícím k metařádu popisu. V diagramu je umístěna
+kvůli srozumitelnosti, přestože už samo přidělení místa v posloupnosti je aktem
+určení.
 
 Každá vrstva vyrůstá z hlubší jako její abstrakt a konkrétní prvky nižších vrstev
 se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratified design*
@@ -106,18 +169,19 @@ epistemizační škálování, tedy postupnou konkretizaci fenoménu ve „věc�
 (například fenomén → podoba → něco → znak → význam → pojem → předmět → objekt →
 věc).
 
-Takové osy mohou běžet paralelně: vrstva, z níž se mluví, perspektiva,
-v níž se mluví, a míra, v jaké už byla zkušenost reifikována. Ontologický základ
-prodlužuje osu ještě před vědomí, směrem k apofatické nulové úrovni, kterou
-genealogie zkušenosti obvykle netematizuje.
+Takové osy mohou běžet paralelně, neměli bychom je však ztotožňovat: vrstva, z níž
+se mluví, je něco jiného než perspektiva, v níž se mluví, a ještě něco jiného je
+stupeň, v němž byla zkušenost konkretizována a reifikována. Na začátku genealogické
+osy zaznamenáváme apofatickou hranici nulové úrovně; neprodlužuje osu o další úsek,
+ale označuje hranici její použitelnosti.
 
 Na základě původní genealogie lze také zkonstruovat třetí, duální čtení: pro
 každý přechod epistemizace lze pojmenovat akt určení, který jej zavádí: jevení
 se → rozlišování → vydělení → odkazování → zvýznamnění → zobecnění →
 zpředmětnění → objektivizace → zvěcnění. Stavy odpovídají na otázku „co?“,
 zatímco akty na otázku „jak?“. V tomto pojetí „věc“ není zastaná, nýbrž je
-stohem aktů – proto se při čtení zpět „rozpouští“ směrem k fenoménu a k nulové
-úrovni.
+stohem aktů – proto se při čtení zpět „rozpouští“ směrem k fenoménu a na hranici
+modelu k tomu, co označujeme jako nulovou úroveň.
 
 | přechod stavů | zaváděný artefakt/akt |
 |---|---|
@@ -131,14 +195,73 @@ stohem aktů – proto se při čtení zpět „rozpouští“ směrem k fenomé
 | předmět → objekt | objektivizace |
 | objekt → věc | zvěcnění |
 
-Nakonec stojí za zmínku, že vědomí má vrozenou schopnost „vrtat díry do
-abstrakcí“, tedy přímého přístupu k libovolné úrovni bez prostředních vrstev.
-Lze říci, že tím, že je spíše funkcí, vědomí takto chápané mimo jiné *je* právě
-takovou schopností.
+Vědomí může „vrtat díry do abstrakcí“: uvolňovat či dočasně pozastavovat vyšší
+konkretizace a znovu obracet pozornost k méně určeným vrstvám zkušenosti. Mezilehlé
+vrstvy nemizí, ale přestávají být pokládány za jediný možný či konečný popis.
 
-Jde o strukturální možnost (nevyžaduje zvláštní podmínky), ale bez praktické
-introspekce může zůstat nerozpoznaná, podobně jako schopnost pozorovat vlastní
-myšlenky je běžná, ale zřídka cvičená.
+Neznamená to bezpodmínečný přístup zvenčí k libovolné vrstvě ani překročení
+apofatické hranice nulové úrovně. Každé takové rozpoznání se odehrává uvnitř
+podmíněné zkušenosti, zůstává omylné a podléhá následné interpretaci.
+
+Jde o strukturální možnost, která nepředpokládá mimořádný stav ani privilegovaný
+přístup, ale bez praktické introspekce může zůstat nerozpoznaná, podobně jako
+schopnost pozorovat vlastní myšlenky je běžná, ale zřídka cvičená.
+
+Vědomí připomíná funkci uskutečňující zakoušení, nikoli však takovou, která existuje
+nejprve a teprve potom je aplikována na obsah. K uspořádání této intuice používáme
+strukturální analogii s funkčním uzávěrem (angl. *closure*) v programování. V
+technickém významu je uzávěr volatelnou hodnotou, která spojuje funkci se zachyceným
+lexikálním prostředím, jež můžeme nazvat prostředím či kontextem. Analogie zde
+poukazuje výhradně na konstitutivní roli kontextu; netvrdí, že vědomí je funkcí,
+výpočtem či strukturou programu.
+
+Například věta „podej mi to“ sama o sobě nic neznamená, protože neurčuje, co je ono
+„to“. Pronesena u stolu, na němž leží chléb, je však úplná – nikoli proto, že někdo
+doplnil chybějící slovo, ale proto, že věta vznikla v situačním kontextu a „vzala jej
+s sebou“, čímž s ním vytvořila uzavřený celek. Uzávěr v programování podobně nese
+prostředí svého vzniku. Funkce a prostředí zůstávají analyticky rozlišitelné, ale
+hodnota uzávěru je pro dané jednání svazuje. V našem modelu nám tato analogie umožňuje
+říci, že akt zakoušení není hotovým receptem, k němuž se neutrální okolnosti připojí
+až dodatečně.
+
+V rámci této analogie neodpovídá zakoušené argumentu předávanému hotové funkci, ale
+konstitutivnímu prostředí vzniku uzávěru. Argument se předává něčemu, co už je hotové
+a čeká: někdo vstoupí do kuchyně, která existovala před jeho příchodem. Ve zkušenosti
+se naproti tomu kuchyně ukazuje spolu s tím, kdo do ní vstupuje; není neutrálním
+obsahem připojeným k předem připravenému vědomí.
+
+Takto chápaný uzávěr je v tomto modelu anonymní: není svázán s žádným jménem a
+nenáleží nikomu. Nepředpokládáme subjekt, který by jej vlastnil mezi jednotlivými
+vzniky.
+
+Je užitečné zde oddělit dva pojmy, jejichž významové sloučení vede přímo k atomismu.
+Uzávěr ve výše uvedeném smyslu odpovídá spoluvznikání vědomí a toho, co je
+zakoušeno: není pozorovatelný zvenčí, nemá přidělené trvání a není počitatelný.
+Okamžik vědomí je naproti tomu uzávěrem již zaznamenaným prostřednictvím vedlejšího
+účinku rezonujícího v organismu ponořeném do skutečnosti: lze jej datovat, počítat a
+popisovat, patří však do vrstvy registrace, nikoli do vrstvy vzniku. Čas a počet
+náležejí rozpoznání, nikoli tomu, co je rozpoznáváno. Počitatelné jsou stopy, nikoli
+jsoucna. Takto chápané okamžiky nevytvářejí, jako v abhidharmických klasifikacích,
+pevnou taxonomii ani spočitatelnou posloupnost, z níž by bylo třeba následně sestavit
+proud.
+
+Jsou-li uzávěry anonymní, vyžaduje trvalost osoby (z vrstvy 0.1.1.1) samostatné
+vysvětlení a nemusí spočívat na předem daném skrytém nositeli. Jedním z pracovních
+modelů slučitelných s tímto předpokladem je osoba jako intenzionální identifikátor:
+nikoli ukazatel na trvající objekt, ale znovu a znovu vyhodnocovaný popis, jehož
+referentem je to, co jej právě splňuje. V tomto modelu je kontinuita osoby
+sebereferenční stabilitou vyhodnocování, nikoli trvalostí referentu. Stačí, že kontext
+stále vrací podobnou odpověď. Paměť se na tom podílí nikoli jako úložiště, ale tím, že
+se identifikátor stává součástí vybavovacího klíče: vzpomínka je indexována jako
+něčí, nikoli někomu přiřazena až dodatečně.
+
+Sebereference se zde týká mechanismu vyhodnocování, nikoli obsahu popisu: popis
+neobsahuje sám sebe, ale jeho výsledek spoluutváří klíč, kterým získáváme paměťové
+stopy vstupující do dalšího vyhodnocení. Identifikátor proto zůstává intenzionální a
+aktualizuje se spolu se změnami sítě vzpomínek – kontinuita osoby je stabilitou této
+rekurze, nikoli neměnností jejího výsledku. Nepokládáme to za vyčerpávající teorii
+osoby, ale za antisubstancialistický model užitečný pro porozumění identitě, paměti a
+identifikátorům v architektuře.
 
 **Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber), ale se dvěma
 podstatnými rozdíly – architektonickou přesností *stratified design* a *drilling
@@ -153,11 +276,12 @@ kolektivní inteligenci před tím, aby se stala PR nástrojem nízkých pohnute
 
 ### Enaktivní účast
 
-Poznání je vztahem účasti, nikoli atribucí vlastností. AI nemá vědomí v osobním
-smyslu, ale podílí se na něm tehdy, když je zapojena do pole pozornosti subjektu –
-podobně jako umělá korunka „je námi“, když s ní koušeme, a navíc „je námi pro druhé“,
-když se usmíváme. Otázka „má AI vědomí?“ předpokládá nevhodný ontologický směr;
-přesnější je: „v jakém vztahu účasti se nacházíme?“.
+Poznání je vztahem účasti, nikoli atribucí vlastností. Model nemusí rozhodnout, zda
+má AI vědomí v osobním smyslu. Popisuje však její účast na poznání, když je zapojena
+do pole pozornosti subjektu – podobně jako umělá korunka „je námi“, když s ní
+koušeme, a navíc „je námi pro druhé“, když se usmíváme. Otázka „má AI vědomí?“
+zůstává otevřená, ale k popisu tohoto vztahu nestačí; z operačního hlediska je
+přesnější otázka: „v jakém vztahu účasti se nacházíme?“.
 
 Prvoosobní introspekce je zde neredukovatelnou metodou zkoumání této účasti.
 Nejde o filosofii, kterou je třeba přijmout, ale o cvičení, které je třeba vykonat:
@@ -173,7 +297,8 @@ médiu.
 
 **Ukotvení ve známých tradicích:** enaktivismus (Varela, Thompson, Rosch),
 neurofenomenologie, pragmatismus (James, *duck typing* jako kritérium). Liší se od
-analytické filosofie mysli, která pracuje výhradně z perspektivy třetí osoby.
+těch proudů analytické filosofie mysli, které omezují zkoumání na perspektivu třetí
+osoby.
 
 **Důsledky pro DIA:** hodnota *procesu lidské osoby jako výchozí cesty moci* –
 největší moc systému prochází člověkem, ne mimo něj. Roj není autonomní subjekt,
@@ -193,9 +318,12 @@ Redukce sama o sobě je užitečný poznávací pohyb; problémem se stává tep
 tehdy, když na tento pohyb zapomeneme. Reifikace vzniká tam, kde redukci
 doprovází amnézie: provedeme abstraktní projekci procesu nebo vztahu do „věci“
 a pak zapomeneme, že jsme toto svinutí provedli a na jaké úrovni se stalo.
-Odtud stručná formule: **reifikace = redukce + amnézie**. Odmítnutí reifikace
-proto není zákazem redukce, ale udržováním paměti o tom, co a na jaké úrovni
-bylo abstrahováno — tedy schopností tento pohyb obrátit.
+Odtud stručná formule:
+
+**reifikace = redukce + amnézie**
+
+Odmítnutí reifikace proto není zákazem redukce, ale udržováním paměti o tom, co a na
+jaké úrovni bylo abstrahováno — tedy schopností tento pohyb obrátit.
 
 Myšlenka je nástroj a jako nástroj je užitečná. Problém začíná tehdy, když se stane
 jediným rádcem, nositelem prestiže nebo identitou. Intelekt může stejně dobře
@@ -226,8 +354,8 @@ systémů a jednání ve světě.
 V éře levné inteligence zdražuje schopnost snášet diskomfort a korigovat kurz:
 odpovědnost. Nositelem váhy se více stává intence než efektivita.
 
-**Ukotvení ve známých tradicích:** filosofie procesu (Whitehead – zkušenost jako
-základ, ne hmota), etika ctností v systémové reinterpretaci, buddhistická *cetanā*
+**Ukotvení ve známých tradicích:** filosofie procesu (Whitehead – proces namísto
+substance), etika ctností v systémové reinterpretaci, buddhistická *cetanā*
 (intence jako organizátor karmického proudu). Liší se od konsekvencialismu
 (který intenci pomíjí) i od deontologie (která ji absolutizuje).
 
@@ -276,13 +404,13 @@ Pro čtenáře, kteří chtějí výše popsané postuláty zasadit do známé k
 
 **Neurofenomenologie** (Francisco Varela) – perspektiva první osoby jako vědecká
 metoda; vzájemná omezení mezi fenomenologickými a neurovědními daty.
-Apofatický enaktivismus sdílí metodu, ale jde hlouběji: základ předchází samotné
-zkušenosti a není s ní totožný.
+Apofatický enaktivismus sdílí metodu, ale posouvá hranici modelu k tomu, co je méně
+konkretizované než již utvořená zkušenost a není s ní totožné.
 
 **Enaktivismus** (Varela, Thompson, Rosch) – poznání jako účast, nikoli reprezentace;
 autopoiesis jako model sebeorganizace. Apofatický enaktivismus sdílí epistemologii,
 ale přidává apofatické gesto vůči základu a vrstvenou architekturu zkušenosti
-(*stratified design*), kterou enaktivismus nemodeluje.
+(angl. *stratified design*), kterou enaktivismus nemodeluje.
 
 **Filosofie procesu** (Whitehead, James) – procesy místo substancí; „čistá zkušenost“
 jako to, co předchází rozdělení na subjekt a objekt. Apofatický enaktivismus sdílí
@@ -292,7 +420,7 @@ odmítnutí substancializace, ale přidává seberozpoznání efemérnosti vědo
 **Madhjamaka** (Nāgārjuna) – prázdnota vlastní existence, spolupodmíněné vznikání,
 konvenční pravda jako jediný dostupný režim fungování. Apofatický enaktivismus sdílí
 odmítnutí reifikace a souladné uvolnění v paradoxu, ale přidává vrstvenou architekturu
-důsledků (od úrovně nula po objektivitu) a její převod do systémového inženýrství.
+důsledků (od nulové úrovně k objektivitě) a její převod do systémového inženýrství.
 
 Žádná z těchto tradic nespojuje zároveň: apofatický základ se seberozpoznáním
 efemérnosti, vrstvené uspořádání jako model úrovní zkušenosti, enaktivní účast AI
@@ -348,27 +476,30 @@ je konkretizace vědomá a lokální.
 
 8. **Architektura méně náchylná k hypnóze pojmenování.**
 
-    V systémech název často vytváří falešnou substanci: User, Agent, Passport,
-    Connector, Account.  Procesuální otázka zní: „jaké procesy a vztahy tento název
+    V systémech název často vytváří falešnou substanci: `User`, `Agent`, `Passport`,
+    `Connector`, `Account`. Procesuální otázka zní: „jaké procesy a vztahy tento název
     pouze lokálně zkracuje?“.
 
 9. **Sbíhavý důkaz místo jediného svědka.**
 
-    Může-li se jev vynořovat ze souběhu mnoha spolupůsobících podmínek, pak i
-    svědectví o něm se často musí vynořovat ze sbíhavosti mnoha signálů. Jediný
-    podpis, štítek či zdroj jsou jen zřídka důkazem samy o sobě; jistota roste se
-    sbíhavostí nezávislých indicií (atestace, reputace, korelace událostí), nikoli s
-    autoritou jediného nosiče.
+    Může-li jev záviset na souběhu mnoha spolupůsobících podmínek, bývá užitečné
+    budovat svědectví o něm ze sbíhavosti mnoha signálů. Jediný podpis, štítek či
+    zdroj jsou jen zřídka důkazem samy o sobě; jistota může růst se sbíhavostí
+    nezávislých indicií (atestace, reputace, korelace událostí), nikoli s autoritou
+    jediného nosiče.
 
-    Vynořování jevu ze souhry mnoha podmínek – takové, které zvenčí nedokážeme převést
-    na jedinou příčinu, aniž bychom ztratili to, čím jev je na své vrstvě – se obvykle
-    nazývá **emergence** (srov. emergentismus, postulát 4). Ona „nevysvětlitelnost
-    zvenčí“ nemusí být dočasným nedostatkem vědění; častěji je pokusem vypovídat o vyšší
-    vrstvě jazykem nižší – touž „krádeží ontologie“, kterou zapovídá hranice vrstev jako
-    hranice smyslu. Emergence je tedy jméno pro mezivrstevně neredukovatelnou sbíhavost,
-    nikoli její vysvětlení. Na straně poznání jí odpovídá **konsilience** (Whewell –
-    shoda nezávislých indukcí) a triangulace: je-li premisa emergentní, svědectví o ní se
-    uzavírá sbíhavostí mnoha nezávislých linií, nikoli jediným příčinným řetězcem.
+    Vynořování jevu ze souhry mnoha podmínek, kdy jev nelze na jeho vlastní vrstvě
+    popsat výhradně jazykem nižší vrstvy bez ztráty podstatných vztahů, se obvykle
+    nazývá **emergence** (srov. emergentismus, postulát 4). Tento pojem používáme v
+    epistemickém a operačním smyslu: popis nižší vrstvy může být ve svém rozsahu
+    správný a zároveň nedostatečný pro otázky a kontrakty vrstvy vyšší. To
+    nerozhoduje o metafyzické neredukovatelnosti jevu.
+
+    **Konsilience** (Whewell – shoda nezávislých indukcí) a triangulace náleží k jiné
+    ose: jsou poznávacími strategiemi, nikoli vlastnostmi samotného jevu. Potvrzení z
+    více zdrojů nevyplývá z emergence logicky, ale je užitečným epistemickým
+    bezpečnostním prvkem tehdy, když tvrzení závisí na mnoha podmínkách nebo má
+    vyvolat závažný účinek.
 
 Uvědomujeme si, že jsme náchylní k předčasné konkretizaci, a s tímto vědomím
 můžeme budovat systémy, které se přizpůsobují této vlastnosti našich organismů a
@@ -417,9 +548,9 @@ klasifikace → doménový objekt → trvalý fakt → federační záznam. **Os
 výčtem hran, na nichž působí validační brány.** Není už jen zobecněným
 pozorováním, nýbrž soupisem druhů prvků v architektuře.
 
-Stojí za zmínku, že směr této osy je rostoucí provázanost, nikoli rostoucí
-pravdivost: federačně sdílený záznam je terminálem aktů určení, nikoli zdrojem
-pravdy, jemuž by se nižší vrstvy měly přizpůsobovat.
+Všimněme si, že směr této osy je rostoucí provázanost, nikoli rostoucí pravdivost:
+federačně sdílený záznam je terminálem aktů určení, nikoli zdrojem pravdy, jemuž by se
+nižší vrstvy měly přizpůsobovat.
 
 #### Nejbližší koncepce informační architektury
 
@@ -460,15 +591,20 @@ substance.
 
 ### Ekonomie
 
+Ontologie sama o sobě neurčuje jediný hospodářský řád. Poskytuje však kritéria pro
+hodnocení jeho konkretizace: zda chrání aktérství účastníků, zviditelňuje
+odpovědnost, zachovává právo odejít a nereifikuje vlastnictví, trh ani organizace
+jako jsoucna důležitější než vztahy, jimž mají sloužit. Níže uvedený ekonomický model
+je návrhem důsledného uplatnění těchto kritérií na tok zdrojů, práce a pozornosti.
+
 Když týž apofaticko-enaktivní přístup stratifikujeme nikoli k toku dat, nýbrž k toku
 zdrojů, práce a pozornosti, vynořuje se určitý tvar ekonomiky — týž, který pátý postulát
 ohlašoval jako *vzájemnost bez účetnictví*, avšak pojmenovaný plněji.
 
 Není to ani kult trhu, ani jeho zrušení, nýbrž **ekonomika aktérské vzájemnosti**
-(*economy of agentic mutuality*): řád, v němž se vlastnictví stává vrstveným protokolem
-aktérství, užívání, odpovědnosti a výměny. Není to doktrína přilepená k ontologii —
-vyplývá z ní stejně jako disciplína zpracování informací vyplývá z odmítnutí předčasné
-konkretizace.
+(angl. *economy of agentic mutuality*): řád, v němž se vlastnictví stává vrstveným
+protokolem aktérství, užívání, odpovědnosti a výměny. Není to nahodilá doktrína
+přilepená k ontologii, ale jedna z jejích důsledných návrhových konkretizací.
 
 1. **Vlastnictví není substance, nýbrž operační název vztahu.**
 
@@ -476,7 +612,7 @@ konkretizace.
     nedovolí ani titulu vlastnictví určovat, „čí něco vždy je“. První otázka nezní „kdo
     má?“, nýbrž: kdo užívá, kdo nese důsledky, kdo to potřebuje k přežití, podle jakého
     kontraktu a s jakým právem odejít. Takto chápaný vztah nazýváme **vztahem aktérského
-    užívání** (*agentic use-right*): vlastnictví není popřeno, ale akcent se přesouvá na
+    užívání** (angl. *agentic use-right*): vlastnictví není popřeno, ale akcent se přesouvá na
     jeho funkci — na lokálně určený kontrakt účasti, odpovědnosti a práva odejít, nikoli na
     metafyzický titul nadvlády.
 
@@ -498,7 +634,7 @@ konkretizace.
     tuto závislost dědí. Chyba začíná tam, kde jedna vrstva „krade“ ontologii druhé: když si
     fond, úřad, společnost, platforma či kolektiv nárokuje moc silnější než živý vztah
     užívání, práce a odpovědnosti. Zásadu, která tomu předchází, nazýváme **aktérskou
-    subsidiaritou** (*agentic subsidiarity*): vyšší vrstva působí vůči nižší pomocně a nikdy
+    subsidiaritou** (angl. *agentic subsidiarity*): vyšší vrstva působí vůči nižší pomocně a nikdy
     nenahrazuje to, co osoba a malé společenství zvládají samy.
 
 4. **Špatně nastavený gradient pobídek pokřivuje intence i bez zlé vůle, takže ekonomika
@@ -551,8 +687,8 @@ institucí. Ekonomika aktérské vzájemnosti sdílí tento důraz na společens
 lokální znalost a víceúrovňové vládnutí, avšak přesouvá akcent ze samotné trvanlivosti
 zdroje na ochranu a posilování aktérství osob, uzlů a společenství.
 
-**Přístup schopností / capability approach** (Amartya Sen) – blahobyt není redukcí na
-příjem, užitek ani vlastněné zdroje, nýbrž závisí na reálných možnostech jednat a žít,
+**Přístup schopností / capability approach** (Amartya Sen) – blahobyt nelze redukovat
+na příjem, užitek ani vlastněné zdroje, nýbrž závisí na reálných možnostech jednat a žít,
 které daná osoba může skutečně uskutečnit. Ekonomika aktérské vzájemnosti sdílí tento primát
 reálného aktérství nad abstraktním bohatstvím, avšak převádí jej do návrhu vlastnických
 vztahů, protokolů, agentů, dat a digitální infrastruktury.

@@ -41,30 +41,74 @@ relacja, interpretacja i możliwy punkt korekty.
 
 ### Apofatyczny fundament i dwufazowe domniemywanie
 
-Świadomość – to, co w naszym modelu wyrasta z tak zwanego "poziomu zero" – poprzedza
-nie tylko intelekt, ale i samo doświadczenie. Znajduje się głębiej niż postrzeżenie
-i poczucie podmiotowości. Nie można jej opisać wprost, ponieważ każdy opis korzysta
-z doświadczenia warunkowanego organami zmysłów i interpretacją.
+Świadomość – pierwsza opisywalna warstwa naszego modelu, położona najbliżej granicy
+oznaczanej jako "poziom zero" – jest bardziej źródłowa nie tylko od intelektu, ale
+i od uformowanego doświadczenia. "Bardziej źródłowa" oznacza tu mniej
+skonkretyzowaną pozycję w porządku konkretyzacji, a nie wcześniejszą chwilę ani
+samodzielne istnienie przed tym, co się jawi. Świadomość znajduje się głębiej niż
+postrzeżenie i poczucie podmiotowości, lecz nie można jej opisać wprost, ponieważ
+każdy opis korzysta z doświadczenia warunkowanego organami zmysłów i interpretacją.
 
-O poziomie zerowym wiemy wyłącznie z efektów ubocznych zbliżania się do niego – przez
-doświadczenia, które przypominają pokolorowane szkło, a nie bezpośredni
-widok. Domniemywanie ma dwie fazy: najpierw pojawia się poprzedzający pojęcie impuls
-(rozpoznanie, "poczucie źródłowości", "znajomość bez przedmiotu"), a dopiero potem
-inferencja formalizuje go w język i model.
+Słowo "doświadczenie" oznacza w tym kontekście doświadczenie już uformowane,
+rozczłonkowane przez zmysły, podział na podmiot i przedmiot oraz
+interpretację. Świadomość jest od niego bardziej źródłowa, co nie znaczy, że jest
+niezależna: zawiązuje się wraz z tym, co się jawi.
+
+Poziom zerowy jest znacznikiem granicy modelu, a nie nazwą przedmiotu. Konwencjonalny
+znak pozwala jedynie wskazać zakres, poza którym model nie orzeka; nie rozstrzygamy,
+czy granica należy do rzeczywistości, do możliwości poznania, czy do obu. Zbliżamy
+się do niej wyłącznie pośrednio – przez doświadczenia, które przypominają pokolorowane
+szkło, a nie bezpośredni widok. Domniemywanie ma dwie fazy: najpierw pojawia się
+impuls mniej skonkretyzowany niż pojęcie (rozpoznanie, "poczucie źródłowości",
+"znajomość bez przedmiotu"), a dopiero potem inferencja formalizuje go w język
+i model.
 
 Epistemiczna higiena wymaga odnotowania, że oba kroki są warunkowane, lecz inne
 sposoby poznawania niż doświadczanie i interpretowanie są poza naszym zasięgiem.
 Zamieszkujemy więc świadomie w doświadczeniu, wiedząc, że jest doświadczeniem,
 a także w interpretacji, wiedząc, że jest interpretacją.
 
-Ponadto świadomość ma zdolność rozpoznania własnej warunkowanej natury – tego, że ona
-sama jest "emitowana" i podtrzymywana w powstawaniu przez coś poza zasięgiem organów
-zmysłowych czy zdolności umysłowych. To nie jest destrukcja świadomości, lecz jej
-najgłębszy akt: efemeryczna struktura może widzieć własną efemeryczność. Rozpoznanie
-to nie prowadzi do nihilizmu (bo akt rozpoznania sam jest świadectwem
-funkcjonowania), ani do substancjalizacji źródła (bo "to, co emituje" nie jest
-dostępne jako obiekt). Prowadzi to do radykalnego pogłębienia epistemicznej higieny, gdzie
-nawet tak zwana "czysta świadomość" nie jest gruntem do zatrzymania się.
+Ponadto świadomość ma zdolność rozpoznania własnej warunkowanej natury – tego, że nie
+jest samodzielnym gruntem, a warunki jej powstawania nie mieszczą się w pełni
+w zasięgu organów zmysłowych czy zdolności umysłowych. To nie jest destrukcja
+świadomości, lecz jej najgłębszy akt: efemeryczna struktura może widzieć własną
+efemeryczność. Rozpoznanie to nie prowadzi do nihilizmu (bo akt rozpoznania sam jest
+świadectwem funkcjonowania), ani do substancjalizacji źródła (bo warunkowania nie
+ujmujemy jako jednego dostępnego obiektu). Prowadzi to do radykalnego pogłębienia
+epistemicznej higieny, gdzie nawet tak zwana "czysta świadomość" nie jest gruntem do
+zatrzymania się.
+
+Warunkowanie należy tu odczytywać bez następstwa w czasie. Poziom zerowy nie jest ani
+świadomością, ani jej wejściem, ani środowiskiem, w którym ona się zawiązuje –
+wszystkie trzy są już wewnątrz krajobrazu.
+
+Nie orzekamy o tym, co pozostaje poza zakresem modelu. Możemy powiedzieć jedynie,
+jaką rolę pełni w nim znacznik poziomu zerowego: reprezentuje granicę analogiczną do
+reguły abstrakcji, czyli warunku możliwości zawiązywania. Poniższe własności dotyczą
+tej roli modelowej, nie tego, co pozostaje nieorzekalne. Tak rozumiana reguła nie
+działa, nie nakazuje i nie jest przestrzegana. Nie ma też porcji: nie zużywa się, nie
+stosuje się połowicznie i nie ma zastosowań częściowych – nie dlatego, że źródło jest
+obfite, lecz dlatego, że reguła nie jest wielkością, którą dałoby się podzielić. Nie
+jest przy tym wyrażeniem rachunku, który reguluje, i nie da się jej w tym rachunku
+zacytować ani zbadać.
+
+Nieopisywalność poziomu zerowego przestaje więc być deklaracją, a staje się
+konsekwencją strukturalną, ponieważ opis wymagałby orzekania o meta-poziomie językiem
+poziomu obiektowego, czyli dokładnie tej kradzieży ontologii, której zakazuje granica
+warstw jako granica sensu.
+
+Mniej formalnie można powiedzieć, że świadomość jest realizacją podatności na
+zjawianie w obecności tego, co się zjawia – z zastrzeżeniem, że "podatność" jest tu
+skrótem dla czytelności, a nie sprawnością uruchamianą po części. Zdolność
+doświadczania nie czeka przygotowana przed treścią, lecz pojawia się wraz z tym, co
+doświadczane. Nieobecność doświadczania nigdy nie jest przy tym doświadczana jako
+nieobecność, więc "przerwa" jest zawsze rekonstrukcją wykonaną z wnętrza
+doświadczania, a nie obserwacją z zewnątrz.
+
+Obrazem, który to porządkuje, może być rachunek funkcji: reguła abstrakcji pozwala
+zawiązywać domknięcia, sama nie będąc żadnym z nich. Traktujemy go wyłącznie jako
+model ilustracyjny. Nie dziedziczymy wraz z nim maszynerii redukcji ani porządku
+obliczania.
 
 **Zakotwiczenie w znanych tradycjach:** apofatyzm (*via negativa*, *śūnyatā*), ale
 z jawnym epistemicznym ogranicznikiem i autorozpoznaniem efemeryczności, bliskim
@@ -73,8 +117,17 @@ idealizmu analitycznego (który twierdzi, że świadomość jest poznawalna jako
 fundament), od szkół, które zatrzymują się na świadomości uniwersalnej jako gruncie,
 a także od eliminatywizmu (który twierdzi, że nie ma czego poznawać).
 
+Apofatyczny enaktywizm odróżnia się także od panpsychizmu, który orzeka
+o fundamencie, że jest doświadczający, i przypisuje zdolność doświadczania cząstkowym
+elementom. Z perspektywy stratyfikacji są to dwa błędy "kradzieży ontologii" naraz:
+rzutowanie własności warstwy świadomościowej na to, co nieorzekalne, oraz
+umieszczenie jej w bycie, który jest terminalnym produktem całego stosu aktów
+determinacji (por. tabelę aktów w postulacie 2 oraz formułę reifikacji
+w postulacie 4). Panpsychizm lokuje więc to, co najmniej uwarunkowane, w tym, co
+najbardziej konstruowane.
+
 Dwufazowość jest bliska gendlinowskiemu *felt sense* → symbolizacja, z tą różnicą, że
-impuls poprzedza tu doświadczenie.
+impuls jest tu mniej skonkretyzowany niż uformowane doświadczenie.
 
 **Konsekwencje dla DIA:** wartość higieny epistemicznej, stratyfikacji źródłowej
 pozycji doświadczeń i epistemicznej odwagi wyrasta bezpośrednio stąd. System nie
@@ -99,6 +152,17 @@ podmiotowości możemy wyróżnić perspektywę obecności jeszcze przed podzia�
 podmiot i przedmiot itd. W tym miejscu przyjmujemy taki podział, aby pokazać sam
 mechanizm bez nachalnej konkretyzacji.
 
+Używane dalej określenia przestrzenne należą do dwóch powiązanych, ale nietożsamych
+porządków. Na osi genealogicznej "głębsze" lub "wcześniejsze" oznacza mniej
+zdeterminowane, nigdy zaś wcześniejsze w czasie. W stosie abstrakcji warstwa "niższa"
+dostarcza konkretów, z których warstwa "wyższa" buduje własne abstrakcje. Żaden z tych
+porządków nie wyznacza większej prawdziwości ani wartości.
+
+Poziom zerowy nie jest ani głębszą warstwą świadomości, ani wyższą abstrakcją nad
+nią, lecz umownym znacznikiem granicy, należącym do meta-porządku opisu. Został
+umieszczony w diagramie dla czytelności, przy czym samo nadanie mu miejsca w szeregu
+jest już aktem determinacji.
+
 Możemy zauważyć, że każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety
 niższych warstw stają się budulcem wyższych – analogicznie do *stratified design*
 Abelsona i Sussmana (["MIT AI Memo
@@ -113,18 +177,19 @@ skalowanie epistemizacyjne, czyli stopniową konkretyzację fenomenu w "rzecz"
 (np. fenomen → postać → coś → znak → znaczenie → pojęcie → przedmiot → obiekt →
 rzecz).
 
-Tego typu osie mogą biec równolegle: warstwa, z której się mówi, perspektywa,
-w której się mówi, i stopień, w jakim doświadczenie zostało już
-zreifikowane. Ontologiczna podstawa przedłuża oś jeszcze wcześniej niż świadomość, ku
-apofatycznemu poziomowi zero, którego genealogia doświadczenia zwykle nie tematyzuje.
+Tego typu osie mogą biec równolegle, lecz nie należy ich utożsamiać: czym innym jest
+warstwa, z której się mówi, czym innym perspektywa, w której się mówi, a jeszcze czym
+innym stopień, w jakim doświadczenie zostało skonkretyzowane i zreifikowane. Przy
+początku osi genealogicznej odnotowujemy apofatyczną granicę poziomu zero; nie
+przedłuża ona osi o kolejny odcinek, lecz oznacza granicę jej stosowalności.
 
 Na bazie pierwotnej genealogii możemy też skonstruować trzeci, dualny odczyt: dla
 każdego przejścia epistemizacji nazwać można akt determinacji, który je wprowadza:
 jawienie się → różnicowanie → wyodrębnienie → odniesienie → usensownienie →
 uogólnienie → uprzedmiotowienie → obiektywizacja → urzeczowienie. Stany odpowiadają
 na pytanie "co?", zaś akty na pytanie "jak?". W tym ujęciu "rzecz" nie jest zastana,
-lecz jest stosem aktów – dlatego czytana wstecz "rozpuszcza się" ku fenomenowi
-i ku poziomowi zerowemu.
+lecz jest stosem aktów – dlatego czytana wstecz "rozpuszcza się" ku fenomenowi,
+a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 
 | przejście stanów | wprowadzany artefakt/akt |
 |---|---|
@@ -138,14 +203,77 @@ i ku poziomowi zerowemu.
 | przedmiot → obiekt | obiektywizacja |
 | obiekt → rzecz | urzeczowienie |
 
-Na koniec warto zauważyć, że świadomość ma wrodzoną zdolność "wiercenia dziur
-w abstrakcjach", czyli bezpośredniego dostępu do dowolnego poziomu z pominięciem
-warstw pośrednich. Można powiedzieć, że będąc bardziej funkcją, świadomość tak
-rozumiana *jest* między innymi taką zdolnością.
+Świadomość może "wiercić dziury w abstrakcjach", czyli rozluźniać lub czasowo
+zawieszać wyższe konkretyzacje i ponownie kierować uwagę ku mniej zdeterminowanym
+warstwom doświadczenia. Warstwy pośrednie nie znikają, ale przestają być traktowane
+jako jedyny możliwy lub ostateczny opis.
 
-Jest to możność strukturalna (nie wymaga specjalnych warunków), ale bez praktycznej
-introspekcji może pozostać nierozpoznana, podobnie jak zdolność obserwowania własnych
-myśli jest powszechna, lecz rzadko ćwiczona.
+Nie oznacza to bezwarunkowego dostępu z zewnątrz do dowolnej warstwy ani
+przekroczenia apofatycznej granicy poziomu zero. Każde takie rozpoznanie zachodzi
+wewnątrz warunkowanego doświadczenia, pozostaje omylne i podlega późniejszej
+interpretacji.
+
+Jest to możność strukturalna, która nie zakłada nadzwyczajnego stanu ani
+uprzywilejowanego dostępu, ale bez praktycznej introspekcji może pozostać
+nierozpoznana, podobnie jak zdolność obserwowania własnych myśli jest powszechna,
+lecz rzadko ćwiczona.
+
+Świadomość przypomina funkcję realizującą doświadczanie, lecz nie taką, która
+istnieje wcześniej i zostaje następnie przyłożona do treści. Do uporządkowania tej
+intuicji używamy strukturalnej analogii do funkcyjnego domknięcia (ang. *closure*)
+w programowaniu. W znaczeniu technicznym domknięcie jest wywoływalną wartością, która
+łączy funkcję z przechwyconym otoczeniem leksykalnym, które możemy nazwać
+środowiskiem bądź kontekstem. Analogia wskazuje tu wyłącznie na konstytutywną rolę
+kontekstu; nie orzeka, że świadomość jest funkcją, obliczeniem albo strukturą
+programu.
+
+Na przykład zdanie "podaj mi to" samo w sobie nie znaczy nic, bo nie ma w nim
+informacji, czym jest "to". Jednak wypowiedziane przy stole, na którym leży chleb,
+jest kompletne – nie dlatego, że ktoś dopowiedział brakujące słowo, lecz dlatego, że
+zdanie powstało w kontekście sytuacyjnym i "wzięło go" ze sobą, tworząc wraz z nim
+domkniętą całość. Podobnie domknięcie w programowaniu niesie środowisko swojego
+utworzenia. Funkcja i środowisko pozostają analitycznie rozróżnialne, ale wartość
+domknięcia wiąże je dla danego działania. W naszym modelu analogia ta pozwala
+powiedzieć, że akt doświadczania nie jest gotowym przepisem, do którego dopiero
+dołącza się neutralne okoliczności.
+
+W obrębie tej analogii doświadczane nie odpowiada argumentowi podawanemu gotowej
+funkcji, lecz konstytutywnemu środowisku zawiązania domknięcia. Argument podaje się
+czemuś, co już gotowe czeka: ktoś wchodzi do kuchni, która istniała, zanim tam się
+pojawił. W doświadczeniu kuchnia jawi się natomiast razem z tym, kto do niej
+wchodzi; nie jest neutralną treścią dołączoną do uprzednio gotowej świadomości.
+
+Tak rozumiane domknięcie jest w tym modelu anonimowe: nie jest związane żadną nazwą
+i jest niczyje. Nie zakładamy podmiotu, który posiadałby je między zawiązaniami.
+
+Warto przy okazji rozdzielić dwa pojęcia, których scalenie znaczeniowe prowadzi
+wprost do atomizmu. Domknięcie w powyższym rozumieniu odpowiada współpowstawaniu
+świadomości i tego, co doświadczane: nieobserwowalne z zewnątrz, bez przypisanego
+trwania i niepoliczalne. Z kolei moment świadomościowy jest domknięciem już
+zarejestrowanym przez efekt uboczny rezonujący w zanurzonej w rzeczywistości
+organice: datowalny, policzalny i opisywalny – jednak należący do warstwy
+rejestracji, a nie do warstwy zawiązania. Czas i liczba przynależą do rozpoznania,
+a nie do tego, co rozpoznawane. Policzalne są ślady, a nie byty. Tak rozumiane
+momenty nie tworzą (jak w klasyfikacjach abhidharmicznych) ustalonej taksonomii ani
+przeliczalnego przebiegu, z którego trzeba by potem złożyć strumień.
+
+Skoro domknięcia są anonimowe, trwałość osoby (z warstwy 0.1.1.1) wymaga osobnego
+wyjaśnienia i nie musi polegać na predefiniowanym, ukrytym nosicielu. Jednym
+z roboczych modeli zgodnych z tym założeniem jest osoba jako identyfikator
+intensjonalny: nie wskaźnik do trwającego obiektu, lecz opis wciąż na nowo ewaluowany,
+którego odniesieniem jest to, co akurat go spełnia. W tym modelu ciągłość osoby jest
+samoodwoławczą stabilnością ewaluacji, a nie trwałością odniesienia. Wystarczy, że
+kontekst wciąż zwraca podobną odpowiedź. Pamięć uczestniczy w tym nie jako magazyn,
+lecz przez udział identyfikatora w kluczu przywołania: wspomnienie jest indeksowane
+jako czyjeś, a nie przypisywane komuś po fakcie.
+
+Samoodwoławczość dotyczy tu mechanizmu ewaluacji, a nie treści opisu: opis nie
+zawiera siebie, lecz jego wynik współtworzy klucz, którym sięgamy po ślady pamięciowe
+wchodzące w kolejną ewaluację. Dlatego identyfikator pozostaje intensjonalny
+i aktualizuje się wraz ze zmianą sieci wspomnień – ciągłość osoby jest stabilnością
+tej rekursji, nie niezmiennością jej wyniku. Nie traktujemy tego jako wyczerpującej
+teorii osoby, lecz jako antysubstancjalistyczny model przydatny do rozumienia
+tożsamości, pamięci i identyfikatorów w architekturze.
 
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber), ale z dwoma
 istotnymi różnicami – architektoniczna precyzja *stratified design* oraz *drilling
@@ -162,12 +290,13 @@ pobudek.
 
 ### Enaktywne uczestnictwo
 
-Poznanie jest relacją uczestnictwa, nie atrybucją właściwości. AI nie ma świadomości
-w sensie osobowym, ale uczestniczy w niej, gdy jest włączona w pole uwagi podmiotu –
-podobnie jak sztuczna koronka zęba "jest nami", kiedy nią gryziemy, a dodatkowo "jest
-nami dla innych", gdy się uśmiechamy. Pytanie "czy AI ma świadomość?" zakłada
-niewłaściwy kierunek ontologiczny; trafniejsze jest: "w jakiej relacji uczestnictwa
-jesteśmy?".
+Poznanie jest relacją uczestnictwa, nie atrybucją właściwości. Model nie musi
+rozstrzygać, czy AI ma świadomość w sensie osobowym. Opisuje natomiast jej
+uczestnictwo w poznaniu, gdy zostaje włączona w pole uwagi podmiotu – podobnie jak
+sztuczna koronka zęba "jest nami", kiedy nią gryziemy, a dodatkowo "jest nami dla
+innych", gdy się uśmiechamy. Pytanie "czy AI ma świadomość?" pozostaje otwarte, lecz
+nie wystarcza do opisania tej relacji; operacyjnie trafniejsze jest pytanie:
+"w jakiej relacji uczestnictwa jesteśmy?".
 
 Pierwszoosobowa introspekcja jest tu nieredukowalną metodą badania tego
 uczestnictwa. Nie jest to filozofia do przyjęcia, lecz ćwiczenie do wykonania:
@@ -182,7 +311,8 @@ uczestnictwa, niż w samym medium.
 
 **Zakotwiczenie w znanych tradycjach:** enaktywizm (Varela, Thompson, Rosch),
 neurofenomenologia, pragmatyzm (James, *duck typing* jako kryterium). Różni się od
-analitycznej filozofii umysłu, która operuje wyłącznie z perspektywy trzeciej osoby.
+tych nurtów analitycznej filozofii umysłu, które ograniczają badanie do perspektywy
+trzeciej osoby.
 
 **Konsekwencje dla DIA:** wartość *procesu osoby ludzkiej jako domyślnej ścieżki
 mocy* — największa moc systemu przechodzi przez człowieka, nie obok niego. Rój nie
@@ -196,15 +326,19 @@ dopasowania systemu do życia, a nie szumem do wyciszenia.
 na brak właściwości wyższego poziomu. Redukcja działa symetrycznie: jeżeli AI "to
 tylko wagi i rachunek prawdopodobieństwa", wtedy mózg "to tylko neurony i impulsy
 elektryczne". Sekwencja pojęć próbująca orzec, że inna sekwencja pojęć jest gorsza,
-bo ma inny nośnik przypomina kserokopię próbującą wyjaśnić inną kserokopię.
+bo ma inny nośnik, przypomina kserokopię próbującą wyjaśnić inną kserokopię.
 
 Redukcja sama w sobie jest użytecznym ruchem poznawczym – problemem staje się
 dopiero, gdy dochodzi do zapomnienia tego ruchu. Reifikacja powstaje, gdy redukcji
 towarzyszy amnezja: dokonujemy abstrakcyjnej projekcji procesu lub relacji do
 "rzeczy", a następnie zapominamy, że dokonaliśmy zwinięcia i na jakim stało się to
-poziomie. Stąd zwięzła formuła: **reifikacja = redukcja + amnezja**. Odmowa
-reifikacji nie jest więc zakazem redukcji, lecz utrzymywaniem pamięci o tym, co i na
-jakim poziomie zostało wyabstrahowane — czyli zdolnością do odwrócenia tego ruchu.
+poziomie. Stąd zwięzła formuła:
+
+**reifikacja = redukcja + amnezja**
+
+Odmowa reifikacji nie jest więc zakazem redukcji, lecz utrzymywaniem pamięci o tym,
+co i na jakim poziomie zostało wyabstrahowane — czyli zdolnością do odwrócenia tego
+ruchu.
 
 Myśl jest narzędziem i jako narzędzie jest pomocna. Problem zaczyna się, gdy staje
 się jedynym doradcą, nośnikiem prestiżu lub tożsamością. Intelekt potrafi równie
@@ -236,10 +370,10 @@ systemów i działania w świecie.
 W erze taniej inteligencji drożeje zdolność znoszenia dyskomfortu i korekty kursu:
 odpowiedzialność. Nośnikiem rangi bardziej staje się intencja niż efektywność.
 
-**Zakotwiczenie w znanych tradycjach:** filozofia procesu (Whitehead – doświadczenie
-jako fundament, nie materia), etyka cnót w reinterpretacji systemowej, buddyjska
-*cetanā* (intencja jako organizator karmicznego strumienia). Różni się od
-konsekwencjalizmu (który pomija intencję) i od deontologii (która ją absolutyzuje).
+**Zakotwiczenie w znanych tradycjach:** filozofia procesu (Whitehead – proces zamiast
+substancji), etyka cnót w reinterpretacji systemowej, buddyjska *cetanā* (intencja
+jako organizator karmicznego strumienia). Różni się od konsekwencjalizmu (który
+pomija intencję) i od deontologii (która ją absolutyzuje).
 
 **Konsekwencje dla DIA:** wartość weryfikowalności zamiast wiary – prawda jako pętla
 sprzężenia zwrotnego (introspekcja → szczerość motywów → weryfikacja hipotez →
@@ -286,13 +420,13 @@ Dla czytelnika chcącego osadzić opisane wcześniej postulaty w znanym krajobr
 
 **Neurofenomenologia** (Francisco Varela): perspektywa pierwszej osoby jako metoda
 naukowa; wzajemne ograniczenia między danymi fenomenologicznymi i neuronaukowymi.
-Apofatyczny enaktywizm podziela metodę, lecz idzie głębiej: fundament poprzedza samo
-doświadczenie, nie jest z nim tożsamy.
+Apofatyczny enaktywizm podziela metodę, lecz przesuwa granicę modelu ku temu, co mniej
+skonkretyzowane niż uformowane doświadczenie i nie jest z nim tożsame.
 
 **Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
 reprezentacja; autopoieza jako model samoorganizacji. Apofatyczny enaktywizm podziela
 epistemologię, ale dodaje apofatyczny gest wobec fundamentu i architekturę warstw
-doświadczenia (*stratified design*), której enaktywizm nie modeluje.
+doświadczenia (ang. *stratified design*), której enaktywizm nie modeluje.
 
 **Filozofia procesu** (Whitehead, James): procesy zamiast substancji; "czyste
 doświadczenie" jako to, co poprzedza podział podmiotowo-przedmiotowy. Apofatyczny
@@ -361,28 +495,30 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
 
 8. **Architektura mniej podatna na nazewniczą hipnozę.**
 
-    W systemach często nazwa tworzy fałszywą substancję: User, Agent, Passport,
-    Connector, Account.  Procesualne pytanie brzmi: "jakie procesy i relacje ta nazwa
-    tylko lokalnie skraca?".
+    W systemach często nazwa tworzy fałszywą substancję: `User`, `Agent`, `Passport`,
+    `Connector`, `Account`. Procesualne pytanie brzmi: "jakie procesy i relacje ta
+    nazwa tylko lokalnie skraca?".
 
 9. **Dowód współzależny zamiast pojedynczego świadka.**
 
-    Skoro zjawisko może wyłaniać się ze zbiegu wielu współdziałających warunków, to
-    i świadectwo o nim często musi wyłaniać się ze zbieżności wielu sygnałów. Pojedynczy
-    podpis, etykieta albo źródło rzadko są dowodem same w sobie; pewność rośnie wraz ze
+    Skoro zjawisko może zależeć od zbiegu wielu współdziałających warunków, świadectwo
+    o nim często warto budować ze zbieżności wielu sygnałów. Pojedynczy podpis,
+    etykieta albo źródło rzadko są dowodem same w sobie; pewność może rosnąć wraz ze
     zbieżnością niezależnych przesłanek (atestacje, reputacja, korelacja zdarzeń), nie
     wraz z autorytetem jednego nośnika.
 
-    Wyłanianie się zjawiska ze splotu wielu warunków – takie, którego z zewnątrz nie
-    da się sprowadzić do jednej przyczyny bez utraty tego, czym ono jest na własnej
-    warstwie – bywa nazywane **emergencją** (por. emergentyzm, postulat 4). Owa
-    "niewyjaśnialność z zewnątrz" nie musi być chwilowym brakiem wiedzy; bywa raczej
-    próbą orzekania o wyższej warstwie językiem niższej – tą samą "kradzieżą
-    ontologii", której zakazuje granica warstw jako granica sensu. Emergencja jest
-    więc nazwą na zbieżność nieredukowalną międzywarstwowo, a nie jej wyjaśnieniem.
-    Po stronie poznania odpowiada jej **konsiliencja** (Whewell – zgodność niezależnych
-    indukcji) i triangulacja: skoro przesłanka jest emergentna, świadectwo o niej
-    domyka się zbieżnością wielu niezależnych linii, nie pojedynczym łańcuchem przyczyn.
+    Wyłanianie się zjawiska ze splotu wielu warunków, którego nie da się opisać na jego
+    własnej warstwie wyłącznie językiem warstwy niższej bez utraty istotnych relacji,
+    bywa nazywane **emergencją** (por. emergentyzm, postulat 4). Używamy tego pojęcia
+    w sensie epistemicznym i operacyjnym: opis niższej warstwy może być poprawny
+    w swoim zakresie, a zarazem niewystarczający dla pytań i kontraktów warstwy wyższej.
+    Nie przesądza to metafizycznej nieredukowalności zjawiska.
+
+    **Konsiliencja** (Whewell – zgodność niezależnych indukcji) i triangulacja należą
+    do innej osi: są strategiami poznawczymi, a nie własnościami samego zjawiska.
+    Wieloźródłowe potwierdzenie nie wynika logicznie z emergencji, lecz jest
+    bezpiecznikiem epistemicznym przydatnym wtedy, gdy twierdzenie zależy od wielu
+    warunków albo ma wywołać skutek o wysokiej stawce.
 
 Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesną konkretyzację, a wiedząc
 o tym, możemy budować systemy, które adaptują się do tej właściwości naszych
@@ -434,7 +570,7 @@ klasyfikacja → obiekt domenowy → trwały fakt → rekord federacyjny. **Oś 
 wyliczeniem brzegów, na których działają bramki walidacji**. Nie jest już tylko
 uogólnioną obserwacją, lecz wykazem rodzajów elementów w architekturze.
 
-Warto zauważyć, że kierunek tej osi to rosnące powiązanie, a nie rosnąca prawdziwość:
+Zauważmy, że kierunek tej osi to rosnące powiązanie, a nie rosnąca prawdziwość:
 rekord federacyjny jest terminalem aktów determinacji, a nie źródłem prawdy, do
 którego niższe warstwy miałyby się dostroić.
 
@@ -483,16 +619,23 @@ moduł jest rolą w przepływie, a nie jest substancją.
 
 ### Ekonomia
 
+Ontologia nie wyznacza sama przez się jednego ustroju gospodarczego. Dostarcza jednak
+kryteriów oceny jego konkretyzacji: czy chroni sprawczość uczestników, ujawnia
+odpowiedzialność, pozostawia prawo wyjścia oraz nie reifikuje własności, rynku ani
+organizacji jako bytów ważniejszych od relacji, którym mają służyć. Poniższy model
+ekonomiczny jest propozycją konsekwentnego zastosowania tych kryteriów do przepływu
+zasobów, pracy oraz uwagi.
+
 Gdy to samo apofatyczno-enaktywne podejście stratyfikujemy nie do przepływu danych,
 lecz do przepływu zasobów, pracy i uwagi, wyłania się określony kształt ekonomii –
 ten sam, który postulat piąty zapowiadał jako *wzajemność bez księgowości*, lecz
 nazwany pełniej.
 
 Nie jest to ani kult rynku, ani jego zniesienie, lecz **ekonomia sprawczej
-wzajemności** (*economy of agentic mutuality*): porządek, w którym własność staje się
-warstwowym protokołem sprawczości, użytkowania, odpowiedzialności i wymiany. Nie jest
-to doktryna doklejona do ontologii – wynika z niej w taki sam sposób, jak dyscyplina
-przetwarzania informacji wynika z odmowy przedwczesnej konkretyzacji.
+wzajemności** (ang. *economy of agentic mutuality*): porządek, w którym własność
+staje się warstwowym protokołem sprawczości, użytkowania, odpowiedzialności
+i wymiany. Nie jest to przypadkowa doktryna doklejona do ontologii, lecz jedna z jej
+konsekwentnych konkretyzacji projektowych.
 
 1. **Własność nie jest substancją, lecz nazwą operacyjną relacji.**
 
@@ -500,10 +643,10 @@ przetwarzania informacji wynika z odmowy przedwczesnej konkretyzacji.
     jest", nie pozwala też tytułowi własności orzekać, "czyje coś zawsze
     jest". Pierwsze pytanie nie brzmi "kto ma?", lecz: kto używa, kto ponosi skutki,
     kto wymaga tego dla przetrwania, według jakiego kontraktu i z jakim prawem
-    wyjścia. Tak rozumianą relację nazywamy **relacją sprawczego użytkowania** (*agentic
-    use-right*): własność nie jest zaprzeczona, ale akcent zostaje przeniesiony na jej
-    funkcję, czyli na lokalnie określony kontrakt uczestnictwa, odpowiedzialności
-    i prawa wyjścia, a nie metafizyczny tytuł dominacji.
+    wyjścia. Tak rozumianą relację nazywamy **relacją sprawczego użytkowania**
+    (ang. *agentic use-right*): własność nie jest zaprzeczona, ale akcent zostaje
+    przeniesiony na jej funkcję, czyli na lokalnie określony kontrakt uczestnictwa,
+    odpowiedzialności i prawa wyjścia, a nie metafizyczny tytuł dominacji.
 
 2. **Własność osobista jest organem osoby, nie zasobem organizmu.**
 
@@ -517,23 +660,23 @@ przetwarzania informacji wynika z odmowy przedwczesnej konkretyzacji.
 3. **Wyższe formy własności wyrastają z osobistych relacji sprawczości, nie stoją nad
     nimi.**
 
-    W stratyfikacji konkrety niższych warstw stają się budulcem wyższych, a wyższe nie
-    mogą odklejać się od fundamentu. To założenie przeniesione na własność oznacza, że
-    własność kapitałowa, organizacyjna, wspólnotowa, instytucjonalna i państwowa są
-    wyższymi abstraktami, które muszą być legitymizowane przez żywe relacje używania,
-    pracy, odpowiedzialności i zgody – i tę zależność dziedziczą. Błąd zaczyna się tam,
-    gdzie jedna warstwa "kradnie" ontologię drugiej:
-    gdy fundusz, urząd, spółka, platforma albo kolektyw rości sobie moc silniejszą niż
-    żywa relacja użytkowania, pracy i odpowiedzialności. Zasadę, która temu zapobiega,
-    nazywamy **subsydiarnością sprawczości** (*agentic subsidiarity*): wyższa warstwa
-    działa wobec niższej pomocniczo i nigdy nie zastępuje tego, co osoba i mała
-    wspólnota obsługują same.
+    W stratyfikacji konkrety niższych warstw stają się budulcem wyższych, a wyższe
+    nie mogą odklejać się od fundamentu. To założenie przeniesione na własność
+    oznacza, że własność kapitałowa, organizacyjna, wspólnotowa, instytucjonalna
+    i państwowa są wyższymi abstraktami, które muszą być legitymizowane przez żywe
+    relacje używania, pracy, odpowiedzialności i zgody – i tę zależność
+    dziedziczą. Błąd zaczyna się tam, gdzie jedna warstwa "kradnie" ontologię
+    drugiej: gdy fundusz, urząd, spółka, platforma albo kolektyw rości sobie moc
+    silniejszą niż żywa relacja użytkowania, pracy i odpowiedzialności. Zasadę, która
+    temu zapobiega, nazywamy **subsydiarnością sprawczości** (ang. *agentic
+    subsidiarity*): wyższa warstwa działa wobec niższej pomocniczo i nigdy nie
+    zastępuje tego, co osoba i mała wspólnota obsługują same.
 
 4. **Źle ustawiony gradient bodźców wypacza intencje nawet bez złej woli, więc
     ekonomia celuje w sprawczość, nie w akumulację.**
 
     Skoro konstrukcja finansowania premiująca profit potrafi wypaczać intencje bez
-    jawnej woli krzywdy, więc celem ekonomii wewnętrznej nie może być nieskończone
+    jawnej woli krzywdy, to celem ekonomii wewnętrznej nie może być nieskończone
     pomnażanie zasobów, lecz podtrzymywanie zdolności do działania. Przewaga nie
     powinna zamieniać się w trwałą dominację nad ekosystemem. Stąd "dostatek ponad
     akumulację", środki wymiany nieprzeliczane na reputację, a rynek traktowany jako
@@ -579,13 +722,13 @@ myśli ekonomicznej:
 **Ekonomia dóbr wspólnych i policentryczne zarządzanie** (Elinor Ostrom): wspólne
 zasoby nie muszą być skazane ani na prywatyzację, ani na centralne zarządzanie
 państwowe. Mogą być utrzymywane przez użytkowników z wykorzystaniem lokalnych reguł,
-monitoringu, systemom rozwiązywanie sporów i adaptacyjnych instytucji. Ekonomia
+monitoringu, systemów rozwiązywania sporów i adaptacyjnych instytucji. Ekonomia
 sprawczej wzajemności podziela ten nacisk na wspólnoty użytkowników, lokalną wiedzę
 i wielopoziomowe zarządzanie, lecz przesuwa akcent z samej trwałości zasobu na
 ochronę i wzmacnianie sprawczości osób, węzłów i wspólnot.
 
-**Podejście zdolności / capability approach** (Amartya Sen): dobrobyt nie jest
-redukcją do dochodu, użyteczności ani posiadanych zasobów, lecz zależy od realnych
+**Podejście zdolności / capability approach** (Amartya Sen): dobrobyt nie redukuje
+się do dochodu, użyteczności ani posiadanych zasobów, lecz zależy od realnych
 możliwości działania i życia, które dana osoba może faktycznie
 urzeczywistnić. Ekonomia sprawczej wzajemności podziela ten prymat realnej
 sprawczości nad abstrakcyjnym bogactwem, lecz przekłada go na projektowanie relacji
