@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-delegated-adaptive-executor-report:v1",
+  "title": "story-012-delegated-adaptive-executor-report.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "profile/id",
+    "evidence/boundary",
+    "source/report",
+    "source/report/sha256",
+    "requester/node",
+    "executor/designation",
+    "experiment/count",
+    "p083/lifecycle",
+    "room-prose/direct-effect-count",
+    "proven/invariants",
+    "unproven/invariants"
+  ],
+  "properties": {
+    "schema": { "const": "story-012-delegated-adaptive-executor-report.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "const": "partial" },
+    "profile/id": { "const": "story-012-delegated-adaptive-executor" },
+    "evidence/boundary": { "const": "derived-from-retained-single-host-full-system" },
+    "source/report": {
+      "type": "string",
+      "pattern": "^reports/[A-Za-z0-9._-]+\\.json$",
+      "maxLength": 240
+    },
+    "source/report/sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "requester/node": { "const": "node-a" },
+    "executor/designation": {
+      "description": "Names the remote participant Agent that produced the candidate. This is a delegation designation, never direct Sensorium effect authority; node A retains admission and P083 execution authority.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "node", "role"],
+      "properties": {
+        "kind": {
+          "description": "The only admitted executor relationship is a remote participant acting through requester-owned delegation.",
+          "const": "remote-participant-agent"
+        },
+        "node": { "const": "node-b" },
+        "role": { "const": "solver" }
+      }
+    },
+    "experiment/count": { "const": 2 },
+    "p083/lifecycle": {
+      "type": "array",
+      "prefixItems": [
+        { "const": "claim" },
+        { "const": "invoke" },
+        { "const": "release" }
+      ],
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "room-prose/direct-effect-count": { "const": 0 },
+    "proven/invariants": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "failed-plan-observation-precedes-correction",
+          "p083-claim-invoke-release-only",
+          "requester-retains-effect-authority",
+          "room-prose-has-no-direct-effect"
+        ]
+      }
+    },
+    "unproven/invariants": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "candidate-plan-is-attributed-and-inert",
+          "fresh-lease-per-effect",
+          "operator-question-precedes-effect"
+        ]
+      }
+    }
+  }
+}

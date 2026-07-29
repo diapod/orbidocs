@@ -8,6 +8,10 @@
     "schema",
     "schema/v",
     "entries",
+    "approvals",
+    "merge/provenance",
+    "projection/digest",
+    "effective/catalog-hash",
     "diagnostics"
   ],
   "properties": {
@@ -16,6 +20,67 @@
     "entries": {
       "type": "array",
       "items": { "$ref": "sensorium-os.action-catalog-delta.v1.schema.json" }
+    },
+    "approvals": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "approval/ref",
+          "operation/ref",
+          "action/id",
+          "action/class",
+          "status",
+          "selected/scope",
+          "catalog/status",
+          "catalog/effective",
+          "operator/ref",
+          "created/at",
+          "updated/at",
+          "issued/at",
+          "expires/at",
+          "revocation/ref",
+          "delta/digest"
+        ],
+        "properties": {
+          "approval/ref": { "type": "string", "minLength": 1, "maxLength": 240 },
+          "operation/ref": { "type": "string", "minLength": 1, "maxLength": 240 },
+          "action/id": { "type": ["string", "null"], "maxLength": 128 },
+          "action/class": { "type": ["string", "null"], "maxLength": 80 },
+          "status": { "enum": ["pending", "granted", "denied", "expired", "revoked"] },
+          "selected/scope": {
+            "enum": [null, "deny", "allow-once", "remember-action-catalog-entry"]
+          },
+          "catalog/status": { "enum": ["effective", "inactive", "one-shot", "not-granted"] },
+          "catalog/effective": { "type": "boolean" },
+          "operator/ref": { "type": ["string", "null"], "maxLength": 240 },
+          "created/at": { "type": "string", "minLength": 20, "maxLength": 64 },
+          "updated/at": { "type": "string", "minLength": 20, "maxLength": 64 },
+          "issued/at": { "type": ["string", "null"], "maxLength": 64 },
+          "expires/at": { "type": "string", "minLength": 20, "maxLength": 64 },
+          "revocation/ref": { "type": ["string", "null"], "maxLength": 240 },
+          "delta/digest": { "type": "string", "minLength": 16, "maxLength": 160 }
+        }
+      }
+    },
+    "merge/provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "projection/digest": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 160
+    },
+    "effective/catalog-hash": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 160
     },
     "diagnostics": {
       "type": "array",

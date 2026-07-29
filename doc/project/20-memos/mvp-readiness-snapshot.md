@@ -129,6 +129,17 @@ passage adapters have executable evidence. Room
 role alone remains non-authoritative. This additive post-MVP slice does not alter
 the hard-MVP percentages.
 
+The delegated adaptive-executor validator now records an explicit `partial`
+authority-composition result without claiming a second VM deployment. Its closed
+descriptor pins the retained real full-system Story 012 report by digest and
+proves requester-owned P083 lifecycle records, released terminal leases, failed-
+plan feedback, corrected execution, no fallback, and zero effects derived
+directly from Room prose. CandidatePlan author/signature, per-effect lease refs,
+and ordered HIL-before-actuation evidence were not retained and remain named
+evidence gaps for a fresh run. Remote runtime execution remains unsupported until
+a separately evidenced passage adapter exists. This post-MVP gap does not change
+hard-MVP readiness percentages.
+
 The same post-MVP slice now persists an append-only Corpus experiment execution
 join through the exact P083 operation and receipt, quarantines unfinished work as
 `unknown` after restart without blind retry, drains recovery in bounded
@@ -470,8 +481,12 @@ Recent component deltas:
   action catalog entries, reports per-action availability, executes script-backed
   C1/C2 entries, rejects allowlist-local sensitivity overrides, enforces exact
   and prefix `result_pointer_fields`, blocks C3/C4/C5 under emergency posture
-  without an explicit host-policy exception, and fails closed for unavailable
-  C3-C7 classes until their enforcement envelopes exist.
+  without an explicit host-policy exception, and fails closed when a declared
+  enforcement profile is unavailable. Additive post-MVP work now implements a
+  closed host-managed C3 file-write profile, literal-IP bounded HTTP C4,
+  contained artifact-promotion C5, sequential C6 composition, and C7 over an
+  atomically consumed content-bound `allow-once` approval on the private module
+  channel. Arbitrary-process C3-C7 declarations remain unavailable.
 - Proposal 071 / Solution 042 now have the host-owned operator-consent
   spine for exact and bounded-prefix Workbench terminal commands: typed request/decision schemas,
   daemon persistence and submit/list/detail/revoke/projection APIs, P066-backed
@@ -499,6 +514,12 @@ Recent component deltas:
   core now owns conflict/provenance semantics, node-ui exposes consent
   inspection/revocation, and `fixture-copy.v1` provides the first managed
   virtual executor without claiming process isolation.
+  Sensorium OS consent options are now host-shaped to exactly `deny`,
+  `allow-once`, and `remember-action-catalog-entry`; one-shot approval is
+  operation-digest-bound and atomically consumed after catalog admission.
+  Operator status exposes pending, one-shot, denied, expired, revoked, inactive,
+  and effective approvals together with the effective catalog hash without
+  turning the read model into authority.
 - Raw Signal Access is now hard-MVP complete as both proposal and solution:
   hook-chain runtime and direct JSON-e-flow dispatch preserve raw context only
   in memory, expose it only to declaring executors, strip it from final

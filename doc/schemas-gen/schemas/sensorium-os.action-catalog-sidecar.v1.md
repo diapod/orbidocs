@@ -9,6 +9,10 @@ Source schema: [`doc/schemas/sensorium-os.action-catalog-sidecar.v1.schema.json`
 | [`schema`](#field-schema) | `yes` | const: `sensorium-os.action-catalog-sidecar.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`entries`](#field-entries) | `yes` | array |  |
+| [`approvals`](#field-approvals) | `yes` | array |  |
+| [`merge/provenance`](#field-merge-provenance) | `yes` | array |  |
+| [`projection/digest`](#field-projection-digest) | `yes` | string |  |
+| [`effective/catalog-hash`](#field-effective-catalog-hash) | `yes` | string |  |
 | [`diagnostics`](#field-diagnostics) | `yes` | array |  |
 ## Field Semantics
 
@@ -29,6 +33,30 @@ Source schema: [`doc/schemas/sensorium-os.action-catalog-sidecar.v1.schema.json`
 
 - Required: `yes`
 - Shape: array
+
+<a id="field-approvals"></a>
+## `approvals`
+
+- Required: `yes`
+- Shape: array
+
+<a id="field-merge-provenance"></a>
+## `merge/provenance`
+
+- Required: `yes`
+- Shape: array
+
+<a id="field-projection-digest"></a>
+## `projection/digest`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-effective-catalog-hash"></a>
+## `effective/catalog-hash`
+
+- Required: `yes`
+- Shape: string
 
 <a id="field-diagnostics"></a>
 ## `diagnostics`

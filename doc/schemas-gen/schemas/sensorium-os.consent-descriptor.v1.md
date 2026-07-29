@@ -27,6 +27,7 @@ Source schema: [`doc/schemas/sensorium-os.consent-descriptor.v1.schema.json`](..
 | [`reason/code`](#field-reason-code) | `yes` | ref: `#/$defs/token` |  |
 | [`action/id`](#field-action-id) | `yes` | ref: `#/$defs/token` |  |
 | [`action/class`](#field-action-class) | `yes` | enum: `read-only-spawn`, `allowlisted-script`, `scoped-fs-write`, `egress-network-spawn`, `artifact-producing-spawn`, `composed-spawn`, `operator-gated-spawn` |  |
+| [`action/catalog-entry`](#field-action-catalog-entry) | `yes` | object |  |
 | [`executable/summary`](#field-executable-summary) | `yes` | string |  |
 | [`argv/shape`](#field-argv-shape) | `yes` | object |  |
 | [`parameters/schema-ref`](#field-parameters-schema-ref) | `yes` | ref: `#/$defs/ref` |  |
@@ -72,6 +73,12 @@ Source schema: [`doc/schemas/sensorium-os.consent-descriptor.v1.schema.json`](..
 
 - Required: `yes`
 - Shape: enum: `read-only-spawn`, `allowlisted-script`, `scoped-fs-write`, `egress-network-spawn`, `artifact-producing-spawn`, `composed-spawn`, `operator-gated-spawn`
+
+<a id="field-action-catalog-entry"></a>
+## `action/catalog-entry`
+
+- Required: `yes`
+- Shape: object
 
 <a id="field-executable-summary"></a>
 ## `executable/summary`

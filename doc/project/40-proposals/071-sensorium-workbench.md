@@ -2753,9 +2753,10 @@ evidence) · `[!]` blocked/needs decision.
   No lease spans model inference and no model text becomes PTY input.
 - [x] Run and retain the expensive role-aware PowerDNS profile. The retained
   2026-07-24 report passes the closed 17-check validator and Schema Gate and
-  proves the multi-cycle terminal-feedback path with fresh per-effect P083
-  leases and no direct Room-prose actuation.
-- [ ] Add a delegated adaptive-executor acceptance profile only after Corpus and
+  proves the multi-cycle terminal-feedback path, two released P083 lifecycle
+  records, and no direct Room-prose actuation. It does not retain per-effect
+  lease refs and therefore is not itself freshness evidence for those leases.
+- [~] Add a delegated adaptive-executor acceptance profile only after Corpus and
   Agent can carry an attributed inert `inquirium.candidate-plan.v1`. Requester
   policy may designate a remote Chair or participant Agent, but Room authority
   must not widen Workbench authority: node A still requires a separate
@@ -2763,6 +2764,14 @@ evidence) · `[!]` blocked/needs decision.
   lease, and revocation check before any terminal effect. Remote control MUST
   reuse P083 / Solution 046 claim/control/invoke and MUST NOT add a Workbench-
   local relay or prose-to-command bridge.
+  The closed `story-012-delegated-adaptive-executor` profile pins the retained
+  critique-gated full-system Story 012 report by digest and currently reports
+  `partial`. It proves requester-owned P083 lifecycle records, released terminal
+  leases, failed-plan feedback, corrected execution, and zero direct Room-prose
+  effects. A fresh run must additionally retain CandidatePlan author/signature,
+  one lease ref per effect, and ordered HIL/claim/invoke/release evidence before
+  the profile may claim remote solver attribution, fresh leases, or HIL-before-
+  effect. The derived boundary is not a second VM deployment.
 - [ ] **In progress:** complete deployment evidence for
   `cloud-hypervisor-system.v1` as the first Linux deployment profile after the
   backend-neutral vfkit slice proves the contracts.

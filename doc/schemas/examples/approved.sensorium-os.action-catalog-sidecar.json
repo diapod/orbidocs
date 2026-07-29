@@ -1,0 +1,28 @@
+{
+  "schema": "sensorium-os.action-catalog-sidecar.v1",
+  "schema/v": 1,
+  "entries": [],
+  "approvals": [
+    {
+      "approval/ref": "approval:consent:sha256:example",
+      "operation/ref": "operator-consent:sensorium-os-example",
+      "action/id": "system.files.write",
+      "action/class": "scoped-fs-write",
+      "status": "granted",
+      "selected/scope": "allow-once",
+      "catalog/status": "one-shot",
+      "catalog/effective": false,
+      "operator/ref": "operator:primary",
+      "created/at": "2026-07-29T10:00:00Z",
+      "updated/at": "2026-07-29T10:01:00Z",
+      "issued/at": "2026-07-29T10:01:00Z",
+      "expires/at": "2026-07-29T10:05:00Z",
+      "revocation/ref": null,
+      "delta/digest": "sha256:example-consent-delta"
+    }
+  ],
+  "merge/provenance": [],
+  "projection/digest": "sha256:example-catalog-projection",
+  "effective/catalog-hash": "sha256:example-catalog-projection",
+  "diagnostics": []
+}

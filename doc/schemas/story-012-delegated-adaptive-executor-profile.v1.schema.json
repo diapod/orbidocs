@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-delegated-adaptive-executor-profile:v1",
+  "title": "story-012-delegated-adaptive-executor-profile.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "profile/id",
+    "source/report",
+    "source/report/sha256",
+    "requester/node",
+    "executor/designation",
+    "required/invariants"
+  ],
+  "properties": {
+    "schema": { "const": "story-012-delegated-adaptive-executor-profile.v1" },
+    "schema/v": { "const": 1 },
+    "profile/id": { "const": "story-012-delegated-adaptive-executor" },
+    "source/report": {
+      "type": "string",
+      "pattern": "^reports/[A-Za-z0-9._-]+\\.json$",
+      "maxLength": 240
+    },
+    "source/report/sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "requester/node": { "const": "node-a" },
+    "executor/designation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "node", "role"],
+      "properties": {
+        "kind": { "const": "remote-participant-agent" },
+        "node": { "const": "node-b" },
+        "role": { "const": "solver" }
+      }
+    },
+    "required/invariants": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "candidate-plan-is-attributed-and-inert",
+          "requester-retains-effect-authority",
+          "operator-question-precedes-effect",
+          "p083-claim-invoke-release-only",
+          "fresh-lease-per-effect",
+          "room-prose-has-no-direct-effect",
+          "failed-plan-observation-precedes-correction"
+        ]
+      }
+    }
+  }
+}

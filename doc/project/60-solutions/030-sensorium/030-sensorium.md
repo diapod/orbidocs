@@ -163,13 +163,13 @@ Related schemas:
 Responsibilities:
 - run `sensorium-os` as the first supervised Sensorium connector,
 - advertise `module_role = sensorium-connector` and connector action metadata,
-- implement finite script-backed C1/C2 Sensorium OS actions and expose the P048
-  action-class catalog,
+- implement finite script-backed C1/C2 actions plus the closed host-managed
+  C3-C5 operations, C6 composition, and host-gated C7 profile,
 - execute configured commands without shell interpolation,
 - enforce configured working directory, script root, timeout, stdout, stderr,
   and artifact bounds,
-- report per-action class availability and fail closed for unavailable C3-C7
-  classes until their enforcement envelopes exist,
+- report per-action class availability and keep arbitrary-process C3-C7
+  declarations unavailable until their platform envelopes exist,
 - use the authorized action catalog entry as the canonical executable source and
   reject request-local allowlist or host-policy overrides,
 - enforce `result_pointer_fields` exact/prefix result contracts,
@@ -198,10 +198,10 @@ Responsibilities:
 - fail closed when action catalog signature is required and missing or stale,
 - let the daemon write operator-signed grant or deny sidecars from the operator
   surface,
-- keep any future interactive operator consent path host-owned: prompts should
+- keep interactive operator consent host-owned: prompts
   reuse `inquirium.operator-question.request.v1` projected through durable
-  notifications, while Sensorium OS receives only an audited action-catalog
-  sidecar delta after the operator grants consent,
+  reuse notifications, while Sensorium OS receives an audited action-catalog
+  sidecar delta or a single host-verified consumed `allow-once` binding,
 - load host-projected `sensorium-os.action-catalog-sidecar.v1` consent deltas as
   append-only, non-overriding action declarations and expose their diagnostics
   through the catalog status surface,
@@ -374,6 +374,14 @@ durable `remember-action-catalog-entry` grants are materialized into
 binding, and durable-grantability checks, written to the Sensorium OS middleware
 config tree, then merged by the connector only as valid non-overriding action
 entries.
+
+The consent endpoint host-shapes Sensorium OS choices to exactly `deny`,
+`allow-once`, and `remember-action-catalog-entry`; the registry independently
+validates that shape and source/capability binding. Catalog status carries a
+non-authorizing history of pending, one-shot, denied, expired, revoked, inactive,
+and effective approvals plus the effective catalog hash. The status sidecar is
+bounded to the newest 512 approvals and diagnoses truncation; only active durable
+entries contribute execution authority.
 
 This solution owns the host-side consent state machine boundary and the shared
 sidecar-merge rule; adapter-specific projection shapes are owned by their

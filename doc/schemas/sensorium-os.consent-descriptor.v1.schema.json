@@ -10,6 +10,7 @@
     "reason/code",
     "action/id",
     "action/class",
+    "action/catalog-entry",
     "executable/summary",
     "argv/shape",
     "parameters/schema-ref",
@@ -33,6 +34,28 @@
         "composed-spawn",
         "operator-gated-spawn"
       ]
+    },
+    "action/catalog-entry": {
+      "type": "object",
+      "minProperties": 3,
+      "maxProperties": 64,
+      "required": ["action_id", "class", "executable"],
+      "properties": {
+        "action_id": { "$ref": "#/$defs/token" },
+        "class": {
+          "enum": [
+            "read-only-spawn",
+            "allowlisted-script",
+            "scoped-fs-write",
+            "egress-network-spawn",
+            "artifact-producing-spawn",
+            "composed-spawn",
+            "operator-gated-spawn"
+          ]
+        },
+        "executable": { "type": "object" },
+        "operator_consent": false
+      }
     },
     "executable/summary": { "type": "string", "minLength": 1, "maxLength": 1024 },
     "argv/shape": { "type": "object" },

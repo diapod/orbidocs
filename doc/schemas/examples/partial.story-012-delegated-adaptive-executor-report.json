@@ -1,0 +1,29 @@
+{
+  "schema": "story-012-delegated-adaptive-executor-report.v1",
+  "schema/v": 1,
+  "status": "partial",
+  "profile/id": "story-012-delegated-adaptive-executor",
+  "evidence/boundary": "derived-from-retained-single-host-full-system",
+  "source/report": "reports/2026-07-25.story-012-powerdns-critique-gated-full-system.macos-arm64.json",
+  "source/report/sha256": "sha256:3b9649a8f18e4c15ecd0f77c84c7e99acc51852291a7e2034ed7b9c23155b421",
+  "requester/node": "node-a",
+  "executor/designation": {
+    "kind": "remote-participant-agent",
+    "node": "node-b",
+    "role": "solver"
+  },
+  "experiment/count": 2,
+  "p083/lifecycle": ["claim", "invoke", "release"],
+  "room-prose/direct-effect-count": 0,
+  "proven/invariants": [
+    "failed-plan-observation-precedes-correction",
+    "p083-claim-invoke-release-only",
+    "requester-retains-effect-authority",
+    "room-prose-has-no-direct-effect"
+  ],
+  "unproven/invariants": [
+    "candidate-plan-is-attributed-and-inert",
+    "fresh-lease-per-effect",
+    "operator-question-precedes-effect"
+  ]
+}

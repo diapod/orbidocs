@@ -1,0 +1,9 @@
+{
+  "schema": "sensorium-os.action-catalog-sidecar.v1",
+  "schema/v": 1,
+  "entries": [],
+  "approvals": [],
+  "merge/provenance": [],
+  "projection/digest": "sha256:example-catalog-projection",
+  "diagnostics": []
+}

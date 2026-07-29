@@ -311,10 +311,13 @@ Status:
   inactive-binding sidecar diagnostics, connector import of host sidecar
   diagnostics, and dedicated operator consent inspection/revocation UI.
   Arbitrary-executable consent remains intentionally unsupported. Sensorium OS
-  action-catalog consent deltas also use this spine: granted durable decisions
-  are projected into a host-authored sidecar, filtered by the same authority and
-  grantability rules, and loaded by the Sensorium OS connector as append-only
-  non-overriding action declarations.
+  action-catalog consent also uses this spine: the host shapes exactly `deny`,
+  `allow-once`, and `remember-action-catalog-entry`; content-bound one-shot
+  decisions are atomically consumed after catalog admission, while durable
+  decisions are projected into a host-authored sidecar, filtered by the same
+  authority and grantability rules, and loaded by the Sensorium OS connector as
+  append-only non-overriding action declarations. The operator read model shows
+  the full non-authorizing approval lifecycle and effective catalog hash.
 
 ### Shared Actuation Core
 
@@ -839,6 +842,13 @@ Status:
   Sensorium Core. Agent proposals bind to one `directive/id` with idempotent
   replay. Product-specific workflow producers remain owned by Agent, Corpus,
   and Room rather than Workbench.
+- `implemented post-MVP validator; evidence partial`: the closed delegated
+  adaptive-executor profile digest-pins the retained real full-system Story 012
+  report. It proves requester-owned P083 lifecycle records, correction feedback,
+  released terminal leases, no fallback, and zero direct effects from Room prose.
+  The source omits CandidatePlan author/signature, per-effect lease refs, and
+  ordered HIL/actuation evidence, so the profile exposes those gaps and does not
+  claim remote runtime execution or a second VM deployment.
 
 ## Out of Scope
 

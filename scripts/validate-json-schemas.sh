@@ -218,6 +218,9 @@ schema_for_file() {
     *.sensorium-workbench-outcome.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-outcome.v1.schema.json"
       ;;
+    *.sensorium-os.action-catalog-sidecar.json)
+      echo "$SCHEMAS_DIR/sensorium-os.action-catalog-sidecar.v1.schema.json"
+      ;;
     *.sensorium-actuation.bridge.request.json)
       echo "$SCHEMAS_DIR/sensorium-actuation.bridge.request.v1.schema.json"
       ;;
@@ -265,6 +268,12 @@ schema_for_file() {
       ;;
     *.story-012-powerdns-critique-gated-full-system-report.json)
       echo "$SCHEMAS_DIR/story-012-powerdns-critique-gated-full-system-report.v1.schema.json"
+      ;;
+    *.story-012-delegated-adaptive-executor-profile.json)
+      echo "$SCHEMAS_DIR/story-012-delegated-adaptive-executor-profile.v1.schema.json"
+      ;;
+    *.story-012-delegated-adaptive-executor-report.json)
+      echo "$SCHEMAS_DIR/story-012-delegated-adaptive-executor-report.v1.schema.json"
       ;;
     *.sensorium-workbench-tool-request.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-tool-request.v1.schema.json"

@@ -1,0 +1,22 @@
+{
+  "schema": "story-012-delegated-adaptive-executor-profile.v1",
+  "schema/v": 1,
+  "profile/id": "story-012-delegated-adaptive-executor",
+  "source/report": "reports/2026-07-25.story-012-powerdns-critique-gated-full-system.macos-arm64.json",
+  "source/report/sha256": "sha256:3b9649a8f18e4c15ecd0f77c84c7e99acc51852291a7e2034ed7b9c23155b421",
+  "requester/node": "node-a",
+  "executor/designation": {
+    "kind": "remote-participant-agent",
+    "node": "node-b",
+    "role": "solver"
+  },
+  "required/invariants": [
+    "candidate-plan-is-attributed-and-inert",
+    "requester-retains-effect-authority",
+    "operator-question-precedes-effect",
+    "p083-claim-invoke-release-only",
+    "fresh-lease-per-effect",
+    "room-prose-has-no-direct-effect",
+    "failed-plan-observation-precedes-correction"
+  ]
+}

@@ -207,6 +207,13 @@ attempt to execute it until the enforcement primitive is present.
   `local-filesystem-write`.
 - **Baseline sensitivity class.** `operational-sensitive`.
 
+The first implemented enforcement profile is deliberately narrower than an
+arbitrary sandboxed process. `executable.kind = host-managed` with operation
+`files.write` lets the connector apply a closed list of base64-decoded writes
+through directory file descriptors, `O_NOFOLLOW`, per-file and total byte caps,
+and atomic rename. Script and binary C3 declarations remain unavailable until a
+real platform sandbox can prove the same envelope.
+
 ### C4: `egress-network-spawn`
 
 - **Effect profile.** Process may make outbound network calls to a
@@ -227,6 +234,14 @@ attempt to execute it until the enforcement primitive is present.
 - **Baseline incidental effects.** `network-egress`.
 - **Baseline sensitivity class.** `operational-sensitive`.
 
+The first implemented enforcement profile uses the connector-owned
+`network.http` operation. It accepts only canonical literal-IP HTTP endpoints,
+constructs the complete request bytes itself, forbids redirects and DNS, counts
+the exact bytes sent, caps each response, and promotes response bodies through
+the artifact lane. Hostnames, TLS, arbitrary TCP/UDP, and child-process egress
+remain unavailable until a host-owned proxy or equivalent platform primitive
+can enforce their complete transport envelope.
+
 ### C5: `artifact-producing-spawn`
 
 - **Effect profile.** Process produces captured artifacts too large or
@@ -246,6 +261,11 @@ attempt to execute it until the enforcement primitive is present.
 - **Baseline incidental effects.** `disk-access-timestamp-update`,
   `artifact-lane-write`.
 - **Baseline sensitivity class.** `operational-sensitive`.
+
+The first implemented profile is `executable.kind = host-managed` with operation
+`artifacts.promote`. It reads regular files only through a no-follow walk under
+the exact source root, validates all sources before promotion, and enforces
+count, per-artifact, total-byte, role, and exact media-type bounds.
 
 ### C6: `composed-spawn`
 
@@ -271,14 +291,32 @@ attempt to execute it until the enforcement primitive is present.
 - **Baseline sensitivity class.** Maximum (strictest) of included
   classes.
 
+The first runtime composition accepts only the implemented host-managed C3, C4,
+and C5 primitives. Effects run in declared order and are not transactional.
+Before the first effect, the connector validates every requested section,
+declared cap, path syntax, media type, and endpoint into a closed plan. Data that
+can only exist after an earlier declared effect is read at that effect's own
+dispatch boundary rather than during preflight.
+Validation failures before dispatch are `refused`; a failure after a write,
+network send, or artifact promotion is reported as partial/`unknown` with the
+bounded completed-effect trace and is never fabricated as a clean refusal.
+
 ### C7: `operator-gated-spawn`
 
-- **Effect profile.** Reserved identifier for actions that require an
-  explicit, per-invocation operator approval in addition to the usual
-  allowlist decision. Not part of the default v1 enforcement catalog.
-- **Enforcement envelope.** Out of scope for this proposal. Reserved so
-  that future operator-in-the-loop actions have a named home without
-  reshaping the class hierarchy.
+- **Effect profile.** Requires an explicit, per-invocation `allow-once`
+  operator decision in addition to the usual allowlist decision.
+- **Enforcement envelope.** `operator_gate.base_class` names one implemented
+  non-C7 class. The daemon atomically consumes a content-bound approval only
+  after Sensorium Core resolves and validates the catalog entry. The operation
+  digest binds canonical parameters to the exact reviewed catalog declaration,
+  including class, executable operation, base class, roots/endpoints, schemas,
+  limits, sensitivity, and result contract. The daemon injects both the reviewed
+  declaration and its digest over the private module channel; the connector
+  compares the declaration with its current host-owned entry before execution.
+  Replays, changed declarations or parameters, expired approvals, non-
+  `allow-once` scopes, and direct HTTP connector calls fail closed. The first
+  profile permits host-managed C3-C6 bases only; arbitrary executable C7 remains
+  unavailable.
 
 ## What the Class System Deliberately Excludes
 
@@ -1042,10 +1080,8 @@ audit coverage.
 - Any program-family specific allowlist guidance (those belong in
   separate operator playbooks, not here).
 - Long-running local services.
-- Runtime implementation of operator-in-the-loop approval flows. The contract
-  reserves this as `operator-gated-spawn` and the interactive consent section
-  above defines the host-owned prompt/notification reuse pattern for a later
-  implementation.
+- General-purpose or process-local operator gates outside the host-owned
+  consent registry and private daemon-to-connector channel.
 - Artifact promotion details beyond the existing Sensorium artifact lane
   contract.
 - Federation of allowlist entries across nodes.
@@ -1067,12 +1103,13 @@ Hard-MVP minimal runtime is implemented in
   interpolation and bounded stdout/stderr capture;
 - C1 with `executable.kind = "binary"` is recognized as C1 but unavailable with
   reason `binary-executable-not-isolated` until binary process isolation exists;
-- C3/C4/C5/C6/C7 are recognized by name but reported unavailable unless their
-  enforcement envelope exists; dispatch fails closed with an
-  `action-class-unavailable` diagnostic rather than weakening the class;
-- elevated emergency posture blocks C3/C4/C5 and the current unavailable C6
-  composed class before execution unless host policy supplies an explicit
-  emergency exception;
+- C3/C4/C5 are available for their closed host-managed operations, C6 composes
+  only those operations, and C7 requires an atomically consumed host-verified
+  `allow-once` approval. Arbitrary script/binary declarations for those classes
+  remain unavailable rather than weakening the class;
+- elevated emergency posture blocks C3/C4/C5 and every C6 composition that
+  contains one of those operations before execution unless host policy supplies
+  an explicit emergency exception;
 - allowlist-local sensitivity overrides are rejected; any narrower effective
   sensitivity must come from host-owned policy outside the connector allowlist;
 - `result_pointer_fields` supports exact fields and explicit prefix wildcards
@@ -1090,8 +1127,9 @@ Verification evidence:
 - `python3 -m py_compile node/middleware-modules/sensorium-os/service.py`
 
 Post-MVP work is not a hard-MVP blocker for this proposal: richer process
-isolation for binary C1, real platform enforcement for C3/C4/C5, composed C6
-dispatch, and operator-gated C7 approval remain later runtime/sandbox slices.
+isolation for binary C1 and arbitrary-process C3/C4/C5 envelopes remain later
+runtime/sandbox slices. The bounded host-managed C3-C5 profile, C6 composition,
+and host-owned C7 approval are implemented.
 Interactive catalog approval should reuse `inquirium.operator-question.request.v1`
 and durable notifications for the prompt/answer state machine, then project a
 granted decision into a host-audited Sensorium OS action-catalog sidecar delta.
@@ -1147,7 +1185,7 @@ Implementation status 2026-07-07:
   of carrying an untyped inline blob inside the operator-question payload. The
   descriptor should mirror the action-declaration vocabulary and carry only
   redacted, digestible review material.
-- [ ] Generate host-shaped consent options. The first safe set is `deny`,
+- [x] Generate host-shaped consent options. The first safe set is `deny`,
   `allow-once` for this directive only, and `remember-action-catalog-entry`.
   Broader templates such as "allow all actions under this script root" remain
   disabled unless a separate host policy/capability gate enables them.
@@ -1176,11 +1214,17 @@ Implementation status 2026-07-07:
   `operator-consent-sidecar-entry-refused` rather than treated as an implicit
   tightening operation. A later tightening primitive may be added only with
   explicit monotonicity checks.
-- [ ] Expose operator-visible catalog approval status: pending prompts,
+- [x] Expose operator-visible catalog approval status: pending prompts,
   granted deltas, denied attempts, expired approvals, revoked approvals,
   effective catalog hash, operator ref, issued/at, expires/at, revocation/ref,
   delta/digest, and diagnostics explaining why a sidecar entry is not active.
-- [ ] Add tests covering Sensorium-OS-specific consent behavior: deny,
+  The sidecar carries the newest 512 approval-status records and emits an
+  explicit truncation diagnostic when older history remains in the host store;
+  the bounded read model is not an authority source. The connector validates the
+  exact closed sidecar and approval shapes plus the bidirectional effective-
+  approval/catalog-delta relation before exposing any approval status; one
+  malformed or inconsistent projection invalidates the complete sidecar view.
+- [x] Add tests covering Sensorium-OS-specific consent behavior: deny,
   allow-once without catalog mutation, durable catalog delta, active
   node-operator-binding enforcement, stale/inactive sidecar rejection,
   revocation, duplicate prompt collapse via the P071/P066 host path, and
@@ -1201,9 +1245,9 @@ Resolved 2026-07-06:
 4. **Relationship to emergency activation.** Host policy fails closed for
    C3/C4/C5 under elevated emergency posture unless the action has an explicit
    emergency exception in host policy or an approved overlay. The hard-MVP
-   reference runtime also blocks the currently unavailable C6 composed class
+   reference runtime also blocks any C6 composition containing those classes
    under emergency posture so composed actions cannot bypass the strictest
-   included-effect semantics before their full envelope exists.
+   included-effect semantics.
 
 ## Non-Goals
 
