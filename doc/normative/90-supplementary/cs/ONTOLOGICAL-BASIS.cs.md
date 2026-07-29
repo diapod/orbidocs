@@ -178,7 +178,7 @@ ale označuje hranici její použitelnosti.
 Na základě původní genealogie lze také zkonstruovat třetí, duální čtení: pro
 každý přechod epistemizace lze pojmenovat akt určení, který jej zavádí: jevení
 se → rozlišování → vydělení → odkazování → zvýznamnění → zobecnění →
-zpředmětnění → objektivizace → zvěcnění. Stavy odpovídají na otázku „co?“,
+instancování → objektivizace → zvěcnění. Stavy odpovídají na otázku „co?“,
 zatímco akty na otázku „jak?“. V tomto pojetí „věc“ není zastaná, nýbrž je
 stohem aktů – proto se při čtení zpět „rozpouští“ směrem k fenoménu a na hranici
 modelu k tomu, co označujeme jako nulovou úroveň.
@@ -191,7 +191,7 @@ modelu k tomu, co označujeme jako nulovou úroveň.
 | něco → znak | odkazování (za–něco) |
 | znak → význam | zvýznamnění |
 | význam → pojem | zobecnění |
-| pojem → předmět | zpředmětnění |
+| pojem → předmět | instancování |
 | předmět → objekt | objektivizace |
 | objekt → věc | zvěcnění |
 
@@ -267,6 +267,10 @@ identifikátorům v architektuře.
 podstatnými rozdíly – architektonickou přesností *stratified design* a *drilling
 through abstractions*, které holarchie nemodelují. Proces budování vrstev je blízký
 enaktivní autopoiesis (Varela, Thompson), ale rozšířený na kulturu a objektivitu.
+
+Antisubstancialistická teorie osoby jako sebeudržujícího se intencionálního vzorce,
+vyjádřená jazykem rekurze a kontextu, pak nejvíce připomíná syntézu Gallagherova a
+Dennettova přístupu s enaktivismem.
 
 **Důsledky pro DIA:** celá architektura roje – uzel, agent, memarium, sensorium,
 inquirium a protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota *oddělování úrovní*
@@ -539,7 +543,7 @@ před reifikací a předčasnou konkretizací.
 | znak | odkazování | `artifact-object-pointer.v1` / refs – něco začíná *ukazovat* |
 | význam | zvýznamnění | `classification.v1` – hrana, na níž se váže tier a smysl |
 | pojem | zobecnění | schéma / taxonomie (schema-gate, `taxonomy/id`) |
-| předmět | zpředmětnění | intencionální objekt domény: `corpus-reasoning-query`, `RoomSubject` |
+| předmět | instancování | intencionální objekt domény: `corpus-reasoning-query`, `RoomSubject` |
 | objekt | objektivizace | trvalý fakt: zápis do Memaria, *facts-before-effects* |
 | věc | zvěcnění | federačně sdílený záznam: Agora topic-addressed record, tier Public, `federation-root` |
 

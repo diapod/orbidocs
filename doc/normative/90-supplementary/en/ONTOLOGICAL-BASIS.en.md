@@ -192,7 +192,7 @@ its applicability.
 On the basis of the original genealogy we can also construct a third, dual
 reading: for each transition of epistemization one can name the act of
 determination that introduces it: appearing → differentiation → individuation →
-reference → signification → generalization → objectification → objectivation →
+reference → signification → generalization → instantiation → objectivation →
 reification. The states answer the question "what?", while the acts answer
 "how?". On this reading a "thing" is not something given but a stack of acts —
 which is why, read backwards, it "dissolves" toward the phenomenon and, at the
@@ -206,7 +206,7 @@ model's boundary, toward what we mark as level zero.
 | something → sign | reference (standing-for) |
 | sign → meaning | signification |
 | meaning → concept | generalization |
-| concept → item | objectification |
+| concept → item | instantiation |
 | item → object | objectivation |
 | object → thing | reification |
 
@@ -289,6 +289,11 @@ important differences: the architectural precision of *stratified design* and
 the idea of *drilling through abstractions*, which holarchies do not model. The
 process of building layers is close to enactive autopoiesis (Varela, Thompson),
 but extended to culture and objectivity.
+
+In turn, the anti-substantialist theory of the person as a self-maintaining
+intensional pattern, expressed in the language of recursion and context, most
+closely resembles a synthesis of Gallagher's and Dennett's approaches with
+enactivism.
 
 **Consequences for DIA:** the whole swarm architecture — node, agent, memarium,
 sensorium, inquirium, and protocol — is designed in layers in the spirit of stratification. The
@@ -584,7 +589,7 @@ reification and premature concretization.
 | sign | reference | `artifact-object-pointer.v1` / refs — something begins to *point* |
 | meaning | signification | `classification.v1` — the edge at which tier and sense are bound |
 | concept | generalization | schema / taxonomy (schema-gate, `taxonomy/id`) |
-| item | objectification | intentional domain object: `corpus-reasoning-query`, `RoomSubject` |
+| item | instantiation | intentional domain object: `corpus-reasoning-query`, `RoomSubject` |
 | object | objectivation | durable fact: Memarium write, *facts-before-effects* |
 | thing | reification | federation-shared record: Agora topic-addressed record, Public tier, `federation-root` |
 

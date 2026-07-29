@@ -186,7 +186,7 @@ przedłuża ona osi o kolejny odcinek, lecz oznacza granicę jej stosowalności
 Na bazie pierwotnej genealogii możemy też skonstruować trzeci, dualny odczyt: dla
 każdego przejścia epistemizacji nazwać można akt determinacji, który je wprowadza:
 jawienie się → różnicowanie → wyodrębnienie → odniesienie → usensownienie →
-uogólnienie → uprzedmiotowienie → obiektywizacja → urzeczowienie. Stany odpowiadają
+uogólnienie → instancjonowanie → obiektywizacja → urzeczowienie. Stany odpowiadają
 na pytanie "co?", zaś akty na pytanie "jak?". W tym ujęciu "rzecz" nie jest zastana,
 lecz jest stosem aktów – dlatego czytana wstecz "rozpuszcza się" ku fenomenowi,
 a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
@@ -199,7 +199,7 @@ a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 | coś → znak | odniesienie (za–coś) |
 | znak → znaczenie | usensownienie |
 | znaczenie → pojęcie | uogólnienie |
-| pojęcie → przedmiot | uprzedmiotowienie |
+| pojęcie → przedmiot | instancjonowanie |
 | przedmiot → obiekt | obiektywizacja |
 | obiekt → rzecz | urzeczowienie |
 
@@ -279,7 +279,10 @@ tożsamości, pamięci i identyfikatorów w architekturze.
 istotnymi różnicami – architektoniczna precyzja *stratified design* oraz *drilling
 through abstractions*, którego holarchie nie modelują. Proces budowania warstw jest
 bliski enaktywnej autopojezie (Varela, Thompson), ale rozciągnięty na kulturę
-i obiektywność.
+i obiektywność. Z kolei wyrażona językiem rekursji i kontekstu
+antysubstancjalistyczna teoria osoby jako samopodtrzymującego się wzorca
+intensjonalnego najbardziej przypomina syntezę podejść Gallaghera, Dennetta
+i enaktywizmu.
 
 **Konsekwencje dla DIA:** cała architektura roju – węzeł, agent, memarium, sensorium,
 inquirium i protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
@@ -552,7 +555,7 @@ adaptation* zdążyła usztywnić.
 Gdy wspomniany w drugim postulacie gradient poziomów doświadczania odniesiemy do
 matrycy architektury oprogramowania, otrzymujemy rejestr **kontraktów
 i brzegów**. Warstwy stają się warstwami przetwarzania danych, zaś akty operacjami
-admisji. Chroni to m.in. przed reifikacją i przedwczesną konkretyzacją.
+admisji. Chroni to m.in. przed reifikacją i przedwczesną konkretyzacją.
 
 | stan (*co?*) | akt (*jak?*) | warstwa/operacja Orbipleksu |
 |---|---|---|
@@ -561,7 +564,7 @@ admisji. Chroni to m.in. przed reifikacją i przedwczesną konkretyzacją.
 | znak | odniesienie | `artifact-object-pointer.v1` / refs – coś zaczyna *wskazywać* |
 | znaczenie | usensownienie | `classification.v1` – brzeg, na którym wiąże się tier i sens |
 | pojęcie | uogólnienie | schemat / taksonomia (schema-gate, `taxonomy/id`) |
-| przedmiot | uprzedmiotowienie | intencjonalny obiekt domeny: `corpus-reasoning-query`, `RoomSubject` |
+| przedmiot | instancjonowanie | intencjonalny obiekt domeny: `corpus-reasoning-query`, `RoomSubject` |
 | obiekt | obiektywizacja | trwały fakt: zapis Memarium, *facts-before-effects* |
 | rzecz | urzeczowienie | rekord współdzielony federacyjnie: Agora topic-addressed record, tier Public, `federation-root` |
 
