@@ -1,0 +1,24 @@
+{
+  "schema": "inquirium.model-package.provider-key-endorsement.v1",
+  "schema/v": 1,
+  "endorsement/ref": "model-provider-key-endorsement/bielik-release-2026",
+  "federation/id": "orbiplex-main",
+  "federation-root/version": 7,
+  "federation-root/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "provider/ref": "provider/speakleash",
+  "purpose": "seed-directory",
+  "key/id": "key/speakleash-bielik-release-2026",
+  "public/key": "z6Mku7KQsKnCnmyyMbq5ifWSXcLYuZBNoJfEA8xTRWwF94j8",
+  "endorser/subject-ref": "participant:did:key:z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+  "issued-at": "2026-07-01T12:00:00Z",
+  "expires-at": "2027-07-01T12:00:00Z",
+  "revocation/ref": "federation-revocations/orbiplex-main/model-provider-keys",
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkisaSZWttjBk6YkpiHR1BW7hoK4bVejTTuf2rkBsWDp95",
+      "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  ]
+}
+

@@ -27,7 +27,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-24. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+Change basis: this refresh incorporates the current worktree state on 2026-07-29. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -330,7 +330,7 @@ structured-output repair and rail diagnostics, egress-class ceilings, shared
 participant-id and monotonicity primitives, and explicit local-model
 diagnosis/provisioning commands.
 
-Post-MVP local-model productization now also has six accepted package/lifecycle
+Post-MVP local-model productization now also has seven accepted package/lifecycle
 contracts, a dedicated content-addressed asset store, and an effectful host-side
 package lifecycle. Control metadata stays
 under `data-dir`; bulk bytes resolve from explicit configuration, then
@@ -370,12 +370,19 @@ removal all pass and produce a schema-gated metadata-only report. Managed
 package children now run under an OS-enforced no-egress launch mode on macOS
 and Linux x86_64, conformance asserts that mode, and exact dirty-restart adoption
 requires matching durable isolation evidence. The offline distributor release
-tool, exact approved-release catalog, key rotation/revocation mechanics, and
-redirect refusal matrix are implemented. A Linux x86_64/CPU profile now shares
+tool, exact approved-release catalog, key rotation/revocation mechanics,
+federation-root provider release-key endorsement projection, and redirect
+refusal matrix are implemented. Provider-key trust is bound to one exact active
+root snapshot, purpose, and exact release-catalog `provider/ref`; an endorsed
+key cannot cross provider scope, while manual trust remains the explicit
+host-wide override. Expiry or revocation fails closed with bounded metadata-only
+diagnostics, and current manifest authority is re-evaluated during activation,
+rollback, and planned-transition recovery rather than being inherited
+permanently from an install receipt. A
+Linux x86_64/CPU profile now shares
 the same lifecycle/report contract and has native ELF/dependency gates, but a
 real Linux host report remains outstanding. Publication of a production-key-
-signed `llama-server` release, the proposed federation-root provider-key
-endorsement contract, real process acceptance on Linux x86_64/CPU, and operator
+signed `llama-server` release, real process acceptance on Linux x86_64/CPU, and operator
 rebind after root/control-plane loss remain open. These items are explicitly
 outside the P066 hard-MVP denominator, so the Inquirium readiness percentages do
 not change.

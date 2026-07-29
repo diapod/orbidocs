@@ -201,6 +201,7 @@ SCHEMA_WHITELIST = (
     "inquirium.model-package.manifest.v1.schema.json",
     "inquirium.model-package.source-trust.v1.schema.json",
     "inquirium.model-package.operator-endorsement.v1.schema.json",
+    "inquirium.model-package.provider-key-endorsement.v1.schema.json",
     "inquirium.model-package.install-receipt.v1.schema.json",
     "inquirium.model-package.active-profile.v1.schema.json",
     "inquirium.model-package.install-plan.v1.schema.json",
@@ -461,6 +462,7 @@ EXAMPLE_WHITELIST = (
     "accepted.corpus-reasoning-role-assignment.json",
     "accepted.corpus-reasoning-instruction-overlay.json",
     "passed.inquirium.local-model-acceptance-report.json",
+    "bielik.inquirium.model-package.provider-key-endorsement.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -565,6 +567,8 @@ INVALID_EXAMPLE_WHITELIST = (
     "expiry-on-mute.room-moderation-intent.json",
     "widened.corpus-reasoning-chair-control-policy.json",
     "over-budget.inquirium.local-model-acceptance-report.json",
+    "bad-purpose.inquirium.model-package.provider-key-endorsement.json",
+    "unknown-field.inquirium.model-package.provider-key-endorsement.json",
     "missing-policy-ref.corpus-reasoning-room-policy-v2.json",
     "inac-push-missing-artifact.inac-control.json",
     "raw-handle.contact-lookup.artifact-delivery-envelope.json",

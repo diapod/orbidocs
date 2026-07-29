@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-provider-key-endorsement:v1",
+  "title": "Inquirium Model Package Provider Key Endorsement v1",
+  "description": "Federation-root-signed, expiring trust statement for one provider release public key. Verification may project the exact key into distributor trust but never authorizes a release, source, install, or activation by itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/066-inquirium-assistant-channel.md",
+    "doc/project/40-proposals/076-federation-identity-and-network-selector.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "endorsement/ref",
+    "federation/id",
+    "federation-root/version",
+    "federation-root/digest",
+    "provider/ref",
+    "purpose",
+    "key/id",
+    "public/key",
+    "endorser/subject-ref",
+    "issued-at",
+    "expires-at",
+    "signatures"
+  ],
+  "properties": {
+    "schema": { "const": "inquirium.model-package.provider-key-endorsement.v1" },
+    "schema/v": { "const": 1 },
+    "endorsement/ref": {
+      "type": "string",
+      "pattern": "^model-provider-key-endorsement/.+$",
+      "maxLength": 256
+    },
+    "federation/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "federation-root/version": { "type": "integer", "minimum": 1 },
+    "federation-root/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "provider/ref": {
+      "type": "string",
+      "pattern": "^provider/.+$",
+      "maxLength": 256
+    },
+    "purpose": { "const": "model-package-distribution" },
+    "key/id": {
+      "type": "string",
+      "pattern": "^key/.+$",
+      "maxLength": 256
+    },
+    "public/key": {
+      "type": "string",
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 256
+    },
+    "endorser/subject-ref": {
+      "type": "string",
+      "pattern": "^(participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "maxLength": 256
+    },
+    "issued-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "revocation/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/signature" }
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "key_public", "value"],
+      "properties": {
+        "alg": { "const": "ed25519" },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+          "maxLength": 256
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}
