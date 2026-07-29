@@ -88,10 +88,11 @@ a nemá částečné aplikace – nikoli proto, že by zdroj byl hojný, ale pro
 není veličinou, kterou by bylo možné rozdělit. Není ani výrazem kalkulu, který
 reguluje, a v tomto kalkulu je nelze citovat ani zkoumat.
 
-Nepopsatelnost nulové úrovně tak přestává být prohlášením a stává se strukturálním
-důsledkem: popis by vyžadoval vypovídat o metaúrovni jazykem objektové úrovně, tedy
-právě onu krádež ontologie, kterou zakazuje hranice vrstev chápaná jako hranice
-smyslu.
+Nepopsatelnost zde má dva zdroje a je vhodné je rozlišit. To, co leží za hranicí,
+zůstává z definice nevypověditelné, protože hranici vymezuje dosah našeho vypovídání.
+Samotná modelová role je však strukturálně nepopsatelná: její popis by vyžadoval
+vypovídat o metaúrovni jazykem objektové úrovně, tedy právě onu krádež ontologie,
+kterou zakazuje hranice vrstev jako hranice smyslu.
 
 Méně formálně lze říci, že vědomí je uskutečněním vnímavosti vůči jevení v přítomnosti
 toho, co se ukazuje – s výhradou, že „vnímavost“ je zde zkratkou pro srozumitelnost,

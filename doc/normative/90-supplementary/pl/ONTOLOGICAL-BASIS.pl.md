@@ -92,10 +92,11 @@ obfite, lecz dlatego, że reguła nie jest wielkością, którą dałoby się po
 jest przy tym wyrażeniem rachunku, który reguluje, i nie da się jej w tym rachunku
 zacytować ani zbadać.
 
-Nieopisywalność poziomu zerowego przestaje więc być deklaracją, a staje się
-konsekwencją strukturalną, ponieważ opis wymagałby orzekania o meta-poziomie językiem
-poziomu obiektowego, czyli dokładnie tej kradzieży ontologii, której zakazuje granica
-warstw jako granica sensu.
+Nieopisywalność ma tu dwa źródła i warto je rozdzielić. To, co poza granicą,
+pozostaje nieorzekalne z definicji, ponieważ granicę wyznacza zasięg naszego
+orzekania. Sama rola modelowa jest natomiast nieopisywalna strukturalnie: opis
+wymagałby orzekania o meta-poziomie językiem poziomu obiektowego, czyli dokładnie tej
+kradzieży ontologii, której zakazuje granica warstw jako granica sensu.
 
 Mniej formalnie można powiedzieć, że świadomość jest realizacją podatności na
 zjawianie w obecności tego, co się zjawia – z zastrzeżeniem, że "podatność" jest tu

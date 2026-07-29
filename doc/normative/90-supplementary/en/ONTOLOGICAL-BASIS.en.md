@@ -95,10 +95,12 @@ is abundant, but because the rule is not a magnitude that could be divided. It i
 also not an expression of the calculus it governs and cannot be quoted or examined
 within that calculus.
 
-The indescribability of level zero therefore ceases to be a declaration and becomes
-a structural consequence: description would require predicating about a meta-level
-in the language of the object level, which is precisely the theft of ontology that
-the boundary between layers, understood as a boundary of meaning, forbids.
+Indescribability has two sources here, and they should be distinguished. What lies
+beyond the boundary remains beyond predication by definition, because the boundary
+is set by the reach of our predication. The model role itself, however, is
+structurally indescribable: describing it would require predicating about a
+meta-level in the language of the object level, which is precisely the theft of
+ontology forbidden by the boundary between layers as a boundary of meaning.
 
 Less formally, consciousness may be described as the realization of a receptivity
 to appearing in the presence of what appears — with the proviso that "receptivity"
