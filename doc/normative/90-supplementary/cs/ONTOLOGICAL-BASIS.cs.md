@@ -274,6 +274,21 @@ náchylnou k reifikaci v obou směrech, nikoli strukturou zrozenou z reifikace.
 Tuto posloupnost chápeme jako pracovní strukturálně-vývojovou rekonstrukci, nikoli
 jako přímé pozorování vlastní ontogeneze ani jako přísnou chronologii jejích etap.
 
+#### Nevědomé
+
+Nevědomé není v tomto modelu ani místem, ani souborem skrytých obsahů. Táž
+překladová brána, kterou je osoba obrácena směrem dolů, totiž působí redukčně: osoba
+vypovídá výhradně o tom, co touto bránou prochází. „Nevědomí“ tedy pojmenovává
+rozsah, který brána nepropouští, nikoli divadlo odehrávající se v zákulisí.
+Nevypovídáme přitom o tom, zda je za bránou něco zakoušeno, protože tato otázka leží
+mimo dosah výpovědi, a tedy mimo hranici modelu (srov. postulát 1: nepřítomnost
+zakoušení nikdy není zakoušena jako nepřítomnost).
+
+Propustnost této brány přitom není stálá: výše popsaná schopnost „vrtat díry do
+abstrakcí“ a introspektivní praxe mění to, co jí prochází. Nevědomé tak zůstává
+pojmem relativním vůči aktuálnímu stavu brány, nikoli trvalou oblastí. Bez této
+výhrady by se samotná brána stala další reifikací.
+
 #### Trvalost osoby
 
 Trvalost takto vzniklé osoby (z vrstvy 0.1.1.1) vyžaduje samostatné vysvětlení.

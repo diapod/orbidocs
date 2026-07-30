@@ -299,6 +299,23 @@ reification in both directions, not a structure born of reification.
 We treat this sequence as a working structural-developmental reconstruction, not as
 a direct observation of one's own ontogenesis or a strict chronology of its stages.
 
+#### The unconscious
+
+In this model the unconscious is neither a place nor a set of hidden contents. The
+same translation gateway through which the person faces downward also works
+reductively: the person reports only what passes through that gateway. "The
+unconscious" therefore names the range the gateway does not admit, rather than a
+theatre playing out backstage. We make no claim about whether anything is
+experienced beyond the gateway, because that question lies outside the reach of the
+report, and therefore outside the boundary of the model (cf. postulate 1: the
+absence of experiencing is never itself experienced as absence).
+
+The capacity of this gateway is not fixed: the ability to "drill through
+abstractions" described above, together with introspective practice, changes what
+passes through it. The unconscious therefore remains a notion relative to the
+current state of the gateway, not a permanent region. Without that qualification the
+gateway would itself become one more reification.
+
 #### Persistence of the person
 
 The persistence of a person formed in this way (from layer 0.1.1.1) requires a

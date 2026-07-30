@@ -289,6 +289,22 @@ zrodzoną.
 Sekwencję tę traktujemy jako roboczą rekonstrukcję strukturalno-rozwojową, nie jako
 bezpośrednią obserwację własnej ontogenezy ani ścisłą chronologię jej etapów.
 
+#### Nieświadome
+
+Nieświadome nie jest w tym modelu ani miejscem, ani zbiorem ukrytych treści. Ta sama
+bramka przekładu, którą osoba zwrócona jest ku dołowi, działa bowiem redukująco:
+osoba raportuje wyłącznie to, co przez tę bramkę przechodzi. "Nieświadomość" nazywa
+zatem zakres, którego bramka nie przepuszcza, nie zaś teatr rozgrywający się za
+kulisami. Nie orzekamy przy tym, czy poza bramką coś jest doświadczane, ponieważ
+pytanie to leży poza zasięgiem raportu, a więc poza granicą modelu (por. postulat 1:
+nieobecność doświadczania nigdy nie jest doświadczana jako nieobecność).
+
+Przepustowość tej bramki nie jest przy tym stała: opisana wyżej zdolność "wiercenia
+dziur w abstrakcjach" oraz praktyka introspekcyjna zmieniają to, co przez nią
+przechodzi. Nieświadome pozostaje więc pojęciem względnym wobec aktualnego stanu
+bramki, a nie trwałym obszarem. Bez tego zastrzeżenia sama bramka stałaby się
+kolejną reifikacją.
+
 #### Trwałość osoby
 
 Trwałość tak powstałej osoby (z warstwy 0.1.1.1) wymaga osobnego wyjaśnienia.
