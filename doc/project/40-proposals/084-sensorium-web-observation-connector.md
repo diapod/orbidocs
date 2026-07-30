@@ -510,6 +510,63 @@ publication authority.
 
 ## Implementation Guidance
 
+### Reuse map: named primitives before new mechanism
+
+The Development Guidelines require consulting the shared host-owned runtime
+primitive before building a private mechanism. For this connector the mapping is
+already determined. Treat any deviation as a decision recorded in this proposal,
+not as an implementation detail discovered during coding.
+
+| Need | Existing primitive | Do not build |
+|---|---|---|
+| Supervised connector lifecycle, health, report | `middleware-supervisor`, `middleware-channel-core`, `middleware-channel-transport`, Solution 019 | a private service manager or bespoke process wrapper |
+| Private connector-to-host call | the module channel and host capability admission already used by `sensorium-workbench` | a connector-local HTTP endpoint reachable by other callers |
+| Periodic durable-source refresh | `replay-scheduler`, Solution 020 | a private sleep or timer loop inside the connector |
+| Work that outlives one request | `deferred-operation`, Solution 029 | a background thread without an operation id or cancellation |
+| Large bodies and extracted representations | `artifact-delivery`, `artifact-delivery-core`, Solution 023 | oversized inline envelopes or a private blob directory |
+| Causal context, receipts, cursors | `horizontal-protocol-core`: `CausalContext`, `RootContextInput`/`ChildContextInput`/`JoinContextInput`, `canonicalize_causation_refs`, `validate_causal_context`, `causal_context_digest`, `ExecutionReceipt`, `validate_execution_receipt`, `CursorRef` | ad hoc correlation ids or a private trace shape |
+| Interface publication | `sensorium-interface-core`: `InterfaceResource`, `AccessMode`, `DeliverySemantics`, `OverflowPolicy`, `InterfaceLifecycle`, `BatchOutcome`, `CURSOR_PREFIX`, `DEFAULT_MAX_FRAME_BYTES`, `DEFAULT_MAX_BATCH_BYTES`, `DEFAULT_MAX_LEASE_SECONDS` | a connector-specific publication or cursor format |
+| Operational context and labels | `sensorium-interface-core::OperationalContext`, `MAX_OPERATIONAL_CONTEXT_SUMMARY_BYTES`, `classification` | a private severity or sensitivity vocabulary |
+| Canonical digest inputs | `canonical-json` | per-call JSON serialization for digest computation |
+| Connector-local state | `storage-sqlite` conventions | a private file format or unindexed JSON directory |
+| Append-only operator sidecars | `config-sidecar-core` | direct mutation of the module config tree |
+| Bounded output, timeout, containment | `sensorium-actuation-core`, `relative-path-core` | new path or cap validators |
+| Process identity for the deferred browser profile | `process-supervision-core`: `ProcessIdentity { pid, start_marker }`, `capture_process_identity`, `process_is_exact`, `signal_exact_process`, `stop_exact_process` | PID-only supervision |
+
+The connector is also subject to the middleware HTTP listener inventory gate.
+Even a connector with no product listener must carry an explicit classification
+and listener outcome; "no listener" is a recorded decision, not an omission.
+
+### Crate purity and layer direction
+
+`sensorium-web-core` must be enforced pure, not merely described as pure. The
+repository already has this mechanism: the `check-*-core-deps` build guards fail
+on banned dependencies **and** on banned source terms. Add an equivalent guard
+for this crate in the first commit that creates it, banning at minimum HTTP
+clients, TLS stacks, DNS resolvers, async runtimes, database drivers, and
+process or filesystem access, plus source terms for socket, resolver, and client
+construction. A purity rule introduced after the crate has grown is a rule that
+will be negotiated away.
+
+Dependency direction is one-way and must stay so:
+
+```text
+sensorium-web-core        pure types, policy, digests, invariants
+  <- daemon egress broker network authority, admission, audit
+  <- Sensorium Core       action resolution, observation admission
+  <- Python connector     extraction mechanics only
+```
+
+The pure crate must not learn about the broker, the broker must not learn about
+extraction, and extraction must not learn about grants. A helper needing facts
+from two of these layers belongs in neither; it belongs in the caller that
+already holds both.
+
+Keep the boundary thin in the P084-specific sense: the broker returns response
+metadata plus bytes or an artifact pointer, and nothing else. Every request to
+return "just the parsed title" or "just whether it changed" moves interpretation
+into the trusted layer and should be refused.
+
 ### Recommended technology split
 
 - Rust: `url`, a pinned HTTP client such as `reqwest`, TLS configuration,
@@ -525,17 +582,220 @@ publication authority.
 The connector must not fall back to Python HTTP, `curl`, a system browser, or an
 unmediated subprocess when the Rust host broker is absent.
 
+### Egress denial is a host property, not a connector promise
+
+`inv-swo-no-ambient-egress` must be enforced by something other than the
+connector's own restraint, and the node already has the vocabulary. The model
+runtime layer defines an egress policy shape of `offline_ok`, `allowed_domains`,
+`proxy_profile`, and `on_error`, plus an optional host-resolved sandbox profile
+reference; the daemon's runtime conformance fixtures assert `require_no_egress`
+and `require_process_no_egress` and refuse a runtime whose declared policy
+contradicts them. Reuse that shape rather than inventing a second egress
+vocabulary:
+
+- the connector's declared egress policy has empty `allowed_domains` and
+  `offline_ok = true`;
+- a host conformance fixture asserts process-level no-egress for the connector
+  and fails closed when either the declared policy or the observed process
+  contradicts it;
+- absence of the private host fetch capability is terminal, and the refusal is a
+  typed member of `sensorium-web-error-codes.v1`, not a log line;
+- the acceptance pack proves the negative directly: with the broker capability
+  withheld, an ordinary fetch fails with the typed refusal and produces no
+  socket, no subprocess, and no observation.
+
+Platform enforcement already exists for the model-package no-egress path
+(seccomp-bpf on Linux, `sandbox-exec` on macOS). Reuse that implementation
+instead of adding a third mechanism. Where a platform has no enforcement, the
+fallback is refusal, not a weaker profile.
+
+### One fetch is a state machine, not a call chain
+
+A fetch has too many distinct failure surfaces to survive as an implicit chain of
+fallible calls. Declare states and legal transitions as data in
+`sensorium-web-core`, and drive both the broker and the tests from that table:
+
+```text
+planned -> url-admitted -> destination-resolved -> destination-admitted
+        -> connected -> tls-established -> headers-received
+        -> body-streaming -> body-complete -> decoded -> extracted
+        -> observed -> published
+```
+
+with `refused{reason}`, `expired{phase}`, and `unknown{phase}` as terminal
+classes reachable from named states. Two rules the table must make structural
+rather than aspirational:
+
+- a redirect is a transition **back** to `url-admitted` carrying an incremented
+  hop count, not a loop inside the connection step. `inv-swo-redirect-revalidated`
+  then holds by construction instead of by reviewer vigilance;
+- `unknown` is a first-class outcome. A read that times out mid-body has an
+  honest outcome distinct from both success and refusal, exactly as P083 treats a
+  timed-out actuation. Never collapse `unknown` into `refused` for tidiness: the
+  remote server may have observed and served the request either way, and a
+  partial body must never be extracted as if it were complete.
+
+### Coupled state changes need one journal and one point of routability
+
+A single successful acquisition writes to several stores: artifact objects,
+connector source state and conditional hints, observation admission, and possibly
+interface publication. Leaving these coupled by hope is the failure the
+guidelines name explicitly. Follow the staging-then-commit pattern the node
+already uses for model-package activation:
+
+- artifacts are written and digest-verified **before** any snapshot record
+  references them;
+- the snapshot becomes readable only after one commit binding
+  `source/generation-ref`, body digest, extraction digest, and artifact refs
+  together;
+- a crash between stages leaves staged artifacts unreferenced and collectable,
+  never a snapshot pointing at a missing or partial body;
+- publication is a separate commit with its own authority check, so a fetch
+  commit can never imply an interface commit
+  (`inv-swo-fetch-does-not-authorize-publication`).
+
+### Recovery has one source of truth
+
+On restart the host, not the connector, decides what was in flight. Enumerate at
+startup and resolve every case to a typed terminal state before serving:
+
+| Interrupted state | Resolution |
+|---|---|
+| Broker fetch without a completion record | mark failed with a retryable class; never silently re-issue |
+| Staged artifact without a snapshot commit | collect under the artifact lifecycle |
+| Snapshot commit without publication | leave unpublished; publication needs its own authority |
+| Deferred operation in `pending`/`running` | mark failed with retry diagnostics, per the existing recovery contract |
+| Scheduler launch mid-flight | reconcile through scheduler accounting; do not double-count |
+
+Blind re-invocation after restart is the specific failure to avoid. A fetch is
+externally observable, so replay is never free: it re-discloses the node's
+network position and timing to the remote server.
+
+### Every store has an owner, a key, caps, a TTL, and a restart rule
+
+Declare these in the schemas rather than in code comments. The connector
+introduces at least four stores, and each needs the full five-tuple:
+
+| Store | Key | Bounds to declare |
+|---|---|---|
+| conditional-request hints (`ETag`, `Last-Modified`) | `source/ref` plus generation | entry cap, TTL, invalidation on generation change |
+| response and extraction cache index | body digest | entry cap, byte cap, age cap, eviction policy |
+| retained bodies and representations | artifact ref | opt-in per source, retention rule, deletion path |
+| per-origin rate and concurrency accounting | canonical origin | window, cap, reset semantics, restart behaviour |
+
+Eviction may force a full refetch but must never turn a stale retained
+representation into a fresh observation. That is the `304` reuse rule expressed
+as a cache invariant, and it is the same rule stated twice on purpose.
+
+### Identifiers are explicit; identity is never derived from labels
+
+- The display URL is a redaction; the digest is the identity. Never join,
+  deduplicate, cache, or fence on the display form.
+- A source generation is a declared ref, not a hash of the current URL string.
+  Two sources may legitimately share a URL under different extraction or
+  classification postures.
+- Never derive trust, origin identity, or classification from `Host`,
+  `Content-Type`, a canonical-link tag, or any other remote-controlled label. The
+  canonical origin comes from the host's own canonicalization and the admitted
+  resolved address, never from what the response says about itself.
+- Give `source/ref`, `source/generation-ref`, snapshot ids, and artifact refs
+  distinct prefixes with validators, following the existing
+  `sensorium-interface:`, `sensorium-subscription:`, and `sifc1:` conventions.
+
+### Schema Gate registration is a checklist, not a step
+
+A partial contract registration compiles cleanly while leaving the gate open, so
+treat it as a checklist. For each of the six V1 schemas complete all of:
+
+1. the contract-family variant;
+2. the lazily initialized validator static;
+3. the contract spec entry with schema id, file name, and boundary;
+4. the public validation function;
+5. the private validator that compiles the schema;
+6. embedded reference aliases for the bare, `embedded://`, and
+   `urn:orbiplex:schema:` forms;
+7. the embedded schema source entry;
+8. a positive example in the content tests;
+9. a negative example in the invalid-example list;
+10. membership in the family coverage list.
+
+Canonical schemas live in `orbidocs` and are synchronized into the Node contract
+root. Both schema copies, both example sets, and the coverage generators must
+move together; drift between those copies has been a recurring CI failure and is
+never caught by local tests alone.
+
+### Observability without a second disclosure channel
+
+For this connector the operator surface is itself a leak risk, so state the rule
+as a schema property rather than a convention. `sensorium-web-operator-snapshot.v1`
+and every audit record are metadata-only, and none of the following may ever
+appear in them: request headers, `Authorization`, cookies or `Set-Cookie`, exact
+query values outside the source allowlist, redirect `Location` values, resolved
+addresses, local socket details, proxy metadata, or response bodies.
+
+What must appear, because a refusal that cannot be diagnosed will be worked
+around: the typed refusal reason, the phase in which it occurred, the hop index
+for redirect refusals, the destination class for classification refusals, and the
+limit that was hit reported alongside its configured value.
+
+Prove the redaction the way retained Story 012 evidence proves it: run a real
+fetch against a fixture that serves secret-shaped headers, cookies, and signed
+query values, then assert their absence across every persisted record, artifact,
+audit row, operator snapshot, and interface frame.
+
+### Refusal and replay first
+
+The corpus below is close to sufficient. Two structural additions make it
+self-maintaining:
+
+- drive the refusal matrix from `sensorium-web-error-codes.v1` so that every
+  declared code has at least one fixture, and a new code without a fixture fails
+  the build. A closed error vocabulary whose members are unreachable is a
+  documentation artifact, not a gate;
+- order the tiers by cost and keep the expensive tier out of the diagnostic loop.
+  Pure-core tests need no I/O; broker tests need only local HTTP/TLS fixtures and
+  a deterministic resolver; extraction tests need only checked-in HTML. The full
+  connector-to-interface path is the last tier and should be entered with the
+  earlier tiers green. No tier may reach a public site.
+
 ### Suggested implementation order
 
-1. Freeze source, fetch, result, snapshot, error, and operator schemas.
-2. Implement pure URL, policy, generation, digest, and error semantics in Rust.
-3. Implement the private host fetch capability with fixture HTTP/TLS servers.
-4. Add the Python static extractor with offline HTML fixtures first.
-5. Compose connector fetch, extraction, observation admission, and artifact
-   retention.
-6. Add the P082 latest-state source-provider adapter.
-7. Add local and direct-peer acceptance without browser rendering.
-8. Collect operational evidence before opening browser or crawler profiles.
+Each step ends at a gate the next step assumes. Do not carry an unproven
+assumption forward, and do not use the most expensive layer as the diagnostic
+loop for a question a cheaper layer can answer.
+
+1. Resolve Open Questions 1-4 and record the decisions here. Contract shape
+   depends on them, so freezing schemas first would freeze a guess.
+2. Freeze the six schemas with positive and negative fixtures and complete Schema
+   Gate registration end to end. *Gate:* unknown fields, missing bounds, and
+   malformed provenance are rejected by the gate, not by application code.
+3. Implement `sensorium-web-core` with the purity guard present from the first
+   commit: URL canonicalization, destination classes, budget relations,
+   generation replacement, the fetch state table, typed errors, digest inputs.
+   *Gate:* the crate has no HTTP, DNS, TLS, async, storage, or process
+   dependency, and the guard proves it in CI.
+4. Implement the private daemon-owned egress broker against local HTTP/TLS
+   fixtures and a deterministic resolver. *Gate:* the SSRF and redirect matrix
+   passes, and no reusable socket, resolver, cookie jar, or credential handle
+   crosses the boundary.
+5. Add the Python static extractor against offline HTML fixtures only, with
+   pinned extractor identity bound into the output digest. *Gate:* deterministic
+   extraction digests and typed empty or low-confidence outcomes.
+6. Wire egress denial and prove the negative: with the broker capability
+   withheld, the connector refuses with a typed error and produces no network
+   activity at all.
+7. Compose fetch, artifact retention, and observation admission under the
+   single-commit routability rule and the restart resolution table. *Gate:* a
+   crash injected between any two stages leaves no snapshot referencing a partial
+   body.
+8. Add durable sources, conditional refresh, scheduler, and deferred operations,
+   with every cache and rate store fully declared. *Gate:* `304` reuse requires
+   exact retained evidence under an unchanged generation.
+9. Register the P082 `latest-state` source-provider adapter. *Gate:* read and
+   subscribe authority provably cannot cause a refresh.
+10. Collect end-to-end evidence including the redaction proof, then synchronize
+    Solutions 030 and 046, the Node ledgers, trackers, and readiness before
+    considering the deferred browser or crawl profiles.
 
 ### Conformance corpus
 
@@ -551,7 +811,20 @@ The checked-in test corpus should include:
 - prompt-injection text, hostile ANSI/control characters, misleading canonical
   links, active scripts, tracking pixels, and secret-shaped query values;
 - interface publication, revocation, stale generation, remote read, and consumer
-  digest verification.
+  digest verification;
+- authority negatives: a fetch attempted without the broker capability, an
+  interface read attempting to trigger a refresh, a publication attempted from
+  fetch authority alone, and a carrier attempting to reinterpret or widen an
+  admitted snapshot;
+- restart and recovery: a crash between artifact staging and snapshot commit, a
+  crash mid-body, an interrupted deferred operation, and an interrupted scheduler
+  launch, each resolving to the typed terminal state named in the recovery table
+  without blind refetch;
+- redaction proof: a fixture serving secret-shaped headers, cookies, and signed
+  query values, with absence asserted across snapshots, artifacts, audit records,
+  the operator snapshot, and interface frames;
+- one fixture per declared member of `sensorium-web-error-codes.v1`, enforced so
+  that an unreachable error code fails the build.
 
 Tests use local fixture servers and deterministic DNS adapters. Ordinary CI does
 not scrape public sites.

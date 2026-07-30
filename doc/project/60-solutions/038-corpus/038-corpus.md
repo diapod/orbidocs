@@ -466,6 +466,26 @@ Room prose. Its story policy supplies one closed allowlisted command template fo
 reproducibility; therefore the result proves exact model-product carriage and
 critique lineage, not unconstrained plan synthesis.
 
+The additive model-authored discovery successor removes that closed solution
+template from both the guest and every model-facing surface. A host-owned staged
+policy derives the only writable path from active terminal configuration and
+discloses a solution-aware stage selection to both model roles, while the solver
+still authors the bytes and the reviewer authors findings plus any replacement
+through the same requester-owned policy. Host policy constrains admissible
+verdicts, so the profile does not claim an independent reviewer verdict. Pure
+contract tests, deterministic policy/review replay, a real-model stage bench, an
+append-only calibration ledger, and a closed full-system report contract are
+implemented. The path-aware active-directive oracle accepts two of five retained
+zone-declaration samples for the pinned Bielik 4.5B Q8 artifact, but no goal-ready
+zone-data correction in either five-sample stage. The deployment profile also has
+only one guest-attested challenge family. The resolved second variant is
+`powerdns-bind-missing-zone-data.v1`: a valid listener/backend/declaration chain
+whose referenced zone-data file is absent and whose image contains no final
+`localdomain` records. Its implementation and evidence remain required for a
+cross-variant claim. The discovery profile
+is therefore structurally implemented but not promoted as passing deployment
+evidence; these post-MVP gaps do not reopen the completed baseline Story 012 gate.
+
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:
 it tests real process and network boundaries without presenting one kernel and

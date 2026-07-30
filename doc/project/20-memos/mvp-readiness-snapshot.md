@@ -169,6 +169,22 @@ HIL, P083 lease release, and zero direct effects from Room prose. The profile is
 `ready`. This is additive post-MVP evidence and does not change any readiness
 percentage.
 
+The stronger model-authored PowerDNS discovery successor is also additive
+post-MVP work. Its no-ready-wrapper guest, structured intent compiler, disclosed
+solution-aware staged admission scope, model-authored review findings and
+replacement, full-plan and terminal-completion evidence, bounded non-truncated
+effect projection, deterministic replay, real-model stage bench, append-only
+calibration ledger, and closed report contract are implemented. It does not claim
+an independent reviewer verdict. The path-aware active-directive oracle accepts
+two of five retained zone-declaration samples for the pinned Bielik 4.5B Q8
+artifact, but no zone-data correction in either five-sample stage. Only one
+guest-attested challenge family exists. The resolved second variant,
+`powerdns-bind-missing-zone-data.v1`, starts from a valid
+listener/backend/declaration chain whose referenced zone-data file is absent and
+contains no final `localdomain` records. Its implementation, evidence, and a
+passing real vfkit report remain explicit post-MVP gaps. They do not change the
+completed baseline Story 012, Corpus, or Workbench readiness rows.
+
 The 2026-07-22 terminal live-feed slice adds an independent bounded guest
 `terminal-read` operation with exact-byte cursors, eviction gaps, post-exit replay,
 and future-cursor refusal. Follow-up conformance keeps two PTYs active together,

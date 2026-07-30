@@ -269,6 +269,9 @@ schema_for_file() {
     *.story-012-powerdns-critique-gated-full-system-report.json)
       echo "$SCHEMAS_DIR/story-012-powerdns-critique-gated-full-system-report.v1.schema.json"
       ;;
+    *.story-012-powerdns-discovery-full-system-report.json)
+      echo "$SCHEMAS_DIR/story-012-powerdns-discovery-full-system-report.v1.schema.json"
+      ;;
     *.story-012-delegated-adaptive-executor-profile.json)
       echo "$SCHEMAS_DIR/story-012-delegated-adaptive-executor-profile.v1.schema.json"
       ;;

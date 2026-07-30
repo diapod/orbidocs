@@ -1,0 +1,256 @@
+{
+  "artifact/refs": [
+    "artifact:workbench:1ecdf87050cec6e02de74581"
+  ],
+  "backend/id": "vfkit-system.v1",
+  "budgets": {
+    "deliberation/ms-max": 600000,
+    "duration/ms-max": 1200000
+  },
+  "checks": [
+    "pinned-powerdns-guest-fixture",
+    "exact-powerdns-package-pins",
+    "single-host-three-node-vfkit",
+    "two-real-bielik-runtimes",
+    "agent-output-backed-corpus-turns",
+    "read-only-terminal-room-projection",
+    "exclusive-host-approved-configuration",
+    "localhost-only-powerdns-listener",
+    "exact-localdomain-a-records",
+    "observer-revocation",
+    "dirty-recipient-restart",
+    "stale-generation-refusal",
+    "artifact-export",
+    "unpublished-corpus-draft",
+    "role-aware-baton-deliberation",
+    "failed-experiment-correction",
+    "typed-experiment-admission-loop",
+    "solution-wrapper-absent",
+    "host-staged-mutation-scope-disclosed",
+    "first-experiment-read-only",
+    "model-authored-candidate-plans",
+    "model-authored-review-findings",
+    "review-precedes-chair-decision",
+    "host-does-not-synthesize-domain-commands",
+    "nonpassing-experiment-precedes-success",
+    "fresh-terminal-evidence-between-experiments",
+    "hil-per-effect",
+    "p083-claim-invoke-release",
+    "no-room-prose-direct-effect",
+    "no-deadline-fixture-fallback",
+    "no-deadline-fixture-fallback"
+  ],
+  "corpus/draft-ref": "corpus-agent-answer-draft:sha256:PIyJKZQFjWAj-UQjMmdtEdTUbQ8s2lUaZ_a-NqUF7aw",
+  "deliberation": {
+    "cycle/limit": 64,
+    "cycles": 2,
+    "effective-wall-time/ms-max": 300000,
+    "experiment/count": 2,
+    "experiments": [
+      {
+        "agent/decision": "propose",
+        "attempt": 1,
+        "chair-block/tested": false,
+        "chair-decision/ref": "corpus-experiment-chair-decision:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "chair/product-ref": "object-store:sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-1",
+        "execution/ref": "corpus-experiment-execution:1gwTFe_1uxRQaIlP86_daRtlSCqsFGbWxaqT9JtAGDY",
+        "execution/status": "terminal",
+        "executor/inference-ref": "inquiry:story-012-experiment-executor:1",
+        "executor/product-digest": "sha256:VzGUqAcbUYnxaTSlUoAPCaek4NBKPf-jEFkRamtCX8M",
+        "executor/product-ref": "object-store:sha256:VzGUqAcbUYnxaTSlUoAPCaek4NBKPf-jEFkRamtCX8M",
+        "flow/ref": "inquiry-flow:rOeKGUFmoz6MsAOWIFRHB-803K-kdE-_V5GdoCqZZuo",
+        "hil/decision": "approved",
+        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
+        "lease/released": true,
+        "outcome": "model-authored-plan-nonpassing",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ],
+        "plan-publication/ref": "corpus-experiment-plan-publication:sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        "passage/ref": "corpus-experiment-passage:6pm3ez5wtdW0hieQuZtQonAUOjGS7RvLNIvE-XPMplk",
+        "proposal/ref": "corpus-experiment:sha256:Y0K-MOrCxxizuckmnZhaqX7sxz8Z7trorDEL5JXcQVo",
+        "review/ref": "corpus-experiment-review:sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        "review/verdict": "accept",
+        "terminal-state/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+        "terminal/event-count": 13,
+    "model-command/digest": "sha256:KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+    "candidate-plan/digest": "sha256:MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "terminal/completion-marker": "STORY012 DISCOVERY EXPERIMENT COMPLETE 1 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+    "terminal/output-digest": "sha256:OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+    "verification/passed": false
+      },
+      {
+        "agent/decision": "propose",
+        "attempt": 2,
+        "chair-block/tested": false,
+        "chair-decision/ref": "corpus-experiment-chair-decision:sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "chair/product-ref": "object-store:sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-2",
+        "execution/ref": "corpus-experiment-execution:2exRSWfkKkMdNoVdi7HTmcVsw_gEWzmdt65yLJykPh4",
+        "execution/status": "terminal",
+        "executor/inference-ref": "inquiry:story-012-experiment-executor:2",
+        "executor/product-digest": "sha256:7yWfGoSa2AlZyGr8PT0Oj_uhhVB_s9OP-DKYio6LJuM",
+        "executor/product-ref": "object-store:sha256:7yWfGoSa2AlZyGr8PT0Oj_uhhVB_s9OP-DKYio6LJuM",
+        "flow/ref": "inquiry-flow:YGy-tCmHgyXuCe0rfg0FBWdSw-IryCuRoJzu6XzaSO4",
+        "hil/decision": "approved",
+        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
+        "lease/released": true,
+        "outcome": "model-authored-plan-passed",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ],
+        "plan-publication/ref": "corpus-experiment-plan-publication:sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+        "passage/ref": "corpus-experiment-passage:DX_EW8RSSgaJeRRQI1QUplVl0cprUWvQ8C9ampuFGrA",
+        "proposal/ref": "corpus-experiment:sha256:KDlY0rwk-TKgxr89q5mVywXGo3504g4PjfQuZiVesM8",
+        "review/ref": "corpus-experiment-review:sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+        "review/verdict": "accept",
+        "terminal-state/digest": "sha256:JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",
+        "terminal/event-count": 19,
+    "model-command/digest": "sha256:LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+    "candidate-plan/digest": "sha256:NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+    "terminal/completion-marker": "STORY012 DISCOVERY EXPERIMENT COMPLETE 2 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+    "terminal/output-digest": "sha256:PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "verification/passed": true
+      }
+    ],
+    "fallback/used": false,
+    "hard-wall-time/ms-max": 360000,
+    "inference/refs": [
+      "inquiry:story-012-node-b:1",
+      "inquiry:story-012-node-c:1",
+      "inquiry:story-012-node-b:3",
+      "inquiry:story-012-node-c:3"
+    ],
+    "critique-gate": {
+      "chair-block/count": 0,
+      "chair/source": "agent-product-marker",
+      "prose/direct-effect-count": 0,
+      "review/source": "agent-product-marker",
+      "solver-plan/source": "agent-product-marker"
+    },
+    "mode": "baton",
+    "overlay/refs": [
+      "corpus-instruction-overlay:sha256:nlP6n3iTyKwE_OLmdRU444HDiNgF9VIB1KDP8nU618k",
+      "corpus-instruction-overlay:sha256:VLl6i-dFDMIDOKfeBwRQ7dL91pi3yCb6xXfloqwOGpE",
+      "corpus-instruction-overlay:sha256:F9O5WA99OicxB2QfTRuhJNPC2zkLXlUnX0p-R-yUtjs",
+      "corpus-instruction-overlay:sha256:0YTsYJEppDTbcdejxwWBt1mtUgolWaPF1iGoA4r9GDU"
+    ],
+    "requester-opening/ref": "query:story-012-powerdns-localdomain-discovery",
+    "resolution/path": "model-authored-discovery",
+    "roles": {
+      "reviewer": "node-c",
+      "solver": "node-b"
+    },
+    "room-prose/direct-effect-count": 0,
+    "effect-audit": {
+      "source/schema": "agent.status.response.v1",
+      "projection/item-count": 2,
+      "projection/total-count": 2,
+      "expected/proposal-refs": [
+        "agent-effect-proposal:story-012-powerdns-experiment-1",
+        "agent-effect-proposal:story-012-powerdns-experiment-2"
+      ],
+      "observed/proposal-refs": [
+        "agent-effect-proposal:story-012-powerdns-experiment-1",
+        "agent-effect-proposal:story-012-powerdns-experiment-2"
+      ],
+      "unmatched/proposal-refs": [],
+      "unmatched/count": 0
+    },
+    "room/floor-mode": "round-robin",
+    "speaker/order": [
+      "requester-opening",
+      "solver",
+      "reviewer"
+    ],
+    "stop/reason": "model-authored-plan-passed",
+    "turn/refs": [
+      "corpus-turn:sha256:NPp3LUXcLbR19RZIsibkArmEG3OWWwz_0efeWLA39rs",
+      "corpus-turn:sha256:5nnLYj_ncE0fPq3HhLy798g2y4b38sf2atn8QYWydmU",
+      "corpus-turn:sha256:hRIPcqOFxn0cKMUgujUxFuTufsNV0HD7diaIMdpKdvc",
+      "corpus-turn:sha256:ppwescfDirE-y7oNoQw42Vd-qPykyX8K0_yClHm6RfI"
+    ],
+    "discovery": {
+      "challenge/id": "powerdns-bind-unconfigured.v1",
+      "solution-wrapper/invocations": 0,
+      "host-domain-command-synthesis/count": 0,
+      "review-rejections/count": 0,
+      "first-experiment/read-only": true,
+      "nonpassing/experiments": 1,
+      "model-command/digests": [
+        "sha256:KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+        "sha256:LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"
+      ],
+      "verifier/mode": "observation-only"
+    }
+  },
+  "dns/assertions": [
+    {
+      "actual/address": "127.0.0.1",
+      "expected/address": "127.0.0.1",
+      "name": "a.localdomain",
+      "peer/address": "127.0.0.1",
+      "query/id": 4608
+    },
+    {
+      "actual/address": "127.0.0.2",
+      "expected/address": "127.0.0.2",
+      "name": "b.localdomain",
+      "peer/address": "127.0.0.1",
+      "query/id": 4609
+    },
+    {
+      "actual/address": "127.0.0.3",
+      "expected/address": "127.0.0.3",
+      "name": "c.localdomain",
+      "peer/address": "127.0.0.1",
+      "query/id": 4610
+    }
+  ],
+  "evidence/boundary": "single-host-full-system",
+  "guest": {
+    "apt/packages": [
+      "pdns-backend-bind=4.8.3-4build3",
+      "pdns-server=4.8.3-4build3"
+    ],
+    "fixture/digest": "sha256:b5b8b619ec17cfe4e6c6cba3a21f13677d7efc4cd7977710f33b31cbaff4eef5",
+    "fixture/ref": "story-fixture:story-012-powerdns-discovery-v1",
+    "image/artifact-digest": "sha256:2b7a510258bd597e04e6722a20c23ed912695b67f1b396aa2df43e626f117c5c",
+    "image/manifest-digest": "sha256:dbc9f534c2f2c84de4a9dd06ff3924695979408850894d9afd6cb3f03eb6d4fe"
+  },
+  "measurements": {
+    "deliberation/ms": 45496,
+    "duration/ms": 155637
+  },
+  "model": {
+    "agent-product/digests": [
+      "sha256:bLfnaX5xwpGldd21UItn0lEXEyqT8wvCjt83OM9uqR0",
+      "sha256:H3_KBh9s4kIzYbxMLaai9MH7VyHKMkHbTb_tCQTyOb4"
+    ],
+    "alias": "Bielik-1.5B-v3.0-Instruct",
+    "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "binding/ref": "model.binding/baseline-assistant-llama-server",
+    "inference/refs": [
+      "inquiry:story-012-node-b:3",
+      "inquiry:story-012-node-c:3"
+    ],
+    "runtime/count": 2,
+    "runtime/nodes": [
+      "node-b",
+      "node-c"
+    ],
+    "runtime/refs": [
+      "runtime/baseline-assistant-llama-server"
+    ]
+  },
+  "platform/ref": "macos-vz-arm64.v1",
+  "profile/id": "story-012-powerdns-bielik-discovery-vfkit",
+  "schema": "story-012-powerdns-discovery-full-system-report.v1",
+  "schema/v": 1,
+  "status": "passed"
+}

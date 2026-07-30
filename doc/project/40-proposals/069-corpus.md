@@ -783,6 +783,20 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 No open questions remain for the hard-MVP procurement slice. Post-MVP live
 deliberation questions are tracked under the Room/Inquirium/Agent phases below.
 
+Resolved post-MVP Story 012 discovery decision: the second guest-attested
+PowerDNS challenge is `powerdns-bind-missing-zone-data.v1`. Its prepared system
+has a valid loopback listener, BIND backend activation, and authoritative zone
+declaration whose referenced zone-data file is absent. The image must not contain
+the final `localdomain` records. This preserves a real incomplete system,
+exercises model-authored reference following, and differs structurally from the
+current unconfigured challenge.
+
+The runner must read `challenge/id` and the verifier contract ref/digest from
+pinned guest/image evidence. A profile literal, runner default, or renamed copy
+of the first image cannot satisfy the second-variant gate. Both variants use the
+same typed plan, admission, review, HIL, P083, and report semantics; only prepared
+system state and corresponding observation evidence may differ.
+
 Resolved answer publication decision: local daemon round snapshots may replace a repeated
 `answer/id` or a superseded answer as a latest read-model convenience, after signature,
 selected-bid, and policy-digest validation. Federated answer publication is append-only:
@@ -2081,6 +2095,29 @@ node, and still requires a separate Corpus transition before any answer is publi
   the deadline-only deterministic fixture. The retained 2026-07-25 macOS arm64
   report passes all 26 checks with two real Bielik runtimes, a failed experiment,
   reviewer revision, HIL, P083 release, and no direct Room-prose effect.
+- [x] Implement the additive model-authored PowerDNS discovery successor: remove
+  the solution fixture from the guest and model-facing surfaces, compile closed
+  process/file-write intents into content-addressed CandidatePlans, admit only an
+  active-configuration-derived mutation scope, permit reviewer replacement through
+  the same requester-owned policy, and retain full-plan, terminal-completion,
+  effect-lineage, and provisioning-inventory evidence. The diagnostic ladder now
+  provides pure contract tests, deterministic policy/review replay, a real-model
+  stage bench, and an append-only calibration ledger before any vfkit proof run.
+- [x] Measure the pinned Bielik 4.5B Q8 planning boundary before deployment smoke.
+  Five scoped zone-declaration samples yield two goal-ready plans after the host
+  projection fix; five initial zone-data samples and five correction samples with
+  fresh doubled-owner terminal evidence yield no goal-ready plan.
+- [ ] Implement and evidence the resolved second guest-attested challenge,
+  `powerdns-bind-missing-zone-data.v1`: valid loopback listener, BIND backend,
+  and authoritative declaration referencing an absent zone-data file, with no
+  final `localdomain` records in the image. Select its id and verifier contract
+  ref/digest from pinned guest/image state, and keep the current single-variant
+  report from claiming cross-variant generalization.
+- [ ] Retain a passing closed
+  `story-012-powerdns-discovery-full-system-report.v1` from real vfkit,
+  `llama-server`, and pinned model bytes. The run must reach the DNS goal through
+  model-authored trial and error without the legacy fixture. Do not promote this
+  post-MVP evidence until the stage bench demonstrates a plausible correction path.
 
 #### Phase 9 — N-way settlement
 

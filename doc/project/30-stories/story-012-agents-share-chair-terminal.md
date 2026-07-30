@@ -404,6 +404,50 @@ closed 26-check report revision are implemented. A retained 2026-07-25 macOS arm
 run passes all 26 checks with two real Bielik runtimes and no deadline fixture.
 The deterministic fixture cannot satisfy that evidence claim.
 
+### Model-authored discovery successor
+
+The stronger additive `story-012-powerdns-bielik-discovery-vfkit` profile removes
+the ready PowerDNS solution wrapper from the guest and from every model-facing prompt. The
+solver emits closed structured process or file-write intents; the Agent compiles
+the exact values into a content-addressed CandidatePlan; the reviewer may publish
+a replacement through the same requester-owned policy; and the Chair can select
+only the exact reviewed publication. HIL and P083 remain the only actuation path.
+The legacy fixture is isolated outside discovery mode and cannot satisfy the
+discovery report.
+
+The requester also owns a staged admission policy. After the read-only bootstrap,
+each passage may mutate exactly one path already present in active terminal
+configuration. A later stage may follow a file path authored by an earlier model
+plan only after that path appears in the active configuration. The stage selector
+encodes solution-aware listener, declaration, and zone-data sequencing, and its
+selected scope is disclosed to solver and reviewer. It does not author bytes or
+decide whether the DNS goal is met. The model authors review findings and an
+optional replacement, while host policy constrains the admissible verdict for a
+phase; this profile does not claim an epistemically independent reviewer verdict.
+Full CandidatePlan digests, terminal completion markers, host-derived bounded and
+non-truncated effect projection, retained provisioning inventory, reviewer
+replacement, and restart-safe append-only facts remain checked.
+
+The diagnostic ladder is intentionally cheaper than the deployment story. Pure
+contract tests run first; deterministic replay exercises policy, review, Chair,
+and inert-effect transitions over recorded values; a real-model bench measures
+one planning stage without daemons, Room, or VM; only then may the vfkit profile
+run as deployment evidence. Every real-model sample records prompt, evidence,
+response, usage, duration, verdict, and a digest of all policy/model/runtime inputs.
+
+As of 2026-07-29, the profile is implemented but not evidenced as passing. With
+the pinned Bielik 4.5B Q8 artifact, the path-aware active-directive oracle accepts
+two of five retained scoped zone-declaration samples. The initial zone-data
+stage yields zero ready plans in five samples, and a second five-sample stage with
+fresh terminal evidence about doubled owner names admits every plan but yields no
+semantic correction. The full vfkit smoke is therefore not promoted: it remains
+gated on a plausible measured correction path or a stronger pinned local model.
+The current deployment profile also carries only the guest-attested
+`powerdns-bind-unconfigured.v1` challenge. A second materially different prepared
+system variant remains required before making a cross-variant generalization
+claim. These post-MVP evidence gaps do not reopen the completed baseline Story 012
+gate.
+
 For reproducibility, the story policy supplies a closed allowlisted command-plan
 template to the solver. The real model must carry the exact CandidatePlan marker in
 its verified Agent product, and the acceptance runner publishes those retained
@@ -560,3 +604,23 @@ membership high-water sequence rather than a creation-time or fixture constant.
   validator without using the deadline-only deterministic fixture. The retained
   2026-07-25 macOS arm64 run passes all 26 checks with two round-robin cycles, one
   failed experiment, one reviewed correction, HIL, and P083 lease release.
+- [x] Implement the model-authored discovery contracts, solution-free guest
+  fixture, structured intent compiler, reviewer replacement, full-plan terminal
+  digest binding, staged active-configuration-derived mutation scope, real-model
+  bench, deterministic replay, append-only calibration ledger, closed report
+  schema, and fail-closed profile validator.
+- [x] Measure the pinned Bielik 4.5B Q8 planning ceiling before deployment smoke.
+  The scoped declaration stage reaches two ready plans in five re-evaluated
+  samples; both measured zone-data stages reach zero ready plans in five samples.
+- [ ] Add the resolved guest-attested
+  `powerdns-bind-missing-zone-data.v1` prepared-system challenge: valid loopback
+  listener, BIND backend, and authoritative declaration referencing an absent
+  zone-data file, without final `localdomain` records. Select `challenge/id` and
+  verifier contract ref/digest from pinned guest/image evidence rather than a
+  runner literal. The existing unconfigured variant remains valid but does not
+  prove cross-variant generalization by itself.
+- [ ] Retain a passing `story-012-powerdns-discovery-full-system-report.v1` from a
+  real vfkit, `llama-server`, and pinned local-model run that reaches the exact DNS
+  goal through model-authored trial and error without a solution fixture. Do not
+  promote a report until the staged bench demonstrates a plausible correction
+  path and the closed validator accepts the exact deployment bytes.
