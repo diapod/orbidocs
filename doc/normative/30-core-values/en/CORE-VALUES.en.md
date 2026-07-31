@@ -1057,6 +1057,18 @@ also the distribution of votes, and each voter bears partial reputational
 responsibility for the consequences, proportionate to their contribution to the
 decision.
 
+This principle has an ontological grounding, not merely a pragmatic one, and it is
+worth naming, because it is sometimes the source of an apparent objection. The
+ontological basis describes the anonymous formation of experience: belonging to no
+one and assuming no subject that would possess it between formations. It does not
+follow, however, that the social order should be anonymous. Anonymity is a property
+of the layer of experience, whereas responsibility is a contract of the layers of
+person and culture, that is, of the very spaces in which the polity operates.
+Demanding that procedural determinations be anonymous because the formations of
+experience are anonymous would transfer the ontology of a lower layer onto a higher
+one, and therefore commit the very error against which the ontological basis itself
+guards. The polity has a personal shape because it operates on persons.
+
 The system does not allow three forms of escape from accountability:
 
 * "The procedure required it."  

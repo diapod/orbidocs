@@ -563,7 +563,9 @@ concretization is conscious and local.
 
     The same event can have a different projection in different layers. A low layer
     sees bytes, a higher layer sees a decision, and an even higher layer sees a social
-    fact. The error begins when one layer steals the ontology of another.
+    fact. The error begins when one layer steals the ontology of another. An example
+    of such theft upward is the demand that the social order be anonymous on the
+    grounds that the formations of experience are anonymous.
 
 5. **Boundary validation as a ritual of concretization.**
 

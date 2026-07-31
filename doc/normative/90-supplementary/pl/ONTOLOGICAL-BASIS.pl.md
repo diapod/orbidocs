@@ -537,7 +537,9 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
 
     To samo zdarzenie może mieć inną projekcję w różnych warstwach. Niska warstwa
     widzi bajty, wyższa widzi decyzję, jeszcze wyższa widzi fakt społeczny. Błąd
-    zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej.
+    zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej. Przykładem
+    takiej kradzieży w górę jest żądanie, aby ład społeczny był bezimienny na tej
+    podstawie, że bezimienne są zawiązania doświadczenia.
 
 5. **Walidacja na brzegach jako rytuał konkretyzacji.**
 

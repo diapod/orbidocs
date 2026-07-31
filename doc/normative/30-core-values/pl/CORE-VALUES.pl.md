@@ -1058,6 +1058,17 @@ odpowiedzialności indywidualnej: zapis obejmuje nie tylko wynik, ale również 
 głosów, a każdy głosujący ponosi cząstkową odpowiedzialność reputacyjną za skutki,
 proporcjonalnie do swojego wkładu w decyzję.
 
+Zasada ta ma ugruntowanie ontologiczne, a nie tylko pragmatyczne, i warto je nazwać,
+ponieważ bywa źródłem pozornego zarzutu. Podstawy ontologiczne opisują bezimienne
+zawiązanie doświadczenia: nienależące do nikogo i niezakładające podmiotu, który
+posiadałby je między zawiązaniami. Nie wynika z tego jednak, że bezimienny ma być
+ład społeczny. Anonimowość jest własnością warstwy doświadczenia, natomiast
+odpowiedzialność jest kontraktem warstwy osoby i kultury, czyli tych przestrzeni,
+w których ustrój operuje. Żądanie, aby rozstrzygnięcia proceduralne były
+bezimienne, ponieważ bezimienne są zawiązania doświadczenia, byłoby przeniesieniem
+ontologii warstwy niższej na wyższą, a więc błędem, przed którym bronią same
+ontologiczne podstawy. Ustrój ma kształt osobowy, ponieważ operuje na osobach.
+
 System nie pozwala na trzy formy ucieczki od odpowiedzialności:
 
 * "Procedura tak kazała".  

@@ -1018,6 +1018,17 @@ a explicitní stopu odůvodnění. Kolektivní hlasování neruší individuáln
 záznam zahrnuje nejen výsledek, ale i rozložení hlasů a každý hlasující nese dílčí
 reputační odpovědnost za důsledky úměrně svému podílu na rozhodnutí.
 
+Tato zásada má ontologické ukotvení, nikoli pouze pragmatické, a stojí za to je
+pojmenovat, protože bývá zdrojem zdánlivé námitky. Ontologický základ popisuje
+anonymní vznik zkušenosti: nenáleží nikomu a nepředpokládá subjekt, který by jej
+vlastnil mezi jednotlivými vzniky. Neplyne z toho však, že by anonymní mělo být
+společenské zřízení. Anonymita je vlastností vrstvy zkušenosti, zatímco odpovědnost
+je kontraktem vrstev osoby a kultury, tedy právě těch prostorů, v nichž zřízení
+působí. Požadavek, aby procedurální rozhodnutí byla anonymní, protože anonymní jsou
+vzniky zkušenosti, by přenášel ontologii nižší vrstvy na vyšší, a byl by tedy
+chybou, před níž chrání samotný ontologický základ. Zřízení má osobní tvar, protože
+působí na osobách.
+
 Systém nepřipouští tři formy úniku z odpovědnosti:
 
 * „Tak to vyžadovala procedura.“  

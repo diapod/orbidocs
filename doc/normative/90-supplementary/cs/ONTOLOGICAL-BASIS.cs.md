@@ -513,7 +513,9 @@ je konkretizace vědomá a lokální.
 
     Stejná událost může mít v různých vrstvách jinou projekci. Nízká vrstva vidí
     bajty, vyšší vidí rozhodnutí a ještě vyšší vidí společenský fakt. Chyba začíná
-    tehdy, když jedna vrstva „krade“ ontologii druhé.
+    tehdy, když jedna vrstva „krade“ ontologii druhé. Příkladem takové krádeže
+    směrem nahoru je požadavek, aby byl společenský řád anonymní na tom základě, že
+    anonymní jsou vzniky zkušenosti.
 
 5. **Validace na hranách jako rituál konkretizace.**
 
