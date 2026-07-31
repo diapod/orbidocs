@@ -2155,6 +2155,17 @@ node, and still requires a separate Corpus transition before any answer is publi
   summaries carry canonical argv digests. The closed acceptance report persists
   bounded review analysis, the host-derived precondition digest, and both typed
   novelty decisions, but not raw precondition state or historical file bytes.
+- [ ] Define and implement an additive critique-to-regeneration contract for
+  role-separated deliberation. A reviewer may return bounded typed findings without
+  synthesizing a replacement CandidatePlan; the solver then regenerates a candidate
+  from those findings and the exact shared correction-state capsule, and a fresh
+  review must bind the resulting plan digest before the Chair can select it. Preserve
+  proposal, terminal-evidence, correction-state, and plan-digest lineage across the
+  handoff, and reapply the existing novelty, policy, budget, and host-admission gates
+  without granting authority to critique prose. Keep reviewer-authored `revise`
+  replacements as the only current path until schemas, negative fixtures,
+  deterministic replay, and at least ten role-specific correction attempts establish
+  a deployment-ready reviewer-to-solver correction rate.
 - [ ] Derive time and token budgets from the append-only calibration distribution.
   Target at least four complete
   solver-reviewer-effect-feedback cycles per authority epoch; if measured p95

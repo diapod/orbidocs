@@ -661,6 +661,17 @@ membership high-water sequence rather than a creation-time or fixture constant.
   retains bounded review analysis, the relevant-precondition digest, and original
   plus selected typed novelty decisions, while leaving raw precondition state and
   historical file bytes in runtime/replay evidence rather than retained metadata.
+- [ ] Add an additive critique-to-regeneration path in which the reviewer may emit
+  bounded typed findings without authoring a replacement CandidatePlan, the solver
+  regenerates a candidate from those findings and the shared correction-state
+  capsule, and the regenerated candidate receives a fresh review before the Chair
+  may select it. Bind every transition to the original proposal, terminal evidence,
+  correction-state digest, and regenerated plan digest; apply the same novelty,
+  policy, budget, and host-admission gates as for any other candidate. Keep the
+  current reviewer-authored `revise` replacement contract authoritative until this
+  additive path has closed contracts, deterministic replay, and a role-specific
+  bench of at least ten correction attempts demonstrating a deployment-ready
+  reviewer-to-solver correction rate.
 - [ ] Derive budgets from the append-only run ledger. Fit at least four complete
   feedback cycles inside one authority epoch or renew authority between cycles without
   widening an individual grant or holding a P083 lease during inference. The
