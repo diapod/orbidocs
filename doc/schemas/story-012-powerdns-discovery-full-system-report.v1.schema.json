@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:story-012-powerdns-discovery-full-system-report:v1",
   "title": "Story 012 PowerDNS Discovery Full-System Report v1",
-  "description": "Closed metadata-only report proving that Bielik Agents authored and reviewed PowerDNS changes under a disclosed host-staged mutation scope, without a host-supplied solution wrapper.",
+  "description": "Closed metadata-only report proving that pinned local-model Agents authored and reviewed PowerDNS changes under a disclosed host-staged mutation scope, without a host-supplied solution wrapper.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -35,7 +35,7 @@
     "schema": { "const": "story-012-powerdns-discovery-full-system-report.v1" },
     "schema/v": { "const": 1 },
     "status": { "const": "passed" },
-    "profile/id": { "const": "story-012-powerdns-bielik-discovery-vfkit" },
+    "profile/id": { "const": "story-012-powerdns-qwen25-coder-discovery-vfkit" },
     "backend/id": { "const": "vfkit-system.v1" },
     "platform/ref": { "const": "macos-vz-arm64.v1" },
     "evidence/boundary": { "const": "single-host-full-system" },
@@ -49,7 +49,7 @@
           "pinned-powerdns-guest-fixture",
           "exact-powerdns-package-pins",
           "single-host-three-node-vfkit",
-          "two-real-bielik-runtimes",
+          "two-real-qwen25-coder-runtimes",
           "agent-output-backed-corpus-turns",
           "read-only-terminal-room-projection",
           "exclusive-host-approved-configuration",
@@ -101,7 +101,7 @@
         "agent-product/digests"
       ],
       "properties": {
-        "alias": { "const": "Bielik-4.5B-v3.0-Instruct" },
+        "alias": { "const": "Qwen2.5-Coder-7B-Instruct" },
         "runtime/count": { "const": 2 },
         "runtime/nodes": {
           "const": ["node-b", "node-c"]
@@ -564,6 +564,12 @@
         "plan-publication/ref",
         "review/ref",
         "review/verdict",
+        "review/findings",
+        "review/failed-assumption",
+        "review/supporting-evidence",
+        "review/redundant-actions",
+        "review/next-discriminating-test",
+        "review/replacement-applied",
         "chair-decision/ref",
         "chair/product-ref",
         "chair-block/tested",
@@ -572,6 +578,9 @@
         "candidate-plan/digest",
         "terminal/completion-marker",
         "terminal/output-digest",
+        "relevant-precondition/digest",
+        "novelty/original-decision",
+        "novelty/selected-decision",
         "verification/passed"
       ],
       "properties": {
@@ -602,7 +611,22 @@
         "terminal/event-count": { "type": "integer", "minimum": 1 }
         ,"plan-publication/ref": { "$ref": "#/$defs/ref" }
         ,"review/ref": { "$ref": "#/$defs/ref" }
-        ,"review/verdict": { "const": "accept" }
+        ,"review/verdict": { "enum": ["accept", "revise"] }
+        ,"review/findings": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": { "$ref": "#/$defs/review-text" }
+        }
+        ,"review/failed-assumption": { "$ref": "#/$defs/review-text" }
+        ,"review/supporting-evidence": { "$ref": "#/$defs/review-text" }
+        ,"review/redundant-actions": {
+          "type": "array",
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/review-text" }
+        }
+        ,"review/next-discriminating-test": { "$ref": "#/$defs/review-text" }
+        ,"review/replacement-applied": { "type": "boolean" }
         ,"chair-decision/ref": { "$ref": "#/$defs/ref" }
         ,"chair/product-ref": { "$ref": "#/$defs/ref" }
         ,"chair-block/tested": { "type": "boolean" }
@@ -615,7 +639,74 @@
           "maxLength": 128
         }
         ,"terminal/output-digest": { "$ref": "#/$defs/base64url-digest" }
+        ,"relevant-precondition/digest": { "$ref": "#/$defs/base64url-digest" }
+        ,"novelty/original-decision": { "$ref": "#/$defs/novelty-decision" }
+        ,"novelty/selected-decision": {
+          "allOf": [
+            { "$ref": "#/$defs/novelty-decision" },
+            { "properties": { "decision": { "const": "novel" } } }
+          ]
+        }
         ,"verification/passed": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "review/verdict": { "const": "revise" } } },
+          "then": { "properties": { "review/replacement-applied": { "const": true } } },
+          "else": { "properties": { "review/replacement-applied": { "const": false } } }
+        }
+      ]
+    },
+    "review-text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "novelty-decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "decision",
+        "reason",
+        "prior/attempt",
+        "prior/effect-digest",
+        "current/effect-digest",
+        "prior/precondition-digest",
+        "current/precondition-digest",
+        "repeated/process-count"
+      ],
+      "properties": {
+        "schema": { "const": "story-012.powerdns-experiment-novelty-decision.v1" },
+        "decision": { "enum": ["novel", "redundant"] },
+        "reason": {
+          "enum": [
+            "no-prior-experiment",
+            "novel-effect",
+            "exact-effect-repeated",
+            "exact-mutation-repeated-with-unchanged-preconditions",
+            "failed-probes-repeated"
+          ]
+        },
+        "prior/attempt": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "prior/effect-digest": {
+          "anyOf": [
+            { "$ref": "#/$defs/base64url-digest" },
+            { "type": "null" }
+          ]
+        },
+        "current/effect-digest": { "$ref": "#/$defs/base64url-digest" },
+        "prior/precondition-digest": {
+          "anyOf": [
+            { "$ref": "#/$defs/base64url-digest" },
+            { "type": "null" }
+          ]
+        },
+        "current/precondition-digest": { "$ref": "#/$defs/base64url-digest" },
+        "repeated/process-count": { "type": "integer", "minimum": 0 }
       }
     },
     "dns-assertion-a": {

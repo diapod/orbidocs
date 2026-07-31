@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/story-012-powerdns-discovery-full-system-report.v1.schema.json`](../../schemas/story-012-powerdns-discovery-full-system-report.v1.schema.json)
 
-Closed metadata-only report proving that Bielik Agents authored and reviewed PowerDNS changes under a disclosed host-staged mutation scope, without a host-supplied solution wrapper.
+Closed metadata-only report proving that pinned local-model Agents authored and reviewed PowerDNS changes under a disclosed host-staged mutation scope, without a host-supplied solution wrapper.
 
 ## Governing Basis
 
@@ -39,7 +39,7 @@ Closed metadata-only report proving that Bielik Agents authored and reviewed Pow
 | [`schema`](#field-schema) | `yes` | const: `story-012-powerdns-discovery-full-system-report.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`status`](#field-status) | `yes` | const: `passed` |  |
-| [`profile/id`](#field-profile-id) | `yes` | const: `story-012-powerdns-bielik-discovery-vfkit` |  |
+| [`profile/id`](#field-profile-id) | `yes` | const: `story-012-powerdns-qwen25-coder-discovery-vfkit` |  |
 | [`backend/id`](#field-backend-id) | `yes` | const: `vfkit-system.v1` |  |
 | [`platform/ref`](#field-platform-ref) | `yes` | const: `macos-vz-arm64.v1` |  |
 | [`evidence/boundary`](#field-evidence-boundary) | `yes` | const: `single-host-full-system` |  |
@@ -72,6 +72,8 @@ Closed metadata-only report proving that Bielik Agents authored and reviewed Pow
 | [`agent-budget-counters`](#def-agent-budget-counters) | object |  |
 | [`agent-budget-total`](#def-agent-budget-total) | object |  |
 | [`experiment`](#def-experiment) | object |  |
+| [`review-text`](#def-review-text) | string |  |
+| [`novelty-decision`](#def-novelty-decision) | object |  |
 | [`dns-assertion-a`](#def-dns-assertion-a) | object |  |
 | [`dns-assertion-b`](#def-dns-assertion-b) | object |  |
 | [`dns-assertion-c`](#def-dns-assertion-c) | object |  |
@@ -99,7 +101,7 @@ Closed metadata-only report proving that Bielik Agents authored and reviewed Pow
 ## `profile/id`
 
 - Required: `yes`
-- Shape: const: `story-012-powerdns-bielik-discovery-vfkit`
+- Shape: const: `story-012-powerdns-qwen25-coder-discovery-vfkit`
 
 <a id="field-backend-id"></a>
 ## `backend/id`
@@ -247,6 +249,16 @@ Closed metadata-only report proving that Bielik Agents authored and reviewed Pow
 
 <a id="def-experiment"></a>
 ## `$defs.experiment`
+
+- Shape: object
+
+<a id="def-review-text"></a>
+## `$defs.review-text`
+
+- Shape: string
+
+<a id="def-novelty-decision"></a>
+## `$defs.novelty-decision`
 
 - Shape: object
 

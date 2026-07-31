@@ -175,9 +175,21 @@ solution-aware staged admission scope, model-authored review findings and
 replacement, full-plan and terminal-completion evidence, bounded non-truncated
 effect projection, deterministic replay, real-model stage bench, append-only
 calibration ledger, and closed report contract are implemented. It does not claim
-an independent reviewer verdict. The path-aware active-directive oracle accepts
-two of five retained zone-declaration samples for the pinned Bielik 4.5B Q8
-artifact, but no zone-data correction in either five-sample stage. Only one
+an independent reviewer verdict. The follow-up now gives solver and reviewer one
+bounded three-experiment correction-state projection, derives a stable
+relevant-precondition digest from a nonce-marked host snapshot, and rejects exact
+failed mutations only while that digest remains unchanged. The gate checks all
+three retained experiments and deterministic replay covers both repeated probes
+and repeated mutations. Its metadata-only report now requires bounded reviewer
+analysis, the precondition digest, and original plus selected typed novelty
+decisions for every admitted experiment. Historical Bielik 4.5B Q8 measurements accepted two of
+five zone-declaration samples but no zone-data correction in either five-sample
+stage. A subsequent bounded 130-sample role matrix retained Qwen2.5-Coder 7B
+Q4_K_M as the solver default: it produced 26/50 ready plans and 9/10 ready causal
+corrections, while Qwen3.5 4B produced 2/50 and 0/10. Qwen2.5-Coder 3B,
+Qwen2.5-Coder 7B, and Phi-4 Mini all produced 0/10 ready reviewer replacements,
+so no reviewer deployment default has been
+promoted. The active profile has not yet retained a passing vfkit report. Only one
 guest-attested challenge family exists. The resolved second variant,
 `powerdns-bind-missing-zone-data.v1`, starts from a valid
 listener/backend/declaration chain whose referenced zone-data file is absent and

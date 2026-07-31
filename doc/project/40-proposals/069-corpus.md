@@ -2107,6 +2107,72 @@ node, and still requires a separate Corpus transition before any answer is publi
   Five scoped zone-declaration samples yield two goal-ready plans after the host
   projection fix; five initial zone-data samples and five correction samples with
   fresh doubled-owner terminal evidence yield no goal-ready plan.
+- [x] Complete a bounded multi-attempt causal-correction projection for the
+  model-authored discovery profile. The host must retain the exact source plans,
+  while solver and reviewer receive only the last two or three admitted
+  hypotheses, normalized process argv, historical file-write
+  path/mode/line-count/content digest, bounded reviewer findings, Chair decision,
+  effect receipt, verifier outcome, and terminal delta. Historical payload bytes
+  and hidden reasoning must not cross this prompt boundary; configuration bytes
+  subsequently observed by the host remain fresh evidence. The implemented
+  capsule retains at most three exact lineages and is shared unchanged between
+  solver and reviewer in one cycle.
+- [x] Add deterministic experiment-novelty admission above the models. The first
+  closed policy fingerprints normalized effects and rejects an exact failed
+  read-only experiment, or a subset of the same failed probes decorated only with
+  service activation, in the single-writer guest profile. It emits a typed inert
+  refusal, rechecks reviewer replacements through the same policy, and carries
+  bounded `failed-assumption`, `supporting-evidence`, `redundant-actions`, and
+  `next-discriminating-test` fields into signed findings and the next lineage.
+  Deterministic replay proves that the original repeated proposal is redundant
+  while a genuinely new reviewer replacement remains inert and admissible.
+- [x] Extend novelty admission to exact repeated failed mutations using an explicit
+  digest of relevant preconditions: challenge, VM generation, effective admission
+  scope, literal current configuration, normalized service state, and verifier
+  result. The digest is computed only from the last complete nonce-marked,
+  host-owned read-only snapshot in the cumulative PTY feed. Equal effect and equal
+  digest are rejected; a changed or absent digest keeps the mutating effect novel.
+  Every retained lineage participates in the novelty check, not only the latest
+  attempt.
+- [x] Run a role-specific local-model matrix before choosing deployment defaults.
+  Use at least ten samples per candidate for diagnostic discovery, backend
+  configuration, zone declaration, zone data, and failed-plan correction. Keep
+  the current Qwen2.5-Coder 7B quantization as the solver baseline; evaluate a
+  runtime-conformant Qwen3.5 4B as a solver challenger and Qwen2.5-Coder 3B plus
+  Phi-4-mini as reviewer candidates. Select solver and reviewer independently by
+  domain pass rate, correction rate, contract-admission rate, and latency rather
+  than generic benchmark rank. The bounded 2026-07-30 matrix ran 130 real-model
+  samples. Qwen2.5-Coder 7B produced 26/50 goal-ready and 46/50 admitted plans,
+  including 9/10 ready causal corrections, versus 2/50, 30/50, and 0/10 for
+  Qwen3.5 4B; it remains the solver default. None of the three reviewer candidates
+  is deployment-ready: Qwen2.5-Coder 3B, the existing Qwen2.5-Coder 7B baseline,
+  and Phi-4 Mini reached 0/10, 1/10, and 2/10 contract admission respectively,
+  and all reached 0/10 ready replacements. The host therefore records no reviewer
+  deployment default rather than promoting the least-bad candidate.
+- [x] Compact each model turn into one bounded state capsule containing confirmed
+  facts, refuted assumptions, next discriminating tests, three recent experiment
+  outcomes, current terminal delta, and the effective admission scope. Process
+  summaries carry canonical argv digests. The closed acceptance report persists
+  bounded review analysis, the host-derived precondition digest, and both typed
+  novelty decisions, but not raw precondition state or historical file bytes.
+- [ ] Derive time and token budgets from the append-only calibration distribution.
+  Target at least four complete
+  solver-reviewer-effect-feedback cycles per authority epoch; if measured p95
+  latency cannot fit under the canonical Room ceiling, renew authority between
+  cycles instead of widening one grant, and continue to acquire a short P083 lease
+  only after one concrete effect is approved. The completed matrix supplies a
+  provisional model-only bound: selected-solver p95 73,375 ms plus the current
+  profile reviewer's p95 58,725 ms gives 528,400 ms for four pairs and an
+  observed maximum of 18,648 prompt-plus-completion tokens. A 25 percent rounded
+  envelope is 720,000 ms and 24,576 tokens. This task remains open until a ready
+  reviewer and the HIL, P083, terminal, and verifier latency distribution are
+  included; the provisional envelope is not an authority grant.
+- [ ] Gate the expensive vfkit run behind the model bench and deterministic replay.
+  Replay recorded model and terminal values through the complete novelty, review,
+  Chair, HIL, and P083 policy path in seconds, then require repeatable seeded
+  full-system success rather than one lucky completion. The retained report must
+  expose prompt-free per-role latency, token, cycle, experiment, rejection, and
+  correction measurements so future limits are derived from evidence.
 - [ ] Implement and evidence the resolved second guest-attested challenge,
   `powerdns-bind-missing-zone-data.v1`: valid loopback listener, BIND backend,
   and authoritative declaration referencing an absent zone-data file, with no

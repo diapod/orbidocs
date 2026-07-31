@@ -442,6 +442,20 @@ stage yields zero ready plans in five samples, and a second five-sample stage wi
 fresh terminal evidence about doubled owner names admits every plan but yields no
 semantic correction. The full vfkit smoke is therefore not promoted: it remains
 gated on a plausible measured correction path or a stronger pinned local model.
+
+The bounded 2026-07-30 role matrix then compared pinned local candidates over 130
+samples without daemons, Room, or VM. Qwen2.5-Coder 7B produced 26 goal-ready and
+46 policy-admitted plans from 50 solver attempts, including 9/10 ready plans on
+the failed-plan correction case. Qwen3.5 4B produced 2 ready and 30 admitted plans
+from 50 attempts and no ready correction. Qwen2.5-Coder 7B therefore remains the
+solver default. None of the reviewer candidates crossed the deployment gate:
+Qwen2.5-Coder 3B, Qwen2.5-Coder 7B, and Phi-4 Mini had 0/10, 1/10, and 2/10
+contract-admitted replacements respectively, and all had 0/10 ready replacements.
+The matrix records no reviewer deployment selection; Phi-4 Mini is only the best
+observed next challenger. The current-profile model-only four-pair p95 sum is
+528,400 ms, but a full authority budget still requires measured HIL,
+P083, terminal, and verifier latency.
+
 The current deployment profile also carries only the guest-attested
 `powerdns-bind-unconfigured.v1` challenge. A second materially different prepared
 system variant remains required before making a cross-variant generalization
@@ -612,6 +626,50 @@ membership high-water sequence rather than a creation-time or fixture constant.
 - [x] Measure the pinned Bielik 4.5B Q8 planning ceiling before deployment smoke.
   The scoped declaration stage reaches two ready plans in five re-evaluated
   samples; both measured zone-data stages reach zero ready plans in five samples.
+- [x] Complete the discovery correction loop with a bounded three-attempt
+  causal lineage and terminal-delta projection. Preserve exact plans host-side,
+  expose normalized process calls and digest-only historical file-write identity
+  to the models, carry bounded reviewer findings and verifier outcomes, and
+  exclude historical payload bytes and hidden reasoning from prompts. A file value
+  later observed in the active configuration remains fresh terminal evidence.
+  Solver and reviewer now receive the same closed
+  `story-012.powerdns-correction-state.v1` value.
+- [x] Add a deterministic novelty gate and structured reviewer findings. The
+  implemented first slice rejects an exact failed read-only experiment, or a
+  subset of the same failed probes plus service activation, emits a typed inert
+  refusal, and requires any reviewer replacement to pass the same gate. Replay
+  records the redundant original decision and novel selected decision separately.
+- [x] Add a relevant-precondition digest and extend deterministic novelty rejection
+  to exact failed file mutations only while challenge, VM generation, resolved
+  admission scope, literal configuration, normalized service state, and verifier
+  state remain unchanged. The projection consumes only the last complete
+  nonce-marked, host-owned read-only snapshot from the cumulative PTY feed; a
+  changed digest keeps the retry novel. The gate checks all three retained
+  experiments rather than only the immediately preceding attempt.
+- [x] Benchmark solver and reviewer candidates independently with at least ten
+  samples per discovery stage. Compare the pinned Qwen2.5-Coder 7B solver baseline
+  with a runtime-conformant Qwen3.5 4B challenger, and evaluate
+  Qwen2.5-Coder 3B plus Phi-4-mini for the lower-latency reviewer role. Select by
+  domain correction success and measured latency, not a general leaderboard. The
+  130-sample matrix retains Qwen2.5-Coder 7B as solver and deliberately leaves the
+  reviewer deployment default unset because none of the candidates produced a
+  ready replacement.
+- [x] Replace accumulated experiment prose with one bounded state capsule carrying
+  at most three exact host-side lineages, prompt-safe effect summaries, learned
+  facts, refuted assumptions, next tests, terminal delta, and effective scope.
+  Process summaries include canonical argv digests. The closed acceptance report
+  retains bounded review analysis, the relevant-precondition digest, and original
+  plus selected typed novelty decisions, while leaving raw precondition state and
+  historical file bytes in runtime/replay evidence rather than retained metadata.
+- [ ] Derive budgets from the append-only run ledger. Fit at least four complete
+  feedback cycles inside one authority epoch or renew authority between cycles without
+  widening an individual grant or holding a P083 lease during inference. The
+  matrix yields a provisional model-only envelope of 720,000 ms and 24,576 tokens
+  after a 25 percent margin; keep this task open until effect-feedback overhead and
+  a ready reviewer are measured.
+- [ ] Require deterministic replay before vfkit and retain repeatable seeded E2E
+  evidence with prompt-free per-role latency, token, cycle, rejection, experiment,
+  and correction measurements.
 - [ ] Add the resolved guest-attested
   `powerdns-bind-missing-zone-data.v1` prepared-system challenge: valid loopback
   listener, BIND backend, and authoritative declaration referencing an absent
