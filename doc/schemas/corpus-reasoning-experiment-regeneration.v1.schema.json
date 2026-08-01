@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-experiment-regeneration:v1",
+  "title": "Corpus Reasoning Experiment Regeneration v1",
+  "description": "Host-signed durable join between one reviewer-requested correction and the exact solver-authored successor proposal.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "regeneration/ref",
+    "query/id",
+    "room/id",
+    "source-proposal/ref",
+    "source-proposal/digest",
+    "source-candidate-plan/ref",
+    "source-candidate-plan/artifact-ref",
+    "source-candidate-plan/digest",
+    "source-review/ref",
+    "source-review/digest",
+    "correction-state/digest",
+    "solver",
+    "solver/node-id",
+    "solver-turn/id",
+    "regenerated-proposal/ref",
+    "regenerated-proposal/digest",
+    "regenerated-candidate-plan/ref",
+    "regenerated-candidate-plan/artifact-ref",
+    "regenerated-candidate-plan/digest",
+    "budget",
+    "class/key",
+    "host/node-id",
+    "created-at",
+    "expires-at",
+    "idempotency/key",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "description": "Contract version.",
+      "const": 1
+    },
+    "regeneration/ref": {
+      "description": "Content-addressed identity of this host-signed regeneration join.",
+      "type": "string",
+      "pattern": "^corpus-experiment-regeneration:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": {
+      "description": "Corpus query whose deliberation produced both proposals.",
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "room/id": {
+      "description": "Room in which the source review and regenerated proposal were authored.",
+      "type": "string",
+      "pattern": "^room:[^\\s]+$",
+      "maxLength": 512
+    },
+    "source-proposal/ref": {
+      "description": "Content-addressed source proposal rejected for regeneration.",
+      "$ref": "#/$defs/proposal-ref"
+    },
+    "source-proposal/digest": {
+      "description": "Digest bound by source-proposal/ref.",
+      "$ref": "#/$defs/digest"
+    },
+    "source-candidate-plan/ref": {
+      "description": "Logical reference of the source CandidatePlan.",
+      "$ref": "#/$defs/candidate-plan-ref"
+    },
+    "source-candidate-plan/artifact-ref": {
+      "description": "Content-addressed artifact containing the source CandidatePlan.",
+      "$ref": "#/$defs/artifact-ref"
+    },
+    "source-candidate-plan/digest": {
+      "description": "Digest of the source CandidatePlan bytes.",
+      "$ref": "#/$defs/digest"
+    },
+    "source-review/ref": {
+      "description": "Content-addressed V2 review whose verdict is request-regeneration.",
+      "type": "string",
+      "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "source-review/digest": {
+      "description": "Digest bound by source-review/ref.",
+      "$ref": "#/$defs/digest"
+    },
+    "correction-state/digest": {
+      "description": "Digest of the bounded correction capsule shared by the source review, regenerated proposal review, and this join.",
+      "$ref": "#/$defs/digest"
+    },
+    "solver": {
+      "description": "Room subject that authored the regenerated proposal.",
+      "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"
+    },
+    "solver/node-id": {
+      "description": "Node identity that signed the solver-authored proposal.",
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "solver-turn/id": {
+      "description": "Exact solver turn from which the regenerated proposal originated.",
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "regenerated-proposal/ref": {
+      "description": "Content-addressed successor proposal authored by the solver.",
+      "$ref": "#/$defs/proposal-ref"
+    },
+    "regenerated-proposal/digest": {
+      "description": "Digest bound by regenerated-proposal/ref.",
+      "$ref": "#/$defs/digest"
+    },
+    "regenerated-candidate-plan/ref": {
+      "description": "Logical reference of the regenerated CandidatePlan.",
+      "$ref": "#/$defs/candidate-plan-ref"
+    },
+    "regenerated-candidate-plan/artifact-ref": {
+      "description": "Content-addressed artifact containing the regenerated CandidatePlan.",
+      "$ref": "#/$defs/artifact-ref"
+    },
+    "regenerated-candidate-plan/digest": {
+      "description": "Digest of the regenerated CandidatePlan bytes.",
+      "$ref": "#/$defs/digest"
+    },
+    "budget": {
+      "description": "Host-admitted upper bounds for this regeneration attempt.",
+      "examples": [
+        { "steps": 1, "tokens": 4096, "time-ms": 120000 }
+      ],
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["steps", "tokens", "time-ms"],
+      "properties": {
+        "steps": {
+          "description": "Maximum solver steps available to regeneration.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "tokens": {
+          "description": "Maximum aggregate model-token budget available to regeneration.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "time-ms": {
+          "description": "Maximum wall-clock lifetime of the regeneration attempt.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 900000
+        }
+      }
+    },
+    "class/key": {
+      "description": "Effective classification preserved across the regeneration chain.",
+      "enum": ["Public", "Community", "Personal"]
+    },
+    "host/node-id": {
+      "description": "Requester-host identity that admitted and signed this join.",
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "created-at": {
+      "description": "Host timestamp at which the join was admitted.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires-at": {
+      "description": "Earliest expiry inherited from budget, source review, and regenerated proposal.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "idempotency/key": {
+      "description": "Requester-scoped command key used to replay the same registration safely.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "signature": {
+      "description": "Domain-separated requester-host signature over this join.",
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "proposal-ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "candidate-plan-ref": {
+      "type": "string",
+      "pattern": "^candidate-plan/[^\\s]+$",
+      "maxLength": 512
+    },
+    "artifact-ref": {
+      "type": "string",
+      "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value", "key/public"],
+      "properties": {
+        "alg": { "const": "ed25519+domain-v1" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" },
+        "key/public": { "type": "string", "pattern": "^z[A-Za-z0-9]+$", "maxLength": 128 }
+      }
+    }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/60-solutions/038-corpus/038-corpus.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ]
+}

@@ -467,6 +467,12 @@ schema_for_file() {
     *.corpus-reasoning-chair-experiment-decision.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-chair-experiment-decision.v1.schema.json"
       ;;
+    *.corpus-reasoning-experiment-regeneration.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-experiment-regeneration.v1.schema.json"
+      ;;
+    *.corpus-reasoning-experiment-review.v2.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-experiment-review.v2.schema.json"
+      ;;
     *.corpus-reasoning-experiment-review.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-experiment-review.v1.schema.json"
       ;;

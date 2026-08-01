@@ -8,6 +8,9 @@ Applies to:
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
 
+Related post-MVP extensibility contract:
+- `doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`
+
 ## Status
 
 Accepted implementation recommendations
@@ -110,6 +113,12 @@ conformance metadata, and use explicitly granted lease/artifact/status
 capabilities. It must not claim arbitrary middleware hooks, own workflow
 dispatch, choose model policy outside the host decision, mutate Orbiplex state,
 or turn provider-specific behavior into public Inquirium semantics.
+
+Proposal 085 owns any future migration from compile-time operational maxima to
+operator-signed resource envelopes and any expansion of NSE beyond its current
+hook contracts. Such work must preserve the Inquirium authority boundary defined
+here: policy may select or narrow a host offer, but an adapter, script, Flow, or
+package cannot create model, schema, data, tool, or effect authority.
 
 Practical classification:
 

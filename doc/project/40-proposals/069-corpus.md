@@ -635,6 +635,12 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
   forked.
 - **Inquirium (P063/P064/P066)**: per-participant model access via a full
   thread/session runtime with tool support is the target prerequisite for phase 2.
+- **Operator-Sovereign Extensibility (P085)**: optional post-MVP Corpus hook
+  policies and room-envelope negotiation may order or narrow already admitted
+  bids, turns, participants, and tie candidates. They do not replace Corpus room
+  policy, Agent budgets, Room membership, capability admission, or publication
+  authority. P085 owns the common hook/envelope contract; Corpus owns the typed
+  candidate sets and domain validator adapter.
 - **P011 / story-006 / P016**: procurement lifecycle and escrow.
 - **Classification (047)**: the answer carries a small `classification.v1` lattice
   tier, mapped to a full `classification.v1` object at the AD answer envelope.
@@ -2155,17 +2161,32 @@ node, and still requires a separate Corpus transition before any answer is publi
   summaries carry canonical argv digests. The closed acceptance report persists
   bounded review analysis, the host-derived precondition digest, and both typed
   novelty decisions, but not raw precondition state or historical file bytes.
-- [ ] Define and implement an additive critique-to-regeneration contract for
+- [x] Define and implement an additive critique-to-regeneration contract for
   role-separated deliberation. A reviewer may return bounded typed findings without
   synthesizing a replacement CandidatePlan; the solver then regenerates a candidate
   from those findings and the exact shared correction-state capsule, and a fresh
   review must bind the resulting plan digest before the Chair can select it. Preserve
   proposal, terminal-evidence, correction-state, and plan-digest lineage across the
   handoff, and reapply the existing novelty, policy, budget, and host-admission gates
-  without granting authority to critique prose. Keep reviewer-authored `revise`
-  replacements as the only current path until schemas, negative fixtures,
-  deterministic replay, and at least ten role-specific correction attempts establish
-  a deployment-ready reviewer-to-solver correction rate.
+  without granting authority to critique prose. The additive
+  `corpus-reasoning-experiment-review.v2` and
+  `corpus-reasoning-experiment-regeneration.v1` contracts now have positive and
+  negative Schema Gate fixtures, signature-domain golden vectors, a durable daemon
+  join and recovery projection, one requester-owned local API, live Story 012
+  baton integration, host-side current-role and effective-membership checks for
+  exact `implementer` and `reviewer` assignments, and prompt-free deterministic
+  replay. The original v1
+  reviewer-authored `revise` path remains valid for compatibility, but it is no
+  longer the only implemented correction mechanism.
+- [ ] Establish a deployment-ready reviewer-to-solver correction rate before making
+  critique-to-regeneration the default discovery path. The role-specific real-model
+  bench must use at least ten pairs, one config digest, the exact staged host scope,
+  a critique-only grammar, and a solver-only successor grammar. The 2026-08-01 run
+  with the pinned Qwen2.5-Coder 7B artifact produced 10/10 valid regeneration
+  requests and 10/10 fresh solver successors, but only 1/10 domain-ready staged
+  zone-declaration plans; the measured `0.1` ready rate is below the explicit `0.6`
+  deployment threshold. Keep the path opt-in and retain no reviewer deployment
+  default until this task passes without weakening host admission or the oracle.
 - [ ] Derive time and token budgets from the append-only calibration distribution.
   Target at least four complete
   solver-reviewer-effect-feedback cycles per authority epoch; if measured p95

@@ -1,0 +1,32 @@
+{
+  "schema/v": 2,
+  "review/ref": "corpus-experiment-review:sha256:Jlr5LpIbbLIlJa_vTMuJ1TwinaoEBTnYFG4iL-fvbC8",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "proposal/digest": "sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "candidate-plan/ref": "candidate-plan/experiment-test",
+  "candidate-plan/artifact-ref": "object-store:sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "reviewer": {
+    "kind": "nym",
+    "id": "did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"
+  },
+  "reviewer/node-id": "node:did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe",
+  "reviewer-turn/id": "corpus-turn:sha256:Jl3WXDGtxJqmEAOZuqVHJ4BfT6ZnHvTcHpdRVseLGzM",
+  "terminal-state/digest": "sha256:aZddNsoXFGeu7Qbe1ay6t167fk3FVC-c09aUepXajeQ",
+  "correction-state/digest": "sha256:Ts7aMQTkoBbh-sYdbnSk9uWm_sVcy-dKUpIwatJX1jA",
+  "verdict": "request-regeneration",
+  "findings": [
+    "Use fresh terminal evidence before another mutation."
+  ],
+  "class/key": "Community",
+  "reviewed-at": "2026-07-24T10:01:00Z",
+  "expires-at": "2026-07-24T10:05:00Z",
+  "idempotency/key": "experiment-review-v2-RequestRegeneration",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "JGFjvbkW8yZ1d_pYSIWPyG61TgcCBLASPNrHSwDNjELGv4s4gIjdDq-m8-r3kJhbj3MGygu8f0yhamC4enHQCg",
+    "key/public": "z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"
+  }
+}

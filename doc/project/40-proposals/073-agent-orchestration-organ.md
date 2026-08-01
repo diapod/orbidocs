@@ -871,6 +871,11 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 5. Keep the shared Story 011/012 three-node bootstrap as the lower acceptance
    stratum. Story-specific runners may add domain fixtures and assertions, but
    must not fork federation-root, participant-binding, or restart semantics.
+6. Treat Proposal 085 as the owner of optional post-MVP Agent decision hooks and
+   experiment packages. `choose-next-step`, fan-out shaping, or risk
+   classification may select or narrow host-produced alternatives, but cannot
+   widen the Agent profile, parent authority, budget, classification, effect
+   grants, or HIL floor defined here.
 
 ## Related Capability Data
 

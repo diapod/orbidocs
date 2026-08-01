@@ -109,6 +109,8 @@ SCHEMA_WHITELIST = (
     "corpus-reasoning-turn-proposal.v1.schema.json",
     "corpus-reasoning-experiment-proposal.v1.schema.json",
     "corpus-reasoning-experiment-review.v1.schema.json",
+    "corpus-reasoning-experiment-review.v2.schema.json",
+    "corpus-reasoning-experiment-regeneration.v1.schema.json",
     "corpus-reasoning-chair-experiment-decision.v1.schema.json",
     "inquirium.candidate-plan.v1.schema.json",
     "corpus-reasoning-role-assignment.v1.schema.json",
@@ -331,6 +333,10 @@ EXAMPLE_WHITELIST = (
     "expert-contribution.corpus-reasoning-turn-proposal.json",
     "local-agent.corpus-reasoning-experiment-proposal.json",
     "revised.corpus-reasoning-experiment-review.json",
+    "requested.corpus-reasoning-experiment-review.v2.json",
+    "accepted.corpus-reasoning-experiment-review.v2.json",
+    "revised-followup.corpus-reasoning-experiment-review.v2.json",
+    "solver.corpus-reasoning-experiment-regeneration.json",
     "admitted.corpus-reasoning-chair-experiment-decision.json",
     "workbench-experiment.inquirium.candidate-plan.json",
     "basic.service-offer-relay.json",
@@ -521,6 +527,12 @@ INVALID_EXAMPLE_WHITELIST = (
     "mismatched-plan-artifact.corpus-reasoning-experiment-proposal.json",
     "missing-replacement.corpus-reasoning-experiment-review.json",
     "unknown-field.corpus-reasoning-experiment-review.json",
+    "missing-correction.corpus-reasoning-experiment-review.v2.json",
+    "correction-on-accept.corpus-reasoning-experiment-review.v2.json",
+    "unknown-field.corpus-reasoning-experiment-review.v2.json",
+    "v2-verdict-in-v1.corpus-reasoning-experiment-review.json",
+    "missing-solver-turn.corpus-reasoning-experiment-regeneration.json",
+    "unknown-field.corpus-reasoning-experiment-regeneration.json",
     # `mismatched-plan.corpus-reasoning-chair-experiment-decision.json` is a
     # signature-integrity negative (the reviewed-plan ref is re-pointed after
     # signing, so only the Ed25519 signature is invalid). The Node schema gate

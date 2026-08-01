@@ -470,9 +470,19 @@ The additive model-authored discovery successor removes that closed solution
 template from both the guest and every model-facing surface. A host-owned staged
 policy derives the only writable path from active terminal configuration and
 discloses a solution-aware stage selection to both model roles, while the solver
-still authors the bytes and the reviewer authors findings plus any replacement
-through the same requester-owned policy. Host policy constrains admissible
-verdicts, so the profile does not claim an independent reviewer verdict. Pure
+still authors the bytes. The original v1 reviewer may author findings plus an
+optional replacement through the same requester-owned policy. The additive v2
+path instead makes critique inert: the reviewer requests one bounded regeneration,
+the solver authors a fresh CandidatePlan, and a fresh review must bind that exact
+successor before the Chair may select it. The daemon persists the signed source
+review and host-signed regeneration join, rechecks classification, executor, HIL,
+time, policy, and digest lineage, and exposes no effect before ordinary admission.
+It also verifies that each bound turn still carries a current accepted Room
+assignment for its exact `implementer` or `reviewer` responsibility and that the
+subject remains an effective Room member; prompt labels are not treated as
+authority.
+Host policy constrains admissible verdicts, so neither path claims an independent
+reviewer verdict. Pure
 contract tests, deterministic policy/review replay, a real-model stage bench, an
 append-only calibration ledger, and a closed full-system report contract are
 implemented. The path-aware active-directive oracle accepts two of five retained
@@ -484,7 +494,10 @@ whose referenced zone-data file is absent and whose image contains no final
 `localdomain` records. Its implementation and evidence remain required for a
 cross-variant claim. The discovery profile
 is therefore structurally implemented but not promoted as passing deployment
-evidence; these post-MVP gaps do not reopen the completed baseline Story 012 gate.
+evidence. The 2026-08-01 critique-to-regeneration bench adds ten role-separated
+pairs: every reviewer requested regeneration, but only one solver successor passed
+the staged domain oracle, below the `0.6` promotion threshold. These post-MVP gaps
+do not reopen the completed baseline Story 012 gate.
 
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:

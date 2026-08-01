@@ -462,6 +462,15 @@ system variant remains required before making a cross-variant generalization
 claim. These post-MVP evidence gaps do not reopen the completed baseline Story 012
 gate.
 
+The role boundary now has an additive v2 correction path. A reviewer can emit one
+bounded `request-regeneration` correction without plan bytes; the daemon binds it
+to the source proposal and shared correction-state digest, the solver authors a
+fresh proposal, and a fresh review must bind that successor before Chair admission.
+The join is append-only, restart-safe, and inert until the existing host, HIL, and
+P083 gates run. A 2026-08-01 ten-pair Qwen2.5-Coder 7B calibration produced ten
+valid requests but only one domain-ready staged successor. The mechanism is
+therefore implemented, while model deployment readiness remains explicitly open.
+
 For reproducibility, the story policy supplies a closed allowlisted command-plan
 template to the solver. The real model must carry the exact CandidatePlan marker in
 its verified Agent product, and the acceptance runner publishes those retained
@@ -661,17 +670,26 @@ membership high-water sequence rather than a creation-time or fixture constant.
   retains bounded review analysis, the relevant-precondition digest, and original
   plus selected typed novelty decisions, while leaving raw precondition state and
   historical file bytes in runtime/replay evidence rather than retained metadata.
-- [ ] Add an additive critique-to-regeneration path in which the reviewer may emit
+- [x] Add an additive critique-to-regeneration path in which the reviewer may emit
   bounded typed findings without authoring a replacement CandidatePlan, the solver
   regenerates a candidate from those findings and the shared correction-state
   capsule, and the regenerated candidate receives a fresh review before the Chair
   may select it. Bind every transition to the original proposal, terminal evidence,
   correction-state digest, and regenerated plan digest; apply the same novelty,
   policy, budget, and host-admission gates as for any other candidate. Keep the
-  current reviewer-authored `revise` replacement contract authoritative until this
-  additive path has closed contracts, deterministic replay, and a role-specific
-  bench of at least ten correction attempts demonstrating a deployment-ready
-  reviewer-to-solver correction rate.
+  current reviewer-authored `revise` replacement contract valid as a compatibility
+  path. The v2 review and regeneration schemas, negative fixtures, signature golden
+  vectors, append-only daemon join, restart recovery, requester-owned API, live
+  baton integration, strict role grammars, host-side current-role and
+  effective-membership checks for exact `implementer` and `reviewer` assignments,
+  and prompt-free replay are implemented.
+- [ ] Promote critique-to-regeneration from opt-in mechanism to a deployment-ready
+  Story 012 model path only after a role-specific bench of at least ten correction
+  pairs reaches the declared thresholds without policy relaxation. The pinned
+  Qwen2.5-Coder 7B run on 2026-08-01 produced 10/10 typed requests but only 1/10
+  domain-ready solver successors in the staged zone-declaration case, below the
+  `0.6` ready-rate threshold. This measured model-capability gap does not reopen the
+  completed baseline Story 012 acceptance.
 - [ ] Derive budgets from the append-only run ledger. Fit at least four complete
   feedback cycles inside one authority epoch or renew authority between cycles without
   widening an individual grant or holding a P083 lease during inference. The

@@ -1,0 +1,40 @@
+{
+  "schema/v": 1,
+  "regeneration/ref": "corpus-experiment-regeneration:sha256:KHC3OMoZRzx2Q1jiY-excWRopfCFBT6VjyMTAqU_70A",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "source-proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "source-proposal/digest": "sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "source-candidate-plan/ref": "candidate-plan/experiment-test",
+  "source-candidate-plan/artifact-ref": "object-store:sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "source-candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "source-review/ref": "corpus-experiment-review:sha256:GDPajz2HoQckEMmQxC1faO5vFqDWzgCWbPJsrgw1k40",
+  "source-review/digest": "sha256:GDPajz2HoQckEMmQxC1faO5vFqDWzgCWbPJsrgw1k40",
+  "correction-state/digest": "sha256:LGcGqbZ3pzFmV87GUvD82Cu_l7dEffEjIkqY8OyeGUQ",
+  "solver": {
+    "kind": "nym",
+    "id": "did:key:z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ"
+  },
+  "solver/node-id": "node:did:key:z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ",
+  "solver-turn/id": "corpus-turn:sha256:USBLOK8FZ1EhwIAsuIbjG5dGMp0MX0-DZD24v3qc9Sg",
+  "regenerated-proposal/ref": "corpus-experiment:sha256:xaXpjY3sg-e9fSbc5T5GQ9GA_oFen-Wv5b3C7dqo_oA",
+  "regenerated-proposal/digest": "sha256:xaXpjY3sg-e9fSbc5T5GQ9GA_oFen-Wv5b3C7dqo_oA",
+  "regenerated-candidate-plan/ref": "candidate-plan/regenerated-experiment-test",
+  "regenerated-candidate-plan/artifact-ref": "object-store:sha256:r1WQL1T1Z25OQVJJ0sPasf0q4y6-PFB7W-8GIlwYSRk",
+  "regenerated-candidate-plan/digest": "sha256:r1WQL1T1Z25OQVJJ0sPasf0q4y6-PFB7W-8GIlwYSRk",
+  "budget": {
+    "steps": 1,
+    "tokens": 4096,
+    "time-ms": 120000
+  },
+  "class/key": "Community",
+  "host/node-id": "node:did:key:z6MknUTxEAW2fexT3XGTBm5DK7ChSwTJ9rNbvGvPhaYP4AUN",
+  "created-at": "2026-07-24T10:02:30Z",
+  "expires-at": "2026-07-24T10:04:30Z",
+  "idempotency/key": "experiment-regeneration-test",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "ZSTsoluTMFwZS0d9_9tbVQ6lbGV5Qw0zYt33atamttzeTZnZwWcxHSQ4bpYiXCA3CGzyuJn6IkOnp0gmeLULCw",
+    "key/public": "z6MknUTxEAW2fexT3XGTBm5DK7ChSwTJ9rNbvGvPhaYP4AUN"
+  }
+}

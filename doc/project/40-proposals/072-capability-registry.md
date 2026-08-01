@@ -231,6 +231,11 @@ Reuses (gated against the registry, not changed): `capability-passport.v1`,
   Planning and Capability Mapping".
 - **Capability passports/advertisement (006/007/024)**: unchanged contracts, now gated
   by registered identity.
+- **Operator-Sovereign Extensibility (P085)**: a derived capability set is a
+  signed local intersection of registered base capabilities and additional
+  restrictions, not a new primitive registry authority. P085 owns the derived
+  contract and operator overlay; P072 remains authoritative for every base id and
+  use-specific eligibility flag.
 
 ## Resolved Decisions
 
@@ -398,3 +403,6 @@ Those are intentionally separate proposal tracks, as decided in §2.
 - [d] Federation namespace allocation, registration authority, and revocation belong in
   a separate governance proposal. P072 intentionally does not implement governance over
   public namespace authority.
+- [d] Operator-local derived capability sets and experiment-package composition belong
+  to P085. They must not become an alternate path for adding base capability ids or
+  bypassing registry admission.
