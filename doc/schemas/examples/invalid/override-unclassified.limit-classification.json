@@ -1,0 +1,20 @@
+{
+  "schema": "limit-classification.v1",
+  "schema/v": 1,
+  "classification/ref": "limit-classification:01K3ABCDEF0123456789GHJKMN",
+  "limit/id": "inquirium.pending-limit",
+  "implementation/symbol": "INQUIRIUM_MAX_PENDING_LIMIT",
+  "implementation/source": "inquirium-core/src/lib.rs",
+  "current/value": 64,
+  "current/unit": "items",
+  "class": "unclassified",
+  "owner": "inquirium-core",
+  "merge/direction": "min",
+  "operator/override": "bounded",
+  "evidence": {
+    "status": "pending",
+    "threatened/resource": "classification-review-pending",
+    "test/refs": []
+  },
+  "review": { "owner": "inquirium-maintainers", "review/by": "2027-08-01" }
+}

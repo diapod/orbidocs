@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-01.
+Snapshot date: 2026-08-02.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -55,6 +55,16 @@ aggregate operator evidence, and deterministic local HTTP/TLS conformance. The
 supervised extractor, durable source/cache/scheduler runtime, persistent operator
 projection, Sensorium observation admission, and P082 publication remain open.
 P084 is therefore `partial` post-MVP work and does not change hard-MVP readiness.
+
+The post-MVP P085 foundation now freezes `limit-classification.v1` and a reviewed,
+JCS-digested `limit-classification-registry.v1` envelope over 47 Inquirium limits and
+three explicit exclusions. Pure validation, dual JSON-Schema/semantic fixture checks,
+recursive all-unsigned-width source discovery with signed/float rejection, concrete
+pre-policy evidence for every boundary-safety classification, and separate
+drift/review-deadline CI gates prevent
+new or changed implementation maxima from becoming silent policy. Runtime resource
+envelopes, operator overrides, hook/package lifecycles, and federated posture remain
+open, so this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1147,6 +1157,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `35` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `15` |
 
 ## Solutions
 

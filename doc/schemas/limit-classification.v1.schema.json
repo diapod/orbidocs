@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:limit-classification:v1",
+  "title": "Implementation Limit Classification v1",
+  "description": "Reviewed classification and evidence record for one compiled implementation limit.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "classification/ref",
+    "limit/id",
+    "implementation/symbol",
+    "implementation/source",
+    "current/value",
+    "current/unit",
+    "class",
+    "owner",
+    "merge/direction",
+    "operator/override",
+    "evidence",
+    "review"
+  ],
+  "properties": {
+    "schema": { "const": "limit-classification.v1" },
+    "schema/v": { "const": 1 },
+    "classification/ref": {
+      "type": "string",
+      "pattern": "^limit-classification:[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "limit/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 192,
+      "pattern": "^[a-z][a-z0-9]*(?:[._/-][a-z0-9]+)*$"
+    },
+    "implementation/symbol": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 192,
+      "pattern": "^[A-Z][A-Z0-9_]*$"
+    },
+    "implementation/source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$"
+    },
+    "current/value": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "current/unit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "class": {
+      "enum": ["normative", "boundary-safety", "federated", "operational", "unclassified"]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "merge/direction": {
+      "enum": ["none", "min", "max", "intersect", "domain"]
+    },
+    "operator/override": {
+      "enum": ["forbidden", "tighten-only", "bounded"]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "test/refs"],
+      "properties": {
+        "status": { "enum": ["proven", "pending", "not-required"] },
+        "threatened/resource": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "refusal/layer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "test/refs": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^[a-z][a-z0-9_]*(?:::[a-z][a-z0-9_]*)+$"
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "review/by"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "review/by": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "class": { "const": "normative" } }, "required": ["class"] },
+      "then": {
+        "properties": {
+          "merge/direction": { "const": "none" },
+          "operator/override": { "const": "forbidden" },
+          "evidence": {
+            "properties": {
+              "status": { "const": "not-required" },
+              "test/refs": { "maxItems": 0 }
+            },
+            "not": { "anyOf": [{ "required": ["threatened/resource"] }, { "required": ["refusal/layer"] }] }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "class": { "const": "boundary-safety" } }, "required": ["class"] },
+      "then": {
+        "properties": {
+          "merge/direction": { "enum": ["min", "max", "intersect", "domain"] },
+          "operator/override": { "const": "tighten-only" },
+          "evidence": {
+            "required": ["threatened/resource", "refusal/layer"],
+            "properties": {
+              "status": { "const": "proven" },
+              "refusal/layer": { "const": "pre-policy" },
+              "test/refs": { "minItems": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "class": { "enum": ["federated", "operational"] } }, "required": ["class"] },
+      "then": {
+        "properties": {
+          "merge/direction": { "enum": ["min", "max", "intersect", "domain"] },
+          "operator/override": { "enum": ["tighten-only", "bounded"] },
+          "evidence": {
+            "properties": {
+              "status": { "const": "not-required" },
+              "test/refs": { "maxItems": 0 }
+            },
+            "not": { "anyOf": [{ "required": ["threatened/resource"] }, { "required": ["refusal/layer"] }] }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "class": { "const": "unclassified" } }, "required": ["class"] },
+      "then": {
+        "properties": {
+          "merge/direction": { "const": "none" },
+          "operator/override": { "const": "forbidden" },
+          "evidence": {
+            "required": ["threatened/resource"],
+            "properties": {
+              "status": { "const": "pending" },
+              "test/refs": { "maxItems": 0 }
+            },
+            "not": { "required": ["refusal/layer"] }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -170,6 +170,9 @@ schema_for_file() {
     *.bounded-http-fetch-operator-snapshot.json)
       echo "$SCHEMAS_DIR/bounded-http-fetch-operator-snapshot.v1.schema.json"
       ;;
+    *.limit-classification.json)
+      echo "$SCHEMAS_DIR/limit-classification.v1.schema.json"
+      ;;
     *.sensorium-web-source.json)
       echo "$SCHEMAS_DIR/sensorium-web-source.v1.schema.json"
       ;;

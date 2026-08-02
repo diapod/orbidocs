@@ -285,6 +285,24 @@ automatically; it blocks P085 conformance and operator override on that axis unt
 review. The distribution cannot advertise an unclassified limit as a proven
 federation safety property.
 
+The implementation inventory is one host-validated
+`limit-classification-registry.v1` envelope. Its stable `registry/ref` identifies the
+review lineage, while a JCS `registry/digest` binds that ref, all classification
+records, and every reviewed exclusion. A non-limit identifier, an alias of an already
+classified limit, or a representation threshold that externalizes rather than
+refuses data is represented as an explicit exclusion with source, reason, rationale,
+owner, and review deadline. Those decisions must not survive only as source comments.
+The source scanner traverses inline and file-backed modules and recognizes every Rust
+unsigned integer width. A signed or floating-point limit candidate fails the audit;
+a non-numeric candidate requires an explicit reviewed non-limit exclusion rather than
+being silently ignored. An explicit zero is a valid limit value, for example zero
+retries or zero inline items.
+
+Review expiry is checked by a dedicated, named conformance test so that it cannot be
+misreported as symbol or evaluated-value drift. It has no grace or bypass. The first
+inventory remains one intentionally shared review cohort; later records and exclusions
+receive their own explicit future deadlines when reviewed.
+
 For numeric maxima, the effective value is normally the minimum. For allowed sets,
 it is set intersection. For required caution or classification, it is the maximum.
 For time horizons, the owning domain specifies whether smaller means safer; no
@@ -1335,6 +1353,7 @@ Crockford-Base32 ULID suffixes:
 | NSE policy | `nse-policy:<ULID>` |
 | Operator guard hook | `operator-guard-hook:<ULID>` |
 | Limit classification | `limit-classification:<ULID>` |
+| Limit-classification registry | `limit-classification-registry:<ULID>` |
 | Extension transition | `operator-extension-transition:<ULID>` |
 
 Validators enforce the exact ASCII prefix and a 26-character ULID suffix using the
@@ -1511,8 +1530,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `P085-001` | Freeze V1 decisions, limit classes, hook classes, named invariants, and Open Questions | `done` | Accepted decisions distinguish normative, proven boundary-safety, federated, operational, and temporary unclassified limits; no hook or package can create authority; all twelve design questions are resolved and recorded separately from the empty V1 Open Questions register. |
-| `P085-002` | Inventory and classify all Inquirium compile-time maxima | `todo` | Versioned `limit-classification.v1` records cover every current `INQUIRIUM_MAX_*` and `BASELINE_*`, name owner/review deadline/evidence, and prove every final boundary limit with a concrete pre-policy refusal test before any operational constant migrates. |
-| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `todo` | Closed schemas cover classifications, envelopes, hook offers/decisions, middleware evidence, refusal codes/diagnostics, guard declarations, table policy, derived sets, attention budget, canonical and loose-import package projections, durable/session activation, transition journal, revocation, conformance, federation declaration, and node posture; every semantic id has its prefix validator; every contract completes the P084 ten-point Schema Gate checklist in both trees. Multibyte, over-limit, unknown-field, stale, replay, and authority-widening fixtures fail. Structural tests prove exactly one validator per hook, no backend admission API, and commutative, associative, idempotent, monotonic folds for every guard class. |
+| `P085-002` | Inventory and classify all Inquirium compile-time maxima | `done` | A reviewed, JCS-digested `limit-classification-registry.v1` envelope covers 47 current public numeric `INQUIRIUM_MAX_*`, `INQUIRIUM_DEFAULT_*`, and `BASELINE_*` contracts in `inquirium-core`/`inquirium-host`, plus the daemon context-source boundary, and binds reviewed exclusions for the baseline profile ref, daemon output-cap alias, and transcript inline-to-object-store representation threshold. A structural Rust gate recursively scans inline and file-backed modules, recognizes all unsigned widths, rejects signed or floating-point candidates, requires explicit review for non-numeric candidates, compares symbols and evaluated values, and rejects duplicate entries or digest drift. Nine boundary-safety records resolve by complete crate-and-module path to concrete pre-policy Rust tests rather than substring-matched function names. A separate no-grace deadline gate covers classifications and exclusions. The initial audit remains one review cohort; newly reviewed entries receive an explicit future deadline. No operational constant has yet migrated to runtime policy. |
+| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1` is accepted and synchronized across both schema trees with exact semantic-id/source/evidence validation, an explicit zero-valued-limit contract, pure validation with typed class-mismatch diagnostics, import/export Schema Gate registration, one positive fixture, nine negative fixtures covering the class/merge/override/evidence matrix, and a CI drift gate. Every negative fixture is independently rejected by raw JSON Schema and the pure Rust validator before the combined boundary gate is asserted. The remaining envelope, hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
 | `P085-004` | Refactor `nse` into versioned hook contracts with shared offer-bound validators | `partial` | Existing `select-llm-model` already revalidates a host-filtered candidate. Completion requires common offer identity/digest, raw proposal versus opaque admitted-decision types, typed backend failures, hook classes, one validator per hook, and migration of broadcast rewrite outcomes to offered transform-profile selection. |
 | `P085-005` | Implement deterministic `nse-table` backend | `todo` | Closed ordered rules, hook-owned fields/operators, canonical fixed-decimal semantics, exact UTF-8 byte string comparison without locale/normalization, bounded evaluation, canonical digest, golden vectors, and refusal-first tests pass without filesystem, network, clock, randomness, or effects. |
 | `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `partial` | Existing prompt caps and model selection are reused; operational maxima move to typed profiles only after P085-002, and prompt/schema/repair/ranking hooks validate against exact host offers. |
@@ -1538,9 +1557,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Freeze `limit-classification.v1` and perform the Inquirium constant audit before
-   designing `inquirium-resource-profile.v1`.
-2. Freeze identifier grammars, refusal codes/diagnostics, transition/session
+1. Design `inquirium-resource-profile.v1` from the completed classification
+   inventory, migrating only operational limits and retaining earlier hard
+   boundary-safety guards.
+2. Freeze the remaining identifier grammars, refusal codes/diagnostics, transition/session
    contracts, and the complete schema family under the P084 Schema Gate checklist.
 3. Freeze one existing hook (`select-llm-model`) as the first complete
    offer/decision/admitted-type/validator golden model, including structural tests

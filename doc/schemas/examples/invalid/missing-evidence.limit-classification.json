@@ -1,0 +1,16 @@
+{
+  "schema": "limit-classification.v1",
+  "schema/v": 1,
+  "classification/ref": "limit-classification:01K3ABCDEF0123456789GHJKMN",
+  "limit/id": "inquirium.prompt-content-ref.text-bytes-max",
+  "implementation/symbol": "INQUIRIUM_MAX_PROMPT_CONTENT_REF_TEXT_BYTES",
+  "implementation/source": "inquirium-host/src/lib.rs",
+  "current/value": 8192,
+  "current/unit": "bytes",
+  "class": "boundary-safety",
+  "owner": "inquirium-host",
+  "merge/direction": "min",
+  "operator/override": "tighten-only",
+  "evidence": { "status": "proven", "test/refs": [] },
+  "review": { "owner": "inquirium-maintainers", "review/by": "2027-08-01" }
+}
