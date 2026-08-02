@@ -947,6 +947,8 @@ The first implementation should freeze these contracts before runtime effects:
 | Contract | Purpose |
 | :--- | :--- |
 | `limit-classification.v1` | Versioned classification, proof obligation, review owner, and review deadline for one implementation limit. |
+| `enum-classification.v1` | Machine-checked classification of one discovered domain enum as a closed invariant, configurable subset, code-backed registry candidate, or temporarily unclassified subject. |
+| `dispatch-classification.v1` | Machine-checked classification of one discovered hard-coded semantic dispatch site, including its owning domain, branch fingerprint, disposition, and review deadline. |
 | `operator-resource-envelope.v1` | Shared signed revision header and typed profile binding. |
 | `operator-resource-envelope-revocation.v1` | Signed terminal revocation of the exact active envelope. |
 | `inquirium-resource-profile.v1` | Operator-owned Inquirium operation limits after constant classification. |
@@ -1002,6 +1004,15 @@ capability admission, or effect authority.
   federated execution uses the intersection of all current declarations.
 - `inv-extension-derived-no-new-authority`: a derived capability set has no authority
   outside the current intersection of its base grants and restrictions.
+- `inv-registry-entry-no-new-authority`: a registry entry executes only under
+  authority already admitted at its invocation point; required capability ids are
+  current-use preconditions and never grants.
+- `inv-registry-decision-revision-bound`: every registry-backed decision and effect
+  fact binds the exact entry ref, revision, implementation ref, and canonical digest,
+  so replay never consults current mutable registry configuration.
+- `inv-registry-empty-set-refuses`: an empty effective registry intersection is a
+  typed refusal and never falls back to a built-in, distribution-default, or
+  previously active implementation.
 - `inv-extension-install-inert`: package installation and schema acceptance do not
   activate behavior.
 - `inv-extension-package-trust-external`: package signing authority is resolved from
@@ -1622,7 +1633,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | :--- | :--- | :--- | :--- |
 | `P085-001` | Freeze V1 decisions, limit classes, hook classes, named invariants, and Open Questions | `done` | Accepted decisions distinguish normative, proven boundary-safety, federated, operational, and temporary unclassified limits; no hook or package can create authority; all twelve design questions are resolved and recorded separately from the empty V1 Open Questions register. |
 | `P085-002` | Inventory and classify all Inquirium compile-time maxima | `done` | A reviewed, JCS-digested `limit-classification-registry.v1` envelope covers 47 current public numeric `INQUIRIUM_MAX_*`, `INQUIRIUM_DEFAULT_*`, and `BASELINE_*` contracts in `inquirium-core`/`inquirium-host`, plus the daemon context-source boundary, and binds reviewed exclusions for the baseline profile ref, daemon output-cap alias, and transcript inline-to-object-store representation threshold. A structural Rust gate recursively scans inline and file-backed modules, recognizes all unsigned widths, rejects signed or floating-point candidates, requires explicit review for non-numeric candidates, compares symbols and evaluated values, and rejects duplicate entries or digest drift. Nine boundary-safety records resolve by complete crate-and-module path to concrete pre-policy Rust tests rather than substring-matched function names. A separate no-grace deadline gate covers classifications and exclusions. The initial audit remains one review cohort; newly reviewed entries receive an explicit future deadline. The inventory is complete; the first operational runtime projection is tracked separately under P085-006. |
-| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1`, `inquirium-resource-profile.v1`, `operator-resource-envelope.v1`, and `operator-resource-envelope-revocation.v1` are accepted and synchronized across both schema trees. The resource profile is sparse, closed over exactly the 38 operational registry records, accepts explicit zero, and structurally excludes all nine boundary-safety axes; one Schema Gate test directly equates the operational registry IDs, serialized `InquiriumResourceLimit::ALL` vocabulary, and closed JSON Schema properties, then checks typed envelope/profile digest binding. Signed-envelope V1 closes operations to classify/rerank and experiment classes to production/research/experimental/critical. Positive fixtures plus bad-profile-ref, unknown-axis, wrong-version, missing-signature for both envelope and revocation, revision-gap, and revocation unknown-field negatives pass through JSON Schema and pure Rust validation. The limit-classification contract retains exact semantic-id/source/evidence validation, typed class-mismatch diagnostics, one positive and ten negative fixtures covering the class/merge/override/evidence matrix, and CI drift gates. The remaining hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
+| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1`, `inquirium-resource-profile.v1`, `operator-resource-envelope.v1`, and `operator-resource-envelope-revocation.v1` are accepted and synchronized across both schema trees. The resource profile is sparse, closed over exactly the 38 operational registry records, accepts explicit zero, and structurally excludes all nine boundary-safety axes; one Schema Gate test directly equates the operational registry IDs, serialized `InquiriumResourceLimit::ALL` vocabulary, and closed JSON Schema properties, then checks typed envelope/profile digest binding. Signed-envelope V1 closes operations to classify/rerank and experiment classes to production/research/experimental/critical. Positive fixtures plus bad-profile-ref, unknown-axis, wrong-version, missing-signature for both envelope and revocation, revision-gap, and revocation unknown-field negatives pass through JSON Schema and pure Rust validation. The limit-classification contract retains exact semantic-id/source/evidence validation, typed class-mismatch diagnostics, one positive and ten negative fixtures covering the class/merge/override/evidence matrix, and CI drift gates. The remaining enum/dispatch classification, hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
 | `P085-004` | Refactor `nse` into versioned hook contracts with shared offer-bound validators | `partial` | Existing `select-llm-model` already revalidates a host-filtered candidate. Completion requires common offer identity/digest, raw proposal versus opaque admitted-decision types, typed backend failures, hook classes, one validator per hook, and migration of broadcast rewrite outcomes to offered transform-profile selection. |
 | `P085-005` | Implement deterministic `nse-table` backend | `todo` | Closed ordered rules, hook-owned fields/operators, canonical fixed-decimal semantics, exact UTF-8 byte string comparison without locale/normalization, bounded evaluation, canonical digest, golden vectors, and refusal-first tests pass without filesystem, network, clock, randomness, or effects. |
 | `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `partial` | `inquirium-core` owns the 38-axis closed profile, complete distribution defaults, pure `distribution-default -> operator-local-config -> operator-envelope -> task-session` resolver, per-axis winning provenance, and canonical digest. The daemon accepts one sparse unsigned local config overlay and a later signed envelope source, shares immutable effective profiles without per-request deep cloning, and preserves an append-only schema-versioned SQLite revision/event history across restart under a 64 MiB main-database ceiling and 8 MiB WAL checkpoint target. Admit/revoke replay always reconciles runtime from the canonical current active fact; corrupt or unverifiable active recovery and current-use binding loss fail closed, while only valid absence/revocation/expiry falls back to unsigned configuration. Supersession, signed revocation, expiry, exact replay, pure operator status, explicit mutating reconciliation, and restart recovery are implemented. Signed scope is executable for exact classify/rerank plus production/research/experimental/critical context matches, and only the five classify plus three rerank axes already enforced on request and response admission may appear in a signed V1 envelope. Unknown, mismatched, vocabulary-only, and boundary-safety axes fail closed; the distribution ref is reserved against overlay impersonation, explicit zero is effective, and prompt-free traces retain the effective profile. The remaining thirty axes stay vocabulary-only until their owning runtime boundaries consume them. Runtime task/session sourcing, bounded widening beyond distribution defaults, federated intersection, and the remaining prompt/schema/repair hook expansion are still open. |
@@ -1640,19 +1651,19 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P085-018` | Add local and three-node acceptance plus trace-explorer evidence | `todo` | Acceptance proves table and scripted parity, Python evidence input without direct-backend registration, Flow consumption, interrupted activation recovery, fact-driven cache invalidation, derived revocation, guard-hook narrowing, producer-budget refusal and `partially-narrowed` diagnostics, composition conflict and required-failure refusal, exact refusal-code coverage, explicit default provenance, quiet-window deferral, session-activation restart discard, non-delegable safe-mode recovery, modified-distribution disclosure, federated intersection/refusal, rollback, and complete prompt-free causality. |
 | `P085-019` | Synchronize Capability Registry, Node ledger, solutions, FAQ/HOWTO, and readiness classification | `todo` | All new formal capability ids and runtime owners are registered; P064/P069/P072/P073/P076/P082 and Middleware/Inquirium/Agent/Corpus solution docs reflect the implementation; P085 remains outside hard-MVP unless an accepted story changes that scope. |
 | `P085-020` | Implement operator-declared guard hooks | `todo` | Signed declarations bind only to registered host admission anchors and host-owned merge axes; only `restrict`, `narrow`, and `raise-risk` are accepted; `allow` adds no authority; every monotonic guard receives reserved budget; per-anchor count/byte caps refuse without truncation; unknown anchors/fields and any selecting behavior fail closed. |
-| `P085-021` | Publish and evaluate node extension posture | `todo` | A signed posture binds implementation profile, build digest, classification digest, boundary-profile digest, and modified-baseline status; self-attestation strength is explicit; peer policy can restrict/refuse; a modified build cannot present the stock posture. |
+| `P085-021` | Publish and evaluate node extension posture | `todo` | A signed posture binds implementation profile, build digest, classification digest, boundary-profile digest, and modified-baseline status; self-attestation strength is explicit; peer policy can restrict/refuse; a modified build cannot present the stock posture. The versioned posture family provides the compatibility carrier for domain-owned registry entry refs when Phase 2 activates them. |
 | `P085-022` | Implement disabled-by-default loose signed file import | `todo` | `operator_extensions.allow_loose_signed_files` exists in host configuration with default `false`; packages and remote input cannot enable it; explicit local import accepts only signed content-addressed files from admitted roots, performs no filesystem auto-watch or auto-activation, materializes a deterministic non-distributable package projection, and uses the ordinary conformance, signed activation, invalidation, and rollback lifecycle. |
 | `P085-023` | Implement bounded runtime caches and fact-driven invalidation | `todo` | Pure compiled content, activation bindings, effective envelopes, per-invocation projections, attention windows, and staging each implement the declared owner/key/cap/TTL/cleanup/index/restart contract; revoke, expiry, supersession, safe mode, trust, sanction, and restriction commits synchronously invalidate executable bindings; digest-only dispatch is impossible. |
 | `P085-024` | Implement expiring local session activation | `todo` | A verified conformant package can be activated under a fresh operator session without a detached durable signature only in `research|experimental`; exact plan/package digests and a short TTL are bound; activation is local and non-federated, cannot change durable or non-delegable state, is audited, and is discarded on session end, revoke, expiry, or restart. |
 | `P085-025` | Implement the closed refusal registry and diagnostic projection | `todo` | Every emitted refusal uses `operator-extension-refusal-code.v1`; every declared code has a reaching fixture; diagnostics identify producer, hook/anchor, axis, winning declaration, offer/invocation, retryability, and omitted advisory guards under redaction; dead or unregistered codes fail CI. |
 
-### Final Phase: Domain-Owned Semantic Registries
+### Phase 2: Domain-Owned Semantic Registries
 
-This is the final P085 implementation phase. It begins after the applicable common
-package, activation, refusal, inspection, and recovery boundaries tracked by
-`P085-001` through `P085-025` are stable. The deferred WASM backend in `P085-017` is
-not a prerequisite. The inventory may be maintained earlier, but runtime migration
-must not create a second activation path or bypass the preceding controls.
+This phase begins after the applicable common package, activation, refusal,
+inspection, and recovery boundaries tracked by `P085-001` through `P085-025` are
+stable. The deferred WASM backend in `P085-017` is not a prerequisite. The inventory
+may be maintained earlier, but runtime migration must not create a second activation
+path or bypass the preceding controls.
 
 The purpose is not to turn enums into strings. Three distinct cases remain explicit:
 
@@ -1662,22 +1673,47 @@ The purpose is not to turn enums into strings. Three distinct cases remain expli
 | Closed semantic vocabulary with deployment choice | Enum plus an operator-configurable admitted subset | The operator may narrow installed values but cannot invent a new value or exceed distribution, federation, capability, or safety ceilings. |
 | Replaceable domain behavior | Domain-owned code-backed registry entry | The operator may enable and select an installed implementation whose schemas, capabilities, constraints, and provenance have been admitted. Data alone cannot manufacture executable behavior. |
 
-This separation is necessary for four reasons:
+This separation is necessary because exhaustive types prove protocol and
+state-machine completeness, while domain registries let operators change operational
+composition without a source rebuild or a cross-organ switch. Durable facts remain
+replayable because they bind the exact registry meaning used at decision time rather
+than consulting today's mutable configuration.
 
-- exhaustive types remain useful where they prove protocol and state-machine
-  completeness;
-- operators can change operational composition without a source rebuild;
-- domains can gain implementations independently without a cross-organ switch or a
-  global plug-in registry;
-- durable facts remain replayable because they bind the exact registry meaning used
-  at decision time rather than consulting today's mutable configuration.
+The classification inventory is machine-checked rather than editorial. Structural
+scanners enumerate Rust enum declarations with `syn`, Python enum declarations with
+`ast`, and reviewed semantic dispatch anchors in the five target domains. The
+discovered declarations and branch fingerprints are compared with versioned
+`enum-classification.v1` and `dispatch-classification.v1` records. A new or changed
+subject enters `unclassified`, carries an owner and `review-by`, and blocks Phase 2
+conformance until reviewed. The same no-grace drift gate used by the Inquirium limit
+audit rejects missing records, stale source locators, fingerprint drift, duplicate
+subjects, and expired reviews.
 
 For every invocation, the effective selectable set is the intersection of installed
 code-backed entries, the distribution ceiling, current federation and policy
 ceilings, the operator-enabled set, and any request-local narrowing. An empty
 intersection, unknown id, disabled entry, stale revision, digest mismatch, missing
-capability, or unavailable implementation is a typed fail-closed refusal. A caller
-cannot select an entry outside that effective set.
+capability, or unavailable implementation is a typed fail-closed refusal. It never
+falls back to a built-in, distribution default, previously active entry, or the first
+registered implementation. A caller cannot select an entry outside the effective
+set.
+
+A built-in has no privileged registry semantics. It is a distribution-installed
+entry with the same ref, revision, implementation ref, canonical digest, capability
+checks, current binding, inspection, and replay rules as a package-installed entry.
+The distribution may enable it by default, but the binding records
+`distribution-default` provenance and is never attributed to the operator or treated
+as a signed operator activation. The operator may disable it, including every
+built-in in a domain; the resulting empty set refuses. A behavior that must remain
+available for safe mode or the non-delegable recovery core stays outside the registry
+and is documented as a closed invariant rather than disguised as a mandatory
+built-in.
+
+Each entry executes only under authority already admitted at its invocation point.
+Its declared required capability ids are admission and current-use preconditions,
+never authority grants. Effectful Dator, Arca, or Agent entries still pass the owning
+effect-admission boundary after selection; selection itself cannot authorize an
+effect.
 
 Each domain owns its entry schema, validators, capability mapping, selection policy,
 and refusal projection. Only the signed envelope header, revision and digest rules,
@@ -1689,26 +1725,50 @@ repeat the entry ref, revision, implementation ref, and digest. Configuration or
 package changes therefore create a new effective revision and never reinterpret
 history.
 
-The first implementation is restart-bound: activation commits a fact, invalidates
-affected runtime bindings, and becomes executable only through the ordinary
-supervisor or host startup path. Hot reload is a later optimization and must preserve
-the same atomic generation and rollback semantics. Operator inspection must show
-installed, enabled, effective, refused, stale, and unavailable entries plus the
-winning ceiling and provenance, without exposing secrets or model content.
+An `entry/ref` present in any federated artifact must be resolvable by the receiving
+node to a compatible entry revision and digest before the artifact is admitted. An
+unknown, unavailable, stale, or incompatible entry is a typed refusal; the receiver
+does not guess equivalent behavior or treat an opaque id as advisory. The natural
+compatibility carrier is the versioned `node-extension-posture.v1` family from
+`P085-021`, while each domain retains ownership of its compatibility semantics.
 
-This second table is the canonical continuation of the P085 tracker, not a parallel
-source of truth.
+Initial activation is restart-bound: an activation fact may commit and invalidate
+old bindings immediately, but a newly enabled implementation becomes executable only
+through the ordinary supervisor or host startup path. Deactivation is deliberately
+asymmetric and immediate. Revocation, expiry, supersession, safe mode, trust loss,
+sanction, or restriction synchronously invalidates the executable binding and cannot
+wait for restart. Hot activation is a later optimization and must preserve the same
+atomic generation, invalidation, and rollback semantics.
 
-| ID | Final-phase work item | Status | Done criteria / evidence |
+Operator inspection shows installed, enabled, effective, refused, stale, and
+unavailable entries, but never stops at the state label. It reuses the closed refusal
+and diagnostic projection from `inv-extension-refusal-closed-and-diagnosable` to
+identify the deciding boundary, winning distribution/federation/operator/request
+restriction, entry revision and digest, retryability, and causal refs without
+exposing secrets or model content.
+
+Dator is the reference vertical because replacing its one hard-coded dispatch kind
+with one registered adapter exercises entry identity, selection, capability checks,
+effect admission, refusal, replay, restart activation, immediate deactivation, and
+inspection with the smallest domain surface. `P085-028` must be complete with golden
+fixtures and operator evidence before `P085-029` through `P085-032` begin. The other
+domains reuse that mechanism and may add only domain-owned schemas and validators,
+not divergent lifecycle or fallback rules.
+
+This second table is the canonical continuation of the first P085 tracker, not a
+parallel source of truth. Both tables share one identifier sequence; any future task
+continues at `P085-034` regardless of which subsection contains it.
+
+| ID | Phase 2 work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `P085-026` | Classify candidate enums and hard-coded dispatch tables across Inquirium, Agent, Corpus, Dator, and Arca | `todo` | A reviewed inventory classifies every candidate as closed invariant, configurable subset, code-backed registry, or deliberately deferred; each classification names the owning boundary, current call sites, wire compatibility impact, capability owner, and refusal behavior. Lifecycle, authority, status, error, and transition enums remain closed unless a separate protocol revision proves otherwise. |
-| `P085-027` | Freeze shared registry envelope, activation binding, and read-model mechanics | `todo` | Domain-owned entry schemas reuse one signed revision header, canonical digest contract, package provenance, activation journal, current-grant checks, synchronous invalidation, rollback, restart recovery, and operator inspection projection. Unknown ids, stale revisions, digest mismatch, unavailable implementations, and empty effective sets have registered typed refusals and refusal-first fixtures. No global semantic entry schema or mega-registry is introduced. |
-| `P085-028` | Add Corpus role-policy and instruction-overlay registries | `todo` | The current closed V1 task-role vocabulary remains wire-compatible and may be narrowed by operator policy. Known role ids resolve to installed code-backed role policies and bounded instruction-overlay profiles; unknown roles or overlays fail closed. Any future namespaced role extension requires an explicit Corpus contract revision, federation compatibility declaration, and preservation of chair, budget, provenance, and disclosure gates. |
-| `P085-029` | Add Arca fulfillment, selection, and fan-in strategy registries | `todo` | Hard-coded fulfillment branches and strategy dispatch resolve through Arca-owned installed entries with closed request/response schemas, deterministic selection, timeout and retry contracts, capability checks, and effect admission. Operator configuration can enable or narrow strategies but cannot create a workflow action, bypass DAG validation, or widen grants. |
-| `P085-030` | Add Dator dispatch-adapter registry | `todo` | The current hard-coded dispatch kind becomes a built-in registered adapter. Additional installed adapters declare supported service types, schemas, capabilities, timeout/retry behavior, and diagnostic projection. Unknown, disabled, unhealthy, or schema-invalid adapters refuse before dispatch; service offers remain data and do not themselves install executable adapters. |
-| `P085-031` | Add Agent consumer, output-sink, and effect-policy adapter registries | `todo` | Existing consumer and sink values remain built-in entries and may be restricted by an operator profile. New consumers, sinks, and effect-policy adapters are code-backed, capability-bound, composable under the existing monotonic effect algebra, and cannot enlarge grants, descendant budgets, classification, or HIL policy. Lifecycle, review, termination, and controller-action enums remain closed. |
-| `P085-032` | Add Inquirium operation descriptors without opening operation semantics | `todo` | `InquiriumOperation` remains a closed contract algebra with operation-specific request and response schemas. A domain-owned descriptor registry exposes installed handlers, model-runtime requirements, capabilities, limits, and operator allowlists for those operations; unknown operations and missing handlers fail closed. Adding a new operation still requires a typed contract revision rather than configuration alone. |
-| `P085-033` | Prove cross-domain registry conformance and synchronize operator documentation | `todo` | Unit, refusal-first, restart-recovery, stale-binding, digest/revision replay, capability-revocation, and local acceptance tests cover all five domains. CLI/UI inspection explains effective selection and provenance. Capability Registry, implementation ledger, solution documents, FAQ/HOWTO, and readiness trackers match the implemented boundary, and no legacy hard-coded dispatch remains outside an explicitly documented closed invariant. |
+| `P085-026` | Machine-classify candidate enums and hard-coded dispatch across Inquirium, Agent, Corpus, Dator, and Arca | `todo` | Structural Rust `syn` and Python `ast` scanners plus domain dispatch-anchor extractors produce the complete discovered set and stable source fingerprints. Versioned `enum-classification.v1` and `dispatch-classification.v1` records classify every subject as closed invariant, configurable subset, code-backed registry candidate, or `unclassified`, and name owner, call sites, wire impact, capability owner, refusal behavior, evidence, and `review-by`. New, changed, duplicate, stale, missing, or overdue records fail the no-grace CI drift gate. Lifecycle, authority, status, error, and transition enums remain closed unless a separate protocol revision proves otherwise. |
+| `P085-027` | Freeze shared registry envelope, activation binding, and read-model mechanics | `todo` | Domain-owned entry schemas reuse one signed revision header, canonical digest contract, package provenance, activation journal, current-grant checks, synchronous deactivation, rollback, restart recovery, and causal operator inspection. Built-ins obey identical revision/digest rules and are operator-disableable; an empty set refuses without fallback. Unknown ids, stale revisions, digest mismatch, unavailable implementations, and missing capabilities have registered typed refusals and refusal-first fixtures. The three `inv-registry-*` invariants have structural and runtime tests. No global semantic entry schema or mega-registry is introduced. |
+| `P085-028` | Complete the Dator dispatch-adapter reference vertical | `todo` | The current hard-coded dispatch kind becomes an ordinary distribution-installed registry entry with ref, revision, implementation ref, digest, schemas, required capabilities, timeout/retry behavior, and diagnostics. Selection runs under caller authority, and dispatch still passes Dator effect admission. Golden tests prove enable, disable-to-empty refusal without fallback, unknown and unhealthy refusal, restart-bound activation, immediate revocation, exact replay, operator inspection causality, and no service-offer-driven installation. This item is `done` before any other domain migration begins. |
+| `P085-029` | Add Corpus role-policy and instruction-overlay registries | `todo` | The current closed V1 task-role vocabulary remains wire-compatible and may be narrowed by operator policy. Known role ids resolve to installed code-backed role policies and bounded instruction-overlay profiles; unknown roles or overlays fail closed. Any future namespaced role extension requires an explicit Corpus contract revision, resolvable federated entry evidence, and preservation of chair, budget, provenance, and disclosure gates. The implementation reuses the Dator-proven registry lifecycle and fallback rules. |
+| `P085-030` | Add Arca fulfillment, selection, and fan-in strategy registries | `todo` | Hard-coded fulfillment branches and strategy dispatch resolve through Arca-owned installed entries with closed request/response schemas, deterministic selection, timeout and retry contracts, capability checks, and effect admission. Operator configuration can enable or narrow strategies but cannot create a workflow action, bypass DAG validation, widen grants, or rely on a federated entry ref the receiver cannot resolve. The implementation reuses the Dator-proven registry lifecycle and fallback rules. |
+| `P085-031` | Add Agent consumer, output-sink, and effect-policy adapter registries | `todo` | Existing consumer and sink values become ordinary distribution-installed entries and may be disabled by operator policy. New consumers, sinks, and effect-policy adapters are code-backed, capability-bound, composable under the existing monotonic effect algebra, and cannot enlarge grants, descendant budgets, classification, or HIL policy. Lifecycle, review, termination, and controller-action enums remain closed; federated entry refs require receiver resolution. The implementation reuses the Dator-proven registry lifecycle and fallback rules. |
+| `P085-032` | Add Inquirium operation descriptors without opening operation semantics | `todo` | `InquiriumOperation` remains a closed contract algebra with operation-specific request and response schemas. A domain-owned descriptor registry exposes installed handlers, model-runtime requirements, capabilities, limits, and operator allowlists for those operations; unknown operations, missing handlers, and empty effective sets fail closed. Adding a new operation still requires a typed contract revision rather than configuration alone. The implementation reuses the Dator-proven registry lifecycle and fallback rules. |
+| `P085-033` | Prove cross-domain registry conformance and synchronize operator documentation | `todo` | Unit, refusal-first, restart-recovery, stale-binding, digest/revision replay, capability-revocation, federated-resolution, and local acceptance tests cover all five domains. CLI/UI inspection explains effective selection, decisive restriction, and provenance. Capability Registry, implementation ledger, solution documents, FAQ/HOWTO, and readiness trackers match the implemented boundary. The structural drift gate proves that every remaining hard-coded semantic dispatch is either migrated or has a current `closed invariant` record from `P085-026`; unclassified or unrecorded dispatch prevents completion. |
 
 ## Next Actions
 
@@ -1735,6 +1795,6 @@ source of truth.
 10. Register capability ids and implementation-ledger ownership before adding any
    host route or module-dispatch surface.
 11. After the applicable common mechanics in `P085-001` through `P085-025` are
-    stable, execute the domain-owned semantic registry phase in `P085-026` through
-    `P085-033`; deferred WASM is not a prerequisite, and implementation must not
-    start with mechanical enum replacement or a global registry.
+    stable, execute Phase 2 in `P085-026` through `P085-033`; complete the Dator
+    reference vertical before the other domains, and do not start with mechanical
+    enum replacement or a global registry. Deferred WASM is not a prerequisite.
