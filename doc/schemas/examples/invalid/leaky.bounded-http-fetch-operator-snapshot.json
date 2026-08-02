@@ -1,0 +1,14 @@
+{
+  "schema": "bounded-http-fetch-operator-snapshot.v1",
+  "schema/v": 1,
+  "status": "ready",
+  "active": 0,
+  "capacity": 8,
+  "requests/total": 0,
+  "completed/total": 0,
+  "refused/total": 0,
+  "failed/total": 0,
+  "artifact-handoffs/total": 0,
+  "failure-counts": {},
+  "last/url": "https://secret.example/?token=secret"
+}

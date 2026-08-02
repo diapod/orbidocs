@@ -43,8 +43,8 @@ vztah, interpretace a možný bod korekce.
 
 Vědomí – první popsatelná vrstva našeho modelu, položená nejblíže hranici označované
 jako „úroveň nula“ – je zdrojovější nejen než intelekt, ale i než již utvořená
-zkušenost. „Zdrojovější“ zde znamená méně konkretizovanou pozici v řádu
-konkretizace, nikoli dřívější okamžik ani samostatnou existenci před tím, co se
+zkušenost. „Zdrojovější“ zde znamená méně určenou pozici na genealogické ose,
+nikoli dřívější okamžik ani samostatnou existenci před tím, co se
 ukazuje. Vědomí leží hlouběji než vjem a pocit subjektivity, nelze je však popsat
 přímo, protože každý popis využívá zkušenost podmíněnou smyslovými orgány a
 interpretací.
@@ -57,7 +57,7 @@ Nulová úroveň je označením hranice modelu, nikoli názvem předmětu. Konve
 může pouze vymezit rozsah, za nímž model nevypovídá; nerozhodujeme, zda tato hranice
 patří ke skutečnosti, k možnostem poznání, nebo k obojímu. Přibližujeme se k ní pouze
 nepřímo – skrze zkušenosti, které připomínají obarvené sklo, nikoli přímý pohled.
-Domnívání má dvě fáze: nejprve se objeví impuls méně konkretizovaný než pojem
+Domnívání má dvě fáze: nejprve se objeví impuls méně pojmově utvořený než pojem
 (rozpoznání, „pocit zdrojovosti“, „známost bez objektu“) a teprve poté jej inference
 formalizuje do jazyka a modelu.
 
@@ -122,7 +122,7 @@ formuli reifikace v postulátu 4). Panpsychismus tak umisťuje to, co je nejmén
 podmíněné, do toho, co je nejvíce konstruované.
 
 Dvoufázovost je blízká gendlinovskému *felt sense* → symbolizace, s tím rozdílem,
-že je zde impuls méně konkretizovaný než již utvořená zkušenost.
+že je zde impuls méně pojmově utvořený než zkušenost již formovaná interpretací.
 
 **Důsledky pro DIA:** hodnota epistemické hygieny, stratifikace zdrojové pozice
 zkušeností a epistemické odvahy vyrůstá přímo odtud. Systém nepředstírá, že má
@@ -144,20 +144,22 @@ Poznámka: Výše navržený model *ad hoc* má demonstrovat vztah obsahování.
 praktické či analytické přístupy mohou jednotlivé vrstvy rozlišovat více či méně
 podrobně. Například mezi vědomím a pocitem subjektivity můžeme vyčlenit perspektivu
 přítomnosti ještě před rozdělením na subjekt a objekt atd. Zde toto členění
-přijímáme, abychom ukázali samotný mechanismus bez vnucené konkretizace.
+přijímáme, abychom ukázali samotný mechanismus bez vnuceného zpřesňování modelu.
 
 Prostorová označení používaná níže náleží ke dvěma souvisejícím, avšak netotožným
 řádům. Na genealogické ose znamená „hlubší“ nebo „dřívější“ méně určené, nikdy však
 dřívější v čase. Ve stohu abstrakcí poskytuje „nižší“ vrstva konkréta, z nichž
-„vyšší“ vrstva vytváří vlastní abstrakce. Žádný z těchto řádů neurčuje větší
-pravdivost ani hodnotu.
+„vyšší“ vrstva vytváří vlastní abstrakce. „Konkrétum“ zde označuje roli vzhledem
+k vrstvě: abstrakt vytvořený nižší vrstvou se může stát konkrétem pro vrstvu vyšší.
+Žádný z těchto řádů neurčuje větší pravdivost ani hodnotu a konkrétum není
+skutečnějším ani předmětnějším jsoucnem.
 
 Nulová úroveň není ani hlubší vrstvou vědomí, ani vyšší abstrakcí nad ním, nýbrž
 konvenčním označením hranice náležejícím k metařádu popisu. V diagramu je umístěna
 kvůli srozumitelnosti, přestože už samo přidělení místa v posloupnosti je aktem
 určení.
 
-Každá vrstva vyrůstá z hlubší jako její abstrakt a konkrétní prvky nižších vrstev
+Každá vrstva vyrůstá z hlubší jako její abstrakt a konkréta nižších vrstev
 se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratified design*
 Abelsona a Sussmana ([„MIT AI Memo 986“](https://archive.org/details/bitsavers_mitaiaimAI_1190659)),
 kde se implementace stávají abstrakcemi dalších úrovní.
@@ -166,13 +168,13 @@ Tutéž osu lze číst několika komplementárními způsoby, což se stává vi
 když stratifikaci postavíme například vedle teorie komunikace a pozice subjektu
 ve sdělení. Vedle genealogického rozkladu (jako vrstev zkušenosti: vědomí,
 subjektivita, osoba, kultura, objektivita) může tentýž gradient nést také
-epistemizační škálování, tedy postupnou konkretizaci fenoménu ve „věc“
+epistemizační škálování, tedy postupné určování fenoménu až do podoby „věci“
 (například fenomén → podoba → něco → znak → význam → pojem → předmět → objekt →
 věc).
 
 Takové osy mohou běžet paralelně, neměli bychom je však ztotožňovat: vrstva, z níž
 se mluví, je něco jiného než perspektiva, v níž se mluví, a ještě něco jiného je
-stupeň, v němž byla zkušenost konkretizována a reifikována. Na začátku genealogické
+stupeň určení zkušenosti a to, zda byla reifikována. Na začátku genealogické
 osy zaznamenáváme apofatickou hranici nulové úrovně; neprodlužuje osu o další úsek,
 ale označuje hranici její použitelnosti.
 
@@ -197,8 +199,9 @@ modelu k tomu, co označujeme jako nulovou úroveň.
 | objekt → věc | zvěcnění |
 
 Vědomí může „vrtat díry do abstrakcí“: uvolňovat či dočasně pozastavovat vyšší
-konkretizace a znovu obracet pozornost k méně určeným vrstvám zkušenosti. Mezilehlé
-vrstvy nemizí, ale přestávají být pokládány za jediný možný či konečný popis.
+interpretační vazby a znovu obracet pozornost k méně určeným vrstvám zkušenosti.
+Mezilehlé vrstvy nemizí, ale přestávají být pokládány za jediný možný či konečný
+popis.
 
 Neznamená to bezpodmínečný přístup zvenčí k libovolné vrstvě ani překročení
 apofatické hranice nulové úrovně. Každé takové rozpoznání se odehrává uvnitř
@@ -463,7 +466,7 @@ Pro čtenáře, kteří chtějí výše popsané postuláty zasadit do známé k
 **Neurofenomenologie** (Francisco Varela) – perspektiva první osoby jako vědecká
 metoda; vzájemná omezení mezi fenomenologickými a neurovědními daty.
 Apofatický enaktivismus sdílí metodu, ale posouvá hranici modelu k tomu, co je méně
-konkretizované než již utvořená zkušenost a není s ní totožné.
+určené než již utvořená zkušenost a není s ní totožné.
 
 **Enaktivismus** (Varela, Thompson, Rosch) – poznání jako účast, nikoli reprezentace;
 autopoiesis jako model sebeorganizace. Apofatický enaktivismus sdílí epistemologii,
@@ -491,7 +494,7 @@ introspekce.
 
 Když enaktivní a procesuální přístup stratifikujeme do fungujícího systému,
 dostaneme víc než odložené zpracování dat. Dostaneme disciplínu návrhu, v níž
-je konkretizace vědomá a lokální.
+je vázání významů vědomé a lokální.
 
 1. **Kontrakty místo předčasných tříd entit.**
 
@@ -517,11 +520,11 @@ je konkretizace vědomá a lokální.
     směrem nahoru je požadavek, aby byl společenský řád anonymní na tom základě, že
     anonymní jsou vzniky zkušenosti.
 
-5. **Validace na hranách jako rituál konkretizace.**
+5. **Validace na hranách jako akt lokálního vymezení.**
 
     Data plynou jako potenciálně bohatší a volnější, ale na hraně konkrétního
-    kontraktu říkáme: „zde, pro tuto operaci, přijímáme tento tvar“. To je zdravá
-    konkretizace, ne předčasná.
+    kontraktu říkáme: „zde, pro tuto operaci, přijímáme tento tvar“. To je zdravé
+    lokální vymezení, nikoli předčasné svázání jevu v objekt.
 
 6. **Polymorfismus a dispatch jako vědomé odložení rozhodnutí.**
 
@@ -561,20 +564,20 @@ je konkretizace vědomá a lokální.
     bezpečnostním prvkem tehdy, když tvrzení závisí na mnoha podmínkách nebo má
     vyvolat závažný účinek.
 
-Uvědomujeme si, že jsme náchylní k předčasné konkretizaci, a s tímto vědomím
-můžeme budovat systémy, které se přizpůsobují této vlastnosti našich organismů a
-poznávacích aparátů. Jednou z praktických metod je stratifikace, tedy vědomě
-vedená konkretizace. Každá vrstva vybírá z nižší dynamiky pouze ty vlastnosti,
-které jsou relevantní pro její kontrakt (abstrahování), dává této projekci název
-a hranice (identifikace) a následně ji zpřístupňuje jako konkrétní stavební blok
-vyšší vrstvě (konkretizace).
+Uvědomujeme si, že máme sklon předčasně vázat jevy do uzavřených podob, a s tímto
+vědomím můžeme budovat systémy, které se přizpůsobují této vlastnosti našich
+organismů a poznávacích aparátů. Jednou z praktických metod je stratifikace. Každá
+vrstva abstrahuje z konkrét nižší vrstvy vlastnosti relevantní pro svůj kontrakt,
+dává vzniklé projekci název a hranice a poté ji zpřístupňuje jako nové konkrétum
+vrstvě vyšší. Ve výše popsaném smyslu „konkrétum“ označuje roli vzhledem k vrstvě,
+nikoli větší skutečnost, předmětnost ani pravdivost.
 
 Díky tomu se systém vyhýbá náhodné reifikaci: věci vznikají tam, kde jsou
 potřeba, a pouze v rozsahu a tvaru, za které má dané *stratum* nést
 odpovědnost. Takto vytvářené vrstvy abstrakce jsou tedy poznávacím i technickým
 kontextem. Umožňují nemyslet na všechny závislosti najednou. Není to únik před
 složitostí, ale poctivé porcování složitosti tak, aby člověk mohl systém chápat,
-testovat, auditovat a měnit bez trhání celku nebo náhodné konkretizace.
+testovat, auditovat a měnit bez trhání celku nebo náhodného ztuhnutí abstrakcí.
 
 Na sociotechnické škále se tatáž chyba obvykle nazývá *reverse adaptation* (Langdon
 Winner, *Autonomous Technology*): cíle a formy lidského jednání se přizpůsobují omezením
@@ -582,15 +585,15 @@ nástroje, jako by tato omezení byla povahou domény. Tentýž vzorec vidíme i
 komunikaci: doménová logika ztuhlá v názvech tříd a rozhraní (kód jako de facto relační
 databáze), prefabrikovaná sídliště vynucující nízké soukromí, hvězdicová topologie sítě.
 Je to náhodná reifikace rozprostřená přes médium, ekonomiku a návyk – nikoli selhání
-jediné vrstvy, nýbrž ztuhnutí celého vrstvení. Vědomá konkretizace působí opačně: znovu
-zkapalňuje to, co reverse adaptation stačila ztužit.
+jediné vrstvy, nýbrž ztuhnutí celého vrstvení. Vědomě udržovaná stratifikace působí
+opačně: znovu zkapalňuje to, co reverse adaptation stačila ztužit.
 
 #### Inference k architektuře
 
 Když gradient úrovní zakoušení zmíněný v druhém postulátu vztáhneme k matrici
 softwarové architektury, získáme registr **kontraktů a hran**. Vrstvy se stávají
 vrstvami zpracování dat a akty operacemi přijetí (admise). To mimo jiné chrání
-před reifikací a předčasnou konkretizací.
+před reifikací a předčasným vázáním jevů do objektů.
 
 | stav (*co?*) | akt (*jak*) | vrstva/operace Orbiplexu |
 |---|---|---|
@@ -633,7 +636,7 @@ substancí, nýbrž lokálním vztahem užívání, odpovědnosti a interpretace
 komponent není definován názvem, třídou ani deklarovanou esencí, nýbrž chováním, závazky,
 podmínkami užití a skutečnými oprávněními. Náš přístup sdílí tuto orientaci na kontrakty,
 role a schopnosti jednat, ale kontrakt nepojímá jako konečnou definici bytí, nýbrž jako
-lokální rituál konkretizace: říká, co v dané operaci uznáváme za dostatečně určené.
+lokální akt kontraktového vymezení: říká, co v dané operaci uznáváme za dostatečně určené.
 
 **Event sourcing, logy faktů a neměnné architektury** (Fowler, Young) – stav systému není
 jednou substancí mutovanou na místě, nýbrž projekcí historie událostí. Přístup Orbiplexu
@@ -652,7 +655,7 @@ substance.
 ### Ekonomie
 
 Ontologie sama o sobě neurčuje jediný hospodářský řád. Poskytuje však kritéria pro
-hodnocení jeho konkretizace: zda chrání aktérství účastníků, zviditelňuje
+hodnocení jeho realizace: zda chrání aktérství účastníků, zviditelňuje
 odpovědnost, zachovává právo odejít a nereifikuje vlastnictví, trh ani organizace
 jako jsoucna důležitější než vztahy, jimž mají sloužit. Níže uvedený ekonomický model
 je návrhem důsledného uplatnění těchto kritérií na tok zdrojů, práce a pozornosti.
@@ -664,7 +667,7 @@ ohlašoval jako *vzájemnost bez účetnictví*, avšak pojmenovaný plněji.
 Není to ani kult trhu, ani jeho zrušení, nýbrž **ekonomika aktérské vzájemnosti**
 (angl. *economy of agentic mutuality*): řád, v němž se vlastnictví stává vrstveným
 protokolem aktérství, užívání, odpovědnosti a výměny. Není to nahodilá doktrína
-přilepená k ontologii, ale jedna z jejích důsledných návrhových konkretizací.
+přilepená k ontologii, ale jedna z jejích důsledných návrhových realizací.
 
 1. **Vlastnictví není substance, nýbrž operační název vztahu.**
 

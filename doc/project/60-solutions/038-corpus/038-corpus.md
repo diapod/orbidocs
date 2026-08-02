@@ -485,19 +485,23 @@ Host policy constrains admissible verdicts, so neither path claims an independen
 reviewer verdict. Pure
 contract tests, deterministic policy/review replay, a real-model stage bench, an
 append-only calibration ledger, and a closed full-system report contract are
-implemented. The path-aware active-directive oracle accepts two of five retained
-zone-declaration samples for the pinned Bielik 4.5B Q8 artifact, but no goal-ready
-zone-data correction in either five-sample stage. The deployment profile also has
-only one guest-attested challenge family. The resolved second variant is
+implemented. The path-aware active-directive oracle accepted two of five retained
+zone-declaration samples for the original pinned Bielik 4.5B Q8 artifact, but no
+goal-ready zone-data correction in either five-sample stage. The resolved second
+guest-attested variant is
 `powerdns-bind-missing-zone-data.v1`: a valid listener/backend/declaration chain
 whose referenced zone-data file is absent and whose image contains no final
-`localdomain` records. Its implementation and evidence remain required for a
-cross-variant claim. The discovery profile
-is therefore structurally implemented but not promoted as passing deployment
-evidence. The 2026-08-01 critique-to-regeneration bench adds ten role-separated
-pairs: every reviewer requested regeneration, but only one solver successor passed
-the staged domain oracle, below the `0.6` promotion threshold. These post-MVP gaps
-do not reopen the completed baseline Story 012 gate.
+`localdomain` records. Its exact prepared-system source, manifest, image completion
+record, and fixture digest are implemented. A retained 2026-08-01 macOS arm64 run
+with two separately supervised Qwen2.5-Coder 7B runtimes passes the closed 30-check
+report after one nonpassing model-authored experiment and one distinct successful
+plan informed by fresh terminal evidence. HIL and P083 remain the only effect path,
+the legacy fixture is unused, and reported host structural shell framing does not
+rewrite CandidatePlan bytes. This is one post-MVP deployment proof; repeatable
+seeded success remains open. The 2026-08-01 critique-to-regeneration bench adds ten
+role-separated pairs: every reviewer requested regeneration, but only one solver
+successor passed the staged domain oracle, below the `0.6` promotion threshold.
+These post-MVP gaps do not reopen the completed baseline Story 012 gate.
 
 The shared runner assigns A/B/C distinct loopback addresses and exact peer
 certificate IP SANs. This is intentionally multi-address single-host evidence:

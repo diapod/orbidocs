@@ -1,0 +1,6 @@
+{
+  "schema": "sensorium-web-source.v1",
+  "schema/v": 1,
+  "source/ref": "sensorium-web-source:invalid",
+  "canonical/url": "https://example.org/"
+}

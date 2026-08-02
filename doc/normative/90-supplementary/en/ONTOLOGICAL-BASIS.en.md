@@ -46,8 +46,8 @@ relation, an interpretation, and a possible point of correction.
 
 Consciousness — the first describable layer of our model, situated closest to the
 boundary marked as "level zero" — is more source-like not only than intellect, but
-also than formed experience. "More source-like" here means a less concretized
-position in the order of concretization, not an earlier moment or an independent
+also than formed experience. "More source-like" here means a less determined
+position on the genealogical axis, not an earlier moment or an independent
 existence before what appears. Consciousness lies deeper than perception and the
 sense of subjectivity, but cannot be described directly, because every description
 relies on experience conditioned by the senses and by interpretation.
@@ -62,7 +62,7 @@ conventional sign can only indicate the scope beyond which the model makes no
 claims; we do not decide whether the boundary belongs to reality, to the possibility
 of cognition, or to both. We approach it only indirectly — through experiences that
 resemble tinted glass rather than a direct view. Presumption has two phases: first
-there appears an impulse less concretized than a concept (recognition, a "sense of
+there appears an impulse less conceptually formed than a concept (recognition, a "sense of
 sourcehood," a "familiarity without an object"), and only then does inference
 formalize it into language and a model.
 
@@ -133,8 +133,8 @@ postulate 2 and the formula of reification in postulate 4). Panpsychism therefor
 locates what is least conditioned in what is most constructed.
 
 The two-phase structure is close to Gendlin's *felt sense* → symbolization,
-with the difference that the impulse here is less concretized than formed
-experience.
+with the difference that the impulse here is less conceptually formed than
+experience already shaped by interpretation.
 
 **Consequences for DIA:** the value of epistemic hygiene, source-position
 stratification of experiences, and epistemic courage follows directly from this.
@@ -157,13 +157,15 @@ containment. Different practical or analytical approaches may distinguish the
 layers in a more or less detailed way. For example, between consciousness and
 the sense of subjectivity we may distinguish a perspective of presence before
 the split into subject and object, and so on. Here we accept this division in
-order to show the mechanism itself without intrusive concretization.
+order to show the mechanism itself without forcing additional detail onto the model.
 
 The spatial terms used below belong to two related but non-identical orders. On the
 genealogical axis, "deeper" or "earlier" means less determined, never earlier in
 time. In the abstraction stack, a "lower" layer provides the concretes from which a
-"higher" layer builds its own abstractions. Neither order implies greater truth or
-value.
+"higher" layer builds its own abstractions. Here, "concrete" denotes a role relative
+to a layer: an abstraction formed by a lower layer may become a concrete for a
+higher one. Neither order implies greater truth or value, and a concrete is not a
+more real or more object-like entity.
 
 Level zero is neither a deeper layer of consciousness nor a higher abstraction over
 it, but a conventional boundary marker belonging to the meta-order of description.
@@ -181,16 +183,16 @@ when stratification is placed, for example, beside communication theory and the
 position of the subject within a transmission. Beyond the genealogical
 decomposition (as layers of experience: consciousness, subjectivity, person,
 culture, objectivity), the same gradient may also carry epistemizing scaling:
-the gradual concretization of a phenomenon into a "thing" (for example:
+the gradual determination of a phenomenon until it takes the form of a "thing" (for example:
 phenomenon → figure → something → sign → meaning → concept → item → object →
 thing).
 
 Such axes may run in parallel, but they should not be identified with one another:
 the layer from which one speaks is one thing, the perspective in which one speaks is
-another, and the degree to which experience has been concretized and reified is yet
-another. At the beginning of the genealogical axis we mark the apophatic boundary of
-level zero; it does not extend the axis by another segment, but marks the limit of
-its applicability.
+another, and the degree to which experience has been determined, as well as whether
+it has been reified, is yet another. At the beginning of the genealogical axis we
+mark the apophatic boundary of level zero; it does not extend the axis by another
+segment, but marks the limit of its applicability.
 
 On the basis of the original genealogy we can also construct a third, dual
 reading: for each transition of epistemization one can name the act of
@@ -214,7 +216,7 @@ model's boundary, toward what we mark as level zero.
 | object → thing | reification |
 
 Consciousness can "drill through abstractions": it can loosen or temporarily suspend
-higher concretizations and redirect attention toward less determined layers of
+higher interpretive bindings and redirect attention toward less determined layers of
 experience. The intermediate layers do not disappear, but cease to be treated as the
 only possible or final description.
 
@@ -508,7 +510,7 @@ familiar landscape:
 **Neurophenomenology** (Francisco Varela): the first-person perspective as a
 scientific method; mutual constraints between phenomenological and neuroscientific
 data. Apophatic enactivism shares the method, but moves the model's boundary toward
-what is less concretized than formed experience and is not identical with it.
+what is less determined than formed experience and is not identical with it.
 
 **Enactivism** (Varela, Thompson, Rosch): cognition as participation rather than
 representation; autopoiesis as a model of self-organization. Apophatic enactivism
@@ -539,8 +541,8 @@ security, and contemplative introspection.
 ### Information Processing Systems
 
 When the enactive and processual approach is stratified into a working system, we
-get more than deferred data processing. We get a design discipline in which
-concretization is conscious and local.
+get more than deferred data processing. We get a design discipline in which the
+binding of meanings is conscious and local.
 
 1. **Contracts instead of premature classes of entities.**
 
@@ -567,11 +569,11 @@ concretization is conscious and local.
     of such theft upward is the demand that the social order be anonymous on the
     grounds that the formations of experience are anonymous.
 
-5. **Boundary validation as a ritual of concretization.**
+5. **Boundary validation as an act of local specification.**
 
     Data flows as potentially richer and looser, but at the boundary of a concrete
     contract we say: "here, for this operation, we accept this shape". This is healthy
-    concretization, not premature concretization.
+    local specification, not the premature binding of a phenomenon into an object.
 
 6. **Polymorphism and dispatch as deliberate postponement of decisions.**
 
@@ -612,13 +614,13 @@ concretization is conscious and local.
     logically from emergence, but is a useful epistemic safeguard when a claim depends
     on many conditions or is to produce a high-stakes effect.
 
-We recognize that we are susceptible to premature concretization, and knowing
-this, we can build systems that adapt to this property of our organisms and
-cognitive apparatuses. One practical method is stratification, that is,
-consciously guided concretization. Each layer selects from the lower dynamics
-only the properties relevant to its contract (abstraction), gives that projection
-a name and boundaries (identification), and then exposes it as a concrete
-building block for the higher layer (concretization).
+We recognize that we are susceptible to prematurely binding phenomena into closed
+forms, and knowing this, we can build systems that adapt to this property of our
+organisms and cognitive apparatuses. One practical method is stratification. Each
+layer abstracts from the concretes of the lower layer the properties relevant to its
+contract, gives the resulting projection a name and boundaries, and then exposes it
+as a new concrete to the higher layer. In the sense described above, "concrete"
+denotes a role relative to a layer, not greater reality, objecthood, or truth.
 
 This lets the system avoid accidental reification: things arise where they are
 needed, and only within the scope and shape for which a given stratum should take
@@ -626,7 +628,7 @@ responsibility. Layers of abstraction created this way are therefore cognitive
 and technical contexts. They let us avoid thinking about all dependencies at
 once. This is not an escape from complexity, but an honest partitioning of it so
 that a human being can understand, test, audit, and change the system without
-tearing the whole apart or introducing accidental concretization.
+tearing the whole apart or accidentally stiffening its abstractions.
 
 On the socio-technical scale the same error tends to be called *reverse adaptation*
 (Langdon Winner, *Autonomous Technology*): the ends and forms of human action adjust to
@@ -635,8 +637,8 @@ same pattern appears beyond communication: domain logic congealed into the names
 classes and interfaces (code as a de facto relational database), prefab housing that
 enforces low privacy, the star topology of the network. This is accidental reification
 spread across medium, economy, and habit — not the failure of a single layer, but the
-stiffening of the whole stack. Deliberate concretization works the other way: it
-re-fluidizes what reverse adaptation has stiffened.
+stiffening of the whole stack. Deliberately maintained stratification works the
+other way: it re-fluidizes what reverse adaptation has stiffened.
 
 #### Inference to Architecture
 
@@ -644,7 +646,7 @@ When the gradient of levels of experiencing mentioned in the second postulate is
 related to the matrix of software architecture, we obtain a register of
 **contracts and edges**. The layers become layers of data processing, while the
 acts become admission operations. Among other things, this guards against
-reification and premature concretization.
+reification and the premature binding of phenomena into objects.
 
 | state (*what?*) | act (*how*) | Orbiplex layer/operation |
 |---|---|---|
@@ -690,8 +692,9 @@ interpretation.
 Hewitt): a component is not defined by a name, a class, or a declared essence, but by
 behavior, obligations, conditions of use, and actual permissions. Our approach shares
 this orientation toward contracts, roles, and capabilities for action, but treats the
-contract not as the ultimate definition of an entity, but as a local ritual of
-concretization: it says what, in a given operation, we accept as sufficiently defined.
+contract not as the ultimate definition of an entity, but as a local act of
+contractual specification: it says what, in a given operation, we accept as
+sufficiently defined.
 
 **Event sourcing, fact logs, and immutable architectures** (Fowler, Young): the system's
 state is not one substance mutated in place, but a projection of the history of events.
@@ -711,7 +714,7 @@ truth; a module is a role in a flow, not a substance.
 ### Economy
 
 Ontology does not by itself determine a single economic order. It does, however,
-provide criteria for evaluating its concretization: whether it protects the agency
+provide criteria for evaluating its realization: whether it protects the agency
 of participants, makes responsibility visible, preserves the right of exit, and
 avoids reifying property, the market, or organizations as entities more important
 than the relations they are meant to serve. The economic model below is a proposal
@@ -726,7 +729,7 @@ but named more fully.
 It is neither a cult of the market nor its abolition, but the **economy of agentic
 mutuality**: an order in which property becomes a layered protocol of agency, use,
 responsibility, and exchange. This is not an arbitrary doctrine glued onto the
-ontology, but one of its consistent design concretizations.
+ontology, but one of its consistent design realizations.
 
 1. **Property is not a substance, but an operational name for a relation.**
 

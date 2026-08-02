@@ -1,0 +1,5 @@
+{
+  "schema": "bounded-http-fetch-error-codes.v1",
+  "schema/v": 1,
+  "entries": [{"code":"anything-happened","retry/class":"retryable"}]
+}

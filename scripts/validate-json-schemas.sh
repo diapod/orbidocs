@@ -158,6 +158,24 @@ schema_for_file() {
     *.sensorium-operational-context.json)
       echo "$SCHEMAS_DIR/sensorium-operational-context.v1.schema.json"
       ;;
+    *.bounded-http-fetch-request.json)
+      echo "$SCHEMAS_DIR/bounded-http-fetch-request.v1.schema.json"
+      ;;
+    *.bounded-http-fetch-result.json)
+      echo "$SCHEMAS_DIR/bounded-http-fetch-result.v1.schema.json"
+      ;;
+    *.bounded-http-fetch-error-codes.json)
+      echo "$SCHEMAS_DIR/bounded-http-fetch-error-codes.v1.schema.json"
+      ;;
+    *.bounded-http-fetch-operator-snapshot.json)
+      echo "$SCHEMAS_DIR/bounded-http-fetch-operator-snapshot.v1.schema.json"
+      ;;
+    *.sensorium-web-source.json)
+      echo "$SCHEMAS_DIR/sensorium-web-source.v1.schema.json"
+      ;;
+    *.sensorium-web-document-snapshot.json)
+      echo "$SCHEMAS_DIR/sensorium-web-document-snapshot.v1.schema.json"
+      ;;
     *.sensorium-interface-descriptor.json)
       echo "$SCHEMAS_DIR/sensorium-interface-descriptor.v1.schema.json"
       ;;

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-operator-snapshot:v1",
+  "title": "Bounded HTTP Fetch Operator Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "status", "active", "capacity", "requests/total", "completed/total", "refused/total", "failed/total", "artifact-handoffs/total", "failure-counts"],
+  "properties": {
+    "schema": { "const": "bounded-http-fetch-operator-snapshot.v1" },
+    "schema/v": { "const": 1 },
+    "status": { "enum": ["ready", "degraded", "unavailable"] },
+    "active": { "type": "integer", "minimum": 0, "maximum": 256 },
+    "capacity": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "requests/total": { "type": "integer", "minimum": 0 },
+    "completed/total": { "type": "integer", "minimum": 0 },
+    "refused/total": { "type": "integer", "minimum": 0 },
+    "failed/total": { "type": "integer", "minimum": 0 },
+    "artifact-handoffs/total": { "type": "integer", "minimum": 0 },
+    "failure-counts": {
+      "type": "object",
+      "maxProperties": 18,
+      "propertyNames": { "$ref": "bounded-http-fetch-error-codes.v1.schema.json#/$defs/code" },
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    }
+  }
+}

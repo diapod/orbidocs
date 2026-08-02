@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-result:v1",
+  "title": "Bounded HTTP Fetch Result v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "request/id", "outcome", "requested-url/digest", "redirects/followed"],
+  "properties": {
+    "schema": { "const": "bounded-http-fetch-result.v1" },
+    "schema/v": { "const": 1 },
+    "request/id": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" },
+    "outcome": { "enum": ["completed", "refused", "failed", "unknown"] },
+    "requested-url/digest": { "$ref": "#/$defs/sha256Digest" },
+    "final-url/digest": { "$ref": "#/$defs/sha256Digest" },
+    "response/status": { "type": "integer", "minimum": 100, "maximum": 599 },
+    "media/type": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "content/encoding": { "enum": ["identity", "gzip"] },
+    "compressed-bytes": { "type": "integer", "minimum": 0, "maximum": 16777216 },
+    "decompressed-bytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
+    "body/digest": { "$ref": "#/$defs/sha256Digest" },
+    "body": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "base64"],
+          "properties": {
+            "kind": { "const": "inline" },
+            "base64": { "type": "string", "maxLength": 1398104, "pattern": "^[A-Za-z0-9_-]*$" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "artifact/ref", "artifact/digest", "artifact/size-bytes"],
+          "properties": {
+            "kind": { "const": "artifact" },
+            "artifact/ref": { "type": "string", "minLength": 1, "maxLength": 1024 },
+            "artifact/digest": { "$ref": "#/$defs/sha256Digest" },
+            "artifact/size-bytes": { "type": "integer", "minimum": 1, "maximum": 67108864 }
+          }
+        }
+      ]
+    },
+    "redirects/followed": { "type": "integer", "minimum": 0, "maximum": 10 },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "retry/class", "phase"],
+      "properties": {
+        "code": { "$ref": "bounded-http-fetch-error-codes.v1.schema.json#/$defs/code" },
+        "retry/class": { "enum": ["terminal", "retryable", "policy-dependent"] },
+        "phase": { "enum": ["admission", "dns", "connect", "tls", "redirect", "headers", "body", "artifact"] },
+        "hop/index": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "destination/class": { "enum": ["public", "loopback", "private", "link-local", "multicast", "documentation", "reserved", "carrier-grade-nat", "deployment-internal"] },
+        "limit/name": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "limit/value": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "outcome": { "const": "completed" } }, "required": ["outcome"] },
+      "then": { "required": ["final-url/digest", "response/status", "compressed-bytes", "decompressed-bytes", "body/digest", "body"], "not": { "required": ["failure"] } },
+      "else": { "required": ["failure"], "not": { "required": ["body"] } }
+    }
+  ]
+}

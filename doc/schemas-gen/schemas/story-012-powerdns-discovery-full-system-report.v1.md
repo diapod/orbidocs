@@ -59,6 +59,7 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
 | [`inference-ref`](#def-inference-ref) | unspecified |  |
+| [`role-model`](#def-role-model) | object |  |
 | [`effect-audit`](#def-effect-audit) | object |  |
 | [`hex-digest`](#def-hex-digest) | string |  |
 | [`base64url-digest`](#def-base64url-digest) | string |  |
@@ -186,6 +187,11 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 ## `$defs.inference-ref`
 
 - Shape: unspecified
+
+<a id="def-role-model"></a>
+## `$defs.role-model`
+
+- Shape: object
 
 <a id="def-effect-audit"></a>
 ## `$defs.effect-audit`

@@ -44,7 +44,7 @@ relacja, interpretacja i możliwy punkt korekty.
 Świadomość – pierwsza opisywalna warstwa naszego modelu, położona najbliżej granicy
 oznaczanej jako "poziom zero" – jest bardziej źródłowa nie tylko od intelektu, ale
 i od uformowanego doświadczenia. "Bardziej źródłowa" oznacza tu mniej
-skonkretyzowaną pozycję w porządku konkretyzacji, a nie wcześniejszą chwilę ani
+zdeterminowaną pozycję na osi genealogicznej, a nie wcześniejszą chwilę ani
 samodzielne istnienie przed tym, co się jawi. Świadomość znajduje się głębiej niż
 postrzeżenie i poczucie podmiotowości, lecz nie można jej opisać wprost, ponieważ
 każdy opis korzysta z doświadczenia warunkowanego organami zmysłów i interpretacją.
@@ -59,7 +59,7 @@ znak pozwala jedynie wskazać zakres, poza którym model nie orzeka; nie rozstrz
 czy granica należy do rzeczywistości, do możliwości poznania, czy do obu. Zbliżamy
 się do niej wyłącznie pośrednio – przez doświadczenia, które przypominają pokolorowane
 szkło, a nie bezpośredni widok. Domniemywanie ma dwie fazy: najpierw pojawia się
-impuls mniej skonkretyzowany niż pojęcie (rozpoznanie, "poczucie źródłowości",
+impuls słabiej uformowany pojęciowo niż pojęcie (rozpoznanie, "poczucie źródłowości",
 "znajomość bez przedmiotu"), a dopiero potem inferencja formalizuje go w język
 i model.
 
@@ -129,7 +129,8 @@ w postulacie 4). Panpsychizm lokuje więc to, co najmniej uwarunkowane, w tym
 najbardziej konstruowane.
 
 Dwufazowość jest bliska gendlinowskiemu *felt sense* → symbolizacja, z tą różnicą, że
-impuls jest tu mniej skonkretyzowany niż uformowane doświadczenie.
+impuls jest tu słabiej uformowany pojęciowo niż doświadczenie ukształtowane przez
+interpretację.
 
 **Konsekwencje dla DIA:** wartość higieny epistemicznej, stratyfikacji źródłowej
 pozycji doświadczeń i epistemicznej odwagi wyrasta bezpośrednio stąd. System nie
@@ -152,13 +153,15 @@ praktyczne bądź analityczne podejścia mogą w bardziej lub mniej szczegóło
 rozróżniać poszczególne warstwy. Na przykład między świadomością a poczuciem
 podmiotowości możemy wyróżnić perspektywę obecności jeszcze przed podziałem na
 podmiot i przedmiot itd. W tym miejscu przyjmujemy taki podział, aby pokazać sam
-mechanizm bez nachalnej konkretyzacji.
+mechanizm bez nachalnego uszczegóławiania modelu.
 
 Używane dalej określenia przestrzenne należą do dwóch powiązanych, ale nietożsamych
 porządków. Na osi genealogicznej "głębsze" lub "wcześniejsze" oznacza mniej
 zdeterminowane, nigdy zaś wcześniejsze w czasie. W stosie abstrakcji warstwa "niższa"
-dostarcza konkretów, z których warstwa "wyższa" buduje własne abstrakcje. Żaden z tych
-porządków nie wyznacza większej prawdziwości ani wartości.
+dostarcza konkretów, z których warstwa "wyższa" buduje własne abstrakcje. "Konkret"
+oznacza tu rolę względem warstwy: abstrakt utworzony przez warstwę niższą może stać
+się konkretem dla wyższej. Żaden z tych porządków nie wyznacza większej prawdziwości
+ani wartości, a konkret nie jest bytem bardziej realnym ani bardziej przedmiotowym.
 
 Poziom zerowy nie jest ani głębszą warstwą świadomości, ani wyższą abstrakcją nad
 nią, lecz umownym znacznikiem granicy, należącym do meta-porządku opisu. Został
@@ -175,13 +178,14 @@ Tę samą oś można czytać na różne komplementarne sposoby, co staje się wi
 stratyfikację zestawić na przykład z teorią komunikacji i pozycji podmiotu
 w przekazie. Poza rozkładem genealogicznym (jako warstw doświadczenia: świadomość,
 podmiotowość, osoba, kultura, obiektywność) ten sam gradient może nieść również
-skalowanie epistemizacyjne, czyli stopniową konkretyzację fenomenu w "rzecz"
+skalowanie epistemizacyjne, czyli stopniowe determinowanie fenomenu aż do postaci
+"rzeczy"
 (np. fenomen → postać → coś → znak → znaczenie → pojęcie → przedmiot → obiekt →
 rzecz).
 
 Tego typu osie mogą biec równolegle, lecz nie należy ich utożsamiać: czym innym jest
 warstwa, z której się mówi, czym innym perspektywa, w której się mówi, a jeszcze czym
-innym stopień, w jakim doświadczenie zostało skonkretyzowane i zreifikowane. Przy
+innym stopień determinacji doświadczenia oraz to, czy zostało ono zreifikowane. Przy
 początku osi genealogicznej odnotowujemy apofatyczną granicę poziomu zero; nie
 przedłuża ona osi o kolejny odcinek, lecz oznacza granicę jej stosowalności.
 
@@ -206,9 +210,9 @@ a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 | obiekt → rzecz | urzeczowienie |
 
 Świadomość może "wiercić dziury w abstrakcjach", czyli rozluźniać lub czasowo
-zawieszać wyższe konkretyzacje i ponownie kierować uwagę ku mniej zdeterminowanym
-warstwom doświadczenia. Warstwy pośrednie nie znikają, ale przestają być traktowane
-jako jedyny możliwy lub ostateczny opis.
+zawieszać wyższe wiązania interpretacyjne i ponownie kierować uwagę ku mniej
+zdeterminowanym warstwom doświadczenia. Warstwy pośrednie nie znikają, ale przestają
+być traktowane jako jedyny możliwy lub ostateczny opis.
 
 Nie oznacza to bezwarunkowego dostępu z zewnątrz do dowolnej warstwy ani
 przekroczenia apofatycznej granicy poziomu zero. Każde takie rozpoznanie zachodzi
@@ -484,7 +488,7 @@ Dla czytelnika chcącego osadzić opisane wcześniej postulaty w znanym krajobr
 **Neurofenomenologia** (Francisco Varela): perspektywa pierwszej osoby jako metoda
 naukowa; wzajemne ograniczenia między danymi fenomenologicznymi i neuronaukowymi.
 Apofatyczny enaktywizm podziela metodę, lecz przesuwa granicę modelu ku temu, co mniej
-skonkretyzowane niż uformowane doświadczenie i nie jest z nim tożsame.
+zdeterminowane niż uformowane doświadczenie i nie jest z nim tożsame.
 
 **Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
 reprezentacja; autopoieza jako model samoorganizacji. Apofatyczny enaktywizm podziela
@@ -514,7 +518,7 @@ oprogramowania, bezpieczeństwa systemów i kontemplacyjnej introspekcji.
 
 Gdy enaktywistyczne i procesualne podejście stratyfikujemy do działającego systemu,
 dostajemy coś więcej niż odroczone przetwarzanie danych. Dostajemy dyscyplinę
-projektowania, w której konkretyzacja jest świadoma i lokalna.
+projektowania, w której wiązanie znaczeń jest świadome i lokalne.
 
 1. **Kontrakty zamiast przedwczesnych klas bytów.**
 
@@ -541,11 +545,11 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
     takiej kradzieży w górę jest żądanie, aby ład społeczny był bezimienny na tej
     podstawie, że bezimienne są zawiązania doświadczenia.
 
-5. **Walidacja na brzegach jako rytuał konkretyzacji.**
+5. **Walidacja na brzegach jako akt lokalnego dookreślenia.**
 
     Dane płyną jako potencjalnie bogatsze i luźniejsze, ale na brzegu konkretnego
-    kontraktu mówimy: "tu, dla tej operacji, uznajemy taki kształt". To jest zdrowa
-    konkretyzacja, nie przedwczesna.
+    kontraktu mówimy: "tu, dla tej operacji, uznajemy taki kształt". To jest zdrowe,
+    lokalne dookreślenie, a nie przedwczesne związanie zjawiska w obiekt.
 
 6. **Polimorfizm i dyspozycja jako świadome opóźnienie decyzji.**
 
@@ -585,13 +589,13 @@ projektowania, w której konkretyzacja jest świadoma i lokalna.
     bezpiecznikiem epistemicznym przydatnym wtedy, gdy twierdzenie zależy od wielu
     warunków albo ma wywołać skutek o wysokiej stawce.
 
-Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesną konkretyzację, a wiedząc
-o tym, możemy budować systemy, które adaptują się do tej właściwości naszych
-organizmów i aparatów poznawczych. Jedną z praktycznych metod jest stratyfikacja,
-czyli świadomie prowadzona konkretyzacja. Każda warstwa wybiera z niższej dynamiki
-tylko te własności, które są istotne dla jej kontraktu (abstrahowanie), nadaje tej
-projekcji nazwę i granice (identyfikowanie), a następnie udostępnia ją jako konkretny
-budulec warstwie wyższej (konkretyzowanie).
+Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesne wiązanie zjawisk w zamknięte
+postacie, a wiedząc o tym, możemy budować systemy, które adaptują się do tej
+właściwości naszych organizmów i aparatów poznawczych. Jedną z praktycznych metod
+jest stratyfikacja. Każda warstwa abstrahuje z konkretów warstwy niższej własności
+istotne dla swojego kontraktu, nadaje powstałej projekcji nazwę i granice, a następnie
+udostępnia ją jako nowy konkret warstwie wyższej. W opisanym wyżej sensie "konkret"
+oznacza rolę względem warstwy, nie większą realność, przedmiotowość ani prawdziwość.
 
 Dzięki temu system unika przypadkowej reifikacji: rzeczy powstają tam, gdzie są
 potrzebne, i tylko w zakresie oraz kształcie, w których dane *stratum* powinno brać
@@ -599,7 +603,7 @@ za nie odpowiedzialność. Tak tworzone warstwy abstrakcji są więc kontekstem
 poznawczym i technicznym. Pozwalają nie myśleć o wszystkich zależnościach naraz. To
 nie jest ucieczka od złożoności, lecz uczciwe porcjowanie jej w taki sposób, aby
 człowiek mógł system rozumieć, testować, audytować i zmieniać bez rozrywania całości
-bądź przypadkowej konkretyzacji.
+bądź przypadkowego usztywnienia abstrakcji.
 
 Na skali społeczno-technicznej ten sam błąd bywa nazywany *reverse adaptation*
 (Langdon Winner, "Autonomous Technology"): cele i formy ludzkiego działania
@@ -609,15 +613,16 @@ w nazwach klas i interfejsów (kod jako *de facto* relacyjna baza danych w ni
 językach zorientowanych obiektowo), prefabrykowane osiedla wymuszające niską
 prywatność, gwiaździsta topologia sieci. To przypadkowa reifikacja rozłożona na
 medium, ekonomię i nawyk – nie awaria pojedynczej warstwy, lecz zastygnięcie całego
-stosu. Świadoma konkretyzacja działa w drugą stronę: upłynnia to, co *reverse
-adaptation* zdążyła usztywnić.
+stosu. Świadomie utrzymywana stratyfikacja pozwala działać w drugą stronę: upłynnia
+to, co *reverse adaptation* zdążyła usztywnić.
 
 #### Inferencja do architektury
 
 Gdy wspomniany w drugim postulacie gradient poziomów doświadczania odniesiemy do
 matrycy architektury oprogramowania, otrzymujemy rejestr **kontraktów
 i brzegów**. Warstwy stają się warstwami przetwarzania danych, zaś akty operacjami
-admisji. Chroni to m.in. przed reifikacją i przedwczesną konkretyzacją.
+admisji. Chroni to m.in. przed reifikacją i przedwczesnym wiązaniem zjawisk
+w obiekty.
 
 | stan (*co?*) | akt (*jak?*) | warstwa/operacja Orbipleksu |
 |---|---|---|
@@ -663,8 +668,8 @@ Miller, Hewitt): komponent nie jest definiowany przez nazwę, klasę ani deklaro
 esencję, lecz przez zachowanie, zobowiązania, warunki użycia i rzeczywiste
 uprawnienia. Nasze podejście podziela tę orientację na kontrakty, role i możliwości
 działania, ale traktuje kontrakt nie jako ostateczną definicję bytu, lecz jako
-lokalny rytuał konkretyzacji: mówi, co w danej operacji uznajemy za wystarczająco
-określone.
+lokalny akt kontraktowego dookreślenia: mówi, co w danej operacji uznajemy za
+wystarczająco określone.
 
 **Event sourcing, logi faktów i architektury niemutowalne** (Fowler, Young): stan
 systemu nie jest jedną substancją mutowaną w miejscu, lecz projekcją historii
@@ -685,7 +690,7 @@ moduł jest rolą w przepływie, a nie jest substancją.
 ### Ekonomia
 
 Ontologia nie wyznacza sama przez się jednego ustroju gospodarczego. Dostarcza jednak
-kryteriów oceny jego konkretyzacji: czy chroni sprawczość uczestników, ujawnia
+kryteriów oceny jego realizacji: czy chroni sprawczość uczestników, ujawnia
 odpowiedzialność, pozostawia prawo wyjścia oraz nie reifikuje własności, rynku ani
 organizacji jako bytów ważniejszych od relacji, którym mają służyć. Poniższy model
 ekonomiczny jest propozycją konsekwentnego zastosowania tych kryteriów do przepływu
@@ -700,7 +705,7 @@ Nie jest to ani kult rynku, ani jego zniesienie, lecz **ekonomia sprawczej
 wzajemności** (ang. *economy of agentic mutuality*): porządek, w którym własność
 staje się warstwowym protokołem sprawczości, użytkowania, odpowiedzialności
 i wymiany. Nie jest to przypadkowa doktryna doklejona do ontologii, lecz jedna z jej
-konsekwentnych konkretyzacji projektowych.
+konsekwentnych realizacji projektowych.
 
 1. **Własność nie jest substancją, lecz nazwą operacyjną relacji.**
 

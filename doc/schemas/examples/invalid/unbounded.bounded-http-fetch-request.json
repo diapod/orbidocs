@@ -1,0 +1,9 @@
+{
+  "schema": "bounded-http-fetch-request.v1",
+  "schema/v": 1,
+  "request/id": "fetch-request:invalid",
+  "consumer/action": "web.document.fetch",
+  "method": "POST",
+  "url": "file:///etc/passwd",
+  "budgets": {"redirects/max": 99}
+}

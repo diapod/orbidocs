@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-07-24.
+Snapshot date: 2026-08-01.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -35,6 +35,26 @@ grammars, deterministic replay, and a ten-pair real-model calibration. The measu
 Qwen2.5-Coder 7B successor ready rate is `0.1`, below the `0.6` promotion threshold;
 therefore the path remains opt-in and does not change the existing 100 percent
 hard-MVP Corpus or baseline Story 012 rows.
+
+The same post-MVP workstream now retains one passing 30-check model-authored
+discovery report for `powerdns-bind-missing-zone-data.v1`. Two supervised
+Qwen2.5-Coder 7B runtimes reached the exact DNS goal through one failed and one
+corrected admitted experiment with fresh terminal evidence, per-effect HIL, and
+P083 lease release. The run measures 544,637 ms of deliberation and 16,577 model
+tokens, but it does not satisfy the separate `0.6` critique-to-regeneration
+promotion threshold or prove seeded repeatability. It therefore updates evidence
+and trackers without changing the existing Story 012, P069, or Solution 038
+readiness percentages.
+
+The post-MVP P084 workstream now has the reusable daemon-owned
+`http.fetch.bounded` foundation: six closed generic/domain contracts, pure fetch
+and Sensorium Web cores, exact consumer/action/origin admission, bounded DNS and
+destination classification, connection pinning, TLS and redirect enforcement,
+one total deadline, global/per-origin concurrency, Artifact Delivery handoff,
+aggregate operator evidence, and deterministic local HTTP/TLS conformance. The
+supervised extractor, durable source/cache/scheduler runtime, persistent operator
+projection, Sensorium observation admission, and P082 publication remain open.
+P084 is therefore `partial` post-MVP work and does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1126,6 +1146,7 @@ Recent component deltas:
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
+| [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `35` |
 
 ## Solutions
 

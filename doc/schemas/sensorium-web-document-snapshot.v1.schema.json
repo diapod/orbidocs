@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-document-snapshot:v1",
+  "title": "Sensorium Web Document Snapshot v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "snapshot/id", "source/ref", "source/generation-ref", "requested-url/digest", "final-url/digest", "fetched/at", "response/status", "media/type", "body/digest", "fetch/result-digest", "extraction/profile-ref", "extraction/profile-digest", "representation/digest", "operational/context", "classification", "causal/context"],
+  "properties": {
+    "schema": { "const": "sensorium-web-document-snapshot.v1" },
+    "schema/v": { "const": 1 },
+    "snapshot/id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "source/ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "source/generation-ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "requested-url/display": { "type": "string", "maxLength": 4096 },
+    "requested-url/digest": { "$ref": "#/$defs/sha256Digest" },
+    "final-url/display": { "type": "string", "maxLength": 4096 },
+    "final-url/digest": { "$ref": "#/$defs/sha256Digest" },
+    "fetched/at": { "type": "string", "format": "date-time" },
+    "response/status": { "type": "integer", "minimum": 100, "maximum": 599 },
+    "media/type": { "enum": ["text/html", "application/xhtml+xml", "text/plain"] },
+    "declared/charset": { "type": "string", "maxLength": 64 },
+    "selected/charset": { "type": "string", "maxLength": 64 },
+    "body/bytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
+    "body/digest": { "$ref": "#/$defs/sha256Digest" },
+    "body/artifact-ref": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "fetch/result-digest": { "$ref": "#/$defs/sha256Digest" },
+    "extraction/profile-ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "extraction/profile-digest": { "$ref": "#/$defs/sha256Digest" },
+    "representation/digest": { "$ref": "#/$defs/sha256Digest" },
+    "representation/artifact-ref": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "title": { "type": "string", "maxLength": 1024 },
+    "byline": { "type": "string", "maxLength": 512 },
+    "language/claim": { "type": "string", "maxLength": 64 },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" }
+  }
+}

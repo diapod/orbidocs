@@ -123,6 +123,15 @@
           "minItems": 2,
           "maxItems": 2,
           "items": { "$ref": "#/$defs/base64url-digest" }
+        },
+        "role/models": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["solver", "reviewer"],
+          "properties": {
+            "solver": { "$ref": "#/$defs/role-model" },
+            "reviewer": { "$ref": "#/$defs/role-model" }
+          }
         }
       }
     },
@@ -137,7 +146,12 @@
         "image/manifest-digest"
       ],
       "properties": {
-        "fixture/ref": { "const": "story-fixture:story-012-powerdns-discovery-v1" },
+        "fixture/ref": {
+          "enum": [
+            "story-fixture:story-012-powerdns-discovery-v1",
+            "story-fixture:story-012-powerdns-missing-zone-data-v1"
+          ]
+        },
         "fixture/digest": { "$ref": "#/$defs/hex-digest" },
         "apt/packages": {
           "const": [
@@ -304,6 +318,7 @@
             "challenge/id",
             "solution-wrapper/invocations",
             "host-domain-command-synthesis/count",
+            "host-structural-framing",
             "review-rejections/count",
             "first-experiment/read-only",
             "nonpassing/experiments",
@@ -311,9 +326,36 @@
             "verifier/mode"
           ],
           "properties": {
-            "challenge/id": { "const": "powerdns-bind-unconfigured.v1" },
+            "challenge/id": {
+              "enum": [
+                "powerdns-bind-unconfigured.v1",
+                "powerdns-bind-missing-zone-data.v1"
+              ]
+            },
             "solution-wrapper/invocations": { "const": 0 },
             "host-domain-command-synthesis/count": { "const": 0 },
+            "host-structural-framing": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "umask",
+                "materialized-file-mode",
+                "operation/id",
+                "p083/lifecycle"
+              ],
+              "properties": {
+                "kind": { "const": "shell-umask" },
+                "umask": { "const": "022" },
+                "materialized-file-mode": { "const": "0644" },
+                "operation/id": {
+                  "const": "sensorium-operation:story-012-powerdns-discovery-shell-framing"
+                },
+                "p083/lifecycle": {
+                  "const": ["claim", "invoke", "release"]
+                }
+              }
+            },
             "review-rejections/count": { "type": "integer", "minimum": 0, "maximum": 64 },
             "first-experiment/read-only": { "const": true },
             "nonpassing/experiments": { "type": "integer", "minimum": 1, "maximum": 7 },
@@ -339,6 +381,16 @@
         { "$ref": "#/$defs/ref" },
         { "not": { "pattern": "^sensorium-control-lease:" } }
       ]
+    },
+    "role-model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "alias", "artifact/digest"],
+      "properties": {
+        "node": { "enum": ["node-b", "node-c"] },
+        "alias": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "artifact/digest": { "$ref": "#/$defs/base64url-digest" }
+      }
     },
     "effect-audit": {
       "type": "object",
@@ -514,7 +566,7 @@
       "properties": {
         "tokens": { "const": 131072 },
         "cost/micros": { "const": 0 },
-        "wall-time/ms": { "const": 830000 },
+        "wall-time/ms": { "type": "integer", "minimum": 1, "maximum": 830000 },
         "steps": { "const": 128 }
       }
     },

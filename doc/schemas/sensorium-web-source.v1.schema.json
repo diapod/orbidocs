@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-source:v1",
+  "title": "Sensorium Web Source v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "source/ref", "source/generation-ref", "canonical/url", "canonical/url-digest", "origin/policy-ref", "extraction/profile", "operational/context", "classification"],
+  "properties": {
+    "schema": { "const": "sensorium-web-source.v1" },
+    "schema/v": { "const": 1 },
+    "source/ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" },
+    "source/generation-ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" },
+    "canonical/url": { "type": "string", "minLength": 1, "maxLength": 4096, "pattern": "^https?://" },
+    "canonical/url-digest": { "$ref": "#/$defs/sha256Digest" },
+    "origin/policy-ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "extraction/profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile/ref", "profile/version", "profile/digest", "output/schema-ref"],
+      "properties": {
+        "profile/ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "profile/version": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "profile/digest": { "$ref": "#/$defs/sha256Digest" },
+        "output/schema-ref": { "type": "string", "minLength": 1, "maxLength": 512 }
+      }
+    },
+    "operational/context": { "$ref": "sensorium-operational-context.v1.schema.json" },
+    "classification": { "$ref": "classification.v1.schema.json" }
+  }
+}

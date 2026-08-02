@@ -1,0 +1,46 @@
+{
+  "schema": "sensorium-web-document-snapshot.v1",
+  "schema/v": 1,
+  "snapshot/id": "sensorium-web-snapshot:fixture-001",
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:web-fixture-v1",
+  "requested-url/display": "https://example.org/document",
+  "requested-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "final-url/display": "https://example.org/document",
+  "final-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "fetched/at": "2026-08-01T10:00:00Z",
+  "response/status": 200,
+  "media/type": "text/html",
+  "selected/charset": "utf-8",
+  "body/bytes": 13,
+  "body/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "fetch/result-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "extraction/profile-ref": "sensorium-web-extraction:static-main",
+  "extraction/profile-digest": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+  "representation/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "title": "Fixture document",
+  "operational/context": {
+    "schema": "sensorium-operational-context.v1",
+    "schema/v": 1,
+    "impact/class": "production",
+    "context/summary": "Public web observation"
+  },
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Public",
+    "effective_tier": "Public",
+    "provenance": {"kind": "local-space", "space": "Public"},
+    "bound_subjects": {"public_projection": {"subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "count": 0}},
+    "declassify_trail": []
+  },
+  "causal/context": {
+    "schema": "causal-context.v1",
+    "schema/v": 1,
+    "context/id": "causal-context:web-fixture-001",
+    "correlation/id": "correlation:web-fixture-001",
+    "operation/id": "operation:web-fixture-001",
+    "causation/refs": ["fetch-request:fixture-001"],
+    "origin/actor-ref": "module:sensorium-web",
+    "created/at": "2026-08-01T10:00:01Z"
+  }
+}

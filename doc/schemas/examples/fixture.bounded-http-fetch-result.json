@@ -1,0 +1,16 @@
+{
+  "schema": "bounded-http-fetch-result.v1",
+  "schema/v": 1,
+  "request/id": "fetch-request:fixture-001",
+  "outcome": "completed",
+  "requested-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "final-url/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "response/status": 200,
+  "media/type": "text/html",
+  "content/encoding": "identity",
+  "compressed-bytes": 13,
+  "decompressed-bytes": 13,
+  "body/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "body": { "kind": "inline", "base64": "PGgxPkhlbGxvPC9oMT4" },
+  "redirects/followed": 0
+}

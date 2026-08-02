@@ -435,13 +435,11 @@ one planning stage without daemons, Room, or VM; only then may the vfkit profile
 run as deployment evidence. Every real-model sample records prompt, evidence,
 response, usage, duration, verdict, and a digest of all policy/model/runtime inputs.
 
-As of 2026-07-29, the profile is implemented but not evidenced as passing. With
-the pinned Bielik 4.5B Q8 artifact, the path-aware active-directive oracle accepts
-two of five retained scoped zone-declaration samples. The initial zone-data
-stage yields zero ready plans in five samples, and a second five-sample stage with
-fresh terminal evidence about doubled owner names admits every plan but yields no
-semantic correction. The full vfkit smoke is therefore not promoted: it remains
-gated on a plausible measured correction path or a stronger pinned local model.
+The original 2026-07-29 Bielik calibration did not justify deployment smoke. Its
+path-aware active-directive oracle accepted two of five retained scoped
+zone-declaration samples, while both measured zone-data stages produced no
+goal-ready correction. That result remains useful negative evidence rather than a
+passing profile claim.
 
 The bounded 2026-07-30 role matrix then compared pinned local candidates over 130
 samples without daemons, Room, or VM. Qwen2.5-Coder 7B produced 26 goal-ready and
@@ -456,11 +454,14 @@ observed next challenger. The current-profile model-only four-pair p95 sum is
 528,400 ms, but a full authority budget still requires measured HIL,
 P083, terminal, and verifier latency.
 
-The current deployment profile also carries only the guest-attested
-`powerdns-bind-unconfigured.v1` challenge. A second materially different prepared
-system variant remains required before making a cross-variant generalization
-claim. These post-MVP evidence gaps do not reopen the completed baseline Story 012
-gate.
+The selected deployment profile now carries both guest-attested challenge
+descriptors. Its passing retained run selects
+`powerdns-bind-missing-zone-data.v1`: PowerDNS already has a valid loopback
+listener, BIND backend, and authoritative declaration, but the referenced
+zone-data file is absent and no final `localdomain` records exist in the image.
+The prepared-system manifest, completion record, fixture digest, and image digest
+bind that initial state before vfkit starts. This proves the second variant only;
+it does not turn one retained run into a general claim over all prepared systems.
 
 The role boundary now has an additive v2 correction path. A reviewer can emit one
 bounded `request-regeneration` correction without plan bytes; the daemon binds it
@@ -470,6 +471,19 @@ The join is append-only, restart-safe, and inert until the existing host, HIL, a
 P083 gates run. A 2026-08-01 ten-pair Qwen2.5-Coder 7B calibration produced ten
 valid requests but only one domain-ready staged successor. The mechanism is
 therefore implemented, while model deployment readiness remains explicitly open.
+
+The stronger `story-012-powerdns-qwen25-coder-discovery-vfkit` profile has one
+retained passing macOS arm64 full-system run. Two separately supervised
+Qwen2.5-Coder 7B runtimes completed two round-robin cycles against the second
+challenge. The first model-authored plan was admitted through HIL and P083 but did
+not satisfy the verifier; after fresh terminal evidence, a different model-authored
+plan reached the exact DNS goal. The closed report passes 30 checks, records
+16,577 prompt-plus-completion tokens, 516,110 ms of model time, 544,637 ms of
+deliberation, and 794,192 ms end to end, and reports the host-owned structural
+`umask 022` framing separately from unchanged CandidatePlan bytes. It uses no
+deadline fixture and derives no effect directly from Room prose. This is one
+deployment proof, not yet repeatability evidence and not evidence that the
+critique-to-regeneration v2 path has crossed its separate `0.6` promotion gate.
 
 For reproducibility, the story policy supplies a closed allowlisted command-plan
 template to the solver. The real model must carry the exact CandidatePlan marker in
@@ -694,20 +708,27 @@ membership high-water sequence rather than a creation-time or fixture constant.
   feedback cycles inside one authority epoch or renew authority between cycles without
   widening an individual grant or holding a P083 lease during inference. The
   matrix yields a provisional model-only envelope of 720,000 ms and 24,576 tokens
-  after a 25 percent margin; keep this task open until effect-feedback overhead and
-  a ready reviewer are measured.
+  after a 25 percent margin. The retained full-system run adds four model turns,
+  16,577 total tokens, 516,110 ms of model time, 544,637 ms of deliberation, and a
+  164,161 ms maximum turn. Keep this task open for explicit between-cycle authority
+  renewal: four cycles at the measured effect-feedback cost do not fit safely under
+  one canonical Room authority ceiling.
 - [ ] Require deterministic replay before vfkit and retain repeatable seeded E2E
   evidence with prompt-free per-role latency, token, cycle, rejection, experiment,
-  and correction measurements.
-- [ ] Add the resolved guest-attested
+  and correction measurements. One closed 30-check deployment run now passes;
+  another fresh seeded success is still required before claiming repeatability.
+- [x] Add the resolved guest-attested
   `powerdns-bind-missing-zone-data.v1` prepared-system challenge: valid loopback
   listener, BIND backend, and authoritative declaration referencing an absent
   zone-data file, without final `localdomain` records. Select `challenge/id` and
   verifier contract ref/digest from pinned guest/image evidence rather than a
-  runner literal. The existing unconfigured variant remains valid but does not
-  prove cross-variant generalization by itself.
-- [ ] Retain a passing `story-012-powerdns-discovery-full-system-report.v1` from a
+  runner literal. The exact prepared-system source, manifest, image completion
+  record, and retained deployment report now bind the selected second variant.
+- [x] Retain a passing `story-012-powerdns-discovery-full-system-report.v1` from a
   real vfkit, `llama-server`, and pinned local-model run that reaches the exact DNS
   goal through model-authored trial and error without a solution fixture. Do not
   promote a report until the staged bench demonstrates a plausible correction
-  path and the closed validator accepts the exact deployment bytes.
+  path and the closed validator accepts the exact deployment bytes. The retained
+  2026-08-01 Qwen2.5-Coder 7B run passes 30 checks after one nonpassing and one
+  successful admitted experiment, with fresh terminal feedback, HIL, P083 lease
+  release, reported host structural framing, and zero direct Room-prose effects.

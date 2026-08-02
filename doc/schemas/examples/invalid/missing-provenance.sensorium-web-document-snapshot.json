@@ -1,0 +1,6 @@
+{
+  "schema": "sensorium-web-document-snapshot.v1",
+  "schema/v": 1,
+  "snapshot/id": "sensorium-web-snapshot:invalid",
+  "source/ref": "sensorium-web-source:invalid"
+}

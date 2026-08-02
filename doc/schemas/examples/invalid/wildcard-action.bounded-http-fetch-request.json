@@ -1,0 +1,18 @@
+{
+  "schema": "bounded-http-fetch-request.v1",
+  "schema/v": 1,
+  "request/id": "fetch-request:wildcard-action",
+  "consumer/action": "web.*",
+  "method": "GET",
+  "url": "https://example.org/document",
+  "budgets": {
+    "redirects/max": 1,
+    "compressed-bytes/max": 1048576,
+    "decompressed-bytes/max": 4194304,
+    "header-bytes/max": 16384,
+    "total-timeout/ms": 10000,
+    "connect-timeout/ms": 3000,
+    "read-timeout/ms": 5000,
+    "inline-bytes/max": 65536
+  }
+}

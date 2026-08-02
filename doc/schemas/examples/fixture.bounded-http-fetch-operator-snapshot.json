@@ -1,0 +1,13 @@
+{
+  "schema": "bounded-http-fetch-operator-snapshot.v1",
+  "schema/v": 1,
+  "status": "ready",
+  "active": 0,
+  "capacity": 8,
+  "requests/total": 3,
+  "completed/total": 1,
+  "refused/total": 1,
+  "failed/total": 1,
+  "artifact-handoffs/total": 0,
+  "failure-counts": {"destination-denied": 1, "timeout": 1}
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "bounded-http-fetch-result.v1",
+  "schema/v": 1,
+  "request/id": "fetch-request:invalid",
+  "outcome": "completed",
+  "requested-url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "final-url/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "response/status": 200,
+  "compressed-bytes": 1,
+  "decompressed-bytes": 1,
+  "body/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "body": {"kind":"inline","base64":"YQ","artifact/ref":"artifact:not-allowed"},
+  "redirects/followed": 0
+}

@@ -314,6 +314,38 @@ Status:
   admission, revocation, and carrier adapters. Local Sensorium topics remain
   non-federated.
 
+### Reusable Bounded HTTP(S) Fetch Host Boundary
+
+Based on:
+- `doc/project/40-proposals/084-sensorium-web-observation-connector.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+
+Related schemas:
+- `bounded-http-fetch-request.v1`
+- `bounded-http-fetch-result.v1`
+- `bounded-http-fetch-error-codes.v1`
+- `bounded-http-fetch-operator-snapshot.v1`
+- `sensorium-web-source.v1`
+- `sensorium-web-document-snapshot.v1`
+
+Responsibilities:
+- expose `http.fetch.bounded` only as a host-local, non-advertisable,
+  non-passportable capability for exact middleware consumers and actions;
+- keep DNS resolution under a 64-address answer cap, bracket-normalized IPv6
+  and IPv4-mapped destination classification, connection pinning, TLS,
+  redirect revalidation, deadlines, byte caps, and concurrency in the daemon;
+- return bounded inline bytes or one Artifact Delivery pointer without exposing
+  sockets, resolvers, cookie jars, credentials, or raw URL diagnostics;
+- keep extraction, source scheduling, observation admission, and interface
+  publication outside the reusable host primitive.
+
+Status:
+- `partial`. The daemon-owned fetch boundary and its deterministic local
+  conformance harness are implemented with P084 as the first configured
+  consumer. The supervised extractor, durable source runtime, persistent
+  operator projection, Sensorium observation admission, and P082 publication
+  remain P084 work.
+
 ## Out of Scope
 
 - public/federated Sensorium publication by default,

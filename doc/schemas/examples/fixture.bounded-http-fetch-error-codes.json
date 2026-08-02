@@ -1,0 +1,25 @@
+{
+  "schema": "bounded-http-fetch-error-codes.v1",
+  "schema/v": 1,
+  "entries": [
+    {"code":"invalid-request","retry/class":"terminal"},
+    {"code":"consumer-denied","retry/class":"terminal"},
+    {"code":"origin-denied","retry/class":"terminal"},
+    {"code":"dns-failed","retry/class":"retryable"},
+    {"code":"dns-answer-limit","retry/class":"terminal"},
+    {"code":"destination-denied","retry/class":"terminal"},
+    {"code":"connect-failed","retry/class":"retryable"},
+    {"code":"tls-failed","retry/class":"retryable"},
+    {"code":"redirect-invalid","retry/class":"terminal"},
+    {"code":"redirect-denied","retry/class":"terminal"},
+    {"code":"redirect-limit","retry/class":"terminal"},
+    {"code":"header-limit","retry/class":"terminal"},
+    {"code":"compressed-body-limit","retry/class":"terminal"},
+    {"code":"decompressed-body-limit","retry/class":"terminal"},
+    {"code":"unsupported-content-encoding","retry/class":"terminal"},
+    {"code":"timeout","retry/class":"retryable"},
+    {"code":"concurrency-limit","retry/class":"policy-dependent"},
+    {"code":"artifact-store-failed","retry/class":"policy-dependent"},
+    {"code":"transport-failed","retry/class":"retryable"}
+  ]
+}
