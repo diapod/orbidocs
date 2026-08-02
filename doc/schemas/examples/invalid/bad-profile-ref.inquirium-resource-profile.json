@@ -1,0 +1,8 @@
+{
+  "schema": "inquirium-resource-profile.v1",
+  "schema/v": 1,
+  "profile/ref": "profile/contains space",
+  "limits": {
+    "classify/labels-max": 8
+  }
+}

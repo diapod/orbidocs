@@ -1,0 +1,8 @@
+{
+  "schema": "inquirium-resource-profile.v1",
+  "schema/v": 1,
+  "profile/ref": "profile/inquirium/operator-research",
+  "limits": {
+    "flow/nodes-max": 4096
+  }
+}

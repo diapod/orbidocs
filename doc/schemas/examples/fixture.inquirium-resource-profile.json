@@ -1,0 +1,10 @@
+{
+  "schema": "inquirium-resource-profile.v1",
+  "schema/v": 1,
+  "profile/ref": "profile/inquirium/operator-research",
+  "limits": {
+    "classify/labels-max": 16,
+    "rerank/candidates-max": 32,
+    "rerank/query-bytes-max": 0
+  }
+}

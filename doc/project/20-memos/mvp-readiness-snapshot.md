@@ -62,8 +62,16 @@ three explicit exclusions. Pure validation, dual JSON-Schema/semantic fixture ch
 recursive all-unsigned-width source discovery with signed/float rejection, concrete
 pre-policy evidence for every boundary-safety classification, and separate
 drift/review-deadline CI gates prevent
-new or changed implementation maxima from becoming silent policy. Runtime resource
-envelopes, operator overrides, hook/package lifecycles, and federated posture remain
+new or changed implementation maxima from becoming silent policy. The accepted
+`inquirium-resource-profile.v1` contract now projects exactly the 38 operational
+axes, excludes the nine boundary-safety axes, and drives a pure monotonic source-chain
+resolver. A first daemon vertical resolves a sparse local operator config overlay at
+startup, preserves the effective digest across restart, records winning per-axis
+provenance in prompt-free classify/rerank traces, and enforces the same profile on
+the five classify and three rerank axes for requests and responses. The remaining
+thirty axes are vocabulary-only until their owning runtime boundaries consume them.
+Signed resource envelopes, runtime task/session overlays,
+bounded widening, remaining hook/package lifecycles, and federated posture remain
 open, so this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design

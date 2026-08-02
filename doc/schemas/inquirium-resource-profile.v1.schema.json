@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-resource-profile:v1",
+  "title": "Inquirium Resource Profile v1",
+  "description": "Closed sparse overlay over the distribution-owned Inquirium operational resource profile. Missing limits inherit; they never mean unbounded. Schema admission declares an axis but does not by itself prove that the current runtime enforces it; enforcement support is operation-specific and must be reported separately.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "profile/ref", "limits"],
+  "properties": {
+    "schema": { "const": "inquirium-resource-profile.v1" },
+    "schema/v": { "const": 1 },
+    "profile/ref": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 200,
+      "pattern": "^profile/[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*)*$"
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "batch-embed/source-lease-refs-max": { "$ref": "#/$defs/limit" },
+        "text-operation/input-bytes-max": { "$ref": "#/$defs/limit" },
+        "image/prompt-bytes-max": { "$ref": "#/$defs/limit" },
+        "classify/input-text-bytes-max": { "$ref": "#/$defs/limit" },
+        "classify/labels-max": { "$ref": "#/$defs/limit" },
+        "classify/label-bytes-max": { "$ref": "#/$defs/limit" },
+        "classify/label-description-bytes-max": { "$ref": "#/$defs/limit" },
+        "classify/rationale-bytes-max": { "$ref": "#/$defs/limit" },
+        "rerank/query-bytes-max": { "$ref": "#/$defs/limit" },
+        "rerank/candidates-max": { "$ref": "#/$defs/limit" },
+        "rerank/candidate-text-bytes-max": { "$ref": "#/$defs/limit" },
+        "assistant/conformance-ttl-seconds": { "$ref": "#/$defs/limit" },
+        "assistant/context-tokens-min": { "$ref": "#/$defs/limit" },
+        "assistant/output-bytes-max": { "$ref": "#/$defs/limit" },
+        "training/dataset-samples-max": { "$ref": "#/$defs/limit" },
+        "operator-question/expires-at-bytes-max": { "$ref": "#/$defs/limit" },
+        "embed/input-texts-max": { "$ref": "#/$defs/limit" },
+        "embed/input-text-bytes-max": { "$ref": "#/$defs/limit" },
+        "embed/dimensions-max": { "$ref": "#/$defs/limit" },
+        "prompt-adjustment/extend-layers-max": { "$ref": "#/$defs/limit" },
+        "output-schema/value-bytes-default-max": { "$ref": "#/$defs/limit" },
+        "output-schema/value-depth-default-max": { "$ref": "#/$defs/limit" },
+        "output-schema/array-items-default-max": { "$ref": "#/$defs/limit" },
+        "output-schema/object-members-default-max": { "$ref": "#/$defs/limit" },
+        "output-schema/repair-attempts-max": { "$ref": "#/$defs/limit" },
+        "output-schema/violations-max": { "$ref": "#/$defs/limit" },
+        "output-schema/redaction-pointers-max": { "$ref": "#/$defs/limit" },
+        "generate/control-items-max": { "$ref": "#/$defs/limit" },
+        "generate/control-payload-bytes-max": { "$ref": "#/$defs/limit" },
+        "generate/envelope-params-bytes-max": { "$ref": "#/$defs/limit" },
+        "memory/pinned-facts-max": { "$ref": "#/$defs/limit" },
+        "memory/recent-facts-max": { "$ref": "#/$defs/limit" },
+        "memory/recall-refs-max": { "$ref": "#/$defs/limit" },
+        "memory/text-bytes-max": { "$ref": "#/$defs/limit" },
+        "locale/response-locales-max": { "$ref": "#/$defs/limit" },
+        "feedback/metadata-bytes-max": { "$ref": "#/$defs/limit" },
+        "feedback/amendment-items-max": { "$ref": "#/$defs/limit" },
+        "feedback/grounding-refs-max": { "$ref": "#/$defs/limit" }
+      }
+    }
+  },
+  "$defs": {
+    "limit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}

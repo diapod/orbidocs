@@ -173,6 +173,9 @@ schema_for_file() {
     *.limit-classification.json)
       echo "$SCHEMAS_DIR/limit-classification.v1.schema.json"
       ;;
+    *.inquirium-resource-profile.json)
+      echo "$SCHEMAS_DIR/inquirium-resource-profile.v1.schema.json"
+      ;;
     *.sensorium-web-source.json)
       echo "$SCHEMAS_DIR/sensorium-web-source.v1.schema.json"
       ;;

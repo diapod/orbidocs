@@ -546,9 +546,14 @@ Conceptual shape:
   "experiment/classes": ["research", "experimental"],
   "profile/schema": "inquirium-resource-profile.v1",
   "profile": {
-    "classify/max-labels": 256,
-    "rerank/max-candidates": 512,
-    "text/max-input-bytes": 1048576
+    "schema": "inquirium-resource-profile.v1",
+    "schema/v": 1,
+    "profile/ref": "profile/inquirium/operator-research",
+    "limits": {
+      "classify/labels-max": 16,
+      "rerank/candidates-max": 32,
+      "text-operation/input-bytes-max": 1048576
+    }
   },
   "operator/binding-ref": "node-operator-binding:01JZ...",
   "reason": "local taxonomy research",
@@ -562,6 +567,47 @@ The common header owns identity, revision, provenance, temporal validity, scope,
 signature. The profile schema owns field vocabulary and relational validation. The
 host refuses unknown profile schemas or profile keys. A package may request an
 envelope but cannot sign or activate it on behalf of the operator.
+
+The accepted `inquirium-resource-profile.v1` payload is a sparse overlay over a
+closed vocabulary of 38 operational axes derived from the reviewed limit registry.
+An omitted axis inherits the preceding source and never means unbounded. V1 resolves
+the source chain `distribution-default -> operator-envelope -> task-session` once:
+all maximum axes use `min`, while the required context minimum uses `max`. Equal or
+looser declarations retain the preceding value and provenance. The nine reviewed
+boundary-safety limits are absent from the schema and remain non-overridable
+pre-policy guards.
+
+The first implementation vertical accepts a local operator overlay from daemon
+configuration, records the complete effective profile, winning source per axis,
+source refs, and canonical digest in prompt-free classify/rerank traces, and applies
+the same effective limits to both request and response validation. The pure resolver
+already accepts a task/session overlay, but runtime task/session sourcing, signed
+`operator-resource-envelope.v1` admission, bounded operator widening within hard
+safety limits, and federated intersection remain separate work. This distinction is
+normative: a local config overlay is not evidence of a signed operator fact.
+Profile refs are operator-visible provenance identifiers and MUST NOT encode secrets
+or sensitive free text; prompt-free traces may retain them for causal reconstruction.
+The ref `profile/inquirium/distribution-default` is reserved for the distribution
+source and MUST be rejected when supplied by an operator or task/session overlay.
+
+Profile vocabulary and runtime enforcement are separate contracts. The current
+vertical enforces only these eight axes: `classify/input-text-bytes-max`,
+`classify/labels-max`, `classify/label-bytes-max`,
+`classify/label-description-bytes-max`, `classify/rationale-bytes-max`,
+`rerank/query-bytes-max`, `rerank/candidates-max`, and
+`rerank/candidate-text-bytes-max`. The remaining thirty axes may be resolved and
+traced, but MUST NOT be displayed as runtime-enforced until their owning operation
+boundary and negative tests consume them. Accepting `inquirium-resource-profile.v1`
+therefore proves vocabulary and monotonic resolution, not universal enforcement.
+
+Digest grammars remain contract-local in this revision. The reviewed
+limit-classification registry uses JCS V1 with a 43-character base64url SHA-256
+payload, while the effective resource profile uses JCS with NFC-normalized strings
+and a 64-character lowercase hexadecimal SHA-256 payload. Both retain the `sha256:`
+prefix. Implementations MUST validate against the owning contract rather than a
+generic `sha256:*` parser. A future shared signed envelope MUST either name the
+canonicalization and encoding explicitly or freeze one common digest representation
+before carrying both artifacts in the same field.
 
 An envelope revision is an append-only fact. Activation, supersession, expiry,
 revocation, and rollback produce separate facts or an immutable revision chain. The
@@ -1530,11 +1576,11 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `P085-001` | Freeze V1 decisions, limit classes, hook classes, named invariants, and Open Questions | `done` | Accepted decisions distinguish normative, proven boundary-safety, federated, operational, and temporary unclassified limits; no hook or package can create authority; all twelve design questions are resolved and recorded separately from the empty V1 Open Questions register. |
-| `P085-002` | Inventory and classify all Inquirium compile-time maxima | `done` | A reviewed, JCS-digested `limit-classification-registry.v1` envelope covers 47 current public numeric `INQUIRIUM_MAX_*`, `INQUIRIUM_DEFAULT_*`, and `BASELINE_*` contracts in `inquirium-core`/`inquirium-host`, plus the daemon context-source boundary, and binds reviewed exclusions for the baseline profile ref, daemon output-cap alias, and transcript inline-to-object-store representation threshold. A structural Rust gate recursively scans inline and file-backed modules, recognizes all unsigned widths, rejects signed or floating-point candidates, requires explicit review for non-numeric candidates, compares symbols and evaluated values, and rejects duplicate entries or digest drift. Nine boundary-safety records resolve by complete crate-and-module path to concrete pre-policy Rust tests rather than substring-matched function names. A separate no-grace deadline gate covers classifications and exclusions. The initial audit remains one review cohort; newly reviewed entries receive an explicit future deadline. No operational constant has yet migrated to runtime policy. |
-| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1` is accepted and synchronized across both schema trees with exact semantic-id/source/evidence validation, an explicit zero-valued-limit contract, pure validation with typed class-mismatch diagnostics, import/export Schema Gate registration, one positive fixture, nine negative fixtures covering the class/merge/override/evidence matrix, and a CI drift gate. Every negative fixture is independently rejected by raw JSON Schema and the pure Rust validator before the combined boundary gate is asserted. The remaining envelope, hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
+| `P085-002` | Inventory and classify all Inquirium compile-time maxima | `done` | A reviewed, JCS-digested `limit-classification-registry.v1` envelope covers 47 current public numeric `INQUIRIUM_MAX_*`, `INQUIRIUM_DEFAULT_*`, and `BASELINE_*` contracts in `inquirium-core`/`inquirium-host`, plus the daemon context-source boundary, and binds reviewed exclusions for the baseline profile ref, daemon output-cap alias, and transcript inline-to-object-store representation threshold. A structural Rust gate recursively scans inline and file-backed modules, recognizes all unsigned widths, rejects signed or floating-point candidates, requires explicit review for non-numeric candidates, compares symbols and evaluated values, and rejects duplicate entries or digest drift. Nine boundary-safety records resolve by complete crate-and-module path to concrete pre-policy Rust tests rather than substring-matched function names. A separate no-grace deadline gate covers classifications and exclusions. The initial audit remains one review cohort; newly reviewed entries receive an explicit future deadline. The inventory is complete; the first operational runtime projection is tracked separately under P085-006. |
+| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1` and `inquirium-resource-profile.v1` are accepted and synchronized across both schema trees. The resource profile is sparse, closed over exactly the 38 operational registry records, accepts explicit zero, and structurally excludes all nine boundary-safety axes; Schema Gate checks that exact registry-to-schema projection and exercises one positive plus bad-profile-ref, unknown-axis, and wrong-version negatives through JSON Schema and pure Rust validation. The limit-classification contract retains exact semantic-id/source/evidence validation, typed class-mismatch diagnostics, one positive and ten negative fixtures covering the class/merge/override/evidence matrix, and CI drift gates. The remaining envelope, hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
 | `P085-004` | Refactor `nse` into versioned hook contracts with shared offer-bound validators | `partial` | Existing `select-llm-model` already revalidates a host-filtered candidate. Completion requires common offer identity/digest, raw proposal versus opaque admitted-decision types, typed backend failures, hook classes, one validator per hook, and migration of broadcast rewrite outcomes to offered transform-profile selection. |
 | `P085-005` | Implement deterministic `nse-table` backend | `todo` | Closed ordered rules, hook-owned fields/operators, canonical fixed-decimal semantics, exact UTF-8 byte string comparison without locale/normalization, bounded evaluation, canonical digest, golden vectors, and refusal-first tests pass without filesystem, network, clock, randomness, or effects. |
-| `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `partial` | Existing prompt caps and model selection are reused; operational maxima move to typed profiles only after P085-002, and prompt/schema/repair/ranking hooks validate against exact host offers. |
+| `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `partial` | `inquirium-core` owns the 38-axis closed profile, complete distribution defaults, pure `distribution-default -> operator-envelope -> task-session` resolver, per-axis winning provenance, and canonical digest. The daemon accepts one sparse local operator config overlay, resolves it once at startup, shares the immutable result without per-request deep cloning, preserves its digest across restart, emits the complete prompt-free effective profile in classify/rerank traces, and enforces the five classify plus three rerank axes on both request and response admission. Unknown and boundary-safety axes fail closed, the distribution ref is reserved against overlay impersonation, and explicit zero is an effective value. The remaining thirty axes are vocabulary-only until their owning runtime boundaries consume them. Runtime task/session sourcing, signed `operator-resource-envelope.v1` revisions, bounded widening beyond distribution defaults, federated intersection, and the remaining prompt/schema/repair hook expansion are still open. |
 | `P085-007` | Add Corpus decision hooks and federated envelope binding | `partial` | The existing validated room policy and budget, bound by a signed invitation or policy fact, remain authoritative; turn/bid/tie/admission hooks only narrow eligible sets, the signed artifact carries the envelope ref/digest, and multi-node intersection/refusal tests pass. |
 | `P085-008` | Add Agent decision hooks | `partial` | Existing monotonic fork and operator profiles remain authoritative; next-step/fan-out/risk hooks cannot widen grants, budgets, descendants, classification, or HIL policy. |
 | `P085-009` | Add JSON-e Flow `decision` step | `todo` | Flow resolves a host offer ref, calls one NSE hook, branches on the admitted typed outcome, and cannot construct or widen candidate sets. |
@@ -1557,9 +1603,9 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Design `inquirium-resource-profile.v1` from the completed classification
-   inventory, migrating only operational limits and retaining earlier hard
-   boundary-safety guards.
+1. Freeze signed `operator-resource-envelope.v1` admission over the implemented
+   resource-profile resolver, including revision, expiry, revocation, and exact
+   operator-binding verification without weakening the nine boundary-safety guards.
 2. Freeze the remaining identifier grammars, refusal codes/diagnostics, transition/session
    contracts, and the complete schema family under the P084 Schema Gate checklist.
 3. Freeze one existing hook (`select-llm-model`) as the first complete

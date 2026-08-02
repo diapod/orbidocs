@@ -1,0 +1,6 @@
+{
+  "schema": "inquirium-resource-profile.v1",
+  "schema/v": 2,
+  "profile/ref": "profile/inquirium/operator-research",
+  "limits": {}
+}
