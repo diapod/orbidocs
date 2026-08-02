@@ -11,7 +11,11 @@
     "status": { "enum": ["ready", "degraded", "unavailable"] },
     "active": { "type": "integer", "minimum": 0, "maximum": 256 },
     "capacity": { "type": "integer", "minimum": 1, "maximum": 256 },
-    "requests/total": { "type": "integer", "minimum": 0 },
+    "requests/total": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "All calls reaching the fetch-service execute boundary, including typed requests rejected by contract validation or policy admission."
+    },
     "completed/total": { "type": "integer", "minimum": 0 },
     "refused/total": { "type": "integer", "minimum": 0 },
     "failed/total": { "type": "integer", "minimum": 0 },

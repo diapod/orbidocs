@@ -627,6 +627,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "unknown-code.bounded-http-fetch-error-codes.json",
     "leaky.bounded-http-fetch-operator-snapshot.json",
     "missing-generation.sensorium-web-source.json",
+    "empty-profile-version.sensorium-web-source.json",
     "missing-provenance.sensorium-web-document-snapshot.json",
     "unknown-isolation.sensorium-virt-backend-capabilities.json",
     "unknown-network.sensorium-virt-environment-plan.json",

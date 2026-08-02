@@ -331,20 +331,27 @@ Related schemas:
 Responsibilities:
 - expose `http.fetch.bounded` only as a host-local, non-advertisable,
   non-passportable capability for exact middleware consumers and actions;
-- keep DNS resolution under a 64-address answer cap, bracket-normalized IPv6
-  and IPv4-mapped destination classification, connection pinning, TLS,
-  redirect revalidation, deadlines, byte caps, and concurrency in the daemon;
+- keep DNS resolution under a 64-address answer cap, bracket-normalized IPv6,
+  IPv4-compatible/mapped and standard/local-use NAT64 classification,
+  internally timed resolver attempts, bounded worker/queue backpressure,
+  fresh per-hop connection pinning, explicit rustls/WebPKI TLS, exact redirect
+  statuses, per-hop and total deadlines, independent header count/byte caps,
+  body caps, and concurrency in the daemon;
 - return bounded inline bytes or one Artifact Delivery pointer without exposing
   sockets, resolvers, cookie jars, credentials, or raw URL diagnostics;
 - keep extraction, source scheduling, observation admission, and interface
-  publication outside the reusable host primitive.
+  publication outside the reusable host primitive; P084's closed static media
+  set is enforced by `sensorium-web-core` before extraction rather than by the
+  consumer-neutral fetch host.
 
 Status:
 - `partial`. The daemon-owned fetch boundary and its deterministic local
   conformance harness are implemented with P084 as the first configured
-  consumer. The supervised extractor, durable source runtime, persistent
-  operator projection, Sensorium observation admission, and P082 publication
-  remain P084 work.
+  consumer. The canonical nested source envelope round-trips through the pure
+  Rust contract, and daemon ingress/egress integration plus resolver
+  concurrency and shutdown are covered without public egress. The supervised
+  extractor, durable source runtime, persistent operator projection, Sensorium
+  observation admission, and P082 publication remain P084 work.
 
 ## Out of Scope
 

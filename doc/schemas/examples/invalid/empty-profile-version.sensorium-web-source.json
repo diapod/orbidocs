@@ -1,14 +1,14 @@
 {
   "schema": "sensorium-web-source.v1",
   "schema/v": 1,
-  "source/ref": "sensorium-web-source:fixture",
-  "source/generation-ref": "source-generation:web-fixture-v1",
+  "source/ref": "sensorium-web-source:invalid-empty-profile-version",
+  "source/generation-ref": "source-generation:web-invalid-v1",
   "canonical/url": "https://example.org/document",
   "canonical/url-digest": "sha256:AC_mW_cGtXf7DYjqE-6bvJz2CQFN2xZmSXaAS6BQWF4",
   "origin/policy-ref": "policy:web-public-fixture-v1",
   "extraction/profile": {
     "profile/ref": "sensorium-web-extraction:static-main",
-    "profile/version": "1.0.0",
+    "profile/version": "",
     "profile/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
     "output/schema-ref": "sensorium-web-document-blocks.v1"
   },

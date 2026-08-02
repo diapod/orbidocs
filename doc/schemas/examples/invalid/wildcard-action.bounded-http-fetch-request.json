@@ -12,7 +12,7 @@
     "header-bytes/max": 16384,
     "total-timeout/ms": 10000,
     "connect-timeout/ms": 3000,
-    "read-timeout/ms": 5000,
+    "hop-timeout/ms": 5000,
     "inline-bytes/max": 65536
   }
 }

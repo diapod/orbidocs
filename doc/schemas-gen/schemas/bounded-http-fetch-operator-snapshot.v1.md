@@ -11,7 +11,7 @@ Source schema: [`doc/schemas/bounded-http-fetch-operator-snapshot.v1.schema.json
 | [`status`](#field-status) | `yes` | enum: `ready`, `degraded`, `unavailable` |  |
 | [`active`](#field-active) | `yes` | integer |  |
 | [`capacity`](#field-capacity) | `yes` | integer |  |
-| [`requests/total`](#field-requests-total) | `yes` | integer |  |
+| [`requests/total`](#field-requests-total) | `yes` | integer | All calls reaching the fetch-service execute boundary, including typed requests rejected by contract validation or policy admission. |
 | [`completed/total`](#field-completed-total) | `yes` | integer |  |
 | [`refused/total`](#field-refused-total) | `yes` | integer |  |
 | [`failed/total`](#field-failed-total) | `yes` | integer |  |
@@ -54,6 +54,8 @@ Source schema: [`doc/schemas/bounded-http-fetch-operator-snapshot.v1.schema.json
 
 - Required: `yes`
 - Shape: integer
+
+All calls reaching the fetch-service execute boundary, including typed requests rejected by contract validation or policy admission.
 
 <a id="field-completed-total"></a>
 ## `completed/total`

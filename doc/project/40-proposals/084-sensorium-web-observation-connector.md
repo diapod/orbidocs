@@ -218,13 +218,34 @@ The host capability owns actual network authority:
 - connection establishment and TLS policy;
 - redirect-by-redirect revalidation;
 - response streaming with compressed and decompressed byte caps;
-- total and phase-specific deadlines;
+- one total deadline plus bounded connect and per-hop request deadlines;
 - bounded concurrency and per-origin rate accounting;
 - metadata-only audit and operator status.
 
 The host capability returns bounded bytes over the private middleware channel or
 writes a large body into Artifact Delivery and returns an immutable pointer. It
 never returns a reusable socket, DNS resolver, cookie jar, or credential handle.
+
+The reference host resolves through the host's configured DNS servers using an
+in-process resolver with one bounded attempt, an internal lookup deadline, a
+bounded worker pool, and bounded queue backpressure. Caller timeout therefore
+does not leave an unbounded libc `getaddrinfo` call occupying a worker. Queue
+saturation is `concurrency-limit`; loss of the worker channel is
+`transport-failed`.
+
+The reference HTTPS client explicitly selects rustls with the pinned WebPKI root
+set and does not consume the platform-native trust store or ambient corporate
+root additions. Explicit DER roots are additive deployment or conformance
+inputs. Certificate or SPKI pinning is not part of the static V1 source
+contract.
+
+Each admitted hop receives a fresh client bound to that hop's newly resolved and
+revalidated address. This intentionally prevents connection pooling from
+reusing a socket admitted under an earlier DNS answer. Explicit DER roots are
+validated and parsed once when the host service is constructed, not once per
+hop. `hop-timeout/ms` bounds the complete request hop, including response-body
+transfer; it is not an idle-read timeout. The unchanged total deadline remains
+the outer bound across DNS, connects, redirects, and body transfer.
 
 #### Python `sensorium-web` connector
 
@@ -255,8 +276,8 @@ The initial profile is `sensorium-web-static.v1`:
   proxy, or inherited authorization headers;
 - bounded redirects, with policy re-evaluation before every hop;
 - bounded compressed and decompressed response bytes;
-- bounded connect, TLS, first-byte, read-idle, and total duration;
-- bounded response headers and header count;
+- bounded connect, complete per-hop request, and total duration;
+- response headers bounded independently by 64 fields and the admitted byte cap;
 - initial accepted media types limited to `text/html`,
   `application/xhtml+xml`, and `text/plain`;
 - no script execution or subresource loading;
@@ -266,6 +287,13 @@ The initial profile is `sensorium-web-static.v1`:
 Content encoding, MIME sniffing, and character decoding are separate steps. A
 declared media type does not authorize an unbounded parser, and a parser failure
 does not erase the successfully observed response metadata.
+
+The reusable host capability records a normalized media type but remains
+consumer-neutral. The P084 static connector must pass that value through the
+closed `sensorium-web-core` media-type gate before parsing or observation
+admission; a missing value or any value outside the three-item set is a typed
+refusal. The request contract therefore does not let a consumer widen the host
+primitive by supplying its own media allowlist.
 
 ### 3.1. Deliberate reuse and non-reuse
 
@@ -352,10 +380,14 @@ P084 domain schemas:
 | `sensorium-web-source.v1` | Operator-owned durable source configuration and current generation. |
 | `sensorium-web-document-snapshot.v1` | Canonical admitted document observation. |
 
-The host schemas are intentionally consumer-neutral. P084 remains responsible
-for translating a completed bounded fetch into the web source and document
-snapshot contracts; the host capability does not interpret HTML or publish a
-Sensorium observation.
+The host schemas are intentionally consumer-neutral. The Rust `WebSource` type
+uses the same nested
+`extraction/profile`, `origin/policy-ref`, `operational/context`, and
+`classification` fields as `sensorium-web-source.v1`; its canonical fixture must
+round-trip through the typed contract without translation. P084 remains
+responsible for translating a completed bounded fetch into the web source and
+document snapshot contracts; the host capability does not interpret HTML or
+publish a Sensorium observation.
 
 The document snapshot should carry at least:
 
@@ -406,6 +438,11 @@ position or snapshot digest; it does not create a new source generation.
 A `304 Not Modified` may preserve the previous admitted representation only when
 the current source generation, policy, retained body digest, and extraction
 profile still match.
+
+Only `301`, `302`, `303`, `307`, and `308` invoke redirect handling and require a
+valid same-origin `Location`. Other 3xx statuses, including `300` and `304`, are
+terminal bounded responses; connector policy decides whether their metadata can
+be used, and only the exact `304` rule above permits prior-body reuse.
 
 ### 7. Extraction and hostile content
 
@@ -814,6 +851,14 @@ around: the typed refusal reason, the phase in which it occurred, the hop index
 for redirect refusals, the destination class for classification refusals, and the
 limit that was hit reported alongside its configured value.
 
+`requests/total` counts every typed request reaching the fetch-service
+`execute` boundary, including requests refused by contract validation or policy
+admission. Malformed JSON and values rejected by the daemon Schema Gate before
+that boundary are not counted. `refused/total` includes terminal pre-dispatch
+outcomes produced by the fetch service. These counters describe pressure at the
+service boundary and its refusal rate; they are not an admission-only
+denominator.
+
 Prove the redaction the way retained Story 012 evidence proves it: run a real
 fetch against a fixture that serves secret-shaped headers, cookies, and signed
 query values, then assert their absence across every persisted record, artifact,
@@ -1000,9 +1045,9 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Acceptance boundary |
 |---|---|---|---|
 | P084-001 | Freeze architecture, static V1 scope, source identity, authority split, named invariants, and profile ownership decisions | done | Decisions 1-8 freeze static admission and representation plus the boundaries of deferred robots, browser, credential-bound, and crawl work. |
-| P084-002 | Define the six-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | partial | Four reusable fetch schemas and two P084 domain schemas are closed, mirrored, and Schema Gate-tested with positive/negative fixtures. Durable source scheduling, conditional-request, extraction-block, and retention fields remain to be frozen with P084-005/006 rather than guessed into this foundation. |
-| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | partial | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy, bracket-normalized IPv6 hosts, IPv4-mapped IPv6 destination classification, limit intersection, generation replacement, snapshot fencing, and retry classification. Extraction representation and durable source-state semantics remain with P084-005/006. |
-| P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | partial | Exact consumer/action/origin admission, bounded DNS workers and a 64-address answer cap, all-address classification including IPv4-mapped IPv6, connection pinning with hostname-preserving TLS, redirect revalidation, compressed/decompressed caps, one total deadline, global/per-origin concurrency, Artifact Delivery handoff, metadata-only terminal trace, aggregate snapshot, and no-socket-return conformance are implemented. Persistent operator projection and a real P084 connector invocation remain to be completed with P084-005/006. |
+| P084-002 | Define the six-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | partial | Four reusable fetch schemas and two P084 domain schemas are closed, mirrored, and Schema Gate-tested with positive/negative fixtures, including empty extraction-profile version refusal. Durable source scheduling, conditional-request, extraction-block, and retention fields remain to be frozen with P084-005/006 rather than guessed into this foundation. |
+| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | partial | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Extraction representation and durable source-state semantics remain with P084-005/006. |
+| P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | partial | Exact caller/action/origin admission including explicit missing-caller refusal, internally timed DNS resolution, bounded workers and queue backpressure, a 64-address answer cap, all-address classification, fresh per-hop connection pinning with explicit rustls/WebPKI TLS and once-parsed roots, exact redirect-status handling, independent 64-header and byte caps, compressed/decompressed caps, per-hop plus total deadlines, global/per-origin concurrency, Artifact Delivery handoff, metadata-only terminal trace, aggregate snapshot, daemon ingress/egress integration, and no-socket-return conformance are implemented. Persistent operator projection and a real P084 connector invocation remain to be completed with P084-005/006. |
 | P084-005 | Implement the supervised Python static extraction connector without ambient egress | todo | Offline fixtures prove bounded parsing, deterministic extraction digests, hostile-content inertness, typed empty/failure outcomes, and hard refusal when the bounded-fetch host capability is absent. |
 | P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | todo | Source replacement fences prior generations; `304` reuse requires exact retained evidence; caches and schedules remain bounded and inspectable across restart. |
 | P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | todo | One fetch-to-observation trace binds directive, host response digest, extractor profile, admitted snapshot, artifacts, and typed failures without retaining secrets. |

@@ -31,7 +31,7 @@
     "model-authored-candidate-plans",
     "model-authored-review-findings",
     "review-precedes-chair-decision",
-    "host-does-not-synthesize-domain-commands",
+    "host-synthesizes-only-declared-activation-and-framing",
     "nonpassing-experiment-precedes-success",
     "fresh-terminal-evidence-between-experiments",
     "hil-per-effect",
