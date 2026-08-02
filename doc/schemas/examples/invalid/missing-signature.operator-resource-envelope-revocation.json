@@ -1,0 +1,9 @@
+{
+  "schema": "operator-resource-envelope-revocation.v1",
+  "schema/v": 1,
+  "revocation/id": "operator-envelope-revocation:missing-signature",
+  "envelope/ref": "operator-envelope:research-1",
+  "operator/binding-ref": "node-operator-binding:research",
+  "reason": "missing signature must fail closed",
+  "occurred-at": "2026-08-02T11:00:00Z"
+}

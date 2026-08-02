@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-resource-envelope:v1",
+  "title": "Operator Resource Envelope v1",
+  "description": "Signed append-only operator revision binding one organ-owned typed resource profile. It bounds already-authorized work and grants no capability or effect authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema/v", "envelope/id", "revision/no", "scope",
+    "experiment/classes", "profile/schema", "profile/digest", "profile",
+    "operator/binding-ref", "reason", "issued-at", "expires-at", "signature"
+  ],
+  "properties": {
+    "schema": { "const": "operator-resource-envelope.v1" },
+    "schema/v": { "const": 1 },
+    "envelope/id": { "$ref": "#/$defs/envelope-ref" },
+    "revision/no": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "supersedes/ref": { "$ref": "#/$defs/envelope-ref" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "operations"],
+      "properties": {
+        "component": { "$ref": "#/$defs/token" },
+        "operations": {
+          "type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true,
+          "items": { "enum": ["classify", "rerank"] }
+        }
+      }
+    },
+    "experiment/classes": {
+      "type": "array", "minItems": 1, "maxItems": 4, "uniqueItems": true,
+      "items": { "enum": ["production", "research", "experimental", "critical"] }
+    },
+    "profile/schema": { "const": "inquirium-resource-profile.v1" },
+    "profile/digest": { "$ref": "#/$defs/hex-digest" },
+    "profile": { "$ref": "inquirium-resource-profile.v1.schema.json" },
+    "operator/binding-ref": {
+      "type": "string", "minLength": 23, "maxLength": 256,
+      "pattern": "^node-operator-binding:[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[^\\u0000]+$" },
+    "issued-at": { "type": "string", "format": "date-time" },
+    "expires-at": { "type": "string", "format": "date-time" },
+    "signature": { "$ref": "#/$defs/signature" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "revision/no": { "const": 1 } }, "required": ["revision/no"] },
+      "then": { "not": { "required": ["supersedes/ref"] } },
+      "else": { "required": ["supersedes/ref"] }
+    }
+  ],
+  "$defs": {
+    "token": {
+      "type": "string", "minLength": 1, "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._/-]+$"
+    },
+    "envelope-ref": {
+      "type": "string", "minLength": 19, "maxLength": 256,
+      "pattern": "^operator-envelope:[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "hex-digest": {
+      "type": "string", "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "signature": {
+      "type": "object", "additionalProperties": false,
+      "required": ["alg", "key/public", "value"],
+      "properties": {
+        "alg": { "const": "ed25519+domain-v1" },
+        "key/public": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "operator-resource-envelope-revocation.v1",
+  "schema/v": 1,
+  "revocation/id": "operator-envelope-revocation:research-1",
+  "envelope/ref": "operator-envelope:research-1",
+  "operator/binding-ref": "node-operator-binding:research",
+  "reason": "research window ended",
+  "occurred-at": "2026-08-02T11:00:00Z",
+  "ambient-authority": true,
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-resource-envelope-revocation:v1",
+  "title": "Operator Resource Envelope Revocation v1",
+  "description": "Signed immutable operator fact revoking one active resource-envelope revision.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema/v", "revocation/id", "envelope/ref",
+    "operator/binding-ref", "reason", "occurred-at", "signature"
+  ],
+  "properties": {
+    "schema": { "const": "operator-resource-envelope-revocation.v1" },
+    "schema/v": { "const": 1 },
+    "revocation/id": {
+      "type": "string", "minLength": 30, "maxLength": 256,
+      "pattern": "^operator-envelope-revocation:[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "envelope/ref": {
+      "type": "string", "minLength": 19, "maxLength": 256,
+      "pattern": "^operator-envelope:[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "operator/binding-ref": {
+      "type": "string", "minLength": 23, "maxLength": 256,
+      "pattern": "^node-operator-binding:[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[^\\u0000]+$" },
+    "occurred-at": { "type": "string", "format": "date-time" },
+    "signature": {
+      "type": "object", "additionalProperties": false,
+      "required": ["alg", "key/public", "value"],
+      "properties": {
+        "alg": { "const": "ed25519+domain-v1" },
+        "key/public": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+      }
+    }
+  }
+}

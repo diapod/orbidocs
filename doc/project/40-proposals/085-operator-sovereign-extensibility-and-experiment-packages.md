@@ -175,6 +175,9 @@ manager.
   discovery, installation, or activation implicit.
 - Let a power user iterate through bounded, expiring session activations in
   `research` or `experimental` context without weakening durable activation.
+- Let operators choose among installed domain behaviors and narrow closed semantic
+  vocabularies without recompiling the Node or turning arbitrary strings into
+  executable behavior.
 - Preserve node sovereignty at federation boundaries through explicit declaration
   and intersection rather than a universal built-in resource ceiling.
 - Preserve source-level freedom to rebuild the Node while making a changed boundary
@@ -255,6 +258,9 @@ manager.
   never restored after restart or accepted as a federated envelope declaration.
 - Operator defaults, operator-authored policy, and modified-distribution posture
   remain distinguishable in every effective-policy explanation.
+- Extensible behavior is exposed through domain-owned, code-backed registries;
+  normative state machines and protocol algebras remain closed, while operator
+  configuration may only select or narrow entries admitted by the host.
 - Extension packages are inert until locally activated and cannot create authority,
   suppress current revocation, or substitute for live-operator-only operations.
 
@@ -545,6 +551,7 @@ Conceptual shape:
   },
   "experiment/classes": ["research", "experimental"],
   "profile/schema": "inquirium-resource-profile.v1",
+  "profile/digest": "sha256:437a145249927075dce53a02fc3b802b1a7c655495440a8f8f3c0ec16d41f38c",
   "profile": {
     "schema": "inquirium-resource-profile.v1",
     "schema/v": 1,
@@ -571,7 +578,8 @@ envelope but cannot sign or activate it on behalf of the operator.
 The accepted `inquirium-resource-profile.v1` payload is a sparse overlay over a
 closed vocabulary of 38 operational axes derived from the reviewed limit registry.
 An omitted axis inherits the preceding source and never means unbounded. V1 resolves
-the source chain `distribution-default -> operator-envelope -> task-session` once:
+the source chain `distribution-default -> operator-local-config -> operator-envelope
+-> task-session` once:
 all maximum axes use `min`, while the required context minimum uses `max`. Equal or
 looser declarations retain the preceding value and provenance. The nine reviewed
 boundary-safety limits are absent from the schema and remain non-overridable
@@ -580,11 +588,32 @@ pre-policy guards.
 The first implementation vertical accepts a local operator overlay from daemon
 configuration, records the complete effective profile, winning source per axis,
 source refs, and canonical digest in prompt-free classify/rerank traces, and applies
-the same effective limits to both request and response validation. The pure resolver
-already accepts a task/session overlay, but runtime task/session sourcing, signed
-`operator-resource-envelope.v1` admission, bounded operator widening within hard
-safety limits, and federated intersection remain separate work. This distinction is
-normative: a local config overlay is not evidence of a signed operator fact.
+the same effective limits to both request and response validation. The next vertical
+adds accepted, closed `operator-resource-envelope.v1` and
+`operator-resource-envelope-revocation.v1` contracts, an exact active local
+`node-operator-binding.v1` signature gate, monotonic revisions, append-only
+activation/supersession/revocation/expiry facts, SQLite recovery, and immediate
+fallback to unsigned local configuration only when no active signed fact exists or
+the active fact has reached a valid revocation or expiry transition. An active
+committed fact that cannot be parsed, verified, or tied to the exact current operator
+binding is an integrity or authority failure: startup recovery and affected runtime
+operations fail closed instead of silently widening to unsigned configuration.
+
+Signed-envelope V1 makes scope executable rather than descriptive. Its operation
+vocabulary is closed to `classify` and `rerank`, its experiment-class vocabulary is
+closed to `production`, `research`, `experimental`, and `critical`, and every profile
+axis must belong to one declared operation. The runtime applies an envelope only to
+an exact operation-and-class match and rechecks the exact current operator binding
+at every applicable use. Calls without an explicit experiment class are
+`production`. The signed-envelope V1 profile may contain only the five classify and
+three rerank axes already enforced at their owning runtime boundaries; the remaining
+thirty profile axes stay vocabulary-only and cannot yet be introduced through a
+signed envelope.
+The pure resolver already accepts a task/session overlay, but runtime task/session
+sourcing, bounded operator widening within hard safety limits, and federated
+intersection remain separate work. This distinction is normative: a local config
+overlay is an explicit `operator-local-config` source and is not evidence of a signed
+operator fact.
 Profile refs are operator-visible provenance identifiers and MUST NOT encode secrets
 or sensitive free text; prompt-free traces may retain them for causal reconstruction.
 The ref `profile/inquirium/distribution-default` is reserved for the distribution
@@ -605,9 +634,12 @@ limit-classification registry uses JCS V1 with a 43-character base64url SHA-256
 payload, while the effective resource profile uses JCS with NFC-normalized strings
 and a 64-character lowercase hexadecimal SHA-256 payload. Both retain the `sha256:`
 prefix. Implementations MUST validate against the owning contract rather than a
-generic `sha256:*` parser. A future shared signed envelope MUST either name the
-canonicalization and encoding explicitly or freeze one common digest representation
-before carrying both artifacts in the same field.
+generic `sha256:*` parser. The signed envelope freezes `profile/digest` to the
+effective-profile grammar: JCS with NFC-normalized strings and a 64-character
+lowercase hexadecimal SHA-256 payload. Its Ed25519 signature covers the same JCS+NFC
+canonical envelope with `signature` removed, wrapped in the exact
+`operator-resource-envelope.v1` domain; revocation uses its own
+`operator-resource-envelope-revocation.v1` domain.
 
 An envelope revision is an append-only fact. Activation, supersession, expiry,
 revocation, and rollback produce separate facts or an immutable revision chain. The
@@ -916,6 +948,7 @@ The first implementation should freeze these contracts before runtime effects:
 | :--- | :--- |
 | `limit-classification.v1` | Versioned classification, proof obligation, review owner, and review deadline for one implementation limit. |
 | `operator-resource-envelope.v1` | Shared signed revision header and typed profile binding. |
+| `operator-resource-envelope-revocation.v1` | Signed terminal revocation of the exact active envelope. |
 | `inquirium-resource-profile.v1` | Operator-owned Inquirium operation limits after constant classification. |
 | `nse-hook-offer.v1` | Common invocation identity, hook/version, offer digest, backend bounds, and causal context. |
 | `nse-hook-decision.v1` | Common decision binding to hook/version, invocation, offer digest, producer, and typed outcome. |
@@ -1253,6 +1286,15 @@ bounded pages, and one canonical recovery owner. Prefer existing operator-consen
 module-store, temporal-log, and package sidecar stores over creating another database
 when their ownership and key model fit.
 
+The first operator-resource-envelope store uses schema version 1, a 64 MiB main
+database page ceiling, and an 8 MiB WAL checkpoint target. It retains immutable
+revision and lifecycle facts without compaction in this vertical; reaching the main
+database ceiling refuses further admission rather than deleting authority history.
+Startup and the explicit mutating reconcile transition rebuild runtime state from the
+canonical active fact. `GET` status is a pure read and may report effective expiry
+without appending an expiry fact or changing runtime state; lifecycle reconciliation
+is exposed separately as a mutating operation.
+
 ### Activation Journal and State Machine
 
 Extension activation follows the existing local-model package transition pattern:
@@ -1542,6 +1584,9 @@ measured number rather than an assumption.
 | Text comparison depends on backend locale or Unicode normalization | backends order the same offer differently | exact canonical UTF-8 byte comparison; normalization is a separate host-owned projected field |
 | A malformed or display-derived id enters a signed fact | replay and correlation become ambiguous | exact prefix plus canonical ULID validators; labels remain separate fields |
 | Only part of a contract family is registered in Schema Gate | a compiling build leaves one boundary unvalidated | enforce the complete P084 ten-point checklist for every P085 schema and both contract trees |
+| A closed enum is replaced by an unconstrained configured string | typos or unreviewed values silently become new semantics | keep invariant vocabularies closed; resolve extensible ids only through an installed, domain-owned, code-backed registry and refuse unknown or disabled entries |
+| A registry revision changes the meaning of an old fact | replay and audit depend on current mutable configuration | bind entry ref, revision, implementation ref, and canonical digest in every durable decision or effect fact |
+| One global semantic registry owns unrelated organs | domains become coupled and a generic extension layer acquires accidental authority | share only envelope and lifecycle mechanics; keep entry schemas, validators, capabilities, and selection policy owned by Inquirium, Agent, Corpus, Dator, or Arca |
 | Module Store becomes an executable package manager | storage and execution lifecycles complect | keep bytes and package install in existing owners; store only bounded host-owned records |
 | Restart restores stale authority | revoked package or grant becomes live again | rebuild from immutable facts and current registry/grants/revocations; quarantine on mismatch |
 | Refusal corpus passes but omitted attack class remains | false sense of certification | corpus is necessary evidence, not proof of safety; retain review, sandbox, and runtime limits |
@@ -1577,10 +1622,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | :--- | :--- | :--- | :--- |
 | `P085-001` | Freeze V1 decisions, limit classes, hook classes, named invariants, and Open Questions | `done` | Accepted decisions distinguish normative, proven boundary-safety, federated, operational, and temporary unclassified limits; no hook or package can create authority; all twelve design questions are resolved and recorded separately from the empty V1 Open Questions register. |
 | `P085-002` | Inventory and classify all Inquirium compile-time maxima | `done` | A reviewed, JCS-digested `limit-classification-registry.v1` envelope covers 47 current public numeric `INQUIRIUM_MAX_*`, `INQUIRIUM_DEFAULT_*`, and `BASELINE_*` contracts in `inquirium-core`/`inquirium-host`, plus the daemon context-source boundary, and binds reviewed exclusions for the baseline profile ref, daemon output-cap alias, and transcript inline-to-object-store representation threshold. A structural Rust gate recursively scans inline and file-backed modules, recognizes all unsigned widths, rejects signed or floating-point candidates, requires explicit review for non-numeric candidates, compares symbols and evaluated values, and rejects duplicate entries or digest drift. Nine boundary-safety records resolve by complete crate-and-module path to concrete pre-policy Rust tests rather than substring-matched function names. A separate no-grace deadline gate covers classifications and exclusions. The initial audit remains one review cohort; newly reviewed entries receive an explicit future deadline. The inventory is complete; the first operational runtime projection is tracked separately under P085-006. |
-| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1` and `inquirium-resource-profile.v1` are accepted and synchronized across both schema trees. The resource profile is sparse, closed over exactly the 38 operational registry records, accepts explicit zero, and structurally excludes all nine boundary-safety axes; Schema Gate checks that exact registry-to-schema projection and exercises one positive plus bad-profile-ref, unknown-axis, and wrong-version negatives through JSON Schema and pure Rust validation. The limit-classification contract retains exact semantic-id/source/evidence validation, typed class-mismatch diagnostics, one positive and ten negative fixtures covering the class/merge/override/evidence matrix, and CI drift gates. The remaining envelope, hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
+| `P085-003` | Freeze the P085 schema family and positive/negative fixtures | `partial` | `limit-classification.v1`, `inquirium-resource-profile.v1`, `operator-resource-envelope.v1`, and `operator-resource-envelope-revocation.v1` are accepted and synchronized across both schema trees. The resource profile is sparse, closed over exactly the 38 operational registry records, accepts explicit zero, and structurally excludes all nine boundary-safety axes; one Schema Gate test directly equates the operational registry IDs, serialized `InquiriumResourceLimit::ALL` vocabulary, and closed JSON Schema properties, then checks typed envelope/profile digest binding. Signed-envelope V1 closes operations to classify/rerank and experiment classes to production/research/experimental/critical. Positive fixtures plus bad-profile-ref, unknown-axis, wrong-version, missing-signature for both envelope and revocation, revision-gap, and revocation unknown-field negatives pass through JSON Schema and pure Rust validation. The limit-classification contract retains exact semantic-id/source/evidence validation, typed class-mismatch diagnostics, one positive and ten negative fixtures covering the class/merge/override/evidence matrix, and CI drift gates. The remaining hook, package, activation, refusal, conformance, federation, and posture contracts and their structural/algebraic evidence are still open. |
 | `P085-004` | Refactor `nse` into versioned hook contracts with shared offer-bound validators | `partial` | Existing `select-llm-model` already revalidates a host-filtered candidate. Completion requires common offer identity/digest, raw proposal versus opaque admitted-decision types, typed backend failures, hook classes, one validator per hook, and migration of broadcast rewrite outcomes to offered transform-profile selection. |
 | `P085-005` | Implement deterministic `nse-table` backend | `todo` | Closed ordered rules, hook-owned fields/operators, canonical fixed-decimal semantics, exact UTF-8 byte string comparison without locale/normalization, bounded evaluation, canonical digest, golden vectors, and refusal-first tests pass without filesystem, network, clock, randomness, or effects. |
-| `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `partial` | `inquirium-core` owns the 38-axis closed profile, complete distribution defaults, pure `distribution-default -> operator-envelope -> task-session` resolver, per-axis winning provenance, and canonical digest. The daemon accepts one sparse local operator config overlay, resolves it once at startup, shares the immutable result without per-request deep cloning, preserves its digest across restart, emits the complete prompt-free effective profile in classify/rerank traces, and enforces the five classify plus three rerank axes on both request and response admission. Unknown and boundary-safety axes fail closed, the distribution ref is reserved against overlay impersonation, and explicit zero is an effective value. The remaining thirty axes are vocabulary-only until their owning runtime boundaries consume them. Runtime task/session sourcing, signed `operator-resource-envelope.v1` revisions, bounded widening beyond distribution defaults, federated intersection, and the remaining prompt/schema/repair hook expansion are still open. |
+| `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `partial` | `inquirium-core` owns the 38-axis closed profile, complete distribution defaults, pure `distribution-default -> operator-local-config -> operator-envelope -> task-session` resolver, per-axis winning provenance, and canonical digest. The daemon accepts one sparse unsigned local config overlay and a later signed envelope source, shares immutable effective profiles without per-request deep cloning, and preserves an append-only schema-versioned SQLite revision/event history across restart under a 64 MiB main-database ceiling and 8 MiB WAL checkpoint target. Admit/revoke replay always reconciles runtime from the canonical current active fact; corrupt or unverifiable active recovery and current-use binding loss fail closed, while only valid absence/revocation/expiry falls back to unsigned configuration. Supersession, signed revocation, expiry, exact replay, pure operator status, explicit mutating reconciliation, and restart recovery are implemented. Signed scope is executable for exact classify/rerank plus production/research/experimental/critical context matches, and only the five classify plus three rerank axes already enforced on request and response admission may appear in a signed V1 envelope. Unknown, mismatched, vocabulary-only, and boundary-safety axes fail closed; the distribution ref is reserved against overlay impersonation, explicit zero is effective, and prompt-free traces retain the effective profile. The remaining thirty axes stay vocabulary-only until their owning runtime boundaries consume them. Runtime task/session sourcing, bounded widening beyond distribution defaults, federated intersection, and the remaining prompt/schema/repair hook expansion are still open. |
 | `P085-007` | Add Corpus decision hooks and federated envelope binding | `partial` | The existing validated room policy and budget, bound by a signed invitation or policy fact, remain authoritative; turn/bid/tie/admission hooks only narrow eligible sets, the signed artifact carries the envelope ref/digest, and multi-node intersection/refusal tests pass. |
 | `P085-008` | Add Agent decision hooks | `partial` | Existing monotonic fork and operator profiles remain authoritative; next-step/fan-out/risk hooks cannot widen grants, budgets, descendants, classification, or HIL policy. |
 | `P085-009` | Add JSON-e Flow `decision` step | `todo` | Flow resolves a host offer ref, calls one NSE hook, branches on the admitted typed outcome, and cannot construct or widen candidate sets. |
@@ -1601,11 +1646,75 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P085-024` | Implement expiring local session activation | `todo` | A verified conformant package can be activated under a fresh operator session without a detached durable signature only in `research|experimental`; exact plan/package digests and a short TTL are bound; activation is local and non-federated, cannot change durable or non-delegable state, is audited, and is discarded on session end, revoke, expiry, or restart. |
 | `P085-025` | Implement the closed refusal registry and diagnostic projection | `todo` | Every emitted refusal uses `operator-extension-refusal-code.v1`; every declared code has a reaching fixture; diagnostics identify producer, hook/anchor, axis, winning declaration, offer/invocation, retryability, and omitted advisory guards under redaction; dead or unregistered codes fail CI. |
 
+### Final Phase: Domain-Owned Semantic Registries
+
+This is the final P085 implementation phase. It begins after the applicable common
+package, activation, refusal, inspection, and recovery boundaries tracked by
+`P085-001` through `P085-025` are stable. The deferred WASM backend in `P085-017` is
+not a prerequisite. The inventory may be maintained earlier, but runtime migration
+must not create a second activation path or bypass the preceding controls.
+
+The purpose is not to turn enums into strings. Three distinct cases remain explicit:
+
+| Case | Representation | Operator power |
+| :--- | :--- | :--- |
+| Protocol invariant, lifecycle state, authority algebra, or refusal class | Closed enum or closed tagged union | None beyond selecting an already authorized operation; extension requires an explicit contract revision. |
+| Closed semantic vocabulary with deployment choice | Enum plus an operator-configurable admitted subset | The operator may narrow installed values but cannot invent a new value or exceed distribution, federation, capability, or safety ceilings. |
+| Replaceable domain behavior | Domain-owned code-backed registry entry | The operator may enable and select an installed implementation whose schemas, capabilities, constraints, and provenance have been admitted. Data alone cannot manufacture executable behavior. |
+
+This separation is necessary for four reasons:
+
+- exhaustive types remain useful where they prove protocol and state-machine
+  completeness;
+- operators can change operational composition without a source rebuild;
+- domains can gain implementations independently without a cross-organ switch or a
+  global plug-in registry;
+- durable facts remain replayable because they bind the exact registry meaning used
+  at decision time rather than consulting today's mutable configuration.
+
+For every invocation, the effective selectable set is the intersection of installed
+code-backed entries, the distribution ceiling, current federation and policy
+ceilings, the operator-enabled set, and any request-local narrowing. An empty
+intersection, unknown id, disabled entry, stale revision, digest mismatch, missing
+capability, or unavailable implementation is a typed fail-closed refusal. A caller
+cannot select an entry outside that effective set.
+
+Each domain owns its entry schema, validators, capability mapping, selection policy,
+and refusal projection. Only the signed envelope header, revision and digest rules,
+activation journal, package binding, and inspection mechanics are shared. Every
+activated entry binds at least `entry/ref`, `entry/revision`,
+`implementation/ref`, request and response schema refs, required capability ids,
+constraints, provenance, and a canonical digest. Durable decisions and effect facts
+repeat the entry ref, revision, implementation ref, and digest. Configuration or
+package changes therefore create a new effective revision and never reinterpret
+history.
+
+The first implementation is restart-bound: activation commits a fact, invalidates
+affected runtime bindings, and becomes executable only through the ordinary
+supervisor or host startup path. Hot reload is a later optimization and must preserve
+the same atomic generation and rollback semantics. Operator inspection must show
+installed, enabled, effective, refused, stale, and unavailable entries plus the
+winning ceiling and provenance, without exposing secrets or model content.
+
+This second table is the canonical continuation of the P085 tracker, not a parallel
+source of truth.
+
+| ID | Final-phase work item | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- |
+| `P085-026` | Classify candidate enums and hard-coded dispatch tables across Inquirium, Agent, Corpus, Dator, and Arca | `todo` | A reviewed inventory classifies every candidate as closed invariant, configurable subset, code-backed registry, or deliberately deferred; each classification names the owning boundary, current call sites, wire compatibility impact, capability owner, and refusal behavior. Lifecycle, authority, status, error, and transition enums remain closed unless a separate protocol revision proves otherwise. |
+| `P085-027` | Freeze shared registry envelope, activation binding, and read-model mechanics | `todo` | Domain-owned entry schemas reuse one signed revision header, canonical digest contract, package provenance, activation journal, current-grant checks, synchronous invalidation, rollback, restart recovery, and operator inspection projection. Unknown ids, stale revisions, digest mismatch, unavailable implementations, and empty effective sets have registered typed refusals and refusal-first fixtures. No global semantic entry schema or mega-registry is introduced. |
+| `P085-028` | Add Corpus role-policy and instruction-overlay registries | `todo` | The current closed V1 task-role vocabulary remains wire-compatible and may be narrowed by operator policy. Known role ids resolve to installed code-backed role policies and bounded instruction-overlay profiles; unknown roles or overlays fail closed. Any future namespaced role extension requires an explicit Corpus contract revision, federation compatibility declaration, and preservation of chair, budget, provenance, and disclosure gates. |
+| `P085-029` | Add Arca fulfillment, selection, and fan-in strategy registries | `todo` | Hard-coded fulfillment branches and strategy dispatch resolve through Arca-owned installed entries with closed request/response schemas, deterministic selection, timeout and retry contracts, capability checks, and effect admission. Operator configuration can enable or narrow strategies but cannot create a workflow action, bypass DAG validation, or widen grants. |
+| `P085-030` | Add Dator dispatch-adapter registry | `todo` | The current hard-coded dispatch kind becomes a built-in registered adapter. Additional installed adapters declare supported service types, schemas, capabilities, timeout/retry behavior, and diagnostic projection. Unknown, disabled, unhealthy, or schema-invalid adapters refuse before dispatch; service offers remain data and do not themselves install executable adapters. |
+| `P085-031` | Add Agent consumer, output-sink, and effect-policy adapter registries | `todo` | Existing consumer and sink values remain built-in entries and may be restricted by an operator profile. New consumers, sinks, and effect-policy adapters are code-backed, capability-bound, composable under the existing monotonic effect algebra, and cannot enlarge grants, descendant budgets, classification, or HIL policy. Lifecycle, review, termination, and controller-action enums remain closed. |
+| `P085-032` | Add Inquirium operation descriptors without opening operation semantics | `todo` | `InquiriumOperation` remains a closed contract algebra with operation-specific request and response schemas. A domain-owned descriptor registry exposes installed handlers, model-runtime requirements, capabilities, limits, and operator allowlists for those operations; unknown operations and missing handlers fail closed. Adding a new operation still requires a typed contract revision rather than configuration alone. |
+| `P085-033` | Prove cross-domain registry conformance and synchronize operator documentation | `todo` | Unit, refusal-first, restart-recovery, stale-binding, digest/revision replay, capability-revocation, and local acceptance tests cover all five domains. CLI/UI inspection explains effective selection and provenance. Capability Registry, implementation ledger, solution documents, FAQ/HOWTO, and readiness trackers match the implemented boundary, and no legacy hard-coded dispatch remains outside an explicitly documented closed invariant. |
+
 ## Next Actions
 
-1. Freeze signed `operator-resource-envelope.v1` admission over the implemented
-   resource-profile resolver, including revision, expiry, revocation, and exact
-   operator-binding verification without weakening the nine boundary-safety guards.
+1. Wire bounded task/session profile sources and federated intersection into the
+   implemented resource-envelope source chain without weakening the nine
+   boundary-safety guards.
 2. Freeze the remaining identifier grammars, refusal codes/diagnostics, transition/session
    contracts, and the complete schema family under the P084 Schema Gate checklist.
 3. Freeze one existing hook (`select-llm-model`) as the first complete
@@ -1625,3 +1734,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 9. Freeze `node-extension-posture.v1` before federating a non-stock boundary profile.
 10. Register capability ids and implementation-ledger ownership before adding any
    host route or module-dispatch surface.
+11. After the applicable common mechanics in `P085-001` through `P085-025` are
+    stable, execute the domain-owned semantic registry phase in `P085-026` through
+    `P085-033`; deferred WASM is not a prerequisite, and implementation must not
+    start with mechanical enum replacement or a global registry.

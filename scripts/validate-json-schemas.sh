@@ -176,6 +176,12 @@ schema_for_file() {
     *.inquirium-resource-profile.json)
       echo "$SCHEMAS_DIR/inquirium-resource-profile.v1.schema.json"
       ;;
+    *.operator-resource-envelope-revocation.json)
+      echo "$SCHEMAS_DIR/operator-resource-envelope-revocation.v1.schema.json"
+      ;;
+    *.operator-resource-envelope.json)
+      echo "$SCHEMAS_DIR/operator-resource-envelope.v1.schema.json"
+      ;;
     *.sensorium-web-source.json)
       echo "$SCHEMAS_DIR/sensorium-web-source.v1.schema.json"
       ;;
