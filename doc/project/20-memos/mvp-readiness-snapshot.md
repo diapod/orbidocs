@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-02.
+Snapshot date: 2026-08-03.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -27,7 +27,7 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
 
-Change basis: this refresh incorporates the current worktree state on 2026-07-29. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+Change basis: this refresh incorporates the current worktree state on 2026-08-03. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-08-01 post-MVP Corpus refresh adds the signed critique-to-regeneration
 join, durable daemon recovery, live Story 012 baton integration, strict role
@@ -79,9 +79,26 @@ canonical current fact, status remains read-only, explicit reconciliation commit
 expiry, and corrupt or unverifiable active recovery fails closed; only valid
 absence/revocation/expiry falls back to the explicitly unsigned local config source.
 The store has a 64 MiB main-database ceiling and an 8 MiB WAL checkpoint target.
-Runtime task/session overlays, bounded widening, broader runtime enforcement,
-remaining hook/package lifecycles, and federated posture remain open, so P085 stays
-partial and this work does not change hard-MVP readiness.
+The next foundation slice adds accepted offer-bound NSE, deterministic table,
+bounded middleware-evidence, a closed refusal vocabulary and projection, package, activation, transition,
+revocation, conformance, and operator-inspection contracts. Table and Rhai now share one host validator;
+local activation owns producer priority and required/advisory behavior; the common
+compositor validates every activation and reserves aggregate budget before invoking
+producer callbacks, then rejects digest substitution, selecting disagreement, and
+hidden fallback. Required producer failure never becomes an implicit defer. JSON-e
+Flow has a typed decision step but still
+lacks the production daemon offer registry. A separate WAL SQLite lifecycle service
+implements inert install, exact conformance binding, self-verifying domain-separated
+activation and revocation signatures, immediate-transaction generation journaling
+and recovery, terminal revocation, restart-discarded session authority with
+metadata-only audit, generation-bound compiled cache, persistent live-operator-only
+safe mode, and canonical-root/owner-bound audited prompt-free CLI inspection. Derived
+capability, monotonic guard, middleware dispatch binding, and attention-budget
+primitives are pure and fail closed, while their signed schemas and daemon routes
+remain open. Runtime task/session overlays, package trust/container import, a real
+28-code reaching refusal-corpus runner, broader runtime enforcement, capability routes, three-node
+acceptance, federated posture, and Phase 2 registries remain open. P085 therefore
+stays partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1174,7 +1191,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `35` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `15` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `45` |
 
 ## Solutions
 

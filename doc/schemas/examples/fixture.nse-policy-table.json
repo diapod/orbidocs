@@ -1,0 +1,19 @@
+{
+  "schema": "nse-policy-table.v1",
+  "schema/v": 1,
+  "policy/id": "nse-policy:01J00000000000000000000000",
+  "policy/name": "local-small-model",
+  "hook/id": "select-llm-model",
+  "hook/v": 1,
+  "rules": [
+    {
+      "when/all": [
+        {"field": "context/token-estimate", "op": "lte", "value": 4096},
+        {"field": "candidate/location", "op": "eq", "value": "local"},
+        {"field": "candidate/parameter-count", "op": "lt", "value": 8000000000}
+      ],
+      "decision": {"kind": "prefer-candidate"}
+    }
+  ],
+  "default/decision": {"kind": "defer-to-host", "reason": "no rule matched"}
+}

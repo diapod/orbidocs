@@ -1,0 +1,15 @@
+{
+  "schema": "nse-policy-table.v1",
+  "schema/v": 1,
+  "policy/id": "nse-policy:01J00000000000000000000000",
+  "policy/name": "invalid",
+  "hook/id": "select-llm-model",
+  "hook/v": 1,
+  "rules": [
+    {
+      "when/all": [{"field": "candidate/secret-path", "op": "eq", "value": "x"}],
+      "decision": {"kind": "prefer-candidate"}
+    }
+  ],
+  "default/decision": {"kind": "defer-to-host", "reason": "no match"}
+}

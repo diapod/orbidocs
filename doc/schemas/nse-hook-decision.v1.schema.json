@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nse-hook-decision:v1",
+  "title": "NSE Hook Decision Proposal v1",
+  "description": "Raw producer proposal bound to one exact NSE offer. Admission remains host-owned.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema/v", "invocation/ref", "hook/id", "hook/v", "offer/digest",
+    "producer/ref", "producer/digest", "outcome"
+  ],
+  "properties": {
+    "schema": { "const": "nse-hook-decision.v1" },
+    "schema/v": { "const": 1 },
+    "invocation/ref": { "type": "string", "pattern": "^nse-invocation:[0-9A-HJKMNP-TV-Z]{26}$" },
+    "hook/id": { "const": "select-llm-model" },
+    "hook/v": { "const": 1 },
+    "offer/digest": { "$ref": "#/$defs/digest" },
+    "producer/ref": { "$ref": "#/$defs/ref" },
+    "producer/digest": { "$ref": "#/$defs/digest" },
+    "outcome": {
+      "type": "object", "additionalProperties": false,
+      "required": ["outcome", "annotations"],
+      "properties": {
+        "outcome": {
+          "oneOf": [
+            { "type": "object", "additionalProperties": false, "required": ["UseRuntime"], "properties": { "UseRuntime": { "$ref": "#/$defs/use-runtime" } } },
+            { "type": "object", "additionalProperties": false, "required": ["Defer"], "properties": { "Defer": { "$ref": "#/$defs/reason" } } },
+            { "type": "object", "additionalProperties": false, "required": ["Reject"], "properties": { "Reject": { "$ref": "#/$defs/reason" } } }
+          ]
+        },
+        "annotations": { "$ref": "#/$defs/annotations" }
+      }
+    },
+    "annotations": { "$ref": "#/$defs/annotations" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "text": { "type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "reason": { "type": "object", "additionalProperties": false, "required": ["reason"], "properties": { "reason": { "$ref": "#/$defs/text" } } },
+    "use-runtime": { "type": "object", "additionalProperties": false, "required": ["runtime_id", "reason"], "properties": { "runtime_id": { "$ref": "#/$defs/ref" }, "reason": { "$ref": "#/$defs/text" } } },
+    "annotations": { "type": "object", "maxProperties": 32, "additionalProperties": { "type": ["string", "number", "integer", "boolean", "null", "object", "array"] } }
+  }
+}

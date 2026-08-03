@@ -1,0 +1,8 @@
+{
+  "schema": "operator-extension-revocation.v1", "schema/v": 1,
+  "revocation/ref": "extension-revocation:missing-signature",
+  "package/ref": "extension-package:local-policy",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "expected/generation": 1, "operator/binding-ref": "node-operator-binding:local",
+  "reason": "operator rollback", "issued-at": "2026-08-03T13:00:00Z"
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "nse-middleware-evidence.v1",
+  "schema/v": 1,
+  "invocation/ref": "nse-invocation:01J00000000000000000000000",
+  "hook/id": "select-llm-model",
+  "hook/v": 1,
+  "module/ref": "middleware:locality-feature-provider",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "grant/refs": ["grant:locality-feature-provider"],
+  "input/schema": "nse-hook-offer.v1",
+  "output/schema": "nse-middleware-evidence.v1",
+  "timeout/ms": 500,
+  "input/max-bytes": 65536,
+  "output/max-bytes": 16384,
+  "causal/ref": "trace:locality-feature-provider",
+  "offer/fields": ["candidate-location"],
+  "evidence": [
+    {"kind": "candidate-suggestion", "candidate/ref": "runtime/local-small", "reason": "local candidate satisfies requested locality"}
+  ]
+}

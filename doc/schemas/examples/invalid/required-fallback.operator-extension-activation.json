@@ -1,0 +1,19 @@
+{
+  "schema": "operator-extension-activation.v1",
+  "schema/v": 1,
+  "activation/ref": "extension-activation:invalid-required-fallback",
+  "plan/ref": "extension-plan:invalid-required-fallback",
+  "plan/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "package/ref": "extension-package:invalid-required-fallback",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "generation": 1,
+  "kind": "durable",
+  "operational/class": "research",
+  "operator/binding-ref": "node-operator-binding:local",
+  "conformance/report-ref": "extension-conformance:invalid-required-fallback",
+  "conformance/report-digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "producers": [{"hook/id": "select-llm-model", "hook/v": 1, "producer/ref": "nse-table:invalid-required-fallback", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "priority": 10, "mode": "required", "advisory/failure-allowed": true}],
+  "issued-at": "2026-08-03T12:00:00Z",
+  "expires-at": "2026-08-04T12:00:00Z",
+  "signature": {"value": "fixture"}
+}

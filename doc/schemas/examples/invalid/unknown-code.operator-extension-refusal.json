@@ -1,0 +1,6 @@
+{
+  "schema": "operator-extension-refusal.v1",
+  "schema/v": 1,
+  "refusal/code": "decision/free-form",
+  "retryable": false
+}

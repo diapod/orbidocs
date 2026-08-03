@@ -1,0 +1,14 @@
+{
+  "schema": "operator-experiment-package.v1",
+  "schema/v": 1,
+  "package/ref": "extension-package:invalid-priority",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "middleware-package/ref": "middleware-package:invalid-priority",
+  "middleware-package/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "hooks": [{"hook/id": "select-llm-model", "hook/v": 1, "backend": "table", "producer/ref": "nse-table:invalid-priority", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "priority": 65535}],
+  "required-capability/ids": ["inquirium.generate"],
+  "refusal-corpus/ref": "refusal-corpus:invalid-priority",
+  "refusal-corpus/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "rollback/ref": "rollback:invalid-priority",
+  "operational/class": "research"
+}

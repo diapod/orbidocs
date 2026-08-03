@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nse-policy-table:v1",
+  "title": "NSE Policy Table v1",
+  "description": "Deterministic closed ordered rule table for select-llm-model V1.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "policy/id", "policy/name", "hook/id", "hook/v", "rules", "default/decision"],
+  "properties": {
+    "schema": { "const": "nse-policy-table.v1" },
+    "schema/v": { "const": 1 },
+    "policy/id": { "type": "string", "pattern": "^nse-policy:[0-9A-HJKMNP-TV-Z]{26}$" },
+    "policy/name": { "$ref": "#/$defs/text" },
+    "hook/id": { "const": "select-llm-model" },
+    "hook/v": { "const": 1 },
+    "rules": { "type": "array", "maxItems": 128, "items": { "$ref": "#/$defs/rule" } },
+    "default/decision": { "$ref": "#/$defs/default-decision" }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "field": { "type": "string", "enum": ["purpose", "context/token-estimate", "candidate/provider", "candidate/transport-kind", "candidate/location", "candidate/parameter-count", "candidate/runtime-ref", "candidate/capability"] },
+    "predicate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["field", "op", "value"],
+      "properties": {
+        "field": { "$ref": "#/$defs/field" },
+        "op": { "type": "string", "enum": ["eq", "ne", "lt", "lte", "gt", "gte", "contains"] },
+        "value": { "type": ["boolean", "integer", "string"] }
+      }
+    },
+    "rule-decision": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "prefer-candidate" } } },
+        { "$ref": "#/$defs/select-runtime" },
+        { "$ref": "#/$defs/defer" },
+        { "$ref": "#/$defs/reject" }
+      ]
+    },
+    "default-decision": { "oneOf": [{ "$ref": "#/$defs/select-runtime" }, { "$ref": "#/$defs/defer" }, { "$ref": "#/$defs/reject" }] },
+    "select-runtime": { "type": "object", "additionalProperties": false, "required": ["kind", "runtime/ref", "reason"], "properties": { "kind": { "const": "select-runtime" }, "runtime/ref": { "$ref": "#/$defs/text" }, "reason": { "$ref": "#/$defs/text" } } },
+    "defer": { "type": "object", "additionalProperties": false, "required": ["kind", "reason"], "properties": { "kind": { "const": "defer-to-host" }, "reason": { "$ref": "#/$defs/text" } } },
+    "reject": { "type": "object", "additionalProperties": false, "required": ["kind", "reason"], "properties": { "kind": { "const": "reject" }, "reason": { "$ref": "#/$defs/text" } } },
+    "rule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["when/all", "decision"],
+      "properties": {
+        "when/all": { "type": "array", "minItems": 1, "maxItems": 16, "items": { "$ref": "#/$defs/predicate" } },
+        "decision": { "$ref": "#/$defs/rule-decision" }
+      }
+    }
+  }
+}

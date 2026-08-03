@@ -1,0 +1,6 @@
+{
+  "schema": "operator-extension-revocation.v1", "schema/v": 1, "revocation/ref": "extension-revocation:local-policy",
+  "package/ref": "extension-package:local-policy", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "expected/generation": 1, "operator/binding-ref": "node-operator-binding:local", "reason": "operator rollback",
+  "issued-at": "2026-08-03T13:00:00Z", "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
+}

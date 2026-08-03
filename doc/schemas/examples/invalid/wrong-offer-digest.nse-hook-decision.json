@@ -1,0 +1,14 @@
+{
+  "schema": "nse-hook-decision.v1",
+  "schema/v": 1,
+  "invocation/ref": "nse-invocation:01J00000000000000000000000",
+  "hook/id": "select-llm-model",
+  "hook/v": 1,
+  "offer/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "producer/ref": "nse-table:nse-policy:01J00000000000000000000000",
+  "producer/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "outcome": {
+    "outcome": {"Defer": {"reason": "wrong offer"}},
+    "annotations": {}
+  }
+}

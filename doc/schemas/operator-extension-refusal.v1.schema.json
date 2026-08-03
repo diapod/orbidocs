@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-extension-refusal:v1",
+  "title": "Operator Extension Refusal v1",
+  "description": "Bounded metadata-only diagnostic for one refused extension operation.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "refusal/code", "retryable"],
+  "properties": {
+    "schema": { "const": "operator-extension-refusal.v1" },
+    "schema/v": { "const": 1 },
+    "refusal/code": {
+      "type": "string",
+      "enum": [
+        "contract/unknown-schema", "hook/unknown", "hook/version-mismatch",
+        "offer/digest-mismatch", "offer/invocation-mismatch", "decision/not-contained",
+        "decision/ambiguous", "decision/unknown-outcome", "producer/budget-unavailable",
+        "producer/required-failed", "producer/output-malformed", "producer/timeout",
+        "producer/crash", "package/signing-authority-untrusted", "package/digest-mismatch",
+        "package/conformance-failed", "activation/plan-stale",
+        "activation/operator-binding-missing", "activation/signature-invalid",
+        "activation/state-conflict", "activation/session-not-eligible", "limit/unclassified",
+        "guard/anchor-unknown", "guard/cap-exceeded", "identifier/invalid",
+        "policy/revoked", "policy/expired", "extension/safe-mode"
+      ]
+    },
+    "retryable": { "type": "boolean" },
+    "producer/ref": { "$ref": "#/$defs/ref" },
+    "package/ref": { "$ref": "#/$defs/ref" },
+    "hook/id": { "$ref": "#/$defs/field" },
+    "hook/v": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "anchor/id": { "$ref": "#/$defs/field" },
+    "affected/field": { "$ref": "#/$defs/field" },
+    "invocation/ref": { "$ref": "#/$defs/ref" },
+    "offer/digest": { "$ref": "#/$defs/digest" },
+    "causal/ref": { "$ref": "#/$defs/ref" },
+    "declaration/ref": { "$ref": "#/$defs/ref" },
+    "declaration/digest": { "$ref": "#/$defs/digest" },
+    "omitted-producer/refs": {
+      "type": "array", "maxItems": 32, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "field": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}

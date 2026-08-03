@@ -1,0 +1,29 @@
+{
+  "schema": "operator-extension-inspection.v1",
+  "schema/v": 1,
+  "safe-mode/active": false,
+  "packages": [
+    {
+      "package/ref": "extension-package:local-policy",
+      "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operational/class": "research",
+      "durable/generation": 1,
+      "durable/activation-ref": "extension-activation:local-policy",
+      "active/producers": [
+        {
+          "hook/id": "select-llm-model",
+          "hook/v": 1,
+          "producer/ref": "nse-table:local-policy",
+          "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "priority": 20,
+          "mode": "required",
+          "advisory/failure-allowed": false
+        }
+      ],
+      "session/activation-ref": null,
+      "conformance/report-ref": "extension-conformance:local-policy",
+      "latest/transition-state": "finalized",
+      "revocation/ref": null
+    }
+  ]
+}

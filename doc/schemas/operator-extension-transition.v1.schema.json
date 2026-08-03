@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:orbiplex:schema:operator-extension-transition:v1",
+  "title": "Operator Extension Transition V1", "type": "object", "additionalProperties": false,
+  "required": ["schema", "schema/v", "transition/ref", "activation/ref", "kind", "state", "expected/generation", "target/generation", "recorded-at"],
+  "properties": {"schema": {"const": "operator-extension-transition.v1"}, "schema/v": {"const": 1}, "transition/ref": {"$ref": "#/$defs/ref"}, "activation/ref": {"$ref": "#/$defs/ref"}, "kind": {"type": "string", "enum": ["activate", "revoke", "rollback", "safe-mode"]}, "state": {"type": "string", "enum": ["planned", "committed", "finalized", "failed"]}, "expected/generation": {"type": "integer", "minimum": 0}, "target/generation": {"type": "integer", "minimum": 1}, "recorded-at": {"type": "string", "format": "date-time"}},
+  "$defs": {"ref": {"type": "string", "minLength": 1, "maxLength": 256}},
+  "x-dia-status": "accepted", "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+}

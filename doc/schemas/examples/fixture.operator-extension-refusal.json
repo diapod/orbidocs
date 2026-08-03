@@ -1,0 +1,12 @@
+{
+  "schema": "operator-extension-refusal.v1",
+  "schema/v": 1,
+  "refusal/code": "decision/not-contained",
+  "retryable": false,
+  "producer/ref": "nse-table:nse-policy:01J00000000000000000000000",
+  "hook/id": "select-llm-model",
+  "hook/v": 1,
+  "invocation/ref": "nse-invocation:01J00000000000000000000000",
+  "offer/digest": "sha256:846ac3d5019baa6a84eb31015ca4ef10e708d73b5e7227b4c43460912e42ddc5",
+  "causal/ref": "trace:fixture"
+}

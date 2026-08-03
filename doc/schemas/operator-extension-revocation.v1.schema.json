@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:orbiplex:schema:operator-extension-revocation:v1",
+  "title": "Operator Extension Revocation V1", "type": "object", "additionalProperties": false,
+  "required": ["schema", "schema/v", "revocation/ref", "package/ref", "package/digest", "expected/generation", "operator/binding-ref", "reason", "issued-at", "signature"],
+  "properties": {"schema": {"const": "operator-extension-revocation.v1"}, "schema/v": {"const": 1}, "revocation/ref": {"$ref": "#/$defs/ref"}, "package/ref": {"$ref": "#/$defs/ref"}, "package/digest": {"$ref": "#/$defs/digest"}, "expected/generation": {"type": "integer", "minimum": 0}, "operator/binding-ref": {"$ref": "#/$defs/ref"}, "reason": {"type": "string", "minLength": 1, "maxLength": 256}, "issued-at": {"type": "string", "format": "date-time"}, "signature": {"$ref": "#/$defs/signature"}},
+  "$defs": {"ref": {"type": "string", "minLength": 1, "maxLength": 256}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "signature": {"type": "object", "additionalProperties": false, "required": ["alg", "key/public", "value"], "properties": {"alg": {"const": "ed25519+domain-v1"}, "key/public": {"type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$"}, "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}}}},
+  "x-dia-status": "accepted", "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+}

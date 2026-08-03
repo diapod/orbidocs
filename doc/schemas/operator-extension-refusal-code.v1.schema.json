@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-extension-refusal-code:v1",
+  "title": "Operator Extension Refusal Code v1",
+  "description": "Closed V1 refusal vocabulary shared by operator-extension admission boundaries.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "string",
+  "enum": [
+    "contract/unknown-schema",
+    "hook/unknown",
+    "hook/version-mismatch",
+    "offer/digest-mismatch",
+    "offer/invocation-mismatch",
+    "decision/not-contained",
+    "decision/ambiguous",
+    "decision/unknown-outcome",
+    "producer/budget-unavailable",
+    "producer/required-failed",
+    "producer/output-malformed",
+    "producer/timeout",
+    "producer/crash",
+    "package/signing-authority-untrusted",
+    "package/digest-mismatch",
+    "package/conformance-failed",
+    "activation/plan-stale",
+    "activation/operator-binding-missing",
+    "activation/signature-invalid",
+    "activation/state-conflict",
+    "activation/session-not-eligible",
+    "limit/unclassified",
+    "guard/anchor-unknown",
+    "guard/cap-exceeded",
+    "identifier/invalid",
+    "policy/revoked",
+    "policy/expired",
+    "extension/safe-mode"
+  ]
+}

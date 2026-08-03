@@ -1,0 +1,8 @@
+{
+  "schema": "operator-extension-conformance-report.v1", "schema/v": 1,
+  "report/ref": "extension-conformance:local-policy", "package/ref": "extension-package:local-policy",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "runtime/digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "positive/passed": 2, "positive/total": 2, "refusal/status": "passed", "refusal/passed": 8, "refusal/total": 8,
+  "report/digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}

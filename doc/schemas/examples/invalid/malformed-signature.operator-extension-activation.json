@@ -1,0 +1,13 @@
+{
+  "schema": "operator-extension-activation.v1", "schema/v": 1,
+  "activation/ref": "extension-activation:bad-signature", "plan/ref": "extension-plan:bad-signature",
+  "plan/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "package/ref": "extension-package:local-policy", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "generation": 1, "kind": "durable", "operational/class": "research",
+  "operator/binding-ref": "node-operator-binding:local",
+  "conformance/report-ref": "extension-conformance:local-policy",
+  "conformance/report-digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "producers": [{"hook/id": "select-llm-model", "hook/v": 1, "producer/ref": "nse-table:local-policy", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "priority": 10, "mode": "required", "advisory/failure-allowed": false}],
+  "issued-at": "2026-08-03T12:00:00Z", "expires-at": "2026-08-04T12:00:00Z",
+  "signature": {"value": "not-a-signature"}
+}

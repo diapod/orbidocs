@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nse-hook-offer:v1",
+  "title": "NSE Hook Offer v1",
+  "description": "Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model payload.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema/v", "invocation/ref", "hook/id", "hook/v", "hook/class",
+    "offer/digest", "causal/ref", "backend/bounds", "payload"
+  ],
+  "properties": {
+    "schema": { "const": "nse-hook-offer.v1" },
+    "schema/v": { "const": 1 },
+    "invocation/ref": { "type": "string", "pattern": "^nse-invocation:[0-9A-HJKMNP-TV-Z]{26}$" },
+    "hook/id": { "const": "select-llm-model" },
+    "hook/v": { "const": 1 },
+    "hook/class": { "const": "select" },
+    "offer/digest": { "$ref": "#/$defs/digest" },
+    "causal/ref": { "$ref": "#/$defs/ref" },
+    "backend/bounds": {
+      "type": "object", "additionalProperties": false,
+      "required": ["timeout/ms", "input/max-bytes", "output/max-bytes"],
+      "properties": {
+        "timeout/ms": { "type": "integer", "minimum": 1 },
+        "input/max-bytes": { "type": "integer", "minimum": 1 },
+        "output/max-bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["purpose", "candidates", "constraints", "context"],
+      "properties": {
+        "purpose": { "$ref": "#/$defs/text" },
+        "candidates": {
+          "type": "array", "minItems": 1, "maxItems": 4096,
+          "items": { "$ref": "#/$defs/candidate" }
+        },
+        "constraints": {
+          "type": "object", "additionalProperties": false,
+          "required": ["required_capabilities", "preferred_capabilities", "privacy_mode", "max_latency_tier", "max_cost_tier"],
+          "properties": {
+            "required_capabilities": { "$ref": "#/$defs/text-array" },
+            "preferred_capabilities": { "$ref": "#/$defs/text-array" },
+            "privacy_mode": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/text" }] },
+            "max_latency_tier": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/text" }] },
+            "max_cost_tier": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/text" }] }
+          }
+        },
+        "context": { "type": "object", "maxProperties": 64, "additionalProperties": true }
+      }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "text": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "text-array": { "type": "array", "maxItems": 128, "uniqueItems": true, "items": { "$ref": "#/$defs/text" } },
+    "candidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["runtime_id", "id", "provider", "transport_kind", "capability_tags", "metadata"],
+      "properties": {
+        "runtime_id": { "$ref": "#/$defs/ref" },
+        "id": { "$ref": "#/$defs/ref" },
+        "provider": { "$ref": "#/$defs/text" },
+        "transport_kind": { "$ref": "#/$defs/text" },
+        "adapter_instance_ref": { "$ref": "#/$defs/ref" },
+        "model_binding_ref": { "$ref": "#/$defs/ref" },
+        "operations": { "$ref": "#/$defs/text-array" },
+        "capabilities": { "type": "object", "maxProperties": 128, "additionalProperties": true },
+        "policy_summary": { "type": "object", "maxProperties": 128, "additionalProperties": true },
+        "capability_tags": { "$ref": "#/$defs/text-array" },
+        "metadata": { "type": "object", "maxProperties": 128, "additionalProperties": true }
+      }
+    }
+  }
+}

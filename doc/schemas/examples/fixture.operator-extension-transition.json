@@ -1,0 +1,5 @@
+{
+  "schema": "operator-extension-transition.v1", "schema/v": 1, "transition/ref": "extension-transition:local-policy",
+  "activation/ref": "extension-activation:local-policy", "kind": "activate", "state": "planned",
+  "expected/generation": 0, "target/generation": 1, "recorded-at": "2026-08-03T12:00:00Z"
+}

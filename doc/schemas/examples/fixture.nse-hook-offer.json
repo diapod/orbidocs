@@ -1,0 +1,39 @@
+{
+  "schema": "nse-hook-offer.v1",
+  "schema/v": 1,
+  "invocation/ref": "nse-invocation:01J00000000000000000000000",
+  "hook/id": "select-llm-model",
+  "hook/v": 1,
+  "hook/class": "select",
+  "offer/digest": "sha256:846ac3d5019baa6a84eb31015ca4ef10e708d73b5e7227b4c43460912e42ddc5",
+  "causal/ref": "trace:fixture",
+  "backend/bounds": {
+    "timeout/ms": 50,
+    "input/max-bytes": 65536,
+    "output/max-bytes": 16384
+  },
+  "payload": {
+    "purpose": "assistant",
+    "candidates": [
+      {
+        "runtime_id": "runtime/local",
+        "id": "model/local",
+        "provider": "local",
+        "transport_kind": "http_local",
+        "capability_tags": ["text.generate"],
+        "metadata": {
+          "location": "local",
+          "parameter-count": 4500000000
+        }
+      }
+    ],
+    "constraints": {
+      "required_capabilities": [],
+      "preferred_capabilities": [],
+      "privacy_mode": null,
+      "max_latency_tier": null,
+      "max_cost_tier": null
+    },
+    "context": {"token-estimate": 2048}
+  }
+}

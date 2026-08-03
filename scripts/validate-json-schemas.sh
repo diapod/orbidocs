@@ -323,6 +323,45 @@ schema_for_file() {
     *.inquirium.local-model-acceptance-report.json)
       echo "$SCHEMAS_DIR/inquirium.local-model-acceptance-report.v1.schema.json"
       ;;
+    *.nse-hook-offer.json)
+      echo "$SCHEMAS_DIR/nse-hook-offer.v1.schema.json"
+      ;;
+    *.nse-hook-decision.json)
+      echo "$SCHEMAS_DIR/nse-hook-decision.v1.schema.json"
+      ;;
+    *.nse-policy-table.json)
+      echo "$SCHEMAS_DIR/nse-policy-table.v1.schema.json"
+      ;;
+    *.nse-middleware-evidence.json)
+      echo "$SCHEMAS_DIR/nse-middleware-evidence.v1.schema.json"
+      ;;
+    *.operator-experiment-package.json)
+      echo "$SCHEMAS_DIR/operator-experiment-package.v1.schema.json"
+      ;;
+    *.operator-extension-activation.json)
+      echo "$SCHEMAS_DIR/operator-extension-activation.v1.schema.json"
+      ;;
+    *.operator-extension-session-activation.json)
+      echo "$SCHEMAS_DIR/operator-extension-session-activation.v1.schema.json"
+      ;;
+    *.operator-extension-transition.json)
+      echo "$SCHEMAS_DIR/operator-extension-transition.v1.schema.json"
+      ;;
+    *.operator-extension-revocation.json)
+      echo "$SCHEMAS_DIR/operator-extension-revocation.v1.schema.json"
+      ;;
+    *.operator-extension-conformance-report.json)
+      echo "$SCHEMAS_DIR/operator-extension-conformance-report.v1.schema.json"
+      ;;
+    *.operator-extension-inspection.json)
+      echo "$SCHEMAS_DIR/operator-extension-inspection.v1.schema.json"
+      ;;
+    *.operator-extension-refusal-code.json)
+      echo "$SCHEMAS_DIR/operator-extension-refusal-code.v1.schema.json"
+      ;;
+    *.operator-extension-refusal.json)
+      echo "$SCHEMAS_DIR/operator-extension-refusal.v1.schema.json"
+      ;;
     *.training-job.json)
       echo "$SCHEMAS_DIR/training-job.v1.schema.json"
       ;;
