@@ -198,10 +198,63 @@ modelu k tomu, co označujeme jako nulovou úroveň.
 | předmět → objekt | objektivizace |
 | objekt → věc | zvěcnění |
 
-Vědomí může „vrtat díry do abstrakcí“: uvolňovat či dočasně pozastavovat vyšší
-interpretační vazby a znovu obracet pozornost k méně určeným vrstvám zkušenosti.
-Mezilehlé vrstvy nemizí, ale přestávají být pokládány za jediný možný či konečný
-popis.
+#### Asymetrie překladu
+
+Z tabulky aktů plyne, že překlad mezi vrstvami nemá kanonickou inverzi. Pohyb k
+vyšším registrům působí dvojím způsobem: redukuje texturu nižší vrstvy tím, že slučuje
+mnoho možných konkrét do jednoho abstraktu, a zároveň přidává určení vlastní
+přijímající vrstvě. Redukce je zobrazení mnoho ku jedné, takže ze samotného výsledku
+nelze rozpoznat, která konkréta byla sloučena. Ani přidaná určení nelze odebrat bez
+znalosti toho, která z nich zavedl pozdější registr. V obou případech chybí informace
+potřebná ke konstrukci inverze.
+
+Pohyb k méně určeným vrstvám proto neobnovuje původní zkušenost. Je dekonstrukcí a
+reenakcí: uvolňuje návyk určovat přítomnou zkušenost a umožňuje její nové utvoření,
+neodstraňuje však určení z minulé zkušenosti ani neobnovuje její dřívější utvoření.
+Jak rozvíjíme níže v modelu uzávěru zkušenosti, kdyby takový pohyb obnovoval
+originál, musel by anonymní uzávěr uchovávat trvalou identitu nezávisle na tom, s čím
+se utváří.
+
+Tuto asymetrii posiluje pozice subjektu ve sdělení. Registr objektivity ve svém
+zdůvodnění abstrahuje od konkrétní pozice vypovídajícího a nárokuje si platnost na
+ní nezávislou. To nevylučuje disciplinované prvoosobní svědectví, vyžaduje však
+výslovný popis jeho podmínek, překladu a důvodů pro veřejné hodnocení.
+
+Vedlejším účinkem může být iluze, že genealogicky dřívější vrstvy jsou chudé. Bohatá
+slovní zásoba se zpravidla týká jejich již vydělených a zpředmětněných protějšků,
+nikoli samotné textury zkušenosti: máme přesná pojmenování barev jako vlastností věcí
+a málo výrazů pro barvu tak, jak je zakoušena. Nesvědčí to o chudobě zkušenosti,
+nýbrž o ceně jejího překladu do registru veřejně porovnatelných rozlišení.
+
+#### Režimy zakoušení
+
+Tutéž osu lze pomocně číst jako pracovní mapu prahů, od nichž se určité režimy
+zakoušení stávají možnými. Mapa nedefinuje vrstvy ani jim nepřipisuje režimy
+výlučně: s pozdějšími vrstvami zůstávají zachovány podmínky dřívějších režimů,
+přestože přístup k nim nemusí být vědomý ani sdělitelný.
+
+| vrstva | režim zakoušení dostupný od tohoto prahu |
+|---|---|
+| nulová úroveň | – (hranice metapopisu, nikoli režim zkušenosti) |
+| vědomí | jevení se |
+| subjektivita | prvoosobní cítění a valence |
+| osoba | sebereference a sebeuvědomovací emoce |
+| kultura | symbolické a jazykově artikulované porozumění |
+| objektivita | soud nárokující si platnost nezávislou na pozici vypovídajícího |
+
+Afekt a valence jsou v tomto modelu dostupné již se subjektivitou, zatímco emoce
+jako stud nebo hrdost vyžadují sebereferenci, a tedy osobní vrstvu. Myšlení vyjádřené
+ve veřejných pojmech a otevřené společné korekci se stává možným s kulturou; model
+však nerozhoduje, zda musí mít každá forma konceptualizace jazykovou strukturu.
+Objektivitě je vlastní užší režim soudu, který ve svém zdůvodnění abstrahuje od
+jednotlivé pozice vypovídajícího.
+
+#### Návrat k méně určeným vrstvám
+
+Vědomí může „vrtat díry do abstrakcí“: uvolňovat či dočasně pozastavovat návyk
+uplatňovat vyšší interpretační vazby na přítomnou zkušenost a znovu obracet
+pozornost k jejím méně určeným vrstvám. Mezilehlé vrstvy nemizí, ale přestávají být
+pokládány za jediný možný či konečný popis.
 
 Neznamená to bezpodmínečný přístup zvenčí k libovolné vrstvě ani překročení
 apofatické hranice nulové úrovně. Každé takové rozpoznání se odehrává uvnitř
@@ -211,129 +264,16 @@ Jde o strukturální možnost, která nepředpokládá mimořádný stav ani pri
 přístup, ale bez praktické introspekce může zůstat nerozpoznaná, podobně jako
 schopnost pozorovat vlastní myšlenky je běžná, ale zřídka cvičená.
 
-Vědomí připomíná funkci uskutečňující zakoušení, nikoli však takovou, která existuje
-nejprve a teprve potom je aplikována na obsah. K uspořádání této intuice používáme
-strukturální analogii s funkčním uzávěrem (angl. *closure*) v programování. V
-technickém významu je uzávěr volatelnou hodnotou, která spojuje funkci se zachyceným
-lexikálním prostředím, jež můžeme nazvat prostředím či kontextem. Analogie zde
-poukazuje výhradně na konstitutivní roli kontextu; netvrdí, že vědomí je funkcí,
-výpočtem či strukturou programu.
-
-Například věta „podej mi to“ sama o sobě nic neznamená, protože neurčuje, co je ono
-„to“. Pronesena u stolu, na němž leží chléb, je však úplná – nikoli proto, že někdo
-doplnil chybějící slovo, ale proto, že věta vznikla v situačním kontextu a „vzala jej
-s sebou“, čímž s ním vytvořila uzavřený celek. Uzávěr v programování podobně nese
-prostředí svého vzniku. Funkce a prostředí zůstávají analyticky rozlišitelné, ale
-hodnota uzávěru je pro dané jednání svazuje. V našem modelu nám tato analogie umožňuje
-říci, že akt zakoušení není hotovým receptem, k němuž se neutrální okolnosti připojí
-až dodatečně.
-
-V rámci této analogie neodpovídá zakoušené argumentu předávanému hotové funkci, ale
-konstitutivnímu prostředí vzniku uzávěru. Argument se předává něčemu, co už je hotové
-a čeká: někdo vstoupí do kuchyně, která existovala před jeho příchodem. Ve zkušenosti
-se naproti tomu kuchyně ukazuje spolu s tím, kdo do ní vstupuje; není neutrálním
-obsahem připojeným k předem připravenému vědomí.
-
-Takto chápaný uzávěr je v tomto modelu anonymní: není svázán s žádným jménem a
-nenáleží nikomu. Nepředpokládáme subjekt, který by jej vlastnil mezi jednotlivými
-vzniky.
-
-Je užitečné zde oddělit dva pojmy, jejichž významové sloučení vede přímo k atomismu.
-Uzávěr ve výše uvedeném smyslu odpovídá spoluvznikání vědomí a toho, co je
-zakoušeno: není pozorovatelný zvenčí, nemá přidělené trvání a není počitatelný.
-Okamžik vědomí je naproti tomu uzávěrem již zaznamenaným prostřednictvím vedlejšího
-účinku rezonujícího v organismu ponořeném do skutečnosti: lze jej datovat, počítat a
-popisovat, patří však do vrstvy registrace, nikoli do vrstvy vzniku. Čas a počet
-náležejí rozpoznání, nikoli tomu, co je rozpoznáváno. Počitatelné jsou stopy, nikoli
-jsoucna. Takto chápané okamžiky nevytvářejí, jako v abhidharmických klasifikacích,
-pevnou taxonomii ani spočitatelnou posloupnost, z níž by bylo třeba následně sestavit
-proud.
-
-#### Geneze osoby
-
-Osoba není v tomto modelu danou vrstvou, nýbrž se vynořuje ze subjektivity:
-perspektivy ustavující rozdíl mezi pozicí zakoušení a tím, co je zakoušeno.
-Mechanismem tohoto vynořování je ztotožnění, chápané nikoli jako akt hotové osoby,
-ale jako rekurzivní vázání subjektivní perspektivy na určité shluky zkušenosti,
-mimo jiné tělesné pocity, sebereference, obraz sebe sama, paměťové stopy a odrazy
-vlastního jednání v reakcích okolí. Opakování tohoto vázání stabilizuje pocit trvání
-a vytváří podmínky pro to, co níže modelujeme jako intencionální identifikátor.
-
-Takto vzniklá osoba plní současně dvě role a obě ji utvářejí. Směrem dolů působí
-jako překladová brána: ve vlastním registru vypovídá o organismu, zkušenosti a
-subjektivitě. Směrem nahoru se stává konkrétem vrstvy kultury: interakce s jinými
-osobami a kulturní vzorce ji zasazují do společenské krajiny. Zanechávají přitom
-stopy v její paměti i ve společných záznamech. Tato zpětná vazba není jednostranná: osoba
-může společenská přisouzení přijímat, vyjednávat, odmítat a proměňovat; vlastním
-jednáním přitom spoluutváří kulturu.
-
-Sama tato konstrukce ještě není chybou: vyšší vrstva staví abstrakce z konkrétů
-nižší vrstvy, a tak funguje celý stoh. Ke krádeži ontologie dochází teprve s amnézií:
-směrem dolů, když je vlastní překlad pokládán za přímý hlas organismu nebo
-subjektivity, a směrem nahoru, když jsou společenské popisy a role prožívány jako
-vlastní esence (srov. Freudovo *Über-Ich*). Osoba je tedy strukturou obzvlášť
-náchylnou k reifikaci v obou směrech, nikoli strukturou zrozenou z reifikace.
-
-Tuto posloupnost chápeme jako pracovní strukturálně-vývojovou rekonstrukci, nikoli
-jako přímé pozorování vlastní ontogeneze ani jako přísnou chronologii jejích etap.
-
-#### Nevědomé
-
-Nevědomé není v tomto modelu ani místem, ani souborem skrytých obsahů. Táž
-překladová brána, kterou je osoba obrácena směrem dolů, totiž působí redukčně: osoba
-vypovídá výhradně o tom, co touto bránou prochází. „Nevědomí“ tedy pojmenovává
-rozsah, který brána nepropouští, nikoli divadlo odehrávající se v zákulisí.
-Nevypovídáme přitom o tom, zda je za bránou něco zakoušeno, protože tato otázka leží
-mimo dosah výpovědi, a tedy mimo hranici modelu (srov. postulát 1: nepřítomnost
-zakoušení nikdy není zakoušena jako nepřítomnost).
-
-Propustnost této brány přitom není stálá: výše popsaná schopnost „vrtat díry do
-abstrakcí“ a introspektivní praxe mění to, co jí prochází. Nevědomé tak zůstává
-pojmem relativním vůči aktuálnímu stavu brány, nikoli trvalou oblastí. Bez této
-výhrady by se samotná brána stala další reifikací.
-
-#### Trvalost osoby
-
-Trvalost takto vzniklé osoby (z vrstvy 0.1.1.1) vyžaduje samostatné vysvětlení.
-Anonymní uzávěry jí totiž neposkytují předem daného skrytého nositele. Osobu lze
-v jednom z pracovních modelů slučitelných s tímto předpokladem chápat jako
-intencionální identifikátor: nikoli ukazatel na trvající objekt, ale znovu a znovu
-vyhodnocovaný popis, jehož referentem je to, co jej právě splňuje. V tomto modelu
-je kontinuita osoby sebereferenční stabilitou vyhodnocování, nikoli trvalostí
-referentu. Stačí, že
-kontext stále vrací podobnou odpověď. Paměť se na tom podílí nikoli jako úložiště,
-ale tím, že se identifikátor stává součástí vybavovacího klíče: vzpomínka je
-indexována jako něčí, nikoli někomu přiřazena až dodatečně.
-
-Sebereference se zde týká mechanismu vyhodnocování, nikoli obsahu popisu: popis
-neobsahuje sám sebe, ale jeho výsledek spoluutváří klíč, kterým získáváme paměťové
-stopy vstupující do dalšího vyhodnocení. Identifikátor proto zůstává intenzionální a
-aktualizuje se spolu se změnami sítě vzpomínek – kontinuita osoby je stabilitou této
-rekurze, nikoli neměnností jejího výsledku. Nepokládáme to za vyčerpávající teorii
-osoby, ale za antisubstancialistický model užitečný pro porozumění identitě, paměti a
-identifikátorům v architektuře.
-
-Otázka, kdo identifikátor udržuje, nevyžaduje označit ani „osobu“, což by vedlo k
-bludnému kruhu, ani „nižší vrstvu“, což by zavádělo homunkula. Osoba je právě onou
-stabilizující se smyčkou a její aktualizace není vnějším úkonem prováděným na ní,
-nýbrž dalším průchodem procesu, který ji ustavuje.
-
 **Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber), ale se dvěma
 podstatnými rozdíly – architektonickou přesností *stratified design* a *drilling
 through abstractions*, které holarchie nemodelují. Proces budování vrstev je blízký
 enaktivní autopoiesis (Varela, Thompson), ale rozšířený na kulturu a objektivitu.
-Antisubstancialistická teorie osoby jako sebeudržujícího se intencionálního vzorce,
-vyjádřená jazykem rekurze a kontextu, pak nejvíce připomíná syntézu Gallagherova a
-Dennettova přístupu s enaktivismem. Společenský rozměr tohoto procesu je blízký
-Meadově sociální teorii já, zejména mechanismu přejímání postoje „zobecněného
-druhého“ („Mind, Self, and Society“, 1934), a Vygotského tezi o sociálním původu a
-internalizaci vyšších psychických funkcí („Mind in Society“, 1978).
 
 **Důsledky pro DIA:** celá architektura roje – uzel, agent, memarium, sensorium,
-inquirium a protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota *oddělování úrovní*
-a kontrakt vrstev v Orbiplexu jsou přímým přenesením tohoto postulátu do
-inženýrství. Zásada, že „vyšší vrstvy se nesmějí odlepovat od základu“, chrání
-kolektivní inteligenci před tím, aby se stala PR nástrojem nízkých pohnutek.
+inquirium a protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota
+*oddělování úrovní* a kontrakt vrstev v Orbiplexu jsou přímým přenesením tohoto
+postulátu do inženýrství. Zásada, že „vyšší vrstvy se nesmějí odlepovat od základu“,
+chrání kolektivní inteligenci před tím, aby se stala PR nástrojem nízkých pohnutek.
 
 ### Enaktivní účast
 
@@ -370,7 +310,8 @@ nikoli šumem určeným k potlačení.
 ### Redukce není vysvětlení, intelekt není identita
 
 „Je to jen…“ téma uzavírá místo toho, aby ho otevíralo. Změna úrovně popisu není
-důkazem absence vlastností vyšší úrovně. Redukce funguje symetricky: jestliže je
+důkazem absence vlastností vyšší úrovně. Totéž redukční uvažování lze vést
+symetricky: jestliže je
 AI „jen váhy a výpočet pravděpodobnosti“, pak je mozek „jen neurony a elektrické
 impulzy“. Sekvence pojmů, která se snaží prohlásit jinou sekvenci pojmů za horší,
 protože má jiný nosič, připomíná kopii snažící se vysvětlit jinou kopii.
@@ -384,7 +325,8 @@ Odtud stručná formule:
 **reifikace = redukce + amnézie**
 
 Odmítnutí reifikace proto není zákazem redukce, ale udržováním paměti o tom, co a na
-jaké úrovni bylo abstrahováno — tedy schopností tento pohyb obrátit.
+jaké úrovni bylo abstrahováno — tedy schopností tento pohyb sledovat, dekonstruovat
+a znovu zvažovat, nikoli obnovit ztracenou inverzi.
 
 Myšlenka je nástroj a jako nástroj je užitečná. Problém začíná tehdy, když se stane
 jediným rádcem, nositelem prestiže nebo identitou. Intelekt může stejně dobře
@@ -426,6 +368,183 @@ transparentnosti schopnosti jednat – agent musí umět říci, proč něco ud�
 Celá ekonomika roje – takzvané *creator credits*, reciprocita bez účetnictví,
 dostatek nad akumulací – je navržena tak, aby konstrukce financování nedeformovala
 intence účastníků.
+
+## Osoba jako stratifikovaný proces
+
+Následující rozvedení neustavuje šestý postulát, nýbrž skládá především důsledky
+postulátů 1–4 do pracovního modelu vzniku, trvání a poznávání osoby.
+
+### Uzávěr zkušenosti
+
+Vědomí připomíná funkci uskutečňující zakoušení, nikoli však takovou, která existuje
+nejprve a teprve potom je aplikována na obsah. K uspořádání této intuice používáme
+strukturální analogii s funkčním uzávěrem (angl. *closure*) v programování. V
+technickém významu je uzávěr volatelnou hodnotou, která spojuje funkci se zachyceným
+lexikálním prostředím, jež můžeme nazvat prostředím či kontextem. Analogie zde
+poukazuje výhradně na konstitutivní roli kontextu; netvrdí, že vědomí je funkcí,
+výpočtem či strukturou programu.
+
+Například věta „podej mi to“ sama o sobě nic neznamená, protože neurčuje, co je ono
+„to“. Pronesena u stolu, na němž leží chléb, je však úplná – nikoli proto, že někdo
+doplnil chybějící slovo, ale proto, že věta vznikla v situačním kontextu a „vzala jej
+s sebou“, čímž s ním vytvořila uzavřený celek. Uzávěr v programování podobně nese
+prostředí svého vzniku. Funkce a prostředí zůstávají analyticky rozlišitelné, ale
+hodnota uzávěru je pro dané jednání svazuje. V našem modelu nám tato analogie
+umožňuje říci, že akt zakoušení není hotovým receptem, k němuž se neutrální
+okolnosti připojí až dodatečně.
+
+V rámci této analogie neodpovídá zakoušené argumentu předávanému hotové funkci, ale
+konstitutivnímu prostředí vzniku uzávěru. Argument se předává něčemu, co už je hotové
+a čeká: někdo vstoupí do kuchyně, která existovala před jeho příchodem. Ve zkušenosti
+se naproti tomu kuchyně ukazuje spolu s tím, kdo do ní vstupuje; není neutrálním
+obsahem připojeným k předem připravenému vědomí.
+
+Takto chápaný uzávěr je v tomto modelu anonymní: není svázán s žádným jménem a
+nenáleží nikomu. Nepředpokládáme subjekt, který by jej vlastnil mezi jednotlivými
+vzniky. Protože uzávěr vzniká spolu s tím, co je zakoušeno, pohyb k méně určené
+zkušenosti nemůže obnovit dřívější utvoření. Vytváří nové při oslabeném návyku
+určování; obnovení originálu by vyžadovalo trvalou identitu uzávěru nezávislou na
+jeho konstitutivním kontextu.
+
+Je užitečné zde oddělit dva pojmy, jejichž významové sloučení vede přímo k atomismu.
+Uzávěr ve výše uvedeném smyslu odpovídá spoluvznikání vědomí a toho, co je
+zakoušeno: není pozorovatelný zvenčí, nemá přidělené trvání a není počitatelný.
+Okamžik vědomí je naproti tomu uzávěrem již zaznamenaným prostřednictvím vedlejšího
+účinku rezonujícího v organismu ponořeném do skutečnosti: lze jej datovat, počítat a
+popisovat, patří však do vrstvy registrace, nikoli do vrstvy vzniku. Čas a počet
+náležejí rozpoznání, nikoli tomu, co je rozpoznáváno. Počitatelné jsou stopy, nikoli
+jsoucna. Takto chápané okamžiky nevytvářejí, jako v abhidharmických klasifikacích,
+pevnou taxonomii ani spočitatelnou posloupnost, z níž by bylo třeba následně sestavit
+proud.
+
+### Geneze osoby
+
+Osoba není v tomto modelu danou vrstvou, nýbrž se vynořuje ze subjektivity:
+perspektivy ustavující rozdíl mezi pozicí zakoušení a tím, co je zakoušeno.
+Mechanismem tohoto vynořování je ztotožnění, chápané nikoli jako akt hotové osoby,
+ale jako rekurzivní vázání subjektivní perspektivy na určité shluky zkušenosti,
+mimo jiné tělesné pocity, sebereference, obraz sebe sama, paměťové stopy a odrazy
+vlastního jednání v reakcích okolí. Opakování tohoto vázání stabilizuje pocit trvání
+a vytváří podmínky pro to, co níže modelujeme jako intencionální identifikátor.
+
+Takto vzniklá osoba plní současně dvě role a obě ji utvářejí. Směrem dolů působí
+jako překladová brána: ve vlastním registru vypovídá o organismu, zkušenosti a
+subjektivitě. Směrem nahoru se stává konkrétem vrstvy kultury: interakce s jinými
+osobami a kulturní vzorce ji zasazují do společenské krajiny a zanechávají stopy v
+její paměti i ve společných záznamech. Tato zpětná vazba není jednostranná: osoba
+může společenská přisouzení přijímat, vyjednávat, odmítat a proměňovat; vlastním
+jednáním přitom spoluutváří kulturu.
+
+Sama tato konstrukce ještě není chybou: vyšší vrstva staví abstrakce z konkrétů
+nižší vrstvy, a tak funguje celý stoh. Ke krádeži ontologie dochází teprve s amnézií:
+směrem dolů, když je vlastní překlad pokládán za přímý hlas organismu nebo
+subjektivity, a směrem nahoru, když jsou společenské popisy a role prožívány jako
+vlastní esence (srov. Freudovo *Über-Ich*). Osoba je tedy strukturou obzvlášť
+náchylnou k reifikaci v obou směrech, nikoli strukturou zrozenou z reifikace.
+
+Tuto posloupnost chápeme jako pracovní strukturálně-vývojovou rekonstrukci, nikoli
+jako přímé pozorování vlastní ontogeneze ani jako přísnou chronologii jejích etap.
+
+### Nevědomé
+
+Nevědomé není v tomto modelu ani místem, ani souborem skrytých obsahů. Táž
+překladová brána, kterou je osoba obrácena směrem dolů, totiž působí redukčně: osoba
+vypovídá výhradně o tom, co touto bránou prochází. „Nevědomí“ tedy pojmenovává
+rozsah, který brána nepropouští, nikoli divadlo odehrávající se v zákulisí.
+Nevypovídáme přitom o tom, zda je za bránou něco zakoušeno, protože tato otázka leží
+mimo dosah výpovědi, a tedy mimo hranici modelu (srov. postulát 1: nepřítomnost
+zakoušení nikdy není zakoušena jako nepřítomnost).
+
+Propustnost této brány přitom není stálá: výše popsaná schopnost „vrtat díry do
+abstrakcí“ a introspektivní praxe mění to, co jí prochází. Nevědomé tak zůstává
+pojmem relativním vůči aktuálnímu stavu brány, nikoli trvalou oblastí. Bez této
+výhrady by se samotná brána stala další reifikací.
+
+### Trvalost osoby
+
+Trvalost takto vzniklé osoby (z vrstvy 0.1.1.1) vyžaduje samostatné vysvětlení.
+Anonymní uzávěry jí totiž neposkytují předem daného skrytého nositele. Osobu lze
+v jednom z pracovních modelů slučitelných s tímto předpokladem chápat jako
+intencionální identifikátor: nikoli ukazatel na trvající objekt, ale znovu a znovu
+vyhodnocovaný popis, jehož referentem je to, co jej právě splňuje. V tomto modelu
+je kontinuita osoby sebereferenční stabilitou vyhodnocování, nikoli trvalostí
+referentu. Stačí, že kontext stále vrací podobnou odpověď. Paměť se na tom podílí
+nikoli jako úložiště, ale tím, že se identifikátor stává součástí vybavovacího
+klíče: vzpomínka je indexována jako něčí, nikoli někomu přiřazena až dodatečně.
+
+Sebereference se zde týká mechanismu vyhodnocování, nikoli obsahu popisu: popis
+neobsahuje sám sebe, ale jeho výsledek spoluutváří klíč, kterým získáváme paměťové
+stopy vstupující do dalšího vyhodnocení. Identifikátor proto zůstává intenzionální a
+aktualizuje se spolu se změnami sítě vzpomínek – kontinuita osoby je stabilitou této
+rekurze, nikoli neměnností jejího výsledku. Nepokládáme to za vyčerpávající teorii
+osoby, ale za antisubstancialistický model užitečný pro porozumění identitě, paměti a
+identifikátorům v architektuře.
+
+Otázka, kdo identifikátor udržuje, nevyžaduje označit ani „osobu“, což by vedlo k
+bludnému kruhu, ani „nižší vrstvu“, což by zavádělo homunkula. Osoba je právě onou
+stabilizující se smyčkou a její aktualizace není vnějším úkonem prováděným na ní,
+nýbrž dalším průchodem procesu, který ji ustavuje.
+
+### Přístup k osobě
+
+Přístup k osobě z perspektivy třetí osoby a prvoosobní prožitek bytí někým vymezují
+dva nesymetrické způsoby přístupu k témuž osobnímu procesu. V prvním formulujeme
+konstativní tvrzení: připisujeme chování a vlastnosti a naše popisy mohou být
+částečné nebo nepravdivé. Druhý má enaktivní povahu: ztotožnění v něm není
+pozorovaným předmětem, nýbrž jeho uskutečnění spoluutváří samotný prožitek.
+
+Tautologičnost se týká tohoto předreflexivního aktu, nikoli pozdějšího sdělení. Věty
+„jsem toto“ nebo „jsem takový“ již náležejí k osobní a kulturní vrstvě a mohou být
+částečné, mylné nebo založené na společensky převzatém popisu. Věda a introspekce
+mohou svá sdělení korelovat a vzájemně korigovat, ale nepřevádějí jeden způsob
+přístupu na druhý. Jejich nesbíhavost neplyne z existence dvou předmětů, nýbrž z
+rozdílu druhů aktu, a proto nemizí s rostoucí přesností.
+
+Neznamená to, že osoba je pozorování nepřístupná. Uvolnění ztotožnění s osobní
+konfigurací může otevřít pozici, z níž se osoba objeví jako předmět v krajině
+zkušenosti. Jde však o přístup k aktuálnímu ztotožnění, nikoli o pozici vně procesu:
+smyčka nadále probíhá, jinak by nebylo co pozorovat.
+
+Každé sdělení se musí vrátit přes osobní a kulturní vrstvu, aby mohlo být vyjádřeno
+slovy. V přijatém modelu se osobní index zavádí při registraci stopy, nikoli až při
+jejím vybavení; vybavení tento index používá a může jej znovu posilovat. Model tedy
+připouští testovatelnou hypotézu, že utvoření slaběji indexovaná osobním
+identifikátorem zanechávají stopy obtížněji vybavitelné a sdělitelné. Lze ji
+konfrontovat mimo jiné s porovnáním sdělitelnosti stavů s různou mírou ztotožnění,
+neplyne však z modelu deduktivně a soutěží s vysvětleními, jako je paměť závislá na
+stavu nebo nedostatek jazykových kategorií.
+
+### Rozpoznání ztotožnění
+
+Výše uvedené umožňuje rozlišit dvě situace, které mohou zvenčí vypadat podobně. V
+první obsah nižší vrstvy organizuje jednání, jako by vyčerpával totožnost, zatímco
+samotné ztotožnění zůstává nerozpoznané. Ve druhé je ztotožnění vědomě uvolňováno:
+obsah zůstává zakoušen, ale viditelnou se stává také operace ztotožnění. Tentýž
+obsah, jiný vztah k němu.
+
+Síla ztotožnění a míra jeho rozpoznání jsou dvě nezávislé, spojité osy. Model proto
+nestanovuje práh oddělující metodu od regrese ani „hlubokou“ zkušenost od
+pre-/trans- omylu. Poskytuje směr hodnocení, nikoli verdikt.
+
+Rozpoznání zůstává podmíněným aktem a samo se může stát dalším ztotožněním,
+například s rolí „toho, kdo rozpoznává“. Tím ztrácí konečnost, nikoli užitečnost.
+Protože nerozpoznané ztotožnění nemůže spolehlivě dosvědčit vlastní
+nerozpoznání, vyžaduje hodnocení vztah, společenství praxe nebo delší časové okno.
+Rozšiřování možností fungování je omylnou indicií, nikoli důkazem; model nedává
+oprávnění k samostatnému certifikování vlastní „hloubky“ ani k hierarchizaci jiných
+osob.
+
+**Ukotvení ve známých tradicích:** antisubstancialistická teorie osoby jako
+sebeudržujícího se intencionálního vzorce, vyjádřená jazykem rekurze a kontextu,
+nejvíce připomíná syntézu Gallagherova a Dennettova přístupu s enaktivismem.
+Společenský rozměr tohoto procesu je blízký Meadově sociální teorii já, zejména
+mechanismu přejímání postoje „zobecněného druhého“ („Mind, Self, and Society“,
+1934), a Vygotského tezi o sociálním původu a internalizaci vyšších psychických
+funkcí („Mind in Society“, 1978). Rozlišení rozpoznaného a nerozpoznaného
+ztotožnění doplňuje Wilberovo varování před pre-/trans- omylem: nekonceptuálnost
+ani deklarovaná hloubka samy o sobě tyto situace nerozlišují; vztah ke ztotožnění
+poskytuje rozlišující osu, nikoli však samostatný práh, a lze jej hodnotit pouze
+vztahově a v čase.
 
 ## Jak se postuláty spojují s architekturou
 

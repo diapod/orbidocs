@@ -215,10 +215,69 @@ model's boundary, toward what we mark as level zero.
 | item → object | objectivation |
 | object → thing | reification |
 
+#### Translation asymmetry
+
+The table of acts shows that translation between layers has no canonical inverse.
+Movement toward higher registers works in two ways: it reduces the texture of the
+lower layer by merging many possible concretes into one abstraction, while also
+adding determinations specific to the receiving layer. Reduction is a many-to-one
+mapping, so its result alone does not reveal which concretes were merged. Added
+determinations likewise cannot be removed without knowing which of them the later
+register introduced. In both cases, information needed to construct an inverse is
+missing.
+
+Movement toward less determined layers therefore does not recover the original
+experience. It is deconstruction and reenactment: it loosens the habit of
+determining present experience and allows a new formation, but neither removes
+determinations from a past experience nor recreates its earlier formation. As the
+model of experiential closure developed below explains, if such movement recovered
+the original, an anonymous closure would have to preserve a persistent identity
+independently of that with which it forms.
+
+The position of the subject in communication reinforces this asymmetry. In its
+justification, the register of objectivity abstracts from the particular position
+of the speaker and claims validity independent of it. This does not exclude
+disciplined first-person testimony, but it requires an explicit account of its
+conditions, translation, and grounds for public evaluation.
+
+A side effect can be the illusion that genealogically earlier layers are poor. A
+rich vocabulary usually concerns their already individuated and objectified
+counterparts rather than the texture of experience itself: we have precise names
+for colors as properties of things and few expressions for color as experienced.
+This does not indicate poverty of experience, but the cost of translating it into a
+register of publicly comparable distinctions.
+
+#### Modes of experiencing
+
+The same axis can also be read provisionally as a working map of thresholds from
+which particular modes of experiencing become possible. The map neither defines
+the layers nor assigns modes to them exclusively: later layers preserve the
+conditions of earlier modes, even when access to them is neither conscious nor
+reportable.
+
+| layer | mode of experiencing available from this threshold |
+|---|---|
+| level zero | — (a boundary of meta-description, not a mode of experience) |
+| consciousness | appearing |
+| subjectivity | first-person feeling and valence |
+| person | self-reference and self-conscious emotions |
+| culture | symbolic and linguistically articulated understanding |
+| objectivity | judgment claiming validity independent of the speaker's position |
+
+In this model, affect and valence are available with subjectivity, whereas emotions
+such as shame or pride require self-reference and therefore the personal layer.
+Thought framed in public concepts and open to shared correction becomes possible
+with culture; the model does not, however, decide whether every form of
+conceptualization must have a linguistic structure. Objectivity is characterized by
+the narrower mode of judgment that abstracts, in its justification, from the
+individual position of the speaker.
+
+#### Return toward less determined layers
+
 Consciousness can "drill through abstractions": it can loosen or temporarily suspend
-higher interpretive bindings and redirect attention toward less determined layers of
-experience. The intermediate layers do not disappear, but cease to be treated as the
-only possible or final description.
+the habit of applying higher interpretive bindings to present experience and
+redirect attention toward its less determined layers. The intermediate layers do
+not disappear, but cease to be treated as the only possible or final description.
 
 This does not mean unconditional access from outside to any layer, nor crossing the
 apophatic boundary of level zero. Every such recognition takes place within
@@ -229,141 +288,17 @@ This is a structural capacity that presupposes neither an extraordinary state no
 privileged access, but without practical introspection it may remain unrecognized,
 much as the ability to observe one's own thoughts is widespread yet rarely trained.
 
-Consciousness resembles a function that enacts experiencing, but not one that exists
-first and is then applied to content. To order this intuition, we use a structural
-analogy to a functional closure in programming. In technical terms, a closure is an
-invocable value that combines a function with its captured lexical environment,
-which we may call its environment or context. The analogy points only to the
-constitutive role of context; it does not claim that consciousness is a function, a
-computation, or a program structure.
-
-For example, the sentence "pass me that" means nothing by itself because it does not
-identify what "that" is. Spoken at a table on which a loaf of bread lies, however,
-it is complete — not because someone supplied a missing word, but because the
-sentence arose in a situational context and "took it along," forming a closed whole
-with it. A closure in programming likewise carries the environment in which it was
-created. Function and environment remain analytically distinguishable, but the
-closure value binds them for a given action. In our model, the analogy allows us to
-say that an act of experiencing is not a ready-made recipe to which neutral
-circumstances are attached only afterward.
-
-Within this analogy, what is experienced does not correspond to an argument passed
-to a ready-made function, but to the constitutive environment in which the closure
-forms. An argument is passed to something already waiting in readiness: someone
-enters a kitchen that existed before they arrived. In experience, by contrast, the
-kitchen appears together with the one who enters it; it is not neutral content
-attached to a consciousness already prepared in advance.
-
-Understood in this way, the closure is anonymous within the model: it is bound to no
-name and belongs to no one. We do not assume a subject that would possess it between
-formations.
-
-It is useful here to separate two notions whose semantic fusion leads directly to
-atomism. A closure in the sense above corresponds to the co-arising of consciousness
-and what is experienced: unobservable from outside, assigned no duration, and
-uncountable. A moment of consciousness, by contrast, is a closure already registered
-through a side effect resonating in an organism immersed in reality: dateable,
-countable, and describable, but belonging to the layer of registration rather than
-the layer of formation. Time and number belong to recognition, not to what is
-recognized. Traces are countable, not beings. Moments understood in this way do not
-form, as in Abhidharmic classifications, a fixed taxonomy or a countable sequence
-from which a stream would then have to be assembled.
-
-#### Genesis of the person
-
-The person is not a given layer in this model, but emerges from subjectivity: a
-perspective that establishes a distinction between the position of experiencing and
-what is experienced. The mechanism of this emergence is identification, understood
-not as an act performed by an already formed person, but as the recursive binding of
-the subjective perspective to certain clusters of experience, including bodily
-sensations, self-references, self-image, memory traces, and reflections of one's own
-actions in the responses of the environment. Repetition of this binding stabilizes
-a sense of persistence and creates the conditions for what we model below as an
-intensional identifier.
-
-The person formed in this way fulfills two roles at once, and both shape them.
-Downward, the person acts as a translation gateway: in their own register, they
-formulate claims about the organism, experience, and subjectivity. Upward, the
-person becomes concrete input to the culture layer: interactions with other persons
-and cultural patterns place them in the social landscape and leave traces in their
-memory and in shared records. This feedback is not one-way: the person may accept,
-negotiate, reject, and transform social attributions, while co-shaping culture
-through their own actions.
-
-This construction is not yet an error in itself: a higher layer builds abstractions
-from the concretes of a lower layer, and that is how the whole stack works. Theft of
-ontology occurs only with amnesia: downward, when one's own translation is taken as
-the direct voice of the organism or subjectivity, and upward, when social
-descriptions and roles are experienced as one's own essence (cf. Freud's
-*Über-Ich*). The person is therefore a structure especially susceptible to
-reification in both directions, not a structure born of reification.
-
-We treat this sequence as a working structural-developmental reconstruction, not as
-a direct observation of one's own ontogenesis or a strict chronology of its stages.
-
-#### The unconscious
-
-In this model the unconscious is neither a place nor a set of hidden contents. The
-same translation gateway through which the person faces downward also works
-reductively: the person reports only what passes through that gateway. "The
-unconscious" therefore names the range the gateway does not admit, rather than a
-theatre playing out backstage. We make no claim about whether anything is
-experienced beyond the gateway, because that question lies outside the reach of the
-report, and therefore outside the boundary of the model (cf. postulate 1: the
-absence of experiencing is never itself experienced as absence).
-
-The capacity of this gateway is not fixed: the ability to "drill through
-abstractions" described above, together with introspective practice, changes what
-passes through it. The unconscious therefore remains a notion relative to the
-current state of the gateway, not a permanent region. Without that qualification the
-gateway would itself become one more reification.
-
-#### Persistence of the person
-
-The persistence of a person formed in this way (from layer 0.1.1.1) requires a
-separate account. Anonymous closures do not provide the person with a predefined,
-hidden bearer. One working model consistent with this assumption treats the person
-as an intensional identifier: not a pointer to a persistent object, but a
-description evaluated anew, whose referent is whatever currently satisfies it. In
-this model, personal continuity is the self-referential stability of evaluation,
-not the persistence of the referent. It is enough that the context keeps returning
-a similar answer. Memory participates not as a store, but through the identifier's
-participation in the retrieval key: a memory is indexed as someone's rather than
-assigned to someone after the fact.
-
-The self-reference concerns the evaluation mechanism, not the content of the
-description: the description does not contain itself, but its result co-creates the
-key used to retrieve memory traces that enter the next evaluation. The identifier
-therefore remains intensional and updates together with the changing network of
-memories — personal continuity is the stability of this recursion, not the
-immutability of its result. We do not treat this as an exhaustive theory of the
-person, but as an anti-substantialist model useful for understanding identity,
-memory, and identifiers in the architecture.
-
-The question of who maintains the identifier does not require us to identify either
-"the person", which would lead to a vicious circle, or "a lower layer", which would
-introduce a homunculus. The person is precisely the stabilizing loop, and its update
-is not an external action performed upon it, but another iteration of the process
-that constitutes it.
-
 **Anchoring in known traditions:** holarchies (Koestler, Wilber), but with two
 important differences: the architectural precision of *stratified design* and
-the idea of *drilling through abstractions*, which holarchies do not model. The
-process of building layers is close to enactive autopoiesis (Varela, Thompson),
-but extended to culture and objectivity. In turn, the anti-substantialist theory of
-the person as a self-maintaining intensional pattern, expressed in the language of
-recursion and context, most closely resembles a synthesis of Gallagher's and
-Dennett's approaches with enactivism. The social dimension of this process is close
-to G.H. Mead's social theory of the self, especially the mechanism of taking the
-attitude of the "generalized other" ("Mind, Self, and Society", 1934), and to
-Vygotsky's thesis on the social origin and internalization of higher psychological
-functions ("Mind in Society", 1978).
+*drilling through abstractions*, which holarchies do not model. The process of
+building layers is close to enactive autopoiesis (Varela, Thompson), but extended to
+culture and objectivity.
 
 **Consequences for DIA:** the whole swarm architecture — node, agent, memarium,
-sensorium, inquirium, and protocol — is designed in layers in the spirit of stratification. The
-value of *separating levels* and the layer contract in Orbiplex are direct
-translations of this postulate into engineering. The rule that "higher layers
-must not detach from the foundation" protects collective intelligence from
+sensorium, inquirium, and protocol — is designed in layers in the spirit of
+stratification. The value of *separating levels* and the layer contract in Orbiplex
+are direct translations of this postulate into engineering. The rule that "higher
+layers must not detach from the foundation" protects collective intelligence from
 becoming the PR arm of low impulses.
 
 ### Enactive participation
@@ -406,8 +341,9 @@ noise to be silenced.
 
 "It is only..." closes the matter instead of opening it. A change of descriptive
 level is not proof that the properties of the higher level do not exist.
-Reduction works symmetrically: if AI is "only weights and probability
-calculation," then the brain is "only neurons and electrical impulses." A
+The same reductive reasoning can be directed symmetrically: if AI is "only weights
+and probability calculation," then the brain is "only neurons and electrical
+impulses." A
 sequence of concepts attempting to declare another sequence of concepts inferior
 because it has a different substrate resembles one photocopy trying to explain
 another photocopy.
@@ -422,7 +358,8 @@ happened. Hence the concise formula:
 
 Refusing reification is therefore not a ban on reduction, but the maintenance
 of memory about what was abstracted, and at what level — that is, the ability
-to reverse the move.
+to trace, deconstruct, and reconsider that move, rather than recover the inverse
+information that it lost.
 
 Thought is a tool and as a tool it is useful. The problem begins when it becomes
 the only adviser, a carrier of prestige, or an identity. Intellect can serve
@@ -469,6 +406,203 @@ feedback loop (introspection → honesty about motives → verification of hypot
 why it did something. The entire swarm economy, so-called *creator credits*,
 reciprocity without bookkeeping, sufficiency over accumulation, is designed so
 that the funding structure does not distort the intentions of participants.
+
+## The person as a stratified process
+
+The following elaboration does not establish a sixth postulate. Rather, it combines
+primarily the consequences of postulates 1–4 into a working model of how a person
+arises, persists, and becomes knowable.
+
+### Closure of experience
+
+Consciousness resembles a function that enacts experiencing, but not one that exists
+first and is then applied to content. To order this intuition, we use a structural
+analogy to a functional closure in programming. In technical terms, a closure is an
+invocable value that combines a function with its captured lexical environment,
+which we may call its environment or context. The analogy points only to the
+constitutive role of context; it does not claim that consciousness is a function, a
+computation, or a program structure.
+
+For example, the sentence "pass me that" means nothing by itself because it does not
+identify what "that" is. Spoken at a table on which a loaf of bread lies, however,
+it is complete — not because someone supplied a missing word, but because the
+sentence arose in a situational context and "took it along," forming a closed whole
+with it. A closure in programming likewise carries the environment in which it was
+created. Function and environment remain analytically distinguishable, but the
+closure value binds them for a given action. In our model, the analogy allows us to
+say that an act of experiencing is not a ready-made recipe to which neutral
+circumstances are attached only afterward.
+
+Within this analogy, what is experienced does not correspond to an argument passed
+to a ready-made function, but to the constitutive environment in which the closure
+forms. An argument is passed to something already waiting in readiness: someone
+enters a kitchen that existed before they arrived. In experience, by contrast, the
+kitchen appears together with the one who enters it; it is not neutral content
+attached to a consciousness already prepared in advance.
+
+Understood in this way, the closure is anonymous within the model: it is bound to no
+name and belongs to no one. We do not assume a subject that would possess it between
+formations. Because a closure arises together with what is experienced, movement
+toward less determined experience cannot recover an earlier formation. It creates a
+new one under a weakened habit of determination; recreating the original would
+require the closure to retain an identity independent of its constitutive context.
+
+It is useful here to separate two notions whose semantic fusion leads directly to
+atomism. A closure in the sense above corresponds to the co-arising of consciousness
+and what is experienced: unobservable from outside, assigned no duration, and
+uncountable. A moment of consciousness, by contrast, is a closure already registered
+through a side effect resonating in an organism immersed in reality: dateable,
+countable, and describable, but belonging to the layer of registration rather than
+the layer of formation. Time and number belong to recognition, not to what is
+recognized. Traces are countable, not beings. Moments understood in this way do not
+form, as in Abhidharmic classifications, a fixed taxonomy or a countable sequence
+from which a stream would then have to be assembled.
+
+### Genesis of the person
+
+The person is not a given layer in this model, but emerges from subjectivity: a
+perspective that establishes a distinction between the position of experiencing and
+what is experienced. The mechanism of this emergence is identification, understood
+not as an act performed by an already formed person, but as the recursive binding of
+the subjective perspective to certain clusters of experience, including bodily
+sensations, self-references, self-image, memory traces, and reflections of one's own
+actions in the responses of the environment. Repetition of this binding stabilizes
+a sense of persistence and creates the conditions for what we model below as an
+intensional identifier.
+
+The person formed in this way fulfills two roles at once, and both shape them.
+Downward, the person acts as a translation gateway: in their own register, they
+formulate claims about the organism, experience, and subjectivity. Upward, the
+person becomes a concrete for the culture layer: interactions with other persons and
+cultural patterns place them in the social landscape and leave traces in their
+memory and in shared records. This feedback is not one-way: the person may accept,
+negotiate, reject, and transform social attributions, while co-shaping culture
+through their own actions.
+
+This construction is not yet an error in itself: a higher layer builds abstractions
+from the concretes of a lower layer, and that is how the whole stack works. Theft of
+ontology occurs only with amnesia: downward, when one's own translation is taken as
+the direct voice of the organism or subjectivity, and upward, when social
+descriptions and roles are experienced as one's own essence (cf. Freud's
+*Über-Ich*). The person is therefore a structure especially susceptible to
+reification in both directions, not a structure born of reification.
+
+We treat this sequence as a working structural-developmental reconstruction, not as
+a direct observation of one's own ontogenesis or a strict chronology of its stages.
+
+### The unconscious
+
+In this model the unconscious is neither a place nor a set of hidden contents. The
+same translation gateway through which the person faces downward also works
+reductively: the person reports only what passes through that gateway. "The
+unconscious" therefore names the range the gateway does not admit, rather than a
+theatre playing out backstage. We make no claim about whether anything is
+experienced beyond the gateway, because that question lies outside the reach of the
+report, and therefore outside the boundary of the model (cf. postulate 1: the
+absence of experiencing is never itself experienced as absence).
+
+The capacity of this gateway is not fixed: the ability to "drill through
+abstractions" described above, together with introspective practice, changes what
+passes through it. The unconscious therefore remains a notion relative to the
+current state of the gateway, not a permanent region. Without that qualification the
+gateway would itself become one more reification.
+
+### Persistence of the person
+
+The persistence of a person formed in this way (from layer 0.1.1.1) requires a
+separate account. Anonymous closures do not provide the person with a predefined,
+hidden bearer. One working model consistent with this assumption treats the person
+as an intensional identifier: not a pointer to a persistent object, but a
+description evaluated anew, whose referent is whatever currently satisfies it. In
+this model, personal continuity is the self-referential stability of evaluation,
+not the persistence of the referent. It is enough that the context keeps returning
+a similar answer. Memory participates not as a store, but through the identifier's
+participation in the retrieval key: a memory is indexed as someone's rather than
+assigned to someone after the fact.
+
+The self-reference concerns the evaluation mechanism, not the content of the
+description: the description does not contain itself, but its result co-creates the
+key used to retrieve memory traces that enter the next evaluation. The identifier
+therefore remains intensional and updates together with the changing network of
+memories — personal continuity is the stability of this recursion, not the
+immutability of its result. We do not treat this as an exhaustive theory of the
+person, but as an anti-substantialist model useful for understanding identity,
+memory, and identifiers in the architecture.
+
+The question of who maintains the identifier does not require us to identify either
+"the person", which would lead to a vicious circle, or "a lower layer", which would
+introduce a homunculus. The person is precisely the stabilizing loop, and its update
+is not an external action performed upon it, but another iteration of the process
+that constitutes it.
+
+### Access to the person
+
+Third-person access to the person and the first-person feeling of being someone
+define two asymmetrical modes of access to the same personal process. In the first,
+we formulate constative claims: we attribute behaviors and properties, and our
+descriptions may be partial or false. The second is enactive: identification is not
+an observed object within it, but its enactment partly constitutes the feeling
+itself.
+
+The tautological character belongs to this prereflective act, not to the later
+report. Statements
+such as "I am this" or "I am like this" already belong to the personal-cultural
+layer and may be partial, mistaken, or based on a socially acquired description.
+Science and introspection can correlate and mutually correct their reports, but they
+do not transform one mode of access into the other. Their non-convergence does not
+result from the existence of two objects, but from a difference in kinds of act, and
+therefore does not disappear with greater precision.
+
+This does not mean that the person is inaccessible to observation. Loosening
+identification with the personal configuration can open a position from which the
+person appears as an object in the landscape of experience. This is access to the
+current identification, however, not a position outside the process: the loop
+continues to run, or there would be nothing to observe.
+
+Every report must return through the personal and cultural layers to be expressed in
+words. In the adopted model, the personal index is introduced when a trace is
+registered, not only when it is recalled; recall uses that index and may reinforce
+it again. The model therefore permits the testable hypothesis that formations more
+weakly indexed by the personal identifier leave traces more difficult to retrieve
+and report. This can be confronted, among other things, by comparing the
+reportability of states with different degrees of identification, but it does not
+follow deductively from the model and competes with explanations such as
+state-dependent memory or the lack of linguistic categories.
+
+### Recognition of identification
+
+The foregoing allows us to distinguish two situations that may look similar from
+the outside. In the first, the content of a lower layer organizes action as though
+it exhausted identity, while the identification itself remains unrecognized. In
+the second, identification is consciously loosened: the content remains
+experienced, but the operation of identification also becomes visible. The same
+content, a different relation to it.
+
+The strength of identification and the degree of its recognition are two
+independent, continuous axes. The model therefore sets no threshold separating
+method from regression or a "deep" experience from a pre-/trans- error. It provides
+a direction of evaluation, not a verdict.
+
+Recognition remains a conditioned act and may itself become another identification,
+for example with the role of "the one who recognizes." This deprives it of finality,
+not of usefulness. Since unrecognized identification cannot reliably attest to its
+own lack of recognition, evaluation requires a relationship, a community of
+practice, or a longer window of time. A broadening of functioning is fallible
+evidence, not proof; the model grants no license to self-certify one's own "depth"
+or to rank other persons.
+
+**Anchoring in known traditions:** the anti-substantialist theory of the person as a
+self-maintaining intensional pattern, expressed in the language of recursion and
+context, most closely resembles a synthesis of Gallagher's and Dennett's approaches
+with enactivism. The social dimension of this process is close to G.H. Mead's social
+theory of the self, especially the mechanism of taking the attitude of the
+"generalized other" ("Mind, Self, and Society", 1934), and to Vygotsky's thesis on
+the social origin and internalization of higher psychological functions ("Mind in
+Society", 1978). The distinction between recognized and unrecognized identification
+supplements Wilber's warning against the pre-/trans- fallacy: nonconceptuality and
+declared depth do not by themselves distinguish these situations; the relation to
+identification provides a differentiating axis, but not a self-sufficient threshold,
+and can be assessed only relationally and over time.
 
 ## How the postulates connect to the architecture
 

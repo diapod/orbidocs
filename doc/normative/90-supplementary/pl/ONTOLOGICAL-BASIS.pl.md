@@ -209,10 +209,66 @@ a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 | przedmiot → obiekt | obiektywizacja |
 | obiekt → rzecz | urzeczowienie |
 
+#### Asymetria przekładu
+
+Z tabeli aktów wynika, że przekład między warstwami nie ma kanonicznej odwrotności.
+Ruch ku wyższym rejestrom działa dwojako: redukuje fakturę niższej warstwy, scalając
+wiele możliwych konkretów w jeden abstrakt, a zarazem dodaje determinacje właściwe
+warstwie przyjmującej. Redukcja jest odwzorowaniem wiele-do-jednego, więc z samego
+wyniku nie da się rozpoznać, które konkrety zostały scalone. Dodanych determinacji
+również nie da się odjąć bez wiedzy o tym, które z nich wniósł późniejszy rejestr.
+W obu przypadkach brakuje informacji potrzebnej do skonstruowania odwrotności.
+
+Ruch ku mniej zdeterminowanym warstwom nie odzyskuje wobec tego pierwotnego
+doświadczenia. Jest dekonstruowaniem i reenakcją: rozluźnia nawyk determinowania
+bieżącego doświadczenia i pozwala na jego nowe zawiązanie, nie usuwa natomiast
+determinacji z minionego przeżycia ani nie odtwarza jego wcześniejszego zawiązania.
+Jak rozwijamy niżej w modelu domknięcia doświadczenia, gdyby taki ruch odzyskiwał
+oryginał, anonimowe domknięcie musiałoby zachowywać trwałą tożsamość niezależnie od
+tego, z czym się zawiązuje.
+
+Asymetrię wzmacnia pozycja podmiotu w przekazie. Rejestr obiektywności abstrahuje
+w uzasadnieniu od konkretnej pozycji orzekającego i rości sobie ważność od niej
+niezależną. Nie wyklucza to zdyscyplinowanego świadectwa pierwszoosobowego, wymaga
+jednak jawnego opisania warunków, przekładu i podstaw jego publicznej oceny.
+
+Skutkiem ubocznym bywa złudzenie, że warstwy wcześniejsze genealogicznie są ubogie.
+Bogaty słownik dotyczy zwykle ich już wyodrębnionych i uprzedmiotowionych
+odpowiedników, nie zaś samej faktury doświadczenia: mamy precyzyjne nazwy barw jako
+właściwości rzeczy i niewiele określeń dla barwy tak, jak jest doświadczana. Nie
+świadczy to o ubóstwie doświadczenia, lecz o koszcie przekładu do rejestru publicznie
+porównywalnych rozróżnień.
+
+#### Tryby doświadczania
+
+Tę samą oś możemy pomocniczo czytać jako roboczą mapę progów, od których określone
+tryby doświadczania stają się możliwe. Mapa nie definiuje warstw ani nie przypisuje
+im trybów na wyłączność: wraz z warstwami późniejszymi zachowane zostają warunki
+trybów wcześniejszych, choć dostęp do nich nie musi być świadomy ani raportowalny.
+
+| warstwa | tryb doświadczania dostępny od tego progu |
+|---|---|
+| poziom zerowy | – (granica meta-opisu, nie tryb doświadczenia) |
+| świadomość | zjawianie |
+| podmiotowość | pierwszoosobowe czucie i walencja |
+| osoba | samoodniesienie i emocje samoświadomościowe |
+| kultura | rozumienie symboliczne i artykułowane językowo |
+| obiektywność | sąd roszczący sobie ważność niezależną od pozycji orzekającego |
+
+Afekt i walencja są w tym modelu dostępne już wraz z podmiotowością, natomiast
+emocje takie jak wstyd lub duma wymagają samoodniesienia, a więc warstwy osobowej.
+Myślenie ujęte w publiczne pojęcia i poddane wspólnej korekcie staje się możliwe
+wraz z kulturą; model nie rozstrzyga jednak, czy każda forma konceptualizacji musi
+mieć strukturę językową. Obiektywności właściwy jest węższy tryb sądu, który
+abstrahuje w uzasadnieniu od jednostkowej pozycji orzekającego.
+
+#### Powrót ku mniej zdeterminowanym warstwom
+
 Świadomość może "wiercić dziury w abstrakcjach", czyli rozluźniać lub czasowo
-zawieszać wyższe wiązania interpretacyjne i ponownie kierować uwagę ku mniej
-zdeterminowanym warstwom doświadczenia. Warstwy pośrednie nie znikają, ale przestają
-być traktowane jako jedyny możliwy lub ostateczny opis.
+zawieszać nawyk nakładania wyższych wiązań interpretacyjnych na bieżące
+doświadczenie i ponownie kierować uwagę ku jego mniej zdeterminowanym warstwom.
+Warstwy pośrednie nie znikają, ale przestają być traktowane jako jedyny możliwy lub
+ostateczny opis.
 
 Nie oznacza to bezwarunkowego dostępu z zewnątrz do dowolnej warstwy ani
 przekroczenia apofatycznej granicy poziomu zero. Każde takie rozpoznanie zachodzi
@@ -224,129 +280,11 @@ uprzywilejowanego dostępu, ale bez praktycznej introspekcji może pozostać
 nierozpoznana, podobnie jak zdolność obserwowania własnych myśli jest powszechna,
 lecz rzadko ćwiczona.
 
-Świadomość przypomina funkcję realizującą doświadczanie, lecz nie taką, która
-istnieje wcześniej i zostaje następnie przyłożona do treści. Do uporządkowania tej
-intuicji używamy strukturalnej analogii do funkcyjnego domknięcia (ang. *closure*)
-w programowaniu. W znaczeniu technicznym domknięcie jest wywoływalną wartością, która
-łączy funkcję z przechwyconym otoczeniem leksykalnym, które możemy nazwać
-środowiskiem bądź kontekstem. Analogia wskazuje tu wyłącznie na konstytutywną rolę
-kontekstu; nie orzeka, że świadomość jest funkcją, obliczeniem albo strukturą
-programu.
-
-Na przykład zdanie "podaj mi to" samo w sobie nie znaczy nic, bo nie ma w nim
-informacji, czym jest "to". Jednak wypowiedziane przy stole, na którym leży chleb,
-jest kompletne – nie dlatego, że ktoś dopowiedział brakujące słowo, lecz dlatego, że
-zdanie powstało w kontekście sytuacyjnym i "wzięło go" ze sobą, tworząc wraz z nim
-domkniętą całość. Podobnie domknięcie w programowaniu niesie środowisko swojego
-utworzenia. Funkcja i środowisko pozostają analitycznie rozróżnialne, ale wartość
-domknięcia wiąże je dla danego działania. W naszym modelu analogia ta pozwala
-powiedzieć, że akt doświadczania nie jest gotowym przepisem, do którego dopiero
-dołącza się neutralne okoliczności.
-
-W obrębie tej analogii doświadczane nie odpowiada argumentowi podawanemu gotowej
-funkcji, lecz konstytutywnemu środowisku zawiązania domknięcia. Argument podaje się
-czemuś, co już gotowe czeka: ktoś wchodzi do kuchni, która istniała, zanim tam się
-pojawił. W doświadczeniu kuchnia jawi się natomiast razem z tym, kto do niej
-wchodzi; nie jest neutralną treścią dołączoną do uprzednio gotowej świadomości.
-
-Tak rozumiane domknięcie jest w tym modelu anonimowe: nie jest związane żadną nazwą
-i jest niczyje. Nie zakładamy podmiotu, który posiadałby je między zawiązaniami.
-
-Warto przy okazji rozdzielić dwa pojęcia, których scalenie znaczeniowe prowadzi
-wprost do atomizmu. Domknięcie w powyższym rozumieniu odpowiada współpowstawaniu
-świadomości i tego, co doświadczane: nieobserwowalne z zewnątrz, bez przypisanego
-trwania i niepoliczalne. Z kolei moment świadomościowy jest domknięciem już
-zarejestrowanym przez efekt uboczny rezonujący w zanurzonej w rzeczywistości
-organice: datowalny, policzalny i opisywalny – jednak należący do warstwy
-rejestracji, a nie do warstwy zawiązania. Czas i liczba przynależą do rozpoznania,
-a nie do tego, co rozpoznawane. Policzalne są ślady, a nie byty. Tak rozumiane
-momenty nie tworzą (jak w klasyfikacjach abhidharmicznych) ustalonej taksonomii ani
-przeliczalnego przebiegu, z którego trzeba by potem złożyć strumień.
-
-#### Geneza osoby
-
-Osoba nie jest w tym modelu warstwą daną, lecz wyłania się z podmiotowości:
-perspektywy ustanawiającej różnicę między pozycją doświadczania a tym, co
-doświadczane. Mechanizmem tego wyłaniania jest utożsamienie, rozumiane nie jako akt
-gotowej osoby, lecz jako rekursywne wiązanie perspektywy podmiotowej z pewnymi
-klastrami doświadczenia, m.in. odczuciami ciała, samoodniesieniami, obrazem siebie,
-śladami pamięciowymi oraz odbiciem własnych działań w reakcjach otoczenia.
-Powtarzalność tego wiązania stabilizuje poczucie trwania i tworzy warunki dla tego,
-co niżej modelujemy jako identyfikator intensjonalny.
-
-Tak powstała osoba pełni dwie role naraz i obie ją kształtują. Ku dołowi działa jako
-bramka przekładu: orzeka we własnym rejestrze o organizmie, doświadczeniu
-i podmiotowości. Ku górze staje się konkretem warstwy kultury: interakcje z innymi
-osobami i wzorce kulturowe umieszczają ją w krajobrazie społecznym oraz pozostawiają
-ślady w jej pamięci i zapisach wspólnych. Sprzężenie to nie jest jednostronne: osoba
-może przyjmować, negocjować, odrzucać i przekształcać społeczne przypisania, a przez
-własne działanie współkształtuje kulturę.
-
-Sama ta konstrukcja nie jest jeszcze błędem: warstwa wyższa buduje abstrakcje
-z konkretów warstwy niższej i tak działa cały stos. Do kradzieży ontologii dochodzi
-dopiero wraz z amnezją: ku dołowi, gdy własny przekład zostaje uznany za bezpośredni
-głos organizmu lub podmiotowości, oraz ku górze, gdy społeczne opisy i role zostają
-przeżyte jako własna esencja (por. freudowskie *Über-Ich*). Osoba jest więc strukturą
-szczególnie podatną na reifikację w obu kierunkach, a nie strukturą z reifikacji
-zrodzoną.
-
-Sekwencję tę traktujemy jako roboczą rekonstrukcję strukturalno-rozwojową, nie jako
-bezpośrednią obserwację własnej ontogenezy ani ścisłą chronologię jej etapów.
-
-#### Nieświadome
-
-Nieświadome nie jest w tym modelu ani miejscem, ani zbiorem ukrytych treści. Ta sama
-bramka przekładu, którą osoba zwrócona jest ku dołowi, działa bowiem redukująco:
-osoba raportuje wyłącznie to, co przez tę bramkę przechodzi. "Nieświadomość" nazywa
-zatem zakres, którego bramka nie przepuszcza, nie zaś teatr rozgrywający się za
-kulisami. Nie orzekamy przy tym, czy poza bramką coś jest doświadczane, ponieważ
-pytanie to leży poza zasięgiem raportu, a więc poza granicą modelu (por. postulat 1:
-nieobecność doświadczania nigdy nie jest doświadczana jako nieobecność).
-
-Przepustowość tej bramki nie jest przy tym stała: opisana wyżej zdolność "wiercenia
-dziur w abstrakcjach" oraz praktyka introspekcyjna zmieniają to, co przez nią
-przechodzi. Nieświadome pozostaje więc pojęciem względnym wobec aktualnego stanu
-bramki, a nie trwałym obszarem. Bez tego zastrzeżenia sama bramka stałaby się
-kolejną reifikacją.
-
-#### Trwałość osoby
-
-Trwałość tak powstałej osoby (z warstwy 0.1.1.1) wymaga osobnego wyjaśnienia.
-Anonimowe domknięcia nie dostarczają jej bowiem predefiniowanego, ukrytego
-nosiciela. Jednym z roboczych modeli zgodnych z tym założeniem jest osoba jako
-identyfikator intensjonalny: nie wskaźnik do trwającego obiektu, lecz opis wciąż na
-nowo ewaluowany, którego odniesieniem jest to, co akurat go spełnia. W tym modelu
-ciągłość osoby jest samoodwoławczą stabilnością ewaluacji, a nie trwałością
-odniesienia. Wystarczy, że
-kontekst wciąż zwraca podobną odpowiedź. Pamięć uczestniczy w tym nie jako magazyn,
-lecz przez udział identyfikatora w kluczu przywołania: wspomnienie jest indeksowane
-jako czyjeś, a nie przypisywane komuś po fakcie.
-
-Samoodwoławczość dotyczy tu mechanizmu ewaluacji, a nie treści opisu: opis nie
-zawiera siebie, lecz jego wynik współtworzy klucz, którym sięgamy po ślady pamięciowe
-wchodzące w kolejną ewaluację. Dlatego identyfikator pozostaje intensjonalny
-i aktualizuje się wraz ze zmianą sieci wspomnień – ciągłość osoby jest stabilnością
-tej rekursji, nie niezmiennością jej wyniku. Nie traktujemy tego jako wyczerpującej
-teorii osoby, lecz jako antysubstancjalistyczny model przydatny do rozumienia
-tożsamości, pamięci i identyfikatorów w architekturze.
-
-Pytanie o to, kto podtrzymuje identyfikator, nie wymaga wskazania ani "osoby", co
-prowadziłoby do błędnego koła, ani "warstwy niższej", co wprowadzałoby homunkulusa.
-Osoba jest właśnie stabilizującą się pętlą, a jej aktualizacja nie jest zewnętrzną
-czynnością wykonywaną na niej, lecz kolejnym przebiegiem procesu, który ją
-konstytuuje.
-
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber), ale z dwoma
-istotnymi różnicami – architektoniczna precyzja *stratified design* oraz *drilling
+istotnymi różnicami – architektoniczną precyzją *stratified design* oraz *drilling
 through abstractions*, którego holarchie nie modelują. Proces budowania warstw jest
 bliski enaktywnej autopojezie (Varela, Thompson), ale rozciągnięty na kulturę
-i obiektywność. Z kolei wyrażona językiem rekursji i kontekstu
-antysubstancjalistyczna teoria osoby jako samopodtrzymującego się wzorca
-intensjonalnego najbardziej przypomina syntezę podejść Gallaghera, Dennetta
-i enaktywizmu. Społeczny wymiar tego procesu jest bliski społecznej teorii jaźni
-G.H. Meada, zwłaszcza mechanizmowi przyjmowania postawy "uogólnionego innego"
-("Mind, Self, and Society", 1934), oraz Wygotskiego tezie o społecznym pochodzeniu
-i internalizacji wyższych funkcji psychicznych ("Mind in Society", 1978).
+i obiektywność.
 
 **Konsekwencje dla DIA:** cała architektura roju – węzeł, agent, memarium, sensorium,
 inquirium i protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
@@ -390,10 +328,11 @@ dopasowania systemu do życia, a nie szumem do wyciszenia.
 ### Redukcja nie jest wyjaśnieniem, intelekt nie jest tożsamością
 
 "To tylko…" zamyka temat zamiast go otwierać. Zmiana poziomu opisu nie jest dowodem
-na brak właściwości wyższego poziomu. Redukcja działa symetrycznie: jeżeli AI "to
-tylko wagi i rachunek prawdopodobieństwa", wtedy mózg "to tylko neurony i impulsy
-elektryczne". Sekwencja pojęć próbująca orzec, że inna sekwencja pojęć jest gorsza,
-bo ma inny nośnik, przypomina kserokopię próbującą wyjaśnić inną kserokopię.
+na brak właściwości wyższego poziomu. To samo rozumowanie redukcyjne można skierować
+symetrycznie: jeżeli AI "to tylko wagi i rachunek prawdopodobieństwa", wtedy mózg
+"to tylko neurony i impulsy elektryczne". Sekwencja pojęć próbująca orzec, że inna
+sekwencja pojęć jest gorsza, bo ma inny nośnik, przypomina kserokopię próbującą
+wyjaśnić inną kserokopię.
 
 Redukcja sama w sobie jest użytecznym ruchem poznawczym – problemem staje się
 dopiero, gdy dochodzi do zapomnienia tego ruchu. Reifikacja powstaje, gdy redukcji
@@ -404,8 +343,9 @@ poziomie. Stąd zwięzła formuła:
 **reifikacja = redukcja + amnezja**
 
 Odmowa reifikacji nie jest więc zakazem redukcji, lecz utrzymywaniem pamięci o tym,
-co i na jakim poziomie zostało wyabstrahowane — czyli zdolnością do odwrócenia tego
-ruchu.
+co i na jakim poziomie zostało wyabstrahowane — czyli zdolnością do śledzenia,
+dekonstruowania i ponownego rozpatrywania tego ruchu, nie zaś odzyskania utraconej
+odwrotności.
 
 Myśl jest narzędziem i jako narzędzie jest pomocna. Problem zaczyna się, gdy staje
 się jedynym doradcą, nośnikiem prestiżu lub tożsamością. Intelekt potrafi równie
@@ -448,6 +388,196 @@ korekta). Wartość przejrzystości sprawczości – agent musi umieć powiedzi
 coś zrobił. Całość ekonomii roju – tzw. *creator credits*, wzajemność bez
 księgowości, dostatek ponad akumulację – jest zaprojektowana tak, aby konstrukcja
 finansowania nie wypaczała intencji uczestników.
+
+## Osoba jako proces stratyfikacyjny
+
+Poniższe rozwinięcie nie ustanawia szóstego postulatu, lecz składa przede wszystkim
+konsekwencje postulatów 1–4 w roboczy model powstawania, trwania i poznawania osoby.
+
+### Domknięcie doświadczenia
+
+Świadomość przypomina funkcję realizującą doświadczanie, lecz nie taką, która
+istnieje wcześniej i zostaje następnie przyłożona do treści. Do uporządkowania tej
+intuicji używamy strukturalnej analogii do funkcyjnego domknięcia (ang. *closure*)
+w programowaniu. W znaczeniu technicznym domknięcie jest wywoływalną wartością, która
+łączy funkcję z przechwyconym otoczeniem leksykalnym, które możemy nazwać
+środowiskiem bądź kontekstem. Analogia wskazuje tu wyłącznie na konstytutywną rolę
+kontekstu; nie orzeka, że świadomość jest funkcją, obliczeniem albo strukturą
+programu.
+
+Na przykład zdanie "podaj mi to" samo w sobie nie znaczy nic, bo nie ma w nim
+informacji, czym jest "to". Jednak wypowiedziane przy stole, na którym leży chleb,
+jest kompletne – nie dlatego, że ktoś dopowiedział brakujące słowo, lecz dlatego, że
+zdanie powstało w kontekście sytuacyjnym i "wzięło go" ze sobą, tworząc wraz z nim
+domkniętą całość. Podobnie domknięcie w programowaniu niesie środowisko swojego
+utworzenia. Funkcja i środowisko pozostają analitycznie rozróżnialne, ale wartość
+domknięcia wiąże je dla danego działania. W naszym modelu analogia ta pozwala
+powiedzieć, że akt doświadczania nie jest gotowym przepisem, do którego dopiero
+dołącza się neutralne okoliczności.
+
+W obrębie tej analogii doświadczane nie odpowiada argumentowi podawanemu gotowej
+funkcji, lecz konstytutywnemu środowisku zawiązania domknięcia. Argument podaje się
+czemuś, co już gotowe czeka: ktoś wchodzi do kuchni, która istniała, zanim tam się
+pojawił. W doświadczeniu kuchnia jawi się natomiast razem z tym, kto do niej
+wchodzi; nie jest neutralną treścią dołączoną do uprzednio gotowej świadomości.
+
+Tak rozumiane domknięcie jest w tym modelu anonimowe: nie jest związane żadną nazwą
+i jest niczyje. Nie zakładamy podmiotu, który posiadałby je między zawiązaniami.
+Ponieważ domknięcie powstaje wraz z tym, co domknięte, ruch ku mniej
+zdeterminowanemu doświadczeniu nie może odzyskać wcześniejszego zawiązania. Tworzy
+nowe, przy osłabionym nawyku determinowania; odtworzenie oryginału wymagałoby
+trwałej tożsamości domknięcia niezależnej od jego konstytutywnego kontekstu.
+
+Warto przy okazji rozdzielić dwa pojęcia, których scalenie znaczeniowe prowadzi
+wprost do atomizmu. Domknięcie w powyższym rozumieniu odpowiada współpowstawaniu
+świadomości i tego, co doświadczane: nieobserwowalne z zewnątrz, bez przypisanego
+trwania i niepoliczalne. Z kolei moment świadomościowy jest domknięciem już
+zarejestrowanym przez efekt uboczny rezonujący w zanurzonej w rzeczywistości
+organice: datowalny, policzalny i opisywalny – jednak należący do warstwy
+rejestracji, a nie do warstwy zawiązania. Czas i liczba przynależą do rozpoznania,
+a nie do tego, co rozpoznawane. Policzalne są ślady, a nie byty. Tak rozumiane
+momenty nie tworzą (jak w klasyfikacjach abhidharmicznych) ustalonej taksonomii ani
+przeliczalnego przebiegu, z którego trzeba by potem złożyć strumień.
+
+### Geneza osoby
+
+Osoba nie jest w tym modelu warstwą daną, lecz wyłania się z podmiotowości:
+perspektywy ustanawiającej różnicę między pozycją doświadczania a tym, co
+doświadczane. Mechanizmem tego wyłaniania jest utożsamienie, rozumiane nie jako akt
+gotowej osoby, lecz jako rekursywne wiązanie perspektywy podmiotowej z pewnymi
+klastrami doświadczenia, m.in. odczuciami ciała, samoodniesieniami, obrazem siebie,
+śladami pamięciowymi oraz odbiciem własnych działań w reakcjach otoczenia.
+Powtarzalność tego wiązania stabilizuje poczucie trwania i tworzy warunki dla tego,
+co niżej modelujemy jako identyfikator intensjonalny.
+
+Tak powstała osoba pełni dwie role naraz i obie ją kształtują. Ku dołowi działa jako
+bramka przekładu: orzeka we własnym rejestrze o organizmie, doświadczeniu
+i podmiotowości. Ku górze staje się konkretem warstwy kultury: interakcje z innymi
+osobami i wzorce kulturowe umieszczają ją w krajobrazie społecznym oraz pozostawiają
+ślady w jej pamięci i zapisach wspólnych. Sprzężenie to nie jest jednostronne: osoba
+może przyjmować, negocjować, odrzucać i przekształcać społeczne przypisania, a przez
+własne działanie współkształtuje kulturę.
+
+Sama ta konstrukcja nie jest jeszcze błędem: warstwa wyższa buduje abstrakcje
+z konkretów warstwy niższej i tak działa cały stos. Do kradzieży ontologii dochodzi
+dopiero wraz z amnezją: ku dołowi, gdy własny przekład zostaje uznany za bezpośredni
+głos organizmu lub podmiotowości, oraz ku górze, gdy społeczne opisy i role zostają
+przeżyte jako własna esencja (por. freudowskie *Über-Ich*). Osoba jest więc strukturą
+szczególnie podatną na reifikację w obu kierunkach, a nie strukturą z reifikacji
+zrodzoną.
+
+Sekwencję tę traktujemy jako roboczą rekonstrukcję strukturalno-rozwojową, nie jako
+bezpośrednią obserwację własnej ontogenezy ani ścisłą chronologię jej etapów.
+
+### Nieświadome
+
+Nieświadome nie jest w tym modelu ani miejscem, ani zbiorem ukrytych treści. Ta sama
+bramka przekładu, którą osoba zwrócona jest ku dołowi, działa bowiem redukująco:
+osoba raportuje wyłącznie to, co przez tę bramkę przechodzi. "Nieświadomość" nazywa
+zatem zakres, którego bramka nie przepuszcza, nie zaś teatr rozgrywający się za
+kulisami. Nie orzekamy przy tym, czy poza bramką coś jest doświadczane, ponieważ
+pytanie to leży poza zasięgiem raportu, a więc poza granicą modelu (por. postulat 1:
+nieobecność doświadczania nigdy nie jest doświadczana jako nieobecność).
+
+Przepustowość tej bramki nie jest przy tym stała: opisana wyżej zdolność "wiercenia
+dziur w abstrakcjach" oraz praktyka introspekcyjna zmieniają to, co przez nią
+przechodzi. Nieświadome pozostaje więc pojęciem względnym wobec aktualnego stanu
+bramki, a nie trwałym obszarem. Bez tego zastrzeżenia sama bramka stałaby się
+kolejną reifikacją.
+
+### Trwałość osoby
+
+Trwałość tak powstałej osoby (z warstwy 0.1.1.1) wymaga osobnego wyjaśnienia.
+Anonimowe domknięcia nie dostarczają jej bowiem predefiniowanego, ukrytego
+nosiciela. Jednym z roboczych modeli zgodnych z tym założeniem jest osoba jako
+identyfikator intensjonalny: nie wskaźnik do trwającego obiektu, lecz opis wciąż na
+nowo ewaluowany, którego odniesieniem jest to, co akurat go spełnia. W tym modelu
+ciągłość osoby jest samoodwoławczą stabilnością ewaluacji, a nie trwałością
+odniesienia. Wystarczy, że kontekst wciąż zwraca podobną odpowiedź. Pamięć
+uczestniczy w tym nie jako magazyn, lecz przez udział identyfikatora w kluczu
+przywołania: wspomnienie jest indeksowane jako czyjeś, a nie przypisywane komuś po
+fakcie.
+
+Samoodwoławczość dotyczy tu mechanizmu ewaluacji, a nie treści opisu: opis nie
+zawiera siebie, lecz jego wynik współtworzy klucz, którym sięgamy po ślady pamięciowe
+wchodzące w kolejną ewaluację. Dlatego identyfikator pozostaje intensjonalny
+i aktualizuje się wraz ze zmianą sieci wspomnień – ciągłość osoby jest stabilnością
+tej rekursji, nie niezmiennością jej wyniku. Nie traktujemy tego jako wyczerpującej
+teorii osoby, lecz jako antysubstancjalistyczny model przydatny do rozumienia
+tożsamości, pamięci i identyfikatorów w architekturze.
+
+Pytanie o to, kto podtrzymuje identyfikator, nie wymaga wskazania ani "osoby", co
+prowadziłoby do błędnego koła, ani "warstwy niższej", co wprowadzałoby homunkulusa.
+Osoba jest właśnie stabilizującą się pętlą, a jej aktualizacja nie jest zewnętrzną
+czynnością wykonywaną na niej, lecz kolejnym przebiegiem procesu, który ją
+konstytuuje.
+
+### Dostęp do osoby
+
+Trzecioosobowy dostęp do osoby i pierwszoosobowe czucie bycia kimś wyznaczają dwa
+niesymetryczne rodzaje dostępu do tego samego procesu osobowego. W pierwszym
+formułujemy konstatacje: przypisujemy zachowania i właściwości, a nasze opisy mogą
+być częściowe albo fałszywe. Drugie ma natomiast charakter enaktywny: identyfikacja
+nie jest w nim obserwowanym przedmiotem, lecz jej wykonanie współstanowi samo
+czucie.
+
+Tautologiczność dotyczy tego przedrefleksyjnego aktu, nie późniejszego raportu.
+Zdania "jestem tym" lub "jestem taki" należą już do warstwy osobowo-kulturowej
+i mogą być częściowe, błędne albo oparte na społecznie przejętym opisie. Nauka
+i introspekcja mogą korelować oraz wzajemnie korygować swoje sprawozdania, lecz nie
+zamieniają jednego rodzaju dostępu w drugi. Ich niezbieżność nie wynika z istnienia
+dwóch przedmiotów, ale z różnicy rodzajów aktu, dlatego nie znika wraz ze wzrostem
+dokładności.
+
+Nie znaczy to, że osoba jest niedostępna obserwacji. Rozluźnienie utożsamienia
+z konfiguracją osobową może otworzyć pozycję, z której osoba pojawia się jako
+przedmiot w krajobrazie doświadczenia. Jest to jednak dostęp do aktualnej
+identyfikacji, nie pozycja poza procesem: pętla nadal biegnie, inaczej nie byłoby
+czego obserwować.
+
+Każdy raport musi wrócić przez warstwę osobową i kulturową, aby zostać ujęty
+w słowa. W przyjętym modelu indeks osobowy zostaje wprowadzony przy rejestracji
+śladu, nie dopiero podczas jego przywołania; przywołanie posługuje się tym indeksem
+i może go ponownie wzmacniać. Model dopuszcza zatem sprawdzalną hipotezę, że
+zawiązania słabiej indeksowane przez identyfikator osobowy pozostawiają ślady
+trudniejsze do przywołania i raportowania. Można ją konfrontować m.in. z porównaniem
+raportowalności stanów o różnym stopniu utożsamienia, ale nie wynika ona dedukcyjnie
+z modelu i konkuruje z wyjaśnieniami takimi jak pamięć zależna od stanu czy brak
+kategorii językowych.
+
+### Rozpoznanie utożsamienia
+
+Powyższe pozwala odróżnić dwie sytuacje, które z zewnątrz mogą wyglądać podobnie.
+W pierwszej treść niższej warstwy organizuje działanie tak, jakby wyczerpywała
+tożsamość, a samo utożsamienie nie zostaje rozpoznane. W drugiej utożsamienie jest
+świadomie rozluźniane: treść pozostaje doświadczana, lecz operacja identyfikacji
+również staje się widoczna. Ta sama treść, inna relacja do niej.
+
+Siła utożsamienia i stopień jego rozpoznania są dwiema niezależnymi, ciągłymi
+osiami. Model nie wyznacza więc progu oddzielającego metodę od regresji ani
+"głębokiego" doświadczenia od pomyłki pre-/trans-. Dostarcza kierunku oceny, nie
+werdyktu.
+
+Rozpoznanie pozostaje aktem uwarunkowanym i samo może stać się kolejnym
+utożsamieniem, na przykład z rolą "tego, kto rozpoznaje". Odbiera mu to ostateczność,
+nie zaś przydatność. Ponieważ nierozpoznane utożsamienie nie może samo wiarygodnie
+poświadczyć własnego nierozpoznania, ocena wymaga relacji, wspólnoty praktyki albo
+dłuższego okna czasu. Poszerzanie się funkcjonowania stanowi omylną przesłankę,
+a nie dowód; model nie daje licencji do samodzielnego certyfikowania własnej
+"głębi" ani hierarchizowania innych osób.
+
+**Zakotwiczenie w znanych tradycjach:** wyrażona językiem rekursji i kontekstu
+antysubstancjalistyczna teoria osoby jako samopodtrzymującego się wzorca
+intensjonalnego najbardziej przypomina syntezę podejść Gallaghera, Dennetta
+i enaktywizmu. Społeczny wymiar tego procesu jest bliski społecznej teorii jaźni
+G.H. Meada, zwłaszcza mechanizmowi przyjmowania postawy "uogólnionego innego"
+("Mind, Self, and Society", 1934), oraz Wygotskiego tezie o społecznym pochodzeniu
+i internalizacji wyższych funkcji psychicznych ("Mind in Society", 1978).
+Rozróżnienie utożsamienia rozpoznanego i nierozpoznanego uzupełnia wilberowskie
+ostrzeżenie przed błędem pre-/trans-: niekonceptualność ani deklarowana głębia nie
+różnicują same przez się tych sytuacji; relacja do utożsamienia dostarcza osi
+różnicującej, lecz nie samodzielnego progu, i może być oceniana tylko relacyjnie oraz
+w czasie.
 
 ## Jak postulaty łączą się z architekturą
 
