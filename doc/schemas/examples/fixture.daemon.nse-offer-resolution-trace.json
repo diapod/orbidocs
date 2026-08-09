@@ -1,0 +1,16 @@
+{
+  "schema": "daemon.nse-offer-resolution-trace.v1",
+  "schema/v": 1,
+  "recorded-at": "2026-08-03T13:00:00Z",
+  "offer/ref": "nse-offer:01J00000000000000000000000",
+  "invocation/ref": "nse-invocation:01J00000000000000000000000",
+  "offer/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "hook/id": "select-llm-model",
+  "caller/ref": "json-e-flow:assistant-model-selection",
+  "lookup/status": "matched",
+  "step/id": "select_model",
+  "producer/refs": ["nse-table:nse-policy:01J00000000000000000000000"],
+  "evidence/count": 2,
+  "status": "admitted",
+  "refusal/code": null
+}

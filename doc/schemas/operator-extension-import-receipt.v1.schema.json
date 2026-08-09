@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-extension-import-receipt:v1",
+  "title": "Operator Extension Import Receipt V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "package/ref", "package/digest", "artifact/digest", "signer/key-public", "container/mode", "distribution/eligible", "activated"],
+  "properties": {
+    "schema": {"const": "operator-extension-import-receipt.v1"},
+    "schema/v": {"const": 1},
+    "package/ref": {"$ref": "#/$defs/ref"},
+    "package/digest": {"$ref": "#/$defs/digest"},
+    "artifact/digest": {"$ref": "#/$defs/digest"},
+    "signer/key-public": {"type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$"},
+    "container/mode": {"const": "loose-file-import"},
+    "distribution/eligible": {"const": false},
+    "activated": {"const": false}
+  },
+  "$defs": {"ref": {"type": "string", "minLength": 1, "maxLength": 256}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}},
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+}

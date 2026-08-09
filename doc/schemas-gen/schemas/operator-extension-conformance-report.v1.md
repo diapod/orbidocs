@@ -17,6 +17,8 @@ Source schema: [`doc/schemas/operator-extension-conformance-report.v1.schema.jso
 | [`report/ref`](#field-report-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`package/ref`](#field-package-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`package/digest`](#field-package-digest) | `yes` | ref: `#/$defs/digest` |  |
+| [`refusal-corpus/ref`](#field-refusal-corpus-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`refusal-corpus/digest`](#field-refusal-corpus-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`runtime/digest`](#field-runtime-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`positive/passed`](#field-positive-passed) | `yes` | integer |  |
 | [`positive/total`](#field-positive-total) | `yes` | integer |  |
@@ -59,6 +61,18 @@ Source schema: [`doc/schemas/operator-extension-conformance-report.v1.schema.jso
 
 <a id="field-package-digest"></a>
 ## `package/digest`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/digest`
+
+<a id="field-refusal-corpus-ref"></a>
+## `refusal-corpus/ref`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/ref`
+
+<a id="field-refusal-corpus-digest"></a>
+## `refusal-corpus/digest`
 
 - Required: `yes`
 - Shape: ref: `#/$defs/digest`

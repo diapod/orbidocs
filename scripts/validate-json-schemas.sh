@@ -326,6 +326,9 @@ schema_for_file() {
     *.nse-hook-offer.json)
       echo "$SCHEMAS_DIR/nse-hook-offer.v1.schema.json"
       ;;
+    *.daemon.nse-offer-resolution-trace.json)
+      echo "$SCHEMAS_DIR/daemon.nse-offer-resolution-trace.v1.schema.json"
+      ;;
     *.nse-hook-decision.json)
       echo "$SCHEMAS_DIR/nse-hook-decision.v1.schema.json"
       ;;
@@ -352,6 +355,18 @@ schema_for_file() {
       ;;
     *.operator-extension-conformance-report.json)
       echo "$SCHEMAS_DIR/operator-extension-conformance-report.v1.schema.json"
+      ;;
+    *.operator-extension-conformance-run.json)
+      echo "$SCHEMAS_DIR/operator-extension-conformance-run.v1.schema.json"
+      ;;
+    *.operator-extension-conformance-run-result.json)
+      echo "$SCHEMAS_DIR/operator-extension-conformance-run-result.v1.schema.json"
+      ;;
+    *.operator-extension-loose-import.json)
+      echo "$SCHEMAS_DIR/operator-extension-loose-import.v1.schema.json"
+      ;;
+    *.operator-extension-import-receipt.json)
+      echo "$SCHEMAS_DIR/operator-extension-import-receipt.v1.schema.json"
       ;;
     *.operator-extension-inspection.json)
       echo "$SCHEMAS_DIR/operator-extension-inspection.v1.schema.json"

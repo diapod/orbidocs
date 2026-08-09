@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-extension-conformance-run-result:v1",
+  "title": "Operator Extension Conformance Run Result V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "package/ref", "report/ref", "report/digest", "status"],
+  "properties": {"schema": {"const": "operator-extension-conformance-run-result.v1"}, "schema/v": {"const": 1}, "package/ref": {"$ref": "#/$defs/ref"}, "report/ref": {"$ref": "#/$defs/ref"}, "report/digest": {"$ref": "#/$defs/digest"}, "status": {"const": "passed"}},
+  "$defs": {"ref": {"type": "string", "minLength": 1, "maxLength": 256}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}},
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+}

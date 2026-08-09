@@ -80,14 +80,40 @@ expiry, and corrupt or unverifiable active recovery fails closed; only valid
 absence/revocation/expiry falls back to the explicitly unsigned local config source.
 The store has a 64 MiB main-database ceiling and an 8 MiB WAL checkpoint target.
 The next foundation slice adds accepted offer-bound NSE, deterministic table,
-bounded middleware-evidence, a closed refusal vocabulary and projection, package, activation, transition,
-revocation, conformance, and operator-inspection contracts. Table and Rhai now share one host validator;
+bounded middleware-evidence, a closed refusal vocabulary and projection, package,
+activation, transition, revocation, conformance, operator-inspection, signed
+loose-import, import-receipt, and host-owned conformance-run contracts. Table and
+Rhai now share one host validator;
 local activation owns producer priority and required/advisory behavior; the common
 compositor validates every activation and reserves aggregate budget before invoking
 producer callbacks, then rejects digest substitution, selecting disagreement, and
 hidden fallback. Required producer failure never becomes an implicit defer. JSON-e
-Flow has a typed decision step but still
-lacks the production daemon offer registry. A separate WAL SQLite lifecycle service
+Flow has a typed decision step backed by a 256-entry process-local daemon offer
+registry with monotonic bounded TTL and reuse, exact Flow/hook/digest/producer binding,
+consume-before-execute semantics, restart invalidation, narrow result projection,
+and prompt-free durable resolution traces. The ordinary supervised local HTTP
+executor can contribute bounded `nse-middleware-evidence.v1`; the daemon rechecks
+the exact invocation, module, package digest, grants, schemas, causal ref, candidate
+set, offer fields, and transport bounds before evidence changes the final offer
+digest. An opt-in reference Python producer now proves inert package installation,
+content-addressed package-specific conformance, operator-signed activation, real
+loopback dispatch, evidence admission, `nse-table` selection, and JSON-e Flow
+projection. The daemon rechecks canonical durable producer authority before and
+after process execution; restart, rollback, crash, expiry, revocation, safe mode,
+substitution, and conformance replacement fail closed. The common 28-code refusal
+vocabulary now has one distinct reaching test per code and a dedicated drift gate.
+The daemon-owned lifecycle exposes authenticated loopback import, conformance,
+activation, rollback, revocation, and status routes. Disabled-by-default loose
+import requires a detached signature, exact digest, trusted key, canonical
+allowlisted root, and inert install; a host-configured bounded runner, rather than
+package content, owns conformance execution. Its implementation, optional
+interpreter, runtime, and refusal corpus are owner/permission checked and pinned by
+identity and digest; passing reports bind the exact corpus and runtime, and the host
+recomputes canonical report identity. Lifecycle authority mutations and dependent
+session terminal facts commit atomically. A real daemon process smoke proves
+the local lifecycle across restart and terminal revocation. Federation, posture,
+trace-explorer integration, and three-node acceptance remain open.
+A separate WAL SQLite lifecycle service
 implements inert install, exact conformance binding, self-verifying domain-separated
 activation and revocation signatures, immediate-transaction generation journaling
 and recovery, terminal revocation, restart-discarded session authority with
@@ -95,8 +121,8 @@ metadata-only audit, generation-bound compiled cache, persistent live-operator-o
 safe mode, and canonical-root/owner-bound audited prompt-free CLI inspection. Derived
 capability, monotonic guard, middleware dispatch binding, and attention-budget
 primitives are pure and fail closed, while their signed schemas and daemon routes
-remain open. Runtime task/session overlays, package trust/container import, a real
-28-code reaching refusal-corpus runner, broader runtime enforcement, capability routes, three-node
+remain open. Runtime task/session overlays, broader runtime enforcement, formal
+capability ids/routes, three-node
 acceptance, federated posture, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 

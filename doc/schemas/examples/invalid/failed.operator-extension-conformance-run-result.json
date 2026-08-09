@@ -1,0 +1,1 @@
+{"schema":"operator-extension-conformance-run-result.v1","schema/v":1,"package/ref":"extension-package:example","report/ref":"extension-conformance:example","report/digest":"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","status":"failed"}

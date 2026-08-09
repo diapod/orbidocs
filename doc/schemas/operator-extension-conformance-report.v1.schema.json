@@ -1,10 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:orbiplex:schema:operator-extension-conformance-report:v1",
   "title": "Operator Extension Conformance Report V1", "type": "object", "additionalProperties": false,
-  "required": ["schema", "schema/v", "report/ref", "package/ref", "package/digest", "runtime/digest", "positive/passed", "positive/total", "refusal/status", "refusal/passed", "refusal/total", "report/digest"],
+  "required": ["schema", "schema/v", "report/ref", "package/ref", "package/digest", "refusal-corpus/ref", "refusal-corpus/digest", "runtime/digest", "positive/passed", "positive/total", "refusal/status", "refusal/passed", "refusal/total", "report/digest"],
   "properties": {
     "schema": {"const": "operator-extension-conformance-report.v1"}, "schema/v": {"const": 1},
-    "report/ref": {"$ref": "#/$defs/ref"}, "package/ref": {"$ref": "#/$defs/ref"}, "package/digest": {"$ref": "#/$defs/digest"}, "runtime/digest": {"$ref": "#/$defs/digest"},
+    "report/ref": {"$ref": "#/$defs/ref"}, "package/ref": {"$ref": "#/$defs/ref"}, "package/digest": {"$ref": "#/$defs/digest"},
+    "refusal-corpus/ref": {"$ref": "#/$defs/ref"}, "refusal-corpus/digest": {"$ref": "#/$defs/digest"}, "runtime/digest": {"$ref": "#/$defs/digest"},
     "positive/passed": {"type": "integer", "minimum": 0}, "positive/total": {"type": "integer", "minimum": 0},
     "refusal/status": {"type": "string", "enum": ["passed", "failed"]}, "refusal/passed": {"type": "integer", "minimum": 0}, "refusal/total": {"type": "integer", "minimum": 1, "maximum": 256},
     "report/digest": {"$ref": "#/$defs/digest"}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:daemon:nse-offer-resolution-trace:v1",
+  "title": "Daemon NSE Offer Resolution Trace v1",
+  "description": "Prompt-free host trace for one opaque NSE offer resolution attempt.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "recorded-at",
+    "offer/ref",
+    "invocation/ref",
+    "offer/digest",
+    "hook/id",
+    "caller/ref",
+    "lookup/status",
+    "step/id",
+    "producer/refs",
+    "evidence/count",
+    "status",
+    "refusal/code"
+  ],
+  "properties": {
+    "schema": { "const": "daemon.nse-offer-resolution-trace.v1" },
+    "schema/v": { "const": 1 },
+    "recorded-at": { "type": "string", "format": "date-time" },
+    "offer/ref": { "$ref": "#/$defs/ref" },
+    "invocation/ref": {
+      "description": "Exact invocation reference only after the registry found an entry and authorized its caller; null for pre-registry, unknown-offer, foreign-caller, or unavailable-registry refusals.",
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^nse-invocation:[0-9A-HJKMNP-TV-Z]{26}$" }
+      ]
+    },
+    "offer/digest": {
+      "description": "Exact offer digest only after the registry found an entry and authorized its caller; null for pre-registry, unknown-offer, foreign-caller, or unavailable-registry refusals.",
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/digest" }
+      ]
+    },
+    "hook/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "caller/ref": {
+      "type": "string",
+      "pattern": "^json-e-flow:[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+    },
+    "lookup/status": {
+      "description": "Host-operator diagnostic that is never included in the caller decision projection. matched permits bound entry metadata; foreign-caller remains caller-visible only as identifier/invalid; not-inspected means a pre-registry hook allowlist refusal.",
+      "type": "string",
+      "enum": [
+        "not-inspected",
+        "registry-unavailable",
+        "unknown-offer",
+        "foreign-caller",
+        "matched"
+      ]
+    },
+    "step/id": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z_][A-Za-z0-9_-]*$" }
+      ]
+    },
+    "producer/refs": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "evidence/count": { "type": "integer", "minimum": 0, "maximum": 256 },
+    "status": { "type": "string", "enum": ["admitted", "refused"] },
+    "refusal/code": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "operator-extension-refusal-code.v1.schema.json" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "admitted" } } },
+      "then": {
+        "properties": {
+          "invocation/ref": { "type": "string" },
+          "offer/digest": { "$ref": "#/$defs/digest" },
+          "refusal/code": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "refused" } } },
+      "then": {
+        "properties": {
+          "refusal/code": { "$ref": "operator-extension-refusal-code.v1.schema.json" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9:._/-]+$"
+    }
+  }
+}

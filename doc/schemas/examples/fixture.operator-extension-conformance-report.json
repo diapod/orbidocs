@@ -2,7 +2,9 @@
   "schema": "operator-extension-conformance-report.v1", "schema/v": 1,
   "report/ref": "extension-conformance:local-policy", "package/ref": "extension-package:local-policy",
   "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "refusal-corpus/ref": "refusal-corpus:local-policy",
+  "refusal-corpus/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
   "runtime/digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
   "positive/passed": 2, "positive/total": 2, "refusal/status": "passed", "refusal/passed": 8, "refusal/total": 8,
-  "report/digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  "report/digest": "sha256:21b68ea0505f436d5a1b1e37010c542445c541cfe3d4a4e36a25c2d76e1c050f"
 }
