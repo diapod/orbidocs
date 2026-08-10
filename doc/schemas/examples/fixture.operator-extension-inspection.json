@@ -36,5 +36,30 @@
       "operator/binding-ref": "node-operator-binding:local",
       "expires-at": "2027-08-01T00:00:00Z"
     }
+  ],
+  "attention/usage": [
+    {
+      "budget/ref": "operator-attention-budget:local-default",
+      "revision/no": 1,
+      "window/started-at": "2026-08-10T11:55:00Z",
+      "window/ends-at": "2026-08-10T12:00:00Z",
+      "prompts/used": 1,
+      "prompts/max": 8,
+      "prompts/remaining": 7,
+      "security/events": 0,
+      "groups": [
+        {
+          "group/ref": "operator-attention-group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "notification/question-ref": "operator-question:first",
+          "security": false,
+          "opened/at": "2026-08-10T11:59:00Z",
+          "last/at": "2026-08-10T11:59:10Z",
+          "expires/at": "2026-08-10T12:00:10Z",
+          "items/count": 2,
+          "question/refs": ["operator-question:first", "operator-question:second"],
+          "question/refs-omitted": 0
+        }
+      ]
+    }
   ]
 }

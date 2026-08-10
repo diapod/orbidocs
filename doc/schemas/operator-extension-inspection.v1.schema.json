@@ -18,12 +18,65 @@
       "type": "array",
       "maxItems": 256,
       "items": {"$ref": "#/$defs/policy-status"}
+    },
+    "attention/usage": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/attention-usage"}
     }
   },
   "$defs": {
     "ref": {"type": "string", "minLength": 1, "maxLength": 256},
     "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "optional-ref": {"oneOf": [{"$ref": "#/$defs/ref"}, {"type": "null"}]},
+    "attention-group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "group/ref", "notification/question-ref", "security", "opened/at", "last/at",
+        "expires/at", "items/count", "question/refs", "question/refs-omitted"
+      ],
+      "properties": {
+        "group/ref": {"$ref": "#/$defs/ref"},
+        "notification/question-ref": {"$ref": "#/$defs/ref"},
+        "security": {"type": "boolean"},
+        "opened/at": {"type": "string", "format": "date-time"},
+        "last/at": {"type": "string", "format": "date-time"},
+        "expires/at": {"type": "string", "format": "date-time"},
+        "items/count": {"type": "integer", "minimum": 1, "maximum": 4096},
+        "question/refs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ref"}
+        },
+        "question/refs-omitted": {"type": "integer", "minimum": 0, "maximum": 4096}
+      }
+    },
+    "attention-usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budget/ref", "revision/no", "window/started-at", "window/ends-at", "prompts/used",
+        "prompts/max", "prompts/remaining", "security/events", "groups"
+      ],
+      "properties": {
+        "budget/ref": {"$ref": "#/$defs/ref"},
+        "revision/no": {"type": "integer", "minimum": 1},
+        "window/started-at": {"type": "string", "format": "date-time"},
+        "window/ends-at": {"type": "string", "format": "date-time"},
+        "prompts/used": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "prompts/max": {"type": "integer", "minimum": 1, "maximum": 4096},
+        "prompts/remaining": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "security/events": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "groups": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {"$ref": "#/$defs/attention-group"}
+        }
+      }
+    },
     "producer": {
       "type": "object",
       "additionalProperties": false,

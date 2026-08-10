@@ -17,6 +17,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`safe-mode/active`](#field-safe-mode-active) | `yes` | boolean |  |
 | [`packages`](#field-packages) | `yes` | array |  |
 | [`policies`](#field-policies) | `yes` | array |  |
+| [`attention/usage`](#field-attention-usage) | `no` | array |  |
 
 ## Definitions
 
@@ -25,6 +26,8 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`ref`](#def-ref) | string |  |
 | [`digest`](#def-digest) | string |  |
 | [`optional-ref`](#def-optional-ref) | unspecified |  |
+| [`attention-group`](#def-attention-group) | object |  |
+| [`attention-usage`](#def-attention-usage) | object |  |
 | [`producer`](#def-producer) | object |  |
 | [`policy-status`](#def-policy-status) | object |  |
 | [`package-status`](#def-package-status) | object |  |
@@ -60,6 +63,12 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 - Required: `yes`
 - Shape: array
 
+<a id="field-attention-usage"></a>
+## `attention/usage`
+
+- Required: `no`
+- Shape: array
+
 ## Definition Semantics
 
 <a id="def-ref"></a>
@@ -76,6 +85,16 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 ## `$defs.optional-ref`
 
 - Shape: unspecified
+
+<a id="def-attention-group"></a>
+## `$defs.attention-group`
+
+- Shape: object
+
+<a id="def-attention-usage"></a>
+## `$defs.attention-usage`
+
+- Shape: object
 
 <a id="def-producer"></a>
 ## `$defs.producer`

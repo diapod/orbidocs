@@ -144,7 +144,17 @@ the exact operator authority, persist as sequential append-only revisions, recov
 after restart, and appear as bounded prompt-free inspection metadata. The attention
 budget gates operator-question notification projection through durable rolling
 windows, grouping, quiet windows, and a separate never-approving security lane; the
-question is persisted before any notification is suppressed. Inquirium now has a
+question is persisted before any notification is suppressed. The effective question
+deadline is narrowed by request timeout, declaration expiry, and the current
+availability-window end. Equivalent questions share one durable bounded group while
+retaining independent facts; the host derives their grouping identity from canonical
+operation semantics rather than prompt wording or caller-selected response idempotency.
+Prompt-free inspection exposes rolling usage and bounded member refs. Restart reconciles
+the complete fixed attention-store ceiling, ordinary
+admission uses a smaller cleanup pass, capacity pressure performs one bounded global
+stale-event reclamation before refusal, and read-time fencing prevents expired groups
+from being resurrected.
+Inquirium now has a
 task/session tighten-only profile seam and a pure stricter federated-envelope
 intersection without mutating the host baseline. The local policy-admission route is
 process-tested for valid admission and inspection as well as foreign-binding,
@@ -152,7 +162,7 @@ invalid-signature, and unsupported-family refusal. It deliberately admits only
 local operator declarations; node-signed federated-envelope and posture artifacts
 remain on the separate publication and peer-evaluation path. Distributor-bounded
 widening, P072 capability-use wiring, owning runtime call sites for the new hooks,
-aggregate attention UI, network federation, broader runtime enforcement, three-node
+attention-specific graphical UI, network federation, broader runtime enforcement, three-node
 acceptance, trace-explorer evidence, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 

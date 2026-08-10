@@ -195,7 +195,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`offer-catalog-fetch-response.schema.json`](schemas-gen/schemas/offer-catalog-fetch-response.md) | `5` | `5` | `yes` | `yes` | `1` | `0` |
 | [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md) | `7` | `0` | `yes` | `yes` | `0` | `0` |
 | [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) | `18` | `0` | `yes` | `yes` | `0` | `0` |
-| [`operator-attention-budget.v1.schema.json`](schemas-gen/schemas/operator-attention-budget.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `1` |
+| [`operator-attention-budget.v1.schema.json`](schemas-gen/schemas/operator-attention-budget.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-consent-binding.v1.schema.json`](schemas-gen/schemas/operator-consent-binding.v1.md) | `10` | `0` | `no` | `yes` | `0` | `0` |
 | [`operator-consent-decision.v1.schema.json`](schemas-gen/schemas/operator-consent-decision.v1.md) | `12` | `0` | `yes` | `yes` | `0` | `0` |
 | [`operator-consent.request.v1.schema.json`](schemas-gen/schemas/operator-consent.request.v1.md) | `14` | `1` | `yes` | `yes` | `0` | `0` |
@@ -205,7 +205,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-extension-conformance-run-result.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-run-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-conformance-run.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-run.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-import-receipt.v1.schema.json`](schemas-gen/schemas/operator-extension-import-receipt.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
-| [`operator-extension-inspection.v1.schema.json`](schemas-gen/schemas/operator-extension-inspection.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `0` |
+| [`operator-extension-inspection.v1.schema.json`](schemas-gen/schemas/operator-extension-inspection.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-loose-import.v1.schema.json`](schemas-gen/schemas/operator-extension-loose-import.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-refusal-code.v1.schema.json`](schemas-gen/schemas/operator-extension-refusal-code.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-refusal.v1.schema.json`](schemas-gen/schemas/operator-extension-refusal.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
@@ -897,4 +897,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `353`
 - Generated schema docs: `353`
 - Positive examples: `357`
-- Negative examples: `299`
+- Negative examples: `300`
