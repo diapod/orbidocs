@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/nse-hook-offer.v1.schema.json`](../../schemas/nse-hook-offer.v1.schema.json)
 
-Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model payload.
+Exact host-built offer for one NSE invocation. V1 admits model selection and the closed reference-set policy-hook family.
 
 ## Governing Basis
 
@@ -17,23 +17,244 @@ Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model p
 | [`schema`](#field-schema) | `yes` | const: `nse-hook-offer.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`invocation/ref`](#field-invocation-ref) | `yes` | string |  |
-| [`hook/id`](#field-hook-id) | `yes` | const: `select-llm-model` |  |
+| [`hook/id`](#field-hook-id) | `yes` | ref: `#/$defs/hook-id` |  |
 | [`hook/v`](#field-hook-v) | `yes` | const: `1` |  |
-| [`hook/class`](#field-hook-class) | `yes` | const: `select` |  |
+| [`hook/class`](#field-hook-class) | `yes` | enum: `select`, `order`, `narrow`, `restrict`, `raise-risk`, `select-profile` |  |
 | [`offer/digest`](#field-offer-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`causal/ref`](#field-causal-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`backend/bounds`](#field-backend-bounds) | `yes` | object |  |
-| [`payload`](#field-payload) | `yes` | object |  |
+| [`payload`](#field-payload) | `yes` | unspecified |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`hook-id`](#def-hook-id) | enum: `select-llm-model`, `assemble-prompt`, `select-output-schema`, `select-repair-profile`, `score-candidate`, `select-turn-order`, `weigh-bid`, `resolve-tie`, `admit-participant`, `choose-next-step`, `shape-fanout`, `classify-effect-risk` |  |
+| [`select-llm-payload`](#def-select-llm-payload) | object |  |
+| [`policy-hook-payload`](#def-policy-hook-payload) | object |  |
 | [`digest`](#def-digest) | string |  |
 | [`ref`](#def-ref) | string |  |
 | [`text`](#def-text) | string |  |
 | [`text-array`](#def-text-array) | array |  |
 | [`candidate`](#def-candidate) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "const": "select-llm-model"
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "select"
+    },
+    "payload": {
+      "$ref": "#/$defs/select-llm-payload"
+    }
+  }
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "enum": [
+        "assemble-prompt",
+        "score-candidate",
+        "select-turn-order",
+        "weigh-bid"
+      ]
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "order"
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "enum": [
+        "select-output-schema",
+        "resolve-tie",
+        "choose-next-step"
+      ]
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "select"
+    }
+  }
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "const": "select-repair-profile"
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "select-profile"
+    }
+  }
+}
+```
+
+### Rule 5
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "const": "admit-participant"
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "restrict"
+    }
+  }
+}
+```
+
+### Rule 6
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "const": "shape-fanout"
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "narrow"
+    }
+  }
+}
+```
+
+### Rule 7
+
+When:
+
+```json
+{
+  "properties": {
+    "hook/id": {
+      "const": "classify-effect-risk"
+    }
+  },
+  "required": [
+    "hook/id"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "hook/class": {
+      "const": "raise-risk"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -58,7 +279,7 @@ Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model p
 ## `hook/id`
 
 - Required: `yes`
-- Shape: const: `select-llm-model`
+- Shape: ref: `#/$defs/hook-id`
 
 <a id="field-hook-v"></a>
 ## `hook/v`
@@ -70,7 +291,7 @@ Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model p
 ## `hook/class`
 
 - Required: `yes`
-- Shape: const: `select`
+- Shape: enum: `select`, `order`, `narrow`, `restrict`, `raise-risk`, `select-profile`
 
 <a id="field-offer-digest"></a>
 ## `offer/digest`
@@ -94,9 +315,24 @@ Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model p
 ## `payload`
 
 - Required: `yes`
-- Shape: object
+- Shape: unspecified
 
 ## Definition Semantics
+
+<a id="def-hook-id"></a>
+## `$defs.hook-id`
+
+- Shape: enum: `select-llm-model`, `assemble-prompt`, `select-output-schema`, `select-repair-profile`, `score-candidate`, `select-turn-order`, `weigh-bid`, `resolve-tie`, `admit-participant`, `choose-next-step`, `shape-fanout`, `classify-effect-risk`
+
+<a id="def-select-llm-payload"></a>
+## `$defs.select-llm-payload`
+
+- Shape: object
+
+<a id="def-policy-hook-payload"></a>
+## `$defs.policy-hook-payload`
+
+- Shape: object
 
 <a id="def-digest"></a>
 ## `$defs.digest`

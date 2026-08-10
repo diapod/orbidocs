@@ -1,0 +1,19 @@
+{
+  "schema": "nse-hook-offer.v1",
+  "schema/v": 1,
+  "invocation/ref": "nse-invocation:01J11111111111111111111111",
+  "hook/id": "assemble-prompt",
+  "hook/v": 1,
+  "hook/class": "select",
+  "offer/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "causal/ref": "assistant-turn:fixture",
+  "backend/bounds": {"timeout/ms": 50, "input/max-bytes": 65536, "output/max-bytes": 16384},
+  "payload": {
+    "subject/ref": "prompt-assembly:fixture",
+    "candidate/refs": ["prompt-layer:host-root"],
+    "required/refs": ["prompt-layer:host-root"],
+    "current/limits": {},
+    "selected/max": 1,
+    "context": {}
+  }
+}

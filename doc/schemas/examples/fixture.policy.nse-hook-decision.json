@@ -1,0 +1,18 @@
+{
+  "schema": "nse-hook-decision.v1",
+  "schema/v": 1,
+  "invocation/ref": "nse-invocation:01J11111111111111111111111",
+  "hook/id": "assemble-prompt",
+  "hook/v": 1,
+  "offer/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "producer/ref": "nse-table:prompt-policy",
+  "producer/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "outcome": {
+    "outcome": {
+      "decision": "order",
+      "refs": ["prompt-layer:host-root", "prompt-layer:operation"],
+      "reason": "retain the mandatory root and operation layer"
+    },
+    "annotations": {}
+  }
+}

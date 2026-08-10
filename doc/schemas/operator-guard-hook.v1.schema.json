@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-guard-hook:v1",
+  "title": "Operator Guard Hook V1",
+  "description": "Signed local binding of one monotonic guard declaration to a registered host admission anchor.",
+  "x-dia-workflow": "project", "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "schema/v", "guard/ref", "revision/no", "anchor", "operation", "axis", "priority", "producer/ref", "producer/digest", "operator/binding-ref", "issued-at", "expires-at", "signature"],
+  "properties": {
+    "schema": {"const": "operator-guard-hook.v1"}, "schema/v": {"const": 1},
+    "guard/ref": {"type": "string", "pattern": "^operator-guard:[A-Za-z0-9][A-Za-z0-9._-]*$", "maxLength": 256},
+    "revision/no": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "anchor": {"enum": ["nse-decision-admission", "package-activation", "capability-use", "sensorium-actuation", "agent-effect-admission"]},
+    "operation": {"enum": ["restrict", "narrow", "raise-risk"]},
+    "axis": {"enum": ["candidate-set", "budget", "classification", "operational-class", "output-schema", "grant-set"]},
+    "priority": {"type": "integer", "minimum": 0, "maximum": 65535},
+    "producer/ref": {"$ref": "#/$defs/ref"}, "producer/digest": {"$ref": "#/$defs/digest"},
+    "operator/binding-ref": {"type": "string", "pattern": "^node-operator-binding:[a-z0-9][a-z0-9:-]*$", "maxLength": 256},
+    "issued-at": {"type": "string", "format": "date-time"}, "expires-at": {"type": "string", "format": "date-time"},
+    "signature": {"$ref": "#/$defs/signature"}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "signature": {"type": "object", "additionalProperties": false, "required": ["alg", "key/public", "value"], "properties": {"alg": {"const": "ed25519+domain-v1"}, "key/public": {"type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$"}, "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}}}
+  }
+}

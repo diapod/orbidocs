@@ -188,6 +188,21 @@ schema_for_file() {
     *.operator-resource-envelope.json)
       echo "$SCHEMAS_DIR/operator-resource-envelope.v1.schema.json"
       ;;
+    *.capability-derived.json)
+      echo "$SCHEMAS_DIR/capability-derived.v1.schema.json"
+      ;;
+    *.operator-guard-hook.json)
+      echo "$SCHEMAS_DIR/operator-guard-hook.v1.schema.json"
+      ;;
+    *.operator-attention-budget.json)
+      echo "$SCHEMAS_DIR/operator-attention-budget.v1.schema.json"
+      ;;
+    *.federated-envelope-declaration.json)
+      echo "$SCHEMAS_DIR/federated-envelope-declaration.v1.schema.json"
+      ;;
+    *.node-extension-posture.json)
+      echo "$SCHEMAS_DIR/node-extension-posture.v1.schema.json"
+      ;;
     *.sensorium-web-source.json)
       echo "$SCHEMAS_DIR/sensorium-web-source.v1.schema.json"
       ;;

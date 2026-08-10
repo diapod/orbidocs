@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-derived:v1",
+  "title": "Capability Derived V1",
+  "description": "Signed local intersection of current base grants. It creates no route, advertisement, passport, or effect authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "declaration/ref", "revision/no", "capability/id", "components", "restrictions", "operator/binding-ref", "issued-at", "expires-at", "signature"],
+  "properties": {
+    "schema": {"const": "capability-derived.v1"},
+    "schema/v": {"const": 1},
+    "declaration/ref": {"type": "string", "pattern": "^capability-derived:[A-Za-z0-9][A-Za-z0-9._-]*$", "maxLength": 256},
+    "revision/no": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "capability/id": {"type": "string", "pattern": "^~[A-Za-z0-9][A-Za-z0-9._/@:-]*$", "maxLength": 256},
+    "components": {
+      "type": "array", "minItems": 1, "maxItems": 32,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["capability/id", "grant/ref"],
+        "properties": {
+          "capability/id": {"$ref": "#/$defs/ref"},
+          "grant/ref": {"type": "string", "pattern": "^grant:[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 256}
+        }
+      }
+    },
+    "restrictions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["room/ids", "output/schema-refs"],
+      "properties": {
+        "room/ids": {"$ref": "#/$defs/ref-list"},
+        "output/schema-refs": {"$ref": "#/$defs/ref-list"}
+      }
+    },
+    "operator/binding-ref": {"type": "string", "pattern": "^node-operator-binding:[a-z0-9][a-z0-9:-]*$", "maxLength": 256},
+    "issued-at": {"type": "string", "format": "date-time"},
+    "expires-at": {"type": "string", "format": "date-time"},
+    "signature": {"$ref": "#/$defs/signature"}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9~][A-Za-z0-9._/@:-]*$"},
+    "ref-list": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+    "signature": {"type": "object", "additionalProperties": false, "required": ["alg", "key/public", "value"], "properties": {"alg": {"const": "ed25519+domain-v1"}, "key/public": {"type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$"}, "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}}}
+  }
+}

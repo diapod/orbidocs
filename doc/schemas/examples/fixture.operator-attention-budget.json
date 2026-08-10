@@ -1,0 +1,12 @@
+{
+  "schema": "operator-attention-budget.v1", "schema/v": 1,
+  "budget/ref": "operator-attention-budget:default", "revision/no": 1,
+  "request/classes": ["effect-consent", "package-activation", "authority-change", "security-notice"],
+  "timezone": "Europe/Warsaw",
+  "availability/windows": [{"weekdays": [1, 2, 3, 4, 5], "start/minute": 540, "end/minute": 1020}],
+  "window/seconds": 3600, "prompts/max": 12, "group/max-items": 8, "repeat/min-seconds": 120,
+  "request/timeout-seconds": 900, "outside-window": "defer", "overflow": "group",
+  "operator/binding-ref": "node-operator-binding:research",
+  "issued-at": "2026-08-02T10:00:00Z", "expires-at": "2026-08-03T10:00:00Z",
+  "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
+}

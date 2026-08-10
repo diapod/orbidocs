@@ -1,0 +1,16 @@
+{
+  "schema": "capability-derived.v1",
+  "schema/v": 1,
+  "declaration/ref": "capability-derived:reviewer",
+  "revision/no": 1,
+  "capability/id": "~corpus/reviewer@participant:did:key:z6MkReviewer",
+  "components": [
+    {"capability/id": "inquirium.generate", "grant/ref": "grant:inference"},
+    {"capability/id": "corpus.room.turn", "grant/ref": "grant:room"}
+  ],
+  "restrictions": {"room/ids": ["room:research"], "output/schema-refs": ["corpus-reasoning-turn-proposal.v1"]},
+  "operator/binding-ref": "node-operator-binding:research",
+  "issued-at": "2026-08-02T10:00:00Z",
+  "expires-at": "2026-08-03T10:00:00Z",
+  "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
+}

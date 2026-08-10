@@ -86,10 +86,15 @@ expiry, and corrupt or unverifiable active recovery fails closed; only valid
 absence/revocation/expiry falls back to the explicitly unsigned local config source.
 The store has a 64 MiB main-database ceiling and an 8 MiB WAL checkpoint target.
 The next foundation slice adds accepted offer-bound NSE, deterministic table,
-bounded middleware-evidence, a closed refusal vocabulary and projection, package,
+bounded middleware-evidence, signed derived-capability, guard, attention-budget,
+federated-envelope, and node-posture artifacts, a closed refusal vocabulary and projection, package,
 activation, transition, revocation, conformance, operator-inspection, signed
 loose-import, import-receipt, and host-owned conformance-run contracts. Table and
-Rhai now share one host validator;
+Rhai now share one host validator. A second generic offer-bound algebra covers the
+eleven declared Inquirium, Corpus, and Agent policy hooks through one closed
+hook/class/version table; its decisions may only select, order, narrow, restrict,
+raise risk, or select a host-offered transform profile. Broadcast hooks therefore
+no longer carry arbitrary payload rewrite outcomes;
 local activation owns producer priority and required/advisory behavior; the common
 compositor validates every activation and reserves aggregate budget before invoking
 producer callbacks, then rejects digest substitution, selecting disagreement, and
@@ -133,11 +138,22 @@ implements inert install, exact conformance binding, self-verifying domain-separ
 activation and revocation signatures, immediate-transaction generation journaling
 and recovery, terminal revocation, restart-discarded session authority with
 metadata-only audit, generation-bound compiled cache, persistent live-operator-only
-safe mode, and canonical-root/owner-bound audited prompt-free CLI inspection. Derived
-capability, monotonic guard, middleware dispatch binding, and attention-budget
-primitives are pure and fail closed, while their signed schemas and daemon routes
-remain open. Runtime task/session overlays, broader runtime enforcement, three-node
-acceptance, federated posture, and Phase 2 registries remain open. P085 therefore
+safe mode, and canonical-root/owner-bound audited prompt-free CLI inspection. Signed
+derived-capability, monotonic-guard, and attention-budget declarations now verify
+the exact operator authority, persist as sequential append-only revisions, recover
+after restart, and appear as bounded prompt-free inspection metadata. The attention
+budget gates operator-question notification projection through durable rolling
+windows, grouping, quiet windows, and a separate never-approving security lane; the
+question is persisted before any notification is suppressed. Inquirium now has a
+task/session tighten-only profile seam and a pure stricter federated-envelope
+intersection without mutating the host baseline. The local policy-admission route is
+process-tested for valid admission and inspection as well as foreign-binding,
+invalid-signature, and unsupported-family refusal. It deliberately admits only
+local operator declarations; node-signed federated-envelope and posture artifacts
+remain on the separate publication and peer-evaluation path. Distributor-bounded
+widening, P072 capability-use wiring, owning runtime call sites for the new hooks,
+aggregate attention UI, network federation, broader runtime enforcement, three-node
+acceptance, trace-explorer evidence, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
@@ -1231,7 +1247,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `50` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `60` |
 
 ## Solutions
 

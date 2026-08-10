@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:nse-hook-offer:v1",
   "title": "NSE Hook Offer v1",
-  "description": "Exact host-built offer for one NSE invocation. V1 freezes the select-llm-model payload.",
+  "description": "Exact host-built offer for one NSE invocation. V1 admits model selection and the closed reference-set policy-hook family.",
   "x-dia-workflow": "project",
   "x-dia-status": "accepted",
   "x-dia-basis": [
@@ -18,9 +18,9 @@
     "schema": { "const": "nse-hook-offer.v1" },
     "schema/v": { "const": 1 },
     "invocation/ref": { "type": "string", "pattern": "^nse-invocation:[0-9A-HJKMNP-TV-Z]{26}$" },
-    "hook/id": { "const": "select-llm-model" },
+    "hook/id": { "$ref": "#/$defs/hook-id" },
     "hook/v": { "const": 1 },
-    "hook/class": { "const": "select" },
+    "hook/class": { "enum": ["select", "order", "narrow", "restrict", "raise-risk", "select-profile"] },
     "offer/digest": { "$ref": "#/$defs/digest" },
     "causal/ref": { "$ref": "#/$defs/ref" },
     "backend/bounds": {
@@ -33,6 +33,40 @@
       }
     },
     "payload": {
+      "oneOf": [
+        { "$ref": "#/$defs/select-llm-payload" },
+        { "$ref": "#/$defs/policy-hook-payload" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "hook/id": { "const": "select-llm-model" } }, "required": ["hook/id"] },
+      "then": {
+        "properties": {
+          "hook/class": { "const": "select" },
+          "payload": { "$ref": "#/$defs/select-llm-payload" }
+        }
+      },
+      "else": { "properties": { "payload": { "$ref": "#/$defs/policy-hook-payload" } } }
+    },
+    { "if": { "properties": { "hook/id": { "enum": ["assemble-prompt", "score-candidate", "select-turn-order", "weigh-bid"] } }, "required": ["hook/id"] }, "then": { "properties": { "hook/class": { "const": "order" } } } },
+    { "if": { "properties": { "hook/id": { "enum": ["select-output-schema", "resolve-tie", "choose-next-step"] } }, "required": ["hook/id"] }, "then": { "properties": { "hook/class": { "const": "select" } } } },
+    { "if": { "properties": { "hook/id": { "const": "select-repair-profile" } }, "required": ["hook/id"] }, "then": { "properties": { "hook/class": { "const": "select-profile" } } } },
+    { "if": { "properties": { "hook/id": { "const": "admit-participant" } }, "required": ["hook/id"] }, "then": { "properties": { "hook/class": { "const": "restrict" } } } },
+    { "if": { "properties": { "hook/id": { "const": "shape-fanout" } }, "required": ["hook/id"] }, "then": { "properties": { "hook/class": { "const": "narrow" } } } },
+    { "if": { "properties": { "hook/id": { "const": "classify-effect-risk" } }, "required": ["hook/id"] }, "then": { "properties": { "hook/class": { "const": "raise-risk" } } } }
+  ],
+  "$defs": {
+    "hook-id": {
+      "enum": [
+        "select-llm-model", "assemble-prompt", "select-output-schema",
+        "select-repair-profile", "score-candidate", "select-turn-order",
+        "weigh-bid", "resolve-tie", "admit-participant", "choose-next-step",
+        "shape-fanout", "classify-effect-risk"
+      ]
+    },
+    "select-llm-payload": {
       "type": "object", "additionalProperties": false,
       "required": ["purpose", "candidates", "constraints", "context"],
       "properties": {
@@ -54,9 +88,21 @@
         },
         "context": { "type": "object", "maxProperties": 64, "additionalProperties": true }
       }
-    }
-  },
-  "$defs": {
+    },
+    "policy-hook-payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["subject/ref", "candidate/refs", "required/refs", "current/limits", "selected/max", "review/required-floor", "context"],
+      "properties": {
+        "subject/ref": { "$ref": "#/$defs/ref" },
+        "candidate/refs": { "type": "array", "maxItems": 4096, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+        "required/refs": { "type": "array", "maxItems": 4096, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+        "current/limits": { "type": "object", "maxProperties": 64, "propertyNames": { "$ref": "#/$defs/ref" }, "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "selected/max": { "type": "integer", "minimum": 0, "maximum": 4096 },
+        "review/required-floor": { "type": "boolean" },
+        "risk/floor": { "enum": ["low", "elevated", "high", "critical"] },
+        "context": { "type": "object", "maxProperties": 64, "additionalProperties": true }
+      }
+    },
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
     "text": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },

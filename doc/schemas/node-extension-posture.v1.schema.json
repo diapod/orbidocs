@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-extension-posture:v1",
+  "title": "Node Extension Posture V1",
+  "description": "Signed accountable declaration of one build and extension boundary profile. Self-attestation is not proof of the running binary.",
+  "x-dia-workflow": "project", "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "schema/v", "posture/ref", "node/id", "implementation/profile", "build/digest", "limit-classification/digest", "boundary-profile/digest", "baseline/modified", "attestation/strength", "evidence/refs", "issued-at", "expires-at", "signature"],
+  "properties": {
+    "schema": {"const": "node-extension-posture.v1"}, "schema/v": {"const": 1},
+    "posture/ref": {"type": "string", "pattern": "^node-extension-posture:[A-Za-z0-9][A-Za-z0-9._-]*$", "maxLength": 256},
+    "node/id": {"type": "string", "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]{20,120}$"},
+    "implementation/profile": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$"},
+    "build/digest": {"$ref": "#/$defs/digest"}, "limit-classification/digest": {"$ref": "#/$defs/digest"}, "boundary-profile/digest": {"$ref": "#/$defs/digest"},
+    "baseline/modified": {"type": "boolean"},
+    "attestation/strength": {"enum": ["self-declared", "reproducible-build", "measured-boot", "third-party"]},
+    "evidence/refs": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"}},
+    "issued-at": {"type": "string", "format": "date-time"}, "expires-at": {"type": "string", "format": "date-time"},
+    "signature": {"$ref": "#/$defs/signature"}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "signature": {"type": "object", "additionalProperties": false, "required": ["alg", "key/public", "value"], "properties": {"alg": {"const": "ed25519+domain-v1"}, "key/public": {"type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$"}, "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}}}}
+}

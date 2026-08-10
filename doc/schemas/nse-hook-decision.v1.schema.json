@@ -18,12 +18,36 @@
     "schema": { "const": "nse-hook-decision.v1" },
     "schema/v": { "const": 1 },
     "invocation/ref": { "type": "string", "pattern": "^nse-invocation:[0-9A-HJKMNP-TV-Z]{26}$" },
-    "hook/id": { "const": "select-llm-model" },
+    "hook/id": { "$ref": "#/$defs/hook-id" },
     "hook/v": { "const": 1 },
     "offer/digest": { "$ref": "#/$defs/digest" },
     "producer/ref": { "$ref": "#/$defs/ref" },
     "producer/digest": { "$ref": "#/$defs/digest" },
     "outcome": {
+      "oneOf": [
+        { "$ref": "#/$defs/select-llm-decision" },
+        { "$ref": "#/$defs/policy-hook-decision" }
+      ]
+    },
+    "annotations": { "$ref": "#/$defs/annotations" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "hook/id": { "const": "select-llm-model" } }, "required": ["hook/id"] },
+      "then": { "properties": { "outcome": { "$ref": "#/$defs/select-llm-decision" } } },
+      "else": { "properties": { "outcome": { "$ref": "#/$defs/policy-hook-decision" } } }
+    }
+  ],
+  "$defs": {
+    "hook-id": {
+      "enum": [
+        "select-llm-model", "assemble-prompt", "select-output-schema",
+        "select-repair-profile", "score-candidate", "select-turn-order",
+        "weigh-bid", "resolve-tie", "admit-participant", "choose-next-step",
+        "shape-fanout", "classify-effect-risk"
+      ]
+    },
+    "select-llm-decision": {
       "type": "object", "additionalProperties": false,
       "required": ["outcome", "annotations"],
       "properties": {
@@ -37,9 +61,33 @@
         "annotations": { "$ref": "#/$defs/annotations" }
       }
     },
-    "annotations": { "$ref": "#/$defs/annotations" }
-  },
-  "$defs": {
+    "policy-hook-decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["outcome", "annotations"],
+      "properties": {
+        "outcome": {
+          "oneOf": [
+            { "$ref": "#/$defs/select-outcome" },
+            { "$ref": "#/$defs/order-outcome" },
+            { "$ref": "#/$defs/narrow-outcome" },
+            { "$ref": "#/$defs/restrict-outcome" },
+            { "$ref": "#/$defs/raise-risk-outcome" },
+            { "$ref": "#/$defs/select-profile-outcome" },
+            { "$ref": "#/$defs/defer-outcome" }
+          ]
+        },
+        "annotations": { "$ref": "#/$defs/annotations" }
+      }
+    },
+    "select-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "refs", "reason"], "properties": { "decision": { "const": "select" }, "refs": { "$ref": "#/$defs/refs" }, "reason": { "$ref": "#/$defs/text" } } },
+    "order-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "refs", "reason"], "properties": { "decision": { "const": "order" }, "refs": { "$ref": "#/$defs/refs" }, "reason": { "$ref": "#/$defs/text" } } },
+    "narrow-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "refs", "limits", "reason"], "properties": { "decision": { "const": "narrow" }, "refs": { "$ref": "#/$defs/refs" }, "limits": { "$ref": "#/$defs/limits" }, "reason": { "$ref": "#/$defs/text" } } },
+    "restrict-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "allowed/refs", "review/required", "reason"], "properties": { "decision": { "const": "restrict" }, "allowed/refs": { "$ref": "#/$defs/refs" }, "review/required": { "type": "boolean" }, "reason": { "$ref": "#/$defs/text" } } },
+    "raise-risk-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "risk/level", "reason"], "properties": { "decision": { "const": "raise-risk" }, "risk/level": { "enum": ["low", "elevated", "high", "critical"] }, "reason": { "$ref": "#/$defs/text" } } },
+    "select-profile-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "profile/ref", "reason"], "properties": { "decision": { "const": "select-profile" }, "profile/ref": { "$ref": "#/$defs/ref" }, "reason": { "$ref": "#/$defs/text" } } },
+    "defer-outcome": { "type": "object", "additionalProperties": false, "required": ["decision", "reason"], "properties": { "decision": { "const": "defer" }, "reason": { "$ref": "#/$defs/text" } } },
+    "refs": { "type": "array", "maxItems": 4096, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "limits": { "type": "object", "maxProperties": 64, "propertyNames": { "$ref": "#/$defs/ref" }, "additionalProperties": { "type": "integer", "minimum": 0 } },
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "ref": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
     "text": { "type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },

@@ -1,0 +1,6 @@
+{
+  "schema": "operator-attention-budget.v1", "schema/v": 1, "budget/ref": "operator-attention-budget:bad", "revision/no": 1,
+  "request/classes": ["effect-consent"], "timezone": "Europe/Warsaw", "availability/windows": [{"weekdays": [1, 2, 3, 4, 5, 6, 7], "start/minute": 0, "end/minute": 1440}], "window/seconds": 60, "prompts/max": 1, "group/max-items": 1, "repeat/min-seconds": 0, "request/timeout-seconds": 60, "outside-window": "approve", "overflow": "deny",
+  "operator/binding-ref": "node-operator-binding:research", "issued-at": "2026-08-02T10:00:00Z", "expires-at": "2026-08-03T10:00:00Z",
+  "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
+}

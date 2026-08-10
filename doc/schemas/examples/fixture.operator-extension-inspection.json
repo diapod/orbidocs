@@ -26,5 +26,15 @@
       "latest/transition-state": "finalized",
       "revocation/ref": null
     }
+  ],
+  "policies": [
+    {
+      "kind": "operator-attention-budget.v1",
+      "artifact/ref": "operator-attention-budget:local-default",
+      "revision/no": 1,
+      "artifact/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "operator/binding-ref": "node-operator-binding:local",
+      "expires-at": "2027-08-01T00:00:00Z"
+    }
   ]
 }

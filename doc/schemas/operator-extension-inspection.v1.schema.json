@@ -4,7 +4,7 @@
   "title": "Operator Extension Inspection V1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "safe-mode/active", "packages"],
+  "required": ["schema", "schema/v", "safe-mode/active", "packages", "policies"],
   "properties": {
     "schema": {"const": "operator-extension-inspection.v1"},
     "schema/v": {"const": 1},
@@ -13,6 +13,11 @@
       "type": "array",
       "maxItems": 64,
       "items": {"$ref": "#/$defs/package-status"}
+    },
+    "policies": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/policy-status"}
     }
   },
   "$defs": {
@@ -31,6 +36,29 @@
         "priority": {"type": "integer", "minimum": 0, "maximum": 65535},
         "mode": {"type": "string", "enum": ["required", "advisory"]},
         "advisory/failure-allowed": {"type": "boolean"}
+      }
+    },
+    "policy-status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind", "artifact/ref", "revision/no", "artifact/digest",
+        "operator/binding-ref", "expires-at"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "capability-derived.v1",
+            "operator-guard-hook.v1",
+            "operator-attention-budget.v1"
+          ]
+        },
+        "artifact/ref": {"$ref": "#/$defs/ref"},
+        "revision/no": {"type": "integer", "minimum": 1},
+        "artifact/digest": {"$ref": "#/$defs/digest"},
+        "operator/binding-ref": {"$ref": "#/$defs/ref"},
+        "expires-at": {"type": "string", "format": "date-time"}
       }
     },
     "package-status": {

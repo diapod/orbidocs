@@ -1,0 +1,6 @@
+{
+  "schema": "capability-derived.v1", "schema/v": 1, "declaration/ref": "capability-derived:bad", "revision/no": 1,
+  "capability/id": "~corpus/reviewer@test", "components": [], "restrictions": {"room/ids": [], "output/schema-refs": []},
+  "operator/binding-ref": "node-operator-binding:research", "issued-at": "2026-08-02T10:00:00Z", "expires-at": "2026-08-03T10:00:00Z",
+  "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
+}

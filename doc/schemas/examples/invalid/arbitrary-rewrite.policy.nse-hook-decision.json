@@ -1,0 +1,18 @@
+{
+  "schema": "nse-hook-decision.v1",
+  "schema/v": 1,
+  "invocation/ref": "nse-invocation:01J11111111111111111111111",
+  "hook/id": "select-repair-profile",
+  "hook/v": 1,
+  "offer/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "producer/ref": "nse-table:repair-policy",
+  "producer/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "outcome": {
+    "outcome": {
+      "decision": "rewrite",
+      "payload": {"replacement": "arbitrary"},
+      "reason": "inline replacement"
+    },
+    "annotations": {}
+  }
+}

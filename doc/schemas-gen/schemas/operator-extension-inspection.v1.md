@@ -16,6 +16,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`safe-mode/active`](#field-safe-mode-active) | `yes` | boolean |  |
 | [`packages`](#field-packages) | `yes` | array |  |
+| [`policies`](#field-policies) | `yes` | array |  |
 
 ## Definitions
 
@@ -25,6 +26,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`digest`](#def-digest) | string |  |
 | [`optional-ref`](#def-optional-ref) | unspecified |  |
 | [`producer`](#def-producer) | object |  |
+| [`policy-status`](#def-policy-status) | object |  |
 | [`package-status`](#def-package-status) | object |  |
 ## Field Semantics
 
@@ -52,6 +54,12 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 - Required: `yes`
 - Shape: array
 
+<a id="field-policies"></a>
+## `policies`
+
+- Required: `yes`
+- Shape: array
+
 ## Definition Semantics
 
 <a id="def-ref"></a>
@@ -71,6 +79,11 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 
 <a id="def-producer"></a>
 ## `$defs.producer`
+
+- Shape: object
+
+<a id="def-policy-status"></a>
+## `$defs.policy-status`
 
 - Shape: object
 
