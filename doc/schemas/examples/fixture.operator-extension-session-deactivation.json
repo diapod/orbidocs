@@ -1,0 +1,8 @@
+{
+  "schema": "operator-extension-session-deactivation.v1",
+  "schema/v": 1,
+  "activation/ref": "extension-session-activation:local-policy",
+  "package/ref": "extension-package:local-policy",
+  "operator/binding-ref": "node-operator-binding:local",
+  "reason": "operator-requested"
+}

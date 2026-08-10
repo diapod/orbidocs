@@ -347,6 +347,12 @@ schema_for_file() {
     *.operator-extension-session-activation.json)
       echo "$SCHEMAS_DIR/operator-extension-session-activation.v1.schema.json"
       ;;
+    *.operator-extension-session-deactivation.json)
+      echo "$SCHEMAS_DIR/operator-extension-session-deactivation.v1.schema.json"
+      ;;
+    *.operator-extension-safe-mode-action.json)
+      echo "$SCHEMAS_DIR/operator-extension-safe-mode-action.v1.schema.json"
+      ;;
     *.operator-extension-transition.json)
       echo "$SCHEMAS_DIR/operator-extension-transition.v1.schema.json"
       ;;

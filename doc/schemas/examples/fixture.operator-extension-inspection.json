@@ -21,6 +21,7 @@
         }
       ],
       "session/activation-ref": null,
+      "session/expires-at": null,
       "conformance/report-ref": "extension-conformance:local-policy",
       "latest/transition-state": "finalized",
       "revocation/ref": null

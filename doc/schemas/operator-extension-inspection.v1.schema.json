@@ -39,6 +39,7 @@
       "required": [
         "package/ref", "package/digest", "operational/class", "durable/generation",
         "durable/activation-ref", "active/producers", "session/activation-ref",
+        "session/expires-at",
         "conformance/report-ref", "latest/transition-state", "revocation/ref"
       ],
       "properties": {
@@ -49,6 +50,12 @@
         "durable/activation-ref": {"$ref": "#/$defs/optional-ref"},
         "active/producers": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/producer"}},
         "session/activation-ref": {"$ref": "#/$defs/optional-ref"},
+        "session/expires-at": {
+          "oneOf": [
+            {"type": "string", "format": "date-time"},
+            {"type": "null"}
+          ]
+        },
         "conformance/report-ref": {"$ref": "#/$defs/optional-ref"},
         "latest/transition-state": {"oneOf": [{"type": "string", "enum": ["planned", "committed", "finalized", "failed"]}, {"type": "null"}]},
         "revocation/ref": {"$ref": "#/$defs/optional-ref"}

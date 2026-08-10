@@ -1,0 +1,7 @@
+{
+  "schema": "operator-extension-safe-mode-action.v1",
+  "schema/v": 1,
+  "action": "deactivate-package",
+  "operator/binding-ref": "node-operator-binding:local",
+  "package/ref": "extension-package:local-policy"
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "operator-extension-safe-mode-action.v1",
+  "schema/v": 1,
+  "action": "enter",
+  "operator/binding-ref": "node-operator-binding:local",
+  "package/ref": "extension-package:ambient"
+}

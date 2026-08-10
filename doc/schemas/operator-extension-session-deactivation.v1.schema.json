@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-extension-session-deactivation:v1",
+  "title": "Operator Extension Session Deactivation V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "activation/ref",
+    "package/ref",
+    "operator/binding-ref",
+    "reason"
+  ],
+  "properties": {
+    "schema": {"const": "operator-extension-session-deactivation.v1"},
+    "schema/v": {"const": 1},
+    "activation/ref": {"$ref": "#/$defs/ref"},
+    "package/ref": {"$ref": "#/$defs/ref"},
+    "operator/binding-ref": {"$ref": "#/$defs/ref"},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 256}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 256}
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ]
+}

@@ -103,15 +103,24 @@ after process execution; restart, rollback, crash, expiry, revocation, safe mode
 substitution, and conformance replacement fail closed. The common 28-code refusal
 vocabulary now has one distinct reaching test per code and a dedicated drift gate.
 The daemon-owned lifecycle exposes authenticated loopback import, conformance,
-activation, rollback, revocation, and status routes. Disabled-by-default loose
+durable/session activation, exact session deactivation, rollback, revocation,
+live-operator-only safe mode, and status routes. Three formal capabilities admit
+those routes only as host-local control surfaces and refuse dispatch, passports,
+advertisement, and federated discovery. Disabled-by-default loose
 import requires a detached signature, exact digest, trusted key, canonical
 allowlisted root, and inert install; a host-configured bounded runner, rather than
 package content, owns conformance execution. Its implementation, optional
 interpreter, runtime, and refusal corpus are owner/permission checked and pinned by
 identity and digest; passing reports bind the exact corpus and runtime, and the host
 recomputes canonical report identity. Lifecycle authority mutations and dependent
-session terminal facts commit atomically. A real daemon process smoke proves
-the local lifecycle across restart and terminal revocation. Federation, posture,
+session terminal facts commit atomically and retain typed terminal reasons. A
+bounded scheduler records session expiry before removing in-memory authority;
+the exact current operator binding for durable and session activation, package,
+conformance, producer, revocation, safe-mode, and expiry state are rechecked at
+use. Session facts use host observation time and reject duplicate event kinds for
+one activation. A real daemon process smoke proves exact
+session replay, restart discard, scheduler expiry, manual deactivation, safe-mode
+fencing/recovery, and the durable lifecycle across restart and terminal revocation. Federation, posture,
 trace-explorer integration, and three-node acceptance remain open.
 A separate WAL SQLite lifecycle service
 implements inert install, exact conformance binding, self-verifying domain-separated
@@ -121,8 +130,7 @@ metadata-only audit, generation-bound compiled cache, persistent live-operator-o
 safe mode, and canonical-root/owner-bound audited prompt-free CLI inspection. Derived
 capability, monotonic guard, middleware dispatch binding, and attention-budget
 primitives are pure and fail closed, while their signed schemas and daemon routes
-remain open. Runtime task/session overlays, broader runtime enforcement, formal
-capability ids/routes, three-node
+remain open. Runtime task/session overlays, broader runtime enforcement, three-node
 acceptance, federated posture, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 
@@ -1217,7 +1225,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `35` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `45` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `50` |
 
 ## Solutions
 
