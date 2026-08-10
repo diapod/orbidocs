@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-extraction-request:v1",
+  "title": "Sensorium Web Extraction Request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "source", "fetch/request"],
+  "properties": {
+    "schema": { "const": "sensorium-web-extraction-request.v1" },
+    "schema/v": { "const": 1 },
+    "source": { "$ref": "sensorium-web-source.v1.schema.json" },
+    "fetch/request": { "$ref": "bounded-http-fetch-request.v1.schema.json" }
+  }
+}

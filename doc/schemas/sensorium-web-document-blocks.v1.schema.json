@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-document-blocks:v1",
+  "title": "Sensorium Web Document Blocks v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "safeText": { "type": "string", "minLength": 1, "pattern": "^[^\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F\\u001B]*$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "media/type", "selected/charset", "blocks", "links", "text/characters", "truncated"],
+  "properties": {
+    "schema": { "const": "sensorium-web-document-blocks.v1" },
+    "schema/v": { "const": 1 },
+    "media/type": { "enum": ["text/html", "application/xhtml+xml", "text/plain"] },
+    "selected/charset": { "const": "utf-8" },
+    "title": { "allOf": [{ "$ref": "#/$defs/safeText" }, { "maxLength": 1024 }] },
+    "byline": { "allOf": [{ "$ref": "#/$defs/safeText" }, { "maxLength": 512 }] },
+    "language/claim": { "allOf": [{ "$ref": "#/$defs/safeText" }, { "maxLength": 64 }] },
+    "blocks": {
+      "type": "array",
+      "maxItems": 2048,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "text"],
+        "properties": {
+          "kind": { "enum": ["heading", "paragraph", "list-item", "preformatted", "quote"] },
+          "level": { "type": "integer", "minimum": 1, "maximum": 6 },
+          "text": { "allOf": [{ "$ref": "#/$defs/safeText" }, { "maxLength": 8192 }] }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "kind": { "const": "heading" } }, "required": ["kind"] },
+            "then": { "required": ["level"] },
+            "else": { "not": { "required": ["level"] } }
+          }
+        ]
+      }
+    },
+    "links": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "url/digest", "relations"],
+        "properties": {
+          "url": { "type": "string", "pattern": "^https?://", "maxLength": 4096 },
+          "url/digest": { "$ref": "#/$defs/sha256Digest" },
+          "text": { "allOf": [{ "$ref": "#/$defs/safeText" }, { "maxLength": 512 }] },
+          "relations": {
+            "type": "array",
+            "maxItems": 8,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" }
+          }
+        }
+      }
+    },
+    "text/characters": { "type": "integer", "minimum": 0, "maximum": 524288 },
+    "truncated": { "type": "boolean" }
+  }
+}

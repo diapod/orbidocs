@@ -164,6 +164,12 @@ schema_for_file() {
     *.bounded-http-fetch-result.json)
       echo "$SCHEMAS_DIR/bounded-http-fetch-result.v1.schema.json"
       ;;
+    *.bounded-http-fetch-artifact-read-request.json)
+      echo "$SCHEMAS_DIR/bounded-http-fetch-artifact-read-request.v1.schema.json"
+      ;;
+    *.bounded-http-fetch-artifact-read-result.json)
+      echo "$SCHEMAS_DIR/bounded-http-fetch-artifact-read-result.v1.schema.json"
+      ;;
     *.bounded-http-fetch-error-codes.json)
       echo "$SCHEMAS_DIR/bounded-http-fetch-error-codes.v1.schema.json"
       ;;
@@ -184,6 +190,15 @@ schema_for_file() {
       ;;
     *.sensorium-web-source.json)
       echo "$SCHEMAS_DIR/sensorium-web-source.v1.schema.json"
+      ;;
+    *.sensorium-web-extraction-request.json)
+      echo "$SCHEMAS_DIR/sensorium-web-extraction-request.v1.schema.json"
+      ;;
+    *.sensorium-web-document-blocks.json)
+      echo "$SCHEMAS_DIR/sensorium-web-document-blocks.v1.schema.json"
+      ;;
+    *.sensorium-web-extraction-result.json)
+      echo "$SCHEMAS_DIR/sensorium-web-extraction-result.v1.schema.json"
       ;;
     *.sensorium-web-document-snapshot.json)
       echo "$SCHEMAS_DIR/sensorium-web-document-snapshot.v1.schema.json"

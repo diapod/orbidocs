@@ -7,9 +7,9 @@
   "canonical/url-digest": "sha256:AC_mW_cGtXf7DYjqE-6bvJz2CQFN2xZmSXaAS6BQWF4",
   "origin/policy-ref": "policy:web-public-fixture-v1",
   "extraction/profile": {
-    "profile/ref": "sensorium-web-extraction:static-main",
-    "profile/version": "1.0.0",
-    "profile/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+    "profile/ref": "sensorium-web-extraction:static-stdlib-main-v1",
+    "profile/version": "1.1.0",
+    "profile/digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg",
     "output/schema-ref": "sensorium-web-document-blocks.v1"
   },
   "operational/context": {

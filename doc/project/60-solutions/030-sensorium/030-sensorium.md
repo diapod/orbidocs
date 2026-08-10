@@ -323,9 +323,14 @@ Based on:
 Related schemas:
 - `bounded-http-fetch-request.v1`
 - `bounded-http-fetch-result.v1`
+- `bounded-http-fetch-artifact-read-request.v1`
+- `bounded-http-fetch-artifact-read-result.v1`
 - `bounded-http-fetch-error-codes.v1`
 - `bounded-http-fetch-operator-snapshot.v1`
 - `sensorium-web-source.v1`
+- `sensorium-web-extraction-request.v1`
+- `sensorium-web-document-blocks.v1`
+- `sensorium-web-extraction-result.v1`
 - `sensorium-web-document-snapshot.v1`
 
 Responsibilities:
@@ -337,8 +342,15 @@ Responsibilities:
   fresh per-hop connection pinning, explicit rustls/WebPKI TLS, exact redirect
   statuses, per-hop and total deadlines, independent header count/byte caps,
   body caps, and concurrency in the daemon;
-- return bounded inline bytes or one Artifact Delivery pointer without exposing
-  sockets, resolvers, cookie jars, credentials, or raw URL diagnostics;
+- return bounded inline bytes or one Artifact Delivery pointer, and permit only
+  a content-bound continuation under the same caller, action, artifact ref,
+  digest, and size; exact bounded tombstones distinguish an evicted transfer as
+  `artifact-transfer-expired` while unknown or altered bindings remain
+  `artifact-binding-mismatch`, without exposing sockets, resolvers, cookie jars,
+  credentials, or raw URL diagnostics;
+- run the channel-only Python static extractor under the frozen
+  `sensorium-web-extraction:static-stdlib-main-v1` identity, with no HTTP, DNS,
+  socket, or subprocess fallback and bounded inert document blocks;
 - keep extraction, source scheduling, observation admission, and interface
   publication outside the reusable host primitive; P084's closed static media
   set is enforced by `sensorium-web-core` before extraction rather than by the
@@ -348,10 +360,15 @@ Status:
 - `partial`. The daemon-owned fetch boundary and its deterministic local
   conformance harness are implemented with P084 as the first configured
   consumer. The canonical nested source envelope round-trips through the pure
-  Rust contract, and daemon ingress/egress integration plus resolver
-  concurrency and shutdown are covered without public egress. The supervised
-  extractor, durable source runtime, persistent operator projection, Sensorium
-  observation admission, and P082 publication remain P084 work.
+  Rust contract; all eleven contracts are Schema Gate-registered; daemon
+  ingress/egress integration plus resolver concurrency and shutdown are covered
+  without public egress; and the supervised extractor passes an eleven-check
+  offline corpus including deterministic parser-event/depth ceilings,
+  content-bound artifact transfer, and capability-withheld
+  refusal. P084-005 remains partial until the operating-system sandbox adapter
+  enforces process-level no-egress with deployment evidence. Durable source
+  runtime, persistent operator projection, Sensorium observation admission, and
+  P082 publication remain P084 work.
 
 ## Out of Scope
 

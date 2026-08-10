@@ -1,0 +1,9 @@
+{
+  "schema": "bounded-http-fetch-artifact-read-result.v1",
+  "schema/v": 1,
+  "outcome": "completed",
+  "artifact/ref": "artifact-store:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "artifact/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "artifact/size-bytes": 13,
+  "body/base64": "PGgxPkhlbGxvPC9oMT4"
+}

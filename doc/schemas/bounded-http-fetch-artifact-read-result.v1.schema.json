@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-artifact-read-result:v1",
+  "title": "Bounded HTTP Fetch Artifact Read Result v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "outcome", "artifact/ref", "artifact/digest", "artifact/size-bytes"],
+  "properties": {
+    "schema": { "const": "bounded-http-fetch-artifact-read-result.v1" },
+    "schema/v": { "const": 1 },
+    "outcome": { "enum": ["completed", "refused", "failed"] },
+    "artifact/ref": { "type": "string", "pattern": "^artifact-store:sha256:[A-Za-z0-9_-]{43}$", "maxLength": 128 },
+    "artifact/digest": { "$ref": "#/$defs/sha256Digest" },
+    "artifact/size-bytes": { "type": "integer", "minimum": 1, "maximum": 67108864 },
+    "body/base64": { "type": "string", "maxLength": 699052, "pattern": "^[A-Za-z0-9_-]+$" },
+    "failure/code": { "enum": ["consumer-denied", "artifact-unavailable", "artifact-binding-mismatch", "artifact-size-limit", "artifact-transfer-expired"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "outcome": { "const": "completed" } }, "required": ["outcome"] },
+      "then": { "required": ["body/base64"], "not": { "required": ["failure/code"] } },
+      "else": { "required": ["failure/code"], "not": { "required": ["body/base64"] } }
+    }
+  ]
+}

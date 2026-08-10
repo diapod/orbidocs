@@ -1,0 +1,22 @@
+{
+  "schema": "sensorium-web-document-blocks.v1",
+  "schema/v": 1,
+  "media/type": "text/html",
+  "selected/charset": "utf-8",
+  "title": "Fixture document",
+  "language/claim": "en",
+  "blocks": [
+    { "kind": "heading", "level": 1, "text": "Fixture document" },
+    { "kind": "paragraph", "text": "A deterministic offline extraction fixture." }
+  ],
+  "links": [
+    {
+      "url": "https://example.org/next",
+      "url/digest": "sha256:LUa185hwJXykCb0cRAIiP6tyJqiSwtxX-oVbfVWaQ9w",
+      "text": "Next",
+      "relations": ["next"]
+    }
+  ],
+  "text/characters": 59,
+  "truncated": false
+}

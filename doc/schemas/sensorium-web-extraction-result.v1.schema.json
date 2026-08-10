@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-extraction-result:v1",
+  "title": "Sensorium Web Extraction Result v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "outcome", "source/ref", "source/generation-ref", "fetch/result-digest", "extraction/profile-ref", "extraction/profile-digest"],
+  "properties": {
+    "schema": { "const": "sensorium-web-extraction-result.v1" },
+    "schema/v": { "const": 1 },
+    "outcome": { "enum": ["completed", "low-confidence", "empty", "refused", "failed"] },
+    "source/ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" },
+    "source/generation-ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" },
+    "fetch/result-digest": { "$ref": "#/$defs/sha256Digest" },
+    "extraction/profile-ref": { "const": "sensorium-web-extraction:static-stdlib-main-v1" },
+    "extraction/profile-digest": { "const": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg" },
+    "representation/digest": { "$ref": "#/$defs/sha256Digest" },
+    "representation": { "$ref": "sensorium-web-document-blocks.v1.schema.json" },
+    "confidence/basis": { "enum": ["sufficient-text", "short-text"] },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "phase"],
+      "properties": {
+        "code": { "enum": ["broker-unavailable", "fetch-not-completed", "consumer-denied", "unsupported-media-type", "artifact-unavailable", "artifact-binding-mismatch", "artifact-size-limit", "artifact-transfer-expired", "decode-failed", "charset-conflict", "parser-limit", "empty-document", "invalid-request", "profile-mismatch"] },
+        "phase": { "enum": ["request", "fetch", "artifact", "decode", "extract"] },
+        "upstream/outcome": { "enum": ["refused", "failed", "unknown"] }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "outcome": { "enum": ["completed", "low-confidence"] } }, "required": ["outcome"] },
+      "then": { "required": ["representation/digest", "representation", "confidence/basis"], "not": { "required": ["failure"] } },
+      "else": { "required": ["failure"], "not": { "anyOf": [{ "required": ["representation"] }, { "required": ["representation/digest"] }, { "required": ["confidence/basis"] }] } }
+    }
+  ]
+}

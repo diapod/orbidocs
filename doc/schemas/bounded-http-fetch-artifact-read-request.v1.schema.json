@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:bounded-http-fetch-artifact-read-request:v1",
+  "title": "Bounded HTTP Fetch Artifact Read Request v1",
+  "$defs": {
+    "sha256Digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "consumer/action", "artifact/ref", "artifact/digest", "artifact/size-bytes", "bytes/max"],
+  "properties": {
+    "schema": { "const": "bounded-http-fetch-artifact-read-request.v1" },
+    "schema/v": { "const": 1 },
+    "consumer/action": { "type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$", "maxLength": 128 },
+    "artifact/ref": { "type": "string", "pattern": "^artifact-store:sha256:[A-Za-z0-9_-]{43}$", "maxLength": 128 },
+    "artifact/digest": { "$ref": "#/$defs/sha256Digest" },
+    "artifact/size-bytes": { "type": "integer", "minimum": 1, "maximum": 67108864 },
+    "bytes/max": { "type": "integer", "minimum": 1, "maximum": 524288 }
+  }
+}

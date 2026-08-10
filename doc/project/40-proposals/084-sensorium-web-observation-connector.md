@@ -265,7 +265,16 @@ subprocess such as `curl`.
 
 ### 3. Static fetch profile
 
-The initial profile is `sensorium-web-static.v1`:
+The initial acquisition profile is `sensorium-web-static.v1`. Its first frozen
+extraction implementation is
+`sensorium-web-extraction:static-stdlib-main-v1`, version `1.1.0`, with profile
+digest `sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg`, output schema
+`sensorium-web-document-blocks.v1`, and algorithm identity
+`python-stdlib-html-parser-main-content-v1`. An alternative extractor is a new,
+separately versioned and evidenced profile; package substitution under this
+identity is forbidden.
+
+The acquisition profile has these boundaries:
 
 - methods: `GET` and bounded conditional `HEAD` only;
 - schemes: HTTPS by default; HTTP requires an explicit source or grant posture;
@@ -368,16 +377,21 @@ authority.
 
 ### 5. Contract family
 
-The first implementation defines four reusable host-capability schemas and two
+The first implementation defines six reusable host-capability schemas and five
 P084 domain schemas:
 
 | Schema | Purpose |
 |---|---|
 | `bounded-http-fetch-request.v1` | Private middleware-to-host bounded fetch plan. |
 | `bounded-http-fetch-result.v1` | Private response metadata plus bounded inline bytes or one Artifact Delivery pointer. |
+| `bounded-http-fetch-artifact-read-request.v1` | Content-bound continuation request for a body moved into Artifact Delivery. |
+| `bounded-http-fetch-artifact-read-result.v1` | Bounded body bytes bound to the admitted caller, action, artifact ref, digest, and size. |
 | `bounded-http-fetch-error-codes.v1` | Closed typed host failure vocabulary and retry class. |
 | `bounded-http-fetch-operator-snapshot.v1` | Identifier-free aggregate readiness, occupancy, refusal, failure, and handoff evidence. |
 | `sensorium-web-source.v1` | Operator-owned durable source configuration and current generation. |
+| `sensorium-web-extraction-request.v1` | Exact source/profile/fetch binding accepted by the supervised extractor. |
+| `sensorium-web-document-blocks.v1` | Bounded inert title, text block, heading, and link representation. |
+| `sensorium-web-extraction-result.v1` | Typed extraction outcome and content-bound representation. |
 | `sensorium-web-document-snapshot.v1` | Canonical admitted document observation. |
 
 The host schemas are intentionally consumer-neutral. The Rust `WebSource` type
@@ -451,7 +465,19 @@ made by the page.
 
 The connector must:
 
-- parse within byte, node-count, depth, and time limits;
+- parse HTML/XHTML within a `512 KiB` input cap, `65,536` parser-event cap,
+  `128`-element nesting-depth cap, and the existing bounded output counts; these
+  deterministic work limits bound parser time without making canonical output
+  depend on a host-speed-sensitive wall-clock cutoff; `text/plain` remains
+  bounded by the same input and output caps without an HTML event/depth budget;
+- preserve `consumer-denied`, `artifact-binding-mismatch`, and
+  `artifact-size-limit` across the content-bound artifact handoff; preserve
+  `artifact-transfer-expired` only when the host retains an exact tombstone for
+  the previously admitted caller/action/ref/digest/size binding, while unknown
+  or altered bindings remain `artifact-binding-mismatch`; report
+  conflicting HTTP and document charset declarations as the closed
+  `charset-conflict` refusal rather than hiding these conditions behind a
+  generic artifact or decode failure;
 - sanitize control characters before operator presentation;
 - keep scripts, event handlers, styles, hidden nodes, and active content inert;
 - represent links as data without following them in V1;
@@ -500,6 +526,13 @@ retention.
 Cache entries require an owner, key, byte cap, entry cap, TTL or retention rule,
 and restart behavior. Cache eviction may force a full refetch but must not turn a
 stale retained representation into a fresh observation.
+
+The reusable fetch host keeps at most `1,024` active artifact-transfer bindings
+and `1,024` bounded eviction tombstones. An exact read of an evicted binding is
+refused as `artifact-transfer-expired`; an unknown, cross-caller, cross-action,
+or content-mismatched read is refused as `artifact-binding-mismatch`. Tombstone
+expiry intentionally collapses back to `artifact-binding-mismatch`, so the
+diagnostic does not become an unbounded history or an artifact-discovery oracle.
 
 ### 9. Sensorium Interface projection
 
@@ -685,8 +718,9 @@ into the trusted layer and should be refused.
 - Rust: `url`, a pinned HTTP client such as `reqwest`, TLS configuration,
   destination classification, streaming byte caps, digesting, schema-backed
   DTOs, host admission, and audit.
-- Python: a pinned extractor such as Trafilatura/lxml for main-content and
-  metadata extraction, plus Playwright only in the later browser profile.
+- Python: the frozen standard-library `HTMLParser` extraction profile for V1;
+  alternate Trafilatura/lxml profiles require a new profile identity and
+  evidence. Playwright belongs only to the later browser profile.
 - JSON schemas: canonical in `orbidocs`, synchronized into Node and registered
   in Schema Gate before cross-process use.
 - SQLite: connector-local source metadata, conditional-request hints, and bounded
@@ -717,10 +751,20 @@ vocabulary:
   capability withheld, an ordinary fetch fails with the typed refusal and produces no
   socket, no subprocess, and no observation.
 
-Platform enforcement already exists for the model-package no-egress path
-(seccomp-bpf on Linux, `sandbox-exec` on macOS). Reuse that implementation
-instead of adding a third mechanism. Where a platform has no enforcement, the
-fallback is refusal, not a weaker profile.
+The factory binding requires the named `sensorium-web-no-egress` sandbox profile
+and refuses startup when the enabled module lacks that profile. The connector
+also has no network or subprocess imports and refuses before dispatch when the
+host capability is unavailable. These structural controls are implemented, but
+they do not by themselves prove process-level isolation: P084-005 remains
+partial until the current operating-system adapter actually enforces no-egress
+for this supervised middleware process and deployment acceptance observes the
+negative. Where a platform has no enforcement, the accepted endpoint is refusal,
+not a metadata-only or weaker profile.
+
+No-egress does not mean no supervision channel. The process may use only its
+dedicated, host-created Unix-domain middleware channel; `AF_INET`, `AF_INET6`,
+arbitrary Unix sockets, inherited proxy settings, and subprocess-mediated
+network access remain denied.
 
 ### One fetch is a state machine, not a call chain
 
@@ -818,7 +862,7 @@ as a cache invariant, and it is the same rule stated twice on purpose.
 ### Schema Gate registration is a checklist, not a step
 
 A partial contract registration compiles cleanly while leaving the gate open, so
-treat it as a checklist. For each of the six V1 schemas complete all of:
+treat it as a checklist. For each of the eleven V1 schemas complete all of:
 
 1. the contract-family variant;
 2. the lazily initialized validator static;
@@ -887,8 +931,8 @@ loop for a question a cheaper layer can answer.
 
 1. Apply resolved Decisions 1-8 to the appropriate profile contracts. This gate
    is complete; browser rendering, authenticated acquisition, and crawling remain
-   separately capability-bound work and do not block the six static V1 schemas.
-2. Freeze the six schemas with positive and negative fixtures and complete Schema
+   separately capability-bound work and do not block the eleven static V1 schemas.
+2. Freeze the eleven schemas with positive and negative fixtures and complete Schema
    Gate registration end to end. *Gate:* unknown fields, missing bounds, and
    malformed provenance are rejected by the gate, not by application code.
 3. Implement `sensorium-web-core` with the purity guard present from the first
@@ -1045,14 +1089,14 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Acceptance boundary |
 |---|---|---|---|
 | P084-001 | Freeze architecture, static V1 scope, source identity, authority split, named invariants, and profile ownership decisions | done | Decisions 1-8 freeze static admission and representation plus the boundaries of deferred robots, browser, credential-bound, and crawl work. |
-| P084-002 | Define the six-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | partial | Four reusable fetch schemas and two P084 domain schemas are closed, mirrored, and Schema Gate-tested with positive/negative fixtures, including empty extraction-profile version refusal. Durable source scheduling, conditional-request, extraction-block, and retention fields remain to be frozen with P084-005/006 rather than guessed into this foundation. |
-| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | partial | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Extraction representation and durable source-state semantics remain with P084-005/006. |
-| P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | partial | Exact caller/action/origin admission including explicit missing-caller refusal, internally timed DNS resolution, bounded workers and queue backpressure, a 64-address answer cap, all-address classification, fresh per-hop connection pinning with explicit rustls/WebPKI TLS and once-parsed roots, exact redirect-status handling, independent 64-header and byte caps, compressed/decompressed caps, per-hop plus total deadlines, global/per-origin concurrency, Artifact Delivery handoff, metadata-only terminal trace, aggregate snapshot, daemon ingress/egress integration, and no-socket-return conformance are implemented. Persistent operator projection and a real P084 connector invocation remain to be completed with P084-005/006. |
-| P084-005 | Implement the supervised Python static extraction connector without ambient egress | todo | Offline fixtures prove bounded parsing, deterministic extraction digests, hostile-content inertness, typed empty/failure outcomes, and hard refusal when the bounded-fetch host capability is absent. |
+| P084-002 | Define the eleven-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | done | Six reusable fetch schemas and five P084 domain schemas are closed, mirrored, Schema Gate-tested, and semantically checked for source/profile/fetch bindings, artifact ref/digest binding, representation counts, relation uniqueness, bounds, and digests. Durable scheduling state belongs to P084-006 rather than this completed cross-process family. |
+| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | partial | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, cross-runtime frozen extraction-profile `1.1.0` identity including deterministic parser-event and nesting-depth limits, bounded inert document blocks with unique relation tokens, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Durable source-state semantics remain with P084-006. |
+| P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | partial | Exact caller/action/origin admission including explicit missing-caller refusal, internally timed DNS resolution, bounded workers and queue backpressure, a 64-address answer cap, all-address classification, fresh per-hop connection pinning with explicit rustls/WebPKI TLS and once-parsed roots, exact redirect-status handling, independent 64-header and byte caps, compressed/decompressed caps, per-hop plus total deadlines, global/per-origin concurrency, inline or content-bound Artifact Delivery handoff with recency-aware bounded transfer retention, exact caller/action isolation, and exact bounded eviction tombstones that distinguish `artifact-transfer-expired` from binding mismatch, metadata-only terminal trace, aggregate snapshot, daemon ingress/egress integration, and no-socket-return conformance are implemented. Persistent operator projection remains P084-006 work. |
+| P084-005 | Implement the supervised Python static extraction connector without ambient egress | partial | The channel-only `sensorium-web` module consumes only daemon-fetched schema-gated values, revalidates inline and content-bound artifact bytes, applies the frozen stdlib profile, produces bounded inert blocks under deterministic parser-event and element-depth ceilings, and has eleven offline checks for deterministic extraction, parser limits, hostile input, typed empty/low-confidence/decode/refusal outcomes, and absence of network/process imports. Factory wiring requires `sensorium-web-no-egress` and fails startup when it is absent. Completion still requires an operating-system adapter that actually enforces process-level no-egress plus deployment evidence; the current metadata-only adapter is not sufficient. |
 | P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | todo | Source replacement fences prior generations; `304` reuse requires exact retained evidence; caches and schedules remain bounded and inspectable across restart. |
 | P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | todo | One fetch-to-observation trace binds directive, host response digest, extractor profile, admitted snapshot, artifacts, and typed failures without retaining secrets. |
 | P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | todo | Local read/SSE and authorized direct-peer or Room projection return the same admitted snapshot; revocation, stale generation, supersession, and remote-refresh attempts fail closed. |
-| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | The reusable host boundary has deterministic local HTTP/TLS, injected-DNS, SSRF, redirect, size, timeout, admission, Artifact Delivery, and redaction checks with no public-site dependency. Connector extraction, durable-source load, P082 publication, and local/remote E2E remain. |
+| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | The reusable host boundary has deterministic local HTTP/TLS, injected-DNS, SSRF, redirect, size, timeout, admission, Artifact Delivery including eviction diagnostics, and redaction checks. The connector adds an eleven-check offline corpus with no public-site dependency. Process no-egress deployment evidence, durable-source load, P082 publication, and local/remote E2E remain. |
 | P084-010 | Add `sensorium-web-browser.v1` isolated JavaScript rendering profile | deferred | Requires a separately accepted browser process, host-controlled egress, empty profile, resource caps, no credentials/shares, rendered snapshot contracts, and deployment evidence. |
 | P084-011 | Define and implement P084 Phase 2 `sensorium-web-crawl.v1` frontier and politeness profile | deferred | After static-profile acceptance, P084 must freeze frontier lifecycle, fail-closed robots behavior, depth/page/origin budgets, restart, cancellation, retention, and operator evidence before implementation is accepted. |
 | P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | deferred | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
@@ -1060,13 +1104,13 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Implement P084-005: the supervised Python static extractor with no ambient
-   egress, consuming only schema-gated `bounded-http-fetch-result.v1` values.
+1. Complete P084-005 by enforcing `sensorium-web-no-egress` in the operating
+   system sandbox adapter and retaining deployment evidence that direct network
+   and process fallback are impossible.
 2. Complete P084-006 durable source, conditional refresh, scheduler, cache,
    restart, retention, and persistent operator inspection contracts.
-3. Evaluate two pinned Python extraction profiles against one checked-in corpus
-   and select the profile by reproducibility and extraction quality rather than
-   package popularity alone.
+3. Evaluate any proposed alternate extraction profile against the same checked-in
+   corpus under a new profile identity; do not mutate the frozen stdlib profile.
 4. Keep browser rendering, credentials, P084 Phase 2 crawling, and P078
    integration deferred until the static snapshot path has end-to-end authority
    and retention evidence.

@@ -14,6 +14,7 @@ Source schema: [`doc/schemas/bounded-http-fetch-result.v1.schema.json`](../../sc
 | [`final-url/digest`](#field-final-url-digest) | `no` | ref: `#/$defs/sha256Digest` |  |
 | [`response/status`](#field-response-status) | `no` | integer |  |
 | [`media/type`](#field-media-type) | `no` | string |  |
+| [`declared/charset`](#field-declared-charset) | `no` | string |  |
 | [`content/encoding`](#field-content-encoding) | `no` | enum: `identity`, `gzip` |  |
 | [`compressed-bytes`](#field-compressed-bytes) | `no` | integer |  |
 | [`decompressed-bytes`](#field-decompressed-bytes) | `no` | integer |  |
@@ -113,6 +114,12 @@ Then:
 
 <a id="field-media-type"></a>
 ## `media/type`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-declared-charset"></a>
+## `declared/charset`
 
 - Required: `no`
 - Shape: string

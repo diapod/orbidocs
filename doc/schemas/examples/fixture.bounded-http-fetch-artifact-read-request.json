@@ -1,0 +1,9 @@
+{
+  "schema": "bounded-http-fetch-artifact-read-request.v1",
+  "schema/v": 1,
+  "consumer/action": "web.document.fetch",
+  "artifact/ref": "artifact-store:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "artifact/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "artifact/size-bytes": 13,
+  "bytes/max": 524288
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "sensorium-web-document-blocks.v1",
+  "schema/v": 1,
+  "media/type": "text/html",
+  "selected/charset": "utf-8",
+  "blocks": [{ "kind": "heading", "text": "Missing level" }],
+  "links": [],
+  "text/characters": 13,
+  "truncated": false
+}

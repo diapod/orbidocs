@@ -15,8 +15,8 @@
   "body/bytes": 13,
   "body/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
   "fetch/result-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
-  "extraction/profile-ref": "sensorium-web-extraction:static-main",
-  "extraction/profile-digest": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+  "extraction/profile-ref": "sensorium-web-extraction:static-stdlib-main-v1",
+  "extraction/profile-digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg",
   "representation/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
   "title": "Fixture document",
   "operational/context": {

@@ -1,0 +1,22 @@
+{
+  "schema": "sensorium-web-extraction-result.v1",
+  "schema/v": 1,
+  "outcome": "completed",
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:web-fixture-v1",
+  "fetch/result-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "extraction/profile-ref": "sensorium-web-extraction:static-stdlib-main-v1",
+  "extraction/profile-digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg",
+  "representation/digest": "sha256:ml5OCyo-7KC-2fb5vTc_vm5qU3nM_DGSkZT8xr7JWco",
+  "confidence/basis": "sufficient-text",
+  "representation": {
+    "schema": "sensorium-web-document-blocks.v1",
+    "schema/v": 1,
+    "media/type": "text/plain",
+    "selected/charset": "utf-8",
+    "blocks": [{ "kind": "paragraph", "text": "Deterministic fixture text." }],
+    "links": [],
+    "text/characters": 27,
+    "truncated": false
+  }
+}
