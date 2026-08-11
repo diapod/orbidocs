@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-03.
+Snapshot date: 2026-08-11.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -113,6 +113,10 @@ projection. The daemon rechecks canonical durable producer authority before and
 after process execution; restart, rollback, crash, expiry, revocation, safe mode,
 substitution, and conformance replacement fail closed. The common 28-code refusal
 vocabulary now has one distinct reaching test per code and a dedicated drift gate.
+The lifecycle process smoke also traverses an exact active JSON-e Flow,
+recomputes its Inquirium-derived capability at the selected runtime boundary, and
+proves that the admitted prompt-free authority decision survives restart without
+becoming reusable ambient authority.
 The daemon-owned lifecycle exposes authenticated loopback import, conformance,
 durable/session activation, exact session deactivation, rollback, revocation,
 live-operator-only safe mode, and status routes. Three formal capabilities admit
@@ -160,9 +164,14 @@ from being resurrected.
 Inquirium now has a
 task/session tighten-only profile seam and a pure stricter federated-envelope
 intersection without mutating the host baseline. Derived-capability evaluation now
-rechecks trusted, unsanctioned, unexpired component grants against P072 dispatch
-eligibility and exact use context without registering a new federated capability;
-production adapters from source-owned grant facts remain open. The first signed
+rechecks exact active JSON-e Flow inference grants and current Corpus role plus Room
+membership snapshots against P072 dispatch eligibility, current operator authority,
+stable fact digests, trust, sanctions, expiry, and the exact selected-use context
+without registering a new federated capability. The first reviewer-derived
+capability is evaluated only at the selected `inquirium.generate` boundary. The
+same host-owned static-producer path now applies all eleven local Inquirium, Corpus,
+and Agent policy hooks at their owning boundaries while leaving each domain's
+ordinary validator authoritative. The first signed
 `capability-use` guard intersects content-addressed `grant-set` tables once at the
 shared `inquirium.generate` boundary after request validation and before inference.
 It revalidates current operator binding, package activation, conformance, safe mode,
@@ -174,7 +183,7 @@ process-tested for valid admission and inspection as well as foreign-binding,
 invalid-signature, and unsupported-family refusal. It deliberately admits only
 local operator declarations; node-signed federated-envelope and posture artifacts
 remain on the separate publication and peer-evaluation path. Distributor-bounded
-widening, source-domain derived-capability snapshot adapters, remaining owning runtime call sites for the new hooks,
+widening, additional guard anchors, operator inspection of effective hook decisions,
 attention-specific graphical UI, network federation, broader runtime enforcement, three-node
 acceptance, trace-explorer evidence, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
@@ -1270,7 +1279,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `62` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `65` |
 
 ## Solutions
 
