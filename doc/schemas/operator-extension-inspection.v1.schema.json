@@ -23,6 +23,11 @@
       "type": "array",
       "maxItems": 256,
       "items": {"$ref": "#/$defs/attention-usage"}
+    },
+    "authority/decisions": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/authority-decision"}
     }
   },
   "$defs": {
@@ -76,6 +81,92 @@
           "items": {"$ref": "#/$defs/attention-group"}
         }
       }
+    },
+    "authority-decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision/ref", "kind", "outcome", "subject/ref",
+        "artifact/refs", "artifact/digests", "effective/capability-ids",
+        "effective/guard-types", "effective/restrictions", "recorded-at"
+      ],
+      "properties": {
+        "decision/ref": {"$ref": "#/$defs/ref"},
+        "kind": {"enum": ["derived-capability", "operator-guard"]},
+        "outcome": {"enum": ["admitted", "refused", "policy-absent"]},
+        "anchor": {
+          "enum": [
+            "nse-decision-admission", "package-activation", "capability-use",
+            "sensorium-actuation", "agent-effect-admission"
+          ]
+        },
+        "subject/ref": {"$ref": "#/$defs/ref"},
+        "operator/binding-ref": {"$ref": "#/$defs/ref"},
+        "artifact/refs": {
+          "type": "array", "maxItems": 16, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ref"}
+        },
+        "artifact/digests": {
+          "type": "array", "maxItems": 16,
+          "items": {"$ref": "#/$defs/digest"}
+        },
+        "effective/capability-ids": {
+          "type": "array", "maxItems": 32, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ref"}
+        },
+        "effective/guard-types": {
+          "type": "array", "maxItems": 16, "uniqueItems": true,
+          "items": {"enum": ["restrict/grant-set"]}
+        },
+        "effective/restrictions": {
+          "type": "array", "maxItems": 64, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ref"}
+        },
+        "decisive/restriction": {"$ref": "#/$defs/ref"},
+        "refusal/code": {
+          "enum": [
+            "contract/unknown-schema", "hook/unknown", "hook/version-mismatch",
+            "offer/digest-mismatch", "offer/invocation-mismatch", "decision/not-contained",
+            "decision/ambiguous", "decision/unknown-outcome", "producer/budget-unavailable",
+            "producer/required-failed", "producer/output-malformed", "producer/timeout",
+            "producer/crash", "package/signing-authority-untrusted", "package/digest-mismatch",
+            "package/conformance-failed", "activation/plan-stale",
+            "activation/operator-binding-missing", "activation/signature-invalid",
+            "activation/state-conflict", "activation/session-not-eligible", "limit/unclassified",
+            "guard/anchor-unknown", "guard/cap-exceeded", "identifier/invalid",
+            "policy/revoked", "policy/expired", "extension/safe-mode"
+          ]
+        },
+        "recorded-at": {"type": "string", "format": "date-time"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"outcome": {"const": "refused"}}},
+          "then": {"required": ["refusal/code"]},
+          "else": {"not": {"required": ["refusal/code"]}}
+        },
+        {
+          "if": {"properties": {"outcome": {"const": "policy-absent"}}},
+          "then": {
+            "properties": {
+              "kind": {"const": "operator-guard"},
+              "operator/binding-ref": false,
+              "artifact/refs": {"maxItems": 0},
+              "artifact/digests": {"maxItems": 0},
+              "effective/capability-ids": {"maxItems": 0},
+              "effective/guard-types": {"maxItems": 0},
+              "effective/restrictions": {"maxItems": 0},
+              "decisive/restriction": false
+            }
+          },
+          "else": {"required": ["operator/binding-ref"]}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "derived-capability"}}},
+          "then": {"properties": {"effective/guard-types": {"maxItems": 0}}},
+          "else": {"properties": {"effective/restrictions": {"maxItems": 0}}}
+        }
+      ]
     },
     "producer": {
       "type": "object",

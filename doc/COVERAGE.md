@@ -205,7 +205,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-extension-conformance-run-result.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-run-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-conformance-run.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-run.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-import-receipt.v1.schema.json`](schemas-gen/schemas/operator-extension-import-receipt.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
-| [`operator-extension-inspection.v1.schema.json`](schemas-gen/schemas/operator-extension-inspection.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `0` |
+| [`operator-extension-inspection.v1.schema.json`](schemas-gen/schemas/operator-extension-inspection.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-loose-import.v1.schema.json`](schemas-gen/schemas/operator-extension-loose-import.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-refusal-code.v1.schema.json`](schemas-gen/schemas/operator-extension-refusal-code.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-refusal.v1.schema.json`](schemas-gen/schemas/operator-extension-refusal.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |

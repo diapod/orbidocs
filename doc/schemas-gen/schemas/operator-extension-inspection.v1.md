@@ -18,6 +18,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`packages`](#field-packages) | `yes` | array |  |
 | [`policies`](#field-policies) | `yes` | array |  |
 | [`attention/usage`](#field-attention-usage) | `no` | array |  |
+| [`authority/decisions`](#field-authority-decisions) | `no` | array |  |
 
 ## Definitions
 
@@ -28,6 +29,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`optional-ref`](#def-optional-ref) | unspecified |  |
 | [`attention-group`](#def-attention-group) | object |  |
 | [`attention-usage`](#def-attention-usage) | object |  |
+| [`authority-decision`](#def-authority-decision) | object |  |
 | [`producer`](#def-producer) | object |  |
 | [`policy-status`](#def-policy-status) | object |  |
 | [`package-status`](#def-package-status) | object |  |
@@ -69,6 +71,12 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 - Required: `no`
 - Shape: array
 
+<a id="field-authority-decisions"></a>
+## `authority/decisions`
+
+- Required: `no`
+- Shape: array
+
 ## Definition Semantics
 
 <a id="def-ref"></a>
@@ -93,6 +101,11 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 
 <a id="def-attention-usage"></a>
 ## `$defs.attention-usage`
+
+- Shape: object
+
+<a id="def-authority-decision"></a>
+## `$defs.authority-decision`
 
 - Shape: object
 

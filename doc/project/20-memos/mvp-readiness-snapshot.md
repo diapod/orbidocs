@@ -147,8 +147,11 @@ windows, grouping, quiet windows, and a separate never-approving security lane; 
 question is persisted before any notification is suppressed. The effective question
 deadline is narrowed by request timeout, declaration expiry, and the current
 availability-window end. Equivalent questions share one durable bounded group while
-retaining independent facts; the host derives their grouping identity from canonical
-operation semantics rather than prompt wording or caller-selected response idempotency.
+retaining independent facts; the host derives their grouping identity from a closed
+canonical semantic descriptor rather than prompt wording, per-attempt operation refs, or
+caller-selected response idempotency. A bounded declared operation digest sharpens the
+descriptor when present; its absence remains explicit and cannot reactivate an attempt-ref
+fallback.
 Prompt-free inspection exposes rolling usage and bounded member refs. Restart reconciles
 the complete fixed attention-store ceiling, ordinary
 admission uses a smaller cleanup pass, capacity pressure performs one bounded global
@@ -156,12 +159,22 @@ stale-event reclamation before refusal, and read-time fencing prevents expired g
 from being resurrected.
 Inquirium now has a
 task/session tighten-only profile seam and a pure stricter federated-envelope
-intersection without mutating the host baseline. The local policy-admission route is
+intersection without mutating the host baseline. Derived-capability evaluation now
+rechecks trusted, unsanctioned, unexpired component grants against P072 dispatch
+eligibility and exact use context without registering a new federated capability;
+production adapters from source-owned grant facts remain open. The first signed
+`capability-use` guard intersects content-addressed `grant-set` tables once at the
+shared `inquirium.generate` boundary after request validation and before inference.
+It revalidates current operator binding, package activation, conformance, safe mode,
+and revocation under one current-authority snapshot. Its bounded prompt-free decision
+separates resolved guard types from concrete derived restrictions, and a reached
+boundary with no active policy records an inert `policy-absent` fact. A daemon-process smoke proves admission
+before and after restart and synchronous refusal after package revocation. The local policy-admission route is
 process-tested for valid admission and inspection as well as foreign-binding,
 invalid-signature, and unsupported-family refusal. It deliberately admits only
 local operator declarations; node-signed federated-envelope and posture artifacts
 remain on the separate publication and peer-evaluation path. Distributor-bounded
-widening, P072 capability-use wiring, owning runtime call sites for the new hooks,
+widening, source-domain derived-capability snapshot adapters, remaining owning runtime call sites for the new hooks,
 attention-specific graphical UI, network federation, broader runtime enforcement, three-node
 acceptance, trace-explorer evidence, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
@@ -1257,7 +1270,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `60` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `62` |
 
 ## Solutions
 

@@ -61,5 +61,21 @@
         }
       ]
     }
+  ],
+  "authority/decisions": [
+    {
+      "decision/ref": "authority-decision:166bd933df838ea891c58b6d249a65e0b8c9d5813eddf61d47224d4750919ea7",
+      "kind": "operator-guard",
+      "outcome": "admitted",
+      "anchor": "capability-use",
+      "subject/ref": "inquirium.generate",
+      "operator/binding-ref": "node-operator-binding:local",
+      "artifact/refs": ["operator-guard:inquirium-generate"],
+      "artifact/digests": ["sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"],
+      "effective/capability-ids": ["inquirium.generate"],
+      "effective/guard-types": ["restrict/grant-set"],
+      "effective/restrictions": [],
+      "recorded-at": "2026-08-10T11:59:20Z"
+    }
   ]
 }
