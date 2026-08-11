@@ -19,6 +19,7 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`middleware-package/ref`](#field-middleware-package-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`middleware-package/digest`](#field-middleware-package-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`hooks`](#field-hooks) | `yes` | array |  |
+| [`compatibility`](#field-compatibility) | `no` | ref: `#/$defs/compatibility` |  |
 | [`required-capability/ids`](#field-required-capability-ids) | `yes` | ref: `#/$defs/refs` |  |
 | [`resource-envelope/refs`](#field-resource-envelope-refs) | `no` | ref: `#/$defs/refs` |  |
 | [`derived-capability/refs`](#field-derived-capability-refs) | `no` | ref: `#/$defs/refs` |  |
@@ -34,6 +35,7 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`ref`](#def-ref) | string |  |
 | [`digest`](#def-digest) | string |  |
 | [`refs`](#def-refs) | array |  |
+| [`compatibility`](#def-compatibility) | object |  |
 | [`hook`](#def-hook) | object |  |
 ## Field Semantics
 
@@ -78,6 +80,12 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 
 - Required: `yes`
 - Shape: array
+
+<a id="field-compatibility"></a>
+## `compatibility`
+
+- Required: `no`
+- Shape: ref: `#/$defs/compatibility`
 
 <a id="field-required-capability-ids"></a>
 ## `required-capability/ids`
@@ -137,6 +145,11 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 ## `$defs.refs`
 
 - Shape: array
+
+<a id="def-compatibility"></a>
+## `$defs.compatibility`
+
+- Shape: object
 
 <a id="def-hook"></a>
 ## `$defs.hook`

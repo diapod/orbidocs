@@ -19,6 +19,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`policies`](#field-policies) | `yes` | array |  |
 | [`attention/usage`](#field-attention-usage) | `no` | array |  |
 | [`authority/decisions`](#field-authority-decisions) | `no` | array |  |
+| [`runtime/diagnostics`](#field-runtime-diagnostics) | `no` | ref: `#/$defs/runtime-diagnostics` |  |
 
 ## Definitions
 
@@ -27,6 +28,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`ref`](#def-ref) | string |  |
 | [`digest`](#def-digest) | string |  |
 | [`optional-ref`](#def-optional-ref) | unspecified |  |
+| [`runtime-diagnostics`](#def-runtime-diagnostics) | object |  |
 | [`attention-group`](#def-attention-group) | object |  |
 | [`attention-usage`](#def-attention-usage) | object |  |
 | [`authority-decision`](#def-authority-decision) | object |  |
@@ -77,6 +79,12 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 - Required: `no`
 - Shape: array
 
+<a id="field-runtime-diagnostics"></a>
+## `runtime/diagnostics`
+
+- Required: `no`
+- Shape: ref: `#/$defs/runtime-diagnostics`
+
 ## Definition Semantics
 
 <a id="def-ref"></a>
@@ -93,6 +101,11 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 ## `$defs.optional-ref`
 
 - Shape: unspecified
+
+<a id="def-runtime-diagnostics"></a>
+## `$defs.runtime-diagnostics`
+
+- Shape: object
 
 <a id="def-attention-group"></a>
 ## `$defs.attention-group`

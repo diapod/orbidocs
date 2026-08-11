@@ -28,12 +28,36 @@
       "type": "array",
       "maxItems": 256,
       "items": {"$ref": "#/$defs/authority-decision"}
-    }
+    },
+    "runtime/diagnostics": {"$ref": "#/$defs/runtime-diagnostics"}
   },
   "$defs": {
     "ref": {"type": "string", "minLength": 1, "maxLength": 256},
     "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "optional-ref": {"oneOf": [{"$ref": "#/$defs/ref"}, {"type": "null"}]},
+    "runtime-diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiled-cache/entries", "compiled-cache/max-entries",
+        "authority-decisions/facts", "authority-decisions/max-facts",
+        "attention/events", "attention/max-events", "packages/inert",
+        "packages/active", "policies/active", "store/indexes-healthy"
+      ],
+      "properties": {
+        "compiled-cache/entries": {"type": "integer", "minimum": 0, "maximum": 64},
+        "compiled-cache/max-entries": {"const": 64},
+        "authority-decisions/facts": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "authority-decisions/max-facts": {"const": 4096},
+        "attention/events": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "attention/max-events": {"const": 4096},
+        "packages/inert": {"type": "integer", "minimum": 0, "maximum": 64},
+        "packages/active": {"type": "integer", "minimum": 0, "maximum": 64},
+        "policies/active": {"type": "integer", "minimum": 0, "maximum": 256},
+        "ttl/next-expiry-at": {"type": "string", "format": "date-time"},
+        "store/indexes-healthy": {"type": "boolean"}
+      }
+    },
     "attention-group": {
       "type": "object",
       "additionalProperties": false,
@@ -92,13 +116,17 @@
       ],
       "properties": {
         "decision/ref": {"$ref": "#/$defs/ref"},
-        "kind": {"enum": ["derived-capability", "operator-guard"]},
+        "kind": {"enum": ["derived-capability", "operator-guard", "policy-hook"]},
         "outcome": {"enum": ["admitted", "refused", "policy-absent"]},
         "anchor": {
           "enum": [
             "nse-decision-admission", "package-activation", "capability-use",
             "sensorium-actuation", "agent-effect-admission"
           ]
+        },
+        "hook/id": {"$ref": "#/$defs/ref"},
+        "effective/decision-type": {
+          "enum": ["defer", "select", "order", "narrow", "restrict", "raise-risk", "select-profile", "refused"]
         },
         "subject/ref": {"$ref": "#/$defs/ref"},
         "operator/binding-ref": {"$ref": "#/$defs/ref"},
@@ -130,7 +158,7 @@
             "decision/ambiguous", "decision/unknown-outcome", "producer/budget-unavailable",
             "producer/required-failed", "producer/output-malformed", "producer/timeout",
             "producer/crash", "package/signing-authority-untrusted", "package/digest-mismatch",
-            "package/conformance-failed", "activation/plan-stale",
+            "package/conformance-failed", "package/incompatible", "activation/plan-stale",
             "activation/operator-binding-missing", "activation/signature-invalid",
             "activation/state-conflict", "activation/session-not-eligible", "limit/unclassified",
             "guard/anchor-unknown", "guard/cap-exceeded", "identifier/invalid",
@@ -165,6 +193,24 @@
           "if": {"properties": {"kind": {"const": "derived-capability"}}},
           "then": {"properties": {"effective/guard-types": {"maxItems": 0}}},
           "else": {"properties": {"effective/restrictions": {"maxItems": 0}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "policy-hook"}}},
+          "then": {
+            "required": ["hook/id", "effective/decision-type"],
+            "properties": {
+              "anchor": false,
+              "effective/capability-ids": {"maxItems": 0},
+              "effective/guard-types": {"maxItems": 0},
+              "effective/restrictions": {"maxItems": 0}
+            }
+          },
+          "else": {
+            "properties": {
+              "hook/id": false,
+              "effective/decision-type": false
+            }
+          }
         }
       ]
     },

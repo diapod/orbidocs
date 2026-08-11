@@ -26,6 +26,7 @@
     "package/signing-authority-untrusted",
     "package/digest-mismatch",
     "package/conformance-failed",
+    "package/incompatible",
     "activation/plan-stale",
     "activation/operator-binding-missing",
     "activation/signature-invalid",

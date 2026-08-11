@@ -111,7 +111,7 @@ content-addressed package-specific conformance, operator-signed activation, real
 loopback dispatch, evidence admission, `nse-table` selection, and JSON-e Flow
 projection. The daemon rechecks canonical durable producer authority before and
 after process execution; restart, rollback, crash, expiry, revocation, safe mode,
-substitution, and conformance replacement fail closed. The common 28-code refusal
+substitution, and conformance replacement fail closed. The common 29-code refusal
 vocabulary now has one distinct reaching test per code and a dedicated drift gate.
 The lifecycle process smoke also traverses an exact active JSON-e Flow,
 recomputes its Inquirium-derived capability at the selected runtime boundary, and
@@ -130,10 +130,13 @@ identity and digest; passing reports bind the exact corpus and runtime, and the 
 recomputes canonical report identity. Lifecycle authority mutations and dependent
 session terminal facts commit atomically and retain typed terminal reasons. A
 bounded scheduler records session expiry before removing in-memory authority;
-the exact current operator binding for durable and session activation, package,
-conformance, producer, revocation, safe-mode, and expiry state are rechecked at
-use. Session facts use host observation time and reject duplicate event kinds for
-one activation. A real daemon process smoke proves exact
+durable/session activation and producer use additionally recheck signed host
+OS/architecture compatibility, primitive capability eligibility, and current exact
+derived-capability references. Resource-envelope references remain fail-closed until
+their exact cross-store provider is installed. The exact current operator binding for
+durable and session activation, package, conformance, producer, revocation, safe-mode,
+and expiry state are rechecked at use. Session facts use host observation time and
+reject duplicate event kinds for one activation. A real daemon process smoke proves exact
 session replay, restart discard, scheduler expiry, manual deactivation, safe-mode
 fencing/recovery, and the durable lifecycle across restart and terminal revocation. Federation, posture,
 trace-explorer integration, and three-node acceptance remain open.
@@ -156,14 +159,18 @@ canonical semantic descriptor rather than prompt wording, per-attempt operation 
 caller-selected response idempotency. A bounded declared operation digest sharpens the
 descriptor when present; its absence remains explicit and cannot reactivate an attempt-ref
 fallback.
-Prompt-free inspection exposes rolling usage and bounded member refs. Restart reconciles
-the complete fixed attention-store ceiling, ordinary
+Prompt-free inspection exposes rolling usage and bounded member refs. It also projects
+content-addressed package-backed policy-hook decisions and bounded cache/store occupancy,
+inert/active package counts, active policies, nearest expiry, and required-index health.
+Restart reconciles the complete fixed attention-store ceiling, ordinary
 admission uses a smaller cleanup pass, capacity pressure performs one bounded global
 stale-event reclamation before refusal, and read-time fencing prevents expired groups
 from being resurrected.
-Inquirium now has a
-task/session tighten-only profile seam and a pure stricter federated-envelope
-intersection without mutating the host baseline. Derived-capability evaluation now
+Inquirium now has distributor-owned per-axis safety ranges: a signed operator envelope
+may widen a compiled default only inside its explicit range, while missing ranges,
+unsigned local configuration, and task/session overlays remain fail-closed or
+tighten-only. It also has a pure stricter federated-envelope intersection without
+mutating the host baseline. Derived-capability evaluation now
 rechecks exact active JSON-e Flow inference grants and current Corpus role plus Room
 membership snapshots against P072 dispatch eligibility, current operator authority,
 stable fact digests, trust, sanctions, expiry, and the exact selected-use context
@@ -171,20 +178,23 @@ without registering a new federated capability. The first reviewer-derived
 capability is evaluated only at the selected `inquirium.generate` boundary. The
 same host-owned static-producer path now applies all eleven local Inquirium, Corpus,
 and Agent policy hooks at their owning boundaries while leaving each domain's
-ordinary validator authoritative. The first signed
-`capability-use` guard intersects content-addressed `grant-set` tables once at the
-shared `inquirium.generate` boundary after request validation and before inference.
+ordinary validator authoritative. Package-backed hook outcomes now produce bounded,
+content-addressed prompt-free operator decisions. Signed `restrict/grant-set` guards
+intersect content-addressed tables once at both the shared `inquirium.generate`
+capability-use boundary and Agent effect-proposal admission before an effect fact exists.
 It revalidates current operator binding, package activation, conformance, safe mode,
-and revocation under one current-authority snapshot. Its bounded prompt-free decision
+revocation, and package derived-capability dependencies under the exact activation
+operator binding; another active operator's overlay cannot satisfy them. Its bounded
+prompt-free decision
 separates resolved guard types from concrete derived restrictions, and a reached
-boundary with no active policy records an inert `policy-absent` fact. A daemon-process smoke proves admission
-before and after restart and synchronous refusal after package revocation. The local policy-admission route is
+boundary with no active policy records an inert `policy-absent` fact. A daemon-process
+smoke proves capability-use and Agent effect-admission guard paths, ordinary admission
+before and after restart, and synchronous refusal after package revocation. The local policy-admission route is
 process-tested for valid admission and inspection as well as foreign-binding,
 invalid-signature, and unsupported-family refusal. It deliberately admits only
 local operator declarations; node-signed federated-envelope and posture artifacts
-remain on the separate publication and peer-evaluation path. Distributor-bounded
-widening, additional guard anchors, operator inspection of effective hook decisions,
-attention-specific graphical UI, network federation, broader runtime enforcement, three-node
+remain on the separate publication and peer-evaluation path. Additional guard anchors
+and algebras, attention-specific graphical UI, network federation, broader runtime enforcement, three-node
 acceptance, trace-explorer evidence, and Phase 2 registries remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 

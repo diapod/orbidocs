@@ -199,13 +199,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-consent-binding.v1.schema.json`](schemas-gen/schemas/operator-consent-binding.v1.md) | `10` | `0` | `no` | `yes` | `0` | `0` |
 | [`operator-consent-decision.v1.schema.json`](schemas-gen/schemas/operator-consent-decision.v1.md) | `12` | `0` | `yes` | `yes` | `0` | `0` |
 | [`operator-consent.request.v1.schema.json`](schemas-gen/schemas/operator-consent.request.v1.md) | `14` | `1` | `yes` | `yes` | `0` | `0` |
-| [`operator-experiment-package.v1.schema.json`](schemas-gen/schemas/operator-experiment-package.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
+| [`operator-experiment-package.v1.schema.json`](schemas-gen/schemas/operator-experiment-package.v1.md) | `15` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-extension-activation.v1.schema.json`](schemas-gen/schemas/operator-extension-activation.v1.md) | `17` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-extension-conformance-report.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-report.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-conformance-run-result.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-run-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-conformance-run.v1.schema.json`](schemas-gen/schemas/operator-extension-conformance-run.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-import-receipt.v1.schema.json`](schemas-gen/schemas/operator-extension-import-receipt.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
-| [`operator-extension-inspection.v1.schema.json`](schemas-gen/schemas/operator-extension-inspection.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `0` |
+| [`operator-extension-inspection.v1.schema.json`](schemas-gen/schemas/operator-extension-inspection.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-loose-import.v1.schema.json`](schemas-gen/schemas/operator-extension-loose-import.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-extension-refusal-code.v1.schema.json`](schemas-gen/schemas/operator-extension-refusal-code.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-extension-refusal.v1.schema.json`](schemas-gen/schemas/operator-extension-refusal.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
@@ -897,4 +897,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `353`
 - Generated schema docs: `353`
 - Positive examples: `357`
-- Negative examples: `300`
+- Negative examples: `301`

@@ -22,7 +22,7 @@
         "decision/ambiguous", "decision/unknown-outcome", "producer/budget-unavailable",
         "producer/required-failed", "producer/output-malformed", "producer/timeout",
         "producer/crash", "package/signing-authority-untrusted", "package/digest-mismatch",
-        "package/conformance-failed", "activation/plan-stale",
+        "package/conformance-failed", "package/incompatible", "activation/plan-stale",
         "activation/operator-binding-missing", "activation/signature-invalid",
         "activation/state-conflict", "activation/session-not-eligible", "limit/unclassified",
         "guard/anchor-unknown", "guard/cap-exceeded", "identifier/invalid",

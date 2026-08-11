@@ -10,6 +10,7 @@
     "package/ref": {"$ref": "#/$defs/ref"}, "package/digest": {"$ref": "#/$defs/digest"},
     "middleware-package/ref": {"$ref": "#/$defs/ref"}, "middleware-package/digest": {"$ref": "#/$defs/digest"},
     "hooks": {"type": "array", "minItems": 1, "maxItems": 32, "items": {"$ref": "#/$defs/hook"}},
+    "compatibility": {"$ref": "#/$defs/compatibility", "default": {}},
     "required-capability/ids": {"$ref": "#/$defs/refs"}, "resource-envelope/refs": {"$ref": "#/$defs/refs", "default": []},
     "derived-capability/refs": {"$ref": "#/$defs/refs", "default": []},
     "refusal-corpus/ref": {"$ref": "#/$defs/ref"}, "refusal-corpus/digest": {"$ref": "#/$defs/digest"},
@@ -19,6 +20,13 @@
   "$defs": {
     "ref": {"type": "string", "minLength": 1, "maxLength": 256}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "refs": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+    "compatibility": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "host/os": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}, "default": []},
+        "host/arch": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}, "default": []}
+      }
+    },
     "hook": {"type": "object", "additionalProperties": false, "required": ["hook/id", "hook/v", "backend", "producer/ref", "producer/digest"], "properties": {"hook/id": {"$ref": "#/$defs/ref"}, "hook/v": {"type": "integer", "minimum": 1}, "backend": {"type": "string", "enum": ["table", "rhai"]}, "producer/ref": {"$ref": "#/$defs/ref"}, "producer/digest": {"$ref": "#/$defs/digest"}}}
   },
   "x-dia-status": "accepted", "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]

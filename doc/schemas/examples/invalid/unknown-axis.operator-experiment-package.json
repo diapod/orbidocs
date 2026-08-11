@@ -1,0 +1,10 @@
+{
+  "schema": "operator-experiment-package.v1", "schema/v": 1,
+  "package/ref": "extension-package:invalid-compatibility", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "middleware-package/ref": "middleware-package:invalid-compatibility", "middleware-package/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "hooks": [{"hook/id": "select-llm-model", "hook/v": 1, "backend": "table", "producer/ref": "nse-table:invalid-compatibility", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}],
+  "compatibility": {"host/kernel": ["future"]},
+  "required-capability/ids": [], "resource-envelope/refs": [], "derived-capability/refs": [],
+  "refusal-corpus/ref": "refusal-corpus:invalid-compatibility", "refusal-corpus/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "rollback/ref": "rollback:invalid-compatibility", "operational/class": "research"
+}

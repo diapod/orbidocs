@@ -3,6 +3,7 @@
   "package/ref": "extension-package:local-policy", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "middleware-package/ref": "middleware-package:local-policy", "middleware-package/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "hooks": [{"hook/id": "select-llm-model", "hook/v": 1, "backend": "table", "producer/ref": "nse-table:local-policy", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}],
+  "compatibility": {"host/os": ["linux", "macos"], "host/arch": ["x86_64", "aarch64"]},
   "required-capability/ids": ["inquirium.generate"], "resource-envelope/refs": [], "derived-capability/refs": [],
   "refusal-corpus/ref": "refusal-corpus:local-policy", "refusal-corpus/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
   "rollback/ref": "rollback:local-policy", "operational/class": "research"
