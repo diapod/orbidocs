@@ -1,0 +1,12 @@
+{
+  "schema": "semantic-registry-binding.v1",
+  "schema/v": 1,
+  "domain": "dator-dispatch",
+  "entry/ref": "dator-dispatch:inline-template-v1",
+  "entry/revision": 1,
+  "implementation/ref": "dator.dispatch.inline-template",
+  "entry/digest": "sha256:IKf74Vt1xGb6HlXvOD9KE213h-s_-phJjf_bSUj3y0U",
+  "activation/generation": 1,
+  "provenance": "distribution-default",
+  "activated-at": "2026-08-11T12:00:00Z"
+}

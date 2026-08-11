@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:semantic-registry-inspection:v1",
+  "title": "Semantic Registry Inspection v1",
+  "description": "Bounded prompt-free read model for one domain-owned registry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "domain", "activation/generation", "entries", "effective/refs"],
+  "properties": {
+    "schema": { "const": "semantic-registry-inspection.v1" },
+    "schema/v": { "const": 1 },
+    "domain": { "$ref": "#/$defs/id" },
+    "activation/generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "entries": {
+      "type": "array", "maxItems": 256,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["entry/ref", "entry/revision", "implementation/ref", "entry/digest", "provenance", "status"],
+        "properties": {
+          "entry/ref": { "$ref": "#/$defs/id" },
+          "entry/revision": { "type": "integer", "minimum": 1 },
+          "implementation/ref": { "$ref": "#/$defs/id" },
+          "entry/digest": { "$ref": "#/$defs/digest" },
+          "provenance": { "enum": ["distribution-default", "operator-package"] },
+          "status": { "enum": ["installed", "effective", "disabled", "revoked", "stale", "unavailable", "refused"] },
+          "refusal/code": { "$ref": "#/$defs/id" },
+          "causal/refs": { "type": "array", "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+        }
+      }
+    },
+    "effective/refs": { "type": "array", "maxItems": 256, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "maxLength": 192, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/:-]*[A-Za-z0-9]$|^[A-Za-z0-9]$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

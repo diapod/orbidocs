@@ -1,0 +1,11 @@
+{
+  "entry/ref": "dator-dispatch:inline-template-v1",
+  "entry/revision": 1,
+  "implementation/ref": "dator.dispatch.inline-template",
+  "request/schema-ref": "service-dispatch-request.v1",
+  "response/schema-ref": "service-dispatch-response.v1",
+  "required/capability-ids": ["service_dispatch_execute"],
+  "constraints": { "timeout/ms": 1000, "retry/policy": "none" },
+  "provenance": "distribution-default",
+  "digest": "sha256:IKf74Vt1xGb6HlXvOD9KE213h-s_-phJjf_bSUj3y0U"
+}

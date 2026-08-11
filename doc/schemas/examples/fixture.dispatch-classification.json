@@ -1,0 +1,20 @@
+{
+  "schema": "dispatch-classification.v1",
+  "schema/v": 1,
+  "subject/ref": "dispatch:dator:execute-service-dispatch",
+  "domain": "dator",
+  "anchor/name": "execute-service-dispatch",
+  "source/locator": "middleware-modules/dator/service.py#execute_service_dispatch",
+  "source/fingerprint": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "disposition": "code-backed-registry-candidate",
+  "branch/keys": ["inline-template", "role-module"],
+  "call-site/refs": ["dator/runtime"],
+  "wire/impact": "domain-operation",
+  "capability/owner": "dator",
+  "refusal/behavior": "typed-fail-closed",
+  "evidence/refs": ["semantic-registry-audit/domain-dispatch-inventory"],
+  "review": {
+    "owner": "operator-extension-maintainers",
+    "review/by": "2027-08-01"
+  }
+}

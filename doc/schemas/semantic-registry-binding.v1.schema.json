@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:semantic-registry-binding:v1",
+  "title": "Semantic Registry Binding v1",
+  "description": "Exact activation binding for one domain-owned semantic registry entry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "domain", "entry/ref", "entry/revision", "implementation/ref", "entry/digest", "activation/generation", "provenance", "activated-at"],
+  "properties": {
+    "schema": { "const": "semantic-registry-binding.v1" },
+    "schema/v": { "const": 1 },
+    "domain": { "$ref": "#/$defs/id" },
+    "entry/ref": { "$ref": "#/$defs/id" },
+    "entry/revision": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "implementation/ref": { "$ref": "#/$defs/id" },
+    "entry/digest": { "$ref": "#/$defs/digest" },
+    "operator/binding-ref": { "type": "string", "pattern": "^node-operator-binding:[A-Za-z0-9._:-]{1,192}$" },
+    "activation/generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "provenance": { "enum": ["distribution-default", "operator-package"] },
+    "activated-at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "provenance": { "const": "operator-package" } }, "required": ["provenance"] },
+      "then": { "required": ["operator/binding-ref"] }
+    },
+    {
+      "if": { "properties": { "provenance": { "const": "distribution-default" } }, "required": ["provenance"] },
+      "then": { "not": { "required": ["operator/binding-ref"] } }
+    }
+  ],
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "maxLength": 192, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/:-]*[A-Za-z0-9]$|^[A-Za-z0-9]$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "semantic-registry-inspection.v1",
+  "schema/v": 1,
+  "domain": "dator-dispatch",
+  "activation/generation": 1,
+  "entries": [
+    {
+      "entry/ref": "dator-dispatch:inline-template-v1",
+      "entry/revision": 1,
+      "implementation/ref": "dator.dispatch.inline-template",
+      "entry/digest": "sha256:IKf74Vt1xGb6HlXvOD9KE213h-s_-phJjf_bSUj3y0U",
+      "provenance": "distribution-default",
+      "status": "fallback"
+    }
+  ],
+  "effective/refs": []
+}

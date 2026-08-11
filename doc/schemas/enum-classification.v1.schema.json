@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:enum-classification:v1",
+  "title": "Domain Enum Classification v1",
+  "description": "Reviewed classification of one structurally discovered domain enum.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema/v", "subject/ref", "domain", "declaration/name",
+    "source/locator", "source/fingerprint", "disposition", "call-site/refs",
+    "wire/impact", "capability/owner", "refusal/behavior", "evidence/refs", "review"
+  ],
+  "properties": {
+    "schema": { "const": "enum-classification.v1" },
+    "schema/v": { "const": 1 },
+    "subject/ref": { "$ref": "#/$defs/identifier" },
+    "domain": { "$ref": "#/$defs/identifier" },
+    "declaration/name": { "$ref": "#/$defs/identifier" },
+    "source/locator": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/#-]*$" },
+    "source/fingerprint": { "$ref": "#/$defs/digest" },
+    "disposition": { "$ref": "#/$defs/disposition" },
+    "call-site/refs": { "$ref": "#/$defs/refs" },
+    "wire/impact": { "$ref": "#/$defs/identifier" },
+    "capability/owner": { "$ref": "#/$defs/identifier" },
+    "refusal/behavior": { "$ref": "#/$defs/identifier" },
+    "evidence/refs": { "$ref": "#/$defs/refs" },
+    "review": { "$ref": "#/$defs/review" }
+  },
+  "$defs": {
+    "identifier": { "type": "string", "minLength": 1, "maxLength": 192, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/:-]*[A-Za-z0-9]$|^[A-Za-z0-9]$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "disposition": { "enum": ["closed-invariant", "configurable-subset", "code-backed-registry-candidate", "unclassified"] },
+    "refs": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/identifier" } },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "review/by"],
+      "properties": {
+        "owner": { "$ref": "#/$defs/identifier" },
+        "review/by": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "dator.dispatch-entry-deactivation.v1",
+  "schema/v": 1,
+  "event/ref": "dator-dispatch-event:operator-revoke-1",
+  "entry/ref": "dator-dispatch:role-module-v1",
+  "entry/revision": 1,
+  "entry/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "activation/generation": 1,
+  "reason": "Operator disabled the adapter after a failed health review."
+}

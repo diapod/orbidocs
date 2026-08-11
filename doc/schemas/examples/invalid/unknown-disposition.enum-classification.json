@@ -1,0 +1,16 @@
+{
+  "schema": "enum-classification.v1",
+  "schema/v": 1,
+  "subject/ref": "enum:agent:AgentConsumerKind",
+  "domain": "agent",
+  "declaration/name": "AgentConsumerKind",
+  "source/locator": "agent-core/src/lib.rs#AgentConsumerKind",
+  "source/fingerprint": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "disposition": "ambient-plugin",
+  "call-site/refs": [],
+  "wire/impact": "domain-contract",
+  "capability/owner": "agent",
+  "refusal/behavior": "typed-fail-closed",
+  "evidence/refs": [],
+  "review": { "owner": "operator-extension-maintainers", "review/by": "2027-08-01" }
+}

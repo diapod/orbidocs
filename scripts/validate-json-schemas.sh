@@ -179,6 +179,27 @@ schema_for_file() {
     *.limit-classification.json)
       echo "$SCHEMAS_DIR/limit-classification.v1.schema.json"
       ;;
+    *.enum-classification.json)
+      echo "$SCHEMAS_DIR/enum-classification.v1.schema.json"
+      ;;
+    *.dispatch-classification.json)
+      echo "$SCHEMAS_DIR/dispatch-classification.v1.schema.json"
+      ;;
+    *.semantic-registry-binding.json)
+      echo "$SCHEMAS_DIR/semantic-registry-binding.v1.schema.json"
+      ;;
+    *.semantic-registry-inspection.json)
+      echo "$SCHEMAS_DIR/semantic-registry-inspection.v1.schema.json"
+      ;;
+    *.dator-dispatch-entry.json)
+      echo "$SCHEMAS_DIR/dator-dispatch-entry.v1.schema.json"
+      ;;
+    *.dator.dispatch-entry-deactivation-result.json)
+      echo "$SCHEMAS_DIR/dator.dispatch-entry-deactivation-result.v1.schema.json"
+      ;;
+    *.dator.dispatch-entry-deactivation.json)
+      echo "$SCHEMAS_DIR/dator.dispatch-entry-deactivation.v1.schema.json"
+      ;;
     *.inquirium-resource-profile.json)
       echo "$SCHEMAS_DIR/inquirium-resource-profile.v1.schema.json"
       ;;

@@ -193,9 +193,21 @@ before and after restart, and synchronous refusal after package revocation. The 
 process-tested for valid admission and inspection as well as foreign-binding,
 invalid-signature, and unsupported-family refusal. It deliberately admits only
 local operator declarations; node-signed federated-envelope and posture artifacts
-remain on the separate publication and peer-evaluation path. Additional guard anchors
-and algebras, attention-specific graphical UI, network federation, broader runtime enforcement, three-node
-acceptance, trace-explorer evidence, and Phase 2 registries remain open. P085 therefore
+remain on the separate publication and peer-evaluation path. V1 package dependency
+admission now accepts zero or exactly one active resource envelope and rechecks its
+exact ref, operator binding, authority, signature, and expiry before package use. The Phase 2
+classification inventory is now complete across 93 Rust enums and four Python
+dispatch anchors under a no-grace CI drift gate. Shared Rust/Python registry
+mechanics and golden vectors drive the completed Dator reference vertical: exact
+distribution-installed dispatch entries, fail-closed monotone selection, prompt-free
+causal inspection, append-only immediate deactivation, monotonic generation
+high-water, allocation-free reuse of one resolved effective projection per scope,
+atomic legacy migration, and supervised restart
+recovery. Common package activation, cross-domain current-grant invalidation, rollback, and
+federated registry mechanics remain partial, and the Corpus, Arca, Agent, and
+Inquirium migrations have not begun. Additional guard anchors and algebras,
+attention-specific graphical UI, network federation, broader runtime enforcement,
+three-node acceptance, and trace-explorer evidence remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
@@ -1289,7 +1301,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `65` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `71` |
 
 ## Solutions
 

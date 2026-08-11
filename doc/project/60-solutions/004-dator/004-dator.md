@@ -147,7 +147,8 @@ Responsibilities:
 - accept daemon-submitted `service_dispatch_execute` payloads for
   local provider work,
 - select the matching standing offer by `service_type`,
-- route executable offers through `dispatch.kind = role-module`,
+- route executable offers through the exact distribution-installed
+  `dispatch.entry_ref = dator-dispatch:role-module-v1`,
 - invoke the configured role host capability identified by
   `dispatch.capability_id`,
 - preserve workflow lineage fields such as `workflow/run-id`,
@@ -157,6 +158,37 @@ Responsibilities:
 
 Status:
 - `done` for the hard-MVP local and story-009 role-module path.
+
+#### Dispatch Adapter Registry
+
+Dator owns a domain-specific dispatch registry rather than branching on an
+offer-supplied implementation kind. The distribution installs the
+`dator-dispatch:inline-template-v1` and `dator-dispatch:role-module-v1` entries;
+operator configuration may narrow that set but cannot create executable behavior.
+Every invocation binds the exact entry ref, revision, implementation ref, canonical
+digest, request and response schemas, required capability, and timeout/retry
+constraints. An empty set, unknown ref, stale revision, changed digest, unavailable
+implementation, or missing capability refuses without falling back to another entry.
+The effective distribution/operator projection is resolved once and cached as an
+immutable value. Ordinary dispatches reuse its set and sorted inspection projection;
+request-local narrowing computes only the requested intersection, while revocation
+atomically replaces the cached projection.
+
+Activation by configuration remains restart-bound. Exact deactivation is immediate,
+idempotent, append-only in the module SQLite store, and restored after process
+restart. At most one terminal deactivation fact exists per entry and activation
+generation; an exact replay returns the original result while a different event for
+that terminal entry and generation refuses. Historical facts stay available for
+audit but cannot revoke an entry in a newer activation generation. The configured
+generation is advanced explicitly by the operator or distributor; a durable
+monotonic high-water refuses startup on rollback to an older number. Legacy event
+migration runs atomically and refuses conflicting terminal facts without retaining a
+partially changed schema or index.
+`GET /v1/dator/dispatch-registry/status` exposes the bounded prompt-free
+`semantic-registry-inspection.v1` projection; revocations carry the causal event ref.
+`POST /v1/dator/dispatch-registry/deactivate` is a daemon-authenticated host-control
+surface and does not claim a separately verified operator signature. Package-backed
+activation, rollback, and cross-domain registry reuse remain tracked by P085-027.
 
 ### Remote Service-Order Dispatch over Artifact Delivery
 
@@ -168,6 +200,10 @@ Based on:
 Related schemas:
 - `service-dispatch-request.schema.json`
 - `service-dispatch-response.schema.json`
+- `dator-dispatch-entry.v1`
+- `dator.dispatch-entry-deactivation.v1`
+- `dator.dispatch-entry-deactivation-result.v1`
+- `semantic-registry-inspection.v1`
 - `service-order.dispatch.request.v1`
 - `service-order.result.v1`
 - `artifact-delivery-envelope.v1`
