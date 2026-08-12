@@ -192,7 +192,11 @@ partially changed schema or index.
 `semantic-registry-inspection.v1` projection; revocations carry the causal event ref.
 `POST /v1/dator/dispatch-registry/deactivate` is a daemon-authenticated host-control
 surface and does not claim a separately verified operator signature. Package-backed
-activation, rollback, and cross-domain registry reuse remain tracked by P085-027.
+entries reuse the P085 signed package lifecycle: the manifest binds the exact Dator
+domain/ref/revision/implementation/digest tuple, and current grants, generation,
+rollback, restart, and revocation are checked before projecting an executable
+binding. This shared lifecycle does not replace Dator's dispatch selection or effect
+admission.
 
 ### Remote Service-Order Dispatch over Artifact Delivery
 

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:node-extension-federation-publication:v1",
+  "title": "Node Extension Federation Publication V1",
+  "description": "Self-contained carrier for independently signed node posture and exact federated envelope declaration.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "posture", "declaration"],
+  "properties": {
+    "schema": {"const": "node-extension-federation-publication.v1"},
+    "schema/v": {"const": 1},
+    "posture": {"$ref": "node-extension-posture.v1.schema.json"},
+    "declaration": {"$ref": "federated-envelope-declaration.v2.schema.json"}
+  }
+}

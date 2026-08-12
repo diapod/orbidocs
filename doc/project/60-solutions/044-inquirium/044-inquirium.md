@@ -171,6 +171,14 @@ effective sets fail closed before handler execution. Adding another operation
 therefore still requires a contract and enum revision, implementation, fixture,
 and Schema Gate coverage.
 
+Operator-package descriptors reuse the shared P085 signed semantic-entry lifecycle.
+The package binds the exact Inquirium domain/ref/revision/implementation/digest tuple;
+the active projection is generation- and operator-bound and is rechecked against
+current grants. Rollback and restart preserve the exact binding generation, while
+revocation removes new-use authority immediately. This lifecycle does not let a
+package invent an `InquiriumOperation` or bypass operation, runtime, egress, budget,
+classification, and output admission.
+
 ### Prompt, Context, And Output Policy
 
 Responsibilities:

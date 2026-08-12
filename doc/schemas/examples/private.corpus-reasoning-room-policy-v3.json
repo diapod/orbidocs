@@ -1,0 +1,42 @@
+{
+  "schema/v": 3,
+  "query/id": "query:deliberation-test", "room/id": "room:deliberation-test",
+  "exposure": "private-to-swarm", "answer/acceptance": "chair-signed",
+  "chair/mode": "requester-appointed",
+  "chair/nym": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+  "chair/credentials": "capability-passport:chair", "chair/agent-ref": "agent:chair",
+  "chair-control-policy/ref": "corpus-chair-control-policy:deliberation-test",
+  "chair-control-policy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "extension-binding": {
+    "publication": {
+      "schema": "node-extension-federation-publication.v1", "schema/v": 1,
+      "posture": {
+        "schema": "node-extension-posture.v1", "schema/v": 1,
+        "posture/ref": "node-extension-posture:test", "node/id": "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+        "implementation/profile": "orbiplex-node-stock",
+        "build/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "limit-classification/digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "boundary-profile/digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "baseline/modified": false, "attestation/strength": "self-declared",
+        "evidence/refs": [], "issued-at": "2026-08-12T10:00:00Z", "expires-at": "2026-08-12T11:00:00Z",
+        "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA", "value": "OltUpyZzFYVCsjI22MW66Kzt4Z1aQTSeu-axpnRgZneFvZmNnoyEg8cYVybK2ao07GBUgL7pzK1SETaU75-QCw"}
+      },
+      "declaration": {
+        "schema": "federated-envelope-declaration.v2", "schema/v": 2,
+        "declaration/ref": "federated-envelope:test", "node/id": "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+        "envelope/ref": "operator-envelope:test", "envelope/digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "profile/digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "posture/ref": "node-extension-posture:test", "posture/digest": "sha256:0127ed22bb1a92be609f93b43f7f0a24a4be2f8bd05137def1a3cf471b2da079",
+        "registry/bindings": [{"schema": "semantic-registry-binding.v1", "schema/v": 1, "domain": "corpus-role-policy", "entry/ref": "corpus-role:reviewer-v1", "entry/revision": 1, "implementation/ref": "corpus.role-policy.reviewer", "entry/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "activation/generation": 1, "provenance": "distribution-default", "activated-at": "2026-08-12T10:00:00Z"}],
+        "issued-at": "2026-08-12T10:00:00Z", "expires-at": "2026-08-12T11:00:00Z",
+        "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA", "value": "Z-CFpNy48jzKDaaEhdZm0DLE_usSmYue4LNnWWIPAJBi__e2sXdOwkUqPx76Bg50Ejka4LGfRr6_saWcBVKODA"}
+      }
+    },
+    "declaration/digest": "sha256:655acbe3a71b7e869d724c99c6a2f9c1006fb8ed0dbb43e35338f50bc7035899",
+    "required/entry-refs": ["corpus-role:reviewer-v1"]
+  },
+  "quorum/required": 2, "tie-break": "chair", "revocation-policy": "chair-or-requester",
+  "budget": {"time-ms": 120000, "steps": 12, "tokens": 200000},
+  "access/list": [{"kind": "nym", "id": "did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG"}, {"kind": "nym", "id": "did:key:zExpert"}],
+  "created-at": "2026-08-12T10:00:00Z", "expires-at": "2026-08-12T10:05:00Z"
+}

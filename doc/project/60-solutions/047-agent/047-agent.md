@@ -268,6 +268,15 @@ separate canonical admission paths.
 
 ### Lifecycle and Identity
 
+Agent consumer, output-sink, and effect-policy adapters reuse the shared P085 signed
+semantic-entry lifecycle when supplied by an operator package. The manifest binds
+each exact domain/ref/revision/implementation/digest tuple. Activation yields one
+operator- and generation-bound binding; current grant loss, rollback, restart, and
+revocation are fenced by the shared lifecycle. `agent-core` still owns the closed
+consumer and sink vocabulary, and `agent-host` remains the only compiler of existing
+effect plans, so package activation never creates Agent authority or a new effect
+kind.
+
 An Agent is node-local and addressable by an opaque `agent/id`. Its lifecycle is
 explicit: `spawn`, `fork`, `suspend`, `resume`, `status`, and `stop`. Lifecycle
 commands are idempotent, actor-bound facts. Local control has administrative

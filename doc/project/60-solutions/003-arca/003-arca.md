@@ -181,6 +181,13 @@ The actual preferred-provider, fan-out, and fulfillment branches consult their
 registries before executing, so an empty or disabled effective set refuses
 without falling back to the earlier hard-coded branch.
 
+Package-backed strategies use the same signed P085 semantic-entry lifecycle as the
+other owning domains. The manifest binds the exact strategy identity; activation
+projects one operator- and generation-bound binding, while current grant loss,
+rollback, restart, and revocation are handled by the shared lifecycle. Arca still
+owns workflow validation and effect admission, and a registry entry cannot create a
+DAG step or dispatch authority.
+
 The authenticated local control surface exposes read-only strategy status and exact
 entry deactivation. Deactivation is immediately visible to concurrent selectors,
 persists one generation-bound terminal fact, replays idempotently, and survives

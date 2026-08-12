@@ -230,8 +230,17 @@ schema_for_file() {
     *.operator-attention-budget.json)
       echo "$SCHEMAS_DIR/operator-attention-budget.v1.schema.json"
       ;;
+    *.federated-envelope-declaration.v2.json)
+      echo "$SCHEMAS_DIR/federated-envelope-declaration.v2.schema.json"
+      ;;
     *.federated-envelope-declaration.json)
       echo "$SCHEMAS_DIR/federated-envelope-declaration.v1.schema.json"
+      ;;
+    *.node-extension-federation-publication.json)
+      echo "$SCHEMAS_DIR/node-extension-federation-publication.v1.schema.json"
+      ;;
+    *.node-extension-posture-evaluation.json)
+      echo "$SCHEMAS_DIR/node-extension-posture-evaluation.v1.schema.json"
       ;;
     *.node-extension-posture.json)
       echo "$SCHEMAS_DIR/node-extension-posture.v1.schema.json"
@@ -601,6 +610,9 @@ schema_for_file() {
       ;;
     *.corpus-reasoning-chair-control-policy.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-chair-control-policy.v1.schema.json"
+      ;;
+    *.corpus-reasoning-room-policy-v3.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v3.schema.json"
       ;;
     *.corpus-reasoning-room-policy-v2.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v2.schema.json"

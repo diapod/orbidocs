@@ -207,12 +207,21 @@ Agent proves that disabled durable bindings remain history but recover inert.
 Inquirium additionally enforces signed resource-envelope widening at classify,
 rerank, embed, and batch-embed request/response boundaries. The operator-extension
 lifecycle now has bounded, expiring, resumable byte staging with transactional
-inert install after current trust, signature, digest, and contract checks. Common
-signed package activation journals, cross-domain current-grant invalidation,
-rollback reuse, and federated registry mechanics remain partial. Additional guard anchors and algebras,
-attention-specific graphical UI, network federation, broader runtime enforcement,
-three-node acceptance, and trace-explorer evidence remain open. P085 therefore
-stays partial and post-MVP; this work does not change hard-MVP readiness.
+inert install after current trust, signature, digest, and contract checks. Exact
+semantic-entry registrations are now part of the signed package manifest, including
+semantic-only packages without placeholder hooks. One shared lifecycle proves
+current-grant and current-conformance invalidation, rollback, generation-fenced restart, and revocation
+across Dator, Corpus, Arca, Agent, and Inquirium. The daemon publishes a node-signed
+posture plus exact v2 registry declaration; receiver policy checks trust, modified
+baseline, sanctions, and local compatibility without semantic fallback, while
+Corpus room policy v3 binds the publication into signed invitations. Semantic-only
+packages do not need a placeholder hook. CLI and Trace Explorer expose prompt-free
+local/peer comparisons through a narrow peer-posture route that does not return the
+complete invitation inbox, and a three-daemon acceptance
+proves modified-posture, sanction, and local-substitute refusal. Additional guard
+anchors and algebras, attention-specific graphical UI, richer refusal explanation,
+and broader Inquirium resource-axis enforcement remain open. P085 therefore stays
+partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now

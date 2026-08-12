@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-room-policy:v3",
+  "title": "Corpus Reasoning Room Policy v3",
+  "description": "Corpus Room policy binding Chair controls and the requester's exact signed extension posture, federated envelope, and required semantic entries.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema/v", "query/id", "room/id", "exposure", "answer/acceptance", "chair/mode", "chair/nym", "chair/credentials", "chair-control-policy/ref", "chair-control-policy/digest", "extension-binding", "quorum/required", "tie-break", "revocation-policy", "budget", "access/list", "created-at", "expires-at"],
+  "properties": {
+    "schema/v": {"const": 3},
+    "query/id": {"type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512},
+    "room/id": {"type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512},
+    "exposure": {"enum": ["private-to-swarm", "federation-local", "cross-federation", "global"]},
+    "answer/acceptance": {"enum": ["chair-signed", "n-of-m", "unanimous"]},
+    "chair/mode": {"enum": ["requester-appointed", "elected"]},
+    "chair/nym": {"type": "string", "minLength": 1, "maxLength": 512},
+    "chair/credentials": {"type": "string", "pattern": "^capability-passport:[^\\s]+$", "maxLength": 512},
+    "chair/agent-ref": {"type": "string", "pattern": "^agent:[^\\s]+$", "maxLength": 512},
+    "chair-control-policy/ref": {"type": "string", "pattern": "^corpus-chair-control-policy:[^\\s]+$", "maxLength": 512},
+    "chair-control-policy/digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]+$", "maxLength": 128},
+    "extension-binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publication", "declaration/digest", "required/entry-refs"],
+      "properties": {
+        "publication": {"$ref": "node-extension-federation-publication.v1.schema.json"},
+        "declaration/digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "required/entry-refs": {"type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 192}}
+      }
+    },
+    "quorum/required": {"type": "integer", "minimum": 1, "maximum": 16},
+    "tie-break": {"enum": ["chair", "reject"]},
+    "revocation-policy": {"enum": ["chair-or-requester", "requester-only"]},
+    "budget": {"type": "object", "additionalProperties": false, "required": ["time-ms", "steps", "tokens"], "properties": {"time-ms": {"type": "integer", "minimum": 1, "maximum": 86400000}, "steps": {"type": "integer", "minimum": 1, "maximum": 256}, "tokens": {"type": "integer", "minimum": 1, "maximum": 10000000}}},
+    "access/list": {"type": "array", "minItems": 2, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/room-subject"}},
+    "created-at": {"type": "string", "format": "date-time"},
+    "expires-at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {"room-subject": {"type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": {"kind": {"enum": ["nym", "participant", "node", "routing-subject", "organization"]}, "id": {"type": "string", "minLength": 1, "maxLength": 4096}}}},
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md", "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+}

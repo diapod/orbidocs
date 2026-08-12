@@ -374,6 +374,15 @@ meaning, prompt rendering, chair authority, disclosure rules, and refusal policy
 remain owned by Corpus. A namespaced federated extension still requires an
 explicit Corpus contract revision and receiver-side resolution evidence.
 
+That federation revision is `corpus-reasoning-room-policy.v3`. It binds an exact
+node-signed `node-extension-federation-publication.v1`, declaration digest, and
+required Corpus registry entries into the signed invitation. Receiver admission
+rechecks peer trust, posture validity, modified-baseline policy, sanctions, and every
+domain/ref/revision/implementation/digest tuple against the local Corpus registry.
+Unknown, modified, revoked, or locally substituted implementations refuse without
+semantic fallback. The persisted invitation read model retains only the bounded
+prompt-free local/peer comparison needed for operator inspection and trace.
+
 ### Optional Shared Enacted Views
 
 Corpus may compose a Room deliberation with an explicitly published Sensorium

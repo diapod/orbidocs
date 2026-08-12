@@ -19,6 +19,7 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`middleware-package/ref`](#field-middleware-package-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`middleware-package/digest`](#field-middleware-package-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`hooks`](#field-hooks) | `yes` | array |  |
+| [`semantic-entries`](#field-semantic-entries) | `no` | array |  |
 | [`compatibility`](#field-compatibility) | `no` | ref: `#/$defs/compatibility` |  |
 | [`required-capability/ids`](#field-required-capability-ids) | `yes` | ref: `#/$defs/refs` |  |
 | [`resource-envelope/refs`](#field-resource-envelope-refs) | `no` | ref: `#/$defs/refs` |  |
@@ -37,6 +38,8 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`refs`](#def-refs) | array |  |
 | [`compatibility`](#def-compatibility) | object |  |
 | [`hook`](#def-hook) | object |  |
+| [`semantic-entry`](#def-semantic-entry) | object |  |
+| [`semantic-digest`](#def-semantic-digest) | string |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -79,6 +82,12 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 ## `hooks`
 
 - Required: `yes`
+- Shape: array
+
+<a id="field-semantic-entries"></a>
+## `semantic-entries`
+
+- Required: `no`
 - Shape: array
 
 <a id="field-compatibility"></a>
@@ -155,3 +164,13 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 ## `$defs.hook`
 
 - Shape: object
+
+<a id="def-semantic-entry"></a>
+## `$defs.semantic-entry`
+
+- Shape: object
+
+<a id="def-semantic-digest"></a>
+## `$defs.semantic-digest`
+
+- Shape: string

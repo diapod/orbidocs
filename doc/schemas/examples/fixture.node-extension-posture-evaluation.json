@@ -1,0 +1,12 @@
+{
+  "schema": "node-extension-posture-evaluation.v1",
+  "schema/v": 1,
+  "node/id": "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+  "posture/ref": "node-extension-posture:test",
+  "posture/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "declaration/ref": "federated-envelope:test",
+  "declaration/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "peer/profile-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "local/effective-profile-digest": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+  "effective/entry-refs": ["corpus-role:reviewer-v1"]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "operator-experiment-package.v1", "schema/v": 1,
+  "package/ref": "extension-package:semantic-only", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "middleware-package/ref": "middleware-package:semantic-only", "middleware-package/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "hooks": [],
+  "semantic-entries": [{"domain": "corpus-role-policy", "entry/ref": "corpus-role:reviewer-v1", "entry/revision": 1, "implementation/ref": "corpus.role.reviewer-v1", "entry/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}],
+  "required-capability/ids": [], "resource-envelope/refs": [], "derived-capability/refs": [],
+  "refusal-corpus/ref": "refusal-corpus:semantic-only", "refusal-corpus/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "rollback/ref": "rollback:semantic-only", "operational/class": "research"
+}

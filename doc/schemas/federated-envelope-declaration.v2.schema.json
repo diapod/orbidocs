@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federated-envelope-declaration:v2",
+  "title": "Federated Envelope Declaration V2",
+  "description": "Signed compatibility projection binding an operator envelope and exact semantic-registry entries. Activation generations are local fencing evidence, not swarm-wide counters.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "declaration/ref", "node/id", "envelope/ref", "envelope/digest", "profile/digest", "posture/ref", "posture/digest", "registry/bindings", "issued-at", "expires-at", "signature"],
+  "properties": {
+    "schema": {"const": "federated-envelope-declaration.v2"},
+    "schema/v": {"const": 2},
+    "declaration/ref": {"type": "string", "pattern": "^federated-envelope:[A-Za-z0-9][A-Za-z0-9._-]*$", "maxLength": 256},
+    "node/id": {"type": "string", "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]{20,120}$"},
+    "envelope/ref": {"type": "string", "pattern": "^operator-envelope:[A-Za-z0-9][A-Za-z0-9._-]*$", "maxLength": 256},
+    "envelope/digest": {"$ref": "#/$defs/hex-digest"},
+    "profile/digest": {"$ref": "#/$defs/hex-digest"},
+    "posture/ref": {"type": "string", "pattern": "^node-extension-posture:[A-Za-z0-9][A-Za-z0-9._-]*$", "maxLength": 256},
+    "posture/digest": {"$ref": "#/$defs/hex-digest"},
+    "registry/bindings": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "semantic-registry-binding.v1.schema.json"}},
+    "issued-at": {"type": "string", "format": "date-time"},
+    "expires-at": {"type": "string", "format": "date-time"},
+    "signature": {"$ref": "#/$defs/signature"}
+  },
+  "$defs": {
+    "hex-digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "signature": {"type": "object", "additionalProperties": false, "required": ["alg", "key/public", "value"], "properties": {"alg": {"const": "ed25519+domain-v1"}, "key/public": {"type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]{20,120}$"}, "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"}}}
+  }
+}
