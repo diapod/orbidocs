@@ -1,0 +1,11 @@
+{
+  "entry/ref": "agent-consumer:assistant-channel-v1",
+  "entry/revision": 1,
+  "implementation/ref": "agent.consumer.assistant-channel",
+  "request/schema-ref": "agent-binding.v2",
+  "response/schema-ref": "agent-binding.v2",
+  "required/capability-ids": [],
+  "constraints": { "consumer/kind": "assistant-channel", "node-local": true, "authority/widening": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:_N-ulrH35fRopp5vpe9-RU0MoayFbebosR1hBh9Fk0g"
+}

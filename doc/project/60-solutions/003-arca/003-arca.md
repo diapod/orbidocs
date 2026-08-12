@@ -166,6 +166,28 @@ Status:
   is rejected on template instantiation. Full non-fan-out
   `timing.timeout` enforcement is still pending.
 
+### Domain-Owned Strategy Registries
+
+Arca resolves its closed selection, host-fan-out, and fulfillment strategies
+through Arca-owned semantic registries rather than through a global extension
+switch. Distribution entries are code-backed and carry their request/response
+contract, constraints, and implementation identity. Operator configuration may
+only remove exact entries from the effective sets; it cannot add a workflow
+action, bypass DAG admission, or widen dispatch authority.
+
+The shared Python registry substrate supplies monotone intersection, exact
+generation fencing, prompt-free inspection, and durable deactivation recovery.
+The actual preferred-provider, fan-out, and fulfillment branches consult their
+registries before executing, so an empty or disabled effective set refuses
+without falling back to the earlier hard-coded branch.
+
+The authenticated local control surface exposes read-only strategy status and exact
+entry deactivation. Deactivation is immediately visible to concurrent selectors,
+persists one generation-bound terminal fact, replays idempotently, and survives
+process restart. Enabling a new strategy or advancing the registry generation remains
+restart-bound configuration; generation numbers are local to this Arca instance and
+are never interpreted as a federation-wide counter.
+
 ### Remote Service-Order Transport over Artifact Delivery
 
 Based on:

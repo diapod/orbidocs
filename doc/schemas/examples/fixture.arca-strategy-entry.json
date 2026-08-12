@@ -1,0 +1,11 @@
+{
+  "entry/ref": "arca-selection:first-active-by-offer-id-v1",
+  "entry/revision": 1,
+  "implementation/ref": "arca.selection.first-active",
+  "request/schema-ref": "arca-workflow-step.v1",
+  "response/schema-ref": "arca-workflow-step-decision.v1",
+  "required/capability-ids": [],
+  "constraints": { "strategy/kind": "selection", "strategy/value": "first-active", "authority/widening": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:SILq-Tui2EC0PAt7rifO0lAl7QhJcZXw-Fm7TE2VqrE"
+}

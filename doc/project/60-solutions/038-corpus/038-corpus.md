@@ -361,6 +361,19 @@ Status:
   carrier profiles remain the transport evidence rather than Corpus-local transport
   implementations. Remote Room-authority trust and arbiter election remain post-MVP.
 
+Corpus role policies and instruction overlays are selected through two
+Corpus-owned semantic registries. The distribution installs only the closed V1
+roles and bounded overlay profiles already defined by Corpus; operator policy may
+narrow those sets but cannot mint a role or inject an unregistered overlay. The
+daemon checks the selected role and overlay both when a proposal is admitted and
+when its decision is applied, preventing a proposal accepted under an older
+effective set from remaining executable after a restart-bound policy change.
+
+These registries reuse the shared P085 selection mechanics, while their schemas,
+meaning, prompt rendering, chair authority, disclosure rules, and refusal policy
+remain owned by Corpus. A namespaced federated extension still requires an
+explicit Corpus contract revision and receiver-side resolution evidence.
+
 ### Optional Shared Enacted Views
 
 Corpus may compose a Room deliberation with an explicitly published Sensorium

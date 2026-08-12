@@ -1,0 +1,11 @@
+{
+  "entry/ref": "inquirium-operation:execute-anything-v1",
+  "entry/revision": 1,
+  "implementation/ref": "inquirium.handler.execute-anything",
+  "request/schema-ref": "anything.v1",
+  "response/schema-ref": "anything.v1",
+  "required/capability-ids": [],
+  "constraints": { "operation": "execute.anything", "deferred": false, "requires/model-runtime": true, "authority/source": "host-capability", "opens-operation-algebra": true },
+  "provenance": "distribution-default",
+  "digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

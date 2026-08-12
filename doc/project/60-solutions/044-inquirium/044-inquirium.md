@@ -86,6 +86,13 @@ normalizes the result. New model providers can therefore be added without
 changing workflow contracts, while new semantic operations begin in
 `inquirium-core` rather than as provider-specific endpoints.
 
+The closed operation-descriptor registry uses the canonical dotted operation names
+`batch.embed`, `image.generate`, `image.edit`, and `train.adapt` at its schema
+boundary. Hyphenated entry and implementation refs remain stable identifiers rather
+than operation names. Every invocation path reuses the model-runtime-host admission
+gate before executing an enabled handler, including capability-passport and local
+control surfaces.
+
 ## Proposed Model / Decision
 
 ### Architectural Strata
@@ -148,6 +155,21 @@ Responsibilities:
   paths without making a transport shape part of operation semantics.
 
 Status: `done`.
+
+### Operation Descriptor Registry
+
+Inquirium keeps `InquiriumOperation` as a closed typed algebra, while exposing
+one domain-owned descriptor per operation. A descriptor identifies the exact
+request and response contracts, code-backed handler, model-runtime requirement,
+capability owner, deferred behavior, and operator-visible identity. It describes
+implemented semantics; configuration cannot invent a new operation.
+
+The daemon validates the operator-enabled descriptor subset at startup and
+checks it before every generate, embed, batch-embed, classify, rerank, summarize,
+transform, image-generate, image-edit, and train-adapt boundary. Disabled or empty
+effective sets fail closed before handler execution. Adding another operation
+therefore still requires a contract and enum revision, implementation, fixture,
+and Schema Gate coverage.
 
 ### Prompt, Context, And Output Policy
 

@@ -1,0 +1,11 @@
+{
+  "entry/ref": "inquirium-operation:image-generate-v1",
+  "entry/revision": 1,
+  "implementation/ref": "inquirium.handler.image-generate",
+  "request/schema-ref": "inquirium.image-generate.request.v1",
+  "response/schema-ref": "inquirium.image.response.v1",
+  "required/capability-ids": ["inquirium.image.generate"],
+  "constraints": { "operation": "image.generate", "deferred": false, "requires/model-runtime": true, "authority/source": "host-capability", "opens-operation-algebra": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:IVBi1zq3MGvfuydKEBWQFCiMvyJA5bJa9OciVk9Lu08"
+}

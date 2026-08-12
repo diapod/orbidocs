@@ -100,6 +100,20 @@ The implementation is divided by meaning:
 4. Consumer components own the domain transition that accepts an Agent outcome.
    The Agent itself has no publication authority.
 
+The semantic seams inside these strata are explicit registries rather than open
+string dispatch. `agent-core` owns code-backed entries for the four closed
+consumer kinds and four output sinks. `agent-host` separately owns the five
+capability-bound effect-policy adapters that compile existing effect intents into
+inert execution plans. Operator configuration may narrow these sets but cannot
+add a consumer, sink, execution target, grant, budget, classification allowance,
+or weaker HIL policy.
+
+Binding creation and restart recovery consult the consumer/sink registries;
+disabled durable bindings remain history but recover inert. Effect dispatch
+consults the effect-policy registry before the existing ownership, grant, lease,
+idempotency, and HIL gates. Thus the registries select installed meaning without
+becoming an alternative authority path.
+
 Dependency-direction checks keep the semantic crates independent from daemon,
 transport, database, and provider-runtime details. `agent-core` has one named
 vertical exception: it reuses the pure bounded-inference request/result DTOs

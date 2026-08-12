@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:arca-strategy-entry:v1",
+  "title": "Arca Strategy Entry v1",
+  "description": "Domain-owned code-backed Arca selection, fan-in, or fulfillment strategy entry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entry/ref", "entry/revision", "implementation/ref", "request/schema-ref", "response/schema-ref", "required/capability-ids", "constraints", "provenance", "digest"],
+  "properties": {
+    "entry/ref": { "type": "string", "pattern": "^arca-(selection|fan-in|fulfillment):[a-z][a-z0-9-]{0,126}-v[1-9][0-9]*$" },
+    "entry/revision": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "implementation/ref": { "type": "string", "pattern": "^arca\\.(selection|fan-in|fulfillment)\\.[a-z][a-z0-9-]{0,127}$" },
+    "request/schema-ref": { "$ref": "#/$defs/id" },
+    "response/schema-ref": { "$ref": "#/$defs/id" },
+    "required/capability-ids": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "constraints": {
+      "type": "object", "additionalProperties": false,
+      "required": ["strategy/kind", "strategy/value", "authority/widening"],
+      "properties": {
+        "strategy/kind": { "enum": ["selection", "fan-in", "fulfillment"] },
+        "strategy/value": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$" },
+        "authority/widening": { "const": false }
+      }
+    },
+    "provenance": { "enum": ["distribution-default", "operator-package"] },
+    "package/ref": { "$ref": "#/$defs/id" },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "allOf": [
+    { "if": { "properties": { "provenance": { "const": "operator-package" } }, "required": ["provenance"] }, "then": { "required": ["package/ref"] } },
+    { "if": { "properties": { "provenance": { "const": "distribution-default" } }, "required": ["provenance"] }, "then": { "not": { "required": ["package/ref"] } } }
+  ],
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "maxLength": 192, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/:-]*[A-Za-z0-9]$|^[A-Za-z0-9]$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "entry/ref": "corpus-role:invented-v1",
+  "entry/revision": 1,
+  "implementation/ref": "corpus.role-policy.invented",
+  "request/schema-ref": "corpus-reasoning-role-assignment.v1",
+  "response/schema-ref": "corpus-reasoning-role-assignment.v1",
+  "required/capability-ids": [],
+  "constraints": { "role": "invented", "authority/widening": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

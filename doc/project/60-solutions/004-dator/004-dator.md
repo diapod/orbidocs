@@ -169,6 +169,10 @@ Every invocation binds the exact entry ref, revision, implementation ref, canoni
 digest, request and response schemas, required capability, and timeout/retry
 constraints. An empty set, unknown ref, stale revision, changed digest, unavailable
 implementation, or missing capability refuses without falling back to another entry.
+After selection, Dator appends the exact entry ref, revision, implementation ref,
+and digest as host-controlled `registry/*` lineage in the closed
+`service-dispatch-response.schema.json` contract. The selected role module cannot
+choose or overwrite those values.
 The effective distribution/operator projection is resolved once and cached as an
 immutable value. Ordinary dispatches reuse its set and sorted inspection projection;
 request-local narrowing computes only the requested intersection, while revocation

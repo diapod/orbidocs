@@ -1,0 +1,11 @@
+{
+  "entry/ref": "inquirium-operation:train-adapt-v1",
+  "entry/revision": 1,
+  "implementation/ref": "inquirium.handler.train-adapt",
+  "request/schema-ref": "inquirium.train-adapt.request.v1",
+  "response/schema-ref": "inquirium.adapter.train-adapt.response.v1",
+  "required/capability-ids": [],
+  "constraints": { "operation": "train.adapt", "deferred": true, "requires/model-runtime": true, "authority/source": "operator-control-plane", "opens-operation-algebra": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:J8fD1GMYbA3rhBEk5OZ3DsSScaGu7eg9mZK2amz_Elg"
+}

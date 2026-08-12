@@ -1,0 +1,11 @@
+{
+  "entry/ref": "inquirium-operation:image-edit-v1",
+  "entry/revision": 1,
+  "implementation/ref": "inquirium.handler.image-edit",
+  "request/schema-ref": "inquirium.image-edit.request.v1",
+  "response/schema-ref": "inquirium.image.response.v1",
+  "required/capability-ids": ["inquirium.image.edit"],
+  "constraints": { "operation": "image.edit", "deferred": false, "requires/model-runtime": true, "authority/source": "host-capability", "opens-operation-algebra": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:dAL_BmD7F8e0niQ8ho3GSlzk-N4m3QqZxXTgMavYehk"
+}

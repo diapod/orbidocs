@@ -1,0 +1,11 @@
+{
+  "entry/ref": "inquirium-operation:generate-v1",
+  "entry/revision": 1,
+  "implementation/ref": "inquirium.handler.generate",
+  "request/schema-ref": "inquirium.generate.request.v1",
+  "response/schema-ref": "inquirium.generate.response.v1",
+  "required/capability-ids": ["inquirium.generate"],
+  "constraints": { "operation": "generate", "deferred": false, "requires/model-runtime": true, "authority/source": "host-capability", "opens-operation-algebra": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:nNrK9-hmQRweNVcdpAuw4-kJaK0Ikh7zORbDiymy6bA"
+}

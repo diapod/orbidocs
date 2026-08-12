@@ -1,0 +1,11 @@
+{
+  "entry/ref": "inquirium-operation:batch-embed-v1",
+  "entry/revision": 1,
+  "implementation/ref": "inquirium.handler.batch-embed",
+  "request/schema-ref": "inquirium.batch-embed.request.v1",
+  "response/schema-ref": "inquirium.batch-embed.response.v1",
+  "required/capability-ids": [],
+  "constraints": { "operation": "batch.embed", "deferred": true, "requires/model-runtime": true, "authority/source": "operator-control-plane", "opens-operation-algebra": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:k1UgtQP9Lrv3357ExfPykyCJ5HYyjcWVxVosiJxGO8s"
+}

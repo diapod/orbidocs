@@ -198,14 +198,18 @@ admission now accepts zero or exactly one active resource envelope and rechecks 
 exact ref, operator binding, authority, signature, and expiry before package use. The Phase 2
 classification inventory is now complete across 93 Rust enums and four Python
 dispatch anchors under a no-grace CI drift gate. Shared Rust/Python registry
-mechanics and golden vectors drive the completed Dator reference vertical: exact
-distribution-installed dispatch entries, fail-closed monotone selection, prompt-free
-causal inspection, append-only immediate deactivation, monotonic generation
-high-water, allocation-free reuse of one resolved effective projection per scope,
-atomic legacy migration, and supervised restart
-recovery. Common package activation, cross-domain current-grant invalidation, rollback, and
-federated registry mechanics remain partial, and the Corpus, Arca, Agent, and
-Inquirium migrations have not begun. Additional guard anchors and algebras,
+mechanics and golden vectors drive the completed Dator, Corpus, Arca, Agent, and
+Inquirium domain verticals: exact distribution-installed entries, fail-closed
+monotone selection, prompt-free inspection, operator narrowing, generation fencing,
+and checks on the real role, overlay, strategy, binding, effect-policy, and operation
+boundaries. Dator and Arca prove durable immediate deactivation and restart recovery;
+Agent proves that disabled durable bindings remain history but recover inert.
+Inquirium additionally enforces signed resource-envelope widening at classify,
+rerank, embed, and batch-embed request/response boundaries. The operator-extension
+lifecycle now has bounded, expiring, resumable byte staging with transactional
+inert install after current trust, signature, digest, and contract checks. Common
+signed package activation journals, cross-domain current-grant invalidation,
+rollback reuse, and federated registry mechanics remain partial. Additional guard anchors and algebras,
 attention-specific graphical UI, network federation, broader runtime enforcement,
 three-node acceptance, and trace-explorer evidence remain open. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
@@ -437,8 +441,9 @@ The 2026-07-19 Story 012 follow-up completes the composed acceptance profile
 without changing the hard-MVP blocker set or the `100` readiness estimates for
 P073, P082, and Solutions 046/047. `agent-core` owns
 only a substrate-neutral observation need, static binding, and prompt-free
-evidence contract. A positive dependency allowlist names pure `inquirium-core`
-DTOs as the sole vertical exception and rejects Room, Corpus, Memarium,
+evidence contract. A positive dependency allowlist admits the pure horizontal
+`semantic-registry-core` data/selection algebra, names pure `inquirium-core`
+DTOs as the sole vertical exception, and rejects Room, Corpus, Memarium,
 Sensorium, Workbench, and other source/effect-domain coupling. Operator-authored
 JSON-e Flow configuration imports the Agent-owned hard caps and may predeclare bounded
 need-to-source wiring, while rendered data can only select or narrow it. After
@@ -950,8 +955,9 @@ Recent component deltas:
   opaque source mappings; and the daemon composition root alone resolves those
   refs through Room/Sensorium, Workbench, Artifact Delivery, or later domain
   adapters while enforcing grants, schema, classification, leases, HIL, and
-  quarantine. A positive dependency allowlist names pure `inquirium-core` DTOs
-  as the sole vertical exception and rejects Room, Corpus, Memarium, Sensorium,
+  quarantine. A positive dependency allowlist admits the pure horizontal
+  `semantic-registry-core` data/selection algebra, names pure `inquirium-core`
+  DTOs as the sole vertical exception, and rejects Room, Corpus, Memarium, Sensorium,
   Workbench, and other source/effect-domain coupling in `agent-core`. JSON-e
   imports the Agent-owned hard observation caps, and successful observation
   resolution preserves the validated
@@ -1301,7 +1307,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `71` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `75` |
 
 ## Solutions
 

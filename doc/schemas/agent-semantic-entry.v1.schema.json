@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent-semantic-entry:v1",
+  "title": "Agent Semantic Entry v1",
+  "description": "Domain-owned code-backed Agent consumer, output sink, or effect-policy adapter entry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/60-solutions/047-agent/047-agent.md", "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entry/ref", "entry/revision", "implementation/ref", "request/schema-ref", "response/schema-ref", "required/capability-ids", "constraints", "provenance", "digest"],
+  "properties": {
+    "entry/ref": { "type": "string", "pattern": "^agent-(consumer|output-sink|effect-policy):[a-z][a-z0-9-]{0,126}-v[1-9][0-9]*$" },
+    "entry/revision": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "implementation/ref": { "type": "string", "pattern": "^agent\\.(consumer|output-sink|effect-policy)\\..{1,160}$" },
+    "request/schema-ref": { "$ref": "#/$defs/id" },
+    "response/schema-ref": { "$ref": "#/$defs/id" },
+    "required/capability-ids": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "constraints": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["consumer/kind", "node-local", "authority/widening"],
+          "properties": {
+            "consumer/kind": { "enum": ["flow-node", "assistant-channel", "collaborative-chair", "collaborative-participant"] },
+            "node-local": { "const": true },
+            "authority/widening": { "const": false }
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["output-sink/kind", "publishes-directly", "authority/widening"],
+          "properties": {
+            "output-sink/kind": { "enum": ["flow-result", "assistant-response-draft", "collaborative-answer-draft", "collaborative-turn-draft"] },
+            "publishes-directly": { "const": false },
+            "authority/widening": { "const": false }
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["capability/id", "target", "completion/policy", "authority/widening"],
+          "properties": {
+            "capability/id": { "$ref": "#/$defs/id" },
+            "target": { "enum": ["sensorium_directive", "sensorium_interface_experiment", "artifact_delivery", "corpus_room_turn", "corpus_room_moderation"] },
+            "completion/policy": { "const": "synchronous_or_deferred" },
+            "authority/widening": { "const": false }
+          }
+        }
+      ]
+    },
+    "provenance": { "enum": ["distribution-default", "operator-package"] },
+    "package/ref": { "$ref": "#/$defs/id" },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "allOf": [
+    { "if": { "properties": { "provenance": { "const": "operator-package" } }, "required": ["provenance"] }, "then": { "required": ["package/ref"] } },
+    { "if": { "properties": { "provenance": { "const": "distribution-default" } }, "required": ["provenance"] }, "then": { "not": { "required": ["package/ref"] } } }
+  ],
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "maxLength": 192, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/:-]*[A-Za-z0-9]$|^[A-Za-z0-9]$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

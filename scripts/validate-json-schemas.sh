@@ -194,6 +194,18 @@ schema_for_file() {
     *.dator-dispatch-entry.json)
       echo "$SCHEMAS_DIR/dator-dispatch-entry.v1.schema.json"
       ;;
+    *.corpus-semantic-entry.json)
+      echo "$SCHEMAS_DIR/corpus-semantic-entry.v1.schema.json"
+      ;;
+    *.arca-strategy-entry.json)
+      echo "$SCHEMAS_DIR/arca-strategy-entry.v1.schema.json"
+      ;;
+    *.agent-semantic-entry.json)
+      echo "$SCHEMAS_DIR/agent-semantic-entry.v1.schema.json"
+      ;;
+    *.inquirium-operation-descriptor.json)
+      echo "$SCHEMAS_DIR/inquirium-operation-descriptor.v1.schema.json"
+      ;;
     *.dator.dispatch-entry-deactivation-result.json)
       echo "$SCHEMAS_DIR/dator.dispatch-entry-deactivation-result.v1.schema.json"
       ;;

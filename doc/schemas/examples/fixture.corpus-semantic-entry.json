@@ -1,0 +1,11 @@
+{
+  "entry/ref": "corpus-role:reviewer-v1",
+  "entry/revision": 1,
+  "implementation/ref": "corpus.role-policy.reviewer",
+  "request/schema-ref": "corpus-reasoning-role-assignment.v1",
+  "response/schema-ref": "corpus-reasoning-role-assignment.v1",
+  "required/capability-ids": [],
+  "constraints": { "role": "reviewer", "authority/widening": false },
+  "provenance": "distribution-default",
+  "digest": "sha256:toJ5GfKAPmbE2T4td39ztajYxtf05gtnhQUATwdlTZI"
+}

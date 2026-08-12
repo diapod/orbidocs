@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-semantic-entry:v1",
+  "title": "Corpus Semantic Entry v1",
+  "description": "Domain-owned code-backed Corpus role-policy or instruction-overlay entry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entry/ref", "entry/revision", "implementation/ref", "request/schema-ref", "response/schema-ref", "required/capability-ids", "constraints", "provenance", "digest"],
+  "properties": {
+    "entry/ref": { "type": "string", "pattern": "^corpus-(role|overlay):[a-z][a-z0-9-]{0,126}-v[1-9][0-9]*$" },
+    "entry/revision": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "implementation/ref": { "type": "string", "pattern": "^corpus\\.(role-policy|instruction-overlay)\\.[a-z][a-z0-9-]{0,127}$" },
+    "request/schema-ref": { "$ref": "#/$defs/id" },
+    "response/schema-ref": { "$ref": "#/$defs/id" },
+    "required/capability-ids": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "constraints": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["role", "authority/widening"],
+          "properties": {
+            "role": { "enum": ["implementer", "reviewer", "adversarial-critic", "summarizer"] },
+            "authority/widening": { "const": false }
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["overlay/kind", "instruction/max-bytes", "privileged"],
+          "properties": {
+            "overlay/kind": { "enum": ["task-guidance", "review-criteria", "adversarial-check", "summary-criteria"] },
+            "instruction/max-bytes": { "type": "integer", "minimum": 1, "maximum": 16384 },
+            "privileged": { "const": false }
+          }
+        }
+      ]
+    },
+    "provenance": { "enum": ["distribution-default", "operator-package"] },
+    "package/ref": { "$ref": "#/$defs/id" },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "allOf": [
+    { "if": { "properties": { "provenance": { "const": "operator-package" } }, "required": ["provenance"] }, "then": { "required": ["package/ref"] } },
+    { "if": { "properties": { "provenance": { "const": "distribution-default" } }, "required": ["provenance"] }, "then": { "not": { "required": ["package/ref"] } } }
+  ],
+  "$defs": {
+    "id": { "type": "string", "minLength": 1, "maxLength": 192, "pattern": "^[A-Za-z0-9][A-Za-z0-9._/:-]*[A-Za-z0-9]$|^[A-Za-z0-9]$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}
