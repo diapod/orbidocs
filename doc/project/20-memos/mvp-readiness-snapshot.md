@@ -72,18 +72,26 @@ new or changed implementation maxima from becoming silent policy. The accepted
 `inquirium-resource-profile.v1` contract now projects exactly the 38 operational
 axes, excludes the nine boundary-safety axes, and has a direct drift gate equating
 the registry records, `InquiriumResourceLimit::ALL`, and closed schema properties.
-It drives a pure monotonic source-chain resolver. A first daemon vertical resolves a sparse local operator config overlay at
-startup, preserves the effective digest across restart, records winning per-axis
-provenance in prompt-free classify/rerank traces, and enforces the same profile on
-the five classify and three rerank axes for requests and responses. The remaining
-thirty axes are vocabulary-only until their owning runtime boundaries consume them.
+It drives a pure monotonic source-chain resolver. The daemon resolves a sparse local
+operator config overlay at startup, preserves the effective digest across restart,
+records winning per-axis provenance in prompt-free traces, and enforces all 38
+operational axes at their local owning request, response, prompt/output-schema,
+conformance, memory, locale, feedback, operator-question, image, training,
+embedding, classification, reranking, or text-operation boundary. Agent memory
+policy admission and projection consume the current `assistant.turn` profile through
+a narrow daemon-owned resolver rather than compiled defaults.
 The next post-MVP vertical now adds accepted signed envelope and revocation contracts,
 exact active operator-binding verification at admission, recovery, and applicable
 current use, executable classify/rerank plus experiment-class scope, and an append-only
-schema-versioned SQLite revision lifecycle. Exact replay reconciles runtime from the
-canonical current fact, status remains read-only, explicit reconciliation commits
-expiry, and corrupt or unverifiable active recovery fails closed; only valid
-absence/revocation/expiry falls back to the explicitly unsigned local config source.
+schema-versioned SQLite revision lifecycle. Independent profile lineages may share a
+revision number; multiple matching envelopes intersect deterministically by operation
+and experiment class, and package activation checks the exact closed operational
+class. Exact replay reconciles runtime from the canonical current fact, status
+remains read-only, explicit reconciliation commits expiry, and corrupt or
+unverifiable active recovery fails closed; only valid absence/revocation/expiry falls
+back to the explicitly unsigned local config source. Cached profiles bind every
+envelope ref, digest, and operator binding and perform a read-only exact-current
+check at use.
 The store has a 64 MiB main-database ceiling and an 8 MiB WAL checkpoint target.
 The next foundation slice adds accepted offer-bound NSE, deterministic table,
 bounded middleware-evidence, signed derived-capability, guard, attention-budget,
@@ -180,32 +188,42 @@ same host-owned static-producer path now applies all eleven local Inquirium, Cor
 and Agent policy hooks at their owning boundaries while leaving each domain's
 ordinary validator authoritative. Package-backed hook outcomes now produce bounded,
 content-addressed prompt-free operator decisions. Signed `restrict/grant-set` guards
-intersect content-addressed tables once at both the shared `inquirium.generate`
-capability-use boundary and Agent effect-proposal admission before an effect fact exists.
+intersect content-addressed tables once at package activation, the shared
+`inquirium.generate` capability-use boundary, Sensorium directive actuation, Agent
+effect-proposal admission, and Inquirium model-selection offer admission.
 It revalidates current operator binding, package activation, conformance, safe mode,
 revocation, and package derived-capability dependencies under the exact activation
 operator binding; another active operator's overlay cannot satisfy them. Its bounded
 prompt-free decision
 separates resolved guard types from concrete derived restrictions, and a reached
 boundary with no active policy records an inert `policy-absent` fact. A daemon-process
-smoke proves capability-use and Agent effect-admission guard paths, ordinary admission
-before and after restart, and synchronous refusal after package revocation. The local policy-admission route is
+smoke admits one signed five-anchor policy set and reaches package activation,
+capability use, NSE decision admission, Sensorium actuation, and Agent effect
+admission through their owning daemon boundaries. It proves ordinary admission
+before and after restart plus typed synchronous refusal after safe mode or package
+revocation. The local policy-admission route is
 process-tested for valid admission and inspection as well as foreign-binding,
 invalid-signature, and unsupported-family refusal. It deliberately admits only
 local operator declarations; node-signed federated-envelope and posture artifacts
 remain on the separate publication and peer-evaluation path. V1 package dependency
-admission now accepts zero or exactly one active resource envelope and rechecks its
-exact ref, operator binding, authority, signature, and expiry before package use. The Phase 2
+admission now accepts zero or multiple unique active resource envelopes, checks the
+package's closed operational class, and rechecks every exact ref, profile digest,
+operator binding, authority, signature, and expiry before package use. The Phase 2
 classification inventory is now complete across 93 Rust enums and four Python
 dispatch anchors under a no-grace CI drift gate. Shared Rust/Python registry
 mechanics and golden vectors drive the completed Dator, Corpus, Arca, Agent, and
 Inquirium domain verticals: exact distribution-installed entries, fail-closed
 monotone selection, prompt-free inspection, operator narrowing, generation fencing,
 and checks on the real role, overlay, strategy, binding, effect-policy, and operation
-boundaries. Dator and Arca prove durable immediate deactivation and restart recovery;
+boundaries. A structural Phase 2 gate binds all five owners to the shared primitive
+or Python mirror and names reaching lifecycle/federation evidence; CI executes those
+algebra, five-domain lifecycle, three-daemon posture, and Python replay suites. Dator
+and Arca prove durable immediate deactivation and restart recovery;
 Agent proves that disabled durable bindings remain history but recover inert.
-Inquirium additionally enforces signed resource-envelope widening at classify,
-rerank, embed, and batch-embed request/response boundaries. The operator-extension
+Inquirium additionally enforces signed resource-envelope widening across the complete
+local 38-axis operational profile. Current-use permits recheck exact envelope facts
+when materialized, and a deterministic resolve-then-revoke race test proves stale
+permits refuse. The operator-extension
 lifecycle now has bounded, expiring, resumable byte staging with transactional
 inert install after current trust, signature, digest, and contract checks. Exact
 semantic-entry registrations are now part of the signed package manifest, including
@@ -218,9 +236,11 @@ Corpus room policy v3 binds the publication into signed invitations. Semantic-on
 packages do not need a placeholder hook. CLI and Trace Explorer expose prompt-free
 local/peer comparisons through a narrow peer-posture route that does not return the
 complete invitation inbox, and a three-daemon acceptance
-proves modified-posture, sanction, and local-substitute refusal. Additional guard
-anchors and algebras, attention-specific graphical UI, richer refusal explanation,
-and broader Inquirium resource-axis enforcement remain open. P085 therefore stays
+proves modified-posture, sanction, and local-substitute refusal. Operator inspection
+also has audited render-only `explain` and bounded Mermaid `graph` modes. All five
+guard anchors are wired for the first `restrict/grant-set` backend; additional guard
+operations, axes, and backends, federated Inquirium resource-envelope binding, and
+attention-specific interactive UI remain open. P085 therefore stays
 partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
