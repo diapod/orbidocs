@@ -5,24 +5,18 @@
 | Pole | Wartość |
 | :--- | :--- |
 | `policy-id` | `DIA-ENTRENCH-001` |
-| `typ` | Propozycja uzupełnienia Art. XVI Konstytucji |
-| `wersja` | 0.1.0-draft |
+| `typ` | Ustawa wykonawcza sekcji "Rdzeń nienegocjowalny" i Art. XVI Konstytucji |
+| `wersja` | 0.2.0-draft |
 | `podstawa` | Art. I, II, III, XIV, XVI Konstytucji DIA |
 
 ---
 
 ## 1. Cel dokumentu
 
-Konstytucja DIA deklaruje swoje pierwszeństwo nad wszystkimi innymi dokumentami,
-politykami i decyzjami (sekcja "Moc normatywna i wykładnia", punkt 4). Jednak nie
-definiuje:
-
-- które artykuły są niezmienne (rdzeń nienegocjowalny),
-- co się dzieje, gdy większość federacji chce złamać Konstytucję,
-- kto i jak rozstrzyga zarzuty niekonstytucyjności.
-
-Niniejszy dokument zamyka te luki, proponując klauzulę wieczności i minimalną
-procedurę obronną - bez tworzenia stałego organu centralnego.
+Konstytucja DIA sama definiuje skład rdzenia nienegocjowalnego oraz minimalne
+własności jego ochrony. Niniejszy dokument NIE MOŻE zmieniać tego składu. Określa
+procedurę obronną: sposób przeprowadzenia zmiany rdzenia, zgłoszenia zarzutu
+niekonstytucyjności i rozstrzygnięcia sprawy bez tworzenia stałego organu centralnego.
 
 ---
 
@@ -30,20 +24,21 @@ procedurę obronną - bez tworzenia stałego organu centralnego.
 
 ### 2.1. Rdzeń nienegocjowalny
 
-Następujące artykuły Konstytucji stanowią **rdzeń nienegocjowalny**:
+Kanonicznym źródłem składu rdzenia jest sekcja "Rdzeń nienegocjowalny" Konstytucji
+oraz maszynowy `constitution-index.v1.json`. Ten akt odwołuje się do klauzul przez
+stabilne identyfikatory i NIE MOŻE utrzymywać równoległych cytatów ich treści.
 
-| Artykuł | Treść rdzeniowa |
-| :--- | :--- |
-| **I.5** | Żaden cel operacyjny ani finansowy nie może unieważnić prymatu godności, bezpieczeństwa człowieka i prawa do wyjścia. |
-| **II.1** | Godność osoby ludzkiej jest wartością nadrzędną i nienegocjowalną. |
-| **II.2** | Ochrona życia oraz obrona przed bezpośrednią, nagłą i poważną krzywdą zdrowotną mają najwyższy priorytet operacyjny. |
-| **II.3** | Największa moc systemu MUSI przechodzić przez człowieka, nie obok człowieka. |
-| **III.1** | Użytkownik pozostaje właścicielem swoich danych, polityk, agentów i lokalnych przestrzeni pamięci. |
-| **III.2** | System MUSI działać sensownie w trybach lokalnych jako domyślnych (ang. local-first), bez połączenia z siecią (offline) i samodzielnie hostowanych (ang. self-hosted). |
-| **III.3** | Eksport danych, polityk i historii MUSI być możliwy w otwartych formatach. |
-| **III.4** | Prawo do wyjścia bez szantażu, bez utraty dostępu do danych, bez ukrytych kar. |
-| **III.5** | Prawo do odgałęzienia (ang. fork). |
-| **XIV.1** | Domyślna hierarchia wartości: godność > suwerenność > weryfikowalność > sprawczość > skuteczność > wygoda. |
+Rdzeń obejmuje ochronę:
+
+- prymatu godności, bezpieczeństwa i przejścia mocy przez człowieka,
+- dostępu do dóbr krytycznych bez przemocy systemowej i upokorzenia,
+- osobistej sfery sprawczości, lokalności, eksportu, wyjścia i odgałęzienia,
+- podłogi praw użytkowników wobec suwerenności operatora,
+- redundantnego odpieczętowania tożsamości,
+- nieodbieralnego minimum UBC,
+- automatycznego wygaśnięcia okresu założycielskiego i ograniczenia władzy
+  założycielskiej,
+- konstytucyjnej hierarchii wartości.
 
 ### 2.2. Warunki zmiany rdzenia nienegocjowalnego
 
@@ -84,14 +79,14 @@ Klauzula wieczności nie uniemożliwia:
 
 ### 2.4. Okres założycielski
 
-W okresie założycielskim, o którym mowa w Konstytucji Art. XIII.7-11 oraz Art.
-XVI.13, mechanizm jednomyślności federacji i zwykłe ścieżki blokowania nie mogą
-paraliżować decyzji założycielskich dotyczących kształtu systemu, jego architektury,
-zasad rozruchowych i tekstu Konstytucji.
+W okresie założycielskim, o którym mowa w Konstytucji Art. XIII.7-12 oraz Art.
+XVI.13, decyzje założycielskie zachowują pierwszeństwo wyłącznie poza rdzeniem
+nienegocjowalnym. Założyciele NIE MOGĄ zawiesić, usunąć ani zawęzić ochrony rdzenia
+z pominięciem procedury z pkt 2.2.
 
-Nie oznacza to zawieszenia jawności ani śladu. Każda taka decyzja MUSI pozostawiać
-uzasadnienie, analizę skutków, datę i zakres obowiązywania. Po zakończeniu okresu
-założycielskiego pełna procedura z pkt 2.2 obowiązuje bez wyjątku.
+Każda decyzja założycielska MUSI pozostawiać uzasadnienie, analizę skutków, datę
+i zakres obowiązywania. Automatyczne wygaśnięcie okresu założycielskiego NIE MOŻE
+zależeć od wydania aktu kończącego ani od zgody organu, którego uprawnienia wygasają.
 
 ---
 
@@ -193,12 +188,12 @@ członków). Rozstrzygnięcie drugiego panelu jest ostateczne.
 
 ## 5. Relacja z innymi dokumentami
 
-- **Konstytucja Art. XVI**: Niniejszy dokument jest propozycją uzupełnienia Art. XVI
-  o punkty dotyczące rdzenia nienegocjowalnego i procedury obronnej.
-- **Konstytucja Art. XIII.7-11 oraz Art. XVI.13**: okres założycielski ma
-  pierwszeństwo proceduralne wobec pełnej ścieżki międzyfederacyjnej do czasu
-  upływu swojej klauzuli czasowej.
-- **NORMATIVE-HIERARCHY.pl.md**: Klauzula wieczności definiuje Poziom 0 hierarchii.
+- **Konstytucja, sekcja "Rdzeń nienegocjowalny" i Art. XVI**: Konstytucja definiuje
+  skład rdzenia i minimalne własności ochrony; niniejszy akt definiuje procedurę.
+- **Konstytucja Art. XIII.7-12 oraz Art. XVI.13**: pierwszeństwo decyzji
+  założycielskich NIE obejmuje zmiany rdzenia poza właściwą mu procedurą.
+- **NORMATIVE-HIERARCHY.pl.md**: Poziom 0 wynika bezpośrednio z Konstytucji;
+  niniejszy akt nie jest źródłem jego składu.
 - **Konstytucja Art. XIV**: Środki tymczasowe są traktowane jako wyjątki podlegające
   minimalnym wymogom identyfikacji i wygaszenia.
 - **Konstytucja Art. VII**: Panel ad-hoc jest spójny z zasadą proceduralnego ładu

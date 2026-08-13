@@ -215,6 +215,9 @@ schema_for_file() {
     *.inquirium-resource-profile.json)
       echo "$SCHEMAS_DIR/inquirium-resource-profile.v1.schema.json"
       ;;
+    *.inquirium-federated-resource-profile.json)
+      echo "$SCHEMAS_DIR/inquirium-federated-resource-profile.v1.schema.json"
+      ;;
     *.operator-resource-envelope-revocation.json)
       echo "$SCHEMAS_DIR/operator-resource-envelope-revocation.v1.schema.json"
       ;;

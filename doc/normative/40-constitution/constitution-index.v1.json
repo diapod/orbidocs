@@ -1,0 +1,4589 @@
+{
+  "schema/v": 1,
+  "editorial/current-working-language": "pl",
+  "editorial/working-language-has-interpretive-priority": false,
+  "editorial/working-language-may-change": true,
+  "language/variants": [
+    "pl",
+    "en"
+  ],
+  "language/normative-force": "equal",
+  "language/semantically-self-contained": true,
+  "language/semantic-equivalence-validation": "human-review-required",
+  "metrics": {
+    "clauses": 206,
+    "core/clauses": 21,
+    "language/structural-divergences": 0,
+    "undefined-modal-clauses": 0
+  },
+  "clauses": [
+    {
+      "id": "const:norm.1",
+      "section": "norm",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 32,
+          "text/digest": "sha256:b652a1d860edd682712bec02fde89400befeb4f04faf1d09582e04285fb0410f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 31,
+          "text/digest": "sha256:e90e5dbf0fa3a5d22299088946754aaebf2fa69ffdd1dd5cf95971a39f3bd208"
+        }
+      }
+    },
+    {
+      "id": "const:norm.2",
+      "section": "norm",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 34,
+          "text/digest": "sha256:104a0c77b23c5a5efb638f278aa889c95e601fe070771d3882b1fbfa46603c5e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 33,
+          "text/digest": "sha256:84b6056b49d6560e5de0ad5157962095bad9f61b2721c56fc12c6b20484e6709"
+        }
+      }
+    },
+    {
+      "id": "const:norm.3",
+      "section": "norm",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 36,
+          "text/digest": "sha256:b110678c306b5c53aeeb5c7439324ea1491787d79e67493a1c8f33a59e726826"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 35,
+          "text/digest": "sha256:2123c73b3df6da12d54c3b974c55d2a0b03c9665331360b5d8636a039fbe8440"
+        }
+      }
+    },
+    {
+      "id": "const:norm.4",
+      "section": "norm",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 39,
+          "text/digest": "sha256:b33c2be4e1dcbb52d38276dccac1c7b5e85b19f32642bdc5b154a5e2cff9d509"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 38,
+          "text/digest": "sha256:9ac869c1de8bce8a0bc259713ba90326694e3477e2420f530e2e8e01a998465e"
+        }
+      }
+    },
+    {
+      "id": "const:norm.5",
+      "section": "norm",
+      "paragraph": "5",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 41,
+          "text/digest": "sha256:0d97ad85452e402648a0f7f1a13ba1de6060f3a502502e28b67ce81948eef458"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 40,
+          "text/digest": "sha256:dd534c276d7778936813c254bd5f5d858ea46c6e1bdc00c27a2ef2b9aef5760d"
+        }
+      }
+    },
+    {
+      "id": "const:norm.6",
+      "section": "norm",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 45,
+          "text/digest": "sha256:a8bcd0bd6a20f9abdec29c40ebfdb28beba9e24ee7d0abcee007a10568e49647"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 44,
+          "text/digest": "sha256:dd9828e3fb94d8976d2ccb834773028660a88e0e4c8e57a90f59bc52824f8e52"
+        }
+      }
+    },
+    {
+      "id": "const:norm.7",
+      "section": "norm",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 48,
+          "text/digest": "sha256:789e2956016f805155a6632d8be3c41ab57b86a4af17463443ddfb0921fefbf0"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 47,
+          "text/digest": "sha256:90a58a75ce311a34ca95fde895741f0fa01f209a7e4fd0076ea1072e8c29960f"
+        }
+      }
+    },
+    {
+      "id": "const:norm.8",
+      "section": "norm",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 52,
+          "text/digest": "sha256:aa334f3e583470eaecb71e51e7f73edaa59f7a7a06352dc3155181dadb2978e5"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 51,
+          "text/digest": "sha256:071c292d0f93c3ae4c6bc137fb933ee44e65b396433c617bfd108f06a5950ed8"
+        }
+      }
+    },
+    {
+      "id": "const:norm.9",
+      "section": "norm",
+      "paragraph": "9",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 56,
+          "text/digest": "sha256:3fe5f128b9742d8f9d014aba6ae293b4cd7472ab9fbb93e94ddaa2db4eb0126a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 55,
+          "text/digest": "sha256:90595b9e2324a5b38c519dd9e511d3f5d88b4523e4c1168e1cddf71375b41bf2"
+        }
+      }
+    },
+    {
+      "id": "const:norm.10",
+      "section": "norm",
+      "paragraph": "10",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 60,
+          "text/digest": "sha256:60bf87dd919518c4d76a49a8a1e2e68dc5fb9aa255710069190396197056e9ab"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 59,
+          "text/digest": "sha256:a0e92a502ff10fdf8f65fc5f0b368255f956a194e75d0bb5eed230e70806029e"
+        }
+      }
+    },
+    {
+      "id": "const:norm.11",
+      "section": "norm",
+      "paragraph": "11",
+      "normative/keywords": [
+        "permission",
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Moc normatywna i wykładnia",
+          "line": 65,
+          "text/digest": "sha256:4432cf91c991b5979cba6a227ee64035cf68107d368caaaa2ad1ea7b83593411"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Normative Force and Interpretation",
+          "line": 63,
+          "text/digest": "sha256:a5d29bf57b8233d47ddfc8479a271f81cbd963ae1c903b363465c75a5952cf6a"
+        }
+      }
+    },
+    {
+      "id": "const:def.1",
+      "section": "def",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 75,
+          "text/digest": "sha256:3db38f49853a082f5aa681cbfd7786aa8ebf2c1a335ada36fc2d79738077d50e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 73,
+          "text/digest": "sha256:d30ff25f22aa46ee32be87c705345bb1ebe30552f6ddd7b81f34187fc237d87a"
+        }
+      }
+    },
+    {
+      "id": "const:def.2",
+      "section": "def",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 78,
+          "text/digest": "sha256:ea520c6270fedf3491e47c843d5f8a911825b3f9c8828427a50e325f25700f2c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 76,
+          "text/digest": "sha256:d78a379258ac4c383ecdae3125fe3de6274568d65c5fbf7f243673a64afcb506"
+        }
+      }
+    },
+    {
+      "id": "const:def.3",
+      "section": "def",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 81,
+          "text/digest": "sha256:a0d3553b860ad6b193459849801f6c2d43f788377861ac5c3b0f7728d732fea0"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 79,
+          "text/digest": "sha256:a9969b83129986a8069abfb13ffc936e2b69fed58de7e4aaee5f3cfa28adc16d"
+        }
+      }
+    },
+    {
+      "id": "const:def.4",
+      "section": "def",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 84,
+          "text/digest": "sha256:cb2b78609ca09609b5885970d207a12313da8c51bcd7ed2e02d8cf3304d4c2b5"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 82,
+          "text/digest": "sha256:74ddb87afa9b290ed2add28e7df45e23a6fc6c4a28e0908986215d9da866a750"
+        }
+      }
+    },
+    {
+      "id": "const:def.5",
+      "section": "def",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 87,
+          "text/digest": "sha256:c33b55432535278d254532b913a3a866cd77ddf19a65d9a09235e6da78e49a17"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 85,
+          "text/digest": "sha256:26bf2b584e42d80b822e07c87c61f4f6385660b0f90daa25864ef8bda429b458"
+        }
+      }
+    },
+    {
+      "id": "const:def.6",
+      "section": "def",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 90,
+          "text/digest": "sha256:5438f70253d44f6c453cbd514cb70a87c53ddc50acde16e36c2ebec7a12d2910"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 88,
+          "text/digest": "sha256:ddc43243e69a2a38468a79467933752cd4676c2c9bd05cb10b1dab37291bdde1"
+        }
+      }
+    },
+    {
+      "id": "const:def.7",
+      "section": "def",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 94,
+          "text/digest": "sha256:042067aa6ede1c3489e243de680d2742a4048cdc1d0e600aa0f76ff2b839195a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 92,
+          "text/digest": "sha256:d1062da33c9030ad194122d5d3c43fec2d5b45e18603dd7153af068f40a801c2"
+        }
+      }
+    },
+    {
+      "id": "const:def.8",
+      "section": "def",
+      "paragraph": "8",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 102,
+          "text/digest": "sha256:2d81716de4de9b58f1d55f5e31238cdf9ad8ab55f5d6dd06647bde3fcbd0b923"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 100,
+          "text/digest": "sha256:fd534d3476e03d5e7e23d69e43c502af293fce58f54519f1eb13f100eeaf8b65"
+        }
+      }
+    },
+    {
+      "id": "const:def.9",
+      "section": "def",
+      "paragraph": "9",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 107,
+          "text/digest": "sha256:37d66d129d1713f5a2497f7f5a280afb86cb29124d9f73c38c6fc2e5337d7334"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 105,
+          "text/digest": "sha256:54cea0ca17bb210ae04c736cf384a64906dadc717958d71912ce5dab43b3825f"
+        }
+      }
+    },
+    {
+      "id": "const:def.10",
+      "section": "def",
+      "paragraph": "10",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 110,
+          "text/digest": "sha256:b51594e12b65606c20a6f60bba6ed24ffd288bd7ce2f9b567192ce8b9862412b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 108,
+          "text/digest": "sha256:00464ecb748eb2e056d1d6473d31c77d54d28ddc7e15b6c3b1d4bdd6f2d06ebe"
+        }
+      }
+    },
+    {
+      "id": "const:def.11",
+      "section": "def",
+      "paragraph": "11",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 113,
+          "text/digest": "sha256:8422a45f4a0929d563b3b420abd1eae022e74f4d3eb2a2f9c0f9b41f3ba39323"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 111,
+          "text/digest": "sha256:4f9e975c34679dfb0e514e6a7bc58e7758be80214004295390f584c49d70a29b"
+        }
+      }
+    },
+    {
+      "id": "const:def.12",
+      "section": "def",
+      "paragraph": "12",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 117,
+          "text/digest": "sha256:ce408941cb3488f91f138bec8f88343ee5a5fbcb166fda25a68766599363d398"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 115,
+          "text/digest": "sha256:0cbab7c16ea4d23f20d9ba8187ffd521c99e9cb9c7cac0517d4a8026e2a4fe46"
+        }
+      }
+    },
+    {
+      "id": "const:def.13",
+      "section": "def",
+      "paragraph": "13",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 121,
+          "text/digest": "sha256:540699a9905f5232a1f74c4e2f66e888e7a546a113d48beffa46d1f64a519bde"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 119,
+          "text/digest": "sha256:cc6573b47954a1ba25e374219edcf020b296874a6eea18c7b41750bd028ac4d3"
+        }
+      }
+    },
+    {
+      "id": "const:def.14",
+      "section": "def",
+      "paragraph": "14",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 126,
+          "text/digest": "sha256:55666ca1027ba62a398adab47fa5367ba2eacb94ed4dfc3751a6f9f79cc0113c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 124,
+          "text/digest": "sha256:7de65c27cbb861fd23b881094a8174757664d41870e360d5a6cb08ee3913bbb3"
+        }
+      }
+    },
+    {
+      "id": "const:def.15",
+      "section": "def",
+      "paragraph": "15",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Główne definicje",
+          "line": 129,
+          "text/digest": "sha256:06b27ecaddc641d670355e05f2374fe8f56be2212a667ded675b1ba9c66a25dd"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Main Definitions",
+          "line": 127,
+          "text/digest": "sha256:b58274745e49d3a7211c35f67ea0a1dccafabcba4199f62c2f1a409763519984"
+        }
+      }
+    },
+    {
+      "id": "const:core.1",
+      "section": "core",
+      "paragraph": "1",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Rdzeń nienegocjowalny",
+          "line": 135,
+          "text/digest": "sha256:7df5dfda15d0507fdbcbb8fd966f9a281dff68f7e700466fcc4317808a504264"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Non-Negotiable Core",
+          "line": 133,
+          "text/digest": "sha256:c942a075f3e445b63487ebcf23654decd92c30216a968f066047e38a2c063244"
+        }
+      }
+    },
+    {
+      "id": "const:core.2",
+      "section": "core",
+      "paragraph": "2",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Rdzeń nienegocjowalny",
+          "line": 145,
+          "text/digest": "sha256:c35e546a1860587b73e20ffc5f8950139b38db5ed0577dd63e48e7f3c59a180c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Non-Negotiable Core",
+          "line": 143,
+          "text/digest": "sha256:4a3dce2dd29bd415b3ecce50d091908eb362bc890d7fea183cac310e44ca0f09"
+        }
+      }
+    },
+    {
+      "id": "const:core.3",
+      "section": "core",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Rdzeń nienegocjowalny",
+          "line": 150,
+          "text/digest": "sha256:92927fcb58c4c5f1771e597757225ca030ee95ea12f18999233e2141f32ab4e4"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Non-Negotiable Core",
+          "line": 148,
+          "text/digest": "sha256:b2ee8c32bdc29f958f9fd184d66a207deac9faf31efca5ecbf1e0f306466a1e6"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.1",
+      "section": "art-1",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 158,
+          "text/digest": "sha256:605c781e93c7d70689e0e15bdb7b405aae268d9ab74b7908b17f7cd669d3d967"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 156,
+          "text/digest": "sha256:74307c654851817eb665f9b46f8737ea08f6ba8ffb14e6595b34e2bca911ef57"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.2",
+      "section": "art-1",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 160,
+          "text/digest": "sha256:c9ebf215b6abca8dd6117e67b5395f5d4a6b65be3df2c6637e519603f448251e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 158,
+          "text/digest": "sha256:5715dd1015b821443998560abc6ea4af1f1466449359067d37960b92c2c58952"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.3",
+      "section": "art-1",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 163,
+          "text/digest": "sha256:07f19e6d5740f1a86866ce14a277ffdb7e66f918035e473a0b126413a22246ae"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 162,
+          "text/digest": "sha256:54598af349390ae92f905fe93a78086b01a7bdde8179418f4f857f5bbbe145dc"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.4",
+      "section": "art-1",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 168,
+          "text/digest": "sha256:0d17495f6c436e0de3d35d87833b7343de96a4e8d5a2fe72bd4b3f2a58d9267b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 167,
+          "text/digest": "sha256:74d13566720870b2c92fad4892114d07909e576f0deca5c4f87c8a7a150d8753"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.5",
+      "section": "art-1",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 171,
+          "text/digest": "sha256:01bee52750debb53c1c9b9cab8f475bc822174767e9b6cf5b5b0ed1650c8d3d3"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 170,
+          "text/digest": "sha256:009865069feba1472e25d6d990ac655ffab0a38142bf13ed82131ebc3d5db420"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.6",
+      "section": "art-1",
+      "paragraph": "6",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 174,
+          "text/digest": "sha256:e999b81937b1071791529cd5237acef933d99371023d4e1d92dfc4c66c6c3aa3"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 173,
+          "text/digest": "sha256:e2ae71ad9dd1b1ec25bb755abfabbb3e5d47ca03decd1c49403d8d7ab72b54a4"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.7",
+      "section": "art-1",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 177,
+          "text/digest": "sha256:5e88e7b3552f61abf2bb162c2d19bec59d9cc06a99590e84626a78a60c33a183"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 176,
+          "text/digest": "sha256:48a6edaa4f491c9511ad7b157af518517e5cca2ecce951ec289956aad62fc19b"
+        }
+      }
+    },
+    {
+      "id": "const:art-1.8",
+      "section": "art-1",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł I. Misja konstytucyjna",
+          "line": 180,
+          "text/digest": "sha256:05bd9a9ff55896736fc80e3d703e1c430d084d1aaf94b51366b75e7c47cda2ac"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article I. Constitutional Mission",
+          "line": 179,
+          "text/digest": "sha256:3b94ba69ed634a7b4c63c03c7882e1d94c9258e6b949913807964f0c9a0a91dc"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.1",
+      "section": "art-2",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 187,
+          "text/digest": "sha256:9b4e4618e72b1ddbd4b5932c9b1c622762d21af2b529f5f8803853b0984cec4b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 185,
+          "text/digest": "sha256:e33f366e850332ccebcc29233afbc420deb5f8f63d3e63252674d30f62a87a53"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.2",
+      "section": "art-2",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 189,
+          "text/digest": "sha256:997a58ce7b759d7556a1ea58049095fad8b147d92f776e2b82f8ba16e7600f51"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 187,
+          "text/digest": "sha256:6fc881480c6519a69344bb355298a0015e175331ddc66dadcc65ced6b619a88e"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.3",
+      "section": "art-2",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 192,
+          "text/digest": "sha256:49ccaa2b1206a6fee938f8fbe8ee53c9c70f8fec8ac82c6de480cd6a4a59547b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 190,
+          "text/digest": "sha256:401284c7ed1875c8b3b283fb913cf6d96a2971b6ff3469a8c847256caaf67ce9"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.4",
+      "section": "art-2",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 194,
+          "text/digest": "sha256:1ee5619043e1d2bd0d1bc4616b4ebcea2045b0e13d63cb87bebf11d39da31783"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 193,
+          "text/digest": "sha256:db129efef1bbb892ab19a57d4628dfa20bfcd350f40ce47925fa22573538ac8e"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.5",
+      "section": "art-2",
+      "paragraph": "5",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 197,
+          "text/digest": "sha256:a2899a0099d3e21afdc708c5e96527fd0fb4c900a9d1dec2a3ae5fce26bbc580"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 196,
+          "text/digest": "sha256:7a8b939c43888e7ac391fe0cc67d38a5ed3ba8733fe6eb5c4d02899ef25b6571"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.6",
+      "section": "art-2",
+      "paragraph": "6",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 203,
+          "text/digest": "sha256:43c13a0b1889d10d3b60cba54fe206eaccb93d43e9414fae8eccf2d0c604fb87"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 203,
+          "text/digest": "sha256:80c02b4d376f0d12acfa692c8c35e9ed6da63149063ff847146c7347d5cc0517"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.7",
+      "section": "art-2",
+      "paragraph": "7",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 206,
+          "text/digest": "sha256:eb4869b227e25d39687370c82015015090224ced07c0bde3c1e798abd6cc28ac"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 206,
+          "text/digest": "sha256:5b5808d2e211dbb48dd82dd316003afd52f6e604114405d3bd2d0b21e2113bea"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.8",
+      "section": "art-2",
+      "paragraph": "8",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 209,
+          "text/digest": "sha256:72e82e82bc2be926af1e0c947ffb2a305256775b583ef9c6ff8b8e61cec6b108"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 210,
+          "text/digest": "sha256:bb42710a79139ccc351a757f4da2fb71b4bf21ab2ee15b3285001510b73086dc"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.9",
+      "section": "art-2",
+      "paragraph": "9",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 213,
+          "text/digest": "sha256:eeba16de504b0430191ed0dff512f02fa1f07ca672c76bbe866b9b8e0b86b38a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 214,
+          "text/digest": "sha256:7688c607f34d7919b60cbb1a53bd2b77837d13d0bc98e2caa08c4a3b148b1115"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.10",
+      "section": "art-2",
+      "paragraph": "10",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 218,
+          "text/digest": "sha256:b332aa32191fb92336a685743afdce978bf7c21d70d9d073f4cd3c5af4c5320c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 220,
+          "text/digest": "sha256:7167521d4e66b22eac4b4bedfb8ce33537dea9bc6a59d5017db1c75cc12d76d7"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.11",
+      "section": "art-2",
+      "paragraph": "11",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 221,
+          "text/digest": "sha256:f7cb05baec57bcd38b7f97751c47b06e4d0c321e1c8eed97fc2441ccce3a1e4e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 223,
+          "text/digest": "sha256:e6e86505b34d9954bae5e7d0654e9065bd7f10741c3d0f15d6506f271cf32575"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.12",
+      "section": "art-2",
+      "paragraph": "12",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 224,
+          "text/digest": "sha256:3a73176890ba895651bb98f792e5065937d7f6579ead89af6469061f1374b048"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 226,
+          "text/digest": "sha256:7f5d3c439fecbdb0af36d3c110687ce281620c196ed3d6c9dc9eb8ad3f5fdc22"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.13",
+      "section": "art-2",
+      "paragraph": "13",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 227,
+          "text/digest": "sha256:1cb771c4a194a2be5b494f2f3cfbe5580a54f20c163efb3658f167ea223d67c7"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 229,
+          "text/digest": "sha256:209a1da9437650f1b1e4610b57381f739bcf174cb9feb94642db272158022348"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.14",
+      "section": "art-2",
+      "paragraph": "14",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 231,
+          "text/digest": "sha256:7ab7135139cf8a2ce009ce37dc91d6d7f0ba04dafc315124d1730e95c96e7422"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 233,
+          "text/digest": "sha256:79251bedbcbe6d00724523fd4de438ea49bc58b4e6c04d0c98299dbd4e245a50"
+        }
+      }
+    },
+    {
+      "id": "const:art-2.15",
+      "section": "art-2",
+      "paragraph": "15",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł II. Prymat człowieka, godności i przetrwania",
+          "line": 235,
+          "text/digest": "sha256:e2432fdb5bc132370daf5ace51c977d10cc9dbe109a98d2f766eccb26c810ffd"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article II. Primacy of the Human, Dignity, and Survival",
+          "line": 237,
+          "text/digest": "sha256:cd44b5daa4e64d8fc7da349e66dd4bbfdadba75614b198361d64312064a16355"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.1",
+      "section": "art-3",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 241,
+          "text/digest": "sha256:85941cfad9000c495ef699caba2779c437cf541c70a5db78647570446779a0c1"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 243,
+          "text/digest": "sha256:85692c60b7c1aea78f4519f88a04e07fd916ba5d5b55f5fe3792074bb8052a49"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.2",
+      "section": "art-3",
+      "paragraph": "2",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 246,
+          "text/digest": "sha256:9723d74254926aef6e87e5fd8772ac960cab0bfab5a7e8f602846c864f9f1cb1"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 248,
+          "text/digest": "sha256:c11e05b6f465eef22a7d01026539c7b1224dbf229f2d7165108ff864e0016f44"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.3",
+      "section": "art-3",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 250,
+          "text/digest": "sha256:4b347011e06fb8aa7224b0c52c89562e1a24c45aea81b8abaac05e9b240955fa"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 252,
+          "text/digest": "sha256:0cec4e53205728d0a8372443f4dda98fda83bdb2904fc33ba4d901e63dc7153a"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.4",
+      "section": "art-3",
+      "paragraph": "4",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 253,
+          "text/digest": "sha256:1c8171b881ec9b0120f3468272be82b91332b6f73ddb13bac30330d2b02c7a98"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 255,
+          "text/digest": "sha256:2d47d71ecc1d687d45e05c1e21e5f7f49a0730350c7ee3c324754dc660935d79"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.5",
+      "section": "art-3",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 260,
+          "text/digest": "sha256:7061286a591c6f7fdfa7dad01f7d66d0ef10d2a49bfc73b1643b4fe0ce8d358a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 262,
+          "text/digest": "sha256:0e133bfe97f0ad846fffba43013dbdb4a2feac3b79c0f96de07d244bd3c0c706"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.6",
+      "section": "art-3",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 264,
+          "text/digest": "sha256:dadc894e551d5e34a9804b9edf52b8251a0c86e04430791c75917aef2f44a964"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 266,
+          "text/digest": "sha256:62398884d5c0ccb5b80b02b66d07f00ad4badf0cc07b9e5b2db5f42ef2aaec29"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.7",
+      "section": "art-3",
+      "paragraph": "7",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 267,
+          "text/digest": "sha256:667f600ee4ce5f35c7f928eb465e87b4fedf16670629b3228a5b31599c72deb4"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 269,
+          "text/digest": "sha256:793a65e3e128f5f3d46890fe5ae4a37d521f3b3682683a6f897fcb8bae2d4aac"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.8",
+      "section": "art-3",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 270,
+          "text/digest": "sha256:3d3dacac39aab7f7d99f05da7ed10114200ac128049fe80171c3641062d46c62"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 272,
+          "text/digest": "sha256:3135c64d7a7c149cacc432d91bb5f4c387247d2ab551d999f654f806dd512039"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.9",
+      "section": "art-3",
+      "paragraph": "9",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 273,
+          "text/digest": "sha256:bf0524e2b0b71215c4f0daeaa1b099873eacedb5e56301eac116fd7b40c6c732"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 275,
+          "text/digest": "sha256:6fff4c20c00fff0690aefbc0aed1e202034e6c9ab70d48ab41c29a65219703c2"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.10",
+      "section": "art-3",
+      "paragraph": "10",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 280,
+          "text/digest": "sha256:15ed73be99fbb891e3bec8a874f06b633016a9c1ccfec5e215e3bc13be2bf9d1"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 282,
+          "text/digest": "sha256:76c0833890682978ab41e2491e76854ef8ea8c6a88068e371d383ca6c741254f"
+        }
+      }
+    },
+    {
+      "id": "const:art-3.11",
+      "section": "art-3",
+      "paragraph": "11",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł III. Suwerenność, prywatność, wyjście i prawo do odgałęzienia",
+          "line": 286,
+          "text/digest": "sha256:af332da8a6c37100f360f8675f660886793828c3cd1abf3f0a3a431d647c92a8"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article III. Sovereignty, Privacy, Exit, and the Right to Fork",
+          "line": 288,
+          "text/digest": "sha256:1595b979e879baab1e18ebdb24160306ad48abc631f341cc225f9dfbf8a745b3"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.1",
+      "section": "art-4",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 295,
+          "text/digest": "sha256:b855598f748c49c661000a2f98bf069d206f143fd61b75ab9b71914528211328"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 296,
+          "text/digest": "sha256:d809afaf4b73a6d05418b166dbd2b9a3604283329f684e19329c4a7f5bff2c49"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.2",
+      "section": "art-4",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 297,
+          "text/digest": "sha256:f1cf34d0e7a381f44e7149e86d71356e85956824128a39b1a27b6c71ea085c32"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 298,
+          "text/digest": "sha256:935a62e5cd15e7cf0544a34eb8607099395cdb82eaf803711aa24f8536144bfc"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.3",
+      "section": "art-4",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 300,
+          "text/digest": "sha256:906c95bb950653e6e348a54b890be42b9770870f83c7db0f5b2ac7b5c413b351"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 301,
+          "text/digest": "sha256:4c011dbd04640bdc0b679612ac4ec645b99ff85ea64c13e1a87e8893adf43ef1"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.4",
+      "section": "art-4",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 303,
+          "text/digest": "sha256:b94664072dc980c6b768673bec30909aafa97a836b2d12a4e62c1bea62bd837d"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 304,
+          "text/digest": "sha256:deeefbcb6c42abb29586afaf1ad97831b09dc8d2a4a2f3ce5837f57fb2f9a7a0"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.5",
+      "section": "art-4",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 306,
+          "text/digest": "sha256:8c5041d039c7c4eabb912d5a9822c06d335ce8375dbb40c052ab275b2ef2f4b9"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 307,
+          "text/digest": "sha256:80b92e678953e8a7bd44d464d9dfcfc462867927ed46930bebaf1852c762835a"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.6",
+      "section": "art-4",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 309,
+          "text/digest": "sha256:df387468207db882f1e066d1ee7ae146a965299db67d3f99beadea54af7caa82"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 310,
+          "text/digest": "sha256:8d133fce15ae7e9e9e36b6a4c9787aa64613e2e11150e28f2c2c1b644c56b9fa"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.7",
+      "section": "art-4",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 312,
+          "text/digest": "sha256:6470c4905c796d8e8bb358d25779fb63c1cbb0cb9337bde48b8ccbb3c1c51dfb"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 313,
+          "text/digest": "sha256:d12047f6d8518aaa3bea777b95ddccdc7a58d0d6e5693ca1e9bfd00877f6b24b"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.8",
+      "section": "art-4",
+      "paragraph": "8",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 317,
+          "text/digest": "sha256:35811a5aa6a340d92c9591b518b9db6ccc0f2d15f01dc08de393b5bc81ff2a18"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 317,
+          "text/digest": "sha256:120008648db2e723eeac67b06e57ce5b3295cf514aadec7ca940057014a32422"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.9",
+      "section": "art-4",
+      "paragraph": "9",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 322,
+          "text/digest": "sha256:c1add465ad1cd2b2a6c0169f86f8b3fe89ebf3ac9877ed394cb2fbee04890849"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 322,
+          "text/digest": "sha256:dff2b6ab8bfdd87525428422e05dd83b8297cd303fffaeae72e1063a19cae40e"
+        }
+      }
+    },
+    {
+      "id": "const:art-4.10",
+      "section": "art-4",
+      "paragraph": "10",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IV. Organy konstytucyjne systemu",
+          "line": 324,
+          "text/digest": "sha256:54b289184edabb075f7f9b9ac7c6f79b3527ecae4103fc169bba73a235db8945"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IV. Constitutional Organs of the System",
+          "line": 324,
+          "text/digest": "sha256:8ee4812200e5115aa6c8a3932fe1113f1dbb6c7d3b033ab6bdd46e4cf30c94d2"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.1",
+      "section": "art-5",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 329,
+          "text/digest": "sha256:8a8518707751ff59c8d752efc1b79050fb86cc6c84a258144e6e8c13dbfc1806"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 329,
+          "text/digest": "sha256:81dab58247e771514010600e4a95fff1244c8bb78355d49ae88be6b201f563e6"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.2",
+      "section": "art-5",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 332,
+          "text/digest": "sha256:668949f6c323cb5e682b7a42001781eb01359b0c9226d0fe020ce2b6f0492e1a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 332,
+          "text/digest": "sha256:ee2023987ae91902b04668f5d521704a67fc604efa8f82cffd8f27ae4559b528"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.3",
+      "section": "art-5",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement",
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 335,
+          "text/digest": "sha256:1420564db1db8694e2dac250fb64bc29d1032607fa5e00359764ef22120854c7"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 335,
+          "text/digest": "sha256:c41e72188fe8cebc86d1f857a36911fd75c3f0ccfaafe500a4023700e0d10845"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.4",
+      "section": "art-5",
+      "paragraph": "4",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 338,
+          "text/digest": "sha256:fa9494000b2a64a38d026d666cbb9ada55b2cf3733bd7f243d9ee601e8d60083"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 338,
+          "text/digest": "sha256:5b468e0e2d7ab3ed45b92e87b6688e217628b08e0260d35647c468df589c6371"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.5",
+      "section": "art-5",
+      "paragraph": "5",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 341,
+          "text/digest": "sha256:acffa1932a823a48836e64dab74550c7341e2dda3840fef750abf35ba66a9553"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 341,
+          "text/digest": "sha256:6fea1ededfd435c10dad2552bf440196176d9f60fbde09e2d68785ea47ce3f70"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.6",
+      "section": "art-5",
+      "paragraph": "6",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 344,
+          "text/digest": "sha256:a579ff5febf3c938cc02fd6a2dcaf0420206f616a75d84ee3f2d4fa10c90343f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 344,
+          "text/digest": "sha256:09c972bf5b49015bd07beeb85672168ad9c7ff3ea639b8ab99a873112e5c6480"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.7",
+      "section": "art-5",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 347,
+          "text/digest": "sha256:d70c44b2482fb0e9d18a461ba4cda7de875e8baddcdf9e582341c538ff342c8c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 347,
+          "text/digest": "sha256:bed4838d5cdca6d66aac7473919ea818aa02eeb3772f49e0064e181ffed1db6c"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.8",
+      "section": "art-5",
+      "paragraph": "8",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 350,
+          "text/digest": "sha256:a929a55f0ae6010a28659477d5f6aa74f9c017b7db68fe17e51a718f5687d217"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 350,
+          "text/digest": "sha256:e5c8660d0f5200520bd0369442bbbf252cc8182c2fd77e41c03c1ff0bfc1d74e"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.9",
+      "section": "art-5",
+      "paragraph": "9",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 352,
+          "text/digest": "sha256:f86c964f2b66bc046160d7b98276d870c1979d3350c9eeb944bdd4aa8e18eda9"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 353,
+          "text/digest": "sha256:01cdb8533336ab6ef7337398c44afb87c580ce981e8564d582420807f2ab1d07"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.10",
+      "section": "art-5",
+      "paragraph": "10",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 355,
+          "text/digest": "sha256:3bf8ffaecdcd63f7f63b9052c0cf24e548e9c964d2eb134b45fb7c2ffde282eb"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 356,
+          "text/digest": "sha256:b156ba542945e3a488795ca337d7efcefa8c41157ef58f3c0ada5b3ef426b249"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.11",
+      "section": "art-5",
+      "paragraph": "11",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 358,
+          "text/digest": "sha256:ddc9e1e99bb56025b32d670e3a5b175fa6874f8d87e468d6a7c07a7c5172e508"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 359,
+          "text/digest": "sha256:e191055f805e9e865c110c67aaabbc8e2964244ba2e2c9473d274e9ab58072f0"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.12",
+      "section": "art-5",
+      "paragraph": "12",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 361,
+          "text/digest": "sha256:fcd12eaab2fa8a73eb86e78297df28065ae949737c5f14e077a7a05844b98f16"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 362,
+          "text/digest": "sha256:d4d98a69909c9eaf3771a11d5338f18f5b473470407c2d6f49200270ee618330"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.13",
+      "section": "art-5",
+      "paragraph": "13",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 365,
+          "text/digest": "sha256:5cbdd89298387a14671f9d1e5eec20b32af9a617c9d97926599b4d4536b3b341"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 365,
+          "text/digest": "sha256:3ea9b99463278c592cc934d1b2fb399da4810353557ac6e597271420cb9966b4"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.14",
+      "section": "art-5",
+      "paragraph": "14",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 369,
+          "text/digest": "sha256:979a336d0de7772b60c2fcf8edc573a165d957d4ee4e1b2f21df28fc1e188a2a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 369,
+          "text/digest": "sha256:7a2f933765c143db3320be42d2ae5cde6c2388ff18a7999e46e333aa035d6153"
+        }
+      }
+    },
+    {
+      "id": "const:art-5.15",
+      "section": "art-5",
+      "paragraph": "15",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł V. Zasady architektury i rzemiosła",
+          "line": 374,
+          "text/digest": "sha256:4b6eb0ee3c4baab588b608e4614e3648a7d3c8bf2f7e51649640eb889a3d6dfc"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article V. Principles of Architecture and Craft",
+          "line": 374,
+          "text/digest": "sha256:4fa1ea84fb4cb31bf482fd8c758cc472a53ee239bd80018a49582abec381de5f"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.1",
+      "section": "art-6",
+      "paragraph": "1",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 382,
+          "text/digest": "sha256:d5621b09589900ab5c9aa7d20bc6e1294f61e964da2d90d6dcb0ce73b200e664"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 382,
+          "text/digest": "sha256:a6f21702a3f958a54d496f45ed90b9bf19089f0ba4b114d58179830020dc8f8d"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.2",
+      "section": "art-6",
+      "paragraph": "2",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 386,
+          "text/digest": "sha256:f560f3466f1e417c934f77ac24516761e422852563cd73b5ce6d8a1ca2488b71"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 386,
+          "text/digest": "sha256:f8fa0116ddafcd50d3e57a41faa473fe35547f81b5c925eacb513caf4324e9ad"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.3",
+      "section": "art-6",
+      "paragraph": "3",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 389,
+          "text/digest": "sha256:d191a31000c89743ec761e079d5fe36891c0324e47aa26d6887420c703da4b3c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 389,
+          "text/digest": "sha256:c8d0a8e752894a5783f1961df92d0f47784d1e531961d60764bf1e4b5ff5c93d"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.4",
+      "section": "art-6",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 393,
+          "text/digest": "sha256:540fe086d9f923a614251828207cf64f0da23ebcfb01609febfa09451bc05202"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 393,
+          "text/digest": "sha256:030edc7074ec43bbdb5da7513c15759b75256f11dd3e26c97bbdd5ec7af4aba7"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.5",
+      "section": "art-6",
+      "paragraph": "5",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 396,
+          "text/digest": "sha256:6e7569c4fa2bc49917c3bb2da7288945608927b7610f40daae024c9d144b9d84"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 396,
+          "text/digest": "sha256:c15a9ef8da682165913838835d0fcd3c1acebd88893067f1dace8b8e9013095c"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.6",
+      "section": "art-6",
+      "paragraph": "6",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 399,
+          "text/digest": "sha256:aad395077decdb6741121dbdafe01b2f16ded3afeba063b666394a65040df6e7"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 399,
+          "text/digest": "sha256:f8516a0a361f380922a612da744c7e053de194b86203166252731bdf621c61e7"
+        }
+      }
+    },
+    {
+      "id": "const:art-6.7",
+      "section": "art-6",
+      "paragraph": "7",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VI. Wzrost przez użyteczność, nie przez przemoc",
+          "line": 401,
+          "text/digest": "sha256:fa63474694ad7dafc3122c996f00cf05a0dfbe069d1eb47923a7f889df60b14f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VI. Growth Through Usefulness, Not Through Violence",
+          "line": 402,
+          "text/digest": "sha256:663f96c0f8eb6106219396a0423fcdb0ad7f74d9d402def2fb27a6393d29fe8e"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.1",
+      "section": "art-7",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 407,
+          "text/digest": "sha256:e26d6a094d1f6eec915edd4f02b8a541151ce3b10cfd40f361821759ad9ef9f6"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 409,
+          "text/digest": "sha256:aa0424e420e6547c78936834dbb0d97a4dce6db2a0e78b425a6ba0c082450ae8"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.2",
+      "section": "art-7",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 411,
+          "text/digest": "sha256:5becb00609d530fcd232fa4d4ee3fa50576efc652d38e86ec3f186b768bc051a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 412,
+          "text/digest": "sha256:f7c53d6630d0338f929e6a737bbd38b0f7cf56398b842da4028812733e0d5192"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.3",
+      "section": "art-7",
+      "paragraph": "3",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 414,
+          "text/digest": "sha256:91156a6e229bcb4184be9607925e1eb5e0713dca054be235626212ebae7a9a10"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 415,
+          "text/digest": "sha256:419301f3f3bd2bb31c959d29d11605fbdc38605a61c7bdb4848a8dcdb1406439"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.4",
+      "section": "art-7",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 417,
+          "text/digest": "sha256:9f9f0766346b69606f126bafa37d01fce3d078e2b62d0774bb4997cfedf86595"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 418,
+          "text/digest": "sha256:cb1f1c688503a666d2331d5ba8d77b23531bb91a70b4b428f3c4a261cc97ff97"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.5",
+      "section": "art-7",
+      "paragraph": "5",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 420,
+          "text/digest": "sha256:d60a7556b3dd982896c7b2527b50130a6643a070974c1cac70b22b2b460c9639"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 420,
+          "text/digest": "sha256:30a55b4f7026c55024ffba24b3100ffe09bae2a9c2c889fd3a9dd113f9a26d80"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.6",
+      "section": "art-7",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 423,
+          "text/digest": "sha256:2a917bb6a8e49ff89d5cb9dcb6a6e1bf12f47b243fd7d18010e7bc6b3de687cb"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 423,
+          "text/digest": "sha256:496dc6cf2bb71cc2d16c31c701f2b313b732ce24435b811c2a5b12886b55c145"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.7",
+      "section": "art-7",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 426,
+          "text/digest": "sha256:1f4899f301024fcb47d6d60bdbc5aa6e527f614c05c2a1136e154819d0c17897"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 427,
+          "text/digest": "sha256:86e23c317ca12792a9acec6bfa1edff85459d1b203c1a4511b3d0bd15defdc84"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.8",
+      "section": "art-7",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 430,
+          "text/digest": "sha256:48cecfcd8586e8ffbfc150efdc2a03aaa19d37cc0d5239d3924c1c1acc707fa6"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 430,
+          "text/digest": "sha256:7148ce8e9b353d49231ede83ca592a517bac869673c7c065d4b36a9479e3c6e4"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.9",
+      "section": "art-7",
+      "paragraph": "9",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 433,
+          "text/digest": "sha256:2bcd792d980fe97bfffd1f639ef429bd9f0cca274700ce5521fc8ca8df295b15"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 433,
+          "text/digest": "sha256:dcb120f6d422154cf9667426acdb9a5b88bf8110609c35a3611894bcaccb5c59"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.10",
+      "section": "art-7",
+      "paragraph": "10",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 436,
+          "text/digest": "sha256:531e931c98ebe020dd5dcbd4804f7af775291c2ec582311dd04fa54dbfb6b564"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 436,
+          "text/digest": "sha256:4b17fb079d39e9c33a50af49b527f213eded60b0f2a1ffdb69410982f2fbf871"
+        }
+      }
+    },
+    {
+      "id": "const:art-7.11",
+      "section": "art-7",
+      "paragraph": "11",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VII. Ład organizacyjny bez kapłanów",
+          "line": 440,
+          "text/digest": "sha256:c5943a1d1507af14ebd6384346381538e160c89bdd758e21fb69b83d07aed2e5"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VII. Governance Without Priests",
+          "line": 440,
+          "text/digest": "sha256:8c03e87d88a704e781b9d6b87b53c8a87346faa66754e19f4c48492fb83b8017"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.1",
+      "section": "art-8",
+      "paragraph": "1",
+      "normative/keywords": [
+        "permission",
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 445,
+          "text/digest": "sha256:128b2a7290c423cd24f74a1bf98fd76e09838f9b09053f9b387a6c5540dd7e6e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 444,
+          "text/digest": "sha256:bc6df90461ef342eb5f75eade5a7e939929f5cf5bccce750742e647e5847593e"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.2",
+      "section": "art-8",
+      "paragraph": "2",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 448,
+          "text/digest": "sha256:f35bf0f23009fbbd6a66fa5f5000978d1d64a91ced8e458c0350281b9fc8844a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 447,
+          "text/digest": "sha256:f4c60f49d81e25a73b474ca0efdb1cbbe429c5542d40a563625ac8c63a8ce8db"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.3",
+      "section": "art-8",
+      "paragraph": "3",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 453,
+          "text/digest": "sha256:a9fa7b280e9009f16a23c069ccf8ca2ce7607711b6c1fea5e8cb7cf434c69f3c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 451,
+          "text/digest": "sha256:002a43c873f5d204de5bc0f864392c0b7bb49fb05dfb9b5a9d1106c911e751c9"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.4",
+      "section": "art-8",
+      "paragraph": "4",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 457,
+          "text/digest": "sha256:2eb7bfba913833adc5a43a6adb137507b792e22db1a3cdf2a18c03a7524f62f8"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 454,
+          "text/digest": "sha256:7dad62b54e79fe44614b920863bbd823c9437c7c10e70984303837a58da59cee"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.5",
+      "section": "art-8",
+      "paragraph": "5",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 463,
+          "text/digest": "sha256:db7acfe7c7a69d2edfa7cf1385492082d901e6f44f91c66d43167fb547141f15"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 459,
+          "text/digest": "sha256:f0b7bd09bf6c662a88df4bd09b484769dae1c2b301571a9707b98a53fa1c0f87"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.6",
+      "section": "art-8",
+      "paragraph": "6",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 466,
+          "text/digest": "sha256:76bd0c666fc62cb288dc6a32cc82c00096e0186a44cc5bbfa40404101a04b4cf"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 463,
+          "text/digest": "sha256:4c0a561c10dd11776247027e738192443e581dfd8f510d58dfeb6d717b9e4e88"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.7",
+      "section": "art-8",
+      "paragraph": "7",
+      "normative/keywords": [
+        "permission",
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 469,
+          "text/digest": "sha256:514c08b54d93e22bb660c6ff2e797a3faf739b969dadb2eb71a7d954c51d769b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 466,
+          "text/digest": "sha256:2ea31eb42acfb6f72b00b47130fea40a82753f07910c7ad0986f6c9e133c2094"
+        }
+      }
+    },
+    {
+      "id": "const:art-8.8",
+      "section": "art-8",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł VIII. Zapora przed przejęciem sterowania i presją kapitałową",
+          "line": 472,
+          "text/digest": "sha256:850cd5a0600e68dee1f925da1b3e2d37cb4eb08205fde80e35e1e2b3c1c9b74e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article VIII. Firewall Against Capture and Capital Pressure",
+          "line": 469,
+          "text/digest": "sha256:886aa6e9bb28dc24af01f0e50eec64b986a41b9d290c1ef7826db4279baed8bc"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.1",
+      "section": "art-9",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 477,
+          "text/digest": "sha256:27f24af35b6a89fdd38e070d5051be8043a7c0d2ca8d0dc09fd9b6e71ca14f41"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 474,
+          "text/digest": "sha256:2d6baed8008123a47f7c4e359237facd35e15e57a77539262529f1f9ab1f43ae"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.2",
+      "section": "art-9",
+      "paragraph": "2",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 479,
+          "text/digest": "sha256:ef0878cc865ead6eaf805c66c1101e5d13924513539c6715e1899aae30e104f5"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 476,
+          "text/digest": "sha256:9cff01a2ddd0313dea7cf3f8e49c1c5a1eeb325025608453ae9d3d051e257741"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.3",
+      "section": "art-9",
+      "paragraph": "3",
+      "normative/keywords": [
+        "prohibition",
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 484,
+          "text/digest": "sha256:70dc527d27c3d32dbd880c4ddc8c90cdb9093f0aaf25ef2be04cdc13d3cfec44"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 481,
+          "text/digest": "sha256:9b1b9dc7d265a6da97435b722c9e04e150d2a4bd3e7a6c86733a51af2aa26505"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.4",
+      "section": "art-9",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 489,
+          "text/digest": "sha256:ab26459bb986de5742a2f7127a0b8bdc6fd2e6528cfd852a215b8483025d820a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 487,
+          "text/digest": "sha256:f284a97876d117719cad7af8bb6e56a26104c8298904ec2973737207175cabef"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.5",
+      "section": "art-9",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 493,
+          "text/digest": "sha256:33fc4c4a60713b29b5e5fa9f3487e4c77627ae81aeeba6cd82b1b0a678160edb"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 491,
+          "text/digest": "sha256:ad9941fcc5a7c2e0a01c44518f1de236d132abd2be5d414deed024f16509f902"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.6",
+      "section": "art-9",
+      "paragraph": "6",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 496,
+          "text/digest": "sha256:e8fe75292f4db63e72b254ceb9e1d2d5d26ad94a89a5771f06837922114d3e06"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 495,
+          "text/digest": "sha256:4bd7d5eb8d464c5a83fdfa1a3bab5e6952a0b13b5ec081e5a3c6edb6b2fa8fa4"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.7",
+      "section": "art-9",
+      "paragraph": "7",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 500,
+          "text/digest": "sha256:e6114a68f693f2950fc6bb20ac74beb0b52a7fe2e4e7850a87bf1aadc461d36e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 498,
+          "text/digest": "sha256:49f5501d992712c8ba3c20333bf790afeaae68acfcd4f06f22b8888fe74413b9"
+        }
+      }
+    },
+    {
+      "id": "const:art-9.8",
+      "section": "art-9",
+      "paragraph": "8",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł IX. Bezpieczeństwo, kryzys i ochrona ludzi w potrzebie",
+          "line": 504,
+          "text/digest": "sha256:6016bbfd9f826cb29e997108a70c57df362c7f0948922b09856976f9a1151300"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article IX. Safety, Crisis, and Protection of People in Need",
+          "line": 501,
+          "text/digest": "sha256:834094bf5fff68c986aef8a4b0f107b946841b66351be34c2cb11d490d17ffcc"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.1",
+      "section": "art-10",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 510,
+          "text/digest": "sha256:2d1a47ded9ef5e19a93093fd99634ec1cc9ceb4a443e4d4d154ecc03ee1400af"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 507,
+          "text/digest": "sha256:8b3572c89695554a339b2a4ca88907bebfcf5d99cb9fe2fe9715312a5f3e0c56"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.2",
+      "section": "art-10",
+      "paragraph": "2",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 513,
+          "text/digest": "sha256:6d76c461c7133e079462fb65379676327ef8ffb309bc2e30b82376d6c3080367"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 510,
+          "text/digest": "sha256:7b269979eb7c346cf92897353d21d7222934ddbf4f04da951c6a08e9510dd27b"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.3",
+      "section": "art-10",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 517,
+          "text/digest": "sha256:edd7d730d70b4e1e7ea7760dd9b5582b162afae94e57f4a5121e49c0396adada"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 513,
+          "text/digest": "sha256:3a15cd202b357d481b2ff89ff6a611fc1dac467b23eab4df3456de63f5ffae6b"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.4",
+      "section": "art-10",
+      "paragraph": "4",
+      "normative/keywords": [
+        "permission",
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 520,
+          "text/digest": "sha256:db65dd0a7649ab10a08fce71f7f093dc2409164f6a44974b998967ad0566d8ce"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 516,
+          "text/digest": "sha256:e312632dfe6383a7bdf20f9af8ca3c12d95e506eaddc07a5f4629d8da649b2bf"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.5",
+      "section": "art-10",
+      "paragraph": "5",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 527,
+          "text/digest": "sha256:f9593dce872472051c06842ce03c0929fd2062462c40c8c603d391a65f3ebe9f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 524,
+          "text/digest": "sha256:1237521465efc25868cc9e87db8b8627967ab20f328b62ad1fbdd5a99d638fe8"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.6",
+      "section": "art-10",
+      "paragraph": "6",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 532,
+          "text/digest": "sha256:a91d057dad070e36e7efd5996811d8d43981d117717a730cc5b39d2b12e0c4cf"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 530,
+          "text/digest": "sha256:aec517cfd31f7f756f09300d0a230c7f7b6bb335fecb26990745d8be94f09c73"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.7",
+      "section": "art-10",
+      "paragraph": "7",
+      "normative/keywords": [
+        "permission",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 537,
+          "text/digest": "sha256:46eea05d3037463616e306a36a4722400a423db11fa6a18e060a28947c890acd"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 536,
+          "text/digest": "sha256:ffd565d35fec9c04f3b3d717bbef27a4b3e6a2d1b0e986f532ee229bd98eb46f"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.8",
+      "section": "art-10",
+      "paragraph": "8",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 542,
+          "text/digest": "sha256:232ebfa052e68642d04481de770651e2b915d0fff23061e303767d8982146fc6"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 541,
+          "text/digest": "sha256:ee8ad4b3e9a1f9cccabe90e0d64f85e901d590ebd81276202b1d8df11ef49101"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.9",
+      "section": "art-10",
+      "paragraph": "9",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 546,
+          "text/digest": "sha256:ac3150c968acd6813ea4e8b372a3fdfa95d1e28db309bcd6135062d630e88a63"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 545,
+          "text/digest": "sha256:97f1e8e6c81f961bff4a1bf8dccee132cca9045da402aeba2c6d9dbb3fba64b5"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.10",
+      "section": "art-10",
+      "paragraph": "10",
+      "normative/keywords": [
+        "permission",
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 552,
+          "text/digest": "sha256:89d8dc17fd1d292cb8907cfd1e9a5b016c1647f40153b7afda4d7703d3e47922"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 549,
+          "text/digest": "sha256:45e89ece740e50451d2198c741428b4fdd378f292e759f6ab7d50ee603199dbd"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.11",
+      "section": "art-10",
+      "paragraph": "11",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 572,
+          "text/digest": "sha256:9ee4c4c1f49d7ff4f20ecb909b1ae0260bae7544b672763d1af6e31a50f3065f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 569,
+          "text/digest": "sha256:dc9c65c3a66e3bf793c66c683127164742f8838ad80a218681b2b493130d32dc"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.12",
+      "section": "art-10",
+      "paragraph": "12",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 576,
+          "text/digest": "sha256:fc8182c8dfdb2de96fa2eb3f0dbaa5cd10f97340f13c44caa5051945b778562a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 574,
+          "text/digest": "sha256:cdaacd76eb03e2a3e499b1bab41e91166cca7e86a7cb0faa006ba4a4bb83f0c0"
+        }
+      }
+    },
+    {
+      "id": "const:art-10.13",
+      "section": "art-10",
+      "paragraph": "13",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X. Sygnaliści, publikacja i szkoda wysokiej stawki",
+          "line": 580,
+          "text/digest": "sha256:007dd4b58309bf4ddce13ac3bcd1ceff70d0d7099988cd847498da8db912cf7d"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X. Whistleblowers, Publication, and High-Stakes Harm",
+          "line": 577,
+          "text/digest": "sha256:1e26927153c87df37690c61592ba45c3132c5a2ff640214d0e4476a801a6cfa8"
+        }
+      }
+    },
+    {
+      "id": "const:art-10a.1",
+      "section": "art-10a",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X.A. Tożsamość, poświadczenie i upgrade",
+          "line": 585,
+          "text/digest": "sha256:e04f68a3fa865eac65642fa882b154cbe214950f987fe3b44fd8a84271716a92"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X.A. Identity, Attestation, and Upgrade",
+          "line": 582,
+          "text/digest": "sha256:5ce51870ebd948bd81f43a46a861e5b2f8ec9160e04f77ae0c3d38b82b2c7161"
+        }
+      }
+    },
+    {
+      "id": "const:art-10a.2",
+      "section": "art-10a",
+      "paragraph": "2",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X.A. Tożsamość, poświadczenie i upgrade",
+          "line": 588,
+          "text/digest": "sha256:1efdbe65886cdc18838200d516b69a532ff437d677002240bf711234b561e03c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X.A. Identity, Attestation, and Upgrade",
+          "line": 585,
+          "text/digest": "sha256:5a82f663e986f602e6219b4b15e2bab115f7940be89012afac5ae46b321b8ce7"
+        }
+      }
+    },
+    {
+      "id": "const:art-10a.3",
+      "section": "art-10a",
+      "paragraph": "3",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X.A. Tożsamość, poświadczenie i upgrade",
+          "line": 592,
+          "text/digest": "sha256:f1066db3acceb0d6eb897d33612defc7920afc7eef867d552f99b8dd30e6a79a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X.A. Identity, Attestation, and Upgrade",
+          "line": 589,
+          "text/digest": "sha256:66ec99adc2d22948c37261024f3f58424fa8a9b76117af86a49b6bf904bf68ea"
+        }
+      }
+    },
+    {
+      "id": "const:art-10a.4",
+      "section": "art-10a",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X.A. Tożsamość, poświadczenie i upgrade",
+          "line": 595,
+          "text/digest": "sha256:76484e645009d7d162682daf91bdb5b60a1fe39fa2ddda2c74331464b633148d"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X.A. Identity, Attestation, and Upgrade",
+          "line": 592,
+          "text/digest": "sha256:61f9c659ac1d3c69978662e97c5230a58f9c1f3779b9723d404ae51a0f0399e3"
+        }
+      }
+    },
+    {
+      "id": "const:art-10a.5",
+      "section": "art-10a",
+      "paragraph": "5",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł X.A. Tożsamość, poświadczenie i upgrade",
+          "line": 600,
+          "text/digest": "sha256:243a31f629e5af96b3376711add8299ac78408e80a163e5531dbe646829a698f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article X.A. Identity, Attestation, and Upgrade",
+          "line": 597,
+          "text/digest": "sha256:91d19d54bf9a724d27f0dfd8145770085b774087f630f003afe0c518dfa2a065"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.1",
+      "section": "art-11",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 606,
+          "text/digest": "sha256:5c09fc5d374e5fc24c57f958b205fb5f6be2136af98a2ad0805ff432b4c69043"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 603,
+          "text/digest": "sha256:61ec84d84429f32739cfbd756f24e4bb80c69fdf1e21d6fcad655b634703135f"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.2",
+      "section": "art-11",
+      "paragraph": "2",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 609,
+          "text/digest": "sha256:69830d4f99351c24e83102ea8c0a1e2c44c865f037f951c569ce839b75bfdecf"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 606,
+          "text/digest": "sha256:bbb6d8a6fddd52edf50bccea999fb7ca11294bc452e03242b8ea22e50205fd7e"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.3",
+      "section": "art-11",
+      "paragraph": "3",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 612,
+          "text/digest": "sha256:a52c4cf66361d53ae94b8652cda765a257d308457c32f7fa78bf614ae764c8c3"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 609,
+          "text/digest": "sha256:c83cbb421e652b222687e9e1dc3cbfcf6b1aa24180e7d455723fba4c75d574c7"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.4",
+      "section": "art-11",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 615,
+          "text/digest": "sha256:a0e7e425bf84db4869d1306106e2bb2277b7b6c70d2498465732a4ec785a1c54"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 612,
+          "text/digest": "sha256:854b65b34a95a03e4c4dad5a936106dcf54e208bc9511efc3823058c450c4e2f"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.5",
+      "section": "art-11",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 618,
+          "text/digest": "sha256:b2c4e2fc107875aeb30a79a9b1a9d73beddc33b946daeabfb0d9940d9c9ebb0a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 615,
+          "text/digest": "sha256:c42ad13d2d175f7b3d7dd1f6d1eefcea55028480a7fa417bb2e29537c5106c2d"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.6",
+      "section": "art-11",
+      "paragraph": "6",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 621,
+          "text/digest": "sha256:afc59853ef5227f01df0e37efdeeb1034778e2c469e92b3213a2c9e69e6553a4"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 618,
+          "text/digest": "sha256:3a1e30cb00e78a09a1c52090664aad36aaa34a30296be0965933d9b1c6ee2ca7"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.7",
+      "section": "art-11",
+      "paragraph": "7",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 625,
+          "text/digest": "sha256:98a348b399abfc4047dd1dff31729cfa8407a3ee5980b3791d37cec6939688f7"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 622,
+          "text/digest": "sha256:9a903bbfcae34cfcfe50aefce60c54bfaf668d6d5a4b2c733126e502f412c86c"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.8",
+      "section": "art-11",
+      "paragraph": "8",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 628,
+          "text/digest": "sha256:c0d7055fb54aa75db6f380b725fb64d82e52f7344a9e724ac66912343002b5ae"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 626,
+          "text/digest": "sha256:77d57f5c2a12c5b245792f6346f350ccf674007d5495dcd682ffc9c7e39037ea"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.9",
+      "section": "art-11",
+      "paragraph": "9",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 631,
+          "text/digest": "sha256:419ce91b034ef6a9ba14382b915d1a9fedd74fcd409952a3e56fba1777c10c63"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 629,
+          "text/digest": "sha256:7b97f2935d7a4b9a46433b6a7ce4b49b0ab240867535a13a9115a48441b1df6b"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.10",
+      "section": "art-11",
+      "paragraph": "10",
+      "normative/keywords": [
+        "prohibition",
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 636,
+          "text/digest": "sha256:3b818d5fe49b2eb0b37d062fb550d9e68ec03583932d83774bd9fe89da014f39"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 634,
+          "text/digest": "sha256:18b8045c5353384494aed7ebf3cc168a9ac51f5606089a0252f6f7b191275311"
+        }
+      }
+    },
+    {
+      "id": "const:art-11.11",
+      "section": "art-11",
+      "paragraph": "11",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XI. Reżim epistemiczny",
+          "line": 641,
+          "text/digest": "sha256:b9dbbc928a6b2927742bbb92b2b827cf23b2a6e6b6dbcbdb0ff0452fbb361061"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XI. Epistemic Regime",
+          "line": 639,
+          "text/digest": "sha256:d847007ff13ba5fce8eb56bc36ed72909c60c5767d9f46cc2b6b22fd56bcc8b2"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.1",
+      "section": "art-12",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 648,
+          "text/digest": "sha256:afee4e2e13ab9216393b2e358d517d3b0ad52052204acce613801a58e02db94a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 646,
+          "text/digest": "sha256:f5f326f0d4e2a5a009665b9c72f6f8b6e367de62a0de7b1ad9b85b493ba9f16b"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.2",
+      "section": "art-12",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 650,
+          "text/digest": "sha256:3b67718238f05994b166b8be6659baa487260bdab8808a7f31e47b55b4b3989b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 649,
+          "text/digest": "sha256:ad3524d823d03ac11ccfdd63b3e5ad60dae715075b79cbe9dd353f99c5f66e16"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.3",
+      "section": "art-12",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 653,
+          "text/digest": "sha256:c0984e7a922e5d89cb07ea7ec11d49682bdf529f1b0c3ba052e221708ba0f2b4"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 652,
+          "text/digest": "sha256:6a7af307f897539fb2e1787a9ae4261b9fa38e471ec1c2a572a3848283bbe753"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.4",
+      "section": "art-12",
+      "paragraph": "4",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 656,
+          "text/digest": "sha256:6dcbc923815b4d2eb83ba74c06d480731807fa9c46f27f43ec38938500dedf0a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 655,
+          "text/digest": "sha256:b0d5eb94a2db9b6ab53c5394ac67d2f61417c9bac97444f6d2c1c554b3bb6f0b"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.5",
+      "section": "art-12",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 659,
+          "text/digest": "sha256:58b39fba76531fb303cc3a5d44d0325ba6c1fdc2bbdf06c0fb0cdbb5a8e3da98"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 658,
+          "text/digest": "sha256:55b0d36c19ea2abdfd6653b0bcdaf35bc6fc1ddca4d96b7ad5c84b759b16adaa"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.6",
+      "section": "art-12",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 662,
+          "text/digest": "sha256:0c2566159957284658a0c69164a44029d52218cc456fa1b6fb14daf918b2e868"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 662,
+          "text/digest": "sha256:36a8d646e27657cbc430a02f4bc79cef4993fe7b38cafef4b41d5b99cb9968ab"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.7",
+      "section": "art-12",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 666,
+          "text/digest": "sha256:a1c23e1760622a89a5e2a555f869ea0bc62ad97875ace81aee2e9d4050fa0e15"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 667,
+          "text/digest": "sha256:be51c00c5c0a3660e1dcb58abc5746dfd606d96f8e34916b0c3eeb86775fd823"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.8",
+      "section": "art-12",
+      "paragraph": "8",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 671,
+          "text/digest": "sha256:cef343fd9e027cd576cd6e4f6cb960bef86ba74b148b130c582a2067c565ca62"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 672,
+          "text/digest": "sha256:7a17b0d9dd1b1689ad54f745a2a3b3cbf3384d9e0f6d6e71720755d4baa04055"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.9",
+      "section": "art-12",
+      "paragraph": "9",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 674,
+          "text/digest": "sha256:657eeb23ed34f3e8b633513140dd6d2ed072bd1aee6e5ab9db1f8f92a3b0343f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 675,
+          "text/digest": "sha256:87349cd7b78b17d0120c3f8d8dc53dd5f498223cee99560ca00928d41c60de30"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.10",
+      "section": "art-12",
+      "paragraph": "10",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 677,
+          "text/digest": "sha256:e1afd26a45a8f4d965a8ea02ea67975c3d7872c83822815864d4d4efade8effb"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 678,
+          "text/digest": "sha256:4159bc4d5c317b626405c2cd3dec182ea245034cb62356a57665613c7f0319af"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.11",
+      "section": "art-12",
+      "paragraph": "11",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 681,
+          "text/digest": "sha256:1db222cbb9ce33638c183df322d60b91e91b035c6ab56a1880d1fe50a7351652"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 682,
+          "text/digest": "sha256:56a053226bd50a797941ebdaa93254a739d5b25b04138ddd293a22df72ccaf7f"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.12",
+      "section": "art-12",
+      "paragraph": "12",
+      "normative/keywords": [
+        "prohibition",
+        "requirement"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 685,
+          "text/digest": "sha256:b630a92f1b633dd32e757eb67b06c176037a31cd4f50bd99f52a8d3c3f4da74b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 686,
+          "text/digest": "sha256:a358e8e60f201724ae2dfa30d8510a5389b74da0ce2ef6ca434a0215f9128034"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.13",
+      "section": "art-12",
+      "paragraph": "13",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 692,
+          "text/digest": "sha256:91eef10f8c02e43ee67170b9079a4755379c98a52d240def98c46f5668c3907f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 693,
+          "text/digest": "sha256:dfba9c70fc147cecfcfb7348b22643a312718d443e9c4fac3d48b1179b2b15a0"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.14",
+      "section": "art-12",
+      "paragraph": "14",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 697,
+          "text/digest": "sha256:c4f50a0513898b74f7e8a6be0717e6d62c8c4c1c7bf8e9072465491879c41c2f"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 698,
+          "text/digest": "sha256:45cd834eb2f01f848448046fe37249c680830447c9a54b4ba1dee51989b95adc"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.15",
+      "section": "art-12",
+      "paragraph": "15",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 702,
+          "text/digest": "sha256:fef9d4f5077dd4e31992dd62ac39e892d4bdb2862ebf90f3a9f15cc5bb887ce9"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 703,
+          "text/digest": "sha256:e2747da7079b57a7cdd97f60a351d28ef681db8a79ee3870026885a99d8b72e3"
+        }
+      }
+    },
+    {
+      "id": "const:art-12.16",
+      "section": "art-12",
+      "paragraph": "16",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XII. Wspólnota, autorstwo i ekonomia wzajemności",
+          "line": 705,
+          "text/digest": "sha256:ea703eacab868e90a913e234ad88e76ea734595fcc99dd467ec7fd3d3de1a54b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XII. Community, Authorship, and an Economy of Reciprocity",
+          "line": 706,
+          "text/digest": "sha256:fdd0dc781f45eb95e20e73a609adf2a950de36ac346573ea339053c1c8d80a8a"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.1",
+      "section": "art-13",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 713,
+          "text/digest": "sha256:bef1ad24eb8b8d8903602ef5f5dbb2802e3e31164af2747292841c4f3481978a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 714,
+          "text/digest": "sha256:a3b46c3fa07e6a529e75281a8757bc7af5981dce997f6bd6c414d92244a8be38"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.2",
+      "section": "art-13",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 716,
+          "text/digest": "sha256:a0325528cefb1ba323f60611169f9c9023bf0087c83f7cfba34af7a51071d585"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 718,
+          "text/digest": "sha256:3c69c04d57726b2f51242e7a93e0c0c4355c2a8db00999f829b1f825a80cc551"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.3",
+      "section": "art-13",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 719,
+          "text/digest": "sha256:97b889c28cdefc5a15f204c18793e7c508877538d7de0fb4cfcd46bf7aa52121"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 721,
+          "text/digest": "sha256:6f5b389167831eb75d8c8865338159de8821cba0d7b1438f091e021dd1c4f35f"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.4",
+      "section": "art-13",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 723,
+          "text/digest": "sha256:39f70760d9a50df9b59af79eee597cd141c346f46ce9a512ebbe6de4cb91acba"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 725,
+          "text/digest": "sha256:080707599389a14eacac397dfc4de407ea44f30d7f9639b500e915afaf6cf8f8"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.5",
+      "section": "art-13",
+      "paragraph": "5",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 726,
+          "text/digest": "sha256:6c2c8a8872f878381e4f87a30b63b74acc69732773ebad5cd7173b2b62086001"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 728,
+          "text/digest": "sha256:046b194522430a0dc2ec8440a659ce4f6e640fd5a812eb14d39a566d28c542e7"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.6",
+      "section": "art-13",
+      "paragraph": "6",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 729,
+          "text/digest": "sha256:d4742f59f1e85b2c5c967fa8e598cdc0e7d416cb46092a1bd1e704ec70adb9c2"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 731,
+          "text/digest": "sha256:cbe504f9a4f8a661d353cb4ffbf4c1049231a119428377bf145422e187d263ce"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.7",
+      "section": "art-13",
+      "paragraph": "7",
+      "normative/keywords": [
+        "permission",
+        "prohibition"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 732,
+          "text/digest": "sha256:32192098333f1fa50fdc86c5cc53b378092eecde15e147b4ef47d39121907ed1"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 734,
+          "text/digest": "sha256:5494304aaf46f6ae520bdbe2f1b53fd32740d8ef9c78d3763dc1d9e4bb8ec002"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.8",
+      "section": "art-13",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 738,
+          "text/digest": "sha256:aa4b3e3d813f9c4a8919ab5f4d5e22303d1eb3a3e655b99a2906cac8dfa2be5a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 740,
+          "text/digest": "sha256:04595779890c7f97ae9f30af801b7c6984be77757d29710ab8fc236437a9a9de"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.9",
+      "section": "art-13",
+      "paragraph": "9",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 743,
+          "text/digest": "sha256:96089cf8e6283605b7cc5e958bf0a55002465e171897847379b5903dbfb5b8c5"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 746,
+          "text/digest": "sha256:f3cd3593651c868b73442d1fa201d1aaae3a7a88c760c69576839b60a6ff78ba"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.10",
+      "section": "art-13",
+      "paragraph": "10",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 747,
+          "text/digest": "sha256:55d2d8009a88bd399d8cbf5917e1c5edfdb915927cfffbf82f96afcab48f222b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 750,
+          "text/digest": "sha256:38aa321ff1991e640698e6015274f5e69bc0adfb46509fb0c56da4c502d9af24"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.11",
+      "section": "art-13",
+      "paragraph": "11",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 751,
+          "text/digest": "sha256:bfddc6b4d0410d08495273dfd3485c5526c7e80248b4cbcea21f9f524f2ed035"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 754,
+          "text/digest": "sha256:f36348ddbce4e9f9d31f7e1d66697089e6499ffe968e71086513f91beaad4bb6"
+        }
+      }
+    },
+    {
+      "id": "const:art-13.12",
+      "section": "art-13",
+      "paragraph": "12",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIII. Założyciele, okres założycielski, sukcesja i odporność na kult",
+          "line": 755,
+          "text/digest": "sha256:c382447c65310dfaa0bb0da572337f000191ea3d2fbd06ca31aa0062c91511ce"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIII. Founders, Founding Period, Succession, and Resistance to Cult Formation",
+          "line": 758,
+          "text/digest": "sha256:80a61d0855d616d993120e015a9fc50051eb72581ecd6e670e9a65108ee8ca36"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.1",
+      "section": "art-14",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": true,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 762,
+          "text/digest": "sha256:6811b8c57673e03eba703f514118e6e5f9e683c62af6e82355fe9ced669af4b2"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 765,
+          "text/digest": "sha256:8b91845218f7b783c45070fae2efd2432b7748bb8d2f59550fbd56427965f7ee"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.2",
+      "section": "art-14",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 770,
+          "text/digest": "sha256:368375cf22096bd788d18b8700894b04556ca6b4c9b21f6e92b25cea45fa30a3"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 773,
+          "text/digest": "sha256:4d9eb57f7a0bd1b13ef7ef59ecbd6f99f747684539d9756ed829283c88bff53d"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.3",
+      "section": "art-14",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 773,
+          "text/digest": "sha256:201ea95075353fc850f83604861a98095541e9cc161dbf9a9e53e69b312e9212"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 776,
+          "text/digest": "sha256:7adf8d0dddc66f360089414a5d0e0e233e67d14688447c60b3c1b715664eee36"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.4",
+      "section": "art-14",
+      "paragraph": "4",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 779,
+          "text/digest": "sha256:23d8989e680a9537e0654558a1c31bbe831291d97cb21c6c8d8bc650321e6ea8"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 782,
+          "text/digest": "sha256:888b61dda4cf94746f5c0c04586a7af26f9768699a8e9d0222d2f845ecc05bfc"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.5",
+      "section": "art-14",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 782,
+          "text/digest": "sha256:a5191933026435e504e31d032fe558055055f6e94cba836f4ab13573c31ed957"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 785,
+          "text/digest": "sha256:1363b93ab2598032c6903c1cd8113016823fa2c68d388679ad5b5a758e224b58"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.6",
+      "section": "art-14",
+      "paragraph": "6",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 786,
+          "text/digest": "sha256:929a7499be1c397f674119b2fa36a60c8fc03e450953c6bf5a8c4b8543a985de"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 789,
+          "text/digest": "sha256:0263e16884cc2ec1eba7dbad8899b35aa6842fb82b48d83a978877eb1a34e653"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.7",
+      "section": "art-14",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 789,
+          "text/digest": "sha256:fe9261b95bb9cf0087a66753eddf58e2a08ee9f4025537a2d0e4eb0f7353189a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 792,
+          "text/digest": "sha256:e9c0d276271a67e8c61dcb64474e079e12aef83262d63ff1eac6ee5fff3bc9bc"
+        }
+      }
+    },
+    {
+      "id": "const:art-14.8",
+      "section": "art-14",
+      "paragraph": "8",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XIV. Konflikty wartości i wyjątki",
+          "line": 791,
+          "text/digest": "sha256:198ca3f006f2f3d84797f328fdda12902e5270f68a9391ac6ef5946a022b63d2"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XIV. Value Conflicts and Exceptions",
+          "line": 795,
+          "text/digest": "sha256:157b6916db17ddbb787bd829220a265a9bf59909b9ad810079c55de80c5eb6a1"
+        }
+      }
+    },
+    {
+      "id": "const:art-15.1",
+      "section": "art-15",
+      "paragraph": "1",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła",
+          "line": 800,
+          "text/digest": "sha256:474e736ca5cfef6e1ac9619aa5c5613c6cec7a603547b338e254931ecd0a21ad"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XV. Swarm Citizenship: Rights and Duties of the Node",
+          "line": 803,
+          "text/digest": "sha256:80244dd6f79e786de7bb577e31951d5b799d210a0cb0ed3a357efb35b22909bc"
+        }
+      }
+    },
+    {
+      "id": "const:art-15.2",
+      "section": "art-15",
+      "paragraph": "2",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła",
+          "line": 802,
+          "text/digest": "sha256:464898e735fe682a9882b4d8e8fddfdd74e3b7bdc98e3f37c5d8b331aacd9636"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XV. Swarm Citizenship: Rights and Duties of the Node",
+          "line": 805,
+          "text/digest": "sha256:f84a5e268ba82ce17e313dfe70ce11250a7773a6207b5ee105eeab7814fafb55"
+        }
+      }
+    },
+    {
+      "id": "const:art-15.3",
+      "section": "art-15",
+      "paragraph": "3",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła",
+          "line": 805,
+          "text/digest": "sha256:431e45ebcedd9a753eba5c32b8a0530674401a654142909b7f89669f0103b66b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XV. Swarm Citizenship: Rights and Duties of the Node",
+          "line": 808,
+          "text/digest": "sha256:8b8227719e056baf7b0782200085ce0c2d581ac6a956a329417b686e795abab6"
+        }
+      }
+    },
+    {
+      "id": "const:art-15.4",
+      "section": "art-15",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła",
+          "line": 812,
+          "text/digest": "sha256:0c6592fc535fd5eb875772a2c668aec3302c85787664813dd5343e30413f6023"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XV. Swarm Citizenship: Rights and Duties of the Node",
+          "line": 815,
+          "text/digest": "sha256:af95be4b20bf117cb99417dd7f9e1ba20103c0735e83915f998aac4cb99bbe4c"
+        }
+      }
+    },
+    {
+      "id": "const:art-15.5",
+      "section": "art-15",
+      "paragraph": "5",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła",
+          "line": 816,
+          "text/digest": "sha256:076c7120ec86f4add494c0dd0a3056a64a1702b9ea10e78b30959d1b9f09eb2e"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XV. Swarm Citizenship: Rights and Duties of the Node",
+          "line": 818,
+          "text/digest": "sha256:1e84ef27324adbe2383f7056e132fd42dfd72eecb9cab33f2105294d39e7afde"
+        }
+      }
+    },
+    {
+      "id": "const:art-15.6",
+      "section": "art-15",
+      "paragraph": "6",
+      "normative/keywords": [
+        "permission",
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XV. Obywatelstwo roju: prawa i obowiązki węzła",
+          "line": 819,
+          "text/digest": "sha256:3642c813a50cbbda67eb838f09fdd7afbfafa46f50fe7281aa08668d8afad3f3"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XV. Swarm Citizenship: Rights and Duties of the Node",
+          "line": 821,
+          "text/digest": "sha256:58c471adce76a14a5b78d609d43fba4d4b7f650c5d13bdac50cebf6643e93727"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.1",
+      "section": "art-16",
+      "paragraph": "1",
+      "normative/keywords": [
+        "permission",
+        "prohibition",
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 828,
+          "text/digest": "sha256:fae1620d7311dabd596357c5f89adbe97b4d61151296c81bc1ee41dfb15e90d1"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 830,
+          "text/digest": "sha256:65cce4893152f33aa9bf66857b8a08c1c19737f8837262fb037ffabfce70b44a"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.2",
+      "section": "art-16",
+      "paragraph": "2",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 832,
+          "text/digest": "sha256:defe4f33726656f5b93aa26cd5abf16a8e99457d8fc13e3b3f75b921771f4b1b"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 834,
+          "text/digest": "sha256:4f7686943f18c3dedc2a59aa304a43e4bfa67bbe733512ae195be6e8a4e43ab3"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.3",
+      "section": "art-16",
+      "paragraph": "3",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 836,
+          "text/digest": "sha256:42dde89cfcf47011529a86fbb97e02a420658d7a46fb76783b9e0aace7d3c468"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 837,
+          "text/digest": "sha256:701aa06b2b357f8355703a97995b22c521c1c62a73be55bdbfeeae13210ed577"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.4",
+      "section": "art-16",
+      "paragraph": "4",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 840,
+          "text/digest": "sha256:8fe2fddfa07294b768e9dac1e74ccd669506ed1be4100fae1a0223043f954ae4"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 842,
+          "text/digest": "sha256:1359d9bc839a33d5e1194839b3598d5c7a829cb40438b32b1f1d138135b57b29"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.5",
+      "section": "art-16",
+      "paragraph": "5",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 844,
+          "text/digest": "sha256:24635bc37da14e1e2033a20be80a52b9f9c1ce314ad49ae227eef4c85b7c77df"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 845,
+          "text/digest": "sha256:a711795a82ed14229a5ddb891badecd726fe699de5ab688e0908a044620c8ad5"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.6",
+      "section": "art-16",
+      "paragraph": "6",
+      "normative/keywords": [
+        "requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 847,
+          "text/digest": "sha256:8e7fc9752dca2a1452c88e15ea9545ed98cf80bff630d55d50d645b7b81bfd2a"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 848,
+          "text/digest": "sha256:e07625e5752dba242502844cc600fd670b8d7d9666df0ef8c66e91989f03da8d"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.7",
+      "section": "art-16",
+      "paragraph": "7",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 853,
+          "text/digest": "sha256:77f3d12fc764d138d285ccd761b62511621306ae2b16b187b42705c7f448aef5"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 854,
+          "text/digest": "sha256:f88b243fa4cf300214daf97a8d88dfa97a80934e156775967f9c36aa927b55d0"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.8",
+      "section": "art-16",
+      "paragraph": "8",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 856,
+          "text/digest": "sha256:05f2b383c14bb7eda22f022aa576e0ad95065de97af40fc1a587922d5b384bc0"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 857,
+          "text/digest": "sha256:5acf593a4d642fe34ece73f06bc5901a1b4102a7b62525964c656caf15f5e75a"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.9",
+      "section": "art-16",
+      "paragraph": "9",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 860,
+          "text/digest": "sha256:9ceb362d59b644052b14a0b7ba0d6834fd997a5b328ad908f9259166f0ac6033"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 862,
+          "text/digest": "sha256:d6a0e9f7e692dc881a7267612a796e3e9b93d266519760e9cf4cde768b2eef70"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.10",
+      "section": "art-16",
+      "paragraph": "10",
+      "normative/keywords": [
+        "prohibition"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 863,
+          "text/digest": "sha256:3bdb5ce65aa996fe8a7a810541d60281254a3cdd6ecd1f5ec1e1c2d55ea94699"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 865,
+          "text/digest": "sha256:1299b6fdacc8c3c08abc9a4b69d66e226f20dadbbbd9a8dc1427cc2a6a8edf3e"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.11",
+      "section": "art-16",
+      "paragraph": "11",
+      "normative/keywords": [
+        "permission"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 866,
+          "text/digest": "sha256:99714b639775f5b556b63f059bbda5fd23413d98d52017a72e5c98b2cb50dc17"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 868,
+          "text/digest": "sha256:45ef3b0a273bb0e5a889f927ba491b294dd4bf69525d53e662c17ee7b4d7abe7"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.12",
+      "section": "art-16",
+      "paragraph": "12",
+      "normative/keywords": [
+        "strong-requirement"
+      ],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 871,
+          "text/digest": "sha256:a39d11f36feeeb5889cbf053cac98305b64831a19614047162429dba743c5b85"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 873,
+          "text/digest": "sha256:c885f577be75d86b99b076bdec7e9b52585716d9f2ee59058415b691b23bc263"
+        }
+      }
+    },
+    {
+      "id": "const:art-16.13",
+      "section": "art-16",
+      "paragraph": "13",
+      "normative/keywords": [],
+      "core": false,
+      "language/locations": {
+        "pl": {
+          "path": "doc/normative/40-constitution/pl/CONSTITUTION.pl.md",
+          "heading": "Artykuł XVI. Egzekwowanie, audyt, naprawa i zmiana konstytucji",
+          "line": 875,
+          "text/digest": "sha256:f7cdf915af2c4c61c2a8f8888af4058f1fd31cbbbeeeae11c1c2d24798957c1c"
+        },
+        "en": {
+          "path": "doc/normative/40-constitution/en/CONSTITUTION.en.md",
+          "heading": "Article XVI. Enforcement, Audit, Repair, and Constitutional Change",
+          "line": 877,
+          "text/digest": "sha256:002315d8f928eabef549acca503af5387368b702614ec70149b719df81415bd9"
+        }
+      }
+    }
+  ]
+}

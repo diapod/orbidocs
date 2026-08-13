@@ -15,7 +15,7 @@
 
 | Prawo | Co oznacza | Konstytucja |
 | :--- | :--- | :--- |
-| **Prawo do wyjścia** | Możesz opuścić federację w dowolnym momencie, bez szantażu, bez utraty dostępu do własnych danych, bez ukrytych kar. | Art. III.4 |
+| **Prawo do wyjścia** | Możesz opuścić federację w dowolnym momencie, bez szantażu, bez utraty dostępu do własnych danych i bez ukrytych kar. Wyjście nie usuwa jednak dowodów ani nie umarza sprawy wszczętej przed jego skutkiem. | Art. III.4, X.4 |
 | **Prawo do prywatności** | Telemetria jest domyślnie wyłączona. Twoje dane są lokalne. Ujawnianie jest selektywne i co do zasady wymaga Twojej zgody, z wyjątkiem proceduralnym dla trwających lub ciężkich nadużyć zgodnie z Art. III.9 i Art. X. | Art. III.7, III.8, III.9, Art. X |
 | **Prawo do wglądu** | Możesz audytować interakcje swoich agentów, ślady decyzji, historię działań i inne przyczyny zmian stanu przypisanych do Twojego węzła albo nymu. | Art. XV.2, XV.3 |
 | **Prawo do podstawy rozliczenia** | Możesz poznać przyczynę istotnego zasilenia, obciążenia, korekty, wstrzymania lub wygaśnięcia środków, kredytów, uznań i podobnych instrumentów przypisanych do Twojego węzła albo nymu: typ zdarzenia, zastosowaną regułę, status wyniku i ścieżkę odwołania. Prawo to nie oznacza automatycznego ujawnienia cudzej tożsamości ani danych wrażliwych. | Art. XV.3 |
@@ -23,7 +23,9 @@
 | **Prawo do bezpieczeństwa** | System chroni Cię przed nękaniem, ujawnianiem danych tożsamościowych (ang. doxxingiem), sabotażem i ekonomicznym wymuszaniem. | Art. XV.2 |
 | **Prawo do lokalnej autonomii** | Możesz prowadzić węzeł "w ciszy": prywatnie, lokalnie, bez uczestnictwa w przestrzeniach publicznych. | Art. III.6 |
 | **Prawo do odgałęzienia (ang. fork)** | Możesz skopiować specyfikacje, polityki i otwarte komponenty bez proszenia o zgodę centrum. | Art. III.5 |
-| **Prawo do suwerenności danych** | Jesteś właścicielem swoich danych, polityk, agentów i lokalnych przestrzeni pamięci. Eksport w otwartych formatach jest gwarantowany. | Art. III.1, III.3 |
+| **Prawo do osobistej sfery sprawczości** | Zachowujesz pierwszeństwo kontroli i sprawczego użytkowania swoich danych, kluczy, polityk, agentów, narzędzi, środowisk pracy i lokalnej pamięci. Eksport w otwartych formatach jest gwarantowany. | Art. III.1, III.3 |
+| **Prawo do subsydiarności sprawczości** | Wyższa warstwa ma działać pomocniczo i nie zastępować tego, co Ty lub mała wspólnota możecie bezpiecznie i odpowiedzialnie kontrolować. Każde ograniczenie wymaga jawnej podstawy, proporcjonalności, śladu, odwołania i prawa do wyjścia. | Art. III.10 |
+| **Podłoga praw wobec operatora** | Operator może kształtować lokalną politykę węzła, lecz nie może zejść poniżej konstytucyjnych praw jego użytkowników. Masz prawo zobaczyć efektywną politykę, źródło ograniczenia i ścieżkę odwołania. | Art. III.11, XV.3 |
 
 ## Jeśli zaczynasz od poświadczenia `phone`
 
@@ -78,11 +80,14 @@ odwracalności, proporcjonalności i jawności (Art. XIV.2).
 ## Egzekwowanie jest stopniowalne
 
 ```text
-Ostrzeżenie -> Ograniczenie uprawnień -> Kwarantanna reputacyjna -> Odcięcie trasowania (ang. routingu)
+Ostrzeżenie -> Ograniczenie -> Kwarantanna -> Zawieszenie roli
+  -> Izolacja trasowania -> Blokada federacyjna
 ```
 
-Każda sankcja zostawia ślad, daje możliwość odwołania i otwiera ścieżkę powrotu po
-naprawie (Art. XVI.1-2).
+Każda sankcja ma zakres powierzchni, podstawę dowodową, autora, termin przeglądu lub
+wygaśnięcia, możliwość odwołania i ścieżkę powrotu po naprawie. Sankcja nie odbiera
+minimum `UBC`; w razie ryzyka utrzymuje się izolowany korytarz ochronny (Art. X.10,
+XII.12, XVI.1-2).
 
 ---
 
@@ -139,7 +144,7 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 
 | # | Sytuacja | Artykuły | Zasada / Działanie |
 | :--- | :--- | :--- | :--- |
-| 13 | Węzeł kwestionuje decyzję reputacyjną | XV.6, XVI.2 | Kontr-dowód lub wykazanie błędu proceduralnego; prawo do odwołania |
+| 13 | Węzeł kwestionuje decyzję reputacyjną | XV.6, XVI.2 | Kontr-dowód lub wykazanie błędu proceduralnego; niezależnie od tego działają zanikanie, naprawa i reintegracja |
 | 14 | Brak ujawnienia konfliktu interesów | VII.6 | Domniemanie konfliktu interesów przy braku danych (COI-by-default): brak deklaracji = brak danych, nie brak konfliktu |
 | 15 | Osoba pełni jednocześnie rolę strony i arbitra | VII.3 | Uprawnienia krytyczne MUSZĄ być rozdzielone między role |
 | 16 | Decyzja o wysokiej stawce | VII.9 | Współpodpis (ang. multisig) + niezależny zespół kontrtestujący (ang. red-team) |
@@ -160,8 +165,8 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | 21 | Ktoś chce zgłosić nadużycie anonimowo | X.1, X.2 | Anonimowość domyślna, minimalizacja metadanych, wstępna kategoryzacja (ang. triage) sygnałów |
 | 22 | Sygnalista narażony na odwet | X.3 | Opieka roju jest częścią infrastruktury, nie gestem moralnym |
 | 23 | Pojawia się wiarygodny sygnał trwającego lub ukrywanego ciężkiego nadużycia | III.9, X.4-X.8 | Brak ogólnej lustracji bez sygnału teraźniejszego; po spełnieniu progu możliwe badanie pełnej historii sprawy, sankcje infrastrukturalne i procedura odwoławcza |
-| 24 | Rozważana publikacja materiału o wysokiej stawce | X.10 | Kontradyktoryjny przegląd (ang. adversarial review), progi dowodowe, redakcja danych wrażliwych |
-| 25 | Eskalacja działań naprawczych | X.9 | Schodkowo: weryfikacja -> korekta -> zgłoszenie -> audyt -> publikacja |
+| 24 | Rozważana publikacja materiału o wysokiej stawce | X.12 | Kontradyktoryjny przegląd (ang. adversarial review), progi dowodowe, redakcja danych wrażliwych |
+| 25 | Eskalacja rozpoznania sprawy | X.11 | Osobna oś: weryfikacja -> korekta procedury -> zgłoszenie -> audyt -> publikacja; nie jest drabiną sankcji |
 
 ## Zmiany i wyjątki
 
@@ -169,5 +174,5 @@ Konstytucji, ale pozwala szybko znaleźć właściwą normę.
 | :--- | :--- | :--- | :--- |
 | 26 | Ktoś proponuje wyjątek od reguły | XIV.3, XIV.4 | Wyjątek wymaga: policy-id, reason, risk-level, expiry, owner, stanu bezpiecznego domknięcia (ang. fail-closed) |
 | 27 | Wyjątek generuje sygnały krzywdy lub nadużycia | XIV.5 | Automatyczne zawieszenie wyjątku do wyjaśnienia |
-| 28 | Propozycja zmiany Konstytucji | XIII.7-XIII.11, XVI.8, XVI.9, XVI.13 | Jawne uzasadnienie, analiza skutków, odwracalność; w okresie założycielskim decyzja założycieli ma moc rozstrzygającą |
+| 28 | Propozycja zmiany Konstytucji | XIII.7-XIII.12, XVI.8, XVI.9, XVI.13 | Jawne uzasadnienie, analiza skutków i odwracalność; wpływ założycieli wygasa automatycznie i nie obejmuje obejścia rdzenia |
 | 29 | Polityka lokalna próbuje obejść Konstytucję | XVI.10 | Niedopuszczalne bez formalnej zmiany konstytucyjnej |

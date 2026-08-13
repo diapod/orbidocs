@@ -7,7 +7,7 @@
 | `policy-id` | `DIA-UBC-001` |
 | `type` | Implementing act (Level 3 of the normative hierarchy) |
 | `version` | `0.1.0-draft` |
-| `basis` | Art. XII.11-13 of the DIA Constitution; `SWARM-ECONOMY-SUFFICIENCY.en.md`; `ROOT-IDENTITY-AND-NYMS.en.md`; `IDENTITY-UNSEALING-BOARD.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md` |
+| `basis` | Art. XII.12-14 of the DIA Constitution; `SWARM-ECONOMY-SUFFICIENCY.en.md`; `ROOT-IDENTITY-AND-NYMS.en.md`; `IDENTITY-UNSEALING-BOARD.en.md`; `FIP-MEMBERSHIP-AND-QUORUM.en.md` |
 | `mechanism status` | the minimal model of PoP, UBC allocation, and settlement is normative; limit profiles are concretized by `UBC-LIMIT-PROFILES.en.md`; cross-federation recognition may run through federations or the minimal `FIP` bridge/registry |
 
 ---
@@ -40,18 +40,25 @@ This document operationalizes those obligations.
     operator.
 4. Eligibility for `UBC` is grounded in a constitutionally admissible
     `Proof-of-Personhood`, by default without full de-anonymization.
-5. A local federation MAY grant a broader `UBC` profile, but it may not go below
+5. A local federation MAY grant a broader `UBC` profile, but it MUST NOT go below
     the minimum defined in this document.
 6. Cross-federation recognition of `Proof-of-Personhood` is limited by default and
-    may run through federations or the minimal `FIP` bridge/registry:
+    MAY run through federations or the minimal `FIP` bridge/registry:
     - emergency modes MUST be available without limit,
     - communication MUST be available under a limited profile,
     - care modes MUST be available under a limited profile.
 7. Federations MAY broaden cross-federation recognition and raise limits, and the
-    `FIP` bridge MAY guarantee only the minimum portability profile; neither path may
-    narrow recognition below the above minimum.
-8. `UBC` may not be used as a hidden path to constitutional advantage,
-    privileged high-stakes routing, or bypass of reputation requirements.
+    `FIP` bridge MAY guarantee only the minimum portability profile; each path MUST
+    NOT narrow recognition below the above minimum.
+8. `UBC` MUST NOT be used as a hidden path to governance advantage, privileged
+    high-stakes routing, or bypass of reputation requirements.
+9. An infrastructure sanction MAY restrict ordinary influence surfaces, public
+    routing, or high-stakes access, but MUST NOT remove the `UBC` minimum. If the
+    ordinary path is an attack vector, the system MUST retain an isolated,
+    functionally equivalent corridor for emergency access, orientation, minimum
+    communication, and care modes. The corridor MAY be subject to proportionate
+    limits, monitoring, and protective redaction, provided it does not become merely
+    nominal access.
 
 ---
 
@@ -243,15 +250,17 @@ The system does not satisfy this policy if it:
 4. conditions access on humiliation, self-abasement, emotional dependency, or
     arbitrary operator favor,
 5. makes the basic allocation depend on reputation, balance, or capital position,
-6. uses `UBC` as a hidden channel for buying constitutional advantage,
+6. uses `UBC` as a hidden channel for buying governance advantage,
 7. recognizes cross-federation PoP only nominally, without a real minimum of
-    communication and care/support.
+    communication and care,
+8. a sanction removes the `UBC` minimum or blocks the ordinary route without
+    providing an isolated, functionally equivalent corridor.
 
 ---
 
 ## 9. Relation to Other Documents
 
-- **Constitution Art. XII.11-13**: PoP, non-withdrawable minimum compute, and the ban on hidden advantage.
+- **Constitution Art. XII.12-14**: PoP, non-withdrawable minimum compute, and the ban on hidden advantage.
 - **`SWARM-ECONOMY-SUFFICIENCY.en.md`**: shared model of funding, surpluses, and concentration brakes.
 - **`ROOT-IDENTITY-AND-NYMS.en.md`**: identity-anchoring layer without default publicity.
 - **`IDENTITY-UNSEALING-BOARD.en.md`**: federationally recognized strong confirmation mechanisms without full identity publication.

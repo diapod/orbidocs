@@ -14,9 +14,10 @@
 
 ## 1. Purpose of the Document
 
-The Constitution grants the user a right to the raw signal and requires that every
-AI transformation of style, tone, structure, or level of formalization leave a
-meta-marker. What is still missing is an implementing document that defines:
+The Constitution grants the user a right to the raw signal and requires every AI
+transformation, including translation, summarization, aggregation, or redaction of
+a disclosed trace, to leave a meta-marker. What is still missing is an implementing
+document that defines:
 
 - the modes of work on an utterance,
 - when transformation is allowed,
@@ -67,6 +68,7 @@ Transformation is permissible when the user explicitly asks for:
 - a summary,
 - a task list,
 - translation,
+- aggregation of multiple signals,
 - a tone change,
 - a formality change,
 - smoothing or stylistic editing,
@@ -92,6 +94,10 @@ are permissible:
 
 Such an operation should be as narrow as possible and use mode `redacted`, not
 `transformed`, unless an additional style transformation actually occurs.
+Redaction of a disclosed trace is a transformation and MUST retain a reference to
+the original trace under the applicable audit policy. Aggregation of multiple
+signals MUST preserve component provenance or explicitly mark its loss; it MUST NOT
+present a synthesis as one person's unprocessed utterance.
 
 ### 4.4. Procedural Exception
 
@@ -128,11 +134,13 @@ signal_marker:
 - `structure_extraction`,
 - `summarization`,
 - `translation`,
+- `aggregation`,
 - `tone_shift`,
 - `formality_shift`,
 - `style_polish`,
 - `safety_redaction`,
-- `privacy_redaction`.
+- `privacy_redaction`,
+- `trace_redaction`.
 
 ---
 
@@ -169,7 +177,9 @@ The system is non-compliant with this policy if any of the following occurs:
 3. it uses mode `structured` to conceal a real change of tone or style,
 4. it leaves no `basis_ref` for a transformation that is not `raw`,
 5. it treats the raw form of expression as a default reason to lower the user's
-    rights or credibility.
+    rights or credibility,
+6. it presents an aggregate of multiple signals as one person's raw utterance or
+    redacts a disclosed trace without marking the transformation.
 
 ---
 
@@ -198,4 +208,3 @@ drift toward paternalism or masking of reality.
 - **Constitution Art. III.1-4**: the user retains control over data and policies.
 - **Constitution Art. XI.7**: the filter may not operate as hidden censorship.
 - **`EXCEPTION-POLICY.en.md`**: procedural departures and protective redactions.
-

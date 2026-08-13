@@ -55,7 +55,17 @@ exception:
   scope: "[jakie role, zasoby, dane lub procedury obejmuje wyjątek]"
   reason: "[uzasadnienie biznesowe / etyczne / bezpieczeństwa]"
   risk_level: "medium" # low | medium | high | critical
-  constitutional_basis: ["XIV.3", "XIV.4"]
+  constitutional_basis: ["const:art-14.3", "const:art-14.4"]
+  tests/applied:
+    reversibility:
+      outcome: "pass" # pass | fail | not-applicable
+      rationale: "[wynik i uzasadnienie testu odwracalności]"
+    proportionality:
+      outcome: "pass"
+      rationale: "[wynik i uzasadnienie testu proporcjonalności]"
+    transparency:
+      outcome: "pass"
+      rationale: "[wynik i uzasadnienie testu jawności]"
   created_at: "[timestamp]"
   expiry: "[timestamp]"
   fail_closed_target: "[stan powrotu]"
@@ -69,6 +79,11 @@ exception:
 
 Pola `approvals`, `monitoring.metrics` i `rollback_conditions` nie mogą być puste
 dla wyjątków o stawce `high` lub `critical`.
+
+Pole `tests/applied` MUSI zawierać wynik i niepuste uzasadnienie każdego z trzech
+testów z `const:art-14.2`. Wyjątek o statusie `active` NIE MOŻE zawierać wyniku `fail`.
+Wynik `not-applicable` wymaga wskazania, dlaczego dany test nie znajduje zastosowania;
+nie jest skrótem zastępującym analizę.
 
 ---
 
@@ -115,11 +130,13 @@ Przykłady:
 ### 5.1. Wyjątek zwykły
 
 1. Inicjator tworzy rekord wyjątku z pełnym modelem danych.
-2. Wyjątek musi być zatwierdzony przez co najmniej dwie role, z których jedna nie
+2. Przed zatwierdzeniem wykonywane i zapisywane są testy odwracalności,
+    proporcjonalności i jawności.
+3. Wyjątek musi być zatwierdzony przez co najmniej dwie role, z których jedna nie
     jest bezpośrednim beneficjentem wyjątku.
-3. Dla wyjątków `high` i `critical` obowiązuje współpodpis (ang. multisig) oraz
+4. Dla wyjątków `high` i `critical` obowiązuje współpodpis (ang. multisig) oraz
     jawne wskazanie metryk monitorowania.
-4. Po zatwierdzeniu wyjątek uzyskuje status `active`.
+5. Po zatwierdzeniu wyjątek uzyskuje status `active`.
 
 ### 5.2. Wyjątek awaryjny
 

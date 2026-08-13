@@ -30,7 +30,7 @@ PDF_SOURCE_PATTERNS ?= \
 PDF_SOURCES := $(sort $(foreach pattern,$(PDF_SOURCE_PATTERNS),$(wildcard $(pattern))))
 PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(PDF_SOURCES))
 
-.PHONY: check-json-syntax check-no-absolute-local-paths check-capability-registry check-mermaid-links check-sync-schema-targets validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
+.PHONY: check-json-syntax check-no-absolute-local-paths check-capability-registry check-constitution check-mermaid-links check-sync-schema-targets validate-schemas sync-schemas pdf one-pdf pdf-list output-clean pdf-clean constitution-docs schema-docs coverage-docs solutions-docs docs-gen site-docs i18n-docs html html-dev html-serve html-dev-serve html-i18n html-i18n-serve
 
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
@@ -40,6 +40,9 @@ check-no-absolute-local-paths:
 
 check-capability-registry:
 	$(PYTHON) ./scripts/check-capability-registry.py
+
+check-constitution:
+	$(PYTHON) ./scripts/check-constitution.py
 
 check-mermaid-links:
 	$(PYTHON) ./scripts/check-mermaid-links.py
@@ -53,6 +56,9 @@ validate-schemas:
 sync-schemas:
 	$(PYTHON) ./scripts/sync-node-schemas.py --node-src "$(NODE_SRC)"
 
+constitution-docs:
+	$(PYTHON) ./scripts/check-constitution.py --write-index
+
 schema-docs:
 	$(PYTHON) ./scripts/generate-schema-docs.py
 
@@ -62,7 +68,7 @@ coverage-docs:
 solutions-docs:
 	$(PYTHON) ./scripts/generate-solution-caps.py
 
-docs-gen: schema-docs coverage-docs solutions-docs
+docs-gen: constitution-docs schema-docs coverage-docs solutions-docs
 
 site-docs: docs-gen check-mermaid-links
 	$(PYTHON) ./scripts/build-site-docs.py

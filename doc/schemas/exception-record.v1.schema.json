@@ -27,6 +27,7 @@
     "reason/summary",
     "risk/level",
     "constitutional/basis",
+    "tests/applied",
     "created/at",
     "expires/at",
     "fail-closed/target",
@@ -123,7 +124,11 @@
         "minLength": 1
       },
       "uniqueItems": true,
-      "description": "References to constitutional or normative clauses justifying the exception."
+      "description": "Stable constitutional clause identifiers or normative references justifying the exception. Constitution references SHOULD use the `const:*` identifiers from `constitution-index.v1.json`."
+    },
+    "tests/applied": {
+      "$ref": "#/$defs/constitutional_tests",
+      "description": "Recorded outcomes and rationales for the reversibility, proportionality, and transparency tests required by Constitution clause `const:art-14.2`."
     },
     "created/at": {
       "type": "string",
@@ -195,6 +200,59 @@
     }
   },
   "$defs": {
+    "test_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "rationale"
+      ],
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "not-applicable"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "active_test_result": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "enum": [
+            "pass",
+            "not-applicable"
+          ]
+        }
+      }
+    },
+    "constitutional_tests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reversibility",
+        "proportionality",
+        "transparency"
+      ],
+      "properties": {
+        "reversibility": {
+          "$ref": "#/$defs/test_result"
+        },
+        "proportionality": {
+          "$ref": "#/$defs/test_result"
+        },
+        "transparency": {
+          "$ref": "#/$defs/test_result"
+        }
+      }
+    },
     "approval": {
       "type": "object",
       "required": [
@@ -542,6 +600,36 @@
           },
           "rollback/conditions": {
             "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "active"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tests/applied": {
+            "type": "object",
+            "properties": {
+              "reversibility": {
+                "$ref": "#/$defs/active_test_result"
+              },
+              "proportionality": {
+                "$ref": "#/$defs/active_test_result"
+              },
+              "transparency": {
+                "$ref": "#/$defs/active_test_result"
+              }
+            }
           }
         }
       }

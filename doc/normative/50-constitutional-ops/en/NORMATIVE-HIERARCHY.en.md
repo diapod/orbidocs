@@ -6,7 +6,7 @@
 | :--- | :--- |
 | `policy-id` | `DIA-NORM-HIER-001` |
 | `type` | Supplement to the Constitution section "Normative Force and Interpretation" |
-| `version` | 0.1.0-draft |
+| `version` | 0.2.0-draft |
 | `author` | DIA / Orbiplex |
 | `date` | 2026-03-10 |
 
@@ -29,20 +29,13 @@ formal procedure for amending the relevant higher level.
 
 ### Level 0 - Non-Negotiable Core
 
-The Constitution articles listed in the entrenchment clause (see:
-`ENTRENCHMENT-CLAUSE.en.md`). Their amendment, suspension, or narrowing
-reinterpretation requires unanimity of all federations participating in the change
-process and independent adversarial review.
-
-The non-negotiable core includes at least:
-
-- Art. I.5 - no operational or financial goal overrides dignity, safety, and the
-  right to exit.
-- Art. II.1-3 - dignity, protection of life, system power passes through the
-  human.
-- Art. III.1-5 - data sovereignty, local-first operation, export, the right to
-  exit, the right to fork.
-- Art. XIV.1 - the default hierarchy of values.
+The clauses identified directly by the Constitution's "Non-Negotiable Core"
+section. The canonical machine-readable list is maintained in
+`doc/normative/40-constitution/constitution-index.v1.json`. Their amendment,
+suspension, or narrowing reinterpretation requires the procedure described in
+`ENTRENCHMENT-CLAUSE.en.md`, including unanimity of all federations participating in
+the amendment process and independent adversarial review. The implementing act
+defines the procedure but MUST NOT change the composition of Level 0.
 
 ### Level 1 - Constitution
 
@@ -53,8 +46,8 @@ for high-stakes changes.
 
 ### Level 2 - Sources of Interpretation
 
-The documents `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`,
-`doc/normative/30-core-values/en/CORE-VALUES.en.md`, and `doc/normative/20-vision/en/VISION.en.md`.
+The documents `doc/normative/30-core-values/en/CORE-VALUES.en.md` and
+`doc/normative/20-vision/en/VISION.en.md`.
 
 They serve to interpret the Constitution, but **do not create new obligations or
 rights** beyond the constitutional framework. Sections in these documents are
@@ -69,6 +62,12 @@ divided into two categories:
 Changing Level 2 documents requires an explicit rationale and a coherence review
 against the Constitution, but **does not require the full constitutional
 amendment procedure**.
+
+`doc/normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md` is explanatory material
+for the genealogy and coherence of values, but it is not an independent Level 2
+source of interpretation and creates no rights, duties, or classifications of
+persons. It may not serve as a worldview, loyalty, membership, identity, or
+reputation test. In case of divergence, the Constitution and Level 2 sources prevail.
 
 ### Level 3 - Implementing Acts
 
@@ -127,8 +126,7 @@ Operational documents with binding force within federations:
   basis
 
 Implementing acts concretize the Constitution and the Sources of Interpretation.
-They may **tighten** requirements (e.g. in `CORP_COMPLIANT` mode), but **may not
-weaken** any higher level.
+They MAY **tighten** requirements but MUST NOT weaken any higher level.
 
 ### Level 4 - Federation Policies
 
@@ -178,9 +176,8 @@ A Level 5 document:
 
 ## 4. Procedure for Tagging Sections in the Sources of Interpretation
 
-Each section of `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`,
-`doc/normative/30-core-values/en/CORE-VALUES.en.md`, and `doc/normative/20-vision/en/VISION.en.md` SHOULD contain in its
-header the tag:
+Each section of `doc/normative/30-core-values/en/CORE-VALUES.en.md` and
+`doc/normative/20-vision/en/VISION.en.md` SHOULD contain in its header the tag:
 
 ```md
 ### Section Name `[value]`

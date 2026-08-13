@@ -73,6 +73,7 @@ jobs:
           make docs-gen
           git diff --exit-code -- \
             doc/COVERAGE.md \
+            doc/normative/40-constitution/constitution-index.v1.json \
             doc/schemas-gen \
             doc/project/60-solutions/CAPABILITY-MATRIX.en.md \
             doc/project/60-solutions/CAPABILITY-MATRIX.pl.md

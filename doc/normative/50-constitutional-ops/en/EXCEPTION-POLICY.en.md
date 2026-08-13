@@ -55,7 +55,17 @@ exception:
   scope: "[which roles, resources, data, or procedures are covered by the exception]"
   reason: "[business / ethical / safety rationale]"
   risk_level: "medium" # low | medium | high | critical
-  constitutional_basis: ["XIV.3", "XIV.4"]
+  constitutional_basis: ["const:art-14.3", "const:art-14.4"]
+  tests/applied:
+    reversibility:
+      outcome: "pass" # pass | fail | not-applicable
+      rationale: "[result and rationale of the reversibility test]"
+    proportionality:
+      outcome: "pass"
+      rationale: "[result and rationale of the proportionality test]"
+    transparency:
+      outcome: "pass"
+      rationale: "[result and rationale of the transparency test]"
   created_at: "[timestamp]"
   expiry: "[timestamp]"
   fail_closed_target: "[return state]"
@@ -69,6 +79,11 @@ exception:
 
 The fields `approvals`, `monitoring.metrics`, and `rollback_conditions` may not be
 empty for exceptions with stakes `high` or `critical`.
+
+The `tests/applied` field MUST contain an outcome and a non-empty rationale for each
+of the three tests from `const:art-14.2`. An exception with status `active` MUST NOT contain
+a `fail` outcome. A `not-applicable` outcome requires an explanation of why the test
+does not apply; it is not a shortcut around analysis.
 
 ---
 
@@ -114,11 +129,13 @@ Examples:
 ### 5.1. Ordinary Exception
 
 1. The initiator creates an exception record with the full data model.
-2. The exception must be approved by at least two roles, one of which is not the
+2. The reversibility, proportionality, and transparency tests are performed and
+    recorded before approval.
+3. The exception must be approved by at least two roles, one of which is not the
     direct beneficiary of the exception.
-3. For `high` and `critical` exceptions, multisig and an explicit indication of
+4. For `high` and `critical` exceptions, multisig and an explicit indication of
     monitoring metrics apply.
-4. After approval, the exception gains the status `active`.
+5. After approval, the exception gains the status `active`.
 
 ### 5.2. Emergency Exception
 

@@ -1200,9 +1200,11 @@ ze sbíhavosti nezávislých svědectví, které se v epistemologii říká
 **konsilience**; je pracovní, iterativní a otevřená korekci a její kvalita se měří
 tím, zda umožňuje lépe jednat, rozumět a předvídat.
 
-Má to ontologický kořen: jestliže se jev vynořuje ze spleti mnoha podmínek – čemu
-říkáme **emergence** – pak se i jistota o něm uzavírá teprve sbíhavostí mnoha
-nezávislých signálů. Úplné odvození z ontologických předpokladů popisuje
+Emergence a konsilience však náleží ke dvěma odlišným osám. To, že se jev vynořuje
+ze spleti mnoha podmínek, logicky neimplikuje potvrzení z více zdrojů. Konsilience
+je samostatnou epistemickou pojistkou, zvláště užitečnou tehdy, když tvrzení závisí
+na mnoha podmínkách nebo má vyvolat vysoce závažný důsledek, pokud jsou signály
+skutečně nezávislé a pouze nereplikují společný zdroj. Toto rozlišení rozvíjí
 [Ontologický základ — Důsledky pro systém zpracování
 informací](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#systemy-zpracovani-informaci).
 

@@ -39,18 +39,24 @@ Niniejszy dokument operacjonalizuje te obowiązki.
     uniżeniem, zależnością emocjonalną ani arbitralną łaską operatora.
 4. Kwalifikacja do `UBC` opiera się na konstytucyjnie dopuszczalnym
     `Proof-of-Personhood`, domyślnie bez pełnej deanonimizacji.
-5. Federacja lokalna MOŻE przyznawać szerszy zakres `UBC`, ale nie może zejść
+5. Federacja lokalna MOŻE przyznawać szerszy zakres `UBC`, ale NIE MOŻE zejść
     poniżej minimum określonego w tym dokumencie.
 6. Uznawanie `Proof-of-Personhood` między federacjami jest domyślnie ograniczone i
-    może odbywać się przez federacje albo minimalny most/rejestr `FIP`:
+    MOŻE odbywać się przez federacje albo minimalny most/rejestr `FIP`:
     - tryby ratunkowe MUSZĄ być dostępne bez limitu,
     - komunikacja MUSI być dostępna w profilu limitowanym,
-    - tryby pomocowe MUSZĄ być dostępne w profilu limitowanym.
+    - tryby opiekuńcze MUSZĄ być dostępne w profilu limitowanym.
 7. Federacje MOGĄ rozszerzać uznawanie trans-federacyjne i podnosić limity, a most
     `FIP` MOŻE gwarantować wyłącznie minimalny profil przenośności; żadna z tych
-    ścieżek nie może zejść poniżej powyższego minimum.
-8. `UBC` nie może być używane jako ukryta ścieżka do przewagi ustrojowej,
+    ścieżek NIE MOŻE zejść poniżej powyższego minimum.
+8. `UBC` NIE MOŻE być używane jako ukryta ścieżka do przewagi ustrojowej,
     priorytetowego routingu wysokiej stawki ani obejścia wymagań reputacyjnych.
+9. Sankcja infrastrukturalna MOŻE ograniczyć zwykłe powierzchnie wpływu, routing
+    publiczny lub dostęp wysokiej stawki, lecz NIE MOŻE odebrać minimum `UBC`.
+    Jeżeli zwykła ścieżka stanowi wektor ataku, system MUSI zachować izolowany,
+    funkcjonalnie równoważny korytarz do ratunku, orientacji, minimalnej komunikacji
+    i trybów opiekuńczych. Korytarz MOŻE podlegać proporcjonalnym limitom, monitoringowi
+    i redakcji ochronnej, o ile nie staje się pozornym dostępem.
 
 ---
 
@@ -241,9 +247,11 @@ System nie spełnia tej polityki, jeżeli:
 4. warunkuje dostęp upokorzeniem, uniżeniem, zależnością emocjonalną albo
     arbitralną łaską operatora,
 5. uzależnia podstawowy przydział od reputacji, salda lub pozycji kapitałowej,
-6. używa `UBC` jako ukrytego kanału kupowania przewagi proceduralnej,
+6. używa `UBC` jako ukrytego kanału kupowania przewagi ustrojowej,
 7. uznaje trans-federacyjne PoP tylko deklaratywnie, bez realnego minimum
-    komunikacyjnego i pomocowego.
+    komunikacyjnego i opiekuńczego,
+8. sankcja usuwa minimum `UBC` albo blokuje zwykłą trasę bez zapewnienia izolowanego,
+    funkcjonalnie równoważnego korytarza.
 
 ---
 

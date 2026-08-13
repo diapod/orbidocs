@@ -246,10 +246,13 @@ complete invitation inbox, and a three-daemon acceptance
 proves modified-posture, sanction, and local-substitute refusal. Operator inspection
 also has audited render-only `inspect`, `explain`, and bounded Mermaid `graph` modes
 over that single projection. Rich interactive attention and peer/refusal navigation
-remains post-MVP under `P085-042`. All five
-guard anchors are wired for the first `restrict/grant-set` backend; additional guard
-operations, axes, and backends, federated Inquirium resource-envelope binding, and
-attention-specific interactive UI remain open. P085 therefore stays
+remains post-MVP under `P085-042`. All five guard anchors are wired for
+`restrict/grant-set`; Agent effect admission also executes bounded-budget narrowing
+and monotonic risk raising. Federated Inquirium resource profiles are bound to
+authenticated peers, signed posture, current operation entries, and exact runtime
+use. A closed ownership registry binds each V1 runtime state to one bounded owner
+and domain-owned use fence, without inventing generic invalidation authority. Phase
+3 and attention-specific interactive UI remain open. P085 therefore stays
 partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
@@ -1345,7 +1348,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `75` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `76` |
 
 ## Solutions
 

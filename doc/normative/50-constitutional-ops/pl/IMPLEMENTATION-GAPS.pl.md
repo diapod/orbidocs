@@ -19,6 +19,35 @@ służy porządkowaniu kolejnych kroków implementacyjnych.
 
 ---
 
+## Pomiar implementowalności Konstytucji
+
+Zgodnie z Art. XIV.8 stan implementowalności jest mierzony z użyciem stabilnych
+identyfikatorów klauzul. `doc/normative/40-constitution/constitution-index.v1.json`
+jest maszynowym indeksem wersji językowych, mocy normatywnej i przynależności do
+rdzenia oraz przechowuje odciski tekstu każdego ustępu. Wskazany w indeksie bieżący
+język roboczy jest wyłącznie metadaną procesu redakcyjnego: wersje językowe mają
+równą moc, a język roboczy MOŻE zmienić się między rewizjami. Skrypt
+`scripts/check-constitution.py` wykrywa rozjazd struktury, słów kluczowych mocy
+normatywnej i odwołań do stabilnych identyfikatorów. Równoważność znaczeniowa
+tłumaczeń wymaga przeglądu człowieka; walidator NIE MOŻE przedstawiać zgodności
+strukturalnej jako dowodu zgodności semantycznej.
+
+Zmianę metadanej języka roboczego zapisuje się jawnie podczas regeneracji, na
+przykład poleceniem `python3 scripts/check-constitution.py --write-index
+--working-language en`. Operacja ta nie zmienia mocy żadnej wersji językowej.
+
+Niniejszy dokument pozostaje źródłem prawdy dla luk pokrycia ustawami wykonawczymi.
+Brak automatycznego pomiaru danej klasy luk oznacza `unknown`, nie wynik zerowy.
+Minimalny raport zdrowia obejmuje:
+
+- liczbę klauzul bez wskazanego pokrycia wykonawczego,
+- liczbę klauzul o nieokreślonej mocy normatywnej,
+- rozbieżności struktury i mocy normatywnej PL/EN po stabilnym identyfikatorze
+  oraz status przeglądu semantycznego zmienionych par,
+- liczbę aktywnych wyjątków oraz wyjątki bez kompletu testów konstytucyjnych.
+
+---
+
 ## Ostatnio domknięte
 
 ### `FEDERATION-MEMBERSHIP-AND-QUORUM.pl.md`
@@ -153,7 +182,8 @@ Domknięto dnia `2026-03-21` przez dokument `DIA-RAW-001`, który definiuje:
 - tryby `raw` / `structured` / `transformed` / `redacted`,
 - dopuszczalne podstawy transformacji sygnału,
 - obowiązkowe metaznaczniki dla ingerencji AI,
-- minimalny ślad audytowy transformacji wypowiedzi,
+- minimalny ślad audytowy tłumaczenia, streszczenia, agregacji, redakcji i innych
+  transformacji wypowiedzi,
 - testy zgodności przeciw niejawnej estetyzacji i profesjonalizacji.
 
 ### `UNIVERSAL-BASIC-COMPUTE.pl.md`
@@ -163,6 +193,7 @@ Domknięto dnia `2026-03-21` przez dokument `DIA-UBC-001`, który definiuje:
 - minimalny model `Proof-of-Personhood` bez domyślnej deanonimizacji,
 - nieodbieralne minimum compute dla komunikacji, orientacji i trybów ochronnych,
 - ograniczoną trans-federacyjność: ratunek bez limitu oraz limitowaną komunikację i pomoc,
+- zachowanie minimum przez izolowany korytarz ochronny także podczas sankcji,
 - modele danych `proof_of_personhood_attestation`, `ubc_allocation` i `ubc_settlement`,
 - jawne źródła finansowania `UBC` i testy zgodności przeciw ukrytemu wykluczeniu.
 

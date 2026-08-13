@@ -1243,11 +1243,13 @@ doświadczeń i konsekwencji działań – ze zbieżności niezależnych świade
 w epistemologii nazywa się **konsiliencją**; jest robocza, iteracyjna i otwarta na korektę,
 a jej jakość mierzy się tym, czy pozwala lepiej działać, rozumieć i przewidywać.
 
-Ma to korzeń ontologiczny: skoro zjawisko wyłania się ze splotu wielu warunków – co
-nazywamy **emergencją** – to i pewność o nim domyka się dopiero zbieżnością wielu
-niezależnych sygnałów. Pełne wyprowadzenie z założeń ontologicznych opisuje [Podstawa
-ontologiczna — Konsekwencje dla systemu przetwarzania
-informacji](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#systemy-przetwarzania-informacji).
+Emergencja i konsiliencja należą jednak do dwóch różnych osi. To, że zjawisko wyłania
+się ze splotu wielu warunków, nie pociąga logicznie wieloźródłowego potwierdzenia.
+Konsiliencja jest odrębnym bezpiecznikiem epistemicznym, szczególnie przydatnym,
+gdy twierdzenie zależy od wielu warunków albo ma wywołać skutek o wysokiej stawce,
+o ile sygnały są rzeczywiście niezależne, a nie tylko powielają wspólne źródło.
+Rozróżnienie to rozwija [Podstawa ontologiczna — Konsekwencje dla systemu
+przetwarzania informacji](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#systemy-przetwarzania-informacji).
 
 ### Pytania jako diagnostyka dobrostanu
 

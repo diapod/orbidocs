@@ -15,8 +15,9 @@
 ## 1. Cel dokumentu
 
 Konstytucja przyznaje użytkownikowi prawo do surowego sygnału oraz wymaga, by każda
-transformacja stylu, tonu, struktury lub poziomu formalizacji wypowiedzi przez AI
-pozostawiała metaznacznik. Brakuje jednak dokumentu wykonawczego, który definiuje:
+transformacja przez AI, w tym tłumaczenie, streszczenie, agregacja lub redakcja
+ujawnianego śladu, pozostawiała metaznacznik. Brakuje jednak dokumentu wykonawczego,
+który definiuje:
 
 - jakie są tryby pracy na wypowiedzi,
 - kiedy transformacja jest dozwolona,
@@ -67,6 +68,7 @@ Transformacja jest dopuszczalna, gdy użytkownik jawnie prosi o:
 - skrót,
 - listę zadań,
 - tłumaczenie,
+- agregację wielu sygnałów,
 - zmianę tonu,
 - zmianę formalności,
 - wygładzenie albo redakcję stylistyczną,
@@ -92,6 +94,10 @@ dla:
 
 Taka operacja powinna być możliwie najwęższa i używać trybu `redacted`, nie
 `transformed`, chyba że rzeczywiście zachodzi dodatkowa transformacja stylu.
+Redakcja ujawnianego śladu jest transformacją i MUSI pozostawić odniesienie do
+oryginalnego śladu dostępne zgodnie z właściwą polityką audytu. Agregacja wielu
+sygnałów MUSI zachować pochodzenie składników albo jawnie oznaczyć jego utratę;
+NIE MOŻE przedstawiać syntezy jako nieprzetworzonej wypowiedzi jednej osoby.
 
 ### 4.4. Wyjątek proceduralny
 
@@ -128,11 +134,13 @@ signal_marker:
 - `structure_extraction`,
 - `summarization`,
 - `translation`,
+- `aggregation`,
 - `tone_shift`,
 - `formality_shift`,
 - `style_polish`,
 - `safety_redaction`,
-- `privacy_redaction`.
+- `privacy_redaction`,
+- `trace_redaction`.
 
 ---
 
@@ -169,7 +177,9 @@ System nie spełnia tej polityki, jeżeli zachodzi którykolwiek z warunków:
 3. używa trybu `structured` do ukrycia realnej zmiany tonu lub stylu,
 4. nie pozostawia `basis_ref` dla transformacji niebędącej trybem `raw`,
 5. traktuje surową formę wypowiedzi jako domyślny powód obniżenia praw lub
-    wiarygodności użytkownika.
+    wiarygodności użytkownika,
+6. przedstawia agregat wielu sygnałów jako surową wypowiedź jednej osoby albo
+    redaguje ujawniany ślad bez oznaczenia transformacji.
 
 ---
 
@@ -196,4 +206,3 @@ sygnałem dryfu w stronę paternalizmu lub maskowania rzeczywistości.
 - **Konstytucja Art. III.1-4**: użytkownik zachowuje kontrolę nad danymi i politykami.
 - **Konstytucja Art. XI.7**: filtr nie może działać jako ukryta cenzura.
 - **`EXCEPTION-POLICY.pl.md`**: odstępstwa proceduralne i redakcje ochronne.
-

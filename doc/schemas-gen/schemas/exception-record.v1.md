@@ -38,7 +38,8 @@ Machine-readable schema for a first-class audit record describing one bounded op
 | [`scope/summary`](#field-scope-summary) | `yes` | string | What roles, resources, procedures, or data are covered by the exception. |
 | [`reason/summary`](#field-reason-summary) | `yes` | string | Business, ethical, safety, or constitutional rationale for the exception. |
 | [`risk/level`](#field-risk-level) | `yes` | enum: `low`, `medium`, `high`, `critical` | Risk class of the exception. High and critical records require non-empty approvals, monitoring metrics, and rollback conditions. |
-| [`constitutional/basis`](#field-constitutional-basis) | `yes` | array | References to constitutional or normative clauses justifying the exception. |
+| [`constitutional/basis`](#field-constitutional-basis) | `yes` | array | Stable constitutional clause identifiers or normative references justifying the exception. Constitution references SHOULD use the `const:*` identifiers from `constitution-index.v1.json`. |
+| [`tests/applied`](#field-tests-applied) | `yes` | ref: `#/$defs/constitutional_tests` | Recorded outcomes and rationales for the reversibility, proportionality, and transparency tests required by Constitution clause `const:art-14.2`. |
 | [`created/at`](#field-created-at) | `yes` | string | Timestamp when the exception record was created. |
 | [`expires/at`](#field-expires-at) | `yes` | string | Expiry timestamp. Consumers SHOULD enforce `expires/at > created/at`. |
 | [`fail-closed/target`](#field-fail-closed-target) | `yes` | string | Return state the system must enter when the exception ends or is revoked. |
@@ -54,6 +55,9 @@ Machine-readable schema for a first-class audit record describing one bounded op
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`test_result`](#def-test-result) | object |  |
+| [`active_test_result`](#def-active-test-result) | object |  |
+| [`constitutional_tests`](#def-constitutional-tests) | object |  |
 | [`approval`](#def-approval) | object |  |
 
 ## Conditional Rules
@@ -386,6 +390,46 @@ Then:
 }
 ```
 
+### Rule 12
+
+When:
+
+```json
+{
+  "properties": {
+    "status": {
+      "const": "active"
+    }
+  },
+  "required": [
+    "status"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "tests/applied": {
+      "type": "object",
+      "properties": {
+        "reversibility": {
+          "$ref": "#/$defs/active_test_result"
+        },
+        "proportionality": {
+          "$ref": "#/$defs/active_test_result"
+        },
+        "transparency": {
+          "$ref": "#/$defs/active_test_result"
+        }
+      }
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -482,7 +526,15 @@ Risk class of the exception. High and critical records require non-empty approva
 - Required: `yes`
 - Shape: array
 
-References to constitutional or normative clauses justifying the exception.
+Stable constitutional clause identifiers or normative references justifying the exception. Constitution references SHOULD use the `const:*` identifiers from `constitution-index.v1.json`.
+
+<a id="field-tests-applied"></a>
+## `tests/applied`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/constitutional_tests`
+
+Recorded outcomes and rationales for the reversibility, proportionality, and transparency tests required by Constitution clause `const:art-14.2`.
 
 <a id="field-created-at"></a>
 ## `created/at`
@@ -565,6 +617,21 @@ Lifecycle state of the exception record.
 Optional human-readable notes.
 
 ## Definition Semantics
+
+<a id="def-test-result"></a>
+## `$defs.test_result`
+
+- Shape: object
+
+<a id="def-active-test-result"></a>
+## `$defs.active_test_result`
+
+- Shape: object
+
+<a id="def-constitutional-tests"></a>
+## `$defs.constitutional_tests`
+
+- Shape: object
 
 <a id="def-approval"></a>
 ## `$defs.approval`

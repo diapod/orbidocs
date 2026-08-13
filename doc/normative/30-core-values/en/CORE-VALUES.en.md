@@ -1245,10 +1245,12 @@ witnesses, which epistemology calls **consilience**; it is working, iterative, a
 open to correction, and its quality is measured by whether it allows better action,
 understanding, and prediction.
 
-This has an ontological root: if a phenomenon emerges from the weave of many
-conditions — what we call **emergence** — then confidence about it also closes only
-through the convergence of many independent signals. The full derivation from the
-ontological assumptions is described in [Ontological Basis — Consequences for
+Emergence and consilience, however, belong to two different axes. A phenomenon's
+emergence from the weave of many conditions does not logically entail multi-source
+confirmation. Consilience is a separate epistemic safeguard, particularly useful
+when a claim depends on many conditions or is to produce a high-stakes effect,
+provided that the signals are genuinely independent rather than copies of a shared
+source. This distinction is developed in [Ontological Basis — Consequences for
 Information Processing Systems](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#information-processing-systems).
 
 ### Questions as Well-being Diagnostics

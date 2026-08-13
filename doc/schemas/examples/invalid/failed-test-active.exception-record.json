@@ -1,0 +1,43 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-001",
+  "exception/id": "EXC-fed-pl-20260328T174000Z-07",
+  "exception/type": "ordinary",
+  "owner/kind": "participant",
+  "owner/id": "participant:did:key:z6Mkq2Tt9Qv7C4h1N8p3L5s7D2k8M4r1V6w9X3y2Z7",
+  "requester/kind": "participant",
+  "requester/id": "participant:did:key:z6Mkq2Tt9Qv7C4h1N8p3L5s7D2k8M4r1V6w9X3y2Z7",
+  "scope/summary": "Temporary routing override whose proportionality test failed.",
+  "reason/summary": "Negative fixture proving that an active exception cannot retain a failed constitutional test.",
+  "risk/level": "medium",
+  "constitutional/basis": [
+    "const:art-14.2",
+    "const:art-14.3"
+  ],
+  "tests/applied": {
+    "reversibility": {
+      "outcome": "pass",
+      "rationale": "The override has a bounded expiry and a return state."
+    },
+    "proportionality": {
+      "outcome": "fail",
+      "rationale": "The requested scope is wider than the documented operational need."
+    },
+    "transparency": {
+      "outcome": "pass",
+      "rationale": "The request and failed analysis remain visible for review."
+    }
+  },
+  "created/at": "2026-03-28T17:40:00Z",
+  "expires/at": "2026-03-28T20:40:00Z",
+  "fail-closed/target": "default-routing-scope",
+  "approvals": [],
+  "monitoring/metrics": [
+    "retry-rate"
+  ],
+  "monitoring/review-at": "2026-03-28T18:40:00Z",
+  "rollback/conditions": [
+    "compatibility window ends"
+  ],
+  "status": "active"
+}

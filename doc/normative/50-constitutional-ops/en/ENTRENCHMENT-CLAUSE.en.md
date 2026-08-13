@@ -5,24 +5,19 @@
 | Field | Value |
 | :--- | :--- |
 | `policy-id` | `DIA-ENTRENCH-001` |
-| `type` | Proposed supplement to Constitution Art. XVI |
-| `version` | 0.1.0-draft |
+| `type` | Implementing act for the Constitution's "Non-Negotiable Core" section and Art. XVI |
+| `version` | 0.2.0-draft |
 | `basis` | Art. I, II, III, XIV, XVI of the DIA Constitution |
 
 ---
 
 ## 1. Purpose of the Document
 
-The DIA Constitution declares its precedence over all other documents, policies,
-and decisions (section "Normative Force and Interpretation", point 4). However,
-it does not define:
-
-- which articles are immutable (the non-negotiable core),
-- what happens when a majority of federations wants to break the Constitution,
-- who decides constitutional challenges and by what procedure.
-
-This document closes those gaps by proposing an entrenchment clause and a minimal
-defense procedure - without creating a permanent central organ.
+The DIA Constitution itself defines the composition of the non-negotiable core and
+the minimum properties of its protection. This document MUST NOT change that
+composition. It defines the defense procedure: how to amend the core, submit a
+constitutional challenge, and adjudicate a case without creating a permanent
+central organ.
 
 ---
 
@@ -30,20 +25,21 @@ defense procedure - without creating a permanent central organ.
 
 ### 2.1. Non-Negotiable Core
 
-The following Constitution articles form the **non-negotiable core**:
+The canonical source for the composition of the core is the Constitution's
+"Non-Negotiable Core" section together with the machine-readable
+`constitution-index.v1.json`. This act refers to clauses by stable identifiers and
+MUST NOT maintain parallel quotations of their contents.
 
-| Article | Core content |
-| :--- | :--- |
-| **I.5** | No operational or financial goal may override the primacy of dignity, human safety, and the right to exit. |
-| **II.1** | Human dignity is a supreme and non-negotiable value. |
-| **II.2** | Protection of life and defense against direct, sudden, and serious harm to health have the highest operational priority. |
-| **II.3** | The greatest power of the system MUST pass through the human, not around the human. |
-| **III.1** | The user remains the owner of their data, policies, agents, and local memory spaces. |
-| **III.2** | The system MUST operate meaningfully in local-first, offline, and self-hosted modes. |
-| **III.3** | Export of data, policies, and histories MUST be possible in open formats. |
-| **III.4** | The right to exit without coercion, without loss of access to data, without hidden penalties. |
-| **III.5** | The right to fork. |
-| **XIV.1** | Default hierarchy of values: dignity > sovereignty > verifiability > agency > effectiveness > convenience. |
+The core protects:
+
+- the primacy of dignity, safety, and the passage of system power through the human,
+- access to critical goods without systemic violence or humiliation,
+- personal agency, locality, export, exit, and fork rights,
+- the floor of user rights against operator sovereignty,
+- redundant identity unsealing,
+- the non-withdrawable UBC minimum,
+- automatic expiry of the founding period and limits on founder authority,
+- the constitutional hierarchy of values.
 
 ### 2.2. Conditions for Amending the Non-Negotiable Core
 
@@ -84,14 +80,14 @@ The entrenchment clause does not prevent:
 
 ### 2.4. Founding Period
 
-During the founding period referred to in Constitution Art. XIII.7-11 and Art.
-XVI.10, the mechanism of federation unanimity and the ordinary blocking paths may
-not paralyze founder decisions concerning the shape of the system, its
-architecture, launch-order rules, and the text of the Constitution.
+During the founding period referred to in Constitution Art. XIII.7-12 and Art.
+XVI.13, founder decisions retain precedence only outside the non-negotiable core.
+Founders MUST NOT suspend, remove, or narrow the protection of the core while
+bypassing the procedure in section 2.2.
 
-This does not suspend publicity or traceability. Every such decision MUST leave a
-rationale, impact analysis, date, and scope of applicability. After the founding
-period ends, the full procedure from section 2.2 applies without exception.
+Every founder decision MUST leave a rationale, impact analysis, date, and scope of
+applicability. Automatic expiry of the founding period MUST NOT depend on an ending
+act or on consent from the organ whose authority expires.
 
 ---
 
@@ -193,13 +189,13 @@ members). The ruling of the second panel is final.
 
 ## 5. Relation to Other Documents
 
-- **Constitution Art. XVI**: This document is a proposed supplement to Art. XVI
-  with points concerning the non-negotiable core and the defense procedure.
-- **Constitution Art. XIII.7-11 and Art. XVI.10**: the founding period has
-  procedural precedence over the full inter-federation path until its time clause
-  expires.
-- **NORMATIVE-HIERARCHY.en.md**: the entrenchment clause defines Level 0 of the
-  hierarchy.
+- **Constitution, section "Non-Negotiable Core", and Art. XVI**: the Constitution
+  defines the composition of the core and minimum properties of its protection;
+  this act defines the procedure.
+- **Constitution Art. XIII.7-12 and Art. XVI.13**: precedence of founder decisions
+  MUST NOT include changing the core outside its proper procedure.
+- **NORMATIVE-HIERARCHY.en.md**: Level 0 follows directly from the Constitution;
+  this act is not the source of its composition.
 - **Constitution Art. XIV**: interim measures are treated as exceptions subject to
   minimum requirements of identification and expiry.
 - **Constitution Art. VII**: the ad-hoc panel is consistent with the principle of

@@ -19,6 +19,37 @@ it serves to organize the next implementation steps.
 
 ---
 
+## Measuring Constitutional Implementability
+
+Under Art. XIV.8, implementability is measured using stable clause identifiers.
+`doc/normative/40-constitution/constitution-index.v1.json` is the machine-readable
+index of language versions, normative force, and core membership, while
+also retaining a text digest for every clause. The current working language named
+in the index is editorial-process metadata only: language versions have equal
+force, and the working language MAY change between revisions. The
+`scripts/check-constitution.py`
+checker detects divergence in structure, normative-force keywords, and stable-ID
+references. Semantic equivalence of translations requires human review; the
+validator MUST NOT present structural parity as proof of semantic parity.
+
+A change of working-language metadata is recorded explicitly during regeneration,
+for example with `python3 scripts/check-constitution.py --write-index
+--working-language en`. This operation does not change the force of any language
+version.
+
+This document remains the source of truth for gaps in implementing-act coverage.
+Absence of automated measurement for a class of gaps means `unknown`, not zero. The
+minimum health report covers:
+
+- the number of clauses without identified implementing coverage,
+- the number of clauses with undefined normative force,
+- PL/EN divergences in structure and normative force by stable identifier, plus
+  the semantic-review status of changed clause pairs,
+- the number of active exceptions and exceptions lacking the full constitutional
+  test record.
+
+---
+
 ## Recently Closed
 
 ### `FEDERATION-MEMBERSHIP-AND-QUORUM.en.md`
@@ -153,7 +184,8 @@ Closed on `2026-03-21` by document `DIA-RAW-001`, which defines:
 - the modes `raw` / `structured` / `transformed` / `redacted`,
 - permissible bases for signal transformation,
 - mandatory meta-markers for AI intervention,
-- the minimal audit trace for utterance transformation,
+- the minimal audit trace for translation, summarization, aggregation, redaction,
+  and other utterance transformations,
 - compliance tests against hidden aestheticization and professionalization.
 
 ### `UNIVERSAL-BASIC-COMPUTE.en.md`
@@ -163,6 +195,7 @@ Closed on `2026-03-21` by document `DIA-UBC-001`, which defines:
 - the minimal `Proof-of-Personhood` model without default de-anonymization,
 - the non-withdrawable minimum of compute for communication, orientation, and protective modes,
 - limited cross-federation portability: unlimited emergency plus limited communication and care,
+- preservation of the minimum through an isolated protective corridor even under sanctions,
 - the data models `proof_of_personhood_attestation`, `ubc_allocation`, and `ubc_settlement`,
 - public funding sources for `UBC` and compliance tests against hidden exclusion.
 

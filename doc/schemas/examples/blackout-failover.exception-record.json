@@ -11,9 +11,23 @@
   "reason/summary": "Delay would increase harm by breaking the emergency communication corridor for a protected reporting path.",
   "risk/level": "high",
   "constitutional/basis": [
-    "XIV.4",
-    "XVI.2"
+    "const:art-14.4",
+    "const:art-16.2"
   ],
+  "tests/applied": {
+    "reversibility": {
+      "outcome": "pass",
+      "rationale": "The relay override expires automatically and returns to the primary path or A0."
+    },
+    "proportionality": {
+      "outcome": "pass",
+      "rationale": "The exception changes only the relay path needed to preserve the protected corridor."
+    },
+    "transparency": {
+      "outcome": "pass",
+      "rationale": "Activation, monitoring, approvals, and rollback conditions are recorded in this exception."
+    }
+  },
   "created/at": "2026-03-28T17:05:00Z",
   "expires/at": "2026-03-29T05:05:00Z",
   "fail-closed/target": "A0",

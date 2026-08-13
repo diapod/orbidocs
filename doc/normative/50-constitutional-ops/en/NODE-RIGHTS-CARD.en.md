@@ -15,14 +15,17 @@
 
 | Right | What it means | Constitution |
 | :--- | :--- | :--- |
-| **Right to exit** | You may leave the federation at any time, without coercion, without losing access to your own data, and without hidden penalties. | Art. III.4 |
+| **Right to exit** | You may leave the federation at any time, without coercion, without losing access to your own data, and without hidden penalties. Exit does not erase evidence or terminate a case opened before it took effect. | Art. III.4, X.4 |
 | **Right to privacy** | Telemetry is off by default. Your data is local. Disclosure is selective and as a rule requires your consent, with a procedural exception for ongoing or severe abuse under Art. III.9 and Art. X. | Art. III.7, III.8, III.9, Art. X |
-| **Right to inspect** | You can audit your agents' interactions, decision traces, and action histories. | Art. XV.2 |
+| **Right to inspect** | You can audit your agents' interactions, decision traces, action histories, and other causes of state changes attributed to your node or nym. | Art. XV.2, XV.3 |
+| **Right to settlement basis** | You can learn the basis of a material credit, debit, correction, hold, or expiry of funds, credits, recognitions, and similar instruments attributed to your node or nym: the event type, applied rule, outcome status, and appeal path. This right does not automatically disclose another person's identity or sensitive data. | Art. XV.3 |
 | **Right to appeal** | You may challenge any reputation decision or sanction through an appeals procedure. | Art. XV.2, XVI.2 |
 | **Right to safety** | The system protects you against harassment, doxxing, sabotage, and economic coercion. | Art. XV.2 |
 | **Right to local autonomy** | You may run a "quiet" node: privately, locally, without participating in public spaces. | Art. III.6 |
 | **Right to fork** | You may copy specifications, policies, and open components without asking a center for permission. | Art. III.5 |
-| **Right to data sovereignty** | You are the owner of your data, policies, agents, and local memory spaces. Export in open formats is guaranteed. | Art. III.1, III.3 |
+| **Right to a personal sphere of agency** | You retain primary control over, and an agentic use-right to, your data, keys, policies, agents, tools, working environments, and local memory. Export in open formats is guaranteed. | Art. III.1, III.3 |
+| **Right to agentic subsidiarity** | A higher layer must act subsidiarily and not replace what you or a small community can safely and responsibly control. Any restriction requires an explicit basis, proportionality, a trace, appeal, and the right to exit. | Art. III.10 |
+| **Floor of rights against the operator** | The operator may shape local node policy but must not go below the constitutional rights of the node's users. You have the right to inspect the effective policy, the source of a restriction, and its appeal path. | Art. III.11, XV.3 |
 
 ## If You Start with `phone` Attestation
 
@@ -49,11 +52,11 @@ but it may require a waiting period and anomaly checks.
 
 | Duty | What it means | Constitution |
 | :--- | :--- | :--- |
-| **Do no harm** | Do not take actions intentionally harmful to people, infrastructure, or the integrity of memory and evidence. | Art. XV.4 |
-| **Be epistemically honest** | Mark speculation. Do not falsify evidence. Do not manipulate reputation. | Art. XV.3 |
-| **Cooperate at the protocol level** | Respect contracts, protocol versions, and limits. | Art. XV.3 |
-| **Maintain operational hygiene** | Take care of keys, updates, and basic node security. | Art. XV.3 |
-| **Be ready to help** | Within your means, without an obligation of transactional settlement. | Art. XV.3 |
+| **Do no harm** | Do not take actions intentionally harmful to people, infrastructure, or the integrity of memory and evidence. | Art. XV.5 |
+| **Be epistemically honest** | Mark speculation. Do not falsify evidence. Do not manipulate reputation. | Art. XV.4 |
+| **Cooperate at the protocol level** | Respect contracts, protocol versions, and limits. | Art. XV.4 |
+| **Maintain operational hygiene** | Take care of keys, updates, and basic node security. | Art. XV.4 |
+| **Be ready to help** | Within your means, without an obligation of transactional settlement. | Art. XV.4 |
 
 The short operational form of these duties for entering shared influence
 surfaces is the `PARTICIPANT-COVENANT.en.md`. The covenant is not an ideological
@@ -77,11 +80,14 @@ reversibility, proportionality, and publicity apply (Art. XIV.2).
 ## Enforcement Is Graduated
 
 ```text
-Warning -> Restriction of privileges -> Reputational quarantine -> Routing cutoff
+Notice -> Restriction -> Quarantine -> Role suspension
+  -> Routing isolation -> Federation block
 ```
 
-Every sanction leaves a trace, provides a path of appeal, and opens a route back
-after repair (Art. XVI.1-2).
+Every sanction has a surface scope, evidentiary basis, author, review or expiry
+deadline, appeal path, and route back after repair. A sanction does not remove the
+`UBC` minimum; an isolated protective corridor remains available when the ordinary
+route creates risk (Art. X.10, XII.12, XVI.1-2).
 
 ---
 
@@ -132,7 +138,7 @@ not replace reading the Constitution, but it helps locate the right norm quickly
 
 | # | Situation | Articles | Principle / Action |
 | :--- | :--- | :--- | :--- |
-| 13 | A node challenges a reputation decision | XV.5, XVI.2 | Counter-evidence or demonstration of procedural error; right to appeal |
+| 13 | A node challenges a reputation decision | XV.6, XVI.2 | Counter-evidence or demonstration of procedural error; decay, repair, and reintegration operate independently |
 | 14 | Failure to disclose a conflict of interest | VII.6 | COI-by-default: no declaration = no data, not no conflict |
 | 15 | A person simultaneously acts as party and arbiter | VII.3 | Critical powers MUST be separated across roles |
 | 16 | A high-stakes decision | VII.9 | Multisig + independent red team |
@@ -153,8 +159,8 @@ not replace reading the Constitution, but it helps locate the right norm quickly
 | 21 | Someone wants to report abuse anonymously | X.1, X.2 | Default anonymity, metadata minimization, signal triage |
 | 22 | A whistleblower is exposed to retaliation | X.3 | Swarm care is part of the infrastructure, not a moral gesture |
 | 23 | A credible signal of ongoing or concealed severe abuse appears | III.9, X.4-X.8 | No general investigation without a present-day signal; once the threshold is met, full case history, infrastructure sanctions, and appeal procedure become possible |
-| 24 | Publication of high-stakes material is under consideration | X.10 | Adversarial review, evidence thresholds, redaction of sensitive data |
-| 25 | Escalation of corrective actions | X.9 | Stepwise: verification -> correction -> notice -> audit -> publication |
+| 24 | Publication of high-stakes material is under consideration | X.12 | Adversarial review, evidence thresholds, redaction of sensitive data |
+| 25 | Escalation of case examination | X.11 | A separate axis: verification -> procedural correction -> formal notice -> audit -> publication; it is not a sanction ladder |
 
 ## Changes and Exceptions
 
@@ -162,5 +168,5 @@ not replace reading the Constitution, but it helps locate the right norm quickly
 | :--- | :--- | :--- | :--- |
 | 26 | Someone proposes an exception to a rule | XIV.3, XIV.4 | An exception requires: policy-id, reason, risk-level, expiry, owner, fail-closed |
 | 27 | An exception generates signals of harm or abuse | XIV.5 | Automatic suspension of the exception until clarification |
-| 28 | A proposal to amend the Constitution | XIII.7-XIII.11, XVI.5, XVI.6, XVI.10 | Explicit rationale, impact analysis, reversibility; during the founding period, the founders' decision has decisive force |
-| 29 | A local policy tries to bypass the Constitution | XVI.7 | Impermissible without a formal constitutional amendment |
+| 28 | A proposal to amend the Constitution | XIII.7-XIII.12, XVI.8, XVI.9, XVI.13 | Explicit rationale, impact analysis, and reversibility; founder influence expires automatically and does not bypass the core |
+| 29 | A local policy tries to bypass the Constitution | XVI.10 | Impermissible without a formal constitutional amendment |

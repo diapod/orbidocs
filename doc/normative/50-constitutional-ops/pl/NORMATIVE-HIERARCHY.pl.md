@@ -6,7 +6,7 @@
 | :--- | :--- |
 | `policy-id` | `DIA-NORM-HIER-001` |
 | `typ` | Uzupełnienie sekcji "Moc normatywna i wykładnia" Konstytucji |
-| `wersja` | 0.1.0-draft |
+| `wersja` | 0.2.0-draft |
 | `autor` | DIA / Orbiplex |
 | `data` | 2026-03-10 |
 
@@ -28,19 +28,14 @@ bez formalnej procedury zmiany odpowiedniego poziomu.
 
 ### Poziom 0 - Rdzeń nienegocjowalny
 
-Artykuły Konstytucji wymienione w klauzuli wieczności (patrz:
-`ENTRENCHMENT-CLAUSE.pl.md`). Ich zmiana, zawieszenie lub reinterpretacja zawężająca
-wymaga jednomyślności wszystkich federacji uczestniczących w procesie zmiany oraz
-niezależnego kontradyktoryjnego przeglądu (ang. adversarial review).
-
-Rdzeń nienegocjowalny obejmuje co najmniej:
-
-- Art. I.5 - żaden cel operacyjny ani finansowy nie unieważnia godności,
-  bezpieczeństwa i prawa do wyjścia.
-- Art. II.1-3 - godność, ochrona życia, moc systemu przechodzi przez człowieka.
-- Art. III.1-5 - suwerenność danych, lokalny tryb domyślny (ang. local-first),
-  eksport, prawo do wyjścia, prawo do odgałęzienia (ang. fork).
-- Art. XIV.1 - domyślna hierarchia wartości.
+Klauzule wskazane bezpośrednio w sekcji "Rdzeń nienegocjowalny" Konstytucji.
+Kanoniczny, maszynowo odczytywalny wykaz utrzymuje
+`doc/normative/40-constitution/constitution-index.v1.json`. Ich zmiana,
+zawieszenie lub reinterpretacja zawężająca wymaga procedury opisanej w
+`ENTRENCHMENT-CLAUSE.pl.md`, w tym jednomyślności wszystkich federacji
+uczestniczących w procesie zmiany oraz niezależnego kontradyktoryjnego przeglądu
+(ang. adversarial review). Akt wykonawczy określa procedurę, lecz NIE MOŻE zmieniać
+składu Poziomu 0.
 
 ### Poziom 1 - Konstytucja
 
@@ -50,8 +45,8 @@ procesu decyzyjnego, okres próbny dla zmian o wysokiej stawce.
 
 ### Poziom 2 - Źródła wykładni
 
-Dokumenty `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`, `doc/normative/30-core-values/en/CORE-VALUES.en.md`
-oraz `doc/normative/20-vision/pl/VISION.pl.md`.
+Dokumenty `doc/normative/30-core-values/pl/CORE-VALUES.pl.md` oraz
+`doc/normative/20-vision/pl/VISION.pl.md`.
 
 Służą interpretacji Konstytucji, ale **nie tworzą nowych obowiązków ani uprawnień**
 wykraczających poza ramy Konstytucji. Sekcje tych dokumentów dzielą się na dwie
@@ -65,6 +60,12 @@ kategorie:
 
 Zmiana dokumentów Poziomu 2 wymaga jawnego uzasadnienia i przeglądu spójności
 z Konstytucją, ale **nie wymaga pełnej procedury zmiany konstytucyjnej**.
+
+`doc/normative/90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md` jest materiałem
+objaśniającym genezę i spójność wartości, lecz nie stanowi samodzielnego źródła
+wykładni Poziomu 2 ani nie tworzy praw, obowiązków lub klasyfikacji osób. Nie może
+służyć jako test światopoglądowy, lojalnościowy, członkowski, tożsamościowy ani
+reputacyjny. W razie rozbieżności pierwszeństwo mają Konstytucja i źródła Poziomu 2.
 
 ### Poziom 3 - Ustawy wykonawcze
 
@@ -120,9 +121,8 @@ Dokumenty operacyjne o mocy wiążącej w ramach federacji:
   wykonawcze z katalogu `doc/normative/50-constitutional-ops/`, które jawnie wskazują swój typ i
   podstawę konstytucyjną
 
-Ustawy wykonawcze konkretyzują Konstytucję i Źródła wykładni. Mogą **zaostrzać**
-wymogi (np. w trybie `CORP_COMPLIANT`), ale **nie mogą osłabiać** żadnego wyższego
-poziomu.
+Ustawy wykonawcze konkretyzują Konstytucję i Źródła wykładni. MOGĄ **zaostrzać**
+wymogi, ale NIE MOGĄ osłabiać żadnego wyższego poziomu.
 
 ### Poziom 4 - Polityki federacyjne
 
@@ -170,9 +170,8 @@ Dokument Poziomu 5:
 
 ## 4. Procedura oznaczania sekcji w Źródłach wykładni
 
-Każda sekcja `doc/normative/30-core-values/pl/CORE-VALUES.pl.md`,
-`doc/normative/30-core-values/en/CORE-VALUES.en.md` i `doc/normative/20-vision/pl/VISION.pl.md` POWINNA zawierać w nagłówku
-tag:
+Każda sekcja `doc/normative/30-core-values/pl/CORE-VALUES.pl.md` i
+`doc/normative/20-vision/pl/VISION.pl.md` POWINNA zawierać w nagłówku tag:
 
 ```md
 ### Nazwa sekcji `[wartość]`
