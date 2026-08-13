@@ -1,0 +1,31 @@
+{
+  "schema": "operator-effective-policy-inspection-input.v1",
+  "schema/v": 1,
+  "extension": {
+    "schema": "operator-extension-inspection.v1",
+    "schema/v": 1,
+    "safe-mode/active": false,
+    "packages": [],
+    "policies": [],
+    "attention/usage": [],
+    "authority/decisions": [],
+    "runtime/diagnostics": {
+      "compiled-cache/entries": 0,
+      "compiled-cache/max-entries": 64,
+      "authority-decisions/facts": 0,
+      "authority-decisions/max-facts": 4096,
+      "attention/events": 0,
+      "attention/max-events": 4096,
+      "packages/inert": 0,
+      "packages/active": 0,
+      "policies/active": 0,
+      "store/indexes-healthy": true
+    }
+  },
+  "resource/axes": [],
+  "domain/registries": [],
+  "sources/unavailable": [
+    "inquirium-resource-profile", "agent-registry", "corpus-registry",
+    "arca-registry", "dator-registry", "inquirium-registry", "federation"
+  ]
+}

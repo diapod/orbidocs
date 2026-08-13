@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-effective-policy-inspection:v1",
+  "title": "Operator Effective Policy Inspection V1",
+  "description": "Cognitively bounded, prompt-free effective-policy read model with stable drill-down refs.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "summary", "material/differences", "domain/registries", "drilldown", "sources/unavailable"],
+  "properties": {
+    "schema": {"const": "operator-effective-policy-inspection.v1"},
+    "schema/v": {"const": 1},
+    "summary": {"$ref": "#/$defs/summary"},
+    "material/differences": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/difference"}},
+    "domain/registries": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/domain"}},
+    "federation": {"$ref": "#/$defs/federation"},
+    "decisive/restriction": {"$ref": "#/$defs/decisive"},
+    "drilldown": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/drilldown"}},
+    "sources/unavailable": {"type": "array", "maxItems": 7, "uniqueItems": true, "items": {"$ref": "operator-effective-policy-inspection-input.v1.schema.json#/$defs/source"}}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["safe-mode/active", "packages/active", "policies/active", "resource/axes-evaluated", "resource/material-differences", "domains/evaluated", "federation/evaluated", "sources/complete"],
+      "properties": {
+        "safe-mode/active": {"type": "boolean"}, "packages/active": {"type": "integer", "minimum": 0, "maximum": 64},
+        "policies/active": {"type": "integer", "minimum": 0, "maximum": 256}, "resource/axes-evaluated": {"type": "integer", "minimum": 0, "maximum": 64},
+        "resource/material-differences": {"type": "integer", "minimum": 0, "maximum": 64}, "domains/evaluated": {"type": "integer", "minimum": 0, "maximum": 16},
+        "federation/evaluated": {"type": "boolean"}, "sources/complete": {"type": "boolean"}
+      }
+    },
+    "difference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["axis", "distribution/value", "effective/value", "source/refs"],
+      "properties": {
+        "axis": {"$ref": "#/$defs/ref"}, "distribution/value": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "requested/value": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}, "effective/value": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "source/refs": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}}
+      }
+    },
+    "domain": {
+      "type": "object", "additionalProperties": false,
+      "required": ["domain", "effective/entry-count", "effective/entry-refs", "source/refs"],
+      "properties": {
+        "domain": {"$ref": "operator-effective-policy-inspection-input.v1.schema.json#/$defs/domain-name"},
+        "effective/entry-count": {"type": "integer", "minimum": 0, "maximum": 256},
+        "effective/entry-refs": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+        "source/refs": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}}
+      }
+    },
+    "federation": {"$ref": "operator-effective-policy-inspection-input.v1.schema.json#/$defs/federation"},
+    "decisive": {
+      "type": "object", "additionalProperties": false,
+      "required": ["restriction", "source/ref", "subject/ref"],
+      "properties": {"restriction": {"$ref": "#/$defs/ref"}, "source/ref": {"$ref": "#/$defs/ref"}, "subject/ref": {"$ref": "#/$defs/ref"}, "decision/ref": {"$ref": "#/$defs/ref"}, "refusal/code": {"$ref": "operator-extension-refusal-code.v1.schema.json"}}
+    },
+    "drilldown": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "artifact/ref"],
+      "properties": {"kind": {"enum": ["package", "policy", "authority-decision", "resource-profile", "domain-registry", "federation-publication"]}, "artifact/ref": {"$ref": "#/$defs/ref"}, "artifact/digest": {"$ref": "#/$defs/digest"}}
+    }
+  }
+}

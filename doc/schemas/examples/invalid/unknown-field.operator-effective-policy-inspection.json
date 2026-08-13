@@ -1,0 +1,6 @@
+{
+  "schema": "operator-effective-policy-inspection.v1", "schema/v": 1,
+  "summary": {"safe-mode/active": false, "packages/active": 0, "policies/active": 0, "resource/axes-evaluated": 0, "resource/material-differences": 0, "domains/evaluated": 0, "federation/evaluated": false, "sources/complete": false},
+  "material/differences": [], "domain/registries": [], "drilldown": [],
+  "sources/unavailable": ["federation"], "prompt": "must be rejected"
+}

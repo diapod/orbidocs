@@ -1,0 +1,16 @@
+{
+  "schema": "operator-effective-policy-inspection.v1", "schema/v": 1,
+  "summary": {"safe-mode/active": false, "packages/active": 1, "policies/active": 1, "resource/axes-evaluated": 38, "resource/material-differences": 1, "domains/evaluated": 5, "federation/evaluated": true, "sources/complete": true},
+  "material/differences": [{"axis": "assistant/output-bytes-max", "distribution/value": 16384, "requested/value": 32768, "effective/value": 8192, "source/refs": ["operator-resource-envelope:local"]}],
+  "domain/registries": [
+    {"domain": "agent", "effective/entry-count": 1, "effective/entry-refs": ["agent-entry:bounded"], "source/refs": ["agent-registry:effective"]},
+    {"domain": "corpus", "effective/entry-count": 1, "effective/entry-refs": ["corpus-entry:bounded"], "source/refs": ["corpus-registry:effective"]},
+    {"domain": "arca", "effective/entry-count": 1, "effective/entry-refs": ["arca-entry:bounded"], "source/refs": ["arca-registry:effective"]},
+    {"domain": "dator", "effective/entry-count": 1, "effective/entry-refs": ["dator-entry:bounded"], "source/refs": ["dator-registry:effective"]},
+    {"domain": "inquirium", "effective/entry-count": 1, "effective/entry-refs": ["inquirium-entry:bounded"], "source/refs": ["inquirium-registry:effective"]}
+  ],
+  "federation": {"peer/node-id": "node:did:key:peer", "publication/ref": "node-extension-federation-publication:peer", "publication/digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "effective/entry-count": 5},
+  "decisive/restriction": {"restriction": "grant-set/capability-absent", "source/ref": "operator-guard:local", "subject/ref": "inquirium.generate", "refusal/code": "decision/not-contained"},
+  "drilldown": [{"kind": "resource-profile", "artifact/ref": "operator-resource-envelope:local"}],
+  "sources/unavailable": []
+}

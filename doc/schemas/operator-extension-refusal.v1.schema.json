@@ -24,7 +24,7 @@
         "producer/crash", "package/signing-authority-untrusted", "package/digest-mismatch",
         "package/conformance-failed", "package/incompatible", "activation/plan-stale",
         "activation/operator-binding-missing", "activation/signature-invalid",
-        "activation/state-conflict", "activation/session-not-eligible", "limit/unclassified",
+        "activation/state-conflict", "activation/session-not-eligible",
         "guard/anchor-unknown", "guard/cap-exceeded", "identifier/invalid",
         "policy/revoked", "policy/expired", "extension/safe-mode"
       ]

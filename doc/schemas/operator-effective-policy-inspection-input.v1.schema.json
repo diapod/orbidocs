@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-effective-policy-inspection-input:v1",
+  "title": "Operator Effective Policy Inspection Input V1",
+  "description": "Prompt-free owner-supplied facts for the pure effective-policy inspection projection.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "extension", "resource/axes", "domain/registries", "sources/unavailable"],
+  "properties": {
+    "schema": {"const": "operator-effective-policy-inspection-input.v1"},
+    "schema/v": {"const": 1},
+    "extension": {"$ref": "operator-extension-inspection.v1.schema.json"},
+    "resource/axes": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/axis"}},
+    "domain/registries": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/domain"}},
+    "federation": {"$ref": "#/$defs/federation"},
+    "sources/unavailable": {"type": "array", "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/source"}}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source": {"enum": ["inquirium-resource-profile", "agent-registry", "corpus-registry", "arca-registry", "dator-registry", "inquirium-registry", "federation"]},
+    "domain-name": {"enum": ["agent", "corpus", "arca", "dator", "inquirium"]},
+    "axis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["axis", "distribution/value", "effective/value", "source/refs"],
+      "properties": {
+        "axis": {"$ref": "#/$defs/ref"},
+        "distribution/value": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "requested/value": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "effective/value": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "source/refs": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}}
+      }
+    },
+    "domain": {
+      "type": "object", "additionalProperties": false,
+      "required": ["domain", "effective/entry-refs", "source/refs", "source/digests"],
+      "properties": {
+        "domain": {"$ref": "#/$defs/domain-name"},
+        "effective/entry-refs": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+        "source/refs": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+        "source/digests": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"$ref": "#/$defs/digest"}}
+      }
+    },
+    "federation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["peer/node-id", "publication/ref", "publication/digest", "effective/entry-count"],
+      "properties": {
+        "peer/node-id": {"$ref": "#/$defs/ref"},
+        "publication/ref": {"$ref": "#/$defs/ref"},
+        "publication/digest": {"$ref": "#/$defs/digest"},
+        "effective/entry-count": {"type": "integer", "minimum": 0, "maximum": 256},
+        "decisive/restriction": {"$ref": "#/$defs/ref"}
+      }
+    }
+  }
+}

@@ -32,7 +32,6 @@
     "activation/signature-invalid",
     "activation/state-conflict",
     "activation/session-not-eligible",
-    "limit/unclassified",
     "guard/anchor-unknown",
     "guard/cap-exceeded",
     "identifier/invalid",

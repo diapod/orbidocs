@@ -140,6 +140,8 @@ SCHEMA_WHITELIST = (
     "operator-extension-loose-import.v1.schema.json",
     "operator-extension-import-receipt.v1.schema.json",
     "operator-extension-inspection.v1.schema.json",
+    "operator-effective-policy-inspection-input.v1.schema.json",
+    "operator-effective-policy-inspection.v1.schema.json",
     "operator-extension-revocation.v1.schema.json",
     "operator-extension-safe-mode-action.v1.schema.json",
     "operator-extension-session-activation.v1.schema.json",
@@ -482,6 +484,8 @@ EXAMPLE_WHITELIST = (
     "fixture.semantic-only.operator-extension-activation.json",
     "fixture.operator-extension-conformance-report.json",
     "fixture.operator-extension-inspection.json",
+    "fixture.operator-effective-policy-inspection.json",
+    "fixture.operator-effective-policy-inspection-input.json",
     "fixture.operator-extension-revocation.json",
     "fixture.operator-extension-safe-mode-action.json",
     "fixture.operator-extension-session-activation.json",
@@ -590,6 +594,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "unknown-field.operator-effective-policy-inspection.json",
     "plain-ws.room-relay-endpoint.json",
     "member-placement.room-relay-sealed-endpoint.json",
     "session-bearer.room-relay-delivery.json",

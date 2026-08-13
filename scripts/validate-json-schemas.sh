@@ -449,6 +449,12 @@ schema_for_file() {
     *.operator-extension-inspection.json)
       echo "$SCHEMAS_DIR/operator-extension-inspection.v1.schema.json"
       ;;
+    *.operator-effective-policy-inspection-input.json)
+      echo "$SCHEMAS_DIR/operator-effective-policy-inspection-input.v1.schema.json"
+      ;;
+    *.operator-effective-policy-inspection.json)
+      echo "$SCHEMAS_DIR/operator-effective-policy-inspection.v1.schema.json"
+      ;;
     *.operator-extension-refusal-code.json)
       echo "$SCHEMAS_DIR/operator-extension-refusal-code.v1.schema.json"
       ;;

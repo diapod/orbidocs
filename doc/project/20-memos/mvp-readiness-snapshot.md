@@ -119,7 +119,7 @@ content-addressed package-specific conformance, operator-signed activation, real
 loopback dispatch, evidence admission, `nse-table` selection, and JSON-e Flow
 projection. The daemon rechecks canonical durable producer authority before and
 after process execution; restart, rollback, crash, expiry, revocation, safe mode,
-substitution, and conformance replacement fail closed. The common 29-code refusal
+substitution, and conformance replacement fail closed. The common 28-code refusal
 vocabulary now has one distinct reaching test per code and a dedicated drift gate.
 The lifecycle process smoke also traverses an exact active JSON-e Flow,
 recomputes its Inquirium-derived capability at the selected runtime boundary, and
@@ -167,7 +167,14 @@ canonical semantic descriptor rather than prompt wording, per-attempt operation 
 caller-selected response idempotency. A bounded declared operation digest sharpens the
 descriptor when present; its absence remains explicit and cannot reactivate an attempt-ref
 fallback.
-Prompt-free inspection exposes rolling usage and bounded member refs. It also projects
+Prompt-free inspection exposes rolling usage and bounded member refs. The accepted
+effective-policy read model now composes the audited lifecycle view with all 38
+Inquirium axes, five domain registries, and optional federation evidence. Its initial
+views foreground only material differences and one decisive restriction, cap visible
+detail at twelve items, expose stable bounded drill-down refs, and mark every missing
+owner source unavailable rather than presenting an apparently complete empty policy.
+Process acceptance proves `inspect`, `explain`, and `graph` agree on the same refusal
+without prompt, signature, secret, or model-output bytes. It also projects
 content-addressed package-backed policy-hook decisions and bounded cache/store occupancy,
 inert/active package counts, active policies, nearest expiry, and required-index health.
 Restart reconciles the complete fixed attention-store ceiling, ordinary
@@ -237,7 +244,9 @@ packages do not need a placeholder hook. CLI and Trace Explorer expose prompt-fr
 local/peer comparisons through a narrow peer-posture route that does not return the
 complete invitation inbox, and a three-daemon acceptance
 proves modified-posture, sanction, and local-substitute refusal. Operator inspection
-also has audited render-only `explain` and bounded Mermaid `graph` modes. All five
+also has audited render-only `inspect`, `explain`, and bounded Mermaid `graph` modes
+over that single projection. Rich interactive attention and peer/refusal navigation
+remains post-MVP under `P085-042`. All five
 guard anchors are wired for the first `restrict/grant-set` backend; additional guard
 operations, axes, and backends, federated Inquirium resource-envelope binding, and
 attention-specific interactive UI remain open. P085 therefore stays
