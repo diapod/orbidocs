@@ -1,0 +1,31 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "component/middleware/catalog-worker",
+  "provides": [
+    {
+      "capability/ref": "local/catalog-query",
+      "contract/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "requires": [
+    {
+      "capability/ref": "local/catalog-store",
+      "contract/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "provider/component-id": "component/middleware/catalog-store"
+    }
+  ],
+  "effects": {
+    "effect/catalog-route": {
+      "class": "ephemeral-revertible",
+      "scope": "host-local",
+      "resource/kind": "route-registration",
+      "resource/key": "route/catalog-query",
+      "dispose/operation": "route.unregister"
+    },
+    "effect/catalog-publication": {
+      "class": "compensatable",
+      "scope": "federated",
+      "compensation/operation": "catalog-publication.supersede"
+    }
+  }
+}

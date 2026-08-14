@@ -999,10 +999,18 @@ container and contains refs and digests, not arbitrary unbounded inline content:
 - derived capability-set definitions;
 - prompt and output-schema profile refs;
 - required base capabilities and module grants;
+- an exact `middleware-component-contract.v1` ref and digest on every supervised
+  middleware package referenced as executable material when that component
+  provides or requires another supervised component or declares an effect;
 - positive conformance fixtures;
 - mandatory refusal corpus;
 - migration, rollback, expiry, and uninstall declarations;
 - disclosure, egress, filesystem, process, and retention requirements.
+
+The V1 component contract intentionally contains no per-effect ordering or deadline
+fields. Its only lifecycle order comes from the exact `requires[]` graph; execution
+deadlines remain properties of the selected executor or runtime contract and must be
+enforced there rather than merely declared by a package.
 
 Installation is inert. Activation requires an operator-visible plan showing:
 
@@ -1011,6 +1019,8 @@ Installation is inert. Activation requires an operator-visible plan showing:
 - which base capabilities are required;
 - that no derived set widens authority;
 - which local files, processes, endpoints, stores, and egress classes are used;
+- the provider-first start order, dependent-first stop order, and recovery class of
+  every declared effect;
 - the refusal-corpus result;
 - the effective operational class;
 - the rollback path.
@@ -1146,6 +1156,7 @@ The first implementation should freeze these contracts before runtime effects:
 | `capability-derived.v1` | Signed local intersection of registered base capabilities plus restrictions. |
 | `operator-attention-budget.v1` | HIL request limits, grouping, availability windows, timeout, and overflow/outside-window policy. |
 | `operator-experiment-package.v1` | Portable manifest over policies, profiles, capabilities, fixtures, rollback, and exact domain-owned semantic-entry registrations. A package may carry hooks, semantic entries, or both, but never an empty executable declaration. |
+| `middleware-component-contract.v1` | Transport-neutral exact provides/requires graph plus effect-recovery declarations for supervised package components. It creates lifecycle order, not authority. |
 | `operator-extension-activation.v1` | Durable local activation or promotion fact bound to operator and package digest, including local producer priority and required/advisory mode. |
 | `operator-extension-session-activation.v1` | Local expiring `research|experimental` activation bound to a live operator session and discarded on restart. |
 | `operator-extension-transition.v1` | Journaled activation, rollback, revocation, or safe-mode transition with expected generation and `planned|committed|finalized|failed` state. |
@@ -2156,6 +2167,12 @@ roles, operations, sinks, or policy adapters remain dependent on `P085-029`,
 | `P085-040` | Expose prompt-free inference-flow inspection, audit, and closed refusals | `todo` | Operator inspection reports package/activation, Flow and Agent refs, current passage, admitted profile refs, product lineage and visibility, selected terminal product, budget use, omitted producers, and the decisive restriction without exposing prompt or product content. The closed refusal registry covers invalid transition, stale binding or policy, unavailable profile, budget exhaustion, unadmitted intermediate edge, visibility leak, ambiguous final product, and publication/effect attempts. Every emitted code has a distinct reaching fixture; dead or unregistered codes fail CI. |
 | `P085-041` | Prove local and Room-bound multi-pass acceptance and synchronize documentation | `todo` | One local acceptance and one Corpus/Room acceptance execute at least `draft -> critique -> revise -> final`, prove explicit final-product selection, keep private structured intermediates out of Room and operator traces, and require ordinary HIL plus owning capability admission for every effect. Exact retries do not duplicate committed passages or charges; dirty restart reconstructs lineage, activation, budgets, and visibility from durable facts and never treats `unknown` as success. Refusal cases cover widened authority, unbounded repetition, stale overlays, product ambiguity, content leakage, revoked packages, and attempted direct publication. P049, P064, P069, P073, relevant solutions, FAQ/HOWTO, implementation ledger, Schema Gate registration, and readiness trackers match the evidenced boundary. |
 | `P085-042` | Add interactive attention and peer/refusal drill-down UI | `todo` | Build UI interaction above the accepted effective-policy projection without introducing a second policy model. Navigation follows stable bounded artifact refs, applies per-view result caps, distinguishes unavailable from empty sources, and never fetches prompt, signature, secret, or protected payload bytes. Attention groups, peer posture mismatches, and refusal provenance remain separate views with explicit back-links to the same decisive fact. |
+
+### Cross-Cutting Package Composition
+
+| ID | Work item | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- |
+| `P085-043` | Bind supervised experiment-package components to dependency and effect-recovery contracts | `done` | A supervised middleware package referenced by an experiment package may carry an exact `middleware-component-contract.v1`; installation/config preflight rejects unknown components, contract-digest mismatch, missing or ambiguous providers, cycles, and invalid effect recovery. Runtime start/stop/restart and provider-loss transitions reuse the P080 graph rather than creating a package-local lifecycle engine. |
 
 ## Next Actions
 

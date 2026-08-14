@@ -40,6 +40,21 @@ For Inquirium, the model-runtime catalog may select `channel_json` with a module
 declared invoke path, and timeout. This changes transport only: `runtime/ref`, model
 binding, policy, and response validation remain host-owned.
 
+## What happens when required middleware disappears?
+
+The Node does not keep routing calls to a consumer whose required provider is gone.
+It resolves exact capability-and-contract-digest dependencies, marks affected
+consumers non-routable, drains and stops them in dependent-first order, and reports
+`dependency_unavailable`. A dedicated reconciliation loop resumes consumers
+provider-first only when the exact requirements are observed ready again; reading
+health/status never starts or stops a component. A same-named but
+contract-mismatched or incorrectly pinned provider is not a recovery.
+
+This lifecycle transition cleans up typed host-local resources. Durable, external,
+and federated effects retain their own transaction, journal, compensation,
+supersession, or approval semantics. Process shutdown is never presented as undo of
+such an effect. See [Declaring component dependencies and effect recovery](../howto/middleware-howto.en.md#declaring-component-dependencies-and-effect-recovery).
+
 ## What is Role Middleware?
 
 Role Middleware is not an execution type. It is a specialization pattern: a middleware

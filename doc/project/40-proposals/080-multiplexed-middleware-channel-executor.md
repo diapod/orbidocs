@@ -527,6 +527,14 @@ Shutdown sequence:
 - Frame, body, queue, in-flight, timeout, reconnect, and restart limits are explicit.
 - Logs and lifecycle facts contain ids, digests, counters, and redacted errors, not
   request payloads or secrets.
+- Component requirements bind the exact contract digest; a matching capability name
+  does not authorize a different contract revision.
+- The admitted component graph is acyclic and has one deterministic startup and
+  shutdown order.
+- Dependency loss is represented as `dependency_unavailable`, not collapsed into an
+  ordinary call failure or an operator stop.
+- Every declared effect has one recovery class; imperative disposal is restricted to
+  typed host-local resources.
 
 ## Configuration Projection
 
@@ -583,6 +591,74 @@ facts and MUST NOT be persisted into package configuration.
 `<data-dir>/middleware/<module-id>/bind` remains meaningful only for legacy HTTP
 executors. A channel module may receive a host-owned session-status marker, but the
 authoritative session state is the daemon read model, not a module-editable file.
+
+### Component Contracts, Dependency Order, and Effect Recovery
+
+`middleware-component-contract.v1` is the transport-neutral composition contract for
+supervised HTTP and channel components. It carries:
+
+- `provides[]`: a capability ref plus the canonical digest of the provided contract;
+- `requires[]`: the same pair, optionally pinned to one provider component;
+- `effects`: a map keyed by unique `effect/id`; ownership is inherited from the
+  enclosing `component/id`, so neither identity nor ownership is caller-overridable
+  inside an effect declaration.
+
+The host resolves requirements by the exact `(capability/ref, contract/digest)` pair.
+A name match with a different digest is a contract mismatch, not a fallback. Multiple
+matching providers require an explicit `provider/component-id`; missing required
+providers, ambiguous providers, unknown components, and cycles refuse daemon
+preflight before child processes start. An optional requirement tolerates only the
+complete absence of its capability. A present but digest-incompatible capability or
+an unsatisfied `provider/component-id` pin is a configuration error, not degraded
+success.
+
+The graph is bounded to 128 components and rebuilt from the current admitted
+contracts for each lifecycle operation and reconciliation pass. V1 deliberately
+does not cache this authority-bearing projection: a config or contract revision must
+not leave a stale dependency edge authorized in memory.
+
+Initial HTTP runtime materialization fails closed if any configured executor cannot
+produce a runtime state. Hot configuration apply stages every replacement first,
+then publishes the runtime snapshot and component-contract snapshot while holding
+one lifecycle guard; reconciliation cannot observe only one half of that revision.
+Channel shutdown removes host-owned PID and launch-token files plus the conventional
+product-listener `bind` marker after the child has stopped. Correct cleanup therefore
+does not depend on the child finishing its language-runtime finalizers before a
+bounded termination escalation.
+
+The accepted graph is deterministic. Startup follows topological provider-first
+order; shutdown follows the reverse order. Stopping or restarting a provider first
+makes the affected subgraph non-routable, performs bounded transport shutdown for
+dependents, and releases the provider last. A partial start rolls back only the
+components started by that operation. An unexpected provider loss moves dependents
+to `dependency_unavailable`; they resume in topological order only after every exact
+required contract is actually `ready` again. Starting a process establishes only
+`starting`/running state; it does not synthesize readiness for the same pass.
+`operator_stopped` remains distinct and is never silently treated as an
+automatic-recovery request.
+
+Dependency reconciliation runs on its own bounded daemon schedule. Read-only health
+and status queries inspect the latest state but never start or stop components.
+Operator start, stop, and restart responses expose the ordered component closure
+affected by the command, including transitive dependents stopped with a provider.
+
+Effects use four closed recovery classes:
+
+| Class | Meaning | Admitted recovery |
+|---|---|---|
+| `ephemeral-revertible` | Process-owned host-local resource. | Typed idempotent disposer for a timer, subscription, route registration, temporary root, local service binding, process, or channel session. |
+| `transactional-withheld` | Visibility is withheld until the durable commit point. | Transaction or replayable journal. |
+| `compensatable` | The original fact cannot be erased, but its consequences can be offset. | Separate compensation operation or append-only fact. |
+| `irreversible-external` | The point of no return crosses an external or federated boundary. | Prior approval, bounded execution, and durable audit; no claimed rollback. |
+
+V1 carries no per-effect ordering or deadline fields. Lifecycle order derives only
+from the exact `requires[]` graph, while execution deadlines remain owned and
+enforced by the selected executor or runtime contract.
+
+An imperative disposer is legal only for `host-local` resources and its operation
+must match the declared resource kind. Durable and federated state is corrected by
+tombstone, supersession, compensation, or journal replay. Deleting a local record is
+never described as undoing an effect already observed by another component or node.
 
 ## Dispatch Abstraction Changes
 
@@ -883,6 +959,11 @@ are required before migrating modules that expose those surfaces.
 13. `http_local_json` remains an explicit operator-selected compatibility adapter
     until a separately announced migration removes it. It is never inferred from a
     bundled module subtree or silently converted to `channel_json`.
+14. `transactional-withheld` and `compensatable` effects require `durable`,
+    `external`, or `federated` scope. A `host-local` effect uses the typed
+    `ephemeral-revertible` disposer contract instead.
+15. The bounded dependency graph is rebuilt from current admitted declarations after
+    each relevant revision. V1 intentionally has no authority-bearing graph cache.
 
 ## Open Questions
 
@@ -913,6 +994,9 @@ are frozen above.
 | P080-018 | Update implementation ledger, Middleware solution, FAQ/HOWTO, config docs, and package authoring guidance | done | Runtime ownership, model-runtime channel configuration, opt-in authoring, mixed-surface exceptions, cohort evidence, and the remaining P080-019/P080-020 work are synchronized. |
 | P080-019 | Make `channel_json` the default for eligible bundled modules and stop allocating their host-only ports/bind markers | done | Bundled factory configs declare `factory_executor` plus `product_listener_retained`; host-only modules project to `middleware_channel_services` without listen host/port/bind, while intentional and mixed product listeners remain explicit. Channel-owned Dator and Arca publish `bind` only for their live retained product endpoints and remove it on shutdown. Agora Verifier and Snooper gained the shared Python channel adapter. Whisper Intake remains deliberately HTTP because its classified mixed surface has not yet been split; it is not silently treated as eligible. |
 | P080-020 | Decide and execute final `http_local_json` legacy-package support policy | done | `http_local_json` remains an explicit operator-installed/rollback compatibility adapter. Node preserves explicit executor configs, exposes runtime executor and `explicit-http-local-json-legacy` inventory status, and rejects stale listener keys in channel-only bundled config rather than silently ignoring or converting them. Any future removal requires a separately announced migration. |
+| P080-021 | Add the transport-neutral component contract and deterministic dependency graph | done | `middleware-component-contract.v1` is synchronized into Node, registered as a Schema Gate import, and parsed into typed Rust declarations. Exact capability/digest resolution rejects unknown, missing, mismatched, ambiguous, duplicate, and cyclic contracts before runtime effects. |
+| P080-022 | Apply dependency order to middleware lifecycle and provider-loss recovery | done | Daemon start, shutdown, and component start/stop/restart use one graph. Providers start first and stop last; affected components become non-routable before bounded transport shutdown; partial-start rollback preserves components that predated the operation. A dedicated reconciliation loop exposes `dependency_unavailable`, waits for observed `ready` state before resuming downstream components, and leaves health/status reads side-effect free. Operator control receipts list the affected closure. |
+| P080-023 | Freeze effect recovery classes and host-local disposer boundaries | done | The shared contract uses an effect-id-keyed map, closes four effect classes, admits typed disposers only for seven host-local resource kinds, binds disposer operations to resource kinds, and requires non-local scope for journals/compensation plus external or federated scope for irreversible effects. Positive and refusal fixtures prove that federated effects cannot claim imperative undo and host-local effects cannot claim durable compensation. |
 
 ## Next Actions
 
@@ -925,3 +1009,6 @@ are frozen above.
 4. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
 5. Preserve explicit HTTP compatibility until a separately tracked removal policy
    supplies package migration and operator notice.
+6. Require every new cross-component dependency or effectful middleware package to
+   carry `middleware-component-contract.v1`; do not reconstruct the graph from
+   successful runtime lookups.

@@ -83,6 +83,9 @@ schema_for_file() {
     *.middleware-channel-session-shutdown.json)
       echo "$SCHEMAS_DIR/middleware-channel-session-shutdown.v1.schema.json"
       ;;
+    *.middleware-component-contract.json)
+      echo "$SCHEMAS_DIR/middleware-component-contract.v1.schema.json"
+      ;;
     *.middleware-module-http-request.json)
       echo "$SCHEMAS_DIR/middleware-module-http-request.v1.schema.json"
       ;;

@@ -111,6 +111,50 @@ The behavior-free reference process is
 `middleware-modules/channel-conformance-peer/service.py`. A real module should use
 the same transport adapter but replace fixture handlers with its domain callables.
 
+## Declaring component dependencies and effect recovery
+
+Use `middleware-component-contract.v1` when one supervised middleware component
+depends on another component or creates effects whose cleanup matters. Bind every
+provided and required capability to its canonical contract digest. A capability name
+alone is not a compatibility claim. Pin `provider/component-id` when exactly one
+provider is intended; otherwise the host refuses an ambiguous match rather than
+choosing by configuration order.
+
+The host validates the complete graph before startup. Missing or digest-mismatched
+requirements, provider-pin failures, ambiguous providers, and cycles are
+configuration errors. An `optional` requirement tolerates only complete absence;
+if the capability is present under a different digest or provider than declared,
+the host refuses the graph rather than hiding an incompatibility. Components
+start provider-first and stop dependent-first. If a required provider disappears at
+runtime, the host first makes affected dependents non-routable, drains and stops them,
+and reports `dependency_unavailable`. A dedicated lifecycle loop may restart them
+only after the same declared requirement is observed ready again; querying health or
+status never drives this transition. Mark a requirement `optional` only when the consumer
+has an explicit degraded mode that does not silently inherit equivalent authority.
+
+The `effects` value is a map keyed by `effect/id`, not a list containing editable
+identity or ownership fields. The enclosing `component/id` owns every entry. This
+shape makes duplicate ids impossible in the parsed value and prevents one component
+from claiming that another owns its recovery obligation.
+
+Every declared effect uses one recovery class:
+
+| Class | Intended recovery |
+| --- | --- |
+| `ephemeral-revertible` | A typed host-local disposer releases a timer, subscription, route, temporary root, local binding, process, or channel session. |
+| `transactional-withheld` | A transaction or journal prevents an uncommitted durable, external, or federated effect from becoming visible. |
+| `compensatable` | A later append-only fact compensates, tombstones, withdraws, or supersedes an already visible durable, external, or federated effect. |
+| `irreversible-external` | The effect requires an explicit approval policy because no honest undo can be promised. |
+
+Do not assign an imperative disposer to durable, external, or federated state. Closing
+a process or channel releases a local resource; it does not erase a published fact,
+revoke a remote observation, or reverse an external action. The positive reference
+value is [the basic middleware component contract](../../schemas/examples/basic.middleware-component-contract.json).
+
+Operator start, stop, and restart responses include the ordered affected component
+closure. Inspect it before treating a command as single-component maintenance: a
+provider stop intentionally drains and stops all transitive dependents first.
+
 ## What are middleware types?
 
 Orbiplex middleware is not one web-style interceptor chain. It is a hosted

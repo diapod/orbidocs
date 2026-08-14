@@ -74,6 +74,53 @@ Referencyjnym procesem bez zachowania domenowego jest
 używać tego samego adaptera transportowego, zastępując fixture handlers własnymi
 funkcjami domenowymi.
 
+## Deklarowanie zależności komponentów i odzyskiwania po efektach
+
+Użyj `middleware-component-contract.v1`, gdy jeden nadzorowany komponent middleware
+zależy od innego komponentu albo wywołuje efekty, których uprzątnięcie ma znaczenie.
+Każdą dostarczaną i wymaganą capability zwiąż z digestem jej kanonicznego kontraktu.
+Sama nazwa capability nie jest deklaracją zgodności. Ustaw
+`provider/component-id`, gdy zamierzony jest dokładnie jeden provider; w przeciwnym
+razie host odmawia niejednoznacznego dopasowania zamiast wybierać według kolejności
+konfiguracji.
+
+Host waliduje cały graf przed uruchomieniem. Brak wymagania, niezgodność digestu,
+niespełniony pin providera, niejednoznaczny provider i cykl są błędami konfiguracji.
+Wymaganie `optional` toleruje wyłącznie całkowity brak capability; jeżeli capability
+jest obecna pod innym digestem albo u innego providera niż zadeklarowany, host odmawia
+przyjęcia grafu zamiast ukrywać niezgodność. Komponenty uruchamiają się
+od providerów do zależnych, a zatrzymują w odwrotnej kolejności. Gdy wymagany
+provider znika w czasie działania, host najpierw usuwa zależne komponenty z routingu,
+wygasza i zatrzymuje je oraz raportuje `dependency_unavailable`. Dedykowana pętla
+cyklu życia może je uruchomić ponownie dopiero po zaobserwowaniu gotowości tej samej
+zadeklarowanej zależności; odczyt health albo statusu nigdy nie steruje tym przejściem. Oznacz wymaganie
+jako `optional` wyłącznie wtedy, gdy konsument ma jawny tryb degradacji, który nie
+dziedziczy po cichu równoważnej władzy.
+
+Wartość `effects` jest mapą indeksowaną przez `effect/id`, a nie listą zawierającą
+edytowalne pola tożsamości lub właściciela. Każdy wpis należy do otaczającego go
+`component/id`. Taki kształt uniemożliwia duplikat identyfikatora w sparsowanej
+wartości i nie pozwala komponentowi przypisać obowiązku odzyskania komuś innemu.
+
+Każdy zadeklarowany efekt używa jednej klasy odzyskiwania:
+
+| Klasa | Zamierzony mechanizm odzyskiwania |
+| --- | --- |
+| `ephemeral-revertible` | Typowany disposer hosta zwalnia lokalny timer, subskrypcję, route, katalog tymczasowy, binding, proces albo sesję kanału. |
+| `transactional-withheld` | Transakcja albo dziennik nie dopuszcza do ujawnienia niezatwierdzonego efektu trwałego, zewnętrznego lub federacyjnego. |
+| `compensatable` | Późniejszy fakt append-only kompensuje, oznacza tombstonem, wycofuje albo zastępuje widoczny efekt trwały, zewnętrzny lub federacyjny. |
+| `irreversible-external` | Efekt wymaga jawnej polityki zatwierdzania, ponieważ nie można uczciwie obiecać jego cofnięcia. |
+
+Nie przypisuj imperatywnego disposera do stanu trwałego, zewnętrznego ani
+federacyjnego. Zamknięcie procesu lub kanału zwalnia zasób lokalny; nie usuwa
+opublikowanego faktu, zdalnej obserwacji ani nie odwraca działania zewnętrznego.
+Pozytywną wartością referencyjną jest [podstawowy kontrakt komponentu middleware](../../schemas/examples/basic.middleware-component-contract.json).
+
+Odpowiedzi operatorskich operacji start, stop i restart zawierają uporządkowane
+domknięcie dotkniętych komponentów. Sprawdź je, zanim potraktujesz polecenie jak
+obsługę jednego komponentu: zatrzymanie providera celowo najpierw wygasza i zatrzymuje
+wszystkich jego tranzytywnych konsumentów.
+
 ## Jakie są rodzaje middleware'u?
 
 Middleware Orbipleksu nie jest jednym webowym łańcuchem interceptorów. Jest

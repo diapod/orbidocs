@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-component-contract:v1",
+  "title": "Middleware Component Contract v1",
+  "description": "Transport-neutral dependency and recovery-semantics declaration for one supervised middleware component.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "component/id", "provides", "requires", "effects"],
+  "properties": {
+    "schema": {"const": "middleware-component-contract.v1"},
+    "component/id": {"$ref": "#/$defs/ref"},
+    "provides": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/providedContract"}
+    },
+    "requires": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/requiredContract"}
+    },
+    "effects": {
+      "type": "object",
+      "maxProperties": 128,
+      "propertyNames": {"$ref": "#/$defs/ref"},
+      "additionalProperties": {"$ref": "#/$defs/effect"},
+      "description": "Effect declarations keyed by their unique effect/id. Ownership is inherited from the enclosing component/id."
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[!-~]+$",
+      "description": "Non-empty reference composed only of visible ASCII characters."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"
+    },
+    "providedContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability/ref", "contract/digest"],
+      "properties": {
+        "capability/ref": {"$ref": "#/$defs/ref"},
+        "contract/digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "requiredContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability/ref", "contract/digest"],
+      "properties": {
+        "capability/ref": {"$ref": "#/$defs/ref"},
+        "contract/digest": {"$ref": "#/$defs/digest"},
+        "provider/component-id": {"$ref": "#/$defs/ref"},
+        "optional": {"type": "boolean", "default": false}
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "scope"],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": [
+            "ephemeral-revertible",
+            "transactional-withheld",
+            "compensatable",
+            "irreversible-external"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["host-local", "durable", "external", "federated"]
+        },
+        "resource/kind": {
+          "type": "string",
+          "enum": [
+            "timer",
+            "subscription",
+            "route-registration",
+            "temporary-root",
+            "local-service-binding",
+            "process",
+            "channel-session"
+          ]
+        },
+        "resource/key": {"$ref": "#/$defs/ref"},
+        "dispose/operation": {
+          "type": "string",
+          "enum": [
+            "timer.cancel",
+            "subscription.unsubscribe",
+            "route.unregister",
+            "temp-root.remove",
+            "local-service.unbind",
+            "process.stop",
+            "channel-session.close"
+          ]
+        },
+        "journal/ref": {"$ref": "#/$defs/ref"},
+        "compensation/operation": {"$ref": "#/$defs/ref"},
+        "approval/policy-ref": {"$ref": "#/$defs/ref"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"class": {"const": "ephemeral-revertible"}}, "required": ["class"]},
+          "then": {
+            "properties": {"scope": {"const": "host-local"}},
+            "required": ["resource/kind", "resource/key", "dispose/operation"],
+            "oneOf": [
+              {
+                "properties": {
+                  "resource/kind": {"const": "timer"},
+                  "dispose/operation": {"const": "timer.cancel"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "subscription"},
+                  "dispose/operation": {"const": "subscription.unsubscribe"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "route-registration"},
+                  "dispose/operation": {"const": "route.unregister"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "temporary-root"},
+                  "dispose/operation": {"const": "temp-root.remove"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "local-service-binding"},
+                  "dispose/operation": {"const": "local-service.unbind"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "process"},
+                  "dispose/operation": {"const": "process.stop"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "channel-session"},
+                  "dispose/operation": {"const": "channel-session.close"}
+                }
+              }
+            ],
+            "not": {
+              "anyOf": [
+                {"required": ["journal/ref"]},
+                {"required": ["compensation/operation"]},
+                {"required": ["approval/policy-ref"]}
+              ]
+            }
+          }
+        },
+        {
+          "if": {"properties": {"class": {"const": "transactional-withheld"}}, "required": ["class"]},
+          "then": {
+            "properties": {"scope": {"enum": ["durable", "external", "federated"]}},
+            "required": ["journal/ref"],
+            "not": {"anyOf": [{"required": ["resource/kind"]}, {"required": ["resource/key"]}, {"required": ["dispose/operation"]}, {"required": ["compensation/operation"]}, {"required": ["approval/policy-ref"]}]}
+          }
+        },
+        {
+          "if": {"properties": {"class": {"const": "compensatable"}}, "required": ["class"]},
+          "then": {
+            "properties": {"scope": {"enum": ["durable", "external", "federated"]}},
+            "required": ["compensation/operation"],
+            "not": {"anyOf": [{"required": ["resource/kind"]}, {"required": ["resource/key"]}, {"required": ["dispose/operation"]}, {"required": ["journal/ref"]}, {"required": ["approval/policy-ref"]}]}
+          }
+        },
+        {
+          "if": {"properties": {"class": {"const": "irreversible-external"}}, "required": ["class"]},
+          "then": {
+            "properties": {"scope": {"enum": ["external", "federated"]}},
+            "required": ["approval/policy-ref"],
+            "not": {"anyOf": [{"required": ["resource/kind"]}, {"required": ["resource/key"]}, {"required": ["dispose/operation"]}, {"required": ["journal/ref"]}, {"required": ["compensation/operation"]}]}
+          }
+        }
+      ]
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ]
+}

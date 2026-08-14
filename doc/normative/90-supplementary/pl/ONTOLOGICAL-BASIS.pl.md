@@ -801,6 +801,18 @@ działania, ale traktuje kontrakt nie jako ostateczną definicję bytu, lecz jak
 lokalny akt kontraktowego dookreślenia: mówi, co w danej operacji uznajemy za
 wystarczająco określone.
 
+**Paradygmat komponowalności przestrzennej i czasowej** (Shi, Zhang, Cui):
+dynamiczna kompozycja ma dwie ortogonalne osie. Przestrzenna dotyczy jawnego
+deklarowania zależności oraz reagowania na ich pojawienie się, zmianę i utratę;
+czasowa – usuwania lub zastępowania komponentów wraz z prawidłowym rozliczeniem
+wywołanych przez nie skutków. Podejście Orbipleksu podziela ten nacisk na jawny
+kontekst, zależności i cykl życia, lecz zawęża pojęcie odwracalności: imperatywnie
+cofać można jedynie skutki dotyczące typowanych zasobów lokalnych. Skutki trwałe,
+zewnętrzne i federacyjne pozostawiają historię, a ich korekta następuje przez
+transakcję, wycofanie, zastąpienie albo kompensację. Komponowalność nie oznacza więc
+wymazania przeszłości, lecz zachowanie prawdziwej semantyki przejść między warstwami
+i komponentami.
+
 **Event sourcing, logi faktów i architektury niemutowalne** (Fowler, Young): stan
 systemu nie jest jedną substancją mutowaną w miejscu, lecz projekcją historii
 zdarzeń. Podejście Orbipleksu podziela tę nieufność wobec magicznej mutacji: lepiej
@@ -810,9 +822,10 @@ i korektę bez wymazywania historii.
 
 Żadna z tych tradycji nie jest tożsama z naszym podejściem. Najbliżej mu do
 przecięcia: projektowania warstwowego, *bounded contexts*, kontraktów behawioralnych,
-object-capabilities, modelu aktorowego i *event sourcingu*. Własny akcent Orbipleksu
-polega na tym, że techniki te zostają podporządkowane jednej dyscyplinie: rzeczy
-powstają dopiero tam, gdzie konkretna warstwa bierze za nie
+object-capabilities, komponowalności przestrzennej i czasowej, modelu aktorowego
+i *event sourcingu*. Własny akcent Orbipleksu polega na tym, że techniki te zostają
+podporządkowane jednej dyscyplinie: rzeczy powstają dopiero tam, gdzie konkretna
+warstwa bierze za nie
 odpowiedzialność. Identyfikator jest uchwytem, nie esencją; typ jest lokalnym
 kontraktem, nie metafizyką; zdarzenie jest śladem procesu, nie absolutną prawdą;
 moduł jest rolą w przepływie, a nie jest substancją.

@@ -830,6 +830,17 @@ contract not as the ultimate definition of an entity, but as a local act of
 contractual specification: it says what, in a given operation, we accept as
 sufficiently defined.
 
+**The paradigm of spatial and temporal composability** (Shi, Zhang, Cui): dynamic
+composition has two orthogonal axes. The spatial axis concerns explicitly declaring
+dependencies and reacting to their appearance, change, and loss; the temporal axis
+concerns removing or replacing components while correctly accounting for the effects
+they produced. Orbiplex shares this emphasis on explicit context, dependencies, and
+lifecycle, but narrows the notion of reversibility: imperative reversal applies only
+to effects on typed local resources. Durable, external, and federated effects leave a
+history, and are corrected through transactions, withdrawal, supersession, or
+compensation. Composability therefore does not mean erasing the past, but preserving
+truthful transition semantics between layers and components.
+
 **Event sourcing, fact logs, and immutable architectures** (Fowler, Young): the system's
 state is not one substance mutated in place, but a projection of the history of events.
 Orbiplex's approach shares this distrust of magical mutation: it is better to record the
@@ -839,11 +850,12 @@ erasing history.
 
 None of these traditions is identical with our approach. It is closest to their
 intersection: layered design, *bounded contexts*, behavioral contracts, object
-capabilities, the actor model, and *event sourcing*. Orbiplex's own accent is that these
-techniques are subordinated to one discipline: things arise only where a concrete layer
-takes responsibility for them. An identifier is a handle, not an essence; a type is a
-local contract, not a metaphysics; an event is a trace of a process, not an absolute
-truth; a module is a role in a flow, not a substance.
+capabilities, spatial and temporal composability, the actor model, and *event sourcing*.
+Orbiplex's own accent is that these techniques are subordinated to one discipline:
+things arise only where a concrete layer takes responsibility for them. An identifier
+is a handle, not an essence; a type is a local contract, not a metaphysics; an event is
+a trace of a process, not an absolute truth; a module is a role in a flow, not a
+substance.
 
 ### Economy
 

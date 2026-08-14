@@ -1,0 +1,15 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "component/middleware/catalog-worker",
+  "provides": [],
+  "requires": [],
+  "effects": {
+    "effect/catalog-publication": {
+      "class": "ephemeral-revertible",
+      "scope": "federated",
+      "resource/kind": "route-registration",
+      "resource/key": "route/federated-publication",
+      "dispose/operation": "route.unregister"
+    }
+  }
+}

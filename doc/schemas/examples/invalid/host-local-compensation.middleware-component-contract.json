@@ -1,0 +1,13 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "component/middleware/search-index",
+  "provides": [],
+  "requires": [],
+  "effects": {
+    "effect/search-index-update": {
+      "class": "compensatable",
+      "scope": "host-local",
+      "compensation/operation": "search-index.supersede"
+    }
+  }
+}

@@ -35,6 +35,23 @@ Dla Inquirium katalog model-runtime może wybrać `channel_json`, podając ident
 modułu, zadeklarowaną ścieżkę invoke i timeout. Zmienia to wyłącznie transport:
 `runtime/ref`, model binding, polityka i walidacja odpowiedzi pozostają własnością hosta.
 
+## Co się dzieje, gdy znika wymagany middleware?
+
+Node nie kieruje dalej wywołań do konsumenta, którego wymagany provider zniknął.
+Rozwiązuje dokładne zależności capability-digest kontraktu, usuwa dotkniętych
+konsumentów z routingu, wygasza i zatrzymuje ich w kolejności od zależnych do
+providerów oraz raportuje `dependency_unavailable`. Dedykowana pętla rekoncyliacji
+wznawia konsumentów w kolejności od providerów dopiero po zaobserwowaniu gotowości
+dokładnie tych samych wymagań; odczyt health/status nigdy nie uruchamia ani nie
+zatrzymuje komponentu. Provider o tej samej nazwie, lecz niezgodnym kontrakcie albo
+niespełnionym pinie nie oznacza odzyskania.
+
+To przejście cyklu życia uprząta typowane zasoby lokalne hosta. Efekty trwałe,
+zewnętrzne i federacyjne zachowują własną semantykę transakcji, dziennika,
+kompensacji, zastąpienia lub zatwierdzania. Zatrzymanie procesu nigdy nie jest
+przedstawiane jako cofnięcie takiego efektu. Zobacz [Deklarowanie zależności
+komponentów i odzyskiwania po efektach](../howto/middleware-howto.pl.md).
+
 ## Czym jest Role Middleware?
 
 Role Middleware nie jest typem wykonania. To wzorzec specjalizacji: komponent middleware

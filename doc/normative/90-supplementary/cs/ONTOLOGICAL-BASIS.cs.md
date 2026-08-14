@@ -757,6 +757,17 @@ podmínkami užití a skutečnými oprávněními. Náš přístup sdílí tuto 
 role a schopnosti jednat, ale kontrakt nepojímá jako konečnou definici bytí, nýbrž jako
 lokální akt kontraktového vymezení: říká, co v dané operaci uznáváme za dostatečně určené.
 
+**Paradigma prostorové a časové komponovatelnosti** (Shi, Zhang, Cui) – dynamická
+kompozice má dvě ortogonální osy. Prostorová osa se týká explicitního deklarování
+závislostí a reakce na jejich vznik, změnu a ztrátu; časová osa se týká odstraňování nebo
+nahrazování komponent spolu s korektním vypořádáním účinků, které vyvolaly. Přístup
+Orbiplexu sdílí tento důraz na explicitní kontext, závislosti a životní cyklus, avšak
+pojem reverzibility zužuje: imperativně lze vracet pouze účinky nad typovanými lokálními
+zdroji. Trvalé, externí a federační účinky zanechávají historii a napravují se
+prostřednictvím transakce, stažení, nahrazení nebo kompenzace. Komponovatelnost tedy
+neznamená vymazání minulosti, nýbrž zachování pravdivé sémantiky přechodů mezi vrstvami
+a komponentami.
+
 **Event sourcing, logy faktů a neměnné architektury** (Fowler, Young) – stav systému není
 jednou substancí mutovanou na místě, nýbrž projekcí historie událostí. Přístup Orbiplexu
 sdílí tuto nedůvěru vůči magické mutaci: je lepší zapisovat stopy procesu než předstírat
@@ -765,11 +776,11 @@ temporální dotazy a korekci bez vymazávání historie.
 
 Žádná z těchto tradic není totožná s naším přístupem. Nejblíže mu je k jejich průsečíku:
 vrstvený návrh, *bounded contexts*, behaviorální kontrakty, object-capabilities, model
-aktorů a *event sourcing*. Vlastní akcent Orbiplexu spočívá v tom, že tyto techniky jsou
-podřízeny jedné disciplíně: věci vznikají teprve tam, kde za ně konkrétní vrstva přebírá
-odpovědnost. Identifikátor je úchyt, nikoli esence; typ je lokální kontrakt, nikoli
-metafyzika; událost je stopa procesu, nikoli absolutní pravda; modul je role v toku, nikoli
-substance.
+aktorů, prostorová a časová komponovatelnost a *event sourcing*. Vlastní akcent
+Orbiplexu spočívá v tom, že tyto techniky jsou podřízeny jedné disciplíně: věci vznikají
+teprve tam, kde za ně konkrétní vrstva přebírá odpovědnost. Identifikátor je úchyt,
+nikoli esence; typ je lokální kontrakt, nikoli metafyzika; událost je stopa procesu,
+nikoli absolutní pravda; modul je role v toku, nikoli substance.
 
 ### Ekonomie
 

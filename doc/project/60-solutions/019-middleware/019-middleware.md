@@ -377,7 +377,7 @@ alter dispatch.
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
 | `http_local_json` | High | Supervised loopback HTTP service with readiness, restart, init/report, and module lifecycle. |
-| `channel_json` (opt-in cohorts implemented) | High | Strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle, fairness/cancellation, module HTTP/UI bridge, operator facts, and opt-in bundled cohorts are implemented. Default factory switching and the legacy HTTP policy remain in Proposal 080. |
+| `channel_json` | High | Strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle, fairness/cancellation, module HTTP/UI bridge, operator facts, bundled cohorts, default factory selection, and explicit legacy HTTP compatibility are implemented. |
 
 The executor class is not the authority boundary by itself. Authority comes
 from host-owned grants: module authtok, capability passport, local config,
@@ -424,6 +424,51 @@ Operator-installed `http_local_json` packages remain supported as an explicit le
 compatibility mode: Node preserves the declared executor, reports the compatibility
 mode in inventory, and rejects stale listener keys under channel-only module config
 instead of silently reinterpreting them.
+
+### Component Composition and Recovery
+
+Supervised HTTP and channel components may carry one
+`middleware-component-contract.v1`. `provides[]` and `requires[]` bind capability
+refs to canonical contract digests, while `effects` is keyed by unique effect id and
+inherits ownership from the enclosing component. The daemon rejects missing,
+mismatched, incorrectly pinned, ambiguous, unknown, or cyclic composition during
+preflight. `optional` tolerates complete capability absence, not an incompatible
+present provider. Runtime lifecycle uses the resulting deterministic graph:
+providers start first, dependents stop first, and operator stop/restart acts on the
+affected subgraph rather than one arbitrary executor.
+
+V1 deliberately carries no per-effect ordering or deadline fields. Lifecycle order
+derives only from the exact `requires[]` graph, while execution deadlines remain
+owned and enforced by the selected executor or runtime contract.
+
+Provider loss is an explicit `dependency_unavailable` transition. New routing is
+withdrawn before bounded shutdown, and a dependent resumes only after all exact
+requirements are observed ready again. Starting a process does not declare it ready.
+Reconciliation has its own daemon schedule; health/status reads do not mutate the
+lifecycle. Operator lifecycle receipts enumerate the ordered component closure that
+was started, stopped, or restarted. This differs from `operator_stopped`, which
+expresses intent and is not auto-recovered by reconciliation.
+
+The bounded graph is rebuilt from current declarations rather than cached. This is a
+deliberate authority-safety choice: config and contract revisions cannot leave stale
+dependency edges active in memory.
+
+HTTP supervisor construction refuses the whole snapshot if any configured executor
+cannot be materialized. Runtime hot-apply stages replacement states and publishes the
+runtime plus contract snapshots under one lifecycle guard, so reconciliation cannot
+act on a half-applied graph revision.
+
+After bounded channel-child shutdown, the supervisor idempotently removes its PID,
+launch-token, and product-listener `bind` runtime markers. Cleanup remains complete
+even when forced termination prevents module-language finalizers from running.
+
+The same contract classifies effects as `ephemeral-revertible`,
+`transactional-withheld`, `compensatable`, or `irreversible-external`. Imperative
+disposers are admitted only for typed host-local resources; transactional and
+compensatable effects require durable, external, or federated scope. Durable and
+federated effects retain their history and recover through journal replay,
+tombstones, supersession, or compensation; local deletion is not represented as
+remote undo.
 
 ## Module Init And Report
 

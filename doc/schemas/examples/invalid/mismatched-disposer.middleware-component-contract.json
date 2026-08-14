@@ -1,0 +1,15 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "component/middleware/search-index",
+  "provides": [],
+  "requires": [],
+  "effects": {
+    "effect/search-refresh-timer": {
+      "class": "ephemeral-revertible",
+      "scope": "host-local",
+      "resource/kind": "timer",
+      "resource/key": "search-refresh",
+      "dispose/operation": "route.unregister"
+    }
+  }
+}
