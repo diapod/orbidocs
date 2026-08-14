@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-inference-flow-binding:v1",
+  "title": "Corpus Reasoning Inference Flow Binding v1",
+  "description": "Corpus-owned authority binding one Agent inference Flow to one current Room role, locally accepted instruction overlay, turn, policy generation, and unpublished draft sink.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "binding/ref", "binding/digest", "query/id", "room/id", "participant",
+    "agent/id", "agent-binding/ref", "agent-flow-binding/ref", "agent-flow-binding/digest",
+    "role-assignment/ref", "role-assignment/revision", "role-assignment/digest",
+    "instruction-overlay/ref", "instruction-overlay/revision", "instruction-overlay/digest",
+    "turn/no", "room-policy/ref", "room-policy/digest", "policy/generation",
+    "prompt-policy/ref", "classification/ceiling", "exposure",
+    "intermediate/visibility-ceiling", "terminal/disposition", "expires/at",
+    "admitted/at", "admitted/by"
+  ],
+  "properties": {
+    "schema": { "const": "corpus-reasoning-inference-flow-binding.v1" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "binding/digest": { "$ref": "#/$defs/digest" },
+    "query/id": { "type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512 },
+    "room/id": { "type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512 },
+    "participant": { "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "agent-binding/ref": { "$ref": "#/$defs/ref" },
+    "agent-flow-binding/ref": { "$ref": "#/$defs/ref" },
+    "agent-flow-binding/digest": { "$ref": "#/$defs/digest" },
+    "role-assignment/ref": { "type": "string", "pattern": "^corpus-role-assignment:sha256:[A-Za-z0-9_-]{43}$" },
+    "role-assignment/revision": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "role-assignment/digest": { "$ref": "#/$defs/digest" },
+    "instruction-overlay/ref": { "type": "string", "pattern": "^corpus-instruction-overlay:sha256:[A-Za-z0-9_-]{43}$" },
+    "instruction-overlay/revision": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "instruction-overlay/digest": { "$ref": "#/$defs/digest" },
+    "turn/no": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "room-policy/ref": { "type": "string", "pattern": "^room-policy:[^\\s]+$", "maxLength": 512 },
+    "room-policy/digest": { "$ref": "#/$defs/digest" },
+    "policy/generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "prompt-policy/ref": { "type": "string", "pattern": "^prompt-policy:[^\\s]+$", "maxLength": 512 },
+    "classification/ceiling": { "enum": ["Personal", "Community", "Public"] },
+    "exposure": { "enum": ["private-to-swarm", "federation-local", "cross-federation", "global"] },
+    "intermediate/visibility-ceiling": { "enum": ["private", "operator"] },
+    "terminal/disposition": { "const": "unpublished-corpus-draft" },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "admitted/at": { "type": "string", "format": "date-time" },
+    "admitted/by": { "$ref": "#/$defs/ref" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ]
+}

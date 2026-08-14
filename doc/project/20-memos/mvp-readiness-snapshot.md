@@ -258,9 +258,16 @@ and domain-owned use fence, without inventing generic invalidation authority. Ph
 contracts, bounded JSON-e Flow branch/repetition, exact passage profile/runtime
 binding, content-addressed products, prompt-free durable lineage, explicit terminal
 selection, and process evidence for idempotent retry plus dirty-restart recovery
-without reinference or duplicate charge. The Corpus/Room binding, package lifecycle,
-flow-specific operator inspection, Room acceptance, and attention-specific
-interactive UI remain open under `P085-038` through `P085-042`. P085 therefore
+without reinference or duplicate charge. The Corpus/Room extension is also complete:
+one Corpus-owned binding pins current Room membership, role, accepted overlay, turn,
+policy generation, Flow lineage, disclosure ceilings, and expiry; only verified local
+overlay rendering enters P064, all intermediate products remain local, and process
+evidence proves refusal, changed-content binding conflict, bind-only admission
+followed by execution without rebinding, unpublished selection, dirty restart, and
+exact replay. The
+package lifecycle, flow-specific operator inspection, packaged Story 012 acceptance,
+and attention-specific interactive UI remain open under `P085-039` through
+`P085-042`. P085 therefore
 stays partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design

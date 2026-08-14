@@ -387,6 +387,45 @@ may select or narrow its keys but cannot redefine their Room meanings. Adding an
 mode requires a contract revision, one mapping-table change, fixtures, and the
 corresponding P070 support; adapters do not maintain private translations.
 
+**Operator-resolved turn order.** The `baton -> round-robin` mapping defines the
+distribution default for floor movement, not an immutable Corpus speaking order. A
+local operator MAY activate a P085 `select-turn-order` producer that ranks only the
+participants currently eligible for the next turn. Corpus owns eligibility and the
+meaning of the candidate projection; NSE owns producer composition and the one
+offer-bound validator; Room remains the sole owner of floor admission.
+
+Corpus builds one immutable `corpus-turn-order-offer.v1` after checking current Room
+membership, denial and sanctions, the `speak` grant, accepted role assignments,
+instruction-overlay state, Chair policy, round and turn, previous floor holder, and
+Room-policy generation. Each candidate binds the exact participant subject plus the
+current role-assignment ref, revision, and digest. The offer contains no selected
+target. It is resolved before a floor target is bound, before any target-specific HIL,
+and before a Room mutation is attempted.
+
+The admitted `order` result is a permutation or stable ranked subset of that exact
+candidate set. Corpus takes its first member as the proposed floor target, binds that
+choice into the inert floor intent, then performs the ordinary current-policy, HIL,
+delegation, and Room admission checks. A producer cannot add a participant, repair
+missing eligibility, change a role, or turn connected presence into membership. If no
+operator producer applies, Corpus uses the explicit distribution policy for the
+current floor mode: `round-robin` for `baton`, while `organic` and `moderated` retain
+their canonical P070 semantics. Ambiguity, an empty admitted order, stale role or
+membership evidence, producer revocation, or a changed policy generation refuses
+instead of falling back to a previously active order.
+
+A JSON-e Flow may consume the same host-issued opaque `offer/ref` through its P049
+`decision` step. The admitted projection carries a host-owned `decision/ref`; Flow may
+branch on the result but cannot construct candidates, rewrite the order, or submit a
+participant ref as authority. Corpus applies only the stored admitted decision behind
+that ref. Direct Corpus resolution and Flow-mediated consumption are two entry paths
+to one resolution, not two independent evaluations for the same turn.
+
+For Story 012, `solver` is a scenario label for the participant bound to the admitted
+`implementer` role policy, `reviewer` names the admitted reviewer role, and `chair`
+names the accountable Chair slot rather than a newly registered Corpus role. The
+operator policy may therefore express `solver -> reviewer -> chair` without widening
+the closed role registry or teaching Room those labels.
+
 Ban TTL is resolved in the same admission pass as every other chair control. The
 effective `ban/max-ttl-seconds` is the monotone minimum of protocol, distributor,
 operator, requester, Agent-profile, and current Room-delegation ceilings. Requested and
@@ -597,6 +636,7 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-room-invite.v1` | implemented | post-MVP | Room subject + live-transport binding + exact v1 or v2 policy digest. The stable invite envelope accepts both policy revisions and validates the embedded revision at the Corpus boundary. |
 | `corpus-reasoning-role-assignment.v1` | new | post-MVP | Chair-issued participant role assignment with local-acceptance semantics. |
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
+| `corpus-turn-order-offer.v1` | planned (`P069-TURN-001`) | post-MVP | Host-built immutable candidate projection for one exact Room turn, including current eligibility, role-assignment provenance, round/turn context, previous floor holder, and Room-policy generation; it contains no preselected target or authority grant. |
 | `corpus-reasoning-experiment-proposal.v1` | implemented | post-MVP | Signed portable envelope binding one content-addressed inert `inquirium.candidate-plan.v1` to the exact query, Room, retained turn, author node, requester-selected executor, classification, expiry, and HIL requirement. A portable candidate must omit `adapter.manifest/ref`; that field remains optional producer provenance only for the separate adapter-authored compilation path. The envelope carries no adapter, Sensorium grant, generation, or lease authority. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
@@ -639,8 +679,10 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
   policies and room-envelope negotiation may order or narrow already admitted
   bids, turns, participants, and tie candidates. They do not replace Corpus room
   policy, Agent budgets, Room membership, capability admission, or publication
-  authority. P085 owns the common hook/envelope contract; Corpus owns the typed
-  candidate sets and domain validator adapter.
+  authority. P085 owns the common hook/envelope contract, operator producer and
+  package lifecycle; Corpus owns the typed candidate set, pre-HIL turn-resolution
+  boundary, and domain validator adapter. P049 owns optional Flow consumption of the
+  same opaque offer and admitted decision ref.
 - **P011 / story-006 / P016**: procurement lifecycle and escrow.
 - **Classification (047)**: the answer carries a small `classification.v1` lattice
   tier, mapped to a full `classification.v1` object at the AD answer envelope.
@@ -666,6 +708,9 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
 | Requester-selected Agent controls widen operator policy | Remote intent becomes local moderation authority | Resolve and persist requested and effective chair-control policy separately; every layer may only narrow the distributor/operator ceiling. |
 | Agent emits a moderation-shaped model response | Model output mutates Room authority | Accept only a typed inert effect proposal, then recheck binding, review policy, current scoped Room delegation, target, generation, and TTL through Room admission. |
 | Chair Agent disappears while holding the floor | Deliberation stalls or another participant gains authority implicitly | Release its floor and effective controls, then apply the explicit fallback; connected presence never elects a replacement. |
+| Turn-order policy runs only after target-specific HIL | Operator policy can merely veto an already approved target and cannot schedule the turn | Build and resolve one target-free offer before binding the floor target or requesting HIL; apply the admitted first candidate through the ordinary Corpus and Room path. |
+| Flow output is treated as a floor target | Declarative orchestration becomes a second source of Room authority | Flow receives only an opaque offer and bounded decision projection; Corpus reloads the host-owned admitted `decision/ref` and Room performs the final admission. |
+| Direct and Flow-mediated paths resolve the same turn independently | Two current policies can produce divergent speakers | Bind one resolution to the exact Room, turn, offer digest, producer set, and policy generation; every consumer reuses that decision or refuses. |
 
 ### Abuse model (LLM + marketplace)
 
@@ -1886,6 +1931,24 @@ runtime, no N-way settlement.
   proves acceptance, decline, expiry filtering, exact replay and conflict, two dirty
   restarts, bounded Agent execution, local host framing, and absence of ambient
   publication.
+- [x] Bind operator-defined Agent inference Flows to current Corpus authority through
+  `corpus-reasoning-inference-flow-binding.v1`. The immutable Corpus-owned value pins
+  the exact query, Room, participant, Agent and Flow lineage, accepted role and
+  instruction-overlay revisions and digests, turn, Room-policy ref/digest and
+  generation, prompt policy, classification, exposure, local intermediate visibility,
+  expiry, and an unpublished-draft terminal disposition. Corpus revalidates those
+  edges before passage admission, invocation, product commit, and terminal
+  selection. Only the
+  verified locally rendered overlay enters P064 as a required operation layer; Room
+  prose remains inert and cannot become an instruction or effect. Intermediate
+  products stay local, and only existing Corpus transitions may accept or publish an
+  answer. A node-local participant binding may omit an inbox invite only for
+  `local-control`, current effective local Room membership, no denial, and an exact
+  current owner-signed attestation; federated participants still require the ready
+  admitted invite. Process evidence covers stale overlay, membership loss, policy
+  generation drift, Flow substitution, conflicting binding replay, bind-only
+  admission followed by later execution without rebinding, local visibility
+  narrowing, unpublished multi-pass selection, dirty restart, and exact replay.
 - [ ] Later: arbiter election (`corpus-reasoning-arbiter-nomination.v1` / `…-vote.v1`)
   with eligibility, COI, quorum, deadline, tie-break, revocation, fallback,
   host-enforced salted first-judgment commit/reveal, auditable barrier closure,
@@ -1941,6 +2004,36 @@ process profile resolves distributor/operator ceilings, persists one exact Chair
 binds it into Room policy v2 and the Chair Agent, proves pre-approval moderation denial,
 admits `mute` and `unmute` after HIL approval, checks exact replay, restarts the authority
 node, and still requires a separate Corpus transition before any answer is published.
+
+#### Phase 8B — Operator-resolved turn order `[ ] planned, post-MVP`
+
+- [ ] **`P069-TURN-001` — Freeze the target-free Corpus turn-order offer.** Add the
+  closed `corpus-turn-order-offer.v1` contract, canonical digest vectors, and positive
+  and refusal-first fixtures. The offer MUST bind one exact query, Room, round, turn,
+  previous floor holder, Room-policy ref/digest/generation, Chair policy, current
+  membership and sanction high-water, and the accepted role-assignment ref/revision/
+  digest for every candidate. Corpus constructs the candidate set only after current
+  membership, denial, sanction, `speak`, role, overlay, and expiry checks. The value
+  contains no chosen target, grant, floor lease, prompt content, or effect authority.
+- [ ] **`P069-TURN-002` — Resolve and apply one turn-order decision before HIL.**
+  **Dependencies:** `P069-TURN-001`, P049 `P049-008`, and the already implemented
+  P085 generic `select-turn-order` validator (`P085-007`). Move Corpus invocation from
+  the current post-target veto boundary to a pre-target resolution boundary. Resolve
+  the immutable offer exactly once, take the first admitted candidate as an inert
+  proposed target, then recheck current policy and pass through ordinary HIL,
+  delegation, and P070 Room
+  floor admission. Direct and Flow-mediated callers MUST reuse the same admitted
+  decision ref; changed offer, policy generation, candidate evidence, producer
+  activation, or revocation refuses. The no-producer path records the explicit
+  distribution policy selected by the current floor mode, including `round-robin`
+  for `baton`, and MUST NOT claim an operator decision. Process
+  evidence covers an alternate valid order, empty/foreign/duplicate candidates,
+  stale role or membership evidence, exact replay, restart, producer revocation, and
+  proof that presence, Flow output, and NSE policy cannot grant the floor.
+
+`P049-008` may expose the resulting host-owned offer to JSON-e Flow, and `P085-044`
+may package an operator-owned producer, only after the P069 contract exists. Neither
+task owns candidate construction or final Room admission.
 
 #### Optional shared enacted views `[x] P082 runtime implemented`
 

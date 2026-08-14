@@ -186,6 +186,22 @@ stores only its tier ceiling. Content-addressed digests use base64url-no-pad; P0
 instruction hash remains lowercase hexadecimal. Both asymmetries are intentional
 and do not authorize cross-format substitution.
 
+The Room-bound specialization remains above Agent Core. Corpus owns
+`corpus-reasoning-inference-flow-binding.v1`, which joins one exact Agent Flow to the
+current query, Room, participant, accepted role, locally admitted instruction overlay,
+turn, disclosure policy, generation, classification, and expiry. The daemon
+revalidates that authority before passage admission, invocation, product commit,
+and terminal selection, and supplies only the
+verified overlay rendering as a required P064 operation layer. Agent Core receives
+the same neutral Flow and passage values as any other consumer; it does not learn
+Room, role, floor, or publication semantics. A local Flow actor may own the exact
+Flow for a `CollaborativeChair` or `CollaborativeParticipant`, but passages remain
+blocked until Corpus admits the outer binding. Intermediate products remain local,
+and terminal selection denotes an unpublished Corpus draft candidate rather than a
+Room message or accepted answer. Process evidence also proves that a bind-only Flow
+admission can be consumed by a later passage execution without rebinding, while a
+changed-content replay of the Corpus binding fails as a typed conflict.
+
 The process-local latest-state inbox refuses two different content digests at
 one relay epoch and sequence with a dedicated payload-free structured diagnostic.
 The conflicting delivery cannot replace the already admitted observation.

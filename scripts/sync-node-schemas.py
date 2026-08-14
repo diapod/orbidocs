@@ -168,6 +168,7 @@ SCHEMA_WHITELIST = (
     "dator.dispatch-entry-deactivation-result.v1.schema.json",
     "corpus-reasoning-role-assignment.v1.schema.json",
     "corpus-reasoning-instruction-overlay.v1.schema.json",
+    "corpus-reasoning-inference-flow-binding.v1.schema.json",
     "service-order.v1.schema.json",
     "offer-catalog-fetch-request.schema.json",
     "offer-catalog-fetch-response.schema.json",
@@ -606,11 +607,14 @@ EXAMPLE_WHITELIST = (
     "scheduler.trace-link.json",
     "accepted.corpus-reasoning-role-assignment.json",
     "accepted.corpus-reasoning-instruction-overlay.json",
+    "accepted.corpus-reasoning-inference-flow-binding.json",
     "passed.inquirium.local-model-acceptance-report.json",
     "bielik.inquirium.model-package.provider-key-endorsement.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "shared-intermediate.corpus-reasoning-inference-flow-binding.json",
+    "inline-instruction.corpus-reasoning-inference-flow-binding.json",
     "unknown-field.operator-effective-policy-inspection.json",
     "plain-ws.room-relay-endpoint.json",
     "member-placement.room-relay-sealed-endpoint.json",

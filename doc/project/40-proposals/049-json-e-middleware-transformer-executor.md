@@ -722,6 +722,16 @@ The two may coexist:
 The default recommendation is to start with the least powerful executor that
 can express the behavior.
 
+For Corpus turn scheduling, JSON-e Flow is a consumer of an already constructed
+decision boundary, not its owner. A `decision` step MAY receive an opaque,
+single-use `offer/ref` for the P069 `select-turn-order` offer and branch on the
+bounded admitted projection returned by the host. It MUST NOT construct the
+candidate set, submit a participant ref as a floor target, reinterpret role labels,
+or mint Room authority. The host resolves the offer through the same P085 validator
+used by direct callers and returns a `decision/ref`; Corpus subsequently reloads and
+applies that admitted decision through its ordinary HIL and Room path. A Flow cannot
+cause a second evaluation of the same turn merely by consuming the result.
+
 ## Relationship to Role Middleware
 
 Role middleware is not a special executor class. It is a hosted capability
@@ -1126,6 +1136,7 @@ schema or test fixture that makes the boundary visible.
 | 5 | Add host capability for workflow step publication | `workflow.step.completed.publish` has a narrow request/response schema and can be called by `json_e_flow` without exposing any Agora-specific backend to the flow engine. |
 | 6 | Build story-009 migration fixture | Five JSON-e flow role middleware configs replace the `story009-roles` Python adapter while keeping Sensorium OS scripts, Dator offers, Memarium writes, and pointer-sized responses intact. |
 | 7 | Add story-009 regression | The existing story-009 acceptance path can run without starting `story009-roles`, and still proves routing, Sensorium action isolation, Memarium fact writes, publication authority shape, and reconstruction. |
+| 8 (`P049-008`) | Generalize Flow consumption of host-owned Corpus turn-order offers | **Dependency:** P069 `P069-TURN-001`. The daemon offer registry accepts the closed `select-turn-order` payload without weakening its current opaque-ref, exact Flow/hook/offer/policy/producer/budget binding, single-use, TTL, consume-before-execute, restart-invalidation, and prompt-free trace rules. A Flow receives only the bounded admitted projection and `decision/ref`; raw participant refs are never accepted as floor authority. Positive and refusal-first evidence covers an owning-caller reload of the admitted ref, stale or foreign offers, changed Flow digest, duplicate consumption, producer revocation, and an attempted second resolution. Full Corpus application remains owned by `P069-TURN-002`. |
 
 The implementation should avoid dynamic flow features until the story-009 static
 flow slice proves that they are needed. Raising limits or adding flow language

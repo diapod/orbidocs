@@ -680,6 +680,9 @@ schema_for_file() {
     *.corpus-reasoning-instruction-overlay.json|*corpus-reasoning-instruction-overlay-ambient.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-instruction-overlay.v1.schema.json"
       ;;
+    *.corpus-reasoning-inference-flow-binding.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-inference-flow-binding.v1.schema.json"
+      ;;
     *.service-offer-relay.json)
       echo "$SCHEMAS_DIR/service-offer-relay.v1.schema.json"
       ;;

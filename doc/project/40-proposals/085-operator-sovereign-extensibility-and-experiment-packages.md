@@ -429,13 +429,42 @@ The first hook expansion should include:
 | Inquirium | `select-output-schema` | `select` from host-admitted schema refs. |
 | Inquirium | `select-repair-profile` | `select-profile`; repair itself remains Inquirium mechanics. |
 | Inquirium | `score-candidate` | `order`; score vocabulary and deterministic tie handling are hook-versioned. |
-| Corpus | `select-turn-order` | `order` over currently eligible participants. At an already approved floor-effect boundary, the effective order may refuse an intent whose digest-bound target is not first, but it cannot rewrite that target after HIL. |
+| Corpus | `select-turn-order` | `order` over the exact currently eligible participant projection. Resolution occurs before a target and target-specific HIL are bound; the admitted first candidate becomes only an inert proposed target for ordinary Corpus and Room admission. |
 | Corpus | `weigh-bid` | `order` over admitted bids with bounded, auditable weight components. |
 | Corpus | `resolve-tie` | `select` from the exact tied set. |
 | Corpus | `admit-participant` | `restrict`; it may remove candidates but cannot bypass `access/list`, Room, grants, or sanctions. |
 | Agent | `choose-next-step` | `select` from host-produced controller choices. |
 | Agent | `shape-fanout` | `narrow`; children, budgets, grants, depth, and concurrency remain no wider than the parent and profile. |
 | Agent | `classify-effect-risk` | `raise-risk`; it may require stronger HIL but never reduce the host floor. |
+
+#### Corpus Turn-Order Resolution Boundary
+
+P069 owns construction of the immutable, target-free
+`corpus-turn-order-offer.v1`. It derives the candidate set only after checking
+current Room membership, denial and sanctions, `speak`, accepted role and overlay
+state, round and turn, Chair policy, and Room-policy generation. NSE receives that
+closed offer and may only return a permutation or stable ranked subset of its exact
+candidates. It cannot create eligibility, reinterpret a role, or grant the floor.
+
+Resolution MUST occur once per turn before the proposed floor target is bound and
+before target-specific HIL. The first admitted candidate becomes an inert target
+proposal; Corpus then rechecks current evidence and uses the canonical P070 floor
+transition. The existing post-HIL target comparison is migration evidence only: it
+proves containment but does not satisfy the pre-target scheduling contract.
+
+A direct Corpus caller and a JSON-e Flow `decision` step are two consumers of the
+same host-owned resolution. Flow receives only an opaque P049 `offer/ref` and a
+bounded admitted projection carrying `decision/ref`; it cannot construct an offer or
+submit a participant ref as authority. Corpus applies the stored admitted decision
+behind that ref. A second resolution, changed offer or policy generation, stale
+candidate evidence, ambiguous selecting producers, or revoked producer refuses.
+
+When no operator producer applies, the host records the distribution policy selected
+by the current floor mode: `round-robin` for Corpus `baton`, with canonical P070
+semantics retained for `organic` and `moderated`. This fallback is explicit
+provenance, not an inferred operator choice. An activated `nse-table`, Rhai, or future
+WASM producer may choose another contained order under the same validator; package
+activation and revocation determine whether that producer is current.
 
 The host may additionally admit **operator-declared guard hooks**. Such a declaration
 creates a named policy instance, not a new semantic call site. It must bind to a
@@ -1147,6 +1176,8 @@ The first implementation should freeze these contracts before runtime effects:
 | `inquirium-resource-profile.v1` | Operator-owned Inquirium operation limits after constant classification. |
 | `nse-hook-offer.v1` | Common invocation identity, hook/version, offer digest, backend bounds, and causal context. |
 | `nse-hook-decision.v1` | Common decision binding to hook/version, invocation, offer digest, producer, and typed outcome. |
+| `corpus-turn-order-offer.v1` | P069-owned target-free candidate projection for one exact Room turn; P085 consumes but does not construct or reinterpret it. |
+| `nse-select-turn-order-table.v1` | Operator-owned declarative rules over the closed P069 turn-order context and candidate fields; output is admitted only through the common `order` validator. |
 | `nse-middleware-evidence.v1` | Bounded feature, score, annotation, or candidate suggestion admitted into a closed offer; never a direct NSE decision. |
 | `operator-extension-refusal-code.v1` | Closed versioned refusal vocabulary shared by hook, package, envelope, guard, and activation boundaries. |
 | `operator-extension-refusal.v1` | Bounded diagnostic binding one refusal code to producer, hook or anchor, affected axis, winning declaration, invocation, and causal context. |
@@ -1202,6 +1233,15 @@ capability admission, or effect authority.
   not request, preserve, or expose a model's private token-level chain of thought.
 - `inv-extension-offer-contained`: every admitted decision is contained in the exact
   host-built offer identified by its digest.
+- `inv-extension-turn-order-before-target`: Corpus resolves one target-free ordering
+  offer before binding a floor target or requesting target-specific HIL; a later
+  comparison can refuse but cannot stand in for scheduling.
+- `inv-extension-turn-order-no-new-authority`: an order may contain only candidates
+  currently admitted by Corpus, and its first member is merely a proposed target;
+  canonical Room admission remains the sole source of floor authority.
+- `inv-extension-turn-order-single-resolution`: direct Corpus execution and JSON-e
+  Flow consumption reuse one exact offer-bound decision for a turn; neither path may
+  independently reevaluate current policy and silently choose another speaker.
 - `inv-extension-many-producers-one-validator`: every backend for one hook uses the
   same hook-specific host validator.
 - `inv-extension-boundary-limit-proven`: a final boundary-safety classification has
@@ -1280,6 +1320,9 @@ An operator installs a package named `local-small-model-deliberation` containing
 - a table policy preferring local models below 8B parameters for contexts below 4K
   tokens;
 - a Corpus bid scorer that orders only already admitted bids;
+- a Corpus turn-order table that can prefer an admitted `implementer`, then an
+  admitted `reviewer`, then the accountable Chair slot, while treating those labels
+  only as P069-bound candidate attributes and never as Room authority;
 - an Agent fan-out policy that selects at most three children while preserving the
   parent budget and grants;
 - a JSON-e Flow that invokes the model-selection decision and then calls an already
@@ -1877,6 +1920,9 @@ output, or signatures.
 | Too many guards bind to one anchor | latency and audit fan-out grow despite a per-request time budget | boundary and operator caps on active guards and projected bytes; refuse activation rather than truncate |
 | Existing broadcast rewrite remains an arbitrary payload replacement | payload semantics change outside the claimed offer-contained model | migrate every rewrite to selection of a host-registered transform profile and revalidate the result at the owning boundary |
 | JSON-e Flow grows its own selection DSL | two policy vocabularies drift | one `decision` step calling NSE; Flow only branches on admitted outcome |
+| `select-turn-order` runs after target-specific HIL | operator policy can only veto an already approved target and cannot schedule a turn | P069 builds and resolves one target-free offer before binding the proposed target; the later HIL and Room transition remain unchanged |
+| Flow output or a scenario helper supplies the next participant directly | orchestration or acceptance code becomes a second source of floor authority | Flow consumes an opaque offer and Corpus applies only the host-owned admitted `decision/ref`; helpers provide mechanics and fixtures only |
+| Direct and Flow paths resolve one turn independently | current policy may yield two different speakers for the same turn | one offer-bound resolution is single-use and shared; changed policy, revocation, duplicate consumption, or attempted reevaluation refuses |
 | Python middleware suggestion is treated as an admitted decision | replaceable mechanics becomes a direct policy root | admit only bounded evidence or candidate suggestions into the closed offer; table, Rhai, or WASM remains the configured direct decision backend |
 | Python module receives daemon internals | replaceable mechanics becomes semantic authority | bounded invocation schema, redacted fields, module grants, timeout, no host object references |
 | Derived capability is advertised as primitive authority | peers cannot prove its scope or revocation | require base proofs; local overlay by default; no automatic passport or advertisement eligibility |
@@ -1952,7 +1998,7 @@ admission or refusal.
 | `P085-004` | Refactor `nse` into versioned hook contracts with shared offer-bound validators | `done` | `select-llm-model` retains its digest-bound selecting contract and pre-execution aggregate budget reservation. One additional generic offer-bound algebra now validates all eleven declared Inquirium, Corpus, and Agent policy hooks through a closed hook/class/version table; selection, ordering, narrowing, restriction, risk raising, and transform-profile choice are contained by the host offer, byte bounded, and incapable of effects. Broadcast hooks no longer expose arbitrary payload `Rewrite`: they may select only one host-offered transform-profile ref, and the owning boundary still validates or refuses the eventual transformation. Golden tests cover every hook and reject root removal, fan-out widening, risk lowering, unknown profiles, class mismatch, oversized values, and arbitrary rewrite. |
 | `P085-005` | Implement deterministic `nse-table` backend | `done` | `nse-table` compiles closed ordered rules over hook-owned fields/operators, computes a canonical digest, uses exact ordinary Rust string comparison without locale/normalization, and evaluates without filesystem, network, clock, randomness, regex, arbitrary JSON traversal, or effects. Golden tests prove deterministic digest/result, offered-candidate containment, and refusal of an implicit default candidate. |
 | `P085-006` | Add Inquirium resource envelopes and initial NSE hook expansion | `done` | `inquirium-core` owns the 38-axis closed profile, complete distribution defaults, pure source-chain resolution, per-axis provenance, canonical digest, and distributor-owned per-axis safety ranges. The daemon validates every configured range against its distribution value during startup, persists, recovers, and rechecks signed envelopes, and shares immutable effective profiles. A signed envelope may widen an axis only inside its configured distribution range; an axis without a range refuses widening, while unsigned local configuration and task/session overlays remain tighten-only. Equal-valued local configuration does not claim false narrowing provenance, so an explicitly ranged envelope may still widen the unchanged distribution value; an actual local or task narrowing always wins. Multiple independently revised active envelopes intersect per operation and experiment class; lower maxima and higher minima win. All 38 operational axes now reach their local owning request, response, prompt/output-schema, conformance, memory, locale, feedback, operator-question, image, training, embedding, classification, reranking, or text-operation boundary. The Agent memory projection obtains the current `assistant.turn` profile through a narrow daemon port before policy persistence and again on projection. Cached effective profiles bind every exact envelope ref, profile digest, and operator binding; callers receive a current-use permit that rechecks the read-only current projection when materialized. A deterministic two-thread test resolves the permit, commits revocation, and proves that later materialization refuses, while expiry, supersession, or operator replacement use the same fence without a hot-path write transaction. The daemon applies `score-candidate`, `select-output-schema`, `select-repair-profile`, and `assemble-prompt` at the owning generate boundary; the same prompt-assembly path is reused by summarize, transform, and Assistant Channel generation. Static producers still pass the ordinary package activation and offer-bound NSE admission path. A complete federated projection is schema-gated and bound by one production daemon port to the independently authenticated peer, node-signed posture publication, exact envelope and profile digests, current local operation registry, runtime ref, operation, and the host-selected `production` experiment class at admission and immediately before inference; peer content cannot choose a wider local class. The permit retains the exact restart-bound trust-policy snapshot for its process generation and rechecks mutable registry and publication facts on use; changing trust configuration requires restart and creates a new permit generation. A real deterministic runtime test proves successful use plus fail-closed runtime, operation, and class mismatches. Configured host prompt framing remains active; the federated port merely admits no additional caller-supplied operation overlay. |
-| `P085-007` | Add Corpus decision hooks and federated envelope binding | `done` | The shared offer-bound validator covers `select-turn-order`, `weigh-bid`, `resolve-tie`, and `admit-participant`, and rejects removal of host-required roots or any widening beyond offered sets and bounds. Corpus invokes them over current eligible participants, admitted priced bids, the host-derived exact-price tied set, and the exact accepted role assignment; ordinary Room, bid-state, settlement, membership, sanction, and role validators remain authoritative. `corpus-reasoning-room-policy.v3` and its signed invitation bind one exact `node-extension-federation-publication.v1`, declaration digest, and required registry-entry set. Receiver admission verifies the peer signature, current trust and sanction policy, every exact domain/ref/revision/implementation/digest tuple, and refuses unknown, modified, revoked, or substituted implementations without local semantic fallback. Core admission fixtures and the three-daemon acceptance prove the binding and federation boundary. |
+| `P085-007` | Add Corpus decision hooks and federated envelope binding | `done` | The shared offer-bound validator covers `select-turn-order`, `weigh-bid`, `resolve-tie`, and `admit-participant`, and rejects removal of host-required roots or any widening beyond offered sets and bounds. Corpus invokes them over current eligible participants, admitted priced bids, the host-derived exact-price tied set, and the exact accepted role assignment; ordinary Room, bid-state, settlement, membership, sanction, and role validators remain authoritative. The implemented `select-turn-order` call is containment evidence at the post-target veto boundary; moving resolution before target selection and HIL remains explicitly tracked by `P069-TURN-002` and `P085-044`. `corpus-reasoning-room-policy.v3` and its signed invitation bind one exact `node-extension-federation-publication.v1`, declaration digest, and required registry-entry set. Receiver admission verifies the peer signature, current trust and sanction policy, every exact domain/ref/revision/implementation/digest tuple, and refuses unknown, modified, revoked, or substituted implementations without local semantic fallback. Core admission fixtures and the three-daemon acceptance prove the binding and federation boundary. |
 | `P085-008` | Add Agent decision hooks | `done` | The shared validator covers `choose-next-step`, `shape-fanout`, and `classify-effect-risk`; fan-out may only narrow host bounds and risk may only increase. Agent invokes those hooks at the controller-decision, child-fork, and effect-proposal boundaries. Existing lifecycle choices, monotonic fork validation, review policy, and host risk floor remain authoritative: a hook cannot invent completion, widen a child, lower risk, or repair a missing required HIL declaration. Every admitted or refused package-backed decision is recorded as a content-addressed prompt-free authority fact carrying the exact hook, effective decision class, package/producer provenance, operator binding, causal subject, and typed refusal where applicable; the bounded operator inspection projects those facts after restart. |
 | `P085-009` | Add JSON-e Flow `decision` step | `done` | The executor has a typed `decision` step, an allowlist of hook ids, opaque `offer/ref` resolution through its host invoker, admitted/refused branching, bounded output validation, traces, and refusal-first tests. The daemon owns a 256-entry process-local registry with a monotonic 60-second default and 300-second maximum TTL, single-use default, bounded optional reuse, exact Flow-executor/hook/digest/producer/budget binding, consume-before-execute semantics, restart invalidation, narrow decision projection, and prompt-free durable resolution trace. Flow loading, offer registration, and trace Schema Gate share one segmented lowercase ASCII Flow-id grammar that rejects leading, trailing, or adjacent separators. Deterministic aggregate-budget refusal is non-retryable for the same offer, while a host-only lookup status distinguishes unknown and foreign refs without changing their identical caller refusal or exposing bound metadata. The default invoker still fails closed as `decision-invoker-unavailable`. |
 | `P085-010` | Add bounded supervised middleware evidence input | `done` | `nse-middleware-evidence.v1` closes annotations, scores, features, and candidate suggestions and rejects candidates outside the host set. The daemon dispatches through the ordinary supervised local HTTP executor, checks configured module and transport bounds, revalidates the returned middleware decision, and applies a host-owned binding over module, package digest, grants, hook/version, schemas, timeout, byte caps, causal ref, invocation, offer fields, and candidate set. At most eight evidence executors and 256 total evidence items may contribute; admitted evidence occupies a reserved host context key and produces a new final offer digest. Evidence never constructs an admitted NSE decision. The opt-in reference Python process and package-specific conformance corpus prove this boundary through `P085-018`. |
@@ -2163,11 +2209,11 @@ Ownership remains stratified:
 
 | Owner | Canonical responsibility in this workstream |
 | :--- | :--- |
-| P049 / JSON-e Flow | Declarative order, bounded branch and repetition semantics, registers, execution budgets, and Flow trace. |
+| P049 / JSON-e Flow | Declarative passage order, bounded branch and repetition semantics, registers, execution budgets, Flow trace, and optional consumption of an opaque host decision offer. |
 | P064 / Inquirium | One inference invocation, prompt-layer assembly, output-schema enforcement, repair policy, and provider-neutral result. |
 | P073 / Agent | Durable passage lifecycle, grants, budget accounting, product lineage, suspension, recovery, and terminal outcome. |
-| P069 / Corpus | Participant role, accepted per-role or per-turn instruction overlay, Room visibility, answer acceptance, and publication. |
-| P085 | Experiment-package composition, operator activation and rollback, cross-domain validation, refusal corpus, inspection, and integrated acceptance. |
+| P069 / Corpus | Participant role, accepted per-role or per-turn instruction overlay, current turn-order candidate construction, pre-HIL target proposal, Room visibility, answer acceptance, and publication. |
+| P085 | Experiment-package composition, operator turn-order producer, activation and rollback, cross-domain validation, refusal corpus, inspection, and integrated acceptance. |
 
 The first vertical uses only the existing closed Agent actions, Inquirium operations,
 Corpus role vocabulary, output sinks, and prompt-policy references. Configuration may
@@ -2175,23 +2221,103 @@ compose them but cannot mint a new protocol meaning. Package-installed code-back
 roles, operations, sinks, or policy adapters remain dependent on `P085-029`,
 `P085-031`, and `P085-032`. The deferred WASM backend is not a prerequisite.
 
+The Corpus join is owned above Agent Core. One
+`corpus-reasoning-inference-flow-binding.v1` binds the exact query, Room,
+participant, Agent and Agent-Flow bindings, current accepted role and instruction
+overlay revisions and digests, turn, Room-policy ref and digest, policy generation,
+prompt-policy ref, classification, exposure, local intermediate-visibility ceiling,
+expiry, and the non-publishing terminal disposition. Corpus validates that value at
+binding admission and revalidates it before passage admission, invocation, direct
+product commit, and terminal selection. Only the locally rendered content of the accepted overlay enters P064 as
+a required operation-scope layer; Room prose has no instruction or effect authority.
+Intermediate products remain host-local, and terminal selection creates only an
+unpublished Corpus draft candidate. Existing Corpus transitions remain the sole
+owners of Room turns, answer acceptance, publication, settlement, and effect handoff.
+
+A node-local `CollaborativeParticipant` may be bound by `local-control` without a
+received invite only when the participant is already a current effective member of
+the locally owned Room, is not denied, and presents a valid current attestation
+signed by that round's authority. This is not a federated fallback: non-local callers
+still require the exact ready admitted invite, and both paths use the canonical Room
+attestation verifier.
+
+#### Story 012 Reference Acceptance Profile
+
+`P085-041` is the final Phase 3 integration gate. Its
+[Story 012](../30-stories/story-012-agents-share-chair-terminal.md) work starts
+only after `P085-034` through `P085-040`, `P085-043`, and `P085-044` are complete
+and their production paths are available. This dependency is intentionally
+cascading: `P085-043` consumes completed P080 component-graph and effect-recovery
+work, while `P085-044` cannot close before P069 `P069-TURN-001` and
+`P069-TURN-002` plus P049 `P049-008`. The resulting gate therefore covers bounded
+Flow branch/repeat and Agent-passage invocation, durable passage lineage and
+explicit terminal selection, per-passage Inquirium profiles, current Corpus
+role/turn/overlay binding, package activation and revocation, prompt-free
+inspection, component recovery, and pre-HIL turn scheduling. Acceptance does not
+supply local substitutes for any missing prerequisite.
+
+The operator-installed reference package realizes the admitted
+`solver -> reviewer -> chair` sequence through an activated
+`nse-select-turn-order-table.v1` and exact role-bound Agent Flow bindings. `solver`
+is the Story label for the participant admitted under the `implementer` role;
+`chair` denotes the accountable Chair slot rather than a new Corpus role. P069
+constructs and resolves the target-free candidate offer before HIL, and P070 remains
+the authority for floor admission. Flow realizes each admitted role slot but cannot
+invent the next speaker. The solver and reviewer publish only inert, policy-admitted
+Corpus products. The Chair-bound Flow consumes their admitted context, performs its
+configured passages, and explicitly selects one terminal `CandidatePlan` from its own
+lineage. Only that selected product may enter the existing host admission, HIL, and
+P083 effect path. Neither Flow output nor Room prose creates terminal authority.
+
+The checked-in acceptance assets separate two layers:
+
+1. A portable behavior layer contains the package manifest, JSON-e Flow definitions,
+   the turn-order table, role-scoped passage structure, allowed prompt/output/repair/
+   model/runtime profiles, resource envelope, budgets, visibility ceilings, refusal
+   corpus, and operator-facing descriptions of the supported tuning points.
+2. A node-local authority-binding layer supplies current query, Room, participant,
+   Agent, role-assignment, instruction-overlay, policy-generation, activation, and
+   expiry refs and digests. It is produced through ordinary operator admission and is
+   never copied as portable authority.
+
+The acceptance runner may create temporary directories, start processes and the test
+VM, seed fixture identities and content, invoke admitted APIs, transport values, and
+collect evidence. It must not choose the next semantic role, passage profile, repair
+path, terminal product, or `CandidatePlan`; synthesize an unconfigured fallback; or
+continue through a host-owned helper after package or Flow refusal. The portable layer
+must contain no secret, absolute host path, node identity, or live authority ref. A
+later HOWTO should link to these exercised assets rather than reproduce a drifting
+pseudo-configuration, and should explain tuning by changing the portable layer while
+re-admitting the local binding separately.
+
+Before the main scenario, a bounded preflight activates a second valid table that
+orders two eligible non-Chair roles differently and proves that the admitted speaker
+changes without changing host helpers. It then restores the reference package and
+runs `solver -> reviewer -> chair`. Revoking the package, table producer, or Flow
+activation before the next turn MUST refuse before inference, target-specific HIL,
+floor mutation, lease acquisition, or effect. The final report binds the exact
+turn-order offer digest, policy ref/digest, producer activation generation,
+`decision/ref` and decision digest in addition to the Flow, Agent, role, overlay, and
+terminal-product evidence.
+
 | ID | Phase 3 work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `P085-034` | Freeze the cross-domain inference-orchestration contract and invariants | `done` | P049, P064, P073, and P085 identify one owner for every implemented local state transition and wire field; the Corpus join remains separately tracked by `P085-038`. Six accepted Agent-owned schemas cover the exact Flow binding, passage input, invocation, structured product, terminal selection, and prompt-free trace. Audit refs are visible ASCII, timestamps are parsed as RFC3339 at the Rust contract boundary, and trace decisions use one closed state-specific vocabulary shared by schema and Rust. Canonical positive fixtures and refusal-first negatives reject inline prompt content, caller-supplied product bytes, empty profile sets, unretained artifacts, publication authority, raw trace content, invisible audit identifiers, malformed timestamps, and arbitrary decision codes. Schema Gate validates both import and export semantics, while the complete-family inventory requires exactly one spec per enum variant. |
+| `P085-034` | Freeze the cross-domain inference-orchestration contract and invariants | `done` | P049, P064, P073, and P085 identify one owner for every implemented local state transition and wire field; the Corpus join is separately owned and completed under `P085-038`. Six accepted Agent-owned schemas cover the exact Flow binding, passage input, invocation, structured product, terminal selection, and prompt-free trace. Audit refs are visible ASCII, timestamps are parsed as RFC3339 at the Rust contract boundary, and trace decisions use one closed state-specific vocabulary shared by schema and Rust. Canonical positive fixtures and refusal-first negatives reject inline prompt content, caller-supplied product bytes, empty profile sets, unretained artifacts, publication authority, raw trace content, invisible audit identifiers, malformed timestamps, and arbitrary decision codes. Schema Gate validates both import and export semantics, while the complete-family inventory requires exactly one spec per enum variant. |
 | `P085-035` | Add bounded Agent-passage control to JSON-e Flow | `done` | P049 now has statically validated forward-only `branch` and backward-only bounded `repeat` steps. Branch conditions can select only declared step ids; repeat counts are literal, positive, and bounded. Runtime execution charges total and loop steps, timeout, and register bytes, and fails closed when any ceiling is exhausted. The four-passage acceptance fixture uses only predeclared Agent capabilities and profile refs; rendered data cannot select a capability or synthesize an NSE offer. Existing `decision` steps continue to use the production P085-009 resolver. |
 | `P085-036` | Add durable Agent passage lineage and explicit terminal-product selection | `done` | `agent-core` owns the passage input/product/trace/selection contracts and the daemon persists each accepted transition as an append-only Memarium Personal fact. Products bind their exact predecessor refs, classification, normalized token/cost usage, model snapshot, content digest, and optional content-addressed artifact. The `object-store:` namespace denotes the daemon's direct content-addressed store; `artifact-store:` denotes material admitted through Artifact Delivery. Both are host-local locators rather than portable authority, and the host re-verifies exact digest and size before use. A refused invocation persists a closed prompt-free refusal trace and exact retry reuses the binding-local passage number. Terminal selection is explicit, idempotent, and contained in the exact active Flow lineage; omitting selection on a replay cannot erase the committed choice, and no latest-product fallback is accepted. Recovery parses all five durable fact families, drops ephemeral execution claims, repairs an interrupted product/trace bundle, and exact dirty-restart replay returns the committed product without invoking or charging Inquirium again. |
 | `P085-037` | Add per-passage Inquirium assembly and structured-product profiles | `done` | Each binding carries closed offered sets for prompt policy, output schema, repair profile, runtime, and visibility; each passage selects exact members and one runtime grant. A host-local single-flight claim checks the canonical request digest, calls the ordinary local Inquirium generate boundary, requires the exact selected runtime, and records the host-owned P064 instruction hash and model snapshot. Provider-native idempotency remains required beyond the host. Retained canonical responses are content-addressed and their newly created CAS object is removed if the durable product commit refuses; cleanup failure is surfaced. Prompt-free traces carry only refs, digests, normalized usage, closed decision codes, state, and policy metadata; provider diagnostics cannot substitute for the host-owned prompt-assembly projection. |
-| `P085-038` | Bind operator-defined flows to Corpus roles, turns, and disclosure policy | `todo` | A Room-bound flow binds the exact query, Room, Agent binding, participant, current role assignment, accepted instruction-overlay revision, turn or cycle, policy generation, classification, exposure, and expiry. P069 local policy decides whether an inert role/turn overlay enters P064 assembly; remote prose cannot become a privileged instruction. Intermediate products remain local unless an explicit visibility contract admits them, and only the existing Corpus-owned transitions may create a Room turn, accepted answer, publication, settlement, or effect handoff. |
+| `P085-038` | Bind operator-defined flows to Corpus roles, turns, and disclosure policy | `done` | The accepted `corpus-reasoning-inference-flow-binding.v1` and Corpus-owned pure validator bind the exact query, Room, participant, Agent binding, Agent-Flow ref and digest, current accepted role and instruction-overlay revisions and digests, turn, Room-policy ref/digest and generation, prompt-policy ref, classification, exposure, local visibility ceiling, expiry, and non-publishing terminal disposition. Schema Gate has positive and refusal-first fixtures. The daemon admits and stores the immutable binding, reconstructs it after restart, and revalidates current membership, denial state, role, overlay, policy generation, exact Agent lineage, ceilings, and expiry before passage admission, invocation, direct product commit, and terminal selection. Only verified local `instruction/rendered` becomes one required P064 operation layer; Room prose remains inert. Collaborative Agents without the Corpus binding refuse, intermediate products stay local, and explicit terminal selection cannot publish a Room turn or Corpus answer. The process smoke covers an expired overlay, foreign actor, lost membership, stale generation, substituted Flow digest, changed-content binding conflict, bind-only admission followed by later execution without rebinding, exact multi-pass execution, visibility-ceiling direction, unpublished selection, dirty restart, and replay without reinference. |
 | `P085-039` | Package, activate, revoke, and roll back reusable inference flows | `todo` | `operator-experiment-package.v1` can bind the Flow, admitted prompt/output/repair refs, Agent profile narrowing, Corpus role/overlay refs, resource envelope, refusal corpus, and expected compatibility posture by canonical digest. Install remains inert; durable and session activation reuse `P085-014`, `P085-015`, and `P085-024`; revocation, safe mode, trust loss, or current-binding loss synchronously prevents new passages. The initial profile composes existing meanings only; new code-backed semantic entries require the applicable Phase 2 registry evidence. |
 | `P085-040` | Expose prompt-free inference-flow inspection, audit, and closed refusals | `todo` | Operator inspection reports package/activation, Flow and Agent refs, current passage, admitted profile refs, product lineage and visibility, selected terminal product, budget use, omitted producers, and the decisive restriction without exposing prompt or product content. The closed refusal registry covers invalid transition, stale binding or policy, unavailable profile, budget exhaustion, unadmitted intermediate edge, visibility leak, ambiguous final product, and publication/effect attempts. Every emitted code has a distinct reaching fixture; dead or unregistered codes fail CI. |
-| `P085-041` | Prove local and Room-bound multi-pass acceptance and synchronize documentation | `in-progress` | The local process-level acceptance executes `draft -> critique -> revise -> final` through one exact Flow binding and local deterministic Inquirium runtime, proves explicit final-product selection, exact retry without reinference or recharge, dirty-restart lineage reconstruction, changed-body replay refusal, and absence of direct publication authority. The retained products remain content-addressed and traces remain prompt-free. The Corpus/Room acceptance, stale-overlay and Room disclosure refusals, and package revocation coverage remain dependent on `P085-038` through `P085-040`. |
+| `P085-041` | Prove local and Story 012 Room-bound multi-pass acceptance and synchronize documentation | `in-progress` | **Dependency:** implement and validate `P085-034` through `P085-040`, completed package-component prerequisite `P085-043`, and turn-order integration `P085-044`; this item does not use acceptance-only substitutes for them. The completed local process profile remains a regression obligation: `draft -> critique -> revise -> final`, explicit terminal selection, exact retry without reinference or recharge, dirty-restart lineage reconstruction, changed-body refusal, content-addressed products, prompt-free traces, and no publication authority. The production Corpus/Room join repeats that sequence through an exact current participant role and accepted overlay, rejects expired overlay, lost membership, stale generation, foreign admission, and Flow-digest substitution, keeps intermediates local, leaves selection unpublished, and recovers exact replay after `SIGKILL`. The remaining Story 012 half uses one activated operator experiment package for the exercised JSON-e Flow definitions, `nse-select-turn-order-table.v1`, role-scoped Agent Flow bindings, configurable passage profiles, resource envelope, budgets, role and instruction-overlay refs, and refusal corpus. The host resolves the packaged policy over P069's exact candidate offer before HIL to realize `solver -> reviewer -> chair`; the corresponding Flow binding realizes each admitted role slot, and the Chair Flow explicitly selects the terminal `CandidatePlan` from its own lineage before the unchanged host/HIL/P083 admission path. A bounded alternate-order preflight proves that policy, rather than a helper, controls the sequence. Host helpers are limited to bootstrap, fixture transport, process/VM control, API invocation, and evidence collection; they make no semantic turn, role, profile, repair, product, or plan decision and provide no fallback after refusal. A post-admission revocation of the package, turn-order producer, or exact inference-Flow activation must make the next turn fail before Inquirium invocation, target-specific HIL, terminal selection, floor mutation, lease acquisition, or effect, including after restart. The report binds the exact package manifest digest and activation generation/receipt; turn-order offer/policy/producer/decision refs and digests; Flow refs/digests; Agent ids, session refs and admission-profile canonical digests; Agent-binding refs; Agent-Flow binding refs/digests; role-assignment and instruction-overlay refs/revisions/digests; Room-policy digest and generation; selected passage-profile refs; terminal product and `CandidatePlan` digests; and the decisive refusal fact. The checked-in portable behavior layer is free of secrets, absolute paths, node identities, and live authority refs; a separate locally admitted binding supplies those values. A bounded operator-facing parameter inventory explains turn-order rules, passage count and branches, role overlays, prompt/output/repair/model/runtime profiles, budgets, visibility, activation, revocation, and rollback so a later HOWTO can link to the exact exercised assets instead of copying them. Disclosure, helper-fallback, package/Flow/producer-revocation, and second-resolution refusals remain mandatory. |
 | `P085-042` | Add interactive attention and peer/refusal drill-down UI | `todo` | Build UI interaction above the accepted effective-policy projection without introducing a second policy model. Navigation follows stable bounded artifact refs, applies per-view result caps, distinguishes unavailable from empty sources, and never fetches prompt, signature, secret, or protected payload bytes. Attention groups, peer posture mismatches, and refusal provenance remain separate views with explicit back-links to the same decisive fact. |
 
-### Cross-Cutting Package Composition
+### Cross-Cutting Package Composition and Turn Scheduling
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `P085-043` | Bind supervised experiment-package components to dependency and effect-recovery contracts | `done` | A supervised middleware package referenced by an experiment package may carry an exact `middleware-component-contract.v1`; installation/config preflight rejects unknown components, contract-digest mismatch, missing or ambiguous providers, cycles, and invalid effect recovery. Runtime start/stop/restart and provider-loss transitions reuse the P080 graph rather than creating a package-local lifecycle engine. |
+| `P085-043` | Bind supervised experiment-package components to dependency and effect-recovery contracts | `done` | **External dependency:** completed P080 `P080-021` through `P080-023`. A supervised middleware package referenced by an experiment package may carry an exact `middleware-component-contract.v1`; installation/config preflight rejects unknown components, contract-digest mismatch, missing or ambiguous providers, cycles, and invalid effect recovery. Runtime start/stop/restart and provider-loss transitions reuse the P080 graph rather than creating a package-local lifecycle engine. |
+| `P085-044` | Make Corpus turn order operator-configurable and Flow-consumable | `todo` | **Dependencies:** P085 `P085-005`, `P085-007`, `P085-009`, `P085-014`, `P085-039`, and `P085-040`; P069 `P069-TURN-001` and `P069-TURN-002`; P049 `P049-008`. Freeze and register `nse-select-turn-order-table.v1`; admit it through ordinary package activation, producer composition, common `order` validation, revocation, recovery, inspection, and refusal-code paths. The table may inspect only the closed P069 context and candidate fields. Direct Corpus and Flow-mediated execution resolve one target-free offer once, bind the exact policy and producer generation, and pass the admitted first candidate into ordinary HIL and P070 floor admission. Tests prove alternate valid ordering, explicit distribution fallback, stale offer/policy refusal, duplicate-resolution refusal, restart, package/producer revocation, and absence of authority in Flow output or scenario helpers. |
 
 ## Next Actions
 
@@ -2206,10 +2332,15 @@ They remain regression obligations, not future actions.
    `P085-016` five-domain, 38-axis, federated fixture, cross-view agreement, CLI
    posture publication, persisted peer comparison, and render-only
    `inspect`/`explain`/Mermaid `graph` views are regression obligations.
-2. Extend the completed local Phase 3 vertical through `P085-038`: bind the exact
-   Flow and Agent lineage to current Corpus role, Room, turn, disclosure, overlay,
-   and policy-generation authority without turning remote prose into instructions.
+2. Preserve `P085-038` as a regression boundary: Corpus owns the exact Room, role,
+   overlay, disclosure, and policy-generation binding; Agent Core remains unaware of
+   Room semantics, and remote prose never becomes an instruction.
 3. Follow with package lifecycle and prompt-free inspection under `P085-039` and
-   `P085-040`, then complete the Room half of `P085-041`. Add code-backed role,
-   sink, operation, or policy semantics only through the existing Phase 2
-   registries; never model private chain of thought as an Orbiplex contract.
+   `P085-040`. In parallel, freeze P069 `P069-TURN-001`, implement
+   `P069-TURN-002`, and generalize Flow offer consumption under P049 `P049-008`;
+   then close their P085 package integration under `P085-044`.
+4. Complete the packaged Story 012 half of `P085-041` only after `P085-043` and
+   `P085-044`, using the checked-in portable behavior layer and separately admitted
+   local authority binding. Add code-backed role, sink, operation, or policy
+   semantics only through the existing Phase 2 registries; never model private chain
+   of thought as an Orbiplex contract.
