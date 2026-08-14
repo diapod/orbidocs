@@ -1,0 +1,30 @@
+{
+  "schema": "agent.inference-passage-input.v1",
+  "passage/ref": "agent-passage:fixture:1",
+  "binding/ref": "agent-flow-binding:fixture",
+  "agent/id": "agent:fixture-multipass",
+  "passage/no": 1,
+  "kind": "draft",
+  "parent-product/refs": [],
+  "input/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "instruction/hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "prompt-policy/ref": "prompt-policy:fixture-v1",
+  "output-schema/ref": "output-schema:structured-review-v1",
+  "repair-profile/ref": "repair-profile:strict-json-v1",
+  "model-profile/ref": "model-profile:local-baseline-v1",
+  "runtime/ref": "runtime:local-baseline-v1",
+  "visibility": "private",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:fixture" }]
+    },
+    "declassify_trail": []
+  },
+  "idempotency/key": "agent-passage:fixture:1",
+  "admitted/at": "2029-01-01T00:00:01Z",
+  "admitted/by": "local-control"
+}

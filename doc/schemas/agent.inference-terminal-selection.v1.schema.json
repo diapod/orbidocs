@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-terminal-selection:v1",
+  "title": "Agent Inference Terminal Selection v1",
+  "description": "Explicit host-owned selection of one retained final product from an exact Flow-to-Agent binding. Selection grants neither publication nor effect authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "selection/ref", "binding/ref", "agent/id", "product/ref", "product/digest",
+    "idempotency/key", "selected/at", "selected/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.inference-terminal-selection.v1" },
+    "selection/ref": { "$ref": "#/$defs/ref" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "product/ref": { "$ref": "#/$defs/ref" },
+    "product/digest": { "$ref": "#/$defs/digest" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "selected/at": { "type": "string", "format": "date-time" },
+    "selected/by": { "$ref": "#/$defs/ref" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-passage-input:v1",
+  "title": "Agent Inference Passage Input v1",
+  "description": "One host-admitted passage input containing only policy refs, lineage, classification, and digests. Prompt or privileged instruction text has no field.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "passage/ref", "binding/ref", "agent/id", "passage/no", "kind",
+    "parent-product/refs", "input/digest", "instruction/hash", "prompt-policy/ref",
+    "output-schema/ref", "repair-profile/ref", "model-profile/ref", "runtime/ref",
+    "visibility", "classification", "idempotency/key", "admitted/at", "admitted/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.inference-passage-input.v1" },
+    "passage/ref": { "$ref": "#/$defs/ref" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "passage/no": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "kind": { "$ref": "#/$defs/kind" },
+    "parent-product/refs": { "$ref": "#/$defs/parents" },
+    "input/digest": { "$ref": "#/$defs/digest" },
+    "instruction/hash": { "$ref": "#/$defs/instruction-hash" },
+    "prompt-policy/ref": { "$ref": "#/$defs/ref" },
+    "output-schema/ref": { "$ref": "#/$defs/ref" },
+    "repair-profile/ref": { "$ref": "#/$defs/ref" },
+    "model-profile/ref": { "$ref": "#/$defs/ref" },
+    "runtime/ref": { "$ref": "#/$defs/ref" },
+    "visibility": { "$ref": "#/$defs/visibility" },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "admitted/at": { "type": "string", "format": "date-time" },
+    "admitted/by": { "$ref": "#/$defs/ref" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "draft" } }, "required": ["kind"] },
+      "then": { "properties": { "parent-product/refs": { "maxItems": 0 } } },
+      "else": { "properties": { "parent-product/refs": { "minItems": 1 } } }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "instruction-hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "kind": { "enum": ["draft", "critique", "revision", "final"] },
+    "visibility": { "enum": ["private", "operator", "shared"] },
+    "parents": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } }
+  }
+}

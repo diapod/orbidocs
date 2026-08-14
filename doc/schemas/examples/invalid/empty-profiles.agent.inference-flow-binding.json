@@ -1,0 +1,20 @@
+{
+  "schema": "agent.inference-flow-binding.v1",
+  "binding/ref": "agent-flow-binding:invalid",
+  "binding/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "flow/ref": "json-e-flow:invalid",
+  "flow/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "agent/id": "agent:fixture-multipass",
+  "agent-binding/ref": "agent-binding:fixture-multipass",
+  "max/passages": 4,
+  "prompt-policy/refs": [],
+  "output-schema/refs": ["output-schema:structured-review-v1"],
+  "repair-profile/refs": ["repair-profile:strict-json-v1"],
+  "model-profile/refs": ["model-profile:local-baseline-v1"],
+  "runtime/refs": ["runtime:local-baseline-v1"],
+  "visibility/ceiling": "operator",
+  "classification/ceiling": "Personal",
+  "expires/at": "2030-01-01T00:00:00Z",
+  "created/at": "2029-01-01T00:00:00Z",
+  "created/by": "local-control"
+}

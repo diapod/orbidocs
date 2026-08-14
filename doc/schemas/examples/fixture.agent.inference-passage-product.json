@@ -1,0 +1,35 @@
+{
+  "schema": "agent.inference-passage-product.v1",
+  "product/ref": "agent-product:fixture:final",
+  "product/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "passage/ref": "agent-passage:fixture:4",
+  "binding/ref": "agent-flow-binding:fixture",
+  "agent/id": "agent:fixture-multipass",
+  "kind": "final",
+  "parent-product/refs": ["agent-product:fixture:revision"],
+  "content/digest": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "content/size-bytes": 64,
+  "artifact/ref": "object-store:sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "retained": true,
+  "output-schema/ref": "output-schema:structured-review-v1",
+  "model/snapshot": "runtime:local-baseline-v1@model:fixture",
+  "budget/used": {
+    "max_tokens": 512,
+    "max_cost_micros": 0,
+    "max_wall_time_ms": 250,
+    "max_steps": 1
+  },
+  "visibility": "private",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:fixture" }]
+    },
+    "declassify_trail": []
+  },
+  "committed/at": "2029-01-01T00:00:04Z",
+  "committed/by": "local-control"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "agent.inference-terminal-selection.v1",
+  "selection/ref": "agent-terminal-selection:invalid",
+  "binding/ref": "agent-flow-binding:fixture",
+  "agent/id": "agent:fixture-multipass",
+  "product/ref": "agent-product:fixture:final",
+  "product/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "idempotency/key": "agent-terminal-selection:invalid",
+  "selected/at": "2029-01-01T00:00:05Z",
+  "selected/by": "json-e-flow:fixture-agent-passes",
+  "publication/authorized": true
+}

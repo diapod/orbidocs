@@ -159,6 +159,33 @@ selected wiring auditable without retaining the observation payload. Durable ste
 facts and traces additionally pin each evidence item to the enclosing Agent,
 binding, and canonical passage identity.
 
+The local operator-defined inference-flow vertical uses the same boundary. An
+exact `agent.inference-flow-binding.v1` predeclares the allowed prompt-policy,
+output-schema, repair-profile, runtime, and visibility refs. Every passage then
+persists an Agent-owned input fact, one structured product fact, and one
+prompt-free trace fact; retained provider-neutral responses live behind a
+content-addressed artifact ref. A terminal outcome requires an explicit
+`agent.inference-terminal-selection.v1` contained in that exact lineage. There
+is no latest-product or last-writer-wins fallback. Exact retry after a dirty
+restart returns the committed product without another Inquirium call or budget
+charge, while changed-body replay, an unoffered profile, a mismatched runtime,
+or publication authority fails closed. JSON-e Flow controls only the bounded
+ordering, branch, and repetition of those already admitted passages.
+
+The passage ceiling and sequence are scoped to the exact inference-flow binding;
+the initial daemon admits one binding per Agent without redefining that contract as
+Agent-global. A host-local execution claim prevents concurrent invocation of one
+`passage/ref`, but provider-native idempotency remains required beyond the host.
+Failure after admission records a durable closed refusal trace and releases the
+ephemeral claim for exact retry. Token and provider-cost usage is normalized before
+charging the Agent budget. A newly written CAS object is committed with the product
+fact or removed on commit refusal, with cleanup failure surfaced explicitly.
+
+Concrete passage facts carry full `classification.v1` provenance, while the binding
+stores only its tier ceiling. Content-addressed digests use base64url-no-pad; P064's
+instruction hash remains lowercase hexadecimal. Both asymmetries are intentional
+and do not authorize cross-format substitution.
+
 The process-local latest-state inbox refuses two different content digests at
 one relay epoch and sequence with a dedicated payload-free structured diagnostic.
 The conflicting delivery cannot replace the already admitted observation.

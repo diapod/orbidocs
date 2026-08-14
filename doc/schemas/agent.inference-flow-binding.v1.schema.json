@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-flow-binding:v1",
+  "title": "Agent Inference Flow Binding v1",
+  "description": "A host-admitted closed vocabulary binding one JSON-e Flow to one Agent and its existing Agent binding.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/049-json-e-flow-middleware.md",
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "binding/ref", "binding/digest", "flow/ref", "flow/digest", "agent/id",
+    "agent-binding/ref", "max/passages", "prompt-policy/refs", "output-schema/refs",
+    "repair-profile/refs", "model-profile/refs", "runtime/refs", "visibility/ceiling",
+    "classification/ceiling", "expires/at", "created/at", "created/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.inference-flow-binding.v1" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "binding/digest": { "$ref": "#/$defs/digest" },
+    "flow/ref": { "$ref": "#/$defs/ref" },
+    "flow/digest": { "$ref": "#/$defs/digest" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "agent-binding/ref": { "$ref": "#/$defs/ref" },
+    "max/passages": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "prompt-policy/refs": { "$ref": "#/$defs/ref-set" },
+    "output-schema/refs": { "$ref": "#/$defs/ref-set" },
+    "repair-profile/refs": { "$ref": "#/$defs/ref-set" },
+    "model-profile/refs": { "$ref": "#/$defs/ref-set" },
+    "runtime/refs": { "$ref": "#/$defs/ref-set" },
+    "visibility/ceiling": { "$ref": "#/$defs/visibility" },
+    "classification/ceiling": { "enum": ["Personal", "Community", "Public"] },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "created/at": { "type": "string", "format": "date-time" },
+    "created/by": { "$ref": "#/$defs/ref" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "visibility": { "enum": ["private", "operator", "shared"] },
+    "ref-set": {
+      "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    }
+  }
+}

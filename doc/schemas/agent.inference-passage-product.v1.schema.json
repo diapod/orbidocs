@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-passage-product:v1",
+  "title": "Agent Inference Passage Product v1",
+  "description": "A metadata-only structured intermediate or final product. Retained bytes are addressed through an artifact ref and digest, never carried inline.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "product/ref", "product/digest", "passage/ref", "binding/ref", "agent/id",
+    "kind", "parent-product/refs", "content/digest", "content/size-bytes", "retained", "output-schema/ref",
+    "model/snapshot", "budget/used", "visibility", "classification", "committed/at", "committed/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.inference-passage-product.v1" },
+    "product/ref": { "$ref": "#/$defs/ref" },
+    "product/digest": { "$ref": "#/$defs/digest" },
+    "passage/ref": { "$ref": "#/$defs/ref" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "kind": { "enum": ["draft", "critique", "revision", "final"] },
+    "parent-product/refs": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "content/digest": { "$ref": "#/$defs/digest" },
+    "content/size-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+    "artifact/ref": { "$ref": "#/$defs/ref" },
+    "retained": { "type": "boolean" },
+    "output-schema/ref": { "$ref": "#/$defs/ref" },
+    "model/snapshot": { "$ref": "#/$defs/ref" },
+    "budget/used": { "$ref": "#/$defs/budget" },
+    "visibility": { "enum": ["private", "operator", "shared"] },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "committed/at": { "type": "string", "format": "date-time" },
+    "committed/by": { "$ref": "#/$defs/ref" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "retained": { "const": true } }, "required": ["retained"] },
+      "then": { "required": ["artifact/ref"] },
+      "else": { "not": { "required": ["artifact/ref"] } }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_steps", "max_wall_time_ms", "max_tokens", "max_cost_micros"],
+      "properties": {
+        "max_steps": { "type": "integer", "minimum": 0 },
+        "max_wall_time_ms": { "type": "integer", "minimum": 0 },
+        "max_tokens": { "type": "integer", "minimum": 0 },
+        "max_cost_micros": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

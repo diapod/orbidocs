@@ -1,0 +1,33 @@
+{
+  "schema": "agent.inference-passage-trace.v1",
+  "trace/ref": "agent-passage-trace:invalid",
+  "binding/ref": "agent-flow-binding:fixture",
+  "agent/id": "agent:fixture-multipass",
+  "passage/ref": "agent-passage:fixture:1",
+  "passage/no": 1,
+  "kind": "draft",
+  "state": "committed",
+  "input/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "parent-product/refs": [],
+  "prompt-policy/ref": "prompt-policy:fixture-v1",
+  "output-schema/ref": "output-schema:structured-review-v1",
+  "repair-profile/ref": "repair-profile:strict-json-v1",
+  "model-profile/ref": "model-profile:local-baseline-v1",
+  "runtime/ref": "runtime:local-baseline-v1",
+  "visibility": "private",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": {
+      "personal_or_community": [{ "kind": "person", "id": "participant:fixture" }]
+    },
+    "declassify_trail": []
+  },
+  "instruction/hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "budget/used": { "max_tokens": 0, "max_cost_micros": 0, "max_wall_time_ms": 0, "max_steps": 0 },
+  "decision/code": "passage-committed",
+  "at": "2029-01-01T00:00:01Z",
+  "content": "raw model output must never enter the trace"
+}

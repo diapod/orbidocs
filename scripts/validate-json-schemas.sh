@@ -206,6 +206,24 @@ schema_for_file() {
     *.agent-semantic-entry.json)
       echo "$SCHEMAS_DIR/agent-semantic-entry.v1.schema.json"
       ;;
+    *.agent.inference-flow-binding.json)
+      echo "$SCHEMAS_DIR/agent.inference-flow-binding.v1.schema.json"
+      ;;
+    *.agent.inference-passage-input.json)
+      echo "$SCHEMAS_DIR/agent.inference-passage-input.v1.schema.json"
+      ;;
+    *.agent.inference-passage-invoke.json)
+      echo "$SCHEMAS_DIR/agent.inference-passage-invoke.v1.schema.json"
+      ;;
+    *.agent.inference-passage-product.json)
+      echo "$SCHEMAS_DIR/agent.inference-passage-product.v1.schema.json"
+      ;;
+    *.agent.inference-terminal-selection.json)
+      echo "$SCHEMAS_DIR/agent.inference-terminal-selection.v1.schema.json"
+      ;;
+    *.agent.inference-passage-trace.json)
+      echo "$SCHEMAS_DIR/agent.inference-passage-trace.v1.schema.json"
+      ;;
     *.inquirium-operation-descriptor.json)
       echo "$SCHEMAS_DIR/inquirium-operation-descriptor.v1.schema.json"
       ;;

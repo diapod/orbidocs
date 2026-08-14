@@ -1,0 +1,60 @@
+{
+  "schema": "agent.inference-passage-invoke.v1",
+  "input": {
+    "schema": "agent.inference-passage-input.v1",
+    "passage/ref": "agent-passage:fixture:1",
+    "binding/ref": "agent-flow-binding:fixture",
+    "agent/id": "agent:fixture",
+    "passage/no": 1,
+    "kind": "draft",
+    "parent-product/refs": [],
+    "input/digest": "sha256:ccccccccccccccccccccccccccccccccccccccccccc",
+    "instruction/hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "prompt-policy/ref": "prompt-policy:fixture-v1",
+    "output-schema/ref": "inquirium.generate.response.v1",
+    "repair-profile/ref": "repair-profile:none",
+    "model-profile/ref": "profile/local-fixture",
+    "runtime/ref": "runtime/local-fixture",
+    "visibility": "private",
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {"kind": "local-space", "space": "Personal"},
+      "bound_subjects": {"personal_or_community": [{"kind": "person", "id": "participant:fixture"}]},
+      "declassify_trail": []
+    },
+    "idempotency/key": "passage:fixture:1",
+    "admitted/at": "2029-01-01T00:00:00Z",
+    "admitted/by": "flow:fixture"
+  },
+  "request": {
+    "schema": "inquirium.generate.request.v1",
+    "operation": "generate",
+    "profile/ref": "profile/local-fixture",
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {"kind": "local-space", "space": "Personal"},
+      "bound_subjects": {"personal_or_community": [{"kind": "person", "id": "participant:fixture"}]},
+      "declassify_trail": []
+    },
+    "turns": [{"role": "user", "content": [{"type": "text", "text": "Produce one bounded draft."}]}],
+    "context_assembly": null,
+    "parameters": {
+      "max_tokens": null,
+      "temperature": null,
+      "top_p": null,
+      "extra": {}
+    },
+    "policy": {
+      "locality": "local_only",
+      "trust_mode": "strict_local",
+      "scope": "assistant-session-only",
+      "on_context_denied": "fail_closed",
+      "plurality": "preserve"
+    },
+    "metadata": {}
+  }
+}

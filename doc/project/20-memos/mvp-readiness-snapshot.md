@@ -254,8 +254,14 @@ use. Supervised package components can now reuse P080's exact dependency and eff
 recovery contract rather than creating a package-local lifecycle engine. A closed
 ownership registry binds each V1 runtime state to one bounded owner
 and domain-owned use fence, without inventing generic invalidation authority. Phase
-3 and attention-specific interactive UI remain open. P085 therefore stays
-partial and post-MVP; this work does not change hard-MVP readiness.
+3 now has its complete node-local fixed-vocabulary vertical: six accepted Agent
+contracts, bounded JSON-e Flow branch/repetition, exact passage profile/runtime
+binding, content-addressed products, prompt-free durable lineage, explicit terminal
+selection, and process evidence for idempotent retry plus dirty-restart recovery
+without reinference or duplicate charge. The Corpus/Room binding, package lifecycle,
+flow-specific operator inspection, Room acceptance, and attention-specific
+interactive UI remain open under `P085-038` through `P085-042`. P085 therefore
+stays partial and post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now

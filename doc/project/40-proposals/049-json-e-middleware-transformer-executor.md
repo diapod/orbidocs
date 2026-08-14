@@ -276,6 +276,22 @@ Candidate step kinds:
 - `respond` — return a host-validated response contract,
 - `fail` — return a controlled rejected or failed response.
 
+The implemented Phase 3 passage-control extension adds two deliberately small
+control steps:
+
+- `branch` evaluates a host-bounded condition and selects one of two statically
+  declared, forward-only step ids;
+- `repeat` returns to one statically declared earlier step a literal number of
+  times bounded by both the step declaration and `max_loop_steps`.
+
+Neither step renders a capability id, call target, profile ref, or output
+contract. Load-time validation rejects missing targets, backward branches,
+forward repeats, zero or excessive repeat counts, and malformed conditions.
+Execution still charges every visited step against `max_flow_steps`, every
+repeated body visit against `max_loop_steps`, and all rendered state against the
+existing timeout and register-byte ceilings. Exhaustion is a typed refusal; it
+does not truncate the flow or fall through to a response.
+
 `json_e_flow` is suitable for role middleware that needs controlled host
 capability calls, for example:
 
@@ -301,12 +317,13 @@ allowed-call declaration, MUST be validated at load time where possible. JSON-e
 templates may render request bodies and intermediate values, but they MUST NOT
 select which host capability is invoked.
 
-`json_e_flow` may later support loops, dynamically generated steps, temporary
+`json_e_flow` may later support richer dynamically generated steps, temporary
 registers, or scratch values when a concrete middleware use case needs that
-power. Those features increase the evaluator's operational cost and make flow
-behavior harder to audit. They MUST therefore be guarded by explicit profile
-support, resource limits, trace coverage, and documentation that warns operators
-to use them only when a simpler static flow is insufficient.
+power. The current `branch` and `repeat` semantics intentionally do not open
+those surfaces. Any later extension increases evaluator cost and makes flow
+behavior harder to audit, so it MUST be guarded by explicit profile support,
+resource limits, trace coverage, and documentation that warns operators to use
+it only when a simpler static flow is insufficient.
 
 ### Resource budget and execution timeout
 

@@ -1,0 +1,6 @@
+{
+  "schema": "agent.inference-passage-invoke.v1",
+  "input": {},
+  "request": {},
+  "product": {"product/ref": "agent-product:caller-supplied"}
+}

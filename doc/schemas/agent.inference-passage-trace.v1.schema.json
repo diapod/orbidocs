@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-passage-trace:v1",
+  "title": "Agent Inference Passage Trace v1",
+  "description": "Prompt-free metadata trace for one passage transition. Prompt text, product content, private reasoning, protected source bytes, signatures, and secrets have no representation.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "trace/ref", "binding/ref", "agent/id", "passage/ref", "passage/no", "kind",
+    "state", "input/digest", "parent-product/refs", "prompt-policy/ref", "output-schema/ref",
+    "repair-profile/ref", "model-profile/ref", "runtime/ref", "visibility", "classification", "instruction/hash",
+    "budget/used", "decision/code", "at", "by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.inference-passage-trace.v1" },
+    "trace/ref": { "$ref": "#/$defs/ref" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "passage/ref": { "$ref": "#/$defs/ref" },
+    "passage/no": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "kind": { "enum": ["draft", "critique", "revision", "final"] },
+    "state": { "enum": ["admitted", "committed", "refused", "selected"] },
+    "input/digest": { "$ref": "#/$defs/digest" },
+    "product/ref": { "$ref": "#/$defs/ref" },
+    "product/digest": { "$ref": "#/$defs/digest" },
+    "parent-product/refs": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "prompt-policy/ref": { "$ref": "#/$defs/ref" },
+    "output-schema/ref": { "$ref": "#/$defs/ref" },
+    "repair-profile/ref": { "$ref": "#/$defs/ref" },
+    "model-profile/ref": { "$ref": "#/$defs/ref" },
+    "runtime/ref": { "$ref": "#/$defs/ref" },
+    "model/snapshot": { "$ref": "#/$defs/ref" },
+    "visibility": { "enum": ["private", "operator", "shared"] },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "instruction/hash": { "$ref": "#/$defs/instruction-hash" },
+    "budget/used": { "$ref": "#/$defs/budget" },
+    "decision/code": {
+      "enum": [
+        "passage-admitted",
+        "passage-committed",
+        "terminal-product-selected",
+        "passage-request-refused",
+        "passage-invocation-refused",
+        "passage-response-refused",
+        "passage-artifact-refused",
+        "passage-commit-refused"
+      ]
+    },
+    "at": { "type": "string", "format": "date-time" },
+    "by": { "$ref": "#/$defs/ref" }
+  },
+  "dependentRequired": {
+    "product/ref": ["product/digest"],
+    "product/digest": ["product/ref"]
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "state": { "enum": ["committed", "selected"] } }, "required": ["state"] },
+      "then": { "required": ["product/ref", "product/digest", "model/snapshot"] }
+    },
+    {
+      "if": { "properties": { "state": { "enum": ["admitted", "refused"] } }, "required": ["state"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["product/ref"] },
+            { "required": ["product/digest"] },
+            { "required": ["model/snapshot"] }
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "instruction-hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_steps", "max_wall_time_ms", "max_tokens", "max_cost_micros"],
+      "properties": {
+        "max_steps": { "type": "integer", "minimum": 0 },
+        "max_wall_time_ms": { "type": "integer", "minimum": 0 },
+        "max_tokens": { "type": "integer", "minimum": 0 },
+        "max_cost_micros": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

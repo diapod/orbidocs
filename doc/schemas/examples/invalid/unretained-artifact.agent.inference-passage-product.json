@@ -1,0 +1,25 @@
+{
+  "schema": "agent.inference-passage-product.v1",
+  "product/ref": "agent-product:invalid",
+  "product/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "passage/ref": "agent-passage:invalid:2",
+  "binding/ref": "agent-flow-binding:fixture",
+  "agent/id": "agent:fixture-multipass",
+  "kind": "critique",
+  "parent-product/refs": ["agent-product:fixture:draft"],
+  "content/digest": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "content/size-bytes": 64,
+  "artifact/ref": "object-store:sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+  "retained": false,
+  "output-schema/ref": "output-schema:structured-review-v1",
+  "visibility": "private",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": { "kind": "local-space", "space": "Personal" },
+    "bound_subjects": { "personal_or_community": [{ "kind": "person", "id": "participant:fixture" }] },
+    "declassify_trail": []
+  },
+  "committed/at": "2029-01-01T00:00:02Z"
+}
