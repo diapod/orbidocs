@@ -47,6 +47,7 @@ Machine-readable schema for a first-class audit record describing one bounded op
 | [`approvals`](#field-approvals) | `yes` | array | Approval entries for the exception. High and critical records require at least one approval entry. |
 | [`monitoring/metrics`](#field-monitoring-metrics) | `yes` | array | Side-effect indicators or health metrics to watch while the exception remains active. |
 | [`monitoring/review-at`](#field-monitoring-review-at) | `yes` | string | Next mandatory review checkpoint. Consumers SHOULD enforce `monitoring/review-at >= created/at`. |
+| [`review-by`](#field-review-by) | `no` | string | Mandatory retrospective-review deadline when an active emergency exception defers one or more constitutional tests. |
 | [`rollback/conditions`](#field-rollback-conditions) | `yes` | array | Conditions under which the exception must be suspended or rolled back. |
 | [`status`](#field-status) | `yes` | enum: `proposed`, `active`, `suspended`, `expired`, `rolled_back` | Lifecycle state of the exception record. |
 | [`notes`](#field-notes) | `no` | string | Optional human-readable notes. |
@@ -430,6 +431,141 @@ Then:
 }
 ```
 
+### Rule 13
+
+When:
+
+```json
+{
+  "properties": {
+    "status": {
+      "const": "active"
+    },
+    "exception/type": {
+      "not": {
+        "const": "emergency"
+      }
+    }
+  },
+  "required": [
+    "status",
+    "exception/type"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "tests/applied": {
+      "properties": {
+        "reversibility": {
+          "properties": {
+            "outcome": {
+              "enum": [
+                "pass",
+                "not-applicable"
+              ]
+            }
+          }
+        },
+        "proportionality": {
+          "properties": {
+            "outcome": {
+              "enum": [
+                "pass",
+                "not-applicable"
+              ]
+            }
+          }
+        },
+        "transparency": {
+          "properties": {
+            "outcome": {
+              "enum": [
+                "pass",
+                "not-applicable"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Rule 14
+
+When:
+
+```json
+{
+  "properties": {
+    "status": {
+      "const": "active"
+    },
+    "exception/type": {
+      "const": "emergency"
+    },
+    "tests/applied": {
+      "anyOf": [
+        {
+          "properties": {
+            "reversibility": {
+              "properties": {
+                "outcome": {
+                  "const": "deferred"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "proportionality": {
+              "properties": {
+                "outcome": {
+                  "const": "deferred"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "transparency": {
+              "properties": {
+                "outcome": {
+                  "const": "deferred"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "required": [
+    "status",
+    "exception/type",
+    "tests/applied"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "review-by"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema-v"></a>
@@ -591,6 +727,14 @@ Side-effect indicators or health metrics to watch while the exception remains ac
 - Shape: string
 
 Next mandatory review checkpoint. Consumers SHOULD enforce `monitoring/review-at >= created/at`.
+
+<a id="field-review-by"></a>
+## `review-by`
+
+- Required: `no`
+- Shape: string
+
+Mandatory retrospective-review deadline when an active emergency exception defers one or more constitutional tests.
 
 <a id="field-rollback-conditions"></a>
 ## `rollback/conditions`

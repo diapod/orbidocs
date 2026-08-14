@@ -1,0 +1,28 @@
+{
+  "schema/v": 1,
+  "policy/id": "DIA-EXC-001",
+  "exception/id": "EXC-fed-pl-20260814T120000Z-08",
+  "exception/type": "emergency",
+  "owner/kind": "node",
+  "owner/id": "node:did:key:z6Mkz4Yx2Qn7L8v1R5s9T3k6M2p8D4f7H1j5N6b7C8",
+  "requester/kind": "system",
+  "requester/id": "system",
+  "scope/summary": "Temporary emergency relay activation while proportionality evidence is completed.",
+  "reason/summary": "Delay would increase immediate harm, so retrospective review is explicitly scheduled.",
+  "risk/level": "high",
+  "constitutional/basis": ["const:art-2.11", "const:art-14.3"],
+  "tests/applied": {
+    "reversibility": {"outcome": "pass", "rationale": "The activation has a bounded expiry and fail-closed target."},
+    "proportionality": {"outcome": "deferred", "rationale": "The complete impact comparison must follow emergency activation."},
+    "transparency": {"outcome": "pass", "rationale": "The deferred test and review deadline are recorded."}
+  },
+  "created/at": "2026-08-14T12:00:00Z",
+  "expires/at": "2026-08-14T13:00:00Z",
+  "fail-closed/target": "A0",
+  "approvals": [{"approver/kind": "system", "approver/id": "system", "approved-at": "2026-08-14T12:00:00Z"}],
+  "monitoring/metrics": ["relay-delivery-rate"],
+  "monitoring/review-at": "2026-08-14T12:15:00Z",
+  "review-by": "2026-08-14T12:30:00Z",
+  "rollback/conditions": ["protected route becomes unavailable"],
+  "status": "active"
+}

@@ -1,7 +1,7 @@
 {
   "schema": "operator-guard-hook.v1", "schema/v": 1,
   "guard/ref": "operator-guard:inference-budget", "revision/no": 1,
-  "anchor": "nse-decision-admission", "operation": "narrow", "axis": "budget", "priority": 100,
+  "anchor": "agent-effect-admission", "operation": "narrow", "axis": "budget", "priority": 100,
   "producer/ref": "producer:table:inference-budget", "producer/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "operator/binding-ref": "node-operator-binding:research",
   "issued-at": "2026-08-02T10:00:00Z", "expires-at": "2026-08-03T10:00:00Z",

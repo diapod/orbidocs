@@ -1,0 +1,8 @@
+{
+  "schema": "operator-guard-hook.v1", "schema/v": 1,
+  "guard/ref": "operator-guard:unsupported-pair", "revision/no": 1,
+  "anchor": "package-activation", "operation": "raise-risk", "axis": "operational-class", "priority": 1,
+  "producer/ref": "producer:bad", "producer/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "operator/binding-ref": "node-operator-binding:research", "issued-at": "2026-08-02T10:00:00Z", "expires-at": "2026-08-03T10:00:00Z",
+  "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
+}

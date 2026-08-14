@@ -34,6 +34,7 @@
     "activation/session-not-eligible",
     "guard/anchor-unknown",
     "guard/cap-exceeded",
+    "guard/semantic-unsupported",
     "identifier/invalid",
     "policy/revoked",
     "policy/expired",

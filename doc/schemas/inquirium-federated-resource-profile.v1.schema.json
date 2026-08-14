@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-federated-resource-profile:v1",
+  "title": "Federated Inquirium Resource Profile v1",
+  "description": "Complete peer resource profile bound by a node-signed federation declaration to one operation, experiment class, and runtime candidate. Sparse profiles are forbidden at this boundary.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "peer/node-id",
+    "envelope/ref",
+    "operation",
+    "experiment/class",
+    "runtime/ref",
+    "profile"
+  ],
+  "properties": {
+    "schema": { "const": "inquirium-federated-resource-profile.v1" },
+    "schema/v": { "const": 1 },
+    "peer/node-id": {
+      "type": "string",
+      "minLength": 14,
+      "maxLength": 300,
+      "pattern": "^node:did:key:[A-Za-z0-9._:-]+$"
+    },
+    "envelope/ref": {
+      "type": "string",
+      "minLength": 19,
+      "maxLength": 300,
+      "pattern": "^operator-envelope:[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "operation": {
+      "enum": [
+        "generate",
+        "embed",
+        "batch.embed",
+        "classify",
+        "rerank",
+        "summarize",
+        "transform",
+        "image.generate",
+        "image.edit",
+        "train.adapt"
+      ]
+    },
+    "experiment/class": {
+      "enum": ["production", "research", "experimental", "critical"]
+    },
+    "runtime/ref": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 300,
+      "pattern": "^runtime/[A-Za-z0-9][A-Za-z0-9._/-]*$"
+    },
+    "profile": {
+      "allOf": [
+        { "$ref": "inquirium-resource-profile.v1.schema.json" },
+        {
+          "type": "object",
+          "properties": {
+            "limits": {
+              "required": [
+                "batch-embed/source-lease-refs-max",
+                "text-operation/input-bytes-max",
+                "image/prompt-bytes-max",
+                "classify/input-text-bytes-max",
+                "classify/labels-max",
+                "classify/label-bytes-max",
+                "classify/label-description-bytes-max",
+                "classify/rationale-bytes-max",
+                "rerank/query-bytes-max",
+                "rerank/candidates-max",
+                "rerank/candidate-text-bytes-max",
+                "assistant/conformance-ttl-seconds",
+                "assistant/context-tokens-min",
+                "assistant/output-bytes-max",
+                "training/dataset-samples-max",
+                "operator-question/expires-at-bytes-max",
+                "embed/input-texts-max",
+                "embed/input-text-bytes-max",
+                "embed/dimensions-max",
+                "prompt-adjustment/extend-layers-max",
+                "output-schema/value-bytes-default-max",
+                "output-schema/value-depth-default-max",
+                "output-schema/array-items-default-max",
+                "output-schema/object-members-default-max",
+                "output-schema/repair-attempts-max",
+                "output-schema/violations-max",
+                "output-schema/redaction-pointers-max",
+                "generate/control-items-max",
+                "generate/control-payload-bytes-max",
+                "generate/envelope-params-bytes-max",
+                "memory/pinned-facts-max",
+                "memory/recent-facts-max",
+                "memory/recall-refs-max",
+                "memory/text-bytes-max",
+                "locale/response-locales-max",
+                "feedback/metadata-bytes-max",
+                "feedback/amendment-items-max",
+                "feedback/grounding-refs-max"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

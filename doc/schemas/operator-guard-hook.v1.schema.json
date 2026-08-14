@@ -20,6 +20,19 @@
     "issued-at": {"type": "string", "format": "date-time"}, "expires-at": {"type": "string", "format": "date-time"},
     "signature": {"$ref": "#/$defs/signature"}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"anchor": {"const": "agent-effect-admission"}}},
+      "then": {
+        "anyOf": [
+          {"properties": {"operation": {"const": "restrict"}, "axis": {"const": "grant-set"}}},
+          {"properties": {"operation": {"const": "narrow"}, "axis": {"const": "budget"}}},
+          {"properties": {"operation": {"const": "raise-risk"}, "axis": {"const": "operational-class"}}}
+        ]
+      },
+      "else": {"properties": {"operation": {"const": "restrict"}, "axis": {"const": "grant-set"}}}
+    }
+  ],
   "$defs": {
     "ref": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"},
     "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},

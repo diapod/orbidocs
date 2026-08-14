@@ -175,6 +175,11 @@
       "format": "date-time",
       "description": "Next mandatory review checkpoint. Consumers SHOULD enforce `monitoring/review-at >= created/at`."
     },
+    "review-by": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Mandatory retrospective-review deadline when an active emergency exception defers one or more constitutional tests."
+    },
     "rollback/conditions": {
       "type": "array",
       "items": {
@@ -213,7 +218,8 @@
           "enum": [
             "pass",
             "fail",
-            "not-applicable"
+            "not-applicable",
+            "deferred"
           ]
         },
         "rationale": {
@@ -228,7 +234,8 @@
         "outcome": {
           "enum": [
             "pass",
-            "not-applicable"
+            "not-applicable",
+            "deferred"
           ]
         }
       }
@@ -633,6 +640,43 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "active"},
+          "exception/type": {"not": {"const": "emergency"}}
+        },
+        "required": ["status", "exception/type"]
+      },
+      "then": {
+        "properties": {
+          "tests/applied": {
+            "properties": {
+              "reversibility": {"properties": {"outcome": {"enum": ["pass", "not-applicable"]}}},
+              "proportionality": {"properties": {"outcome": {"enum": ["pass", "not-applicable"]}}},
+              "transparency": {"properties": {"outcome": {"enum": ["pass", "not-applicable"]}}}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "active"},
+          "exception/type": {"const": "emergency"},
+          "tests/applied": {
+            "anyOf": [
+              {"properties": {"reversibility": {"properties": {"outcome": {"const": "deferred"}}}}},
+              {"properties": {"proportionality": {"properties": {"outcome": {"const": "deferred"}}}}},
+              {"properties": {"transparency": {"properties": {"outcome": {"const": "deferred"}}}}}
+            ]
+          }
+        },
+        "required": ["status", "exception/type", "tests/applied"]
+      },
+      "then": {"required": ["review-by"]}
     }
   ]
 }

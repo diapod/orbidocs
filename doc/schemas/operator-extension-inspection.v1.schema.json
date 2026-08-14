@@ -144,7 +144,7 @@
         },
         "effective/guard-types": {
           "type": "array", "maxItems": 16, "uniqueItems": true,
-          "items": {"enum": ["restrict/grant-set"]}
+          "items": {"enum": ["restrict/grant-set", "narrow/budget", "raise-risk/operational-class"]}
         },
         "effective/restrictions": {
           "type": "array", "maxItems": 64, "uniqueItems": true,

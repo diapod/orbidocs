@@ -36,6 +36,62 @@ Signed local binding of one monotonic guard declaration to a registered host adm
 | [`ref`](#def-ref) | string |  |
 | [`digest`](#def-digest) | string |  |
 | [`signature`](#def-signature) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "anchor": {
+      "const": "agent-effect-admission"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "anyOf": [
+    {
+      "properties": {
+        "operation": {
+          "const": "restrict"
+        },
+        "axis": {
+          "const": "grant-set"
+        }
+      }
+    },
+    {
+      "properties": {
+        "operation": {
+          "const": "narrow"
+        },
+        "axis": {
+          "const": "budget"
+        }
+      }
+    },
+    {
+      "properties": {
+        "operation": {
+          "const": "raise-risk"
+        },
+        "axis": {
+          "const": "operational-class"
+        }
+      }
+    }
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>

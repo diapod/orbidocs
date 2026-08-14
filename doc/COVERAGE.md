@@ -118,7 +118,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`enum-classification.v1.schema.json`](schemas-gen/schemas/enum-classification.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
 | [`escrow-policy.v1.schema.json`](schemas-gen/schemas/escrow-policy.v1.md) | `17` | `16` | `yes` | `yes` | `1` | `1` |
 | [`eval-report.v1.schema.json`](schemas-gen/schemas/eval-report.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
-| [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) | `23` | `23` | `yes` | `yes` | `3` | `6` |
+| [`exception-record.v1.schema.json`](schemas-gen/schemas/exception-record.v1.md) | `24` | `24` | `yes` | `yes` | `4` | `7` |
 | [`execution-receipt.v1.schema.json`](schemas-gen/schemas/execution-receipt.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
 | [`federated-envelope-declaration.v1.schema.json`](schemas-gen/schemas/federated-envelope-declaration.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `1` |
 | [`federated-envelope-declaration.v2.schema.json`](schemas-gen/schemas/federated-envelope-declaration.v2.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
@@ -933,5 +933,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `371`
 - Generated schema docs: `371`
-- Positive examples: `381`
-- Negative examples: `320`
+- Positive examples: `382`
+- Negative examples: `321`
