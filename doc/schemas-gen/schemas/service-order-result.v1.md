@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/service-order-result.v1.schema.json`](../../schemas/service-order-result.v1.schema.json)
 
-Terminal service-order result artifact sent by Dator to Arca through Artifact Delivery. This artifact reports only completed, failed, or rejected outcomes; non-terminal provider progress belongs to a separate future event schema.
+Terminal service-order result artifact sent by Dator through Artifact Delivery to the buyer-side Arca acceptor and admitted by the buyer host. This artifact reports only completed, failed, or rejected outcomes; non-terminal provider progress belongs to a separate future event schema. It reports provider execution facts and does not grant settlement authority.
 
 ## Governing Basis
 
@@ -39,9 +39,9 @@ Terminal service-order result artifact sent by Dator to Arca through Artifact De
 | [`provider/node-id`](#field-provider-node-id) | `yes` | string |  |
 | [`provider/participant-id`](#field-provider-participant-id) | `yes` | string |  |
 | [`provider/metadata`](#field-provider-metadata) | `no` | object |  |
-| [`settlement/refs`](#field-settlement-refs) | `no` | array |  |
-| [`receipt/ref`](#field-receipt-ref) | `no` | string |  |
-| [`hold/ref`](#field-hold-ref) | `no` | string |  |
+| [`settlement/refs`](#field-settlement-refs) | `no` | array | Provider-reported diagnostic references only. The buyer host MUST NOT use these values to authorize or identify settlement effects. |
+| [`receipt/ref`](#field-receipt-ref) | `no` | string | Provider-reported diagnostic receipt reference only. The authoritative buyer receipt is derived and authored by the buyer host. |
+| [`hold/ref`](#field-hold-ref) | `no` | string | Provider-reported diagnostic hold reference only. The authoritative hold is resolved from buyer-host durable correlation. |
 | [`result/artifact-digest`](#field-result-artifact-digest) | `no` | string |  |
 | [`responded_at`](#field-responded-at) | `yes` | string |  |
 
@@ -202,17 +202,23 @@ Provider output for completed results. Large output may be represented by result
 - Required: `no`
 - Shape: array
 
+Provider-reported diagnostic references only. The buyer host MUST NOT use these values to authorize or identify settlement effects.
+
 <a id="field-receipt-ref"></a>
 ## `receipt/ref`
 
 - Required: `no`
 - Shape: string
 
+Provider-reported diagnostic receipt reference only. The authoritative buyer receipt is derived and authored by the buyer host.
+
 <a id="field-hold-ref"></a>
 ## `hold/ref`
 
 - Required: `no`
 - Shape: string
+
+Provider-reported diagnostic hold reference only. The authoritative hold is resolved from buyer-host durable correlation.
 
 <a id="field-result-artifact-digest"></a>
 ## `result/artifact-digest`

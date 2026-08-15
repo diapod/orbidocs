@@ -170,6 +170,8 @@ SCHEMA_WHITELIST = (
     "corpus-reasoning-instruction-overlay.v1.schema.json",
     "corpus-reasoning-inference-flow-binding.v1.schema.json",
     "service-order.v1.schema.json",
+    "service-order-dispatch-request.v1.schema.json",
+    "service-order-result.v1.schema.json",
     "offer-catalog-fetch-request.schema.json",
     "offer-catalog-fetch-response.schema.json",
     "classification.v1.schema.json",

@@ -379,7 +379,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`service-offer-relay.v1.schema.json`](schemas-gen/schemas/service-offer-relay.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `0` |
 | [`service-offer.v1.schema.json`](schemas-gen/schemas/service-offer.v1.md) | `31` | `30` | `yes` | `yes` | `2` | `2` |
 | [`service-order-dispatch-request.v1.schema.json`](schemas-gen/schemas/service-order-dispatch-request.v1.md) | `16` | `4` | `yes` | `yes` | `1` | `1` |
-| [`service-order-result.v1.schema.json`](schemas-gen/schemas/service-order-result.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `1` |
+| [`service-order-result.v1.schema.json`](schemas-gen/schemas/service-order-result.v1.md) | `17` | `4` | `yes` | `yes` | `1` | `1` |
 | [`service-order.v1.schema.json`](schemas-gen/schemas/service-order.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `0` |
 | [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) | `21` | `20` | `yes` | `yes` | `2` | `2` |
 | [`signal-marker-envelope.v1.schema.json`](schemas-gen/schemas/signal-marker-envelope.v1.md) | `9` | `8` | `yes` | `yes` | `1` | `1` |

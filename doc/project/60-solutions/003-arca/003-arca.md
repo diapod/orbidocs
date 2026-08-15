@@ -210,6 +210,9 @@ Related schemas:
 - `deferred-operation.v1`
 
 Responsibilities:
+- submit the selected `service-order.v1` to the buyer host before AD
+  dispatch so the host can create the hold and durable dispatch
+  correlation,
 - build `service-order.dispatch.request.v1` artifacts for remote
   provider execution, carrying the P021 `service-order.v1`, dispatch
   payload, workflow lineage, correlation id, delivery deadline, and a
@@ -222,27 +225,33 @@ Responsibilities:
   `awaiting_execution` state until a terminal result artifact arrives,
 - own the single supervised inbound acceptor for
   `service-order.result.v1`,
-- correlate results by `(workflow/run-id, workflow/phase-id,
-  request_id)`, reject conflicting replays, and close the step exactly
-  once,
+- relay the host-issued one-shot invocation token with the exact admitted artifact
+  to the buyer host; Arca-provided source fields never authorize closeout,
+- consume typed host admission outcomes with stable reason codes and explicit
+  `retryable` data rather than matching HTTP status or error text,
+- keep Arca's local result row as a workflow projection only, then poll
+  the host execution snapshot to close the step exactly once,
 - ignore legacy peer-message `service-order.dispatch.response` frames;
   remote service-order completion is closed only by the AD result
   acceptor.
 
 Status:
-- `partial` — the direct node-to-node Artifact Delivery thin slice is
-  implemented in the bundled Arca module. Arca sends private inline
-  JSON request artifacts to Dator through AD deferred mode, stores the
-  operation/status/audit trace on the workflow step, and accepts
-  terminal `service-order.result.v1` artifacts through a single result
-  acceptor. Identical result replays are idempotent; conflicting
-  result digests are rejected. The current slice defaults to direct
-  node delivery, exposes AD trace links in the run-step operator view,
-  can attach configured private-safe fallback stages to request and
-  reply delivery plans. Story-009/default profiles do not configure a
-  legacy peer-message service-order waiter; late legacy peer responses
-  are ignored. Activating `object-store-indirect` fallback still
-  requires host AD routes and explicit INAC authorization material.
+- `done` for buyer-host remote closeout — bundled Arca opens the host
+  execution and hold before dispatch, sends private request artifacts
+  through AD deferred mode, stores operation/status/audit trace, and
+  relays the exact terminal artifact plus its one-shot host invocation
+  token to the buyer host. The host derives the authenticated source peer
+  from AD provenance, admits identical replays idempotently, rejects conflicting
+  digests, and owns release/refund/receipt effects; Arca only updates
+  its workflow projection. A `manual-review-only` release settles the
+  host execution but does not implicitly resume a paused Arca run;
+  resume remains an explicit orchestration transition. The paid
+  three-node Story-009 acceptance proves this with buyer node A and
+  provider nodes B/C. The current slice defaults to direct node
+  delivery, supports configured private-safe fallback plans, and has
+  no legacy peer-message waiter. Activating `object-store-indirect`
+  fallback still requires host AD routes and explicit INAC
+  authorization material.
 
 ### Observed Offer Catalog and Discovery
 

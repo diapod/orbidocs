@@ -228,6 +228,9 @@ Responsibilities:
 - build terminal `service-order.result.v1` artifacts and deliver them
   back to Arca using the request's `reply/delivery_plan` when present,
   otherwise using the request's `reply/target`,
+- treat provider-reported settlement references as diagnostics only;
+  Dator never releases, refunds, freezes, or signs the buyer-host
+  procurement receipt,
 - return AD admission status separately from provider-side execution
   completion,
 - keep inbound peer `service-order.dispatch.request` and
@@ -235,7 +238,7 @@ Responsibilities:
   surface without adding new semantics there.
 
 Status:
-- `partial` — the direct node-to-node Artifact Delivery thin slice is
+- `done` for terminal provider-result delivery — the direct node-to-node Artifact Delivery thin slice is
   implemented in the bundled Dator module. Dator admits private inline
   JSON `service-order.dispatch.request.v1` artifacts, rejects
   conflicting replays, returns `already-present` for identical
@@ -248,7 +251,12 @@ Status:
   unless that reply plan includes an `object-store-indirect` target. The
   legacy peer-message remote-provider handler remains only as a
   deprecated compatibility surface; Story-009/default remote execution
-  is AD-only. Durable provider queueing remains a later layer.
+  is AD-only. The buyer host, not Dator or Arca, validates the terminal
+  result against durable correlation, derives the source peer from a
+  one-shot host-owned AD invocation binding, and owns settlement closeout. The
+  paid three-node Story-009 acceptance covers Dator providers on nodes
+  B/C returning results to buyer node A through AD.
+  Durable provider queueing remains a later layer.
 
 ### Host Capability Bridge Consumer
 

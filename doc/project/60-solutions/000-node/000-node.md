@@ -349,7 +349,23 @@ Responsibilities:
 Status:
 - `partial` — settlement disclosures, gateway/escrow policy imports, paid-path
   gating, hold-time policy freezing, and operator inspection are implemented.
-  Richer policy-violation exploration remains open.
+  Buyer-host service-order closeout is also implemented: the host creates a hold
+  before local or AD dispatch, persists remote request/correlation state, admits
+  exact terminal AD results, performs release/refund/freeze transitions, writes
+  receipts idempotently, and reconstructs those projections after restart. Result
+  admission consumes a one-shot acceptor/schema/digest token and derives source-peer
+  identity from host-owned Artifact Delivery provenance. Typed reason codes and a
+  `retryable` datum replace error-message matching. Richer policy-violation
+  exploration remains open.
+
+The buyer host is the settlement authority for this slice. Arca may transport the
+exact AD result invocation and Dator may report provider execution facts, but neither
+component may use provider-supplied settlement references to mutate the ledger or
+author the terminal procurement receipt.
+
+The paid three-node Story-009 acceptance covers buyer node A and provider nodes B/C.
+For `manual-review-only`, execution release and workflow resume remain two explicit
+transitions: the former settles hold/receipt state, while the latter advances Arca.
 
 ### Settlement-Capable Node Profile
 
@@ -403,6 +419,14 @@ shape around Node should be made explicit:
 Hard MVP may co-locate `gateway`, `escrow`, `catalog`, and even `arbiter` into one
 deployment, but their responsibilities should remain distinct at the protocol and
 audit level.
+
+The daemon's operator-facing local/observed service-offer projection is bounded at
+4,096 entries. Before refusing a new entry it reaps expired or withdrawn observed
+offers; updates to an existing offer remain admissible. For observed offers the host
+verifies the signed provider identity and derives trust from its own trusted-provider
+state. Middleware-provided `trust_level` and `source_node_id` values do not become
+authority; the snapshot's source node is the signed provider node, while relay-hop
+provenance remains in Artifact Delivery or peer metadata.
 
 ### Supervised Local HTTP Middleware Services
 

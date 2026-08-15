@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:service-order-result:v1",
   "title": "ServiceOrderResult v1",
-  "description": "Terminal service-order result artifact sent by Dator to Arca through Artifact Delivery. This artifact reports only completed, failed, or rejected outcomes; non-terminal provider progress belongs to a separate future event schema.",
+  "description": "Terminal service-order result artifact sent by Dator through Artifact Delivery to the buyer-side Arca acceptor and admitted by the buyer host. This artifact reports only completed, failed, or rejected outcomes; non-terminal provider progress belongs to a separate future event schema. It reports provider execution facts and does not grant settlement authority.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -79,6 +79,7 @@
       "additionalProperties": true
     },
     "settlement/refs": {
+      "description": "Provider-reported diagnostic references only. The buyer host MUST NOT use these values to authorize or identify settlement effects.",
       "type": "array",
       "items": {
         "type": "string",
@@ -87,11 +88,13 @@
       }
     },
     "receipt/ref": {
+      "description": "Provider-reported diagnostic receipt reference only. The authoritative buyer receipt is derived and authored by the buyer host.",
       "type": "string",
       "minLength": 1,
       "maxLength": 512
     },
     "hold/ref": {
+      "description": "Provider-reported diagnostic hold reference only. The authoritative hold is resolved from buyer-host durable correlation.",
       "type": "string",
       "minLength": 1,
       "maxLength": 512

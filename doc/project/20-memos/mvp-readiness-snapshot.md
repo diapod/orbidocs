@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-11.
+Snapshot date: 2026-08-15.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -1033,6 +1033,18 @@ Recent component deltas:
   evidence; readiness percentages remain unchanged because both documents were
   already at their completed node-local slices.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, public-gossip promotion, and bounded trace integrity/privacy. The current Node worktree consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private signal publication and now implements `whisper.trace.publish` with exact one-time operator consent for inline disclosure, transient byte validation, and metadata-only read models. Trace authoring atomically reserves idempotency keys, independently bounds inline bytes, extensions, and total JSON, and applies a 30-day default retention sweep to its local read model. Agora enforces public trace topic/disclosure admission and projects traces outside signal thresholding, while AD/INAC admits private traces through the existing signed-envelope carrier. Story-005 asserts the exact `agora-publish` and `inac-direct` carriers, proves that private traces stay absent from Agora projection, and retains its private-signal regression guard. `agora-projections` and `agora-service` also provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer room/curation UI, and remote model deployment.
+- The 2026-08-15 Arca/Dator closeout refresh completes the hard-MVP P016 buyer-host
+  settlement slice. Remote terminal results remain Artifact Delivery facts rather
+  than settlement commands: a one-shot host token binds acceptor, schema, digest,
+  and authenticated source peer; typed reason codes plus explicit retryability
+  replace message matching; invalid explicit answer formats fail closed; and
+  completed work follows either `AwaitingAcceptance` or `AwaitingManualRelease`
+  according to the frozen confirmation policy. The buyer-host lifecycle test covers
+  release, dispute, failure, rejection, enqueue failure, replay, digest conflict,
+  and restart reconstruction. The adjacent local/observed offer projection is now
+  capped at 4,096 entries and derives observed trust/provider identity on the host.
+  This raises P016, P021, and Arca readiness without promoting the broader Story-009
+  product story into the hard-MVP blocker set.
 - Shared Offer Catalog is now hard-MVP complete. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, public/shared catalog deployment profile (`node/middleware-modules/offer-catalog/config/profiles/public-shared-catalog.json`), automatic `shared-offer-catalog` passport publication readiness with classified pending reasons, redacted Host Agora and Seed Directory admission diagnostics, and a local public-profile smoke runner (`node/tools/acceptance/shared-offer-catalog-public-smoke.py`) covering authorized replay, bad-signature refusal, unknown-provider refusal, withdrawn-offer inspection semantics, and the HTTP query surface. The remaining public-profile operating policy is now resolved and enforced where applicable: passport renewal is supervisor-driven by default, and non-loopback Agora URLs must use HTTPS/TLS with Node fail-closed replay validation. Remaining work is post-MVP production hardening such as broader monitoring matrices and eventual legacy peer-message retirement.
 - Proposal 080 is complete through P080-023. Bundled factory data now selects `channel_json` or `http_local_json` explicitly and records whether a product listener remains. Eligible host-only modules project to the shared channel without allocating per-module ports; intentional network and mixed product listeners remain explicit. Agora Verifier and Snooper use the shared Python channel adapter. Operator-installed `http_local_json` remains a visible explicit legacy compatibility path, while stale listener keys under channel-only module config fail closed. A transport-neutral component contract now rejects missing, mismatched, incorrectly pinned, ambiguous, unknown, or cyclic dependencies before effects, drives provider-first startup and dependent-first shutdown, and restricts imperative disposal to typed host-local resources. Dedicated reconciliation exposes `dependency_unavailable`, waits for observed provider readiness before downstream resume, and leaves health/status reads side-effect free; operator lifecycle receipts enumerate transitive effects. Story-005 proves host-owned `runtime/ref` and model-binding invocation over the channel plus stop/non-routable/restart; Story-009 and strict Story-010 also pass.
 - Corpus and Story 011 are tracked as hard-MVP blockers through Proposal 069 and Solution 038. Its MVP slice is
@@ -1296,12 +1308,12 @@ Recent component deltas:
 | [Whisper Social-Signal Exchange and Threshold Bootstrap](../40-proposals/013-whisper-social-signal-exchange.md) | `true` | `true` | `false` | `95` |
 | [Node Transport and Discovery MVP](../40-proposals/014-node-transport-and-discovery-mvp.md) | `true` | `true` | `false` | `96` |
 | [Nym Certificates and Renewal Baseline](../40-proposals/015-nym-certificates-and-renewal-baseline.md) | `false` | `false` | `false` | `25` |
-| [Supervised Prepaid Gateway and Escrow MVP](../40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | `true` | `false` | `false` | `65` |
+| [Supervised Prepaid Gateway and Escrow MVP](../40-proposals/016-supervised-prepaid-gateway-and-escrow-mvp.md) | `true` | `true` | `false` | `90` |
 | [Proposal 017: Organization Subjects and org:did:key](../40-proposals/017-organization-subjects-and-org-did-key.md) | `true` | `true` | `false` | `88` |
 | [Proposal 018: Layered capability_limited Participant Restrictions](../40-proposals/018-layered-capability-limited-participant-restrictions.md) | `true` | `true` | `false` | `100` |
 | [Proposal 019: Supervised http_local_json Middleware Executor](../40-proposals/019-supervised-local-http-json-middleware-executor.md) | `true` | `true` | `false` | `100` |
 | [Proposal 020: Bundled Python Middleware Modules for Hard MVP](../40-proposals/020-bundled-python-middleware-modules.md) | `true` | `true` | `false` | `100` |
-| [Proposal 021: Service Offers, Service Orders, and the Host-Owned Procurement Bridge](../40-proposals/021-service-offers-orders-and-procurement-bridge.md) | `true` | `true` | `false` | `88` |
+| [Proposal 021: Service Offers, Service Orders, and the Host-Owned Procurement Bridge](../40-proposals/021-service-offers-orders-and-procurement-bridge.md) | `true` | `true` | `false` | `92` |
 | [Proposal 022: Monus as Host-Granted Local Observation Middleware](../40-proposals/022-monus-as-host-granted-local-observation-middleware.md) | `false` | `false` | `false` | `15` |
 | [Proposal 023: Federated Offer Distribution and Catalog Listener](../40-proposals/023-federated-offer-distribution-and-catalog-listener.md) | `true` | `true` | `false` | `100` |
 | [Proposal 024: Capability Passports and Network Ledger Delegation](../40-proposals/024-capability-passports-and-network-ledger-delegation.md) | `true` | `true` | `false` | `85` |
@@ -1372,7 +1384,7 @@ Recent component deltas:
 | [Orbiplex Node](../60-solutions/000-node/000-node.md) | `true` | `true` | `false` | `85` |
 | [Orbiplex Node UI](../60-solutions/001-node-ui/001-node-ui.md) | `true` | `false` | `false` | `88` |
 | [Orbiplex Memarium](../60-solutions/002-memarium/002-memarium.md) | `true` | `true` | `true` | `100` |
-| [Orbiplex Arca](../60-solutions/003-arca/003-arca.md) | `true` | `true` | `false` | `88` |
+| [Orbiplex Arca](../60-solutions/003-arca/003-arca.md) | `true` | `true` | `false` | `92` |
 | [Orbiplex Dator](../60-solutions/004-dator/004-dator.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Sealer](../60-solutions/005-sealer/005-sealer.md) | `true` | `true` | `false` | `100` |
 | [Orbiplex Capability Binding](../60-solutions/006-capability-binding/006-capability-binding.md) | `true` | `true` | `true` | `100` |

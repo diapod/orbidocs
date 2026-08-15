@@ -278,6 +278,36 @@ buyer-local receipt annotations:
 
 Those refs should not be treated as provider-facing procurement wire fields.
 
+### Remote provider closeout
+
+Remote execution preserves the same host-owned boundary:
+
+1. the buyer host validates the service order, creates the hold, and persists a
+   request/correlation record before remote dispatch,
+2. `Arca` sends the host-issued request through Artifact Delivery,
+3. `Dator` returns one terminal `service-order.result.v1` through Artifact Delivery,
+4. the host binds the exact AD invocation to a one-shot acceptor/schema/digest token,
+   and the buyer-side Arca acceptor relays that opaque authority with the artifact,
+5. the buyer host consumes the token, derives source identity from host-owned AD
+   provenance, and validates provider identity, workflow lineage, correlation,
+   schema, size, and digest before effects,
+6. the buyer host alone projects success into acceptance/manual release or projects
+   failure/rejection into refund plus terminal receipt,
+7. `Arca` observes the authoritative execution snapshot and updates only its workflow
+   projection; after `manual-review-only` release, resuming a paused workflow is a
+   separate explicit orchestration transition.
+
+An identical result digest is an idempotent replay. A different digest for an
+already-admitted request/correlation is a conflict and MUST fail closed. Provider
+`hold/ref`, `receipt/ref`, and `settlement/refs` values MUST NOT authorize settlement;
+the buyer host uses its own durable joins. Module-relayed source/trust fields are not
+authority. Result-admission failures expose a stable reason code and explicit
+`retryable` datum; Arca must not classify them by matching error strings.
+
+The paid three-node Story-009 acceptance exercises this path with buyer Arca on node
+A and remote Dator providers on nodes B and C, including AD request/result transport,
+manual release, explicit workflow resume, terminal receipt, and released hold.
+
 ### Zero-price confirmation fallback
 
 When the selected standing offer has `pricing/amount = 0`, the host-owned
@@ -344,7 +374,7 @@ For hard MVP, the bridge also freezes one deployment assumption:
 - the settlement authority boundary is deployment-local,
 - combined `gateway + escrow + catalog` deployment is acceptable,
 - the buyer-side bridge does not yet standardize a final remote buyer-to-escrow
-  hold API.
+  hold API; remote provider execution and result closeout do not relax this boundary.
 
 The same assumption applies to catalog and escrow runtime placement:
 
@@ -397,16 +427,10 @@ Resolved 2026-07-05:
    rejection class, reason code, and retryability flag, without raw host
    internals.
 
-## Next Actions
+## Implementation State
 
-1. Freeze `service-offer.v1.schema.json`.
-2. Freeze `service-order.v1.schema.json`.
-3. Record the host-owned `service-order -> procurement` bridge as a dedicated note.
-4. Add buyer-side requirements for catalog read, service-order ingress, and the
-   bridge boundary.
-5. Let Node implementation planning proceed only after those artifacts are
-   reviewed.
-6. Extend the bridge note with settlement mode hint validation in `service-order.v1`
-   against the standing offer, redacted operator trace of the derived procurement
-   offer, and classified pre-procurement rejection outcomes surfaced to `Arca` as
-   `{rejection_class, reason_code, retryable}` without leaking raw host internals.
+The hard-MVP schemas, host-owned bridge, settlement hint validation, classified
+rejections, redacted inspection surface, durable remote dispatch correlation, and
+buyer-host AD result closeout are implemented. Remaining work belongs to broader
+marketplace policy, remote escrow topology, and post-MVP catalog evolution rather
+than to this bridge contract.

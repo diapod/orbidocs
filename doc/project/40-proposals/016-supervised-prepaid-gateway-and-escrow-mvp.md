@@ -17,6 +17,14 @@ Proposed (Draft)
 
 2026-03-28
 
+## Implementation Status
+
+The buyer-host service-order closeout slice is implemented as of 2026-08-15.
+For both local and remote Dator execution, the buyer host owns hold creation,
+result admission, release/refund/freeze transitions, terminal receipt creation,
+and replay recovery. Broader gateway payout, federation-scale high availability,
+and richer arbiter policy remain outside this slice.
+
 ## Executive Summary
 
 Orbiplex already has a procurement lifecycle with explicit offers, contracts, and
@@ -443,6 +451,63 @@ The MVP lifecycle ends at `procurement-receipt.v1`. Payout to external money is
 deferred until a separate compliance review; the first MVP supports top-up only and
 keeps egress fee explicitly `null`.
 
+### Buyer-host closeout authority
+
+For a buyer-local service order, the buyer host is the only component authorized to
+mutate the settlement ledger or author the terminal procurement receipt. `Arca`
+orchestrates and transports intent, while `Dator` reports provider execution facts.
+A terminal `service-order.result.v1` delivered through Artifact Delivery is an input
+to buyer-host admission, not a settlement command.
+
+Provider-reported `settlement/refs`, `hold/ref`, and `receipt/ref` values are
+diagnostic claims only. The buyer host MUST derive authoritative settlement joins
+from its own durable service-order, execution, hold, and dispatch-correlation state.
+
+### Closeout transition table
+
+| Current buyer-host state | Admitted fact or action | Execution outcome | Hold outcome | Receipt outcome |
+| --- | --- | --- | --- | --- |
+| Remote dispatch prepared, active hold | AD result `completed` | awaiting acceptance or manual release | remains active | pending |
+| Awaiting acceptance/manual release | payer accepts or operator releases | released | released to payee | terminal success receipt |
+| Remote dispatch prepared, active hold | AD result `failed` | failed | refunded to payer | terminal failure receipt |
+| Remote dispatch prepared, active hold | AD result `rejected` | rejected | refunded to payer | terminal rejection receipt |
+| Dispatch prepared, active hold | AD enqueue or local executor failure | failed | refunded to payer | terminal failure receipt |
+| Active execution | `work-by` expires | expired | refunded to payer | terminal expiry receipt |
+| Awaiting acceptance | dispute opens | disputed | frozen | pending until resolution |
+| Disputed | arbiter resolves for payer | rejected | refunded to payer | terminal dispute receipt |
+| Disputed | arbiter resolves for payee | released | released to payee | terminal dispute receipt |
+| Terminal result already admitted | same artifact digest is replayed | unchanged | unchanged | unchanged (`already-present`) |
+| Terminal result already admitted | different digest uses the same request/correlation | refused | unchanged | unchanged |
+
+Admission MUST validate request id, correlation id, workflow lineage, service type,
+provider participant, provider node, source peer, schema, payload digest, and artifact
+size before any settlement effect. The source peer MUST come from host-owned Artifact
+Delivery admission provenance. A module-relayed `source/peer` field is diagnostic and
+MUST NOT authorize settlement. The host issues a one-shot token bound to the acceptor,
+artifact schema, and digest, and consumes it when admitting the result.
+
+Terminal rejection versus retryable host failure is an explicit admission datum with
+a stable reason code. Arca MUST NOT derive retry policy by matching error text. An
+explicit unsupported `answer/format` fails closed; only an absent format uses the
+documented `json` default.
+
+Under `manual-review-only`, releasing the buyer-host execution settles the hold and
+authors the terminal receipt. It does not implicitly resume an orchestration run
+that Arca has already paused; workflow resume is a separate explicit transition.
+Because this path already requires an operator release decision, it does not also
+open the payer-dispute transition reserved for `AwaitingAcceptance`.
+The paid three-node Story-009 acceptance proves this boundary with buyer Arca on
+node A and Dator providers on nodes B and C.
+
+### Durability and replay invariant
+
+Closeout is an idempotent fact projection rather than a sequence of untracked
+mutations. Durable correlation and candidate execution/ledger/receipt records are
+written before the corresponding live read model is replaced. Repeating an accepted
+result or release/refund action therefore restores any missing trace projection
+without issuing a second transfer. Restart replay MUST reconstruct the same terminal
+execution, hold, receipt, and result-admission state.
+
 ## Dispute Window and Timeout Cascade
 
 MVP should explicitly support the following operational sequence:
@@ -564,19 +629,13 @@ Resolved 2026-07-04:
 5. The smallest acceptable arbiter policy for disputes under `host-ledger`
    settlement is a single arbiter with an appeal path and audit trail.
 
-## Next Actions
+## Remaining Actions
 
-1. Define `ledger-account.v1`, `ledger-hold.v1`, `ledger-transfer.v1`, and
-   `gateway-receipt.v1`.
-2. Extend `procurement-contract.v1` with escrow bindings and timeout cascade fields.
-3. Extend `procurement-receipt.v1` so settlement joins remain explicit without
-   overloading the receipt itself.
-4. Write concrete engineering requirements for the supervised settlement MVP.
-5. Later, open a separate identity workstream for organization subjects and
-   `org:did:key:...`.
-6. Document the MVP boundary as top-up only, no payout, and `egress-fee = null`;
-   payout and payout-fee require a later compliance-reviewed slice.
-7. Document the MVP arbiter policy as single arbiter plus appeal path plus audit
-   trail.
-8. Document the `community-pool` MVP constraint as council-controlled and
-   council-signed only; federation treasury co-signing is a later phase.
+1. Add the separately governed external-money payout and payout-fee slice after its
+   compliance review.
+2. Define a federation-scale HA profile that preserves one logical settlement
+   authority without split brain.
+3. Extend the MVP single-arbiter policy only through a later, explicitly accepted
+   multi-arbiter proposal.
+4. Keep organization-subject rollout and community-pool treasury co-signing in their
+   existing separate workstreams.
