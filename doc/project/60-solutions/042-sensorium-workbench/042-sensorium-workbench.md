@@ -676,7 +676,11 @@ Status:
   `virt_host.standalone_companion_enabled = true` plus the closed
   `virt_host.standalone_companion_purpose = development|conformance`; missing,
   ill-typed, or production-purpose values refuse. Supervised production/channel
-  mode never falls back to it when daemon admission is absent.
+  mode never falls back to it when daemon admission is absent. The standalone
+  Workbench HTTP carrier itself binds only to a literal loopback address, requires
+  daemon-provided header/token-file authentication on every route including
+  health and shutdown, and applies a bounded accepted-socket read timeout;
+  loopback location never substitutes for caller authority.
   `fixture-copy.v1` uses bounded allocation, startup enumeration, quarantine,
   cross-process mutation serialization, content-bound replay, generation
   supersession, inspect/drain/teardown, exact evidence projection, and SQLite
