@@ -59,12 +59,15 @@ by the current hard-MVP stories. New executor classes or richer module-specific
 operator products should be tracked by their owning proposals rather than
 holding the common Middleware solution below `done`.
 
-Post-MVP transport evolution is tracked by Proposal 080. Its checked listener
-inventory, strict channel schemas, semantic golden vectors, schema-gated host
-boundaries, explicit cancel/heartbeat/shutdown control payloads, and pure Rust
-state/correlation core are implemented. The shared listener,
-supervisor integration, and module migration remain planned; this does not reopen the
-completed hard-MVP middleware contract.
+Post-MVP transport evolution is tracked by Proposal 080. `P080-001` through
+`P080-023` are implemented: the checked listener inventory, strict channel schemas,
+shared bounded WebSocket listener, supervisor integration, transport-neutral
+dispatch, lifecycle and dependency recovery, operator inspection, and the first
+bundled migrations are live. The accepted `P080-024` through `P080-033` phase now
+retires the remaining `http_local_json` executor without removing independently
+owned product HTTP APIs. This extension does not reopen the completed hard-MVP
+middleware contract, but Proposal 080 is no longer complete against its expanded
+post-MVP scope.
 
 ## Purpose
 
@@ -297,7 +300,7 @@ flowchart TB
 
   PeerIngress --> InboundPeer{{"inbound-peer"}}:::hook
   InboundPeer --> BuiltInPeer["in-process protocol handlers\ncapability, schema, ledger"]:::host
-  InboundPeer --> SidecarPeer["out-of-process peer handlers\nhttp_local_json/local_http_json"]:::module
+  InboundPeer --> SidecarPeer["out-of-process peer handlers\nchannel_json or explicit product adapter"]:::module
   BuiltInPeer --> PeerOutcome{"handled/respond/passthrough"}:::host
   SidecarPeer --> PeerOutcome
 
@@ -376,8 +379,8 @@ alter dispatch.
 | `nse_rhai` | Medium | In-process scripting for bounded policy logic. |
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
-| `http_local_json` | High | Supervised loopback HTTP service with readiness, restart, init/report, and module lifecycle. |
-| `channel_json` | High | Strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle, fairness/cancellation, module HTTP/UI bridge, operator facts, bundled cohorts, default factory selection, and explicit legacy HTTP compatibility are implemented. |
+| `http_local_json` | High | Implemented legacy supervised loopback HTTP service scheduled for explicit config/package rejection and removal by P080-024..P080-033. It is not an authoring target. |
+| `channel_json` | High | Preferred supervised module executor: strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle, fairness/cancellation, module HTTP/UI bridge, operator facts, and bundled cohorts. Intentional product HTTP listeners remain separate domain surfaces. |
 
 The executor class is not the authority boundary by itself. Authority comes
 from host-owned grants: module authtok, capability passport, local config,
@@ -394,9 +397,10 @@ reports, hooks, and host-capability gates remain authoritative.
 The session is not a grant and is not a durable work queue. Disconnect fails
 in-flight calls with typed retryability; domain retries still require their existing
 idempotency or Deferred Operation contracts. Public, peer-facing, browser-facing, or
-provider-facing service listeners remain outside this migration. Node UI reaches
-channel-backed `server-html` surfaces through a daemon-owned bridge rather than by
-learning module transport endpoints.
+provider-facing product listeners remain outside executor-listener removal, but their
+host lifecycle and middleware attachment still migrate to the channel. Node UI
+reaches channel-backed `server-html` surfaces through a daemon-owned bridge rather
+than by learning module transport endpoints.
 
 The transport-free `middleware-channel-core` validates synchronized contracts through
 the Node schema gate and owns limit, identity, direction, sequence, in-flight, and
@@ -407,23 +411,27 @@ client. The daemon consumes `middleware_channel_services`, owns the channel
 supervisor beside the HTTP supervisor, resolves declared service types to an
 HTTP-or-channel target, and provisions channel modules through the existing
 host-capability admission boundary. Channel host-capability calls delegate to the
-same host dispatcher used by HTTP. The opt-in cohort now covers Dator, Arca,
-Inquirium adapters, Sensorium OS, Sensorium Workbench, and Offer Catalog through a
-shared Python transport adapter. Model-runtime can bind a `runtime/ref` to a channel
+same host dispatcher used by HTTP. The channel cohort now covers Agora Verifier,
+Dator, Arca, the three Inquirium adapters, Offer Catalog, Sensorium OS, Sensorium Web,
+Sensorium Workbench, and Snooper. Model-runtime can bind a `runtime/ref` to a channel
 module id and declared invoke path while retaining host-owned model selection,
 policy, and response validation; Story-005 verifies invocation plus
-stop/non-routable/restart without a per-adapter listener. Contact Catalog,
-Attestation, and Messaging retain intentional network listeners; Whisper Intake
-remains an explicitly classified mixed surface until its product and host-control
-routes are split. Bundled factory data now names the executor and whether a product
-listener remains. Eligible host-only modules therefore default to `channel_json`
-without allocating ports, while mixed and intentional listeners remain explicit.
+stop/non-routable/restart without a per-adapter listener. Agora Service, Attestation,
+Contact Catalog, Messaging, NSE Evidence Reference, Recovery, and Whisper Intake
+still select `http_local_json`; the first four own intentional network services and
+the latter three retain mixed or host-local surfaces. Bundled factory data names the
+executor and whether a product listener remains. Eligible host-only modules default
+to `channel_json` without allocating ports, while mixed and intentional listeners
+remain explicit.
 Channel-owned mixed modules publish a `bind` marker only for a real retained product
 listener and remove it on shutdown; channel-only modules publish no bind marker.
-Operator-installed `http_local_json` packages remain supported as an explicit legacy
-compatibility mode: Node preserves the declared executor, reports the compatibility
-mode in inventory, and rejects stale listener keys under channel-only module config
-instead of silently reinterpreting them.
+The currently implemented runtime still accepts operator-installed
+`http_local_json` packages as an explicit legacy compatibility mode. The accepted
+retirement phase migrates the seven remaining bundled modules, then rejects old
+daemon configuration and package manifests with an explicit diagnostic before
+removing the supervisor, routing fallback, runtime contract, and schema. Product HTTP
+listeners remain separate from this host-transport retirement, and no legacy config
+is silently reinterpreted.
 
 ### Component Composition and Recovery
 

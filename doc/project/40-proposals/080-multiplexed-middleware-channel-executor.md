@@ -39,14 +39,16 @@ use one explicit session contract instead of several incidental HTTP paths.
 invoke envelopes, decisions, module reports, hook semantics, host-capability policy,
 and domain contracts remain authoritative. A connected session grants no authority.
 
-The migration is additive:
+The transport migration was initially additive and remains so while Phase 7 is open:
 
 - `channel_json` becomes the preferred executor for long-lived supervised modules,
-- `http_local_json` remains available while bundled and operator-installed modules
-  migrate,
+- `http_local_json` remains temporarily available only while the seven remaining
+  bundled modules migrate; new bundled and operator-installed packages must not adopt
+  it,
 - `local_http_json` remains the unmanaged adapter for intentionally independent
   services,
-- public or peer-facing middleware service listeners are outside this migration.
+- public or peer-facing middleware service listeners may remain as product surfaces,
+  but their host lifecycle and middleware attachment move to `channel_json`.
 
 ## Context and Problem Statement
 
@@ -87,8 +89,9 @@ the per-module listener without redefining middleware behavior.
   heartbeat.
 - Keep lifecycle, authorization, dispatch selection, limits, and audit host-owned.
 - Remove direct transport knowledge from Node UI and other higher-level consumers.
-- Migrate bundled middleware incrementally with conformance tests and rollback to
-  `http_local_json` while the migration is incomplete.
+- Migrate bundled middleware incrementally with conformance tests and an explicit
+  pre-retirement rollback window; once Phase 7 lands, old executor declarations fail
+  validation rather than falling back to another transport.
 
 ## Non-Goals
 
@@ -735,14 +738,14 @@ compares the decision table with every bundled `middleware-modules/*/config/00-*
 factory config, so a new factory listener cannot enter the tree without an explicit
 migration classification.
 
-The initial inventory contains 16 modules:
+The current checked inventory contains 18 modules:
 
-- 6 host-only loopback listeners targeted for complete replacement by the shared
+- 7 host-only loopback listeners targeted for complete replacement by the shared
   channel,
-- 6 mixed host/product listeners whose host control plane moves to the channel while
+- 7 mixed host/product listeners whose host control plane moves to the channel while
   the product surface is retained or split,
 - 4 intentional network services whose service listeners are not channel migration
-  targets.
+  targets, although their host lifecycle and middleware attachment are.
 
 ### Phase 1: Channel Primitive and Conformance Peer
 
@@ -946,7 +949,9 @@ are required before migrating modules that expose those surfaces.
 6. No arbitrary request is replayed automatically after disconnect.
 7. Node UI reaches module-owned server HTML through a daemon bridge.
 8. `local_http_json` remains the unmanaged-service adapter.
-9. Intentional network service listeners are not migration targets.
+9. Intentional product and network service listeners are not removal targets. Their
+   host lifecycle and middleware attachment are migration targets and must use
+   `channel_json` after Phase 7.
 10. `observer/queue-capacity` bounds ephemeral fire-and-forget observation traffic.
     Pressure drops observations and increments counters; replay requires a separate
     durable delivery contract outside the channel session.
@@ -954,28 +959,56 @@ are required before migrating modules that expose those surfaces.
     launch, including bounded reconnects. Process stop or restart invalidates it and
     provisions a new credential. V1 has no wall-clock expiry or live rotation.
 12. A persistent-stdio transport adapter is not implemented speculatively. It may be
-    proposed only for a concrete package that cannot reasonably use `channel_json`
-    or explicit `http_local_json`.
-13. `http_local_json` remains an explicit operator-selected compatibility adapter
-    until a separately announced migration removes it. It is never inferred from a
-    bundled module subtree or silently converted to `channel_json`.
+    proposed only for a concrete package that cannot reasonably use `channel_json`.
+13. `http_local_json` was retained as an explicit operator-selected compatibility
+    adapter through `P080-020`. The Phase 7 retirement decision below supersedes that
+    compatibility policy; historical configurations are still never inferred or
+    silently converted to `channel_json`.
 14. `transactional-withheld` and `compensatable` effects require `durable`,
     `external`, or `federated` scope. A `host-local` effect uses the typed
     `ephemeral-revertible` disposer contract instead.
 15. The bounded dependency graph is rebuilt from current admitted declarations after
     each relevant revision. V1 intentionally has no authority-bearing graph cache.
 
+## Phase 7 Decision: Retire `http_local_json`
+
+As of 2026-08-20, the accepted target is to remove `http_local_json` from Node rather
+than preserve it indefinitely as a compatibility executor. This changes the
+host-to-module transport and lifecycle attachment only. It does not prohibit a
+component from exposing an intentional product, participant, peer, browser, relay,
+or provider HTTP API beside its channel attachment.
+
+The remaining bundled migration contains seven modules. `nse-evidence-reference`
+moves first as a channel-only reference. Whisper Intake and Recovery then separate
+host control from their product or operator surfaces. Agora Service, Attestation
+Service, Contact Catalog, and Messaging form the intentional-network-service
+cohort: lifecycle, readiness, init/report, host capability calls, and middleware
+invocation move to `channel_json`, while independently justified product HTTP
+listeners remain owned by their domain services.
+
+There is no backward-compatibility reader for the retired executor. A daemon config
+containing `middleware_http_local_services`, or an operator package manifest naming
+`http_local_json`, fails validation with a stable diagnostic that identifies the
+unsupported executor and directs the operator to `channel_json`. Node does not
+silently rewrite endpoints, commands, auth headers, listener ownership, or package
+contracts. Configuration migration is an explicit operator action.
+
+This retirement does not remove `local_http_json`, which remains the separately named
+unmanaged adapter for intentionally independent local services, and does not remove
+the one-shot `command_stdio` model-runtime transport. Any later retirement of either
+requires its own inventory and decision.
+
 ## Open Questions
 
-None. Credential lifetime, persistent-stdio scope, and legacy-package compatibility
-are frozen above.
+None. Credential lifetime, persistent-stdio scope, product-listener ownership, and
+the fail-closed `http_local_json` retirement policy are frozen above.
 
 ## Implementation Tracker
 
 | ID | Deliverable | Status | Notes |
 |---|---|---|---|
 | P080-001 | Document `channel_json` architecture, migration boundary, initial decisions, and acceptance criteria | done | This proposal records the implementation plan and frozen initial defaults. |
-| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 16 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. Classification records pre-migration topology and intent; `default_executor` plus `product_listener_retained` record current runtime ownership. |
+| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 18 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. Classification records pre-migration topology and intent; `default_executor` plus `product_listener_retained` record current runtime ownership. |
 | P080-003 | Add canonical channel hello, accepted, frame, control payload, host-capability call/result, and module HTTP bridge schemas with fixtures | done | Ten strict schemas, positive/negative fixtures, host-boundary schema-gate coverage, and cross-language semantic golden vectors are synchronized from Orbidocs into Node protocol contracts. Control frames bind explicit cancel, heartbeat, and shutdown payload contracts. |
 | P080-004 | Add Rust channel contract/state/correlation core and schema-gate integration | done | `middleware-channel-core` owns typed DTOs, schema-gated host boundaries, deterministic limit negotiation, direction checks, JSON-safe sequence bounds, bounded request-id history, and refusal-first correlation tests without WebSocket or supervisor dependencies. |
 | P080-005 | Add bounded shared WebSocket listener and session registry | done | `middleware-channel-transport` combines the Bounded Local Server Runtime with `tungstenite`, rejects non-loopback/origin/extensions/bad launch auth, and exposes credential-free session handles outside the registry lock. |
@@ -993,22 +1026,36 @@ are frozen above.
 | P080-017 | Migrate eligible Contact Catalog, Attestation, Messaging, Offer Catalog, Whisper Intake, and related stateful modules | done | Offer Catalog is channel-capable and covered by the cohort smoke. Contact Catalog, Attestation, and Messaging are retained as intentional network services; Whisper Intake is retained as mixed pending an explicit product/control split. Strict Story-010 passes unchanged at the domain boundary; its acceptance root refresh now attests the imported story participants without copying their private keys between nodes. |
 | P080-018 | Update implementation ledger, Middleware solution, FAQ/HOWTO, config docs, and package authoring guidance | done | Runtime ownership, model-runtime channel configuration, opt-in authoring, mixed-surface exceptions, cohort evidence, and the remaining P080-019/P080-020 work are synchronized. |
 | P080-019 | Make `channel_json` the default for eligible bundled modules and stop allocating their host-only ports/bind markers | done | Bundled factory configs declare `factory_executor` plus `product_listener_retained`; host-only modules project to `middleware_channel_services` without listen host/port/bind, while intentional and mixed product listeners remain explicit. Channel-owned Dator and Arca publish `bind` only for their live retained product endpoints and remove it on shutdown. Agora Verifier and Snooper gained the shared Python channel adapter. Whisper Intake remains deliberately HTTP because its classified mixed surface has not yet been split; it is not silently treated as eligible. |
-| P080-020 | Decide and execute final `http_local_json` legacy-package support policy | done | `http_local_json` remains an explicit operator-installed/rollback compatibility adapter. Node preserves explicit executor configs, exposes runtime executor and `explicit-http-local-json-legacy` inventory status, and rejects stale listener keys in channel-only bundled config rather than silently ignoring or converting them. Any future removal requires a separately announced migration. |
+| P080-020 | Decide and execute the first `http_local_json` legacy-package support policy | done | This historical compatibility slice retained `http_local_json` as an explicit operator-installed/rollback adapter, exposed `explicit-http-local-json-legacy`, and rejected stale listener keys in channel-only bundled config. The later Phase 7 decision supersedes indefinite compatibility: P080-029 must reject the old config and package forms explicitly before P080-030/P080-031 remove the implementation. |
 | P080-021 | Add the transport-neutral component contract and deterministic dependency graph | done | `middleware-component-contract.v1` is synchronized into Node, registered as a Schema Gate import, and parsed into typed Rust declarations. Exact capability/digest resolution rejects unknown, missing, mismatched, ambiguous, duplicate, and cyclic contracts before runtime effects. |
 | P080-022 | Apply dependency order to middleware lifecycle and provider-loss recovery | done | Daemon start, shutdown, and component start/stop/restart use one graph. Providers start first and stop last; affected components become non-routable before bounded transport shutdown; partial-start rollback preserves components that predated the operation. A dedicated reconciliation loop exposes `dependency_unavailable`, waits for observed `ready` state before resuming downstream components, and leaves health/status reads side-effect free. Operator control receipts list the affected closure. |
 | P080-023 | Freeze effect recovery classes and host-local disposer boundaries | done | The shared contract uses an effect-id-keyed map, closes four effect classes, admits typed disposers only for seven host-local resource kinds, binds disposer operations to resource kinds, and requires non-local scope for journals/compensation plus external or federated scope for irreversible effects. Positive and refusal fixtures prove that federated effects cannot claim imperative undo and host-local effects cannot claim durable compensation. |
+| P080-024 | Migrate `nse-evidence-reference` to the channel-only reference path | todo | The module attaches through the shared Python `channel_json` runtime, exposes its evidence invocation and lifecycle through declared channel operations, allocates no per-module listener or bind marker, and passes evidence/refusal/conformance tests without any HTTP-local fallback. |
+| P080-025 | Migrate Whisper Intake and separate host control from product/operator surfaces | todo | Readiness, init/report, host capability calls, middleware invocation, and daemon/UI bridge traffic use `channel_json`. Every retained HTTP route is classified as an independently justified product/operator surface with explicit owner and exposure policy; otherwise the listener is removed. Story-005 privacy, redaction, trace, restart, and refusal acceptance remains green. |
+| P080-026 | Migrate Recovery and separate host control from recovery product APIs | todo | Supervision and middleware calls use `channel_json`; registration, ciphertext, challenge, and unseal routes are either retained as explicit product APIs or mediated through a declared daemon bridge. OTP/DEK authority, rate limits, idempotency, restart recovery, and refusal semantics are unchanged, and no HTTP-local executor endpoint remains. |
+| P080-027 | Migrate the intentional-network-service cohort: Agora, Attestation, Contact Catalog, and Messaging | todo | All four services attach and report through `channel_json`; host capability calls and host-to-module invocations use the channel. Relay, attestation, catalog, and messaging HTTP APIs remain only as separately configured product listeners with independent auth/exposure, bounded-server, bind-marker, shutdown, and health contracts. Cohort and owning-story tests prove that removing the executor listener does not remove the product service. |
+| P080-028 | Switch every bundled factory module away from `http_local_json` and close the listener inventory | todo | All 18 bundled factory records select `channel_json` or another explicitly non-`http_local_json` owner; the checked inventory reports zero `default_executor=http_local_json`. Product listener counts and reasons remain accurate, stale listener keys in channel-only modules fail closed, and a structural gate prevents a new bundled `http_local_json` default. |
+| P080-029 | Reject retired executor configuration and package manifests explicitly | todo | Daemon config containing `middleware_http_local_services` and any admitted package/config artifact naming executor kind `http_local_json` fail before effects with stable typed diagnostics and migration guidance. Unknown-field handling cannot silently discard the legacy subtree, no automatic conversion occurs, and refusal-first fixtures cover daemon, package, loose-file, and restart/recovery ingress. |
+| P080-030 | Remove the daemon HTTP-local supervisor, routing fallback, and operator compatibility projection | todo | Daemon composition no longer starts, stores, reconciles, healthchecks, controls, inventories, or routes through `MiddlewareHttpLocalSupervisor`; `MiddlewareDispatchTarget` and module HTTP/UI bridge are channel/product-listener explicit without HTTP-local fallback; component health and Node UI contain no legacy compatibility state. Product HTTP services remain independently inspectable. |
+| P080-031 | Remove the `http_local_json` runtime contract, schema, and implementation | todo | `HttpLocalJsonExecutorConfig`, supervised HTTP-local executor/runtime files, auth-token injection specific to that executor, its schema and synchronized fixtures, exports, dependencies, factory projection branches, and executor-enum cases are removed. The listener inventory is either narrowed to product-listener ownership under a transport-neutral name or retired once its zero-default structural gate has a permanent replacement; legacy compatibility fields do not survive as dead configuration. Shared launch/restart/shutdown primitives still used by `channel_json` are first moved to transport-neutral names and owners rather than deleted or duplicated. `local_http_json` remains intact. |
+| P080-032 | Replace legacy tests and run migration acceptance | todo | Tests that asserted HTTP-local compatibility are replaced by explicit legacy-config/package refusal tests and channel lifecycle tests. Inventory checker, Python channel conformance, daemon middleware/component tests, Story-005, Story-009, strict Story-010, and focused Agora/Attestation/Contact/Messaging/Recovery acceptance pass with zero production `http_local_json` construction or configuration. A repository structural check allows the token only in migration diagnostics, historical documentation, and refusal fixtures. |
+| P080-033 | Synchronize final retirement documentation and implementation evidence | todo | Middleware Solution, FAQ/HOWTO, package authoring guidance, config references, Capability Matrix where applicable, Node MVP tracker, implementation ledger and generated view, and readiness snapshot describe channel-first supervision plus independent product HTTP listeners. The checked inventory and code searches provide evidence for zero active `http_local_json`; retained historical references are clearly marked as superseded. |
 
 ## Next Actions
 
-1. Keep the P080-002 inventory checker green as bundled factory modules are added or
+1. Complete `P080-024` as the channel-only retirement reference, then migrate the
+   mixed surfaces in `P080-025` and `P080-026` before the network-service cohort.
+2. Complete `P080-027` without confusing removal of the host executor listener with
+   removal of an intentional product HTTP API.
+3. Reject old daemon configurations and package manifests explicitly before deleting
+   their runtime implementation; never silently convert them.
+4. Keep the P080-002 inventory checker green as bundled factory modules are added or
    their listener ownership changes.
-2. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
+5. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
    through the Orbidocs-to-Node mirror and schema gate.
-3. Keep factory executor ownership and retained-listener metadata aligned with the
+6. Keep factory executor ownership and retained-listener metadata aligned with the
    checked inventory whenever a bundled module changes transport.
-4. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
-5. Preserve explicit HTTP compatibility until a separately tracked removal policy
-   supplies package migration and operator notice.
-6. Require every new cross-component dependency or effectful middleware package to
+7. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
+8. Require every new cross-component dependency or effectful middleware package to
    carry `middleware-component-contract.v1`; do not reconstruct the graph from
    successful runtime lookups.

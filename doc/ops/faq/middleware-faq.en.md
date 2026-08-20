@@ -4,8 +4,9 @@
 
 Middleware is hosted extension behavior owned by explicit contracts. The main execution
 types are in-process Rust, pure JSON-e, JSON-e Flow, command/stdio, unmanaged local HTTP
-JSON, supervised HTTP, Sensorium connector middleware, and middleware-hosted Inquirium
-runtime adapters. Distribution is a separate axis: a middleware can be factory-bundled,
+JSON, `channel_json` supervision, Sensorium connector middleware, and middleware-hosted
+Inquirium runtime adapters. The old supervised `http_local_json` executor remains only
+during the accepted P080 retirement migration. Distribution is a separate axis: a middleware can be factory-bundled,
 profile-distributed, or operator-installed regardless of execution type.
 
 For the detailed type descriptions, registration shapes, and examples, see [Middleware
@@ -23,15 +24,18 @@ listener; it does not receive durable authority or a replay queue from that sess
 Keep an intentional product, peer, browser, or provider listener when it is part of
 the component contract. Mixed modules migrate only their host-control plane and keep
 the product listener explicit. Never register the same semantic route through both
-executors as an implicit fallback. Select `channel_json` or `http_local_json` in
-configuration and test rollback deliberately.
+transports as an implicit fallback. New supervised modules and packages must use
+`channel_json`; a retained product HTTP listener is configured as a separate domain
+surface, not as the middleware executor.
 
-Bundled modules make this choice through `factory_executor` and
+Bundled modules make current ownership visible through `factory_executor` and
 `product_listener_retained`. A host-only `channel_json` module has no factory port.
-An operator-installed `http_local_json` package remains supported as an explicit
-legacy compatibility mode and is reported in middleware inventory; Node never
-silently converts that config. Conversely, stale listener keys in a channel-only
-bundled module subtree are rejected rather than ignored.
+Seven bundled modules still select `http_local_json` during the migration recorded by
+P080-024 through P080-033; this is transitional state, not package-authoring guidance.
+After retirement, daemon configurations and package manifests that name
+`http_local_json` are rejected with an explicit migration diagnostic. Node never
+silently converts them. Stale listener keys in a channel-only bundled module subtree
+are likewise rejected rather than ignored.
 
 Python modules should reuse the standard channel adapter instead of implementing
 WebSocket framing. See [Authoring a channel module](../howto/middleware-howto.en.md#authoring-a-channel-json-module).
@@ -59,10 +63,10 @@ such an effect. See [Declaring component dependencies and effect recovery](../ho
 
 Role Middleware is not an execution type. It is a specialization pattern: a middleware
 component receives a role-shaped request and dispatches it to behavior selected by role,
-capability, or service identity. It can be implemented as supervised HTTP, JSON-e Flow,
+capability, or service identity. It can be implemented as supervised channel JSON, JSON-e Flow,
 or another registered middleware form.
 
-For concrete supervised HTTP and JSON-e Flow examples, see [Role Middleware in the
+For concrete supervised channel JSON and JSON-e Flow examples, see [Role Middleware in the
 Middleware HOWTO](../howto/middleware-howto.en.md#what-is-role-middleware).
 
 ## Where can middleware attach to the node data path?
@@ -78,17 +82,17 @@ For the complete hook map, decisions, examples, and compatibility notes, see [Mi
 hook
 HOWTO](../howto/middleware-howto.en.md#where-can-middleware-attach-to-the-node-data-path).
 
-## How does one HTTP middleware distinguish calls from multiple hooks?
+## How does one supervised middleware distinguish calls from multiple hooks?
 
-A supervised HTTP middleware may reuse one endpoint for multiple registrations, but the
-HTTP path is not the semantic discriminator. The middleware should inspect the request
-envelope, especially `chain_kind`, `envelope_kind`, and the schema-specific payload
-shape. Separate paths are often clearer operationally, but even then the envelope
-remains the source of truth.
+A supervised channel middleware may reuse one declared invoke path for multiple
+registrations, but the path is not the semantic discriminator. The middleware should
+inspect the request envelope, especially `chain_kind`, `envelope_kind`, and the
+schema-specific payload shape. Separate paths are often clearer operationally, but
+even then the envelope remains the source of truth.
 
 For request examples and branching sketches, see [multiple-hook dispatch in the
 Middleware
-HOWTO](../howto/middleware-howto.en.md#how-does-one-http-middleware-distinguish-calls-from-multiple-hooks).
+HOWTO](../howto/middleware-howto.en.md#how-does-one-supervised-middleware-distinguish-calls-from-multiple-hooks).
 
 ## Where are distribution and packaging rules described?
 

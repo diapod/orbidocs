@@ -10,16 +10,13 @@ correlation, observation acknowledgement, cancellation, and the HTTP-shaped oper
 bridge. A minimal entrypoint is:
 
 ```python
-from channel_module import channel_mode_enabled, run_channel_module
+from channel_module import run_channel_module
 
-if channel_mode_enabled():
-    run_channel_module(
-        module_report=middleware_init_payload,
-        middleware_invoke=middleware_invoke_payload,
-        http_dispatch=channel_http_dispatch,
-    )
-else:
-    run_legacy_http_server()
+run_channel_module(
+    module_report=middleware_init_payload,
+    middleware_invoke=middleware_invoke_payload,
+    http_dispatch=channel_http_dispatch,
+)
 ```
 
 The daemon injects `ORBIPLEX_MIDDLEWARE_CHANNEL_URL`, the launch id, and a token-file
@@ -31,10 +28,12 @@ descriptive route claims, not authorization.
 Register the supervised process under `middleware_channel_services` with its module
 and component ids, middleware home, launch/sandbox/restart policy, and bounded
 `channel` limits. Use package-relative launch paths. Host-only modules must not start
-a listener in channel mode. Mixed modules may keep a product listener, but should
-remove host lifecycle and dispatch dependence on it. Keep explicit
-`http_local_json` rollback config until the cohort smoke passes; never run both as
-owners of the same semantic route.
+a listener in channel mode. Mixed modules may keep a product listener, but must
+remove host lifecycle and middleware dispatch dependence on it. Do not add an
+`http_local_json` rollback configuration to new code. During P080-024..P080-028 an
+already inventoried legacy module may retain its old branch only until its migration
+gate passes; remove that branch in the same migration slice. Never run both transports
+as owners of the same semantic route.
 
 For a repository-bundled module, make ownership explicit in its factory config:
 
@@ -51,32 +50,36 @@ For a repository-bundled module, make ownership explicit in its factory config:
 
 A channel-only entry must not contain `listen_host` or `listen_port`. Set
 `product_listener_retained` to `true` only when the same module intentionally keeps
-a separately bounded product surface. Use `factory_executor = http_local_json` for
-an intentional network service that is not a channel migration target. The checked
-listener inventory must repeat and validate this ownership decision.
+a separately bounded product surface. An intentional network service still uses
+`factory_executor = channel_json` for host supervision and owns its product listener
+separately. The checked listener inventory must repeat and validate this ownership
+decision.
 Its `classification` describes the pre-migration surface topology and architectural
 intent; use `default_executor` and `product_listener_retained` as the facts about the
-current bundled runtime. A mixed entry that still selects `http_local_json` is an
-explicit non-migrated compatibility choice. Moving it requires a separately tracked
-product/control split or migration rather than reinterpretation of the inventory.
+current bundled runtime. A mixed entry that still selects `http_local_json` is one of
+the explicitly tracked, non-migrated P080 compatibility cases. It must move through
+the corresponding product/control split rather than reinterpretation of the
+inventory.
 In channel mode, a mixed Python module should use the shared
 `retained_product_listener_marker(...)` scope after its product socket binds. The
 scope writes the actual endpoint to `<middleware_home>/bind` and removes it during
 shutdown. Do not call it for a channel-only module.
 
-Operator-installed packages may continue to declare a complete executor under
-`middleware_http_local_services`. Node treats this as
-`explicit-http-local-json-legacy`, preserves it without conversion, and exposes the
-mode in middleware inventory. Do not put old listener keys in a channel-only bundled
-module subtree: config loading fails and asks for an explicit HTTP rollback instead.
+Do not declare `middleware_http_local_services` or executor kind `http_local_json` in
+new operator packages. The current runtime still recognizes these forms during the
+bounded migration window, but P080-029 makes them explicit configuration and manifest
+errors before P080-030/P080-031 delete the executor. There is no compatibility reader
+or automatic conversion. Do not put old listener keys in a channel-only bundled
+module subtree either: config loading fails rather than ignoring them.
 
 Bundled Inquirium adapters use `run_channel_adapter(...)`, which preserves model and
 provider semantics while replacing only local host transport. The current opt-in
-default cohort is Dator, Arca, Agora Verifier, Snooper, the bundled Inquirium adapters,
-Sensorium OS, Sensorium Workbench, and Offer Catalog. Contact Catalog, Attestation,
-Messaging, Agora service, Recovery, and Whisper Intake retain intentional or mixed
-listeners; Whisper Intake still requires a product/control split before it can become
-channel-owned.
+default cohort contains 11 modules: Dator, Arca, Agora Verifier, Snooper, the three
+bundled Inquirium adapters, Sensorium OS, Sensorium Web, Sensorium Workbench, and Offer
+Catalog. Agora Service, Attestation, Contact Catalog, Messaging, NSE Evidence
+Reference, Recovery, and Whisper Intake are the seven tracked migrations that still
+select `http_local_json`. Product listeners retained after those migrations remain
+separate domain services.
 
 For an Inquirium runtime candidate, set its adapter-instance transport to
 `channel_json` with `module_id`, the report-declared `invoke_path`, and a bounded
@@ -87,8 +90,9 @@ config: model binding and policy are resolved by the host before invocation.
 
 1. Build one `middleware-module-report.v1` value and validate it through the Node
    schema gate. Declare only routes and capabilities actually served on the channel.
-2. Classify the module as channel-only, intentional product HTTP plus channel
-   control, or legacy HTTP. Never let both executors own the same semantic route.
+2. Classify the target as channel-only or intentional product HTTP plus channel
+   control. Treat legacy HTTP only as the source state of an inventoried migration.
+   Never let both transports own the same semantic route.
 3. Map existing host-facing endpoints through `channel_http_dispatch`. Preserve a
    bounded query only when it is domain input; never use query text for routing or
    authorization. Keep product-facing endpoints on their explicit listener.
@@ -169,9 +173,12 @@ The main execution and specialization types are:
 - JSON-e Flow middleware,
 - command/stdio middleware,
 - unmanaged local HTTP JSON middleware,
-- supervised HTTP middleware,
+- supervised channel JSON middleware,
 - Sensorium connector middleware,
 - middleware-hosted Inquirium runtime adapters.
+
+The legacy supervised HTTP executor is still implemented for seven inventoried
+modules during P080 retirement, but it is not an authoring target.
 
 Distribution is a separate axis: the same execution type may be factory-bundled,
 installed by the operator, or materialized from a profile/config fragment. See
@@ -261,7 +268,7 @@ host executes declared steps such as `render`, `validate`, `call`, `extract`,
 allowing the flow to call explicitly allowlisted host capabilities. Use it for
 small bounded adapters that need one or a few controlled effects. If the flow
 becomes orchestration with dynamic step generation, broad scratch state, or
-complex domain policy, use supervised HTTP middleware instead.
+complex domain policy, use a supervised `channel_json` module instead.
 
 #### Registration shape
 
@@ -329,7 +336,7 @@ Unmanaged local HTTP JSON middleware uses an already-running local service. The
 Node host knows how to call the endpoint, but it does not own the service
 lifecycle. This keeps the adapter thin and useful for development, integration
 with operator-managed local services, or cases where another supervisor already
-owns the process. It is weaker than supervised HTTP as an operational contract
+owns the process. It is weaker than supervised channel JSON as an operational contract
 because readiness, restart policy, logs, and shutdown are outside Node control.
 The daemon should still enforce request shape, timeout, response-size limit,
 module auth, and host capability boundaries. Use this type when the service truly
@@ -362,25 +369,23 @@ belongs outside the Node lifecycle.
 }
 ```
 
-### Supervised HTTP
+### Supervised Channel JSON
 
-Supervised HTTP middleware is a long-lived local HTTP JSON service started,
-observed, and stopped by the Node host. It is the normal shape for powerful
-middleware that needs its own runtime, state, queues, domain logic, HTML operator
-surface, or interaction with adjacent systems. The module communicates with the
-daemon through explicit HTTP/JSON contracts and receives a module auth token
-rather than ambient daemon privilege. During startup it should expose health and
-init/report endpoints so the daemon can discover routes, host capability handlers,
-operator surfaces, and readiness. This type is appropriate for Python, Rust, or
-other process-backed modules whose behavior is too rich for JSON-e Flow. It is
-heavier than declarative middleware, so use it only when the extra process
-boundary and lifecycle are buying clarity or capability.
+Supervised channel JSON middleware is a long-lived process started, observed, and
+stopped by the Node host. It is the normal shape for powerful middleware that needs
+its own runtime, state, queues, domain logic, an operator surface, or interaction with
+adjacent systems. The module attaches to the daemon's shared authenticated channel;
+the session carries explicit contracts and grants no ambient daemon privilege.
+Readiness derives from attach, schema-gated init/report, and heartbeat. Python, Rust,
+or other process-backed modules may use this type when their behavior is too rich for
+JSON-e Flow. It is heavier than declarative middleware, so use it only when the
+process boundary and lifecycle buy clarity or capability.
 
 #### Registration shape
 
 - Service code shipped as a bundled module or installed package.
-- `GET /healthz`.
-- `POST /v1/middleware/init`.
+- A `middleware_channel_services` launch record.
+- Authenticated channel attach, init/report, heartbeat, and bounded dispatch.
 - Module report declaring routes, capabilities, and UI surfaces.
 - Runtime files under `<data-dir>/middleware/<module-id>/`.
 
@@ -394,20 +399,13 @@ boundary and lifecycle are buying clarity or capability.
 #### Examples
 
 ```python
-from http.server import BaseHTTPRequestHandler
+from channel_module import run_channel_module
 
-class Handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == "/healthz":
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b"ok")
-
-    def do_POST(self):
-        if self.path == "/v1/middleware/init":
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b'{"module_id":"example.supervised","status":"ready"}')
+run_channel_module(
+    module_report=middleware_init_payload,
+    middleware_invoke=middleware_invoke_payload,
+    http_dispatch=channel_http_dispatch,
+)
 ```
 
 ### How do I make a middleware endpoint visible in OpenAPI / Swagger?
@@ -417,8 +415,8 @@ owns one descriptive OpenAPI 3.1 projection at `GET /v1/openapi.json`; an
 optional Swagger UI reads that daemon projection. Middleware contributes data,
 not another documentation runtime.
 
-For supervised HTTP middleware, add an `api/surface` section to the module report
-returned by `POST /v1/middleware/init`. The section must conform to
+For supervised middleware, add an `api/surface` section to its channel init/report
+value. The section must conform to
 `orbiplex.api-descriptor.v1`.
 
 Minimal module-report fragment:
@@ -592,7 +590,7 @@ sense, but semantically it remains an Inquirium runtime adapter. This distinctio
 is intentional: the execution type answers "how does this component run?", while
 the Inquirium adapter role answers "which execution translation may this
 component perform?". Such an adapter may run through `command_stdio`, unmanaged
-`local_http_json`, supervised `http_local_json`, an in-process handler, or a later
+`local_http_json`, supervised `channel_json`, an in-process handler, or a later
 compatible executor, but that does not give it general middleware authority over
 routes, hooks, workflows, or model policy.
 
@@ -623,7 +621,7 @@ concern, and channel or workflow orchestration remains outside the adapter role.
 - Inquirium adapter manifest with `adapter/ref`, protocol family, operations,
   modalities, limits, trace/retention policy, and conformance report.
 - Optional middleware executor configuration such as `command_stdio`,
-  `local_http_json`, or `http_local_json`.
+  `local_http_json`, or `channel_json`.
 - Health/status and init/report when the adapter is attachable or supervised.
 - Explicit leases, egress, sandbox, and `effects/allowed` for effectful
   operations.
@@ -643,7 +641,7 @@ concern, and channel or workflow orchestration remains outside the adapter role.
 {
   "module_id": "inquirium.local-model-runtime",
   "kind": "inquirium-runtime-adapter",
-  "executor": "http_local_json",
+  "executor": "channel_json",
   "adapter_manifest": {
     "adapter/ref": "adapter:local-model-runtime",
     "hosting/kind": "middleware-hosted",
@@ -661,7 +659,7 @@ concern, and channel or workflow orchestration remains outside the adapter role.
 ## What is Role Middleware?
 
 Role middleware is middleware that acts as a provider or dispatcher for a named
-role/service contract. It is not an execution type like supervised HTTP,
+role/service contract. It is not an execution type like supervised channel JSON,
 JSON-e Flow, command/stdio, or in-process Rust. It is a functional role: the
 component receives a bounded request such as "perform this editorial-review role"
 or "execute this offer-catalog provider role", selects the appropriate behavior,
@@ -682,23 +680,23 @@ the incoming role request, produce a traceable response, and use host
 capabilities only through explicit allowlists. In Story-009, the role providers
 for draft composition, illustration preparation, editorial review, publish, and
 verification are examples of this shape. Some are better as JSON-e Flow because
-they are bounded adapters; others may become supervised HTTP modules if they need
+they are bounded adapters; others may become supervised channel modules if they need
 state, queues, richer policy, or an operator UI.
 
-### Role middleware with supervised HTTP
+### Role middleware with supervised channel JSON
 
-A supervised HTTP role middleware is useful when the provider needs a real
+A supervised channel role middleware is useful when the provider needs a real
 process: durable local state, queueing, non-trivial domain logic, an HTML
 operator surface, or integration with adjacent tools. The daemon starts and
-monitors the process, sends the module init/report handshake, and dispatches role
-requests to the module through an explicit HTTP/JSON contract. The module should
+monitors the process, performs the channel init/report handshake, and dispatches role
+requests to the module through an explicit channel contract. The module should
 branch on the role capability or service type in the request, not on hidden
 daemon state.
 
 ```json
 {
   "module_id": "story009-roles-http",
-  "executor": "http_local_json",
+  "executor": "channel_json",
   "capabilities": [
     {
       "capability_id": "role/story009.editorial-review.execute",
@@ -780,13 +778,13 @@ data without granting it OS access.
 
 Use JSON-e Flow role middleware for role adapters that can be described as data
 and whose effects are narrow enough to be declared as host-owned steps. Move to
-supervised HTTP when the role starts needing a richer runtime boundary.
+supervised channel JSON when the role starts needing a richer runtime boundary.
 
 ## Where can middleware attach to the node data path?
 
 Middleware can attach to different places in the node's data path. The hook says
 where a message becomes visible to a component and what kind of decision the
-component may return. This is separate from execution type: a supervised HTTP
+component may return. This is separate from execution type: a supervised channel
 module, JSON-e Flow definition, or in-process Rust handler may all participate in
 dispatch, but each does so through a host-owned surface with explicit validation,
 timeouts, capability gates, and trace records. The host remains responsible for
@@ -886,7 +884,7 @@ Configuration declares the broad hook; implementation should stay small:
 - Command/stdio middleware, technically possible but usually too heavy for this
   broad phase.
 - Unmanaged local HTTP JSON middleware, for operator-owned local policy services.
-- Supervised HTTP middleware, for powerful local policy services that justify
+- Supervised channel JSON middleware, for powerful local policy services that justify
   the broad hook.
 - Sensorium connector middleware only indirectly, when it is also a supervised
   service and has an explicit reason to participate; broad pre-input attachment
@@ -928,13 +926,13 @@ unavailable response rather than silently routing to another component.
 
 #### Implementation sketch
 
-Configuration claims the route; the live module then handles the request through
-its normal local HTTP service:
+Configuration claims the route; the live module handles the request through the
+daemon-owned module bridge and its channel dispatch:
 
 ```json
 {
   "module_id": "example.local-route",
-  "executor": "http_local_json",
+  "executor": "channel_json",
   "claimed_routes": [
     { "method": "POST", "path": "/v1/enact/example.local-route/run" }
   ]
@@ -951,7 +949,7 @@ def handle_run(request):
 
 #### Known uses
 
-- Supervised HTTP middleware that publishes module routes through
+- Supervised channel middleware that publishes module routes through
   `middleware-module-report`.
 - Operator-installed packages that contribute UI or local route metadata.
 
@@ -964,7 +962,7 @@ def handle_run(request):
 - Command/stdio middleware, for bounded one-shot local request handlers.
 - Unmanaged local HTTP JSON middleware, when another supervisor owns the local
   service.
-- Supervised HTTP middleware, the normal shape for claimed module routes.
+- Supervised channel JSON middleware, the normal shape for claimed module routes.
 - Sensorium connector middleware, when the connector exposes local module routes
   through its supervised service or package metadata.
 
@@ -1051,7 +1049,7 @@ be a JSON-e Flow or a supervised service:
   adapters with allowlisted host calls.
 - Command/stdio middleware, for one-shot role providers with strict limits.
 - Unmanaged local HTTP JSON middleware, for externally supervised providers.
-- Supervised HTTP middleware, the normal shape for rich providers such as Dator
+- Supervised channel JSON middleware, the normal shape for rich providers such as Dator
   and Arca-adjacent services.
 - Sensorium connector middleware usually participates behind Sensorium Core
   rather than as a direct role provider.
@@ -1145,7 +1143,7 @@ through a host-owned step or module endpoint, not by importing daemon internals:
   capability calls; the command itself should not receive ambient authority.
 - Unmanaged local HTTP JSON middleware, when bound with module auth and explicit
   allowed calls.
-- Supervised HTTP middleware, the standard process-backed shape for host
+- Supervised channel JSON middleware, the standard process-backed shape for host
   capability consumers.
 - Sensorium connector middleware, through Sensorium-owned capability/action
   mediation.
@@ -1194,7 +1192,7 @@ returns a bounded decision or peer response through the host contract:
 ```json
 {
   "module_id": "example.peer-handler",
-  "executor": "http_local_json",
+  "executor": "channel_json",
   "input_chains": ["inbound-peer"],
   "message_kinds": ["example.peer-message.v1"]
 }
@@ -1214,7 +1212,7 @@ returns a bounded decision or peer response through the host contract:
 
 - Built-in peer protocol handlers for capability, schema, ledger, and artifact
   exchange.
-- Future out-of-process peer handlers using `http_local_json` or
+- Future out-of-process peer handlers using `channel_json` or
   `local_http_json` attachment.
 
 #### Compatible middleware types
@@ -1226,7 +1224,7 @@ returns a bounded decision or peer response through the host contract:
 - Command/stdio middleware, technically possible for bounded handlers but
   usually too costly for federated hot paths.
 - Unmanaged local HTTP JSON middleware, for externally supervised peer handlers.
-- Supervised HTTP middleware, for out-of-process peer handlers with readiness and
+- Supervised channel JSON middleware, for out-of-process peer handlers with readiness and
   lifecycle.
 - Sensorium connector middleware is not a natural peer-message hook; use a role,
   service, or host capability bridge when peer input should trigger local
@@ -1305,7 +1303,7 @@ policy decision:
 - Command/stdio middleware, for slow-path or operator-local broadcast checks.
 - Unmanaged local HTTP JSON middleware, for externally supervised policy
   services.
-- Supervised HTTP middleware, for richer moderation, relay, or policy services.
+- Supervised channel JSON middleware, for richer moderation, relay, or policy services.
 - Sensorium connector middleware is usually not appropriate unless a broadcast
   event intentionally becomes a Sensorium-mediated local action.
 
@@ -1380,7 +1378,7 @@ boundary decision:
   late boundary.
 - Unmanaged local HTTP JSON middleware, for operator-owned egress policy
   services.
-- Supervised HTTP middleware, for richer egress policy surfaces when latency is
+- Supervised channel JSON middleware, for richer egress policy surfaces when latency is
   acceptable.
 - Sensorium connector middleware is not a natural egress hook; use Sensorium
   action mediation earlier in the path.
@@ -1465,7 +1463,7 @@ live supervised route:
 - Command/stdio middleware, through host-rendered status/config surfaces.
 - Unmanaged local HTTP JSON middleware, if the operator explicitly accepts an
   externally managed UI endpoint.
-- Supervised HTTP middleware, the normal shape for live module UI.
+- Supervised channel JSON middleware, the normal shape for live module UI.
 - Sensorium connector middleware, through connector action catalogs and
   connector-owned operator surfaces.
 - Operator-installed packages and factory-bundled modules may both contribute UI
@@ -1545,25 +1543,25 @@ fn record(event: TraceEvent) {
 - Command/stdio middleware, for bounded export or diagnostic jobs.
 - Unmanaged local HTTP JSON middleware, for operator-managed observability
   services.
-- Supervised HTTP middleware, for richer audit/trace consumers with their own
+- Supervised channel middleware, for richer audit/trace consumers with their own
   lifecycle.
 - Sensorium connector middleware should normally emit observations through
   Sensorium and host audit surfaces, not attach as a generic observer unless that
   role is explicitly declared.
 
-## How does one HTTP middleware distinguish calls from multiple hooks?
+## How does one supervised middleware distinguish calls from multiple hooks?
 
-A supervised HTTP middleware may attach to more than one hook. For example, one
-module may handle an input chain and also observe the audit chain. The host may
-call the same HTTP endpoint for both hooks if the module report or local config
-uses the same `invoke_url` for both registrations. That is legal, but the route
-path is not the semantic discriminator. The canonical discriminator is the
-request envelope, especially `chain_kind`.
+A supervised channel middleware may attach to more than one hook. For example, one
+module may handle an input chain and also observe the audit chain. The host may route
+both calls to the same module handler when its report uses one declared invoke path
+for both registrations. That is legal, but the route path is not the semantic
+discriminator. The canonical discriminator is the request envelope, especially
+`chain_kind`.
 
 For peer-message handler paths, the host sends a `PeerMessageInvokeRequest`.
 The legacy peer-message `audit` surface also uses that invoke shape, but its
 result is observational: returned decisions and invocation failures do not alter
-the caller-visible dispatch outcome. The same endpoint can receive both
+the caller-visible dispatch outcome. The same handler can receive both
 `inbound-peer` and legacy `audit` invocations:
 
 ```json
@@ -1640,14 +1638,14 @@ and routing convenience; the envelope is the source of truth.
 
 Execution type says how middleware runs. Distribution model says how the code,
 definition, config, or package arrives at a node and how the operator accepts it.
-These axes intentionally cross: a supervised HTTP module can be bundled or
+These axes intentionally cross: a supervised channel module can be bundled or
 operator-installed, and a JSON-e Flow definition can be shipped as an acceptance
 profile without becoming a standalone process module.
 
 ### Factory-Bundled Middleware
 
 Bundled middleware is distributed with the Node source or binary distribution. It
-may still be supervised HTTP, JSON-e Flow, in-process Rust, or another executor
+may still be supervised channel JSON, JSON-e Flow, in-process Rust, or another executor
 type; "bundled" describes distribution and trust posture, not execution
 mechanics. Bundled modules are useful when a capability is part of the reference
 system but should remain outside the trusted daemon core. They can receive
@@ -1687,7 +1685,7 @@ not required by a deployment, the operator should be able to disable it.
 ```json
 {
   "module_id": "example.bundled",
-  "executor": "http_local_json",
+  "executor": "channel_json",
   "bundle": {
     "kind": "python-module",
     "entrypoint": "middleware-modules/example/service.py"

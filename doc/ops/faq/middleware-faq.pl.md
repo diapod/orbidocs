@@ -4,8 +4,10 @@
 
 Middleware to hostowane zachowanie rozszerzające, opisane jawnymi kontraktami. Główne
 typy wykonania to Rust w procesie, czysty JSON-e, JSON-e Flow, command/stdio,
-niezarządzany lokalny HTTP JSON, supervised HTTP, konektory Sensorium oraz
-middleware-hosted adaptery runtime Inquirium. Dystrybucja jest osobną osią: middleware
+niezarządzany lokalny HTTP JSON, nadzorowany `channel_json`, konektory Sensorium oraz
+middleware-hosted adaptery runtime Inquirium. Stary nadzorowany executor
+`http_local_json` pozostaje wyłącznie na czas przyjętej migracji wycofującej z P080.
+Dystrybucja jest osobną osią: middleware
 może być dostarczone fabrycznie, przez profil albo jako paczka instalowana przez
 operatora niezależnie od typu wykonania.
 
@@ -24,9 +26,16 @@ władzy ani nie jest kolejką replay.
 
 Zachowaj jawny listener produktowy, peerowy, przeglądarkowy lub providerowy, jeśli
 jest częścią kontraktu komponentu. Moduł mieszany migruje tylko host-control plane.
-Nie rejestruj tej samej semantycznej route'y w obu executorach jako niejawnego
-fallbacku. `channel_json` albo `http_local_json` wybiera konfiguracja, a rollback
-powinien być testowany świadomie.
+Nie rejestruj tej samej semantycznej route'y w obu transportach jako niejawnego
+fallbacku. Nowe nadzorowane moduły i paczki muszą używać `channel_json`; zachowany
+listener produktowy HTTP jest osobną powierzchnią domenową, a nie executorem
+middleware.
+
+Obecne siedem modułów fabrycznych nadal wybiera `http_local_json` podczas migracji
+opisanej przez P080-024..P080-033. Jest to stan przejściowy, a nie zalecenie dla
+autorów paczek. Po wycofaniu konfiguracje daemona i manifesty paczek nazywające
+`http_local_json` będą odrzucane z jawną diagnostyką migracyjną; Node nigdy nie
+przekształca ich po cichu.
 
 Moduły Pythonowe powinny używać wspólnego adaptera zamiast implementować framing
 WebSocket. Zobacz [Tworzenie middleware channel_json](../howto/middleware-howto.pl.md#tworzenie-middleware-channel-json).
@@ -56,10 +65,10 @@ komponentów i odzyskiwania po efektach](../howto/middleware-howto.pl.md).
 
 Role Middleware nie jest typem wykonania. To wzorzec specjalizacji: komponent middleware
 przyjmuje request ukształtowany rolą i rozdziela go do zachowania wybranego po roli,
-capability albo tożsamości usługi. Może być zaimplementowany jako supervised HTTP,
+capability albo tożsamości usługi. Może być zaimplementowany jako nadzorowany channel JSON,
 JSON-e Flow albo inna zarejestrowana forma middleware.
 
-Konkretne przykłady dla supervised HTTP i JSON-e Flow są w [sekcji Role Middleware w
+Konkretne przykłady dla nadzorowanego channel JSON i JSON-e Flow są w [sekcji Role Middleware w
 Middleware HOWTO](../howto/middleware-howto.pl.md).
 
 ## Gdzie middleware może wpinać się w ścieżkę danych node'a?
@@ -74,13 +83,13 @@ uniwersalnego kontraktu interceptora.
 Pełna mapa hooków, decyzji, przykładów i kompatybilności jest w [Middleware hook
 HOWTO](../howto/middleware-howto.pl.md).
 
-## Jak jeden HTTP middleware rozróżnia wywołania z wielu hooków?
+## Jak jeden nadzorowany middleware rozróżnia wywołania z wielu hooków?
 
-Supervised HTTP middleware może używać jednego endpointu dla wielu rejestracji, ale
-ścieżka HTTP nie jest semantycznym rozróżnikiem. Middleware powinien sprawdzać kopertę
-requestu, zwłaszcza `chain_kind`, `envelope_kind` i schema-specific kształt payloadu.
-Oddzielne ścieżki są często czytelniejsze operacyjnie, lecz nawet wtedy źródłem prawdy
-pozostaje koperta.
+Nadzorowany middleware channel może używać jednej zadeklarowanej ścieżki invoke dla
+wielu rejestracji, ale ścieżka nie jest semantycznym rozróżnikiem. Middleware powinien
+sprawdzać kopertę requestu, zwłaszcza `chain_kind`, `envelope_kind` i schema-specific
+kształt payloadu. Oddzielne ścieżki są często czytelniejsze operacyjnie, lecz nawet
+wtedy źródłem prawdy pozostaje koperta.
 
 Przykłady requestów i szkice rozgałęziania są w [sekcji multiple-hook dispatch w
 Middleware HOWTO](../howto/middleware-howto.pl.md).
