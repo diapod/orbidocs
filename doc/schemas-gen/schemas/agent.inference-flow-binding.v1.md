@@ -32,6 +32,11 @@ A host-admitted closed vocabulary binding one JSON-e Flow to one Agent and its e
 | [`binding/digest`](#field-binding-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`flow/ref`](#field-flow-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`flow/digest`](#field-flow-digest) | `yes` | ref: `#/$defs/digest` |  |
+| [`package/ref`](#field-package-ref) | `no` | ref: `#/$defs/ref` |  |
+| [`package/digest`](#field-package-digest) | `no` | ref: `#/$defs/package-digest` |  |
+| [`package/activation-generation`](#field-package-activation-generation) | `no` | integer |  |
+| [`agent-policy/ref`](#field-agent-policy-ref) | `no` | ref: `#/$defs/ref` |  |
+| [`agent-policy/digest`](#field-agent-policy-digest) | `no` | ref: `#/$defs/digest` |  |
 | [`agent/id`](#field-agent-id) | `yes` | ref: `#/$defs/ref` |  |
 | [`agent-binding/ref`](#field-agent-binding-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`max/passages`](#field-max-passages) | `yes` | integer |  |
@@ -52,6 +57,7 @@ A host-admitted closed vocabulary binding one JSON-e Flow to one Agent and its e
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
 | [`digest`](#def-digest) | string |  |
+| [`package-digest`](#def-package-digest) | string |  |
 | [`visibility`](#def-visibility) | enum: `private`, `operator`, `shared` |  |
 | [`ref-set`](#def-ref-set) | array |  |
 ## Field Semantics
@@ -84,6 +90,36 @@ A host-admitted closed vocabulary binding one JSON-e Flow to one Agent and its e
 ## `flow/digest`
 
 - Required: `yes`
+- Shape: ref: `#/$defs/digest`
+
+<a id="field-package-ref"></a>
+## `package/ref`
+
+- Required: `no`
+- Shape: ref: `#/$defs/ref`
+
+<a id="field-package-digest"></a>
+## `package/digest`
+
+- Required: `no`
+- Shape: ref: `#/$defs/package-digest`
+
+<a id="field-package-activation-generation"></a>
+## `package/activation-generation`
+
+- Required: `no`
+- Shape: integer
+
+<a id="field-agent-policy-ref"></a>
+## `agent-policy/ref`
+
+- Required: `no`
+- Shape: ref: `#/$defs/ref`
+
+<a id="field-agent-policy-digest"></a>
+## `agent-policy/digest`
+
+- Required: `no`
 - Shape: ref: `#/$defs/digest`
 
 <a id="field-agent-id"></a>
@@ -173,6 +209,11 @@ A host-admitted closed vocabulary binding one JSON-e Flow to one Agent and its e
 
 <a id="def-digest"></a>
 ## `$defs.digest`
+
+- Shape: string
+
+<a id="def-package-digest"></a>
+## `$defs.package-digest`
 
 - Shape: string
 

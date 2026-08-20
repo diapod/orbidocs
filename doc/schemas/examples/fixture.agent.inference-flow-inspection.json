@@ -1,0 +1,31 @@
+{
+  "schema": "agent.inference-flow-inspection.v1",
+  "binding/ref": "agent-flow-binding:fixture",
+  "flow/ref": "json-e-flow:fixture-agent-passes",
+  "flow/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "package/ref": "extension-package:fixture-agent-passes",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "package/activation-generation": 3,
+  "agent-policy/ref": "agent-policy:fixture-agent-passes",
+  "agent-policy/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "passages/used": 2,
+  "passages/max": 4,
+  "current/passage-ref": "agent-inference-passage:critique",
+  "current/state": "committed",
+  "current/decision-code": "passage-committed",
+  "omitted-producer/refs": [],
+  "parent-product/refs": ["agent-inference-product:draft"],
+  "prompt-policy/ref": "prompt-policy:fixture-v1",
+  "output-schema/ref": "output-schema:structured-review-v1",
+  "repair-profile/ref": "repair-profile:strict-json-v1",
+  "model-profile/ref": "model-profile:local-baseline-v1",
+  "runtime/ref": "runtime:local-baseline-v1",
+  "visibility/ceiling": "operator",
+  "terminal/product-ref": "agent-inference-product:critique",
+  "budget/spent": {
+    "max_tokens": 4096,
+    "max_cost_micros": 0,
+    "max_wall_time_ms": 12000,
+    "max_steps": 2
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "agent.inference-flow-inspection.v1",
+  "binding/ref": "agent-flow-binding:invalid",
+  "flow/ref": "json-e-flow:invalid",
+  "flow/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "package/ref": "extension-package:invalid",
+  "passages/used": 0,
+  "passages/max": 4,
+  "parent-product/refs": [],
+  "visibility/ceiling": "operator",
+  "budget/spent": {
+    "max_tokens": 0,
+    "max_cost_micros": 0,
+    "max_wall_time_ms": 0,
+    "max_steps": 0
+  }
+}

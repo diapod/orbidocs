@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-flow-inspection:v1",
+  "title": "Agent Inference Flow Inspection v1",
+  "description": "A bounded prompt-free operator projection for one Agent inference Flow.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "binding/ref", "flow/ref", "flow/digest", "passages/used", "passages/max",
+    "parent-product/refs", "visibility/ceiling", "budget/spent"
+  ],
+  "properties": {
+    "schema": { "const": "agent.inference-flow-inspection.v1" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "flow/ref": { "$ref": "#/$defs/ref" },
+    "flow/digest": { "$ref": "#/$defs/digest" },
+    "package/ref": { "$ref": "#/$defs/ref" },
+    "package/digest": { "$ref": "#/$defs/package-digest" },
+    "package/activation-generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "agent-policy/ref": { "$ref": "#/$defs/ref" },
+    "agent-policy/digest": { "$ref": "#/$defs/digest" },
+    "passages/used": { "type": "integer", "minimum": 0, "maximum": 256 },
+    "passages/max": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "current/passage-ref": { "$ref": "#/$defs/ref" },
+    "current/state": { "enum": ["admitted", "committed", "refused", "selected"] },
+    "current/decision-code": {
+      "enum": [
+        "passage-admitted", "passage-committed", "terminal-product-selected",
+        "passage-request-refused", "passage-invocation-refused",
+        "passage-response-refused", "passage-artifact-refused", "passage-commit-refused"
+      ]
+    },
+    "decisive/restriction": { "$ref": "#/$defs/ref" },
+    "omitted-producer/refs": {
+      "type": "array", "maxItems": 32, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "parent-product/refs": {
+      "type": "array", "maxItems": 16, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "prompt-policy/ref": { "$ref": "#/$defs/ref" },
+    "output-schema/ref": { "$ref": "#/$defs/ref" },
+    "repair-profile/ref": { "$ref": "#/$defs/ref" },
+    "model-profile/ref": { "$ref": "#/$defs/ref" },
+    "runtime/ref": { "$ref": "#/$defs/ref" },
+    "visibility/ceiling": { "enum": ["private", "operator", "shared"] },
+    "terminal/product-ref": { "$ref": "#/$defs/ref" },
+    "budget/spent": { "$ref": "#/$defs/budget" }
+  },
+  "dependentRequired": {
+    "package/ref": ["package/digest", "package/activation-generation", "agent-policy/ref", "agent-policy/digest"],
+    "package/digest": ["package/ref", "package/activation-generation", "agent-policy/ref", "agent-policy/digest"],
+    "package/activation-generation": ["package/ref", "package/digest", "agent-policy/ref", "agent-policy/digest"],
+    "agent-policy/ref": ["package/ref", "package/digest", "package/activation-generation", "agent-policy/digest"],
+    "agent-policy/digest": ["package/ref", "package/digest", "package/activation-generation", "agent-policy/ref"],
+    "current/passage-ref": ["current/state"],
+    "current/state": ["current/passage-ref"]
+  },
+  "allOf": [
+    {
+      "if": { "required": ["decisive/restriction"] },
+      "then": {
+        "properties": { "current/state": { "const": "refused" } },
+        "required": ["current/state"]
+      }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "package-digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_tokens", "max_cost_micros", "max_wall_time_ms", "max_steps"],
+      "properties": {
+        "max_tokens": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "max_cost_micros": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "max_wall_time_ms": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "max_steps": { "type": "integer", "minimum": 0, "maximum": 4294967295 }
+      }
+    }
+  }
+}

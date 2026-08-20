@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS_DIR = ROOT / "doc" / "schemas"
 EXAMPLES_DIR = SCHEMAS_DIR / "examples"
 INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
+SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 NODE_WORKSPACE_SENTINELS = (
     Path("Cargo.toml"),
@@ -108,6 +109,8 @@ SCHEMA_WHITELIST = (
     "corpus-reasoning-room-policy.v3.schema.json",
     "corpus-reasoning-room-invite.v1.schema.json",
     "corpus-reasoning-turn-proposal.v1.schema.json",
+    "corpus-turn-order-offer.v1.schema.json",
+    "corpus-turn-order-decision.v1.schema.json",
     "corpus-reasoning-experiment-proposal.v1.schema.json",
     "corpus-reasoning-experiment-review.v1.schema.json",
     "corpus-reasoning-experiment-review.v2.schema.json",
@@ -131,6 +134,7 @@ SCHEMA_WHITELIST = (
     "nse-middleware-evidence.v1.schema.json",
     "nse-hook-decision.v1.schema.json",
     "nse-policy-table.v1.schema.json",
+    "nse-select-turn-order-table.v1.schema.json",
     "operator-extension-refusal-code.v1.schema.json",
     "operator-extension-refusal.v1.schema.json",
     "operator-experiment-package.v1.schema.json",
@@ -158,6 +162,7 @@ SCHEMA_WHITELIST = (
     "arca-strategy-entry.v1.schema.json",
     "agent-semantic-entry.v1.schema.json",
     "agent.inference-flow-binding.v1.schema.json",
+    "agent.inference-flow-inspection.v1.schema.json",
     "agent.inference-passage-input.v1.schema.json",
     "agent.inference-passage-invoke.v1.schema.json",
     "agent.inference-passage-product.v1.schema.json",
@@ -401,6 +406,8 @@ EXAMPLE_WHITELIST = (
     "private.corpus-reasoning-room-policy-v3.json",
     "expert.corpus-reasoning-room-invite.json",
     "expert-contribution.corpus-reasoning-turn-proposal.json",
+    "fixture.corpus-turn-order-offer.json",
+    "fixture.corpus-turn-order-decision.json",
     "local-agent.corpus-reasoning-experiment-proposal.json",
     "revised.corpus-reasoning-experiment-review.json",
     "requested.corpus-reasoning-experiment-review.v2.json",
@@ -467,6 +474,7 @@ EXAMPLE_WHITELIST = (
     "fixture.arca-strategy-entry.json",
     "fixture.agent-semantic-entry.json",
     "fixture.agent.inference-flow-binding.json",
+    "fixture.agent.inference-flow-inspection.json",
     "fixture.agent.inference-passage-input.json",
     "fixture.agent.inference-passage-invoke.json",
     "fixture.agent.inference-passage-product.json",
@@ -496,6 +504,7 @@ EXAMPLE_WHITELIST = (
     "fixture.nse-middleware-evidence.json",
     "fixture.nse-hook-decision.json",
     "fixture.nse-policy-table.json",
+    "fixture.nse-select-turn-order-table.json",
     "fixture.operator-extension-refusal-code.json",
     "fixture.operator-extension-refusal.json",
     "fixture.operator-experiment-package.json",
@@ -664,6 +673,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "missing-content.corpus-reasoning-turn-proposal.json",
     "unknown-field.corpus-reasoning-turn-proposal.json",
     "wrong-turn-id-prefix.corpus-reasoning-turn-proposal.json",
+    "preselected-target.corpus-turn-order-offer.json",
     "missing-plan-digest.corpus-reasoning-experiment-proposal.json",
     "unknown-field.corpus-reasoning-experiment-proposal.json",
     "mismatched-plan-artifact.corpus-reasoning-experiment-proposal.json",
@@ -781,6 +791,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "widening.arca-strategy-entry.json",
     "unknown-field.agent-semantic-entry.json",
     "empty-profiles.agent.inference-flow-binding.json",
+    "incomplete-package.agent.inference-flow-inspection.json",
     "inline-prompt.agent.inference-passage-input.json",
     "caller-product.agent.inference-passage-invoke.json",
     "unretained-artifact.agent.inference-passage-product.json",
@@ -820,6 +831,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "unknown-field.operator-extension-session-deactivation.json",
     "wrong-offer-digest.nse-hook-decision.json",
     "unknown-field.nse-policy-table.json",
+    "duplicate-role.nse-select-turn-order-table.json",
     "missing-generation.sensorium-web-source.json",
     "empty-profile-version.sensorium-web-source.json",
     "missing-fetch.sensorium-web-extraction-request.json",
@@ -862,6 +874,10 @@ INVALID_EXAMPLE_WHITELIST = (
     "unknown-field.causal-context.json",
     "payload.execution-receipt.json",
     "bad-cursor.replication-summary.json",
+)
+
+SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
+    "unknown-candidate.corpus-turn-order-decision.json",
 )
 
 GOLDEN_WHITELIST = (
@@ -962,6 +978,7 @@ def main() -> int:
     schema_target = contracts_root / "schemas"
     example_target = contracts_root / "examples"
     invalid_target = example_target / "invalid"
+    semantic_invalid_target = example_target / "semantic-invalid"
     golden_target = contracts_root / "golden"
     schema_gate_agora_target = node_root / "schema-gate" / "contracts" / "schemas" / "agora"
 
@@ -970,6 +987,11 @@ def main() -> int:
     copy_files(SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR, schema_gate_agora_target)
     copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
     copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
+    copy_files(
+        SEMANTIC_INVALID_EXAMPLE_WHITELIST,
+        SEMANTIC_INVALID_EXAMPLES_DIR,
+        semantic_invalid_target,
+    )
     copy_files(GOLDEN_WHITELIST, GOLDEN_DIR, golden_target)
     shutil.copy2(
         SCHEMAS_DIR / "registries" / "vendor-media-types.v1.json",

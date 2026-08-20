@@ -244,9 +244,11 @@ packages do not need a placeholder hook. CLI and Trace Explorer expose prompt-fr
 local/peer comparisons through a narrow peer-posture route that does not return the
 complete invitation inbox, and a three-daemon acceptance
 proves modified-posture, sanction, and local-substitute refusal. Operator inspection
-also has audited render-only `inspect`, `explain`, and bounded Mermaid `graph` modes
-over that single projection. Rich interactive attention and peer/refusal navigation
-remains post-MVP under `P085-042`. All five guard anchors are wired for
+also has audited render-only `inspect`, `explain`, bounded Mermaid `graph`, and Node UI
+modes over that single accepted projection. The UI separates populated from explicitly
+unavailable sources and follows only bounded projection-owned artifact refs. Rich
+interactive attention and separate peer/refusal provenance navigation remain post-MVP
+under `P085-042`. All five guard anchors are wired for
 `restrict/grant-set`; Agent effect admission also executes bounded-budget narrowing
 and monotonic risk raising. Federated Inquirium resource profiles are bound to
 authenticated peers, signed posture, current operation entries, and exact runtime
@@ -264,11 +266,20 @@ policy generation, Flow lineage, disclosure ceilings, and expiry; only verified 
 overlay rendering enters P064, all intermediate products remain local, and process
 evidence proves refusal, changed-content binding conflict, bind-only admission
 followed by execution without rebinding, unpublished selection, dirty restart, and
-exact replay. The
-package lifecycle, flow-specific operator inspection, packaged Story 012 acceptance,
-and attention-specific interactive UI remain open under `P085-039` through
-`P085-042`. P085 therefore
-stays partial and post-MVP; this work does not change hard-MVP readiness.
+exact replay. Reusable Agent Flows and deterministic Corpus turn-order table producers
+now pass the ordinary operator-package activation, restart-recovery, and terminal-
+revocation lifecycle. Package Flow registrations also impose exact non-empty
+model-profile and runtime ceilings over the Agent binding, rather than leaving those
+cost and egress axes ambient. Agent status exposes a Schema-Gated prompt-free Flow inspection;
+all five refusal codes have reaching restart-durable evidence. The target-free Corpus
+offer and durable decision contracts are accepted, the opaque Flow offer remains
+caller-bound, single-use, restart-invalidated, and revalidated at use, and a checked-in
+Story 012 structural preflight binds the production Flow digest, canonical producer
+identity, alternate turn-order policy, refusal corpus, parameter inventory, and
+portable/local-authority split. The full Corpus pre-HIL process proof, packaged vfkit
+Story 012 acceptance, and remaining peer/refusal UI views stay open under `P085-041`,
+`P085-042`, and `P085-044`. P085 therefore stays partial and post-MVP; this work does
+not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1046,7 +1057,22 @@ Recent component deltas:
   This raises P016, P021, and Arca readiness without promoting the broader Story-009
   product story into the hard-MVP blocker set.
 - Shared Offer Catalog is now hard-MVP complete. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, public/shared catalog deployment profile (`node/middleware-modules/offer-catalog/config/profiles/public-shared-catalog.json`), automatic `shared-offer-catalog` passport publication readiness with classified pending reasons, redacted Host Agora and Seed Directory admission diagnostics, and a local public-profile smoke runner (`node/tools/acceptance/shared-offer-catalog-public-smoke.py`) covering authorized replay, bad-signature refusal, unknown-provider refusal, withdrawn-offer inspection semantics, and the HTTP query surface. The remaining public-profile operating policy is now resolved and enforced where applicable: passport renewal is supervisor-driven by default, and non-loopback Agora URLs must use HTTPS/TLS with Node fail-closed replay validation. Remaining work is post-MVP production hardening such as broader monitoring matrices and eventual legacy peer-message retirement.
-- Proposal 080 is complete through P080-023. Bundled factory data now selects `channel_json` or `http_local_json` explicitly and records whether a product listener remains. Eligible host-only modules project to the shared channel without allocating per-module ports; intentional network and mixed product listeners remain explicit. Agora Verifier and Snooper use the shared Python channel adapter. Operator-installed `http_local_json` remains a visible explicit legacy compatibility path, while stale listener keys under channel-only module config fail closed. A transport-neutral component contract now rejects missing, mismatched, incorrectly pinned, ambiguous, unknown, or cyclic dependencies before effects, drives provider-first startup and dependent-first shutdown, and restricts imperative disposal to typed host-local resources. Dedicated reconciliation exposes `dependency_unavailable`, waits for observed provider readiness before downstream resume, and leaves health/status reads side-effect free; operator lifecycle receipts enumerate transitive effects. Story-005 proves host-owned `runtime/ref` and model-binding invocation over the channel plus stop/non-routable/restart; Story-009 and strict Story-010 also pass.
+- Proposal 080 is implemented through P080-023 and now has an accepted
+  `http_local_json` retirement phase under P080-024 through P080-033. The checked
+  inventory covers 18 bundled modules: 11 select `channel_json`, while Agora Service,
+  Attestation, Contact Catalog, Messaging, NSE Evidence Reference, Recovery, and
+  Whisper Intake still select `http_local_json`. Dator and Arca use the channel for
+  host traffic while retaining separately owned product HTTP listeners. The open
+  phase migrates the remaining seven modules, preserves only independently justified
+  product APIs, rejects old daemon configuration and package manifests explicitly,
+  then removes the HTTP-local supervisor, routing fallback, contract, schema, and
+  compatibility tests. A transport-neutral component contract already rejects
+  missing, mismatched, incorrectly pinned, ambiguous, unknown, or cyclic dependencies
+  before effects, drives provider-first startup and dependent-first shutdown, and
+  restricts imperative disposal to typed host-local resources. Dedicated
+  reconciliation exposes `dependency_unavailable`, waits for observed provider
+  readiness before downstream resume, and leaves health/status reads side-effect
+  free; Story-005, Story-009, and strict Story-010 pass on the implemented baseline.
 - Corpus and Story 011 are tracked as hard-MVP blockers through Proposal 069 and Solution 038. Its MVP slice is
   intentionally narrow: topic taxonomy/resolution, topic-scoped offer discovery,
   `question-envelope.v1`-decorated query broadcast, bid-state aggregation, and a
@@ -1370,12 +1396,12 @@ Recent component deltas:
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |
 | [Proposal 079: Cross-Federation Alliance](../40-proposals/079-cross-federation-alliance.md) | `false` | `false` | `false` | `45` |
-| [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
+| [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `70` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `77` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `91` |
 
 ## Solutions
 

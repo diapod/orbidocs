@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-turn-order-decision:v1",
+  "title": "Corpus Turn Order Decision v1",
+  "description": "Prompt-free result of resolving one exact target-free Corpus turn-order offer; it is evidence, not Room authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema/v", "decision/ref", "decision/digest", "offer/ref", "offer/digest",
+    "source", "ordered/candidate-refs", "selected/candidate-ref", "decided-at"
+  ],
+  "properties": {
+    "schema": { "const": "corpus-turn-order-decision.v1" },
+    "schema/v": { "const": 1 },
+    "decision/ref": { "type": "string", "pattern": "^corpus-turn-order-decision:sha256:[A-Za-z0-9_-]{43}$" },
+    "decision/digest": { "$ref": "#/$defs/digest" },
+    "offer/ref": { "type": "string", "pattern": "^corpus-turn-order-offer:sha256:[A-Za-z0-9_-]{43}$" },
+    "offer/digest": { "$ref": "#/$defs/digest" },
+    "source": { "enum": ["distribution-policy", "operator-policy"] },
+    "operator/authority-decision-ref": { "type": "string", "pattern": "^authority-decision:[A-Za-z0-9_-]+$", "maxLength": 512 },
+    "ordered/candidate-refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/candidate-ref" }
+    },
+    "selected/candidate-ref": { "$ref": "#/$defs/candidate-ref" },
+    "decided-at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["source"],
+        "properties": { "source": { "const": "operator-policy" } }
+      },
+      "then": { "required": ["operator/authority-decision-ref"] },
+      "else": { "not": { "required": ["operator/authority-decision-ref"] } }
+    }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "candidate-ref": { "type": "string", "pattern": "^corpus-turn-order-candidate:sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

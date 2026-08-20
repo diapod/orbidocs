@@ -4,6 +4,9 @@
   "package/ref": "extension-package:local-policy", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "generation": 1, "kind": "durable", "operational/class": "research", "operator/binding-ref": "node-operator-binding:local",
   "conformance/report-ref": "extension-conformance:local-policy", "conformance/report-digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-  "producers": [{"hook/id": "select-llm-model", "hook/v": 1, "producer/ref": "nse-table:local-policy", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "priority": 10, "mode": "required", "advisory/failure-allowed": false}],
+  "producers": [
+    {"hook/id": "select-llm-model", "hook/v": 1, "producer/ref": "nse-table:local-policy", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "priority": 10, "mode": "required", "advisory/failure-allowed": false},
+    {"hook/id": "select-turn-order", "hook/v": 1, "producer/ref": "nse-table:nse-policy:01J00000000000000000000001", "producer/digest": "sha256:23718093007e8e8c334ad45c8cbb8d8f242a9c32398af115112b05f39095f080", "priority": 20, "mode": "required", "advisory/failure-allowed": false}
+  ],
   "issued-at": "2026-08-03T12:00:00Z", "expires-at": "2026-08-04T12:00:00Z", "signature": {"alg": "ed25519+domain-v1", "key/public": "z6MkrJVnaZkeFzdQy4wZnsQksjZV8aoVgcArhY2dGmTtVQ6W", "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"}
 }

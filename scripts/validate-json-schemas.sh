@@ -209,6 +209,9 @@ schema_for_file() {
     *.agent.inference-flow-binding.json)
       echo "$SCHEMAS_DIR/agent.inference-flow-binding.v1.schema.json"
       ;;
+    *.agent.inference-flow-inspection.json)
+      echo "$SCHEMAS_DIR/agent.inference-flow-inspection.v1.schema.json"
+      ;;
     *.agent.inference-passage-input.json)
       echo "$SCHEMAS_DIR/agent.inference-passage-input.v1.schema.json"
       ;;
@@ -430,6 +433,9 @@ schema_for_file() {
       ;;
     *.nse-policy-table.json)
       echo "$SCHEMAS_DIR/nse-policy-table.v1.schema.json"
+      ;;
+    *.nse-select-turn-order-table.json)
+      echo "$SCHEMAS_DIR/nse-select-turn-order-table.v1.schema.json"
       ;;
     *.nse-middleware-evidence.json)
       echo "$SCHEMAS_DIR/nse-middleware-evidence.v1.schema.json"
@@ -655,6 +661,12 @@ schema_for_file() {
       ;;
     *.corpus-reasoning-turn-proposal.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-turn-proposal.v1.schema.json"
+      ;;
+    *.corpus-turn-order-offer.json)
+      echo "$SCHEMAS_DIR/corpus-turn-order-offer.v1.schema.json"
+      ;;
+    *.corpus-turn-order-decision.json)
+      echo "$SCHEMAS_DIR/corpus-turn-order-decision.v1.schema.json"
       ;;
     *.corpus-reasoning-experiment-proposal.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-experiment-proposal.v1.schema.json"

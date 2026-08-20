@@ -2,8 +2,21 @@
   "schema": "operator-experiment-package.v1", "schema/v": 1,
   "package/ref": "extension-package:local-policy", "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "middleware-package/ref": "middleware-package:local-policy", "middleware-package/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-  "hooks": [{"hook/id": "select-llm-model", "hook/v": 1, "backend": "table", "producer/ref": "nse-table:local-policy", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"}],
+  "hooks": [
+    {"hook/id": "select-llm-model", "hook/v": 1, "backend": "table", "producer/ref": "nse-table:local-policy", "producer/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+    {"hook/id": "select-turn-order", "hook/v": 1, "backend": "table", "producer/ref": "nse-table:nse-policy:01J00000000000000000000001", "producer/digest": "sha256:23718093007e8e8c334ad45c8cbb8d8f242a9c32398af115112b05f39095f080"}
+  ],
   "semantic-entries": [],
+  "inference-flows": [{
+    "flow/ref": "json-e-flow:packaged-review-v1", "flow/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+    "prompt-policy/ref": "prompt-policy:packaged-review-v1", "prompt-policy/digest": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+    "output-schema/ref": "output-schema:packaged-review-v1", "output-schema/digest": "sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+    "repair-profile/ref": "repair-profile:strict-json-v1", "repair-profile/digest": "sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+    "agent-policy/ref": "agent-policy:packaged-review-v1", "agent-policy/digest": "sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+    "model-profile/refs": ["model-profile:local-baseline-v1"],
+    "runtime/refs": ["runtime:local-baseline-v1"],
+    "max/passages": 8
+  }],
   "compatibility": {"host/os": ["linux", "macos"], "host/arch": ["x86_64", "aarch64"]},
   "required-capability/ids": ["inquirium.generate"], "resource-envelope/refs": [], "derived-capability/refs": [],
   "refusal-corpus/ref": "refusal-corpus:local-policy", "refusal-corpus/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",

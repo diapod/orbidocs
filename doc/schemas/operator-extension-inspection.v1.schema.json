@@ -34,6 +34,11 @@
   "$defs": {
     "ref": {"type": "string", "minLength": 1, "maxLength": 256},
     "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "semantic-digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$"},
+    "profile-refs": {
+      "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/ref"}
+    },
     "optional-ref": {"oneOf": [{"$ref": "#/$defs/ref"}, {"type": "null"}]},
     "runtime-diagnostics": {
       "type": "object",
@@ -256,7 +261,7 @@
       "additionalProperties": false,
       "required": [
         "package/ref", "package/digest", "operational/class", "durable/generation",
-        "durable/activation-ref", "active/producers", "session/activation-ref",
+        "durable/activation-ref", "active/producers", "inference-flows", "session/activation-ref",
         "session/expires-at",
         "conformance/report-ref", "latest/transition-state", "revocation/ref"
       ],
@@ -267,6 +272,7 @@
         "durable/generation": {"oneOf": [{"type": "integer", "minimum": 1}, {"type": "null"}]},
         "durable/activation-ref": {"$ref": "#/$defs/optional-ref"},
         "active/producers": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/producer"}},
+        "inference-flows": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/inference-flow-status"}},
         "session/activation-ref": {"$ref": "#/$defs/optional-ref"},
         "session/expires-at": {
           "oneOf": [
@@ -277,6 +283,31 @@
         "conformance/report-ref": {"$ref": "#/$defs/optional-ref"},
         "latest/transition-state": {"oneOf": [{"type": "string", "enum": ["planned", "committed", "finalized", "failed"]}, {"type": "null"}]},
         "revocation/ref": {"$ref": "#/$defs/optional-ref"}
+      }
+    },
+    "inference-flow-status": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "flow/ref", "flow/digest", "prompt-policy/ref", "prompt-policy/digest",
+        "output-schema/ref", "output-schema/digest", "repair-profile/ref",
+        "repair-profile/digest", "agent-policy/ref", "agent-policy/digest",
+        "model-profile/refs", "runtime/refs", "max/passages"
+      ],
+      "properties": {
+        "flow/ref": {"$ref": "#/$defs/ref"}, "flow/digest": {"$ref": "#/$defs/semantic-digest"},
+        "prompt-policy/ref": {"$ref": "#/$defs/ref"}, "prompt-policy/digest": {"$ref": "#/$defs/semantic-digest"},
+        "output-schema/ref": {"$ref": "#/$defs/ref"}, "output-schema/digest": {"$ref": "#/$defs/semantic-digest"},
+        "repair-profile/ref": {"$ref": "#/$defs/ref"}, "repair-profile/digest": {"$ref": "#/$defs/semantic-digest"},
+        "agent-policy/ref": {"$ref": "#/$defs/ref"}, "agent-policy/digest": {"$ref": "#/$defs/semantic-digest"},
+        "model-profile/refs": {"$ref": "#/$defs/profile-refs"},
+        "runtime/refs": {"$ref": "#/$defs/profile-refs"},
+        "max/passages": {"type": "integer", "minimum": 1, "maximum": 256},
+        "corpus-role/ref": {"$ref": "#/$defs/ref"}, "corpus-role/digest": {"$ref": "#/$defs/semantic-digest"},
+        "corpus-overlay/ref": {"$ref": "#/$defs/ref"}, "corpus-overlay/digest": {"$ref": "#/$defs/semantic-digest"}
+      },
+      "dependentRequired": {
+        "corpus-role/ref": ["corpus-role/digest"], "corpus-role/digest": ["corpus-role/ref"],
+        "corpus-overlay/ref": ["corpus-overlay/digest"], "corpus-overlay/digest": ["corpus-overlay/ref"]
       }
     }
   },

@@ -636,7 +636,7 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-room-invite.v1` | implemented | post-MVP | Room subject + live-transport binding + exact v1 or v2 policy digest. The stable invite envelope accepts both policy revisions and validates the embedded revision at the Corpus boundary. |
 | `corpus-reasoning-role-assignment.v1` | new | post-MVP | Chair-issued participant role assignment with local-acceptance semantics. |
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
-| `corpus-turn-order-offer.v1` | planned (`P069-TURN-001`) | post-MVP | Host-built immutable candidate projection for one exact Room turn, including current eligibility, role-assignment provenance, round/turn context, previous floor holder, and Room-policy generation; it contains no preselected target or authority grant. |
+| `corpus-turn-order-offer.v1` | implemented (`P069-TURN-001`) | post-MVP | Host-built immutable candidate projection for one exact Room turn, including current eligibility, role-assignment provenance, round/turn context, previous floor holder, and Room-policy generation; it contains no preselected target or authority grant. |
 | `corpus-reasoning-experiment-proposal.v1` | implemented | post-MVP | Signed portable envelope binding one content-addressed inert `inquirium.candidate-plan.v1` to the exact query, Room, retained turn, author node, requester-selected executor, classification, expiry, and HIL requirement. A portable candidate must omit `adapter.manifest/ref`; that field remains optional producer provenance only for the separate adapter-authored compilation path. The envelope carries no adapter, Sensorium grant, generation, or lease authority. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
@@ -2005,9 +2005,9 @@ binds it into Room policy v2 and the Chair Agent, proves pre-approval moderation
 admits `mute` and `unmute` after HIL approval, checks exact replay, restarts the authority
 node, and still requires a separate Corpus transition before any answer is published.
 
-#### Phase 8B — Operator-resolved turn order `[ ] planned, post-MVP`
+#### Phase 8B — Operator-resolved turn order `[~] in progress, post-MVP`
 
-- [ ] **`P069-TURN-001` — Freeze the target-free Corpus turn-order offer.** Add the
+- [x] **`P069-TURN-001` — Freeze the target-free Corpus turn-order offer.** Add the
   closed `corpus-turn-order-offer.v1` contract, canonical digest vectors, and positive
   and refusal-first fixtures. The offer MUST bind one exact query, Room, round, turn,
   previous floor holder, Room-policy ref/digest/generation, Chair policy, current
@@ -2015,7 +2015,7 @@ node, and still requires a separate Corpus transition before any answer is publi
   digest for every candidate. Corpus constructs the candidate set only after current
   membership, denial, sanction, `speak`, role, overlay, and expiry checks. The value
   contains no chosen target, grant, floor lease, prompt content, or effect authority.
-- [ ] **`P069-TURN-002` — Resolve and apply one turn-order decision before HIL.**
+- [~] **`P069-TURN-002` — Resolve and apply one turn-order decision before HIL.**
   **Dependencies:** `P069-TURN-001`, P049 `P049-008`, and the already implemented
   P085 generic `select-turn-order` validator (`P085-007`). Move Corpus invocation from
   the current post-target veto boundary to a pre-target resolution boundary. Resolve
@@ -2030,6 +2030,17 @@ node, and still requires a separate Corpus transition before any answer is publi
   evidence covers an alternate valid order, empty/foreign/duplicate candidates,
   stale role or membership evidence, exact replay, restart, producer revocation, and
   proof that presence, Flow output, and NSE policy cannot grant the floor.
+
+  The daemon now builds the target-free offer, resolves it through the centrally
+  registered host-local `agent.turn-order.resolve` capability, and durably stores one
+  exact decision. This capability is an internal host route: it is dispatchable only
+  inside the admitted Agent Flow boundary, is not advertised, and is not passport
+  eligible. It replays the decision idempotently after restart and revalidates
+  the current authority
+  snapshot at floor admission, and rejects a target other than the first admitted
+  candidate. The remaining closeout is process evidence for the complete pre-HIL
+  route, alternate order, explicit distribution fallback, producer revocation, and
+  the no-floor-authority property across restart.
 
 `P049-008` may expose the resulting host-owned offer to JSON-e Flow, and `P085-044`
 may package an operator-owned producer, only after the P069 contract exists. Neither

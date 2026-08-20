@@ -1,0 +1,9 @@
+{
+  "schema": "nse-select-turn-order-table.v1",
+  "schema/v": 1,
+  "policy/id": "nse-policy:01J00000000000000000000001",
+  "policy/name": "implementer-reviewer-summarizer",
+  "hook/id": "select-turn-order",
+  "hook/v": 1,
+  "role/order": ["implementer", "reviewer", "summarizer"]
+}

@@ -9,8 +9,12 @@
     "schema": {"const": "operator-experiment-package.v1"}, "schema/v": {"const": 1},
     "package/ref": {"$ref": "#/$defs/ref"}, "package/digest": {"$ref": "#/$defs/digest"},
     "middleware-package/ref": {"$ref": "#/$defs/ref"}, "middleware-package/digest": {"$ref": "#/$defs/digest"},
-    "hooks": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/hook"}},
+    "hooks": {
+      "description": "Hook registrations identify producers only. Generic scalar/profile decisions use nse-policy-table.v1; Corpus target-free turn ordering uses the separate nse-select-turn-order-table.v1 contract.",
+      "type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/hook"}
+    },
     "semantic-entries": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/semantic-entry"}, "default": []},
+    "inference-flows": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/inference-flow"}, "default": []},
     "compatibility": {"$ref": "#/$defs/compatibility", "default": {}},
     "required-capability/ids": {"$ref": "#/$defs/refs"}, "resource-envelope/refs": {"$ref": "#/$defs/refs", "default": []},
     "derived-capability/refs": {"$ref": "#/$defs/refs", "default": []},
@@ -20,7 +24,8 @@
   },
   "anyOf": [
     {"properties": {"hooks": {"minItems": 1}}},
-    {"required": ["semantic-entries"], "properties": {"semantic-entries": {"minItems": 1}}}
+    {"required": ["semantic-entries"], "properties": {"semantic-entries": {"minItems": 1}}},
+    {"required": ["inference-flows"], "properties": {"inference-flows": {"minItems": 1}}}
   ],
   "$defs": {
     "ref": {"type": "string", "minLength": 1, "maxLength": 256}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
@@ -34,7 +39,36 @@
     },
     "hook": {"type": "object", "additionalProperties": false, "required": ["hook/id", "hook/v", "backend", "producer/ref", "producer/digest"], "properties": {"hook/id": {"$ref": "#/$defs/ref"}, "hook/v": {"type": "integer", "minimum": 1}, "backend": {"type": "string", "enum": ["table", "rhai"]}, "producer/ref": {"$ref": "#/$defs/ref"}, "producer/digest": {"$ref": "#/$defs/digest"}}},
     "semantic-entry": {"type": "object", "additionalProperties": false, "required": ["domain", "entry/ref", "entry/revision", "implementation/ref", "entry/digest"], "properties": {"domain": {"$ref": "#/$defs/ref"}, "entry/ref": {"$ref": "#/$defs/ref"}, "entry/revision": {"type": "integer", "minimum": 1, "maximum": 9007199254740991}, "implementation/ref": {"$ref": "#/$defs/ref"}, "entry/digest": {"$ref": "#/$defs/semantic-digest"}}},
-    "semantic-digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$"}
+    "inference-flow": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "flow/ref", "flow/digest", "prompt-policy/ref", "prompt-policy/digest",
+        "output-schema/ref", "output-schema/digest", "repair-profile/ref",
+        "repair-profile/digest", "agent-policy/ref", "agent-policy/digest",
+        "model-profile/refs", "runtime/refs", "max/passages"
+      ],
+      "properties": {
+        "flow/ref": {"$ref": "#/$defs/ref"}, "flow/digest": {"$ref": "#/$defs/semantic-digest"},
+        "prompt-policy/ref": {"$ref": "#/$defs/ref"}, "prompt-policy/digest": {"$ref": "#/$defs/semantic-digest"},
+        "output-schema/ref": {"$ref": "#/$defs/ref"}, "output-schema/digest": {"$ref": "#/$defs/semantic-digest"},
+        "repair-profile/ref": {"$ref": "#/$defs/ref"}, "repair-profile/digest": {"$ref": "#/$defs/semantic-digest"},
+        "agent-policy/ref": {"$ref": "#/$defs/ref"}, "agent-policy/digest": {"$ref": "#/$defs/semantic-digest"},
+        "model-profile/refs": {"$ref": "#/$defs/profile-refs"},
+        "runtime/refs": {"$ref": "#/$defs/profile-refs"},
+        "max/passages": {"type": "integer", "minimum": 1, "maximum": 256},
+        "corpus-role/ref": {"$ref": "#/$defs/ref"}, "corpus-role/digest": {"$ref": "#/$defs/semantic-digest"},
+        "corpus-overlay/ref": {"$ref": "#/$defs/ref"}, "corpus-overlay/digest": {"$ref": "#/$defs/semantic-digest"}
+      },
+      "dependentRequired": {
+        "corpus-role/ref": ["corpus-role/digest"], "corpus-role/digest": ["corpus-role/ref"],
+        "corpus-overlay/ref": ["corpus-overlay/digest"], "corpus-overlay/digest": ["corpus-overlay/ref"]
+      }
+    },
+    "semantic-digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$"},
+    "profile-refs": {
+      "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/ref"}
+    }
   },
   "x-dia-status": "accepted", "x-dia-basis": ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
 }

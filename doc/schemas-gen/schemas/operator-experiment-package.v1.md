@@ -18,8 +18,9 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`package/digest`](#field-package-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`middleware-package/ref`](#field-middleware-package-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`middleware-package/digest`](#field-middleware-package-digest) | `yes` | ref: `#/$defs/digest` |  |
-| [`hooks`](#field-hooks) | `yes` | array |  |
+| [`hooks`](#field-hooks) | `yes` | array | Hook registrations identify producers only. Generic scalar/profile decisions use nse-policy-table.v1; Corpus target-free turn ordering uses the separate nse-select-turn-order-table.v1 contract. |
 | [`semantic-entries`](#field-semantic-entries) | `no` | array |  |
+| [`inference-flows`](#field-inference-flows) | `no` | array |  |
 | [`compatibility`](#field-compatibility) | `no` | ref: `#/$defs/compatibility` |  |
 | [`required-capability/ids`](#field-required-capability-ids) | `yes` | ref: `#/$defs/refs` |  |
 | [`resource-envelope/refs`](#field-resource-envelope-refs) | `no` | ref: `#/$defs/refs` |  |
@@ -39,7 +40,9 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`compatibility`](#def-compatibility) | object |  |
 | [`hook`](#def-hook) | object |  |
 | [`semantic-entry`](#def-semantic-entry) | object |  |
+| [`inference-flow`](#def-inference-flow) | object |  |
 | [`semantic-digest`](#def-semantic-digest) | string |  |
+| [`profile-refs`](#def-profile-refs) | array |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -84,8 +87,16 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 - Required: `yes`
 - Shape: array
 
+Hook registrations identify producers only. Generic scalar/profile decisions use nse-policy-table.v1; Corpus target-free turn ordering uses the separate nse-select-turn-order-table.v1 contract.
+
 <a id="field-semantic-entries"></a>
 ## `semantic-entries`
+
+- Required: `no`
+- Shape: array
+
+<a id="field-inference-flows"></a>
+## `inference-flows`
 
 - Required: `no`
 - Shape: array
@@ -170,7 +181,17 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 
 - Shape: object
 
+<a id="def-inference-flow"></a>
+## `$defs.inference-flow`
+
+- Shape: object
+
 <a id="def-semantic-digest"></a>
 ## `$defs.semantic-digest`
 
 - Shape: string
+
+<a id="def-profile-refs"></a>
+## `$defs.profile-refs`
+
+- Shape: array

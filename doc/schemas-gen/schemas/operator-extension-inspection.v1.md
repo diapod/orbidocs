@@ -27,6 +27,8 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 |---|---|---|
 | [`ref`](#def-ref) | string |  |
 | [`digest`](#def-digest) | string |  |
+| [`semantic-digest`](#def-semantic-digest) | string |  |
+| [`profile-refs`](#def-profile-refs) | array |  |
 | [`optional-ref`](#def-optional-ref) | unspecified |  |
 | [`runtime-diagnostics`](#def-runtime-diagnostics) | object |  |
 | [`attention-group`](#def-attention-group) | object |  |
@@ -35,6 +37,7 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 | [`producer`](#def-producer) | object |  |
 | [`policy-status`](#def-policy-status) | object |  |
 | [`package-status`](#def-package-status) | object |  |
+| [`inference-flow-status`](#def-inference-flow-status) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -97,6 +100,16 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 
 - Shape: string
 
+<a id="def-semantic-digest"></a>
+## `$defs.semantic-digest`
+
+- Shape: string
+
+<a id="def-profile-refs"></a>
+## `$defs.profile-refs`
+
+- Shape: array
+
 <a id="def-optional-ref"></a>
 ## `$defs.optional-ref`
 
@@ -134,5 +147,10 @@ Source schema: [`doc/schemas/operator-extension-inspection.v1.schema.json`](../.
 
 <a id="def-package-status"></a>
 ## `$defs.package-status`
+
+- Shape: object
+
+<a id="def-inference-flow-status"></a>
+## `$defs.inference-flow-status`
 
 - Shape: object

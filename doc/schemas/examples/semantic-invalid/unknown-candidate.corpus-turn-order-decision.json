@@ -1,0 +1,14 @@
+{
+  "schema": "corpus-turn-order-decision.v1",
+  "schema/v": 1,
+  "decision/ref": "corpus-turn-order-decision:sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+  "decision/digest": "sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+  "offer/ref": "corpus-turn-order-offer:sha256:WxbQmq7FKJOQVSc_s-dUuH1LGqZsD4jFoc3Z8TkZGrk",
+  "offer/digest": "sha256:WxbQmq7FKJOQVSc_s-dUuH1LGqZsD4jFoc3Z8TkZGrk",
+  "source": "distribution-policy",
+  "ordered/candidate-refs": [
+    "corpus-turn-order-candidate:sha256:ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"
+  ],
+  "selected/candidate-ref": "corpus-turn-order-candidate:sha256:ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+  "decided-at": "2026-08-18T10:00:01Z"
+}

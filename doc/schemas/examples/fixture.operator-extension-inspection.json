@@ -18,6 +18,32 @@
           "priority": 20,
           "mode": "required",
           "advisory/failure-allowed": false
+        },
+        {
+          "hook/id": "select-turn-order",
+          "hook/v": 1,
+          "producer/ref": "nse-table:nse-policy:01J00000000000000000000001",
+          "producer/digest": "sha256:23718093007e8e8c334ad45c8cbb8d8f242a9c32398af115112b05f39095f080",
+          "priority": 30,
+          "mode": "required",
+          "advisory/failure-allowed": false
+        }
+      ],
+      "inference-flows": [
+        {
+          "flow/ref": "inference-flow:local-policy",
+          "flow/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+          "max/passages": 8,
+          "prompt-policy/ref": "prompt-policy:local-policy",
+          "prompt-policy/digest": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+          "output-schema/ref": "output-schema:local-policy",
+          "output-schema/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+          "repair-profile/ref": "repair-profile:local-policy",
+          "repair-profile/digest": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+          "agent-policy/ref": "agent-policy:local-policy",
+          "agent-policy/digest": "sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+          "model-profile/refs": ["model-profile:local-baseline-v1"],
+          "runtime/refs": ["runtime:local-baseline-v1"]
         }
       ],
       "session/activation-ref": null,

@@ -25,6 +25,11 @@
     "binding/digest": { "$ref": "#/$defs/digest" },
     "flow/ref": { "$ref": "#/$defs/ref" },
     "flow/digest": { "$ref": "#/$defs/digest" },
+    "package/ref": { "$ref": "#/$defs/ref" },
+    "package/digest": { "$ref": "#/$defs/package-digest" },
+    "package/activation-generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "agent-policy/ref": { "$ref": "#/$defs/ref" },
+    "agent-policy/digest": { "$ref": "#/$defs/digest" },
     "agent/id": { "$ref": "#/$defs/ref" },
     "agent-binding/ref": { "$ref": "#/$defs/ref" },
     "max/passages": { "type": "integer", "minimum": 1, "maximum": 256 },
@@ -39,9 +44,17 @@
     "created/at": { "type": "string", "format": "date-time" },
     "created/by": { "$ref": "#/$defs/ref" }
   },
+  "dependentRequired": {
+    "package/ref": ["package/digest", "package/activation-generation", "agent-policy/ref", "agent-policy/digest"],
+    "package/digest": ["package/ref", "package/activation-generation", "agent-policy/ref", "agent-policy/digest"],
+    "package/activation-generation": ["package/ref", "package/digest", "agent-policy/ref", "agent-policy/digest"],
+    "agent-policy/ref": ["package/ref", "package/digest", "package/activation-generation", "agent-policy/digest"],
+    "agent-policy/digest": ["package/ref", "package/digest", "package/activation-generation", "agent-policy/ref"]
+  },
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[!-~]+$" },
     "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "package-digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "visibility": { "enum": ["private", "operator", "shared"] },
     "ref-set": {
       "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true,

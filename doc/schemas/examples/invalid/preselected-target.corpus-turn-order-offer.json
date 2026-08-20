@@ -1,0 +1,28 @@
+{
+  "schema": "corpus-turn-order-offer.v1",
+  "schema/v": 1,
+  "offer/ref": "corpus-turn-order-offer:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "offer/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "query/id": "query:turn-order-invalid",
+  "room/id": "room:turn-order-invalid",
+  "round/id": "round:turn-order-invalid",
+  "turn/no": 1,
+  "room-policy/ref": "room-policy:turn-order-invalid",
+  "room-policy/digest": "sha256:RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+  "room-policy/generation": 1,
+  "chair-policy/ref": "corpus-chair-control-policy:turn-order-invalid",
+  "chair-policy/digest": "sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+  "membership/high-water-seq-no": 1,
+  "sanction/high-water-seq-no": 0,
+  "selected/target-ref": "did:key:zInjected",
+  "candidates": [{
+    "candidate/ref": "corpus-turn-order-candidate:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "participant": { "kind": "nym", "id": "did:key:zSolver" },
+    "role": "implementer",
+    "role-assignment/ref": "corpus-role-assignment:sha256:SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+    "role-assignment/revision": 2,
+    "role-assignment/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+  }],
+  "created-at": "2026-08-18T10:00:00Z",
+  "expires-at": "2026-08-18T10:01:00Z"
+}
