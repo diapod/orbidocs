@@ -14,6 +14,8 @@ STYLES_DIR = ROOT / "styles"
 ROOT_FILES = (
     "AGENTS.md",
     ".nav.yml",
+    "TRACEABILITY.md",
+    "DOCS-I18N.md",
 )
 EXCLUDED_DOCS = {
     Path("normative/10-ideas/COLLABORATION.md"),

@@ -1,13 +1,16 @@
 # Traceability and Linking Convention
 
-This repository follows two intersecting traceability paths.
+This repository follows three intersecting traceability paths.
 
 - Normative: `core-values -> constitution -> constitutional-ops -> schema docs -> field semantics`
 - Project: `challenges/memos/stories -> proposals -> requirements -> schemas`
+- Operational: `schemas -> manuals -> runbooks`
 
 The goal is simple: a reader should be able to move from idea or value, to norm or
 proposal, to operating rule, to data contract, and finally to the exact field that
-carries the semantics.
+carries the semantics. The operational path closes the loop in the other direction:
+from a contract back to the component that carries it, and from that component to the
+procedure an operator runs when it misbehaves.
 
 ## Linking rule
 
@@ -28,6 +31,33 @@ Prefer links that follow the workflow order:
 - `doc/project/30-stories/*` should link forward to requirements,
 - `doc/project/40-proposals/*` should link to requirements or to normative acts when a topic becomes constitutional,
 - `doc/project/50-requirements/*` should link to schemas.
+
+### In operational prose
+
+`doc/ops/*` holds four documentation genres. They are not interchangeable, and each
+links onward rather than repeating its neighbour:
+
+- **manual** (`doc/ops/manuals/*`) — reference document for a component: what it
+  does, how it is configured, and what data it exposes,
+- **runbook** (`doc/ops/runbooks/*`) — procedure: what to do when something happens,
+- **howto** (`doc/ops/howto/*`) — a walkthrough of an integration or operator task,
+- **faq** (`doc/ops/faq/*`) — an answer to a single question.
+
+Prefer links that follow the operational order:
+
+- schema docs should link forward to the manual of the component that owns or carries
+  the contract,
+- `doc/ops/manuals/*` should link to the schema docs of every contract it lists, to the
+  manuals of components it depends on, and forward to any runbook covering it,
+- `doc/ops/manuals/*` should link sideways to the matching `faq` and `howto` entry
+  instead of restating conceptual or procedural material,
+- `doc/ops/runbooks/*` should link back to the manual of the component it operates on,
+- `doc/ops/faq/*` and `doc/ops/howto/*` should link to the manual when a reader needs
+  exhaustive ceilings, defaults, failure vocabularies, or durable-state details.
+
+A manual also names its implementation-side ledger row, so drift between documented
+and implemented surfaces stays detectable. See
+[Cross-Repository Traceability](#cross-repository-traceability).
 
 ## Schema-oriented links
 
@@ -119,3 +149,18 @@ This means traceability across repositories is intentionally asymmetric:
 - `orbidocs` does not overwrite the Node ledger
 - Node implementers are expected to update the ledger when upstream solution or
   schema documents move in ways that affect ownership, surfaces, or status
+
+### Manuals as the reconciliation surface
+
+Every `doc/ops/manuals/*` document closes with an implementation-reference table
+naming the component, its ledger row, its crates, its schemas, its capabilities,
+and its routes. That table is the operational counterpart of the ledger row and
+exists so drift is detectable rather than merely regrettable:
+
+- the schema list in a manual should equal the `schemas` list of its ledger row,
+- the crate list should equal the row's `crates`,
+- the component status quoted in a manual should equal the row's `status`.
+
+A mismatch means either the manual is stale or the ledger row is — both are worth
+resolving, and neither is discoverable without the table. Manuals do not overwrite the
+ledger; the asymmetry above holds unchanged.

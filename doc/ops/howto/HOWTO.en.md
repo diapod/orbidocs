@@ -4,7 +4,11 @@ render_macros: true
 
 # HOWTO
 
-Operational HOWTO pages contain procedural references, configuration examples, and longer implementation sketches. Conceptual answers stay in the [FAQ](../faq/FAQ.en.md).
+Operational HOWTO pages contain procedures, configuration examples, and longer
+implementation sketches. Conceptual answers stay in the
+[FAQ](../faq/FAQ.en.md). Component limits, default values, failure codes, and
+durable state are documented in the
+[Operator's Manuals](../manuals/MANUAL.en.md).
 
 - [Artifact Delivery HOWTO](artifact-delivery-howto.en.md)
 - [Collaborative Agents HOWTO](collaborative-agents-howto.en.md)

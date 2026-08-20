@@ -1,0 +1,6 @@
+ignore:
+  - "*.pl.md"
+
+nav:
+  - MANUAL.en.md
+  - "*-manual.en.md"

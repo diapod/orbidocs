@@ -17,7 +17,10 @@ I18N_TEMPLATE_CONFIG = ROOT / "mkdocs.i18n.yml"
 I18N_GENERATED_CONFIG = ROOT / "mkdocs.i18n.generated.yml"
 LOCALES = ("pl", "en", "cs")
 LOCALE_SUFFIX_RE = re.compile(r"\.(pl|en|cs)\.md$")
-SHARED_ROOT_MARKDOWN: tuple[str, ...] = ()
+SHARED_ROOT_MARKDOWN: tuple[str, ...] = (
+    "TRACEABILITY.md",
+    "DOCS-I18N.md",
+)
 EXCLUDED_DOCS = {
     Path("normative/10-ideas/COLLABORATION.md"),
 }
@@ -61,6 +64,16 @@ HOWTO_NAV_MARKERS = {
     "cs": (
         "          # BEGIN GENERATED HOWTO NAV CS",
         "          # END GENERATED HOWTO NAV CS",
+    ),
+}
+MANUAL_NAV_MARKERS = {
+    "en": (
+        "          # BEGIN GENERATED MANUAL NAV EN",
+        "          # END GENERATED MANUAL NAV EN",
+    ),
+    "pl": (
+        "          # BEGIN GENERATED MANUAL NAV PL",
+        "          # END GENERATED MANUAL NAV PL",
     ),
 }
 PROJECT_LABELS = {
@@ -411,6 +424,11 @@ def render_howto_nav(locale: str) -> str:
     return render_ops_nav(locale, "howto", "howto", HOWTO_LABEL[locale], "HOWTO")
 
 
+def render_manual_nav(locale: str) -> str:
+    label = "Manuals" if locale == "en" else "Podręczniki"
+    return render_ops_nav(locale, "manuals", "manual", label, "MANUAL")
+
+
 def replace_marked_block(text: str, begin_marker: str, end_marker: str, content: str) -> str:
     pattern = re.compile(
         rf"{re.escape(begin_marker)}\n.*?\n{re.escape(end_marker)}",
@@ -446,6 +464,14 @@ def write_generated_i18n_config() -> None:
             howto_end_marker,
             render_howto_nav(locale),
         )
+        if locale in MANUAL_NAV_MARKERS:
+            manual_begin_marker, manual_end_marker = MANUAL_NAV_MARKERS[locale]
+            rendered = replace_marked_block(
+                rendered,
+                manual_begin_marker,
+                manual_end_marker,
+                render_manual_nav(locale),
+            )
 
     I18N_GENERATED_CONFIG.write_text(rendered, encoding="utf-8")
 

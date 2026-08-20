@@ -104,6 +104,9 @@ plugins:
           # BEGIN GENERATED HOWTO NAV EN
           # HOWTO nav is generated into mkdocs.i18n.generated.yml from doc/ops/howto/*-howto.*.md.
           # END GENERATED HOWTO NAV EN
+          # BEGIN GENERATED MANUAL NAV EN
+          # Manual nav is generated into mkdocs.i18n.generated.yml from doc/ops/manuals/*-manual.*.md.
+          # END GENERATED MANUAL NAV EN
             - Diagrams:
                 - Architecture:
                     - Orbiplex Root Component Map: doc/diagrams/architecture/orbiplex-root-component-map.md
@@ -271,6 +274,9 @@ plugins:
           # BEGIN GENERATED HOWTO NAV PL
           # HOWTO nav is generated into mkdocs.i18n.generated.yml from doc/ops/howto/*-howto.*.md.
           # END GENERATED HOWTO NAV PL
+          # BEGIN GENERATED MANUAL NAV PL
+          # Manual nav is generated into mkdocs.i18n.generated.yml from doc/ops/manuals/*-manual.*.md.
+          # END GENERATED MANUAL NAV PL
             - Diagramy:
                 - Architektura:
                     - Mapa głównych komponentów Orbiplex: doc/diagrams/architecture/orbiplex-root-component-map.md
