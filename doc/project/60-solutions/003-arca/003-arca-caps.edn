@@ -93,9 +93,9 @@
              "local-input-invoke.v1.schema.json"
              "artifact-delivery-envelope.v1"]
    :responsibilities
-   ["Run as a supervised http_local_json middleware module under the daemon"
+   ["Run as a supervised channel_json middleware module under the daemon"
     "Declare input_chains for inbound-local routes (GET service-catalog, POST catalog/remote-query) and inbound-peer message types (offer-catalog.fetch.response, offer-catalog.push)"
-    "Consume host-owned authtok and middleware_home env contract"
+    "Consume per-launch channel credentials and the host-owned middleware_home contract"
     "Use host capability endpoints for peer catalog transport and artifact.delivery.send, never opening its own outbound peer sockets"]
    :status :done}]
 
@@ -195,7 +195,7 @@
   "catalog-local-query-response.schema.json"]
 
  :notes
- ["Arca is bundled as a supervised Python middleware module under the http_local_json executor and listens on loopback (default 127.0.0.1:47981)."
+ ["Arca is bundled as a supervised Python channel_json middleware module and separately retains its bounded loopback product/workflow API (default 127.0.0.1:47981)."
   "The Arca/Dator split is the only deployment model; the legacy offer_catalog.enabled flag has been removed."
   "Arca now accepts concrete workflow plans and local template_id + parameters instantiation through the host-owned module store."
   "Story-009 (bielik blog) is no longer blocked on local template instantiation or the phase-0 task-type-targeted ordinary service-order path; federated template catalog import/publication and richer target filtering remain deferred."]}

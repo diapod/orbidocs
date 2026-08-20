@@ -5,7 +5,7 @@
 
  :summary
  "The Node extension-host layer for in-process, declarative, command, unmanaged
- local HTTP, and supervised local HTTP middleware. The daemon owns lifecycle,
+ local HTTP, and supervised channel middleware. The daemon owns lifecycle,
  dispatch, validation, capability gates, trace, and failure semantics; modules
  contribute behavior through declared input chains, claimed routes, module
  reports, executor configuration, and explicit host capability calls."
@@ -40,7 +40,7 @@
    :responsibilities
    ["Support in-process handlers for host-trusted protocol concerns"
     "Support declarative `json_e` and `json_e_flow` for low-power data transformation and bounded host-owned flows"
-    "Support `nse_rhai`, `command_stdio`, `local_http_json`, and supervised `http_local_json` executor classes"
+    "Support `nse_rhai`, `command_stdio`, `local_http_json`, and supervised `channel_json` executor classes; reject retired `http_local_json` package/config forms"
     "Keep executor transport subordinate to middleware semantic contracts"]
    :status :partial}
 

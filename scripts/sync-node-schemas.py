@@ -750,6 +750,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "zero-epoch.middleware-channel-accepted.json",
     "response-with-request-id.middleware-channel-frame.json",
     "caller-override.middleware-channel-host-capability-call.json",
+    "path-shaped.middleware-channel-host-capability-call.json",
     "succeeded-with-failure.middleware-channel-call-result.json",
     "missing-target.middleware-channel-request-cancel.json",
     "unknown-field.middleware-channel-heartbeat.json",

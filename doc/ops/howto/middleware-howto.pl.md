@@ -31,10 +31,9 @@ komponentu, middleware home, politykę launch/sandbox/restart oraz ograniczenia
 `channel`. Używaj ścieżek względnych wobec paczki. Moduł host-only nie powinien w
 trybie kanałowym uruchamiać listenera. Moduł mieszany może zachować listener
 produktowy, ale nie może opierać na nim lifecycle ani dispatchu middleware hosta.
-Nie dodawaj konfiguracji rollbacku `http_local_json` do nowego kodu. W trakcie
-P080-024..P080-028 zinwentaryzowany moduł legacy może zachować starą gałąź wyłącznie
-do przejścia własnej bramy migracyjnej; usuń tę gałąź w tym samym slice'ie. Nigdy nie
-uruchamiaj obu transportów jako właścicieli tej samej semantycznej route'y.
+Nie dodawaj konfiguracji rollbacku `http_local_json`: executor jest wycofany, a stare
+formy są odrzucane przed efektami. Kanał i zachowany listener produktowy nigdy nie
+mogą być właścicielami tej samej semantycznej route'y.
 
 Dla modułu dostarczanego z repozytorium zapisz własność jawnie w factory config:
 
@@ -53,22 +52,33 @@ Wpis channel-only nie może zawierać `listen_host` ani `listen_port`. Ustaw
 `product_listener_retained` na `true` tylko wtedy, gdy moduł świadomie zachowuje
 osobno ograniczoną powierzchnię produktową. Intentional network service nadal używa
 `factory_executor = channel_json` do nadzoru hosta, a jego listener produktowy ma
-osobnego właściciela. Zinwentaryzowany wpis nadal wybierający `http_local_json` jest
-wyłącznie stanem źródłowym śledzonej migracji P080, a nie wzorcem do kopiowania.
+osobnego właściciela. Wszystkie bieżące wpisy fabryczne wybierają `channel_json`;
+inwentarz nie jest allowlistą kompatybilności executora.
 
-Nie deklaruj `middleware_http_local_services` ani executora `http_local_json` w nowej
-pacze operatorskiej. Obecny runtime rozpoznaje te formy podczas ograniczonego okna
-migracji, lecz P080-029 uczyni z nich jawne błędy konfiguracji i manifestu przed
-usunięciem executora w P080-030/P080-031. Nie ma czytnika kompatybilności ani
-automatycznej konwersji.
+W trybie kanałowym mieszany moduł Python powinien wejść w scope
+`retained_product_listener_marker(...)` po zbindowaniu socketu produktowego. Scope
+zapisuje rzeczywisty endpoint do `<middleware_home>/bind` i usuwa marker podczas
+shutdownu. Nie używaj go dla modułu channel-only.
+
+Każdy fabryczny retained listener musi mieć unikalną parę
+`(listen_host, listen_port)`; sprawdzany inwentarz odrzuca kolizje. Supervisor
+zachowuje istniejący niepusty token albo tworzy losowy w
+`<middleware_home>/authtok`, przekazuje jego ścieżkę przez
+`ORBIPLEX_MIDDLEWARE_AUTHTOK_FILE`, a nazwę nagłówka przez
+`ORBIPLEX_MIDDLEWARE_AUTH_HEADER`. Serwer produktowy czyta ten lokalny bearer raz
+przy starcie i porównuje go przy każdym żądaniu. Ten kontrakt nie implikuje OAuth ani
+publicznego providera tożsamości.
+
+Nie deklaruj `middleware_http_local_services` ani executora `http_local_json` w paczce
+operatorskiej. Konfiguracja daemona, utrwalone ustawienia, luźne artefakty
+konfiguracyjne i manifesty paczek zawierające te wycofane formy zawodzą przed
+efektami. Nie ma czytnika kompatybilności ani automatycznej konwersji.
 
 Adaptery Inquirium używają `run_channel_adapter(...)`, który zachowuje semantykę
-modelu i providera, wymieniając wyłącznie lokalny transport hosta. Obecny cohort 11
-modułów obejmuje Dator, Arca, Agora Verifier, Snooper, trzy adaptery Inquirium,
-Sensorium OS, Sensorium Web, Sensorium Workbench i Offer Catalog. Agora Service,
-Attestation, Contact Catalog, Messaging, NSE Evidence Reference, Recovery i Whisper
-Intake to siedem śledzonych migracji nadal wybierających `http_local_json`. Zachowane
-po nich listenery produktowe pozostają osobnymi usługami domenowymi.
+modelu i providera, wymieniając wyłącznie lokalny transport hosta. Wszystkie 18
+modułów fabrycznych używa `channel_json`. Listenery produktowe zachowane przez Agora,
+Arca, Attestation, Contact Catalog, Dator, Messaging, Recovery i Whisper pozostają
+osobnymi usługami domenowymi.
 
 Dla kandydata runtime Inquirium ustaw transport instancji adaptera na `channel_json`,
 podając `module_id`, zadeklarowaną w raporcie ścieżkę `invoke_path` i ograniczony
@@ -80,8 +90,7 @@ transportu: model binding i politykę rozwiązuje host przed wywołaniem.
 1. Zbuduj jedną wartość `middleware-module-report.v1` i zwaliduj ją przez Node
    schema gate. Deklaruj tylko route'y i capability rzeczywiście obsługiwane kanałem.
 2. Sklasyfikuj stan docelowy jako channel-only albo jawny produktowy HTTP plus kanał
-   kontrolny. Legacy HTTP traktuj wyłącznie jako stan źródłowy zinwentaryzowanej
-   migracji. Oba transporty nie mogą być właścicielami tej samej route'y.
+   kontrolny. Kanał i listener produktowy nie mogą być właścicielami tej samej route'y.
 3. Odwzoruj istniejące endpointy host-facing przez `channel_http_dispatch`. Zachowuj
    ograniczone query tylko wtedy, gdy jest wejściem domenowym; nie używaj go do
    routingu ani autoryzacji. Endpointy produktowe pozostaw na jawnym listenerze.
@@ -168,9 +177,9 @@ Główne typy wykonania i specjalizacji to:
 - middleware konektora Sensorium,
 - middleware-hosted runtime adapter Inquirium.
 
-Legacy executor supervised HTTP jest nadal zaimplementowany dla siedmiu
-zinwentaryzowanych modułów na czas wycofywania w P080, ale nie jest celem dla
-autorów nowych modułów.
+Legacy executor supervised HTTP jest wycofany. Wszystkie nadzorowane moduły
+fabryczne używają `channel_json`; niezależnie uzasadnione listenery produktowe HTTP
+pozostają osobnymi powierzchniami domenowymi, a nie executorami middleware.
 
 Dystrybucja jest osobną osią: ten sam typ wykonania może być dostarczany
 fabrycznie, instalowany przez operatora albo materializowany z fragmentu profilu

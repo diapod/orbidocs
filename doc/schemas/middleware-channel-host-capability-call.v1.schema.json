@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:middleware-channel-host-capability-call:v1",
   "title": "Middleware Channel Host Capability Call v1",
-  "description": "Module-authored request body for invoking one host-authorized capability through an authenticated channel session.",
+  "description": "Module-authored request body for invoking one host-authorized capability or reading its host-owned routing view through an authenticated channel session.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "schema/v", "capability/id", "request/schema", "request"],
@@ -13,7 +13,14 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 128,
-      "pattern": "^[a-z0-9][a-z0-9._/-]*$"
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "description": "Single host capability registry identifier; slash-separated peer wire names are not valid here."
+    },
+    "operation": {
+      "type": "string",
+      "enum": ["invoke", "lookup"],
+      "default": "invoke",
+      "description": "Invoke dispatches the capability. Lookup reads the same host-owned routing view as GET /v1/host/capabilities/{capability-id} and requires an empty request with immediate completion."
     },
     "request/schema": {
       "type": "string",
@@ -22,6 +29,12 @@
       "pattern": "^[a-z0-9][a-z0-9._-]*$"
     },
     "request": {"type": "object"},
+    "completion/mode": {
+      "type": "string",
+      "enum": ["immediate", "deferred"],
+      "default": "immediate",
+      "description": "Requested host completion contract. Deferred is capability-specific and fails closed when the selected capability does not support it."
+    },
     "idempotency/key": {
       "type": "string",
       "minLength": 1,

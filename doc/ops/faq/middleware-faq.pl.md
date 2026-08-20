@@ -6,8 +6,8 @@ Middleware to hostowane zachowanie rozszerzające, opisane jawnymi kontraktami. 
 typy wykonania to Rust w procesie, czysty JSON-e, JSON-e Flow, command/stdio,
 niezarządzany lokalny HTTP JSON, nadzorowany `channel_json`, konektory Sensorium oraz
 middleware-hosted adaptery runtime Inquirium. Stary nadzorowany executor
-`http_local_json` pozostaje wyłącznie na czas przyjętej migracji wycofującej z P080.
-Dystrybucja jest osobną osią: middleware
+`http_local_json` jest wycofany: jego formy konfiguracji i paczek są odrzucane, a
+implementacja runtime już nie istnieje. Dystrybucja jest osobną osią: middleware
 może być dostarczone fabrycznie, przez profil albo jako paczka instalowana przez
 operatora niezależnie od typu wykonania.
 
@@ -31,11 +31,11 @@ fallbacku. Nowe nadzorowane moduły i paczki muszą używać `channel_json`; zac
 listener produktowy HTTP jest osobną powierzchnią domenową, a nie executorem
 middleware.
 
-Obecne siedem modułów fabrycznych nadal wybiera `http_local_json` podczas migracji
-opisanej przez P080-024..P080-033. Jest to stan przejściowy, a nie zalecenie dla
-autorów paczek. Po wycofaniu konfiguracje daemona i manifesty paczek nazywające
-`http_local_json` będą odrzucane z jawną diagnostyką migracyjną; Node nigdy nie
-przekształca ich po cichu.
+Wszystkie 18 modułów fabrycznych używa `channel_json`; moduł host-only nie ma portu
+fabrycznego. Osiem modułów zachowuje listenery produktowe z osobnym właścicielem.
+Konfiguracje daemona, utrwalone ustawienia, luźne artefakty konfiguracyjne i manifesty
+paczek nazywające `http_local_json` są odrzucane przed efektami z jawną diagnostyką
+migracyjną; Node nigdy nie przekształca ich po cichu.
 
 Moduły Pythonowe powinny używać wspólnego adaptera zamiast implementować framing
 WebSocket. Zobacz [Tworzenie middleware channel_json](../howto/middleware-howto.pl.md#tworzenie-middleware-channel-json).
@@ -54,6 +54,12 @@ wznawia konsumentów w kolejności od providerów dopiero po zaobserwowaniu goto
 dokładnie tych samych wymagań; odczyt health/status nigdy nie uruchamia ani nie
 zatrzymuje komponentu. Provider o tej samej nazwie, lecz niezgodnym kontrakcie albo
 niespełnionym pinie nie oznacza odzyskania.
+
+Przy przejściowej utracie kanału supervisor wstrzykuje dziecku ograniczony czas
+reconnect grace. Bieżące profile generowane używają 1 sekundy; samodzielny runtime
+Python bez tej zmiennej próbuje przez 0 sekund. Wyczerpanie grace albo nieudany
+application heartbeat kończy i uprząta proces przed zastosowaniem skonfigurowanej
+polityki restartu. Żadne żądanie in-flight nie jest replayowane po cichu.
 
 To przejście cyklu życia uprząta typowane zasoby lokalne hosta. Efekty trwałe,
 zewnętrzne i federacyjne zachowują własną semantykę transakcji, dziennika,

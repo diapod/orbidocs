@@ -14,10 +14,10 @@ semantics (what a `resource-opinion.v1` *means*, what a `plain-comment.v1`
 answers) live in their own proposals and schemas and travel as
 `content/schema` + `content` inside the Agora envelope.
 
-The v1 deployment runs as a supervised middleware service under the Node
-daemon (`http_local_json`-style executor), reachable on loopback, discovered
-by clients through the Node's host capability API under the capability id
-`agora.relay`.
+The v1 deployment attaches as a supervised `channel_json` middleware service and
+retains an independently authenticated product relay API on loopback. Clients
+discover relay capability through the Node host under capability id `agora.relay`;
+the product listener is not a middleware executor endpoint.
 
 Hard-MVP closure note: the public record relay, content addressing,
 signature verification, local store, subject index, SSE subscription,

@@ -41,7 +41,7 @@ For inbound delivery it is registered as an acceptor, and the host invokes it on
 shared admission checks pass. Package installation does not grant AD authority by
 itself.
 
-For Rust, supervised HTTP, Sensorium OS Actions, and JSON-e Flow examples, see
+For Rust, supervised channel middleware, Sensorium OS Actions, and JSON-e Flow examples, see
 [middleware usage in the Artifact Delivery
 HOWTO](../howto/artifact-delivery-howto.en.md#how-can-middleware-use-artifact-delivery).
 

@@ -520,7 +520,7 @@ Enforced by the messaging inbound acceptor itself:
   revoked, no local limits exhausted).
 
 The acceptor itself is registered through one of the existing Artifact
-Delivery acceptor surfaces (`artifact_delivery_acceptors.supervised_http`,
+Delivery acceptor surfaces (`artifact_delivery_acceptors.supervised_channel`,
 `in_process`, or `json_e_flow`) and is the single authoritative owner of the
 `message-envelope.v1` artifact kind. If any of these checks fail, the node
 may refuse the INAC transfer or stop admission before the messaging
@@ -991,7 +991,7 @@ artifact and what is still missing.
   cover issuance, inline `DelegationProof` verification, background sync, and
   revocation feed plumbing.
 - **Middleware extension-host plumbing for the future messaging middleware
-  (Solution 019):** `[done]` — supervised local HTTP middleware, in-process
+  (Solution 019):** `[done]` — supervised channel middleware, in-process
   middleware, claimed local routes, host capability bridge, middleware
   init/reporting, trace, and component path are all `done`; the messaging
   middleware module attaches through these primitives without inventing a
@@ -1498,7 +1498,7 @@ Still partial — landed in MVP-shape, hardening or completion remains:
 - no-match audit event policy (redacted audit emitted; further policy
   hardening remains) (see:
   [Proposal 058 Tracking row P058-015](../40-proposals/058-contact-catalog.md))
-- Contact Catalog Rust supervised HTTP middleware crate scaffold reusing
+- Contact Catalog Rust service crate scaffold reusing
   `orbiplex-node-catalog` primitives (`contact-catalog-core` and
   `contact-catalog-service` exist with lifecycle, SQLite, lookup,
   provider cache, daemon-managed runtime, UI, and process smoke; deeper

@@ -1,0 +1,7 @@
+{
+  "schema": "middleware-channel-host-capability-call.v1",
+  "schema/v": 1,
+  "capability/id": "core/messaging",
+  "request/schema": "fixture-request.v1",
+  "request": {}
+}

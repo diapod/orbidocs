@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `45` | `11` |
 | `30-stories` (Stories) | `17` | `1` |
-| `40-proposals` (Proposals) | `88` | `76` |
+| `40-proposals` (Proposals) | `89` | `77` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `65` | `44` |
 
-- Total project markdown files: `246`
-- Proposals referencing source material: `76` / `88`
+- Total project markdown files: `247`
+- Proposals referencing source material: `77` / `89`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -181,7 +181,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
-| [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
+| [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md) | `8` | `2` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) | `5` | `1` | `yes` | `yes` | `1` | `3` |

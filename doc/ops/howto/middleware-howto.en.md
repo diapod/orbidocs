@@ -30,10 +30,9 @@ and component ids, middleware home, launch/sandbox/restart policy, and bounded
 `channel` limits. Use package-relative launch paths. Host-only modules must not start
 a listener in channel mode. Mixed modules may keep a product listener, but must
 remove host lifecycle and middleware dispatch dependence on it. Do not add an
-`http_local_json` rollback configuration to new code. During P080-024..P080-028 an
-already inventoried legacy module may retain its old branch only until its migration
-gate passes; remove that branch in the same migration slice. Never run both transports
-as owners of the same semantic route.
+`http_local_json` rollback configuration: the executor is retired and old forms fail
+before effects. Never run the channel and a retained product listener as owners of
+the same semantic route.
 
 For a repository-bundled module, make ownership explicit in its factory config:
 
@@ -53,33 +52,34 @@ A channel-only entry must not contain `listen_host` or `listen_port`. Set
 a separately bounded product surface. An intentional network service still uses
 `factory_executor = channel_json` for host supervision and owns its product listener
 separately. The checked listener inventory must repeat and validate this ownership
-decision.
-Its `classification` describes the pre-migration surface topology and architectural
+decision. Its `classification` describes the pre-migration surface topology and architectural
 intent; use `default_executor` and `product_listener_retained` as the facts about the
-current bundled runtime. A mixed entry that still selects `http_local_json` is one of
-the explicitly tracked, non-migrated P080 compatibility cases. It must move through
-the corresponding product/control split rather than reinterpretation of the
-inventory.
+current bundled runtime. Every current bundled entry selects `channel_json`; the
+inventory is not an executor compatibility allowlist.
 In channel mode, a mixed Python module should use the shared
 `retained_product_listener_marker(...)` scope after its product socket binds. The
 scope writes the actual endpoint to `<middleware_home>/bind` and removes it during
 shutdown. Do not call it for a channel-only module.
 
+Every bundled retained listener must own a unique `(listen_host, listen_port)` pair;
+the checked inventory rejects collisions. The supervisor preserves a non-empty token
+or creates a random one at `<middleware_home>/authtok`, passes its path through
+`ORBIPLEX_MIDDLEWARE_AUTHTOK_FILE`, and passes the configured header name through
+`ORBIPLEX_MIDDLEWARE_AUTH_HEADER`. The product server reads that local bearer once at
+startup and compares it on every request. This contract does not imply OAuth or a
+public identity provider.
+
 Do not declare `middleware_http_local_services` or executor kind `http_local_json` in
-new operator packages. The current runtime still recognizes these forms during the
-bounded migration window, but P080-029 makes them explicit configuration and manifest
-errors before P080-030/P080-031 delete the executor. There is no compatibility reader
-or automatic conversion. Do not put old listener keys in a channel-only bundled
-module subtree either: config loading fails rather than ignoring them.
+operator packages. Daemon config, persisted settings, loose config artifacts, and
+package manifests containing these retired forms fail before effects. There is no
+compatibility reader or automatic conversion. Do not put old listener keys in a
+channel-only bundled module subtree either: config loading fails rather than
+ignoring them.
 
 Bundled Inquirium adapters use `run_channel_adapter(...)`, which preserves model and
-provider semantics while replacing only local host transport. The current opt-in
-default cohort contains 11 modules: Dator, Arca, Agora Verifier, Snooper, the three
-bundled Inquirium adapters, Sensorium OS, Sensorium Web, Sensorium Workbench, and Offer
-Catalog. Agora Service, Attestation, Contact Catalog, Messaging, NSE Evidence
-Reference, Recovery, and Whisper Intake are the seven tracked migrations that still
-select `http_local_json`. Product listeners retained after those migrations remain
-separate domain services.
+provider semantics while replacing only local host transport. All 18 bundled modules
+use `channel_json`. Product listeners retained by Agora, Arca, Attestation, Contact
+Catalog, Dator, Messaging, Recovery, and Whisper remain separate domain services.
 
 For an Inquirium runtime candidate, set its adapter-instance transport to
 `channel_json` with `module_id`, the report-declared `invoke_path`, and a bounded
@@ -91,8 +91,7 @@ config: model binding and policy are resolved by the host before invocation.
 1. Build one `middleware-module-report.v1` value and validate it through the Node
    schema gate. Declare only routes and capabilities actually served on the channel.
 2. Classify the target as channel-only or intentional product HTTP plus channel
-   control. Treat legacy HTTP only as the source state of an inventoried migration.
-   Never let both transports own the same semantic route.
+   control. Never let the channel and product listener own the same semantic route.
 3. Map existing host-facing endpoints through `channel_http_dispatch`. Preserve a
    bounded query only when it is domain input; never use query text for routing or
    authorization. Keep product-facing endpoints on their explicit listener.
@@ -177,8 +176,9 @@ The main execution and specialization types are:
 - Sensorium connector middleware,
 - middleware-hosted Inquirium runtime adapters.
 
-The legacy supervised HTTP executor is still implemented for seven inventoried
-modules during P080 retirement, but it is not an authoring target.
+The legacy supervised HTTP executor is retired. All bundled supervised modules use
+`channel_json`; independently justified product HTTP listeners remain separate domain
+surfaces and are not middleware executors.
 
 Distribution is a separate axis: the same execution type may be factory-bundled,
 installed by the operator, or materialized from a profile/config fragment. See

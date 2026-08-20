@@ -40,7 +40,7 @@ wywołanie `artifact.delivery.send` z kopertą i przejście hostowej polityki ou
 allow. Inbound delivery oznacza rejestrację acceptora, którego host wywoła dopiero po
 wspólnych checkach admission. Instalacja paczki sama z siebie nie nadaje authority AD.
 
-Przykłady dla Rust, supervised HTTP, Sensorium OS Actions i JSON-e Flow są w [sekcji
+Przykłady dla Rust, supervised channel middleware, Sensorium OS Actions i JSON-e Flow są w [sekcji
 użycia middleware w Artifact Delivery HOWTO](../howto/artifact-delivery-howto.pl.md).
 
 ## Jak konfigurowane jest Artifact Delivery?

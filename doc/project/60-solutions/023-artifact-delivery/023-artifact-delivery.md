@@ -96,7 +96,7 @@ Current implementation status:
   directly. The `inac-direct`, `agora-publish`, Matrix mailbox, and
   `object-store-indirect` transport adapters, `agora-record:` and
   `inac-peer-artifact:` payload resolvers, peer-artifact transport cache,
-  tracing observer, supervised HTTP acceptor, in-process acceptors, and
+  tracing observer, supervised channel acceptor, in-process acceptors, and
   JSON-e Flow acceptors now live behind this boundary; the daemon supplies only
   consumer-side `PeerSender`, `ArtifactObjectStore`, `ArtifactObjectFetchIssuer`,
   `InacAdmissionBridge`, middleware, Memarium, contact-request, and Matrix
@@ -304,7 +304,7 @@ The daemon-level knobs are intentionally small:
   `POST /v1/artifact-delivery/admissions`; in-process transport adapters such
   as the WSS INAC peer handler may still call the runtime admission path
   directly after their own transport policy gates;
-- `artifact_delivery_acceptors.supervised_http` declares loopback HTTP
+- `artifact_delivery_acceptors.supervised_channel` declares supervised channel
   middleware acceptors with `component_id`, `artifact_schema`,
   optional `content_type`, `invoke_path`, request timeout, and response size
   limit. The referenced component must exist in the daemon middleware config at
@@ -970,7 +970,7 @@ but its target is a host-composed function rather than a loopback HTTP path:
 This is deliberately data-first: the operator should be able to inspect that
 `memarium-blob.v1` delivered through Artifact Delivery will be accepted by
 Memarium even if Memarium is compiled into the host rather than running as a
-supervised HTTP middleware.
+supervised channel middleware.
 
 Artifact Delivery is a host-owned runtime service composed by the daemon, not a
 separate supervised middleware process. The communication path to the concrete
@@ -1079,7 +1079,7 @@ The implementation should be stratified into four layers:
    must set its own I/O timeout or explicitly honor the deadline passed through
    the bounded work context.
 3. **Host-service composition**: `ad-host` owns narrow edge implementations for
-   INAC, Agora publish, Matrix mailbox delivery, supervised HTTP acceptors,
+   INAC, Agora publish, Matrix mailbox delivery, supervised channel acceptors,
    in-process acceptors, explicitly configured JSON-e Flow acceptors, recovery
    workers, and AD-owned transport caches. It receives daemon-owned effects
    through consumer-side traits instead of importing daemon types.
@@ -1353,7 +1353,7 @@ Status:
   status APIs, bounded transport retry/deadline execution through
   `bounded-work-runtime`, P055 deferred submit, P055 operation-status endpoint,
   manual recovery pass with `retry/history` and `artifact-delivery-recovery.v1`,
-  daemon background recovery enabled by default, supervised HTTP and in-process
+  daemon background recovery enabled by default, supervised channel and in-process
   `inac.push` acceptor adapters, explicit pure JSON-e Flow acceptors,
   `artifact-store:` referenced payload resolution, remote INAC WSS peer
   transport feeding the shared `POST /v1/artifact-delivery/admissions` path,
@@ -1445,9 +1445,9 @@ Responsibilities:
 - return `kind-not-supported` when no acceptor is available;
 - persist receiver-local admission/refusal records with deterministic
   `admission/id` and idempotent replay behavior;
-- declare supervised HTTP and in-process acceptors in the same effective
+- declare supervised channel and in-process acceptors in the same effective
   route-table shape;
-- call supervised HTTP, in-process, or explicitly configured JSON-e Flow
+- call supervised channel, in-process, or explicitly configured JSON-e Flow
   acceptors through the same conceptual admission contract;
 - require JSON-e Flow acceptors to be bound to explicit operator-visible
   instances/templates;
@@ -1465,7 +1465,7 @@ Status:
   /v1/artifact-delivery/admissions` ingress for explicitly allowlisted
   control-plane transport adapters. Concrete
   host/component acceptor adapters remain outside the pure runtime: `ad-host`
-  currently composes supervised HTTP middleware acceptors, in-process
+  currently composes supervised channel middleware acceptors, in-process
   `inac.push`, `agora-record.v1`, `memarium-blob.v1`, `contact-request.v1`
   acceptors, and explicit pure JSON-e Flow acceptors, while the pure Artifact
   Delivery runtime still owns no loopback HTTP client, supervised process
@@ -1713,7 +1713,7 @@ Status:
 12. The delivery ledger is required even for synchronous successes.
 13. Missing transport-specific selector parameters, such as `node` without
     `node/id`, fail validation/resolution and never imply fallback to Agora.
-14. In-process acceptors and supervised HTTP acceptors are declared in the same
+14. In-process acceptors and supervised channel acceptors are declared in the same
     effective config/route table shape so operator visibility does not depend on
     runtime placement.
 

@@ -88,7 +88,7 @@ The Node is responsible for the solution-level execution path of:
 - peer identity, handshake, and endpoint discovery,
 - question room lifecycle,
 - federated answer procurement,
-- supervised local HTTP middleware services for bundled exchange and workflow modules,
+- supervised channel middleware services plus independently owned product HTTP APIs,
 - settlement policy coordination and disclosure trail exposure for paid procurement,
 - local learning and knowledge promotion,
 - archival handoff and retrieval,
@@ -428,7 +428,7 @@ state. Middleware-provided `trust_level` and `source_node_id` values do not beco
 authority; the snapshot's source node is the signed provider node, while relay-hop
 provenance remains in Artifact Delivery or peer metadata.
 
-### Supervised Local HTTP Middleware Services
+### Supervised Middleware Services
 
 Based on:
 - `doc/project/40-proposals/019-supervised-local-http-json-middleware-executor.md`
@@ -439,12 +439,12 @@ Based on:
 - `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 
 Responsibilities:
-- host the supervised `http_local_json` executor as a first-class daemon-owned
+- host the supervised `channel_json` executor as a first-class daemon-owned
   middleware runtime,
 - distribute `Orbiplex Dator` and `Orbiplex Arca` with the hard-MVP Node release,
 - run both bundled modules as supervised Python middleware services rather than as
   unmanaged sidecars,
-- attach those modules through the host-owned `http_local_json` connector/executor,
+- attach those modules through the host-owned `channel_json` connector/executor,
 - expose `middleware.dator` and `middleware.arca` as operator-visible components
   with lifecycle, readiness, and restart state,
 - preserve middleware operator UI as a layered contract: packages may ship

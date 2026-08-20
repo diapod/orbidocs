@@ -93,9 +93,10 @@ metadata. The result does not carry the OTP transcript.
 
 ## Runtime
 
-The runtime is a supervised local HTTP middleware. It is still opt-in in bundled
-node config: the seed fragment is present, but the operator must enable the
-`attestation_service` middleware setting before the daemon starts it. The
+The runtime is a supervised `channel_json` middleware with a separately owned bounded
+attestation product HTTP API. It is still opt-in in bundled node config: the seed
+fragment is present, but the operator must enable the `attestation_service`
+middleware setting before the daemon starts it. The
 bundled opt-in config selects the local/dev delivery adapter explicitly, so a
 developer node can run the Story-010 flow without SMTP or SMS credentials.
 

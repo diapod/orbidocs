@@ -179,7 +179,7 @@ co-located but distinct subsystems, mirroring the Contact Catalog split:
 
 - **Node daemon** owns the small host / authority layer:
   - supervisor lifecycle for the messaging service binary;
-  - in-process or supervised-HTTP routing of the `message-envelope.v1`
+  - in-process or supervised-channel routing of the `message-envelope.v1`
     Artifact Delivery acceptor to the messaging service;
   - host capability bridge for `capability.passport.lookup`,
     `capability.passport.issue`, `memarium.write`, `notification.create`,
@@ -190,7 +190,8 @@ co-located but distinct subsystems, mirroring the Contact Catalog split:
   - the `/admin/messaging` operator UI surface;
   - the `/v1/messaging/status` proxy reading service state.
 
-- **Messaging service** (Rust supervised HTTP middleware, recommended) owns
+- **Messaging service** (Rust supervised `channel_json` middleware with a separate
+  product HTTP API, recommended) owns
   the domain:
   - Layer 1 Maildir body store under
     `<node-data-dir>/storage/messaging/maildir/...`;
@@ -487,7 +488,7 @@ The messaging acceptor registers exactly one acceptor target for the
 `message-envelope.v1` artifact kind through one of the existing
 `artifact_delivery_acceptors.*` surfaces:
 
-- `artifact_delivery_acceptors.supervised_http` (recommended for the
+- `artifact_delivery_acceptors.supervised_channel` (recommended for the
   Rust messaging service);
 - `artifact_delivery_acceptors.in_process` (for the MVP fallback that
   runs entirely inside the daemon);

@@ -12,10 +12,10 @@ or buyer-side discovery. Those remain host-owned daemon capabilities or
 Arca responsibilities. This keeps Dator a hosted supply module rather
 than a protocol authority.
 
-The v1 deployment runs as a supervised middleware service under the
-Node daemon's `http_local_json` executor, reachable on loopback
-(default `127.0.0.1:47971`), discovered through the standard
-middleware-init contract.
+The v1 deployment runs as a supervised `channel_json` middleware service. Its host
+lifecycle, readiness, middleware dispatch, and host-capability calls use the shared
+channel. Dator separately retains a bounded loopback product/provider API (default
+`127.0.0.1:47971`).
 
 ## Purpose
 
@@ -274,9 +274,9 @@ Related schemas:
 - `artifact-delivery-envelope.v1`
 
 Responsibilities:
-- run as a supervised `http_local_json` middleware module under the
-  daemon,
-- consume the host-owned `authtok` and `middleware_home` env contract,
+- run as a supervised `channel_json` middleware module under the daemon,
+- consume per-launch channel credentials and the host-owned `middleware_home`
+  contract without persisting or logging credentials,
 - declare handled service types and inbound routes through
   middleware-init/module-report,
 - use host capabilities for passport issuance, peer dispatch, and role
@@ -412,8 +412,7 @@ Status:
 
 ## Notes
 
-- Dator is bundled as a supervised Python middleware module under the
-  `http_local_json` executor.
+- Dator is bundled as a supervised Python `channel_json` middleware module.
 - The Arca/Dator split is the only deployment model for the current
   marketplace runtime: Dator is supply-side, Arca is demand-side.
 - `service_type` names the concrete marketplace service offered by

@@ -137,7 +137,7 @@ INAC operations are peer messages under the `PeerMessageChain`
 | Register `inac.v1` as a `msg` kind in the reference peer-message registry | ✅ implemented for WSS peer sessions |
 | Document the message envelope under `peer-message-invoke.v1` forwarding rules | ❌ not started |
 | Feed received artifacts into Artifact Delivery inbound admission | ✅ implemented for WSS `push` frames |
-| Project middleware and in-process component acceptor declarations into the Artifact Delivery route table | 🟡 partial — daemon config maps supervised HTTP, in-process, and pure JSON-e Flow Artifact Delivery acceptor declarations into `ad-host`; projection from module reports remains later |
+| Project middleware and in-process component acceptor declarations into the Artifact Delivery route table | 🟡 partial — daemon config maps supervised channel, in-process, and pure JSON-e Flow Artifact Delivery acceptor declarations into `ad-host`; projection from module reports remains later |
 
 ## Layer 2 — Control protocol
 
@@ -279,7 +279,7 @@ applies: unknown registered kind with no acceptor → `kind-not-supported`.
 
 | Component | State |
 |---|---|
-| Artifact Delivery inbound acceptor registry + lookup | ✅ implemented for in-process MVP acceptors, supervised HTTP acceptors, JSON-e Flow acceptors, and WSS `inac.v1` push admission |
+| Artifact Delivery inbound acceptor registry + lookup | ✅ implemented for in-process MVP acceptors, supervised channel acceptors, JSON-e Flow acceptors, and WSS `inac.v1` push admission |
 | Conflict rule on shadowed kinds: duplicate exact authoritative acceptors fail readiness; exact content-type handlers may coexist with one wildcard fallback | ✅ implemented in Artifact Delivery |
 | Safety-floor refusal for unknown kinds | ✅ implemented in local INAC runtime as fail-closed `kind-not-supported` |
 | Session-level kind handshake (advisory enumeration, authoritative routing per-op) | ❌ not started |
@@ -350,7 +350,7 @@ to proposal 027's peer-message dispatch.
 | Component | State |
 |---|---|
 | `inac.v1` peer-message handler registered in the `PeerMessageChain` | ✅ implemented for daemon in-process WSS handling |
-| Sidecar-registration path (so Python/other-language modules can declare Artifact Delivery inbound acceptors) | 🟡 partial — supervised HTTP acceptors can be wired through explicit daemon config; module-report-driven self-registration remains later |
+| Sidecar-registration path (so Python/other-language modules can declare Artifact Delivery inbound acceptors) | 🟡 partial — supervised channel acceptors can be wired through explicit daemon config; module-report-driven self-registration remains later |
 | Daemon supervisor readiness: Artifact Delivery route table is resolved at init, not at first request | ✅ implemented for the current config/runtime validation surface; module-report acceptor projection remains later |
 
 The direct INAC host capability surface and the Artifact Delivery route surface

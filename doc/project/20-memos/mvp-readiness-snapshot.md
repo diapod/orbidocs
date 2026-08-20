@@ -1057,16 +1057,22 @@ Recent component deltas:
   This raises P016, P021, and Arca readiness without promoting the broader Story-009
   product story into the hard-MVP blocker set.
 - Shared Offer Catalog is now hard-MVP complete. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, public/shared catalog deployment profile (`node/middleware-modules/offer-catalog/config/profiles/public-shared-catalog.json`), automatic `shared-offer-catalog` passport publication readiness with classified pending reasons, redacted Host Agora and Seed Directory admission diagnostics, and a local public-profile smoke runner (`node/tools/acceptance/shared-offer-catalog-public-smoke.py`) covering authorized replay, bad-signature refusal, unknown-provider refusal, withdrawn-offer inspection semantics, and the HTTP query surface. The remaining public-profile operating policy is now resolved and enforced where applicable: passport renewal is supervisor-driven by default, and non-loopback Agora URLs must use HTTPS/TLS with Node fail-closed replay validation. Remaining work is post-MVP production hardening such as broader monitoring matrices and eventual legacy peer-message retirement.
-- Proposal 080 is implemented through P080-023 and now has an accepted
-  `http_local_json` retirement phase under P080-024 through P080-033. The checked
-  inventory covers 18 bundled modules: 11 select `channel_json`, while Agora Service,
-  Attestation, Contact Catalog, Messaging, NSE Evidence Reference, Recovery, and
-  Whisper Intake still select `http_local_json`. Dator and Arca use the channel for
-  host traffic while retaining separately owned product HTTP listeners. The open
-  phase migrates the remaining seven modules, preserves only independently justified
-  product APIs, rejects old daemon configuration and package manifests explicitly,
-  then removes the HTTP-local supervisor, routing fallback, contract, schema, and
-  compatibility tests. A transport-neutral component contract already rejects
+- Proposal 080 hard-MVP is fully implemented through P080-033. Post-MVP Phase 8
+  tracks P080-034 through P080-038 for a daemon-owned capability-passport publication
+  reconciler with fail-closed `local-only` default; Post-MVP Phase 9 tracks P080-039
+  through P080-043 for repeated `channel_json` reconnect hardening without transparent
+  request replay. These follow-ups do not reduce the completed hard-MVP score. The
+  checked inventory covers
+  all 18 bundled modules and all select `channel_json`; eight independently
+  authenticated product HTTP listeners remain for Agora, Arca, Attestation, Contact
+  Catalog, Dator, Messaging, Recovery, and Whisper, with unique loopback endpoints
+  enforced by the inventory and daemon tests. Reconnect-grace exhaustion and failed
+  application-heartbeat proof terminate and clean the child before bounded restart
+  policy applies. Legacy daemon configuration,
+  persisted settings, loose config artifacts, and package manifests are rejected
+  explicitly before effects. The retired HTTP-local supervisor, routing fallback,
+  compatibility projection, executor contract, schema, implementation, and tests are
+  removed. A transport-neutral component contract rejects
   missing, mismatched, incorrectly pinned, ambiguous, unknown, or cyclic dependencies
   before effects, drives provider-first startup and dependent-first shutdown, and
   restricts imperative disposal to typed host-local resources. Dedicated
@@ -1396,7 +1402,7 @@ Recent component deltas:
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |
 | [Proposal 079: Cross-Federation Alliance](../40-proposals/079-cross-federation-alliance.md) | `false` | `false` | `false` | `45` |
-| [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `70` |
+| [Proposal 080: Multiplexed Middleware Channel Executor](../40-proposals/080-multiplexed-middleware-channel-executor.md) | `false` | `true` | `true` | `100` |
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |

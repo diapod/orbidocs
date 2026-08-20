@@ -87,8 +87,8 @@
    ["Enforce at most one authoritative acceptor per schema and content-type class"
     "Fail readiness on conflicting acceptors"
     "Return kind-not-supported when no acceptor is available"
-    "Declare supervised HTTP and in-process acceptors in the same effective route-table shape"
-    "Call supervised HTTP, in-process, or explicitly configured JSON-e Flow acceptors through the same conceptual admission contract"
+    "Declare supervised channel and in-process acceptors in the same effective route-table shape"
+    "Call supervised channel, in-process, or explicitly configured JSON-e Flow acceptors through the same conceptual admission contract"
     "Require JSON-e Flow acceptors to be bound to explicit operator-visible instances/templates"
     "Record receiver-local admission ids separately from sender-local delivery ids"]
    :status :done
@@ -102,7 +102,7 @@
                  "Operator route snapshot includes registered inbound acceptors"
                  "Operator admission status APIs and UI"
                  "Shared `POST /v1/artifact-delivery/admissions` path gated by explicit source-adapter allowlist"
-                 "Daemon supervised HTTP acceptor adapter"
+                 "Daemon supervised channel acceptor adapter"
                  "Daemon in-process `inac.push` acceptor adapter"
                  "Explicit pure JSON-e Flow acceptor declaration compiled once at startup and required to contain a respond step"
                  "Remote INAC WSS peer-message transport feeds inbound artifacts into the shared admission path"

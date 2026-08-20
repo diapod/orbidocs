@@ -5,8 +5,9 @@
 Middleware is hosted extension behavior owned by explicit contracts. The main execution
 types are in-process Rust, pure JSON-e, JSON-e Flow, command/stdio, unmanaged local HTTP
 JSON, `channel_json` supervision, Sensorium connector middleware, and middleware-hosted
-Inquirium runtime adapters. The old supervised `http_local_json` executor remains only
-during the accepted P080 retirement migration. Distribution is a separate axis: a middleware can be factory-bundled,
+Inquirium runtime adapters. The old supervised `http_local_json` executor is retired:
+its config and package forms are rejected, and no runtime implementation remains.
+Distribution is a separate axis: a middleware can be factory-bundled,
 profile-distributed, or operator-installed regardless of execution type.
 
 For the detailed type descriptions, registration shapes, and examples, see [Middleware
@@ -29,13 +30,12 @@ transports as an implicit fallback. New supervised modules and packages must use
 surface, not as the middleware executor.
 
 Bundled modules make current ownership visible through `factory_executor` and
-`product_listener_retained`. A host-only `channel_json` module has no factory port.
-Seven bundled modules still select `http_local_json` during the migration recorded by
-P080-024 through P080-033; this is transitional state, not package-authoring guidance.
-After retirement, daemon configurations and package manifests that name
-`http_local_json` are rejected with an explicit migration diagnostic. Node never
-silently converts them. Stale listener keys in a channel-only bundled module subtree
-are likewise rejected rather than ignored.
+`product_listener_retained`. All 18 bundled modules use `channel_json`; a host-only
+module has no factory port. Eight modules retain separately owned product listeners.
+Daemon configurations, persisted settings, loose config artifacts, and package
+manifests that name `http_local_json` are rejected before effects with an explicit
+migration diagnostic. Node never silently converts them. Stale listener keys in a
+channel-only bundled module subtree are likewise rejected rather than ignored.
 
 Python modules should reuse the standard channel adapter instead of implementing
 WebSocket framing. See [Authoring a channel module](../howto/middleware-howto.en.md#authoring-a-channel-json-module).
@@ -53,6 +53,12 @@ consumers non-routable, drains and stops them in dependent-first order, and repo
 provider-first only when the exact requirements are observed ready again; reading
 health/status never starts or stops a component. A same-named but
 contract-mismatched or incorrectly pinned provider is not a recovery.
+
+For a transient channel loss, the supervisor injects the bounded reconnect grace into
+the child. Current generated profiles use 1 second; a standalone Python runtime with
+the variable absent retries for 0 seconds. Grace exhaustion or a failed application
+heartbeat terminates and cleans the child before the configured restart policy runs.
+No in-flight request is replayed transparently.
 
 This lifecycle transition cleans up typed host-local resources. Durable, external,
 and federated effects retain their own transaction, journal, compensation,

@@ -22,8 +22,8 @@ Promoted solution:
 ## Executive Summary
 
 Orbiplex exposes HTTP surfaces from many components: the Rust daemon control
-plane, supervised HTTP middleware (messaging, contact-catalog, attestation,
-Inquirium adapters, simulator, …), and external/operator-supplied modules. The
+plane, supervised channel middleware with optional product HTTP surfaces
+(messaging, contact-catalog, attestation, …), and external/operator-supplied modules. The
 "what endpoints exist and what flows through them" knowledge is today implicit
 in route-match code and middleware handlers, scattered across two languages.
 
@@ -83,11 +83,12 @@ What already exists and is reused, not rebuilt:
   declare `"$schema": "https://json-schema.org/draft/2020-12/schema"`. **OpenAPI
   3.1 is a superset of JSON Schema 2020-12**, so the projection can `$ref` these
   schemas with no conversion (OpenAPI 3.0 would have required lossy munging).
-- **A uniform component seam already exists.** Every supervised HTTP middleware
-  serves a health/init surface (`/healthz`, `/readyz`, `/v1/middleware/init`
-  init report — e.g. `InquiriumAdapterHandler._init_report`, extended by the
+- **A uniform component seam already exists.** Every supervised channel middleware
+  attaches and reports readiness/init through `channel_json` (for example
+  `InquiriumAdapterHandler._init_report`, extended by the
   simulator to add `adapter_manifest.simulated_model_bindings`). The daemon
-  already collects these during supervision and knows each component's bind/port.
+  already collects these during supervision. Retained product HTTP listeners publish
+  their own bind state.
   **Relation to the new field:** `api/surface` is a **sibling** of
   `adapter_manifest` in the init report, not nested under it — the descriptor is
   uniform across every component type (adapter, store, service), while

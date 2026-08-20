@@ -16,7 +16,7 @@ Based on:
 
 ## Status
 
-Accepted (Implementation in progress)
+Accepted (hard-MVP implemented; post-MVP hardening tracked)
 
 ## Date
 
@@ -39,12 +39,11 @@ use one explicit session contract instead of several incidental HTTP paths.
 invoke envelopes, decisions, module reports, hook semantics, host-capability policy,
 and domain contracts remain authoritative. A connected session grants no authority.
 
-The transport migration was initially additive and remains so while Phase 7 is open:
+The transport migration was initially additive. Phase 7 is now implemented:
 
 - `channel_json` becomes the preferred executor for long-lived supervised modules,
-- `http_local_json` remains temporarily available only while the seven remaining
-  bundled modules migrate; new bundled and operator-installed packages must not adopt
-  it,
+- all bundled supervised modules use `channel_json`, and the retired
+  `http_local_json` executor is rejected in configuration and package manifests,
 - `local_http_json` remains the unmanaged adapter for intentionally independent
   services,
 - public or peer-facing middleware service listeners may remain as product surfaces,
@@ -366,9 +365,11 @@ request as control traffic.
 {
   "schema": "middleware-channel-host-capability-call.v1",
   "schema/v": 1,
+  "operation": "invoke",
   "capability/id": "artifact.delivery.send",
   "request/schema": "artifact-delivery-envelope.v1",
   "request": {},
+  "completion/mode": "deferred",
   "idempotency/key": "optional-domain-key"
 }
 ```
@@ -376,6 +377,19 @@ request as control traffic.
 The session supplies caller identity and runtime binding. The module cannot override
 them in this body. `idempotency/key` is optional at this wrapper layer and MUST be
 forwarded only when the selected capability contract supports it.
+`capability/id` is one host Capability Registry identifier matching
+`^[a-z0-9][a-z0-9._-]*$`; slash-separated peer protocol wire names such as
+`core/messaging` are a different namespace and MUST fail channel admission.
+
+`operation` defaults to `invoke`. `lookup` is the explicit read-only variant for
+host-owned capability routing inspection: it requires an empty
+`host-capability-routing-request.v1`, must complete immediately, and returns the
+same routing view as the daemon HTTP `GET` surface without dispatching the
+capability handler. An unknown local provider remains a readable `404` lookup
+result, not an effect attempt and not a reason to invent a fallback provider.
+`completion/mode` defaults to `immediate`; `deferred` is an explicit semantic
+request, not a URL query or part of `capability/id`, and MUST fail closed when the
+selected capability does not support bounded deferred completion.
 
 `middleware-channel-call-result.v1` carries:
 
@@ -498,8 +512,13 @@ On channel loss:
 4. no call is transparently replayed,
 5. the child may reconnect within a bounded grace period using the same launch
    instance,
-6. after grace or restart-budget exhaustion, the host applies the existing
-   supervised restart policy.
+6. after grace exhaustion the host terminates the current child, removes its runtime
+   markers and launch binding, records `failed`, and only then applies the existing
+   bounded supervised restart policy.
+
+A failed application-heartbeat proof follows the same fail-closed cleanup path. A
+session handle that has not proved the heartbeat cannot remain routable merely because
+its process still exists.
 
 A reconnect creates a new `session/id` and increments the launch-local session
 epoch. Late responses from an old session cannot satisfy requests in the new one.
@@ -591,14 +610,15 @@ config remains a host-owned projection assembled from package defaults and opera
 overrides. The shared listener endpoint and launch credentials are generated runtime
 facts and MUST NOT be persisted into package configuration.
 
-`<data-dir>/middleware/<module-id>/bind` remains meaningful only for legacy HTTP
-executors. A channel module may receive a host-owned session-status marker, but the
-authoritative session state is the daemon read model, not a module-editable file.
+`<data-dir>/middleware/<module-id>/bind` is meaningful only when the module owns an
+independently retained product HTTP listener. Channel-only modules do not create it.
+A channel module may receive a host-owned session-status marker, but the authoritative
+session state is the daemon read model, not a module-editable file.
 
 ### Component Contracts, Dependency Order, and Effect Recovery
 
 `middleware-component-contract.v1` is the transport-neutral composition contract for
-supervised HTTP and channel components. It carries:
+supervised components independently of their transport. It carries:
 
 - `provides[]`: a capability ref plus the canonical digest of the provided contract;
 - `requires[]`: the same pair, optionally pinned to one provider component;
@@ -733,12 +753,12 @@ operator status is a rebuildable read model. No second durable RPC queue is crea
 #### Listener Inventory Baseline
 
 The checked Node inventory lives at
-`node:docs/middleware-http-listener-inventory.v1.json`. Its repository checker
+`node:docs/middleware-product-listener-inventory.v1.json`. Its repository checker
 compares the decision table with every bundled `middleware-modules/*/config/00-*.json`
 factory config, so a new factory listener cannot enter the tree without an explicit
 migration classification.
 
-The current checked inventory contains 18 modules:
+The historical baseline contained 18 modules:
 
 - 7 host-only loopback listeners targeted for complete replacement by the shared
   channel,
@@ -746,6 +766,12 @@ The current checked inventory contains 18 modules:
   the product surface is retained or split,
 - 4 intentional network services whose service listeners are not channel migration
   targets, although their host lifecycle and middleware attachment are.
+
+The current inventory still covers all 18 modules, all of which select
+`channel_json`. Eight independently owned product listeners remain for Agora, Arca,
+Attestation, Contact Catalog, Dator, Messaging, Recovery, and Whisper. The inventory
+records product-listener ownership and must not be interpreted as an executor
+compatibility allowlist.
 
 ### Phase 1: Channel Primitive and Conformance Peer
 
@@ -785,7 +811,8 @@ The current checked inventory contains 18 modules:
   fire-and-forget behavior.
 - Migrate one module with a host-capability call.
 - Migrate one module with a `server-html` or claimed local route.
-- Keep per-module rollback to `http_local_json` until each conformance gate passes.
+- During migration, keep per-module rollback to `http_local_json` until each
+  conformance gate passes. Phase 7 later removes that rollback path.
 
 ### Phase 5: Bundled Module Cohorts
 
@@ -807,11 +834,12 @@ intentional service API.
 - Make `channel_json` the generated default for eligible bundled middleware.
 - Stop allocating per-module host-only ports and stop writing legacy `bind` markers
   for channel modules.
-- Mark `http_local_json` legacy for operator-installed packages.
-- Retain explicit opt-in compatibility until the package migration policy is
-  resolved; do not silently reinterpret an HTTP executor config as channel config.
-- Remove bundled dependency on `http_local_json` only after Story acceptance and
-  port-inventory assertions pass.
+- Mark `http_local_json` legacy for operator-installed packages during the migration.
+- Retain explicit opt-in compatibility only until the package migration policy is
+  resolved; never silently reinterpret an HTTP executor config as channel config.
+- Remove bundled dependency on `http_local_json` after Story acceptance and
+  product-listener inventory assertions pass. Phase 7 completes that removal and
+  rejects the old configuration explicitly.
 
 ## Test and Acceptance Plan
 
@@ -848,7 +876,8 @@ intentional service API.
 - observer flood does not starve control or RPC,
 - bounded overload returns a typed retryable result,
 - cancellation reaches the selected request only,
-- heartbeat timeout degrades the component,
+- heartbeat timeout degrades and then fails or restarts the component after bounded
+  child cleanup,
 - disconnect fails in-flight calls without transparent replay,
 - reconnect cannot complete old-session requests,
 - shutdown drains bounded work and surfaces residual child failure.
@@ -978,13 +1007,13 @@ host-to-module transport and lifecycle attachment only. It does not prohibit a
 component from exposing an intentional product, participant, peer, browser, relay,
 or provider HTTP API beside its channel attachment.
 
-The remaining bundled migration contains seven modules. `nse-evidence-reference`
-moves first as a channel-only reference. Whisper Intake and Recovery then separate
-host control from their product or operator surfaces. Agora Service, Attestation
-Service, Contact Catalog, and Messaging form the intentional-network-service
-cohort: lifecycle, readiness, init/report, host capability calls, and middleware
-invocation move to `channel_json`, while independently justified product HTTP
-listeners remain owned by their domain services.
+The final bundled migration started with seven modules. `nse-evidence-reference`
+provided the channel-only reference; Whisper Intake and Recovery established the
+mixed-surface split. Agora Service, Attestation Service, Contact Catalog, and
+Messaging completed the intentional-network-service cohort. Lifecycle, readiness,
+init/report, host capability calls, and middleware invocation now use `channel_json`,
+while independently justified product HTTP listeners remain owned by their domain
+services.
 
 There is no backward-compatibility reader for the retired executor. A daemon config
 containing `middleware_http_local_services`, or an operator package manifest naming
@@ -998,64 +1027,200 @@ unmanaged adapter for intentionally independent local services, and does not rem
 the one-shot `command_stdio` model-runtime transport. Any later retirement of either
 requires its own inventory and decision.
 
+## Post-MVP Phase 8: Daemon-Owned Capability Passport Publication Reconciler
+
+The completed channel migration gives supervised modules one host-owned path for
+calling `capability.passport.issue` and `capability.passport.publish`, but it does not
+yet give them one publication lifecycle. Offer Catalog and Contact Catalog currently
+own separate issue/persist/publish/retry loops, while daemon local-readiness can issue
+and optionally publish another class of required passports. This is a lifecycle seam,
+not a reason to make every passport public.
+
+Phase 8 introduces one daemon-owned desired-state reconciler. The reconciler owns
+issuance, durable local storage, publication, bounded retry, renewal before expiry,
+revocation or supersession handling, and operator-visible observed state. A module or
+host-owned deployment declaration states the desired passport and publication mode;
+it does not implement another publication loop.
+
+The target contract has these invariants:
+
+1. `capability.passport.issue` and `capability.passport.publish` remain separate
+   auditable effects. Issuance does not imply publication, and the low-level publish
+   operation remains available to the reconciler and explicit operator flows.
+2. Publication defaults fail-closed to `local-only`. Missing configuration, an empty
+   enabled set, an unknown mode, or unavailable policy never falls back to Seed
+   Directory publication.
+3. Provider/discovery passports may declare `seed-directory`; local bearer,
+   participant-control, pairwise, contact-specific, and ephemeral passports remain
+   `local-only` unless a later domain contract explicitly proves otherwise.
+4. A passport record binds `issued_for_module_id`, publication mode, policy reference
+   and revision, and the requesting host/module principal. A module cannot publish a
+   different locally issued passport merely by learning its `passport/id`.
+5. Reconciliation decisions and effects are durable facts. Restart rebuilds desired
+   and observed state without consulting an unversioned current default, and
+   revocation or supersession never rewrites historical issue/publish facts.
+
+The declarative shape should distinguish intent from observation. The exact schema is
+frozen during P080-035, but its semantic shape is:
+
+```json
+{
+  "capability_id": "contact-catalog",
+  "module_id": "contact-catalog-service",
+  "publication": {
+    "mode": "local-only"
+  }
+}
+```
+
+`publication.mode` is a closed v1 set containing `local-only` and
+`seed-directory`. `local-only` is the schema default and the behavior when no
+publication declaration exists. The read model separately reports desired mode,
+passport id and revision, issue/expiry timestamps, attempted and successful Seed
+Directory endpoints, retry deadline, last bounded error, supersession/revocation
+refs, and an observed state from this closed set:
+
+```text
+local-only | publish-pending | published | degraded | revoked | superseded
+```
+
+Seed Directory publication succeeds only when at least one intended endpoint accepts
+the exact passport advertisement. Partial success is explicit: already successful
+endpoints are retained in observed state, failed endpoints are retried with bounded
+backoff, and sequence advancement remains host-owned. Readiness may require
+`published` only when the deployment declaration explicitly marks federated
+discoverability as required; a local-only passport must not become unavailable merely
+because Seed Directory is absent.
+
+Offer Catalog and Contact Catalog are the first migration targets because they own
+custom publication loops today. Public provider passports for Agora relay and
+Attestation may then use the same reconciler when their deployment declarations
+explicitly request discovery. Subject-control passports issued by Attestation and
+local authorization passports used by Dator or Messaging are not migration targets
+for public publication.
+
+## Post-MVP Phase 9: Repeated `channel_json` Reconnect Hardening
+
+The implemented v1 transport supports bounded reconnect for the same supervised
+process launch. A reconnect authenticates the existing launch credential, creates a
+new `session/id`, advances `session/epoch`, repeats init/report and application
+heartbeat, and returns the component to `ready`. In-flight requests from the lost
+session fail and are never transparently replayed.
+
+The Python and Rust client loops currently retain the first outage deadline for the
+remaining lifetime of the process. After one successful reconnect and a later second
+disconnect, that stale deadline may already be exhausted. Phase 9 makes reconnect
+budget explicitly per outage rather than per process lifetime.
+
+The target contract has these invariants:
+
+1. Each newly observed disconnect starts one fresh bounded reconnect window. The
+   client treats the session as restored only after authenticated attach and a valid
+   application-heartbeat exchange, not after TCP/WebSocket connection alone. The
+   supervisor returns the component to `ready` only after valid init/report and that
+   heartbeat; this full transition resets host-side reconnect accounting.
+2. Reconnect remains same-launch only. Process restart or full daemon restart
+   invalidates the old launch credential and provisions a new launch; durable domain
+   continuation comes from storage/replay, not from transport session resurrection.
+3. Every old-session pending request fails with a typed unavailable/dispatch result.
+   New calls while detached fail `not-ready`; they are not buffered into the next
+   session. Old-epoch frames and late replies remain fail-closed.
+4. No arbitrary request is transparently replayed. A caller retries an effect only
+   through an existing idempotency key, durable operation id, or Deferred Operation
+   contract.
+5. Retry cadence, grace, restart budget, queue bounds, and diagnostics remain
+   explicit. Repeated reconnects update counters and lifecycle facts without logging
+   credentials or payloads.
+
+The Python and Rust clients must implement identical externally visible behavior.
+Tests cover at least `connect -> disconnect -> reconnect -> disconnect -> reconnect`,
+an old reply arriving after each epoch transition, requests issued while detached,
+grace exhaustion, and recovery through the supervisor restart policy. A daemon-level
+test temporarily stops and restores the shared listener without stopping the child,
+then proves renewed init/report, heartbeat, routing, and readiness.
+
+Current generated profiles commonly use `reconnect_grace_ms = 1000`. P080-042 must
+measure and freeze a safer generated default, with 5 seconds as the candidate, while
+keeping a bounded operator override. This tuning must not weaken shutdown deadlines
+or turn permanent authentication/protocol refusal into an unbounded retry loop.
+
 ## Open Questions
 
-None. Credential lifetime, persistent-stdio scope, product-listener ownership, and
-the fail-closed `http_local_json` retirement policy are frozen above.
+None for the hard-MVP contract. Credential lifetime, persistent-stdio scope,
+product-listener ownership, and the fail-closed `http_local_json` retirement policy
+are frozen above. Phase 8 freezes `local-only` as the publication default and Phase 9
+freezes per-outage reconnect without transparent request replay; P080-042 remains an
+implementation measurement for the bounded default duration, not an authority or
+protocol-semantics decision.
 
 ## Implementation Tracker
 
 | ID | Deliverable | Status | Notes |
 |---|---|---|---|
 | P080-001 | Document `channel_json` architecture, migration boundary, initial decisions, and acceptance criteria | done | This proposal records the implementation plan and frozen initial defaults. |
-| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 18 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, or contradictory entries. Classification records pre-migration topology and intent; `default_executor` plus `product_listener_retained` record current runtime ownership. |
-| P080-003 | Add canonical channel hello, accepted, frame, control payload, host-capability call/result, and module HTTP bridge schemas with fixtures | done | Ten strict schemas, positive/negative fixtures, host-boundary schema-gate coverage, and cross-language semantic golden vectors are synchronized from Orbidocs into Node protocol contracts. Control frames bind explicit cancel, heartbeat, and shutdown payload contracts. |
+| P080-002 | Inventory `http_local_json` listeners as host-only, mixed, or intentional network service surfaces | done | The checked Node inventory covers all 18 bundled factory modules and fails CI on missing, stale, duplicate, non-loopback, contradictory, or endpoint-colliding entries. Classification records pre-migration topology and intent; `default_executor` plus `product_listener_retained` record current runtime ownership. |
+| P080-003 | Add canonical channel hello, accepted, frame, control payload, host-capability call/result, and module HTTP bridge schemas with fixtures | done | Ten strict schemas, positive/negative fixtures, host-boundary schema-gate coverage, and cross-language semantic golden vectors are synchronized from Orbidocs into Node protocol contracts. Host capability ids are path-free Capability Registry identifiers, while peer `core/*` wire names remain a separate namespace. Control frames bind explicit cancel, heartbeat, and shutdown payload contracts. |
 | P080-004 | Add Rust channel contract/state/correlation core and schema-gate integration | done | `middleware-channel-core` owns typed DTOs, schema-gated host boundaries, deterministic limit negotiation, direction checks, JSON-safe sequence bounds, bounded request-id history, and refusal-first correlation tests without WebSocket or supervisor dependencies. |
 | P080-005 | Add bounded shared WebSocket listener and session registry | done | `middleware-channel-transport` combines the Bounded Local Server Runtime with `tungstenite`, rejects non-loopback/origin/extensions/bad launch auth, and exposes credential-free session handles outside the registry lock. |
-| P080-006 | Add shared Python `channel_json` client/runtime and cross-language golden vectors | done | The standard-library runtime uses one reader, one bounded writer queue, a bounded worker pool, host-negotiated limits, fail-closed correlation, and a behavior-free conformance peer exercised through a real WebSocket handshake. |
-| P080-007 | Add `channel_json` config projection, launch instance credentials, init/report attach, heartbeat, reconnect, and shutdown lifecycle | done | The shared supervisor launches a process with file-backed per-launch credentials, derives readiness from schema-gated init/report plus an application heartbeat, allows bounded same-launch reconnect, applies the existing restart policy, and escalates shutdown through graceful channel control, terminate, then kill. |
+| P080-006 | Add shared Python `channel_json` client/runtime and cross-language golden vectors | done | The standard-library runtime uses one reader, one bounded writer queue, a bounded worker pool, host-negotiated limits, fail-closed correlation, and a behavior-free conformance peer exercised through a real WebSocket handshake. Isolated runtime tests pin sequence exhaustion, writer overflow, monotonic inbound order, and exact session id/epoch binding. |
+| P080-007 | Add `channel_json` config projection, launch instance credentials, init/report attach, heartbeat, reconnect, and shutdown lifecycle | done | The shared supervisor launches a process with file-backed per-launch credentials, derives readiness from schema-gated init/report plus an application heartbeat, allows bounded same-launch reconnect, applies the existing restart policy, and escalates shutdown through graceful channel control, terminate, then kill. Reconnect-grace exhaustion and failed heartbeat proof terminate the current child and clear its launch/runtime state before any restart. |
 | P080-008 | Introduce transport-neutral `MiddlewareDispatchTarget` and remove common `invoke_url` assumptions | done | Daemon config accepts `middleware_channel_services`; the daemon-owned supervisor starts and stops them beside HTTP middleware, resolves declared service types to an HTTP-or-channel sum type, and waits through cloned credential-free handles outside the supervisor lock. A daemon smoke test proves config -> attach -> channel dispatch. |
 | P080-009 | Factor host-capability dispatch beneath HTTP and channel adapters | done | Daemon composition supplies `HostCapabilityChannelInboundHandler`, provisions channel modules in host-capability admission bindings, and delegates authenticated calls to `HostCapabilitiesHost::dispatch_response`, preserving caller identity and the common authorization/revocation/scope/policy/audit path. |
 | P080-010 | Implement bounded multiplexing, per-direction in-flight limits, cancellation, fairness, overload, and typed failure semantics | done | Control, RPC, and ephemeral observer traffic use separately configurable bounded queues with control-first fair draining. Timeout cancellation is request-bound, RPC overload and timeout are typed, module-to-host workers retain negotiated concurrency permits for their full lifetime, and observer pressure is drop-and-count. |
-| P080-011 | Add daemon module HTTP/UI bridge and migrate Node UI away from direct module endpoints | done | The control-authenticated operator bridge enforces `caller/scope=operator`, canonicalizes percent-encoded paths before dispatch, resolves exactly one module executor and a declared method/path, dispatches `module-http.invoke` over a ready channel, and retains explicit HTTP fallback without exposing channel credentials. |
+| P080-011 | Add daemon module HTTP/UI bridge and migrate Node UI away from direct module endpoints | done | The control-authenticated operator bridge enforces `caller/scope=operator`, canonicalizes percent-encoded paths before dispatch, resolves exactly one module executor and a declared method/path, and dispatches `module-http.invoke` over a ready channel. The temporary explicit HTTP fallback from this phase was removed by P080-030. |
 | P080-012 | Add operator session status, metrics, redacted lifecycle facts, and component controls | done | Component details include the redacted ephemeral session and flow counters; start, stop, restart, healthcheck, and config validation cover channel services; initial ready, reconnect-ready, and operator-stop transitions append durable lifecycle facts and emit component-change events. |
-| P080-013 | Add fixture/conformance suite for concurrency, refusal, reconnect, shutdown, and port inventory | done | Rust and Python tests cover reconnect epochs, stale-session and concurrent-attach refusal, binary frames, bounded admission, canonical path refusal, cancellation, observer overflow and real observer dispatch, lifecycle events, shutdown, and the checked listener inventory. |
-| P080-014 | Pilot one observer, one host-capability caller, and one module HTTP/UI surface on `channel_json` | done | The supervised conformance peer exercises all three behavior classes over one session; transport-neutral resolution retains an explicit `http_local_json` fallback. |
+| P080-013 | Add fixture/conformance suite for concurrency, refusal, reconnect, shutdown, and port inventory | done | Rust and Python tests cover reconnect epochs, stale-session and concurrent-attach refusal, binary frames, bounded admission, canonical path refusal, cancellation, observer overflow and real observer dispatch, reconnect-grace exhaustion, heartbeat failure cleanup, lifecycle events, shutdown, eight unique retained loopback endpoints, and the checked listener inventory. |
+| P080-014 | Pilot one observer, one host-capability caller, and one module HTTP/UI surface on `channel_json` | done | The supervised conformance peer exercises all three behavior classes over one session. The explicit compatibility fallback retained at this historical phase was removed by P080-030. |
 | P080-015 | Migrate Dator and Arca and pass Story-009 acceptance | done | Both modules attach and dispatch through `channel_json`; Dator service work and module-to-host capability calls use the channel. Their intentional product/workflow HTTP surfaces remain explicit rather than being silently removed before P080-019. |
 | P080-016 | Migrate eligible Inquirium and Sensorium modules | done | The three Python Inquirium adapters and Sensorium OS run without per-module listeners in channel mode; Sensorium Workbench routes its host-owned JSON surface directly over `module-http.invoke`. Model-runtime resolves a channel adapter by `runtime/ref`, module id, and declared invoke path while retaining the host-owned model binding. The full Story-005 smoke proves generation, caller-model override refusal, stop/non-routable, and restart. Provider egress and OS actuation policy remain unchanged. |
-| P080-017 | Migrate eligible Contact Catalog, Attestation, Messaging, Offer Catalog, Whisper Intake, and related stateful modules | done | Offer Catalog is channel-capable and covered by the cohort smoke. Contact Catalog, Attestation, and Messaging are retained as intentional network services; Whisper Intake is retained as mixed pending an explicit product/control split. Strict Story-010 passes unchanged at the domain boundary; its acceptance root refresh now attests the imported story participants without copying their private keys between nodes. |
+| P080-017 | Migrate eligible Contact Catalog, Attestation, Messaging, Offer Catalog, Whisper Intake, and related stateful modules | done | Offer Catalog is channel-only and covered by the cohort smoke. Contact Catalog, Attestation, and Messaging attach through the channel while retaining intentional product listeners. Whisper Intake now uses the channel for supervision, host capabilities, middleware calls, and module HTTP bridging while retaining its separately authenticated product/operator listener. Strict Story-010 passes at the unchanged domain boundary; its acceptance root refresh attests imported story participants without copying their private keys between nodes. |
 | P080-018 | Update implementation ledger, Middleware solution, FAQ/HOWTO, config docs, and package authoring guidance | done | Runtime ownership, model-runtime channel configuration, opt-in authoring, mixed-surface exceptions, cohort evidence, and the remaining P080-019/P080-020 work are synchronized. |
-| P080-019 | Make `channel_json` the default for eligible bundled modules and stop allocating their host-only ports/bind markers | done | Bundled factory configs declare `factory_executor` plus `product_listener_retained`; host-only modules project to `middleware_channel_services` without listen host/port/bind, while intentional and mixed product listeners remain explicit. Channel-owned Dator and Arca publish `bind` only for their live retained product endpoints and remove it on shutdown. Agora Verifier and Snooper gained the shared Python channel adapter. Whisper Intake remains deliberately HTTP because its classified mixed surface has not yet been split; it is not silently treated as eligible. |
-| P080-020 | Decide and execute the first `http_local_json` legacy-package support policy | done | This historical compatibility slice retained `http_local_json` as an explicit operator-installed/rollback adapter, exposed `explicit-http-local-json-legacy`, and rejected stale listener keys in channel-only bundled config. The later Phase 7 decision supersedes indefinite compatibility: P080-029 must reject the old config and package forms explicitly before P080-030/P080-031 remove the implementation. |
+| P080-019 | Make `channel_json` the default for eligible bundled modules and stop allocating their host-only ports/bind markers | done | Bundled factory configs declare `factory_executor` plus `product_listener_retained`; channel-only modules project to `middleware_channel_services` without listen host, port, or `bind`, while intentional product listeners remain explicit. Channel-owned mixed modules publish `bind` only for their live retained product endpoints and remove it on shutdown. Agora Verifier and Snooper use the shared Python channel adapter; Whisper Intake uses the same channel for host traffic while retaining its independently authenticated product/operator listener. |
+| P080-020 | Decide and execute the first `http_local_json` legacy-package support policy | done | This historical compatibility slice retained `http_local_json` as an explicit operator-installed/rollback adapter, exposed `explicit-http-local-json-legacy`, and rejected stale listener keys in channel-only bundled config. The later completed Phase 7 decision superseded that compatibility and rejects the old config and package forms before effects. |
 | P080-021 | Add the transport-neutral component contract and deterministic dependency graph | done | `middleware-component-contract.v1` is synchronized into Node, registered as a Schema Gate import, and parsed into typed Rust declarations. Exact capability/digest resolution rejects unknown, missing, mismatched, ambiguous, duplicate, and cyclic contracts before runtime effects. |
 | P080-022 | Apply dependency order to middleware lifecycle and provider-loss recovery | done | Daemon start, shutdown, and component start/stop/restart use one graph. Providers start first and stop last; affected components become non-routable before bounded transport shutdown; partial-start rollback preserves components that predated the operation. A dedicated reconciliation loop exposes `dependency_unavailable`, waits for observed `ready` state before resuming downstream components, and leaves health/status reads side-effect free. Operator control receipts list the affected closure. |
 | P080-023 | Freeze effect recovery classes and host-local disposer boundaries | done | The shared contract uses an effect-id-keyed map, closes four effect classes, admits typed disposers only for seven host-local resource kinds, binds disposer operations to resource kinds, and requires non-local scope for journals/compensation plus external or federated scope for irreversible effects. Positive and refusal fixtures prove that federated effects cannot claim imperative undo and host-local effects cannot claim durable compensation. |
-| P080-024 | Migrate `nse-evidence-reference` to the channel-only reference path | todo | The module attaches through the shared Python `channel_json` runtime, exposes its evidence invocation and lifecycle through declared channel operations, allocates no per-module listener or bind marker, and passes evidence/refusal/conformance tests without any HTTP-local fallback. |
-| P080-025 | Migrate Whisper Intake and separate host control from product/operator surfaces | todo | Readiness, init/report, host capability calls, middleware invocation, and daemon/UI bridge traffic use `channel_json`. Every retained HTTP route is classified as an independently justified product/operator surface with explicit owner and exposure policy; otherwise the listener is removed. Story-005 privacy, redaction, trace, restart, and refusal acceptance remains green. |
-| P080-026 | Migrate Recovery and separate host control from recovery product APIs | todo | Supervision and middleware calls use `channel_json`; registration, ciphertext, challenge, and unseal routes are either retained as explicit product APIs or mediated through a declared daemon bridge. OTP/DEK authority, rate limits, idempotency, restart recovery, and refusal semantics are unchanged, and no HTTP-local executor endpoint remains. |
-| P080-027 | Migrate the intentional-network-service cohort: Agora, Attestation, Contact Catalog, and Messaging | todo | All four services attach and report through `channel_json`; host capability calls and host-to-module invocations use the channel. Relay, attestation, catalog, and messaging HTTP APIs remain only as separately configured product listeners with independent auth/exposure, bounded-server, bind-marker, shutdown, and health contracts. Cohort and owning-story tests prove that removing the executor listener does not remove the product service. |
-| P080-028 | Switch every bundled factory module away from `http_local_json` and close the listener inventory | todo | All 18 bundled factory records select `channel_json` or another explicitly non-`http_local_json` owner; the checked inventory reports zero `default_executor=http_local_json`. Product listener counts and reasons remain accurate, stale listener keys in channel-only modules fail closed, and a structural gate prevents a new bundled `http_local_json` default. |
-| P080-029 | Reject retired executor configuration and package manifests explicitly | todo | Daemon config containing `middleware_http_local_services` and any admitted package/config artifact naming executor kind `http_local_json` fail before effects with stable typed diagnostics and migration guidance. Unknown-field handling cannot silently discard the legacy subtree, no automatic conversion occurs, and refusal-first fixtures cover daemon, package, loose-file, and restart/recovery ingress. |
-| P080-030 | Remove the daemon HTTP-local supervisor, routing fallback, and operator compatibility projection | todo | Daemon composition no longer starts, stores, reconciles, healthchecks, controls, inventories, or routes through `MiddlewareHttpLocalSupervisor`; `MiddlewareDispatchTarget` and module HTTP/UI bridge are channel/product-listener explicit without HTTP-local fallback; component health and Node UI contain no legacy compatibility state. Product HTTP services remain independently inspectable. |
-| P080-031 | Remove the `http_local_json` runtime contract, schema, and implementation | todo | `HttpLocalJsonExecutorConfig`, supervised HTTP-local executor/runtime files, auth-token injection specific to that executor, its schema and synchronized fixtures, exports, dependencies, factory projection branches, and executor-enum cases are removed. The listener inventory is either narrowed to product-listener ownership under a transport-neutral name or retired once its zero-default structural gate has a permanent replacement; legacy compatibility fields do not survive as dead configuration. Shared launch/restart/shutdown primitives still used by `channel_json` are first moved to transport-neutral names and owners rather than deleted or duplicated. `local_http_json` remains intact. |
-| P080-032 | Replace legacy tests and run migration acceptance | todo | Tests that asserted HTTP-local compatibility are replaced by explicit legacy-config/package refusal tests and channel lifecycle tests. Inventory checker, Python channel conformance, daemon middleware/component tests, Story-005, Story-009, strict Story-010, and focused Agora/Attestation/Contact/Messaging/Recovery acceptance pass with zero production `http_local_json` construction or configuration. A repository structural check allows the token only in migration diagnostics, historical documentation, and refusal fixtures. |
-| P080-033 | Synchronize final retirement documentation and implementation evidence | todo | Middleware Solution, FAQ/HOWTO, package authoring guidance, config references, Capability Matrix where applicable, Node MVP tracker, implementation ledger and generated view, and readiness snapshot describe channel-first supervision plus independent product HTTP listeners. The checked inventory and code searches provide evidence for zero active `http_local_json`; retained historical references are clearly marked as superseded. |
+| P080-024 | Migrate `nse-evidence-reference` to the channel-only reference path | done | The module attaches through the shared Python `channel_json` runtime, exposes its evidence invocation and lifecycle through declared channel operations, allocates no per-module listener or bind marker, and passes evidence/refusal/conformance tests without any HTTP-local fallback. |
+| P080-025 | Migrate Whisper Intake and separate host control from product/operator surfaces | done | Whisper attaches, reports readiness, accepts middleware/module-HTTP calls, and invokes host capabilities through schema-gated `channel_json`. Its bounded loopback HTTP listener remains an independently authenticated product/operator surface for intake, trace, and UI routes; channel launch credentials and product-listener credentials are separate. The channel path reuses the host-owned operator-consent submission boundary, binds module identity at the host, prevents proxied requests from overriding product auth, and preserves Story-005 privacy, redaction, trace, restart, and refusal behavior. |
+| P080-026 | Migrate Recovery and separate host control from recovery product APIs | done | Recovery supervision, readiness, middleware calls, module HTTP bridge, and `recovery.{sign,hsm.store,hsm.unseal}` host capabilities use schema-gated `channel_json` with fail-closed pre-attach behavior and status-preserving refusal diagnostics. Its independently authenticated bounded product listener retains registration, ciphertext, challenge, and unseal APIs; bearer headers survive the daemon bridge, channel and product credentials remain separate, bind state follows the live listener, and product shutdown terminates the channel session. OTP/DEK authority, rate limits, persistence, idempotency, and standalone development mode are unchanged. |
+| P080-027 | Migrate the intentional-network-service cohort: Agora, Attestation, Contact Catalog, and Messaging | done | All four services attach and report through `channel_json`; host capability calls and host-to-module invocations use the channel and reuse the same module-capability admission boundary as HTTP. Relay, attestation, catalog, and messaging HTTP APIs remain separately authenticated product listeners with bounded-server, bind-marker, shutdown, and health contracts. Focused service tests and the channel-hosted Story-005 smoke prove that removing the executor listener does not remove the product service or host Signer/trace access. |
+| P080-028 | Switch every bundled factory module away from `http_local_json` and close the listener inventory | done | All 18 bundled factory records select `channel_json`; the checked inventory reports zero `default_executor=http_local_json`, with eight independently owned product listeners. Its refusal-first structural gate accepts only `channel_json`, verifies listener ownership and loopback bounds, and prevents a new bundled HTTP-local default. |
+| P080-029 | Reject retired executor configuration and package manifests explicitly | done | Daemon config, persisted settings, loose config artifacts, and admitted package manifests naming `middleware_http_local_services` or executor kind `http_local_json` fail before effects with stable migration diagnostics. Unknown-field handling cannot discard the legacy subtree, no automatic conversion occurs, and refusal-first fixtures cover each admitted ingress. |
+| P080-030 | Remove the daemon HTTP-local supervisor, routing fallback, and operator compatibility projection | done | Daemon composition no longer starts, stores, reconciles, healthchecks, controls, inventories, or routes through `MiddlewareHttpLocalSupervisor`; dispatch and the module HTTP/UI bridge are channel/product-listener explicit without fallback. Component health and Node UI contain no compatibility state, while product HTTP services remain independently inspectable. |
+| P080-031 | Remove the `http_local_json` runtime contract, schema, and implementation | done | `HttpLocalJsonExecutorConfig`, the supervised HTTP-local runtime/supervisor, executor-specific auth injection, schema, exports, dependencies, factory branches, and enum cases are removed. Shared lifecycle primitives moved to transport-neutral owners. The renamed product-listener inventory and structural drift gate replace the old compatibility checker. `local_http_json` remains intact. |
+| P080-032 | Replace legacy tests and run migration acceptance | done | Tests that asserted HTTP-local compatibility are replaced by explicit legacy-config/package refusal tests and channel lifecycle tests. Inventory checker, Python channel conformance, daemon middleware/component tests, Story-005, Story-009, strict Story-010, and focused Agora/Attestation/Contact/Messaging/Recovery acceptance pass with zero production `http_local_json` construction or configuration. A repository structural check allows the token only in migration diagnostics, historical documentation, and refusal fixtures. |
+| P080-033 | Synchronize final retirement documentation and implementation evidence | done | Middleware Solution, FAQ/HOWTO, package authoring guidance, config references, Capability Matrix where applicable, Node MVP tracker, implementation ledger and generated view, and readiness snapshot describe channel-first supervision plus independent product HTTP listeners. The checked inventory and code searches provide evidence for zero active `http_local_json`; retained historical references are clearly marked as superseded. |
+| P080-034 | Preserve separate capability-passport issue and publish effects | todo | Keep `capability.passport.publish` as the low-level host-owned, auditable Seed Directory effect rather than folding it into issue or making issue imply public discovery. Document retryability and effect receipts separately for both operations. |
+| P080-035 | Define fail-closed passport publication desired state and caller binding | todo | Add a schema-gated declaration with closed `publication.mode = local-only | seed-directory`, default and missing-value behavior fixed to `local-only`, plus `issued_for_module_id`, caller principal, policy ref/revision, and publication intent binding. Refuse unknown modes, cross-module passport ids, and policy/revision mismatch before effects. |
+| P080-036 | Implement the daemon-owned passport publication reconciler | todo | Own issue, persistence, publish, partial endpoint progress, bounded retry, renewal, revocation/supersession and restart rebuild in one daemon service. Expose desired/observed state and append-only facts; require at least one accepted intended endpoint before `published`, without making local-only readiness depend on Seed Directory. |
+| P080-037 | Migrate provider passport publication to the reconciler | todo | Remove custom Offer Catalog and Contact Catalog publication loops. Route explicitly discoverable Agora relay and Attestation provider passports through the same declaration where configured, while keeping Dator/local authorization, subject-control, pairwise, contact-specific and ephemeral passports local-only. |
+| P080-038 | Prove passport reconciliation refusal, recovery and migration | todo | Add restart/rebuild, partial endpoint, expiry/renewal, revoke/supersede, missing policy, unknown mode, absent Seed Directory, cross-module id and no-silent-publication tests. Synchronize operator status, runbooks, implementation ledger and relevant capability documentation after code lands. |
+| P080-039 | Reset reconnect grace after each fully restored channel session | todo | Make Python and Rust reconnect budgets per outage. Client restoration requires authenticated attach plus an application-heartbeat exchange; supervisor `ready` additionally requires valid init/report. Reset host-side accounting only after that transition, retain bounded cadence, and let grace exhaustion flow into the existing supervised restart policy. |
+| P080-040 | Add repeated-disconnect client conformance tests | todo | Cover two consecutive disconnect/reconnect cycles in Python and Rust, session epoch advancement, stale replies, detached-call refusal, pending-call failure and grace exhaustion. Keep externally visible failure codes aligned across both clients. |
+| P080-041 | Add daemon-level shared-listener flap acceptance | todo | Stop and restore the shared listener while supervised children remain alive, then prove same-launch re-authentication, new epoch, renewed report/heartbeat, restored routing/readiness and no completion from an old session. Also prove full daemon restart creates a new launch rather than resurrecting the old session. |
+| P080-042 | Measure and freeze the generated reconnect grace default | todo | Evaluate the current 1-second profiles against listener reload and scheduling jitter, use 5 seconds as the candidate generated default, preserve a bounded operator override, and prove permanent auth/protocol failures do not retry indefinitely or delay bounded shutdown. |
+| P080-043 | Preserve no-transparent-replay across reconnect | todo | Keep every old-session in-flight call terminally failed and every detached call fail-fast. Add effectful refusal tests proving retry occurs only through idempotency, durable operation ids or Deferred Operation, never because the transport silently replays a frame. |
 
 ## Next Actions
 
-1. Complete `P080-024` as the channel-only retirement reference, then migrate the
-   mixed surfaces in `P080-025` and `P080-026` before the network-service cohort.
-2. Complete `P080-027` without confusing removal of the host executor listener with
-   removal of an intentional product HTTP API.
-3. Reject old daemon configurations and package manifests explicitly before deleting
-   their runtime implementation; never silently convert them.
-4. Keep the P080-002 inventory checker green as bundled factory modules are added or
-   their listener ownership changes.
+1. Implement P080-034 and P080-035 before migrating any additional module-owned
+   passport publication loop; do not broaden the current coarse publish authority.
+2. Implement the reconciler in P080-036, migrate the existing loops in P080-037, and
+   close its refusal/recovery evidence in P080-038.
+3. Fix the per-process reconnect deadline in P080-039 before treating repeated
+   transient channel loss as self-healing; complete P080-040 through P080-043 as one
+   conformance and acceptance slice.
+4. Keep the P080-002 product-listener inventory and retired-executor drift gates green
+   as bundled factory modules are added or their listener ownership changes.
 5. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
    through the Orbidocs-to-Node mirror and schema gate.
-6. Keep factory executor ownership and retained-listener metadata aligned with the
+6. Preserve the distinction between channel-owned middleware traffic and independently
+   authenticated product HTTP APIs.
+7. Keep factory executor ownership and retained-listener metadata aligned with the
    checked inventory whenever a bundled module changes transport.
-7. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
-8. Require every new cross-component dependency or effectful middleware package to
+8. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
+9. Require every new cross-component dependency or effectful middleware package to
    carry `middleware-component-contract.v1`; do not reconstruct the graph from
    successful runtime lookups.
+10. Treat live launch-credential rotation and re-authentication as a separate protocol
+   hardening slice; do not weaken per-launch identity binding with ad hoc refresh.

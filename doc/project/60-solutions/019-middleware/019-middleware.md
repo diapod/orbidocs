@@ -59,15 +59,13 @@ by the current hard-MVP stories. New executor classes or richer module-specific
 operator products should be tracked by their owning proposals rather than
 holding the common Middleware solution below `done`.
 
-Post-MVP transport evolution is tracked by Proposal 080. `P080-001` through
-`P080-023` are implemented: the checked listener inventory, strict channel schemas,
-shared bounded WebSocket listener, supervisor integration, transport-neutral
-dispatch, lifecycle and dependency recovery, operator inspection, and the first
-bundled migrations are live. The accepted `P080-024` through `P080-033` phase now
-retires the remaining `http_local_json` executor without removing independently
-owned product HTTP APIs. This extension does not reopen the completed hard-MVP
-middleware contract, but Proposal 080 is no longer complete against its expanded
-post-MVP scope.
+Post-MVP transport evolution is tracked by Proposal 080 and is complete through
+`P080-033`: the checked product-listener inventory, strict channel schemas, shared
+bounded WebSocket listener, supervisor integration, transport-neutral dispatch,
+lifecycle and dependency recovery, operator inspection, bundled migrations, and
+fail-closed legacy retirement are live. All 18 bundled modules use `channel_json`;
+eight independently owned product HTTP APIs remain. This extension does not reopen
+the completed hard-MVP middleware contract.
 
 ## Purpose
 
@@ -227,7 +225,8 @@ granted, by the module.
   policy.
 - `data/` contains module-owned durable runtime state, caches, local databases,
   offer stores, checkpoints, or projections.
-- `bind` records the current local endpoint for supervised local HTTP services.
+- `bind` records the current local endpoint only for an independently retained
+  product HTTP listener; channel-only modules do not create it.
 - `pid` records the currently supervised process id when a module is running as
   a child process.
 - `authtok` and similarly named token files are host-owned local credentials.
@@ -379,7 +378,7 @@ alter dispatch.
 | `nse_rhai` | Medium | In-process scripting for bounded policy logic. |
 | `command_stdio` | Medium/high | One-shot command process with bounded input/output. |
 | `local_http_json` | High | Unmanaged loopback HTTP adapter. |
-| `http_local_json` | High | Implemented legacy supervised loopback HTTP service scheduled for explicit config/package rejection and removal by P080-024..P080-033. It is not an authoring target. |
+| `http_local_json` | Retired | Unsupported historical supervised loopback executor. Config and package manifests naming it fail before effects; no runtime or schema remains. |
 | `channel_json` | High | Preferred supervised module executor: strict contracts, bounded session/correlation core, shared WebSocket listener, supervised Python runtime, lifecycle, fairness/cancellation, module HTTP/UI bridge, operator facts, and bundled cohorts. Intentional product HTTP listeners remain separate domain surfaces. |
 
 The executor class is not the authority boundary by itself. Authority comes
@@ -388,8 +387,8 @@ dispatch gate, schema validation, timeout, size limits, and audit policy.
 
 ### Multiplexed Channel Direction
 
-Proposal 080 defines `channel_json` as a transport replacement for eligible
-`http_local_json` modules. One shared loopback WebSocket listener is host-owned;
+Proposal 080 defines `channel_json` as the supervised module transport. One shared
+loopback WebSocket listener is host-owned;
 each supervised module initiates one authenticated session and receives independent
 logical calls correlated by request id. Existing invoke payloads, decisions, module
 reports, hooks, and host-capability gates remain authoritative.
@@ -407,35 +406,40 @@ the Node schema gate and owns limit, identity, direction, sequence, in-flight, a
 correlation invariants. The implemented runtime layers add one bounded shared
 WebSocket listener, per-launch file-backed credentials, schema-gated init/report,
 heartbeat readiness, bounded reconnect, supervised shutdown, and a reusable Python
-client. The daemon consumes `middleware_channel_services`, owns the channel
-supervisor beside the HTTP supervisor, resolves declared service types to an
-HTTP-or-channel target, and provisions channel modules through the existing
-host-capability admission boundary. Channel host-capability calls delegate to the
-same host dispatcher used by HTTP. The channel cohort now covers Agora Verifier,
-Dator, Arca, the three Inquirium adapters, Offer Catalog, Sensorium OS, Sensorium Web,
-Sensorium Workbench, and Snooper. Model-runtime can bind a `runtime/ref` to a channel
+client. The daemon consumes `middleware_channel_services`, owns one channel
+supervisor, resolves declared service types to channel targets, and provisions
+modules through the existing host-capability admission boundary. The complete
+bundled cohort contains all 18 factory modules. Model-runtime can bind a `runtime/ref` to a channel
 module id and declared invoke path while retaining host-owned model selection,
 policy, and response validation; Story-005 verifies invocation plus
-stop/non-routable/restart without a per-adapter listener. Agora Service, Attestation,
-Contact Catalog, Messaging, NSE Evidence Reference, Recovery, and Whisper Intake
-still select `http_local_json`; the first four own intentional network services and
-the latter three retain mixed or host-local surfaces. Bundled factory data names the
-executor and whether a product listener remains. Eligible host-only modules default
-to `channel_json` without allocating ports, while mixed and intentional listeners
-remain explicit.
+stop/non-routable/restart without a per-adapter listener. Bundled factory data names
+the executor and whether a product listener remains. Host-only modules allocate no
+ports. Agora, Arca, Attestation, Contact Catalog, Dator, Messaging, Recovery, and
+Whisper retain independently authenticated product listeners; their host lifecycle
+and middleware dispatch still use `channel_json`. The checked inventory requires a
+unique loopback endpoint for each retained listener. The supervisor owns its stable
+local bearer at `<middleware_home>/authtok`, passes the token-file path and header
+name separately, and keeps that product credential distinct from the per-launch
+channel credential. Reconnect-grace exhaustion or a failed application-heartbeat
+proof terminates and cleans the current child before bounded restart policy applies.
+
+Module-to-host channel calls carry an explicit `operation`. `invoke` enters the
+ordinary capability dispatch path. `lookup` is restricted to an empty
+`host-capability-routing-request.v1`, reuses the host-owned routing read model,
+and never executes the provider. Missing local providers remain explicit `404`
+lookup data, which preserves thin-node discovery semantics without a silent
+transport or authority fallback.
 Channel-owned mixed modules publish a `bind` marker only for a real retained product
 listener and remove it on shutdown; channel-only modules publish no bind marker.
-The currently implemented runtime still accepts operator-installed
-`http_local_json` packages as an explicit legacy compatibility mode. The accepted
-retirement phase migrates the seven remaining bundled modules, then rejects old
-daemon configuration and package manifests with an explicit diagnostic before
-removing the supervisor, routing fallback, runtime contract, and schema. Product HTTP
-listeners remain separate from this host-transport retirement, and no legacy config
-is silently reinterpreted.
+The retired `http_local_json` supervisor, routing fallback, runtime contract, schema,
+and compatibility projection are removed. Daemon config, persisted settings, loose
+config artifacts, and package manifests naming the retired executor are rejected
+before effects with migration guidance. Product HTTP listeners remain separate from
+this host-transport retirement, and no legacy config is silently reinterpreted.
 
 ### Component Composition and Recovery
 
-Supervised HTTP and channel components may carry one
+Supervised channel components may carry one
 `middleware-component-contract.v1`. `provides[]` and `requires[]` bind capability
 refs to canonical contract digests, while `effects` is keyed by unique effect id and
 inherits ownership from the enclosing component. The daemon rejects missing,

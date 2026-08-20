@@ -115,7 +115,7 @@ i przyjmowanie artefaktów między nimi.
   object store, gdy te adaptery są włączone.
 - Zdalne ramki WSS INAC `push` zasilają Artifact Delivery inbound admission po
   stronie odbiorcy.
-- Supervised HTTP middleware, in-process acceptory budowane przez `ad-host` oraz
+- Nadzorowane middleware kanałowe, in-process acceptory budowane przez `ad-host` oraz
   jawnie skonfigurowane czyste acceptory JSON-e Flow mogą przyjmować
   przychodzące artefakty przez rejestr acceptorów. Daemon dostarcza shimy
   efektów, ale nie posiada implementacji acceptorów AD.
@@ -167,9 +167,9 @@ przez loopback HTTP.
 }
 ```
 
-### Supervised HTTP middleware
+### Nadzorowane middleware kanałowe
 
-Supervised HTTP middleware może wysyłać artefakty przez wywołanie endpointu host
+Nadzorowane middleware kanałowe może wysyłać artefakty przez dispatcher host
 capability daemona ze swoim normalnym uwierzytelnieniem module capability. Wysyła
 jedną kopertę i otrzymuje albo `artifact-delivery-result.v1`, albo, przy użyciu
 `?mode=deferred`, `deferred-operation.v1`.
@@ -197,14 +197,14 @@ Content-Type: application/json
 }
 ```
 
-Supervised HTTP middleware może być także inbound acceptorem. Operator rejestruje
+Nadzorowane middleware kanałowe może być także inbound acceptorem. Operator rejestruje
 acceptor w konfiguracji hosta, a daemon wywołuje komponentową, lokalną ścieżkę
 `invoke_path` z payloadem `artifact-delivery-acceptor-invoke.v1`.
 
 ```json
 {
   "artifact_delivery_acceptors": {
-    "supervised_http": [
+    "supervised_channel": [
       {
         "acceptor_id": "acceptor.whisper.private",
         "component_id": "component/middleware/whisper",
@@ -397,7 +397,7 @@ INAC.
 - `http_admission_allowed_source_adapters` pozwala wybranym adapterom źródłowym
   używać `POST /v1/artifact-delivery/admissions`; pusta lista oznacza deny-all dla
   tej ścieżki HTTP control-plane.
-- `supervised_http` rejestruje loopback HTTP middleware acceptors.
+- `supervised_channel` rejestruje nadzorowane acceptory middleware działające przez kanał.
 - `json_e_flow` rejestruje czyste JSON-e Flow acceptors.
 - `in_process` rejestruje acceptory budowane przez `ad-host`, takie jak
   `inac.push`, `agora.record.ingest`, `memarium.inac.accept`,
@@ -585,16 +585,17 @@ dokładnym content-type wygrywają z rejestracjami wildcard.
 10. Wybrany acceptor otrzymuje artefakt; AD zapisuje wynik admission po stronie
     odbiorcy.
 
-### Inbound supervised HTTP acceptor
+### Inbound supervised channel acceptor
 
-1. Operator konfiguruje supervised HTTP acceptor dla jednego schematu artefaktu i
+1. Operator konfiguruje supervised channel acceptor dla jednego schematu artefaktu i
    opcjonalnego content type.
 2. Adapter transportowy zasila Artifact Delivery admission przychodzącym
    artefaktem.
 3. Admission znajduje dokładny acceptor albo wildcard fallback dla schematu.
 4. Daemon buduje payload `artifact-delivery-acceptor-invoke.v1` zawierający source
    adapter, opcjonalny source peer, idempotency key i deskryptor artefaktu.
-5. Daemon wysyła ten payload metodą POST do komponentowego `invoke_path`.
+5. Daemon dispatchuje ten payload do zadeklarowanego komponentowego `invoke_path`
+   przez uwierzytelnioną sesję kanałową modułu.
 6. Acceptor zwraca `InboundAdmissionResult`.
 7. Artifact Delivery zapisuje receiver-local admission id i status.
 

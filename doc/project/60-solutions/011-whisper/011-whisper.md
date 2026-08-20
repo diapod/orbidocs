@@ -320,8 +320,8 @@ Status:
 
 ## Notes
 
-Whisper intake/redaction should be implemented as a supervised HTTP middleware
-service attached to Node through explicit contracts. Shared, transport-independent
+Whisper intake/redaction is implemented as a supervised `channel_json` middleware
+service with a separately owned intake/trace/operator HTTP surface. Shared, transport-independent
 semantics belong in `whisper-core`; Agora remains the public/federated record
 substrate, and the daemon remains the host/supervisor and capability boundary.
 

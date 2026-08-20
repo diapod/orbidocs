@@ -110,7 +110,7 @@ admission of artifacts between them.
   when those adapters are enabled.
 - Remote WSS INAC `push` frames feed Artifact Delivery inbound admission on the
   receiver.
-- Supervised HTTP middleware, `ad-host` in-process acceptors, and explicitly
+- Supervised channel middleware, `ad-host` in-process acceptors, and explicitly
   configured pure JSON-e Flow acceptors can receive inbound artifacts through
   the acceptor registry. The daemon supplies effect shims, but does not own the
   AD acceptor implementations.
@@ -162,10 +162,10 @@ loopback HTTP.
 }
 ```
 
-### Supervised HTTP middleware
+### Supervised channel middleware
 
-Supervised HTTP middleware can send artifacts by calling the daemon host
-capability endpoint with its normal module capability authentication. It submits
+Supervised channel middleware can send artifacts through the daemon host-capability
+dispatcher with its normal module capability authentication. It submits
 one envelope and receives either `artifact-delivery-result.v1` or, when using
 `?mode=deferred`, `deferred-operation.v1`.
 
@@ -192,14 +192,14 @@ Content-Type: application/json
 }
 ```
 
-Supervised HTTP middleware can also be an inbound acceptor. The operator registers
-the acceptor in host config, and the daemon calls the component-local
+Supervised channel middleware can also be an inbound acceptor. The operator registers
+the acceptor in host config, and the daemon invokes the component-local
 `invoke_path` with an `artifact-delivery-acceptor-invoke.v1` payload.
 
 ```json
 {
   "artifact_delivery_acceptors": {
-    "supervised_http": [
+    "supervised_channel": [
       {
         "acceptor_id": "acceptor.whisper.private",
         "component_id": "component/middleware/whisper",
@@ -387,7 +387,7 @@ that the operator accepts.
 - `http_admission_allowed_source_adapters` allows selected source adapters to use
   `POST /v1/artifact-delivery/admissions`; empty means deny-all for that HTTP
   control-plane path.
-- `supervised_http` registers loopback HTTP middleware acceptors.
+- `supervised_channel` registers supervised channel middleware acceptors.
 - `json_e_flow` registers pure JSON-e Flow acceptors.
 - `in_process` registers `ad-host` built acceptors such as `inac.push`,
   `agora.record.ingest`, `memarium.inac.accept`, `contact.request`,
@@ -573,16 +573,17 @@ win over wildcard registrations.
 10. The selected acceptor receives the artifact; AD records the admission result
     on the receiver.
 
-### Inbound supervised HTTP acceptor
+### Inbound supervised channel acceptor
 
-1. The operator configures a supervised HTTP acceptor for one artifact schema and
+1. The operator configures a supervised channel acceptor for one artifact schema and
    optional content type.
 2. A transport adapter feeds an inbound artifact into Artifact Delivery
    admission.
 3. Admission finds the exact acceptor or a wildcard fallback for the schema.
 4. The daemon builds an `artifact-delivery-acceptor-invoke.v1` payload containing
    source adapter, optional source peer, idempotency key, and artifact descriptor.
-5. The daemon POSTs that payload to the component-local `invoke_path`.
+5. The daemon dispatches that payload to the declared component-local `invoke_path`
+   over the module's authenticated channel session.
 6. The acceptor returns an `InboundAdmissionResult`.
 7. Artifact Delivery records the receiver-local admission id and status.
 

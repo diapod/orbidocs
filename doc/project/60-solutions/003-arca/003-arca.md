@@ -17,10 +17,11 @@ boundary keeps Arca a hosted module rather than a protocol authority
 (see story-006-buyer-node-components and the
 service-order-to-procurement-bridge memo).
 
-The v1 deployment runs as a supervised middleware service under the
-Node daemon's `http_local_json` executor, reachable on loopback
-(default `127.0.0.1:47981`), discovered by the daemon through the
-standard middleware-init contract.
+The v1 deployment runs as a supervised `channel_json` middleware service. Its
+host lifecycle, readiness, middleware dispatch, and host-capability calls use the
+shared channel. Arca separately retains a bounded loopback product/workflow API
+(default `127.0.0.1:47981`) and a narrowly scoped, host-authenticated adapter for
+daemon API routes that are not host-capability operations.
 
 ## Purpose
 
@@ -310,16 +311,16 @@ Related schemas:
 - `artifact-delivery-envelope.v1`
 
 Responsibilities:
-- run as a supervised `http_local_json` middleware module under the
-  daemon, with module config layered from
+- run as a supervised `channel_json` middleware module under the daemon, with
+  module config layered from
   `ORBIPLEX_MIDDLEWARE_CONFIG_DIR` and
   `ORBIPLEX_NODE_CONFIG_DIR`,
 - declare `input_chains` for `inbound-local` routes
   (`GET service-catalog`, `POST catalog/remote-query`) and for
   `inbound-peer` message types (`offer-catalog.fetch.response`,
   `offer-catalog.push`),
-- consume the host-owned `authtok` and `middleware_home` env
-  contract,
+- consume per-launch channel credentials and the host-owned `middleware_home`
+  contract without persisting or logging credentials,
 - use host capability endpoints for all peer transport, never opening
   its own outbound peer sockets.
 
@@ -482,8 +483,7 @@ Status:
 
 ## Notes
 
-Arca is bundled as a supervised Python middleware module under the
-`http_local_json` executor; the bundled implementation lives at
+Arca is bundled as a supervised Python `channel_json` middleware module; the bundled implementation lives at
 `node/middleware-modules/arca/` (see the module's `README.md`,
 `service.py`, and `config/00-arca.json`). The Arca/Dator split is the
 deployment model — the legacy `offer_catalog.enabled` flag has been

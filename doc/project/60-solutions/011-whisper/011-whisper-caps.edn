@@ -93,7 +93,7 @@
   "association-room-proposal.v1"]
 
  :notes
- ["Whisper intake/redaction should be implemented as a supervised HTTP middleware service; shared transport-independent semantics belong in `whisper-core`."
+ ["Whisper intake/redaction is a supervised channel_json middleware service with a separately owned intake/trace/operator HTTP surface; shared transport-independent semantics belong in `whisper-core`."
   "Post-M4 productization adds a host-owned provider-policy shape for Inquirium/model-runtime redaction providers and a secretless simulator acceptance bridge without making adapters publication authorities."
   "`whisper-core` carries production-shaped source, routing, privacy, correlation, association-room, and public-gossip promotion contracts; concrete UI and relay runtime layers consume those contracts later."
   "Callers of outbound privacy should declare intent, not name a concrete relay module."

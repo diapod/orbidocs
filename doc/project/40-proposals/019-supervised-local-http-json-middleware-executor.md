@@ -14,12 +14,14 @@ Post-MVP successor:
 
 ## Status
 
-Proposed (Draft)
+Implemented, then superseded by Proposal 080
 
-The supervised HTTP baseline described here is implemented. Proposal 080 defines
-the additive migration of eligible host-only loopback modules to a shared,
-middleware-initiated WebSocket session. This document remains the source for the
-legacy `http_local_json` lifecycle and for the reasons supervision is host-owned.
+The supervised HTTP baseline described here was implemented and provided the
+lifecycle foundation for Proposal 080. P080-029 through P080-033 now reject and
+remove `http_local_json`; all bundled supervised modules use the shared,
+middleware-initiated `channel_json` session. This document is historical rationale,
+not an active executor or package-authoring contract. `local_http_json` remains a
+separate unmanaged-service adapter.
 
 ## Date
 

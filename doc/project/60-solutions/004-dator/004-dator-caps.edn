@@ -95,8 +95,8 @@
              "peer-message-invoke.v1.schema.json"
              "artifact-delivery-envelope.v1"]
    :responsibilities
-   ["Run as a supervised http_local_json middleware module under the daemon"
-    "Consume the host-owned authtok and middleware_home env contract"
+   ["Run as a supervised channel_json middleware module under the daemon"
+    "Consume per-launch channel credentials and the host-owned middleware_home contract"
     "Declare handled service types and inbound routes through middleware-init/module-report"
     "Use host capabilities for passport issuance, peer dispatch, artifact.delivery.send, and role capability invocation"
     "Never open its own peer transport sockets"]
@@ -180,7 +180,7 @@
   "service-order.dispatch.response"]
 
  :notes
- ["Dator is bundled as a supervised Python middleware module under the http_local_json executor."
+ ["Dator is bundled as a supervised Python channel_json middleware module and separately retains its bounded product/provider listener."
   "The Arca/Dator split is the only deployment model for the current marketplace runtime: Dator is supply-side, Arca is demand-side."
   "service_type names the concrete marketplace service offered by Dator; task_type remains an Arca/workflow-side selector that may resolve to a service type during provider selection."
   "Queueing is the main remaining Dator completeness gap for provider execution hardening."]}

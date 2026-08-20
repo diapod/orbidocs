@@ -2,7 +2,9 @@
   "schema": "middleware-channel-host-capability-call.v1",
   "schema/v": 1,
   "capability/id": "artifact.delivery.send",
+  "operation": "invoke",
   "request/schema": "artifact-delivery-envelope.v1",
   "request": {},
+  "completion/mode": "deferred",
   "idempotency/key": "artifact-send:01JZP080"
 }

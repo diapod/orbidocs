@@ -46,9 +46,9 @@
               "doc/project/20-memos/node-middleware-init-and-capability-reporting.md"]
    :schemas ["middleware-module-report.schema.json"]
    :responsibilities
-   ["Accept `raw_signal_access` declaration block in supervised HTTP middleware module reports"
+   ["Accept `raw_signal_access` declaration block in supervised channel middleware module reports"
     "Support `requires_raw_signal` and `requires_component_io_trace` boolean flags with a human-readable `reason`"
-    "Bind module metadata to runtime exposure at the daemon supervisor layer — the HTTP executor remains unaware of module reports"
+    "Bind module metadata to runtime exposure at the daemon supervisor layer — the channel transport remains subordinate to module reports"
     "Wrap ready supervised executors with the latest module-report `raw_signal_access` declaration"]
    :status :done}
 

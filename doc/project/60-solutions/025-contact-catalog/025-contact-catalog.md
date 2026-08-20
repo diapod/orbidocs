@@ -374,7 +374,8 @@ privacy mechanics evolve at the lookup edge without changing the route-candidate
 contract.
 
 Concrete crate/module ownership belongs in the Node implementation repository.
-The expected implementation shape is a Rust supervised HTTP middleware that
+The implementation is a Rust supervised `channel_json` middleware with a separately
+owned bounded Contact Catalog product HTTP service. It
 links `orbiplex-node-catalog`, implements `ContactClaimRecord: CatalogRecord`,
 and stores data under a middleware-owned SQLite database such as
 `<node-data-dir>/storage/contact-catalog.sqlite`.
