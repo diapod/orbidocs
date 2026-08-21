@@ -381,6 +381,16 @@ or other process-backed modules may use this type when their behavior is too ric
 JSON-e Flow. It is heavier than declarative middleware, so use it only when the
 process boundary and lifecycle buy clarity or capability.
 
+Temporary listener loss uses bounded same-launch reconnect. Generated profiles use
+`reconnect_grace_ms = 5000`; an operator may choose `1..=60000` milliseconds. A
+five-second default covers ordinary local listener replacement or host reload without
+masking a dead host for long; the 60-second ceiling exists for deliberately slower
+local environments, not as a network-failure retry budget. A
+replacement session becomes restored only after its application heartbeat, and every
+pending call from the lost session fails rather than being replayed. Calls made while
+detached fail immediately. Authentication or protocol refusal is permanent for the
+current launch and does not consume the transport reconnect grace.
+
 #### Registration shape
 
 - Service code shipped as a bundled module or installed package.
@@ -1084,6 +1094,54 @@ not be used as a generic escape hatch for arbitrary internal APIs.
 ```
 
 #### Possible decisions
+
+Provider middleware that needs a discoverable capability passport must declare
+desired state through `capability.passport.reconcile`; it must not own another
+issue/persist/publish retry loop. The authenticated module id is authoritative and
+must equal `issued_for_module_id`. Omit `publication` for fail-closed `local-only`:
+
+```json
+{
+  "schema_version": "v1",
+  "capability_id": "capability_passport_reconcile",
+  "issued_for_module_id": "contact-catalog-service",
+  "requested_capability_id": "contact-catalog",
+  "scope": {"catalog_kind": "contact"}
+}
+```
+
+Seed Directory publication additionally requires `publication.mode =
+seed-directory` and the exact host policy ref/revision. Modules observe bounded
+retry, partial endpoint progress, renewal, and revocation through
+`GET /v1/capability-passport-publications?limit=N` (`N` defaults to 50 and is capped
+at 100); they never receive authority to publish
+an arbitrary learned passport id. Low-level `capability.passport.issue` and
+`capability.passport.publish` remain separate host-owned effects for explicit
+operator/domain flows.
+
+The operator admits exact module/capability pairs in daemon config. The declaration
+allowlist controls local issuance through the reconciler; the Seed Directory list is
+an additional egress boundary:
+
+```json
+{
+  "passport_publication": {
+    "declaration_allowlist": {
+      "contact-catalog-service": ["contact-catalog"]
+    },
+    "seed_directory_allowlist": {
+      "contact-catalog-service": ["contact-catalog"]
+    },
+    "max_declarations": 256,
+    "max_declarations_per_module": 32
+  }
+}
+```
+
+Every listed capability must be passport-eligible in Capability Registry; public
+entries must also be discovery-eligible. Empty or absent public admission remains
+fail-closed `local-only`. Operator capacities may be narrowed but cannot exceed the
+host ceilings of 4,096 total declarations and 256 declarations per module.
 
 The host capability bridge does not use `middleware-decision.v1` directly.
 Concrete capabilities have their own response contracts, but the implemented

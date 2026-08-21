@@ -1057,11 +1057,19 @@ Recent component deltas:
   This raises P016, P021, and Arca readiness without promoting the broader Story-009
   product story into the hard-MVP blocker set.
 - Shared Offer Catalog is now hard-MVP complete. Proposal 067 and Solution 033 document the extracted shared Python offer-catalog runtime, Agora replay, fail-closed Agora/Seed Directory admission, Arca embedded-cache reuse, query parity, withdrawal active filtering, public/shared catalog deployment profile (`node/middleware-modules/offer-catalog/config/profiles/public-shared-catalog.json`), automatic `shared-offer-catalog` passport publication readiness with classified pending reasons, redacted Host Agora and Seed Directory admission diagnostics, and a local public-profile smoke runner (`node/tools/acceptance/shared-offer-catalog-public-smoke.py`) covering authorized replay, bad-signature refusal, unknown-provider refusal, withdrawn-offer inspection semantics, and the HTTP query surface. The remaining public-profile operating policy is now resolved and enforced where applicable: passport renewal is supervisor-driven by default, and non-loopback Agora URLs must use HTTPS/TLS with Node fail-closed replay validation. Remaining work is post-MVP production hardening such as broader monitoring matrices and eventual legacy peer-message retirement.
-- Proposal 080 hard-MVP is fully implemented through P080-033. Post-MVP Phase 8
-  tracks P080-034 through P080-038 for a daemon-owned capability-passport publication
-  reconciler with fail-closed `local-only` default; Post-MVP Phase 9 tracks P080-039
-  through P080-043 for repeated `channel_json` reconnect hardening without transparent
-  request replay. These follow-ups do not reduce the completed hard-MVP score. The
+- Proposal 080 hard-MVP and post-MVP Phases 8 and 9 are fully implemented through
+  P080-043.
+  The daemon-owned capability-passport publication reconciler uses a fail-closed
+  `local-only` default, caller-bound schema-gated declarations, append-only rebuild,
+  registry- and config-bound module/capability admission, bounded list/diagnostic
+  projections, deadline-terminal retry, forward-compatible fact-kind replay,
+  renewal/revocation, and provider migrations. Repeated `channel_json`
+  reconnect now receives a fresh bounded window only after heartbeat-confirmed
+  restoration, uses a generated 5-second default with a 60-second ceiling, binds all
+  pending work to a session generation, and never transparently replays an old
+  request. Supervisor and daemon listener-flap acceptance cover same-launch recovery
+  and full-restart launch replacement. These post-MVP additions do not change the
+  completed hard-MVP score. The
   checked inventory covers
   all 18 bundled modules and all select `channel_json`; eight independently
   authenticated product HTTP listeners remain for Agora, Arca, Attestation, Contact

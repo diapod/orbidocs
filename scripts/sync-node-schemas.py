@@ -12,6 +12,11 @@ EXAMPLES_DIR = SCHEMAS_DIR / "examples"
 INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
+MIDDLEWARE_SCHEMA_WHITELIST = (
+    "capability-passport-publication-desired-state.v1.schema.json",
+    "capability-passport-publication-status-list.v1.schema.json",
+    "capability-passport-publication-status.v1.schema.json",
+)
 NODE_WORKSPACE_SENTINELS = (
     Path("Cargo.toml"),
     Path("protocol/Cargo.toml"),
@@ -982,10 +987,12 @@ def main() -> int:
     semantic_invalid_target = example_target / "semantic-invalid"
     golden_target = contracts_root / "golden"
     schema_gate_agora_target = node_root / "schema-gate" / "contracts" / "schemas" / "agora"
+    middleware_schema_target = node_root / "middleware" / "schemas"
 
     copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target)
     copy_shared_schemas(schema_target)
     copy_files(SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR, schema_gate_agora_target)
+    copy_files(MIDDLEWARE_SCHEMA_WHITELIST, SCHEMAS_DIR, middleware_schema_target)
     copy_files(EXAMPLE_WHITELIST, EXAMPLES_DIR, example_target)
     copy_files(INVALID_EXAMPLE_WHITELIST, INVALID_EXAMPLES_DIR, invalid_target)
     copy_files(

@@ -1059,30 +1059,55 @@ The target contract has these invariants:
 5. Reconciliation decisions and effects are durable facts. Restart rebuilds desired
    and observed state without consulting an unversioned current default, and
    revocation or supersession never rewrites historical issue/publish facts.
+6. Both local declaration and Seed Directory egress are host-policy decisions over
+   exact module/capability pairs. Capability ids must be passport-eligible in the
+   Capability Registry; public entries must additionally be discovery-eligible and
+   present in the operator-visible `passport_publication.seed_directory_allowlist`.
+   No authenticated module may grow the declaration set with arbitrary identifiers.
 
-The declarative shape should distinguish intent from observation. The exact schema is
-frozen during P080-035, but its semantic shape is:
+The declarative shape distinguishes intent from observation. P080-035 freezes the
+strict `capability-passport-publication-desired-state.v1` ingress as:
 
 ```json
 {
-  "capability_id": "contact-catalog",
-  "module_id": "contact-catalog-service",
+  "schema_version": "v1",
+  "capability_id": "capability_passport_reconcile",
+  "issued_for_module_id": "contact-catalog-service",
+  "requested_capability_id": "contact-catalog",
+  "scope": {"deployment": "public-provider"},
   "publication": {
-    "mode": "local-only"
+    "mode": "seed-directory",
+    "policy_ref": "policy:capability-passport-publication:v1",
+    "policy_revision": "1"
   }
 }
 ```
 
 `publication.mode` is a closed v1 set containing `local-only` and
 `seed-directory`. `local-only` is the schema default and the behavior when no
-publication declaration exists. The read model separately reports desired mode,
-passport id and revision, issue/expiry timestamps, attempted and successful Seed
-Directory endpoints, retry deadline, last bounded error, supersession/revocation
-refs, and an observed state from this closed set:
+publication declaration exists. The daemon derives `caller_principal` from the
+authenticated module binding and rejects disagreement with `issued_for_module_id`.
+The resolved daemon config exposes `passport_publication.declaration_allowlist`,
+`passport_publication.seed_directory_allowlist`, `max_declarations`, and
+`max_declarations_per_module`. Both allowlists are validated against the Capability
+Registry before effects; the public allowlist is a further narrowing of local
+declaration authority. Operator capacities remain below host hard ceilings of 4,096
+total and 256 per module. The v1 policy ref and revision are constants in the
+ingress schema rather than free-form pseudo-references.
+The schema-gated detail and list read models separately report desired mode, passport id,
+issue/expiry timestamps, attempted/successful/failed Seed Directory endpoints,
+bounded `retry_attempt`, `next_retry_at`, `retry_deadline`, last bounded error,
+`superseded_passport_id`, `revocation_ref`, and an observed state from this closed
+set:
 
 ```text
 local-only | publish-pending | published | degraded | revoked | superseded
 ```
+
+`GET /v1/capability-passport-publications?limit=N` defaults to 50 and accepts at
+most 100 entries. The response includes `limit`, `total`, and `truncated`; endpoint
+arrays/maps and remote diagnostic strings are also bounded before persistence and
+projection.
 
 Seed Directory publication succeeds only when at least one intended endpoint accepts
 the exact passport advertisement. Partial success is explicit: already successful
@@ -1092,12 +1117,13 @@ backoff, and sequence advancement remains host-owned. Readiness may require
 discoverability as required; a local-only passport must not become unavailable merely
 because Seed Directory is absent.
 
-Offer Catalog and Contact Catalog are the first migration targets because they own
-custom publication loops today. Public provider passports for Agora relay and
-Attestation may then use the same reconciler when their deployment declarations
-explicitly request discovery. Subject-control passports issued by Attestation and
-local authorization passports used by Dator or Messaging are not migration targets
-for public publication.
+Offer Catalog and Contact Catalog now declare desired state through this reconciler;
+their custom issue/persist/publish loops are removed. Agora relay uses the same path
+with explicit `publish_passport_to_seed_directory`; the default remains local-only.
+Attestation provider capability ids are admitted by the reconciler when a deployment
+adds an explicit provider declaration, while its current subject-control passports
+remain on the separate low-level local-only issue path. Dator, Messaging, pairwise,
+contact-specific, and ephemeral passports are not public-publication targets.
 
 ## Post-MVP Phase 9: Repeated `channel_json` Reconnect Hardening
 
@@ -1107,10 +1133,11 @@ new `session/id`, advances `session/epoch`, repeats init/report and application
 heartbeat, and returns the component to `ready`. In-flight requests from the lost
 session fail and are never transparently replayed.
 
-The Python and Rust client loops currently retain the first outage deadline for the
-remaining lifetime of the process. After one successful reconnect and a later second
-disconnect, that stale deadline may already be exhausted. Phase 9 makes reconnect
-budget explicitly per outage rather than per process lifetime.
+The Python and Rust client loops now create a fresh reconnect deadline for each
+outage. A successful WebSocket attach alone does not reset that deadline: the new
+session must first complete its application-heartbeat exchange. A later disconnect
+therefore receives a new bounded recovery window rather than inheriting stale budget
+from an earlier outage.
 
 The target contract has these invariants:
 
@@ -1139,19 +1166,21 @@ grace exhaustion, and recovery through the supervisor restart policy. A daemon-l
 test temporarily stops and restores the shared listener without stopping the child,
 then proves renewed init/report, heartbeat, routing, and readiness.
 
-Current generated profiles commonly use `reconnect_grace_ms = 1000`. P080-042 must
-measure and freeze a safer generated default, with 5 seconds as the candidate, while
-keeping a bounded operator override. This tuning must not weaken shutdown deadlines
-or turn permanent authentication/protocol refusal into an unbounded retry loop.
+Generated profiles use `reconnect_grace_ms = 5000`. Operator overrides remain
+bounded to `1..=60000` milliseconds. Authentication and protocol refusals are
+permanent for the current launch and fail immediately; only transport loss consumes
+the reconnect grace. Five seconds covers ordinary local listener replacement or host
+reload without masking a dead host for long; the 60-second ceiling permits
+deliberately slower local environments and is not a network-failure retry budget.
+This tuning does not change shutdown deadlines.
 
 ## Open Questions
 
 None for the hard-MVP contract. Credential lifetime, persistent-stdio scope,
 product-listener ownership, and the fail-closed `http_local_json` retirement policy
 are frozen above. Phase 8 freezes `local-only` as the publication default and Phase 9
-freezes per-outage reconnect without transparent request replay; P080-042 remains an
-implementation measurement for the bounded default duration, not an authority or
-protocol-semantics decision.
+freezes per-outage reconnect without transparent request replay, including the
+5-second generated default and 60-second operator ceiling.
 
 ## Implementation Tracker
 
@@ -1190,37 +1219,30 @@ protocol-semantics decision.
 | P080-031 | Remove the `http_local_json` runtime contract, schema, and implementation | done | `HttpLocalJsonExecutorConfig`, the supervised HTTP-local runtime/supervisor, executor-specific auth injection, schema, exports, dependencies, factory branches, and enum cases are removed. Shared lifecycle primitives moved to transport-neutral owners. The renamed product-listener inventory and structural drift gate replace the old compatibility checker. `local_http_json` remains intact. |
 | P080-032 | Replace legacy tests and run migration acceptance | done | Tests that asserted HTTP-local compatibility are replaced by explicit legacy-config/package refusal tests and channel lifecycle tests. Inventory checker, Python channel conformance, daemon middleware/component tests, Story-005, Story-009, strict Story-010, and focused Agora/Attestation/Contact/Messaging/Recovery acceptance pass with zero production `http_local_json` construction or configuration. A repository structural check allows the token only in migration diagnostics, historical documentation, and refusal fixtures. |
 | P080-033 | Synchronize final retirement documentation and implementation evidence | done | Middleware Solution, FAQ/HOWTO, package authoring guidance, config references, Capability Matrix where applicable, Node MVP tracker, implementation ledger and generated view, and readiness snapshot describe channel-first supervision plus independent product HTTP listeners. The checked inventory and code searches provide evidence for zero active `http_local_json`; retained historical references are clearly marked as superseded. |
-| P080-034 | Preserve separate capability-passport issue and publish effects | todo | Keep `capability.passport.publish` as the low-level host-owned, auditable Seed Directory effect rather than folding it into issue or making issue imply public discovery. Document retryability and effect receipts separately for both operations. |
-| P080-035 | Define fail-closed passport publication desired state and caller binding | todo | Add a schema-gated declaration with closed `publication.mode = local-only | seed-directory`, default and missing-value behavior fixed to `local-only`, plus `issued_for_module_id`, caller principal, policy ref/revision, and publication intent binding. Refuse unknown modes, cross-module passport ids, and policy/revision mismatch before effects. |
-| P080-036 | Implement the daemon-owned passport publication reconciler | todo | Own issue, persistence, publish, partial endpoint progress, bounded retry, renewal, revocation/supersession and restart rebuild in one daemon service. Expose desired/observed state and append-only facts; require at least one accepted intended endpoint before `published`, without making local-only readiness depend on Seed Directory. |
-| P080-037 | Migrate provider passport publication to the reconciler | todo | Remove custom Offer Catalog and Contact Catalog publication loops. Route explicitly discoverable Agora relay and Attestation provider passports through the same declaration where configured, while keeping Dator/local authorization, subject-control, pairwise, contact-specific and ephemeral passports local-only. |
-| P080-038 | Prove passport reconciliation refusal, recovery and migration | todo | Add restart/rebuild, partial endpoint, expiry/renewal, revoke/supersede, missing policy, unknown mode, absent Seed Directory, cross-module id and no-silent-publication tests. Synchronize operator status, runbooks, implementation ledger and relevant capability documentation after code lands. |
-| P080-039 | Reset reconnect grace after each fully restored channel session | todo | Make Python and Rust reconnect budgets per outage. Client restoration requires authenticated attach plus an application-heartbeat exchange; supervisor `ready` additionally requires valid init/report. Reset host-side accounting only after that transition, retain bounded cadence, and let grace exhaustion flow into the existing supervised restart policy. |
-| P080-040 | Add repeated-disconnect client conformance tests | todo | Cover two consecutive disconnect/reconnect cycles in Python and Rust, session epoch advancement, stale replies, detached-call refusal, pending-call failure and grace exhaustion. Keep externally visible failure codes aligned across both clients. |
-| P080-041 | Add daemon-level shared-listener flap acceptance | todo | Stop and restore the shared listener while supervised children remain alive, then prove same-launch re-authentication, new epoch, renewed report/heartbeat, restored routing/readiness and no completion from an old session. Also prove full daemon restart creates a new launch rather than resurrecting the old session. |
-| P080-042 | Measure and freeze the generated reconnect grace default | todo | Evaluate the current 1-second profiles against listener reload and scheduling jitter, use 5 seconds as the candidate generated default, preserve a bounded operator override, and prove permanent auth/protocol failures do not retry indefinitely or delay bounded shutdown. |
-| P080-043 | Preserve no-transparent-replay across reconnect | todo | Keep every old-session in-flight call terminally failed and every detached call fail-fast. Add effectful refusal tests proving retry occurs only through idempotency, durable operation ids or Deferred Operation, never because the transport silently replays a frame. |
+| P080-034 | Preserve separate capability-passport issue and publish effects | done | `PassportPublicationEffects` composes the existing host-owned issue, publish, and revoke operations without merging them. Intent and result facts precede/follow each effect, and the explicit low-level operator/host routes remain available. |
+| P080-035 | Define fail-closed passport publication desired state and caller binding | done | Strict synchronized desired/status schemas close the publication mode, default omission to `local-only`, bind `issued_for_module_id` to authenticated module identity, and reject unknown modes, non-constant public-policy binding, cross-module declarations, and module/capability pairs absent from host policy before effects. Capability ids resolve through Capability Registry; `capability.passport.reconcile` is a registered host-local, non-passportable capability. |
+| P080-036 | Implement the daemon-owned passport publication reconciler | done | The daemon service owns append-only desired/observed facts with a closed writer vocabulary and future-kind-tolerant replay, full paged rebuild, crash-gap passport recovery, issue/publish/revoke/supersede, expiry-window renewal, partial endpoint merge, attempt/window-bounded backoff, declaration capacities, bounded endpoint diagnostics, and limitable schema-gated list/detail operator status. Zero accepted endpoints stays degraded rather than published. |
+| P080-037 | Migrate provider passport publication to the reconciler | done | Offer Catalog and Contact Catalog custom publication stores/loops are removed; Agora relay declares local-only by default and Seed Directory only through explicit config. The reconciler admits explicit Attestation provider capabilities but current subject-control passports remain local-only on the low-level issue path. |
+| P080-038 | Prove passport reconciliation refusal, recovery and migration | done | Schema, reconciler, route, Offer, Contact, and Agora tests cover caller spoofing, exact policy constants, registry/config allowlists, declaration and projection bounds, missing/mismatched policy, unknown mode, no silent publication, absent/partial endpoints, attempt- and deadline-based retry exhaustion, paged/future-kind restart rebuild, crash-gap recovery, renewal, revoke/supersede lineage, and closed list/detail operator status. HOWTO, ledger, MVP tracker, and readiness snapshot are synchronized. |
+| P080-039 | Reset reconnect grace after each fully restored channel session | done | Rust and Python clients open one fresh reconnect window per transport outage and reset it only after the replacement session sends a valid application-heartbeat response. Supervisor readiness still additionally requires schema-gated init/report, and grace exhaustion enters the existing restart policy. |
+| P080-040 | Add repeated-disconnect client conformance tests | done | Cross-language tests cover three successive session epochs, a second outage after the first grace would have expired, detached-call refusal, stale reply disposal, pending-call failure, and immediate permanent authentication refusal. Both clients distinguish retryable transport loss from protocol/authentication failure. |
+| P080-041 | Add daemon-level shared-listener flap acceptance | done | Supervisor and real-daemon acceptance stop and restore the same bound listener while the child remains alive, then prove unchanged pid/launch, advanced epoch, renewed init/report plus heartbeat, restored routing/readiness, and no old-session completion. Full daemon restart provisions a new launch at epoch one. |
+| P080-042 | Measure and freeze the generated reconnect grace default | done | Generated factory and Story profiles now use 5 seconds; config admission accepts only `1..=60000` milliseconds. Authentication and protocol failures fail immediately rather than consuming reconnect grace, while transport loss retains bounded retry and unchanged shutdown escalation. |
+| P080-043 | Preserve no-transparent-replay across reconnect | done | Pending maps, outbound frames, cancellation state, and worker responses are bound to a monotonic session generation in Rust and Python. Lost-session calls fail terminally, detached calls fail fast, late results are discarded, and effect tests prove reconnect does not execute or deliver an old request again. |
 
 ## Next Actions
 
-1. Implement P080-034 and P080-035 before migrating any additional module-owned
-   passport publication loop; do not broaden the current coarse publish authority.
-2. Implement the reconciler in P080-036, migrate the existing loops in P080-037, and
-   close its refusal/recovery evidence in P080-038.
-3. Fix the per-process reconnect deadline in P080-039 before treating repeated
-   transient channel loss as self-healing; complete P080-040 through P080-043 as one
-   conformance and acceptance slice.
-4. Keep the P080-002 product-listener inventory and retired-executor drift gates green
+1. Keep the P080-002 product-listener inventory and retired-executor drift gates green
    as bundled factory modules are added or their listener ownership changes.
-5. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
+2. Keep the P080-003 schemas, fixtures, and semantic golden vectors synchronized
    through the Orbidocs-to-Node mirror and schema gate.
-6. Preserve the distinction between channel-owned middleware traffic and independently
+3. Preserve the distinction between channel-owned middleware traffic and independently
    authenticated product HTTP APIs.
-7. Keep factory executor ownership and retained-listener metadata aligned with the
+4. Keep factory executor ownership and retained-listener metadata aligned with the
    checked inventory whenever a bundled module changes transport.
-8. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
-9. Require every new cross-component dependency or effectful middleware package to
+5. Keep the daemon bridge as the sole Node UI path to channel-owned server HTML.
+6. Require every new cross-component dependency or effectful middleware package to
    carry `middleware-component-contract.v1`; do not reconstruct the graph from
    successful runtime lookups.
-10. Treat live launch-credential rotation and re-authentication as a separate protocol
+7. Treat live launch-credential rotation and re-authentication as a separate protocol
    hardening slice; do not weaken per-launch identity binding with ad hoc refresh.

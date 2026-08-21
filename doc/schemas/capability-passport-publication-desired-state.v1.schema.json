@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbiplex.ai/schemas/capability-passport-publication-desired-state.v1.schema.json",
+  "title": "Capability Passport Publication Desired State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "capability_id",
+    "issued_for_module_id",
+    "requested_capability_id",
+    "scope"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "v1"
+    },
+    "capability_id": {
+      "const": "capability_passport_reconcile"
+    },
+    "issued_for_module_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "requested_capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "capability_profile": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "expires_in_sec": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 31536000,
+      "default": 86400
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["local-only", "seed-directory"],
+          "default": "local-only"
+        },
+        "policy_ref": {
+          "const": "policy:capability-passport-publication:v1"
+        },
+        "policy_revision": {
+          "const": "1"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {"const": "seed-directory"}
+            },
+            "required": ["mode"]
+          },
+          "then": {
+            "required": ["policy_ref", "policy_revision"]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {"required": ["policy_ref"]},
+                {"required": ["policy_revision"]}
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

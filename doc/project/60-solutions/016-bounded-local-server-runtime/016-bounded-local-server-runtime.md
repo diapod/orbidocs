@@ -49,12 +49,17 @@ A single `bounded-server` crate providing:
   rejected connections.
 - **Shutdown**: the stop signal closes the accept loop. Workers poll a shared
   stop flag on a 250ms interval and exit when the receiver disconnects. The
-  server joins worker threads and returns final metrics. This sync primitive
-  does not preempt a handler thread; handlers must enforce read/write deadlines
-  and return.
+  server handle joins the acceptor and worker threads and returns final metrics.
+  This sync primitive does not preempt a handler thread; handlers must enforce
+  read/write deadlines and return.
 - **Thread pool**: a fixed-size pool of `max_connections` worker threads pulls
   from a bounded `sync_channel`. The channel depth equals `max_connections`,
   doubling as an overload signal when `try_send` fails.
+- **Fallible startup**: workers are created before the acceptor with
+  `thread::Builder::spawn`. If any spawn fails, the stop token is set, every
+  already-created worker is joined, the listener is released, and the caller
+  receives a typed `io::Error`; no partial server becomes reachable and no
+  caller-held lifecycle mutex is poisoned.
 - **Metrics**: `active_connections`, `accepted_total`,
   `rejected_over_capacity_total`, `handler_errors_total`, `shutdown_drain_ms`,
   `last_accept_error`, `last_handler_error`.
@@ -93,7 +98,10 @@ remaining process rather than hiding it as a successful shutdown.
 ## Failure Modes and Mitigations
 
 - **Channel disconnect**: workers notice `RecvTimeoutError::Disconnected` and
-  exit gracefully. The server join thread waits for all workers.
+  exit gracefully. The server handle waits for the acceptor and all workers.
+- **Thread-capacity exhaustion during startup**: startup returns `io::Error`
+  only after the partial worker pool has been stopped and joined. The failure
+  does not unwind through daemon lifecycle locks.
 - **Worker panic**: handler panics are caught at the per-connection boundary,
   counted as `handler_errors_total`, stored as `last_handler_error`, and the
   worker continues serving later connections.
@@ -123,6 +131,7 @@ remaining process rather than hiding it as a successful shutdown.
 - [x] Expose daemon resource pressure in runtime metrics and Node UI status.
 - [x] Add bounded Python HTTP helper test for fast 503 rejection.
 - [x] Add integration test that verifies 503 under load in a real daemon context.
+- [x] Make acceptor/worker startup fallible and prove partial-pool cleanup.
 - [ ] Post-MVP: keep an explicit audit inventory for any production local
       listener that is not backed by `bounded-server`,
       `BoundedThreadingHTTPServer`, or a documented equivalent bounded adapter.

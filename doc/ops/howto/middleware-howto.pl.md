@@ -390,6 +390,17 @@ nadaje ambient daemon privilege. Readiness wynika z attach, schema-gated init/re
 oraz heartbeat. Ten typ jest właściwy dla modułów Python, Rust i innych procesów,
 których zachowanie jest zbyt bogate dla JSON-e Flow.
 
+Chwilowa utrata listenera korzysta z ograniczonego reconnectu w ramach tego samego
+launchu. Generowane profile używają `reconnect_grace_ms = 5000`; operator może wybrać
+wartość `1..=60000` milisekund. Domyślne pięć sekund obejmuje zwykłą wymianę lokalnego
+listenera lub przeładowanie hosta bez długiego maskowania jego awarii; limit 60 sekund
+służy celowo wolniejszym środowiskom lokalnym, a nie jako budżet ponawiania awarii
+sieciowej. Sesja zastępcza staje się odtworzona dopiero po
+heartbeat aplikacyjnym, a każde oczekujące wywołanie z utraconej sesji kończy się
+błędem zamiast być odtwarzane. Wywołania podczas odłączenia zawodzą natychmiast.
+Odmowa uwierzytelnienia lub protokołu jest trwała dla bieżącego launchu i nie zużywa
+budżetu reconnectu transportowego.
+
 #### Kształt rejestracji
 
 - Kod usługi dostarczony jako moduł wbudowany albo zainstalowany pakiet.
@@ -1113,6 +1124,55 @@ wewnętrznych API.
 ```
 
 #### Możliwe decyzje
+
+Middleware providera, który potrzebuje odkrywalnego capability passport, deklaruje
+stan pożądany przez `capability.passport.reconcile`; nie powinien posiadać kolejnej
+pętli issue/persist/publish/retry. Uwierzytelniony identyfikator modułu jest
+autorytatywny i musi być równy `issued_for_module_id`. Pominięcie `publication`
+oznacza fail-closed `local-only`:
+
+```json
+{
+  "schema_version": "v1",
+  "capability_id": "capability_passport_reconcile",
+  "issued_for_module_id": "contact-catalog-service",
+  "requested_capability_id": "contact-catalog",
+  "scope": {"catalog_kind": "contact"}
+}
+```
+
+Publikacja w Seed Directory wymaga dodatkowo `publication.mode = seed-directory`
+oraz dokładnego policy ref/revision hosta. Moduły obserwują bounded retry, częściowy
+postęp endpointów, renewal i revocation przez
+`GET /v1/capability-passport-publications?limit=N` (`N` ma domyślnie 50 i maksimum
+100); nie dostają autorytetu do publikowania
+dowolnego poznanego passport id. Niskopoziomowe `capability.passport.issue` i
+`capability.passport.publish` pozostają osobnymi efektami host-owned dla jawnych
+przepływów operatorskich/domenowych.
+
+Operator dopuszcza dokładne pary moduł/capability w konfiguracji demona. Allowlista
+deklaracji kontroluje lokalne wydawanie przez reconciler, a lista Seed Directory jest
+dodatkową granicą egress:
+
+```json
+{
+  "passport_publication": {
+    "declaration_allowlist": {
+      "contact-catalog-service": ["contact-catalog"]
+    },
+    "seed_directory_allowlist": {
+      "contact-catalog-service": ["contact-catalog"]
+    },
+    "max_declarations": 256,
+    "max_declarations_per_module": 32
+  }
+}
+```
+
+Każda wpisana capability musi być passport-eligible w Capability Registry; wpisy
+publiczne muszą być też discovery-eligible. Pusta albo nieobecna admisja publiczna
+pozostaje fail-closed `local-only`. Operator może zawężać pojemności, ale nie może
+przekroczyć sufitów hosta: 4096 deklaracji łącznie i 256 na moduł.
 
 Most host capability nie używa bezpośrednio `middleware-decision.v1`. Konkretne
 capabilities mają własne kontrakty odpowiedzi, ale zaimplementowane klasy wyniku

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbiplex.ai/schemas/capability-passport-publication-status-list.v1.schema.json",
+  "title": "Capability Passport Publication Status List",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "items", "limit", "total", "truncated"],
+  "properties": {
+    "schema": {
+      "const": "capability-passport-publication-status-list.v1"
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "https://orbiplex.ai/schemas/capability-passport-publication-status.v1.schema.json"
+      }
+    },
+    "limit": {"type": "integer", "minimum": 1, "maximum": 100},
+    "total": {"type": "integer", "minimum": 0},
+    "truncated": {"type": "boolean"}
+  }
+}
