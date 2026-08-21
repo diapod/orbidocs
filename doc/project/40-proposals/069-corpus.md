@@ -2005,7 +2005,7 @@ binds it into Room policy v2 and the Chair Agent, proves pre-approval moderation
 admits `mute` and `unmute` after HIL approval, checks exact replay, restarts the authority
 node, and still requires a separate Corpus transition before any answer is published.
 
-#### Phase 8B — Operator-resolved turn order `[~] in progress, post-MVP`
+#### Phase 8B — Operator-resolved turn order `[x] done, post-MVP`
 
 - [x] **`P069-TURN-001` — Freeze the target-free Corpus turn-order offer.** Add the
   closed `corpus-turn-order-offer.v1` contract, canonical digest vectors, and positive
@@ -2015,10 +2015,11 @@ node, and still requires a separate Corpus transition before any answer is publi
   digest for every candidate. Corpus constructs the candidate set only after current
   membership, denial, sanction, `speak`, role, overlay, and expiry checks. The value
   contains no chosen target, grant, floor lease, prompt content, or effect authority.
-- [~] **`P069-TURN-002` — Resolve and apply one turn-order decision before HIL.**
+- [x] **`P069-TURN-002` — Resolve and apply one turn-order decision before HIL.**
   **Dependencies:** `P069-TURN-001`, P049 `P049-008`, and the already implemented
-  P085 generic `select-turn-order` validator (`P085-007`). Move Corpus invocation from
-  the current post-target veto boundary to a pre-target resolution boundary. Resolve
+  P085 generic `select-turn-order` validator (`P085-007`). Corpus invocation now runs
+  at the pre-target resolution boundary rather than the former post-target veto
+  boundary. Resolve
   the immutable offer exactly once, take the first admitted candidate as an inert
   proposed target, then recheck current policy and pass through ordinary HIL,
   delegation, and P070 Room
@@ -2038,9 +2039,13 @@ node, and still requires a separate Corpus transition before any answer is publi
   eligible. It replays the decision idempotently after restart and revalidates
   the current authority
   snapshot at floor admission, and rejects a target other than the first admitted
-  candidate. The remaining closeout is process evidence for the complete pre-HIL
-  route, alternate order, explicit distribution fallback, producer revocation, and
-  the no-floor-authority property across restart.
+  candidate. Process evidence now covers the complete pre-HIL route with reference
+  and alternate package-owned orderings, exact retry and changed-body conflict,
+  node-A restart with durable decision replay, terminal producer revocation without
+  semantic fallback, target-specific ordinary Chair HIL and Room floor admission,
+  and a separate no-producer run that records `source=distribution-policy`. The Flow
+  exposes only an opaque decision carrier and neither it, connected presence, nor
+  scenario helpers can grant or mutate the floor.
 
 `P049-008` may expose the resulting host-owned offer to JSON-e Flow, and `P085-044`
 may package an operator-owned producer, only after the P069 contract exists. Neither

@@ -32,7 +32,7 @@
     "membership/high-water-seq-no": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
     "sanction/high-water-seq-no": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
     "candidates": {
-      "type": "array", "minItems": 1, "maxItems": 16,
+      "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true,
       "items": { "$ref": "#/$defs/candidate" }
     },
     "created-at": { "type": "string", "format": "date-time" },

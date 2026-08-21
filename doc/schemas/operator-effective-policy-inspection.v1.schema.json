@@ -13,6 +13,7 @@
     "schema": {"const": "operator-effective-policy-inspection.v1"},
     "schema/v": {"const": 1},
     "summary": {"$ref": "#/$defs/summary"},
+    "resource/scope": {"$ref": "operator-effective-policy-inspection-input.v1.schema.json#/$defs/resource-scope"},
     "material/differences": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/difference"}},
     "domain/registries": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/domain"}},
     "federation": {"$ref": "#/$defs/federation"},
@@ -63,5 +64,18 @@
       "required": ["kind", "artifact/ref"],
       "properties": {"kind": {"enum": ["package", "policy", "authority-decision", "resource-profile", "domain-registry", "federation-publication"]}, "artifact/ref": {"$ref": "#/$defs/ref"}, "artifact/digest": {"$ref": "#/$defs/digest"}}
     }
-  }
+  },
+  "allOf": [{
+    "if": {
+      "properties": {
+        "summary": {
+          "properties": {"resource/axes-evaluated": {"minimum": 1}},
+          "required": ["resource/axes-evaluated"]
+        }
+      },
+      "required": ["summary"]
+    },
+    "then": {"required": ["resource/scope"]},
+    "else": {"not": {"required": ["resource/scope"]}}
+  }]
 }

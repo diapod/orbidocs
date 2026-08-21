@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-15.
+Snapshot date: 2026-08-21.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -26,6 +26,15 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
+
+P085 closeout summary:
+
+| Proposal | Readiness | Role in P085 closeout | Remaining gap |
+| :--- | ---: | :--- | :--- |
+| P049 | `82%` | Required Flow substrate; `P049-008` is complete | Broader post-MVP Flow work outside the P085 gate |
+| P069 | `100%` | Corpus role, overlay, turn, and Room binding complete | No P085 dependency gap |
+| P070 | `100%` | Room authority and floor admission complete | No P085 dependency gap |
+| P085 | `98%` | Package, policy, registry, and hardware-VM base paths implemented | Retained report with complete package-bound Story 012 lineage (`P085-041`) |
 
 Change basis: this refresh incorporates the current worktree state on 2026-08-03. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
@@ -245,10 +254,10 @@ local/peer comparisons through a narrow peer-posture route that does not return 
 complete invitation inbox, and a three-daemon acceptance
 proves modified-posture, sanction, and local-substitute refusal. Operator inspection
 also has audited render-only `inspect`, `explain`, bounded Mermaid `graph`, and Node UI
-modes over that single accepted projection. The UI separates populated from explicitly
-unavailable sources and follows only bounded projection-owned artifact refs. Rich
-interactive attention and separate peer/refusal provenance navigation remain post-MVP
-under `P085-042`. All five guard anchors are wired for
+modes over that single accepted projection. The production UI now composes the current
+38-axis Inquirium profile plus Agent, Corpus, and Inquirium registries, reports absent
+Arca, Dator, and federation sources explicitly, and exposes separate bounded
+peer-mismatch and refusal-provenance views under completed `P085-042`. All five guard anchors are wired for
 `restrict/grant-set`; Agent effect admission also executes bounded-budget narrowing
 and monotonic risk raising. Federated Inquirium resource profiles are bound to
 authenticated peers, signed posture, current operation entries, and exact runtime
@@ -276,10 +285,19 @@ offer and durable decision contracts are accepted, the opaque Flow offer remains
 caller-bound, single-use, restart-invalidated, and revalidated at use, and a checked-in
 Story 012 structural preflight binds the production Flow digest, canonical producer
 identity, alternate turn-order policy, refusal corpus, parameter inventory, and
-portable/local-authority split. The full Corpus pre-HIL process proof, packaged vfkit
-Story 012 acceptance, and remaining peer/refusal UI views stay open under `P085-041`,
-`P085-042`, and `P085-044`. P085 therefore stays partial and post-MVP; this work does
-not change hard-MVP readiness.
+portable/local-authority split. Completed `P085-044` process evidence covers reference
+and alternate package-owned order, exact replay and changed-body conflict, node-A
+restart, target-specific HIL/floor admission, revocation without fallback, and a
+separate no-producer `distribution-policy` run. The 2026-08-21 real-vfkit base run
+now passes its closed eleven-check validator with the pinned GNU/Linux arm64 image,
+so image construction, Docker availability, and the hardware-VM base route are no
+longer blockers. Only the retained packaged vfkit Story 012 report remains open under
+`P085-041`: the current base report does not carry the exact package activation,
+Flow, turn-order, terminal-product, revocation, and decisive-refusal lineage, and the
+package-only process evidence cannot substitute for that combined boundary. The
+prompt-free `daemon.nse-offer-resolution-trace.v1` remains the canonical offer-resolution
+trace consumed by the operator Trace Explorer. P085 therefore stays partial and
+post-MVP; this work does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1415,7 +1433,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `91` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `98` |
 
 ## Solutions
 

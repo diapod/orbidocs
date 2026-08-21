@@ -197,7 +197,10 @@
         {
           "if": {"properties": {"kind": {"const": "derived-capability"}}},
           "then": {"properties": {"effective/guard-types": {"maxItems": 0}}},
-          "else": {"properties": {"effective/restrictions": {"maxItems": 0}}}
+          "else": {
+            "if": {"properties": {"kind": {"const": "operator-guard"}}},
+            "then": {"properties": {"effective/restrictions": {"maxItems": 0}}}
+          }
         },
         {
           "if": {"properties": {"kind": {"const": "policy-hook"}}},
@@ -206,8 +209,7 @@
             "properties": {
               "anchor": false,
               "effective/capability-ids": {"maxItems": 0},
-              "effective/guard-types": {"maxItems": 0},
-              "effective/restrictions": {"maxItems": 0}
+              "effective/guard-types": {"maxItems": 0}
             }
           },
           "else": {

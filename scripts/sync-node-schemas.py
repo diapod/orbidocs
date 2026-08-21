@@ -413,6 +413,7 @@ EXAMPLE_WHITELIST = (
     "expert-contribution.corpus-reasoning-turn-proposal.json",
     "fixture.corpus-turn-order-offer.json",
     "fixture.corpus-turn-order-decision.json",
+    "fixture.operator-policy.corpus-turn-order-decision.json",
     "local-agent.corpus-reasoning-experiment-proposal.json",
     "revised.corpus-reasoning-experiment-review.json",
     "requested.corpus-reasoning-experiment-review.v2.json",

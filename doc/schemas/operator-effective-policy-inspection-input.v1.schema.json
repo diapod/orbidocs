@@ -13,6 +13,7 @@
     "schema": {"const": "operator-effective-policy-inspection-input.v1"},
     "schema/v": {"const": 1},
     "extension": {"$ref": "operator-extension-inspection.v1.schema.json"},
+    "resource/scope": {"$ref": "#/$defs/resource-scope"},
     "resource/axes": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/axis"}},
     "domain/registries": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/domain"}},
     "federation": {"$ref": "#/$defs/federation"},
@@ -23,6 +24,14 @@
     "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "source": {"enum": ["inquirium-resource-profile", "agent-registry", "corpus-registry", "arca-registry", "dator-registry", "inquirium-registry", "federation"]},
     "domain-name": {"enum": ["agent", "corpus", "arca", "dator", "inquirium"]},
+    "resource-scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["operation", "experiment/class"],
+      "properties": {
+        "operation": {"$ref": "#/$defs/ref"},
+        "experiment/class": {"$ref": "#/$defs/ref"}
+      }
+    },
     "axis": {
       "type": "object", "additionalProperties": false,
       "required": ["axis", "distribution/value", "effective/value", "source/refs"],
@@ -55,5 +64,10 @@
         "decisive/restriction": {"$ref": "#/$defs/ref"}
       }
     }
-  }
+  },
+  "allOf": [{
+    "if": {"properties": {"resource/axes": {"minItems": 1}}, "required": ["resource/axes"]},
+    "then": {"required": ["resource/scope"]},
+    "else": {"not": {"required": ["resource/scope"]}}
+  }]
 }

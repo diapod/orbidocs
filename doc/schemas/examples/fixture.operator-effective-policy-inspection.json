@@ -1,5 +1,6 @@
 {
   "schema": "operator-effective-policy-inspection.v1", "schema/v": 1,
+  "resource/scope": {"operation": "assistant.turn", "experiment/class": "production"},
   "summary": {"safe-mode/active": false, "packages/active": 1, "policies/active": 1, "resource/axes-evaluated": 38, "resource/material-differences": 1, "domains/evaluated": 5, "federation/evaluated": true, "sources/complete": true},
   "material/differences": [{"axis": "assistant/output-bytes-max", "distribution/value": 16384, "requested/value": 32768, "effective/value": 8192, "source/refs": ["operator-resource-envelope:local"]}],
   "domain/registries": [
