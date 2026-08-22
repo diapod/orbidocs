@@ -29,6 +29,36 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.communication-boundary-registry.json)
+      echo "$SCHEMAS_DIR/communication-boundary-registry.v1.schema.json"
+      ;;
+    *.component-communication-observation.json)
+      echo "$SCHEMAS_DIR/component-communication-observation.v1.schema.json"
+      ;;
+    *.component-communication-report.json)
+      echo "$SCHEMAS_DIR/component-communication-report.v1.schema.json"
+      ;;
+    *.component-trace-policy.json)
+      echo "$SCHEMAS_DIR/component-trace-policy.v1.schema.json"
+      ;;
+    *.component-trace-session.json)
+      echo "$SCHEMAS_DIR/component-trace-session.v1.schema.json"
+      ;;
+    *.component-trace-gap.json)
+      echo "$SCHEMAS_DIR/component-trace-gap.v1.schema.json"
+      ;;
+    *.component-trace-record.json)
+      echo "$SCHEMAS_DIR/component-trace-record.v1.schema.json"
+      ;;
+    *.component-trace-manifest.json)
+      echo "$SCHEMAS_DIR/component-trace-manifest.v1.schema.json"
+      ;;
+    *.component-trace-recording-list.json)
+      echo "$SCHEMAS_DIR/component-trace-recording-list.v1.schema.json"
+      ;;
+    *.component-trace-read-model.json)
+      echo "$SCHEMAS_DIR/component-trace-read-model.v1.schema.json"
+      ;;
     *.learning-outcome.json)
       echo "$SCHEMAS_DIR/learning-outcome.v1.schema.json"
       ;;
@@ -1087,6 +1117,14 @@ validate_contract_semantics() {
   data_file=$2
 
   case "$schema_file" in
+    *component-trace-gap.v1.schema.json)
+      # Draft 2020-12 cannot compare sibling numeric fields. Keep the portable
+      # shape in JSON Schema and enforce the cursor-order invariant here and in
+      # the typed Node boundary.
+      jq -e '
+        ."earliest/available-cursor" <= ."latest/available-cursor"
+      ' "$data_file" >/dev/null
+      ;;
     *sensorium-operational-context.v1.schema.json)
       # JSON Schema maxLength counts code points, while the wire contract is
       # bounded by encoded bytes so providers cannot bypass the 512-byte cap.

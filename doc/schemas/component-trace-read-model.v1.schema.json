@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-trace-read-model:v1",
+  "title": "Component Trace Read Model V1",
+  "description": "Bounded offline timeline projection derived from one verified communication-trace recording.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "recording/id", "summary", "timeline", "schema/path-by-digest", "schema/field-help-by-digest"],
+  "properties": {
+    "schema": {"const": "component-trace-read-model.v1"},
+    "schema/v": {"const": 1},
+    "recording/id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+    "summary": {"$ref": "#/$defs/summary"},
+    "timeline": {"type": "array", "maxItems": 1000000, "items": {"$ref": "#/$defs/timeline-item"}},
+    "schema/path-by-digest": {
+      "type": "object",
+      "maxProperties": 4096,
+      "propertyNames": {"$ref": "#/$defs/digest"},
+      "additionalProperties": {"$ref": "#/$defs/relative-path"}
+    },
+    "schema/field-help-by-digest": {
+      "type": "object",
+      "maxProperties": 4096,
+      "propertyNames": {"$ref": "#/$defs/digest"},
+      "additionalProperties": {
+        "type": "array",
+        "maxItems": 512,
+        "items": {"$ref": "#/$defs/schema-field-help"}
+      }
+    }
+  },
+  "$defs": {
+    "counter": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "digest": {"type": "string", "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"},
+    "relative-path": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^/\\u0000][^\\u0000]*$"},
+    "schema-field-help": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pointer", "description"],
+      "properties": {
+        "pointer": {"type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^/[^\\u0000]*$"},
+        "description": {"type": "string", "minLength": 1, "maxLength": 1024}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["completeness", "reason/code", "timeline/items", "observation/count", "gap/count", "host-observed/count", "component-reported/count"],
+      "properties": {
+        "completeness": {"enum": ["complete", "incomplete", "aborted"]},
+        "reason/code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$"},
+        "timeline/items": {"$ref": "#/$defs/counter"},
+        "observation/count": {"$ref": "#/$defs/counter"},
+        "gap/count": {"$ref": "#/$defs/counter"},
+        "host-observed/count": {"$ref": "#/$defs/counter"},
+        "component-reported/count": {"$ref": "#/$defs/counter"}
+      }
+    },
+    "marker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recording/sequence", "marker/kind"],
+      "properties": {
+        "recording/sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "marker/kind": {"enum": ["session", "policy-transition", "context-snapshot", "recovery", "recorder-diagnostic"]},
+        "marker/code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$"}
+      }
+    },
+    "timeline-item": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["item/kind", "item/value"],
+          "properties": {"item/kind": {"const": "observation"}, "item/value": {"$ref": "component-communication-observation.v1.schema.json"}}
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["item/kind", "item/value"],
+          "properties": {"item/kind": {"const": "gap"}, "item/value": {"$ref": "component-trace-gap.v1.schema.json"}}
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["item/kind", "item/value"],
+          "properties": {"item/kind": {"const": "marker"}, "item/value": {"$ref": "#/$defs/marker"}}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "component-trace-recording-list.v1",
+  "schema/v": 1,
+  "recordings": [
+    {
+      "recording/id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "recording/ref": "component-trace-recording:fixture",
+      "capture/session-ref": "component-trace-session:fixture",
+      "completeness": "complete",
+      "started/at": "2026-08-20T12:00:00Z",
+      "ended/at": "2026-08-20T12:01:00Z",
+      "observation/count": 1,
+      "gap/count": 0,
+      "reason/code": "operator-stopped"
+    }
+  ]
+}

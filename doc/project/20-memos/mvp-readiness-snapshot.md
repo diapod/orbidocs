@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-21.
+Snapshot date: 2026-08-22.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -31,10 +31,18 @@ P085 closeout summary:
 
 | Proposal | Readiness | Role in P085 closeout | Remaining gap |
 | :--- | ---: | :--- | :--- |
-| P049 | `82%` | Required Flow substrate; `P049-008` is complete | Broader post-MVP Flow work outside the P085 gate |
+| P049 | `100%` | Required Flow substrate and `P049-008` are complete | No hard-MVP or P085 dependency gap; `template/ref` and demand-driven language extensions remain explicit post-MVP work |
 | P069 | `100%` | Corpus role, overlay, turn, and Room binding complete | No P085 dependency gap |
 | P070 | `100%` | Room authority and floor admission complete | No P085 dependency gap |
 | P085 | `98%` | Package, policy, registry, and hardware-VM base paths implemented | Retained report with complete package-bound Story 012 lineage (`P085-041`) |
+
+The 2026-08-22 P049 refresh records the implemented hard-MVP executor slice as
+complete. Both executor classes, static host-owned Flow steps, bounded policy
+decisions and loops, durable traces, operator inspection, signed package
+activation, Story 009 migration, and P049-008 offer consumption have code and
+acceptance evidence. A separate host-resolved `template/ref` remains a concrete
+post-MVP task; dynamically generated steps, general scratch state, and additional
+helper profiles remain demand-driven and do not reduce MVP readiness.
 
 Change basis: this refresh incorporates the current worktree state on 2026-08-03. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
@@ -298,6 +306,18 @@ package-only process evidence cannot substitute for that combined boundary. The
 prompt-free `daemon.nse-offer-resolution-trace.v1` remains the canonical offer-resolution
 trace consumed by the operator Trace Explorer. P085 therefore stays partial and
 post-MVP; this work does not change hard-MVP readiness.
+
+The post-MVP P086 foundation now provides the neutral communication-observation
+contract family, a startup-loaded six-family boundary registry, a bounded
+generation-fenced host broker, private segmented recording with crash recovery and
+retention, verified offline replay, schema-derived field help, operator API and UI,
+the first `channel_json` and normalized host-capability adapters, and advisory
+Story 005 evidence including a hard-secret absence test. Twelve tracker items are
+complete, nine remain partial, three are todo, and two are explicitly deferred;
+this yields a conservative `65%` readiness estimate. Sustained load evidence,
+selected live-network adapters, richer focused UI, the full supervised Story 005
+profile, Story 012 multi-organ evidence, and Solution promotion remain open. P086
+is additive post-MVP diagnostics and does not change hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1400,7 +1420,7 @@ Recent component deltas:
 | [Proposal 046: Agora Topic-Key Namespace Conventions](../40-proposals/046-agora-topic-key-namespace-conventions.md) | `false` | `false` | `false` | `100` |
 | [Proposal 047: Classification Label Propagation for Memarium-Touching Data](../40-proposals/047-classification-label-propagation.md) | `true` | `true` | `false` | `100` |
 | [Proposal 048: Sensorium OS Connector Action Classes](../40-proposals/048-sensorium-os-connector-action-classes.md) | `true` | `true` | `false` | `100` |
-| [Proposal 049: JSON-e Middleware Transformer Executor](../40-proposals/049-json-e-middleware-transformer-executor.md) | `true` | `true` | `false` | `82` |
+| [Proposal 049: JSON-e Middleware Transformer Executor](../40-proposals/049-json-e-middleware-transformer-executor.md) | `true` | `true` | `false` | `100` |
 | [Proposal 050: Local Readiness Gate](../40-proposals/050-local-readiness-gate.md) | `true` | `true` | `false` | `85` |
 | [Proposal 051: Swarm Membership, Reputation Bootstrap, and Public Adjudication](../40-proposals/051-swarm-membership-and-reputation-bootstrap.md) | `false` | `false` | `false` | `25` |
 | [Proposal 052: Tauri-Hosted Node UI](../40-proposals/052-tauri-hosted-node-ui.md) | `false` | `false` | `false` | `82` |
@@ -1434,6 +1454,7 @@ Recent component deltas:
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
 | [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `98` |
+| [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `65` |
 
 ## Solutions
 

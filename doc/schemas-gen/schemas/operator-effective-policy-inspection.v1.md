@@ -17,6 +17,7 @@ Cognitively bounded, prompt-free effective-policy read model with stable drill-d
 | [`schema`](#field-schema) | `yes` | const: `operator-effective-policy-inspection.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`summary`](#field-summary) | `yes` | ref: `#/$defs/summary` |  |
+| [`resource/scope`](#field-resource-scope) | `no` | ref: `operator-effective-policy-inspection-input.v1.schema.json#/$defs/resource-scope` |  |
 | [`material/differences`](#field-material-differences) | `yes` | array |  |
 | [`domain/registries`](#field-domain-registries) | `yes` | array |  |
 | [`federation`](#field-federation) | `no` | ref: `#/$defs/federation` |  |
@@ -36,6 +37,43 @@ Cognitively bounded, prompt-free effective-policy read model with stable drill-d
 | [`federation`](#def-federation) | ref: `operator-effective-policy-inspection-input.v1.schema.json#/$defs/federation` |  |
 | [`decisive`](#def-decisive) | object |  |
 | [`drilldown`](#def-drilldown) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "summary": {
+      "properties": {
+        "resource/axes-evaluated": {
+          "minimum": 1
+        }
+      },
+      "required": [
+        "resource/axes-evaluated"
+      ]
+    }
+  },
+  "required": [
+    "summary"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "resource/scope"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -55,6 +93,12 @@ Cognitively bounded, prompt-free effective-policy read model with stable drill-d
 
 - Required: `yes`
 - Shape: ref: `#/$defs/summary`
+
+<a id="field-resource-scope"></a>
+## `resource/scope`
+
+- Required: `no`
+- Shape: ref: `operator-effective-policy-inspection-input.v1.schema.json#/$defs/resource-scope`
 
 <a id="field-material-differences"></a>
 ## `material/differences`

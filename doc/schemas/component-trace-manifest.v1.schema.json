@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-trace-manifest:v1",
+  "title": "Component Trace Manifest V1",
+  "description": "Rebuildable bounded inventory and completeness projection for an offline trace session.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "recording/ref", "capture/session-ref", "node/ref", "observation/generation", "start/cursor", "durable/cursor", "started/at", "policy/ref", "policy/digest", "redaction/digests", "segments", "schemas", "contexts", "artifacts", "boundary/coverage", "boundary/exclusions", "counters", "completeness", "reason/code", "recorder/version", "format/profile"],
+  "properties": {
+    "schema": {"const": "component-trace-manifest.v1"},
+    "schema/v": {"const": 1},
+    "recording/ref": {"$ref": "#/$defs/ref"},
+    "capture/session-ref": {"$ref": "#/$defs/ref"},
+    "node/ref": {"$ref": "#/$defs/ref"},
+    "observation/generation": {"$ref": "#/$defs/ref"},
+    "start/cursor": {"$ref": "#/$defs/cursor"},
+    "durable/cursor": {"$ref": "#/$defs/cursor"},
+    "final/cursor": {"$ref": "#/$defs/cursor"},
+    "started/at": {"$ref": "#/$defs/timestamp"},
+    "ended/at": {"$ref": "#/$defs/timestamp"},
+    "policy/ref": {"$ref": "#/$defs/ref"},
+    "policy/digest": {"$ref": "#/$defs/digest"},
+    "redaction/digests": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "#/$defs/digest"}},
+    "segments": {"$ref": "#/$defs/inventory"},
+    "schemas": {"$ref": "#/$defs/inventory"},
+    "contexts": {"$ref": "#/$defs/inventory"},
+    "artifacts": {"$ref": "#/$defs/inventory"},
+    "boundary/coverage": {"type": "array", "maxItems": 512, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+    "boundary/exclusions": {"type": "array", "maxItems": 512, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}},
+    "counters": {"$ref": "#/$defs/counters"},
+    "completeness": {"enum": ["complete", "incomplete", "aborted"]},
+    "reason/code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$"},
+    "recorder/version": {"$ref": "#/$defs/ref"},
+    "format/profile": {"$ref": "#/$defs/ref"}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "digest": {"type": "string", "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"},
+    "timestamp": {"type": "string", "format": "date-time", "maxLength": 64},
+    "cursor": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "inventory-item": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "digest", "size/bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^/\\u0000][^\\u0000]*$"},
+        "digest": {"$ref": "#/$defs/digest"},
+        "size/bytes": {"$ref": "#/$defs/cursor"}
+      }
+    },
+    "inventory": {"type": "array", "maxItems": 4096, "items": {"$ref": "#/$defs/inventory-item"}},
+    "counters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observations", "redactions", "omissions", "drops", "gaps"],
+      "properties": {
+        "observations": {"$ref": "#/$defs/cursor"},
+        "redactions": {"$ref": "#/$defs/cursor"},
+        "omissions": {"$ref": "#/$defs/cursor"},
+        "drops": {"$ref": "#/$defs/cursor"},
+        "gaps": {"$ref": "#/$defs/cursor"}
+      }
+    }
+  },
+  "allOf": [{
+    "if": {"properties": {"completeness": {"const": "complete"}}, "required": ["completeness"]},
+    "then": {
+      "required": ["final/cursor", "ended/at"],
+      "properties": {"counters": {"properties": {"drops": {"const": 0}, "gaps": {"const": 0}}}}
+    }
+  }]
+}

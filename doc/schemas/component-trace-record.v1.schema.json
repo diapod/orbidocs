@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-trace-record:v1",
+  "title": "Component Trace Record V1",
+  "description": "One independently parseable discriminated JSONL recording line.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "recording/sequence", "record/kind", "record/value"],
+  "properties": {
+    "schema": {"const": "component-trace-record.v1"},
+    "schema/v": {"const": 1},
+    "recording/sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "record/kind": {"enum": ["observation", "gap", "session", "policy-transition", "context-snapshot", "recovery", "recorder-diagnostic"]},
+    "record/value": {}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "digest": {"type": "string", "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"},
+    "timestamp": {"type": "string", "format": "date-time", "maxLength": 64},
+    "policy-transition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["policy/ref", "policy/digest", "policy/generation", "effective/at"],
+      "properties": {
+        "policy/ref": {"$ref": "#/$defs/ref"},
+        "policy/digest": {"$ref": "#/$defs/digest"},
+        "policy/generation": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "effective/at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "context-snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["context/ref", "context/digest", "value"],
+      "properties": {
+        "context/ref": {"$ref": "#/$defs/ref"},
+        "context/digest": {"$ref": "#/$defs/digest"},
+        "value": {}
+      }
+    },
+    "diagnostic": {
+      "type": "object", "additionalProperties": false,
+      "required": ["code", "message", "recorded/at"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$"},
+        "message": {"type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[ -~]+$"},
+        "recorded/at": {"$ref": "#/$defs/timestamp"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"record/kind": {"const": "observation"}}, "required": ["record/kind"]}, "then": {"properties": {"record/value": {"$ref": "component-communication-observation.v1.schema.json"}}}},
+    {"if": {"properties": {"record/kind": {"const": "gap"}}, "required": ["record/kind"]}, "then": {"properties": {"record/value": {"$ref": "component-trace-gap.v1.schema.json"}}}},
+    {"if": {"properties": {"record/kind": {"const": "session"}}, "required": ["record/kind"]}, "then": {"properties": {"record/value": {"$ref": "component-trace-session.v1.schema.json"}}}},
+    {"if": {"properties": {"record/kind": {"const": "policy-transition"}}, "required": ["record/kind"]}, "then": {"properties": {"record/value": {"$ref": "#/$defs/policy-transition"}}}},
+    {"if": {"properties": {"record/kind": {"const": "context-snapshot"}}, "required": ["record/kind"]}, "then": {"properties": {"record/value": {"$ref": "#/$defs/context-snapshot"}}}},
+    {"if": {"properties": {"record/kind": {"enum": ["recovery", "recorder-diagnostic"]}}, "required": ["record/kind"]}, "then": {"properties": {"record/value": {"$ref": "#/$defs/diagnostic"}}}}
+  ]
+}

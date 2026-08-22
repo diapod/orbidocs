@@ -24,6 +24,12 @@
     },
     "session/epoch": {"type": "integer", "minimum": 1, "maximum": 4294967295},
     "contract/version": {"const": "v1"},
+    "channel/features": {
+      "type": "array",
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {"const": "trace-reporting"}
+    },
     "limits/effective": {"$ref": "#/$defs/effectiveLimits"}
   },
   "$defs": {
@@ -49,6 +55,7 @@
     }
   },
   "x-dia-basis": [
-    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"
   ]
 }

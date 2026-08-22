@@ -1,0 +1,25 @@
+{
+  "schema": "component-trace-read-model.v1",
+  "schema/v": 1,
+  "recording/id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "summary": {
+    "completeness": "complete",
+    "reason/code": "operator-stopped",
+    "timeline/items": 1,
+    "observation/count": 0,
+    "gap/count": 0,
+    "host-observed/count": 0,
+    "component-reported/count": 0
+  },
+  "timeline": [
+    {
+      "item/kind": "marker",
+      "item/value": {
+        "recording/sequence": 1,
+        "marker/kind": "session"
+      }
+    }
+  ],
+  "schema/path-by-digest": {},
+  "schema/field-help-by-digest": {}
+}

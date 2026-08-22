@@ -7,6 +7,7 @@ Strict outer application frame for one accepted middleware channel session.
 ## Governing Basis
 
 - [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](../../project/40-proposals/080-multiplexed-middleware-channel-executor.md)
+- [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](../../project/40-proposals/086-component-communication-observation-and-trace-sessions.md)
 
 ## Project Lineage
 
@@ -20,7 +21,7 @@ Strict outer application frame for one accepted middleware channel session.
 | [`session/epoch`](#field-session-epoch) | `yes` | integer |  |
 | [`frame/seq`](#field-frame-seq) | `yes` | integer |  |
 | [`message/kind`](#field-message-kind) | `yes` | enum: `request`, `response`, `event`, `control` |  |
-| [`operation`](#field-operation) | `yes` | enum: `middleware.init`, `middleware.invoke`, `middleware.observe`, `module-http.invoke`, `request.cancel`, `host-capability.invoke`, `heartbeat`, `session.shutdown` |  |
+| [`operation`](#field-operation) | `yes` | enum: `middleware.init`, `middleware.invoke`, `middleware.observe`, `middleware.trace.report`, `module-http.invoke`, `request.cancel`, `host-capability.invoke`, `heartbeat`, `session.shutdown` |  |
 | [`request/id`](#field-request-id) | `no` | ref: `#/$defs/id` |  |
 | [`reply/to`](#field-reply-to) | `no` | ref: `#/$defs/id` |  |
 | [`deadline/at`](#field-deadline-at) | `no` | string |  |
@@ -173,13 +174,49 @@ Then:
   },
   "properties": {
     "operation": {
-      "const": "middleware.observe"
+      "enum": [
+        "middleware.observe",
+        "middleware.trace.report"
+      ]
     }
   }
 }
 ```
 
 ### Rule 4
+
+When:
+
+```json
+{
+  "properties": {
+    "message/kind": {
+      "const": "event"
+    },
+    "operation": {
+      "const": "middleware.trace.report"
+    }
+  },
+  "required": [
+    "message/kind",
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload/schema": {
+      "const": "component-communication-report.v1"
+    }
+  }
+}
+```
+
+### Rule 5
 
 When:
 
@@ -231,7 +268,7 @@ Then:
 }
 ```
 
-### Rule 5
+### Rule 6
 
 When:
 
@@ -264,7 +301,7 @@ Then:
 }
 ```
 
-### Rule 6
+### Rule 7
 
 When:
 
@@ -297,7 +334,7 @@ Then:
 }
 ```
 
-### Rule 7
+### Rule 8
 
 When:
 
@@ -330,7 +367,7 @@ Then:
 }
 ```
 
-### Rule 8
+### Rule 9
 
 When:
 
@@ -363,7 +400,7 @@ Then:
 }
 ```
 
-### Rule 9
+### Rule 10
 
 When:
 
@@ -396,7 +433,7 @@ Then:
 }
 ```
 
-### Rule 10
+### Rule 11
 
 When:
 
@@ -429,7 +466,7 @@ Then:
 }
 ```
 
-### Rule 11
+### Rule 12
 
 When:
 
@@ -504,7 +541,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `middleware.init`, `middleware.invoke`, `middleware.observe`, `module-http.invoke`, `request.cancel`, `host-capability.invoke`, `heartbeat`, `session.shutdown`
+- Shape: enum: `middleware.init`, `middleware.invoke`, `middleware.observe`, `middleware.trace.report`, `module-http.invoke`, `request.cancel`, `host-capability.invoke`, `heartbeat`, `session.shutdown`
 
 <a id="field-request-id"></a>
 ## `request/id`

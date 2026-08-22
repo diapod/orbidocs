@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:communication-boundary-registry:v1",
+  "title": "Communication Boundary Registry V1",
+  "description": "Static startup inventory of observable communication boundaries.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "registry/revision", "boundaries"],
+  "properties": {
+    "schema": {"const": "communication-boundary-registry.v1"},
+    "schema/v": {"const": 1},
+    "registry/revision": {"$ref": "#/$defs/ref"},
+    "boundaries": {"type": "array", "minItems": 1, "maxItems": 512, "items": {"$ref": "#/$defs/boundary"}}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "stage": {"enum": ["egress-admitted", "egress-failed", "ingress-admitted", "ingress-refused", "completed", "timed-out", "canceled"]},
+    "endpoint-kind": {"enum": ["host", "component", "middleware-module", "peer-node", "room-participant", "network-service", "operator"]},
+    "endpoint-kinds": {"type": "array", "minItems": 1, "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/endpoint-kind"}},
+    "stages": {"type": "array", "minItems": 1, "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/stage"}},
+    "reporting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "allowed/stages", "allowed/source-endpoint-kinds", "allowed/target-endpoint-kinds", "allowed/payload-schema-refs"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "allowed/stages": {"type": "array", "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/stage"}},
+        "allowed/source-endpoint-kinds": {"type": "array", "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/endpoint-kind"}},
+        "allowed/target-endpoint-kinds": {"type": "array", "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/endpoint-kind"}},
+        "allowed/payload-schema-refs": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "#/$defs/ref"}}
+      },
+      "allOf": [{
+        "if": {"properties": {"enabled": {"const": true}}, "required": ["enabled"]},
+        "then": {
+          "properties": {
+            "allowed/stages": {"minItems": 1},
+            "allowed/source-endpoint-kinds": {"minItems": 1},
+            "allowed/target-endpoint-kinds": {"minItems": 1}
+          }
+        }
+      }]
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boundary/id", "boundary/kind", "owner/component-ref", "adapter/family", "adapter/owner-ref", "carrier/kind", "source/endpoint-kinds", "target/endpoint-kinds", "operation/family", "observed/stages", "message/ref-scope", "causal/context-supported", "payload/schema-source", "capture/content", "hard-secret-capable", "reporting", "declaration/source", "status"],
+      "properties": {
+        "boundary/id": {"$ref": "#/$defs/ref"},
+        "boundary/kind": {"enum": ["channel-json", "host-capability", "middleware-passage", "peer-session", "room-carrier", "http-boundary", "component-private"]},
+        "owner/component-ref": {"$ref": "#/$defs/ref"},
+        "adapter/family": {"enum": ["channel-json-session", "middleware-passage", "host-capability-dispatch", "peer-session", "room-carrier", "http-boundary", "component-report"]},
+        "adapter/owner-ref": {"$ref": "#/$defs/ref"},
+        "carrier/kind": {"enum": ["in-process", "websocket", "http", "peer-wss", "room-wss", "ipc", "private-client"]},
+        "source/endpoint-kinds": {"$ref": "#/$defs/endpoint-kinds"},
+        "target/endpoint-kinds": {"$ref": "#/$defs/endpoint-kinds"},
+        "operation/family": {"$ref": "#/$defs/ref"},
+        "observed/stages": {"$ref": "#/$defs/stages"},
+        "message/ref-scope": {"enum": ["boundary", "transport-session", "unavailable"]},
+        "transport/sequence-scope": {"$ref": "#/$defs/ref"},
+        "causal/context-supported": {"type": "boolean"},
+        "payload/schema-source": {"$ref": "#/$defs/ref"},
+        "capture/content": {"type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["none", "inline", "artifact"]}},
+        "hard-secret-capable": {"type": "boolean"},
+        "reporting": {"$ref": "#/$defs/reporting"},
+        "declaration/source": {"enum": ["distribution", "operator"]},
+        "status": {"enum": ["planned", "instrumented", "verified", "retired"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"message/ref-scope": {"const": "transport-session"}}, "required": ["message/ref-scope"]},
+          "then": {"required": ["transport/sequence-scope"]},
+          "else": {"not": {"required": ["transport/sequence-scope"]}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "retired"}}, "required": ["status"]},
+          "then": {"properties": {"reporting": {"properties": {"enabled": {"const": false}}}}}
+        }
+      ]
+    }
+  }
+}

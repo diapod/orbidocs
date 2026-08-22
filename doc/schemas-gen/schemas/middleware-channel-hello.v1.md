@@ -7,6 +7,7 @@ Module-supplied consistency assertions and requested limits for one authenticate
 ## Governing Basis
 
 - [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](../../project/40-proposals/080-multiplexed-middleware-channel-executor.md)
+- [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](../../project/40-proposals/086-component-communication-observation-and-trace-sessions.md)
 
 ## Project Lineage
 

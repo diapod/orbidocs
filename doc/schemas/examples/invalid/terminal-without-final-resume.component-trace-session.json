@@ -1,0 +1,20 @@
+{
+  "schema": "component-trace-session.v1",
+  "schema/v": 1,
+  "session/ref": "component-trace-session:fixture",
+  "node/ref": "node:local",
+  "observation/generation": "process-generation:7",
+  "policy/ref": "component-trace-policy:development:v1",
+  "policy/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "status": "closed",
+  "started/at": "2026-08-20T12:00:00Z",
+  "expires/at": "2026-08-20T12:10:00Z",
+  "start/cursor": 0,
+  "start/resume-token": "v1.payload.signature",
+  "final/cursor": 2,
+  "observations/accepted": 2,
+  "observations/dropped": 0,
+  "gaps/emitted": 0,
+  "terminal/reason-code": "operator-stop",
+  "links": {}
+}

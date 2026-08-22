@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-communication-report:v1",
+  "title": "Component Communication Report V1",
+  "description": "Bounded component claim submitted through authenticated middleware.trace.report.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "report/id", "boundary/id", "source", "target", "stage", "operation", "occurred/at", "payload"],
+  "properties": {
+    "schema": {"const": "component-communication-report.v1"},
+    "schema/v": {"const": 1},
+    "report/id": {"$ref": "#/$defs/ref"},
+    "report/sequence": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "boundary/id": {"$ref": "#/$defs/ref"},
+    "source": {"$ref": "#/$defs/endpoint"},
+    "target": {"$ref": "#/$defs/endpoint"},
+    "stage": {"enum": ["egress-admitted", "egress-failed", "ingress-admitted", "ingress-refused", "completed", "timed-out", "canceled"]},
+    "operation": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[ -~]+$"},
+    "message/ref": {"$ref": "#/$defs/ref"},
+    "causal/context-ref": {"$ref": "#/$defs/ref"},
+    "causal/context-digest": {"$ref": "#/$defs/digest"},
+    "correlation/id": {"$ref": "#/$defs/ref"},
+    "occurred/at": {"type": "string", "format": "date-time", "maxLength": 64},
+    "payload": {"$ref": "#/$defs/payload"},
+    "reason/code": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[ -~]+$"},
+    "retryable": {"type": "boolean"}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "digest": {"type": "string", "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"},
+    "endpoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["endpoint/kind", "endpoint/ref"],
+      "properties": {
+        "endpoint/kind": {"enum": ["host", "component", "middleware-module", "peer-node", "room-participant", "network-service", "operator"]},
+        "endpoint/ref": {"$ref": "#/$defs/ref"}
+      }
+    },
+    "payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema/ref", "size/bytes"],
+      "properties": {
+        "schema/ref": {"$ref": "#/$defs/ref"},
+        "content/digest": {"$ref": "#/$defs/digest"},
+        "content/digest-basis": {"enum": ["wire-bytes", "canonical-json", "artifact-bytes"]},
+        "size/bytes": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "value": {}
+      },
+      "allOf": [{"if": {"required": ["content/digest"]}, "then": {"required": ["content/digest-basis"]}, "else": {"not": {"required": ["content/digest-basis"]}}}]
+    }
+  },
+  "allOf": [
+    {"if": {"required": ["causal/context-ref"]}, "then": {"required": ["causal/context-digest"]}, "else": {"not": {"required": ["causal/context-digest"]}}},
+    {"if": {"required": ["reason/code"]}, "then": {"required": ["retryable"]}, "else": {"not": {"required": ["retryable"]}}}
+  ]
+}

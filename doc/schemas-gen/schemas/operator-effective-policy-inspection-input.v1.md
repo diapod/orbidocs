@@ -17,6 +17,7 @@ Prompt-free owner-supplied facts for the pure effective-policy inspection projec
 | [`schema`](#field-schema) | `yes` | const: `operator-effective-policy-inspection-input.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`extension`](#field-extension) | `yes` | ref: `operator-extension-inspection.v1.schema.json` |  |
+| [`resource/scope`](#field-resource-scope) | `no` | ref: `#/$defs/resource-scope` |  |
 | [`resource/axes`](#field-resource-axes) | `yes` | array |  |
 | [`domain/registries`](#field-domain-registries) | `yes` | array |  |
 | [`federation`](#field-federation) | `no` | ref: `#/$defs/federation` |  |
@@ -30,9 +31,40 @@ Prompt-free owner-supplied facts for the pure effective-policy inspection projec
 | [`digest`](#def-digest) | string |  |
 | [`source`](#def-source) | enum: `inquirium-resource-profile`, `agent-registry`, `corpus-registry`, `arca-registry`, `dator-registry`, `inquirium-registry`, `federation` |  |
 | [`domain-name`](#def-domain-name) | enum: `agent`, `corpus`, `arca`, `dator`, `inquirium` |  |
+| [`resource-scope`](#def-resource-scope) | object |  |
 | [`axis`](#def-axis) | object |  |
 | [`domain`](#def-domain) | object |  |
 | [`federation`](#def-federation) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "resource/axes": {
+      "minItems": 1
+    }
+  },
+  "required": [
+    "resource/axes"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "resource/scope"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -52,6 +84,12 @@ Prompt-free owner-supplied facts for the pure effective-policy inspection projec
 
 - Required: `yes`
 - Shape: ref: `operator-extension-inspection.v1.schema.json`
+
+<a id="field-resource-scope"></a>
+## `resource/scope`
+
+- Required: `no`
+- Shape: ref: `#/$defs/resource-scope`
 
 <a id="field-resource-axes"></a>
 ## `resource/axes`
@@ -98,6 +136,11 @@ Prompt-free owner-supplied facts for the pure effective-policy inspection projec
 ## `$defs.domain-name`
 
 - Shape: enum: `agent`, `corpus`, `arca`, `dator`, `inquirium`
+
+<a id="def-resource-scope"></a>
+## `$defs.resource-scope`
+
+- Shape: object
 
 <a id="def-axis"></a>
 ## `$defs.axis`

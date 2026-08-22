@@ -334,10 +334,11 @@ Its contract is intentionally smaller than the broker:
    bounded disposition such as `accepted`, `dropped`, `disabled`, or `refused`.
 
 The broker rebuilds an immutable interest table indexed by `boundary/id` and stage
-whenever effective policy changes. The hot path performs no selector evaluation.
-Policy generation `0` means disabled and is checked through one relaxed atomic
-before payload cloning, canonicalization, redaction, serialization, or table
-lookup.
+whenever effective policy changes. The adapter preflight performs only that O(1)
+lookup. Selectors that require the complete draft are evaluated without allocation
+immediately before broker admission, and are re-evaluated under the current policy
+generation before commit. Policy generation `0` means disabled and is checked
+before payload cloning, canonicalization, redaction, or serialization.
 
 Transport and dispatcher constructors receive
 `Arc<dyn CommunicationObservationSink>`, following the existing
@@ -974,19 +975,29 @@ rejected payload content or synchronously acknowledge each event. This is handle
 diagnostics, not a report-specific abuse or refusal protocol. Every non-success
 code requires one reachability fixture.
 
+This closed vocabulary is the wire-level result of the component-report handler.
+Internal library errors remain typed validation, JSON, and authenticated-token
+errors; they are not a second remotely observable refusal protocol.
+
 ### `component-trace-policy.v1`
 
 Operator/distribution-authored selectors and disclosure bounds:
 
 - runtime profile;
-- component, boundary, operation, schema, and classification selectors;
-- evidence-source and reporter selectors;
+- boundary, source-or-target endpoint ref, operation, payload-schema, and evidence-kind selectors;
 - effective content location, digest policy, and disposition bounds;
 - per-record, per-session, and total-byte limits;
 - redaction profile bindings;
 - expiry and reason;
 - hard secret exclusions inherited from the distribution;
 - operator binding and detached signature for explicit production sessions.
+
+Selector axes have one closed interpretation. An empty axis does not narrow the
+policy, values inside one non-empty axis are alternatives, and all non-empty axes
+intersect. `component/refs` matches either the source or target `endpoint/ref`;
+`evidence/kinds` distinguishes host-observed from component-reported evidence.
+Classification and reporter-specific selectors are not part of V1 and must not be
+inferred from endpoint or evidence fields.
 
 ### `component-trace-session.v1`
 
@@ -1022,6 +1033,11 @@ Rebuildable recording summary containing:
 - observation, redaction, omission, drop, and gap counters;
 - lifecycle status and bounded reason code;
 - recorder version and format profile.
+
+For a manifest marked `complete`, typed validation requires
+`final/cursor == durable/cursor` in addition to zero drop and gap counters. The
+recorder therefore refuses to commit completeness for a final position unsupported
+by its durable source records.
 
 ## Named Invariants
 
@@ -1130,6 +1146,44 @@ policy must intersect with that requirement. Operator authorization is necessary
 for production capture, but is not automatically sufficient for every payload.
 
 ## Implementation Guidance
+
+### Current Implementation Snapshot (2026-08-22)
+
+The first Node vertical is implemented without promoting this draft proposal to a
+Solution. The workspace now contains four stratified crates:
+
+- `communication-trace-core` owns the neutral contracts, policy intersection,
+  report projection, sink, ids, and generation-bound resume tokens;
+- `communication-trace-host` owns the bounded non-blocking broker and capture
+  lifecycle;
+- `communication-trace-recorder` owns the append-only, batched, crash-aware
+  recording directory;
+- `communication-trace-read-model` owns bounded offline filtering and local
+  schema-help projection.
+
+The daemon loads a distribution-owned registry with shared `channel_json`,
+normalized host-capability, component-reported middleware-passage, and retained
+component-HTTP families. Peer-session and Room-carrier families are inventoried as
+planned rather than observed. Production capture defaults to disabled. The daemon
+exposes operator-gated lifecycle and WebSocket surfaces, records active sessions,
+applies configurable retention after close, and reopens recordings without the
+source process. P080 additionally has the bounded `middleware.trace.report` path
+with host-overwritten reporter identity and per-disposition counters. Node UI lists
+recordings, renders the offline timeline and bounded component-edge projection,
+labels schema verification, supports endpoint focus, and proxies the authenticated
+live stream with pause/follow and explicit gap state. P074 can consume redacted P086
+records.
+
+This is a usable V1 foundation, not the whole proposal. The recorder now
+externalizes large canonical JSON payloads by digest, exposes inspect/recover/prune
+CLI operations, and enforces a daemon-owned retention lifecycle. The read model
+resolves bounded same-document `$ref` values and evaluates story-declared required
+evidence after domain assertions. The remaining closure work is sustained load and
+ceiling measurement, richer payload-tree/focused-tile presentation, selected live
+network adapters, a full supervised-process Story 005 run, multi-organ Story 012
+acceptance, and Solution promotion. The current Story 005 test is intentionally
+fixture-safe and adapter-level; it does not make ordinary Story 005 prompt content
+recordable.
 
 ### Phase 0: Boundary and Data Inventory
 
@@ -1346,20 +1400,20 @@ in P086-021 after measurement.
 
 ## Next Actions
 
-1. Freeze the example boundary-registry shape and closed handler dispositions.
-2. Produce the first communication-boundary inventory from P080 channel operations,
-   host-capability dispatch, middleware passages, retained product surfaces, and
-   one fixture component-owned private boundary.
-3. Normalize the host-capability dispatch observation seam and reuse
-   `DispatchTraceContext.component_path` before instrumenting that family.
-4. Freeze the eight-contract P086 schema family with one host-observed
-   `channel_json` fixture and one `component-communication-report.v1` fixture.
-5. Implement the pure core, single logical observation port, and bounded broker
-   before starting viewer work.
-6. Add the first shared `channel_json` adapter and component-report ingress before
-   adding protocol-specific adapters.
-7. Add the recorder and offline reader before building graph animation, so UI work
-   consumes the durable contract rather than inventing it.
+1. Add sustained load evidence for broker isolation, subscriber pressure, report
+   drops, context interning, adapter-family fan-in, expiry, revocation, and disk-cap
+   behavior before freezing distribution ceilings.
+2. Inventory and instrument selected retained HTTP and live protocol boundary
+   families without importing the broker into domain crates; keep planned families
+   explicit until their actual runtime seam is observed.
+3. Finish focused endpoint tiles, graph animation, and richer bounded payload-tree
+   navigation on top of the shared read model and server-side live proxy.
+4. Promote the fixture-safe Story 005 test into a full supervised Whisper/Inquirium
+   process smoke with retained advisory evidence.
+5. Add the Story 012 multi-organ recording and advisory/required-evidence harness
+   profile after the required runtime surfaces are available.
+6. Benchmark the complete adapter fan-in, synchronize operator docs and readiness
+   evidence, and promote P086 only after the measured V1 boundary is stable.
 
 ## Implementation Tracker
 
@@ -1369,27 +1423,27 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | :--- | :--- | :--- | :--- |
 | `P086-001` | Freeze initial proposal model, strata, defaults, lifecycle, invariants, and tracker | `done` | P086 separates boundary observation, one logical observation sink, shared boundary-family adapters, component-reported claims, host broker, recorder, session directory, read model, and UI; production is disabled by default, development/test are explicit profiles, persistence is recorder-owned, and completeness is gap-aware. |
 | `P086-002` | Inventory component communication boundaries | `partial` | Existing P053, P068, P074, P080, P081, daemon trace, and `trace-explorer-core` seams are identified; host-capability dispatch is recognized as several current physical shapes. Completion requires checked logical entries grouped under the smallest practical adapter families, including host-invisible private boundaries, with owner, carrier, ids, schemas, redaction, evidence source, and adapter/report status. Asynchronous handoffs remain outside the V1 inventory. |
-| `P086-003` | Freeze canonical P086 schema family and fixtures | `todo` | Canonical schemas for startup boundary registry, observation, component communication report, policy, capture session, gap, JSONL record, and manifest exist in orbidocs, are mirrored to Node, registered in Schema Gate, and have positive, negative, oversized, secret, every handler-disposition, generation/resume, join-key, context-ref, record-kind, and gap fixtures. |
-| `P086-004` | Implement pure `communication-trace-core` and neutral observation port | `todo` | The crate owns DTO validation, generation-bound ids and resume tokens, shared stages, join-key validation, capture-interest table construction, capture-disposition intersection, context-ref handling, policy-transition semantics, record discriminators, report projection, closed handler dispositions, `NoopSink`, non-blocking sink contract, and golden vectors without daemon, filesystem, network, or domain dependencies. |
-| `P086-005` | Add explicit runtime profiles and configuration validation | `todo` | Production/default and unknown profiles are disabled; development/test/acceptance behavior is explicit configuration; build mode cannot select capture; effective policy and diagnostics are operator visible. |
-| `P086-006` | Implement bounded host broker and capture-session lifecycle | `todo` | Exactly one broker-backed logical sink, precomputed interest table, dual-cap ring, cursor generation, bounded context snapshot store, subscriber queues, lag/gap semantics, one payload-bearing policy, TTL, stop, revoke, interruption, counters, and non-blocking `try_emit` pass deterministic and load tests; domain components cannot depend on the broker runtime. |
-| `P086-007` | Add operator API and authenticated WebSocket stream | `todo` | Start/status/stop/revoke/stream surfaces are operator-gated, HATEOAS-linked, schema-projected through P068, resumable only by opaque generation-bound tokens, bounded, and leak no credentials or absolute paths. |
-| `P086-008` | Instrument `channel_json` as the first shared host-observed adapter | `todo` | One channel-session adapter covers all registered P080 operations; canonical ingress/egress points reuse exact frame ids, session-scoped sequence, operation, correlation, schema, payload, and occurrence time; request/response/refusal/cancel/reconnect tests prove no semantic or authority change. Depends on P080's implemented channel core/runtime. |
-| `P086-009` | Add startup communication-boundary registry and dependency checkers | `todo` | Distribution/operator configuration loads and validates once at startup. CI rejects duplicate/stale boundary ids, unresolved schema or join-scope bindings, verified entries without fixtures, adapters without registry ownership, domain-crate broker imports, and one-off adapter implementations where a registered shared family exists; runtime reports cannot mutate registry data, and the checker remains honest about unregistered direct calls. |
-| `P086-010` | Implement shared trace recorder and session directory writer | `todo` | Safe-root directory ownership, locks, discriminated segmented JSONL, batched flush, durable generation-bound position, schema/context snapshots, content-addressed artifacts, policy transitions, total cap, clean drain, recovery, and atomic rebuildable manifest satisfy filesystem adversarial tests. |
-| `P086-011` | Implement offline reader and optional rebuildable index | `todo` | A recording opens without its source daemon, validates segments, schemas, contexts, and artifacts, reconstructs policy and completeness, and optionally rebuilds a bounded SQLite index without changing source records. |
-| `P086-012` | Bind exact schemas and schema-derived field help | `todo` | P068 registry resolution yields exact ref/digest snapshots; local `$ref` traversal and JSON Pointer tooltips work offline; unknown/mismatched schemas are labelled and never fetched remotely. |
-| `P086-013` | Build minimal Node UI live/offline viewer | `todo` | Timeline, filters, pause/follow, gap state, two-endpoint directional focus, payload tree, schema link, digest, content location, disposition reason, and tooltips share one read model for live and recorded data; host-observed and component-reported edges are visibly distinct, while any assurance label is derived rather than persisted. |
+| `P086-003` | Freeze canonical P086 schema family and fixtures | `done` | Ten canonical schemas are mirrored into Node and registered in Schema Gate with positive fixtures plus focused oversized-record, every-disposition, generation/resume, join-key, context-ref, gap, secret, provenance, traversal, cursor-order, and record-kind negatives. Rust semantic tests cover limits that JSON Schema cannot express alone. |
+| `P086-004` | Implement pure `communication-trace-core` and neutral observation port | `done` | The crate owns DTO validation, generation-bound ids and authenticated resume tokens, shared stages, join-key validation, capture-interest construction and intersection, context refs, record discriminators, report projection, closed dispositions, `NoopSink`, and literal id/token plus algebraic golden vectors without daemon, filesystem, network, or domain dependencies. |
+| `P086-005` | Add explicit runtime profiles and configuration validation | `done` | Bundled production capture is disabled, unknown profiles fail closed, development/test/acceptance/operator-debug require explicit policy, operator sessions require current operator authority and expiry, and status/registry projections expose effective posture. |
+| `P086-006` | Implement bounded host broker and capture-session lifecycle | `partial` | The broker implements the single sink, allocation-free O(1) boundary/stage preflight, conjunctive per-draft selector enforcement, dual caps, cursors, context snapshots, subscribers, gaps, one session, TTL, stop/revoke, generation refusal, counters, and non-blocking `try_emit`; generation ids use segmented-ref-safe SHA-256 hex. Dependency CI keeps the broker out of domain crates. Deterministic tests pass; required load evidence remains open. |
+| `P086-007` | Add operator API and authenticated WebSocket stream | `done` | Start/status/stop/revoke/registry/list/read surfaces and the bounded WebSocket are operator-gated, HATEOAS-linked, resumable only by opaque generation-bound tokens, and return no credentials or absolute paths. |
+| `P086-008` | Instrument `channel_json` as the first shared host-observed adapter | `done` | One shared P080 adapter emits canonical frame-derived observations while preserving session, sequence, request/reply, operation, correlation, schema, payload posture, and occurrence time; existing concurrency, refusal, reconnect, and bounded-queue suites remain green. |
+| `P086-009` | Add startup communication-boundary registry and dependency checkers | `partial` | The immutable six-family distribution registry loads and validates at startup; CI binds verified and instrumented adapter owners to source seams and fixtures, checks neutral core dependencies, and rejects domain broker imports. Middleware-passage and retained component HTTP use authenticated component reporting; peer-session and Room-carrier remain explicitly planned. The complete live-network inventory and retained-direct-call checks remain open. |
+| `P086-010` | Implement shared trace recorder and session directory writer | `done` | Safe roots, one-writer locks, segmented discriminated JSONL, bounded batching, sync-before-manifest checkpoints, schema/context/artifact snapshots, automatic canonical-JSON externalization, total cap, clean drain, active-tail recovery, completed-record refusal, complete-manifest final/durable cursor equality, rebuildable manifests, inspect/recover/prune CLI operations, and daemon-triggered configurable retention pass filesystem and process tests. |
+| `P086-011` | Implement offline reader and optional rebuildable index | `done` | The bounded reader opens without the source daemon, verifies every inventory digest and segment, validates contiguous records and manifest projections, loads exact schema/context snapshots, and never mutates source records. The optional SQLite index is not required for V1 correctness. |
+| `P086-012` | Bind exact schemas and schema-derived field help | `done` | P068 resolves exact local schema bytes and digest, the recorder verifies and snapshots every schema claimed by a complete recording, and the offline read model exports bounded deterministic JSON Pointer descriptions. Same-document local `$ref` traversal is depth- and cycle-bounded, external refs remain inert, and the viewer labels verified-local, snapshot-missing, and unresolved schema states. |
+| `P086-013` | Build minimal Node UI live/offline viewer | `partial` | Node UI lists recordings and renders completeness, gaps, filters, direction, evidence kind, operation, schema ref/digest, payload disposition, bounded schema help, raw records, endpoint-focus links, and a capped component-edge projection. Its server-side authenticated WebSocket proxy keeps credentials out of the browser and exposes live pause/follow plus explicit gap state. Focused endpoint tiles and a nested payload tree remain open. |
 | `P086-014` | Expose reusable viewer/recorder boundary for a future Tauri shell | `deferred` | Tauri may package the same recorder and read model after Node UI evidence; no second protocol, persistence format, or semantic projection is introduced. |
-| `P086-015` | Add host-capability, middleware-passage, and retained HTTP boundary adapters | `todo` | After P086-024, the host-capability adapter reuses `DispatchTraceContext.component_path` and one normalized dispatch event; middleware and HTTP adapters each have registered owners, canonical stages, exact endpoint/message refs, payload policy, fixtures, and no duplicate domain authority. Coordinate retirement of `http_local_json` with P080 rather than preserving it for tracing. |
+| `P086-015` | Add host-capability, middleware-passage, and retained HTTP boundary adapters | `partial` | The normalized host-capability family emits metadata-only observations through one daemon adapter. Middleware-passage and retained component HTTP have registry ownership, the common closed stage vocabulary, checked fixtures, and authenticated component-report instrumentation. Shared host-observed adapters for selected retained HTTP clients/servers remain open. |
 | `P086-016` | Add selected live network protocol adapters | `todo` | INAC, Artifact Delivery, Messaging, Room, Sensorium, Corpus, and selected Matrix live boundaries emit neutral observations where useful while domain facts and sealed-content rules remain authoritative. Asynchronous handoffs are excluded. |
-| `P086-017` | Add P086 recording adapter to P074 Trace Explorer | `todo` | `trace-explorer-core` projects selected records into redacted `trace-event.v1`/`trace-link.v1`, retains partial ordering and evidence source, never upgrades component claims into delivery proof, links back to source records, and does not copy raw payloads by default. |
-| `P086-018` | Add Story 005 `channel_json` communication smoke | `todo` | Acceptance records one complete fixture-safe request/response session, proves exact schema help and offline reopening, and fails after the scenario when required observations are missing. |
+| `P086-017` | Add P086 recording adapter to P074 Trace Explorer | `done` | `trace-explorer-core` projects selected observations into redacted `trace-event.v1`, preserves evidence source and causal context, leaves receipt authority absent, links to the source observation, and tests that inline payload content is not copied. |
+| `P086-018` | Add Story 005 `channel_json` communication smoke | `partial` | An adapter-level fixture-safe profile records one request/response pair, proves exact frame joins, complete close, offline reopening, projected schema help, stale-generation refusal, and story-owned required-evidence evaluation. A second end-to-end test proves a hard secret entering the real `channel_json` adapter never reaches broker output or recording files. A full supervised Whisper/Inquirium process smoke remains open. |
 | `P086-019` | Add Story 012 multi-organ trace-viewer acceptance | `todo` | One recording correlates Agent, Inquirium, Corpus, Room, and Sensorium communication evidence, displays exact endpoint transitions, and remains navigable after host buffers and processes are gone. Depends on the Story 012 runtime surfaces actually used by the scenario. |
-| `P086-020` | Prove overload, gap, recovery, expiry, revocation, report-drop, and secret safety | `todo` | Slow consumers do not affect domain latency/result, overflow is gap-visible, restart interrupts explicit sessions and rejects old resume tokens, crash recovery is honest, disk cap stops without deletion, invalid or unregistered reports are dropped through the small handler vocabulary, and hard secrets never reach broker, files, UI, or logs. |
+| `P086-020` | Prove overload, gap, recovery, expiry, revocation, report-drop, and secret safety | `partial` | Focused tests prove concurrent producer pressure, ring/subscriber gaps, old-generation refusal, active-session expiry, stop/revoke, crash-tail recovery, disk/snapshot caps, policy stripping, secret-digest refusal, report drops, bounded handler counters, and adapter-to-disk hard-secret absence. Sustained load evidence and whole-path daemon-log/UI secret scans remain open. |
 | `P086-021` | Benchmark and freeze proven distribution ceilings | `todo` | Disabled atomic check, enabled interest lookup, report handler, context interning, and adapter-family fan-in are measured; allocator, frame, ring, and queue evidence supports exact ceilings; operational defaults remain locally tightenable and are not misclassified as protocol authority. |
-| `P086-022` | Synchronize implementation evidence and promote a Solution | `todo` | Schemas/generated docs, Node mirrors, implementation ledger, proposal/solution status, operator manuals, FAQ/HOWTO, and relevant readiness/acceptance trackers agree with shipped behavior. |
-| `P086-023` | Implement component-report handler and shared middleware helper | `todo` | P080 negotiates `middleware.trace.report`; one handler overwrites reporter/session evidence, checks the closed report shape and startup-registry presence, applies ordinary disclosure projection, emits the canonical claimed stage through the single logical sink, keeps the host-observed envelope distinct and linked, prevents recursion, reuses P080 frame/queue/drop bounds, and exposes the small handler-disposition counters. The helper owns framing and local best-effort behavior. Depends on P086-003, P086-004, P086-006, P086-008, and P086-009. |
-| `P086-024` | Normalize host-capability dispatch observation seams | `todo` | Inquirium, Agent, and Sensorium dispatch paths expose one neutral observation input despite their different handler signatures; a narrow read-only accessor projects `DispatchTraceContext.component_path`, Agent receives the same applicable path evidence as Inquirium, and adapter count is bounded by dispatch shape rather than capability registration count. Required before the host-capability part of P086-015. |
+| `P086-022` | Synchronize implementation evidence and promote a Solution | `partial` | Canonical schemas, Node mirrors, implementation ledger, proposal tracker, Node runbook, generated views, and Story 005 advisory readiness are synchronized for the implemented foundation. Solution promotion, full acceptance, and measured hardening remain open. |
+| `P086-023` | Implement component-report handler and shared middleware helper | `done` | P080 negotiates `middleware.trace.report`; the authenticated handler overwrites reporter/session evidence, validates the closed report and startup registry, applies ordinary disclosure projection, emits through the single sink, keeps host observation distinct, prevents recursion, reuses channel bounds, and exposes all five per-disposition counters. Rust and Python helpers retain best-effort behavior. |
+| `P086-024` | Normalize host-capability dispatch observation seams | `done` | Inquirium, Agent, and Sensorium reach one neutral metadata-only observation input through normalized dispatch completion/refusal events; the adapter reuses the read-only `DispatchTraceContext.component_path` projection and remains bounded by dispatch shape rather than capability count. |
 | `P086-025` | Define asynchronous-handoff observation lifecycle | `deferred` | A later contract models enqueue, durable acceptance, resume, expiry, and completion without forcing them into the V1 live boundary-stage vocabulary. It is not required for the first viewer or recorder. |
-| `P086-026` | Integrate advisory recording and replay with acceptance harnesses | `todo` | A story or harness can opt into bounded, policy-admitted P086 recording, retain a redacted session directory under the CI artifact policy, and reopen it offline to diagnose a failed run. Advisory capture does not alter pass/fail; only an explicit story-level required-evidence declaration makes missing, incomplete, or contradictory trace evidence fail after domain assertions. Depends on P086-010 and P086-011; richer cross-source replay may additionally use P086-017. |
+| `P086-026` | Integrate advisory recording and replay with acceptance harnesses | `partial` | The fixture-safe Story 005 test opts into bounded recording, reopens the retained directory offline, and evaluates a checked-in story-owned required-evidence set after communication. The shared read model and `communication-trace-evidence` CLI provide generic post-domain-assertion evaluation without changing ordinary advisory trace semantics. Generic CI artifact retention, advisory failure replay, and multi-organ Story 012 plumbing remain open. |

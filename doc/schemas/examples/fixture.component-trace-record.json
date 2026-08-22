@@ -1,0 +1,7 @@
+{
+  "schema": "component-trace-record.v1",
+  "schema/v": 1,
+  "recording/sequence": 1,
+  "record/kind": "recorder-diagnostic",
+  "record/value": {"code": "recording-started", "message": "recording opened", "recorded/at": "2026-08-20T12:00:00Z"}
+}

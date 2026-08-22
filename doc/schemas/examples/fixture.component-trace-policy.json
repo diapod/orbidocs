@@ -1,0 +1,17 @@
+{
+  "schema": "component-trace-policy.v1",
+  "schema/v": 1,
+  "policy/ref": "component-trace-policy:development:v1",
+  "policy/digest": "sha256:4996936066cc231ad5527bb86d6f9e5c2259d134db372dc991c23f3c2fe13ea7",
+  "policy/generation": 1,
+  "profile": "development",
+  "selectors": {"boundary/ids": [], "component/refs": [], "operations": [], "schema/refs": [], "evidence/kinds": []},
+  "capture/interest": "digest",
+  "capture/content": "none",
+  "digest/permitted": true,
+  "record/max-bytes": 65536,
+  "session/max-bytes": 1048576,
+  "session/ttl-seconds": 600,
+  "hard-secret/classes": ["credential", "private-key"],
+  "reason": "development metadata and digest capture"
+}

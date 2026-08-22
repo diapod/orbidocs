@@ -7,6 +7,7 @@ Host-authenticated session identity, epoch, contract version, and effective limi
 ## Governing Basis
 
 - [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](../../project/40-proposals/080-multiplexed-middleware-channel-executor.md)
+- [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](../../project/40-proposals/086-component-communication-observation-and-trace-sessions.md)
 
 ## Project Lineage
 
@@ -19,6 +20,7 @@ Host-authenticated session identity, epoch, contract version, and effective limi
 | [`session/id`](#field-session-id) | `yes` | string |  |
 | [`session/epoch`](#field-session-epoch) | `yes` | integer |  |
 | [`contract/version`](#field-contract-version) | `yes` | const: `v1` |  |
+| [`channel/features`](#field-channel-features) | `no` | array |  |
 | [`limits/effective`](#field-limits-effective) | `yes` | ref: `#/$defs/effectiveLimits` |  |
 
 ## Definitions
@@ -57,6 +59,12 @@ Host-authenticated session identity, epoch, contract version, and effective limi
 
 - Required: `yes`
 - Shape: const: `v1`
+
+<a id="field-channel-features"></a>
+## `channel/features`
+
+- Required: `no`
+- Shape: array
 
 <a id="field-limits-effective"></a>
 ## `limits/effective`

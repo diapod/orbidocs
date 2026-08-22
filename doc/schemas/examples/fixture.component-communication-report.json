@@ -1,0 +1,13 @@
+{
+  "schema": "component-communication-report.v1",
+  "schema/v": 1,
+  "report/id": "component-trace-report:mail-adapter:431",
+  "report/sequence": 9,
+  "boundary/id": "mail-adapter-smtp",
+  "source": {"endpoint/kind": "middleware-module", "endpoint/ref": "component:mail-adapter"},
+  "target": {"endpoint/kind": "network-service", "endpoint/ref": "smtp:example.net"},
+  "stage": "egress-admitted",
+  "operation": "smtp.message.submit",
+  "occurred/at": "2026-08-20T12:00:00Z",
+  "payload": {"schema/ref": "smtp-submission.v1", "size/bytes": 1842}
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-trace-session:v1",
+  "title": "Component Trace Session V1",
+  "description": "Host capture-session lifecycle and bounded counters.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "session/ref", "node/ref", "observation/generation", "policy/ref", "policy/digest", "status", "started/at", "expires/at", "start/cursor", "start/resume-token", "observations/accepted", "observations/dropped", "gaps/emitted", "links"],
+  "properties": {
+    "schema": {"const": "component-trace-session.v1"},
+    "schema/v": {"const": 1},
+    "session/ref": {"$ref": "#/$defs/ref"},
+    "node/ref": {"$ref": "#/$defs/ref"},
+    "observation/generation": {"$ref": "#/$defs/ref"},
+    "policy/ref": {"$ref": "#/$defs/ref"},
+    "policy/digest": {"$ref": "#/$defs/digest"},
+    "status": {"enum": ["disabled", "active", "stopping", "closed", "expired", "revoked", "interrupted", "failed"]},
+    "started/at": {"$ref": "#/$defs/timestamp"},
+    "expires/at": {"$ref": "#/$defs/timestamp"},
+    "start/cursor": {"$ref": "#/$defs/cursor"},
+    "start/resume-token": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^[!-~]+$"},
+    "final/cursor": {"$ref": "#/$defs/cursor"},
+    "final/resume-token": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^[!-~]+$"},
+    "observations/accepted": {"$ref": "#/$defs/cursor"},
+    "observations/dropped": {"$ref": "#/$defs/cursor"},
+    "gaps/emitted": {"$ref": "#/$defs/cursor"},
+    "terminal/reason-code": {"$ref": "#/$defs/ref"},
+    "links": {"type": "object", "maxProperties": 32, "additionalProperties": {"$ref": "#/$defs/ref"}, "propertyNames": {"type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[ -~]+$"}}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "digest": {"type": "string", "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"},
+    "timestamp": {"type": "string", "format": "date-time", "maxLength": 64},
+    "cursor": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
+  },
+  "allOf": [
+    {"if": {"required": ["final/cursor"]}, "then": {"required": ["final/resume-token"]}, "else": {"not": {"required": ["final/resume-token"]}}},
+    {
+      "if": {"properties": {"status": {"enum": ["disabled", "active", "stopping"]}}, "required": ["status"]},
+      "then": {"not": {"required": ["terminal/reason-code"]}},
+      "else": {"required": ["terminal/reason-code", "final/cursor", "final/resume-token"]}
+    }
+  ]
+}

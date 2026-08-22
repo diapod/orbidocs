@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-trace-recording-list:v1",
+  "title": "Component Trace Recording List V1",
+  "description": "Bounded operator projection of closed offline communication-trace recordings.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "recordings"],
+  "properties": {
+    "schema": {"const": "component-trace-recording-list.v1"},
+    "schema/v": {"const": 1},
+    "recordings": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/recording"}
+    }
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "timestamp": {"type": "string", "format": "date-time", "maxLength": 64},
+    "counter": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "recording": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recording/id", "recording/ref", "capture/session-ref", "completeness", "started/at", "observation/count", "gap/count", "reason/code"],
+      "properties": {
+        "recording/id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+        "recording/ref": {"$ref": "#/$defs/ref"},
+        "capture/session-ref": {"$ref": "#/$defs/ref"},
+        "completeness": {"enum": ["complete", "incomplete", "aborted"]},
+        "started/at": {"$ref": "#/$defs/timestamp"},
+        "ended/at": {"$ref": "#/$defs/timestamp"},
+        "observation/count": {"$ref": "#/$defs/counter"},
+        "gap/count": {"$ref": "#/$defs/counter"},
+        "reason/code": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$"}
+      }
+    }
+  }
+}

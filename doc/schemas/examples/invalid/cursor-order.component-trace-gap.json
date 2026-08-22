@@ -1,0 +1,11 @@
+{
+  "schema": "component-trace-gap.v1",
+  "schema/v": 1,
+  "observation/generation": "process-generation:7",
+  "requested/cursor": 10,
+  "earliest/available-cursor": 21,
+  "latest/available-cursor": 20,
+  "known/lost-count": 3,
+  "reason": "buffer-evicted",
+  "boundary/filters": []
+}

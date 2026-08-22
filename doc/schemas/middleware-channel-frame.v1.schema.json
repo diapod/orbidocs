@@ -32,6 +32,7 @@
         "middleware.init",
         "middleware.invoke",
         "middleware.observe",
+        "middleware.trace.report",
         "module-http.invoke",
         "request.cancel",
         "host-capability.invoke",
@@ -81,8 +82,18 @@
             {"required": ["deadline/at"]}
           ]
         },
-        "properties": {"operation": {"const": "middleware.observe"}}
+        "properties": {"operation": {"enum": ["middleware.observe", "middleware.trace.report"]}}
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {"const": "event"},
+          "operation": {"const": "middleware.trace.report"}
+        },
+        "required": ["message/kind", "operation"]
+      },
+      "then": {"properties": {"payload/schema": {"const": "component-communication-report.v1"}}}
     },
     {
       "if": {"properties": {"message/kind": {"const": "control"}}, "required": ["message/kind"]},
@@ -185,6 +196,7 @@
     }
   },
   "x-dia-basis": [
-    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"
   ]
 }

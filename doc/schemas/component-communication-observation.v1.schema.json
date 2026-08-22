@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:component-communication-observation:v1",
+  "title": "Component Communication Observation V1",
+  "description": "Host-stamped observation of one registered communication boundary stage.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "observation/id", "observation/generation", "observation/cursor", "occurred/at", "observed/at", "node/ref", "boundary/id", "boundary/kind", "stage", "evidence", "source", "target", "operation", "payload"],
+  "properties": {
+    "schema": {"const": "component-communication-observation.v1"},
+    "schema/v": {"const": 1},
+    "observation/id": {"$ref": "#/$defs/ref"},
+    "observation/generation": {"$ref": "#/$defs/ref"},
+    "observation/cursor": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "occurred/at": {"$ref": "#/$defs/timestamp"},
+    "observed/at": {"$ref": "#/$defs/timestamp"},
+    "node/ref": {"$ref": "#/$defs/ref"},
+    "boundary/id": {"$ref": "#/$defs/ref"},
+    "boundary/kind": {"enum": ["channel-json", "host-capability", "middleware-passage", "peer-session", "room-carrier", "http-boundary", "component-private"]},
+    "stage": {"$ref": "#/$defs/stage"},
+    "evidence": {"$ref": "#/$defs/evidence"},
+    "source": {"$ref": "#/$defs/endpoint"},
+    "target": {"$ref": "#/$defs/endpoint"},
+    "message/ref": {"$ref": "#/$defs/ref"},
+    "operation": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[ -~]+$"},
+    "transport/session-ref": {"$ref": "#/$defs/ref"},
+    "transport/sequence": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "causal/context-ref": {"$ref": "#/$defs/ref"},
+    "causal/context-digest": {"$ref": "#/$defs/digest"},
+    "correlation/id": {"$ref": "#/$defs/ref"},
+    "payload": {"$ref": "#/$defs/payload"}
+  },
+  "$defs": {
+    "ref": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[ -~]+$"},
+    "digest": {"type": "string", "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"},
+    "timestamp": {"type": "string", "format": "date-time", "maxLength": 64},
+    "stage": {"enum": ["egress-admitted", "egress-failed", "ingress-admitted", "ingress-refused", "completed", "timed-out", "canceled"]},
+    "endpoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["endpoint/kind", "endpoint/ref"],
+      "properties": {
+        "endpoint/kind": {"enum": ["host", "component", "middleware-module", "peer-node", "room-participant", "network-service", "operator"]},
+        "endpoint/ref": {"$ref": "#/$defs/ref"}
+      }
+    },
+    "evidence": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["kind", "adapter/family", "observer/ref"],
+          "properties": {
+            "kind": {"const": "host-observed"},
+            "adapter/family": {"$ref": "#/$defs/adapter"},
+            "observer/ref": {"$ref": "#/$defs/ref"}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["kind", "adapter/family", "observer/ref", "report/ref", "reporter/component-ref", "reporter/module-ref", "channel/session-ref", "channel/session-epoch", "channel/frame-sequence"],
+          "properties": {
+            "kind": {"const": "component-reported"},
+            "adapter/family": {"const": "component-report"},
+            "observer/ref": {"$ref": "#/$defs/ref"},
+            "report/ref": {"$ref": "#/$defs/ref"},
+            "reporter/component-ref": {"$ref": "#/$defs/ref"},
+            "reporter/module-ref": {"$ref": "#/$defs/ref"},
+            "channel/session-ref": {"$ref": "#/$defs/ref"},
+            "channel/session-epoch": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+            "channel/frame-sequence": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
+          }
+        }
+      ]
+    },
+    "adapter": {"enum": ["channel-json-session", "middleware-passage", "host-capability-dispatch", "peer-session", "room-carrier", "http-boundary", "component-report"]},
+    "capture": {
+      "type": "object", "additionalProperties": false,
+      "required": ["content"],
+      "properties": {
+        "content": {"enum": ["none", "inline", "artifact"]},
+        "disposition/reason": {"enum": ["policy", "redaction", "size", "secret-class", "sealed", "unknown-schema"]}
+      }
+    },
+    "payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema/ref", "size/bytes", "capture"],
+      "properties": {
+        "schema/ref": {"$ref": "#/$defs/ref"},
+        "schema/digest": {"$ref": "#/$defs/digest"},
+        "content/digest": {"$ref": "#/$defs/digest"},
+        "content/digest-basis": {"enum": ["wire-bytes", "canonical-json", "artifact-bytes"]},
+        "size/bytes": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+        "encoding": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$"},
+        "capture": {"$ref": "#/$defs/capture"},
+        "redaction/profile-ref": {"$ref": "#/$defs/ref"},
+        "redaction/profile-digest": {"$ref": "#/$defs/digest"},
+        "value": {},
+        "artifact/ref": {"$ref": "#/$defs/ref"}
+      },
+      "allOf": [
+        {"if": {"required": ["content/digest"]}, "then": {"required": ["content/digest-basis"]}, "else": {"not": {"required": ["content/digest-basis"]}}},
+        {"if": {"required": ["redaction/profile-ref"]}, "then": {"required": ["redaction/profile-digest"]}, "else": {"not": {"required": ["redaction/profile-digest"]}}},
+        {
+          "if": {"properties": {"capture": {"properties": {"content": {"const": "inline"}}, "required": ["content"]}}, "required": ["capture"]},
+          "then": {"required": ["value"], "not": {"required": ["artifact/ref"]}},
+          "else": {
+            "if": {"properties": {"capture": {"properties": {"content": {"const": "artifact"}}, "required": ["content"]}}, "required": ["capture"]},
+            "then": {"required": ["artifact/ref"], "not": {"required": ["value"]}},
+            "else": {"not": {"anyOf": [{"required": ["value"]}, {"required": ["artifact/ref"]}]}}
+          }
+        },
+        {
+          "if": {"properties": {"capture": {"properties": {"disposition/reason": {"const": "secret-class"}}, "required": ["disposition/reason"]}}, "required": ["capture"]},
+          "then": {"not": {"required": ["content/digest"]}}
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {"if": {"required": ["transport/sequence"]}, "then": {"required": ["transport/session-ref"]}},
+    {"if": {"required": ["causal/context-ref"]}, "then": {"required": ["causal/context-digest"]}, "else": {"not": {"required": ["causal/context-digest"]}}}
+  ]
+}

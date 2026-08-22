@@ -12,7 +12,12 @@ Based on:
 
 ## Status
 
-Accepted
+Accepted / hard-MVP implemented.
+
+The `json_e` and `json_e_flow` executor substrate, first-class daemon
+registration, bounded host-capability calls, durable redacted traces, operator
+inspection, and the Story 009 migration are implemented. Remaining work is
+explicitly post-MVP and does not reopen the hard-MVP gate.
 
 ## Date
 
@@ -1111,32 +1116,37 @@ MVP scope for story-009 `orbiplex.json_e_flow.v1`:
 - include a regression that runs story-009 without the `story009-roles`
   supervised Python daemon.
 
-Post-MVP scope:
-
-| Capability | Notes |
-| :--- | :--- |
-| `validate` and `decide` steps | Host-owned policy checks, including egress classification. |
-| Flow loops | Optional, profile-gated, resource-limited, and traced. |
-| Dynamically generated steps | Optional, profile-gated, and never allowed to bypass host authority checks. |
-| Temporary registers or scratch values | Optional, resource-limited, and visible in redacted flow traces where useful. |
-| Module-store template loading | Host-owned storage path after static configured templates have real users. |
-| Additional helper profiles | Added only when a concrete use case cannot be expressed by basic mechanical helpers. |
-
-## Implementation Plan
+## Hard-MVP Implementation Tracker
 
 The work should land as small, reviewable layers. Each layer should have a
 schema or test fixture that makes the boundary visible.
 
-| Step | Scope | Done when |
-| :--- | :--- | :--- |
-| 1 | Commit JSON-e configuration schemas | Node can validate `json_e` and `json_e_flow` middleware configuration, limits, helper exposure, context projection, and static flow shape at config-load time. |
-| 2 | Implement pure `json_e` substrate | Middleware runtime can evaluate a configured JSON-e template against an operator-projected context, validate output, expose basic helpers, enforce limits, produce diagnostics, and dry-run without effects. |
-| 3 | Add first-class daemon registration | Daemon config can register JSON-e middleware instances through the same operator-managed configuration layer as other middleware classes. Component snapshots and validation errors identify them as middleware, not hidden hooks. |
-| 4 | Implement static `json_e_flow` | Middleware runtime supports `render`, `validate`, `call`, `extract`, `respond`, and `fail`; all `call` steps are static, allowlisted, passport-checked, traced, and budgeted. |
-| 5 | Add host capability for workflow step publication | `workflow.step.completed.publish` has a narrow request/response schema and can be called by `json_e_flow` without exposing any Agora-specific backend to the flow engine. |
-| 6 | Build story-009 migration fixture | Five JSON-e flow role middleware configs replace the `story009-roles` Python adapter while keeping Sensorium OS scripts, Dator offers, Memarium writes, and pointer-sized responses intact. |
-| 7 | Add story-009 regression | The existing story-009 acceptance path can run without starting `story009-roles`, and still proves routing, Sensorium action isolation, Memarium fact writes, publication authority shape, and reconstruction. |
-| 8 (`P049-008`) | Generalize Flow consumption of host-owned Corpus turn-order offers | **Done. Dependency:** P069 `P069-TURN-001`. The daemon offer registry accepts the closed `select-turn-order` payload without weakening its opaque-ref, exact Flow/hook/offer/policy/producer/budget binding, single-use, TTL, consume-before-execute, restart-invalidation, and prompt-free trace rules. A Flow receives only the bounded admitted projection and `decision/ref`; raw participant refs are never accepted as floor authority. Unit evidence covers owning-caller resolution, foreign callers, duplicate consumption, restart invalidation, and use-time authority revocation. Full Corpus application and process acceptance are completed under P069 `P069-TURN-002`; P049 remains only the neutral Flow carrier. |
+| ID | Scope | Status | Completion evidence |
+| :--- | :--- | :--- | :--- |
+| P049-001 | Commit JSON-e configuration schemas | done | Node validates `json_e` and `json_e_flow` configuration, limits, helper exposure, context projection, and static flow shape at configuration-load time. |
+| P049-002 | Implement pure `json_e` substrate | done | Middleware Runtime evaluates the bounded in-repository JSON-e compatibility subset, validates output, exposes the basic helper profile, enforces limits, emits diagnostics, and supports effect-free dry-run. |
+| P049-003 | Add first-class daemon registration | done | Daemon configuration and signed middleware-package fragments register JSON-e middleware as first-class components with operator inspection and typed validation failures. |
+| P049-004 | Implement static `json_e_flow` | done | Middleware Runtime supports `render`, `validate`, `call`, `decision`, `branch`, `repeat`, `extract`, `respond`, and `fail`; host calls and decisions are static, allowlisted, traced, and bounded. |
+| P049-005 | Add host capability for workflow step publication | done | `workflow.step.completed.publish` has schema-gated request and response contracts and remains backend-neutral to the Flow engine. |
+| P049-006 | Build Story 009 migration fixture | done | Five JSON-e Flow role definitions replace the `story009-roles` Python service while preserving the surrounding Sensorium, Dator, Memarium, and response contracts. |
+| P049-007 | Add Story 009 regression | done | Process-level acceptance runs Story 009 with in-process JSON-e Flow roles and asserts that the retired `story009-roles` process is not supervised. |
+| P049-008 | Generalize Flow consumption of host-owned Corpus turn-order offers | done | The daemon registry preserves opaque-ref, exact Flow/hook/offer/policy/producer/budget binding, single use, TTL, consume-before-execute, restart invalidation, and use-time authority revalidation. Full Corpus application remains owned by P069. |
+
+## Post-MVP Tracker
+
+Post-MVP additions must preserve the same static authority boundary: rendered
+data may shape values but may not select capabilities, policy authority, or
+executable code. A deferred item becomes implementable only after a concrete
+middleware migration demonstrates that the current static language is
+insufficient.
+
+| ID | Item | Status | Admission condition / completion contract |
+| :--- | :--- | :--- | :--- |
+| P049-009 | Host-resolved `template/ref` loading | todo | Add a bounded, schema-gated, content-addressed template reference resolved by the host from an admitted module-store or middleware-package artifact. Bind the resolved digest and revision into validation, execution, dry-run, and trace facts; caller or rendered data must not choose or replace the referenced template. |
+| P049-010 | Host-owned policy and bounded loop steps | done | `validate`, `decision`, `branch`, and `repeat` are implemented with static targets, allowlists, loop limits, timeout accounting, and redacted traces. |
+| P049-011 | Dynamically generated steps | deferred / demand-driven | Require a concrete migration case, a closed profile revision, load- and run-time authority validation, explicit resource bounds, and refusal-first trace coverage. No fallback from static Flow is permitted. |
+| P049-012 | Temporary registers or general scratch state | deferred / demand-driven | Require a concrete migration case and explicit byte, item, lifetime, classification, and trace-retention bounds. Existing statically named step outputs are not general scratch authority. |
+| P049-013 | Additional helper profiles | deferred / demand-driven | Add a versioned helper profile only when a concrete use case cannot be expressed through `orbiplex.json_e.helpers.basic.v1`; helpers remain pure and non-authoritative. |
 
 The implementation should avoid dynamic flow features until the story-009 static
 flow slice proves that they are needed. Raising limits or adding flow language
@@ -1251,16 +1261,22 @@ general-purpose scripting language.
 
 ## Open Questions
 
-1. Which Rust JSON-e implementation should be adopted after dependency review?
-2. What exact projection syntax should operators use for
-   `context_projection`?
-3. What exact request and response schema should
-   `workflow.step.completed.publish` use for story-009 and future workflow
-   publishers?
-4. Should JSON-e templates live in the host-owned module store, middleware config
-   fragments, or both?
-5. Which `json_e_flow` dynamic features, if any, are justified by real middleware
-   migration cases after the pure profile has landed?
+None for hard-MVP.
+
+Resolved by the implementation:
+
+1. The Rust runtime owns a bounded in-repository JSON-e compatibility subset
+   instead of importing a more powerful general-purpose scripting runtime.
+2. `context_projection` is an explicit operator-owned mapping from stable output
+   names to closed host context sources; rendered input cannot widen it.
+3. `workflow.step.completed.publish` uses the schema-gated
+   `workflow-step-completed-publish-request.v1` and
+   `workflow-step-completed-publish-response.v1` contracts.
+4. Hard-MVP templates are inline in operator configuration or signed
+   middleware-package configuration fragments. Independent host-resolved
+   `template/ref` loading is tracked as P049-009.
+5. Dynamic steps, general scratch state, and additional helper profiles remain
+   deferred and demand-driven under P049-011 through P049-013.
 
 ## Non-Goals
 

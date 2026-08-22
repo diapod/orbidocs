@@ -1,0 +1,30 @@
+{
+  "schema": "component-communication-observation.v1",
+  "schema/v": 1,
+  "observation/id": "component-observation:sha256:rknJX7VTI7olIH3uLqWMBZR5oHjpw85lUsPOYg3hJLQ",
+  "observation/generation": "process-generation:7",
+  "observation/cursor": 431,
+  "occurred/at": "2026-08-20T12:00:00Z",
+  "observed/at": "2026-08-20T12:00:01Z",
+  "node/ref": "node:local",
+  "boundary/id": "middleware-channel",
+  "boundary/kind": "channel-json",
+  "stage": "egress-admitted",
+  "evidence": {"kind": "host-observed", "adapter/family": "channel-json-session", "observer/ref": "component:middleware-channel-transport"},
+  "source": {"endpoint/kind": "host", "endpoint/ref": "component:daemon"},
+  "target": {"endpoint/kind": "middleware-module", "endpoint/ref": "component:inquirium-adapter"},
+  "message/ref": "middleware-request:req-123",
+  "operation": "middleware.invoke",
+  "transport/session-ref": "middleware-session:example",
+  "transport/sequence": 42,
+  "payload": {
+    "schema/ref": "inquirium-adapter-invoke.v1",
+    "content/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "content/digest-basis": "canonical-json",
+    "size/bytes": 12,
+    "capture": {"content": "inline", "disposition/reason": "redaction"},
+    "redaction/profile-ref": "trace-redaction:inquirium:v1",
+    "redaction/profile-digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "value": {"safe": true}
+  }
+}

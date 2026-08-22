@@ -1,0 +1,13 @@
+{
+  "schema": "component-communication-report.v1",
+  "schema/v": 1,
+  "report/id": "component-trace-report:invalid",
+  "boundary/id": "private-boundary",
+  "source": {"endpoint/kind": "middleware-module", "endpoint/ref": "module:fixture"},
+  "target": {"endpoint/kind": "network-service", "endpoint/ref": "service:fixture"},
+  "stage": "egress-admitted",
+  "operation": "fixture.invoke",
+  "occurred/at": "2026-08-20T12:00:00Z",
+  "payload": {"schema/ref": "fixture.v1", "size/bytes": 1},
+  "reporter/component-ref": "spoofed:component"
+}

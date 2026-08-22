@@ -1,0 +1,7 @@
+{
+  "schema": "component-trace-record.v1",
+  "schema/v": 1,
+  "recording/sequence": 1,
+  "record/kind": "arbitrary",
+  "record/value": {}
+}

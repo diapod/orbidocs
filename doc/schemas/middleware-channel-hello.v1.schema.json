@@ -33,11 +33,11 @@
     "channel/features": {
       "type": "array",
       "minItems": 1,
-      "maxItems": 3,
+      "maxItems": 4,
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": ["bidirectional-rpc", "cancellation", "heartbeat"]
+        "enum": ["bidirectional-rpc", "cancellation", "heartbeat", "trace-reporting"]
       }
     },
     "limits/requested": {"$ref": "#/$defs/requestedLimits"}
@@ -67,6 +67,7 @@
     }
   },
   "x-dia-basis": [
-    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md"
   ]
 }
