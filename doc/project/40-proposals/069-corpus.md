@@ -2308,10 +2308,10 @@ task owns candidate construction or final Room admission.
   envelope is 720,000 ms and 24,576 tokens. This task remains open until a ready
   reviewer and the HIL, P083, terminal, and verifier latency distribution are
   included; the provisional envelope is not an authority grant. The retained
-  2026-08-01 deployment run now adds two complete effect-feedback cycles: four
-  model turns consumed 16,577 prompt-plus-completion tokens and 516,110 ms of
-  model time, while end-to-end deliberation consumed 544,637 ms. Its longest turn
-  was 164,161 ms. These measurements confirm the current 330-second per-turn and
+  2026-08-22 deployment run now adds two complete effect-feedback cycles:
+  four model turns consumed 17,226 prompt-plus-completion tokens and 581,864 ms of
+  model time, while end-to-end deliberation consumed 616,183 ms. Its longest turn
+  was 174,716 ms. These measurements confirm the current 330-second per-turn and
   780-second deliberation bounds for the two-cycle acceptance path, but four such
   measured cycles do not fit safely under one canonical Room authority ceiling.
   The remaining work is therefore an explicit between-cycle authority-renewal
@@ -2323,7 +2323,8 @@ task owns candidate construction or final Room admission.
   expose prompt-free per-role latency, token, cycle, experiment, rejection, and
   correction measurements so future limits are derived from evidence. The first
   Qwen2.5-Coder deployment run now passes this closed report with those
-  measurements; repeatability over another fresh seeded run remains open.
+  measurements. A second fresh unseeded full-system success exists; explicit
+  fixed-seed repeatability remains open.
 - [x] Implement and evidence the resolved second guest-attested challenge,
   `powerdns-bind-missing-zone-data.v1`: valid loopback listener, BIND backend,
   and authoritative declaration referencing an absent zone-data file, with no
@@ -2337,13 +2338,15 @@ task owns candidate construction or final Room admission.
   `llama-server`, and pinned model bytes. The run must reach the DNS goal through
   model-authored trial and error without the legacy fixture. Do not promote this
   post-MVP evidence until the stage bench demonstrates a plausible correction path.
-  The retained 2026-08-01 macOS arm64 report passes all 30 checks with two
+  The retained 2026-08-22 macOS arm64 report passes all 30 checks with two
   separately supervised Qwen2.5-Coder 7B runtimes, the second prepared challenge,
   one nonpassing model-authored experiment, a distinct successful second plan after
   fresh terminal evidence, per-effect HIL, P083 `claim -> invoke -> release`, and
   no effect derived directly from Room prose. Host-owned shell framing is limited
   to a reported `umask 022`; the CandidatePlan bytes remain unchanged through
-  admission and execution.
+  admission and execution. The same run retains complete P086 recordings with
+  zero gaps or drops for requester node A (563 observations), solver node B (19),
+  and reviewer node C (22).
 
 #### Phase 9 — N-way settlement
 

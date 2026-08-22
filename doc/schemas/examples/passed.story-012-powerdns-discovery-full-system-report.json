@@ -95,7 +95,82 @@
       {
         "agent/decision": "propose",
         "attempt": 1,
-        "candidate-plan/digest": "sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+    "authority/events": [
+      {
+        "decided/by": "agent:effect-bridge",
+        "evidence/ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
+        "kind": "operator-approved",
+        "recorded/at": "2026-08-22T19:38:27.037967Z",
+        "sequence": 1
+      },
+      {
+        "evidence/ref": "execution-receipt:sensorium-interface-runtime:UACHl7wDoAeWFiOgxyimJhWScLVqAAnFLsIbueWjEc0",
+        "kind": "control-claimed",
+        "lease/epoch": 4,
+        "lease/expires-at": "2026-08-22T19:38:57.679997Z",
+        "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+        "recorded/at": "2026-08-22T19:38:27.679997Z",
+        "sequence": 2,
+        "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+      },
+      {
+        "accepted/sequence": 4,
+        "evidence/ref": "sensorium-operation:story-012-powerdns-candidate-experiment-1",
+        "kind": "effect-invoked",
+        "lease/epoch": 4,
+        "lease/expires-at": "2026-08-22T19:38:57.679997Z",
+        "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+        "recorded/at": "2026-08-22T19:38:27.704683Z",
+        "sequence": 3,
+        "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+      },
+      {
+        "evidence/ref": "execution-receipt:sensorium-interface-runtime:iF9I4qXUVX8NhsX817Vtjfv8vPjC1PzP-faDDfShvS4",
+        "kind": "control-released",
+        "lease/epoch": 4,
+        "lease/expires-at": "2026-08-22T19:38:57.679997Z",
+        "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+        "recorded/at": "2026-08-22T19:38:29.294812Z",
+        "sequence": 4,
+        "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+      }
+    ],
+    "candidate-plan/digest": "sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+    "candidate-plan/inert-at-admission": {
+      "flow/ref": "inquiry-flow:M8rLnMLQ2S2E1Pra51OqebiU7oFRtM5zM9KFPwoQ-w4",
+      "node/count": 1,
+      "pending/count": 1
+    },
+    "candidate-plan/producer-node": "node-b",
+    "candidate-plan/proposal": {
+      "author": {
+        "id": "did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+        "kind": "nym"
+      },
+      "author/node-id": "node:did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+      "candidate-plan/artifact-ref": "object-store:sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+      "candidate-plan/digest": "sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+      "candidate-plan/ref": "candidate-plan/sha256:4ztxgL27sfJ5iOMnFDhEr6Dmjk8DqQTKB40uch8sJaU",
+      "class/key": "Community",
+      "executor": {
+        "agent/ref": "agent:story-012-chair",
+        "mode": "local-agent"
+      },
+      "expires-at": "2026-08-22T19:49:10Z",
+      "human-in-loop/required": true,
+      "idempotency/key": "story-012-powerdns-experiment-1",
+      "proposal/ref": "corpus-experiment:sha256:lNP96uBtVGfygJTuI9SP3-XO4LyLtCls69-_DFCBBu8",
+      "proposed-at": "2026-08-22T19:36:09Z",
+      "query/id": "query:story-012-powerdns-localdomain-discovery",
+      "room/id": "room:story-012-shared-chair-terminal",
+      "schema/v": 1,
+      "signature": {
+        "alg": "ed25519+domain-v1",
+        "key/public": "z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+        "value": "bZ0nsS-Jo87Q3xINRqy10tuV-TYmf6c87G0NGTvCgDvCDyx67ztk5MtZoXisSBGM7c1XEXrygkftHNV0jd0_Bg"
+      },
+      "turn/id": "corpus-turn:sha256:Rv_fkOpJgAdtFNhfu8JvwGcoyhqm32S1bGVXFdR6M6s"
+    },
         "chair-block/tested": false,
         "chair-decision/ref": "corpus-experiment-chair-decision:sha256:ZRU7MBQLbWnw58Q4GLl5BHdfkXNBHuUCcD4mpPnO-HI",
         "chair/product-ref": "object-store:sha256:J0pNJWueaWNr9Vxw7eB-RyxDJkrBppCOc0JTxM_oU-E",
@@ -108,7 +183,56 @@
         "flow/ref": "inquiry-flow:M8rLnMLQ2S2E1Pra51OqebiU7oFRtM5zM9KFPwoQ-w4",
         "hil/decision": "approved",
         "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
-        "lease/released": true,
+    "invoke/receipt": {
+      "accepted/at": "2026-08-22T19:38:27.704683Z",
+      "accepted/sequence": 4,
+      "caller/ref": "operator:local-control",
+      "causal/context": {
+        "causation/refs": [
+          "corpus-experiment-passage:8KwWGUxHFUfu32JFPZAmzZOwvz2MxSnzD9BWT0E4hNc",
+          "corpus-experiment:sha256:lNP96uBtVGfygJTuI9SP3-XO4LyLtCls69-_DFCBBu8",
+          "inquiry:story-012-experiment-executor:1",
+          "object-store:sha256:mmTwrS4NvAso-LuQlweoWBWDPq2k3-ylwJ8xxvcYVXE"
+        ],
+        "context/id": "causal-context:story-012-experiment-effect-1",
+        "correlation/id": "correlation:story-012-shared-chair-terminal",
+        "created/at": "2026-08-22T19:38:23Z",
+        "operation/id": "operation:story-012-experiment-effect-1",
+        "origin/actor-ref": "operator:local-control",
+        "schema": "causal-context.v1",
+        "schema/v": 1
+      },
+      "classification": {
+        "bound_subjects": { "personal_or_community": [] },
+        "declassify_trail": [],
+        "effective_tier": "Community",
+        "provenance": { "kind": "local-space", "space": "Community" },
+        "schema": "classification.v1",
+        "source_tier": "Community"
+      },
+      "completed/at": "2026-08-22T19:38:29.287945Z",
+      "evidence/class": "provider-ack",
+      "evidence/ref": "workbench-terminal-evidence:s6AbSm8T_N90r7OjIhDSMUgvRT0gQ-IBRw0cb0YLEoo",
+      "grant/id": "sensorium-interface-grant:NVTlu9x-CRihzMOnNFaZvq6N2RMMtqGSzku0nbVmQ8Y",
+      "input/schema-ref": "sensorium-interface-terminal-input.v1",
+      "interface/id": "sensorium-interface:story-012:terminal-control",
+      "lease/epoch": 4,
+      "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+      "method/name": "terminal.input",
+      "operation/id": "sensorium-operation:story-012-powerdns-candidate-experiment-1",
+      "operational/context": {
+        "context/summary": "Isolated Story 012 powerdns-localdomain-discovery fixture",
+        "impact/class": "test",
+        "schema": "sensorium-operational-context.v1",
+        "schema/v": 1
+      },
+      "outcome": "applied",
+      "payload/digest": "sha256:NaRvUUqEEZ3eCD9fapKKcNPW-oZ1xaqhJbnR4hgNa2w",
+      "schema": "sensorium-interface-invoke-receipt.v1",
+      "schema/v": 1,
+      "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+    },
+    "lease/released": true,
         "model-command/digest": "sha256:uKpGKB2_SILCZylS1n5E49JMG0uu64sDrqB2soHhbVU",
         "novelty/original-decision": {
           "current/effect-digest": "sha256:uFqIniGj5t5NX5jMIFfIBmFsImaM_gkZJBinirg5nss",
@@ -161,7 +285,82 @@
       {
         "agent/decision": "propose",
         "attempt": 2,
-        "candidate-plan/digest": "sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+    "authority/events": [
+      {
+        "decided/by": "agent:effect-bridge",
+        "evidence/ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
+        "kind": "operator-approved",
+        "recorded/at": "2026-08-22T19:43:56.778892Z",
+        "sequence": 1
+      },
+      {
+        "evidence/ref": "execution-receipt:sensorium-interface-runtime:Ics_JzbILDthggmfith9qyD3V1vfuPifkSGrZAe7Q8E",
+        "kind": "control-claimed",
+        "lease/epoch": 9,
+        "lease/expires-at": "2026-08-22T19:44:27.418594Z",
+        "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+        "recorded/at": "2026-08-22T19:43:57.418594Z",
+        "sequence": 2,
+        "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+      },
+      {
+        "accepted/sequence": 9,
+        "evidence/ref": "sensorium-operation:story-012-powerdns-candidate-experiment-2",
+        "kind": "effect-invoked",
+        "lease/epoch": 9,
+        "lease/expires-at": "2026-08-22T19:44:27.418594Z",
+        "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+        "recorded/at": "2026-08-22T19:43:57.45235Z",
+        "sequence": 3,
+        "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+      },
+      {
+        "evidence/ref": "execution-receipt:sensorium-interface-runtime:Tt2XAyr3JwMeP7w0zfwRUbEIHknD0ZQxC0FAl78XTNE",
+        "kind": "control-released",
+        "lease/epoch": 9,
+        "lease/expires-at": "2026-08-22T19:44:27.418594Z",
+        "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+        "recorded/at": "2026-08-22T19:43:58.356928Z",
+        "sequence": 4,
+        "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+      }
+    ],
+    "candidate-plan/digest": "sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+    "candidate-plan/inert-at-admission": {
+      "flow/ref": "inquiry-flow:j2hGfiy6an9e9SL0GGXxKO6muhLcrOxXuM4Mgu3cBe8",
+      "node/count": 1,
+      "pending/count": 1
+    },
+    "candidate-plan/producer-node": "node-b",
+    "candidate-plan/proposal": {
+      "author": {
+        "id": "did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+        "kind": "nym"
+      },
+      "author/node-id": "node:did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+      "candidate-plan/artifact-ref": "object-store:sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+      "candidate-plan/digest": "sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+      "candidate-plan/ref": "candidate-plan/sha256:sMu85Hr5OQ9IuHtZrOYYUG3770RQI2pfm7a86TZMwyA",
+      "class/key": "Community",
+      "executor": {
+        "agent/ref": "agent:story-012-chair",
+        "mode": "local-agent"
+      },
+      "expires-at": "2026-08-22T19:54:30Z",
+      "human-in-loop/required": true,
+      "idempotency/key": "story-012-powerdns-experiment-2",
+      "proposal/ref": "corpus-experiment:sha256:oIV8UKhgWaLQ97BLErNBe8150NkH7YH-HK3gUqU26nE",
+      "proposed-at": "2026-08-22T19:41:29Z",
+      "query/id": "query:story-012-powerdns-localdomain-discovery",
+      "room/id": "room:story-012-shared-chair-terminal",
+      "schema/v": 1,
+      "signature": {
+        "alg": "ed25519+domain-v1",
+        "key/public": "z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+        "value": "-42STPyedHfENhRKWHMPOVmMKXrUZTfzWF-kJVZyKgbl8-8-dhonasNKovucRkJShk2qEtgBy8QLfM4lHxlaDQ"
+      },
+      "turn/id": "corpus-turn:sha256:D82INw4sPgHZ6LNtPUcJZOO6-saara5gI7bi1gDUiZ8"
+    },
         "chair-block/tested": false,
         "chair-decision/ref": "corpus-experiment-chair-decision:sha256:cFZ6QqS83OQqNOd65990phmlppajjj_tg8GEpM7brU8",
         "chair/product-ref": "object-store:sha256:J0pNJWueaWNr9Vxw7eB-RyxDJkrBppCOc0JTxM_oU-E",
@@ -174,7 +373,56 @@
         "flow/ref": "inquiry-flow:j2hGfiy6an9e9SL0GGXxKO6muhLcrOxXuM4Mgu3cBe8",
         "hil/decision": "approved",
         "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
-        "lease/released": true,
+    "invoke/receipt": {
+      "accepted/at": "2026-08-22T19:43:57.45235Z",
+      "accepted/sequence": 9,
+      "caller/ref": "operator:local-control",
+      "causal/context": {
+        "causation/refs": [
+          "corpus-experiment-passage:5345oH_sYjI5TlSMbMRNmxbUZnCiDsrlKPHzJ_HjNVQ",
+          "corpus-experiment:sha256:oIV8UKhgWaLQ97BLErNBe8150NkH7YH-HK3gUqU26nE",
+          "inquiry:story-012-experiment-executor:2",
+          "object-store:sha256:WTK1eTyj-sl6mI1orG_ZOAZkGkRmzcm22F6ejhKcEsI"
+        ],
+        "context/id": "causal-context:story-012-experiment-effect-2",
+        "correlation/id": "correlation:story-012-shared-chair-terminal",
+        "created/at": "2026-08-22T19:43:53Z",
+        "operation/id": "operation:story-012-experiment-effect-2",
+        "origin/actor-ref": "operator:local-control",
+        "schema": "causal-context.v1",
+        "schema/v": 1
+      },
+      "classification": {
+        "bound_subjects": { "personal_or_community": [] },
+        "declassify_trail": [],
+        "effective_tier": "Community",
+        "provenance": { "kind": "local-space", "space": "Community" },
+        "schema": "classification.v1",
+        "source_tier": "Community"
+      },
+      "completed/at": "2026-08-22T19:43:58.354654Z",
+      "evidence/class": "provider-ack",
+      "evidence/ref": "workbench-terminal-evidence:-Km7daTZML0SGKnmZjCHgbpBHWUoH9iqddemWcjlfjo",
+      "grant/id": "sensorium-interface-grant:NVTlu9x-CRihzMOnNFaZvq6N2RMMtqGSzku0nbVmQ8Y",
+      "input/schema-ref": "sensorium-interface-terminal-input.v1",
+      "interface/id": "sensorium-interface:story-012:terminal-control",
+      "lease/epoch": 9,
+      "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+      "method/name": "terminal.input",
+      "operation/id": "sensorium-operation:story-012-powerdns-candidate-experiment-2",
+      "operational/context": {
+        "context/summary": "Isolated Story 012 powerdns-localdomain-discovery fixture",
+        "impact/class": "test",
+        "schema": "sensorium-operational-context.v1",
+        "schema/v": 1
+      },
+      "outcome": "applied",
+      "payload/digest": "sha256:j5zIyTaYBuuRlM3sAxd5ODcmbHucvKO58Gy6X43x5Fw",
+      "schema": "sensorium-interface-invoke-receipt.v1",
+      "schema/v": 1,
+      "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+    },
+    "lease/released": true,
         "model-command/digest": "sha256:WaGQzGyPBqVzXs47Fir7vrsJcosdWxePKrVgrYvmCzw",
         "novelty/original-decision": {
           "current/effect-digest": "sha256:8x-7F9vS4-7ulsgqHwxRZSsPfJwSorbNhRlClqlO3tE",

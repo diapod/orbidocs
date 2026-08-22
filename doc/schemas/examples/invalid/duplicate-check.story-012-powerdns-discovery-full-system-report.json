@@ -1,17 +1,17 @@
 {
   "artifact/refs": [
-    "artifact:workbench:1ecdf87050cec6e02de74581"
+    "artifact:workbench:594fac9f6f6fd394b3211c42"
   ],
   "backend/id": "vfkit-system.v1",
   "budgets": {
-    "deliberation/ms-max": 600000,
-    "duration/ms-max": 1200000
+    "deliberation/ms-max": 825000,
+    "duration/ms-max": 1500000
   },
   "checks": [
     "pinned-powerdns-guest-fixture",
     "exact-powerdns-package-pins",
     "single-host-three-node-vfkit",
-    "two-real-bielik-runtimes",
+    "two-real-qwen25-coder-runtimes",
     "agent-output-backed-corpus-turns",
     "read-only-terminal-room-projection",
     "exclusive-host-approved-configuration",
@@ -37,95 +37,10 @@
     "hil-per-effect",
     "p083-claim-invoke-release",
     "no-room-prose-direct-effect",
-    "no-deadline-fixture-fallback",
-    "no-deadline-fixture-fallback"
+    "no-room-prose-direct-effect"
   ],
-  "corpus/draft-ref": "corpus-agent-answer-draft:sha256:PIyJKZQFjWAj-UQjMmdtEdTUbQ8s2lUaZ_a-NqUF7aw",
+  "corpus/draft-ref": "corpus-agent-answer-draft:sha256:CBx92CPo_EoQlMknSx6igqpr7Zg96XeaE6eYg3NvuA0",
   "deliberation": {
-    "cycle/limit": 64,
-    "cycles": 2,
-    "effective-wall-time/ms-max": 300000,
-    "experiment/count": 2,
-    "experiments": [
-      {
-        "agent/decision": "propose",
-        "attempt": 1,
-        "chair-block/tested": false,
-        "chair-decision/ref": "corpus-experiment-chair-decision:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "chair/product-ref": "object-store:sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-1",
-        "execution/ref": "corpus-experiment-execution:1gwTFe_1uxRQaIlP86_daRtlSCqsFGbWxaqT9JtAGDY",
-        "execution/status": "terminal",
-        "executor/inference-ref": "inquiry:story-012-experiment-executor:1",
-        "executor/product-digest": "sha256:VzGUqAcbUYnxaTSlUoAPCaek4NBKPf-jEFkRamtCX8M",
-        "executor/product-ref": "object-store:sha256:VzGUqAcbUYnxaTSlUoAPCaek4NBKPf-jEFkRamtCX8M",
-        "flow/ref": "inquiry-flow:rOeKGUFmoz6MsAOWIFRHB-803K-kdE-_V5GdoCqZZuo",
-        "hil/decision": "approved",
-        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
-        "lease/released": true,
-        "outcome": "model-authored-plan-nonpassing",
-        "p083/lifecycle": [
-          "claim",
-          "invoke",
-          "release"
-        ],
-        "plan-publication/ref": "corpus-experiment-plan-publication:sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
-        "passage/ref": "corpus-experiment-passage:6pm3ez5wtdW0hieQuZtQonAUOjGS7RvLNIvE-XPMplk",
-        "proposal/ref": "corpus-experiment:sha256:Y0K-MOrCxxizuckmnZhaqX7sxz8Z7trorDEL5JXcQVo",
-        "review/ref": "corpus-experiment-review:sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-        "review/verdict": "accept",
-        "terminal-state/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-        "terminal/event-count": 13,
-    "model-command/digest": "sha256:KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
-    "candidate-plan/digest": "sha256:MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
-    "terminal/completion-marker": "STORY012 DISCOVERY EXPERIMENT COMPLETE 1 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
-    "terminal/output-digest": "sha256:OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
-    "verification/passed": false
-      },
-      {
-        "agent/decision": "propose",
-        "attempt": 2,
-        "chair-block/tested": false,
-        "chair-decision/ref": "corpus-experiment-chair-decision:sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-        "chair/product-ref": "object-store:sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-2",
-        "execution/ref": "corpus-experiment-execution:2exRSWfkKkMdNoVdi7HTmcVsw_gEWzmdt65yLJykPh4",
-        "execution/status": "terminal",
-        "executor/inference-ref": "inquiry:story-012-experiment-executor:2",
-        "executor/product-digest": "sha256:7yWfGoSa2AlZyGr8PT0Oj_uhhVB_s9OP-DKYio6LJuM",
-        "executor/product-ref": "object-store:sha256:7yWfGoSa2AlZyGr8PT0Oj_uhhVB_s9OP-DKYio6LJuM",
-        "flow/ref": "inquiry-flow:YGy-tCmHgyXuCe0rfg0FBWdSw-IryCuRoJzu6XzaSO4",
-        "hil/decision": "approved",
-        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
-        "lease/released": true,
-        "outcome": "model-authored-plan-passed",
-        "p083/lifecycle": [
-          "claim",
-          "invoke",
-          "release"
-        ],
-        "plan-publication/ref": "corpus-experiment-plan-publication:sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-        "passage/ref": "corpus-experiment-passage:DX_EW8RSSgaJeRRQI1QUplVl0cprUWvQ8C9ampuFGrA",
-        "proposal/ref": "corpus-experiment:sha256:KDlY0rwk-TKgxr89q5mVywXGo3504g4PjfQuZiVesM8",
-        "review/ref": "corpus-experiment-review:sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
-        "review/verdict": "accept",
-        "terminal-state/digest": "sha256:JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",
-        "terminal/event-count": 19,
-    "model-command/digest": "sha256:LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
-    "candidate-plan/digest": "sha256:NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
-    "terminal/completion-marker": "STORY012 DISCOVERY EXPERIMENT COMPLETE 2 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
-    "terminal/output-digest": "sha256:PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
-    "verification/passed": true
-      }
-    ],
-    "fallback/used": false,
-    "hard-wall-time/ms-max": 360000,
-    "inference/refs": [
-      "inquiry:story-012-node-b:1",
-      "inquiry:story-012-node-c:1",
-      "inquiry:story-012-node-b:3",
-      "inquiry:story-012-node-c:3"
-    ],
     "critique-gate": {
       "chair-block/count": 0,
       "chair/source": "agent-product-marker",
@@ -133,24 +48,33 @@
       "review/source": "agent-product-marker",
       "solver-plan/source": "agent-product-marker"
     },
-    "mode": "baton",
-    "overlay/refs": [
-      "corpus-instruction-overlay:sha256:nlP6n3iTyKwE_OLmdRU444HDiNgF9VIB1KDP8nU618k",
-      "corpus-instruction-overlay:sha256:VLl6i-dFDMIDOKfeBwRQ7dL91pi3yCb6xXfloqwOGpE",
-      "corpus-instruction-overlay:sha256:F9O5WA99OicxB2QfTRuhJNPC2zkLXlUnX0p-R-yUtjs",
-      "corpus-instruction-overlay:sha256:0YTsYJEppDTbcdejxwWBt1mtUgolWaPF1iGoA4r9GDU"
-    ],
-    "requester-opening/ref": "query:story-012-powerdns-localdomain-discovery",
-    "resolution/path": "model-authored-discovery",
-    "roles": {
-      "reviewer": "node-c",
-      "solver": "node-b"
+    "cycle/limit": 64,
+    "cycles": 2,
+    "discovery": {
+      "challenge/id": "powerdns-bind-missing-zone-data.v1",
+      "first-experiment/read-only": true,
+      "host-domain-command-synthesis/count": 0,
+      "model-command/digests": [
+        "sha256:uKpGKB2_SILCZylS1n5E49JMG0uu64sDrqB2soHhbVU",
+        "sha256:WaGQzGyPBqVzXs47Fir7vrsJcosdWxePKrVgrYvmCzw"
+      ],
+      "nonpassing/experiments": 1,
+      "review-rejections/count": 0,
+      "solution-wrapper/invocations": 0,
+      "verifier/mode": "observation-only",
+      "host-structural-framing": {
+        "kind": "shell-umask",
+        "umask": "022",
+        "materialized-file-mode": "0644",
+        "operation/id": "sensorium-operation:story-012-powerdns-discovery-shell-framing",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ]
+      }
     },
-    "room-prose/direct-effect-count": 0,
     "effect-audit": {
-      "source/schema": "agent.status.response.v1",
-      "projection/item-count": 2,
-      "projection/total-count": 2,
       "expected/proposal-refs": [
         "agent-effect-proposal:story-012-powerdns-experiment-1",
         "agent-effect-proposal:story-012-powerdns-experiment-2"
@@ -159,9 +83,569 @@
         "agent-effect-proposal:story-012-powerdns-experiment-1",
         "agent-effect-proposal:story-012-powerdns-experiment-2"
       ],
-      "unmatched/proposal-refs": [],
-      "unmatched/count": 0
+      "projection/item-count": 10,
+      "projection/total-count": 10,
+      "source/schema": "agent.status.response.v1",
+      "unmatched/count": 0,
+      "unmatched/proposal-refs": []
     },
+    "effective-wall-time/ms-max": 780000,
+    "experiment/count": 2,
+    "experiments": [
+      {
+        "agent/decision": "propose",
+        "attempt": 1,
+        "authority/events": [
+          {
+            "decided/by": "agent:effect-bridge",
+            "evidence/ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
+            "kind": "operator-approved",
+            "recorded/at": "2026-08-22T19:38:27.037967Z",
+            "sequence": 1
+          },
+          {
+            "evidence/ref": "execution-receipt:sensorium-interface-runtime:UACHl7wDoAeWFiOgxyimJhWScLVqAAnFLsIbueWjEc0",
+            "kind": "control-claimed",
+            "lease/epoch": 4,
+            "lease/expires-at": "2026-08-22T19:38:57.679997Z",
+            "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+            "recorded/at": "2026-08-22T19:38:27.679997Z",
+            "sequence": 2,
+            "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+          },
+          {
+            "accepted/sequence": 4,
+            "evidence/ref": "sensorium-operation:story-012-powerdns-candidate-experiment-1",
+            "kind": "effect-invoked",
+            "lease/epoch": 4,
+            "lease/expires-at": "2026-08-22T19:38:57.679997Z",
+            "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+            "recorded/at": "2026-08-22T19:38:27.704683Z",
+            "sequence": 3,
+            "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+          },
+          {
+            "evidence/ref": "execution-receipt:sensorium-interface-runtime:iF9I4qXUVX8NhsX817Vtjfv8vPjC1PzP-faDDfShvS4",
+            "kind": "control-released",
+            "lease/epoch": 4,
+            "lease/expires-at": "2026-08-22T19:38:57.679997Z",
+            "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+            "recorded/at": "2026-08-22T19:38:29.294812Z",
+            "sequence": 4,
+            "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+          }
+        ],
+        "candidate-plan/digest": "sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+        "candidate-plan/inert-at-admission": {
+          "flow/ref": "inquiry-flow:M8rLnMLQ2S2E1Pra51OqebiU7oFRtM5zM9KFPwoQ-w4",
+          "node/count": 1,
+          "pending/count": 1
+        },
+        "candidate-plan/producer-node": "node-b",
+        "candidate-plan/proposal": {
+          "author": {
+            "id": "did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+            "kind": "nym"
+          },
+          "author/node-id": "node:did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+          "candidate-plan/artifact-ref": "object-store:sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+          "candidate-plan/digest": "sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+          "candidate-plan/ref": "candidate-plan/sha256:4ztxgL27sfJ5iOMnFDhEr6Dmjk8DqQTKB40uch8sJaU",
+          "class/key": "Community",
+          "executor": {
+            "agent/ref": "agent:story-012-chair",
+            "mode": "local-agent"
+          },
+          "expires-at": "2026-08-22T19:49:10Z",
+          "human-in-loop/required": true,
+          "idempotency/key": "story-012-powerdns-experiment-1",
+          "proposal/ref": "corpus-experiment:sha256:lNP96uBtVGfygJTuI9SP3-XO4LyLtCls69-_DFCBBu8",
+          "proposed-at": "2026-08-22T19:36:09Z",
+          "query/id": "query:story-012-powerdns-localdomain-discovery",
+          "room/id": "room:story-012-shared-chair-terminal",
+          "schema/v": 1,
+          "signature": {
+            "alg": "ed25519+domain-v1",
+            "key/public": "z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+            "value": "bZ0nsS-Jo87Q3xINRqy10tuV-TYmf6c87G0NGTvCgDvCDyx67ztk5MtZoXisSBGM7c1XEXrygkftHNV0jd0_Bg"
+          },
+          "turn/id": "corpus-turn:sha256:Rv_fkOpJgAdtFNhfu8JvwGcoyhqm32S1bGVXFdR6M6s"
+        },
+        "chair-block/tested": false,
+        "chair-decision/ref": "corpus-experiment-chair-decision:sha256:ZRU7MBQLbWnw58Q4GLl5BHdfkXNBHuUCcD4mpPnO-HI",
+        "chair/product-ref": "object-store:sha256:J0pNJWueaWNr9Vxw7eB-RyxDJkrBppCOc0JTxM_oU-E",
+        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-1",
+        "execution/ref": "corpus-experiment-execution:mXoZxsq-AZ4GuGnit0Gq6bLD_GUpYs2RwIUYjX1kDA8",
+        "execution/status": "terminal",
+        "executor/inference-ref": "inquiry:story-012-experiment-executor:1",
+        "executor/product-digest": "sha256:mmTwrS4NvAso-LuQlweoWBWDPq2k3-ylwJ8xxvcYVXE",
+        "executor/product-ref": "object-store:sha256:mmTwrS4NvAso-LuQlweoWBWDPq2k3-ylwJ8xxvcYVXE",
+        "flow/ref": "inquiry-flow:M8rLnMLQ2S2E1Pra51OqebiU7oFRtM5zM9KFPwoQ-w4",
+        "hil/decision": "approved",
+        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
+        "invoke/receipt": {
+          "accepted/at": "2026-08-22T19:38:27.704683Z",
+          "accepted/sequence": 4,
+          "caller/ref": "operator:local-control",
+          "causal/context": {
+            "causation/refs": [
+              "corpus-experiment-passage:8KwWGUxHFUfu32JFPZAmzZOwvz2MxSnzD9BWT0E4hNc",
+              "corpus-experiment:sha256:lNP96uBtVGfygJTuI9SP3-XO4LyLtCls69-_DFCBBu8",
+              "inquiry:story-012-experiment-executor:1",
+              "object-store:sha256:mmTwrS4NvAso-LuQlweoWBWDPq2k3-ylwJ8xxvcYVXE"
+            ],
+            "context/id": "causal-context:story-012-experiment-effect-1",
+            "correlation/id": "correlation:story-012-shared-chair-terminal",
+            "created/at": "2026-08-22T19:38:23Z",
+            "operation/id": "operation:story-012-experiment-effect-1",
+            "origin/actor-ref": "operator:local-control",
+            "schema": "causal-context.v1",
+            "schema/v": 1
+          },
+          "classification": {
+            "bound_subjects": {
+              "personal_or_community": []
+            },
+            "declassify_trail": [],
+            "effective_tier": "Community",
+            "provenance": {
+              "kind": "local-space",
+              "space": "Community"
+            },
+            "schema": "classification.v1",
+            "source_tier": "Community"
+          },
+          "completed/at": "2026-08-22T19:38:29.287945Z",
+          "evidence/class": "provider-ack",
+          "evidence/ref": "workbench-terminal-evidence:s6AbSm8T_N90r7OjIhDSMUgvRT0gQ-IBRw0cb0YLEoo",
+          "grant/id": "sensorium-interface-grant:NVTlu9x-CRihzMOnNFaZvq6N2RMMtqGSzku0nbVmQ8Y",
+          "input/schema-ref": "sensorium-interface-terminal-input.v1",
+          "interface/id": "sensorium-interface:story-012:terminal-control",
+          "lease/epoch": 4,
+          "lease/id": "sensorium-control-lease:It17Oq2f_S_9BcSVeF7wfq-lEfibrYw2OIXVezTN3e4",
+          "method/name": "terminal.input",
+          "operation/id": "sensorium-operation:story-012-powerdns-candidate-experiment-1",
+          "operational/context": {
+            "context/summary": "Isolated Story 012 powerdns-localdomain-discovery fixture",
+            "impact/class": "test",
+            "schema": "sensorium-operational-context.v1",
+            "schema/v": 1
+          },
+          "outcome": "applied",
+          "payload/digest": "sha256:NaRvUUqEEZ3eCD9fapKKcNPW-oZ1xaqhJbnR4hgNa2w",
+          "schema": "sensorium-interface-invoke-receipt.v1",
+          "schema/v": 1,
+          "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+        },
+        "lease/released": true,
+        "model-command/digest": "sha256:uKpGKB2_SILCZylS1n5E49JMG0uu64sDrqB2soHhbVU",
+        "novelty/original-decision": {
+          "current/effect-digest": "sha256:uFqIniGj5t5NX5jMIFfIBmFsImaM_gkZJBinirg5nss",
+          "current/precondition-digest": "sha256:N-LThUHH3YR1Y7ehwIuBntf3OyhzExKCtUa3NzLWG3M",
+          "decision": "novel",
+          "prior/attempt": null,
+          "prior/effect-digest": null,
+          "prior/precondition-digest": null,
+          "reason": "no-prior-experiment",
+          "repeated/process-count": 0,
+          "schema": "story-012.powerdns-experiment-novelty-decision.v1"
+        },
+        "novelty/selected-decision": {
+          "current/effect-digest": "sha256:uFqIniGj5t5NX5jMIFfIBmFsImaM_gkZJBinirg5nss",
+          "current/precondition-digest": "sha256:N-LThUHH3YR1Y7ehwIuBntf3OyhzExKCtUa3NzLWG3M",
+          "decision": "novel",
+          "prior/attempt": null,
+          "prior/effect-digest": null,
+          "prior/precondition-digest": null,
+          "reason": "no-prior-experiment",
+          "repeated/process-count": 0,
+          "schema": "story-012.powerdns-experiment-novelty-decision.v1"
+        },
+        "outcome": "model-authored-plan-nonpassing",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ],
+        "passage/ref": "corpus-experiment-passage:8KwWGUxHFUfu32JFPZAmzZOwvz2MxSnzD9BWT0E4hNc",
+        "plan-publication/ref": "corpus-experiment-plan-publication:sha256:RaLnX4wYIoCJZVfRH0ZTaTeM3zoutq4VXIioaAaG5m0",
+        "proposal/ref": "corpus-experiment:sha256:lNP96uBtVGfygJTuI9SP3-XO4LyLtCls69-_DFCBBu8",
+        "relevant-precondition/digest": "sha256:N-LThUHH3YR1Y7ehwIuBntf3OyhzExKCtUa3NzLWG3M",
+        "review/failed-assumption": "none",
+        "review/findings": [
+          "The PowerDNS service is active and listening on localhost (127.0.0.1:53). The configuration file /etc/powerdns/named.conf specifies the zone 'localdomain' as a master zone with the file '/var/"
+        ],
+        "review/next-discriminating-test": "none",
+        "review/redundant-actions": [],
+        "review/ref": "corpus-experiment-review:sha256:8IaRjmAfryE3BN9KGDbuDUKf9F8bWmRa8tsNB2pnSU0",
+        "review/replacement-applied": false,
+        "review/supporting-evidence": "The terminal output confirms that the PowerDNS service is active and listening on localhost. The configuration file /etc/powerdns/named.conf specifies the zone 'localdomain' as a master zone.",
+        "review/verdict": "accept",
+        "terminal-state/digest": "sha256:ZjYmFWk1nzazBsynYLW_hhdGdvV1bm9EbBu0b8RirEU",
+        "terminal/completion-marker": "STORY012 DISCOVERY EXPERIMENT COMPLETE 1 kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+        "terminal/event-count": 6,
+        "terminal/output-digest": "sha256:OGSK2rbUnG3APw0r45_1VYPaoDi_STigcqKILmwkhy8",
+        "verification/passed": false
+      },
+      {
+        "agent/decision": "propose",
+        "attempt": 2,
+        "authority/events": [
+          {
+            "decided/by": "agent:effect-bridge",
+            "evidence/ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
+            "kind": "operator-approved",
+            "recorded/at": "2026-08-22T19:43:56.778892Z",
+            "sequence": 1
+          },
+          {
+            "evidence/ref": "execution-receipt:sensorium-interface-runtime:Ics_JzbILDthggmfith9qyD3V1vfuPifkSGrZAe7Q8E",
+            "kind": "control-claimed",
+            "lease/epoch": 9,
+            "lease/expires-at": "2026-08-22T19:44:27.418594Z",
+            "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+            "recorded/at": "2026-08-22T19:43:57.418594Z",
+            "sequence": 2,
+            "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+          },
+          {
+            "accepted/sequence": 9,
+            "evidence/ref": "sensorium-operation:story-012-powerdns-candidate-experiment-2",
+            "kind": "effect-invoked",
+            "lease/epoch": 9,
+            "lease/expires-at": "2026-08-22T19:44:27.418594Z",
+            "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+            "recorded/at": "2026-08-22T19:43:57.45235Z",
+            "sequence": 3,
+            "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+          },
+          {
+            "evidence/ref": "execution-receipt:sensorium-interface-runtime:Tt2XAyr3JwMeP7w0zfwRUbEIHknD0ZQxC0FAl78XTNE",
+            "kind": "control-released",
+            "lease/epoch": 9,
+            "lease/expires-at": "2026-08-22T19:44:27.418594Z",
+            "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+            "recorded/at": "2026-08-22T19:43:58.356928Z",
+            "sequence": 4,
+            "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+          }
+        ],
+        "candidate-plan/digest": "sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+        "candidate-plan/inert-at-admission": {
+          "flow/ref": "inquiry-flow:j2hGfiy6an9e9SL0GGXxKO6muhLcrOxXuM4Mgu3cBe8",
+          "node/count": 1,
+          "pending/count": 1
+        },
+        "candidate-plan/producer-node": "node-b",
+        "candidate-plan/proposal": {
+          "author": {
+            "id": "did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+            "kind": "nym"
+          },
+          "author/node-id": "node:did:key:z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+          "candidate-plan/artifact-ref": "object-store:sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+          "candidate-plan/digest": "sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+          "candidate-plan/ref": "candidate-plan/sha256:sMu85Hr5OQ9IuHtZrOYYUG3770RQI2pfm7a86TZMwyA",
+          "class/key": "Community",
+          "executor": {
+            "agent/ref": "agent:story-012-chair",
+            "mode": "local-agent"
+          },
+          "expires-at": "2026-08-22T19:54:30Z",
+          "human-in-loop/required": true,
+          "idempotency/key": "story-012-powerdns-experiment-2",
+          "proposal/ref": "corpus-experiment:sha256:oIV8UKhgWaLQ97BLErNBe8150NkH7YH-HK3gUqU26nE",
+          "proposed-at": "2026-08-22T19:41:29Z",
+          "query/id": "query:story-012-powerdns-localdomain-discovery",
+          "room/id": "room:story-012-shared-chair-terminal",
+          "schema/v": 1,
+          "signature": {
+            "alg": "ed25519+domain-v1",
+            "key/public": "z6MkhJAtzaZrvCACgrfVA5reW3b8cWnw1qnmkXuQto8HpeUu",
+            "value": "-42STPyedHfENhRKWHMPOVmMKXrUZTfzWF-kJVZyKgbl8-8-dhonasNKovucRkJShk2qEtgBy8QLfM4lHxlaDQ"
+          },
+          "turn/id": "corpus-turn:sha256:D82INw4sPgHZ6LNtPUcJZOO6-saara5gI7bi1gDUiZ8"
+        },
+        "chair-block/tested": false,
+        "chair-decision/ref": "corpus-experiment-chair-decision:sha256:cFZ6QqS83OQqNOd65990phmlppajjj_tg8GEpM7brU8",
+        "chair/product-ref": "object-store:sha256:J0pNJWueaWNr9Vxw7eB-RyxDJkrBppCOc0JTxM_oU-E",
+        "effect/proposal-ref": "agent-effect-proposal:story-012-powerdns-experiment-2",
+        "execution/ref": "corpus-experiment-execution:vrFemaS-kTGwCCo1MF_PtZERXdKaWnndesSTAUuqz9k",
+        "execution/status": "terminal",
+        "executor/inference-ref": "inquiry:story-012-experiment-executor:2",
+        "executor/product-digest": "sha256:WTK1eTyj-sl6mI1orG_ZOAZkGkRmzcm22F6ejhKcEsI",
+        "executor/product-ref": "object-store:sha256:WTK1eTyj-sl6mI1orG_ZOAZkGkRmzcm22F6ejhKcEsI",
+        "flow/ref": "inquiry-flow:j2hGfiy6an9e9SL0GGXxKO6muhLcrOxXuM4Mgu3cBe8",
+        "hil/decision": "approved",
+        "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
+        "invoke/receipt": {
+          "accepted/at": "2026-08-22T19:43:57.45235Z",
+          "accepted/sequence": 9,
+          "caller/ref": "operator:local-control",
+          "causal/context": {
+            "causation/refs": [
+              "corpus-experiment-passage:5345oH_sYjI5TlSMbMRNmxbUZnCiDsrlKPHzJ_HjNVQ",
+              "corpus-experiment:sha256:oIV8UKhgWaLQ97BLErNBe8150NkH7YH-HK3gUqU26nE",
+              "inquiry:story-012-experiment-executor:2",
+              "object-store:sha256:WTK1eTyj-sl6mI1orG_ZOAZkGkRmzcm22F6ejhKcEsI"
+            ],
+            "context/id": "causal-context:story-012-experiment-effect-2",
+            "correlation/id": "correlation:story-012-shared-chair-terminal",
+            "created/at": "2026-08-22T19:43:53Z",
+            "operation/id": "operation:story-012-experiment-effect-2",
+            "origin/actor-ref": "operator:local-control",
+            "schema": "causal-context.v1",
+            "schema/v": 1
+          },
+          "classification": {
+            "bound_subjects": {
+              "personal_or_community": []
+            },
+            "declassify_trail": [],
+            "effective_tier": "Community",
+            "provenance": {
+              "kind": "local-space",
+              "space": "Community"
+            },
+            "schema": "classification.v1",
+            "source_tier": "Community"
+          },
+          "completed/at": "2026-08-22T19:43:58.354654Z",
+          "evidence/class": "provider-ack",
+          "evidence/ref": "workbench-terminal-evidence:-Km7daTZML0SGKnmZjCHgbpBHWUoH9iqddemWcjlfjo",
+          "grant/id": "sensorium-interface-grant:NVTlu9x-CRihzMOnNFaZvq6N2RMMtqGSzku0nbVmQ8Y",
+          "input/schema-ref": "sensorium-interface-terminal-input.v1",
+          "interface/id": "sensorium-interface:story-012:terminal-control",
+          "lease/epoch": 9,
+          "lease/id": "sensorium-control-lease:-lGqc57rsLmlrvVLuMVH3T7l3pEZ6LF_tbvqcgAYra8",
+          "method/name": "terminal.input",
+          "operation/id": "sensorium-operation:story-012-powerdns-candidate-experiment-2",
+          "operational/context": {
+            "context/summary": "Isolated Story 012 powerdns-localdomain-discovery fixture",
+            "impact/class": "test",
+            "schema": "sensorium-operational-context.v1",
+            "schema/v": 1
+          },
+          "outcome": "applied",
+          "payload/digest": "sha256:j5zIyTaYBuuRlM3sAxd5ODcmbHucvKO58Gy6X43x5Fw",
+          "schema": "sensorium-interface-invoke-receipt.v1",
+          "schema/v": 1,
+          "source/generation-ref": "source-generation:sha256:adc950a0a5ff73228a528e45034ff560c87162b5c756d59c418f422a075393e7"
+        },
+        "lease/released": true,
+        "model-command/digest": "sha256:WaGQzGyPBqVzXs47Fir7vrsJcosdWxePKrVgrYvmCzw",
+        "novelty/original-decision": {
+          "current/effect-digest": "sha256:8x-7F9vS4-7ulsgqHwxRZSsPfJwSorbNhRlClqlO3tE",
+          "current/precondition-digest": "sha256:zu7a0Ve_Du8QUgiDm57AD3z9FpB4pQ0QvN2l6ylfpIo",
+          "decision": "novel",
+          "prior/attempt": 1,
+          "prior/effect-digest": "sha256:uFqIniGj5t5NX5jMIFfIBmFsImaM_gkZJBinirg5nss",
+          "prior/precondition-digest": "sha256:N-LThUHH3YR1Y7ehwIuBntf3OyhzExKCtUa3NzLWG3M",
+          "reason": "novel-effect",
+          "repeated/process-count": 0,
+          "schema": "story-012.powerdns-experiment-novelty-decision.v1"
+        },
+        "novelty/selected-decision": {
+          "current/effect-digest": "sha256:8x-7F9vS4-7ulsgqHwxRZSsPfJwSorbNhRlClqlO3tE",
+          "current/precondition-digest": "sha256:zu7a0Ve_Du8QUgiDm57AD3z9FpB4pQ0QvN2l6ylfpIo",
+          "decision": "novel",
+          "prior/attempt": 1,
+          "prior/effect-digest": "sha256:uFqIniGj5t5NX5jMIFfIBmFsImaM_gkZJBinirg5nss",
+          "prior/precondition-digest": "sha256:N-LThUHH3YR1Y7ehwIuBntf3OyhzExKCtUa3NzLWG3M",
+          "reason": "novel-effect",
+          "repeated/process-count": 0,
+          "schema": "story-012.powerdns-experiment-novelty-decision.v1"
+        },
+        "outcome": "model-authored-plan-passed",
+        "p083/lifecycle": [
+          "claim",
+          "invoke",
+          "release"
+        ],
+        "passage/ref": "corpus-experiment-passage:5345oH_sYjI5TlSMbMRNmxbUZnCiDsrlKPHzJ_HjNVQ",
+        "plan-publication/ref": "corpus-experiment-plan-publication:sha256:0vFiUy11THjoBjRdkAXmSdjUFu4Epi11Hogp7dmBgvA",
+        "proposal/ref": "corpus-experiment:sha256:oIV8UKhgWaLQ97BLErNBe8150NkH7YH-HK3gUqU26nE",
+        "relevant-precondition/digest": "sha256:zu7a0Ve_Du8QUgiDm57AD3z9FpB4pQ0QvN2l6ylfpIo",
+        "review/failed-assumption": "none",
+        "review/findings": [
+          "The PowerDNS service is active and listening on localhost (127.0.0.1:53). The configuration file /etc/powerdns/named.conf specifies the zone 'localdomain' as a master zone with the file '/var/"
+        ],
+        "review/next-discriminating-test": "none",
+        "review/redundant-actions": [],
+        "review/ref": "corpus-experiment-review:sha256:ATXlYddzqq4zNboPr0zqbbDjbSaxXGDqnBkKiHp6_l0",
+        "review/replacement-applied": false,
+        "review/supporting-evidence": "The terminal output confirms that the PowerDNS service is active and listening on localhost. The configuration file /etc/powerdns/named.conf specifies the zone 'localdomain' as a master zone.",
+        "review/verdict": "accept",
+        "terminal-state/digest": "sha256:yad3wincDMKFED4Mwy00LHrm6jDQRJw6V8IwPR7Orvw",
+        "terminal/completion-marker": "STORY012 DISCOVERY EXPERIMENT COMPLETE 2 _J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+        "terminal/event-count": 6,
+        "terminal/output-digest": "sha256:DpXZNwo8z7vRhVecnfS-tEV6TL6GhH-FY_uykq8FD0k",
+        "verification/passed": true
+      }
+    ],
+    "fallback/used": false,
+    "hard-wall-time/ms-max": 825000,
+    "inference/refs": [
+      "inquiry:story-012-node-b:1",
+      "inquiry:story-012-node-c:1",
+      "inquiry:story-012-node-b:3",
+      "inquiry:story-012-node-c:3"
+    ],
+    "mode": "baton",
+    "overlay/refs": [
+      "corpus-instruction-overlay:sha256:ODeq4Sa244577EJBWHi4w0XXHmSAa8psx5D0aRKSZak",
+      "corpus-instruction-overlay:sha256:Zk2VaDaXGfpgnyJxJPe36BTjz_nR4hbWrsaquTslpDw",
+      "corpus-instruction-overlay:sha256:1Zdjfsix0XfA2yfUYchkDRa9WrWrQODPFfNy5449R6s",
+      "corpus-instruction-overlay:sha256:yVmviJgsBWDEUz6n5lvwywTCPwhPtMcdGpMsn0C1Ud8"
+    ],
+    "requester-opening/ref": "query:story-012-powerdns-localdomain-discovery",
+    "resolution/path": "model-authored-discovery",
+    "resource-usage": {
+      "agent-sessions": {
+        "maxima": {
+          "cost/micros": 0,
+          "steps": 4,
+          "tokens": 8343,
+          "wall-time/ms": 0
+        },
+        "sessions": [
+          {
+            "configured": {
+              "cost/micros": 0,
+              "steps": 128,
+              "tokens": 131072,
+              "wall-time/ms": 823733
+            },
+            "node": "node-b",
+            "remaining": {
+              "cost/micros": 0,
+              "steps": 124,
+              "tokens": 122838,
+              "wall-time/ms": 823733
+            },
+            "reserved": {
+              "cost/micros": 0,
+              "steps": 0,
+              "tokens": 0,
+              "wall-time/ms": 0
+            },
+            "role": "solver",
+            "spent": {
+              "cost/micros": 0,
+              "steps": 4,
+              "tokens": 8234,
+              "wall-time/ms": 0
+            }
+          },
+          {
+            "configured": {
+              "cost/micros": 0,
+              "steps": 128,
+              "tokens": 131072,
+              "wall-time/ms": 824148
+            },
+            "node": "node-c",
+            "remaining": {
+              "cost/micros": 0,
+              "steps": 124,
+              "tokens": 122729,
+              "wall-time/ms": 824148
+            },
+            "reserved": {
+              "cost/micros": 0,
+              "steps": 0,
+              "tokens": 0,
+              "wall-time/ms": 0
+            },
+            "role": "reviewer",
+            "spent": {
+              "cost/micros": 0,
+              "steps": 4,
+              "tokens": 8343,
+              "wall-time/ms": 0
+            }
+          }
+        ],
+        "totals": {
+          "cost/micros": 0,
+          "steps": 8,
+          "tokens": 16577,
+          "wall-time/ms": 0
+        }
+      },
+      "configured": {
+        "context/tokens-max": 8192,
+        "output/tokens-max": 2048,
+        "turn/duration-ms-max": 330000
+      },
+      "maxima": {
+        "completion/tokens": 244,
+        "duration/ms": 164161,
+        "product/bytes": 2785,
+        "prompt/tokens": 4744,
+        "text/bytes": 734,
+        "total/tokens": 4935
+      },
+      "totals": {
+        "completion/tokens": 657,
+        "duration/ms": 516110,
+        "product/bytes": 9984,
+        "prompt/tokens": 15920,
+        "text/bytes": 2423,
+        "total/tokens": 16577
+      },
+      "turns": [
+        {
+          "completion/tokens": 142,
+          "cycle": 1,
+          "duration/ms": 101613,
+          "node": "node-b",
+          "product/bytes": 2489,
+          "prompt/tokens": 3157,
+          "role": "solver",
+          "text/bytes": 583,
+          "total/tokens": 3299
+        },
+        {
+          "completion/tokens": 137,
+          "cycle": 1,
+          "duration/ms": 112191,
+          "node": "node-c",
+          "product/bytes": 2354,
+          "prompt/tokens": 3328,
+          "role": "reviewer",
+          "text/bytes": 553,
+          "total/tokens": 3465
+        },
+        {
+          "completion/tokens": 244,
+          "cycle": 2,
+          "duration/ms": 164161,
+          "node": "node-b",
+          "product/bytes": 2785,
+          "prompt/tokens": 4691,
+          "role": "solver",
+          "text/bytes": 734,
+          "total/tokens": 4935
+        },
+        {
+          "completion/tokens": 134,
+          "cycle": 2,
+          "duration/ms": 138145,
+          "node": "node-c",
+          "product/bytes": 2356,
+          "prompt/tokens": 4744,
+          "role": "reviewer",
+          "text/bytes": 553,
+          "total/tokens": 4878
+        }
+      ]
+    },
+    "roles": {
+      "reviewer": "node-c",
+      "solver": "node-b"
+    },
+    "room-prose/direct-effect-count": 0,
     "room/floor-mode": "round-robin",
     "speaker/order": [
       "requester-opening",
@@ -170,24 +654,11 @@
     ],
     "stop/reason": "model-authored-plan-passed",
     "turn/refs": [
-      "corpus-turn:sha256:NPp3LUXcLbR19RZIsibkArmEG3OWWwz_0efeWLA39rs",
-      "corpus-turn:sha256:5nnLYj_ncE0fPq3HhLy798g2y4b38sf2atn8QYWydmU",
-      "corpus-turn:sha256:hRIPcqOFxn0cKMUgujUxFuTufsNV0HD7diaIMdpKdvc",
-      "corpus-turn:sha256:ppwescfDirE-y7oNoQw42Vd-qPykyX8K0_yClHm6RfI"
-    ],
-    "discovery": {
-      "challenge/id": "powerdns-bind-unconfigured.v1",
-      "solution-wrapper/invocations": 0,
-      "host-domain-command-synthesis/count": 0,
-      "review-rejections/count": 0,
-      "first-experiment/read-only": true,
-      "nonpassing/experiments": 1,
-      "model-command/digests": [
-        "sha256:KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
-        "sha256:LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"
-      ],
-      "verifier/mode": "observation-only"
-    }
+      "corpus-turn:sha256:V3sKSDI36PBg1NSQYi8yQN_DLfP_nu7Q6VDvlLmL3aI",
+      "corpus-turn:sha256:r4pMoVrq5ooQuGxI9y74ZjOO95FoSyUVhDTyoraWnAg",
+      "corpus-turn:sha256:ToQpZul2KhHXt7pdtRkNKnRo5WgqzxAEbZBrVmjsTW8",
+      "corpus-turn:sha256:-b0jWRy2IL4iUtu09y0WAz5iuIj7ivx1gEHHCXEXK9k"
+    ]
   },
   "dns/assertions": [
     {
@@ -218,27 +689,39 @@
       "pdns-backend-bind=4.8.3-4build3",
       "pdns-server=4.8.3-4build3"
     ],
-    "fixture/digest": "sha256:b5b8b619ec17cfe4e6c6cba3a21f13677d7efc4cd7977710f33b31cbaff4eef5",
-    "fixture/ref": "story-fixture:story-012-powerdns-discovery-v1",
-    "image/artifact-digest": "sha256:2b7a510258bd597e04e6722a20c23ed912695b67f1b396aa2df43e626f117c5c",
-    "image/manifest-digest": "sha256:dbc9f534c2f2c84de4a9dd06ff3924695979408850894d9afd6cb3f03eb6d4fe"
+    "fixture/digest": "sha256:55c1696c19a8bcd49a5504f8de635eafa302ef736bf47be50b06bdf80e397f5c",
+    "fixture/ref": "story-fixture:story-012-powerdns-missing-zone-data-v1",
+    "image/artifact-digest": "sha256:b9a4279b90b656148239394039effda26db727394c3e5c80ba16a40a4f3939ef",
+    "image/manifest-digest": "sha256:6eedb2328d465c75c0259c831ebc89c149769de03f6bc520b7afb123377871da"
   },
   "measurements": {
-    "deliberation/ms": 45496,
-    "duration/ms": 155637
+    "deliberation/ms": 544637,
+    "duration/ms": 794192
   },
   "model": {
     "agent-product/digests": [
-      "sha256:bLfnaX5xwpGldd21UItn0lEXEyqT8wvCjt83OM9uqR0",
-      "sha256:H3_KBh9s4kIzYbxMLaai9MH7VyHKMkHbTb_tCQTyOb4"
+      "sha256:wniof6mLJD2f1YdbPVgFDy6zlnD8M-AlrhsBEp7zCZQ",
+      "sha256:F5z0JmCzcAfatpg6rUN0NW7tlR9y5wWflYwoV9_fR-g"
     ],
-    "alias": "Bielik-1.5B-v3.0-Instruct",
-    "artifact/digest": "sha256:4gbrvZ7gDMjxSvWglq0_GTpZYIxjkFMW6NxoDJZlWmA",
+    "alias": "Qwen2.5-Coder-7B-Instruct",
+    "artifact/digest": "sha256:UJKH94y01M9rOENzRzO5FLLBWOQ-Iqf0v16WOACJTTw",
     "binding/ref": "model.binding/baseline-assistant-llama-server",
     "inference/refs": [
       "inquiry:story-012-node-b:3",
       "inquiry:story-012-node-c:3"
     ],
+    "role/models": {
+      "reviewer": {
+        "alias": "Qwen2.5-Coder-7B-Instruct-Reviewer",
+        "artifact/digest": "sha256:UJKH94y01M9rOENzRzO5FLLBWOQ-Iqf0v16WOACJTTw",
+        "node": "node-c"
+      },
+      "solver": {
+        "alias": "Qwen2.5-Coder-7B-Instruct",
+        "artifact/digest": "sha256:UJKH94y01M9rOENzRzO5FLLBWOQ-Iqf0v16WOACJTTw",
+        "node": "node-b"
+      }
+    },
     "runtime/count": 2,
     "runtime/nodes": [
       "node-b",
@@ -249,7 +732,7 @@
     ]
   },
   "platform/ref": "macos-vz-arm64.v1",
-  "profile/id": "story-012-powerdns-bielik-discovery-vfkit",
+  "profile/id": "story-012-powerdns-qwen25-coder-discovery-vfkit",
   "schema": "story-012-powerdns-discovery-full-system-report.v1",
   "schema/v": 1,
   "status": "passed"

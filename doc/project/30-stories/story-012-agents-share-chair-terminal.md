@@ -472,17 +472,20 @@ P083 gates run. A 2026-08-01 ten-pair Qwen2.5-Coder 7B calibration produced ten
 valid requests but only one domain-ready staged successor. The mechanism is
 therefore implemented, while model deployment readiness remains explicitly open.
 
-The stronger `story-012-powerdns-qwen25-coder-discovery-vfkit` profile has one
-retained passing macOS arm64 full-system run. Two separately supervised
+The stronger `story-012-powerdns-qwen25-coder-discovery-vfkit` profile now has a
+fresh retained passing macOS arm64 full-system run. Two separately supervised
 Qwen2.5-Coder 7B runtimes completed two round-robin cycles against the second
 challenge. The first model-authored plan was admitted through HIL and P083 but did
 not satisfy the verifier; after fresh terminal evidence, a different model-authored
 plan reached the exact DNS goal. The closed report passes 30 checks, records
-16,577 prompt-plus-completion tokens, 516,110 ms of model time, 544,637 ms of
-deliberation, and 794,192 ms end to end, and reports the host-owned structural
+17,226 prompt-plus-completion tokens, 581,864 ms of model time, 616,183 ms of
+deliberation, and 873,979 ms end to end, and reports the host-owned structural
 `umask 022` framing separately from unchanged CandidatePlan bytes. It uses no
-deadline fixture and derives no effect directly from Room prose. This is one
-deployment proof, not yet repeatability evidence and not evidence that the
+deadline fixture and derives no effect directly from Room prose. The same run
+also produced complete P086 recordings with zero gaps or drops: 563 observations
+on requester node A, 19 on solver node B, and 22 on reviewer node C. A separate
+fresh unseeded full-system success was observed on the same date; fixed-seed
+repeatability remains open. This is deployment evidence, not evidence that the
 critique-to-regeneration v2 path has crossed its separate `0.6` promotion gate.
 
 For reproducibility, the story policy supplies a closed allowlisted command-plan
@@ -709,14 +712,15 @@ membership high-water sequence rather than a creation-time or fixture constant.
   widening an individual grant or holding a P083 lease during inference. The
   matrix yields a provisional model-only envelope of 720,000 ms and 24,576 tokens
   after a 25 percent margin. The retained full-system run adds four model turns,
-  16,577 total tokens, 516,110 ms of model time, 544,637 ms of deliberation, and a
-  164,161 ms maximum turn. Keep this task open for explicit between-cycle authority
+  17,226 total tokens, 581,864 ms of model time, 616,183 ms of deliberation, and a
+  174,716 ms maximum turn. Keep this task open for explicit between-cycle authority
   renewal: four cycles at the measured effect-feedback cost do not fit safely under
   one canonical Room authority ceiling.
 - [ ] Require deterministic replay before vfkit and retain repeatable seeded E2E
   evidence with prompt-free per-role latency, token, cycle, rejection, experiment,
-  and correction measurements. One closed 30-check deployment run now passes;
-  another fresh seeded success is still required before claiming repeatability.
+  and correction measurements. Two fresh unseeded full-system successes now exist,
+  and the later closed 30-check report is retained. An explicit fixed-seed repeat
+  is still required before claiming repeatability.
 - [x] Add the resolved guest-attested
   `powerdns-bind-missing-zone-data.v1` prepared-system challenge: valid loopback
   listener, BIND backend, and authoritative declaration referencing an absent
@@ -729,6 +733,7 @@ membership high-water sequence rather than a creation-time or fixture constant.
   goal through model-authored trial and error without a solution fixture. Do not
   promote a report until the staged bench demonstrates a plausible correction
   path and the closed validator accepts the exact deployment bytes. The retained
-  2026-08-01 Qwen2.5-Coder 7B run passes 30 checks after one nonpassing and one
+  2026-08-22 Qwen2.5-Coder 7B run passes 30 checks after one nonpassing and one
   successful admitted experiment, with fresh terminal feedback, HIL, P083 lease
-  release, reported host structural framing, and zero direct Room-prose effects.
+  release, reported host structural framing, zero direct Room-prose effects, and
+  three complete zero-gap P086 recordings.

@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/story-012-powerdns-discovery-full-system-report.v1.schema.json`](../../schemas/story-012-powerdns-discovery-full-system-report.v1.schema.json)
 
-Closed metadata-only report proving that pinned local-model Agents authored and reviewed PowerDNS changes under a disclosed host-staged mutation scope, without a host-supplied solution wrapper.
+Closed metadata-only report proving that pinned local-model Agents authored and reviewed PowerDNS changes under a disclosed host-staged mutation scope, without a host-supplied solution wrapper. While x-dia-status remains draft, this acceptance-only schema may be tightened in place, but its fixtures, retained reports, harness validators, and Node mirror must change atomically; promotion to accepted freezes v1 and requires a new version for later breaking changes.
 
 ## Governing Basis
 

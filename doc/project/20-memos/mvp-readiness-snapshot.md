@@ -44,7 +44,7 @@ acceptance evidence. A separate host-resolved `template/ref` remains a concrete
 post-MVP task; dynamically generated steps, general scratch state, and additional
 helper profiles remain demand-driven and do not reduce MVP readiness.
 
-Change basis: this refresh incorporates the current worktree state on 2026-08-03. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
+The 2026-08-03 refresh incorporated the then-current worktree state. It retains the previously recorded hard-MVP and federation-root slices and adds the latest P063/P064/P066 closure: live provider-backed image generation/edit, durable evaluation-gated `train.adapt`, bounded repair and output-rail diagnostics, egress-class limits, shared participant-id and monotonicity primitives, explicit local-model provisioning UX, typed communication-control admission including native adapter-envelope mapping, session-memory projection, locale framing, deterministic embedding cache, Inquiry Flow compilation, federation-root provider release-key endorsements, activation-time authority revalidation, and their synchronized Node ledger, proposal trackers, and tests. It also records the post-MVP real macOS arm64/Metal acceptance of a revision-pinned Bielik Q8_0 package through signed operator authority, conformance-gated activation, real inference, exact dirty-restart process adoption, upgrade, rollback, and removal. It also includes the explicit Assistant Channel to Agent escalation, recovery, outcome-draft, and render-only acceptance slice tracked by Solution 045, plus the post-MVP Room-attested Corpus-chair binding, inert Corpus answer-draft acceptance, bounded node-local WSS deliberation with metadata-only authority observations and restart recovery, separately authorized signed Agent-chair answer publication, and registered local-policy evaluation of role assignments and policy-rendered instruction overlays through Inquirium host prompt assembly, with append-only delta recovery, tracked by P069/P073 and Solutions 036/038. P070 Phase 6A provides authority-signed member-visible relay epochs, outbound-only failover, host configuration and diagnostics, Agora plus Artifact Delivery endpoint recovery, and executable host-TLS deployment evidence. Phase 6B adds the non-member federation relay profile with signed pairwise sender-key distribution, authenticated encrypted delivery, join/leave/revoke rotation and fencing, metadata-only relay diagnostics and audit, strictly newer sealed-relay failover, and executable 21-check multiprocess host-TLS deployment evidence. P070 is therefore complete for both specified relay profiles; the hard-MVP verdict is unchanged because Phase 6B is post-MVP scope.
 
 The 2026-08-01 post-MVP Corpus refresh adds the signed critique-to-regeneration
 join, durable daemon recovery, live Story 012 baton integration, strict role
@@ -53,12 +53,14 @@ Qwen2.5-Coder 7B successor ready rate is `0.1`, below the `0.6` promotion thresh
 therefore the path remains opt-in and does not change the existing 100 percent
 hard-MVP Corpus or baseline Story 012 rows.
 
-The same post-MVP workstream now retains one passing 30-check model-authored
+The same post-MVP workstream now retains a fresh passing 30-check model-authored
 discovery report for `powerdns-bind-missing-zone-data.v1`. Two supervised
 Qwen2.5-Coder 7B runtimes reached the exact DNS goal through one failed and one
 corrected admitted experiment with fresh terminal evidence, per-effect HIL, and
-P083 lease release. The run measures 544,637 ms of deliberation and 16,577 model
-tokens, but it does not satisfy the separate `0.6` critique-to-regeneration
+P083 lease release. The retained 2026-08-22 run measures 616,183 ms of deliberation
+and 17,226 model tokens. A separate fresh unseeded success exists, while fixed-seed
+repeatability remains open. The run does not satisfy the separate `0.6`
+critique-to-regeneration
 promotion threshold or prove seeded repeatability. It therefore updates evidence
 and trackers without changing the existing Story 012, P069, or Solution 038
 readiness percentages.
@@ -300,7 +302,8 @@ separate no-producer `distribution-policy` run. The 2026-08-21 real-vfkit base r
 now passes its closed eleven-check validator with the pinned GNU/Linux arm64 image,
 so image construction, Docker availability, and the hardware-VM base route are no
 longer blockers. Only the retained packaged vfkit Story 012 report remains open under
-`P085-041`: the current base report does not carry the exact package activation,
+`P085-041`: the fresh 2026-08-22 discovery report now carries complete delegated
+CandidatePlan/P083 authority lineage, but it still does not carry the exact package activation,
 Flow, turn-order, terminal-product, revocation, and decisive-refusal lineage, and the
 package-only process evidence cannot substitute for that combined boundary. The
 prompt-free `daemon.nse-offer-resolution-trace.v1` remains the canonical offer-resolution
@@ -317,9 +320,11 @@ dispatch, local/API model HTTP, and Room-carrier seams; authenticated component
 reports cover middleware passage and retained component HTTP while peer-session is
 explicitly planned. Checked load evidence freezes the V1 broker ceilings and proves
 exact accounting plus typed pressure gaps. Full supervised Story 005 evidence covers
-Inquirium simulator request/response communication; Story 012 produces three
-independent complete node-local recordings for Sensorium/Room and Agent/Room without
-inventing cross-node visibility. Twenty-one tracker items are complete, three remain
+Inquirium simulator request/response communication. The retained 2026-08-22 Story 012
+full-profile vfkit/Qwen run produces three independent complete node-local recordings
+for Sensorium/Room and Agent/Room without inventing cross-node visibility: 563
+requester observations, 19 solver observations, and 22 reviewer observations, all
+with zero gaps or drops. Twenty-one tracker items are complete, three remain
 partial, and two are explicitly deferred; this yields a conservative `90%`
 readiness estimate. Broader selected live-protocol coverage, whole-path secret
 scanning, generic CI recording retention/failure replay, and Solution promotion
