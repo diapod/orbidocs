@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-experiment-authority-events:v1",
+  "title": "Corpus Experiment Authority Events v1",
+  "description": "Ordered host evidence that one experiment was operator-approved and executed through one fenced P083 control lease.",
+  "$ref": "#/$defs/authority-events",
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s]+$"
+    },
+    "authority-events": {
+      "type": "array",
+      "prefixItems": [
+        { "$ref": "#/$defs/operator-approval-event" },
+        { "$ref": "#/$defs/control-claim-event" },
+        { "$ref": "#/$defs/effect-invoke-event" },
+        { "$ref": "#/$defs/control-release-event" }
+      ],
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "operator-approval-event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "kind", "evidence/ref", "recorded/at", "decided/by"],
+      "properties": {
+        "sequence": { "const": 1 },
+        "kind": { "const": "operator-approved" },
+        "evidence/ref": { "$ref": "#/$defs/ref" },
+        "recorded/at": { "type": "string", "format": "date-time" },
+        "decided/by": { "$ref": "#/$defs/ref" }
+      }
+    },
+    "control-claim-event": {
+      "allOf": [
+        { "$ref": "#/$defs/lease-authority-event" },
+        {
+          "properties": {
+            "sequence": { "const": 2 },
+            "kind": { "const": "control-claimed" }
+          }
+        }
+      ]
+    },
+    "effect-invoke-event": {
+      "allOf": [
+        { "$ref": "#/$defs/lease-authority-event" },
+        {
+          "required": ["accepted/sequence"],
+          "properties": {
+            "sequence": { "const": 3 },
+            "kind": { "const": "effect-invoked" },
+            "accepted/sequence": { "type": "integer", "minimum": 1 }
+          }
+        }
+      ]
+    },
+    "control-release-event": {
+      "allOf": [
+        { "$ref": "#/$defs/lease-authority-event" },
+        {
+          "properties": {
+            "sequence": { "const": 4 },
+            "kind": { "const": "control-released" }
+          }
+        }
+      ]
+    },
+    "lease-authority-event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "kind",
+        "evidence/ref",
+        "recorded/at",
+        "lease/id",
+        "lease/epoch",
+        "lease/expires-at",
+        "source/generation-ref"
+      ],
+      "properties": {
+        "sequence": { "type": "integer", "minimum": 2, "maximum": 4 },
+        "kind": { "enum": ["control-claimed", "effect-invoked", "control-released"] },
+        "evidence/ref": { "$ref": "#/$defs/ref" },
+        "recorded/at": { "type": "string", "format": "date-time" },
+        "lease/id": { "$ref": "#/$defs/ref" },
+        "lease/epoch": { "type": "integer", "minimum": 1 },
+        "lease/expires-at": { "type": "string", "format": "date-time" },
+        "source/generation-ref": { "$ref": "#/$defs/ref" },
+        "accepted/sequence": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

@@ -685,6 +685,19 @@
         ,"terminal-state/digest": { "$ref": "#/$defs/base64url-digest" }
         ,"model-command/digest": { "$ref": "#/$defs/base64url-digest" }
         ,"candidate-plan/digest": { "$ref": "#/$defs/base64url-digest" }
+        ,"candidate-plan/proposal": {
+          "$ref": "corpus-reasoning-experiment-proposal.v1.schema.json"
+        }
+        ,"candidate-plan/producer-node": { "const": "node-b" }
+        ,"candidate-plan/inert-at-admission": {
+          "$ref": "#/$defs/inert-plan-admission"
+        }
+        ,"invoke/receipt": {
+          "$ref": "sensorium-interface-invoke-receipt.v1.schema.json"
+        }
+        ,"authority/events": {
+          "$ref": "corpus-experiment-authority-events.v1.schema.json"
+        }
         ,"terminal/completion-marker": {
           "type": "string",
           "pattern": "^STORY012 DISCOVERY EXPERIMENT COMPLETE [1-9][0-9]* [A-Za-z0-9_-]{43}$",
@@ -713,6 +726,16 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 512
+    },
+    "inert-plan-admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["flow/ref", "node/count", "pending/count"],
+      "properties": {
+        "flow/ref": { "$ref": "#/$defs/ref" },
+        "node/count": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "pending/count": { "type": "integer", "minimum": 1, "maximum": 64 }
+      }
     },
     "novelty-decision": {
       "type": "object",

@@ -419,14 +419,17 @@ passage adapters have executable evidence. Room
 role alone remains non-authoritative. This additive post-MVP slice does not alter
 the hard-MVP percentages.
 
-The delegated adaptive-executor validator now records an explicit `partial`
+The delegated adaptive-executor implementation now has a complete V2 authority
+evidence path while retaining an explicit V1 `partial`
 authority-composition result without claiming a second VM deployment. Its closed
 descriptor pins the retained real full-system Story 012 report by digest and
 proves requester-owned P083 lifecycle records, released terminal leases, failed-
 plan feedback, corrected execution, no fallback, and zero effects derived
-directly from Room prose. CandidatePlan author/signature, per-effect lease refs,
-and ordered HIL-before-actuation evidence were not retained and remain named
-evidence gaps for a fresh run. Remote runtime execution remains unsupported until
+directly from Room prose. New executions retain the signed CandidatePlan, inert
+admitted flow and host-owned HIL/claim/invoke/release sequence bound to one fresh
+lease and exact receipt per effect; the V2 validator and refusal fixtures enforce
+those bindings. The older retained report lacks those new fields, so a fresh real
+vfkit/model run remains the evidence gate for V2 `passed`. Remote runtime execution remains unsupported until
 a separately evidenced passage adapter exists. This post-MVP gap does not change
 hard-MVP readiness percentages.
 

@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-delegated-adaptive-executor-report:v2",
+  "title": "story-012-delegated-adaptive-executor-report.v2",
+  "description": "Closed evidence that a remote participant Agent authored an inert CandidatePlan while requester node A retained HIL and P083 effect authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "profile/id",
+    "evidence/boundary",
+    "source/report",
+    "source/report/sha256",
+    "requester/node",
+    "executor/designation",
+    "experiment/count",
+    "p083/lifecycle",
+    "room-prose/direct-effect-count",
+    "evidence/experiments",
+    "proven/invariants",
+    "unproven/invariants"
+  ],
+  "properties": {
+    "schema": { "const": "story-012-delegated-adaptive-executor-report.v2" },
+    "schema/v": { "const": 2 },
+    "status": { "const": "passed" },
+    "profile/id": { "const": "story-012-delegated-adaptive-executor" },
+    "evidence/boundary": { "const": "derived-from-retained-single-host-full-system" },
+    "source/report": {
+      "type": "string",
+      "pattern": "^reports/[A-Za-z0-9._-]+\\.json$",
+      "maxLength": 240
+    },
+    "source/report/sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "requester/node": { "const": "node-a" },
+    "executor/designation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "node", "role"],
+      "properties": {
+        "kind": { "const": "remote-participant-agent" },
+        "node": { "const": "node-b" },
+        "role": { "const": "solver" }
+      }
+    },
+    "experiment/count": { "const": 2 },
+    "p083/lifecycle": { "const": ["claim", "invoke", "release"] },
+    "room-prose/direct-effect-count": { "const": 0 },
+    "evidence/experiments": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/experiment-evidence" }
+    },
+    "proven/invariants": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/invariant" }
+    },
+    "unproven/invariants": {
+      "type": "array",
+      "maxItems": 0
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s]+$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "invariant": {
+      "enum": [
+        "candidate-plan-is-attributed-and-inert",
+        "failed-plan-observation-precedes-correction",
+        "fresh-lease-per-effect",
+        "operator-question-precedes-effect",
+        "p083-claim-invoke-release-only",
+        "requester-retains-effect-authority",
+        "room-prose-has-no-direct-effect"
+      ]
+    },
+    "experiment-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt",
+        "candidate-plan/proposal-ref",
+        "candidate-plan/digest",
+        "candidate-plan/author-node-id",
+        "candidate-plan/signature-key",
+        "inert-flow/ref",
+        "hil/question-ref",
+        "lease/id",
+        "lease/epoch",
+        "source/generation-ref",
+        "authority/events",
+        "invoke/receipt-digest"
+      ],
+      "properties": {
+        "attempt": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "candidate-plan/proposal-ref": { "$ref": "#/$defs/ref" },
+        "candidate-plan/digest": { "$ref": "#/$defs/digest" },
+        "candidate-plan/author-node-id": {
+          "type": "string",
+          "pattern": "^node:did:key:z[A-Za-z0-9]+$",
+          "maxLength": 512
+        },
+        "candidate-plan/signature-key": {
+          "type": "string",
+          "pattern": "^z[A-Za-z0-9]+$",
+          "maxLength": 128
+        },
+        "inert-flow/ref": { "$ref": "#/$defs/ref" },
+        "hil/question-ref": { "$ref": "#/$defs/ref" },
+        "lease/id": { "$ref": "#/$defs/ref" },
+        "lease/epoch": { "type": "integer", "minimum": 1 },
+        "source/generation-ref": { "$ref": "#/$defs/ref" },
+        "authority/events": {
+          "$ref": "corpus-experiment-authority-events.v1.schema.json"
+        },
+        "invoke/receipt-digest": { "$ref": "#/$defs/digest" }
+      }
+    }
+  }
+}

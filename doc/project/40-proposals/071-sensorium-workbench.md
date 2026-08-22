@@ -2756,7 +2756,7 @@ evidence) · `[!]` blocked/needs decision.
   proves the multi-cycle terminal-feedback path, two released P083 lifecycle
   records, and no direct Room-prose actuation. It does not retain per-effect
   lease refs and therefore is not itself freshness evidence for those leases.
-- [~] Add a delegated adaptive-executor acceptance profile only after Corpus and
+- [~] Complete the delegated adaptive-executor acceptance profile after Corpus and
   Agent can carry an attributed inert `inquirium.candidate-plan.v1`. Requester
   policy may designate a remote Chair or participant Agent, but Room authority
   must not widen Workbench authority: node A still requires a separate
@@ -2764,14 +2764,26 @@ evidence) · `[!]` blocked/needs decision.
   lease, and revocation check before any terminal effect. Remote control MUST
   reuse P083 / Solution 046 claim/control/invoke and MUST NOT add a Workbench-
   local relay or prose-to-command bridge.
-  The closed `story-012-delegated-adaptive-executor` profile pins the retained
-  critique-gated full-system Story 012 report by digest and currently reports
-  `partial`. It proves requester-owned P083 lifecycle records, released terminal
-  leases, failed-plan feedback, corrected execution, and zero direct Room-prose
-  effects. A fresh run must additionally retain CandidatePlan author/signature,
-  one lease ref per effect, and ordered HIL/claim/invoke/release evidence before
-  the profile may claim remote solver attribution, fresh leases, or HIL-before-
-  effect. The derived boundary is not a second VM deployment.
+  The runtime and report contracts now retain the complete signed CandidatePlan,
+  its remote producer node, wholly pending admitted flow, and four typed host-owned
+  authority events (`operator-approved -> control-claimed -> effect-invoked ->
+  control-released`) bound to the exact P083 receipt. Their shared wire shape is
+  owned by the neutral `corpus-experiment-authority-events.v1` component schema,
+  rather than either versioned Story 012 report family. The V2 derived validator
+  verifies Ed25519 authorship, content addressing, HIL order, lease expiry,
+  generation, accepted sequence, and a distinct lease per effect. Its negative
+  tests reject signature tampering, HIL-after-claim, lease reuse, receipt
+  substitution, direct remote effect authority, and missing release. The checked-
+  in 2026-07-25 source predates these fields, so the default digest-pinned profile
+  still reports V1 `partial`; promotion to V2 `passed` awaits one fresh real vfkit
+  run with the pinned guest and model artifacts. The derived boundary is not a
+  second VM deployment.
+  Signature and effect evidence deliberately remain stratified: Corpus admission
+  verifies the CandidatePlan signature in the Rust semantic boundary, the retained-
+  evidence witness independently verifies the same signed proposal, and the P083
+  runtime owns the authoritative lease and invoke receipt. The append-only Corpus
+  execution projection validates event order and exact receipt fencing; it does not
+  re-interpret or re-verify the already admitted CandidatePlan signature.
 - [ ] **In progress:** complete deployment evidence for
   `cloud-hypervisor-system.v1` as the first Linux deployment profile after the
   backend-neutral vfkit slice proves the contracts.

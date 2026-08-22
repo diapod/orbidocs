@@ -846,13 +846,23 @@ Status:
   Sensorium Core. Agent proposals bind to one `directive/id` with idempotent
   replay. Product-specific workflow producers remain owned by Agent, Corpus,
   and Room rather than Workbench.
-- `implemented post-MVP validator; evidence partial`: the closed delegated
+- `implemented post-MVP V2 validator; fresh evidence pending`: the closed delegated
   adaptive-executor profile digest-pins the retained real full-system Story 012
   report. It proves requester-owned P083 lifecycle records, correction feedback,
   released terminal leases, no fallback, and zero direct effects from Room prose.
-  The source omits CandidatePlan author/signature, per-effect lease refs, and
-  ordered HIL/actuation evidence, so the profile exposes those gaps and does not
-  claim remote runtime execution or a second VM deployment.
+  Corpus execution records and new source reports now retain the signed
+  CandidatePlan, producer, inert admitted flow, exact invoke receipt, and typed
+  host-owned HIL/claim/invoke/release sequence. The V2 validator proves their
+  signature, order, generation, lease freshness and receipt bindings, while the
+  V1 validator continues to expose the three gaps in the older retained source.
+  A fresh pinned vfkit/model run is still required before the retained profile can
+  be promoted from V1 `partial` to V2 `passed`; neither form claims remote runtime
+  execution or a second VM deployment.
+  Verification remains layered rather than duplicated indiscriminately: Rust
+  Corpus admission verifies CandidatePlan authorship, the retained-evidence witness
+  independently verifies the signed proposal, P083 owns lease and receipt truth,
+  and the Corpus execution projection validates ordered event and receipt bindings
+  without pretending to be another signature authority.
 
 ## Out of Scope
 

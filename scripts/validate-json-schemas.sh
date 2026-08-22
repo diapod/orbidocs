@@ -434,6 +434,9 @@ schema_for_file() {
     *.story-012-delegated-adaptive-executor-profile.json)
       echo "$SCHEMAS_DIR/story-012-delegated-adaptive-executor-profile.v1.schema.json"
       ;;
+    *.story-012-delegated-adaptive-executor-report.v2.json)
+      echo "$SCHEMAS_DIR/story-012-delegated-adaptive-executor-report.v2.schema.json"
+      ;;
     *.story-012-delegated-adaptive-executor-report.json)
       echo "$SCHEMAS_DIR/story-012-delegated-adaptive-executor-report.v1.schema.json"
       ;;
@@ -1100,6 +1103,28 @@ validate_with_ajv() {
         --strict=false \
         -s "$schema_file" \
         -r "$SCHEMAS_DIR/participant-bind.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
+    *story-012-powerdns-discovery-full-system-report.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/corpus-reasoning-experiment-proposal.v1.schema.json" \
+        -r "$SCHEMAS_DIR/corpus-reasoning-room-policy.v1.schema.json" \
+        -r "$SCHEMAS_DIR/sensorium-interface-invoke-receipt.v1.schema.json" \
+        -r "$SCHEMAS_DIR/sensorium-operational-context.v1.schema.json" \
+        -r "$SCHEMAS_DIR/classification.v1.schema.json" \
+        -r "$SCHEMAS_DIR/causal-context.v1.schema.json" \
+        -r "$SCHEMAS_DIR/corpus-experiment-authority-events.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
+    *story-012-delegated-adaptive-executor-report.v2.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/corpus-experiment-authority-events.v1.schema.json" \
         -d "$data_file" >/dev/null
       ;;
     *)

@@ -1,0 +1,55 @@
+{
+  "schema": "story-012-delegated-adaptive-executor-report.v2",
+  "schema/v": 2,
+  "status": "passed",
+  "profile/id": "story-012-delegated-adaptive-executor",
+  "evidence/boundary": "derived-from-retained-single-host-full-system",
+  "source/report": "reports/source.json",
+  "source/report/sha256": "sha256:44bda9eea6968da30aa3a7a7d02103ccecdb95c4788abf2d05168f11aa7f8a39",
+  "requester/node": "node-a",
+  "executor/designation": {"kind": "remote-participant-agent", "node": "node-b", "role": "solver"},
+  "experiment/count": 2,
+  "p083/lifecycle": ["claim", "invoke", "release"],
+  "room-prose/direct-effect-count": 0,
+  "evidence/experiments": [
+    {
+      "attempt": 1,
+      "candidate-plan/proposal-ref": "corpus-experiment:sha256:-d7HYRfdCqzFYeDuCgX_7wwTyH4kCqRCrvUsJiGZAHo",
+      "candidate-plan/digest": "sha256:kzi-x5tk8al_BDChFUYXURXhNMxGM_-nteS8AlTUYp8",
+      "candidate-plan/author-node-id": "node:did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+      "candidate-plan/signature-key": "z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+      "inert-flow/ref": "inquiry-flow:M8rLnMLQ2S2E1Pra51OqebiU7oFRtM5zM9KFPwoQ-w4",
+      "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1",
+      "lease/id": "control-lease:story-012-1",
+      "lease/epoch": 1,
+      "source/generation-ref": "source-generation:story-012-1",
+      "authority/events": [
+        {"sequence": 1, "kind": "operator-approved", "evidence/ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-1", "recorded/at": "2026-08-01T12:00:04Z", "decided/by": "participant:operator"},
+        {"sequence": 2, "kind": "control-claimed", "evidence/ref": "execution-receipt:claim-1", "recorded/at": "2026-08-01T12:00:05Z", "lease/id": "control-lease:story-012-1", "lease/epoch": 1, "lease/expires-at": "2026-08-01T12:04:00Z", "source/generation-ref": "source-generation:story-012-1"},
+        {"sequence": 3, "kind": "effect-invoked", "evidence/ref": "operation:story-012-1", "recorded/at": "2026-08-01T12:00:06Z", "lease/id": "control-lease:story-012-1", "lease/epoch": 1, "lease/expires-at": "2026-08-01T12:04:00Z", "source/generation-ref": "source-generation:story-012-1", "accepted/sequence": 1}
+      ],
+      "invoke/receipt-digest": "sha256:QsjKpiqSq-3DZoWEdpmeArISU6_vkKc0cblftQEDfJ8"
+    },
+    {
+      "attempt": 2,
+      "candidate-plan/proposal-ref": "corpus-experiment:sha256:1Tl_jeofZxSWvO0lkA-xZa4pdwTjrxLcVN0sup-kvgo",
+      "candidate-plan/digest": "sha256:_J4FLC9jUqxfsdDobpWUmg6wYa4KpwLETa1jGhN1XE8",
+      "candidate-plan/author-node-id": "node:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+      "candidate-plan/signature-key": "z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+      "inert-flow/ref": "inquiry-flow:j2hGfiy6an9e9SL0GGXxKO6muhLcrOxXuM4Mgu3cBe8",
+      "hil/question-ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2",
+      "lease/id": "control-lease:story-012-2",
+      "lease/epoch": 2,
+      "source/generation-ref": "source-generation:story-012-2",
+      "authority/events": [
+        {"sequence": 1, "kind": "operator-approved", "evidence/ref": "agent-effect-question:agent-effect-proposal:story-012-powerdns-experiment-2", "recorded/at": "2026-08-01T12:00:08Z", "decided/by": "participant:operator"},
+        {"sequence": 2, "kind": "control-claimed", "evidence/ref": "execution-receipt:claim-2", "recorded/at": "2026-08-01T12:00:09Z", "lease/id": "control-lease:story-012-2", "lease/epoch": 2, "lease/expires-at": "2026-08-01T12:05:00Z", "source/generation-ref": "source-generation:story-012-2"},
+        {"sequence": 3, "kind": "effect-invoked", "evidence/ref": "operation:story-012-2", "recorded/at": "2026-08-01T12:00:10Z", "lease/id": "control-lease:story-012-2", "lease/epoch": 2, "lease/expires-at": "2026-08-01T12:05:00Z", "source/generation-ref": "source-generation:story-012-2", "accepted/sequence": 2},
+        {"sequence": 4, "kind": "control-released", "evidence/ref": "execution-receipt:release-2", "recorded/at": "2026-08-01T12:00:11Z", "lease/id": "control-lease:story-012-2", "lease/epoch": 2, "lease/expires-at": "2026-08-01T12:05:00Z", "source/generation-ref": "source-generation:story-012-2"}
+      ],
+      "invoke/receipt-digest": "sha256:9P46y-tsHHFG9ZvQeAcSAePkbT4d1DsawbWXEyhEox4"
+    }
+  ],
+  "proven/invariants": ["candidate-plan-is-attributed-and-inert", "failed-plan-observation-precedes-correction", "fresh-lease-per-effect", "operator-question-precedes-effect", "p083-claim-invoke-release-only", "requester-retains-effect-authority", "room-prose-has-no-direct-effect"],
+  "unproven/invariants": []
+}

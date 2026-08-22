@@ -74,6 +74,7 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 | [`agent-budget-total`](#def-agent-budget-total) | object |  |
 | [`experiment`](#def-experiment) | object |  |
 | [`review-text`](#def-review-text) | string |  |
+| [`inert-plan-admission`](#def-inert-plan-admission) | object |  |
 | [`novelty-decision`](#def-novelty-decision) | object |  |
 | [`dns-assertion-a`](#def-dns-assertion-a) | object |  |
 | [`dns-assertion-b`](#def-dns-assertion-b) | object |  |
@@ -262,6 +263,11 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 ## `$defs.review-text`
 
 - Shape: string
+
+<a id="def-inert-plan-admission"></a>
+## `$defs.inert-plan-admission`
+
+- Shape: object
 
 <a id="def-novelty-decision"></a>
 ## `$defs.novelty-decision`
