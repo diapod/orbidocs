@@ -80,6 +80,25 @@
     "declaration/source": "distribution",
     "status": "instrumented"
   }, {
+    "boundary/id": "model-runtime-http",
+    "boundary/kind": "http-boundary",
+    "owner/component-ref": "component:model-runtime-http",
+    "adapter/family": "http-boundary",
+    "adapter/owner-ref": "component:daemon-model-runtime-http-adapter",
+    "carrier/kind": "http",
+    "source/endpoint-kinds": ["host"],
+    "target/endpoint-kinds": ["network-service"],
+    "operation/family": "model-runtime",
+    "observed/stages": ["egress-admitted", "egress-failed", "completed"],
+    "message/ref-scope": "boundary",
+    "causal/context-supported": false,
+    "payload/schema-source": "model-runtime-request",
+    "capture/content": ["none"],
+    "hard-secret-capable": true,
+    "reporting": {"enabled": false, "allowed/stages": [], "allowed/source-endpoint-kinds": [], "allowed/target-endpoint-kinds": [], "allowed/payload-schema-refs": []},
+    "declaration/source": "distribution",
+    "status": "verified"
+  }, {
     "boundary/id": "peer-session",
     "boundary/kind": "peer-session",
     "owner/component-ref": "component:peer-runtime",
@@ -104,7 +123,7 @@
     "boundary/kind": "room-carrier",
     "owner/component-ref": "component:room-wss",
     "adapter/family": "room-carrier",
-    "adapter/owner-ref": "component:room-wss",
+    "adapter/owner-ref": "component:daemon-corpus-room-live-adapter",
     "carrier/kind": "room-wss",
     "source/endpoint-kinds": ["host", "room-participant"],
     "target/endpoint-kinds": ["host", "room-participant"],
@@ -118,6 +137,6 @@
     "hard-secret-capable": true,
     "reporting": {"enabled": false, "allowed/stages": [], "allowed/source-endpoint-kinds": [], "allowed/target-endpoint-kinds": [], "allowed/payload-schema-refs": []},
     "declaration/source": "distribution",
-    "status": "planned"
+    "status": "instrumented"
   }]
 }

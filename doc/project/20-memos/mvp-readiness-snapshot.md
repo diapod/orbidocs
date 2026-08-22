@@ -307,17 +307,24 @@ prompt-free `daemon.nse-offer-resolution-trace.v1` remains the canonical offer-r
 trace consumed by the operator Trace Explorer. P085 therefore stays partial and
 post-MVP; this work does not change hard-MVP readiness.
 
-The post-MVP P086 foundation now provides the neutral communication-observation
-contract family, a startup-loaded six-family boundary registry, a bounded
+The post-MVP P086 implementation now provides the neutral communication-observation
+contract family, a checked seven-family boundary registry, a bounded
 generation-fenced host broker, private segmented recording with crash recovery and
-retention, verified offline replay, schema-derived field help, operator API and UI,
-the first `channel_json` and normalized host-capability adapters, and advisory
-Story 005 evidence including a hard-secret absence test. Twelve tracker items are
-complete, nine remain partial, three are todo, and two are explicitly deferred;
-this yields a conservative `65%` readiness estimate. Sustained load evidence,
-selected live-network adapters, richer focused UI, the full supervised Story 005
-profile, Story 012 multi-organ evidence, and Solution promotion remain open. P086
-is additive post-MVP diagnostics and does not change hard-MVP readiness.
+retention, verified offline replay, schema-derived field help, and an operator API
+and UI with focused endpoint counts, bounded payload trees, and a capped activity
+graph. Host-observed adapters now cover `channel_json`, normalized host-capability
+dispatch, local/API model HTTP, and Room-carrier seams; authenticated component
+reports cover middleware passage and retained component HTTP while peer-session is
+explicitly planned. Checked load evidence freezes the V1 broker ceilings and proves
+exact accounting plus typed pressure gaps. Full supervised Story 005 evidence covers
+Inquirium simulator request/response communication; Story 012 produces three
+independent complete node-local recordings for Sensorium/Room and Agent/Room without
+inventing cross-node visibility. Twenty-one tracker items are complete, three remain
+partial, and two are explicitly deferred; this yields a conservative `90%`
+readiness estimate. Broader selected live-protocol coverage, whole-path secret
+scanning, generic CI recording retention/failure replay, and Solution promotion
+remain open. P086 remains additive post-MVP diagnostics and does not change
+hard-MVP readiness.
 
 The 2026-07-20 P071 refresh freezes the process-isolated Sensorium Virt design
 without counting documentation as runtime readiness. Backend selection is now
@@ -1457,7 +1464,7 @@ Recent component deltas:
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
 | [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `98` |
-| [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `65` |
+| [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `90` |
 
 ## Solutions
 
