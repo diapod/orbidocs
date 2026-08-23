@@ -1,0 +1,15 @@
+{
+  "schema": "sensorium-web-refresh-status.v1",
+  "schema/v": 1,
+  "operation/id": "sensorium-web-refresh:fixture-001",
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:web-fixture-v1",
+  "status": "terminal",
+  "outcome": "refused",
+  "attempt": 1,
+  "started/at": "2026-08-23T10:00:00Z",
+  "completed/at": "2026-08-23T10:00:01Z",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "failure/code": "broker-unavailable",
+  "retry/class": "policy-dependent"
+}

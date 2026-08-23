@@ -36,6 +36,18 @@
         },
         "inline-bytes/max": { "type": "integer", "minimum": 0, "maximum": 1048576 }
       }
+    },
+    "conditional": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "if-none-match": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+        "if-modified-since": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" }
+      },
+      "anyOf": [
+        { "required": ["if-none-match"] },
+        { "required": ["if-modified-since"] }
+      ]
     }
   }
 }

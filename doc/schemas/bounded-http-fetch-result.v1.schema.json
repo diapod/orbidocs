@@ -18,6 +18,8 @@
     "response/status": { "type": "integer", "minimum": 100, "maximum": 599 },
     "media/type": { "type": "string", "minLength": 1, "maxLength": 256 },
     "declared/charset": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9._-]+$" },
+    "response/etag": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
+    "response/last-modified": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[^\\u0000-\\u001F\\u007F]+$" },
     "content/encoding": { "enum": ["identity", "gzip"] },
     "compressed-bytes": { "type": "integer", "minimum": 0, "maximum": 16777216 },
     "decompressed-bytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
@@ -65,7 +67,17 @@
   "allOf": [
     {
       "if": { "properties": { "outcome": { "const": "completed" } }, "required": ["outcome"] },
-      "then": { "required": ["final-url/digest", "response/status", "compressed-bytes", "decompressed-bytes", "body/digest", "body"], "not": { "required": ["failure"] } },
+      "then": {
+        "required": ["final-url/digest", "response/status", "compressed-bytes", "decompressed-bytes"],
+        "not": { "required": ["failure"] },
+        "allOf": [
+          {
+            "if": { "properties": { "response/status": { "const": 304 } }, "required": ["response/status"] },
+            "then": { "not": { "anyOf": [{ "required": ["body"] }, { "required": ["body/digest"] }] } },
+            "else": { "required": ["body/digest", "body"] }
+          }
+        ]
+      },
       "else": { "required": ["failure"], "not": { "required": ["body"] } }
     }
   ]

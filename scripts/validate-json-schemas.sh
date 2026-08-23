@@ -317,6 +317,18 @@ schema_for_file() {
     *.sensorium-web-document-snapshot.json)
       echo "$SCHEMAS_DIR/sensorium-web-document-snapshot.v1.schema.json"
       ;;
+    *.sensorium-web-durable-source.json)
+      echo "$SCHEMAS_DIR/sensorium-web-durable-source.v1.schema.json"
+      ;;
+    *.sensorium-web-refresh-status.json)
+      echo "$SCHEMAS_DIR/sensorium-web-refresh-status.v1.schema.json"
+      ;;
+    *.sensorium-web-operator-snapshot.json)
+      echo "$SCHEMAS_DIR/sensorium-web-operator-snapshot.v1.schema.json"
+      ;;
+    *.sensorium-web-latest-state.json)
+      echo "$SCHEMAS_DIR/sensorium-web-latest-state.v1.schema.json"
+      ;;
     *.sensorium-interface-descriptor.json)
       echo "$SCHEMAS_DIR/sensorium-interface-descriptor.v1.schema.json"
       ;;

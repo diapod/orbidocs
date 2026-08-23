@@ -1,0 +1,26 @@
+{
+  "schema": "sensorium-web-operator-snapshot.v1",
+  "schema/v": 1,
+  "generated/at": "2026-08-23T10:00:00Z",
+  "status": "ready",
+  "sources": [{
+    "source/ref": "sensorium-web-source:fixture",
+    "source/generation-ref": "source-generation:web-fixture-v1",
+    "generation/sequence": 1,
+    "url/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "url/display": "https://example.org/private?token=secret",
+    "enabled": true,
+    "refresh/status": "never",
+    "cache/status": "empty",
+    "superseded/generations": 0
+  }],
+  "counters": {
+    "refresh/total": 0,
+    "changed/total": 0,
+    "no-change/total": 0,
+    "refused/total": 0,
+    "failed/total": 0,
+    "unknown/total": 0
+  },
+  "limits": {"sources/max": 1024, "generations/max": 4096, "operations/max": 4096, "snapshots/max": 1024}
+}

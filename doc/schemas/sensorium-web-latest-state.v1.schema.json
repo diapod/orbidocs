@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-latest-state:v1",
+  "title": "Sensorium Web Latest State v1",
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "source/ref", "source/generation-ref", "snapshot", "snapshot/digest", "representation", "observation/id"],
+  "properties": {
+    "schema": { "const": "sensorium-web-latest-state.v1" },
+    "schema/v": { "const": 1 },
+    "source/ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "snapshot": { "$ref": "sensorium-web-document-snapshot.v1.schema.json" },
+    "snapshot/digest": { "$ref": "#/$defs/digest" },
+    "representation": {
+      "oneOf": [
+        { "$ref": "sensorium-web-document-blocks.v1.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "observation/id": { "$ref": "#/$defs/ref" }
+  }
+}

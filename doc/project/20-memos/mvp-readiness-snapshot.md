@@ -73,7 +73,7 @@ and trackers without changing the existing Story 012, P069, or Solution 038
 readiness percentages.
 
 The post-MVP P084 workstream now has the reusable daemon-owned
-`http.fetch.bounded` foundation and its first static extractor: eleven closed
+`http.fetch.bounded` foundation and its first static extractor: fifteen closed
 generic/domain contracts, pure fetch and Sensorium Web cores, exact
 consumer/action/origin admission, bounded DNS and destination classification,
 connection pinning, TLS and redirect enforcement, one total deadline,
@@ -81,12 +81,16 @@ global/per-origin concurrency, content-bound Artifact Delivery continuation,
 aggregate operator evidence, deterministic local HTTP/TLS conformance, and a
 channel-only frozen Python extraction profile `1.1.0` with an eleven-check
 offline corpus, including deterministic parser-event and element-depth limits.
-The factory requires a named no-egress sandbox and refuses when it is absent,
-but the current operating-system adapter does not yet provide process-level
-enforcement evidence. Durable source/cache/scheduler runtime, persistent operator
-projection, Sensorium observation admission, and P082 publication also remain
-open. P084 is therefore `partial` post-MVP work and does not change hard-MVP
-readiness.
+The macOS Seatbelt profile now permits only the exact host-created middleware
+endpoint; portable harness tests and automated macOS deployment evidence prove
+refusal of alternate loopback, DNS, proxy, and subprocess paths. Bounded SQLite
+source/generation/operation/snapshot
+state, exact conditional refresh, Replay Scheduler integration, restart recovery,
+Sensorium observation admission, metadata-only operator projection, and an
+optional P082 latest-state adapter are implemented. BDO for longer refreshes,
+durable Artifact Delivery of extracted representations, load evidence, and
+dedicated local/direct-peer/Room acceptance remain open. P084 is therefore
+`partial` post-MVP work and does not change hard-MVP readiness.
 
 The post-MVP P085 foundation now freezes `limit-classification.v1` and a reviewed,
 JCS-digested `limit-classification-registry.v1` envelope over 47 Inquirium limits and
@@ -1474,7 +1478,7 @@ Recent component deltas:
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
-| [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
+| [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `70` |
 | [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `true` | `100` |
 | [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `90` |
 

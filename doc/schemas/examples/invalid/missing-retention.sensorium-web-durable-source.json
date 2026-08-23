@@ -1,0 +1,8 @@
+{
+  "schema": "sensorium-web-durable-source.v1",
+  "schema/v": 1,
+  "source": {},
+  "fetch/request": {},
+  "schedule": {},
+  "idempotency/key": "invalid"
+}

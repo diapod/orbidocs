@@ -271,6 +271,10 @@ SCHEMA_WHITELIST = (
     "sensorium-web-document-blocks.v1.schema.json",
     "sensorium-web-extraction-result.v1.schema.json",
     "sensorium-web-document-snapshot.v1.schema.json",
+    "sensorium-web-durable-source.v1.schema.json",
+    "sensorium-web-refresh-status.v1.schema.json",
+    "sensorium-web-operator-snapshot.v1.schema.json",
+    "sensorium-web-latest-state.v1.schema.json",
     "sensorium-interface-resource.v1.schema.json",
     "sensorium-interface-descriptor.v1.schema.json",
     "sensorium-interface-actuation-descriptor.v1.schema.json",
@@ -553,6 +557,10 @@ EXAMPLE_WHITELIST = (
     "fixture.sensorium-web-document-blocks.json",
     "fixture.sensorium-web-extraction-result.json",
     "fixture.sensorium-web-document-snapshot.json",
+    "fixture.sensorium-web-durable-source.json",
+    "fixture.sensorium-web-refresh-status.json",
+    "fixture.sensorium-web-operator-snapshot.json",
+    "fixture.sensorium-web-latest-state.json",
     "basic.sensorium-relative-path-address.json",
     "cargo-test.sensorium-command-profile.json",
     "basic.sensorium-command-intent.json",
@@ -874,6 +882,9 @@ INVALID_EXAMPLE_WHITELIST = (
     "heading-without-level.sensorium-web-document-blocks.json",
     "success-without-representation.sensorium-web-extraction-result.json",
     "missing-provenance.sensorium-web-document-snapshot.json",
+    "missing-retention.sensorium-web-durable-source.json",
+    "terminal-without-completion.sensorium-web-refresh-status.json",
+    "leaky.sensorium-web-operator-snapshot.json",
     "unknown-isolation.sensorium-virt-backend-capabilities.json",
     "unknown-network.sensorium-virt-environment-plan.json",
     "missing-sbom.sensorium-virt-image-manifest.json",
@@ -914,6 +925,7 @@ INVALID_EXAMPLE_WHITELIST = (
 
 SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
     "unknown-candidate.corpus-turn-order-decision.json",
+    "mismatched-source.sensorium-web-latest-state.json",
 )
 
 GOLDEN_WHITELIST = (

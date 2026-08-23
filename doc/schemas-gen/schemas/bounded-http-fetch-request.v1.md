@@ -13,6 +13,7 @@ Source schema: [`doc/schemas/bounded-http-fetch-request.v1.schema.json`](../../s
 | [`method`](#field-method) | `yes` | enum: `GET`, `HEAD` |  |
 | [`url`](#field-url) | `yes` | string |  |
 | [`budgets`](#field-budgets) | `yes` | object |  |
+| [`conditional`](#field-conditional) | `no` | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -55,4 +56,10 @@ Source schema: [`doc/schemas/bounded-http-fetch-request.v1.schema.json`](../../s
 ## `budgets`
 
 - Required: `yes`
+- Shape: object
+
+<a id="field-conditional"></a>
+## `conditional`
+
+- Required: `no`
 - Shape: object

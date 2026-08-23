@@ -1,0 +1,14 @@
+{
+  "schema": "sensorium-web-refresh-status.v1",
+  "schema/v": 1,
+  "operation/id": "sensorium-web-refresh:invalid",
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:web-fixture-v1",
+  "status": "terminal",
+  "outcome": "unknown",
+  "attempt": 1,
+  "started/at": "2026-08-23T10:00:00Z",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "failure/code": "interrupted",
+  "retry/class": "policy-dependent"
+}

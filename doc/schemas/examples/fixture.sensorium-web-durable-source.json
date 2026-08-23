@@ -1,0 +1,63 @@
+{
+  "schema": "sensorium-web-durable-source.v1",
+  "schema/v": 1,
+  "source": {
+    "schema": "sensorium-web-source.v1",
+    "schema/v": 1,
+    "source/ref": "sensorium-web-source:fixture",
+    "source/generation-ref": "source-generation:web-fixture-v1",
+    "canonical/url": "https://example.org/document",
+    "canonical/url-digest": "sha256:AC_mW_cGtXf7DYjqE-6bvJz2CQFN2xZmSXaAS6BQWF4",
+    "origin/policy-ref": "policy:web-public-fixture-v1",
+    "extraction/profile": {
+      "profile/ref": "sensorium-web-extraction:static-stdlib-main-v1",
+      "profile/version": "1.1.0",
+      "profile/digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg",
+      "output/schema-ref": "sensorium-web-document-blocks.v1"
+    },
+    "operational/context": {
+      "schema": "sensorium-operational-context.v1",
+      "schema/v": 1,
+      "impact/class": "production",
+      "context/summary": "Public web observation"
+    },
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Public",
+      "effective_tier": "Public",
+      "provenance": {"kind": "local-space", "space": "Public"},
+      "bound_subjects": {"public_projection": {"subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "count": 0}},
+      "declassify_trail": []
+    }
+  },
+  "fetch/request": {
+    "schema": "bounded-http-fetch-request.v1",
+    "schema/v": 1,
+    "request/id": "fetch-request:durable-fixture-001",
+    "consumer/action": "web.document.fetch",
+    "method": "GET",
+    "url": "https://example.org/document",
+    "budgets": {
+      "redirects/max": 3,
+      "compressed-bytes/max": 1048576,
+      "decompressed-bytes/max": 4194304,
+      "header-bytes/max": 16384,
+      "total-timeout/ms": 10000,
+      "connect-timeout/ms": 3000,
+      "hop-timeout/ms": 3000,
+      "inline-bytes/max": 65536
+    }
+  },
+  "schedule": {
+    "enabled": true,
+    "interval/seconds": 300,
+    "jitter/seconds": 15,
+    "launches/hour-max": 12
+  },
+  "retention": {
+    "raw-body": false,
+    "representation": true,
+    "metadata-ttl/seconds": 86400
+  },
+  "idempotency/key": "sensorium-web-source:fixture:v1"
+}

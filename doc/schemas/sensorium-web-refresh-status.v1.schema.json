@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-refresh-status:v1",
+  "title": "Sensorium Web Refresh Status v1",
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "operation/id", "source/ref", "source/generation-ref", "status", "outcome", "attempt", "started/at", "request/digest"],
+  "properties": {
+    "schema": { "const": "sensorium-web-refresh-status.v1" },
+    "schema/v": { "const": 1 },
+    "operation/id": { "$ref": "#/$defs/ref" },
+    "source/ref": { "$ref": "#/$defs/ref" },
+    "source/generation-ref": { "$ref": "#/$defs/ref" },
+    "status": { "enum": ["pending", "running", "terminal"] },
+    "outcome": { "enum": ["pending", "changed", "no-change", "refused", "failed", "unknown", "cancelled"] },
+    "attempt": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+    "started/at": { "type": "string", "format": "date-time" },
+    "completed/at": { "type": "string", "format": "date-time" },
+    "request/digest": { "$ref": "#/$defs/digest" },
+    "snapshot/id": { "$ref": "#/$defs/ref" },
+    "snapshot/digest": { "$ref": "#/$defs/digest" },
+    "observation/id": { "$ref": "#/$defs/ref" },
+    "failure/code": { "enum": ["source-not-found", "source-superseded", "refresh-in-progress", "cache-evidence-missing", "cache-binding-mismatch", "broker-unavailable", "fetch-not-completed", "extraction-refused", "observation-rejected", "storage-failed", "interrupted", "cancelled"] },
+    "retry/class": { "enum": ["terminal", "retryable", "policy-dependent"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "terminal" } }, "required": ["status"] },
+      "then": { "required": ["completed/at"] },
+      "else": { "not": { "required": ["completed/at"] } }
+    },
+    {
+      "if": { "properties": { "outcome": { "enum": ["changed", "no-change"] } }, "required": ["outcome"] },
+      "then": { "required": ["snapshot/id", "snapshot/digest", "observation/id"] },
+      "else": {
+        "if": { "properties": { "outcome": { "enum": ["refused", "failed", "unknown"] } }, "required": ["outcome"] },
+        "then": { "required": ["failure/code", "retry/class"] }
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-durable-source:v1",
+  "title": "Sensorium Web Durable Source v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "source", "fetch/request", "schedule", "retention", "idempotency/key"],
+  "properties": {
+    "schema": { "const": "sensorium-web-durable-source.v1" },
+    "schema/v": { "const": 1 },
+    "source": { "$ref": "sensorium-web-source.v1.schema.json" },
+    "fetch/request": { "$ref": "bounded-http-fetch-request.v1.schema.json" },
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "interval/seconds", "jitter/seconds", "launches/hour-max"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "interval/seconds": { "type": "integer", "minimum": 60, "maximum": 2592000 },
+        "jitter/seconds": { "type": "integer", "minimum": 0, "maximum": 3600 },
+        "launches/hour-max": { "type": "integer", "minimum": 1, "maximum": 60 }
+      }
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw-body", "representation", "metadata-ttl/seconds"],
+      "properties": {
+        "raw-body": { "type": "boolean" },
+        "representation": { "type": "boolean" },
+        "metadata-ttl/seconds": { "type": "integer", "minimum": 300, "maximum": 31536000 }
+      }
+    },
+    "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "^[^\\s\\u0000]+$" }
+  }
+}

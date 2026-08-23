@@ -206,6 +206,18 @@ Responsibilities:
 
 Status: `done`.
 
+### Optional Sensorium Web latest-state adapter
+
+P084 adds `sensorium-web-latest-state` through the existing open bounded source
+registry. It is registered only when the `sensorium-web` middleware module is
+configured and is deliberately not a fifth required built-in. The adapter reads
+only an already admitted latest snapshot, rechecks source/generation and the
+canonical snapshot digest, coalesces an unchanged cursor to `no-change`, and has
+no refresh method. Existing local SSE, direct-peer, and Room carriers therefore
+remain transport projections rather than acquisition authority. Dedicated
+multi-carrier P084 acceptance remains tracked by P084-008 and does not reopen
+P082 hard-MVP readiness.
+
 ### Source Adaptation
 
 Responsibilities:

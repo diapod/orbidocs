@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-operator-snapshot:v1",
+  "title": "Sensorium Web Operator Snapshot v1",
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "generated/at", "status", "sources", "counters", "limits"],
+  "properties": {
+    "schema": { "const": "sensorium-web-operator-snapshot.v1" },
+    "schema/v": { "const": 1 },
+    "generated/at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["ready", "degraded", "unavailable"] },
+    "sources": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source/ref", "source/generation-ref", "generation/sequence", "url/digest", "enabled", "refresh/status", "cache/status", "superseded/generations"],
+        "properties": {
+          "source/ref": { "$ref": "#/$defs/ref" },
+          "source/generation-ref": { "$ref": "#/$defs/ref" },
+          "generation/sequence": { "type": "integer", "minimum": 1 },
+          "url/digest": { "$ref": "#/$defs/digest" },
+          "enabled": { "type": "boolean" },
+          "refresh/status": { "enum": ["never", "pending", "running", "changed", "no-change", "refused", "failed", "unknown", "cancelled"] },
+          "last-refresh/at": { "type": "string", "format": "date-time" },
+          "next-run/at": { "type": "string", "format": "date-time" },
+          "cache/status": { "enum": ["empty", "fresh", "stale", "evicted"] },
+          "snapshot/id": { "$ref": "#/$defs/ref" },
+          "snapshot/digest": { "$ref": "#/$defs/digest" },
+          "superseded/generations": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "counters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["refresh/total", "changed/total", "no-change/total", "refused/total", "failed/total", "unknown/total"],
+      "properties": {
+        "refresh/total": { "type": "integer", "minimum": 0 },
+        "changed/total": { "type": "integer", "minimum": 0 },
+        "no-change/total": { "type": "integer", "minimum": 0 },
+        "refused/total": { "type": "integer", "minimum": 0 },
+        "failed/total": { "type": "integer", "minimum": 0 },
+        "unknown/total": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources/max", "generations/max", "operations/max", "snapshots/max"],
+      "properties": {
+        "sources/max": { "const": 1024 },
+        "generations/max": { "const": 4096 },
+        "operations/max": { "const": 4096 },
+        "snapshots/max": { "const": 1024 }
+      }
+    }
+  }
+}

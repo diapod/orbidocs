@@ -15,6 +15,8 @@ Source schema: [`doc/schemas/bounded-http-fetch-result.v1.schema.json`](../../sc
 | [`response/status`](#field-response-status) | `no` | integer |  |
 | [`media/type`](#field-media-type) | `no` | string |  |
 | [`declared/charset`](#field-declared-charset) | `no` | string |  |
+| [`response/etag`](#field-response-etag) | `no` | string |  |
+| [`response/last-modified`](#field-response-last-modified) | `no` | string |  |
 | [`content/encoding`](#field-content-encoding) | `no` | enum: `identity`, `gzip` |  |
 | [`compressed-bytes`](#field-compressed-bytes) | `no` | integer |  |
 | [`decompressed-bytes`](#field-decompressed-bytes) | `no` | integer |  |
@@ -56,15 +58,49 @@ Then:
     "final-url/digest",
     "response/status",
     "compressed-bytes",
-    "decompressed-bytes",
-    "body/digest",
-    "body"
+    "decompressed-bytes"
   ],
   "not": {
     "required": [
       "failure"
     ]
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "response/status": {
+            "const": 304
+          }
+        },
+        "required": [
+          "response/status"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ]
+            },
+            {
+              "required": [
+                "body/digest"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "body/digest",
+          "body"
+        ]
+      }
+    }
+  ]
 }
 ```
 
@@ -120,6 +156,18 @@ Then:
 
 <a id="field-declared-charset"></a>
 ## `declared/charset`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-response-etag"></a>
+## `response/etag`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-response-last-modified"></a>
+## `response/last-modified`
 
 - Required: `no`
 - Shape: string
