@@ -24,6 +24,7 @@
     "checks",
     "artifact/refs",
     "corpus/draft-ref",
+    "operator-package",
     "model",
     "guest",
     "dns/assertions",
@@ -41,8 +42,8 @@
     "evidence/boundary": { "const": "single-host-full-system" },
     "checks": {
       "type": "array",
-      "minItems": 30,
-      "maxItems": 30,
+      "minItems": 31,
+      "maxItems": 31,
       "uniqueItems": true,
       "items": {
         "enum": [
@@ -75,7 +76,8 @@
           "hil-per-effect",
           "p083-claim-invoke-release",
           "no-room-prose-direct-effect",
-          "no-deadline-fixture-fallback"
+          "no-deadline-fixture-fallback",
+          "operator-package-flow-restart-revocation"
         ]
       }
     },
@@ -87,6 +89,7 @@
       "items": { "$ref": "#/$defs/ref" }
     },
     "corpus/draft-ref": { "$ref": "#/$defs/ref" },
+    "operator-package": { "$ref": "#/$defs/operator-package-evidence" },
     "model": {
       "type": "object",
       "additionalProperties": false,
@@ -375,6 +378,124 @@
     }
   },
   "$defs": {
+    "operator-package-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package/ref", "package/digest", "artifact/digest", "activation/ref",
+        "activation/generation", "activation/plan-digest", "activation/receipt-digest",
+        "conformance/report-ref", "conformance/report-digest", "flow", "turn-order",
+        "revocation"
+      ],
+      "properties": {
+        "package/ref": { "const": "extension-package:story-012-packaged-flow" },
+        "package/digest": { "$ref": "#/$defs/hex-digest" },
+        "artifact/digest": { "$ref": "#/$defs/hex-digest" },
+        "activation/ref": { "$ref": "#/$defs/ref" },
+        "activation/generation": { "const": 1 },
+        "activation/plan-digest": { "$ref": "#/$defs/hex-digest" },
+        "activation/receipt-digest": { "$ref": "#/$defs/base64url-digest" },
+        "conformance/report-ref": { "$ref": "#/$defs/ref" },
+        "conformance/report-digest": { "$ref": "#/$defs/hex-digest" },
+        "flow": { "$ref": "#/$defs/package-flow-evidence" },
+        "turn-order": { "$ref": "#/$defs/package-turn-order-evidence" },
+        "revocation": { "$ref": "#/$defs/package-revocation-evidence" }
+      }
+    },
+    "package-flow-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "flow/ref", "flow/digest", "binding/ref", "binding/digest", "agent/id",
+        "agent-binding/ref", "package/max-passages", "binding/max-passages", "corpus",
+        "passage/refs", "product/digests", "terminal-product/ref",
+        "terminal-product/digest", "restart/replay", "post-revocation/refusal"
+      ],
+      "properties": {
+        "flow/ref": { "const": "agent-inference-passage-acceptance" },
+        "flow/digest": { "$ref": "#/$defs/base64url-digest" },
+        "binding/ref": { "$ref": "#/$defs/ref" },
+        "binding/digest": { "$ref": "#/$defs/base64url-digest" },
+        "agent/id": { "const": "agent:inference-acceptance:story-012-package" },
+        "agent-binding/ref": { "$ref": "#/$defs/ref" },
+        "package/max-passages": { "const": 8 },
+        "binding/max-passages": { "const": 4 },
+        "corpus": { "$ref": "#/$defs/package-flow-corpus-evidence" },
+        "passage/refs": {
+          "type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/ref" }
+        },
+        "product/digests": {
+          "type": "array", "minItems": 4, "maxItems": 4,
+          "items": { "$ref": "#/$defs/base64url-digest" }
+        },
+        "terminal-product/ref": { "$ref": "#/$defs/ref" },
+        "terminal-product/digest": { "$ref": "#/$defs/base64url-digest" },
+        "restart/replay": { "const": "stale-authority-refused" },
+        "post-revocation/refusal": { "const": "package-authority-not-current" }
+      }
+    },
+    "package-flow-corpus-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding/ref", "binding/digest", "participant/ref", "role-assignment/ref",
+        "role-assignment/revision", "role-assignment/digest", "instruction-overlay/ref",
+        "instruction-overlay/revision", "instruction-overlay/digest", "room-policy/ref",
+        "room-policy/digest", "policy/generation"
+      ],
+      "properties": {
+        "binding/ref": { "$ref": "#/$defs/ref" },
+        "binding/digest": { "$ref": "#/$defs/base64url-digest" },
+        "participant/ref": { "$ref": "#/$defs/ref" },
+        "role-assignment/ref": { "$ref": "#/$defs/ref" },
+        "role-assignment/revision": { "type": "integer", "minimum": 1 },
+        "role-assignment/digest": { "$ref": "#/$defs/base64url-digest" },
+        "instruction-overlay/ref": { "$ref": "#/$defs/ref" },
+        "instruction-overlay/revision": { "type": "integer", "minimum": 1 },
+        "instruction-overlay/digest": { "$ref": "#/$defs/base64url-digest" },
+        "room-policy/ref": { "$ref": "#/$defs/ref" },
+        "room-policy/digest": { "$ref": "#/$defs/base64url-digest" },
+        "policy/generation": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "package-turn-order-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy/ref", "policy/digest", "producer/ref", "producer/digest", "offer/ref",
+        "offer/digest", "decision/ref", "decision/digest",
+        "operator/authority-decision-ref", "restart/replay", "restart/refusal-digest"
+      ],
+      "properties": {
+        "policy/ref": { "$ref": "#/$defs/ref" },
+        "policy/digest": { "$ref": "#/$defs/hex-digest" },
+        "producer/ref": { "$ref": "#/$defs/ref" },
+        "producer/digest": { "$ref": "#/$defs/hex-digest" },
+        "offer/ref": { "$ref": "#/$defs/ref" },
+        "offer/digest": { "$ref": "#/$defs/base64url-digest" },
+        "decision/ref": { "$ref": "#/$defs/ref" },
+        "decision/digest": { "$ref": "#/$defs/base64url-digest" },
+        "operator/authority-decision-ref": { "$ref": "#/$defs/ref" },
+        "restart/replay": { "const": "stale-authority-refused" },
+        "restart/refusal-digest": { "$ref": "#/$defs/base64url-digest" }
+      }
+    },
+    "package-revocation-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revocation/ref", "receipt/digest", "turn-order-refusal/digest",
+        "flow-stale-replay/refusal-digest", "flow-stale-replay/result"
+      ],
+      "properties": {
+        "revocation/ref": { "$ref": "#/$defs/ref" },
+        "receipt/digest": { "$ref": "#/$defs/base64url-digest" },
+        "turn-order-refusal/digest": { "$ref": "#/$defs/base64url-digest" },
+        "flow-stale-replay/refusal-digest": { "$ref": "#/$defs/base64url-digest" },
+        "flow-stale-replay/result": { "const": "package-authority-not-current" }
+      }
+    },
     "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s]+$" },
     "inference-ref": {
       "allOf": [

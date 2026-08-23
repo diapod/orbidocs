@@ -37,9 +37,81 @@
     "hil-per-effect",
     "p083-claim-invoke-release",
     "no-room-prose-direct-effect",
-    "no-deadline-fixture-fallback"
+    "no-deadline-fixture-fallback",
+    "operator-package-flow-restart-revocation"
   ],
   "corpus/draft-ref": "corpus-agent-answer-draft:sha256:CBx92CPo_EoQlMknSx6igqpr7Zg96XeaE6eYg3NvuA0",
+  "operator-package": {
+    "package/ref": "extension-package:story-012-packaged-flow",
+    "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifact/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "activation/ref": "extension-activation:story-012-packaged-flow",
+    "activation/generation": 1,
+    "activation/plan-digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "activation/receipt-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "conformance/report-ref": "extension-conformance:story-012-packaged-flow",
+    "conformance/report-digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "flow": {
+      "flow/ref": "agent-inference-passage-acceptance",
+      "flow/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "binding/ref": "agent-inference-flow-binding:story-012-package",
+      "binding/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      "agent/id": "agent:inference-acceptance:story-012-package",
+      "agent-binding/ref": "agent-binding:story-012-packaged-flow",
+      "package/max-passages": 8,
+      "binding/max-passages": 4,
+      "corpus": {
+        "binding/ref": "corpus-inference-flow-binding:story-012-package",
+        "binding/digest": "sha256:MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM",
+        "participant/ref": "nym:did:key:zStory012Requester",
+        "role-assignment/ref": "corpus-role-assignment:story-012-package",
+        "role-assignment/revision": 2,
+        "role-assignment/digest": "sha256:NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+        "instruction-overlay/ref": "corpus-instruction-overlay:story-012-package",
+        "instruction-overlay/revision": 2,
+        "instruction-overlay/digest": "sha256:OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+        "room-policy/ref": "room-policy:story-012-package",
+        "room-policy/digest": "sha256:PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+        "policy/generation": 1
+      },
+      "passage/refs": [
+        "agent-inference-passage:story-012-package:1",
+        "agent-inference-passage:story-012-package:2",
+        "agent-inference-passage:story-012-package:3",
+        "agent-inference-passage:story-012-package:4"
+      ],
+      "product/digests": [
+        "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+        "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+        "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+        "sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+      ],
+      "terminal-product/ref": "agent-inference-product:agent-inference-passage:story-012-package:4",
+      "terminal-product/digest": "sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+      "restart/replay": "stale-authority-refused",
+      "post-revocation/refusal": "package-authority-not-current"
+    },
+    "turn-order": {
+      "policy/ref": "nse-policy:01J00000000000000000000002",
+      "policy/digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "producer/ref": "nse-table:nse-policy:01J00000000000000000000002",
+      "producer/digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "offer/ref": "corpus-turn-order-offer:sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+      "offer/digest": "sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+      "decision/ref": "corpus-turn-order-decision:sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+      "decision/digest": "sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+      "operator/authority-decision-ref": "authority-decision:story-012-package",
+      "restart/replay": "stale-authority-refused",
+      "restart/refusal-digest": "sha256:MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+    },
+    "revocation": {
+      "revocation/ref": "extension-revocation:story-012-packaged-flow",
+      "receipt/digest": "sha256:JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",
+      "turn-order-refusal/digest": "sha256:KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+      "flow-stale-replay/refusal-digest": "sha256:LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "flow-stale-replay/result": "package-authority-not-current"
+    }
+  },
   "deliberation": {
     "critique-gate": {
       "chair-block/count": 0,

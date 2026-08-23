@@ -426,6 +426,25 @@ names the accountable Chair slot rather than a newly registered Corpus role. The
 operator policy may therefore express `solver -> reviewer -> chair` without widening
 the closed role registry or teaching Room those labels.
 
+**Facilitator role.** A future additive role revision MAY register `facilitator` as
+a bounded reasoning role. Its purpose is to improve the deliberation process rather
+than supply a privileged answer: it asks discriminating questions, makes hidden
+assumptions and unresolved disagreements explicit, requests concrete evidence, and
+suggests the next bounded experiment when discussion stalls. A facilitator MAY cite
+retained Room turns and terminal evidence and MAY emit inert experiment suggestions,
+but it cannot create or admit a `CandidatePlan`, approve an experiment, answer an HIL
+question, select a terminal product, publish a Corpus answer, mutate Room authority,
+or invoke Sensorium. Those transitions remain with their existing host, Chair,
+executor, and operator boundaries.
+
+The corresponding local instruction overlay uses the closed semantic kind
+`facilitation-guidance`. Its rendered instruction must remain question-oriented and
+bounded: no shell command or effect payload is executable merely because it came from
+the facilitator. A distributor or operator may omit the role entirely, and the
+requester may only narrow its use. Adding it requires v2 revisions of every
+role-bearing accepted contract and table vocabulary; v1 continues to mean exactly the
+four-role set and MUST reject `facilitator` fail-closed.
+
 Ban TTL is resolved in the same admission pass as every other chair control. The
 effective `ban/max-ttl-seconds` is the monotone minimum of protocol, distributor,
 operator, requester, Agent-profile, and current Room-delegation ceilings. Requested and
@@ -2051,6 +2070,20 @@ node, and still requires a separate Corpus transition before any answer is publi
 may package an operator-owned producer, only after the P069 contract exists. Neither
 task owns candidate construction or final Room admission.
 
+#### Phase 8C — Bounded facilitator role `[ ] post-MVP`
+
+- [ ] **`P069-ROLE-001` — Freeze and implement the additive facilitator role.**
+  Introduce compatible v2 revisions for role assignment, instruction overlay,
+  turn-order offer/table, and any semantic-registry entry that carries the closed
+  role enum. Register `facilitator` and `facilitation-guidance`, keep all v1 values
+  valid and unchanged, and reject cross-version role substitution. The daemon must
+  render the facilitator overlay through the same local prompt-policy boundary as
+  other roles, preserve it as inert data, and prove that facilitator output cannot
+  admit a CandidatePlan, answer HIL, select or publish a product, mutate Room state,
+  or invoke Sensorium. Add positive, wrong-version, unknown-role, authority-escalation,
+  restart, and turn-order fixtures. Story 012 may consume the role only after this
+  task is complete; scenario labels alone do not add it to the registry.
+
 #### Optional shared enacted views `[x] P082 runtime implemented`
 
 - [x] Propagate P082 operational context and `source/generation-ref` from the exact
@@ -2308,10 +2341,10 @@ task owns candidate construction or final Room admission.
   envelope is 720,000 ms and 24,576 tokens. This task remains open until a ready
   reviewer and the HIL, P083, terminal, and verifier latency distribution are
   included; the provisional envelope is not an authority grant. The retained
-  2026-08-22 deployment run now adds two complete effect-feedback cycles:
-  four model turns consumed 17,226 prompt-plus-completion tokens and 581,864 ms of
-  model time, while end-to-end deliberation consumed 616,183 ms. Its longest turn
-  was 174,716 ms. These measurements confirm the current 330-second per-turn and
+  2026-08-23 deployment run now adds two complete effect-feedback cycles:
+  four model turns consumed 15,863 prompt-plus-completion tokens and 344,259 ms of
+  model time, while end-to-end deliberation consumed 369,053 ms. Its longest turn
+  was 120,687 ms. These measurements confirm the current 330-second per-turn and
   780-second deliberation bounds for the two-cycle acceptance path, but four such
   measured cycles do not fit safely under one canonical Room authority ceiling.
   The remaining work is therefore an explicit between-cycle authority-renewal
@@ -2338,14 +2371,18 @@ task owns candidate construction or final Room admission.
   `llama-server`, and pinned model bytes. The run must reach the DNS goal through
   model-authored trial and error without the legacy fixture. Do not promote this
   post-MVP evidence until the stage bench demonstrates a plausible correction path.
-  The retained 2026-08-22 macOS arm64 report passes all 30 checks with two
+  The retained 2026-08-23 macOS arm64 report passes all 31 checks with two
   separately supervised Qwen2.5-Coder 7B runtimes, the second prepared challenge,
   one nonpassing model-authored experiment, a distinct successful second plan after
   fresh terminal evidence, per-effect HIL, P083 `claim -> invoke -> release`, and
   no effect derived directly from Room prose. Host-owned shell framing is limited
   to a reported `umask 022`; the CandidatePlan bytes remain unchanged through
-  admission and execution. The same run retains complete P086 recordings with
-  zero gaps or drops for requester node A (563 observations), solver node B (19),
+  admission and execution. Before deliberation, node A activates the exact P085
+  operator package and then consumes its four-passage Flow and package-owned
+  turn-order producer. The report binds offer/policy/producer/decision lineage and
+  proves post-restart stale-replay refusal, terminal revocation, and stale-authority refusal without a
+  semantic fallback. The same run retains complete P086 recordings with
+  zero gaps or drops for requester node A (564 observations), solver node B (19),
   and reviewer node C (22).
 
 #### Phase 9 — N-way settlement

@@ -46,6 +46,7 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 | [`checks`](#field-checks) | `yes` | array |  |
 | [`artifact/refs`](#field-artifact-refs) | `yes` | array |  |
 | [`corpus/draft-ref`](#field-corpus-draft-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`operator-package`](#field-operator-package) | `yes` | ref: `#/$defs/operator-package-evidence` |  |
 | [`model`](#field-model) | `yes` | object |  |
 | [`guest`](#field-guest) | `yes` | object |  |
 | [`dns/assertions`](#field-dns-assertions) | `yes` | array |  |
@@ -57,6 +58,11 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`operator-package-evidence`](#def-operator-package-evidence) | object |  |
+| [`package-flow-evidence`](#def-package-flow-evidence) | object |  |
+| [`package-flow-corpus-evidence`](#def-package-flow-corpus-evidence) | object |  |
+| [`package-turn-order-evidence`](#def-package-turn-order-evidence) | object |  |
+| [`package-revocation-evidence`](#def-package-revocation-evidence) | object |  |
 | [`ref`](#def-ref) | string |  |
 | [`inference-ref`](#def-inference-ref) | unspecified |  |
 | [`role-model`](#def-role-model) | object |  |
@@ -141,6 +147,12 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
 
+<a id="field-operator-package"></a>
+## `operator-package`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/operator-package-evidence`
+
 <a id="field-model"></a>
 ## `model`
 
@@ -178,6 +190,31 @@ Closed metadata-only report proving that pinned local-model Agents authored and 
 - Shape: object
 
 ## Definition Semantics
+
+<a id="def-operator-package-evidence"></a>
+## `$defs.operator-package-evidence`
+
+- Shape: object
+
+<a id="def-package-flow-evidence"></a>
+## `$defs.package-flow-evidence`
+
+- Shape: object
+
+<a id="def-package-flow-corpus-evidence"></a>
+## `$defs.package-flow-corpus-evidence`
+
+- Shape: object
+
+<a id="def-package-turn-order-evidence"></a>
+## `$defs.package-turn-order-evidence`
+
+- Shape: object
+
+<a id="def-package-revocation-evidence"></a>
+## `$defs.package-revocation-evidence`
+
+- Shape: object
 
 <a id="def-ref"></a>
 ## `$defs.ref`

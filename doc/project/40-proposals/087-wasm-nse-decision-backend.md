@@ -9,6 +9,7 @@ Based on:
 - `doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`
 - `doc/project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md`
 - `doc/project/60-solutions/019-middleware/019-middleware.md`
+- `doc/project/60-solutions/048-operator-sovereign-extensibility/048-operator-sovereign-extensibility.md`
 - `node:nse`
 - `node:nse-table`
 - `node:nse-rhai`
@@ -23,7 +24,8 @@ Draft; implementation-ready future work, non-blocking for P085 and hard-MVP.
 
 ## Executive Summary
 
-P085 deliberately deferred its WASM Natural Selection Engine backend until the
+P085, now promoted to Solution 048, deliberately deferred its WASM Natural
+Selection Engine backend until the
 shared NSE contracts, table backend, refusal vocabulary, package lifecycle,
 invalidation, inspection, and operational evidence were real. Those prerequisites
 now exist. This proposal extracts historical tracker item `P085-017` into a

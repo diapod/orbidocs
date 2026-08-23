@@ -2291,11 +2291,10 @@ The checked-in acceptance assets separate two layers:
    expiry refs and digests. It is produced through ordinary operator admission and is
    never copied as portable authority.
 
-The structural preflight currently validates the Story-local parameter inventory and
-refusal corpus with the checked-in acceptance validator. Before `P085-041` can move to
-`done`, both Story-local shapes MUST be frozen as machine-readable schemas and covered
-by positive and negative fixtures; a Python-only shape check is not the final
-full-system acceptance boundary.
+The structural preflight validates the Story-local parameter inventory and refusal
+corpus with the checked-in acceptance validator. Both Story-local shapes are frozen
+as machine-readable schemas with positive and negative fixtures. The retained
+full-system run, rather than the Python shape check, is the final acceptance boundary.
 
 The acceptance runner may create temporary directories, start processes and the test
 VM, seed fixture identities and content, invoke admitted APIs, transport values, and
@@ -2317,12 +2316,12 @@ turn-order offer digest, policy ref/digest, producer activation generation,
 `decision/ref` and decision digest in addition to the Flow, Agent, role, overlay, and
 terminal-product evidence.
 
-The repository now carries a structural Story 012 preflight that validates the
+The repository carries a structural Story 012 preflight that validates the
 portable manifest, production Flow digest, two distinct turn-order tables, refusal
 corpus, parameter inventory, canonical table producer ref, and the absence of live
-authority fields or machine-local paths. This is contract evidence only. It does not
-replace the still-required vfkit process run, package activation, Room deliberation,
-or revocation evidence required by `P085-041`.
+authority fields or machine-local paths. This remains contract evidence only; the
+separate retained vfkit process run supplies package activation, Room deliberation,
+restart, revocation, and stale-replay evidence.
 
 On 2026-08-21 the pinned GNU/Linux arm64 image was built from the immutable SDK
 release, and the real `vfkit-system.v1` Story 012 base profile passed its closed
@@ -2330,10 +2329,14 @@ eleven-check validator on `macos-vz-arm64.v1`. The report binds the image artifa
 digest `sha256:df5c387b430782032a77c47560ec12a9582fd02a7b4cc8fdab148a03a359348c`
 and image-manifest digest
 `sha256:2355a97ea34dafad5d60f18a81e01a9d21122c1dad6bd6fc9969bbb0c9e95a6d`.
-This removes the image-builder and hardware-VM environment prerequisite, but does
-not complete `P085-041`: the retained report contract still has to carry the exact
-package activation, Flow, turn-order, terminal-product, revocation, and decisive
-refusal lineage required above.
+This removes the image-builder and hardware-VM environment prerequisite. The retained
+2026-08-23 macOS arm64 report then completes `P085-041`: it passes all 31 closed
+checks while binding the package manifest, activation receipt and generation,
+four-passage Flow, turn-order offer/policy/producer/decision refs and digests, exact
+Room/role/overlay authority, terminal product, corrected `CandidatePlan`, HIL and
+P083 lifecycle, restart recovery, terminal revocation, and stale-authority refusal.
+No semantic fallback runs after revocation and no effect is derived directly from
+Room prose.
 
 | ID | Phase 3 work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
@@ -2344,7 +2347,7 @@ refusal lineage required above.
 | `P085-038` | Bind operator-defined flows to Corpus roles, turns, and disclosure policy | `done` | The accepted `corpus-reasoning-inference-flow-binding.v1` and Corpus-owned pure validator bind the exact query, Room, participant, Agent binding, Agent-Flow ref and digest, current accepted role and instruction-overlay revisions and digests, turn, Room-policy ref/digest and generation, prompt-policy ref, classification, exposure, local visibility ceiling, expiry, and non-publishing terminal disposition. Schema Gate has positive and refusal-first fixtures. The daemon admits and stores the immutable binding, reconstructs it after restart, and revalidates current membership, denial state, role, overlay, policy generation, exact Agent lineage, ceilings, and expiry before passage admission, invocation, direct product commit, and terminal selection. Only verified local `instruction/rendered` becomes one required P064 operation layer; Room prose remains inert. Collaborative Agents without the Corpus binding refuse, intermediate products stay local, and explicit terminal selection cannot publish a Room turn or Corpus answer. The process smoke covers an expired overlay, foreign actor, lost membership, stale generation, substituted Flow digest, changed-content binding conflict, bind-only admission followed by later execution without rebinding, exact multi-pass execution, visibility-ceiling direction, unpublished selection, dirty restart, and replay without reinference. |
 | `P085-039` | Package, activate, revoke, and roll back reusable inference flows | `done` | `operator-experiment-package.v1` now admits a bounded `inference-flows` registry carrying exact Flow, prompt-policy, output-schema, repair-profile, Agent-policy, model-profile, runtime, optional Corpus role/overlay, and passage-ceiling identities. Model-profile and runtime sets are non-empty, bounded package ceilings; activation and every use require the Agent binding to remain a subset, so egress, cost, and runtime choice cannot be delegated to ambient Flow authority. A flow-only package needs no placeholder hook or semantic entry. Install remains inert; the ordinary durable/session activation journal supplies the generation and operator binding; restart reconstructs durable authority; safe mode, revocation, stale/future generation, package or Flow digest substitution, lost operator binding, compatibility/resource-envelope failure, or a wider Agent binding refuses at every passage and terminal-product use. `agent.inference-flow-binding.v1` repeats the package, generation, and Agent-policy fence atomically, while current Corpus role and overlay revisions are compared only after Corpus validates them. Focused lifecycle, revocation, Rust contract, Schema Gate, process-smoke, and daemon checks are green. The initial profile composes existing meanings only; code-backed semantic additions still require their Phase 2 registry evidence. |
 | `P085-040` | Expose prompt-free inference-flow inspection, audit, and closed refusals | `done` | `agent.inference-flow-inspection.v1` is an accepted, Schema-Gated, bounded prompt-free read model exposed through `agent.status`; it reports exact package/activation, Flow, Agent-policy, current passage, admitted profile refs, product lineage and visibility, explicit terminal selection, spent budget, omitted advisory producer refs, and the decisive restriction for a refused passage. Package inspection separately exposes registered Flow ceilings while retaining activation state as an adjacent authority fact. Positive and incomplete-package fixtures bind schema and Rust semantics. The closed five-code Flow refusal vocabulary has one reaching, restart-durable fixture per code; unknown decision codes, duplicate or oversized omitted-producer projections, and restrictions on non-refused passages fail closed. |
-| `P085-041` | Prove local and Story 012 Room-bound multi-pass acceptance and synchronize documentation | `in-progress` | **Dependency:** completed `P085-034` through `P085-040`, package-component prerequisite `P085-043`, and turn-order integration `P085-044`; this item does not use acceptance-only substitutes for them. The completed local process profile remains a regression obligation: `draft -> critique -> revise -> final`, explicit terminal selection, exact retry without reinference or recharge, dirty-restart lineage reconstruction, changed-body refusal, content-addressed products, prompt-free traces, and no publication authority. The production Corpus/Room join repeats that sequence through an exact current participant role and accepted overlay, rejects expired overlay, lost membership, stale generation, foreign admission, and Flow-digest substitution, keeps intermediates local, leaves selection unpublished, and recovers exact replay after `SIGKILL`. The completed package process slice activates one operator experiment package for the exercised JSON-e Flow definitions, `nse-select-turn-order-table.v1`, role-scoped Agent Flow bindings, configurable passage profiles, resource envelope, budgets, role and instruction-overlay refs, and refusal corpus. It proves reference and alternate turn ordering before HIL, exact replay, changed-body conflict, restart recovery, terminal revocation without semantic fallback, and a separate explicit distribution fallback. Host helpers remain limited to bootstrap, fixture transport, process/VM control, API invocation, and evidence collection; the portable layer is free of secrets, absolute paths, node identities, and live authority refs. The pinned image and real-vfkit base route now pass their closed eleven-check validator. The remaining gate is one retained combined report through `vfkit-system.v1` that additionally binds the package manifest digest and activation generation/receipt; turn-order offer/policy/producer/decision refs and digests; Flow, Agent, binding, role, overlay, Room-policy, passage-profile, terminal product, `CandidatePlan`, revocation, and decisive refusal evidence. The base report and package-only process evidence cannot substitute for that combined report. |
+| `P085-041` | Prove local and Story 012 Room-bound multi-pass acceptance and synchronize documentation | `done` | **Dependency:** completed `P085-034` through `P085-040`, package-component prerequisite `P085-043`, and turn-order integration `P085-044`; this item uses their production paths rather than acceptance substitutes. The retained `2026-08-23.story-012-powerdns-discovery-full-system.macos-arm64.json` report passes the closed 31-check validator through real `vfkit-system.v1` and two separately supervised Qwen2.5-Coder 7B runtimes. It activates the operator package before deliberation, consumes its four-passage Flow and package-owned turn-order producer, records exact package manifest/activation and offer/policy/producer/decision lineage, preserves prompt-free product and authority evidence, reaches the DNS goal after one rejected experiment and one correction from fresh terminal evidence, and proves HIL plus P083 `claim -> invoke -> release`. The flow evidence records both the package ceiling of eight passages and the binding's monotone four-passage narrowing. After node-A restart it proves stale Flow and turn-order replay refusal under retired process authority, then terminal package revocation and a second stale-authority refusal without local semantic fallback. Room prose remains inert and terminal publication authority remains absent. The report digest is `sha256:c54df2a6c9a9198ea589714381219e511b64ca0eb676bd87c686aea7fa62b3eb`. |
 | `P085-042` | Add interactive attention and peer/refusal drill-down UI | `done` | The render-only Node UI consumes the accepted effective-policy projection, separates populated from explicitly unavailable sources, shows material differences, domain registries, peer posture, and the decisive refusal, and follows only bounded projection-owned artifact refs with explicit back-links. The production host composes all 38 effective Inquirium axes plus current Agent, Corpus, and Inquirium semantic registries from their owning strata, and marks Arca, Dator, and federation honestly unavailable when no current source is present. Dedicated peer-mismatch and refusal-provenance views link back to the same accepted projection and the existing operator-notification surface; no view fetches protected artifact bytes. Schema Gate, lifecycle process tests, Node UI tests, and strict Clippy cover the resulting boundary. |
 
 ### Cross-Cutting Package Composition and Turn Scheduling
@@ -2365,11 +2368,10 @@ They remain regression obligations, not future actions.
 1. Preserve `P085-038` as a regression boundary: Corpus owns the exact Room, role,
    overlay, disclosure, and policy-generation binding; Agent Core remains unaware of
    Room semantics, and remote prose never becomes an instruction.
-2. Extend and retain one fresh packaged Story 012 vfkit report using the now-verified
-   prepared image and hardware-VM path. The report must bind the exact package,
-   activation, Flow, turn-order, terminal-product, revocation, VM-image, and vfkit
-   evidence required by `P085-041`; local package-only process runs cannot substitute
-   for this hardware-VM boundary.
+2. Preserve the retained packaged Story 012 vfkit report as the `P085-041`
+   regression boundary. Any replacement must pass the same closed validator and bind
+   package activation, Flow, turn order, terminal product, restart, revocation,
+   stale-refusal, VM-image, and vfkit evidence in one run.
 3. Keep `P085-042` and `P085-044` as regression obligations: host composition must
    continue to report absent sources honestly, and neither Flow, NSE policy, presence,
    nor acceptance helpers may acquire Room floor authority.

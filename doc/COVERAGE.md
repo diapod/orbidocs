@@ -23,9 +23,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | `30-stories` (Stories) | `17` | `1` |
 | `40-proposals` (Proposals) | `90` | `78` |
 | `50-requirements` (Requirements) | `17` | `15` |
-| `60-solutions` (Solutions) | `65` | `44` |
+| `60-solutions` (Solutions) | `66` | `45` |
 
-- Total project markdown files: `248`
+- Total project markdown files: `249`
 - Proposals referencing source material: `78` / `90`
 - Requirements referencing source material: `15` / `17`
 
@@ -407,7 +407,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`story-012-delegated-adaptive-executor-report.v1.schema.json`](schemas-gen/schemas/story-012-delegated-adaptive-executor-report.v1.md) | `14` | `1` | `no` | `yes` | `1` | `1` |
 | [`story-012-delegated-adaptive-executor-report.v2.schema.json`](schemas-gen/schemas/story-012-delegated-adaptive-executor-report.v2.md) | `15` | `0` | `no` | `yes` | `1` | `1` |
 | [`story-012-powerdns-critique-gated-full-system-report.v1.schema.json`](schemas-gen/schemas/story-012-powerdns-critique-gated-full-system-report.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
-| [`story-012-powerdns-discovery-full-system-report.v1.schema.json`](schemas-gen/schemas/story-012-powerdns-discovery-full-system-report.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
+| [`story-012-powerdns-discovery-full-system-report.v1.schema.json`](schemas-gen/schemas/story-012-powerdns-discovery-full-system-report.v1.md) | `17` | `0` | `yes` | `yes` | `1` | `1` |
 | [`story-012-powerdns-full-system-report.v1.schema.json`](schemas-gen/schemas/story-012-powerdns-full-system-report.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
 | [`story-012-vfkit-full-system-report.v1.schema.json`](schemas-gen/schemas/story-012-vfkit-full-system-report.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
 | [`surface-access-policy.v1.schema.json`](schemas-gen/schemas/surface-access-policy.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |

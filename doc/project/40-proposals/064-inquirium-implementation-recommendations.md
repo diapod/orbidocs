@@ -8,7 +8,10 @@ Applies to:
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
 
-Related post-MVP extensibility contract:
+Related post-MVP extensibility solution:
+- `doc/project/60-solutions/048-operator-sovereign-extensibility/048-operator-sovereign-extensibility.md`
+
+Implementation record:
 - `doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`
 
 ## Status

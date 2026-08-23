@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-22.
+Snapshot date: 2026-08-23.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -32,9 +32,13 @@ P085 closeout summary:
 | Proposal | Readiness | Role in P085 closeout | Remaining gap |
 | :--- | ---: | :--- | :--- |
 | P049 | `100%` | Required Flow substrate and `P049-008` are complete | No hard-MVP or P085 dependency gap; `template/ref` and demand-driven language extensions remain explicit post-MVP work |
-| P069 | `100%` | Corpus role, overlay, turn, and Room binding complete | No P085 dependency gap |
+| P069 | `100%` | Corpus role, overlay, turn, and Room binding complete | No P085 dependency gap; additive facilitator role `P069-ROLE-001` remains explicitly deferred to post-MVP |
 | P070 | `100%` | Room authority and floor admission complete | No P085 dependency gap |
-| P085 | `98%` | Package, policy, registry, and hardware-VM base paths implemented | Retained report with complete package-bound Story 012 lineage (`P085-041`) |
+| P085 | `100%` | Package, policy, registry, and package-bound hardware-VM acceptance complete | No implementation gap; `P085-017` remains explicitly deferred to future P087 work |
+
+P085 is promoted to Solution 048. The proposal remains the detailed implementation
+record and tracker; the solution is the canonical description of the implemented
+operator-sovereign extensibility architecture.
 
 The 2026-08-22 P049 refresh records the implemented hard-MVP executor slice as
 complete. Both executor classes, static host-owned Flow steps, bounded policy
@@ -53,12 +57,15 @@ Qwen2.5-Coder 7B successor ready rate is `0.1`, below the `0.6` promotion thresh
 therefore the path remains opt-in and does not change the existing 100 percent
 hard-MVP Corpus or baseline Story 012 rows.
 
-The same post-MVP workstream now retains a fresh passing 30-check model-authored
+The same post-MVP workstream now retains a fresh passing 31-check model-authored
 discovery report for `powerdns-bind-missing-zone-data.v1`. Two supervised
 Qwen2.5-Coder 7B runtimes reached the exact DNS goal through one failed and one
 corrected admitted experiment with fresh terminal evidence, per-effect HIL, and
-P083 lease release. The retained 2026-08-22 run measures 616,183 ms of deliberation
-and 17,226 model tokens. A separate fresh unseeded success exists, while fixed-seed
+P083 lease release. The retained 2026-08-23 run measures 369,053 ms of deliberation
+and 15,863 model tokens. It additionally activates the P085 operator package before
+deliberation, uses its four-passage Flow and turn-order producer, and proves restart,
+revocation, and stale-authority refusal without fallback. A separate fresh unseeded
+success exists, while fixed-seed
 repeatability remains open. The run does not satisfy the separate `0.6`
 critique-to-regeneration
 promotion threshold or prove seeded repeatability. It therefore updates evidence
@@ -301,14 +308,14 @@ restart, target-specific HIL/floor admission, revocation without fallback, and a
 separate no-producer `distribution-policy` run. The 2026-08-21 real-vfkit base run
 now passes its closed eleven-check validator with the pinned GNU/Linux arm64 image,
 so image construction, Docker availability, and the hardware-VM base route are no
-longer blockers. Only the retained packaged vfkit Story 012 report remains open under
-`P085-041`: the fresh 2026-08-22 discovery report now carries complete delegated
-CandidatePlan/P083 authority lineage, but it still does not carry the exact package activation,
-Flow, turn-order, terminal-product, revocation, and decisive-refusal lineage, and the
-package-only process evidence cannot substitute for that combined boundary. The
+longer blockers. The retained 2026-08-23 packaged vfkit Story 012 report closes
+`P085-041` with one combined boundary carrying delegated CandidatePlan/P083 lineage,
+exact package activation, Flow, turn-order, terminal-product, restart, revocation,
+and decisive stale-refusal evidence. The
 prompt-free `daemon.nse-offer-resolution-trace.v1` remains the canonical offer-resolution
-trace consumed by the operator Trace Explorer. P085 therefore stays partial and
-post-MVP; this work does not change hard-MVP readiness.
+trace consumed by the operator Trace Explorer. P085 is therefore implementation-
+complete at 100 percent and is promoted to Solution 048. The solution remains
+additive post-MVP work and does not change hard-MVP readiness.
 
 The post-MVP P086 implementation now provides the neutral communication-observation
 contract family, a checked seven-family boundary registry, a bounded
@@ -320,9 +327,9 @@ dispatch, local/API model HTTP, and Room-carrier seams; authenticated component
 reports cover middleware passage and retained component HTTP while peer-session is
 explicitly planned. Checked load evidence freezes the V1 broker ceilings and proves
 exact accounting plus typed pressure gaps. Full supervised Story 005 evidence covers
-Inquirium simulator request/response communication. The retained 2026-08-22 Story 012
+Inquirium simulator request/response communication. The retained 2026-08-23 Story 012
 full-profile vfkit/Qwen run produces three independent complete node-local recordings
-for Sensorium/Room and Agent/Room without inventing cross-node visibility: 563
+for Sensorium/Room and Agent/Room without inventing cross-node visibility: 564
 requester observations, 19 solver observations, and 22 reviewer observations, all
 with zero gaps or drops. Twenty-one tracker items are complete, three remain
 partial, and two are explicitly deferred; this yields a conservative `90%`
@@ -1468,7 +1475,7 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `45` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `false` | `98` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `true` | `100` |
 | [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `90` |
 
 ## Solutions
@@ -1523,3 +1530,4 @@ Recent component deltas:
 | [Inquirium Assistant Channel](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md) | `false` | `true` | `false` | `100` |
 | [Sensorium Interfaces](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Agent](../60-solutions/047-agent/047-agent.md) | `true` | `true` | `false` | `100` |
+| [Operator-Sovereign Extensibility](../60-solutions/048-operator-sovereign-extensibility/048-operator-sovereign-extensibility.md) | `false` | `false` | `true` | `100` |

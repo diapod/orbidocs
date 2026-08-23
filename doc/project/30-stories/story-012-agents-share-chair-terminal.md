@@ -477,16 +477,26 @@ fresh retained passing macOS arm64 full-system run. Two separately supervised
 Qwen2.5-Coder 7B runtimes completed two round-robin cycles against the second
 challenge. The first model-authored plan was admitted through HIL and P083 but did
 not satisfy the verifier; after fresh terminal evidence, a different model-authored
-plan reached the exact DNS goal. The closed report passes 30 checks, records
-17,226 prompt-plus-completion tokens, 581,864 ms of model time, 616,183 ms of
-deliberation, and 873,979 ms end to end, and reports the host-owned structural
+plan reached the exact DNS goal. The closed report passes 31 checks, records
+15,863 prompt-plus-completion tokens, 344,259 ms of model time, 369,053 ms of
+deliberation, and 561,972 ms end to end, and reports the host-owned structural
 `umask 022` framing separately from unchanged CandidatePlan bytes. It uses no
 deadline fixture and derives no effect directly from Room prose. The same run
-also produced complete P086 recordings with zero gaps or drops: 563 observations
+also produced complete P086 recordings with zero gaps or drops: 564 observations
 on requester node A, 19 on solver node B, and 22 on reviewer node C. A separate
 fresh unseeded full-system success was observed on the same date; fixed-seed
 repeatability remains open. This is deployment evidence, not evidence that the
 critique-to-regeneration v2 path has crossed its separate `0.6` promotion gate.
+
+The same retained run closes the package-bound P085 acceptance boundary. Node A
+activates the operator experiment package before deliberation, uses its exact
+four-passage inference Flow and package-owned turn-order producer, and records the
+offer, policy, producer, decision, activation, passage, and terminal-product lineage.
+The Flow evidence repeats the package ceiling of eight passages and the binding's
+monotone narrowing to the four passages exercised by this profile.
+After restart, stale Flow and turn-order replay attempts refuse under the retired
+process authority; terminal revocation then makes a fresh stale invocation refuse
+without falling back to distribution policy or a local equivalent.
 
 For reproducibility, the story policy supplies a closed allowlisted command-plan
 template to the solver. The real model must carry the exact CandidatePlan marker in
@@ -712,8 +722,8 @@ membership high-water sequence rather than a creation-time or fixture constant.
   widening an individual grant or holding a P083 lease during inference. The
   matrix yields a provisional model-only envelope of 720,000 ms and 24,576 tokens
   after a 25 percent margin. The retained full-system run adds four model turns,
-  17,226 total tokens, 581,864 ms of model time, 616,183 ms of deliberation, and a
-  174,716 ms maximum turn. Keep this task open for explicit between-cycle authority
+  15,863 total tokens, 344,259 ms of model time, 369,053 ms of deliberation, and a
+  120,687 ms maximum turn. Keep this task open for explicit between-cycle authority
   renewal: four cycles at the measured effect-feedback cost do not fit safely under
   one canonical Room authority ceiling.
 - [ ] Require deterministic replay before vfkit and retain repeatable seeded E2E
@@ -733,7 +743,9 @@ membership high-water sequence rather than a creation-time or fixture constant.
   goal through model-authored trial and error without a solution fixture. Do not
   promote a report until the staged bench demonstrates a plausible correction
   path and the closed validator accepts the exact deployment bytes. The retained
-  2026-08-22 Qwen2.5-Coder 7B run passes 30 checks after one nonpassing and one
+  2026-08-23 Qwen2.5-Coder 7B run passes 31 checks after one nonpassing and one
   successful admitted experiment, with fresh terminal feedback, HIL, P083 lease
   release, reported host structural framing, zero direct Room-prose effects, and
-  three complete zero-gap P086 recordings.
+  three complete zero-gap P086 recordings. The same report proves activation and use
+  of the P085 package Flow and turn-order producer, post-restart stale-replay refusal, terminal
+  revocation, and stale-authority refusal without fallback.
