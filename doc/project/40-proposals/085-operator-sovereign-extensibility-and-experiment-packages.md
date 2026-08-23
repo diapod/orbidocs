@@ -1,5 +1,9 @@
 # Proposal 085: Operator-Sovereign Extensibility and Experiment Packages
 
+Promoted to:
+
+- `doc/project/60-solutions/048-operator-sovereign-extensibility/048-operator-sovereign-extensibility.md`
+
 Based on:
 
 - `doc/normative/30-core-values/en/CORE-VALUES.en.md`
@@ -23,7 +27,7 @@ Based on:
 
 ## Status
 
-Draft
+`promoted`
 
 ## Date
 

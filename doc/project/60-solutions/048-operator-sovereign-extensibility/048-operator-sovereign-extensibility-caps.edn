@@ -1,0 +1,185 @@
+{:component/id :orbiplex/operator-sovereign-extensibility
+ :component/title "Operator-Sovereign Extensibility"
+ :component/type :cross-cutting-policy-stratum
+ :component/status :done
+
+ :summary
+ "Host-owned extension lifecycle, offer-contained policy decisions, monotonic
+ resource and authority narrowing, semantic registries, federated posture, and
+ prompt-free operator inspection without extension-owned authority."
+
+ :must-implement
+ [{:cap/id :operator-extension-lifecycle
+   :title "Operator Extension Package Lifecycle"
+   :kind :host-lifecycle
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+              "doc/project/60-solutions/019-middleware/019-middleware.md"]
+   :schemas ["operator-experiment-package.v1"
+             "operator-extension-activation.v1"
+             "operator-extension-session-activation.v1"
+             "operator-extension-session-deactivation.v1"
+             "operator-extension-revocation.v1"
+             "operator-extension-transition.v1"
+             "operator-extension-conformance-report.v1"
+             "operator-extension-safe-mode-action.v1"]
+   :responsibilities
+   ["Install verified package bytes inertly before activation"
+    "Bind conformance activation rollback revocation and session authority to exact identities"
+    "Fence every use by current operator package generation conformance grant and safe-mode state"
+    "Recover append-only lifecycle state and refuse stale authority after restart"]
+   :status :done}
+
+  {:cap/id :operator-nse-offer-admission
+   :title "Offer-Contained NSE Policy Admission"
+   :kind :policy-boundary
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+   :schemas ["nse-hook-offer.v1"
+             "nse-hook-decision.v1"
+             "nse-policy-table.v1"
+             "nse-select-turn-order-table.v1"
+             "nse-middleware-evidence.v1"
+             "daemon.nse-offer-resolution-trace.v1"]
+   :responsibilities
+   ["Separate host-built offers untrusted proposals and admitted decisions"
+    "Reserve bounded producer budgets before execution"
+    "Admit only selecting ordering narrowing restriction risk-raising or offered-transform outcomes"
+    "Keep JSON-e Flow and supervised middleware outside the admission authority"]
+   :status :done}
+
+  {:cap/id :operator-resource-envelope
+   :title "Classified Resource Envelopes"
+   :kind :resource-policy
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+              "doc/project/60-solutions/044-inquirium/044-inquirium.md"]
+   :schemas ["limit-classification.v1"
+             "inquirium-resource-profile.v1"
+             "inquirium-federated-resource-profile.v1"
+             "operator-resource-envelope.v1"
+             "operator-resource-envelope-revocation.v1"]
+   :responsibilities
+   ["Separate normative boundary-safety federated and operational limits"
+    "Resolve the closed Inquirium resource profile with per-axis provenance"
+    "Allow signed widening only inside distributor-owned ranges"
+    "Revalidate exact envelope and profile identities at use"]
+   :status :done}
+
+  {:cap/id :operator-semantic-registries
+   :title "Domain Semantic Registries"
+   :kind :shared-contract
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+   :schemas ["semantic-registry-binding.v1"
+             "semantic-registry-inspection.v1"
+             "dator-dispatch-entry.v1"
+             "corpus-semantic-entry.v1"
+             "arca-strategy-entry.v1"
+             "agent-semantic-entry.v1"
+             "inquirium-operation-descriptor.v1"]
+   :responsibilities
+   ["Intersect explicit distribution federation policy operator and request ceilings"
+    "Keep Dator Corpus Arca Agent and Inquirium semantics domain-owned"
+    "Fence replay by exact ref revision implementation digest and generation"
+    "Refuse empty sets stale bindings and missing capabilities without fallback"]
+   :status :done}
+
+  {:cap/id :operator-derived-authority-and-attention
+   :title "Derived Authority Guards and Attention"
+   :kind :authority-policy
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+              "doc/project/60-solutions/037-capability-registry/037-capability-registry.md"]
+   :schemas ["capability-derived.v1"
+             "operator-guard-hook.v1"
+             "operator-attention-budget.v1"]
+   :responsibilities
+   ["Derive authority only by intersecting current primitive capabilities"
+    "Apply restrict grant-set budget and risk guards at closed host anchors"
+    "Bound and group operator questions without granting authority"
+    "Keep the security lane and non-delegable core live-operator controlled"]
+   :status :done}
+
+  {:cap/id :operator-extension-federation-posture
+   :title "Federated Extension Posture"
+   :kind :federation-policy
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+              "doc/project/60-solutions/038-corpus/038-corpus.md"]
+   :schemas ["federated-envelope-declaration.v2"
+             "node-extension-posture.v1"
+             "node-extension-federation-publication.v1"
+             "node-extension-posture-evaluation.v1"
+             "corpus-reasoning-room-policy.v3"]
+   :responsibilities
+   ["Publish bounded signed node extension posture"
+    "Require exact agreement on every federated registry entry"
+    "Bind Corpus invitations and Inquirium use to current peer posture"
+    "Refuse unknown modified revoked or substituted implementations without local fallback"]
+   :status :done}
+
+  {:cap/id :operator-effective-policy-inspection
+   :title "Effective Policy Inspection"
+   :kind :operator-read-model
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"]
+   :schemas ["operator-extension-inspection.v1"
+             "operator-effective-policy-inspection-input.v1"
+             "operator-effective-policy-inspection.v1"
+             "operator-extension-refusal-code.v1"
+             "operator-extension-refusal.v1"]
+   :responsibilities
+   ["Compose current extension resources registries and federation posture"
+    "Foreground material requested-to-effective differences and decisive restrictions"
+    "Keep inspect explain graph and UI projections bounded and mutually consistent"
+    "Expose prompt-free provenance without signatures secrets payloads or model output"]
+   :status :done}
+
+  {:cap/id :operator-packaged-agent-corpus-vertical
+   :title "Packaged Agent and Corpus Vertical"
+   :kind :cross-domain-acceptance
+   :based-on ["doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+              "doc/project/60-solutions/038-corpus/038-corpus.md"
+              "doc/project/60-solutions/044-inquirium/044-inquirium.md"
+              "doc/project/60-solutions/047-agent/047-agent.md"]
+   :schemas ["corpus-reasoning-inference-flow-binding.v1"
+             "agent.inference-flow-binding.v1"
+             "agent.inference-flow-inspection.v1"
+             "agent.inference-passage-input.v1"
+             "agent.inference-passage-product.v1"
+             "agent.inference-passage-trace.v1"
+             "agent.inference-terminal-selection.v1"
+             "corpus-turn-order-offer.v1"
+             "corpus-turn-order-decision.v1"]
+   :responsibilities
+   ["Activate reusable Agent Flow and Corpus turn-order policy through the package lifecycle"
+    "Revalidate current Corpus authority at passage admission invocation commit and selection"
+    "Keep Room prose inert and product publication consumer-owned"
+    "Prove restart revocation and stale-replay refusal through retained vfkit acceptance"]
+   :status :done}]
+
+ :may-implement
+ [{:cap/id :operator-wasm-nse-backend
+   :title "WASM NSE Decision Backend"
+   :kind :future-backend
+   :based-on ["doc/project/40-proposals/087-wasm-nse-decision-backend.md"]
+   :schemas []
+   :responsibilities
+   ["Implement the import-free no-WASI producer specified by P087"
+    "Reuse the existing package lifecycle offer and hook-owned admission boundary"]
+   :status :deferred}]
+
+ :out-of-scope
+ ["Extension-defined primitive capabilities or ambient host authority"
+  "Package-owned domain admission publication or effect execution"
+  "Implicit package discovery installation activation or semantic fallback"
+  "Unbounded prompt-bearing inspection or audit"
+  "General-purpose WASI or ambient host services for decision modules"]
+
+ :consumes
+ ["fresh node-operator binding and local-control authority"
+  "signed packages envelopes policies and posture"
+  "current primitive capabilities grants trust sanctions and conformance"
+  "host-built domain offers and current domain authority"]
+
+ :produces
+ ["inert package and conformance state"
+  "generation-fenced durable or session activation"
+  "admitted NSE decisions or typed refusals"
+  "effective resource profiles and semantic registry selections"
+  "derived authority guard attention and federation posture decisions"
+  "bounded prompt-free operator inspection and cross-domain acceptance evidence"]}
