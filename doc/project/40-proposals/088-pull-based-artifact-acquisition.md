@@ -17,8 +17,9 @@ Based on:
 
 ## Status
 
-Draft; architecture-ready for the Phase 0 seam audit. Implementation is
-post-MVP and does not block current hard-MVP readiness.
+Draft; all architectural Open Questions were resolved on 2026-08-24, and the
+proposal is ready for the Phase 0 seam audit. Implementation is post-MVP and does
+not block current hard-MVP readiness.
 
 ## Date
 
@@ -252,10 +253,13 @@ An illustrative inline shape is:
 }
 ```
 
-The exact schema remains a Phase 0 output because it should reuse the smallest
-existing archival or object-manifest primitive that satisfies this information
-budget. Reuse must not import question lineage, publication scope, delivery plans,
-or host paths.
+The Phase 0 seam audit applies one deterministic decision rule. If an existing
+archival or object manifest can be extracted into a content-neutral primitive that
+satisfies this information budget without retaining domain policy, that primitive
+is extracted and renamed for shared use. Otherwise P088 introduces the smallest
+new `portable-artifact-package.v1` contract. In either case, archival, delivery,
+and acquisition reference one shared framing primitive. Reuse must not import
+question lineage, publication scope, delivery plans, or host paths.
 
 ### Decision 3: Verification Precedes Semantic Routing
 
@@ -397,6 +401,11 @@ closed table of exact `(inner schema, issuer or trust domain, classification,
 stream or family, acceptor)` tuples is active. They are configuration views, not
 different authorization code paths.
 
+An exact tuple authorizes only invocation of its named acceptor. It does not
+replace the acceptor's domain policy. In particular, Memarium always applies one
+named local classification, retention, and encryption policy after the tuple
+matches; acquisition cannot infer, widen, or bypass that policy.
+
 ### Decision 10: Three State Models Stay Separate
 
 P088 does not create one lifecycle that mixes operation, attempt, and object
@@ -496,7 +505,8 @@ contract and fabricates no stream coordinate. Its authoritative state is the
 monotonic union of verified revocation facts keyed by `revocation_id`, with the
 target and exact fact digest retained for conflict detection. A complete snapshot,
 if added later, must prove completeness separately and cannot silently remove an
-accepted revocation.
+accepted revocation. Individual append-only revocation facts are the only initial
+Criterion A representation.
 
 The merge must never shrink prior revocations. The authoritative union and
 per-fact digest conflict state belong to the revocation admission owner rather
@@ -546,6 +556,12 @@ not cause one admission to invoke several acceptors.
 Successful acquisition, verification, Memarium admission, grouping, or scheduled
 refresh never implies publication.
 
+A public gossip draft may retain only a bounded acquisition receipt ref and a
+public-safe source class by default. A private locator, mailbox identity, private
+source identity, or predictable digest of private content cannot cross into the
+draft without a separate explicit disclosure approval. The approval is evidence
+for disclosure only; it does not grant publication authority.
+
 ### Decision 17: Query Observability Is Connector-Class Data
 
 A connector declares a minimum query-observability class, for example:
@@ -579,6 +595,10 @@ A connector may be shipped as supervised middleware or a P085 experiment package
 but package signature proves provenance only. Installation is inert. The host
 validates the connector manifest and refusal corpus, and a current operator then
 activates each source declaration separately.
+
+Both packaging surfaces admit the same connector manifest contract. P088 does not
+introduce a connector-specific package manager, alternate manifest vocabulary, or
+packaging-dependent validation path.
 
 Content may suggest a draft source pointer for operator review but cannot add,
 activate, replace, or widen the source graph.
@@ -641,6 +661,20 @@ with one primary payload location may carry `fallback-exact` advice to express
 "if this route fails, try there". Malformed advice cannot be treated as an
 implicit redirect or as evidence that any target exists.
 
+The canonical V1 logical INAC location URI is:
+
+```text
+inac:artifact:<peer-subject-pct>:<artifact-id-pct>:sha256:<digest-b64u>
+```
+
+`peer-subject-pct` and `artifact-id-pct` are non-empty UTF-8 values encoded as
+single URI components: bytes outside the RFC 3986 unreserved set are percent-
+encoded with uppercase hexadecimal digits. `digest-b64u` is the unpadded base64url
+SHA-256 value. Authority, user-info, query, and fragment components are forbidden.
+The artifact id and digest encoded by the URI must equal the surrounding advice
+target. The peer subject selects a logical resolver identity; Peer Runtime and
+Seed Directory resolve its current endpoint, which is never embedded in the URI.
+
 ### Decision 22: Parseable Carriers Use An Explicit Extraction Boundary
 
 A source may declare either `carrier/mode: exact-resource` or
@@ -684,10 +718,18 @@ middleware or P085, but installation remains inert and every profile activation 
 operator-owned. Model-assisted or heuristic extraction may propose spans for
 review, but it is not a normative admission path.
 
+The V1 promotion set contains the identity `whole-resource`, armored plain-text,
+static HTML, and bounded RFC 822/MIME profiles. Identity and armored text land
+first; static HTML lands with bounded HTTP(S); RFC 822/MIME is a conformance
+profile before any mailbox connector. Torrent remains a future connector
+candidate and does not define a special extraction profile.
+
 ## Contract Family
 
-V1 has five canonical schemas unless the Phase 0 seam audit proves that an
-existing shared primitive can be referenced directly.
+V1 has five contract roles. Four are P088-owned schemas. The content-neutral
+framing role is satisfied by an extracted shared primitive when the Phase 0 seam
+audit proves that extraction preserves the Decision 2 information budget;
+otherwise it is the minimal new `portable-artifact-package.v1` schema.
 
 ### `portable-artifact-package.v1`
 
@@ -786,8 +828,7 @@ same value later. The schema has explicit caps and closed relation, carrier-mode
 selector-kind, and URI-scheme profiles.
 
 An illustrative message fragment with two targets and several locations is shown
-below. The `inac:` strings demonstrate intent only; P088-OQ7 must freeze their
-canonical grammar before they become wire values.
+below. Its `inac:` values follow the canonical Decision 21 grammar.
 
 ```json
 {
@@ -803,7 +844,7 @@ canonical grammar before they become wire values.
       },
       "locations": [
         {
-          "href": "inac://node-example/artifacts/passport-revocation%3Aexample",
+          "href": "inac:artifact:node-example:passport-revocation%3Aexample:sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
           "carrier/mode": "exact-resource",
           "expires/at": "2026-08-25T12:00:00Z"
         },
@@ -828,7 +869,7 @@ canonical grammar before they become wire values.
       },
       "locations": [
         {
-          "href": "inac://node-example/artifacts/revocation-context%3Aexample",
+          "href": "inac:artifact:node-example:revocation-context%3Aexample:sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
           "carrier/mode": "exact-resource",
           "expires/at": "2026-08-25T12:00:00Z"
         }
@@ -946,6 +987,13 @@ without a reaching fixture fails the schema and refusal-ledger checks.
 
 P088 owns a staging ledger, not a second blob store.
 
+The current `artifact-store:` byte layer becomes the shared immutable object
+primitive only after the Phase 0 audit proves that one owner's expiry or garbage
+collection cannot remove bytes referenced by another owner. Artifact Delivery's
+transfer cache and Artifact Acquisition's staging retain separate ledgers,
+retention decisions, live-reference accounting, and garbage-collection roots. A
+failed proof blocks shared-store reuse; it does not authorize a shared lifecycle.
+
 | State holder | Owner | Key | Bounds and expiry | Restart behavior |
 | :--- | :--- | :--- | :--- | :--- |
 | Immutable carrier and candidate bytes | Shared host object store | Verified content digest plus role in the acquisition ledger | Global and per-source count/bytes; carrier retention may be shorter; evict only with no live staging, extraction, domain, export, or cache reference | Bytes regain no authority; missing referenced bytes are explicit corruption |
@@ -1013,14 +1061,15 @@ inspection never grants admission or publication authority.
 - Audit Memarium quarantine and import idempotency.
 - Audit backup and `archival-package.v1` manifests.
 - Audit P084 bounded fetch, Replay Scheduler, BDO, and classification ingress.
-- Resolve P088-OQ1 through P088-OQ4, P088-OQ7, and P088-OQ8.
+- Apply the resolved framing decision to the seam audit and record whether the
+  shared primitive is extracted or introduced.
 - Freeze transaction boundaries, refusal vocabulary, and schema shapes before
   runtime code.
 
 ### Phase 1: Contracts, Core, And Fixture Connector
 
-- Add the five canonical schemas or exact reused equivalents, positive fixtures,
-  negative matrix, Node mirrors, Schema
+- Add the four P088-owned canonical schemas plus the extracted/reused or introduced
+  shared framing primitive, positive fixtures, negative matrix, Node mirrors, Schema
   Gate coverage, generated docs, and canonical digest vectors.
 - Implement pure ids, receipt derivation, source generation, package framing,
   lifecycle folds, refusal classification, admission-table matching, and stream
@@ -1336,50 +1385,43 @@ until a separate publication decision and signature succeed.
 
 ## Open Questions
 
-1. **P088-OQ1: Shared framing primitive.** Should
-   `portable-artifact-package.v1` be a new minimal schema referenced by archival
-   and delivery contracts, or should an existing object manifest be extracted and
-   renamed? Sensible default: extract or introduce the smallest content-neutral
-   primitive after the Phase 0 seam audit; do not make acquisition depend on
-   archival policy or delivery-plan fields.
-2. **P088-OQ2: First revocation representation.** Should Criterion A carry
-   individual append-only revocations, a complete authenticated snapshot, or both?
-   Sensible default: individual `capability-passport-revocation.v1` facts first,
-   merged through the append-only fact-set profile; add snapshots only with an
-   explicit completeness boundary and replacement proof. No V2 stream sequence is
-   required for Criterion A.
-3. **P088-OQ3: Object-store lifecycle split.** Can current `artifact-store:` bytes
-   become a shared immutable object primitive while delivery transfer-cache and
-   acquisition staging retain separate ledgers and GC references? Sensible default:
-   yes, if the audit proves cache expiry cannot delete live staging, admission, or
-   export references.
-4. **P088-OQ4: Automatic admission policy.** Which tuples may use
-   `admit-known`, and does Memarium require an additional named local policy?
-   Sensible default: exact tuples only, with Memarium always applying its own named
-   classification, retention, and encryption policy.
-5. **P088-OQ5: Connector packaging.** Should connectors use supervised middleware,
-   P085 experiment packages, or both behind one manifest? Sensible default: one
-   manifest contract admitted through either packaging surface, without a P088-
-   specific package manager.
-6. **P088-OQ6: Public-gossip lineage.** Which acquisition evidence may survive into
-   a public gossip draft? Sensible default: a bounded receipt ref and public-safe
-   source class only; no private locator, mailbox identity, or predictable private
-   content digest without explicit disclosure approval.
-7. **P088-OQ7: INAC location URI profile.** Which canonical URI grammar and resolver
-   identity should represent an exact INAC pull without embedding a mutable WSS
-   endpoint? Sensible default: a logical `inac:` URI binding peer subject plus
-   artifact id and digest; current endpoint resolution remains in Peer Runtime and
-   Seed Directory rather than in the advice value.
-8. **P088-OQ8: Initial embedded-carrier profiles.** Which profiles must be built
-   before promotion? Sensible default: identity and armored plain text in the first
-   implementation, static HTML next to HTTP(S), and bounded RFC 822/MIME as a
-   conformance fixture before any mailbox connector; torrent remains a connector
-   candidate, not a special parser.
+No unresolved questions remain. All eight questions were resolved before the
+Phase 0 seam audit and contract freeze.
 
-P088-OQ1 through P088-OQ4, P088-OQ7, and P088-OQ8 must be resolved in Phase 0
-before production schemas, advice resolvers, extraction profiles, or admission
-storage are frozen. P088-OQ5 and P088-OQ6 do not block the fixture,
-operator-paste, local-file, or Criterion A slices.
+Resolved 2026-08-24:
+
+1. **P088-OQ1: Shared framing primitive.** Apply an audit-driven rule: extract and
+   rename the smallest content-neutral existing primitive when that can be done
+   without domain-policy leakage; otherwise introduce the minimal new
+   `portable-artifact-package.v1`. Archival, delivery, and acquisition then
+   reference that one shared primitive.
+2. **P088-OQ2: First revocation representation.** Criterion A carries individual
+   append-only `capability-passport-revocation.v1` facts through the fact-set
+   profile. A future complete snapshot requires an explicit completeness boundary
+   and replacement proof; Criterion A adds no V2 sequence.
+3. **P088-OQ3: Object-store lifecycle split.** Reuse `artifact-store:` as the shared
+   immutable byte primitive only after the seam audit proves that transfer-cache
+   expiry cannot delete live staging, admission, or export references. Delivery
+   and acquisition retain separate ledgers and garbage-collection roots.
+4. **P088-OQ4: Automatic admission policy.** `admit-known` accepts only exact
+   `(inner schema, issuer or trust domain, classification, stream or family,
+   acceptor)` tuples. Memarium always applies its additional named local
+   classification, retention, and encryption policy.
+5. **P088-OQ5: Connector packaging.** One connector manifest contract is admitted
+   through supervised middleware or P085 experiment packages. P088 introduces no
+   package manager or packaging-specific validation path.
+6. **P088-OQ6: Public-gossip lineage.** A public gossip draft may retain only a
+   bounded receipt ref and public-safe source class by default. Private locators,
+   mailbox identities, source identities, and predictable private-content digests
+   require separate explicit disclosure approval.
+7. **P088-OQ7: INAC location URI profile.** Use the logical
+   `inac:artifact:<peer-subject-pct>:<artifact-id-pct>:sha256:<digest-b64u>` URI.
+   Peer Runtime and Seed Directory resolve the current endpoint; mutable network
+   endpoints are not part of advice.
+8. **P088-OQ8: Initial embedded-carrier profiles.** Implement identity and armored
+   plain text first, static HTML with bounded HTTP(S), and bounded RFC 822/MIME as
+   a conformance profile before any mailbox connector. Torrent remains a connector
+   candidate rather than a special parser.
 
 ## Tracker
 
@@ -1388,26 +1430,26 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `P088-001` | Freeze proposal architecture, authority boundaries, V1 scope, phases, invariants, and tracker | `done` | P088 exists; it defines content-neutral framing, operator-owned sources, connector and extractor boundaries, read-only V1, shared scheduling/storage/admission, deterministic receipts, separate lifecycles, family-specific anti-rollback, plural non-authoritative location advice, parseable carriers, one pipeline, two resilience criteria, and non-blocking future connectors. |
-| `P088-002` | Complete the Phase 0 seam audit | `todo` | A checked audit covers Artifact Delivery idempotency/acceptors, object/cache/GC ownership, static revocation writes, family anti-rollback classification and domain owners, Memarium quarantine, backup manifests, P084 bounded fetch, BDO, Replay Scheduler, classification ingress, INAC locator resolution, and parser isolation; every coupled write has a transaction or recovery journal decision. |
-| `P088-003` | Resolve blocking Open Questions | `todo` | Resolved Questions record P088-OQ1 through P088-OQ4, P088-OQ7, and P088-OQ8 before schemas are frozen; P088-OQ5 and P088-OQ6 remain explicitly non-blocking. |
-| `P088-004` | Freeze canonical P088 schemas, refusal vocabulary, and fixtures | `todo` | Five schemas or explicitly reused equivalents have positive fixtures, the complete negative matrix, canonical receipt and extraction vectors, generated docs, Node mirrors, Schema Gate import/export coverage, and one reachable fixture per closed refusal code. |
+| `P088-002` | Complete the Phase 0 seam audit | `todo` | A checked audit covers Artifact Delivery idempotency/acceptors, object/cache/GC ownership, static revocation writes, family anti-rollback classification and domain owners, Memarium quarantine, backup manifests, P084 bounded fetch, BDO, Replay Scheduler, classification ingress, INAC locator resolution, and parser isolation; it records whether framing is extracted or introduced, proves that shared-object GC cannot delete another owner's live reference, and gives every coupled write a transaction or recovery-journal decision. |
+| `P088-003` | Resolve Open Questions | `done` | The dated Resolved Questions record captures P088-OQ1 through P088-OQ8, and every accepted choice is reflected in the decisions, phases, contract family, and tracker. |
+| `P088-004` | Freeze canonical P088 schemas, refusal vocabulary, and fixtures | `todo` | Four P088-owned schemas plus the extracted/reused or introduced shared framing primitive have positive fixtures, the complete negative matrix, canonical receipt and extraction vectors, generated docs, Node mirrors, Schema Gate import/export coverage, and one reachable fixture per closed refusal code. |
 | `P088-005` | Implement pure acquisition core | `todo` | Pure code owns package bounds, source generation validation, deterministic receipt ids, attempt/object/extraction folds, exact admission-table matching, family anti-rollback profile inputs, completeness checks, location-advice caps, and retry classification without daemon, network, filesystem, scheduler, database, Memarium, or domain dependencies. |
-| `P088-006` | Define connector and extractor boundaries with conformance fixtures | `todo` | Fixed-byte `SourceConnector`, identity `whole-resource`, and fixed embedded `CarrierExtractor` fixtures reach the complete common pipeline; adding either changes no verifier, staging, scheduler, admission, or domain-acceptor implementation; dependency/source guards enforce both boundaries. |
+| `P088-006` | Define connector and extractor boundaries with conformance fixtures | `todo` | Fixed-byte `SourceConnector`, identity `whole-resource`, and fixed embedded `CarrierExtractor` fixtures reach the complete common pipeline; adding either changes no verifier, staging, scheduler, admission, or domain-acceptor implementation; one connector manifest validates through supervised middleware and P085 packaging without a P088 package manager; dependency/source guards enforce both boundaries. |
 | `P088-007` | Implement shared-object staging ledger and recovery | `todo` | Carrier and candidate bytes become visible only after incremental size/digest checks and atomic staging; deterministic receipts, object transitions, bounded references, separate retention, expiry, purge, orphan recovery, missing-object corruption, restart convergence, and a generic append-fact extension seam pass without another blob store. Extraction-specific fact identity and projection remain `P088-035`. |
 | `P088-008` | Integrate BDO and Replay Scheduler | `todo` | Manual and scheduled work share one request path; BDO owns long-work lifecycle, Replay Scheduler owns wake-up, no source overlaps its generation, max staleness is explicit, generation-bound `unchanged` advances freshness only, and interrupted work resolves to exact terminal data rather than success. |
 | `P088-009` | Implement inner verification and carrier-neutral anti-rollback profiles | `todo` | Bounded parsing, canonicalization, signature/trust/expiry/revocation checks, ordered-stream fence, append-only fact union and id/digest conflict, authenticated snapshot completeness, signer rotation continuity, domain-owned transaction/journal recovery, and cross-carrier golden vectors pass without fabricating missing sequence coordinates. |
 | `P088-010` | Implement operator source lifecycle and base inspection surfaces | `todo` | Current operator authority gates activation/replacement/revocation; source generations and extraction profile bindings are immutable; credentials and paths stay private; base APIs/UI expose sources, attempts, receipts, staging occupancy, run, pause, resume, review, admit, and revoke actions with extension slots for later advice and extraction projections; effective query observability cannot be lowered. |
-| `P088-011` | Implement one admission pipeline and exact policy table | `todo` | `stage` and `admit-known` share code; only exact verified tuples call one existing acceptor; no match waits for review; the selected domain owner applies one declared anti-rollback profile; acceptor refusal and unknown outcome are typed; no connector or extractor can publish or write Memarium directly. |
+| `P088-011` | Implement one admission pipeline and exact policy table | `todo` | `stage` and `admit-known` share code; only exact verified tuples call one existing acceptor; no match waits for review; the selected domain owner applies one declared anti-rollback profile; Memarium additionally requires its named local classification, retention, and encryption policy; acceptor refusal and unknown outcome are typed; no connector or extractor can publish or write Memarium directly. |
 | `P088-012` | Add explicit classification ingress constructor | `todo` | `Classification::ingress(surface, peer_ref, reason)` exists; legacy helpers are semantically correct wrappers; every existing caller is migrated or deliberately retained with unchanged behavior under regression tests; acquired unlabeled bytes use ingress provenance and `NoLabelAtIngress` without remote-authorship claims. |
 | `P088-013` | Implement operator-paste and bounded local-file connectors | `todo` | Both connectors use `SourceConnector`, read only under exact bounds, reject traversal/symlink/TOCTOU substitutions, support exact-resource acquisition, produce deterministic carrier evidence, and have no hidden Memarium or publication path. Completion of their embedded armored-text path depends on `P088-034` and adds candidate/extraction evidence without changing connector authority. |
 | `P088-014` | Pass Criterion A passport-revocation acceptance | `todo` | Offline paste/file acquisition makes the configured revocation source fresh and dispatch refuses the named passport through append-only fact union; restart converges once; conflict under one revocation id, attempted set shrink, oversize, malformed, bad signature, wrong authority/family, inactive generation, and unsupported consumption mode refuse; exact replay is idempotent. |
 | `P088-015` | Add bounded HTTP(S) connector through the P084 host fetch seam | `todo` | No ambient egress path exists; destination, DNS, redirects, time, bytes, conditional evidence, source generation, staging, query-observability, and exact-resource acquisition are bound; the connector returns bounded carrier bytes without parsing HTML; HTTP hints never replace artifact freshness; load evidence is recorded. |
 | `P088-016` | Implement logical revocation source over several carriers | `todo` | Carrier-neutral source identity, contribution, accepted fact-set state, freshness, and refusal projection are explicit; a stale physical carrier is not a permanent independent veto after an alternate admitted carrier advances the same logical source. |
 | `P088-017` | Pass Criterion B crisis-detector acceptance | `todo` | Alternate-carrier refresh updates the logical source, aggregate revocation freshness becomes current, and `revocation-freshness-stale` resolves through ordinary lifecycle evaluation without force-resolution or duplicate source identity. |
-| `P088-018` | Prove Memarium and Harvester reuse without authority fan-out | `todo` | One staged digest anchors separately admitted Memarium and Harvester-derived artifacts; each uses its exact acceptor and policy; no gossip reaches Agora without a separate approval and signature; private lineage remains bounded. |
+| `P088-018` | Prove Memarium and Harvester reuse without authority fan-out | `todo` | One staged digest anchors separately admitted Memarium and Harvester-derived artifacts; each uses its exact acceptor and policy; no gossip reaches Agora without a separate approval and signature; default public lineage contains only a bounded receipt ref and public-safe source class, while every private locator, identity, or predictable digest requires separate disclosure approval. |
 | `P088-019` | Complete overload, retention, recovery, rollback, and secret-safety evidence | `todo` | Tests cover caps, queue pressure, expiry/purge, source revocation races, crash points, missing carrier/candidate objects, pointer inertness, parser expansion, active-content refusal, location cycles/fan-out, stale credentials, ordered and set conflicts, whole-path logs, operator projections, and P086 advisory replay without secret leakage. |
 | `P088-020` | Synchronize documentation, ledgers, guides, and readiness scope | `todo` | Proposal tracker, P042/INAC, Artifact Delivery, related proposals/solutions, implementation ledger, canonical schemas and mirrors, generated docs, operator HOWTO/FAQ, acceptance evidence, and explicit post-MVP readiness classification agree with code. |
-| `P088-021` | Promote Artifact Acquisition to a Solution | `todo` | Criterion A, HTTP, one embedded-carrier profile, and one INAC advisory-location path pass; remaining deferred scope is explicit; the Solution records actual owners and evidence rather than proposal intent. Criterion B may remain a named post-promotion hardening item only if no readiness claim depends on it. |
+| `P088-021` | Promote Artifact Acquisition to a Solution | `todo` | Criterion A, HTTP, identity, armored plain-text, static-HTML, bounded RFC 822/MIME conformance, and one INAC advisory-location path pass; no mailbox or torrent connector is required; remaining deferred scope is explicit; the Solution records actual owners and evidence rather than proposal intent. Criterion B may remain a named post-promotion hardening item only if no readiness claim depends on it. |
 | `P088-022` | Define consuming-source protocol | `deferred` | A later versioned proposal may add acknowledge/delete semantics only with durable stage-before-ack, idempotent remote commit, unknown-outcome reconciliation, restart tests, and explicit operator authority. It is not V1 work. |
 | `P088-023` | Implement bounded plural artifact-location advice and INAC integration | `todo` | Epic; complete only when `P088-025` through `P088-031` and shared integration `P088-039` are `done`. `artifact-location-advice.v1` supports capped exact alternates, exact fallbacks, related artifacts, and exact-resource or embedded-artifact locations in one message; INAC retains one primary payload location; host-derived reporter provenance, expiry, secret rejection, policy-gated one-shot resolution, no source creation, no recursion, visited-set/cycle handling, and operator inspection pass. |
 | `P088-024` | Implement parseable-carrier extraction profiles | `todo` | Epic; complete only when `P088-032` through `P088-038` are `done`. `CarrierExtractor` is offline and host-bounded; identity, armored text, static HTML, and RFC 822/MIME fixtures bind carrier/profile/implementation/selector/candidate evidence; active content, external entities, subresource access, ambiguous output, profile substitution, and cap violations refuse before admission. `P088-039` composes this completed surface with INAC but is not required for local extraction. |
@@ -1450,7 +1492,7 @@ those artifacts apply.
 
 | ID | Work item | Depends on | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- | :--- |
-| `P088-025` | Register the location-advice contract in INAC | `P088-002`, `P088-003`, `P088-004` | `todo` | The frozen advice schema is registered as an optional INAC control-plane value separate from the primary payload-location `oneOf`; the resolved `inac:` URI profile, relation vocabulary, exact inner-target coordinates, carrier modes, expiry, caps, secret-bearing URI refusals, unavailable-response variants, Node mirror, Schema Gate registration, and positive/negative fixtures agree. |
+| `P088-025` | Register the location-advice contract in INAC | `P088-002`, `P088-003`, `P088-004` | `todo` | The frozen advice schema is registered as an optional INAC control-plane value separate from the primary payload-location `oneOf`; the canonical logical `inac:artifact:<peer-subject-pct>:<artifact-id-pct>:sha256:<digest-b64u>` profile, relation vocabulary, exact inner-target coordinates, carrier modes, expiry, caps, secret-bearing URI refusals, unavailable-response variants, Node mirror, Schema Gate registration, and positive/negative fixtures agree. |
 | `P088-026` | Implement the pure location-advice validator and resolution planner | `P088-005`, `P088-025` | `todo` | Pure code validates and normalizes policy-comparison keys without changing remote authority, enforces relation semantics and all caps, derives deterministic visited-set keys, rejects cycles and recursive plans, and returns an inert bounded plan or a closed refusal without network, daemon, filesystem, credentials, or Artifact Delivery dependencies. |
 | `P088-027` | Wire advice into INAC ingress and egress | `P088-025`, `P088-026`, P042 INAC control runtime | `todo` | Offer/push keeps exactly one primary location; unavailable responses and ordinary control messages carry bounded advice; ingress overwrites reporter identity with authenticated session evidence; malformed advice is refused or omitted according to the frozen contract and never becomes an implicit redirect, source, payload, or Artifact Delivery call. |
 | `P088-028` | Implement the host-owned one-shot resolution engine | `P088-006`, `P088-008`, `P088-026` | `todo` | One BDO-backed engine intersects advice with current operator policy, reserves target/location/attempt/time/byte budgets before work, dispatches only through an injected admitted resolver adapter, preserves visited state across retry, creates no durable source, follows no nested advice, and yields carrier bytes or a typed terminal/unknown result. A fixed resolver fixture proves the boundary before network adapters. |
@@ -1469,18 +1511,16 @@ those artifacts apply.
 ## Next Actions
 
 1. Execute `P088-002` before adding schemas or runtime crates.
-2. Resolve P088-OQ1 through P088-OQ4, P088-OQ7, and P088-OQ8 and record the
-   decisions in this proposal.
-3. Implement `P088-004` through `P088-009` before adding a real filesystem or
+2. Implement `P088-004` through `P088-009` before adding a real filesystem or
    network connector.
-4. Treat `P088-006` as the architectural boundary proof and `P088-014` as the
+3. Treat `P088-006` as the architectural boundary proof and `P088-014` as the
    first user-value proof.
-5. After the foundation, execute `P088-025` through `P088-031` and `P088-032`
+4. After the foundation, execute `P088-025` through `P088-031` and `P088-032`
    through `P088-038` as parallel workstreams; join them only in `P088-039`.
-6. Keep `P088-023` open until the advice stream and `P088-039` pass; close
+5. Keep `P088-023` open until the advice stream and `P088-039` pass; close
    `P088-024` independently when `P088-032` through `P088-038` pass.
-7. Do not start Criterion B merely to make Criterion A pass.
-8. Promote a Solution only through `P088-021`; a connector demo or successful
+6. Do not start Criterion B merely to make Criterion A pass.
+7. Promote a Solution only through `P088-021`; a connector demo or successful
    download alone is insufficient.
 
 ## Related Documents
