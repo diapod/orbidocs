@@ -734,11 +734,13 @@ key cannot cross provider scope, while manual trust remains the explicit
 host-wide override. Expiry or revocation fails closed with bounded metadata-only
 diagnostics, and current manifest authority is re-evaluated during activation,
 rollback, and planned-transition recovery rather than being inherited
-permanently from an install receipt. A
-Linux x86_64/CPU profile now shares
-the same lifecycle/report contract and has native ELF/dependency gates, but a
-real Linux host report remains outstanding. Publication of a production-key-
-signed `llama-server` release, real process acceptance on Linux x86_64/CPU, and operator
+permanently from an install receipt. The Linux x86_64/CPU profile shares the
+same lifecycle/report contract and native ELF/dependency gates. A retained
+nine-check report from native Debian x86_64 proves install, conformance, real
+inference, dirty restart, upgrade, rollback, removal, and active generation 3;
+its file digest is
+`sha256:3643c46550ca6bc4044920eb1b69c43bd58e22a928b78a2528d6f80134c58ef3`.
+Publication of a production-key-signed `llama-server` release and operator
 rebind after root/control-plane loss remain open. These items are explicitly
 outside the P066 hard-MVP denominator, so the Inquirium readiness percentages do
 not change.

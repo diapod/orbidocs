@@ -25,6 +25,6 @@
     "negative-matrix"
   ],
   "measurements": { "install-ms": 1800001, "warmup-ms": 2000, "first-inference-ms": 3000 },
-  "budgets": { "install-ms-max": 1800000, "warmup-ms-max": 300000, "first-inference-ms-max": 120000 },
+  "budgets": { "install-ms-max": 1800000, "warmup-ms-max": 420000, "first-inference-ms-max": 120000 },
   "generations": { "active-profile": 3 }
 }

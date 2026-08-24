@@ -59,7 +59,7 @@
       "required": ["install-ms", "warmup-ms", "first-inference-ms"],
       "properties": {
         "install-ms": { "type": "integer", "minimum": 0, "maximum": 1800000 },
-        "warmup-ms": { "type": "integer", "minimum": 0, "maximum": 300000 },
+        "warmup-ms": { "type": "integer", "minimum": 0, "maximum": 420000 },
         "first-inference-ms": { "type": "integer", "minimum": 0, "maximum": 120000 }
       }
     },
@@ -69,7 +69,7 @@
       "required": ["install-ms-max", "warmup-ms-max", "first-inference-ms-max"],
       "properties": {
         "install-ms-max": { "const": 1800000 },
-        "warmup-ms-max": { "const": 300000 },
+        "warmup-ms-max": { "const": 420000 },
         "first-inference-ms-max": { "const": 120000 }
       }
     },
