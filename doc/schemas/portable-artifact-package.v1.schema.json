@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:portable-artifact-package:v1",
+  "title": "Portable Artifact Package v1",
+  "description": "Content-neutral framing for one inline artifact or one bounded manifest of inline files. The package carries no artifact schema, authority, classification, provenance, admission, retention, or publication semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/088-pull-based-artifact-acquisition.md"
+  ],
+  "required": ["schema", "schema/v", "package/layout"],
+  "properties": {
+    "schema": { "const": "portable-artifact-package.v1" },
+    "schema/v": { "const": 1 },
+    "package/layout": { "enum": ["inline", "manifest"] },
+    "content/encoding": { "const": "base64url" },
+    "content/digest": { "$ref": "#/$defs/digest" },
+    "content/size": { "$ref": "#/$defs/size" },
+    "content/inline": { "$ref": "#/$defs/encoded" },
+    "manifest/root": { "$ref": "#/$defs/relativePath" },
+    "manifest/digest": { "$ref": "#/$defs/digest" },
+    "manifest/size": { "type": "integer", "minimum": 1, "maximum": 67108864 },
+    "manifest/entries": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "package/layout": { "const": "inline" } } },
+      "then": {
+        "required": ["content/encoding", "content/digest", "content/size", "content/inline"],
+        "not": {
+          "anyOf": [
+            { "required": ["manifest/root"] },
+            { "required": ["manifest/digest"] },
+            { "required": ["manifest/size"] },
+            { "required": ["manifest/entries"] }
+          ]
+        }
+      },
+      "else": {
+        "required": ["manifest/root", "manifest/digest", "manifest/size", "manifest/entries"],
+        "not": {
+          "anyOf": [
+            { "required": ["content/encoding"] },
+            { "required": ["content/digest"] },
+            { "required": ["content/size"] },
+            { "required": ["content/inline"] }
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 8388608
+    },
+    "encoded": {
+      "type": "string",
+      "maxLength": 11184812,
+      "pattern": "^[A-Za-z0-9_-]*$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^(?!/)(?!.*(?:^|/)[.][.](?:/|$))(?!.*//)(?!.*\\\\)[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$"
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "content/encoding", "content/digest", "content/size", "content/inline"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relativePath" },
+        "role": { "enum": ["root", "blob"] },
+        "content/encoding": { "const": "base64url" },
+        "content/digest": { "$ref": "#/$defs/digest" },
+        "content/size": { "$ref": "#/$defs/size" },
+        "content/inline": { "$ref": "#/$defs/encoded" }
+      }
+    }
+  }
+}

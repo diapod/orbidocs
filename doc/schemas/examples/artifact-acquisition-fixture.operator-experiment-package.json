@@ -1,0 +1,30 @@
+{
+  "schema": "operator-experiment-package.v1",
+  "schema/v": 1,
+  "package/ref": "extension-package:artifact-acquisition-fixed-source-connector",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "middleware-package/ref": "middleware-package:artifact-acquisition-fixed-source-connector",
+  "middleware-package/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "hooks": [],
+  "semantic-entries": [
+    {
+      "domain": "artifact-acquisition/source-connector",
+      "entry/ref": "source-connector:fixed-bytes:v1",
+      "entry/revision": 1,
+      "implementation/ref": "component/middleware/artifact-acquisition-fixed-source-connector",
+      "entry/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  ],
+  "inference-flows": [],
+  "compatibility": {
+    "host/os": ["linux", "macos"],
+    "host/arch": ["x86_64", "aarch64"]
+  },
+  "required-capability/ids": ["artifact-acquisition.source-connector"],
+  "resource-envelope/refs": [],
+  "derived-capability/refs": [],
+  "refusal-corpus/ref": "refusal-corpus:artifact-acquisition-fixed-source-connector",
+  "refusal-corpus/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "rollback/ref": "rollback:artifact-acquisition-fixed-source-connector",
+  "operational/class": "test"
+}

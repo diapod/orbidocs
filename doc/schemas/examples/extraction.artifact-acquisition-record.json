@@ -1,0 +1,27 @@
+{
+  "schema": "artifact-acquisition-record.v1",
+  "schema/v": 1,
+  "record/kind": "extraction",
+  "extraction/id": "artifact-extraction:sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+  "source/id": "artifact-source:fixture:portable-package",
+  "source/generation": 1,
+  "carrier": {
+    "digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+    "size-bytes": 256
+  },
+  "profile": {
+    "ref": "artifact-extraction-profile:whole-resource:v1",
+    "digest": "sha256:z5AvaBAV117cuHgZ-yWEoYhln9To3pVyFqcbrv5gud0",
+    "implementation/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "selector": {
+    "kind": "whole-resource",
+    "digest": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+  },
+  "candidate": {
+    "ordinal": 0,
+    "digest": "sha256:QJHqlMSpxk0VNMqpg5UwFEAjSD_molqFl74bv2woG5M",
+    "size-bytes": 23
+  },
+  "receipt/ref": "acquisition-receipt:sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+}

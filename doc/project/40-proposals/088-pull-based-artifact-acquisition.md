@@ -17,9 +17,14 @@ Based on:
 
 ## Status
 
-Draft; all architectural Open Questions and the Phase 0 seam audit were completed
-on 2026-08-24. The proposal is ready for the Phase 1 contract freeze.
-Implementation is post-MVP and does not block current hard-MVP readiness.
+Draft; all architectural Open Questions, the Phase 0 seam audit, and the
+`P088-005` through `P088-006` executable-contract foundation were completed on
+2026-08-24. `P088-004` remains partial: behavior probes reach all 20 refusal
+codes emitted by the pure core, while 12 host-emitted codes retain explicit
+owning-story deferrals instead of being presented as implemented evidence. The
+next dependency-ordered item is the `P088-007` shared-object staging ledger and
+recovery boundary. Implementation remains post-MVP and does not block current
+hard-MVP readiness.
 
 ## Date
 
@@ -891,8 +896,15 @@ Uses a required `record/kind` discriminator with the closed V1 values:
 
 The schema contains the closed attempt outcomes and refusal vocabulary as shared
 definitions rather than introducing backend-specific strings. Every refusal code
-has at least one reaching negative fixture and declares `terminal`, `retryable`, or
-`reconcile-required`.
+declares `terminal`, `retryable`, or `reconcile-required`; the external golden
+classifies whether a reaching behavior probe exists now or belongs to a later
+host-owned story.
+
+For `receipts-created`, `candidate/count` records the number of verified candidates
+before receipt deduplication, while `receipt/refs` contains distinct created or
+replayed receipts. The typed record validator introduced by `P088-007` must enforce
+`1 <= receipt/refs.len() <= candidate/count <= 64`. JSON Schema bounds both fields
+and requires them together but does not express this cross-field cardinality rule.
 
 An illustrative `unchanged` attempt also makes freshness semantics explicit:
 
@@ -1332,6 +1344,8 @@ until a separate publication decision and signature succeed.
   source material.
 - **INV-ACQ-RECEIPT-DETERMINISTIC:** One source generation and content digest derive
   one domain-separated receipt id.
+- **INV-ACQ-RECEIPTS-DO-NOT-OUTNUMBER-CANDIDATES:** A successful attempt can emit
+  no more distinct receipt refs than the number of verified candidates it records.
 - **INV-ACQ-ANTI-ROLLBACK-CARRIER-NEUTRAL:** All carriers for one domain family and
   authority scope share the same durable anti-rollback profile state.
 - **INV-ACQ-ROTATION-DOES-NOT-RESET-ANTI-ROLLBACK:** A new authorized signer cannot
@@ -1479,10 +1493,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P088-001` | Freeze proposal architecture, authority boundaries, V1 scope, phases, invariants, and tracker | `done` | P088 exists; it defines content-neutral framing, operator-owned sources, connector and extractor boundaries, read-only V1, shared scheduling/storage/admission, deterministic receipts, separate lifecycles, family-specific anti-rollback, plural non-authoritative location advice, parseable carriers, one pipeline, two resilience criteria, and non-blocking future connectors. |
 | `P088-002` | Complete the Phase 0 seam audit | `done` | The dated Phase 0 Audit Record covers Artifact Delivery idempotency/acceptors, object/cache/GC ownership, static revocation writes, family anti-rollback classification and domain owners, Memarium quarantine, backup manifests, P084 bounded fetch, BDO, Replay Scheduler, classification ingress, INAC locator resolution, and parser isolation. It introduces framing, proves transfer-cache GC cannot reach shared staging, requires zero-live-reference shared-object deletion, and assigns every coupled write a transaction or recovery journal. Focused Rust suites passed for Artifact Delivery (60), bounded-fetch core (6) and host (22), classification (24), BDO (12), Replay Scheduler (14), INAC (41), and Memarium (82); Sensorium Web passed 24 tests. |
 | `P088-003` | Resolve Open Questions | `done` | The dated Resolved Questions record captures P088-OQ1 through P088-OQ8, and every accepted choice is reflected in the decisions, phases, contract family, and tracker. |
-| `P088-004` | Freeze canonical P088 schemas, refusal vocabulary, and fixtures | `todo` | Four P088-owned schemas plus the new shared framing primitive have positive fixtures, the complete negative matrix, canonical receipt and extraction vectors, generated docs, Node mirrors, Schema Gate import/export coverage, and one reachable fixture per closed refusal code. |
-| `P088-005` | Implement pure acquisition core | `todo` | Pure code owns package bounds, source generation validation, deterministic receipt ids, attempt/object/extraction folds, exact admission-table matching, family anti-rollback profile inputs, completeness checks, location-advice caps, and retry classification without daemon, network, filesystem, scheduler, database, Memarium, or domain dependencies. |
-| `P088-006` | Define connector and extractor boundaries with conformance fixtures | `todo` | Fixed-byte `SourceConnector`, identity `whole-resource`, and fixed embedded `CarrierExtractor` fixtures reach the complete common pipeline; adding either changes no verifier, staging, scheduler, admission, or domain-acceptor implementation; one connector manifest validates through supervised middleware and P085 packaging without a P088 package manager; dependency/source guards enforce both boundaries. |
-| `P088-007` | Implement shared-object staging ledger and recovery | `todo` | Carrier and candidate bytes become visible only after incremental size/digest checks and atomic staging; deterministic receipts, object transitions, bounded references, separate retention, expiry, purge, orphan recovery, missing-object corruption, restart convergence, and a generic append-fact extension seam pass without another blob store. Extraction-specific fact identity and projection remain `P088-035`. |
+| `P088-004` | Freeze canonical P088 schemas, refusal vocabulary, and fixtures | `partial` | Canonical `portable-artifact-package.v1`, `artifact-source.v1`, `artifact-extraction-profile.v1`, `artifact-location-advice.v1`, and `artifact-acquisition-record.v1` are closed, mirrored into Node, and rendered into generated schema docs. Positive and cross-field negative fixtures cover every family, including layout, canonical base64url, path traversal, source generation, profile binding, secret-bearing URL user-info/query forms, acquisition outcome evidence, unknown refusal codes, and code/retry-class mismatch. Schema Gate exposes import/export validation for all five families and deterministically enumerates every matching positive and invalid P088 fixture, so adding a fixture cannot leave it outside the suite. External goldens fix receipt/extraction ids and classify all 32 refusal codes with exact retry classes. Reaching behavior probes cover all 20 codes currently emitted by the pure core; the remaining 12 are explicitly marked `deferred-host-emission` with owning stories `P088-007`, `P088-008`, `P088-009`, `P088-013`, `P088-026`, `P088-029`, and `P088-033`. The item returns to `done` only when each deferred owner supplies a reaching fixture. `make validate-schemas` and the focused Schema Gate P088 suite pass. |
+| `P088-005` | Implement pure acquisition core | `done` | `artifact-acquisition-core` owns bounded inline/manifest package verification, immutable source-generation validation, domain-separated deterministic receipt/extraction ids, separate attempt/object/extraction folds, whole-table validation plus exact admission matching, ordered-stream, append-only fact-set, and authenticated-snapshot evidence checks, bounded secret-safe location advice, and the closed retry classifier. Its manifest and source guards exclude daemon, network, filesystem, scheduler, database, Memarium, Artifact Delivery, and domain dependencies. External identity/refusal goldens and the crate's unit/integration tests pass under Clippy `-D warnings`. |
+| `P088-006` | Define connector and extractor boundaries with conformance fixtures | `done` | The pure crate defines injected `SourceConnector`, offline `CarrierExtractor`, bounded `CandidateSink`, and verifier seams without exposing storage, scheduler, publication, or domain-acceptor handles. Fixed-byte connector plus identity `whole-resource` and fixed embedded extractors traverse one inert connector → extraction → package verification → exact admission pipeline; malformed policy is refused before connector read, profile substitution and ambiguous embedding fail closed, and the result names but never invokes an acceptor. Dependency/source guards pass. Linked connector fixtures validate through the existing supervised middleware contract and P085 experiment-package contract without a P088 package manager. |
+| `P088-007` | Implement shared-object staging ledger and recovery | `todo` | Carrier and candidate bytes become visible only after incremental size/digest checks and atomic staging; deterministic receipts, object transitions, bounded references, separate retention, expiry, purge, orphan recovery, missing-object corruption, restart convergence, and a generic append-fact extension seam pass without another blob store. The typed attempt-record validator enforces `1 <= receipt/refs.len() <= candidate/count <= 64` for `receipts-created`, in addition to schema validation. Extraction-specific fact identity and projection remain `P088-035`. |
 | `P088-008` | Integrate BDO and Replay Scheduler | `todo` | Manual and scheduled work share one request path; BDO owns long-work lifecycle, Replay Scheduler owns wake-up, no source overlaps its generation, max staleness is explicit, generation-bound `unchanged` advances freshness only, and interrupted work resolves to exact terminal data rather than success. |
 | `P088-009` | Implement inner verification and carrier-neutral anti-rollback profiles | `todo` | Bounded parsing, canonicalization, signature/trust/expiry/revocation checks, ordered-stream fence, append-only fact union and id/digest conflict, authenticated snapshot completeness, signer rotation continuity, domain-owned transaction/journal recovery, and cross-carrier golden vectors pass without fabricating missing sequence coordinates. |
 | `P088-010` | Implement operator source lifecycle and base inspection surfaces | `todo` | Current operator authority gates activation/replacement/revocation; source generations and extraction profile bindings are immutable; credentials and paths stay private; base APIs/UI expose sources, attempts, receipts, staging occupancy, run, pause, resume, review, admit, and revoke actions with extension slots for later advice and extraction projections; effective query observability cannot be lowered. |
@@ -1557,16 +1571,19 @@ those artifacts apply.
 
 ## Next Actions
 
-1. Implement `P088-004` through `P088-009` before adding a real filesystem or
+1. Implement `P088-007` through `P088-009` before adding a real filesystem or
    network connector.
 2. Treat `P088-006` as the architectural boundary proof and `P088-014` as the
    first user-value proof.
-3. After the foundation, execute `P088-025` through `P088-031` and `P088-032`
+3. Replace each `deferred-host-emission` refusal entry with a reaching fixture
+   in its owning story; return `P088-004` to `done` only after the last deferral
+   is closed.
+4. After the foundation, execute `P088-025` through `P088-031` and `P088-032`
    through `P088-038` as parallel workstreams; join them only in `P088-039`.
-4. Keep `P088-023` open until the advice stream and `P088-039` pass; close
+5. Keep `P088-023` open until the advice stream and `P088-039` pass; close
    `P088-024` independently when `P088-032` through `P088-038` pass.
-5. Do not start Criterion B merely to make Criterion A pass.
-6. Promote a Solution only through `P088-021`; a connector demo or successful
+6. Do not start Criterion B merely to make Criterion A pass.
+7. Promote a Solution only through `P088-021`; a connector demo or successful
    download alone is insufficient.
 
 ## Related Documents

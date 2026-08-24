@@ -1,0 +1,26 @@
+{
+  "schema": "artifact-acquisition-identity-golden.v1",
+  "schema/v": 1,
+  "receipt/cases": [
+    {
+      "source/id": "artifact-source:fixture",
+      "source/generation": 7,
+      "content/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "content/size-bytes": 23,
+      "expected/id": "acquisition-receipt:sha256:zPVMMLkHZnQ2_zQystKaknc5-EJeqDe5CfYdVggknwc"
+    }
+  ],
+  "extraction/cases": [
+    {
+      "source/id": "artifact-source:fixture",
+      "source/generation": 7,
+      "carrier/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      "profile/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+      "implementation/digest": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+      "selector/digest": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+      "candidate/ordinal": 0,
+      "candidate/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "expected/id": "artifact-extraction:sha256:X0GfXhdd45JxdbDFw5An2DymTU39ImmzJoH0R3ijEUI"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "artifact-extraction-profile.v1",
+  "schema/v": 1,
+  "profile/ref": "artifact-extraction-profile:whole-resource:v1",
+  "parser/id": "whole-resource:v1",
+  "implementation/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "carrier/content-types": ["application/json"],
+  "selector/kinds": ["whole-resource"],
+  "candidate/framing": "portable-package",
+  "candidate/cardinality": "exact-one",
+  "limits": { "carrier/bytes-max": 1048576, "parse/depth-max": 16, "nodes/max": 256, "candidates/max": 0, "candidate/bytes-max": 1048576, "total-extracted/bytes-max": 1048576, "temporary-storage/bytes-max": 0, "duration/ms-max": 1000 }
+}

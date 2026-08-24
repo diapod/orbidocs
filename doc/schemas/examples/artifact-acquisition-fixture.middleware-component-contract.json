@@ -1,0 +1,12 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "component/middleware/artifact-acquisition-fixed-source-connector",
+  "provides": [
+    {
+      "capability/ref": "local/artifact-acquisition-source-connector",
+      "contract/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  ],
+  "requires": [],
+  "effects": {}
+}

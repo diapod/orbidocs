@@ -1,0 +1,17 @@
+{
+  "schema": "artifact-acquisition-record.v1",
+  "schema/v": 1,
+  "record/kind": "attempt",
+  "attempt/id": "artifact-acquisition-attempt:fixture:receipts-created",
+  "operation/ref": "deferred-operation:fixture:receipts-created",
+  "source/id": "artifact-source:fixture:portable-package",
+  "source/generation": 1,
+  "outcome": "receipts-created",
+  "checked/at": "2026-08-24T12:00:00Z",
+  "freshness/advanced": true,
+  "candidate/count": 2,
+  "receipt/refs": [
+    "acquisition-receipt:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "acquisition-receipt:sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+  ]
+}

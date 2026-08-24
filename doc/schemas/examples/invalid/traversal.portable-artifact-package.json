@@ -1,0 +1,18 @@
+{
+  "schema": "portable-artifact-package.v1",
+  "schema/v": 1,
+  "package/layout": "manifest",
+  "manifest/root": "../artifact.json",
+  "manifest/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "manifest/size": 23,
+  "manifest/entries": [
+    {
+      "path": "../artifact.json",
+      "role": "root",
+      "content/encoding": "base64url",
+      "content/digest": "sha256:QJHqlMSpxk0VNMqpg5UwFEAjSD_molqFl74bv2woG5M",
+      "content/size": 23,
+      "content/inline": "eyJzY2hlbWEiOiJleGFtcGxlLnYxIn0"
+    }
+  ]
+}

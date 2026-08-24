@@ -89,6 +89,21 @@ schema_for_file() {
     *.artifact-object-pointer.json)
       echo "$SCHEMAS_DIR/artifact-object-pointer.v1.schema.json"
       ;;
+    *.portable-artifact-package.json)
+      echo "$SCHEMAS_DIR/portable-artifact-package.v1.schema.json"
+      ;;
+    *.artifact-source.json)
+      echo "$SCHEMAS_DIR/artifact-source.v1.schema.json"
+      ;;
+    *.artifact-extraction-profile.json)
+      echo "$SCHEMAS_DIR/artifact-extraction-profile.v1.schema.json"
+      ;;
+    *.artifact-location-advice.json)
+      echo "$SCHEMAS_DIR/artifact-location-advice.v1.schema.json"
+      ;;
+    *.artifact-acquisition-record.json)
+      echo "$SCHEMAS_DIR/artifact-acquisition-record.v1.schema.json"
+      ;;
     *.middleware-channel-hello.json)
       echo "$SCHEMAS_DIR/middleware-channel-hello.v1.schema.json"
       ;;

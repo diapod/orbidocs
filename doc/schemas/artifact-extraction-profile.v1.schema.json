@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-extraction-profile:v1",
+  "title": "Artifact Extraction Profile v1",
+  "description": "Operator-admitted, content-neutral and offline extraction profile. The profile selects one implementation and bounds parsing and candidate output; it carries no locator, source activation, credentials, artifact authority, admission, or publication authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/088-pull-based-artifact-acquisition.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "profile/ref",
+    "parser/id",
+    "implementation/digest",
+    "carrier/content-types",
+    "selector/kinds",
+    "candidate/framing",
+    "candidate/cardinality",
+    "limits"
+  ],
+  "properties": {
+    "schema": { "const": "artifact-extraction-profile.v1" },
+    "schema/v": { "const": 1 },
+    "profile/ref": { "$ref": "#/$defs/ref" },
+    "parser/id": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[a-z][a-z0-9._:-]*$" },
+    "implementation/digest": { "$ref": "#/$defs/digest" },
+    "carrier/content-types": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[a-z0-9!#$&^_.+-]+/[a-z0-9!#$&^_.+-]+$" }
+    },
+    "selector/kinds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "enum": ["whole-resource", "whole-text", "line-range", "html-element-id", "mime-part"] }
+    },
+    "candidate/framing": { "enum": ["portable-package", "orbiplex-armored-package:v1"] },
+    "candidate/cardinality": { "enum": ["exact-one", "bounded-many"] },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier/bytes-max",
+        "parse/depth-max",
+        "nodes/max",
+        "candidates/max",
+        "candidate/bytes-max",
+        "total-extracted/bytes-max",
+        "temporary-storage/bytes-max",
+        "duration/ms-max"
+      ],
+      "properties": {
+        "carrier/bytes-max": { "type": "integer", "minimum": 1, "maximum": 67108864 },
+        "parse/depth-max": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "nodes/max": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "candidates/max": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "candidate/bytes-max": { "type": "integer", "minimum": 1, "maximum": 8388608 },
+        "total-extracted/bytes-max": { "type": "integer", "minimum": 1, "maximum": 67108864 },
+        "temporary-storage/bytes-max": { "type": "integer", "minimum": 0, "maximum": 134217728 },
+        "duration/ms-max": { "type": "integer", "minimum": 1, "maximum": 120000 }
+      }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "ref": { "type": "string", "minLength": 3, "maxLength": 512, "pattern": "^[a-z][a-z0-9.-]*:[^\\s\\u0000-\\u001F\\u007F]+$" }
+  }
+}

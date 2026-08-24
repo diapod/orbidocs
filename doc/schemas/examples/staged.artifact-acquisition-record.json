@@ -1,0 +1,10 @@
+{
+  "schema": "artifact-acquisition-record.v1",
+  "schema/v": 1,
+  "record/kind": "object-transition",
+  "object/ref": "artifact-store:sha256:QJHqlMSpxk0VNMqpg5UwFEAjSD_molqFl74bv2woG5M",
+  "transition/sequence": 1,
+  "from": "absent",
+  "to": "staged",
+  "transitioned/at": "2026-08-24T12:00:00Z"
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "portable-artifact-package.v1",
+  "schema/v": 1,
+  "package/layout": "inline",
+  "content/encoding": "base64url",
+  "content/digest": "sha256:QJHqlMSpxk0VNMqpg5UwFEAjSD_molqFl74bv2woG5M",
+  "content/size": 23,
+  "content/inline": "eyJzY2hlbWEiOiJleGFtcGxlLnYxIn0"
+}
