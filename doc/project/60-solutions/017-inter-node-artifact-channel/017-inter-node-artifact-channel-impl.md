@@ -172,11 +172,28 @@ Registration of these codes in proposal 041 §6 is 042 Follow-Up #12.
 | Control-message schemas (`inac-control.v1` envelopes for each op + response frame) | ✅ implemented for the local MVP scaffold |
 | Refusal-code vocabulary extension in proposal 041 §6 | ❌ not started |
 | Query/filter grammar for `request` (reuse of proposal 035 §8 selectors where possible) | ❌ not started |
+| P088 bounded plural location advice while retaining one primary payload location | ⏳ specified by P088-023; not implemented |
 
 Response metadata is intentionally not a cross-node round-trip contract in the
 current implementation. The WSS peer handler terminates inbound `meta` at the
 node boundary and emits response frames without copying caller-provided metadata.
 Middleware-visible semantics must not depend on implicit `meta` propagation.
+
+### Planned P088 advisory-location extension
+
+[Proposal 088](../../40-proposals/088-pull-based-artifact-acquisition.md) may add
+bounded `artifact-location-advice.v1` values to INAC control messages. An offer or
+push still carries at most one authoritative inline, ref, or href payload location.
+Advice may instead name exact alternates, exact fallbacks, or separately identified
+related artifacts, including a URI for a parseable carrier that embeds the package.
+
+The receiver treats every location as a non-authoritative hint. Its current local
+policy chooses whether a one-shot resolution is allowed and which already admitted
+extraction profile may parse the carrier. Advice cannot register a durable source,
+choose executable parser code, import credentials, recurse through further advice,
+or bypass ordinary package verification and Artifact Delivery admission. The
+concrete schema revision, logical `inac:` URI profile, refusal codes, and negative
+fixtures remain P088-023 work.
 
 ## Layer 3 — Streamed payload transfer
 

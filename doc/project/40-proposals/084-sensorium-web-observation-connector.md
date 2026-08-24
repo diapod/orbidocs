@@ -334,6 +334,16 @@ should expose the narrowest reusable bounded-fetch primitive whose authority can
 be shared safely with future connectors, while all document and extraction
 semantics remain in `sensorium-web`.
 
+[Proposal 088: Pull-Based Artifact Acquisition](088-pull-based-artifact-acquisition.md)
+is one such future consumer. It may reuse the daemon-owned bounded HTTP fetch
+mechanism to retrieve exact portable artifact bytes, but it owns custody staging,
+receipts, anti-rollback, and Artifact Delivery admission handoff rather than web
+observation semantics. P084 remains the owner of changing web-source snapshots
+and Sensorium Interface publication. When a P088 location points to a static web
+page that embeds an artifact, the shared host fetch seam returns only the admitted,
+bounded response bytes. P088 then applies its own offline, operator-bound extraction
+profile; P084 neither selects that parser nor gains custody or admission authority.
+
 ### 4. URL and destination admission
 
 URL validation is structural and destination admission is network-aware.

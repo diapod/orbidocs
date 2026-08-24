@@ -352,6 +352,30 @@ own authentication surface, its own proxy-compatibility story
 (proposal 002), and a separate connection; keeping streaming on the
 established WSS session avoids all three.
 
+#### 3.5 Advisory locations and embedded-carrier hints
+
+[Proposal 088](088-pull-based-artifact-acquisition.md) defines a future versioned
+`artifact-location-advice.v1` extension for bounded plural location advice. The
+extension does not change the primary payload contract:
+
+- an `offer` or `push` still carries at most one authoritative inline,
+  `artifact/ref`, or `artifact/href` location;
+- `fallback-exact` links may name other locations expected to yield the same
+  digest when the primary route fails;
+- an `artifact-not-present` or `artifact-temporarily-unavailable` response may
+  carry `alternate-exact` links;
+- `related-artifact` links name separately identified artifacts and cannot
+  satisfy the current request;
+- a location may describe an exact resource or a parseable carrier containing an
+  artifact candidate, but parser and selector authority remain local to the
+  receiver;
+- advice is attributed to the authenticated peer session, remains bounded and
+  non-authoritative, and cannot register a source or trigger an unapproved fetch.
+
+The concrete `inac-control.v1` revision, logical `inac:` URI grammar, refusal-code
+additions, and negative fixtures are tracked by P088-023. They are not implemented
+by the current V1 schema.
+
 ### 4. Extensibility: open Artifact Delivery acceptor registry,
 capability-gated per peer
 
@@ -689,3 +713,8 @@ before it has been used.
 14. **Done:** `node-address-attestation.v1` is now a separate schema
     and proposal 043 owns its verification and anti-reflection policy.
     INAC only carries the artefact as a registered kind.
+15. Preserve the one-primary-payload-location invariant when implementing any
+    plural location-advice extension. Proposal 088 item `P088-023` owns the
+    canonical advice shape, logical `inac:` URI profile, refusal additions, and
+    positive and negative fixtures; P042 does not grow a second retrieval-policy
+    surface.

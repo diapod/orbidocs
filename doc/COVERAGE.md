@@ -19,14 +19,14 @@ Generated coverage snapshot for the current `doc/` structure.
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
 | `10-challenges` (Challenges) | `4` | `2` |
-| `20-memos` (Memos) | `45` | `11` |
+| `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `17` | `1` |
-| `40-proposals` (Proposals) | `90` | `78` |
+| `40-proposals` (Proposals) | `91` | `79` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `66` | `45` |
 
-- Total project markdown files: `249`
-- Proposals referencing source material: `78` / `90`
+- Total project markdown files: `251`
+- Proposals referencing source material: `79` / `91`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -66,8 +66,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`bounded-http-fetch-artifact-read-result.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-artifact-read-result.v1.md) | `8` | `0` | `no` | `yes` | `1` | `1` |
 | [`bounded-http-fetch-error-codes.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-error-codes.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
 | [`bounded-http-fetch-operator-snapshot.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-operator-snapshot.v1.md) | `11` | `1` | `no` | `yes` | `1` | `1` |
-| [`bounded-http-fetch-request.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-request.v1.md) | `7` | `0` | `no` | `yes` | `1` | `2` |
-| [`bounded-http-fetch-result.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-result.v1.md) | `16` | `0` | `no` | `yes` | `1` | `1` |
+| [`bounded-http-fetch-request.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-request.v1.md) | `8` | `0` | `no` | `yes` | `1` | `2` |
+| [`bounded-http-fetch-result.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-result.v1.md) | `18` | `0` | `no` | `yes` | `1` | `1` |
 | [`capability-advertisement.v1.schema.json`](schemas-gen/schemas/capability-advertisement.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`capability-authorization-policy.v1.schema.json`](schemas-gen/schemas/capability-authorization-policy.v1.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
 | [`capability-derived.v1.schema.json`](schemas-gen/schemas/capability-derived.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `1` |
@@ -381,8 +381,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-virt.host.request.v1.schema.json`](schemas-gen/schemas/sensorium-virt.host.request.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
 | [`sensorium-web-document-blocks.v1.schema.json`](schemas-gen/schemas/sensorium-web-document-blocks.v1.md) | `11` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-document-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-web-document-snapshot.v1.md) | `28` | `0` | `no` | `yes` | `1` | `1` |
+| [`sensorium-web-durable-source.v1.schema.json`](schemas-gen/schemas/sensorium-web-durable-source.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-extraction-request.v1.schema.json`](schemas-gen/schemas/sensorium-web-extraction-request.v1.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-extraction-result.v1.schema.json`](schemas-gen/schemas/sensorium-web-extraction-result.v1.md) | `12` | `0` | `no` | `yes` | `1` | `1` |
+| [`sensorium-web-latest-state.v1.schema.json`](schemas-gen/schemas/sensorium-web-latest-state.v1.md) | `8` | `0` | `no` | `yes` | `1` | `0` |
+| [`sensorium-web-operator-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-web-operator-snapshot.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
+| [`sensorium-web-refresh-status.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-status.v1.md) | `16` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-source.v1.schema.json`](schemas-gen/schemas/sensorium-web-source.v1.md) | `10` | `0` | `no` | `yes` | `1` | `2` |
 | [`sensorium-workbench-environment.v1.schema.json`](schemas-gen/schemas/sensorium-workbench-environment.v1.md) | `17` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-workbench-error-codes.v1.schema.json`](schemas-gen/schemas/sensorium-workbench-error-codes.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
@@ -784,8 +788,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-virt.host.request.v1.schema.json`](schemas-gen/schemas/sensorium-virt.host.request.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`sensorium-web-document-blocks.v1.schema.json`](schemas-gen/schemas/sensorium-web-document-blocks.v1.md) |  |  |
 | [`sensorium-web-document-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-web-document-snapshot.v1.md) |  |  |
+| [`sensorium-web-durable-source.v1.schema.json`](schemas-gen/schemas/sensorium-web-durable-source.v1.md) |  |  |
 | [`sensorium-web-extraction-request.v1.schema.json`](schemas-gen/schemas/sensorium-web-extraction-request.v1.md) |  |  |
 | [`sensorium-web-extraction-result.v1.schema.json`](schemas-gen/schemas/sensorium-web-extraction-result.v1.md) |  |  |
+| [`sensorium-web-latest-state.v1.schema.json`](schemas-gen/schemas/sensorium-web-latest-state.v1.md) |  |  |
+| [`sensorium-web-operator-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-web-operator-snapshot.v1.md) |  |  |
+| [`sensorium-web-refresh-status.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-status.v1.md) |  |  |
 | [`sensorium-web-source.v1.schema.json`](schemas-gen/schemas/sensorium-web-source.v1.md) |  |  |
 | [`sensorium-workbench-environment.v1.schema.json`](schemas-gen/schemas/sensorium-workbench-environment.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`sensorium-workbench-error-codes.v1.schema.json`](schemas-gen/schemas/sensorium-workbench-error-codes.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md), [`requirements-014-resource-opinions.md`](project/50-requirements/requirements-014-resource-opinions.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
@@ -990,7 +998,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) |
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) |
 
-- Canonical schemas: `398`
-- Generated schema docs: `398`
-- Positive examples: `406`
-- Negative examples: `345`
+- Canonical schemas: `402`
+- Generated schema docs: `402`
+- Positive examples: `410`
+- Negative examples: `348`

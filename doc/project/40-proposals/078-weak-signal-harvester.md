@@ -261,10 +261,14 @@ findings, or it may consume Harvester findings when local policy allows it.
 Sensorium may provide observations or connector outputs that become source
 material, but Sensorium does not own the Harvester. Sensorium observes and acts
 through bounded connectors; the Harvester indexes and groups configured corpora.
-For web sources, [Proposal 084: Sensorium Web Observation Connector](084-sensorium-web-observation-connector.md)
+For changing web observations, [Proposal 084: Sensorium Web Observation Connector](084-sensorium-web-observation-connector.md)
 owns bounded acquisition, provenance, and optional Sensorium Interface
-publication. The Harvester may consume an explicitly configured admitted P084
-snapshot, but it does not inherit fetch, crawl, or publication authority.
+publication. For carrier-neutral custody of exact portable artifact bytes,
+[Proposal 088: Pull-Based Artifact Acquisition](088-pull-based-artifact-acquisition.md)
+owns source orchestration, staging receipts, verification, and handoff to the
+existing Artifact Delivery admission boundary. The Harvester may consume an
+explicitly admitted P084 snapshot or P088-derived intake artifact, but it does
+not inherit fetch, crawl, source-registration, or publication authority.
 
 Inquirium may be used for classification, summarization, entity redaction, and
 semantic grouping, but model output is evidence only. Inquirium does not choose
@@ -454,7 +458,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-004 | Whisper draft handoff | done | Accepted findings can create a local `weak-signal-whisper-draft.local.v1` stub with `publication/state = not-published`; Whisper publication remains a separate approval gate. |
 | P078-005 | First source adapter acceptance fixture | done | Filesystem Markdown/text import is the first adapter: it reads only under the configured Harvester `sources/` root, bounds source size/snippets, and emits schema-valid findings. |
 | P078-006 | Inquirium/Agent-assisted grouping profile | deferred | Bounded model-assisted clustering and summarization; model output remains advisory. |
-| P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff for explicitly configured remote sources; generic web acquisition is owned by P084, and P078 consumes only admitted snapshots or artifact refs under findings-only, bounded/quarantined semantics. |
+| P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff for explicitly configured remote sources; P084 owns changing web observation, P088 owns carrier-neutral artifact custody, and P078 consumes only explicitly admitted snapshots or derived intake artifacts under findings-only, bounded/quarantined semantics. |
 | P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
 | P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
 

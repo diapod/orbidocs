@@ -44,6 +44,20 @@ middleware chain. A given artifact kind has at most one authoritative acceptor.
 If a domain needs fan-out, it must do so behind one explicit acceptor that owns
 that domain semantics.
 
+[Proposal 088: Pull-Based Artifact Acquisition](../../40-proposals/088-pull-based-artifact-acquisition.md)
+defines future operator-admitted pull from independent sources. It reuses this
+solution's inbound admission and exact acceptor registry after carrier-neutral
+verification; it does not become another outbound transport adapter and does not
+change Artifact Delivery's single-owner rule.
+
+P088 may also consume bounded plural location advice received through INAC. Such
+advice can point to an exact alternate, an exact fallback, or a related artifact,
+including a parseable carrier that embeds a portable package. It remains inert
+retrieval guidance: resolving a URI, extracting a candidate, and verifying its
+bytes do not select or bypass an Artifact Delivery acceptor. Only the ordinary
+inbound admission path may hand the verified artifact to one authoritative domain
+owner.
+
 ## Context and Problem Statement
 
 The Inter-Node Artifact Channel (INAC) solution defines a direct artifact transfer
