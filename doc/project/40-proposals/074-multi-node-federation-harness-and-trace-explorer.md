@@ -203,14 +203,14 @@ with the verified base image so guest-disk creation can use `clonefile`; an imag
 on another filesystem is first staged and digest-verified on the selected APFS
 volume. Topology files contain none of these host-local paths.
 
-### Proposed shared/removable-volume trust posture
+### Shared/removable-volume trust posture
 
 The strict default remains exclusive host-owned storage. A deployment that uses
 an automatically mounted or removable volume with other legitimate writers may
 opt into a distinct `operator-authorized-shared` posture through a host-local,
 run-scoped policy file. This proposal does not admit a global boolean that skips
 ownership or writable-ancestor validation. The policy is a closed data contract,
-is absent by default, and is reviewed under P074-011 before implementation.
+is absent by default, and its implementation is tracked under P074-011.
 
 Storage roles remain stratified:
 
@@ -626,7 +626,7 @@ the stores already used by that story.
 | Daemons inherit one writable `ORBIPLEX_MODEL_ROOT` | Strip the inherited variable and inject a distinct canonical slot-owned model root into each daemon child; share source bytes read-only only |
 | A descriptive run path exceeds the vfkit socket bound | Separate durable run metadata from a short canonical VMM workspace and preflight the longest derived socket path in bytes |
 | A macOS VM workspace cannot APFS-clone its image | Require same-volume APFS source and workspace, or stage and re-verify the immutable base image on the selected APFS volume before cloning |
-| An auto-mounted/removable volume has legitimate co-writers | Keep strict refusal by default; require the proposed host-local policy to bind mount identity, all effective writers, scope, expiry, and allowed non-authority roles |
+| An auto-mounted/removable volume has legitimate co-writers | Keep strict refusal by default; require the host-local policy to bind mount identity, all effective writers, scope, expiry, and allowed non-authority roles |
 | A runtime executable or build-hook-capable source tree is sourced from shared-writable ancestry | Treat it as executable input, verify its admitted identity, and stage it into an exclusive execution root before launch or build; shared authorization covers immutable bulk inputs, not direct or indirect code execution |
 | A shared immutable input changes between check and use ([CWE-367](https://cwe.mitre.org/data/definitions/367.html)) | Copy or snapshot it into a private run-owned location, verify the target bytes against trust metadata anchored outside the shared source, and consume only that verified target; source revalidation alone is insufficient |
 | Mount identity, ACLs, or immutable input change after preflight | Refuse new effects, retain post-effect evidence, and abort rather than converting drift into a relaxed success |
@@ -634,14 +634,7 @@ the stores already used by that story.
 
 ## Open Questions
 
-1. Should P074 admit the proposed `operator-authorized-shared` posture for
-   immutable bulk inputs and ephemeral VMM workspaces while retaining exclusive
-   roots for code, control state, authority, and writable model stores? The
-   recommended answer is yes through the closed, run-scoped policy in P074-011,
-   with a distinct evidence posture, private verified snapshots, and an explicit
-   assertion that every admitted co-writer is trusted and non-adversarial rather
-   than equivalence to exclusive storage. Implementation waits for review of
-   that tracker item.
+None for the current proposal revision.
 
 Resolved 2026-07-02:
 
@@ -669,6 +662,21 @@ Resolved 2026-08-25:
 5. Real hostnames, users, credentials, and storage paths remain in local operator
    configuration. Repository examples use sanitized values.
 
+Resolved 2026-08-26:
+
+1. P074 admits the `operator-authorized-shared` posture for immutable bulk
+   inputs and ephemeral VMM workspaces while retaining exclusive roots for code,
+   control state, authority, and writable model stores. The posture requires a
+   closed run-scoped policy, private verified snapshots, and an explicit
+   `trusted-non-adversarial` assertion for every admitted co-writer. This is an
+   accepted design decision; P074-011 remains `todo` until its contract,
+   implementation, platform tests, and evidence are complete.
+2. The Story 012 physical-host planning baseline assigns Bielik MLX to the
+   `node-a` Chair role, Qwen3-Coder MLX to the `node-b` solver role, and
+   Qwen2.5-Coder GGUF to the `node-c` reviewer/facilitator role. These are
+   accepted planned bindings, not deployment defaults or runtime evidence. Each
+   receives an independent qualification item before P074-010 integration.
+
 ## Next Actions
 
 1. Create an inventory table of trace sources, store paths, public diagnostics
@@ -688,6 +696,9 @@ Resolved 2026-08-25:
    idempotent resume, and per-node evidence assembly.
 9. Add a three-physical-host transport-conformance profile before a real-model
    Story 012 consumer is promoted.
+10. Qualify the three accepted Story 012 model-slot bindings independently,
+    reusing P064 package/lifecycle machinery and admitting only exact
+    artifact-specific and role-specific evidence before P074-010 integration.
 
 ## Implementation Tracker
 
@@ -704,5 +715,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P074-007 | Freeze the reusable physical-host topology contract | partial | `orbiplex-acceptance-topology.v1`, Schema Gate import/export admission, canonical topology-digest validation, pure CLI-over-environment precedence, secret/story-field refusal fixtures, and a sanitized three-host example are implemented. The shared Python acceptance boundary now strips inherited `ORBIPLEX_MODEL_ROOT` from existing local three-node daemon children, resolves stable image-set leaves below `ORBIPLEX_ACCEPTANCE_IMAGE_ROOT`, keeps report output below the independent report root, and rejects empty or relative root inputs. Remaining generic root materialization must assign distinct canonical writable roots per daemon slot from the checked run plan, record them in the run manifest, and keep host-local VMM workspace paths outside topology data. Depends on the remaining P074-001 planning contracts. |
 | P074-008 | Add an any-host resumable local/SSH orchestrator | todo | Execute the local slot directly and remote slots through SSH, fence one canonical scenario-owned lease, persist an append-only idempotent step ledger, and assemble per-node evidence. Child environments must carry explicit per-slot model roots. vfkit execution must preflight the longest derived socket path and same-volume APFS clone capability. SSH must not proxy product traffic. A selected shared/removable volume additionally requires an accepted and implemented P074-011 policy; absence of that policy retains strict refusal. Depends on P074-007. |
 | P074-009 | Prove direct transport across three physical hosts | todo | Run a deterministic transport-conformance profile over three independent host failure domains, including topology drift, restart, stale lease, WSS reconnect, and partial-host failure refusals. Depends on P074-008 and the relevant P056/P070 deployment contracts. |
-| P074-010 | Add Story 012 as the first real-model physical-host consumer | todo | Map requester/Room owner/Workbench executor, solver, and reviewer/facilitator duties to topology slots; retain a closed report proving direct Room/Corpus/WSS/Sensorium traffic, independent per-slot writable model stores, short vfkit socket-safe workspace paths, APFS-cloned guest preparation on macOS, restart, revocation, and no SSH product proxy. When shared/removable storage is selected, evidence must identify the P074-011 posture and its pre-effect and post-effect checks. Depends on P074-009 and the Story 012 substrate gates. |
-| P074-011 | Define and implement an explicit shared/removable-volume acceptance trust policy | todo | Review and freeze a closed host-local policy contract with strict default behavior, canonical mount identity, enumeration of all effective writers, an explicit `trusted-non-adversarial` co-writer assertion, role-scoped authorization, expiry, remount/ACL drift refusal, and redacted run-manifest/report evidence. Close CWE-367 by copying or snapshotting immutable bulk input into a private run-owned location, verifying the consumed target bytes against trust metadata anchored outside the shared source, and never relying on source revalidation alone. Treat build-hook/plugin/import-capable sources as executable inputs and stage them into exclusive roots. Potentially hostile co-writers require an exclusive root or OS-enforced non-replaceable immutable/read-only snapshot. Cover macOS ACL/removable-volume and GNU/Linux POSIX ACL/udev/autofs cases. The policy may authorize immutable bulk inputs and ephemeral VMM workspaces, never authority/control roots or writable P066 `managed/` stores. Depends on P074-001 and P074-007; gates P074-008 and P074-010 whenever shared/removable storage is selected. |
+| P074-010 | Add Story 012 as the first real-model physical-host consumer | todo | Integrate the independently qualified P074-012 through P074-014 bindings; retain a closed report proving direct Room/Corpus/WSS/Sensorium traffic, independent per-slot writable model stores, short vfkit socket-safe workspace paths, APFS-cloned guest preparation on macOS, restart, revocation, and no SSH product proxy. When shared/removable storage is selected, evidence must identify the P074-011 posture and its pre-effect and post-effect checks. Depends on P074-009, P074-012, P074-013, P074-014, and the Story 012 substrate gates. |
+| P074-011 | Implement the accepted shared/removable-volume acceptance trust policy | todo | Freeze the accepted design as a closed host-local policy contract with strict default behavior, canonical mount identity, enumeration of all effective writers, an explicit `trusted-non-adversarial` co-writer assertion, role-scoped authorization, expiry, remount/ACL drift refusal, and redacted run-manifest/report evidence. Close CWE-367 by copying or snapshotting immutable bulk input into a private run-owned location, verifying the consumed target bytes against trust metadata anchored outside the shared source, and never relying on source revalidation alone. Treat build-hook/plugin/import-capable sources as executable inputs and stage them into exclusive roots. Potentially hostile co-writers require an exclusive root or OS-enforced non-replaceable immutable/read-only snapshot. Cover macOS ACL/removable-volume and GNU/Linux POSIX ACL/udev/autofs cases. The policy may authorize immutable bulk inputs and ephemeral VMM workspaces, never authority/control roots or writable P066 `managed/` stores. Depends on P074-001 and P074-007; gates P074-008 and P074-010 whenever shared/removable storage is selected. |
+| P074-012 | Qualify the `node-a` Bielik MLX Chair binding | todo | Pin the exact `speakleash/Bielik-1.5B-v3.0-Instruct-MLX-8bit` revision, immutable `model-card/ref`, asset digests and sizes, MLX runtime build, package/lifecycle report, adapter conformance, and host resource budget. Retain Chair-specific quality evidence under the admitted Story prompt/output contract and prove inference remains host-native while the VM is used only for PowerDNS. Reuse P064 package/lifecycle machinery; Bielik GGUF evidence does not transfer to the MLX artifact. Gates P074-010; P074-011 additionally applies when shared/removable storage is selected. |
+| P074-013 | Qualify the `node-b` Qwen3-Coder MLX solver binding | todo | Pin the exact `mlx-community/Qwen3-Coder-30B-A3B-Instruct-5bit` revision, immutable `model-card/ref`, asset digests and sizes, MLX runtime build, package/lifecycle report, adapter conformance, and measured host resource budget. Retain solver-specific correctness and regeneration evidence under the admitted Story contract. Reuse the P064 MLX qualification machinery without inheriting Qwen2.5-Coder evidence across model identities. Gates P074-010; P074-011 additionally applies when shared/removable storage is selected. |
+| P074-014 | Qualify the `node-c` Qwen2.5-Coder GGUF reviewer/facilitator binding | todo | Pin the exact `Qwen/Qwen2.5-Coder-7B-Instruct-GGUF` revision and `Q4_K_M` artifact, immutable `model-card/ref`, digest and size, `llama-server` build, package/lifecycle report, adapter conformance, and measured GNU/Linux host resource budget. Retain separate evidence for every reviewer and facilitator role the binding claims. Reuse exact matching P064 lifecycle evidence where available, but do not infer qualification from MLX or another quantization. Gates P074-010; P074-011 additionally applies when shared/removable storage is selected. |
