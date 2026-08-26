@@ -24,7 +24,15 @@
     "snapshot/id": { "$ref": "#/$defs/ref" },
     "snapshot/digest": { "$ref": "#/$defs/digest" },
     "observation/id": { "$ref": "#/$defs/ref" },
-    "failure/code": { "enum": ["source-not-found", "source-superseded", "refresh-in-progress", "cache-evidence-missing", "cache-binding-mismatch", "broker-unavailable", "fetch-not-completed", "extraction-refused", "observation-rejected", "storage-failed", "interrupted", "cancelled"] },
+    "failure/code": { "enum": ["source-not-found", "source-superseded", "refresh-in-progress", "cache-evidence-missing", "cache-binding-mismatch", "artifact-binding-mismatch", "receipt-binding-mismatch", "broker-unavailable", "fetch-not-completed", "extraction-refused", "observation-rejected", "storage-failed", "interrupted", "cancelled"] },
+    "failure/phase": { "enum": ["claim", "fetch", "extract", "retain", "observe", "commit", "fence", "recovery", "cancel"] },
+    "receipt/refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^execution-receipt:[A-Za-z0-9_-]{43}$" }
+    },
     "retry/class": { "enum": ["terminal", "retryable", "policy-dependent"] }
   },
   "allOf": [
@@ -38,7 +46,7 @@
       "then": { "required": ["snapshot/id", "snapshot/digest", "observation/id"] },
       "else": {
         "if": { "properties": { "outcome": { "enum": ["refused", "failed", "unknown"] } }, "required": ["outcome"] },
-        "then": { "required": ["failure/code", "retry/class"] }
+        "then": { "required": ["failure/code", "failure/phase", "retry/class"] }
       }
     }
   ]

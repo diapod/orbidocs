@@ -333,7 +333,10 @@ Related schemas:
 - `sensorium-web-extraction-result.v1`
 - `sensorium-web-document-snapshot.v1`
 - `sensorium-web-durable-source.v1`
+- `sensorium-web-refresh-claim.v1`
 - `sensorium-web-refresh-status.v1`
+- `sensorium-web-refresh-sweep.v1`
+- `sensorium-web-refresh-sweep-outcome.v1`
 - `sensorium-web-operator-snapshot.v1`
 - `sensorium-web-latest-state.v1`
 
@@ -364,7 +367,7 @@ Status:
 - `partial`. The daemon-owned fetch boundary and its deterministic local
   conformance harness are implemented with P084 as the first configured
   consumer. The canonical nested source envelope round-trips through the pure
-  Rust contract; all fifteen contracts are Schema Gate-registered; daemon
+  Rust contract; all twenty contracts are Schema Gate-registered; daemon
   ingress/egress integration plus resolver concurrency and shutdown are covered
   without public egress; and the supervised extractor passes an eleven-check
   offline corpus including deterministic parser-event/depth ceilings,
@@ -373,11 +376,17 @@ Status:
   middleware endpoint; portable harness tests and automated macOS deployment
   evidence prove direct socket, DNS, proxy, and subprocess refusal. A bounded
   SQLite source runtime, exact conditional refresh, Replay Scheduler sweep,
-  restart-to-unknown recovery, Sensorium
+  daemon-owned bounded P055 refresh execution with exact claim-timeout binding,
+  post-claim compensation, up-to-16-source deadline-bounded sweeps,
+  nonblocking shutdown, and synchronous post-connector-readiness, pre-scheduler
+  keyset restart reconciliation, Sensorium
   observation admission, metadata-only operator projection, and optional P082
-  latest-state adapter are implemented. P084 remains partial until refreshes
-  above the synchronous ceiling use BDO, extracted representations gain durable
-  Artifact Delivery handoff, and dedicated local/direct-peer/Room acceptance is
+  latest-state adapter are implemented. Retained representations now cross an
+  authenticated content-bound `artifact.delivery.retain` boundary and their P081
+  receipt is chained into the Sensorium observation receipt; retained bytes are
+  omitted from both the observation envelope and the SQLite cache projection.
+  P084 remains partial
+  until durable-source load and dedicated local/direct-peer/Room acceptance are
   retained.
 
 ## Out of Scope

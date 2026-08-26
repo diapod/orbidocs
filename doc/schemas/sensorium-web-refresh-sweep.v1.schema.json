@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-refresh-sweep:v1",
+  "title": "Sensorium Web Refresh Sweep v1",
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "seen", "launched", "skipped", "outcomes"],
+  "properties": {
+    "schema": { "const": "sensorium-web-refresh-sweep.v1" },
+    "schema/v": { "const": 1 },
+    "seen": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "launched": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "skipped": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "outcomes": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source/ref", "source/operation-id", "operation/id", "outcome"],
+        "properties": {
+          "source/ref": { "$ref": "#/$defs/ref" },
+          "source/operation-id": { "$ref": "#/$defs/ref" },
+          "operation/id": { "$ref": "#/$defs/ref" },
+          "outcome": { "const": "deferred" }
+        }
+      }
+    },
+    "stop/reason": {
+      "enum": ["idle", "launch-budget-exhausted", "shutdown-requested", "batch-limit-reached", "connector-unavailable", "queue-capacity-reached", "worker-stopped"]
+    }
+  }
+}

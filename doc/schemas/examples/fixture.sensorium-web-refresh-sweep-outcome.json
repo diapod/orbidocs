@@ -1,0 +1,24 @@
+{
+  "schema": "sensorium-web-refresh-sweep-outcome.v1",
+  "records_seen": 1,
+  "records_applied": 1,
+  "records_skipped": 0,
+  "records_rejected": 0,
+  "cursor": null,
+  "details": {
+    "schema": "sensorium-web-refresh-sweep.v1",
+    "schema/v": 1,
+    "seen": 1,
+    "launched": 1,
+    "skipped": 0,
+    "outcomes": [
+      {
+        "source/ref": "sensorium-web-source:fixture",
+        "source/operation-id": "sensorium-web-refresh:fixture",
+        "operation/id": "deferred-operation:fixture",
+        "outcome": "deferred"
+      }
+    ],
+    "stop/reason": "idle"
+  }
+}

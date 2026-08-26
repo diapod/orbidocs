@@ -10,5 +10,6 @@
   "started/at": "2026-08-23T10:00:00Z",
   "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "failure/code": "interrupted",
+  "failure/phase": "recovery",
   "retry/class": "policy-dependent"
 }

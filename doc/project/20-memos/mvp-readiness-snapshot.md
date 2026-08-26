@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-23.
+Snapshot date: 2026-08-26.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -73,7 +73,7 @@ and trackers without changing the existing Story 012, P069, or Solution 038
 readiness percentages.
 
 The post-MVP P084 workstream now has the reusable daemon-owned
-`http.fetch.bounded` foundation and its first static extractor: fifteen closed
+`http.fetch.bounded` foundation and its first static extractor: twenty closed
 generic/domain contracts, pure fetch and Sensorium Web cores, exact
 consumer/action/origin admission, bounded DNS and destination classification,
 connection pinning, TLS and redirect enforcement, one total deadline,
@@ -85,11 +85,16 @@ The macOS Seatbelt profile now permits only the exact host-created middleware
 endpoint; portable harness tests and automated macOS deployment evidence prove
 refusal of alternate loopback, DNS, proxy, and subprocess paths. Bounded SQLite
 source/generation/operation/snapshot
-state, exact conditional refresh, Replay Scheduler integration, restart recovery,
-Sensorium observation admission, metadata-only operator projection, and an
-optional P082 latest-state adapter are implemented. BDO for longer refreshes,
-durable Artifact Delivery of extracted representations, load evidence, and
-dedicated local/direct-peer/Room acceptance remain open. P084 is therefore
+state, exact conditional refresh, Replay Scheduler integration, daemon-owned
+bounded refresh execution with cancellation and restart reconciliation,
+exact claim-timeout propagation, post-claim compensation, up-to-16-source
+deadline-bounded sweeps, nonblocking shutdown, complete post-connector-readiness
+and pre-scheduler keyset-page recovery,
+and distinct connector-unavailable versus rate-limited scheduler diagnostics,
+Sensorium observation admission, content-bound Artifact Delivery representation
+retention with a two-receipt causal chain, metadata-only operator projection, and
+an optional P082 latest-state adapter are implemented. Load evidence and dedicated
+local/direct-peer/Room acceptance remain open. P084 is therefore
 `partial` post-MVP work and does not change hard-MVP readiness.
 
 The post-MVP P085 foundation now freezes `limit-classification.v1` and a reviewed,
@@ -1482,7 +1487,7 @@ Recent component deltas:
 | [Proposal 081: Horizontal Protocol Primitives for Causality, Federated Synchronization, and Scoped Nym Claims](../40-proposals/081-horizontal-protocol-primitives.md) | `true` | `true` | `false` | `100` |
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
-| [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `70` |
+| [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `80` |
 | [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `true` | `100` |
 | [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `90` |
 

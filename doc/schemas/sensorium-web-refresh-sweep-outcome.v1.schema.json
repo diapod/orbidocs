@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-web-refresh-sweep-outcome:v1",
+  "title": "Sensorium Web Refresh Sweep Outcome v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "records_seen", "records_applied", "records_skipped", "records_rejected", "cursor", "details"],
+  "properties": {
+    "schema": { "const": "sensorium-web-refresh-sweep-outcome.v1" },
+    "records_seen": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "records_applied": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "records_skipped": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "records_rejected": { "const": 0 },
+    "cursor": { "type": "null" },
+    "details": { "$ref": "sensorium-web-refresh-sweep.v1.schema.json" }
+  }
+}

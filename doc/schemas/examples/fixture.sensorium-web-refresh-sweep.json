@@ -1,0 +1,16 @@
+{
+  "schema": "sensorium-web-refresh-sweep.v1",
+  "schema/v": 1,
+  "seen": 1,
+  "launched": 1,
+  "skipped": 0,
+  "outcomes": [
+    {
+      "source/ref": "sensorium-web-source:fixture",
+      "source/operation-id": "sensorium-web-refresh:fixture",
+      "operation/id": "deferred-operation:fixture",
+      "outcome": "deferred"
+    }
+  ],
+  "stop/reason": "idle"
+}

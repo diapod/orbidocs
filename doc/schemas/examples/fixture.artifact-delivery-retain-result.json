@@ -1,0 +1,33 @@
+{
+  "schema": "artifact-delivery-retain-result.v1",
+  "schema/v": 1,
+  "outcome": "completed",
+  "artifact/ref": "artifact-store:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "artifact/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "artifact/size-bytes": 2,
+  "execution/receipt": {
+    "schema": "execution-receipt.v1",
+    "schema/v": 1,
+    "receipt/id": "execution-receipt:webretainfixture",
+    "causal/context": {
+      "schema": "causal-context.v1",
+      "schema/v": 1,
+      "context/id": "causal-context:web-retain-fixture",
+      "correlation/id": "correlation:web-retain-fixture",
+      "operation/id": "operation:web-retain-fixture",
+      "causation/refs": ["sensorium-web-refresh:fixture"],
+      "origin/actor-ref": "module:sensorium-web",
+      "created/at": "2026-08-26T10:00:00Z"
+    },
+    "operation/id": "operation:web-retain-fixture",
+    "capability/id": "artifact.delivery.retain",
+    "transition/from": "running",
+    "transition/to": "completed",
+    "attempt/no": 1,
+    "recorded/by": "component:artifact-delivery",
+    "recorded/at": "2026-08-26T10:00:01Z",
+    "effect/refs": ["artifact-store:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
+    "outcome/refs": ["artifact-store:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
+    "diagnostics": { "retention": "content-addressed" }
+  }
+}

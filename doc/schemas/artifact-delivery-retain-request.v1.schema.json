@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-retain-request:v1",
+  "title": "Artifact Delivery Retain Request v1",
+  "description": "Authenticated host-local request to retain one content-bound artifact without granting delivery, publication, or read authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/081-horizontal-protocol-primitives.md",
+    "doc/project/40-proposals/084-sensorium-web-observation-connector.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": ["schema", "schema/v", "owner/component-id", "artifact", "classification", "causal/context", "idempotency/key"],
+  "properties": {
+    "schema": { "const": "artifact-delivery-retain-request.v1" },
+    "schema/v": { "const": 1 },
+    "owner/component-id": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[A-Za-z0-9_.:-]+$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "content/type", "digest", "size/bytes", "bytes/base64"],
+      "properties": {
+        "schema": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "content/type": { "const": "application/json" },
+        "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "size/bytes": { "type": "integer", "minimum": 1, "maximum": 2097152 },
+        "bytes/base64": { "type": "string", "minLength": 1, "maxLength": 2796204, "pattern": "^[A-Za-z0-9+/]*={0,2}$" }
+      }
+    },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "causal/context": { "$ref": "causal-context.v1.schema.json" },
+    "idempotency/key": { "type": "string", "pattern": "^artifact-retain:sha256:[A-Za-z0-9_-]{43}$", "maxLength": 96 }
+  }
+}

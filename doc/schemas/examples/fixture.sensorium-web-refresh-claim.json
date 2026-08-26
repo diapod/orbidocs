@@ -1,0 +1,10 @@
+{
+  "schema": "sensorium-web-refresh-claim.v1",
+  "schema/v": 1,
+  "status": "claimed",
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:fixture",
+  "source/operation-id": "sensorium-web-refresh:fixture",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "timeout/ms": 25000
+}

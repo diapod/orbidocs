@@ -80,6 +80,12 @@ schema_for_file() {
     *.artifact-delivery-envelope.json)
       echo "$SCHEMAS_DIR/artifact-delivery-envelope.v1.schema.json"
       ;;
+    *.artifact-delivery-retain-request.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-retain-request.v1.schema.json"
+      ;;
+    *.artifact-delivery-retain-result.json)
+      echo "$SCHEMAS_DIR/artifact-delivery-retain-result.v1.schema.json"
+      ;;
     *.artifact-delivery-result.json)
       echo "$SCHEMAS_DIR/artifact-delivery-result.v1.schema.json"
       ;;
@@ -335,8 +341,17 @@ schema_for_file() {
     *.sensorium-web-durable-source.json)
       echo "$SCHEMAS_DIR/sensorium-web-durable-source.v1.schema.json"
       ;;
+    *.sensorium-web-refresh-claim.json)
+      echo "$SCHEMAS_DIR/sensorium-web-refresh-claim.v1.schema.json"
+      ;;
     *.sensorium-web-refresh-status.json)
       echo "$SCHEMAS_DIR/sensorium-web-refresh-status.v1.schema.json"
+      ;;
+    *.sensorium-web-refresh-sweep.json)
+      echo "$SCHEMAS_DIR/sensorium-web-refresh-sweep.v1.schema.json"
+      ;;
+    *.sensorium-web-refresh-sweep-outcome.json)
+      echo "$SCHEMAS_DIR/sensorium-web-refresh-sweep-outcome.v1.schema.json"
       ;;
     *.sensorium-web-operator-snapshot.json)
       echo "$SCHEMAS_DIR/sensorium-web-operator-snapshot.v1.schema.json"

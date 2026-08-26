@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:artifact-delivery-retain-result:v1",
+  "title": "Artifact Delivery Retain Result v1",
+  "description": "Host-owned content and receipt binding returned after one artifact is durably retained.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/081-horizontal-protocol-primitives.md",
+    "doc/project/40-proposals/084-sensorium-web-observation-connector.md",
+    "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"
+  ],
+  "required": ["schema", "schema/v", "outcome", "artifact/ref", "artifact/digest", "artifact/size-bytes", "execution/receipt"],
+  "properties": {
+    "schema": { "const": "artifact-delivery-retain-result.v1" },
+    "schema/v": { "const": 1 },
+    "outcome": { "const": "completed" },
+    "artifact/ref": { "type": "string", "pattern": "^artifact-store:sha256:[A-Za-z0-9_-]{43}$", "maxLength": 128 },
+    "artifact/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "artifact/size-bytes": { "type": "integer", "minimum": 1, "maximum": 2097152 },
+    "execution/receipt": { "$ref": "execution-receipt.v1.schema.json" }
+  }
+}

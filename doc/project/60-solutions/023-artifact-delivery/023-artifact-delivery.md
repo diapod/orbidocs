@@ -118,7 +118,12 @@ Current implementation status:
   The daemon-local AD HTTP routes are now a domain route module over the
   `AdHost` API, not a place where transport adapters, recovery workers,
   acceptors, or object-store internals are composed.
-- The daemon exposes `artifact.delivery.send`,
+- The daemon exposes `artifact.delivery.send` and the narrower host-local
+  `artifact.delivery.retain`. Retain accepts one caller-owned, digest-and-size
+  bound object, returns its immutable `artifact-store:` ref and a P081 receipt,
+  and grants neither read, delivery, publication, nor recipient authority.
+  Its first consumer is P084 Sensorium Web representation retention.
+  The daemon also exposes
   `GET /v1/artifact-delivery/routes`,
   `GET /v1/artifact-delivery/deliveries`, and per-delivery lookup.
 - Node UI exposes `/admin/artifact-delivery` as an operator view over routes,

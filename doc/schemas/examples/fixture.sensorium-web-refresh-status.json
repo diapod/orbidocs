@@ -11,5 +11,6 @@
   "completed/at": "2026-08-23T10:00:01Z",
   "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "failure/code": "broker-unavailable",
+  "failure/phase": "observe",
   "retry/class": "policy-dependent"
 }

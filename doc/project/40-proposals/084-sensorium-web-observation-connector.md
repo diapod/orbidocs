@@ -387,8 +387,8 @@ authority.
 
 ### 5. Contract family
 
-The first implementation defines six reusable host-capability schemas and nine
-P084 domain schemas:
+The first implementation defines eight reusable host-capability schemas and
+twelve P084 domain schemas:
 
 | Schema | Purpose |
 |---|---|
@@ -398,13 +398,18 @@ P084 domain schemas:
 | `bounded-http-fetch-artifact-read-result.v1` | Bounded body bytes bound to the admitted caller, action, artifact ref, digest, and size. |
 | `bounded-http-fetch-error-codes.v1` | Closed typed host failure vocabulary and retry class. |
 | `bounded-http-fetch-operator-snapshot.v1` | Identifier-free aggregate readiness, occupancy, refusal, failure, and handoff evidence. |
+| `artifact-delivery-retain-request.v1` | Exact caller-owned, content-bound request to retain one representation without gaining read or publication authority. |
+| `artifact-delivery-retain-result.v1` | Immutable Artifact Delivery ref plus the P081 execution receipt for the completed retention effect. |
 | `sensorium-web-source.v1` | Operator-owned durable source configuration and current generation. |
 | `sensorium-web-extraction-request.v1` | Exact source/profile/fetch binding accepted by the supervised extractor. |
 | `sensorium-web-document-blocks.v1` | Bounded inert title, text block, heading, and link representation. |
 | `sensorium-web-extraction-result.v1` | Typed extraction outcome and content-bound representation. |
 | `sensorium-web-document-snapshot.v1` | Canonical admitted document observation. |
 | `sensorium-web-durable-source.v1` | Bounded durable-source declaration, schedule, retention, classification, and generation. |
+| `sensorium-web-refresh-claim.v1` | Closed idle-or-claimed handoff from the supervised connector to the daemon worker, including the exact source operation and timeout. |
 | `sensorium-web-refresh-status.v1` | Content-bound refresh lifecycle and typed terminal outcome. |
+| `sensorium-web-refresh-sweep.v1` | Bounded worker/scheduler launch summary with exact deferred-operation bindings and a closed stop reason. |
+| `sensorium-web-refresh-sweep-outcome.v1` | Persisted Replay Scheduler outcome whose details are one schema-gated refresh sweep. |
 | `sensorium-web-operator-snapshot.v1` | Metadata-only bounded source, cache, schedule, and occupancy inspection. |
 | `sensorium-web-latest-state.v1` | Exact current generation, admitted snapshot, optional representation, and observation binding consumed by P082. |
 
@@ -537,6 +542,15 @@ inline Sensorium envelopes. Inline values remain under schema-specific byte
 caps. Artifact acceptance does not imply interface publication or Memarium
 retention.
 
+The daemon-owned `artifact.delivery.retain` host capability accepts only an
+authenticated component whose exact id equals `owner/component-id`. It verifies
+the declared digest and size before storage, returns a content-addressed
+`artifact-store:` ref, and emits a P081 receipt. The connector then derives a
+child causal context from that receipt before `sensorium.observe.submit`;
+Sensorium Core emits the second receipt with `previous/receipt-ref` bound to the
+retention receipt. Durable source status retains at most four receipt refs and a
+closed failure phase, never representation bytes, URLs, or host paths.
+
 Cache entries require an owner, key, byte cap, entry cap, TTL or retention rule,
 and restart behavior. Cache eviction may force a full refetch but must not turn a
 stale retained representation into a fresh observation.
@@ -574,6 +588,18 @@ One ad hoc fetch may complete synchronously only within the middleware request
 budget. Refreshes that can outlive one request use Bounded Deferred Operations.
 Periodic durable-source refresh uses Replay Scheduler rather than a private sleep
 loop.
+
+One scheduler tick may claim at most 16 due sources. The effective batch is the
+intersection of that hard ceiling, the scheduler `max_records` budget, the
+remaining launch deadline, and the worker queue capacity. Reaching idle state,
+the launch deadline, queue capacity, worker shutdown, or connector unavailability
+stops the current batch with a closed `stop/reason`; a source-local rate-limit
+refusal is deferred and does not prevent later due sources from being considered.
+Every successful claim carries its own `timeout/ms` into the private BDO
+continuation. That timeout bounds the actual connector invocation and the BDO TTL
+adds only a 30-second reconciliation margin; it never replaces the invocation
+bound. Any failure after a claim is returned invokes exact operation-bound
+compensation, and compensation failure is emitted as structured diagnostics.
 
 Schedules are host-owned and bounded by:
 
@@ -833,8 +859,12 @@ already uses for model-package activation:
 
 ### Recovery has one source of truth
 
-On restart the host, not the connector, decides what was in flight. Enumerate at
-startup and resolve every case to a typed terminal state before serving:
+On restart the host, not the connector, decides what was in flight. Recovery runs
+synchronously after the supervised connector is ready but before Replay Scheduler
+starts or the daemon enters its running phase. It enumerates owned BDOs with a
+stable keyset cursor and resolves every case to a typed terminal state before the
+worker is marked recovered. An incomplete pass remains retryable rather than being
+marked recovered:
 
 | Interrupted state | Resolution |
 |---|---|
@@ -882,7 +912,7 @@ as a cache invariant, and it is the same rule stated twice on purpose.
 ### Schema Gate registration is a checklist, not a step
 
 A partial contract registration compiles cleanly while leaving the gate open, so
-treat it as a checklist. For each of the fifteen V1 schemas complete all of:
+treat it as a checklist. For each of the twenty V1 schemas complete all of:
 
 1. the contract-family variant;
 2. the lazily initialized validator static;
@@ -953,8 +983,8 @@ loop for a question a cheaper layer can answer.
 
 1. Apply resolved Decisions 1-8 to the appropriate profile contracts. This gate
    is complete; browser rendering, authenticated acquisition, and crawling remain
-   separately capability-bound work and do not block the eleven static V1 schemas.
-2. Freeze the fifteen schemas with positive and negative fixtures and complete Schema
+   separately capability-bound work and do not block the twenty static V1 schemas.
+2. Freeze the twenty schemas with positive and negative fixtures and complete Schema
    Gate registration end to end. *Gate:* unknown fields, missing bounds, and
    malformed provenance are rejected by the gate, not by application code.
 3. Implement `sensorium-web-core` with the purity guard present from the first
@@ -1111,14 +1141,14 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Status | Acceptance boundary |
 |---|---|---|---|
 | P084-001 | Freeze architecture, static V1 scope, source identity, authority split, named invariants, and profile ownership decisions | done | Decisions 1-8 freeze static admission and representation plus the boundaries of deferred robots, browser, credential-bound, and crawl work. |
-| P084-002 | Define the fifteen-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | done | Six reusable fetch schemas and nine P084 domain schemas are closed, mirrored, Schema Gate-tested, and semantically checked for source/profile/fetch bindings, artifact ref/digest binding, representation counts, relation uniqueness, durable schedule bounds, generation fencing, operator redaction, and latest-state digests. |
-| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | partial | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, cross-runtime frozen extraction-profile `1.1.0` identity including deterministic parser-event and nesting-depth limits, bounded inert document blocks with unique relation tokens, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Durable source-state semantics remain with P084-006. |
-| P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | partial | Exact caller/action/origin admission including explicit missing-caller refusal, internally timed DNS resolution, bounded workers and queue backpressure, a 64-address answer cap, all-address classification, fresh per-hop connection pinning with explicit rustls/WebPKI TLS and once-parsed roots, exact redirect-status handling, independent 64-header and byte caps, compressed/decompressed caps, per-hop plus total deadlines, global/per-origin concurrency, inline or content-bound Artifact Delivery handoff with recency-aware bounded transfer retention, exact caller/action isolation, and exact bounded eviction tombstones that distinguish `artifact-transfer-expired` from binding mismatch, metadata-only terminal trace, aggregate snapshot, daemon ingress/egress integration, and no-socket-return conformance are implemented. Persistent operator projection remains P084-006 work. |
+| P084-002 | Define the twenty-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | done | Eight reusable host schemas and twelve P084 domain schemas are closed, mirrored, Schema Gate-tested, and semantically checked for source/profile/fetch bindings, artifact ref/digest binding, representation counts, relation uniqueness, durable schedule bounds, generation fencing, operator redaction, latest-state digests, claim/timeout bindings, bounded sweep outcomes, and caller-bound Artifact Delivery retention receipts. |
+| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | done | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, cross-runtime frozen extraction-profile `1.1.0` identity including deterministic parser-event and nesting-depth limits, bounded inert document blocks with unique relation tokens, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Durable source-state semantics are completed under P084-006 rather than duplicated in the pure cores. |
+| P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | done | Exact caller/action/origin admission including explicit missing-caller refusal, internally timed DNS resolution, bounded workers and queue backpressure, a 64-address answer cap, all-address classification, fresh per-hop connection pinning with explicit rustls/WebPKI TLS and once-parsed roots, exact redirect-status handling, independent 64-header and byte caps, compressed/decompressed caps, per-hop plus total deadlines, global/per-origin concurrency, inline or content-bound Artifact Delivery handoff with recency-aware bounded transfer retention, exact caller/action isolation, and exact bounded eviction tombstones that distinguish `artifact-transfer-expired` from binding mismatch, metadata-only terminal trace, aggregate snapshot, daemon ingress/egress integration, no-socket-return conformance, and the P084-006 durable operator projection are implemented. |
 | P084-005 | Implement the supervised Python static extraction connector without ambient egress | done | The channel-only `sensorium-web` module consumes only daemon-fetched schema-gated values, revalidates inline and content-bound artifact bytes, applies the frozen stdlib profile, and produces bounded inert blocks. macOS Seatbelt permits only the exact host-created loopback middleware endpoint; portable harness tests and automated macOS deployment evidence prove exact-channel success plus refusal of another loopback port, DNS, proxy, and subprocess paths. Unsupported host adapters fail closed. |
-| P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | partial | SQLite WAL state content-binds idempotent source updates, fences replacements, caps sources, generations, operations, and snapshots, retains metadata before bodies, and resolves interrupted work to `unknown`. Exact `304` reuse requires retained generation, requested/final URL, profile, fetch-result, and body evidence. Replay Scheduler supplies deterministic jitter, bounded backoff, one-at-a-time no-overlap sweeps, launch budgets, pause/resume/run-now controls, and schema-gated operator inspection. V1 admits only refreshes with at most a 20-second synchronous fetch budget; BDO ownership, cancellation, and recovery remain required before longer refreshes are accepted. |
-| P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | partial | Changed documents are submitted through `sensorium.observe.submit` with classification, required operational context, source and generation refs, fetch and extraction digests, and P081 causal context; raw-body artifact refs appear only under explicit retention. A durable Artifact Delivery representation export plus a complete fetch-to-observation receipt/typed-failure trace remain. |
+| P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | done | SQLite WAL state content-binds idempotent source updates, fences replacements, caps sources, generations, operations, and snapshots, retains metadata before bodies, and resolves interrupted work to `unknown`. Exact `304` reuse requires retained generation, requested/final URL, profile, fetch-result, and body evidence. Replay Scheduler launches a bounded batch of at most 16 due sources per tick, narrowed by `max_records`, the remaining deadline, and worker capacity. Each claim's 1-120000 ms timeout is schema-gated, retained in the private P055 continuation, and applied to the actual connector invocation; every post-claim refusal is compensated with structured failure diagnostics. Cancellation remains fenced before every external effect and commit. Restart recovery runs synchronously after connector readiness and before scheduler startup, traverses owned BDOs once by stable keyset pages, and is marked recovered only after the full pass succeeds. Shutdown never blocks on a full queue or an unbounded join. Connector absence and source launch-rate exhaustion remain distinct typed scheduler diagnostics. Direct refresh remains capped at 20 seconds. Pause/resume/run-now, launch budgets, bounded backoff, and schema-gated operator inspection remain source-owned. |
+| P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | done | Changed documents are submitted through `sensorium.observe.submit` with classification, required operational context, source and generation refs, fetch and extraction digests, and P081 causal context. Explicit representation retention invokes authenticated `artifact.delivery.retain`, stores only the immutable artifact ref in the source snapshot, omits representation bytes from the observation envelope and SQLite cache evidence, and chains the Artifact Delivery receipt into the Sensorium observation receipt. Refresh status retains a bounded redacted receipt-ref chain plus closed failure code, phase, and retry class; raw-body artifact refs remain opt-in. |
 | P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | partial | The optional `sensorium-web-latest-state` adapter registers only when the connector is configured, schema-gates the daemon/module boundary, rechecks source, generation, and canonical snapshot digest, emits latest-state cursors, coalesces unchanged reads, and rejects stale generations. It exposes no refresh operation, so P082 read/subscribe cannot acquire fetch authority. Dedicated local SSE and authorized direct-peer/Room acceptance, revocation, and remote-refresh refusal evidence remain. |
-| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, and automated real macOS no-egress evidence are implemented without public-site dependency. Durable-source load, representation Artifact Delivery, BDO recovery, and dedicated P082 local/remote E2E remain. |
+| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, automated real macOS no-egress evidence, BDO recovery/cancellation, and content-bound representation-retention evidence are implemented without public-site dependency. Durable-source load and dedicated P082 local/remote E2E remain. |
 | P084-010 | Add `sensorium-web-browser.v1` isolated JavaScript rendering profile | deferred | Requires a separately accepted browser process, host-controlled egress, empty profile, resource caps, no credentials/shares, rendered snapshot contracts, and deployment evidence. |
 | P084-011 | Define and implement P084 Phase 2 `sensorium-web-crawl.v1` frontier and politeness profile | deferred | After static-profile acceptance, P084 must freeze frontier lifecycle, fail-closed robots behavior, depth/page/origin budgets, restart, cancellation, retention, and operator evidence before implementation is accepted. |
 | P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | deferred | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
@@ -1126,16 +1156,12 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Complete P084-006 by routing refreshes above the 20-second synchronous ceiling
-   through Bounded Deferred Operations with cancellation and restart evidence.
-2. Complete P084-007 by exporting retained extracted representations through
-   Artifact Delivery and retaining one redacted causal receipt chain.
-3. Complete P084-008 with dedicated local SSE, direct-peer, and Room acceptance,
+1. Complete P084-008 with dedicated local SSE, direct-peer, and Room acceptance,
    including revocation, stale generation, supersession, and remote-refresh refusal.
-4. Add durable-source capacity/load evidence across restart and operator inspection.
-5. Evaluate any proposed alternate extraction profile against the same checked-in
+2. Add durable-source capacity/load evidence across restart and operator inspection.
+3. Evaluate any proposed alternate extraction profile against the same checked-in
    corpus under a new profile identity; do not mutate the frozen stdlib profile.
-6. Keep browser rendering, credentials, P084 Phase 2 crawling, and P078
+4. Keep browser rendering, credentials, P084 Phase 2 crawling, and P078
    integration deferred until the static snapshot path has end-to-end authority
    and retention evidence.
 

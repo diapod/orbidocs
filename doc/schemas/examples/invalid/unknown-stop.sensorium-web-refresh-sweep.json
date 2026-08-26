@@ -1,0 +1,9 @@
+{
+  "schema": "sensorium-web-refresh-sweep.v1",
+  "schema/v": 1,
+  "seen": 0,
+  "launched": 0,
+  "skipped": 0,
+  "outcomes": [],
+  "stop/reason": "keep-running"
+}
