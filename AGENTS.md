@@ -27,6 +27,32 @@ When writing or updating docs, optimize for:
 4. **Auditability**: strategic and technical claims must be traceable.
 5. **Human agency**: humans remain accountable for governance and outcomes.
 
+### DIA / Orbiplex Interpretive Chain
+
+Use this reasoning chain throughout documentation work:
+
+`ontological basis -> core values -> vision -> normative law -> project artifacts -> solutions -> schemas -> implementation`
+
+Treat it as a genealogy of meaning, not as the normative hierarchy or a mandatory
+linear workflow. The Ontological Basis explains the genesis and coherence of values
+without creating rights or duties; the Constitution and normative hierarchy determine
+binding authority. Challenges, memos, and stories may converge on proposals and
+requirements through different paths.
+
+For each transition, preserve the upstream meaning and state what the receiving layer
+compresses or newly determines. Keep these claims distinct:
+
+- a memo is exploratory;
+- an accepted proposal freezes design semantics but does not prove runtime completion;
+- a solution records settled component responsibilities and capability status;
+- schemas carry exact machine-readable semantics;
+- implementation ledgers, tests, and runtime evidence establish implementation status.
+
+Do not let incidental mechanisms become domain semantics. When implementation evidence
+invalidates an assumption, correct the earliest owning layer and propagate the change
+downward through every affected document, contract, ledger, generated artifact, and
+fixture.
+
 ## 3. Language and Tone
 
 1. Write documentation in **English**.
