@@ -750,6 +750,42 @@ rebind after root/control-plane loss remain open. These items are explicitly
 outside the P066 hard-MVP denominator, so the Inquirium readiness percentages do
 not change.
 
+The 2026-08-26 post-MVP refresh adds the first MLX-LM companion implementation
+slice without changing that denominator. Node now owns a closed
+`mlx_lm_server` family for macOS arm64/Metal, reuses direct supervised
+`http_local`, clears the ambient child environment, supplies only host-rendered
+`PEX_ROOT`, reconstructs a flat immutable model directory from separately
+verified CAS assets, and makes MLX the Apple Silicon platform default for both
+direct Inquirium generation and NSE, with managed llama as the deterministic
+fallback. Linux x86_64/CPU retains llama as its default. The shared selection
+order applies only to already routable candidates. The inert package generator,
+pure manifest validator, mirrored Schema-Gate-registered
+`inquirium.local-model-acceptance-report.v2`, independent capability-fact
+vocabulary, full local-import lifecycle runner, and exact Qwen2.5-Coder 7B
+Story-012 descriptor/profile are present. The Story harness reuses the existing
+typed CandidatePlan and review validators, starts two supervised MLX runtimes,
+emits a closed Schema-Gate-registered metadata-only report v2,
+and refuses every llama-server fallback input. A local exploratory
+MLX-LM 0.30.2 probe passed discovery, non-stream generation, usage reporting,
+and SSE streaming, but malformed empty messages crashed the upstream generation
+worker and left the request hanging. The shared mapped OpenAI-compatible
+boundary now rejects missing, non-array, empty, and malformed text-message lists
+before HTTP I/O, with regression coverage proving that the worker receives no
+request. This contains rather than repairs the bare upstream defect. A subsequent
+native qualification used a strict hash-locked, byte-reproducible launcher with
+embedded portable CPython and a cache confined below host-rendered `PEX_ROOT`.
+The retained v2 report passes all ten lifecycle checks for the exact nine-file
+Qwen revision, including no-egress, real inference, dirty adoption,
+upgrade/rollback, removal, and generation 3; measurements are install 36,913 ms,
+cold warmup 58,150 ms, and first inference 589 ms. Its path is
+`node:tools/acceptance/inquirium-local-model/reports/2026-08-26.inquirium-local-model-acceptance.macos-arm64-metal-mlx.json`
+and file SHA-256 is `086fd22b0cb3abcf93be98e79003642e7c7d4d91bcb04ee56f84ef1fa1cdea99`.
+The MLX profile tracker remains `in-progress` only for independently probed
+optional capabilities, all currently `not-probed`; the Story tracker remains
+`in-progress` for its two-runtime vfkit run and calibrated memory, warmup, turn,
+deliberation, and end-to-end timing. `llama-server` remains the required portable
+baseline. Hard-MVP readiness and its percentages are unchanged.
+
 The current Inquirium closure also adds archive-before-prune context-grant
 revocation and bounded scheduler maintenance, non-empty participant projection
 rebuild from validated Memarium facts, resolved retention admission, exact

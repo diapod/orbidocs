@@ -20,7 +20,9 @@ Source schema: [`doc/schemas/sensorium-web-refresh-status.v1.schema.json`](../..
 | [`snapshot/id`](#field-snapshot-id) | `no` | ref: `#/$defs/ref` |  |
 | [`snapshot/digest`](#field-snapshot-digest) | `no` | ref: `#/$defs/digest` |  |
 | [`observation/id`](#field-observation-id) | `no` | ref: `#/$defs/ref` |  |
-| [`failure/code`](#field-failure-code) | `no` | enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled` |  |
+| [`failure/code`](#field-failure-code) | `no` | enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled` |  |
+| [`failure/phase`](#field-failure-phase) | `no` | enum: `claim`, `fetch`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel` |  |
+| [`receipt/refs`](#field-receipt-refs) | `no` | array |  |
 | [`retry/class`](#field-retry-class) | `no` | enum: `terminal`, `retryable`, `policy-dependent` |  |
 
 ## Definitions
@@ -181,7 +183,19 @@ Then:
 ## `failure/code`
 
 - Required: `no`
-- Shape: enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`
+- Shape: enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`
+
+<a id="field-failure-phase"></a>
+## `failure/phase`
+
+- Required: `no`
+- Shape: enum: `claim`, `fetch`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel`
+
+<a id="field-receipt-refs"></a>
+## `receipt/refs`
+
+- Required: `no`
+- Shape: array
 
 <a id="field-retry-class"></a>
 ## `retry/class`

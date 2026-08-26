@@ -2521,9 +2521,51 @@ than one aggregate `supports-mlx` flag. At minimum, probe streaming, batching,
 prompt cache, KV-cache quantization, tool calls, JSON-Schema structured output,
 and speculative decoding. A feature present in an MLX-LM library API but absent
 from the selected server entry point remains unsupported for that runtime
-profile. The macOS arm64 selector may prefer a fresh, passing MLX candidate when
-its required feature set is admitted; architecture alone must not override
-conformance, and `llama-server` remains the deterministic fallback.
+profile. The macOS arm64 selector prefers a fresh, passing MLX candidate when
+its required feature set is admitted; architecture alone does not override
+health, activation, or conformance, and `llama-server` remains the deterministic
+fallback.
+
+Implementation status (2026-08-26): the Node now has a closed managed-runtime
+family registry with an Apple Silicon-only `mlx_lm_server` entry. It reuses the
+direct supervised `http_local` adapter, the existing package lifecycle and
+no-egress process boundary, and the existing activation quarantine. MLX models
+are reconstructed as one flat immutable directory from separately verified CAS
+assets; the worker receives only a host-rendered `PEX_ROOT`, an immutable working
+directory, and the cleared managed-child environment. A host-owned platform
+policy makes MLX the Apple Silicon default and managed llama its fallback, while
+Linux x86_64/CPU retains llama as the default. Direct Inquirium generation and
+NSE apply the same explicit selection order only after ordinary health,
+freshness, conformance, and activation make a candidate routable. The inert
+package generator and pure Rust `validate` command cover a self-contained
+launcher plus at most 31 model files. The accepted provider-neutral
+`inquirium.local-model-acceptance-report.v2` records the full lifecycle and
+every optional capability independently. The opt-in `run_mlx.py` runner now
+executes the local-import authority ceremony, exact CAS reuse and
+reverification, activation/conformance, real inference, dirty-process adoption,
+package upgrade/rollback, idempotent removal, and the structural refusal matrix
+before emitting that report. The additive Story-012 profile binds a closed
+Qwen2.5-Coder 7B MLX descriptor and lifecycle evidence into two separately
+supervised vfkit discovery runtimes without accepting llama-server inputs. Its
+metadata-only full-system report v2 is registered in Schema Gate and requires
+the exact MLX package, lifecycle, no-fallback, and resource-calibration facts.
+
+Qualification is now complete for the native single-runtime lifecycle and still
+partial for optional capabilities plus Story composition. The strict lock pins
+the full MLX/Python artifact graph, two independent builds are byte-identical,
+and the launcher consumes no ambient Python or cache. The provider-native
+`default_model` selector and `/health` endpoint remain below the semantic package
+identity. The retained macOS arm64/Metal v2 report passes all ten lifecycle
+checks for the exact nine-file Qwen revision, including real inference,
+no-egress, dirty adoption, upgrade/rollback, removal, and generation 3. Its file
+SHA-256 is `086fd22b0cb3abcf93be98e79003642e7c7d4d91bcb04ee56f84ef1fa1cdea99`.
+The structural matrix proves the mapped malformed-message refusal before HTTP
+I/O. The bare upstream endpoint remains defective, but it is host-private and
+not the admitted Orbiplex boundary. The MLX-backed Story-012 report and calibrated
+dual-runtime memory/timing remain open. Independent retained probes for
+streaming, batching, prompt cache, KV-cache quantization, tool calls,
+JSON-Schema output, and speculative decoding also remain open; all seven facts
+therefore remain `not-probed` and unadvertised.
 
 ## Open Questions
 
@@ -2696,11 +2738,12 @@ a migration event, not a tweak:
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `inq-mlx-qwen-story-012-acceptance` | Qualify the exact Qwen2.5-Coder 7B MLX package, then compose it with Story 012 without changing the story semantics. | `in-progress` | The reproducible locked launcher, exact nine-file model package, native lifecycle v2 runner, mapped malformed-message refusal, exact runtime/model descriptor, additive vfkit profile, neutral harness rendering, fail-closed host output validation, no-fallback CLI boundary, and Schema-Gate-registered closed Story report v2 validator are implemented. The retained native report passes all ten lifecycle checks with generation 3. Completion now requires only the retained two-runtime Story report with measured memory, warmup, turn, deliberation, and end-to-end budgets. |
 | `inq-operational-context-prompt-framing` | Render admitted Sensorium operational impact as a pre-inference host-owned caution layer. | `done` | The daemon-owned prompt resolver accepts only qualifiers produced after exact P082 current-generation/current-publication validation, applies a monotone local floor and multi-feed maximum, and renders a closed, versioned Developer caution layer before feed-dependent inference. Host-owned request metadata and the durable Inquirium trace record the local policy ref, local floor, selected class, and a deterministic per-source list pairing each source class with its exact context digest, so an audit distinguishes source declaration from local elevation. The trace projection is passed from the composition root rather than inferred from caller metadata or provider output. The at-most-512-byte publisher summary remains retrieved data below the instruction hierarchy. Golden ordering and instruction-hash tests, provenance, missing-floor refusal, order-independence, and non-droppable production/critical tests cover the boundary without introducing an Inquirium TTL or adapter-owned policy. |
 | `inq-runtime-catalog-v02` | Move the lower model-runtime catalog to adapter implementations, adapter instances, model bindings, runtime candidates, runtime profiles, and conformance fixtures. | `done` | `node/model-runtime` contract v0.2 validates cross references and rejects missing adapter/model/conformance references. |
-| `inq-http-adapter-instance-handles` | Key HTTP lifecycle handles by adapter instance while invoking by selected runtime candidate. | `done` | `node/model-runtime-http` accepts `RuntimeInvocationContext`, supports one HTTP adapter instance serving multiple runtime candidates, rejects caller override of host-owned model keys, and now maps neutral Inquirium generate requests directly to local OpenAI-compatible `/v1/chat/completions` servers through the built-in `openai_chat_completions` request/response mapping. HTTP mapping validation has two valid modes: both request/response mapping formats absent for provider-native passthrough, or both set to the same supported format for mapped mode; half-mapped and unsupported formats fail closed during adapter-instance config validation. Mapped provider responses are bounded before JSON parsing, and oversized bodies are rejected by stopping the bounded read instead of buffering the full response. Daemon `inquirium.generate` invokes HTTP adapter instances through this context, Story 005 verifies the path with the opt-in simulator runtime, and the baseline assistant E2E uses direct local chat-completions without a Python HTTP proxy. |
+| `inq-http-adapter-instance-handles` | Key HTTP lifecycle handles by adapter instance while invoking by selected runtime candidate. | `done` | `node/model-runtime-http` accepts `RuntimeInvocationContext`, supports one HTTP adapter instance serving multiple runtime candidates, rejects caller override of host-owned model keys, and now maps neutral Inquirium generate requests directly to local OpenAI-compatible `/v1/chat/completions` servers through the built-in `openai_chat_completions` request/response mapping. HTTP mapping validation has two valid modes: both request/response mapping formats absent for provider-native passthrough, or both set to the same supported format for mapped mode; half-mapped and unsupported formats fail closed during adapter-instance config validation. Mapped text requests reject missing, non-array, empty, non-object, or blank-role/content messages before HTTP I/O, with regression coverage proving the worker receives no malformed request. Mapped provider responses are bounded before JSON parsing, and oversized bodies are rejected by stopping the bounded read instead of buffering the full response. Daemon `inquirium.generate` invokes HTTP adapter instances through this context, Story 005 verifies the path with the opt-in simulator runtime, and the baseline assistant E2E uses direct local chat-completions without a Python HTTP proxy. |
 | `inq-command-stdio-invocation-context` | Apply the same host-built runtime invocation context to command-stdio adapter instances. | `done` | `node/daemon` merges runtime defaults, model binding parameters, and caller body before stdin serialization; caller override of `model` fails closed in daemon lifecycle coverage. |
-| `inq-daemon-runtime-routing` | Supervise adapter instances and route by `runtime/ref` in the daemon. | `done` | Daemon status separates `healthy` from `routable`, reports adapter/model binding refs, and counts only routable candidates. Focused daemon runtime tests pass sequentially. |
+| `inq-daemon-runtime-routing` | Supervise adapter instances and route by `runtime/ref` in the daemon. | `done` | Daemon status separates `healthy` from `routable`, reports adapter/model binding refs, and counts only routable candidates. Direct Inquirium generation and NSE use the same explicit selection order with stable runtime-ref tie-breaking; tests prove that a preferred candidate wins independently of identifier order and that an unroutable default falls back deterministically. Focused daemon runtime tests pass sequentially. |
 | `inq-nse-use-runtime` | Make NSE choose runtime candidates instead of runtime/model pairs. | `done` | `nse` and `nse-rhai` use `UseRuntime { runtime_id, reason }`; Rhai scripts return `decision: "use-runtime"`. |
 | `inq-signed-adapter-manifests` | Treat adapter manifests as signed data, not hidden code promises. | `done` | Bundled Python Inquirium adapters declare `adapter_manifest` using `inquirium.adapter.manifest.v1` and register that fragment through `signed_config_artifacts[]` with the `orbiplex.inquirium.adapter-manifest.v1` signing domain. The shared adapter report returns the manifest from config, and the daemon signed-config loader now resolves hyphenated module ids against underscore config keys so those adapter-manifest sidecars are discovered. |
 | `inq-python-remote-provider-adapters` | Add first middleware-hosted remote provider adapters while preserving adapter-instance/runtime-candidate stratification. | `done` | The OpenAI adapter maps neutral generation and host-authorized JSON Schema to Responses and neutral embedding to the native `/v1/embeddings` endpoint; the Anthropic adapter maps generation and the same schema subset to Messages and deliberately does not claim an embedding API. Both share `node/middleware-modules/lib/inquirium_adapter`, expose neutral and chat-compatible endpoints, read secrets from env/file config, and have fake-provider coverage. `model-runtime-http` starts each adapter as a managed process, exercises invoke and shutdown, verifies one OpenAI instance serving two model bindings, and covers provider-backed OpenAI embeddings end to end. Host validation and rails remain authoritative after normalization. |

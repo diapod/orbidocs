@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-local-model-acceptance-report:v2",
+  "title": "Inquirium Local Model Acceptance Report v2",
+  "description": "Provider-neutral, metadata-only evidence for one real managed local-model package and independently probed runtime capabilities.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/066-inquirium-assistant-channel.md"
+  ],
+  "required": ["schema", "schema/v", "status", "platform/ref", "runtime", "model", "checks", "capabilities", "measurements", "budgets", "generations"],
+  "properties": {
+    "schema": { "const": "inquirium.local-model-acceptance-report.v2" },
+    "schema/v": { "const": 2 },
+    "status": { "const": "passed" },
+    "platform/ref": { "enum": ["macos-arm64-metal", "linux-x86_64-cpu"] },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "version", "sha256", "package/ref", "manifest/digest", "transport", "network-isolation"],
+      "properties": {
+        "family": { "enum": ["llama_server", "mlx_lm_server"] },
+        "version": { "$ref": "#/$defs/label" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "package/ref": { "type": "string", "pattern": "^model-package/.+$", "maxLength": 512 },
+        "manifest/digest": { "$ref": "#/$defs/digest" },
+        "transport": { "const": "http_local" },
+        "network-isolation": { "const": "no_egress" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "revision", "primary-sha256", "asset-count"],
+      "properties": {
+        "name": { "$ref": "#/$defs/label" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "primary-sha256": { "$ref": "#/$defs/digest" },
+        "asset-count": { "type": "integer", "minimum": 1, "maximum": 31 }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "runtime-self-contained",
+          "authorization-ceremony",
+          "cas-reuse",
+          "model-directory-reverification",
+          "activation-conformance",
+          "real-inference",
+          "dirty-restart",
+          "upgrade-rollback",
+          "removal",
+          "negative-matrix"
+        ]
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile/v", "streaming", "batching", "prompt-cache", "kv-cache-quantization", "tool-calls", "json-schema", "speculative-decoding"],
+      "properties": {
+        "profile/v": { "const": 1 },
+        "streaming": { "$ref": "#/$defs/capabilityFact" },
+        "batching": { "$ref": "#/$defs/capabilityFact" },
+        "prompt-cache": { "$ref": "#/$defs/capabilityFact" },
+        "kv-cache-quantization": { "$ref": "#/$defs/capabilityFact" },
+        "tool-calls": { "$ref": "#/$defs/capabilityFact" },
+        "json-schema": { "$ref": "#/$defs/capabilityFact" },
+        "speculative-decoding": { "$ref": "#/$defs/capabilityFact" }
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["install-ms", "warmup-ms", "first-inference-ms"],
+      "properties": {
+        "install-ms": { "type": "integer", "minimum": 0, "maximum": 1800000 },
+        "warmup-ms": { "type": "integer", "minimum": 0, "maximum": 420000 },
+        "first-inference-ms": { "type": "integer", "minimum": 0, "maximum": 120000 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["install-ms-max", "warmup-ms-max", "first-inference-ms-max"],
+      "properties": {
+        "install-ms-max": { "const": 1800000 },
+        "warmup-ms-max": { "const": 420000 },
+        "first-inference-ms-max": { "const": 120000 }
+      }
+    },
+    "generations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["active-profile"],
+      "properties": { "active-profile": { "type": "integer", "minimum": 1 } }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "capabilityFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["passed", "failed", "unsupported", "not-probed"] },
+        "conformance/ref": { "type": "string", "pattern": "^conformance-report/.+$", "maxLength": 512 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
+          "then": { "required": ["conformance/ref"] },
+          "else": { "not": { "required": ["conformance/ref"] } }
+        }
+      ]
+    }
+  }
+}

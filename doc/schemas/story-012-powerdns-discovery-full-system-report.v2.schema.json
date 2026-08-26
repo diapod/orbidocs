@@ -1,0 +1,1835 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:story-012-powerdns-discovery-full-system-report:v2",
+  "title": "Story 012 PowerDNS Discovery MLX Full-System Report v2",
+  "description": "Closed metadata-only report proving that two pinned Qwen2.5-Coder MLX runtimes authored and reviewed PowerDNS changes under the existing host-owned Story 012 authority boundary, with exact package lifecycle and resource-calibration evidence and no llama-server fallback.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/066-inquirium-assistant-channel.md",
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "profile/id",
+    "backend/id",
+    "platform/ref",
+    "evidence/boundary",
+    "checks",
+    "artifact/refs",
+    "corpus/draft-ref",
+    "operator-package",
+    "model",
+    "guest",
+    "dns/assertions",
+    "measurements",
+    "budgets",
+    "deliberation"
+  ],
+  "properties": {
+    "schema": {
+      "const": "story-012-powerdns-discovery-full-system-report.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "status": {
+      "const": "passed"
+    },
+    "profile/id": {
+      "const": "story-012-powerdns-qwen25-coder-discovery-mlx-vfkit"
+    },
+    "backend/id": {
+      "const": "vfkit-system.v1"
+    },
+    "platform/ref": {
+      "const": "macos-vz-arm64.v1"
+    },
+    "evidence/boundary": {
+      "const": "single-host-full-system"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 35,
+      "maxItems": 35,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "agent-output-backed-corpus-turns",
+          "artifact-export",
+          "dirty-recipient-restart",
+          "exact-localdomain-a-records",
+          "exact-mlx-package-lifecycle-evidence",
+          "exact-powerdns-package-pins",
+          "exclusive-host-approved-configuration",
+          "failed-experiment-correction",
+          "first-experiment-read-only",
+          "fresh-terminal-evidence-between-experiments",
+          "hil-per-effect",
+          "host-staged-mutation-scope-disclosed",
+          "host-synthesizes-only-declared-activation-and-framing",
+          "host-validated-constrained-output",
+          "localhost-only-powerdns-listener",
+          "model-authored-candidate-plans",
+          "model-authored-review-findings",
+          "no-deadline-fixture-fallback",
+          "no-llama-server-fallback",
+          "no-room-prose-direct-effect",
+          "nonpassing-experiment-precedes-success",
+          "observer-revocation",
+          "operator-package-flow-restart-revocation",
+          "p083-claim-invoke-release",
+          "pinned-powerdns-guest-fixture",
+          "read-only-terminal-room-projection",
+          "resource-calibration-recorded",
+          "review-precedes-chair-decision",
+          "role-aware-baton-deliberation",
+          "single-host-three-node-vfkit",
+          "solution-wrapper-absent",
+          "stale-generation-refusal",
+          "two-routable-qwen25-coder-mlx-runtimes",
+          "typed-experiment-admission-loop",
+          "unpublished-corpus-draft"
+        ]
+      }
+    },
+    "artifact/refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/ref"
+      }
+    },
+    "corpus/draft-ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "operator-package": {
+      "$ref": "#/$defs/operator-package-evidence"
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alias",
+        "runtime/count",
+        "runtime/nodes",
+        "runtime/refs",
+        "binding/ref",
+        "artifact/digest",
+        "inference/refs",
+        "agent-product/digests",
+        "runtime/family",
+        "runtime/version",
+        "runtime/sha256",
+        "package/ref",
+        "manifest/digest",
+        "lifecycle-report/sha256",
+        "model/revision",
+        "model/primary-digest",
+        "lifecycle/measurements",
+        "constrained-output/mode",
+        "fallback",
+        "resource-calibration",
+        "role/models"
+      ],
+      "properties": {
+        "alias": {
+          "const": "Qwen2.5-Coder-7B-Instruct"
+        },
+        "runtime/count": {
+          "const": 2
+        },
+        "runtime/nodes": {
+          "const": [
+            "node-b",
+            "node-c"
+          ]
+        },
+        "runtime/refs": {
+          "const": [
+            "runtime/baseline-assistant-mlx-lm"
+          ]
+        },
+        "binding/ref": {
+          "const": "model.binding/baseline-assistant-mlx-lm"
+        },
+        "artifact/digest": {
+          "const": "sha256:VqPZRwaDP3U-bGtH6levjvY4zYzB107KEUK6ZAsmBg4"
+        },
+        "inference/refs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/inference-ref"
+          }
+        },
+        "agent-product/digests": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/base64url-digest"
+          }
+        },
+        "role/models": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "solver",
+            "reviewer"
+          ],
+          "properties": {
+            "solver": {
+              "allOf": [
+                { "$ref": "#/$defs/role-model" },
+                {
+                  "properties": {
+                    "node": { "const": "node-b" },
+                    "alias": { "const": "Qwen2.5-Coder-7B-Instruct" },
+                    "artifact/digest": { "const": "sha256:VqPZRwaDP3U-bGtH6levjvY4zYzB107KEUK6ZAsmBg4" }
+                  }
+                }
+              ]
+            },
+            "reviewer": {
+              "allOf": [
+                { "$ref": "#/$defs/role-model" },
+                {
+                  "properties": {
+                    "node": { "const": "node-c" },
+                    "alias": { "const": "Qwen2.5-Coder-7B-Instruct" },
+                    "artifact/digest": { "const": "sha256:VqPZRwaDP3U-bGtH6levjvY4zYzB107KEUK6ZAsmBg4" }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "runtime/family": {
+          "const": "mlx_lm_server"
+        },
+        "runtime/version": {
+          "const": "0.30.2+pex.1"
+        },
+        "runtime/sha256": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "package/ref": {
+          "type": "string",
+          "pattern": "^model-package/.+$",
+          "maxLength": 512
+        },
+        "manifest/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "lifecycle-report/sha256": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "model/revision": {
+          "const": "019cc73c45c770444708a6dd8690c66243cc5c80"
+        },
+        "model/primary-digest": {
+          "const": "sha256:VqPZRwaDP3U-bGtH6levjvY4zYzB107KEUK6ZAsmBg4"
+        },
+        "lifecycle/measurements": {
+          "$ref": "#/$defs/mlx-lifecycle-measurements"
+        },
+        "constrained-output/mode": {
+          "const": "host-validated"
+        },
+        "fallback": {
+          "const": "none"
+        },
+        "resource-calibration": {
+          "$ref": "#/$defs/mlx-resource-calibration"
+        }
+      }
+    },
+    "guest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture/ref",
+        "fixture/digest",
+        "apt/packages",
+        "image/artifact-digest",
+        "image/manifest-digest"
+      ],
+      "properties": {
+        "fixture/ref": {
+          "enum": [
+            "story-fixture:story-012-powerdns-discovery-v1",
+            "story-fixture:story-012-powerdns-missing-zone-data-v1"
+          ]
+        },
+        "fixture/digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "apt/packages": {
+          "const": [
+            "pdns-backend-bind=4.8.3-4build3",
+            "pdns-server=4.8.3-4build3"
+          ]
+        },
+        "image/artifact-digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "image/manifest-digest": {
+          "$ref": "#/$defs/hex-digest"
+        }
+      }
+    },
+    "dns/assertions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/dns-assertion-a"
+        },
+        {
+          "$ref": "#/$defs/dns-assertion-b"
+        },
+        {
+          "$ref": "#/$defs/dns-assertion-c"
+        }
+      ],
+      "items": false
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration/ms",
+        "deliberation/ms"
+      ],
+      "properties": {
+        "duration/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1500000
+        },
+        "deliberation/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 840000
+        }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration/ms-max",
+        "deliberation/ms-max"
+      ],
+      "properties": {
+        "duration/ms-max": {
+          "const": 1500000
+        },
+        "deliberation/ms-max": {
+          "const": 825000
+        }
+      }
+    },
+    "deliberation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "room/floor-mode",
+        "roles",
+        "speaker/order",
+        "requester-opening/ref",
+        "cycles",
+        "cycle/limit",
+        "stop/reason",
+        "turn/refs",
+        "overlay/refs",
+        "inference/refs",
+        "experiment/count",
+        "experiments",
+        "resolution/path",
+        "fallback/used",
+        "room-prose/direct-effect-count",
+        "effect-audit",
+        "critique-gate",
+        "discovery",
+        "resource-usage",
+        "effective-wall-time/ms-max",
+        "hard-wall-time/ms-max"
+      ],
+      "properties": {
+        "mode": {
+          "const": "baton"
+        },
+        "room/floor-mode": {
+          "const": "round-robin"
+        },
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "solver",
+            "reviewer"
+          ],
+          "properties": {
+            "solver": {
+              "const": "node-b"
+            },
+            "reviewer": {
+              "const": "node-c"
+            }
+          }
+        },
+        "speaker/order": {
+          "const": [
+            "requester-opening",
+            "solver",
+            "reviewer"
+          ]
+        },
+        "requester-opening/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "cycles": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 64
+        },
+        "cycle/limit": {
+          "const": 64
+        },
+        "stop/reason": {
+          "const": "model-authored-plan-passed"
+        },
+        "turn/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "overlay/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "inference/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/inference-ref"
+          }
+        },
+        "experiment/count": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 8
+        },
+        "experiments": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/experiment"
+          },
+          "allOf": [
+            {
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "model-authored-plan-nonpassing"
+                  },
+                  "verification/passed": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "verification/passed"
+                ]
+              },
+              "minContains": 1
+            },
+            {
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "model-authored-plan-passed"
+                  },
+                  "verification/passed": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "verification/passed"
+                ]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            }
+          ]
+        },
+        "resolution/path": {
+          "const": "model-authored-discovery"
+        },
+        "fallback/used": {
+          "const": false
+        },
+        "room-prose/direct-effect-count": {
+          "const": 0
+        },
+        "effect-audit": {
+          "$ref": "#/$defs/effect-audit"
+        },
+        "critique-gate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "solver-plan/source",
+            "review/source",
+            "chair/source",
+            "chair-block/count",
+            "prose/direct-effect-count"
+          ],
+          "properties": {
+            "solver-plan/source": {
+              "const": "agent-product-marker"
+            },
+            "review/source": {
+              "const": "agent-product-marker"
+            },
+            "chair/source": {
+              "const": "agent-product-marker"
+            },
+            "chair-block/count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "prose/direct-effect-count": {
+              "const": 0
+            }
+          }
+        },
+        "discovery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "challenge/id",
+            "solution-wrapper/invocations",
+            "host-domain-command-synthesis/count",
+            "host-structural-framing",
+            "review-rejections/count",
+            "first-experiment/read-only",
+            "nonpassing/experiments",
+            "model-command/digests",
+            "verifier/mode"
+          ],
+          "properties": {
+            "challenge/id": {
+              "enum": [
+                "powerdns-bind-unconfigured.v1",
+                "powerdns-bind-missing-zone-data.v1"
+              ]
+            },
+            "solution-wrapper/invocations": {
+              "const": 0
+            },
+            "host-domain-command-synthesis/count": {
+              "const": 0
+            },
+            "host-structural-framing": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "umask",
+                "materialized-file-mode",
+                "operation/id",
+                "p083/lifecycle"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "shell-umask"
+                },
+                "umask": {
+                  "const": "022"
+                },
+                "materialized-file-mode": {
+                  "const": "0644"
+                },
+                "operation/id": {
+                  "const": "sensorium-operation:story-012-powerdns-discovery-shell-framing"
+                },
+                "p083/lifecycle": {
+                  "const": [
+                    "claim",
+                    "invoke",
+                    "release"
+                  ]
+                }
+              }
+            },
+            "review-rejections/count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "first-experiment/read-only": {
+              "const": true
+            },
+            "nonpassing/experiments": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            },
+            "model-command/digests": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 8,
+              "items": {
+                "$ref": "#/$defs/base64url-digest"
+              }
+            },
+            "verifier/mode": {
+              "const": "observation-only"
+            }
+          }
+        },
+        "resource-usage": {
+          "$ref": "#/$defs/model-turn-resource-usage"
+        },
+        "effective-wall-time/ms-max": {
+          "const": 780000
+        },
+        "hard-wall-time/ms-max": {
+          "const": 825000
+        }
+      }
+    }
+  },
+  "$defs": {
+    "operator-package-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package/ref",
+        "package/digest",
+        "artifact/digest",
+        "activation/ref",
+        "activation/generation",
+        "activation/plan-digest",
+        "activation/receipt-digest",
+        "conformance/report-ref",
+        "conformance/report-digest",
+        "flow",
+        "turn-order",
+        "revocation"
+      ],
+      "properties": {
+        "package/ref": {
+          "const": "extension-package:story-012-packaged-flow"
+        },
+        "package/digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "artifact/digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "activation/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "activation/generation": {
+          "const": 1
+        },
+        "activation/plan-digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "activation/receipt-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "conformance/report-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "conformance/report-digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "flow": {
+          "$ref": "#/$defs/package-flow-evidence"
+        },
+        "turn-order": {
+          "$ref": "#/$defs/package-turn-order-evidence"
+        },
+        "revocation": {
+          "$ref": "#/$defs/package-revocation-evidence"
+        }
+      }
+    },
+    "package-flow-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "flow/ref",
+        "flow/digest",
+        "binding/ref",
+        "binding/digest",
+        "agent/id",
+        "agent-binding/ref",
+        "package/max-passages",
+        "binding/max-passages",
+        "corpus",
+        "passage/refs",
+        "product/digests",
+        "terminal-product/ref",
+        "terminal-product/digest",
+        "restart/replay",
+        "post-revocation/refusal"
+      ],
+      "properties": {
+        "flow/ref": {
+          "const": "agent-inference-passage-acceptance"
+        },
+        "flow/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "binding/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "binding/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "agent/id": {
+          "const": "agent:inference-acceptance:story-012-package"
+        },
+        "agent-binding/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "package/max-passages": {
+          "const": 8
+        },
+        "binding/max-passages": {
+          "const": 4
+        },
+        "corpus": {
+          "$ref": "#/$defs/package-flow-corpus-evidence"
+        },
+        "passage/refs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "product/digests": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/base64url-digest"
+          }
+        },
+        "terminal-product/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "terminal-product/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "restart/replay": {
+          "const": "stale-authority-refused"
+        },
+        "post-revocation/refusal": {
+          "const": "package-authority-not-current"
+        }
+      }
+    },
+    "package-flow-corpus-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding/ref",
+        "binding/digest",
+        "participant/ref",
+        "role-assignment/ref",
+        "role-assignment/revision",
+        "role-assignment/digest",
+        "instruction-overlay/ref",
+        "instruction-overlay/revision",
+        "instruction-overlay/digest",
+        "room-policy/ref",
+        "room-policy/digest",
+        "policy/generation"
+      ],
+      "properties": {
+        "binding/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "binding/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "participant/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "role-assignment/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "role-assignment/revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "role-assignment/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "instruction-overlay/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "instruction-overlay/revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "instruction-overlay/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "room-policy/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "room-policy/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "policy/generation": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "package-turn-order-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy/ref",
+        "policy/digest",
+        "producer/ref",
+        "producer/digest",
+        "offer/ref",
+        "offer/digest",
+        "decision/ref",
+        "decision/digest",
+        "operator/authority-decision-ref",
+        "restart/replay",
+        "restart/refusal-digest"
+      ],
+      "properties": {
+        "policy/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "policy/digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "producer/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "producer/digest": {
+          "$ref": "#/$defs/hex-digest"
+        },
+        "offer/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "offer/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "decision/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "decision/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "operator/authority-decision-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "restart/replay": {
+          "const": "stale-authority-refused"
+        },
+        "restart/refusal-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        }
+      }
+    },
+    "package-revocation-evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revocation/ref",
+        "receipt/digest",
+        "turn-order-refusal/digest",
+        "flow-stale-replay/refusal-digest",
+        "flow-stale-replay/result"
+      ],
+      "properties": {
+        "revocation/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "receipt/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "turn-order-refusal/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "flow-stale-replay/refusal-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "flow-stale-replay/result": {
+          "const": "package-authority-not-current"
+        }
+      }
+    },
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s]+$"
+    },
+    "inference-ref": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ref"
+        },
+        {
+          "not": {
+            "pattern": "^sensorium-control-lease:"
+          }
+        }
+      ]
+    },
+    "role-model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node",
+        "alias",
+        "artifact/digest"
+      ],
+      "properties": {
+        "node": {
+          "enum": [
+            "node-b",
+            "node-c"
+          ]
+        },
+        "alias": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "artifact/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        }
+      }
+    },
+    "effect-audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source/schema",
+        "projection/item-count",
+        "projection/total-count",
+        "expected/proposal-refs",
+        "observed/proposal-refs",
+        "unmatched/proposal-refs",
+        "unmatched/count"
+      ],
+      "properties": {
+        "source/schema": {
+          "const": "agent.status.response.v1"
+        },
+        "projection/item-count": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 128
+        },
+        "projection/total-count": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 128
+        },
+        "expected/proposal-refs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "observed/proposal-refs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "unmatched/proposal-refs": {
+          "const": []
+        },
+        "unmatched/count": {
+          "const": 0
+        }
+      }
+    },
+    "hex-digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "base64url-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "model-turn-resource-usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "configured",
+        "turns",
+        "totals",
+        "maxima",
+        "agent-sessions"
+      ],
+      "properties": {
+        "configured": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "turn/duration-ms-max",
+            "output/tokens-max",
+            "context/tokens-max"
+          ],
+          "properties": {
+            "turn/duration-ms-max": {
+              "const": 330000
+            },
+            "output/tokens-max": {
+              "const": 2048
+            },
+            "context/tokens-max": {
+              "const": 8192
+            }
+          }
+        },
+        "turns": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/model-turn-measurement"
+          }
+        },
+        "totals": {
+          "$ref": "#/$defs/model-turn-totals"
+        },
+        "maxima": {
+          "$ref": "#/$defs/model-turn-counters"
+        },
+        "agent-sessions": {
+          "$ref": "#/$defs/agent-session-resource-usage"
+        }
+      }
+    },
+    "model-turn-measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cycle",
+        "node",
+        "role",
+        "duration/ms",
+        "prompt/tokens",
+        "completion/tokens",
+        "total/tokens",
+        "text/bytes",
+        "product/bytes"
+      ],
+      "properties": {
+        "cycle": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "node": {
+          "enum": [
+            "node-b",
+            "node-c"
+          ]
+        },
+        "role": {
+          "enum": [
+            "solver",
+            "reviewer"
+          ]
+        },
+        "duration/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 330000
+        },
+        "prompt/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "completion/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2048
+        },
+        "total/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8960
+        },
+        "text/bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "product/bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        }
+      }
+    },
+    "model-turn-counters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration/ms",
+        "prompt/tokens",
+        "completion/tokens",
+        "total/tokens",
+        "text/bytes",
+        "product/bytes"
+      ],
+      "properties": {
+        "duration/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 330000
+        },
+        "prompt/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "completion/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2048
+        },
+        "total/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8960
+        },
+        "text/bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16384
+        },
+        "product/bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        }
+      }
+    },
+    "model-turn-totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration/ms",
+        "prompt/tokens",
+        "completion/tokens",
+        "total/tokens",
+        "text/bytes",
+        "product/bytes"
+      ],
+      "properties": {
+        "duration/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 42240000
+        },
+        "prompt/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "completion/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 262144
+        },
+        "total/tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1146880
+        },
+        "text/bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2097152
+        },
+        "product/bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8388608
+        }
+      }
+    },
+    "agent-session-resource-usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sessions",
+        "totals",
+        "maxima"
+      ],
+      "properties": {
+        "sessions": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/agent-session-measurement"
+          }
+        },
+        "totals": {
+          "$ref": "#/$defs/agent-budget-total"
+        },
+        "maxima": {
+          "$ref": "#/$defs/agent-budget-counters"
+        }
+      }
+    },
+    "agent-session-measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node",
+        "role",
+        "configured",
+        "spent",
+        "reserved",
+        "remaining"
+      ],
+      "properties": {
+        "node": {
+          "enum": [
+            "node-b",
+            "node-c"
+          ]
+        },
+        "role": {
+          "enum": [
+            "solver",
+            "reviewer"
+          ]
+        },
+        "configured": {
+          "$ref": "#/$defs/agent-session-configured-budget"
+        },
+        "spent": {
+          "$ref": "#/$defs/agent-budget-counters"
+        },
+        "reserved": {
+          "$ref": "#/$defs/agent-budget-counters"
+        },
+        "remaining": {
+          "$ref": "#/$defs/agent-budget-counters"
+        }
+      }
+    },
+    "agent-session-configured-budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokens",
+        "cost/micros",
+        "wall-time/ms",
+        "steps"
+      ],
+      "properties": {
+        "tokens": {
+          "const": 131072
+        },
+        "cost/micros": {
+          "const": 0
+        },
+        "wall-time/ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 830000
+        },
+        "steps": {
+          "const": 128
+        }
+      }
+    },
+    "agent-budget-counters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokens",
+        "cost/micros",
+        "wall-time/ms",
+        "steps"
+      ],
+      "properties": {
+        "tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 131072
+        },
+        "cost/micros": {
+          "const": 0
+        },
+        "wall-time/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 830000
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128
+        }
+      }
+    },
+    "agent-budget-total": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokens",
+        "cost/micros",
+        "wall-time/ms",
+        "steps"
+      ],
+      "properties": {
+        "tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 262144
+        },
+        "cost/micros": {
+          "const": 0
+        },
+        "wall-time/ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1660000
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 256
+        }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt",
+        "outcome",
+        "proposal/ref",
+        "passage/ref",
+        "flow/ref",
+        "execution/ref",
+        "execution/status",
+        "effect/proposal-ref",
+        "executor/inference-ref",
+        "executor/product-ref",
+        "executor/product-digest",
+        "agent/decision",
+        "hil/question-ref",
+        "hil/decision",
+        "p083/lifecycle",
+        "lease/released",
+        "candidate-plan/proposal",
+        "candidate-plan/producer-node",
+        "candidate-plan/inert-at-admission",
+        "invoke/receipt",
+        "authority/events",
+        "terminal/event-count",
+        "plan-publication/ref",
+        "review/ref",
+        "review/verdict",
+        "review/findings",
+        "review/failed-assumption",
+        "review/supporting-evidence",
+        "review/redundant-actions",
+        "review/next-discriminating-test",
+        "review/replacement-applied",
+        "chair-decision/ref",
+        "chair/product-ref",
+        "chair-block/tested",
+        "terminal-state/digest",
+        "model-command/digest",
+        "candidate-plan/digest",
+        "terminal/completion-marker",
+        "terminal/output-digest",
+        "relevant-precondition/digest",
+        "novelty/original-decision",
+        "novelty/selected-decision",
+        "verification/passed"
+      ],
+      "properties": {
+        "attempt": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "outcome": {
+          "enum": [
+            "model-authored-plan-nonpassing",
+            "model-authored-plan-passed"
+          ]
+        },
+        "proposal/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "passage/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "flow/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "execution/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "execution/status": {
+          "const": "terminal"
+        },
+        "effect/proposal-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "executor/inference-ref": {
+          "$ref": "#/$defs/inference-ref"
+        },
+        "executor/product-ref": {
+          "type": "string",
+          "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "executor/product-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "agent/decision": {
+          "const": "propose"
+        },
+        "hil/question-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "hil/decision": {
+          "const": "approved"
+        },
+        "p083/lifecycle": {
+          "const": [
+            "claim",
+            "invoke",
+            "release"
+          ]
+        },
+        "lease/released": {
+          "const": true
+        },
+        "terminal/event-count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "plan-publication/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "review/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "review/verdict": {
+          "enum": [
+            "accept",
+            "revise"
+          ]
+        },
+        "review/findings": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/review-text"
+          }
+        },
+        "review/failed-assumption": {
+          "$ref": "#/$defs/review-text"
+        },
+        "review/supporting-evidence": {
+          "$ref": "#/$defs/review-text"
+        },
+        "review/redundant-actions": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/review-text"
+          }
+        },
+        "review/next-discriminating-test": {
+          "$ref": "#/$defs/review-text"
+        },
+        "review/replacement-applied": {
+          "type": "boolean"
+        },
+        "chair-decision/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "chair/product-ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "chair-block/tested": {
+          "type": "boolean"
+        },
+        "terminal-state/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "model-command/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "candidate-plan/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "candidate-plan/proposal": {
+          "$ref": "corpus-reasoning-experiment-proposal.v1.schema.json"
+        },
+        "candidate-plan/producer-node": {
+          "const": "node-b"
+        },
+        "candidate-plan/inert-at-admission": {
+          "$ref": "#/$defs/inert-plan-admission"
+        },
+        "invoke/receipt": {
+          "$ref": "sensorium-interface-invoke-receipt.v1.schema.json"
+        },
+        "authority/events": {
+          "$ref": "corpus-experiment-authority-events.v1.schema.json"
+        },
+        "terminal/completion-marker": {
+          "type": "string",
+          "pattern": "^STORY012 DISCOVERY EXPERIMENT COMPLETE [1-9][0-9]* [A-Za-z0-9_-]{43}$",
+          "maxLength": 128
+        },
+        "terminal/output-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "relevant-precondition/digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "novelty/original-decision": {
+          "$ref": "#/$defs/novelty-decision"
+        },
+        "novelty/selected-decision": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/novelty-decision"
+            },
+            {
+              "properties": {
+                "decision": {
+                  "const": "novel"
+                }
+              }
+            }
+          ]
+        },
+        "verification/passed": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "review/verdict": {
+                "const": "revise"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "review/replacement-applied": {
+                "const": true
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "review/replacement-applied": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "review-text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "inert-plan-admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "flow/ref",
+        "node/count",
+        "pending/count"
+      ],
+      "properties": {
+        "flow/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "node/count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "pending/count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        }
+      }
+    },
+    "novelty-decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "decision",
+        "reason",
+        "prior/attempt",
+        "prior/effect-digest",
+        "current/effect-digest",
+        "prior/precondition-digest",
+        "current/precondition-digest",
+        "repeated/process-count"
+      ],
+      "properties": {
+        "schema": {
+          "const": "story-012.powerdns-experiment-novelty-decision.v1"
+        },
+        "decision": {
+          "enum": [
+            "novel",
+            "redundant"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "no-prior-experiment",
+            "novel-effect",
+            "exact-effect-repeated",
+            "exact-mutation-repeated-with-unchanged-preconditions",
+            "failed-probes-repeated"
+          ]
+        },
+        "prior/attempt": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "prior/effect-digest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/base64url-digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current/effect-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "prior/precondition-digest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/base64url-digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current/precondition-digest": {
+          "$ref": "#/$defs/base64url-digest"
+        },
+        "repeated/process-count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "dns-assertion-a": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query/id",
+        "name",
+        "expected/address",
+        "actual/address",
+        "peer/address"
+      ],
+      "properties": {
+        "query/id": {
+          "const": 4608
+        },
+        "name": {
+          "const": "a.localdomain"
+        },
+        "expected/address": {
+          "const": "127.0.0.1"
+        },
+        "actual/address": {
+          "const": "127.0.0.1"
+        },
+        "peer/address": {
+          "const": "127.0.0.1"
+        }
+      }
+    },
+    "dns-assertion-b": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query/id",
+        "name",
+        "expected/address",
+        "actual/address",
+        "peer/address"
+      ],
+      "properties": {
+        "query/id": {
+          "const": 4609
+        },
+        "name": {
+          "const": "b.localdomain"
+        },
+        "expected/address": {
+          "const": "127.0.0.2"
+        },
+        "actual/address": {
+          "const": "127.0.0.2"
+        },
+        "peer/address": {
+          "const": "127.0.0.1"
+        }
+      }
+    },
+    "dns-assertion-c": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query/id",
+        "name",
+        "expected/address",
+        "actual/address",
+        "peer/address"
+      ],
+      "properties": {
+        "query/id": {
+          "const": 4610
+        },
+        "name": {
+          "const": "c.localdomain"
+        },
+        "expected/address": {
+          "const": "127.0.0.3"
+        },
+        "actual/address": {
+          "const": "127.0.0.3"
+        },
+        "peer/address": {
+          "const": "127.0.0.1"
+        }
+      }
+    },
+    "mlx-lifecycle-measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "install-ms",
+        "warmup-ms",
+        "first-inference-ms"
+      ],
+      "properties": {
+        "install-ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1800000
+        },
+        "warmup-ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 420000
+        },
+        "first-inference-ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120000
+        }
+      }
+    },
+    "mlx-resource-calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "host/memory-bytes",
+        "runtime/count",
+        "lifecycle/measurements"
+      ],
+      "properties": {
+        "host/memory-bytes": {
+          "type": "integer",
+          "minimum": 25769803776
+        },
+        "runtime/count": {
+          "const": 2
+        },
+        "lifecycle/measurements": {
+          "$ref": "#/$defs/mlx-lifecycle-measurements"
+        }
+      }
+    }
+  }
+}

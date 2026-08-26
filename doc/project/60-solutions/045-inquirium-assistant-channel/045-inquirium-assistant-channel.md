@@ -101,6 +101,24 @@ specifics do not enter the Assistant Channel contract. Package manifests,
 operator-owned model endorsements, source trust, atomic activation, and rollback
 are governed by Proposal 066 Decision 8.5.1.
 
+As of 2026-08-26, the MLX companion foundation is implemented below this
+solution boundary: a closed Apple Silicon runtime-family entry, direct
+`http_local` supervision, a cleared child environment with host-rendered
+`PEX_ROOT`, immutable multi-asset model materialization, conformance-gated
+selection order, an Apple Silicon MLX-first platform default shared by direct
+Inquirium generation and NSE, deterministic managed-llama fallback, a
+provider-neutral acceptance-report v2, and a complete local-import lifecycle
+runner. The exact Qwen2.5-Coder 7B descriptor and additive Story-012 profile now
+reuse the typed discovery validators, start two separately supervised MLX
+runtimes, and refuse llama-server fallback inputs. The reproducible hash-locked
+launcher and exact Qwen package now have a retained passing native v2 lifecycle
+report: all ten checks, no-egress, dirty adoption, generation 3, install 36,913 ms,
+cold warmup 58,150 ms, and first inference 589 ms. The same structural evidence
+proves malformed empty text-message payloads are rejected before worker I/O.
+The row remains post-MVP and `in-progress` because the two-runtime Story report
+and independent evidence for every optional MLX capability are still absent; no
+optional capability is part of the Assistant Channel guarantee.
+
 ## Must Implement
 
 ### Assistant Turn Boundary
@@ -278,11 +296,10 @@ separate integrations with their owning components and capability gates.
 ## Next Actions
 
 1. Preserve the local baseline and no-contact invariants as UI surfaces evolve.
-2. Complete the remaining post-MVP local-model packaging rows in Proposal 066:
-   daemon-owned operator-question/signer wiring, distributor-signed runtime
-   manifests, package-to-supervisor activation, and process acceptance for the
-   macOS arm64/Metal and Linux x86_64/CPU release profiles. The host-owned asset
-   store and journaled install/activation/rollback lifecycle are already landed.
+2. Complete the remaining post-MVP local-model release rows in Proposal 066:
+   publish the production-key-signed llama release, execute the additive
+   two-runtime Story-012 MLX profile, and probe each optional MLX capability
+   independently before promoting it.
 3. Preserve the process-level escalation/acceptance smoke as Agent, notification,
    and local-control surfaces evolve.
 
