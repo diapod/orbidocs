@@ -6,6 +6,7 @@ Based on:
 - `doc/project/30-stories/story-005-whisper-rumor-intake.md`
 - `doc/project/30-stories/story-010-message-to-a-friend.md`
 - `doc/project/30-stories/story-011-corpus-fish.md`
+- `doc/project/30-stories/story-012-agents-share-chair-terminal.md`
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
 - `doc/project/40-proposals/042-inter-node-artifact-channel.md`
 - `doc/project/40-proposals/054-user-maintained-federated-seed-directory.md`
@@ -36,9 +37,9 @@ Corpus, Matrix carriers, and per-story acceptance tooling.
 
 What is missing is a common consumer for those primitives:
 
-1. a hermetic **multi-node federation harness** that can bring up a local
-   N-node network in CI and exercise federated flows without relying on
-   production-like manual setup;
+1. a hermetic **multi-node federation harness** that can bring up an N-node
+   network either locally in CI or across explicitly configured physical hosts
+   and exercise federated flows without production-like manual setup;
 2. a read-only **trace explorer** that can collect node-local evidence from
    multiple data directories and render one causal timeline across nodes,
    transports, attestations, artifacts, and storage logs.
@@ -88,8 +89,8 @@ For federation, "works on one node" is not enough.
 
 ## Goals
 
-- Provide a declarative N-node local federation harness usable in CI and by
-  operators/developers.
+- Provide a declarative N-node federation harness usable locally in CI or across
+  explicitly configured physical hosts by operators and developers.
 - Reuse existing story acceptance knowledge instead of replacing it with a
   parallel framework.
 - Build one normalized trace event model over existing node-local audit stores,
@@ -142,6 +143,65 @@ turn a declarative input into a checked execution plan.
 - clean up processes and temporary stores.
 
 The runtime should be usable by CLI and CI, but should remain below operator UI.
+
+### Physical Multi-Host Execution Profile
+
+The same checked execution plan may be realized on separate physical hosts. This
+is an additive deployment profile, not a second harness architecture. The
+physical profile separates two values that story-specific scripts have often
+combined:
+
+- an operator-owned topology maps stable acceptance slots such as `node-a`,
+  `node-b`, and `node-c` to reachable hosts and platform classes;
+- a story profile maps scenario duties, services, models, images, and evidence
+  requirements to those slots.
+
+The reusable topology is selected with `ORBIPLEX_ACCEPTANCE_TOPOLOGIES`, while each
+host identifies its own slot with `ORBIPLEX_ACCEPTANCE_SLOT`. Implementations
+must also accept `--topology`; explicit CLI input takes precedence over the
+environment. Absence of both inputs is an explicit local-profile selection or a
+typed refusal, never an implicit discovery of machines on the operator network.
+
+Every participating host must resolve the same topology bytes and digest. The
+topology contains infrastructure facts only: slot, hostname, platform reference,
+and SSH control endpoint. It must not contain private keys, bearer tokens,
+grants, story roles, model paths, image paths, or story-specific ports. Real
+operator topology files remain outside the repository; checked examples use
+reserved example hostnames.
+
+The orchestrator runs on whichever participating host invokes the acceptance
+command. It executes the local slot directly and remote slots through a uniform
+executor backed by SSH. SSH owns harness lifecycle, preflight, log collection,
+and evidence transfer only. Room, Corpus, WSS, Sensorium Interfaces, and other
+product traffic must flow directly between the daemons over their declared
+product transports; tunneling product traffic through the control executor does
+not prove multi-host behavior.
+
+Any-host invocation does not create multiple authorities. A run has one
+canonical lease, run id, topology digest, and append-only step ledger, anchored
+on the scenario owner slot unless the story declares another owner. A second
+orchestrator may resume idempotent work after proving the same run identity and
+lease state, but cannot start a competing execution. Each node emits local
+evidence; the orchestrator assembles an aggregate manifest without pretending
+to have ambient access to private node-local traces.
+
+Host-local roots are resolved data, not ambient child-process configuration.
+The executor may consume `ORBIPLEX_MODEL_ROOT` as a planning input, but must
+remove it from every inherited daemon environment and inject one canonical,
+non-overlapping writable model-store root per slot. The model store has one
+owner marker and exclusive writer; shared read-only model/package source bytes
+do not authorize daemons to share one writable `managed/` tree. Equal,
+overlapping, symlink-aliased, or already-owned roots on the same host filesystem
+fail before process start. Equal path text on independent hosts is not itself a
+conflict.
+
+Durable run state and an effectful VMM workspace are separate roots. A vfkit
+workspace uses a short canonical path selected against the longest derived
+Unix-domain socket path, while leases, ledgers, logs, and reports may remain in a
+descriptive hierarchy. On macOS the workspace must also share an APFS volume
+with the verified base image so guest-disk creation can use `clonefile`; an image
+on another filesystem is first staged and digest-verified on the selected APFS
+volume. Topology files contain none of these host-local paths.
 
 ### Layer 3: Trace Explorer Core
 
@@ -227,6 +287,32 @@ daemon-exposed diagnostics.
   "capabilities": ["core/messaging", "seed-directory", "contact-catalog"]
 }
 ```
+
+### `orbiplex-acceptance-topology.v1`
+
+```json
+{
+  "schema": "orbiplex-acceptance-topology.v1",
+  "topology/ref": "acceptance-topology:three-host-example",
+  "topology/revision": 1,
+  "nodes": {
+    "node-a": {
+      "host/name": "node-a.example.test",
+      "platform/ref": "macos-arm64",
+      "ssh": {"host": "node-a.example.test", "port": 22, "user": "acceptance"}
+    }
+  }
+}
+```
+
+The contract describes where a slot can be controlled, not what it is allowed
+to do in a story. Host-local storage roots are configuration, with reusable
+defaults under `$HOME/var/orbiplex`: `ORBIPLEX_ACCEPTANCE_STATE_ROOT` defaults
+to `acceptance`, `ORBIPLEX_MODEL_ROOT` to `models`,
+`ORBIPLEX_ACCEPTANCE_IMAGE_ROOT` to `images`, and
+`ORBIPLEX_ACCEPTANCE_REPORT_ROOT` to `acceptance-reports`. A story derives its
+own bounded run directories below those roots and records the resolved paths in
+the run manifest; topology files do not encode them.
 
 ### `trace-event.v1`
 
@@ -418,6 +504,10 @@ can become nightly gates once stable.
 - Add optional Matrix fixture lifecycle as a profile, not as the hard-MVP
   baseline.
 - Wrap Story 010 as the first generic harness target.
+- Add a uniform local/SSH executor and an any-host resumable orchestrator.
+- Fence each physical run with one canonical lease and topology digest.
+- Collect node-local evidence into an aggregate manifest without relaying
+  product traffic over SSH.
 
 ### Phase 3: Trace Explorer Core
 
@@ -473,6 +563,14 @@ the stores already used by that story.
 | Adapter drift as stores evolve | Each adapter has schema/version probes and fixture tests |
 | CI becomes too slow | Separate smoke, federated-smoke, matrix-smoke, and nightly-chaos profiles |
 | Trace bundle becomes unactionable noise | Provide failure summary, component grouping, and correlation filters |
+| Two hosts start competing orchestrators | Fence the run with one canonical lease and idempotent append-only step ledger |
+| Participating hosts use different topology revisions | Require an exact topology digest before preflight or process start |
+| A host declares the wrong local slot | Match host identity and platform facts to the selected slot before effects |
+| SSH accidentally substitutes for product networking | Restrict SSH to control and evidence collection; assert direct daemon endpoints for product traffic |
+| A checked topology leaks machine-specific secrets | Keep credentials and private roots in host-local configuration; schema and fixtures contain only non-secret infrastructure fields |
+| Daemons inherit one writable `ORBIPLEX_MODEL_ROOT` | Strip the inherited variable and inject a distinct canonical slot-owned model root into each daemon child; share source bytes read-only only |
+| A descriptive run path exceeds the vfkit socket bound | Separate durable run metadata from a short canonical VMM workspace and preflight the longest derived socket path in bytes |
+| A macOS VM workspace cannot APFS-clone its image | Require same-volume APFS source and workspace, or stage and re-verify the immutable base image on the selected APFS volume before cloning |
 
 ## Open Questions
 
@@ -490,6 +588,20 @@ Resolved 2026-07-02:
 4. Story 010 is the first generic harness target.
 5. Matrix support is an optional smoke profile, not a hard-MVP blocker.
 
+Resolved 2026-08-25:
+
+1. Physical multi-host execution reuses the generic harness plan and adds a
+   local/SSH executor profile; it is not a parallel story-specific harness.
+2. Topology is reusable infrastructure data. Story profiles map semantic duties
+   and services to stable node slots separately.
+3. The orchestrator runs on the host that starts the command. One scenario-owned
+   lease and append-only step ledger make the run resumable without introducing
+   competing authorities.
+4. SSH is a harness control and evidence channel only. Product protocols must
+   cross the physical network through their real transports.
+5. Real hostnames, users, credentials, and storage paths remain in local operator
+   configuration. Repository examples use sanitized values.
+
 ## Next Actions
 
 1. Create an inventory table of trace sources, store paths, public diagnostics
@@ -503,6 +615,12 @@ Resolved 2026-07-02:
    010 acceptance run.
 6. Add optional Matrix smoke profile support after the local/direct Story 010
    profile is stable.
+7. Freeze `orbiplex-acceptance-topology.v1` and add a sanitized three-host
+   example plus host-local environment conventions.
+8. Implement the any-host local/SSH executor with canonical run leasing,
+   idempotent resume, and per-node evidence assembly.
+9. Add a three-physical-host transport-conformance profile before a real-model
+   Story 012 consumer is promoted.
 
 ## Implementation Tracker
 
@@ -510,9 +628,13 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 | ID | Item | Status | Notes |
 |---|---|---|---|
-| P074-001 | Create Rust `federation-harness-core` contracts and deterministic planning | todo | Scenario/run/node/topology DTOs, deterministic port/data-dir planning, and role/service validation. |
+| P074-001 | Create Rust `federation-harness-core` contracts and deterministic planning | partial | The foundation implements the pure topology DTO, canonical digest, closed validation, CLI/environment precedence, exact local-host fencing, deterministic `Local`/`Ssh` target planning, dependency guard, and narrow CI workflow. Scenario/run DTOs, service validation, and deterministic port/data-dir planning remain. |
 | P074-002 | Wrap Story 010 as the first generic harness target | todo | Reuse existing acceptance code where practical; Story 010 is the first integration target because it exercises the broadest federated surface without the Story 009 workflow stack. |
 | P074-003 | Define canonical trace schemas | in-progress | `trace-event.v1` and `trace-link.v1` are canonical, mirrored into Node, schema-gated, consumed by `trace-explorer-core`, and emitted as metadata-only checks by the P081 acceptance runner. `federation-run.v1` and `federation-node.v1` remain with the generic harness slice. |
 | P074-004 | Add disk-bundle trace explorer import/read path | todo | Operator/read-only tooling starts from support bundles on disk; daemon collection APIs remain post-adapter-stabilization. |
 | P074-005 | Add trace adapters for first Story 010 sources | partial | `trace-explorer-core` now projects P081 execution receipts from Artifact Delivery, Scheduler, and Sensorium into redacted events and explicit strong links; the P081 acceptance runner exercises those adapters' source contracts and emits a redacted bundle. INAC, Messaging temporal logs, Agora records, and Seed Directory state remain for the full Story 010 adapter set. |
 | P074-006 | Add optional Matrix smoke profile | todo | Matrix fixture support is optional for smoke coverage and not a hard-MVP blocker. |
+| P074-007 | Freeze the reusable physical-host topology contract | partial | `orbiplex-acceptance-topology.v1`, Schema Gate import/export admission, canonical topology-digest validation, pure CLI-over-environment precedence, secret/story-field refusal fixtures, and a sanitized three-host example are implemented. Remaining root materialization must strip inherited `ORBIPLEX_MODEL_ROOT`, assign distinct canonical writable roots per daemon slot, and keep host-local VMM workspace paths outside topology data. Depends on the remaining P074-001 planning contracts. |
+| P074-008 | Add an any-host resumable local/SSH orchestrator | todo | Execute the local slot directly and remote slots through SSH, fence one canonical scenario-owned lease, persist an append-only idempotent step ledger, and assemble per-node evidence. Child environments must carry explicit per-slot model roots. vfkit execution must preflight the longest derived socket path and same-volume APFS clone capability. SSH must not proxy product traffic. Depends on P074-007. |
+| P074-009 | Prove direct transport across three physical hosts | todo | Run a deterministic transport-conformance profile over three independent host failure domains, including topology drift, restart, stale lease, WSS reconnect, and partial-host failure refusals. Depends on P074-008 and the relevant P056/P070 deployment contracts. |
+| P074-010 | Add Story 012 as the first real-model physical-host consumer | todo | Map requester/Room owner/Workbench executor, solver, and reviewer/facilitator duties to topology slots; retain a closed report proving direct Room/Corpus/WSS/Sensorium traffic, independent per-slot writable model stores, short vfkit socket-safe workspace paths, APFS-cloned guest preparation on macOS, restart, revocation, and no SSH product proxy. Depends on P074-009 and the Story 012 substrate gates. |

@@ -1336,10 +1336,12 @@ Recent component deltas:
   `host-filesystem-allowlist` enforcement class, exact-process dirty-restart
   reconciliation, exact multi-backend manifest-variant selection, authoritative
   cgroup cleanup, a closed schema-gated deployment report, and a Linux x86_64
-  host/guest/schema/daemon/Workbench compile/conformance gate. Its tracker remains
-  `in progress`, because the checked-in deployment runner has not yet passed on a
-  Linux x86_64 host with real `/dev/kvm`; QEMU/TCG and fake evidence do not satisfy
-  that gate. Firecracker and richer command-BDO signal policy remain separately
+  host/guest/schema/daemon/Workbench compile/conformance gate. Its tracker is now
+  complete: the retained 2026-08-25 report passed all 11 closed checks on a Linux
+  x86_64 host with real `/dev/kvm` in 1,503,122 ms. The report digest is
+  `sha256:ea7f5b4a3cff2a784a7d26cad22c0bf0a1ea385e7324ced96e372482376aa920`;
+  QEMU/TCG and fake evidence remain non-substitutable. Firecracker and richer
+  command-BDO signal policy remain separately
   evidenced post-MVP extensions rather than current blockers.
   Interaction Broker is implementation-complete for its current provider
   foundation; provider-pushed events and richer deferred-wait retry policy stay

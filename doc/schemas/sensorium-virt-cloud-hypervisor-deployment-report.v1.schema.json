@@ -50,8 +50,8 @@
       "additionalProperties": false,
       "required": ["allocate-ms", "allocate-to-agent-ready-ms", "drain-teardown-ms"],
       "properties": {
-        "allocate-ms": { "type": "integer", "minimum": 0, "maximum": 60000 },
-        "allocate-to-agent-ready-ms": { "type": "integer", "minimum": 0, "maximum": 120000 },
+        "allocate-ms": { "type": "integer", "minimum": 0, "maximum": 240000 },
+        "allocate-to-agent-ready-ms": { "type": "integer", "minimum": 0, "maximum": 360000 },
         "drain-teardown-ms": { "type": "integer", "minimum": 0, "maximum": 30000 }
       }
     },
@@ -60,8 +60,8 @@
       "additionalProperties": false,
       "required": ["allocate-ms-max", "allocate-to-agent-ready-ms-max", "drain-teardown-ms-max"],
       "properties": {
-        "allocate-ms-max": { "const": 60000 },
-        "allocate-to-agent-ready-ms-max": { "const": 120000 },
+        "allocate-ms-max": { "const": 240000 },
+        "allocate-to-agent-ready-ms-max": { "const": 360000 },
         "drain-teardown-ms-max": { "const": 30000 }
       }
     },

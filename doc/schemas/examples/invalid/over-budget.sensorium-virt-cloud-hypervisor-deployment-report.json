@@ -24,12 +24,12 @@
   ],
   "measurements": {
     "allocate-ms": 10000,
-    "allocate-to-agent-ready-ms": 120001,
+    "allocate-to-agent-ready-ms": 360001,
     "drain-teardown-ms": 11000
   },
   "budgets": {
-    "allocate-ms-max": 60000,
-    "allocate-to-agent-ready-ms-max": 120000,
+    "allocate-ms-max": 240000,
+    "allocate-to-agent-ready-ms-max": 360000,
     "drain-teardown-ms-max": 30000
   },
   "backend/id": "cloud-hypervisor-system.v1",

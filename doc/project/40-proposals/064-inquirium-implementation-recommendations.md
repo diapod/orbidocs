@@ -2503,6 +2503,28 @@ that speaks the same OpenAI-compatible contract as the managed
 `llama-server` path. Shared conformance vectors, rather than provider branding,
 decide whether it qualifies.
 
+Use `mlx_lm.server` as the first MLX candidate, but preserve its upstream trust
+boundary: it is a host-private worker rather than a production-facing service.
+Pin and supervise the Python environment and local model assets, disable implicit
+runtime downloads and undeclared egress, and connect through loopback HTTP or a
+host-private local socket only when the selected server supports that transport
+natively. Prefer the existing `http_local` plus OpenAI-compatible adapter path;
+do not add an HTTP-to-stdio bridge or another proxy merely to label the runtime as
+MLX. If provider-specific normalization is required, keep it below the shared
+Model Runtime contract and normalize streaming, errors, usage, tool calls, and
+structured output there. The worker receives request data and returns provider
+results; it receives no grant to invoke Inquirium, Agent, Corpus, Sensorium, or
+other host capabilities.
+
+Advertise MLX features independently as conformance-backed runtime facts rather
+than one aggregate `supports-mlx` flag. At minimum, probe streaming, batching,
+prompt cache, KV-cache quantization, tool calls, JSON-Schema structured output,
+and speculative decoding. A feature present in an MLX-LM library API but absent
+from the selected server entry point remains unsupported for that runtime
+profile. The macOS arm64 selector may prefer a fresh, passing MLX candidate when
+its required feature set is admitted; architecture alone must not override
+conformance, and `llama-server` remains the deterministic fallback.
+
 ## Open Questions
 
 No unresolved questions remain in this section for the current slice. The

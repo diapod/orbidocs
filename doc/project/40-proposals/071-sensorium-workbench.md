@@ -2784,7 +2784,7 @@ evidence) · `[!]` blocked/needs decision.
   runtime owns the authoritative lease and invoke receipt. The append-only Corpus
   execution projection validates event order and exact receipt fencing; it does not
   re-interpret or re-verify the already admitted CandidatePlan signature.
-- [ ] **In progress:** complete deployment evidence for
+- [x] Complete deployment evidence for
   `cloud-hypervisor-system.v1` as the first Linux deployment profile after the
   backend-neutral vfkit slice proves the contracts.
   The backend, daemon admission, Workbench routing, binary/firmware/raw-image
@@ -2797,10 +2797,14 @@ evidence) · `[!]` blocked/needs decision.
   operation-classed REST I/O budgets and an explicit host-task/guest-process limit
   separation,
   Linux x86_64 host/guest/schema/daemon/Workbench compile and conformance CI gate,
-  and schema-gated real deployment runner are landed.
-  Completion still requires that runner to pass on a physical or remote Linux
-  x86_64 KVM host with the pinned full-system image. QEMU/TCG and fake-process
-  evidence are explicitly non-substitutable for this final gate.
+  and schema-gated real deployment runner are landed. The retained 2026-08-25
+  Linux x86_64 KVM report passes all 11 closed checks in 1,503,122 ms with the
+  pinned full-system image. It proves failing and passing terminal observations,
+  two-Agent deliberation, exclusive repair authority, observer revocation, dirty
+  restart, stale-generation refusal, artifact export, and an unpublished Corpus
+  draft. The report digest is
+  `sha256:ea7f5b4a3cff2a784a7d26cad22c0bf0a1ea385e7324ced96e372482376aa920`.
+  QEMU/TCG and fake-process evidence remain explicitly non-substitutable.
 - [ ] Implement `firecracker-system.v1` only after the guest protocol and image
   manifest stabilize; require the same backend-neutral conformance plus a
   jailer-equivalent host profile. Keep Incus, crosvm, OCI-to-VM runtimes, Kata,

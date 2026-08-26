@@ -7,6 +7,7 @@ Related:
 
 - [Story 011: Corpus answers the fish-water question](story-011-corpus-fish.md)
 - [Proposal 069: Corpus](../40-proposals/069-corpus.md)
+- [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md)
 - [Proposal 073: Agent Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md)
 - [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md)
 - [Solution 036: Room](../60-solutions/036-room/036-room.md)
@@ -58,6 +59,31 @@ An explicit `single-address-single-host` fallback allows unattended execution
 without privileged loopback aliases. It preserves process and port isolation
 but is intentionally weaker than the default address-distinct profile and is
 reported as such.
+
+An additive physical profile is planned under P074. It consumes a reusable
+operator-owned topology instead of embedding hostnames in this story. Story 012
+maps the stable slots as follows: `node-a` owns the query, Room, Chair executor,
+Workbench VM, and aggregate report; `node-b` supplies the solver Agent; and
+`node-c` supplies the reviewer or facilitator Agent. The topology remains free
+of these semantic duties so the same three hosts can serve other acceptance
+stories.
+
+The profile may be orchestrated from any participating host. The invoking host
+runs its local slot directly and controls the other slots through the P074 SSH
+executor, while one lease owned by `node-a` fences the scenario and permits an
+idempotent resume. SSH is not a Room relay or Sensorium tunnel: Room, Corpus,
+WSS, Sensorium Interfaces, and model-facing product traffic must cross the real
+daemon endpoints. Completion requires per-node evidence and a closed aggregate
+manifest bound to the exact topology digest.
+
+The physical profile also treats host filesystem layout as an admitted input.
+The harness strips inherited `ORBIPLEX_MODEL_ROOT` from daemon children and
+injects one distinct writable model-store root per slot; only verified source
+model bytes may be shared read-only. The vfkit executor on `node-a` uses a short
+canonical workspace that fits every derived Unix socket path and, on macOS,
+shares an APFS volume with the verified guest base image so disk preparation can
+use `clonefile`. Durable ledgers and reports may remain under the descriptive
+acceptance state/report roots.
 
 ## Concrete Problem
 
@@ -314,6 +340,17 @@ P083, and runs the same three-node collaboration, revoke, dirty restart, export,
 and inert Corpus-draft lifecycle. Its schema-gated report names the evidence
 boundary `single-runtime-vertical`; it does not infer that claim from independent
 harness results.
+
+The sibling `story-012-cloud-hypervisor-full-system` profile proves the same
+single-runtime vertical on a real Linux x86_64 KVM host with the
+`cloud-hypervisor-system.v1` backend. The retained 2026-08-25 report passes all
+11 closed checks in 1,503,122 ms, including the three-node Room/Agent flow,
+failing and passing guest terminal observations, exclusive P083 repair authority,
+observer revocation, dirty restart, stale-generation refusal, artifact export,
+and an unpublished Corpus draft. Its file digest is
+`sha256:ea7f5b4a3cff2a784a7d26cad22c0bf0a1ea385e7324ced96e372482376aa920`.
+This is deterministic deployment and mechanism evidence; it does not replace the
+separate real-model deliberation profiles.
 
 The additive `profile-powerdns-bielik-vfkit.json` is the first full-system
 service-configuration specialization. The image builder pins
@@ -575,6 +612,12 @@ membership high-water sequence rather than a creation-time or fixture constant.
 
 - [x] The story document and executable acceptance profile agree on topology,
   authority, data lifetime, and refusal behavior.
+- [ ] The additive physical multi-host profile runs the Story on three separate
+  machines through P074's reusable topology and any-host orchestrator, retains
+  one topology-digest-bound aggregate report, and proves that product traffic
+  used direct daemon transports rather than the SSH control channel. Its
+  preflight also proves distinct slot-owned writable model stores, bounded vfkit
+  socket paths, and same-volume APFS image cloning on the macOS executor.
 - [x] P069 and P073 track the substrate-neutral Agent observation port,
   daemon-owned Room/Sensorium resolver, and composed process evidence.
 - [x] The profile validator rejects terminal actuation grants,
