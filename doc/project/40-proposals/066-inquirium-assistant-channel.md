@@ -682,13 +682,17 @@ order:
 The resolved root must be absolute, canonicalized, writable, and bound to the
 node's asset-store metadata through a versioned root marker, stable
 `storage/root-id`, and one `control-plane/owner-id`. The first profile is
-single-owner and single-writer: one `managed/` tree may be governed by exactly
-one node data directory and its asset-store registry. A second node or a rebuilt
-control plane cannot attach to it implicitly. It must either use a distinct root
-or enter an explicit operator-authorized recovery/rebind flow with garbage
-collection disabled until the authoritative reference projection has been
-rebuilt and every retained object re-verified. This prevents one node's local
-pin set from deleting bytes still referenced by another node.
+single-owner and single-Orbiplex-writer: one `managed/` tree may be governed by
+exactly one node data directory and its asset-store registry. A second node or a
+rebuilt control plane cannot attach to it implicitly. It must either use a
+distinct root or enter an explicit operator-authorized recovery/rebind flow with
+garbage collection disabled until the authoritative reference projection has
+been rebuilt and every retained object re-verified. This prevents one node's
+local pin set from deleting bytes still referenced by another node. The
+acceptance-only P074 `operator-trusted-shared-managed` posture may trust other
+operating-system principals that can write the enclosing storage; it does not
+make them additional Orbiplex writers or permit another registry to govern the
+tree.
 
 The control registry generates the owner identity once and persists it under
 `data-dir`; it is deliberately not an operator-configurable identifier. Trusted
@@ -735,9 +739,16 @@ tree governed by its pinning and garbage-collection rules. It is not an
 interoperability write surface. Host-exclusive ownership and restrictive
 permissions are part of its integrity contract; external read-only access may
 be permitted, but external read-write access is unsupported and invalidates the
-store's immutability guarantee. The host must refuse use when permissions,
-ownership, root identity, or object verification no longer support that
-assumption.
+store's normal immutability guarantee. The host must refuse use when
+permissions, ownership, root identity, or object verification no longer support
+that assumption. P074 defines one acceptance-only exception, whose availability
+depends on completing P074-011: `operator-trusted-shared-managed` explicitly
+makes all enumerated co-writers part of the run's trusted computing base and
+records the operator's acceptance of residual mutation and
+time-of-check/time-of-use risk. It preserves the one Orbiplex owner/writer and
+private control-registry rules, but it does not restore the host-exclusive
+immutability guarantee or qualify the run as resistant to an adversarial
+co-writer. It is absent by default and is not a production storage posture.
 
 `engines/` preserves runtime-native directory layouts where interoperability
 with external tools is valuable. The namespace is a runtime or engine family,
@@ -761,9 +772,15 @@ immutable CAS objects through writable hard links or mutable symlinks. Existing
 native caches may be inspected and explicitly imported, but the host must not
 silently adopt arbitrary pre-existing bytes as verified assets. A supervised
 runtime may load only from the host-exclusive CAS or from a host-owned immutable
-launch materialization whose digest is re-verified immediately before use.
-Writable shared engine paths cannot use a materialize-once-trust-forever rule;
-they must be copied and verified into a host-owned launch view before admission.
+launch materialization whose digest is re-verified immediately before use. In a
+P074 acceptance run, descriptor-bound model data may instead be consumed from a
+shared-writable `managed/` store only under
+`operator-trusted-shared-managed`, with immediate verification, drift refusal,
+and the explicitly downgraded evidence claim defined there. Executables and
+build-hook-, plugin-, or import-capable sources retain exclusive staging even in
+that posture. Writable shared engine paths cannot use a
+materialize-once-trust-forever rule; they must be copied and verified into a
+host-owned launch view before admission.
 
 Garbage collection of the managed tree must not recursively delete engine
 caches or operator workspaces; each domain has a separate quota and lifecycle

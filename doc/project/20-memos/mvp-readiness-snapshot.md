@@ -12,20 +12,21 @@ speaker and observer authority kept distinct. Review hardening now scopes ports
 to case-insensitive physical-host identity, closes node evidence statuses, binds
 the physical profile's exact assertion set to evaluated ledger evidence, and
 distinguishes delivered process signals from already exited processes. The
-measured three-host run is not yet retained. Synchronized preflight now passes
-on every host, including the bounded GNU/Linux local-address identity proof, and
-the corrected closed topology proceeds through planning, leases, parallel
-builds, and relay startup. The first physical joins exposed a lower Room-WSS
-portability defect: the server applied the 10 ms established-session polling
-timeout before the first `join` frame, producing GNU/Linux `EAGAIN` and a
-client-side reset. The polling timeout is now installed only after the first
-application frame; a delayed-first-frame regression passes locally and in a
-temporary GNU/Linux qualification. The fix still needs one clean synchronized
-revision and retained three-host report. The independent P070 POSIX profile now
-reaches its current P082/P083 `host-projection-required` refusal and has a new
-tracker item rather than weakening that authority boundary. P074 therefore
-remains partial post-MVP work, and the existing baseline Story 012 and hard-MVP
-readiness percentages are unchanged.
+measured 2026-08-27 run now proves the complete deterministic three-host Room
+transport profile at one clean synchronized Node revision. Its retained,
+Schema-Gate-valid redacted report is
+`report://story-012-physical-transport/1rFld2mbqbPojxQpvZ70/federation-run.v1.json`;
+the owner ledger records direct Room WSS, restart/reconnect, and
+no-SSH-product-proxy assertions, while strict cleanup removes private ready,
+key, and identity material before the lease is released as passed. This closes
+P074-009. P074-008
+remains partial pending physical interrupted-run resume plus real-model root and
+vfkit-specific qualification, while P074-010 through P074-014 and the selected-
+shared-storage P074-011 path remain separate work. The independent P070 POSIX
+profile still reaches its current P082/P083 `host-projection-required` refusal
+and has a tracker item rather than weakening that authority boundary. P074
+therefore remains partial post-MVP work, and the baseline Story 012 and hard-MVP
+readiness percentages remain unchanged.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
@@ -1538,7 +1539,7 @@ Recent component deltas:
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
-| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `70` |
+| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `75` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |
