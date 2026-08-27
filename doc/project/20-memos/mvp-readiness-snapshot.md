@@ -1,8 +1,22 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-26.
+Snapshot date: 2026-08-27.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
+
+The 2026-08-27 P074 refresh adds the canonical physical-topology, scenario,
+federation-run, and federation-node contracts; a pure checked Rust planner; and
+a lease-fenced local/SSH execution substrate with a Story-012-shaped direct Room
+WSS profile. Local runtime evidence proves four-frame TLS publish/observe with
+speaker and observer authority kept distinct. Review hardening now scopes ports
+to case-insensitive physical-host identity, closes node evidence statuses, binds
+the physical profile's exact assertion set to evaluated ledger evidence, and
+distinguishes delivered process signals from already exited processes. The
+measured three-host run is not yet retained: the checkout locator is configured
+on all hosts, but remote preflight correctly refuses until the uncommitted host
+agent is committed and synchronized into the two remote checkouts. P074
+therefore remains partial post-MVP work, and the existing baseline Story 012 and
+hard-MVP readiness percentages are unchanged.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
@@ -1515,6 +1529,7 @@ Recent component deltas:
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
+| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `70` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |

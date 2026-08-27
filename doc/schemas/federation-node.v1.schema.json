@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federation-node:v1",
+  "title": "Federation Node v1",
+  "description": "Redacted per-slot node entry retained in a federation acceptance run manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "run/id", "node/ref", "data-dir/ref", "product/endpoints", "services", "capabilities", "status"],
+  "properties": {
+    "schema": { "const": "federation-node.v1" },
+    "schema/v": { "const": 1 },
+    "run/id": { "$ref": "#/$defs/runId" },
+    "node/ref": { "$ref": "#/$defs/token" },
+    "node/id": { "type": "string", "pattern": "^node:[^\\s]+$", "maxLength": 256 },
+    "data-dir/ref": { "type": "string", "pattern": "^run://nodes/[A-Za-z0-9._:-]+$", "maxLength": 128 },
+    "product/endpoints": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "type": "string", "pattern": "^product://[A-Za-z0-9._:/-]+$", "maxLength": 160 } },
+    "services": { "$ref": "#/$defs/tokenList" },
+    "capabilities": { "$ref": "#/$defs/tokenList" },
+    "status": { "enum": ["planned", "running", "passed", "failed", "refused", "unavailable"] }
+  },
+  "$defs": {
+    "runId": { "type": "string", "pattern": "^federation-run:[^\\s]+$", "maxLength": 256 },
+    "token": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 128 },
+    "tokenList": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/token" } }
+  }
+}

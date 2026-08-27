@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federation-run:v1",
+  "title": "Federation Run v1",
+  "description": "Redacted aggregate manifest for one leased federation acceptance run.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "run/id", "scenario/ref", "topology/digest", "profile/digest", "owner/slot", "nodes", "started/at", "status"],
+  "properties": {
+    "schema": { "const": "federation-run.v1" },
+    "schema/v": { "const": 1 },
+    "run/id": { "type": "string", "pattern": "^federation-run:[^\\s]+$", "maxLength": 256 },
+    "scenario/ref": { "type": "string", "pattern": "^story-[A-Za-z0-9._:-]+$", "maxLength": 256 },
+    "topology/digest": { "$ref": "#/$defs/digest" },
+    "profile/digest": { "$ref": "#/$defs/digest" },
+    "owner/slot": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$", "maxLength": 64 },
+    "nodes": { "type": "array", "minItems": 2, "maxItems": 32, "items": { "$ref": "federation-node.v1.schema.json" } },
+    "started/at": { "type": "string", "format": "date-time" },
+    "ended/at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["planned", "running", "passed", "failed", "refused"] }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:federation-scenario:v1",
+  "title": "Federation Scenario v1",
+  "description": "Story-owned declarative duties, services, and dependency-ordered steps over reusable acceptance slots.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "scenario/ref", "owner/slot", "port/base", "nodes", "services", "steps", "assertions"],
+  "properties": {
+    "schema": { "const": "federation-scenario.v1" },
+    "scenario/ref": { "type": "string", "pattern": "^story-[A-Za-z0-9._:-]+$", "maxLength": 256 },
+    "owner/slot": { "$ref": "#/$defs/token64" },
+    "port/base": { "type": "integer", "minimum": 1024, "maximum": 64000 },
+    "nodes": {
+      "type": "object",
+      "minProperties": 2,
+      "maxProperties": 32,
+      "propertyNames": { "$ref": "#/$defs/token64" },
+      "additionalProperties": { "$ref": "#/$defs/node" }
+    },
+    "services": { "type": "array", "maxItems": 128, "items": { "$ref": "#/$defs/service" } },
+    "steps": { "type": "array", "minItems": 1, "maxItems": 128, "items": { "$ref": "#/$defs/step" } },
+    "assertions": { "type": "array", "maxItems": 128, "items": { "$ref": "#/$defs/assertion" } }
+  },
+  "$defs": {
+    "token64": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 64 },
+    "token128": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 128 },
+    "tokenList": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/token128" } },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roles"],
+      "properties": {
+        "roles": { "allOf": [{ "$ref": "#/$defs/tokenList" }, { "minItems": 1 }] },
+        "capabilities/expected": { "$ref": "#/$defs/tokenList" },
+        "model/store-required": { "type": "boolean" }
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["service/ref", "node/ref", "transport"],
+      "properties": {
+        "service/ref": { "$ref": "#/$defs/token128" },
+        "node/ref": { "$ref": "#/$defs/token64" },
+        "transport": { "enum": ["http", "https", "tcp", "tls", "ws", "wss"] },
+        "port": { "type": "integer", "minimum": 1024, "maximum": 65535 },
+        "depends/on": { "$ref": "#/$defs/tokenList" },
+        "requires/roles": { "$ref": "#/$defs/tokenList" }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step/id", "kind"],
+      "properties": {
+        "step/id": { "$ref": "#/$defs/token128" },
+        "kind": { "$ref": "#/$defs/token128" },
+        "node/ref": { "$ref": "#/$defs/token64" },
+        "depends/on": { "$ref": "#/$defs/tokenList" }
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assertion/id", "kind"],
+      "properties": {
+        "assertion/id": { "$ref": "#/$defs/token128" },
+        "kind": { "$ref": "#/$defs/token128" },
+        "node/ref": { "$ref": "#/$defs/token64" },
+        "service/ref": { "$ref": "#/$defs/token128" }
+      }
+    }
+  }
+}

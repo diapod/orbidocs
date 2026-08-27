@@ -182,6 +182,18 @@ schema_for_file() {
     *.trace-link.json)
       echo "$SCHEMAS_DIR/trace-link.v1.schema.json"
       ;;
+    *.orbiplex-acceptance-topology.json)
+      echo "$SCHEMAS_DIR/orbiplex-acceptance-topology.v1.schema.json"
+      ;;
+    *.federation-scenario.json)
+      echo "$SCHEMAS_DIR/federation-scenario.v1.schema.json"
+      ;;
+    *.federation-node.json)
+      echo "$SCHEMAS_DIR/federation-node.v1.schema.json"
+      ;;
+    *.federation-run.json)
+      echo "$SCHEMAS_DIR/federation-run.v1.schema.json"
+      ;;
     *.interaction-broker-watch.json)
       echo "$SCHEMAS_DIR/interaction-broker-watch.v1.schema.json"
       ;;

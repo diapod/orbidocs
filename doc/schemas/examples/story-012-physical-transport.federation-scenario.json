@@ -1,0 +1,28 @@
+{
+  "schema": "federation-scenario.v1",
+  "scenario/ref": "story-012-physical-transport",
+  "owner/slot": "node-a",
+  "port/base": 44200,
+  "nodes": {
+    "node-a": { "roles": ["room-owner", "chair"], "capabilities/expected": ["room-relay"] },
+    "node-b": { "roles": ["solver"], "capabilities/expected": ["room-publisher"] },
+    "node-c": { "roles": ["reviewer"], "capabilities/expected": ["room-observer"] }
+  },
+  "services": [
+    { "service/ref": "room-wss", "node/ref": "node-a", "transport": "wss", "requires/roles": ["room-owner"] }
+  ],
+  "steps": [
+    { "step/id": "preflight", "kind": "preflight" },
+    { "step/id": "start-room-relay", "kind": "start-service", "node/ref": "node-a", "depends/on": ["preflight"] },
+    { "step/id": "publish-from-solver", "kind": "product-transport", "node/ref": "node-b", "depends/on": ["start-room-relay"] },
+    { "step/id": "observe-from-reviewer", "kind": "product-transport", "node/ref": "node-c", "depends/on": ["publish-from-solver"] },
+    { "step/id": "restart-room-relay", "kind": "restart-service", "node/ref": "node-a", "depends/on": ["observe-from-reviewer"] },
+    { "step/id": "reconnect-reviewer", "kind": "product-reconnect", "node/ref": "node-c", "depends/on": ["restart-room-relay"] },
+    { "step/id": "collect-evidence", "kind": "collect-evidence", "depends/on": ["reconnect-reviewer"] }
+  ],
+  "assertions": [
+    { "assertion/id": "direct-room-wss", "kind": "direct-product-transport", "node/ref": "node-b", "service/ref": "room-wss" },
+    { "assertion/id": "restart-reconnect", "kind": "restart-reconnect", "node/ref": "node-c", "service/ref": "room-wss" },
+    { "assertion/id": "no-ssh-product-proxy", "kind": "no-ssh-product-proxy", "service/ref": "room-wss" }
+  ]
+}
