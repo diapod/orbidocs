@@ -1721,6 +1721,14 @@ membership, attestation, or node-local live-plane contracts.
   bounded timings, counters, and outcomes; fixture keys, attestations, session refs, and
   payloads are deleted or omitted. The loopback smoke uses an ephemeral TLS port, while
   the reference deployment terminates public WSS at the host listener on TCP 443.
+- [ ] Requalify the Phase 6A POSIX deployment profile against the current P082/P083
+  host-projection authority boundary. A 2026-08-27 GNU/Linux run advances past TLS
+  join after the Room-WSS first-frame timeout fix, then correctly refuses the runner's
+  default `mixed-sensorium` publication with `host-projection-required`. Restore the
+  claimed Sensorium latest-state/invoke evidence through the admitted host projection
+  adapter; do not bypass that authority check or silently weaken the profile to generic
+  relay payload injection. This does not block P074-009's explicitly Room-only
+  `room-live-message.v2` transport conformance profile.
 
 ### Phase 6B — Non-member federation relay profile
 

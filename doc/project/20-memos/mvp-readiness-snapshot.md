@@ -12,13 +12,20 @@ speaker and observer authority kept distinct. Review hardening now scopes ports
 to case-insensitive physical-host identity, closes node evidence statuses, binds
 the physical profile's exact assertion set to evaluated ledger evidence, and
 distinguishes delivered process signals from already exited processes. The
-measured three-host run is not yet retained: synchronized agents are reached on
-all hosts, but live preflight exposed that GNU/Linux may report a short hostname
-and `.localdomain` FQDN even when the topology's `.local` name resolves to an
-address assigned to the same local interface. A bounded local-address identity
-proof that rejects loopback, multicast, and wildcard aliases is implemented and
-awaits synchronization. P074 therefore remains partial post-MVP work, and the
-existing baseline Story 012 and hard-MVP readiness percentages are unchanged.
+measured three-host run is not yet retained. Synchronized preflight now passes
+on every host, including the bounded GNU/Linux local-address identity proof, and
+the corrected closed topology proceeds through planning, leases, parallel
+builds, and relay startup. The first physical joins exposed a lower Room-WSS
+portability defect: the server applied the 10 ms established-session polling
+timeout before the first `join` frame, producing GNU/Linux `EAGAIN` and a
+client-side reset. The polling timeout is now installed only after the first
+application frame; a delayed-first-frame regression passes locally and in a
+temporary GNU/Linux qualification. The fix still needs one clean synchronized
+revision and retained three-host report. The independent P070 POSIX profile now
+reaches its current P082/P083 `host-projection-required` refusal and has a new
+tracker item rather than weakening that authority boundary. P074 therefore
+remains partial post-MVP work, and the existing baseline Story 012 and hard-MVP
+readiness percentages are unchanged.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
