@@ -12,11 +12,13 @@ speaker and observer authority kept distinct. Review hardening now scopes ports
 to case-insensitive physical-host identity, closes node evidence statuses, binds
 the physical profile's exact assertion set to evaluated ledger evidence, and
 distinguishes delivered process signals from already exited processes. The
-measured three-host run is not yet retained: the checkout locator is configured
-on all hosts, but remote preflight correctly refuses until the uncommitted host
-agent is committed and synchronized into the two remote checkouts. P074
-therefore remains partial post-MVP work, and the existing baseline Story 012 and
-hard-MVP readiness percentages are unchanged.
+measured three-host run is not yet retained: synchronized agents are reached on
+all hosts, but live preflight exposed that GNU/Linux may report a short hostname
+and `.localdomain` FQDN even when the topology's `.local` name resolves to an
+address assigned to the same local interface. A bounded local-address identity
+proof that rejects loopback, multicast, and wildcard aliases is implemented and
+awaits synchronization. P074 therefore remains partial post-MVP work, and the
+existing baseline Story 012 and hard-MVP readiness percentages are unchanged.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
