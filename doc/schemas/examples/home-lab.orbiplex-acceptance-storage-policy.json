@@ -1,0 +1,24 @@
+{
+  "schema": "orbiplex-acceptance-storage-policy.v1",
+  "schema/v": 1,
+  "policy/ref": "acceptance-storage-policy:home-lab-node-b-models",
+  "posture": "operator-trusted-shared-managed",
+  "scope": {
+    "run/id": "federation-run:story-012:home-lab-real-model",
+    "slot": "node-b",
+    "scenario/ref": "story-012-physical-real-model",
+    "profile/raw-digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "expires/at": "2026-08-28T12:00:00Z"
+  },
+  "bindings": [
+    {
+      "storage/role": "model-managed-store",
+      "root/environment": "ORBIPLEX_MODEL_ROOT",
+      "root/path": "/srv/orbiplex/models",
+      "mount/identity": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "trusted/co-writers": ["group:2000"]
+    }
+  ],
+  "trust/assertion": "trusted-non-adversarial",
+  "risk/acknowledgement": "shared-managed-toctou-v1"
+}

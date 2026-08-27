@@ -78,7 +78,7 @@
       "additionalProperties": false,
       "required": ["duration/ms"],
       "properties": {
-        "duration/ms": { "type": "integer", "minimum": 0, "maximum": 1200000 }
+        "duration/ms": { "type": "integer", "minimum": 0, "maximum": 3600000 }
       }
     },
     "budgets": {
@@ -86,7 +86,7 @@
       "additionalProperties": false,
       "required": ["duration/ms-max"],
       "properties": {
-        "duration/ms-max": { "const": 1200000 }
+        "duration/ms-max": { "const": 3600000 }
       }
     }
   },

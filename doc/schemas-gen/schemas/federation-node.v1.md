@@ -17,6 +17,8 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 | [`product/endpoints`](#field-product-endpoints) | `yes` | array |  |
 | [`services`](#field-services) | `yes` | ref: `#/$defs/tokenList` |  |
 | [`capabilities`](#field-capabilities) | `yes` | ref: `#/$defs/tokenList` |  |
+| [`storage/policies`](#field-storage-policies) | `no` | array |  |
+| [`storage/revalidation`](#field-storage-revalidation) | `no` | ref: `#/$defs/storageRevalidationEvidence` |  |
 | [`status`](#field-status) | `yes` | enum: `planned`, `running`, `passed`, `failed`, `refused`, `unavailable` |  |
 
 ## Definitions
@@ -26,6 +28,9 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 | [`runId`](#def-runid) | string |  |
 | [`token`](#def-token) | string |  |
 | [`tokenList`](#def-tokenlist) | array |  |
+| [`digest`](#def-digest) | string |  |
+| [`storageRevalidationEvidence`](#def-storagerevalidationevidence) | object |  |
+| [`storagePolicyEvidence`](#def-storagepolicyevidence) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -82,6 +87,18 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 - Required: `yes`
 - Shape: ref: `#/$defs/tokenList`
 
+<a id="field-storage-policies"></a>
+## `storage/policies`
+
+- Required: `no`
+- Shape: array
+
+<a id="field-storage-revalidation"></a>
+## `storage/revalidation`
+
+- Required: `no`
+- Shape: ref: `#/$defs/storageRevalidationEvidence`
+
 <a id="field-status"></a>
 ## `status`
 
@@ -104,3 +121,18 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 ## `$defs.tokenList`
 
 - Shape: array
+
+<a id="def-digest"></a>
+## `$defs.digest`
+
+- Shape: string
+
+<a id="def-storagerevalidationevidence"></a>
+## `$defs.storageRevalidationEvidence`
+
+- Shape: object
+
+<a id="def-storagepolicyevidence"></a>
+## `$defs.storagePolicyEvidence`
+
+- Shape: object

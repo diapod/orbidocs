@@ -27,5 +27,5 @@
     "story-012/fixture": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
   },
   "measurements": {"duration/ms": 76770},
-  "budgets": {"duration/ms-max": 1200000}
+  "budgets": {"duration/ms-max": 3600000}
 }

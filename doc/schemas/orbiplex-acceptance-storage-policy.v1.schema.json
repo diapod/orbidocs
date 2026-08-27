@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:orbiplex-acceptance-storage-policy:v1",
+  "title": "Orbiplex Acceptance Storage Policy v1",
+  "description": "Host-local, run-scoped opt-in policy for shared or removable acceptance storage. This private import contract may contain local paths and principal ids and must not be retained in aggregate reports.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "policy/ref", "posture", "scope", "bindings", "trust/assertion"],
+  "properties": {
+    "schema": { "const": "orbiplex-acceptance-storage-policy.v1" },
+    "schema/v": { "const": 1 },
+    "policy/ref": { "type": "string", "pattern": "^acceptance-storage-policy:[A-Za-z0-9][A-Za-z0-9._:-]*$", "maxLength": 256 },
+    "posture": { "enum": ["operator-authorized-shared", "operator-trusted-shared-managed"] },
+    "scope": { "$ref": "#/$defs/scope" },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/binding" }
+    },
+    "trust/assertion": { "const": "trusted-non-adversarial" },
+    "risk/acknowledgement": { "const": "shared-managed-toctou-v1" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "posture": { "const": "operator-trusted-shared-managed" } }, "required": ["posture"] },
+      "then": {
+        "required": ["risk/acknowledgement"],
+        "properties": {
+          "bindings": { "contains": { "properties": { "storage/role": { "const": "model-managed-store" } }, "required": ["storage/role"] } }
+        }
+      },
+      "else": {
+        "properties": {
+          "bindings": { "not": { "contains": { "properties": { "storage/role": { "const": "model-managed-store" } }, "required": ["storage/role"] } } }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "rawDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "token": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 128 },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run/id", "slot", "scenario/ref", "profile/raw-digest", "expires/at"],
+      "properties": {
+        "run/id": { "type": "string", "pattern": "^federation-run:[^\\s]+$", "maxLength": 256 },
+        "slot": { "$ref": "#/$defs/token" },
+        "scenario/ref": { "type": "string", "pattern": "^story-[A-Za-z0-9._:-]+$", "maxLength": 256 },
+        "profile/raw-digest": { "$ref": "#/$defs/rawDigest" },
+        "expires/at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["storage/role", "root/environment", "root/path", "mount/identity", "trusted/co-writers"],
+      "properties": {
+        "storage/role": { "enum": ["model-managed-store", "model-package-source", "vm-base-image", "vmm-workspace"] },
+        "root/environment": { "enum": ["ORBIPLEX_MODEL_ROOT", "ORBIPLEX_ACCEPTANCE_IMAGE_ROOT"] },
+        "root/path": { "type": "string", "pattern": "^/[^\\u0000\\r\\n]*$", "maxLength": 4096 },
+        "mount/identity": { "$ref": "#/$defs/digest" },
+        "trusted/co-writers": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(?:user|group):[0-9]{1,10}$" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "storage/role": { "enum": ["model-managed-store", "model-package-source"] } }, "required": ["storage/role"] },
+          "then": { "properties": { "root/environment": { "const": "ORBIPLEX_MODEL_ROOT" } } },
+          "else": { "properties": { "root/environment": { "const": "ORBIPLEX_ACCEPTANCE_IMAGE_ROOT" } } }
+        }
+      ]
+    }
+  }
+}

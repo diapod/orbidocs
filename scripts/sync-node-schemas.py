@@ -351,6 +351,11 @@ SCHEMA_WHITELIST = (
     "scoped-claim-type-registry.v1.schema.json",
     "trace-event.v1.schema.json",
     "trace-link.v1.schema.json",
+    "orbiplex-acceptance-topology.v1.schema.json",
+    "orbiplex-acceptance-storage-policy.v1.schema.json",
+    "federation-scenario.v1.schema.json",
+    "federation-node.v1.schema.json",
+    "federation-run.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -672,6 +677,8 @@ EXAMPLE_WHITELIST = (
     "initial.scoped-claim-type-registry.json",
     "scheduler.trace-event.json",
     "scheduler.trace-link.json",
+    "home-lab.orbiplex-acceptance-storage-policy.json",
+    "story-012-physical-transport.federation-scenario.json",
     "accepted.corpus-reasoning-role-assignment.json",
     "accepted.corpus-reasoning-instruction-overlay.json",
     "accepted.corpus-reasoning-inference-flow-binding.json",
@@ -680,6 +687,8 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "global-bypass.orbiplex-acceptance-storage-policy.json",
+    "missing-risk.orbiplex-acceptance-storage-policy.json",
     "shared-intermediate.corpus-reasoning-inference-flow-binding.json",
     "inline-instruction.corpus-reasoning-inference-flow-binding.json",
     "unknown-field.operator-effective-policy-inspection.json",

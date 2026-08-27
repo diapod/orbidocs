@@ -182,6 +182,9 @@ schema_for_file() {
     *.trace-link.json)
       echo "$SCHEMAS_DIR/trace-link.v1.schema.json"
       ;;
+    *.orbiplex-acceptance-storage-policy.json)
+      echo "$SCHEMAS_DIR/orbiplex-acceptance-storage-policy.v1.schema.json"
+      ;;
     *.orbiplex-acceptance-topology.json)
       echo "$SCHEMAS_DIR/orbiplex-acceptance-topology.v1.schema.json"
       ;;

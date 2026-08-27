@@ -21,8 +21,16 @@ no-SSH-product-proxy assertions, while strict cleanup removes private ready,
 key, and identity material before the lease is released as passed. This closes
 P074-009. P074-008
 remains partial pending physical interrupted-run resume plus real-model root and
-vfkit-specific qualification, while P074-010 through P074-014 and the selected-
-shared-storage P074-011 path remain separate work. The independent P070 POSIX
+vfkit-specific qualification. P074-011 is now partial: its closed private policy
+contract and the `operator-trusted-shared-managed` model-store vertical slice
+have strict-default, macOS/GNU/Linux ACL, pre/post-effect drift, and redacted
+evidence coverage. Failed manifests retain each selected slot's closed
+post-effect outcome and typed drift code, while successful slots in a partial
+revalidation keep their extended evidence. Live removable-APFS and
+group-writable GNU/Linux probes also pass. Immutable-input snapshots, shared
+VMM workspaces, retained udev/autofs
+evidence, and a real Story-012 report remain open, as do P074-010 and P074-012
+through P074-014. The independent P070 POSIX
 profile still reaches its current P082/P083 `host-projection-required` refusal
 and has a tracker item rather than weakening that authority boundary. P074
 therefore remains partial post-MVP work, and the baseline Story 012 and hard-MVP
