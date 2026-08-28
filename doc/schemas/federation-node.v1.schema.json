@@ -7,8 +7,12 @@
   "additionalProperties": false,
   "required": ["schema", "schema/v", "run/id", "node/ref", "data-dir/ref", "product/endpoints", "services", "capabilities", "status"],
   "dependentRequired": {
+    "model/binding": ["model/revalidation"],
+    "model/revalidation": ["model/binding"],
     "storage/policies": ["storage/revalidation"],
-    "storage/revalidation": ["storage/policies"]
+    "storage/revalidation": ["storage/policies"],
+    "vfkit/preparation": ["vfkit/cleanup"],
+    "vfkit/cleanup": ["vfkit/preparation"]
   },
   "properties": {
     "schema": { "const": "federation-node.v1" },
@@ -20,8 +24,12 @@
     "product/endpoints": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "type": "string", "pattern": "^product://[A-Za-z0-9._:/-]+$", "maxLength": 160 } },
     "services": { "$ref": "#/$defs/tokenList" },
     "capabilities": { "$ref": "#/$defs/tokenList" },
+    "model/binding": { "$ref": "#/$defs/modelBindingEvidence" },
+    "model/revalidation": { "$ref": "#/$defs/revalidationEvidence" },
+    "vfkit/preparation": { "$ref": "#/$defs/vfkitPreparationEvidence" },
+    "vfkit/cleanup": { "$ref": "#/$defs/vfkitCleanupEvidence" },
     "storage/policies": { "type": "array", "maxItems": 8, "items": { "$ref": "#/$defs/storagePolicyEvidence" } },
-    "storage/revalidation": { "$ref": "#/$defs/storageRevalidationEvidence" },
+    "storage/revalidation": { "$ref": "#/$defs/revalidationEvidence" },
     "status": { "enum": ["planned", "running", "passed", "failed", "refused", "unavailable"] }
   },
   "$defs": {
@@ -29,7 +37,8 @@
     "token": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 128 },
     "tokenList": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/token" } },
     "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
-    "storageRevalidationEvidence": {
+    "rawDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "revalidationEvidence": {
       "type": "object",
       "additionalProperties": false,
       "required": ["status"],
@@ -44,6 +53,93 @@
           "else": { "not": { "required": ["refusal/code"] } }
         }
       ]
+    },
+    "modelBindingEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding/ref", "inventory/digest", "descriptor/digest", "runtime/ref", "runtime/family", "runtime/version", "runtime/digest", "model/repository", "model/revision", "model-card/ref", "package/ref", "manifest/digest", "manifest/raw-digest", "lifecycle/report-digest", "qualification/report-digest", "roles", "measurements", "resources", "checks", "status"],
+      "properties": {
+        "binding/ref": { "type": "string", "pattern": "^model\\.binding/[A-Za-z0-9][A-Za-z0-9._/-]*$", "maxLength": 256 },
+        "inventory/digest": { "$ref": "#/$defs/rawDigest" },
+        "descriptor/digest": { "$ref": "#/$defs/rawDigest" },
+        "runtime/ref": { "$ref": "#/$defs/token" },
+        "runtime/family": { "enum": ["mlx_lm_server", "llama_server"] },
+        "runtime/version": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "runtime/digest": { "$ref": "#/$defs/digest" },
+        "model/repository": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "model/revision": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "model-card/ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "package/ref": { "$ref": "#/$defs/token" },
+        "manifest/digest": { "$ref": "#/$defs/digest" },
+        "manifest/raw-digest": { "$ref": "#/$defs/rawDigest" },
+        "lifecycle/report-digest": { "$ref": "#/$defs/rawDigest" },
+        "qualification/report-digest": { "$ref": "#/$defs/rawDigest" },
+        "roles": { "$ref": "#/$defs/tokenList" },
+        "measurements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["warmup-ms", "first-inference-ms", "role-pass-count"],
+          "properties": {
+            "warmup-ms": { "type": "integer", "minimum": 0, "maximum": 1800000 },
+            "first-inference-ms": { "type": "integer", "minimum": 0, "maximum": 1800000 },
+            "role-pass-count": { "type": "integer", "minimum": 1, "maximum": 64 }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["host/memory-available-bytes", "host/memory-required-bytes", "runtime/count"],
+          "properties": {
+            "host/memory-available-bytes": { "type": "integer", "minimum": 1 },
+            "host/memory-required-bytes": { "type": "integer", "minimum": 1 },
+            "runtime/count": { "type": "integer", "minimum": 1, "maximum": 16 }
+          }
+        },
+        "checks": {
+          "type": "array",
+          "minItems": 11,
+          "maxItems": 17,
+          "uniqueItems": true,
+          "items": { "enum": ["inventory-closed-shape", "scope-binding", "descriptor-bytes", "runtime-exclusive-staging", "runtime-bytes", "model-complete", "model-bytes", "package-evidence", "lifecycle-evidence", "qualification-evidence", "resource-budget", "post-effect-descriptor-bytes", "post-effect-runtime-bytes", "post-effect-model-bytes", "post-effect-package-evidence", "post-effect-lifecycle-evidence", "post-effect-qualification-evidence"] }
+        },
+        "status": { "const": "passed" }
+      }
+    },
+    "vfkitPreparationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backend/id", "manifest/digest", "image/artifact-digest", "firmware/digest", "guest-agent/digest", "sbom/digest", "build-provenance/digest", "fixture/digest", "clone/method", "workspace/ref", "socket-path/bytes", "checks", "status"],
+      "properties": {
+        "backend/id": { "const": "vfkit-system.v1" },
+        "manifest/digest": { "$ref": "#/$defs/rawDigest" },
+        "image/artifact-digest": { "$ref": "#/$defs/rawDigest" },
+        "firmware/digest": { "$ref": "#/$defs/rawDigest" },
+        "guest-agent/digest": { "$ref": "#/$defs/rawDigest" },
+        "sbom/digest": { "$ref": "#/$defs/rawDigest" },
+        "build-provenance/digest": { "$ref": "#/$defs/rawDigest" },
+        "fixture/digest": { "$ref": "#/$defs/rawDigest" },
+        "clone/method": { "const": "apfs-clonefile" },
+        "workspace/ref": { "type": "string", "pattern": "^run://vfkit/[A-Za-z0-9._:-]+$", "maxLength": 128 },
+        "socket-path/bytes": { "type": "integer", "minimum": 1, "maximum": 103 },
+        "checks": {
+          "type": "array",
+          "minItems": 11,
+          "maxItems": 11,
+          "uniqueItems": true,
+          "items": { "enum": ["completion-closed-shape", "base-image-bytes", "firmware-bytes", "guest-agent-bytes", "sbom-bytes", "provenance-bytes", "same-volume-apfs-clone", "target-byte-verification", "firmware-clone-verification", "socket-path-budget", "run-owned-workspace"] }
+        },
+        "status": { "const": "passed" }
+      }
+    },
+    "vfkitCleanupEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workspace/ref", "status", "checks"],
+      "properties": {
+        "workspace/ref": { "type": "string", "pattern": "^run://vfkit/[A-Za-z0-9._:-]+$", "maxLength": 128 },
+        "status": { "const": "passed" },
+        "checks": { "const": ["workspace-cleanup"] }
+      }
     },
     "storagePolicyEvidence": {
       "type": "object",

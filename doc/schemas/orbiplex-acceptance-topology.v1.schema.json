@@ -28,6 +28,7 @@
       "properties": {
         "host/name": { "$ref": "#/$defs/host" },
         "platform/ref": { "$ref": "#/$defs/token" },
+        "product/bind-address": { "type": "string", "format": "ipv4" },
         "ssh": {
           "type": "object",
           "additionalProperties": false,

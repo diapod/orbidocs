@@ -33,7 +33,8 @@
       "properties": {
         "roles": { "allOf": [{ "$ref": "#/$defs/tokenList" }, { "minItems": 1 }] },
         "capabilities/expected": { "$ref": "#/$defs/tokenList" },
-        "model/store-required": { "type": "boolean" }
+        "model/store-required": { "type": "boolean" },
+        "model/binding-ref": { "type": "string", "pattern": "^model\\.binding/[A-Za-z0-9][A-Za-z0-9._/-]*$", "maxLength": 256 }
       }
     },
     "service": {

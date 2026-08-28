@@ -1,40 +1,34 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-27.
+Snapshot date: 2026-08-28.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
-The 2026-08-27 P074 refresh adds the canonical physical-topology, scenario,
-federation-run, and federation-node contracts; a pure checked Rust planner; and
-a lease-fenced local/SSH execution substrate with a Story-012-shaped direct Room
-WSS profile. Local runtime evidence proves four-frame TLS publish/observe with
-speaker and observer authority kept distinct. Review hardening now scopes ports
-to case-insensitive physical-host identity, closes node evidence statuses, binds
-the physical profile's exact assertion set to evaluated ledger evidence, and
-distinguishes delivered process signals from already exited processes. The
-measured 2026-08-27 run now proves the complete deterministic three-host Room
-transport profile at one clean synchronized Node revision. Its retained,
-Schema-Gate-valid redacted report is
-`report://story-012-physical-transport/1rFld2mbqbPojxQpvZ70/federation-run.v1.json`;
-the owner ledger records direct Room WSS, restart/reconnect, and
-no-SSH-product-proxy assertions, while strict cleanup removes private ready,
-key, and identity material before the lease is released as passed. This closes
-P074-009. P074-008
-remains partial pending physical interrupted-run resume plus real-model root and
-vfkit-specific qualification. P074-011 is now partial: its closed private policy
-contract and the `operator-trusted-shared-managed` model-store vertical slice
-have strict-default, macOS/GNU/Linux ACL, pre/post-effect drift, and redacted
-evidence coverage. Failed manifests retain each selected slot's closed
-post-effect outcome and typed drift code, while successful slots in a partial
-revalidation keep their extended evidence. Live removable-APFS and
-group-writable GNU/Linux probes also pass. Immutable-input snapshots, shared
-VMM workspaces, retained udev/autofs
-evidence, and a real Story-012 report remain open, as do P074-010 and P074-012
-through P074-014. The independent P070 POSIX
-profile still reaches its current P082/P083 `host-projection-required` refusal
-and has a tracker item rather than weakening that authority boundary. P074
-therefore remains partial post-MVP work, and the baseline Story 012 and hard-MVP
-readiness percentages remain unchanged.
+The 2026-08-28 P074 refresh closes the first real-model Story 012 physical-host
+profile. The retained run
+`federation-run:story-012-physical-real-model:20260828T183021Z` passed at one
+clean synchronized Node revision across three physical hosts. All three node
+reports, all three model post-effect revalidations, and all ten exact scenario
+assertions passed. The Schema-Gate-valid redacted aggregate is
+`report://story-012-physical-real-model/T1BTIvqtM8RjVsEN-55Z/federation-run.v1.json`
+with content SHA-256
+`5bc78032d40d8549ac5dd08308de58314a0fd4a81c5768e328ffa8fdf525c4b6`;
+the paired Story report has content SHA-256
+`f546c4acd6761ca5f8ecbfc38539dca0eecfefceba741e017bbc898a48e32b92`.
+The 744,166 ms passage included 536,105 ms of real model deliberation and proved
+direct Room/Corpus WSS and Sensorium/Workbench traffic, independent model stores,
+solver/reviewer/Chair products, restart/reconnect, authority revocation, APFS
+vfkit preparation and cleanup, and no SSH product proxy. It also live-proved the
+`operator-trusted-shared-managed` removable APFS model-store posture with final
+revalidation. Two subsequent no-retry populations on the two-core Broadwell
+reviewer host passed 5/5 complete-plan acceptances and 5/5 repairable corrections.
+This closes P074-010 and its P074-016 through P074-019, P074-021, P074-025, and
+P074-026 enabling slices. P074 remains partial post-MVP work: generic
+interrupted-run resume, Story 010 and trace-explorer consumers, the remaining
+P074-011 shared-input roles, optional macOS signing/firewall hardening, and the
+non-gating Bielik-specific P074-012 branch remain open. The baseline Story 012
+and hard-MVP readiness percentages remain unchanged because this is a
+post-hard-MVP physical acceptance profile.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
@@ -1547,7 +1541,7 @@ Recent component deltas:
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
-| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `75` |
+| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `85` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:orbiplex-acceptance-model-bindings:v1",
+  "title": "Orbiplex Acceptance Model Bindings v1",
+  "description": "Private host-local locators binding one physical acceptance slot to exact model/runtime qualification evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "scope", "bindings"],
+  "properties": {
+    "schema": { "const": "orbiplex-acceptance-model-bindings.v1" },
+    "schema/v": { "const": 1 },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run/id", "slot", "scenario/ref", "profile/raw-digest", "expires/at"],
+      "properties": {
+        "run/id": { "type": "string", "pattern": "^federation-run:[^\\s]+$", "maxLength": 256 },
+        "slot": { "$ref": "#/$defs/token" },
+        "scenario/ref": { "type": "string", "pattern": "^story-[A-Za-z0-9._:-]+$", "maxLength": 256 },
+        "profile/raw-digest": { "$ref": "#/$defs/rawDigest" },
+        "expires/at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "binding/ref",
+          "descriptor/relative-path",
+          "descriptor/raw-digest",
+          "runtime/path",
+          "model/path",
+          "package/manifest-path",
+          "lifecycle/report-path",
+          "qualification/report-path",
+          "execution/root"
+        ],
+        "properties": {
+          "binding/ref": { "type": "string", "pattern": "^model\\.binding/[A-Za-z0-9][A-Za-z0-9._/-]*$", "maxLength": 256 },
+          "descriptor/relative-path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+\\.json$", "maxLength": 512 },
+          "descriptor/raw-digest": { "$ref": "#/$defs/rawDigest" },
+          "runtime/path": { "$ref": "#/$defs/absolutePath" },
+          "model/path": { "$ref": "#/$defs/absolutePath" },
+          "package/manifest-path": { "$ref": "#/$defs/absolutePath" },
+          "lifecycle/report-path": { "$ref": "#/$defs/absolutePath" },
+          "qualification/report-path": { "$ref": "#/$defs/absolutePath" },
+          "execution/root": { "$ref": "#/$defs/absolutePath" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "token": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 128 },
+    "rawDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "absolutePath": { "type": "string", "pattern": "^/[^\\u0000]+$", "maxLength": 4096 }
+  }
+}

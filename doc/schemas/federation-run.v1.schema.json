@@ -15,11 +15,51 @@
     "profile/digest": { "$ref": "#/$defs/digest" },
     "owner/slot": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$", "maxLength": 64 },
     "nodes": { "type": "array", "minItems": 2, "maxItems": 32, "items": { "$ref": "federation-node.v1.schema.json" } },
+    "story/evidence": { "$ref": "#/$defs/storyEvidence" },
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/assertionResult" }
+    },
     "started/at": { "type": "string", "format": "date-time" },
     "ended/at": { "type": "string", "format": "date-time" },
     "status": { "enum": ["planned", "running", "passed", "failed", "refused"] }
   },
   "$defs": {
-    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "rawDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "token": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 256 },
+    "storyEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report/schema", "report/profile-id", "report/raw-digest", "checks", "measurements", "status"],
+      "properties": {
+        "report/schema": { "$ref": "#/$defs/token" },
+        "report/profile-id": { "$ref": "#/$defs/token" },
+        "report/raw-digest": { "$ref": "#/$defs/rawDigest" },
+        "checks": { "type": "array", "minItems": 1, "maxItems": 128, "uniqueItems": true, "items": { "$ref": "#/$defs/token" } },
+        "measurements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["duration/ms", "deliberation/ms"],
+          "properties": {
+            "duration/ms": { "type": "integer", "minimum": 0, "maximum": 7200000 },
+            "deliberation/ms": { "type": "integer", "minimum": 0, "maximum": 1800000 }
+          }
+        },
+        "status": { "const": "passed" }
+      }
+    },
+    "assertionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assertion/id", "status"],
+      "properties": {
+        "assertion/id": { "$ref": "#/$defs/token" },
+        "node/ref": { "$ref": "#/$defs/token" },
+        "status": { "const": "passed" }
+      }
+    }
   }
 }

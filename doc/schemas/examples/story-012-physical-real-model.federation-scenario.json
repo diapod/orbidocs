@@ -1,0 +1,115 @@
+{
+  "schema": "federation-scenario.v1",
+  "scenario/ref": "story-012-physical-real-model",
+  "owner/slot": "node-a",
+  "port/base": 48980,
+  "nodes": {
+    "node-a": {
+      "roles": ["room-owner", "chair", "sensorium-owner"],
+      "capabilities/expected": ["corpus-chair", "room-relay", "sensorium-workbench"],
+      "model/store-required": true,
+      "model/binding-ref": "model.binding/story-012-qwen25-chair"
+    },
+    "node-b": {
+      "roles": ["solver"],
+      "capabilities/expected": ["corpus-solver"],
+      "model/store-required": true,
+      "model/binding-ref": "model.binding/story-012-qwen3-coder-solver"
+    },
+    "node-c": {
+      "roles": ["reviewer", "facilitator"],
+      "capabilities/expected": ["corpus-reviewer", "room-observer"],
+      "model/store-required": true,
+      "model/binding-ref": "model.binding/story-012-qwen25-reviewer-facilitator"
+    }
+  },
+  "services": [
+    {
+      "service/ref": "node-a-control",
+      "node/ref": "node-a",
+      "transport": "http",
+      "port": 48980,
+      "requires/roles": ["chair"]
+    },
+    {
+      "service/ref": "node-a-room-wss",
+      "node/ref": "node-a",
+      "transport": "wss",
+      "port": 48988,
+      "requires/roles": ["room-owner"]
+    },
+    {
+      "service/ref": "node-a-corpus-live-wss",
+      "node/ref": "node-a",
+      "transport": "wss",
+      "port": 48987,
+      "requires/roles": ["room-owner"]
+    },
+    {
+      "service/ref": "node-a-sensorium-workbench",
+      "node/ref": "node-a",
+      "transport": "http",
+      "port": 49298,
+      "requires/roles": ["sensorium-owner"]
+    },
+    {
+      "service/ref": "node-b-control",
+      "node/ref": "node-b",
+      "transport": "http",
+      "port": 49080,
+      "requires/roles": ["solver"]
+    },
+    {
+      "service/ref": "node-b-room-wss",
+      "node/ref": "node-b",
+      "transport": "wss",
+      "port": 49088,
+      "requires/roles": ["solver"]
+    },
+    {
+      "service/ref": "node-b-seed-directory",
+      "node/ref": "node-b",
+      "transport": "http",
+      "port": 49086,
+      "requires/roles": ["solver"]
+    },
+    {
+      "service/ref": "node-c-control",
+      "node/ref": "node-c",
+      "transport": "http",
+      "port": 49180,
+      "requires/roles": ["reviewer"]
+    },
+    {
+      "service/ref": "node-c-room-wss",
+      "node/ref": "node-c",
+      "transport": "wss",
+      "port": 49188,
+      "requires/roles": ["reviewer"]
+    }
+  ],
+  "steps": [
+    {"step/id": "preflight", "kind": "preflight"},
+    {"step/id": "prepare-model-bindings", "kind": "model-admission", "depends/on": ["preflight"]},
+    {"step/id": "prepare-vfkit", "kind": "vfkit-admission", "node/ref": "node-a", "depends/on": ["preflight"]},
+    {"step/id": "materialize-profiles", "kind": "profile-materialization", "depends/on": ["prepare-model-bindings", "prepare-vfkit"]},
+    {"step/id": "start-federation", "kind": "start-services", "depends/on": ["materialize-profiles"]},
+    {"step/id": "run-story-012", "kind": "real-model-deliberation", "depends/on": ["start-federation"]},
+    {"step/id": "restart-node-c", "kind": "restart-service", "node/ref": "node-c", "depends/on": ["run-story-012"]},
+    {"step/id": "prove-revocation", "kind": "authority-revocation", "node/ref": "node-a", "depends/on": ["restart-node-c"]},
+    {"step/id": "collect-evidence", "kind": "collect-evidence", "depends/on": ["prove-revocation"]},
+    {"step/id": "cleanup-vfkit", "kind": "vfkit-cleanup", "node/ref": "node-a", "depends/on": ["collect-evidence"]}
+  ],
+  "assertions": [
+    {"assertion/id": "direct-room-corpus-wss", "kind": "direct-product-transport", "node/ref": "node-b", "service/ref": "node-a-corpus-live-wss"},
+    {"assertion/id": "direct-sensorium-workbench", "kind": "direct-product-transport", "node/ref": "node-a", "service/ref": "node-a-sensorium-workbench"},
+    {"assertion/id": "independent-model-stores", "kind": "per-slot-model-admission"},
+    {"assertion/id": "model-generated-solver-product", "kind": "model-generated-product", "node/ref": "node-b"},
+    {"assertion/id": "model-generated-reviewer-product", "kind": "model-generated-product", "node/ref": "node-c"},
+    {"assertion/id": "model-generated-chair-admission", "kind": "model-generated-chair-decision", "node/ref": "node-a"},
+    {"assertion/id": "short-apfs-vfkit-workspace", "kind": "vfkit-private-clone", "node/ref": "node-a"},
+    {"assertion/id": "restart-reconnect", "kind": "restart-reconnect", "node/ref": "node-c", "service/ref": "node-c-control"},
+    {"assertion/id": "authority-revocation", "kind": "authority-revocation", "node/ref": "node-a"},
+    {"assertion/id": "no-ssh-product-proxy", "kind": "no-ssh-product-proxy"}
+  ]
+}
