@@ -195,17 +195,17 @@ mark the apophatic boundary of level zero; it does not extend the axis by anothe
 segment, but marks the limit of its applicability.
 
 On the basis of the original genealogy we can also construct a third, dual
-reading: for each transition of epistemization one can name the act of
-determination that introduces it: appearing → differentiation → individuation →
-reference → signification → generalization → instantiation → objectivation →
-reification. The states answer the question "what?", while the acts answer
+reading: for each transition of epistemization within the model one can name the
+act of determination that introduces it: appearing → differentiation →
+individuation → reference → signification → generalization → instantiation →
+objectivation → reification. The states answer the question "what?", while the acts answer
 "how?". On this reading a "thing" is not something given but a stack of acts —
 which is why, read backwards, it "dissolves" toward the phenomenon and, at the
 model's boundary, toward what we mark as level zero.
 
 | state transition | introduced artifact/act |
 |---|---|
-| ∅ → phenomenon | appearing |
+| ∅ \| phenomenon | appearing (model boundary, not an observed transition) |
 | phenomenon → figure | differentiation (figure–ground) |
 | figure → something | individuation (this–here) |
 | something → sign | reference (standing-for) |
@@ -218,12 +218,12 @@ model's boundary, toward what we mark as level zero.
 #### Translation asymmetry
 
 The table of acts shows that translation between layers has no canonical inverse.
-Movement toward higher registers works in two ways: it reduces the texture of the
+Movement toward higher layers works in two ways: it reduces the texture of the
 lower layer by merging many possible concretes into one abstraction, while also
 adding determinations specific to the receiving layer. Reduction is a many-to-one
 mapping, so its result alone does not reveal which concretes were merged. Added
 determinations likewise cannot be removed without knowing which of them the later
-register introduced. In both cases, information needed to construct an inverse is
+layer introduced. In both cases, information needed to construct an inverse is
 missing.
 
 Movement toward less determined layers therefore does not recover the original
@@ -234,18 +234,144 @@ model of experiential closure developed below explains, if such movement recover
 the original, an anonymous closure would have to preserve a persistent identity
 independently of that with which it forms.
 
-The position of the subject in communication reinforces this asymmetry. In its
-justification, the register of objectivity abstracts from the particular position
-of the speaker and claims validity independent of it. This does not exclude
-disciplined first-person testimony, but it requires an explicit account of its
-conditions, translation, and grounds for public evaluation.
+The position of the subject in communication reinforces this asymmetry. A judgment
+formulated at the layer of objectivity abstracts, in its justification, from the
+particular position of the speaker and claims validity independent of it. This does
+not exclude disciplined first-person testimony, but it requires an explicit account
+of its conditions, translation, and grounds for public evaluation.
 
 A side effect can be the illusion that genealogically earlier layers are poor. A
 rich vocabulary usually concerns their already individuated and objectified
 counterparts rather than the texture of experience itself: we have precise names
 for colors as properties of things and few expressions for color as experienced.
 This does not indicate poverty of experience, but the cost of translating it into a
-register of publicly comparable distinctions.
+language of publicly comparable distinctions.
+
+#### Constitutive Thresholds and Layer Grammars
+
+Translation asymmetry explains why we cannot recover a canonical original from an
+abstraction. By itself, however, it does not answer a second question: what capacity
+does a layer acquire by incurring that loss? To describe this aspect, we introduce a
+working model of **constitutive thresholds**. It is an analytical protocol, not a
+sixth postulate or a universal law of nature:
+
+```text
+L_n
+  --[selective stabilization under constraint]-->
+L_(n+1)
+```
+
+At a threshold, three operations occur jointly:
+
+- **reduction** — some possible distinctions cease to be available in the new
+  layer;
+- **organization** — the retained differences are bound together and stabilize
+  relations or invariants proper to that layer;
+- **generativity** — the organized relations enable operations that the preceding
+  layer did not make available in this form.
+
+"Selective stabilization" is a general name that each threshold must further
+specify: it may refer to an attentional filter, learning, developmental
+stabilization, social convention, or evolutionary selection. It does not imply a
+conscious purpose, a single efficient cause, or metaphysical necessity. The
+transition may be gradual, recursive, and dependent on a constellation of many
+conditions. A function acquired by a layer does not therefore prove, by itself, the
+mechanism or historical cause of its emergence, nor a sharp moment of transition.
+
+By **layer grammar** we do not necessarily mean the grammar of a language of signs,
+but a local repertoire of distinctions, relations, and operations: what can be bound,
+transformed, and composed in a given layer, what remains invalid, and what
+failures can be recognized within that layer. A new layer is worth distinguishing
+when reduction stabilizes a new invariant and a relatively autonomous family of
+operations, and when its outputs become functional concretes for the next layer.
+A mere change of viewpoint, name, or medium need not yet constitute a layer.
+
+Before describing a threshold, one should specify its **axis** — for example,
+structural-phenomenological, evolutionary, developmental, socio-historical, or
+epistemic-methodological — and its **epistemic status**: model core, inference,
+regional hypothesis, empirical result, or operational convention. This prevents the
+conflation of function, mechanism, ontogeny, and history into a single causal
+narrative.
+
+We can then describe each candidate threshold using a seven-field scheme:
+
+1. **local constraint or condition of stabilization** — what differentiates
+   trajectories, within what scope, and by what mechanism; any function should be
+   recorded separately from the causal explanation;
+2. **reduction operator** — what binding, filter, or compression takes place;
+3. **lost distinctions** — what cannot be reconstructed from the result alone;
+4. **new invariant** — what becomes organized and persists despite variation;
+5. **grammar** — what relations, compositions, and criteria of correctness become
+   possible;
+6. **acquired agency** — what the layer newly makes it possible to recognize or do;
+7. **failure mode through reification** — what happens when the local grammar is
+   taken as the ontology of the entire stack.
+
+This scheme **does not apply to level zero**. The notation `∅ | phenomenon` in the
+table of acts represents the apophatic cut and appearing as the first describable
+act, not an observed causal transition. Asking about a mechanism leading from level
+zero to consciousness would turn the boundary marker into a hidden state or
+substance. We can investigate the correlates and conditions of differentiating,
+sustaining, and reporting conscious experience, but within this model they do not
+constitute a derivation of the fact of appearing itself from a third-person
+description.
+
+In the table below, "subjectivity" means an organism-centered, valenced perspective,
+not the minimal first-person character of experience itself. Some phenomenological
+accounts take that character to be inseparable from every conscious experience.
+
+The following table is therefore a map of working hypotheses for the main
+transitions in the genealogy, not a strict developmental chronology or a claim that
+one mechanism explains the entire stack:
+
+| analytical threshold | what is reduced | condition of stabilization / function | what is stabilized | new grammar and agency |
+|---|---|---|---|---|
+| level-zero boundary / consciousness | not applicable — the boundary is not a source layer | not applicable | appearing as the first describable layer | "it appears"; we describe only conditions and correlates within experience |
+| consciousness → subjectivity | distinctions not yet bound in this model to a stable "for me" position | in an organic realization: regulation of coupling relative to viability conditions — regional hypothesis | situated perspective, valence, and organism–environment asymmetry | here/there, toward/away; choice and action from a determinate position |
+| subjectivity → person | momentariness and the multiplicity of possible bindings of perspective | coherence of action over time, memory, and social coupling | a recursively evaluated personal index, continuity, and agency | I/mine, I did/was done to me, I was/am/will be; planning and responsibility |
+| person → culture | the private texture of experience, which cannot be transferred between persons | coordination, shared learning, and intergenerational transmission | shared signs, conventions, meanings, and norms | we, symbol, permitted/forbidden; reconstruction of distinctions in another participant |
+| culture → objectivity | dependence of a judgment on a particular speaker and the situation of their utterance | reliable correction and comparison of multiple perspectives | repeatable procedures and invariants preserved across observers | "X is..."; measurement, criticism, reproducibility, and interchangeability of judging positions |
+
+The arrows denote genealogical dependence, not a unidirectional chronology. Person
+and culture reciprocally co-constitute one another, while objectivity is a specialized
+branch of cultural practices, not a necessary stage of every culture. Expressions
+such as "I/mine" are relational shorthand, not a requirement to use literal pronouns
+or grammatical tense.
+
+**Regional hypothesis for organic forms.** Enactivism, autopoiesis, and the concept
+of adaptivity suggest that a living form cannot couple equally to all changes in its
+environment: maintaining its own organization introduces a difference between what
+supports its continued persistence and what threatens it. This normativity of
+viability describes a functional polarization that may be a precursor or one of the
+conditions of later valence and situated perspective; it is not yet evidence of
+their phenomenal form. The organism's boundary is functionally prior to the ego, but
+by itself it is insufficient to derive consciousness, subjectivity, or a person.
+
+In this regional account, an *Umwelt* is not an impoverished copy of a ready-made
+representation of the world, but a field of relevant differences stabilized in the
+coupling of an organism's capacities with its environment. Air may afford flight
+relative to the structure of a particular body, and an object may afford grasping
+relative to the capacities of a particular hand. Gibsonian *affordances* describe
+such relational possibilities for action. Grammar emerges here from regularities of
+coupling, not from an arbitrary vocabulary imposed on passive material.
+
+At the threshold of culture, a sign does not carry experience itself. It is a
+socially learned operator that constrains and directs the reenactment of meaning in
+another participant, without guaranteeing the reconstruction of the same quality of
+experience: the word "pain" does not contain pain. At the threshold of objectivity,
+we do not actually remove the observer; rather, we build procedures for
+interchangeability, calibration, explicit uncertainty, criticism, and the search for
+invariants across observers and different modes of error. Objectivity, in this sense,
+is not the opposite of perspectivality but a particular technology for dealing with
+multiple perspectives. Agreement among observers alone is insufficient if all of
+them share the same systematic error.
+
+Some thresholds can therefore be studied both as a genealogy of losses and a
+genealogy of agency. A new possibility is opened not by loss alone, but by selective
+reduction combined with organization: **constraint → new possibility**. This is a
+constitutive hypothesis advanced by this document, which should be assessed
+separately for each threshold rather than extended automatically to all biological,
+psychological, and social processes.
 
 #### Modes of experiencing
 
@@ -288,18 +414,34 @@ This is a structural capacity that presupposes neither an extraordinary state no
 privileged access, but without practical introspection it may remain unrecognized,
 much as the ability to observe one's own thoughts is widespread yet rarely trained.
 
+Contemplative practice can, in this light, be described not as a return to original
+experience, but as a temporary loosening of selected compressions. It reveals their
+cost and contingency, after which experience forms again — perhaps with a less rigid
+grammar, but never as a recovered original.
+
 **Anchoring in known traditions:** holarchies (Koestler, Wilber), but with two
 important differences: the architectural precision of *stratified design* and
 *drilling through abstractions*, which holarchies do not model. The process of
 building layers is close to enactive autopoiesis (Varela, Thompson), but extended to
-culture and objectivity.
+culture and objectivity. Further regional tools for the organic threshold of
+subjectivity are provided by [Jakob von Uexküll's
+*Umwelt*](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
+[Gibsonian *affordances*](https://doi.org/10.4324/9781315740218-18), and [Ezequiel Di
+Paolo's adaptivity](https://doi.org/10.1007/s11097-005-9002-y). The remaining
+thresholds have their own regional grounding in developmental psychology and studies
+of the person, semiotics and anthropology, and epistemology, measurement theory, and
+philosophy of science. None of these traditions explains the entire sequence of
+thresholds by itself.
 
 **Consequences for DIA:** the whole swarm architecture — node, agent, memarium,
 sensorium, inquirium, and protocol — is designed in layers in the spirit of
 stratification. The value of *separating levels* and the layer contract in Orbiplex
 are direct translations of this postulate into engineering. The rule that "higher
 layers must not detach from the foundation" protects collective intelligence from
-becoming the PR arm of low impulses.
+becoming the PR arm of low impulses. A new layer is justified not by the name of a
+module alone, but by an explicit reduction operator, the loss incurred, the invariant
+stabilized, a local grammar, and the new operations for which the layer assumes
+responsibility.
 
 ### Enactive participation
 
@@ -471,10 +613,10 @@ a sense of persistence and creates the conditions for what we model below as an
 intensional identifier.
 
 The person formed in this way fulfills two roles at once, and both shape them.
-Downward, the person acts as a translation gateway: in their own register, they
-formulate claims about the organism, experience, and subjectivity. Upward, the
-person becomes a concrete for the culture layer: interactions with other persons and
-cultural patterns place them in the social landscape and leave traces in their
+Downward, the person acts as a translation gateway: using the categories of their
+own layer, they formulate claims about the organism, experience, and subjectivity.
+Upward, the person becomes a concrete for the culture layer: interactions with other
+persons and cultural patterns place them in the social landscape and leave traces in their
 memory and in shared records. This feedback is not one-way: the person may accept,
 negotiate, reject, and transform social attributions, while co-shaping culture
 through their own actions.
@@ -748,6 +890,16 @@ binding of meanings is conscious and local.
     logically from emergence, but is a useful epistemic safeguard when a claim depends
     on many conditions or is to produce a high-stakes effect.
 
+10. **A layer threshold accounts for loss and acquired agency.**
+
+    A candidate for a new *stratum* should name the condition of stabilization, the
+    reducer, the lost distinctions, the new invariant, the grammar of operations, the
+    acquired capacity for action, and the typical failure mode through reification. If
+    no new contract or family of operations emerges, we are dealing with a projection
+    or view of an existing layer rather than a new layer. This keeps an incidental
+    implementation mechanism from becoming domain semantics, while the abstraction
+    retains the memory of what it bought with the loss it incurred.
+
 We recognize that we are susceptible to prematurely binding phenomena into closed
 forms, and knowing this, we can build systems that adapt to this property of our
 organisms and cognitive apparatuses. One practical method is stratification. Each
@@ -777,7 +929,7 @@ other way: it re-fluidizes what reverse adaptation has stiffened.
 #### Inference to Architecture
 
 When the gradient of levels of experiencing mentioned in the second postulate is
-related to the matrix of software architecture, we obtain a register of
+related to the matrix of software architecture, we obtain a map of
 **contracts and edges**. The layers become layers of data processing, while the
 acts become admission operations. Among other things, this guards against
 reification and the premature binding of phenomena into objects.

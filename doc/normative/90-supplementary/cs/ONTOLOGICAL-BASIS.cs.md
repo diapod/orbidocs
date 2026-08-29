@@ -179,8 +179,9 @@ osy zaznamenáváme apofatickou hranici nulové úrovně; neprodlužuje osu o da
 ale označuje hranici její použitelnosti.
 
 Na základě původní genealogie lze také zkonstruovat třetí, duální čtení: pro
-každý přechod epistemizace lze pojmenovat akt určení, který jej zavádí: jevení
-se → rozlišování → vydělení → odkazování → zvýznamnění → zobecnění →
+každý přechod epistemizace uvnitř modelu lze pojmenovat akt určení, který jej
+zavádí:
+jevení se → rozlišování → vydělení → odkazování → zvýznamnění → zobecnění →
 instancování → objektivizace → zvěcnění. Stavy odpovídají na otázku „co?“,
 zatímco akty na otázku „jak?“. V tomto pojetí „věc“ není zastaná, nýbrž je
 stohem aktů – proto se při čtení zpět „rozpouští“ směrem k fenoménu a na hranici
@@ -188,7 +189,7 @@ modelu k tomu, co označujeme jako nulovou úroveň.
 
 | přechod stavů | zaváděný artefakt/akt |
 |---|---|
-| ∅ → fenomén | jevení se |
+| ∅ \| fenomén | jevení se (hranice modelu, nikoli pozorovaný přechod) |
 | fenomén → podoba | rozlišování (figura–pozadí) |
 | podoba → něco | vydělení (toto–zde) |
 | něco → znak | odkazování (za–něco) |
@@ -201,11 +202,11 @@ modelu k tomu, co označujeme jako nulovou úroveň.
 #### Asymetrie překladu
 
 Z tabulky aktů plyne, že překlad mezi vrstvami nemá kanonickou inverzi. Pohyb k
-vyšším registrům působí dvojím způsobem: redukuje texturu nižší vrstvy tím, že slučuje
+vyšším vrstvám působí dvojím způsobem: redukuje texturu nižší vrstvy tím, že slučuje
 mnoho možných konkrét do jednoho abstraktu, a zároveň přidává určení vlastní
 přijímající vrstvě. Redukce je zobrazení mnoho ku jedné, takže ze samotného výsledku
 nelze rozpoznat, která konkréta byla sloučena. Ani přidaná určení nelze odebrat bez
-znalosti toho, která z nich zavedl pozdější registr. V obou případech chybí informace
+znalosti toho, která z nich zavedla pozdější vrstva. V obou případech chybí informace
 potřebná ke konstrukci inverze.
 
 Pohyb k méně určeným vrstvám proto neobnovuje původní zkušenost. Je dekonstrukcí a
@@ -215,16 +216,133 @@ Jak rozvíjíme níže v modelu uzávěru zkušenosti, kdyby takový pohyb obnov
 originál, musel by anonymní uzávěr uchovávat trvalou identitu nezávisle na tom, s čím
 se utváří.
 
-Tuto asymetrii posiluje pozice subjektu ve sdělení. Registr objektivity ve svém
-zdůvodnění abstrahuje od konkrétní pozice vypovídajícího a nárokuje si platnost na
-ní nezávislou. To nevylučuje disciplinované prvoosobní svědectví, vyžaduje však
-výslovný popis jeho podmínek, překladu a důvodů pro veřejné hodnocení.
+Tuto asymetrii posiluje pozice subjektu ve sdělení. Soud formulovaný ve vrstvě
+objektivity abstrahuje ve svém zdůvodnění od konkrétní pozice vypovídajícího a
+nárokuje si platnost na ní nezávislou. To nevylučuje disciplinované prvoosobní
+svědectví, vyžaduje však výslovný popis jeho podmínek, překladu a důvodů pro veřejné
+hodnocení.
 
 Vedlejším účinkem může být iluze, že genealogicky dřívější vrstvy jsou chudé. Bohatá
 slovní zásoba se zpravidla týká jejich již vydělených a zpředmětněných protějšků,
 nikoli samotné textury zkušenosti: máme přesná pojmenování barev jako vlastností věcí
 a málo výrazů pro barvu tak, jak je zakoušena. Nesvědčí to o chudobě zkušenosti,
-nýbrž o ceně jejího překladu do registru veřejně porovnatelných rozlišení.
+nýbrž o ceně jejího překladu do jazyka veřejně porovnatelných rozlišení.
+
+#### Prahy konstituce a gramatiky vrstev
+
+Asymetrie překladu vysvětluje, proč z abstraktu nezískáváme kanonický originál.
+Sama však neodpovídá na druhou otázku: jakou schopnost vrstva získává za cenu
+utrpěné ztráty? K popisu tohoto aspektu zavádíme pracovní model **prahů
+konstituce**. Jde o analytický protokol, nikoli o šestý postulát nebo univerzální
+přírodní zákon:
+
+```text
+L_n
+  --[selektivní stabilizace pod omezením]-->
+L_(n+1)
+```
+
+Na prahu současně probíhají tři operace:
+
+- **redukce** – část možných rozlišení přestává být v nové vrstvě dostupná;
+- **organizace** – zachované rozdíly se propojují a stabilizují vztahy či invarianty
+  vlastní této vrstvě;
+- **generativita** – uspořádané vztahy umožňují operace, které předchozí vrstva
+  v této podobě neposkytovala.
+
+"Selektivní stabilizace" je obecné označení, které musí každý práh teprve
+upřesnit: může jít o filtr pozornosti, učení, vývojovou stabilizaci, společenskou
+konvenci nebo evoluční výběr. Neoznačuje vědomý cíl, jedinou účinnou příčinu ani
+metafyzickou nutnost. Přechod může být postupný, rekurzivní a závislý na konstelaci
+mnoha podmínek. Funkce získaná vrstvou proto sama o sobě nedokazuje mechanismus,
+historickou příčinu jejího vzniku ani ostrý okamžik přechodu.
+
+**Gramatikou vrstvy** nerozumíme nutně gramatiku jazyka znaků, nýbrž lokální
+repertoár rozlišení, vztahů a operací: co lze v dané vrstvě vázat, transformovat
+a skládat, co zůstává neplatné a jaká selhání v ní lze rozpoznat. Novou vrstvu má
+smysl vyčlenit tehdy, když redukce stabilizuje nový invariant a relativně autonomní
+rodinu operací a její výsledky se stávají funkčními konkréty pro další vrstvu.
+Samotná změna úhlu pohledu, názvu nebo nosiče ještě nemusí konstituovat vrstvu.
+
+Před popisem prahu je třeba uvést jeho **osu** – například
+strukturálně-fenomenologickou, evoluční, vývojovou, sociálně-historickou nebo
+epistemicko-metodologickou – a **epistemický status**: jádro modelu, inferenci,
+regionální hypotézu, empirický výsledek nebo operační konvenci. Chrání to před
+sloučením funkce, mechanismu, ontogeneze a historie do jednoho kauzálního příběhu.
+
+Každý kandidátní práh pak můžeme popsat podle sedmipoložkového schématu:
+
+1. **lokální omezení nebo podmínka stabilizace** – co rozlišuje průběhy, v jakém
+   rozsahu a podle jakého mechanismu; případnou funkci zaznamenáváme odděleně od
+   kauzálního vysvětlení;
+2. **redukční operátor** – jaké vázání, filtr či komprese probíhá;
+3. **ztracená rozlišení** – co nelze rekonstruovat ze samotného výsledku;
+4. **nový invariant** – co se uspořádá a přetrvává navzdory proměnlivosti;
+5. **gramatika** – jaké vztahy, kompozice a kritéria správnosti se stávají možnými;
+6. **získaná schopnost jednat** – co nového vrstva umožňuje rozpoznat nebo udělat;
+7. **způsob selhání v důsledku reifikace** – co se stane, když je lokální gramatika
+   pokládána za ontologii celého stohu.
+
+Toto schéma se **nevztahuje na nulovou úroveň**. Zápis `∅ | fenomén` v tabulce
+aktů představuje apofatický řez a jevení se jako první popsatelný akt, nikoli
+pozorovaný kauzální přechod. Otázka po mechanismu vedoucím od nulové úrovně
+k vědomí by ze značky hranice učinila skrytý stav nebo substanci. Můžeme zkoumat
+koreláty a podmínky rozlišování, udržování a reportování vědomé zkušenosti, uvnitř
+tohoto modelu však nepředstavují odvození samotného faktu jevení se z popisu ve
+třetí osobě.
+
+"Subjektivita" v následující tabulce označuje perspektivu centrovanou v organismu
+a nesoucí valenci, nikoli samotný minimální prvoosobní charakter zkušenosti, který
+některá fenomenologická pojetí pokládají za neoddělitelný od každé vědomé zkušenosti.
+
+Následující tabulka je proto mapou pracovních hypotéz pro hlavní přechody genealogie,
+nikoli přesnou chronologií vývoje ani tvrzením, že celý stoh vysvětluje jediný
+mechanismus:
+
+| analytický práh | co se redukuje | podmínka stabilizace / funkce | co se stabilizuje | nová gramatika a schopnost jednat |
+|---|---|---|---|---|
+| hranice nulové úrovně / vědomí | nevztahuje se – hranice není zdrojovou vrstvou | nevztahuje se | jevení se jako první popsatelná vrstva | "jeví se"; popisujeme pouze podmínky a koreláty uvnitř zkušenosti |
+| vědomí → subjektivita | rozdíly, které v tomto modelu ještě nejsou spojeny s trvalou pozicí "pro mě" | v organické realizaci: regulace vazby vzhledem k podmínkám životaschopnosti – regionální hypotéza | situovaná perspektiva, valence a asymetrie organismus–prostředí | zde/tam, k/od; volba a jednání z určité pozice |
+| subjektivita → osoba | pomíjivost a množství možných vazeb perspektivy | koherence jednání v čase, paměť a sociální vazba | rekurzivně vyhodnocovaný osobní index, kontinuita a schopnost jednat | já/moje, udělal jsem/bylo mi uděláno, byl jsem/jsem/budu; plánování a odpovědnost |
+| osoba → kultura | soukromá textura zkušenosti, kterou nelze přenést mezi osobami | koordinace, společné učení a mezigenerační přenos | sdílené znaky, konvence, významy a normy | my, symbol, dovoleno/zakázáno; rekonstrukce rozlišení v jiném účastníkovi |
+| kultura → objektivita | závislost soudu na konkrétním mluvčím a situaci jeho výpovědi | spolehlivá korekce a porovnávání více perspektiv | opakovatelné postupy a invarianty zachovávané mezi pozorovateli | "X je..."; měření, kritika, reprodukovatelnost a zaměnitelnost pozic vypovídajících |
+
+Šipky označují genealogickou závislost, nikoli jednosměrnou chronologii. Osoba
+a kultura se zpětně spolukonstituují a objektivita je specializovanou větví
+kulturních praktik, nikoli nutnou etapou každé kultury. Zápisy jako "já/moje" jsou
+zkratkami vztahů, nikoli požadavkem používat doslovná zájmena nebo gramatický čas.
+
+**Regionální hypotéza pro organické formy.** Enaktivismus, autopoiesis a pojem
+adaptivity naznačují, že živá forma se nemůže stejným způsobem vázat ke všem změnám
+prostředí: udržování vlastní organizace zavádí rozdíl mezi tím, co přispívá k jejímu
+dalšímu trvání, a tím, co je ohrožuje. Taková normativita životaschopnosti popisuje
+funkční polarizaci, která může být předchůdcem nebo jednou z podmínek pozdější
+valence a situované perspektivy; ještě však není důkazem jejich fenomenální podoby.
+Hranice organismu funkčně předchází egu, ale sama nestačí k odvození vědomí,
+subjektivity ani osoby.
+
+V tomto regionálním pojetí není *Umwelt* ochuzenou kopií hotové reprezentace světa,
+nýbrž polem relevantních rozdílů stabilizovaným ve vazbě schopností organismu
+s prostředím. Vzduch může vzhledem ke stavbě konkrétního těla umožňovat let
+a předmět vzhledem ke schopnostem konkrétní ruky úchop. Gibsonovské *affordances*
+popisují takové vztahové možnosti jednání. Gramatika zde vzniká z pravidelností
+vazby, nikoli z libovolného slovníku naneseného na pasivní materiál.
+
+Na prahu kultury znak nepřenáší samotnou zkušenost. Je společensky osvojeným
+operátorem, který omezuje a směruje reenakci významu u jiného účastníka, aniž
+zaručuje znovuutvoření téže kvality zkušenosti: slovo "bolest" neobsahuje bolest.
+Na prahu objektivity pozorovatele ve skutečnosti neodstraňujeme, nýbrž budujeme
+postupy zaměnitelnosti, kalibrace, explicitní nejistoty, kritiky a hledání
+invariantů mezi pozorovateli a různými režimy chyb. Objektivita v tomto smyslu
+není opakem perspektivnosti, nýbrž specifickou technologií zacházení s více
+perspektivami. Samotná shoda pozorovatelů nestačí, pokud všichni sdílejí tutéž
+systematickou chybu.
+
+Některé prahy lze proto zkoumat současně jako genealogii ztrát a genealogii
+schopnosti jednat. Novou možnost neotevírá sama ztráta, nýbrž selektivní redukce
+spojená s organizací: **omezení → nová možnost**. Jde o vlastní konstitutivní
+hypotézu tohoto dokumentu, kterou je třeba posuzovat zvlášť pro každý práh, nikoli
+automaticky rozšiřovat na všechny biologické, psychické a sociální procesy.
 
 #### Režimy zakoušení
 
@@ -264,16 +382,32 @@ Jde o strukturální možnost, která nepředpokládá mimořádný stav ani pri
 přístup, ale bez praktické introspekce může zůstat nerozpoznaná, podobně jako
 schopnost pozorovat vlastní myšlenky je běžná, ale zřídka cvičená.
 
+Kontemplativní praxi lze v tomto světle popsat nikoli jako návrat k původní
+zkušenosti, nýbrž jako dočasné uvolňování vybraných kompresí. Zviditelňuje jejich
+cenu a kontingenci, načež se zkušenost znovu utváří – možná s méně rigidní
+gramatikou, nikdy však jako obnovený originál.
+
 **Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber), ale se dvěma
 podstatnými rozdíly – architektonickou přesností *stratified design* a *drilling
 through abstractions*, které holarchie nemodelují. Proces budování vrstev je blízký
 enaktivní autopoiesis (Varela, Thompson), ale rozšířený na kulturu a objektivitu.
+Pro organický práh subjektivity poskytují další regionální nástroje také [*Umwelt*
+Jakoba von
+Uexkülla](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
+[Gibsonovské *affordances*](https://doi.org/10.4324/9781315740218-18) a
+[adaptivita Ezequiela Di Paola](https://doi.org/10.1007/s11097-005-9002-y).
+Ostatní prahy mají vlastní regionální zázemí ve vývojové psychologii a výzkumu
+osoby, sémiotice a antropologii a v epistemologii, teorii měření a filozofii vědy.
+Žádná z těchto tradic sama nevysvětluje celou řadu prahů.
 
 **Důsledky pro DIA:** celá architektura roje – uzel, agent, memarium, sensorium,
 inquirium a protokol – je navržena vrstevnatě v duchu stratifikace. Hodnota
 *oddělování úrovní* a kontrakt vrstev v Orbiplexu jsou přímým přenesením tohoto
 postulátu do inženýrství. Zásada, že „vyšší vrstvy se nesmějí odlepovat od základu“,
 chrání kolektivní inteligenci před tím, aby se stala PR nástrojem nízkých pohnutek.
+Novou vrstvu neodůvodňuje samotný název modulu, nýbrž explicitní redukční operátor,
+utrpěná ztráta, stabilizovaný invariant, lokální gramatika a nové operace, za něž
+vrstva přebírá odpovědnost.
 
 ### Enaktivní účast
 
@@ -428,8 +562,8 @@ vlastního jednání v reakcích okolí. Opakování tohoto vázání stabilizuj
 a vytváří podmínky pro to, co níže modelujeme jako intencionální identifikátor.
 
 Takto vzniklá osoba plní současně dvě role a obě ji utvářejí. Směrem dolů působí
-jako překladová brána: ve vlastním registru vypovídá o organismu, zkušenosti a
-subjektivitě. Směrem nahoru se stává konkrétem vrstvy kultury: interakce s jinými
+jako překladová brána: v kategoriích vlastní vrstvy vypovídá o organismu, zkušenosti
+a subjektivitě. Směrem nahoru se stává konkrétem vrstvy kultury: interakce s jinými
 osobami a kulturní vzorce ji zasazují do společenské krajiny a zanechávají stopy v
 její paměti i ve společných záznamech. Tato zpětná vazba není jednostranná: osoba
 může společenská přisouzení přijímat, vyjednávat, odmítat a proměňovat; vlastním
@@ -683,6 +817,15 @@ je vázání významů vědomé a lokální.
     bezpečnostním prvkem tehdy, když tvrzení závisí na mnoha podmínkách nebo má
     vyvolat závažný účinek.
 
+10. **Práh vrstvy vykazuje ztrátu a získanou schopnost jednat.**
+
+    Kandidát na nové *stratum* by měl pojmenovat podmínku stabilizace, reduktor,
+    ztracená rozlišení, nový invariant, gramatiku operací, získanou možnost jednat
+    a typický způsob selhání v důsledku reifikace. Pokud nevzniká nový kontrakt ani
+    rodina operací, jde spíše o projekci nebo pohled na existující vrstvu než o vrstvu
+    novou. Náhodný implementační mechanismus se díky tomu nestává sémantikou domény
+    a abstrakce si uchovává paměť o tom, co získala za cenu utrpěné ztráty.
+
 Uvědomujeme si, že máme sklon předčasně vázat jevy do uzavřených podob, a s tímto
 vědomím můžeme budovat systémy, které se přizpůsobují této vlastnosti našich
 organismů a poznávacích aparátů. Jednou z praktických metod je stratifikace. Každá
@@ -710,7 +853,7 @@ opačně: znovu zkapalňuje to, co reverse adaptation stačila ztužit.
 #### Inference k architektuře
 
 Když gradient úrovní zakoušení zmíněný v druhém postulátu vztáhneme k matrici
-softwarové architektury, získáme registr **kontraktů a hran**. Vrstvy se stávají
+softwarové architektury, získáme mapu **kontraktů a hran**. Vrstvy se stávají
 vrstvami zpracování dat a akty operacemi přijetí (admise). To mimo jiné chrání
 před reifikací a předčasným vázáním jevů do objektů.
 

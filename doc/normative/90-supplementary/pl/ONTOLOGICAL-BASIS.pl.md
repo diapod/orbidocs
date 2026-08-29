@@ -190,7 +190,8 @@ początku osi genealogicznej odnotowujemy apofatyczną granicę poziomu zero; ni
 przedłuża ona osi o kolejny odcinek, lecz oznacza granicę jej stosowalności.
 
 Na bazie pierwotnej genealogii możemy też skonstruować trzeci, dualny odczyt: dla
-każdego przejścia epistemizacji nazwać można akt determinacji, który je wprowadza:
+każdego przejścia epistemizacji wewnątrz modelu nazwać można akt determinacji, który
+je wprowadza:
 jawienie się → różnicowanie → wyodrębnienie → odniesienie → usensownienie →
 uogólnienie → instancjonowanie → obiektywizacja → urzeczowienie. Stany odpowiadają
 na pytanie "co?", zaś akty na pytanie "jak?". W tym ujęciu "rzecz" nie jest zastana,
@@ -199,7 +200,7 @@ a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 
 | przejście stanów | wprowadzany artefakt/akt |
 |---|---|
-| ∅ → fenomen | jawienie się |
+| ∅ \| fenomen | jawienie się (granica modelu, nie obserwowane przejście) |
 | fenomen → postać | różnicowanie (figura–tło) |
 | postać → coś | wyodrębnienie (to–oto) |
 | coś → znak | odniesienie (za–coś) |
@@ -212,11 +213,11 @@ a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 #### Asymetria przekładu
 
 Z tabeli aktów wynika, że przekład między warstwami nie ma kanonicznej odwrotności.
-Ruch ku wyższym rejestrom działa dwojako: redukuje fakturę niższej warstwy, scalając
+Ruch ku wyższym warstwom działa dwojako: redukuje fakturę niższej warstwy, scalając
 wiele możliwych konkretów w jeden abstrakt, a zarazem dodaje determinacje właściwe
 warstwie przyjmującej. Redukcja jest odwzorowaniem wiele-do-jednego, więc z samego
 wyniku nie da się rozpoznać, które konkrety zostały scalone. Dodanych determinacji
-również nie da się odjąć bez wiedzy o tym, które z nich wniósł późniejszy rejestr.
+również nie da się odjąć bez wiedzy o tym, które z nich wniosła późniejsza warstwa.
 W obu przypadkach brakuje informacji potrzebnej do skonstruowania odwrotności.
 
 Ruch ku mniej zdeterminowanym warstwom nie odzyskuje wobec tego pierwotnego
@@ -227,17 +228,137 @@ Jak rozwijamy niżej w modelu domknięcia doświadczenia, gdyby taki ruch odzys
 oryginał, anonimowe domknięcie musiałoby zachowywać trwałą tożsamość niezależnie od
 tego, z czym się zawiązuje.
 
-Asymetrię wzmacnia pozycja podmiotu w przekazie. Rejestr obiektywności abstrahuje
-w uzasadnieniu od konkretnej pozycji orzekającego i rości sobie ważność od niej
-niezależną. Nie wyklucza to zdyscyplinowanego świadectwa pierwszoosobowego, wymaga
-jednak jawnego opisania warunków, przekładu i podstaw jego publicznej oceny.
+Asymetrię wzmacnia pozycja podmiotu w przekazie. Sąd formułowany w warstwie
+obiektywności abstrahuje w uzasadnieniu od konkretnej pozycji orzekającego i rości
+sobie ważność od niej niezależną. Nie wyklucza to zdyscyplinowanego świadectwa
+pierwszoosobowego, wymaga jednak jawnego opisania warunków, przekładu i podstaw jego
+publicznej oceny.
 
 Skutkiem ubocznym bywa złudzenie, że warstwy wcześniejsze genealogicznie są ubogie.
 Bogaty słownik dotyczy zwykle ich już wyodrębnionych i uprzedmiotowionych
 odpowiedników, nie zaś samej faktury doświadczenia: mamy precyzyjne nazwy barw jako
 właściwości rzeczy i niewiele określeń dla barwy tak, jak jest doświadczana. Nie
-świadczy to o ubóstwie doświadczenia, lecz o koszcie przekładu do rejestru publicznie
+świadczy to o ubóstwie doświadczenia, lecz o koszcie przekładu na język publicznie
 porównywalnych rozróżnień.
+
+#### Progi konstytucji i gramatyki warstw
+
+Asymetria przekładu wyjaśnia, dlaczego z abstraktu nie odzyskujemy kanonicznego
+oryginału. Nie odpowiada jednak sama na drugie pytanie: jaką zdolność warstwa uzyskuje
+dzięki poniesionej stracie? Do opisu tego aspektu wprowadzamy roboczy model **progów
+konstytucji**. Jest to protokół analityczny, a nie szósty postulat ani uniwersalne
+prawo przyrody:
+
+```text
+L_n
+  --[selektywna stabilizacja pod ograniczeniem]-->
+L_(n+1)
+```
+
+Na progu zachodzą łącznie trzy operacje:
+
+- **redukcja** – część możliwych rozróżnień przestaje być dostępna w nowej warstwie;
+- **organizacja** – zachowane różnice zostają powiązane i stabilizują właściwe tej
+  warstwie relacje lub niezmienniki;
+- **generatywność** – zorganizowane relacje umożliwiają operacje, których poprzednia
+  warstwa nie udostępniała w tej postaci.
+
+"Selektywna stabilizacja" jest nazwą ogólną, którą każdy próg musi dopiero
+uszczegółowić: może chodzić o filtr uwagi, uczenie, stabilizację rozwojową, konwencję
+społeczną albo dobór ewolucyjny. Nie oznacza świadomego celu, pojedynczej przyczyny
+sprawczej ani konieczności metafizycznej. Przejście może być stopniowe, rekurencyjne
+i zależne od konstelacji wielu warunków. Funkcja uzyskana przez warstwę nie dowodzi
+więc sama przez się mechanizmu, historycznej przyczyny jej powstania ani ostrego
+momentu przejścia.
+
+Przez **gramatykę warstwy** rozumiemy niekoniecznie gramatykę języka znakowego, lecz
+lokalny repertuar rozróżnień, relacji i operacji: co w danej warstwie może zostać
+związane, przekształcone i skomponowane, co pozostaje niepoprawne oraz jakie awarie
+można w niej rozpoznać. Nową warstwę warto wyróżnić wtedy, gdy redukcja stabilizuje
+nowy niezmiennik i względnie autonomiczną rodzinę operacji, a jej wyniki stają się
+funkcjonalnymi konkretami dla kolejnej warstwy. Sama zmiana punktu widzenia, nazwy
+albo nośnika nie musi jeszcze konstytuować warstwy.
+
+Przed opisem progu należy wskazać jego **oś** – na przykład
+strukturalno-fenomenologiczną, ewolucyjną, rozwojową, społeczno-historyczną albo
+epistemiczno-metodologiczną – oraz **status epistemiczny**: rdzeń modelu, inferencję,
+hipotezę regionalną, wynik empiryczny albo konwencję operacyjną. Chroni to przed
+scaleniem funkcji, mechanizmu, ontogenezy i historii w jedną opowieść przyczynową.
+
+Każdy kandydujący próg możemy następnie opisać według siedmiopolowego schematu:
+
+1. **lokalne ograniczenie lub warunek stabilizacji** – co różnicuje przebiegi, w jakim
+   zakresie i według jakiego mechanizmu; ewentualną funkcję zapisujemy osobno od
+   wyjaśnienia przyczynowego;
+2. **operator redukcji** – jakie wiązanie, filtr albo kompresja zachodzi;
+3. **utracone rozróżnienia** – czego nie da się odtworzyć z samego wyniku;
+4. **nowy niezmiennik** – co zostaje zorganizowane i utrzymuje się mimo zmienności;
+5. **gramatyka** – jakie relacje, kompozycje i kryteria poprawności stają się możliwe;
+6. **uzyskana sprawczość** – co nowego warstwa pozwala rozpoznać lub zrobić;
+7. **tryb porażki wskutek reifikacji** – co się dzieje, gdy lokalna gramatyka zostaje
+   uznana za ontologię całego stosu.
+
+Schematu tego **nie stosuje się do poziomu zerowego**. Zapis `∅ | fenomen` w tabeli
+aktów przedstawia apofatyczne cięcie i jawienie jako pierwszy opisywalny akt, a nie
+obserwowane przejście przyczynowe. Pytanie o mechanizm prowadzący od poziomu zero do
+świadomości zamieniałoby znacznik granicy w ukryty stan lub substancję. Możemy badać
+korelaty i warunki różnicowania, podtrzymywania oraz raportowania świadomego
+doświadczenia, ale wewnątrz tego modelu nie stanowią one wyprowadzenia samego faktu
+jawienia z opisu trzecioosobowego.
+
+"Podmiotowość" oznacza w poniższej tabeli organizmicznie centrowaną, walencyjną
+perspektywę, nie zaś sam minimalny pierwszoosobowy charakter doświadczenia. Niektóre
+ujęcia fenomenologiczne uznają go za nieodłączny od każdego świadomego doświadczenia.
+
+Poniższa tabela jest zatem mapą hipotez roboczych dla głównych przejść genealogii,
+nie ścisłą chronologią rozwoju ani twierdzeniem, że jeden mechanizm wyjaśnia cały
+stos:
+
+| próg analityczny | co zostaje zredukowane | warunek stabilizacji / funkcja | co się stabilizuje | nowa gramatyka i sprawczość |
+|---|---|---|---|---|
+| granica poziomu zero / świadomość | nie stosuje się – granica nie jest warstwą źródłową | nie stosuje się | jawienie jako pierwsza opisywalna warstwa | "jawi się"; opisujemy wyłącznie warunki i korelaty wewnątrz doświadczenia |
+| świadomość → podmiotowość | różnice niezwiązane jeszcze w tym modelu z trwałą pozycją "dla mnie" | w organicznej realizacji: regulacja sprzężenia względem warunków żywotności – hipoteza regionalna | usytuowana perspektywa, walencja i asymetria organizm–środowisko | tu/tam, ku/od; wybór i działanie z określonej pozycji |
+| podmiotowość → osoba | chwilowość oraz wielość możliwych związań perspektywy | koherencja działania w czasie, pamięć i sprzężenie społeczne | rekursywnie ewaluowany indeks osobowy, ciągłość i sprawstwo | ja/moje, zrobiłem/zrobiono mi, byłem/jestem/będę; planowanie i odpowiedzialność |
+| osoba → kultura | prywatna faktura doświadczenia, której nie da się przenieść między osobami | koordynacja, wspólne uczenie się i przekaz międzypokoleniowy | znaki, konwencje, znaczenia i normy wspólne | my, symbol, dozwolone/zabronione; rekonstrukcja rozróżnień w innym uczestniku |
+| kultura → obiektywność | zależność sądu od konkretnego mówiącego i sytuacji jego wypowiedzi | niezawodna korekta i porównywanie wielu perspektyw | powtarzalne procedury oraz niezmienniki zachowywane między obserwatorami | "X jest..."; pomiar, krytyka, reprodukcja i wymienność pozycji orzekających |
+
+Strzałki oznaczają zależność genealogiczną, nie jednokierunkową chronologię.
+Osoba i kultura współkonstytuują się zwrotnie, a obiektywność jest wyspecjalizowanym
+odgałęzieniem praktyk kulturowych, nie koniecznym etapem każdej kultury. Zapisy takie
+jak "ja/moje" są skrótami relacji, a nie wymogiem posługiwania się literalnymi
+zaimkami lub czasem gramatycznym.
+
+**Hipoteza regionalna dla form organicznych.** Enaktywizm, autopoieza i pojęcie
+adaptacyjności podpowiadają, że żywa forma nie może sprzęgać się jednakowo ze
+wszystkimi zmianami środowiska: podtrzymanie własnej organizacji wprowadza różnicę
+między tym, co sprzyja dalszemu trwaniu, a tym, co mu zagraża. Taka normatywność
+żywotności opisuje funkcjonalną polaryzację, która może być prekursorem lub jednym
+z warunków późniejszej walencji i usytuowanej perspektywy; nie jest jeszcze dowodem
+ich fenomenalnej postaci. Granica organizmu jest funkcjonalnie wcześniejsza od ego,
+ale sama nie wystarcza do wyprowadzenia świadomości, podmiotowości ani osoby.
+
+W tym regionalnym ujęciu *Umwelt* nie jest zubożoną kopią gotowej reprezentacji
+świata, lecz polem relewantnych różnic stabilizowanym w sprzężeniu zdolności organizmu
+ze środowiskiem. Powietrze może umożliwiać lot względem budowy konkretnego ciała,
+a przedmiot – chwyt względem zdolności konkretnej ręki. Gibsonowskie *affordances*
+opisują takie relacyjne możliwości działania. Gramatyka wyłania się tu
+z regularności sprzężenia, nie z dowolnego słownika nałożonego na bierny materiał.
+
+Na progu kultury znak nie przenosi samego doświadczenia. Jest społecznie wyuczonym
+operatorem, który ogranicza i ukierunkowuje reenakcję znaczenia u innego uczestnika,
+nie gwarantując odtworzenia tej samej jakości doświadczenia: słowo "ból" nie zawiera
+bólu. Na progu obiektywności nie usuwamy zaś faktycznie obserwatora, lecz budujemy
+procedury wymienności, kalibracji, jawnej niepewności, krytyki i poszukiwania
+niezmienników między obserwatorami oraz różnymi trybami błędu. Obiektywność nie jest
+w tym sensie przeciwieństwem perspektywiczności, lecz szczególną technologią
+obchodzenia się z wieloma perspektywami. Sama zgodność obserwatorów nie wystarcza,
+jeżeli wszyscy dzielą ten sam błąd systematyczny.
+
+Niektóre progi można wobec tego badać zarazem jako genealogię strat i genealogię
+sprawczości. Nową możliwość otwiera nie sama utrata, lecz selektywna redukcja połączona
+z organizacją: **ograniczenie → nowa możliwość**. Jest to własna hipoteza
+konstytucji warstw tego dokumentu, którą należy oceniać osobno dla każdego progu, a nie
+rozszerzać automatycznie na wszystkie procesy biologiczne, psychiczne i społeczne.
 
 #### Tryby doświadczania
 
@@ -280,18 +401,32 @@ uprzywilejowanego dostępu, ale bez praktycznej introspekcji może pozostać
 nierozpoznana, podobnie jak zdolność obserwowania własnych myśli jest powszechna,
 lecz rzadko ćwiczona.
 
+Praktykę kontemplacyjną można w tym świetle opisać nie jako powrót do pierwotnego
+doświadczenia, lecz jako czasowe rozluźnianie wybranych kompresji. Uwidacznia ono ich
+koszt i przygodność, po czym doświadczenie zawiązuje się ponownie – być może
+z gramatyką mniej sztywną, lecz nigdy jako odzyskany oryginał.
+
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber), ale z dwoma
 istotnymi różnicami – architektoniczną precyzją *stratified design* oraz *drilling
 through abstractions*, którego holarchie nie modelują. Proces budowania warstw jest
 bliski enaktywnej autopojezie (Varela, Thompson), ale rozciągnięty na kulturę
-i obiektywność.
+i obiektywność. Dla organicznego progu podmiotowości regionalnych narzędzi dostarczają
+ponadto [*Umwelt* Jakoba von
+Uexkülla](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
+[Gibsonowskie *affordances*](https://doi.org/10.4324/9781315740218-18) oraz
+[adaptacyjność Ezequiela Di Paola](https://doi.org/10.1007/s11097-005-9002-y).
+Pozostałe progi mają własne regionalne zaplecze w psychologii rozwojowej i badaniach
+nad osobą, semiotyce i antropologii oraz epistemologii, teorii pomiaru i filozofii
+nauki. Żadna z tych tradycji nie wyjaśnia sama całego szeregu progów.
 
 **Konsekwencje dla DIA:** cała architektura roju – węzeł, agent, memarium, sensorium,
 inquirium i protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
 poziomów* i kontrakt warstw w Orbipleksie są bezpośrednim przeniesieniem tego
 postulatu na inżynierię. Zasada, że "wyższe warstwy nie mogą odklejać się od
 fundamentu", chroni inteligencję zbiorową przed stawaniem się PR-owcem niskich
-pobudek.
+pobudek. Nową warstwę uzasadnia nie sama nazwa modułu, lecz jawny operator redukcji,
+poniesiona strata, stabilizowany niezmiennik, lokalna gramatyka oraz nowe operacje,
+za które warstwa bierze odpowiedzialność.
 
 ### Enaktywne uczestnictwo
 
@@ -451,7 +586,7 @@ Powtarzalność tego wiązania stabilizuje poczucie trwania i tworzy warunki dl
 co niżej modelujemy jako identyfikator intensjonalny.
 
 Tak powstała osoba pełni dwie role naraz i obie ją kształtują. Ku dołowi działa jako
-bramka przekładu: orzeka we własnym rejestrze o organizmie, doświadczeniu
+bramka przekładu: orzeka w kategoriach własnej warstwy o organizmie, doświadczeniu
 i podmiotowości. Ku górze staje się konkretem warstwy kultury: interakcje z innymi
 osobami i wzorce kulturowe umieszczają ją w krajobrazie społecznym oraz pozostawiają
 ślady w jej pamięci i zapisach wspólnych. Sprzężenie to nie jest jednostronne: osoba
@@ -719,6 +854,15 @@ projektowania, w której wiązanie znaczeń jest świadome i lokalne.
     bezpiecznikiem epistemicznym przydatnym wtedy, gdy twierdzenie zależy od wielu
     warunków albo ma wywołać skutek o wysokiej stawce.
 
+10. **Próg warstwy rozlicza stratę i uzyskaną sprawczość.**
+
+    Kandydat na nowe *stratum* powinien nazywać warunek stabilizacji, reduktor, utracone
+    rozróżnienia, nowy niezmiennik, gramatykę operacji, uzyskaną możliwość działania
+    i typowy tryb porażki wskutek reifikacji. Jeżeli nie pojawia się nowy kontrakt ani
+    rodzina operacji, mamy raczej projekcję lub widok istniejącej warstwy niż warstwę
+    nową. Dzięki temu przypadkowy mechanizm implementacyjny nie staje się semantyką
+    domeny, a abstrakcja zachowuje pamięć o tym, co kupiła za poniesioną stratę.
+
 Zdajemy sobie sprawę, że jesteśmy podatni na przedwczesne wiązanie zjawisk w zamknięte
 postacie, a wiedząc o tym, możemy budować systemy, które adaptują się do tej
 właściwości naszych organizmów i aparatów poznawczych. Jedną z praktycznych metod
@@ -749,7 +893,7 @@ to, co *reverse adaptation* zdążyła usztywnić.
 #### Inferencja do architektury
 
 Gdy wspomniany w drugim postulacie gradient poziomów doświadczania odniesiemy do
-matrycy architektury oprogramowania, otrzymujemy rejestr **kontraktów
+matrycy architektury oprogramowania, otrzymujemy mapę **kontraktów
 i brzegów**. Warstwy stają się warstwami przetwarzania danych, zaś akty operacjami
 admisji. Chroni to m.in. przed reifikacją i przedwczesnym wiązaniem zjawisk
 w obiekty.
