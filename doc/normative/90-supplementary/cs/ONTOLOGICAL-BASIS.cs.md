@@ -236,11 +236,7 @@ utrpěné ztráty? K popisu tohoto aspektu zavádíme pracovní model **prahů
 konstituce**. Jde o analytický protokol, nikoli o šestý postulát nebo univerzální
 přírodní zákon:
 
-```text
-L_n
-  --[selektivní stabilizace pod omezením]-->
-L_(n+1)
-```
+**Lₙ** — *selektivní stabilizace pod omezením* → **Lₙ₊₁**
 
 Na prahu současně probíhají tři operace:
 

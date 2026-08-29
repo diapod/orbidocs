@@ -30,12 +30,12 @@ Zestawienie tych dwóch gestów oddaje specyficzną pozycję projektu: fundament
 radykalnie bezprzedmiotowy, ale konsekwencje takiego rozpoznania są praktyczne,
 architektoniczne i społeczne.
 
-Apofatyczny grunt, właśnie dlatego że nie daje się zamknąć w przedmiocie ani opisie,
+Właśnie dlatego, że apofatyczny grunt nie daje się zamknąć w przedmiocie ani opisie,
 otwiera zdolność rozpoznawania każdego zjawiska i niewykluczania z góry żadnego
-poziomu doświadczenia ani rozumowania. Staje się więc warunkiem enaktywnego ujęcia,
-które dopowiada, że każdy taki poziom działa w relacji uczestnictwa. W architekturze
-przekładamy to na wymóg przezroczystości: poziom ma być widoczny jako warstwa,
-relacja, interpretacja i możliwy punkt korekty.
+poziomu doświadczenia ani rozumowania. Staje się więc poniekąd warunkiem enaktywnego
+ujęcia, które dopowiada, że każdy taki poziom działa w relacji
+uczestnictwa. W architekturze przekładamy to na wymóg przezroczystości: poziom ma być
+widoczny jako warstwa, relacja, interpretacja i możliwy punkt korekty.
 
 ## Pięć postulatów
 
@@ -49,15 +49,15 @@ samodzielne istnienie przed tym, co się jawi. Świadomość znajduje się głę
 postrzeżenie i poczucie podmiotowości, lecz nie można jej opisać wprost, ponieważ
 każdy opis korzysta z doświadczenia warunkowanego organami zmysłów i interpretacją.
 
-Słowo "doświadczenie" oznacza w tym kontekście doświadczenie już uformowane,
-rozczłonkowane przez zmysły, podział na podmiot i przedmiot oraz
-interpretację. Świadomość jest od niego bardziej źródłowa, co nie znaczy, że jest
+Słowo "doświadczenie" oznacza w tym kontekście doświadczenie już uformowane przez
+zmysły, podział na podmiot i przedmiot, schematyzację oraz interpretację. Świadomość
+jest od niego bardziej źródłowa, co nie znaczy, że jest
 niezależna: zawiązuje się wraz z tym, co się jawi.
 
-Poziom zerowy jest znacznikiem granicy modelu, a nie nazwą przedmiotu. Konwencjonalny
-znak pozwala jedynie wskazać zakres, poza którym model nie orzeka; nie rozstrzygamy,
-czy granica należy do rzeczywistości, do możliwości poznania, czy do obu. Zbliżamy
-się do niej wyłącznie pośrednio – przez doświadczenia, które przypominają pokolorowane
+Poziom zerowy jest znacznikiem granicy modelu, a nie nazwą przedmiotu. Umowny zapis
+pozwala jedynie wskazać zakres, poza którym model nie orzeka – nie rozstrzygamy, czy
+granica należy do rzeczywistości, do możliwości poznania, czy do obu. Zbliżamy się do
+niej wyłącznie pośrednio – przez doświadczenia, które przypominają pokolorowane
 szkło, a nie bezpośredni widok. Domniemywanie ma dwie fazy: najpierw pojawia się
 impuls słabiej uformowany pojęciowo niż pojęcie (rozpoznanie, "poczucie źródłowości",
 "znajomość bez przedmiotu"), a dopiero potem inferencja formalizuje go w język
@@ -74,42 +74,47 @@ w zasięgu organów zmysłowych czy zdolności umysłowych. To nie jest destruk
 świadomości, lecz jej najgłębszy akt: efemeryczna struktura może widzieć własną
 efemeryczność. Rozpoznanie to nie prowadzi do nihilizmu (bo akt rozpoznania sam jest
 świadectwem funkcjonowania), ani do substancjalizacji źródła (bo warunkowania nie
-ujmujemy jako jednego dostępnego obiektu). Prowadzi to do radykalnego pogłębienia
-epistemicznej higieny, gdzie nawet tak zwana "czysta świadomość" nie jest gruntem do
-zatrzymania się.
+ujmujemy jako jednego dostępnego obiektu). Prowadzi to do radykalnego rozluźnienia
+potrzeby znalezienia ostatecznego gruntu: nawet tak zwana "czysta świadomość" nie
+jest dla nas miejscem do zatrzymania się.
 
-Warunkowanie należy tu odczytywać bez następstwa w czasie. Poziom zerowy nie jest ani
-świadomością, ani jej wejściem, ani środowiskiem, w którym ona się zawiązuje –
-wszystkie trzy są już wewnątrz krajobrazu.
+Warunkowania nie należy tu rozumieć jako ciągu zdarzeń w czasie. Poziom zerowy nie
+jest świadomością, czymś, co do niej dociera, ani otoczeniem, wraz z którym się ona
+zawiązuje. Wszystkie te rozróżnienia należą już do opisywanego krajobrazu
+doświadczenia.
 
-Nie orzekamy o tym, co pozostaje poza zakresem modelu. Możemy powiedzieć jedynie,
-jaką rolę pełni w nim znacznik poziomu zerowego: reprezentuje granicę analogiczną do
-reguły abstrakcji, czyli warunku możliwości zawiązywania. Poniższe własności dotyczą
-tej roli modelowej, nie tego, co pozostaje nieorzekalne. Tak rozumiana reguła nie
-działa, nie nakazuje i nie jest przestrzegana. Nie ma też porcji: nie zużywa się, nie
-stosuje się połowicznie i nie ma zastosowań częściowych – nie dlatego, że źródło jest
-obfite, lecz dlatego, że reguła nie jest wielkością, którą dałoby się podzielić. Nie
-jest przy tym wyrażeniem rachunku, który reguluje, i nie da się jej w tym rachunku
-zacytować ani zbadać.
+Nie wypowiadamy się o tym, co leży poza zakresem modelu. Możemy opisywać jedynie
+funkcję znacznika poziomu zerowego: wyznacza on granicę modelu, podobnie jak reguła
+abstrakcji wyznacza warunek możliwości zawiązywania. Wszystkie poniższe własności
+odnoszą się do tej funkcji, a nie do tego, co pozostaje poza możliwością orzekania.
+
+Nie jest to instrukcja, którą coś wykonuje, ani nakaz, którego coś przestrzega. Nie
+można jej również dzielić na porcje: nie wyczerpuje się ani nie stosuje
+częściowo. Nie wynika to z obfitości jakiegoś źródła, lecz z tego, że reguła nie jest
+mierzalnym zasobem. Nie jest też jednym z wyrażeń rachunku, dla którego stanowi
+warunek możliwości. Nie można więc zapisać jej wewnątrz tego rachunku ani zbadać jego
+własnymi środkami.
 
 Nieopisywalność ma tu dwa źródła i warto je rozdzielić. To, co poza granicą,
 pozostaje nieorzekalne z definicji, ponieważ granicę wyznacza zasięg naszego
 orzekania. Sama rola modelowa jest natomiast nieopisywalna strukturalnie: opis
 wymagałby orzekania o meta-poziomie językiem poziomu obiektowego, czyli dokładnie tej
-kradzieży ontologii, której zakazuje granica warstw jako granica sensu.
+wspomnianej później "kradzieży ontologii", której zakazuje granica warstw jako
+granica sensu.
 
 Mniej formalnie można powiedzieć, że świadomość jest realizacją podatności na
 zjawianie w obecności tego, co się zjawia – z zastrzeżeniem, że "podatność" jest tu
-skrótem dla czytelności, a nie sprawnością uruchamianą po części. Zdolność
-doświadczania nie czeka przygotowana przed treścią, lecz pojawia się wraz z tym, co
-doświadczane. Nieobecność doświadczania nigdy nie jest przy tym doświadczana jako
-nieobecność, więc "przerwa" jest zawsze rekonstrukcją wykonaną z wnętrza
-doświadczania, a nie obserwacją z zewnątrz.
+jedynie skrótem dla czytelności, a nie wcześniej istniejącą zdolnością, którą można
+uruchomić w większym lub mniejszym stopniu. Zdolność doświadczania nie czeka
+przygotowana przed treścią, lecz pojawia się wraz z tym, co doświadczane. Nieobecność
+doświadczania nigdy nie jest przy tym doświadczana jako nieobecność, więc "przerwa"
+w doświadczaniu jest zawsze rekonstrukcją wykonaną z wnętrza doświadczania, a nie
+obserwacją z zewnątrz.
 
-Obrazem, który to porządkuje, może być rachunek funkcji: reguła abstrakcji pozwala
-zawiązywać domknięcia, sama nie będąc żadnym z nich. Traktujemy go wyłącznie jako
-model ilustracyjny. Nie dziedziczymy wraz z nim maszynerii redukcji ani porządku
-obliczania.
+Obrazem, który to porządkuje, może być rachunek funkcji znany z programowania: reguła
+abstrakcji pozwala zawiązywać tak zwane domknięcia, sama nie będąc żadnym
+z nich. Traktujemy go wyłącznie jako model ilustracyjny. Nie dziedziczymy wraz z nim
+maszynerii redukcji ani porządku obliczania.
 
 **Zakotwiczenie w znanych tradycjach:** apofatyzm (łac. *via negativa*,
 skt. *śūnyatā*), ale z jawnym epistemicznym ogranicznikiem i autorozpoznaniem
@@ -128,9 +133,9 @@ determinacji (por. tabelę aktów w postulacie 2 oraz formułę reifikacji
 w postulacie 4). Panpsychizm lokuje więc to, co najmniej uwarunkowane, w tym, co
 najbardziej konstruowane.
 
-Dwufazowość jest bliska gendlinowskiemu *felt sense* → symbolizacja, z tą różnicą, że
-impuls jest tu słabiej uformowany pojęciowo niż doświadczenie ukształtowane przez
-interpretację.
+Dwufazowość jest bliska gendlinowskiemu przejściu od *felt sense* do symbolizacji,
+z tą różnicą, że impuls jest tu słabiej uformowany pojęciowo niż doświadczenie
+ukształtowane przez interpretację.
 
 **Konsekwencje dla DIA:** wartość higieny epistemicznej, stratyfikacji źródłowej
 pozycji doświadczeń i epistemicznej odwagi wyrasta bezpośrednio stąd. System nie
@@ -148,12 +153,12 @@ Ludzkie doświadczenie ma architekturę warstwową:
                 * 0.1.1.1.1. kultura
                     * 0.1.1.1.1.1. obiektywność
 
-Uwaga: Powyżej zaproponowany *ad-hoc* model ma demonstrować relację zawierania. Różne
-praktyczne bądź analityczne podejścia mogą w bardziej lub mniej szczegółowy sposób
-rozróżniać poszczególne warstwy. Na przykład między świadomością a poczuciem
-podmiotowości możemy wyróżnić perspektywę obecności jeszcze przed podziałem na
-podmiot i przedmiot itd. W tym miejscu przyjmujemy taki podział, aby pokazać sam
-mechanizm bez nachalnego uszczegóławiania modelu.
+Uwaga: Powyżej zaproponowany *ad-hoc* model ma demonstrować relację
+abstrahowania. Różne praktyczne bądź analityczne podejścia mogą w bardziej lub mniej
+szczegółowy sposób rozróżniać poszczególne warstwy. Na przykład między świadomością
+a poczuciem podmiotowości możemy wyróżnić perspektywę obecności jeszcze przed
+podziałem na podmiot i przedmiot itd. W tym miejscu przyjmujemy właśnie taki podział,
+aby pokazać sam mechanizm bez nachalnego uszczegóławiania modelu.
 
 Używane dalej określenia przestrzenne należą do dwóch powiązanych, ale nietożsamych
 porządków. Na osi genealogicznej "głębsze" lub "wcześniejsze" oznacza mniej
@@ -241,19 +246,15 @@ właściwości rzeczy i niewiele określeń dla barwy tak, jak jest doświadcza
 świadczy to o ubóstwie doświadczenia, lecz o koszcie przekładu na język publicznie
 porównywalnych rozróżnień.
 
-#### Progi konstytucji i gramatyki warstw
+#### Progi konstytuowania i gramatyki warstw
 
 Asymetria przekładu wyjaśnia, dlaczego z abstraktu nie odzyskujemy kanonicznego
 oryginału. Nie odpowiada jednak sama na drugie pytanie: jaką zdolność warstwa uzyskuje
 dzięki poniesionej stracie? Do opisu tego aspektu wprowadzamy roboczy model **progów
-konstytucji**. Jest to protokół analityczny, a nie szósty postulat ani uniwersalne
+konstytuowania**. Jest to protokół analityczny, a nie szósty postulat ani uniwersalne
 prawo przyrody:
 
-```text
-L_n
-  --[selektywna stabilizacja pod ograniczeniem]-->
-L_(n+1)
-```
+**Lₙ** — *selektywna stabilizacja pod ograniczeniem* → **Lₙ₊₁**
 
 Na progu zachodzą łącznie trzy operacje:
 
@@ -322,43 +323,46 @@ stos:
 | osoba → kultura | prywatna faktura doświadczenia, której nie da się przenieść między osobami | koordynacja, wspólne uczenie się i przekaz międzypokoleniowy | znaki, konwencje, znaczenia i normy wspólne | my, symbol, dozwolone/zabronione; rekonstrukcja rozróżnień w innym uczestniku |
 | kultura → obiektywność | zależność sądu od konkretnego mówiącego i sytuacji jego wypowiedzi | niezawodna korekta i porównywanie wielu perspektyw | powtarzalne procedury oraz niezmienniki zachowywane między obserwatorami | "X jest..."; pomiar, krytyka, reprodukcja i wymienność pozycji orzekających |
 
-Strzałki oznaczają zależność genealogiczną, nie jednokierunkową chronologię.
-Osoba i kultura współkonstytuują się zwrotnie, a obiektywność jest wyspecjalizowanym
-odgałęzieniem praktyk kulturowych, nie koniecznym etapem każdej kultury. Zapisy takie
-jak "ja/moje" są skrótami relacji, a nie wymogiem posługiwania się literalnymi
+Strzałki oznaczają zależność genealogiczną, nie jednokierunkową chronologię. Osoba
+i kultura współkonstytuują się zwrotnie, a obiektywność jest wyspecjalizowanym
+odgałęzieniem praktyk kulturowych, nie zaś koniecznym etapem każdej kultury. Zapisy
+takie jak "ja/moje" są skrótami relacji, a nie wymogiem posługiwania się literalnymi
 zaimkami lub czasem gramatycznym.
 
-**Hipoteza regionalna dla form organicznych.** Enaktywizm, autopoieza i pojęcie
-adaptacyjności podpowiadają, że żywa forma nie może sprzęgać się jednakowo ze
-wszystkimi zmianami środowiska: podtrzymanie własnej organizacji wprowadza różnicę
-między tym, co sprzyja dalszemu trwaniu, a tym, co mu zagraża. Taka normatywność
-żywotności opisuje funkcjonalną polaryzację, która może być prekursorem lub jednym
-z warunków późniejszej walencji i usytuowanej perspektywy; nie jest jeszcze dowodem
-ich fenomenalnej postaci. Granica organizmu jest funkcjonalnie wcześniejsza od ego,
-ale sama nie wystarcza do wyprowadzenia świadomości, podmiotowości ani osoby.
+#### Hipoteza regionalna dla form organicznych
+
+Enaktywizm, autopojeza i pojęcie adaptacyjności podpowiadają, że żywa forma nie może
+sprzęgać się jednakowo ze wszystkimi zmianami środowiska: podtrzymanie własnej
+organizacji wprowadza różnicę między tym, co sprzyja dalszemu trwaniu, a tym, co mu
+zagraża. Taka normatywność żywotności opisuje funkcjonalną polaryzację, która może
+być prekursorem lub jednym z warunków późniejszej walencji i usytuowanej perspektywy;
+nie jest jeszcze dowodem ich fenomenalnej postaci. Granica organizmu jest
+funkcjonalnie wcześniejsza od ego, ale sama nie wystarcza do wyprowadzenia
+świadomości, podmiotowości ani osoby.
 
 W tym regionalnym ujęciu *Umwelt* nie jest zubożoną kopią gotowej reprezentacji
-świata, lecz polem relewantnych różnic stabilizowanym w sprzężeniu zdolności organizmu
-ze środowiskiem. Powietrze może umożliwiać lot względem budowy konkretnego ciała,
-a przedmiot – chwyt względem zdolności konkretnej ręki. Gibsonowskie *affordances*
-opisują takie relacyjne możliwości działania. Gramatyka wyłania się tu
+świata, lecz polem relewantnych różnic stabilizowanym w sprzężeniu zdolności
+organizmu ze środowiskiem. Powietrze może umożliwiać lot ciału o określonej budowie,
+a przedmiot — chwyt ręką o określonych możliwościach. Gibsonowskie
+*affordances* opisują takie relacyjne możliwości działania. Gramatyka wyłania się tu
 z regularności sprzężenia, nie z dowolnego słownika nałożonego na bierny materiał.
 
 Na progu kultury znak nie przenosi samego doświadczenia. Jest społecznie wyuczonym
 operatorem, który ogranicza i ukierunkowuje reenakcję znaczenia u innego uczestnika,
-nie gwarantując odtworzenia tej samej jakości doświadczenia: słowo "ból" nie zawiera
-bólu. Na progu obiektywności nie usuwamy zaś faktycznie obserwatora, lecz budujemy
-procedury wymienności, kalibracji, jawnej niepewności, krytyki i poszukiwania
-niezmienników między obserwatorami oraz różnymi trybami błędu. Obiektywność nie jest
-w tym sensie przeciwieństwem perspektywiczności, lecz szczególną technologią
-obchodzenia się z wieloma perspektywami. Sama zgodność obserwatorów nie wystarcza,
-jeżeli wszyscy dzielą ten sam błąd systematyczny.
+nie gwarantując odtworzenia tej samej jakości doświadczenia: na przykład słowo "ból"
+nie zawiera bólu. Na progu obiektywności nie usuwamy zaś faktycznie obserwatora, lecz
+budujemy procedury wymienności, kalibracji, jawnej niepewności, krytyki
+i poszukiwania niezmienników między obserwatorami oraz różnymi trybami
+błędu. Obiektywność nie jest w tym sensie przeciwieństwem perspektywiczności, lecz
+szczególną technologią obchodzenia się z wieloma perspektywami. Sama zgodność
+obserwatorów nie wystarcza, jeżeli wszyscy dzielą ten sam błąd systematyczny.
 
 Niektóre progi można wobec tego badać zarazem jako genealogię strat i genealogię
-sprawczości. Nową możliwość otwiera nie sama utrata, lecz selektywna redukcja połączona
-z organizacją: **ograniczenie → nowa możliwość**. Jest to własna hipoteza
-konstytucji warstw tego dokumentu, którą należy oceniać osobno dla każdego progu, a nie
-rozszerzać automatycznie na wszystkie procesy biologiczne, psychiczne i społeczne.
+sprawczości. Nową możliwość otwiera nie sama utrata, lecz selektywna redukcja
+połączona z organizacją: **ograniczenie → nowa możliwość**. Jest to własna hipoteza
+konstytuowania warstw tego dokumentu, którą należy oceniać osobno dla każdego progu,
+a nie rozszerzać automatycznie na wszystkie procesy biologiczne, psychiczne
+i społeczne.
 
 #### Tryby doświadczania
 
@@ -756,7 +760,7 @@ Apofatyczny enaktywizm podziela metodę, lecz przesuwa granicę modelu ku temu, 
 zdeterminowane niż uformowane doświadczenie i nie jest z nim tożsame.
 
 **Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
-reprezentacja; autopoieza jako model samoorganizacji. Apofatyczny enaktywizm podziela
+reprezentacja; autopojeza jako model samoorganizacji. Apofatyczny enaktywizm podziela
 epistemologię, ale dodaje apofatyczny gest wobec fundamentu i architekturę warstw
 doświadczenia (ang. *stratified design*), której enaktywizm nie modeluje.
 

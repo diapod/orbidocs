@@ -255,11 +255,7 @@ does a layer acquire by incurring that loss? To describe this aspect, we introdu
 working model of **constitutive thresholds**. It is an analytical protocol, not a
 sixth postulate or a universal law of nature:
 
-```text
-L_n
-  --[selective stabilization under constraint]-->
-L_(n+1)
-```
+**Lₙ** — *selective stabilization under constraint* → **Lₙ₊₁**
 
 At a threshold, three operations occur jointly:
 
