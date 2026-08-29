@@ -215,9 +215,38 @@ model's boundary, toward what we mark as level zero.
 | item → object | objectivation |
 | object → thing | reification |
 
+#### Modes of experiencing
+
+The genealogical axis can also be read provisionally as a map of layers and the
+modes of experiencing available with them. The map neither defines these layers nor
+assigns modes to them exclusively: later layers preserve the conditions of earlier
+modes, even when access to them is neither conscious nor reportable.
+
+| layer | mode of experiencing available with it |
+|---|---|
+| level zero | — (a boundary of meta-description, not a mode of experience) |
+| consciousness | appearing |
+| subjectivity | first-person feeling and valence |
+| person | self-reference and self-conscious emotions |
+| culture | symbolic and linguistically articulated understanding |
+| objectivity | judgment claiming validity independent of the speaker's position |
+
+In this model, affect and valence are available with subjectivity, whereas emotions
+such as shame or pride require self-reference and therefore the personal layer.
+Thought framed in public concepts and open to shared correction becomes possible
+with culture; the model does not, however, decide whether every form of
+conceptualization must have a linguistic structure. Objectivity is characterized by
+the narrower mode of judgment that abstracts, in its justification, from the
+individual position of the speaker.
+
+This map shows which modes become available at successive layers. It does not yet
+explain the mechanics of the transitions – either what is lost in them or how
+reduction and organization open the indicated possibilities.
+
 #### Translation asymmetry
 
-The table of acts shows that translation between layers has no canonical inverse.
+The earlier table of acts shows that translation between layers has no canonical
+inverse.
 Movement toward higher layers works in two ways: it reduces the texture of the
 lower layer by merging many possible concretes into one abstraction, while also
 adding determinations specific to the receiving layer. Reduction is a many-to-one
@@ -368,31 +397,6 @@ reduction combined with organization: **constraint → new possibility**. This i
 constitutive hypothesis advanced by this document, which should be assessed
 separately for each threshold rather than extended automatically to all biological,
 psychological, and social processes.
-
-#### Modes of experiencing
-
-The same axis can also be read provisionally as a working map of thresholds from
-which particular modes of experiencing become possible. The map neither defines
-the layers nor assigns modes to them exclusively: later layers preserve the
-conditions of earlier modes, even when access to them is neither conscious nor
-reportable.
-
-| layer | mode of experiencing available from this threshold |
-|---|---|
-| level zero | — (a boundary of meta-description, not a mode of experience) |
-| consciousness | appearing |
-| subjectivity | first-person feeling and valence |
-| person | self-reference and self-conscious emotions |
-| culture | symbolic and linguistically articulated understanding |
-| objectivity | judgment claiming validity independent of the speaker's position |
-
-In this model, affect and valence are available with subjectivity, whereas emotions
-such as shame or pride require self-reference and therefore the personal layer.
-Thought framed in public concepts and open to shared correction becomes possible
-with culture; the model does not, however, decide whether every form of
-conceptualization must have a linguistic structure. Objectivity is characterized by
-the narrower mode of judgment that abstracts, in its justification, from the
-individual position of the speaker.
 
 #### Return toward less determined layers
 

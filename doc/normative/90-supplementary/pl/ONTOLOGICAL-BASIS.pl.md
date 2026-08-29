@@ -215,9 +215,38 @@ a na granicy modelu ku temu, co oznaczamy jako poziom zerowy.
 | przedmiot → obiekt | obiektywizacja |
 | obiekt → rzecz | urzeczowienie |
 
+#### Tryby doświadczania
+
+Oś genealogiczną możemy pomocniczo czytać jako mapę warstw i dostępnych wraz
+z nimi trybów doświadczania. Mapa nie definiuje tych warstw ani nie przypisuje im
+trybów na wyłączność: wraz z warstwami późniejszymi zachowane zostają
+warunki trybów wcześniejszych, choć dostęp do nich nie musi być świadomy ani
+raportowalny.
+
+| warstwa | tryb doświadczania dostępny wraz z nią |
+|---|---|
+| poziom zerowy | – (granica meta-opisu, nie tryb doświadczenia) |
+| świadomość | zjawianie |
+| podmiotowość | pierwszoosobowe czucie i walencja |
+| osoba | samoodniesienie i emocje samoświadomościowe |
+| kultura | rozumienie symboliczne i artykułowane językowo |
+| obiektywność | sąd roszczący sobie ważność niezależną od pozycji orzekającego |
+
+Afekt i walencja są w tym modelu dostępne już wraz z podmiotowością, natomiast
+emocje takie jak wstyd lub duma wymagają samoodniesienia, a więc warstwy osobowej.
+Myślenie ujęte w publiczne pojęcia i poddane wspólnej korekcie staje się możliwe
+wraz z kulturą; model nie rozstrzyga jednak, czy każda forma konceptualizacji musi
+mieć strukturę językową. Obiektywności właściwy jest węższy tryb sądu, który
+abstrahuje w uzasadnieniu od jednostkowej pozycji orzekającego.
+
+Mapa ta pokazuje, jakie tryby stają się dostępne na kolejnych warstwach. Nie
+wyjaśnia jeszcze mechaniki przejść – ani tego, co zostaje w nich utracone, ani
+tego, jak redukcja i organizacja otwierają wskazane możliwości.
+
 #### Asymetria przekładu
 
-Z tabeli aktów wynika, że przekład między warstwami nie ma kanonicznej odwrotności.
+Z wcześniejszej tabeli aktów wynika, że przekład między warstwami nie ma kanonicznej
+odwrotności.
 Ruch ku wyższym warstwom działa dwojako: redukuje fakturę niższej warstwy, scalając
 wiele możliwych konkretów w jeden abstrakt, a zarazem dodaje determinacje właściwe
 warstwie przyjmującej. Redukcja jest odwzorowaniem wiele-do-jednego, więc z samego
@@ -363,29 +392,6 @@ połączona z organizacją: **ograniczenie → nowa możliwość**. Jest to wł
 konstytuowania warstw tego dokumentu, którą należy oceniać osobno dla każdego progu,
 a nie rozszerzać automatycznie na wszystkie procesy biologiczne, psychiczne
 i społeczne.
-
-#### Tryby doświadczania
-
-Tę samą oś możemy pomocniczo czytać jako roboczą mapę progów, od których określone
-tryby doświadczania stają się możliwe. Mapa nie definiuje warstw ani nie przypisuje
-im trybów na wyłączność: wraz z warstwami późniejszymi zachowane zostają warunki
-trybów wcześniejszych, choć dostęp do nich nie musi być świadomy ani raportowalny.
-
-| warstwa | tryb doświadczania dostępny od tego progu |
-|---|---|
-| poziom zerowy | – (granica meta-opisu, nie tryb doświadczenia) |
-| świadomość | zjawianie |
-| podmiotowość | pierwszoosobowe czucie i walencja |
-| osoba | samoodniesienie i emocje samoświadomościowe |
-| kultura | rozumienie symboliczne i artykułowane językowo |
-| obiektywność | sąd roszczący sobie ważność niezależną od pozycji orzekającego |
-
-Afekt i walencja są w tym modelu dostępne już wraz z podmiotowością, natomiast
-emocje takie jak wstyd lub duma wymagają samoodniesienia, a więc warstwy osobowej.
-Myślenie ujęte w publiczne pojęcia i poddane wspólnej korekcie staje się możliwe
-wraz z kulturą; model nie rozstrzyga jednak, czy każda forma konceptualizacji musi
-mieć strukturę językową. Obiektywności właściwy jest węższy tryb sądu, który
-abstrahuje w uzasadnieniu od jednostkowej pozycji orzekającego.
 
 #### Powrót ku mniej zdeterminowanym warstwom
 

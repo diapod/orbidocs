@@ -199,15 +199,42 @@ modelu k tomu, co označujeme jako nulovou úroveň.
 | předmět → objekt | objektivizace |
 | objekt → věc | zvěcnění |
 
+#### Režimy zakoušení
+
+Genealogickou osu lze pomocně číst také jako mapu vrstev a spolu s nimi dostupných
+režimů zakoušení. Mapa tyto vrstvy nedefinuje ani jim nepřipisuje režimy výlučně:
+s pozdějšími vrstvami zůstávají zachovány podmínky dřívějších režimů, přestože
+přístup k nim nemusí být vědomý ani sdělitelný.
+
+| vrstva | režim zakoušení dostupný spolu s ní |
+|---|---|
+| nulová úroveň | – (hranice metapopisu, nikoli režim zkušenosti) |
+| vědomí | jevení se |
+| subjektivita | prvoosobní cítění a valence |
+| osoba | sebereference a sebeuvědomovací emoce |
+| kultura | symbolické a jazykově artikulované porozumění |
+| objektivita | soud nárokující si platnost nezávislou na pozici vypovídajícího |
+
+Afekt a valence jsou v tomto modelu dostupné již se subjektivitou, zatímco emoce
+jako stud nebo hrdost vyžadují sebereferenci, a tedy osobní vrstvu. Myšlení vyjádřené
+ve veřejných pojmech a otevřené společné korekci se stává možným s kulturou; model
+však nerozhoduje, zda musí mít každá forma konceptualizace jazykovou strukturu.
+Objektivitě je vlastní užší režim soudu, který ve svém zdůvodnění abstrahuje od
+jednotlivé pozice vypovídajícího.
+
+Tato mapa ukazuje, které režimy se stávají dostupnými v navazujících vrstvách.
+Ještě však nevysvětluje mechaniku přechodů – ani to, co se v nich ztrácí, ani to,
+jak redukce a organizace otevírají uvedené možnosti.
+
 #### Asymetrie překladu
 
-Z tabulky aktů plyne, že překlad mezi vrstvami nemá kanonickou inverzi. Pohyb k
-vyšším vrstvám působí dvojím způsobem: redukuje texturu nižší vrstvy tím, že slučuje
-mnoho možných konkrét do jednoho abstraktu, a zároveň přidává určení vlastní
-přijímající vrstvě. Redukce je zobrazení mnoho ku jedné, takže ze samotného výsledku
-nelze rozpoznat, která konkréta byla sloučena. Ani přidaná určení nelze odebrat bez
-znalosti toho, která z nich zavedla pozdější vrstva. V obou případech chybí informace
-potřebná ke konstrukci inverze.
+Z předchozí tabulky aktů plyne, že překlad mezi vrstvami nemá kanonickou inverzi.
+Pohyb k vyšším vrstvám působí dvojím způsobem: redukuje texturu nižší vrstvy tím,
+že slučuje mnoho možných konkrét do jednoho abstraktu, a zároveň přidává určení
+vlastní přijímající vrstvě. Redukce je zobrazení mnoho ku jedné, takže ze samotného
+výsledku nelze rozpoznat, která konkréta byla sloučena. Ani přidaná určení nelze
+odebrat bez znalosti toho, která z nich zavedla pozdější vrstva. V obou případech
+chybí informace potřebná ke konstrukci inverze.
 
 Pohyb k méně určeným vrstvám proto neobnovuje původní zkušenost. Je dekonstrukcí a
 reenakcí: uvolňuje návyk určovat přítomnou zkušenost a umožňuje její nové utvoření,
@@ -339,29 +366,6 @@ schopnosti jednat. Novou možnost neotevírá sama ztráta, nýbrž selektivní 
 spojená s organizací: **omezení → nová možnost**. Jde o vlastní konstitutivní
 hypotézu tohoto dokumentu, kterou je třeba posuzovat zvlášť pro každý práh, nikoli
 automaticky rozšiřovat na všechny biologické, psychické a sociální procesy.
-
-#### Režimy zakoušení
-
-Tutéž osu lze pomocně číst jako pracovní mapu prahů, od nichž se určité režimy
-zakoušení stávají možnými. Mapa nedefinuje vrstvy ani jim nepřipisuje režimy
-výlučně: s pozdějšími vrstvami zůstávají zachovány podmínky dřívějších režimů,
-přestože přístup k nim nemusí být vědomý ani sdělitelný.
-
-| vrstva | režim zakoušení dostupný od tohoto prahu |
-|---|---|
-| nulová úroveň | – (hranice metapopisu, nikoli režim zkušenosti) |
-| vědomí | jevení se |
-| subjektivita | prvoosobní cítění a valence |
-| osoba | sebereference a sebeuvědomovací emoce |
-| kultura | symbolické a jazykově artikulované porozumění |
-| objektivita | soud nárokující si platnost nezávislou na pozici vypovídajícího |
-
-Afekt a valence jsou v tomto modelu dostupné již se subjektivitou, zatímco emoce
-jako stud nebo hrdost vyžadují sebereferenci, a tedy osobní vrstvu. Myšlení vyjádřené
-ve veřejných pojmech a otevřené společné korekci se stává možným s kulturou; model
-však nerozhoduje, zda musí mít každá forma konceptualizace jazykovou strukturu.
-Objektivitě je vlastní užší režim soudu, který ve svém zdůvodnění abstrahuje od
-jednotlivé pozice vypovídajícího.
 
 #### Návrat k méně určeným vrstvám
 
