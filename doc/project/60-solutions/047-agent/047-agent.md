@@ -568,16 +568,23 @@ an extension hidden inside this solution.
 
 ## May Implement
 
-- Assistant Channel escalation and render-only outcome acceptance;
-- FlowNode bindings, JSON-e Flow Agent grants, and static observation wiring;
-- Corpus chair and selected-participant bindings;
+- Assistant Channel escalation and render-only outcome acceptance — *implemented*;
+- FlowNode bindings, JSON-e Flow Agent grants, and static observation wiring —
+  *implemented*;
+- Corpus chair and selected-participant bindings — *implemented*;
 - neutral content-addressed consumer-policy and authority-evidence binding for
-  operator-bounded domain integrations;
-- additional capability-specific effect-policy adapters;
-- specialized projection caches justified by measured workload.
+  operator-bounded domain integrations — *implemented*;
+- external Agent runtime adapter profiles behind the host-owned Agent controller
+  boundary, as specified by Draft Proposal 089
+  (`doc/project/40-proposals/089-external-agent-runtime-adapter-contract.md`) —
+  *draft design; no implementation or runtime-acceptance claim*;
+- additional capability-specific effect-policy adapters — *deferred until a
+  concrete consumer and owning host surface exist*;
+- specialized projection caches justified by measured workload — *deferred
+  pending measured workload*.
 
-The first three optional integrations are implemented. They remain optional to
-the Agent organ because their owning components may be absent from a deployment.
+Implemented integrations remain optional to the Agent organ because their
+owning components may be absent from a deployment.
 
 ## Out of Scope
 

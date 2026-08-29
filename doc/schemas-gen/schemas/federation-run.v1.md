@@ -16,6 +16,8 @@ Redacted aggregate manifest for one leased federation acceptance run.
 | [`profile/digest`](#field-profile-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`owner/slot`](#field-owner-slot) | `yes` | string |  |
 | [`nodes`](#field-nodes) | `yes` | array |  |
+| [`story/evidence`](#field-story-evidence) | `no` | ref: `#/$defs/storyEvidence` |  |
+| [`assertions`](#field-assertions) | `no` | array |  |
 | [`started/at`](#field-started-at) | `yes` | string |  |
 | [`ended/at`](#field-ended-at) | `no` | string |  |
 | [`status`](#field-status) | `yes` | enum: `planned`, `running`, `passed`, `failed`, `refused` |  |
@@ -25,6 +27,10 @@ Redacted aggregate manifest for one leased federation acceptance run.
 | Definition | Shape | Description |
 |---|---|---|
 | [`digest`](#def-digest) | string |  |
+| [`rawDigest`](#def-rawdigest) | string |  |
+| [`token`](#def-token) | string |  |
+| [`storyEvidence`](#def-storyevidence) | object |  |
+| [`assertionResult`](#def-assertionresult) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -75,6 +81,18 @@ Redacted aggregate manifest for one leased federation acceptance run.
 - Required: `yes`
 - Shape: array
 
+<a id="field-story-evidence"></a>
+## `story/evidence`
+
+- Required: `no`
+- Shape: ref: `#/$defs/storyEvidence`
+
+<a id="field-assertions"></a>
+## `assertions`
+
+- Required: `no`
+- Shape: array
+
 <a id="field-started-at"></a>
 ## `started/at`
 
@@ -99,3 +117,23 @@ Redacted aggregate manifest for one leased federation acceptance run.
 ## `$defs.digest`
 
 - Shape: string
+
+<a id="def-rawdigest"></a>
+## `$defs.rawDigest`
+
+- Shape: string
+
+<a id="def-token"></a>
+## `$defs.token`
+
+- Shape: string
+
+<a id="def-storyevidence"></a>
+## `$defs.storyEvidence`
+
+- Shape: object
+
+<a id="def-assertionresult"></a>
+## `$defs.assertionResult`
+
+- Shape: object

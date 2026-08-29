@@ -290,11 +290,14 @@ UI / JSON-e Flow / built-in workflow
   -> loop continues
 ```
 
-An "agent adapter" for a full external agent runtime MAY exist later, including
-an MCP-like tool protocol or another tool-calling protocol. That protocol is an
-implementation detail below the host grant boundary. The adapter is still just
-a supervised runtime that requests host-granted tools. It does not become a
-commander and does not bypass Workbench or Sensorium.
+An External Agent Runtime Adapter MAY exist later, including an MCP-like tool
+protocol or another tool-calling protocol. Proposal 073 places the Agent loop
+above Inquirium and excludes a raw runtime from Room membership. Consistent with
+that boundary, Draft Proposal 089 places this adapter behind the Orbiplex Agent
+host boundary, not inside Inquirium. The protocol is an implementation detail
+below the host grant boundary. The adapter is still just a supervised runtime
+that requests host-granted tools. It does not become a commander and does not
+bypass Workbench or Sensorium.
 
 ### 3. Workbench Uses Declarative Tool Intents
 
@@ -1516,20 +1519,28 @@ wait/watch/probe semantics, and audit behavior.
 
 ### 12. Relationship To Agent Adapters
 
-A future Inquirium adapter may wrap a whole agent runtime, including an MCP-like
-tool protocol. That adapter may be useful, but it must still call host-granted
-tools. Tool execution remains outside the adapter:
+A future External Agent Runtime Adapter may wrap a whole agent runtime, including
+an MCP-like tool protocol. Proposal 073 supplies the Agent/Inquirium and
+Room-membership boundaries; Draft Proposal 089 specifies this adapter as a
+controller-driver implementation behind Orbiplex Agent rather than an Inquirium
+runtime adapter. A distinct one-shot Inquirium/A2A bridge remains possible only
+when it reduces an external answer to untrusted candidate evidence and carries
+no Agent lifecycle, Room identity, or effect authority.
+
+The external runtime must still request host-granted tools. Tool execution
+remains outside the adapter:
 
 ```text
-agent runtime
-  -> requests terminal/file/sandbox tool
-  -> host policy gate
+external agent runtime
+  -> normalized tool or effect request
+  -> Agent host policy and controller gate
   -> Sensorium Workbench directive
   -> audited effect
 ```
 
 If an agent runtime has its own terminal/filesystem access that bypasses
-Workbench, it is not an acceptable Inquirium adapter for Orbiplex Node.
+Workbench, it is not an acceptable External Agent Runtime Adapter for Orbiplex
+Node.
 
 Corpus or room-deliberation experts may later use Workbench as an actuation
 surface for grounded reasoning, such as running a test or inspecting a local

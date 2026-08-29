@@ -156,6 +156,36 @@ Responsibilities:
 
 Status: `done`.
 
+### Current Adapter Family Inventory
+
+The current implementation has several orthogonal adapter axes. A transport kind
+describes how one adapter instance is invoked; a protocol profile describes what
+execution interface it translates; a managed runtime family describes how one
+local provider process and its model assets are launched. These axes must not be
+flattened into provider or Inquirium operation semantics.
+
+| Axis | Current family | Solution-level boundary |
+| :--- | :--- | :--- |
+| Adapter-instance transport | `deterministic_stub` | Host-local, provider-free fixture path for smoke, refusal, and acceptance evidence; never a production fallback. |
+| Adapter-instance transport | `command_stdio` | One-shot stdin/stdout execution under host-owned timeout, framing, environment, output, and sandbox policy. |
+| Adapter-instance transport | `http_local` | Managed or unmanaged loopback HTTP execution, including direct OpenAI-compatible chat-completions mapping. |
+| Adapter-instance transport | `http_api` | Remote or externally managed HTTP execution under explicit egress, classification, endpoint, timeout, and budget policy. |
+| Adapter-instance transport | `channel_json` | Host-mediated invocation of a supervised middleware module over its declared channel path. |
+| Bundled protocol adapter | OpenAI Responses, Anthropic Messages | Provider translation supplied as supervised middleware modules behind the neutral Inquirium adapter contract, not compiled into Inquirium Core. |
+| Bundled deterministic protocol fixture | local simulator | A supervised simulator module used for protocol conformance; distinct from the provider-free `deterministic_stub` adapter-instance transport. |
+| Managed local runtime launcher | `llama_server`, `mlx_lm_server` | Verified local provider launch families below `http_local`; they share the OpenAI-compatible mapping but retain distinct platform and model-materialization constraints. |
+
+Exact manifests, transport fields, launcher arguments, platform admission,
+environment isolation, health checks, and conformance fixtures belong to
+`node:model-runtime/README.md`, the Node runtime catalog, and Node tests.
+
+A full external agent runtime is deliberately absent from this inventory. A
+one-shot edge bridge may reduce an external agent response to candidate evidence,
+but durable identity, controller state, tools, and Room participation belong to
+Orbiplex Agent. Draft Proposal 089
+(`doc/project/40-proposals/089-external-agent-runtime-adapter-contract.md`)
+defines that separate External Agent Runtime Adapter boundary.
+
 ### Operation Descriptor Registry
 
 Inquirium keeps `InquiriumOperation` as a closed typed algebra, while exposing

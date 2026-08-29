@@ -17,8 +17,12 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 | [`product/endpoints`](#field-product-endpoints) | `yes` | array |  |
 | [`services`](#field-services) | `yes` | ref: `#/$defs/tokenList` |  |
 | [`capabilities`](#field-capabilities) | `yes` | ref: `#/$defs/tokenList` |  |
+| [`model/binding`](#field-model-binding) | `no` | ref: `#/$defs/modelBindingEvidence` |  |
+| [`model/revalidation`](#field-model-revalidation) | `no` | ref: `#/$defs/revalidationEvidence` |  |
+| [`vfkit/preparation`](#field-vfkit-preparation) | `no` | ref: `#/$defs/vfkitPreparationEvidence` |  |
+| [`vfkit/cleanup`](#field-vfkit-cleanup) | `no` | ref: `#/$defs/vfkitCleanupEvidence` |  |
 | [`storage/policies`](#field-storage-policies) | `no` | array |  |
-| [`storage/revalidation`](#field-storage-revalidation) | `no` | ref: `#/$defs/storageRevalidationEvidence` |  |
+| [`storage/revalidation`](#field-storage-revalidation) | `no` | ref: `#/$defs/revalidationEvidence` |  |
 | [`status`](#field-status) | `yes` | enum: `planned`, `running`, `passed`, `failed`, `refused`, `unavailable` |  |
 
 ## Definitions
@@ -29,7 +33,11 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 | [`token`](#def-token) | string |  |
 | [`tokenList`](#def-tokenlist) | array |  |
 | [`digest`](#def-digest) | string |  |
-| [`storageRevalidationEvidence`](#def-storagerevalidationevidence) | object |  |
+| [`rawDigest`](#def-rawdigest) | string |  |
+| [`revalidationEvidence`](#def-revalidationevidence) | object |  |
+| [`modelBindingEvidence`](#def-modelbindingevidence) | object |  |
+| [`vfkitPreparationEvidence`](#def-vfkitpreparationevidence) | object |  |
+| [`vfkitCleanupEvidence`](#def-vfkitcleanupevidence) | object |  |
 | [`storagePolicyEvidence`](#def-storagepolicyevidence) | object |  |
 ## Field Semantics
 
@@ -87,6 +95,30 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 - Required: `yes`
 - Shape: ref: `#/$defs/tokenList`
 
+<a id="field-model-binding"></a>
+## `model/binding`
+
+- Required: `no`
+- Shape: ref: `#/$defs/modelBindingEvidence`
+
+<a id="field-model-revalidation"></a>
+## `model/revalidation`
+
+- Required: `no`
+- Shape: ref: `#/$defs/revalidationEvidence`
+
+<a id="field-vfkit-preparation"></a>
+## `vfkit/preparation`
+
+- Required: `no`
+- Shape: ref: `#/$defs/vfkitPreparationEvidence`
+
+<a id="field-vfkit-cleanup"></a>
+## `vfkit/cleanup`
+
+- Required: `no`
+- Shape: ref: `#/$defs/vfkitCleanupEvidence`
+
 <a id="field-storage-policies"></a>
 ## `storage/policies`
 
@@ -97,7 +129,7 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 ## `storage/revalidation`
 
 - Required: `no`
-- Shape: ref: `#/$defs/storageRevalidationEvidence`
+- Shape: ref: `#/$defs/revalidationEvidence`
 
 <a id="field-status"></a>
 ## `status`
@@ -127,8 +159,28 @@ Redacted per-slot node entry retained in a federation acceptance run manifest.
 
 - Shape: string
 
-<a id="def-storagerevalidationevidence"></a>
-## `$defs.storageRevalidationEvidence`
+<a id="def-rawdigest"></a>
+## `$defs.rawDigest`
+
+- Shape: string
+
+<a id="def-revalidationevidence"></a>
+## `$defs.revalidationEvidence`
+
+- Shape: object
+
+<a id="def-modelbindingevidence"></a>
+## `$defs.modelBindingEvidence`
+
+- Shape: object
+
+<a id="def-vfkitpreparationevidence"></a>
+## `$defs.vfkitPreparationEvidence`
+
+- Shape: object
+
+<a id="def-vfkitcleanupevidence"></a>
+## `$defs.vfkitCleanupEvidence`
 
 - Shape: object
 

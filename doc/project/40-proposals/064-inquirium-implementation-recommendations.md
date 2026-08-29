@@ -90,6 +90,15 @@ capability refs.
 `agent bridge adapter` maps an external agent or agent protocol into candidate
 evidence and typed outcomes.
 
+Proposal 073 places the Agent loop above Inquirium and excludes a raw runtime
+from Room membership. Consistent with that boundary, Draft Proposal 089 gives
+this term a deliberately narrow meaning at the Inquirium boundary: a one-shot
+edge bridge may treat an external agent response as untrusted candidate
+evidence. A stateful external runtime that supplies a controller driver, working
+session, tools, or multi-step lifecycle for an Orbiplex Agent is not an
+Inquirium adapter. Draft Proposal 089 owns that separate External Agent Runtime
+Adapter contract above Inquirium and below the Agent host boundary.
+
 `model adaptation artifact` is a LoRA/QLoRA adapter, prompt program,
 checkpoint, or other result of adaptation. It is not a runtime adapter.
 
@@ -1103,14 +1112,20 @@ effects.
 
 ## MCP and A2A as Bridges, Not Core Semantics
 
-Inquirium may use agent protocols, but it should not import their semantics
-into core. MCP and A2A are edge bridge adapters.
+A bounded Inquirium operation may use agent protocols, but it should not import
+their semantics into core. MCP and A2A are edge bridge adapters. Stateful
+orchestration of an external runtime as an Orbiplex Agent belongs to Proposal
+089 instead.
 
 MCP bridge maps external resources, prompts, and tools to Orbiplex
 `resource/ref`, `prompt-template/ref`, and `tool/ref`. It requires capability
 negotiation before use; respects cancellation, progress, errors, and logging;
-does not give the model ambient tool access; and sends every tool call through
-`allowed/tools`, budget, deadline, trace, and output validation.
+does not give the model ambient tool access; and admits each named tool request
+only within `allowed/tools`, budget, deadline, trace, and output-validation
+bounds. `allowed/tools` is an admission ceiling, not an execution path. An MCP
+bridge may negotiate, name, and bound a tool surface, but any requested effect
+outside the bounded inquiry is executed by its owning host domain through a
+typed effect contract, never by the bridge.
 
 A2A bridge treats an external agent as an untrusted provider worker or remote
 agent endpoint. It declares capability metadata, skills, and routability through

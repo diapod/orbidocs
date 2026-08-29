@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `17` | `1` |
-| `40-proposals` (Proposals) | `91` | `79` |
+| `40-proposals` (Proposals) | `92` | `80` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `66` | `45` |
 
-- Total project markdown files: `251`
-- Proposals referencing source material: `79` / `91`
+- Total project markdown files: `252`
+- Proposals referencing source material: `80` / `92`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -152,10 +152,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`execution-receipt.v1.schema.json`](schemas-gen/schemas/execution-receipt.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
 | [`federated-envelope-declaration.v1.schema.json`](schemas-gen/schemas/federated-envelope-declaration.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `1` |
 | [`federated-envelope-declaration.v2.schema.json`](schemas-gen/schemas/federated-envelope-declaration.v2.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
-| [`federation-node.v1.schema.json`](schemas-gen/schemas/federation-node.v1.md) | `10` | `0` | `no` | `yes` | `0` | `0` |
+| [`federation-node.v1.schema.json`](schemas-gen/schemas/federation-node.v1.md) | `16` | `0` | `no` | `yes` | `0` | `0` |
 | [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `3` | `7` |
-| [`federation-run.v1.schema.json`](schemas-gen/schemas/federation-run.v1.md) | `11` | `0` | `no` | `yes` | `0` | `0` |
-| [`federation-scenario.v1.schema.json`](schemas-gen/schemas/federation-scenario.v1.md) | `8` | `0` | `no` | `yes` | `1` | `0` |
+| [`federation-run.v1.schema.json`](schemas-gen/schemas/federation-run.v1.md) | `13` | `0` | `no` | `yes` | `0` | `0` |
+| [`federation-scenario.v1.schema.json`](schemas-gen/schemas/federation-scenario.v1.md) | `8` | `0` | `no` | `yes` | `2` | `0` |
 | [`federation-service-endorsement-revocation.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement-revocation.v1.md) | `10` | `10` | `yes` | `yes` | `1` | `0` |
 | [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
@@ -269,6 +269,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-guard-hook.v1.schema.json`](schemas-gen/schemas/operator-guard-hook.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-resource-envelope-revocation.v1.schema.json`](schemas-gen/schemas/operator-resource-envelope-revocation.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-resource-envelope.v1.schema.json`](schemas-gen/schemas/operator-resource-envelope.v1.md) | `15` | `0` | `yes` | `yes` | `1` | `2` |
+| [`orbiplex-acceptance-model-bindings.v1.schema.json`](schemas-gen/schemas/orbiplex-acceptance-model-bindings.v1.md) | `4` | `0` | `no` | `yes` | `0` | `0` |
+| [`orbiplex-acceptance-storage-policy.v1.schema.json`](schemas-gen/schemas/orbiplex-acceptance-storage-policy.v1.md) | `8` | `0` | `no` | `yes` | `1` | `2` |
 | [`orbiplex-acceptance-topology.v1.schema.json`](schemas-gen/schemas/orbiplex-acceptance-topology.v1.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
 | [`orbiplex.api-descriptor.v1.schema.json`](schemas-gen/schemas/orbiplex.api-descriptor.v1.md) | `4` | `0` | `no` | `yes` | `1` | `3` |
 | [`org-custody-decision.v1.schema.json`](schemas-gen/schemas/org-custody-decision.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `1` |
@@ -693,6 +695,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-guard-hook.v1.schema.json`](schemas-gen/schemas/operator-guard-hook.v1.md) |  |  |
 | [`operator-resource-envelope-revocation.v1.schema.json`](schemas-gen/schemas/operator-resource-envelope-revocation.v1.md) |  |  |
 | [`operator-resource-envelope.v1.schema.json`](schemas-gen/schemas/operator-resource-envelope.v1.md) |  |  |
+| [`orbiplex-acceptance-model-bindings.v1.schema.json`](schemas-gen/schemas/orbiplex-acceptance-model-bindings.v1.md) |  |  |
+| [`orbiplex-acceptance-storage-policy.v1.schema.json`](schemas-gen/schemas/orbiplex-acceptance-storage-policy.v1.md) |  |  |
 | [`orbiplex-acceptance-topology.v1.schema.json`](schemas-gen/schemas/orbiplex-acceptance-topology.v1.md) |  |  |
 | [`orbiplex.api-descriptor.v1.schema.json`](schemas-gen/schemas/orbiplex.api-descriptor.v1.md) |  |  |
 | [`org-custody-decision.v1.schema.json`](schemas-gen/schemas/org-custody-decision.v1.md) | [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md), [`requirements-011-dator-arca-contracts.md`](project/50-requirements/requirements-011-dator-arca-contracts.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md), [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-buyer-node-components.md`](project/30-stories/story-006-buyer-node-components.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-007-settlement-capable-node.md`](project/30-stories/story-007-settlement-capable-node.md), [`story-008-cool-site-comment.md`](project/30-stories/story-008-cool-site-comment.md) |
@@ -1034,7 +1038,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) |
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) |
 
-- Canonical schemas: `419`
-- Generated schema docs: `419`
-- Positive examples: `431`
-- Negative examples: `374`
+- Canonical schemas: `421`
+- Generated schema docs: `421`
+- Positive examples: `433`
+- Negative examples: `376`
