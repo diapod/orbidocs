@@ -1,0 +1,26 @@
+{
+  "schema": "orbiplex-acceptance-topology.v1",
+  "topology/ref": "acceptance-topology:two-host-three-node-example",
+  "topology/revision": 1,
+  "topology/host-posture": "shared-physical-hosts",
+  "nodes": {
+    "node-a": {
+      "host/name": "host-alpha.example.test",
+      "platform/ref": "macos-arm64",
+      "product/bind-address": "192.0.2.10",
+      "ssh": { "host": "host-alpha.example.test", "port": 22, "user": "acceptance" }
+    },
+    "node-b": {
+      "host/name": "host-beta.example.test",
+      "platform/ref": "macos-arm64",
+      "product/bind-address": "192.0.2.11",
+      "ssh": { "host": "host-beta.example.test", "port": 22, "user": "acceptance" }
+    },
+    "node-c": {
+      "host/name": "host-alpha.example.test",
+      "platform/ref": "macos-arm64",
+      "product/bind-address": "192.0.2.10",
+      "ssh": { "host": "host-alpha.example.test", "port": 22, "user": "acceptance" }
+    }
+  }
+}

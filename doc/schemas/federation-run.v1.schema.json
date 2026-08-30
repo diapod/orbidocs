@@ -14,6 +14,7 @@
     "topology/digest": { "$ref": "#/$defs/digest" },
     "profile/digest": { "$ref": "#/$defs/digest" },
     "owner/slot": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$", "maxLength": 64 },
+    "topology/evidence": { "$ref": "#/$defs/topologyEvidence" },
     "nodes": { "type": "array", "minItems": 2, "maxItems": 32, "items": { "$ref": "federation-node.v1.schema.json" } },
     "story/evidence": { "$ref": "#/$defs/storyEvidence" },
     "assertions": {
@@ -30,6 +31,39 @@
     "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
     "rawDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "token": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 256 },
+    "topologyEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["host-posture", "logical-node-count", "physical-host-count", "shared-failure-domains", "evidence/ceiling"],
+      "properties": {
+        "host-posture": { "enum": ["distinct-physical-hosts", "shared-physical-hosts"] },
+        "logical-node-count": { "type": "integer", "minimum": 2, "maximum": 32 },
+        "physical-host-count": { "type": "integer", "minimum": 1, "maximum": 32 },
+        "shared-failure-domains": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 32,
+            "uniqueItems": true,
+            "items": { "$ref": "#/$defs/token" }
+          }
+        },
+        "evidence/ceiling": { "enum": ["profile-defined", "diagnostic-not-promotable"] }
+      },
+      "allOf": [{
+        "if": { "properties": { "host-posture": { "const": "shared-physical-hosts" } } },
+        "then": { "properties": {
+          "shared-failure-domains": { "minItems": 1 },
+          "evidence/ceiling": { "const": "diagnostic-not-promotable" }
+        } },
+        "else": { "properties": {
+          "shared-failure-domains": { "maxItems": 0 },
+          "evidence/ceiling": { "const": "profile-defined" }
+        } }
+      }]
+    },
     "storyEvidence": {
       "type": "object",
       "additionalProperties": false,

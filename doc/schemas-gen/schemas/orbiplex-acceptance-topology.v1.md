@@ -11,6 +11,7 @@ Reusable infrastructure-only mapping from stable acceptance slots to SSH-control
 | [`schema`](#field-schema) | `yes` | const: `orbiplex-acceptance-topology.v1` |  |
 | [`topology/ref`](#field-topology-ref) | `yes` | string |  |
 | [`topology/revision`](#field-topology-revision) | `yes` | integer |  |
+| [`topology/host-posture`](#field-topology-host-posture) | `no` | enum: `distinct-physical-hosts`, `shared-physical-hosts` |  |
 | [`nodes`](#field-nodes) | `yes` | object |  |
 
 ## Definitions
@@ -39,6 +40,12 @@ Reusable infrastructure-only mapping from stable acceptance slots to SSH-control
 
 - Required: `yes`
 - Shape: integer
+
+<a id="field-topology-host-posture"></a>
+## `topology/host-posture`
+
+- Required: `no`
+- Shape: enum: `distinct-physical-hosts`, `shared-physical-hosts`
 
 <a id="field-nodes"></a>
 ## `nodes`

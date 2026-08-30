@@ -4,8 +4,8 @@ Snapshot date: 2026-08-30.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
-The 2026-08-28 P074 refresh closes the first real-model Story 012 physical-host
-profile. The retained run
+The 2026-08-30 P074 refresh retains two different evidence classes. The first
+real-model Story 012 profile remains the three-physical-host run
 `federation-run:story-012-physical-real-model:20260828T183021Z` passed at one
 clean synchronized Node revision across three physical hosts. All three node
 reports, all three model post-effect revalidations, and all ten exact scenario
@@ -20,24 +20,35 @@ direct Room/Corpus WSS and Sensorium/Workbench traffic, independent model stores
 solver/reviewer/Chair products, restart/reconnect, authority revocation, APFS
 vfkit preparation and cleanup, and no SSH product proxy. It also live-proved the
 `operator-trusted-shared-managed` removable APFS model-store posture with final
-revalidation. Two subsequent no-retry populations on the two-core Broadwell
-reviewer host passed 5/5 complete-plan acceptances and 5/5 defective-plan
-`request-regeneration` reviews. Later passages showed that they did not qualify
-the distinct reviewer-only correction from a host-refused false denial to
-`accept`; P074-025 is therefore partial and P074-027 owns that missing
-qualification. Bounded 3B, 7B, Phi-4, and co-located Qwen3-Coder MLX trials have
-not yet produced a qualifying population, while the host continues to fail
-closed without synthesizing review prose. The Qwen3 first gate was fast (p95
-3,996 ms) and semantically selected the required verdict, but omitted the typed
-marker and one closed field in all five no-retry samples; P074-028 therefore
-remains partial and did not proceed to a full co-located Story profile. P074-029
-now tracks a separately bounded Codex-backed Reviewer adapter on the real third
+revalidation. This closes P074-010 and its P074-016 through P074-019, P074-021,
+and P074-026 enabling slices.
+
+The additive P074-032 comparison then completed across three logical Nodes on
+two physical hosts. The selected co-located Qwen3-Coder MLX Reviewer passed the
+unchanged P074-027 correction contract 5/5 with no retry through a reviewed
+whole-JSON framing boundary that never authors review content. The retained
+exploration run
+`federation-run:story-012-physical-two-host-three-node-real-model:20260830T014817Z`
+lost only the `node-c` daemon, restarted only that invalid component, proved an
+all-reuse second plan, and journaled cleanup of every retained resource. The
+subsequent fresh run
+`federation-run:story-012-physical-two-host-three-node-real-model:20260830T033741Z`
+passed all ten Story assertions and all three model post-effect revalidations.
+Its Schema-Gate-valid aggregate has content SHA-256
+`0f2b15b8d991837f9a352481262f151a205a7c4dbe06fc587afa452ce5350c4a`;
+the paired Story report has content SHA-256
+`27dfbe58dcc183c1032ee6df8998b93ac33c54b8757643f1fd066f109a95e8ef`.
+The 902,920 ms passage included 676,872 ms of real deliberation over four cycles
+and four experiments. Its aggregate explicitly records three logical Nodes, two
+physical hosts, the shared `node-b`/`node-c` failure domain, and
+`diagnostic-not-promotable`; it therefore closes P074-032 without satisfying the
+exact three-host closure clause of P074-022.
+
+P074-029 still tracks the bounded Codex-backed Reviewer adapter on the real third
 physical host; any resulting evidence must be labeled online/provider-backed,
-not local-model or offline acceptance. This closes P074-010 and its P074-016
-through P074-019, P074-021, and P074-026 enabling slices. P074 remains partial
-post-MVP work: P074-027 reviewer correction qualification and P074-029 adapter,
-generic interrupted-run resume, Story 010 and trace-explorer consumers, the
-remaining
+not local-model or offline acceptance. P074 remains partial post-MVP work:
+exact three-host interrupted-run closure, P074-029, Story 010 and trace-explorer
+consumers, the remaining
 P074-011 shared-input roles, optional macOS signing/firewall hardening, and the
 non-gating Bielik-specific P074-012 branch remain open. The baseline Story 012
 and hard-MVP readiness percentages remain unchanged because this is a
@@ -1554,7 +1565,7 @@ Recent component deltas:
 | [Proposal 071: Sensorium Workbench](../40-proposals/071-sensorium-workbench.md) | `false` | `false` | `false` | `100` |
 | [Proposal 072: Capability Registry — Enforced Core and Policy Sidecar](../40-proposals/072-capability-registry.md) | `true` | `true` | `false` | `100` |
 | [Proposal 073: Agent — Bounded Stateful Orchestration Organ](../40-proposals/073-agent-orchestration-organ.md) | `true` | `true` | `false` | `100` |
-| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `85` |
+| [Proposal 074: Multi-Node Federation Harness and Trace Explorer](../40-proposals/074-multi-node-federation-harness-and-trace-explorer.md) | `false` | `false` | `false` | `88` |
 | [Proposal 076: Federation Identity and Network Selector](../40-proposals/076-federation-identity-and-network-selector.md) | `true` | `true` | `false` | `92` |
 | [Proposal 077: Swarm Broadcast Assistance](../40-proposals/077-swarm-broadcast-assistance.md) | `false` | `false` | `false` | `15` |
 | [Proposal 078: Weak Signal Harvester](../40-proposals/078-weak-signal-harvester.md) | `false` | `true` | `false` | `68` |

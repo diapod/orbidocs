@@ -10,6 +10,7 @@
     "schema": { "const": "orbiplex-acceptance-topology.v1" },
     "topology/ref": { "type": "string", "pattern": "^acceptance-topology:[A-Za-z0-9._:-]+$", "maxLength": 256 },
     "topology/revision": { "type": "integer", "minimum": 1 },
+    "topology/host-posture": { "enum": ["distinct-physical-hosts", "shared-physical-hosts"] },
     "nodes": {
       "type": "object",
       "minProperties": 2,
