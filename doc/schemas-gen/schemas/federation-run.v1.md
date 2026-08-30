@@ -15,7 +15,7 @@ Redacted aggregate manifest for one leased federation acceptance run.
 | [`topology/digest`](#field-topology-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`profile/digest`](#field-profile-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`owner/slot`](#field-owner-slot) | `yes` | string |  |
-| [`topology/evidence`](#field-topology-evidence) | `no` | ref: `#/$defs/topologyEvidence` |  |
+| [`topology/evidence`](#field-topology-evidence) | `yes` | ref: `#/$defs/topologyEvidence` |  |
 | [`nodes`](#field-nodes) | `yes` | array |  |
 | [`story/evidence`](#field-story-evidence) | `no` | ref: `#/$defs/storyEvidence` |  |
 | [`assertions`](#field-assertions) | `no` | array |  |
@@ -80,7 +80,7 @@ Redacted aggregate manifest for one leased federation acceptance run.
 <a id="field-topology-evidence"></a>
 ## `topology/evidence`
 
-- Required: `no`
+- Required: `yes`
 - Shape: ref: `#/$defs/topologyEvidence`
 
 <a id="field-nodes"></a>

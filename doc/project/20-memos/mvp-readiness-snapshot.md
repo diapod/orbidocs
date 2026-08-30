@@ -44,12 +44,13 @@ physical hosts, the shared `node-b`/`node-c` failure domain, and
 `diagnostic-not-promotable`; it therefore closes P074-032 without satisfying the
 exact three-host closure clause of P074-022.
 
-P074-029 still tracks the bounded Codex-backed Reviewer adapter on the real third
-physical host; any resulting evidence must be labeled online/provider-backed,
-not local-model or offline acceptance. P074 remains partial post-MVP work:
-exact three-host interrupted-run closure, P074-029, Story 010 and trace-explorer
-consumers, the remaining
-P074-011 shared-input roles, optional macOS signing/firewall hardening, and the
+P074-033 now tracks the typed host-checked Reviewer-claim contract that must replace
+natural-language verdict adjudication before P074-029 qualifies the bounded
+Codex-backed Reviewer adapter on the real third physical host; any resulting evidence
+must be labeled online/provider-backed, not local-model or offline acceptance. P074
+remains partial post-MVP work: exact three-host interrupted-run closure, P074-033,
+P074-029, Story 010 and trace-explorer consumers, the remaining P074-011 shared-input
+roles, optional macOS signing/firewall hardening, and the
 non-gating Bielik-specific P074-012 branch remain open. The baseline Story 012
 and hard-MVP readiness percentages remain unchanged because this is a
 post-hard-MVP physical acceptance profile.
