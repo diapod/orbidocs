@@ -892,13 +892,67 @@ Implementation evidence corrected 2026-08-30:
    a fresh no-retry population. Host validation remains authoritative: it must
    neither synthesize nor coerce `accept`, and a second invalid review continues
    to fail closed.
+4. The 2026-08-30 Qwen2.5-Coder 3B correction population failed the strengthened
+   semantic gate on its first no-retry sample: the review returned formal
+   `accept` and acknowledged `HOST_FACTS`, but omitted the exact proposed
+   `local-address` fact. Further answer-template shaping would turn the reviewer
+   into a host-prose echo rather than qualify independent correction. P074-027
+   therefore proceeds with the already retained and role-qualified P074-014
+   Qwen2.5-Coder 7B binding before considering a new uncached candidate.
+5. The retained 7B binding then exceeded the unchanged 330-second request budget
+   on its first correction sample on the two-core `node-c`; the runtime remained
+   healthy, but produced no completed marker before timeout. P074-027 therefore
+   admits the already pinned reviewer-only Phi-4 Mini Q4_K_M candidate as the next
+   bounded comparison. Its exact manifest-driven download, digest verification,
+   semantic correction population, role qualification, and lifecycle/package
+   admission must complete before it can replace either retained Qwen binding.
+6. Cross-candidate inspection then exposed accidental complexity in the correction
+   boundary itself: the prompt serialized the same `HOST_FACTS` twice, expressed
+   field rules as a meta-JSON object, and reused a generic guard whose record rule
+   read as an unconditional true statement even when the projected record fact was
+   false. P074-027 now uses a compact data-derived correction guard with explicit
+   per-field attribution constraints and one facts projection. The production-shaped
+   Phi-4 prompt fell from approximately 3,886 to 2,618 bytes, and the Story-012 suite
+   passes 470/470 tests. This is a contract clarification, not an answer template: the
+   host still does not author findings, evidence prose, redundant actions, or the next
+   test, and the independent semantic validator remains the admission boundary.
+7. The bounded post-simplification Phi-4 sample completed within the unchanged
+   budget in 215,327 ms, but returned formal `accept` with effectively empty
+   findings, supporting evidence, and next test. The host correctly refused it for
+   missing `HOST_FACTS` attribution. The exact ledger is retained under
+   `${ORBIPLEX_ACCEPTANCE_REPORT_ROOT}/p074-027/phi4-correction-compact-20260830.jsonl`
+   with SHA-256
+   `ef7d4e7b11b0ff684ba612b2c54a437b1c46a4545f3192eb5d12c6045ba3ed56`.
+   Together with the failed 3B semantic sample, the 7B timeout, and the earlier
+   253,141 ms Phi-4 semantic failure, this closes prompt-shape exploration without
+   qualifying a binding. No further prompt tuning is admitted under P074-027 unless
+   a reviewed contract change first demonstrates that it does not author the review.
+8. P074-028 reused the exact package-described Qwen3-Coder MLX bytes on `self.local`
+   through an additive physical-package adapter in the production-shaped Reviewer
+   bench. The adapter verifies package assets, runtime identity, the 48 GiB host
+   memory envelope, and a distinct private PEX root, while retaining the source
+   binding's existing `solver` role rather than implying Reviewer admission. The
+   unchanged no-retry five-sample population completed quickly (p95/max 3,996 ms),
+   and every response selected `accept`, named the required `local-address` fact,
+   and proposed a bounded next test. All five nevertheless omitted the mandatory
+   `ORBIPLEX_REVIEW_JSON=` marker and closed `redundant-actions` field, so the host
+   correctly refused the population at the typed-marker boundary. The ledger is
+   retained under
+   `${ORBIPLEX_ACCEPTANCE_REPORT_ROOT}/p074-028/qwen3-colocated-reviewer-20260830.jsonl`
+   with SHA-256
+   `3bdbdaa4beb562cd68bedc790f9a95e4be9399d77500726ebb2b2d0e97bc63e5`.
+   This rejects the current Qwen3-without-native-grammar path for P074-027 without
+   converting the near-miss into host-authored output. The full co-located Story
+   profile and second concurrent MLX process were therefore not started.
 
 ## Next Actions
 
 1. Wrap Story 010 as the first generic harness target under P074-002.
 2. Finish the trace-source inventory and disk-bundle import path under P074-004,
    then complete the remaining Story 010 adapters under P074-005.
-3. Complete the P074-027 reviewer-only correction qualification, then exercise
+3. Specify and implement the bounded Codex-backed Reviewer adapter under P074-029,
+   independently qualify its unchanged P074-027 correction contract on `node-c`,
+   then exercise
    the implemented generic interrupted-run checkpoint/replay boundary
    under P074-008 and the optional exploration posture P074-022 on all three
    physical hosts, then retain the required fresh default green Story run;
@@ -945,4 +999,6 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P074-024 | Separate full Sensorium observation evidence from its bounded model-facing projection | done | After complete schema admission, the host now derives a closed `agent-observation-terminal-viewport-projection.v1` value bound to the full content digest. It retains terminal/session and sequence identity plus viewport geometry, cursor, and text, omits duplicated classification/provenance already carried by prompt tiers and operational caution, rejects unsupported schemas, and enforces a separate 4 KiB projection ceiling. The full payload remains host-owned evidence; persistent operational traces record only projection schema/digest and full-content digest. Pure projection, oversized refusal, end-to-end prompt assembly, trace persistence, and exact production-strata tests are green. Review also removed a duplicated lower-authority copy of both the role instruction and terminal bytes and made solver-claimed fields explicit. The final 2026-08-28 Qwen2.5-Coder 3B bench used 1,095 prompt tokens, compared with 1,172 before the deduplication. Depends on P074-017. |
 | P074-025 | Qualify a hardware-appropriate physical reviewer binding for `node-c` | partial | P074-014's Qwen2.5-Coder 7B remains immutable correctness evidence but exceeded the current two-core Broadwell timing envelope. The selected Qwen2.5-Coder 3B Q4_K_M candidate uses native GBNF plus host semantic validation, a conservative 6 GiB host minimum, and exact Reviewer plus Facilitator role qualification. Production-shaped work exposed that narrative-first grammar anchored verdicts on the pre-effect `NXDOMAIN`; placing `verdict` first for non-revision reviews fixed that representation without weakening the JSON contract or host authority. On the actual two-core Broadwell `node-c`, fresh no-retry populations passed 5/5 complete-plan acceptances and 5/5 defective-plan `request-regeneration` verdicts, with observed p95/max durations of 156,195 ms and 156,728 ms. The retained 2026-08-28 P074-010 run admitted this exact binding, produced the real reviewer product, and passed its post-effect revalidation. Later physical passages exposed that those populations did not qualify the distinct reviewer-only correction from a host-refused false denial to `accept`; P074-027 now gates that recovery path. The earlier evidence remains valid, while a second invalid review still fails closed and the host never synthesizes or coerces `accept`. |
 | P074-026 | Qualify a grammar-constrained Qwen2.5-Coder 3B Chair fallback for `node-a` | done | The exact Qwen2.5-Coder 3B Q4_K_M bytes were transferred over the LAN through an `.incomplete` target, rehashed before atomic publication, and packaged with the pinned self-contained `c588c4f4` macOS arm64 Metal `llama-server`. The canonical package, P064 v2 lifecycle/conformance, 6 GiB resource envelope, and Chair qualification are green. The startup grammar is the closed union of Chair, Experiment Executor, and final inert-draft operation contracts; each caller still accepts only its own exact marker, and a marker from another operation is a typed refusal. The retained 2026-08-28 run proved ordinary execution of this grammar across both experiments, exact Chair admission, final inert draft production, and post-effect binding revalidation. The Bielik MLX evidence remains retained under P074-012 as a non-gating alternative rather than being rewritten as this completed fallback. |
-| P074-027 | Qualify reviewer-only semantic correction over immutable host facts | in-progress | The pure correction-prompt constructor is now shared by the Story-012 runner and the production-shaped reviewer bench, so prompt ordering, required-verdict semantics, correction analysis, and the final host-fact guard have one implementation. A new closed listener-plan case derives from the observed failure class: the unchanged plan explicitly proposes loopback binding and service activation, pre-effect evidence still shows the old wildcard state, the prior review falsely denies the proposed directive, and the host requires a corrected `accept`. Contract tests prove the shared prompt shape, closed correction data, exact host-fact projection, admitted `accept`, and refusal of another verdict. Remaining closure: on the exact selected physical `node-c` binding, retain a fresh no-retry population of 5/5 semantically admitted corrected reviews within the existing per-turn budget; any malformed output, incompatible verdict, invented effect, or second invalid review fails the population. This qualification does not grant model authority: the host derives the only permitted verdict from immutable plan/fact validation, but never writes, rewrites, synthesizes, or coerces the review. If the 3B binding fails the closed population, select and qualify another reviewer binding before another full physical Story passage. Gates the fresh-default closure clause of P074-022. |
+| P074-027 | Qualify reviewer-only semantic correction over immutable host facts | partial | The Story-012 runner and production-shaped reviewer bench now share one pure correction-prompt constructor. It derives a compact field-local guard from the same closed requirement data used by the independent semantic validator, carries one immutable `HOST_FACTS` projection, and refuses an incompatible verdict, absent attribution, retained false assumption, invented post-effect evidence, or missing bounded next test. The closed listener-plan fixture and 470/470 Story tests cover the contract; the production-shaped Phi-4 prompt fell from approximately 3,886 to 2,618 bytes. Physical qualification remains non-green: Qwen2.5-Coder 3B omitted the required `local-address` fact; the retained 7B exceeded the unchanged 330-second budget; pinned Phi-4 Mini failed both semantic samples; and the solver-admitted Qwen3-Coder MLX bytes produced 0/5 typed-marker admissions despite semantically relevant `accept` content. The final Qwen3 population is retained under `${ORBIPLEX_ACCEPTANCE_REPORT_ROOT}/p074-028/qwen3-colocated-reviewer-20260830.jsonl` with SHA-256 `3bdbdaa4beb562cd68bedc790f9a95e4be9399d77500726ebb2b2d0e97bc63e5`; earlier Phi-4 evidence remains retained under P074-027. Remaining closure is a fresh no-retry 5/5 population on a selected reviewer binding or reviewed provider adapter and hardware profile within its reviewed per-turn budget; another full physical Story passage remains blocked until then. Further prompt shaping must not author the review and requires a reviewed contract change before implementation. The host continues to derive the only permitted verdict without writing, rewriting, synthesizing, or coercing the review. Gates the fresh-default closure clause of P074-022. |
+| P074-028 | Evaluate a co-located Reviewer node on `self.local` with the solver-admitted Qwen3-Coder bytes | partial | The production-shaped Reviewer bench now has an additive MLX physical-package path that verifies exact package assets, runtime identity, host memory, and a distinct private PEX root while retaining the source binding's existing `solver` role. The isolated first gate ran the unchanged P074-027 prompt and host validator as five no-retry samples on `self.local`: p95/max was 3,996 ms, but all five responses omitted the mandatory typed marker and `redundant-actions`, yielding 0/5 contract admissions. The host refused every near-miss and no Reviewer role was granted. The ledger is `${ORBIPLEX_ACCEPTANCE_REPORT_ROOT}/p074-028/qwen3-colocated-reviewer-20260830.jsonl`, SHA-256 `3bdbdaa4beb562cd68bedc790f9a95e4be9399d77500726ebb2b2d0e97bc63e5`. Because the prerequisite failed, the non-promotable full co-located profile, duplicate-SSH-target contract revision, and second concurrent MLX process were intentionally not implemented or started. One shared server remains rejected as evidence for the current independent-runtime claim. P074-029 is the selected next comparison; any future resumption still depends on P074-001, P074-017, P074-023, and P074-027. |
+| P074-029 | Add a Codex-backed Reviewer adapter for the physical `node-c` profile | todo | Implement a bounded model-provider adapter on the weaker `node-c` host so its distinct Reviewer Agent can use Codex while `node-c` remains the third real physical Node, Room participant, authority boundary, and owner of its acceptance evidence. Preserve the existing Reviewer prompt, marker, host semantic validation, correction limit, timeout/cost/action budgets, and fail-closed behavior; the adapter must not inherit ambient Node authority, expose operator credentials in reports, or turn Codex output into host-authored evidence. Qualify the adapter independently with fresh production-shaped no-retry populations, then run the exact three-physical-host Story-012 profile over the real network and retain node-local plus aggregate evidence. Report this as Codex-backed three-node interoperability evidence, not as local-model or offline acceptance, and keep the existing GGUF binding as separate retained evidence rather than silently replacing its identity. Depends on a reviewed Codex adapter contract, P074-008, P074-017, P074-021, P074-022, and P074-027. |

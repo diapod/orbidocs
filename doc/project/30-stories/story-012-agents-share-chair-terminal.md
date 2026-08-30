@@ -612,7 +612,7 @@ membership high-water sequence rather than a creation-time or fixture constant.
 
 - [x] The story document and executable acceptance profile agree on topology,
   authority, data lifetime, and refusal behavior.
-- [ ] The additive physical multi-host profile runs the Story on three separate
+- [x] The additive physical multi-host profile runs the Story on three separate
   machines through P074's reusable topology and any-host orchestrator, retains
   one topology-digest-bound aggregate report, and proves that product traffic
   used direct daemon transports rather than the SSH control channel. Its

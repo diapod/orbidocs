@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-08-28.
+Snapshot date: 2026-08-30.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -21,10 +21,23 @@ solver/reviewer/Chair products, restart/reconnect, authority revocation, APFS
 vfkit preparation and cleanup, and no SSH product proxy. It also live-proved the
 `operator-trusted-shared-managed` removable APFS model-store posture with final
 revalidation. Two subsequent no-retry populations on the two-core Broadwell
-reviewer host passed 5/5 complete-plan acceptances and 5/5 repairable corrections.
-This closes P074-010 and its P074-016 through P074-019, P074-021, P074-025, and
-P074-026 enabling slices. P074 remains partial post-MVP work: generic
-interrupted-run resume, Story 010 and trace-explorer consumers, the remaining
+reviewer host passed 5/5 complete-plan acceptances and 5/5 defective-plan
+`request-regeneration` reviews. Later passages showed that they did not qualify
+the distinct reviewer-only correction from a host-refused false denial to
+`accept`; P074-025 is therefore partial and P074-027 owns that missing
+qualification. Bounded 3B, 7B, Phi-4, and co-located Qwen3-Coder MLX trials have
+not yet produced a qualifying population, while the host continues to fail
+closed without synthesizing review prose. The Qwen3 first gate was fast (p95
+3,996 ms) and semantically selected the required verdict, but omitted the typed
+marker and one closed field in all five no-retry samples; P074-028 therefore
+remains partial and did not proceed to a full co-located Story profile. P074-029
+now tracks a separately bounded Codex-backed Reviewer adapter on the real third
+physical host; any resulting evidence must be labeled online/provider-backed,
+not local-model or offline acceptance. This closes P074-010 and its P074-016
+through P074-019, P074-021, and P074-026 enabling slices. P074 remains partial
+post-MVP work: P074-027 reviewer correction qualification and P074-029 adapter,
+generic interrupted-run resume, Story 010 and trace-explorer consumers, the
+remaining
 P074-011 shared-input roles, optional macOS signing/firewall hardening, and the
 non-gating Bielik-specific P074-012 branch remain open. The baseline Story 012
 and hard-MVP readiness percentages remain unchanged because this is a
