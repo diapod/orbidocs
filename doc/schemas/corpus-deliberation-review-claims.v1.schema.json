@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-deliberation-review-claims:v1",
+  "title": "Corpus Deliberation Review Claims v1",
+  "description": "Optional profile-bound structural artifact for thematic review profiles only. The general/default Corpus profile remains prose exchange on an arbitrary topic through plain-text or Markdown, including inert code fragments, and does not require a claim envelope. This artifact is used only by a review boundary that explicitly adopts it; it is not a domain ontology, a global profile registry, or a mandatory claim format for every technical, scientific, social, or creative workflow. Operators and communities may propose versioned profiles, while each receiving host admits them under local policy; federation endorsement may provide evidence but cannot compel local admission. The admitted profile owns vocabulary, admissibility, evidence or evaluation semantics, success criteria, disposition mapping, and legal next moves; their opaque namespaced refs remain open and are not centrally enumerated by this schema. Schema-valid references alone do not prove profile support or readiness: automatic machine consumption requires a separately admitted versioned profile.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "profile/ref", "disposition/ref", "claims", "next-move", "commentary"],
+  "properties": {
+    "schema": {"const": "corpus-deliberation-review-claims.v1"},
+    "profile/ref": {
+      "description": "Opaque namespaced reference to semantics proposed and owned outside this envelope. Automatic machine consumption requires the receiving host to have separately admitted that exact versioned operator- or community-defined profile, which then owns the meaning and validation of every other opaque reference in this artifact. Federation endorsement may inform local policy but cannot compel admission.",
+      "$ref": "#/$defs/ref"
+    },
+    "disposition/ref": {
+      "description": "Opaque namespaced profile-owned review disposition. The generic envelope neither enumerates it nor maps it to a verdict or outcome.",
+      "$ref": "#/$defs/ref"
+    },
+    "claims": {
+      "description": "Profile-interpreted structural claims. An empty set is valid at the generic layer when the selected profile permits it.",
+      "type": "array",
+      "maxItems": 32,
+      "items": {"$ref": "#/$defs/claim"}
+    },
+    "next-move": {
+      "description": "Optional profile-owned structural suggestion using opaque namespaced refs. It carries no execution, publication, or adjudication authority.",
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/next-move"}]
+    },
+    "commentary": {
+      "description": "Bounded inert provenance commentary. A profile MUST NOT derive its disposition, verdict, next move, or effect authority from this text.",
+      "type": "array",
+      "maxItems": 8,
+      "items": {"type": "string", "minLength": 1, "maxLength": 2048}
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._~#?=&%+@-]*[:/][A-Za-z0-9][A-Za-z0-9._~:/#?=&%+@-]*$"
+    },
+    "claim": {
+      "description": "Closed structural claim tuple whose reference vocabulary and admissibility remain owned by the selected profile.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject/ref", "predicate/ref", "object/ref", "polarity", "modality/ref", "evidence/refs"],
+      "properties": {
+        "subject/ref": {
+          "description": "Opaque namespaced subject reference interpreted by the admitted profile.",
+          "$ref": "#/$defs/ref"
+        },
+        "predicate/ref": {
+          "description": "Opaque namespaced predicate reference interpreted by the admitted profile; it is not drawn from a central enum.",
+          "$ref": "#/$defs/ref"
+        },
+        "object/ref": {
+          "description": "Opaque namespaced object reference interpreted by the admitted profile.",
+          "$ref": "#/$defs/ref"
+        },
+        "polarity": {"enum": ["positive", "negative"]},
+        "modality/ref": {
+          "description": "Opaque namespaced epistemic or profile-specific modality reference; it is not drawn from a central enum.",
+          "$ref": "#/$defs/ref"
+        },
+        "evidence/refs": {
+          "description": "Opaque evidence references interpreted by the selected profile; the generic layer permits an empty set for profiles that admit hypotheses or non-evidential evaluation modes.",
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ref"}
+        }
+      }
+    },
+    "next-move": {
+      "description": "Closed, inert prospective move interpreted and authorized only by the selected profile and its downstream owner.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind/ref", "target/ref", "expected"],
+      "properties": {
+        "kind/ref": {
+          "description": "Opaque namespaced move kind interpreted by the admitted profile; it is not drawn from a central enum.",
+          "$ref": "#/$defs/ref"
+        },
+        "target/ref": {
+          "description": "Opaque namespaced target reference interpreted by the admitted profile.",
+          "$ref": "#/$defs/ref"
+        },
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["predicate/ref", "object/ref", "polarity"],
+          "properties": {
+            "predicate/ref": {"$ref": "#/$defs/ref"},
+            "object/ref": {"$ref": "#/$defs/ref"},
+            "polarity": {"enum": ["positive", "negative"]}
+          }
+        }
+      }
+    }
+  },
+  "x-dia-fixtures": {
+    "valid": [
+      "doc/schemas/examples/accepted.corpus-deliberation-review-claims.v1.json"
+    ],
+    "invalid": [
+      "doc/schemas/examples/invalid/unknown-field.corpus-deliberation-review-claims.v1.json",
+      "doc/schemas/examples/invalid/unnamespaced-profile.corpus-deliberation-review-claims.v1.json"
+    ]
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md"
+  ]
+}

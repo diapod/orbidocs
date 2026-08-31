@@ -13,7 +13,11 @@ Based on:
 - `doc/project/40-proposals/066-inquirium-assistant-channel.md`
 - `doc/project/40-proposals/067-shared-offer-catalog-over-agora.md`
 - `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/073-agent-orchestration-organ.md`
+- `doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md`
 - `doc/project/40-proposals/082-sensorium-interfaces.md`
+- `doc/project/40-proposals/083-sensorium-interactive-interfaces.md`
+- `doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`
 - `doc/project/60-solutions/003-arca/003-arca.md`
 - `doc/project/60-solutions/004-dator/004-dator.md`
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
@@ -34,9 +38,12 @@ Promoted to:
 
 ## Executive Summary
 
-`Corpus` lets a node find, hire, and convene a small set of *topic-expert* nodes —
-nodes that run an LLM and declare competence on a taxonomically named subject — and
-have those nodes collaboratively reason toward a single best answer.
+`Corpus` lets a node convene a bounded set of participants around a taxonomically
+named subject and coordinate their collaborative reasoning toward one signed outcome.
+Participants may be people, participant-controlled Agents, or node/service roles
+represented by Agents. Finding and hiring *topic-expert* providers is the first
+procurement path, not the definition of who may participate or which problems Corpus
+may address.
 
 The flow has two phases of different nature and **different readiness**:
 
@@ -48,11 +55,14 @@ The flow has two phases of different nature and **different readiness**:
    request→result pattern generalized to fan-out. **Buildable on existing
    infrastructure; this is the MVP slice.**
 2. **Live deliberation (post-MVP).** The asker opens a **room** (Proposal 070), invites
-   the selected nodes under an access list, and the participants — each backed by its
-   model through **Inquirium** — hold a live synchronous discussion. Latency matters and
-   chatter is expected, so the deliberation is a **live chat**. A requester-appointed
-   chair resolves conflicts (full arbiter election is later). Convergence produces one
-   signed final answer.
+   selected providers and any other explicitly admitted participants under an access
+   list, and participants that use models do so through accountable Agents backed by
+   **Inquirium**. Latency matters and chatter is expected, so the deliberation is a
+   **live chat**. A requester-appointed chair manages bounded completion (full arbiter
+   election is later). Completion produces one signed answer envelope, whose outcome
+   may be a synthesis, preserved alternatives or disagreement, a recommendation, an
+   assistance plan, a hypothesis set, or a creative work rather than one objectively
+   best answer.
 
 Corpus is a thin role plus a small protocol that **composes** existing strata and adds
 a topic-taxonomy resolver, a topic field on offers, and a deliberation policy. Its
@@ -64,8 +74,9 @@ endpoint epochs. Remote Room-authority trust remains a later Corpus admission pr
 The hard-MVP procurement slice needs neither Room nor Agent.
 
 The live in-room chat is *reasoning*, not protocol facts: the protocol does not persist
-it; only the room skeleton and the final signed answer are durable. Any member MAY
-locally capture and audit the chat under its own classification and retention policy.
+it. Only explicitly admitted protocol facts, their bounded provenance, the room
+skeleton, and the signed outcome envelope are durable. Any member MAY locally capture
+and audit the chat under its own classification and retention policy.
 
 ## Terminology Boundary
 
@@ -79,14 +90,73 @@ collaborative reasoning over a topic*). To prevent drift:
   so they never collide with `corpus-entry.v1`;
 - topic contracts use **`topic-*`**; room contracts live in P070 (`room.v1`, …).
 
+## Domain and Outcome Boundary
+
+Corpus deliberation is **domain-general**. A technical diagnosis or repair session,
+optionally observing a terminal or another enacted environment through an explicitly
+admitted Sensorium Interface, is one profile rather than the defining Corpus workflow.
+The same protocol may coordinate scientific inquiry, social problem-solving and
+mutual aid, or creative work such as collaborative literature.
+
+Corpus owns topic routing, participant admission, bounded deliberation policy,
+provenance, disagreement preservation, and formation of one signed outcome envelope.
+It does not install a universal domain ontology, evidence theory, role vocabulary, or
+definition of success. It supports two deliberately separate levels:
+
+1. **General prose deliberation.** Participants may reason about any admitted topic
+   and publish `plain-text` or `markdown` content, including ordinary code fragments,
+   without a domain-claim profile or machine truth adjudication. The signed outcome may
+   remain meaningful to people without becoming a machine-interpreted domain verdict.
+2. **Optional thematic or structured profiles.** When a host is asked to interpret
+   domain claims or outputs mechanically, apply domain-specific success or evidence
+   criteria, adjudicate, publish through a typed domain contract, or authorize an
+   effect, it must use an explicitly admitted profile. Operators and communities may
+   propose and publish namespaced, versioned profiles, and a federation may endorse
+   one. The receiving host alone accepts or refuses the exact revision under local
+   policy; federation policy or endorsement may be evidence for that decision but
+   cannot compel admission.
+
+An opaque profile ref does not close the set of legitimate domains. A wire envelope may
+have a closed structural shape, but its vocabulary, evidence repertory, success
+criteria, and the set of legitimate problem classes remain open. Machine-interpreted
+profiles still require explicit admission, lifecycle, trust, and conformance rules.
+Each admitted profile owns its vocabulary, reference validators, evidence or critique
+rules, completion criteria, and any accountable adjudication, effect, or publication
+policy. Domain families and examples below are explicitly illustrative and
+non-exhaustive; they are never a protocol enum and do not claim implementation or
+runtime acceptance for profiles that lack their own evidence.
+
+| Illustrative use | Possible participants | Optional thematic criteria (when machine interpretation is required) | Possible signed outcome | Optional effect boundary |
+|---|---|---|---|---|
+| Technical or operational | operators, topic providers, implementer/reviewer Agents | host observations, diagnostics, plans, verification and rollback criteria | diagnosis, verified plan, repair recommendation, preserved alternatives | an admitted Sensorium view is observation only; for interactive Sensorium profiles, P083 and host review remain the effect path |
+| Scientific inquiry | researchers, reviewers, affected domain experts, Agents | hypotheses, observations, uncertainty, provenance, reproducibility and falsification criteria | hypothesis set, synthesis, experiment proposal, preserved disagreement | experiment admission remains with the accountable host or research policy |
+| Social problem-solving or mutual aid | affected people, helpers, witnesses, mediators, accountable Agents | testimony, consent, context, support options, risk and human adjudication rules | assistance plan, recommendation, coordinated next steps, unresolved perspectives | high-impact actions require the responsible human or institution; participation grants no ambient authority |
+| Creative or literary collaboration | authors, editors, readers, creative Agents | constraints, style, critique, contribution provenance and publication policy | a work, variants, editorial synthesis, or intentionally open ending | publication, attribution and reuse follow creator-controlled policy |
+
+Any of these uses may remain in the general-prose mode. The thematic-criteria column
+becomes normative only through a separately admitted profile; the table itself does
+not define a required profile catalog.
+
+The wire name `corpus-reasoning-answer.v1` denotes the durable outcome envelope for
+compatibility. It does not imply a truth claim, forced consensus, or a single best
+answer. Procurement is likewise one way to discover and contract participants; people
+affected by a problem, witnesses, helpers, mediators, or co-creators need not first be
+modeled as purchasable topic-expert providers.
+
+Story 012 is the first concrete technical thematic profile and a useful foundation for
+the structured level. Its typed evidence, review, and host-admission seams demonstrate
+one specialization above general prose deliberation; they do not define the grammar of
+other technical work or of Corpus as a whole.
+
 ## Context and Problem Statement
 
 The machinery exists but is spread across components: marketplace procurement (P021/P011,
 Arca/Dator), Artifact Delivery (023), the answer-room/Whisper room lineage (P003/P013,
 consolidated by P070), and Inquirium (P063/P064/P066). What is missing is the glue: a
 deterministic way to name a subject from keywords, a way to discover topic-expert
-offers, and a live reasoning session whose only durable output is the answer. Semantic
-Index (Solution 022) is vector similarity over *local memory*, not a topic taxonomy.
+offers, and a live reasoning session whose raw chat stays ephemeral while explicitly
+admitted protocol facts and one signed outcome envelope remain durable. Semantic Index
+(Solution 022) is vector similarity over *local memory*, not a topic taxonomy.
 
 ## Goals
 
@@ -98,8 +168,10 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
   with an explicit, timestamped bid-state read-model.
 - Layer a live synchronous deliberation room (on P070) with access list, a
   requester-appointed chair, and bounded time/step/token budgets.
-- Keep the live chat ephemeral; the final answer is the only durable reasoning artifact
-  and is a concrete, content-addressed, signed payload.
+- Keep the live chat ephemeral; persist only explicitly admitted protocol facts and a
+  concrete, content-addressed, signed outcome envelope with bounded provenance.
+- Preserve domain-specific vocabulary, evidence, adjudication, and outcome semantics in
+  admitted profiles rather than the Corpus core.
 - Bridge to P011 settlement (single contracting provider for MVP; N-way later).
 
 ## Non-Goals
@@ -108,6 +180,8 @@ Index (Solution 022) is vector similarity over *local memory*, not a topic taxon
 - Not the Room primitive (P070) nor the Inquirium runtime (P063/P066).
 - Not a new settlement rail; it bridges to P011/P016.
 - Not a frozen scoring algorithm, seed taxonomy, or reputation backend.
+- Not a closed taxonomy of problem domains, meanings, evidence kinds, success
+  criteria, or legitimate outcome forms.
 - The MVP excludes the live room, arbiter election, and N-way settlement.
 
 ## Prerequisites and Dependencies
@@ -160,7 +234,8 @@ fresh Room membership attestation admits one query- and room-bound chair, and
 Corpus can accept its content-addressed outcome as an inert answer draft. A
 separate local-control Corpus transition may then validate the current ready
 quorum, exact room high-water, accountable chair participant, content-addressed
-Agent output, and idempotency before signing and publishing the final answer.
+Agent output, and idempotency before signing and publishing the signed outcome
+envelope.
 The first publication profile accepts text output blocks only and signs the
 artifact under the dedicated `corpus-reasoning-answer-signature.v1` domain,
 not under the answer schema name.
@@ -269,7 +344,8 @@ is ephemeral reasoning, never a protocol fact (P070 §1).
 
 This is a use of the generic Room primitive, not a special Corpus room family.
 Room provides the neutral substrate for many workflows; Corpus supplies only the
-topic-expert deliberation protocol layered on top of that substrate.
+topic-routed deliberation protocol layered on top of that substrate. A profile may
+recruit topic experts, but expertise procurement is not a Room-membership requirement.
 
 `corpus-reasoning-room-policy.v1`: `exposure` (enum bound to P009 exposure modes, not a
 new namespace), `answer/acceptance` (enum `chair-signed | n-of-m | unanimous`),
@@ -330,7 +406,7 @@ authority root. The room policy still names the accountable chair subject
 `chair/agent-ref`; the host remains responsible for the Agent's budget,
 lifecycle, grants, and stop/resume controls. An Agent-chair may coordinate the
 discussion, propose turns, detect conflicts, request summaries, and propose the
-final answer, but it cannot self-authorize publication, settlement, membership
+outcome draft, but it cannot self-authorize publication, settlement, membership
 changes, or effects outside the grants accepted by the host and the room policy.
 
 **Agent-chair conversation governance.** When P070 Phase 7 is available, the
@@ -483,7 +559,13 @@ one step, no fork, no durable autonomous memory, and an explicit budget.
 task-role set `implementer`, `reviewer`, `adversarial-critic`, and `summarizer`
 through explicit Corpus policy facts. These roles are not ambient authority and
 do not override local node policy. They become effective only after acceptance
-by the participant or a registered node-local role policy. The chair MAY also
+by the participant or a registered node-local role policy. This closed v1 set is
+coordination vocabulary, not a universal Corpus ontology of domains, meanings,
+evidence, or success. The completed P085-029 V1 role algebra remains the current
+baseline and configuration may narrow but not extend it. The same roles may organize
+general prose deliberation or an explicitly admitted thematic profile without defining
+the subject matter or its result criteria. Ordinary participants may deliberate in
+text without a specialized machine-interpreted claim vocabulary. The chair MAY also
 propose a per-turn instruction overlay with one closed semantic kind:
 `task-guidance`, `review-criteria`, `adversarial-check`, or `summary-criteria`.
 The proposal text remains inert data. A registered local prompt policy must
@@ -548,9 +630,14 @@ the highest impact class for caution framing. The class changes reasoning postur
 it does not change Room membership, interface grants, Agent grants, chair authority,
 or effect admission.
 
-### 6. Answer Contract (concrete, content-addressed, signed)
+### 6. Outcome / Answer Contract (concrete, content-addressed, signed)
 
-Convergence yields one `corpus-reasoning-answer.v1`: `answer/id`, `query/id`, `room/id`,
+Bounded completion yields one `corpus-reasoning-answer.v1` outcome envelope. One
+durable envelope does not require one objectively best conclusion: ordinary prose or
+thematic-profile-owned content may preserve alternatives or disagreement, carry a
+recommendation or assistance plan, record a hypothesis set, or contain a creative
+artifact. The
+envelope carries `answer/id`, `query/id`, `room/id`,
 `topic/term`, `corpus/taxonomy-digest`, `content/ref` **or** inline `content` **plus
 `content/digest`** (so a verifier can confirm the inline content matches what was
 signed), `answer/format` (`plain-text | markdown | json | edn`), `classification`
@@ -657,6 +744,8 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
 | `corpus-turn-order-offer.v1` | implemented (`P069-TURN-001`) | post-MVP | Host-built immutable candidate projection for one exact Room turn, including current eligibility, role-assignment provenance, round/turn context, previous floor holder, and Room-policy generation; it contains no preselected target or authority grant. |
 | `corpus-reasoning-experiment-proposal.v1` | implemented | post-MVP | Signed portable envelope binding one content-addressed inert `inquirium.candidate-plan.v1` to the exact query, Room, retained turn, author node, requester-selected executor, classification, expiry, and HIL requirement. A portable candidate must omit `adapter.manifest/ref`; that field remains optional producer provenance only for the separate adapter-authored compilation path. The envelope carries no adapter, Sensorium grant, generation, or lease authority. |
+| `corpus-deliberation-review-claims.v1` | accepted contract; first profile implemented (`P069-CLAIM-001`, `P074-033`) | optional post-MVP profile seam | Domain-neutral envelope for structured review claims. Its refs are opaque to Corpus; a profile ref is not admission. Explicitly admitted profiles own vocabulary, evidence adjudication, dispositions, and legal next moves. It is not required for every deliberation or outcome. Generic profile admission remains `P069-DOMAIN-005`. |
+| `corpus-reasoning-experiment-review.v3` | implemented by the first Story 012 profile (`P074-033`) | Story 012 technical profile | Technical experiment-review revision that embeds the optional claim envelope. Its CandidatePlan and terminal bindings are Story/profile semantics, not requirements for scientific, social, mutual-aid, or creative deliberation. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
 | `corpus-reasoning-answer.v1` | new | post-MVP, first slice implemented | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
@@ -675,8 +764,8 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
   the composition decisions (side-room first, in-room later; the community-work
   marker stays coarse and never identifies the room).
 - **Artifact Delivery (023)**: carries MVP procurement (query/bid), the room invite, and
-  the final answer. Corpus is a second marketplace-style AD consumer after Arca/Dator. It
-  does **not** carry the live chat.
+  the signed outcome envelope. Corpus is a second marketplace-style AD consumer after
+  Arca/Dator. It does **not** carry the live chat.
 - **Room (P070)**: live deliberation substrate and durable skeleton. Hard prerequisite
   for phase 2. **Corpus imposes specific transport requirements on P070**: low latency,
   no retention, and a small participant count. These belong in P070's live-transport
@@ -823,8 +912,9 @@ Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
     answer envelope maps it to a full `classification.v1` object with tier-correct
     `bound_subjects` supplied by the provider/requester context. `Confidential` is
     intentionally not a Corpus answer tier in this phase: confidential deliberation is
-    modeled by room/private capture and local policy, while a final answer artifact must
-    stay in the Public/Community/Personal lattice. Missing answer classification is
+    modeled by room/private capture and local policy, while a signed outcome artifact
+    carried by the answer envelope must stay in the Public/Community/Personal lattice.
+    Missing answer classification is
     treated as `Public` only for legacy/admin compatibility; production providers SHOULD
     set it explicitly. `corpus-reasoning-query.v1` should still grow a first-class
     classification field before Personal or higher-tier Corpus queries are supported.
@@ -1172,7 +1262,7 @@ Corpus admission MUST fail closed for:
 7. duplicate bids with the same idempotency key but different canonical payload digest;
 8. missing requester authority, missing reply target, or mismatched `question/id`;
 9. provider offers that were withdrawn or superseded before query dispatch;
-10. classification/egress violations on final answers.
+10. classification/egress violations on signed outcomes carried by answer envelopes.
 
 Failures should be diagnostic events with redacted payload references, not silent drops.
 
@@ -1371,9 +1461,10 @@ operator-visible recovery state instead of silently selecting another provider.
 
 Post-MVP Corpus deliberation should compose Room and Inquirium as independent strata.
 Room supplies accountable participants, membership, access policy, live transport,
-presence, revocation, and high-water attestations. Inquirium supplies bounded inference
-through host-selected runtime candidates and prompt assembly policy. Corpus supplies
-topic-expert roles, deliberation policy, answer acceptance, and answer provenance.
+  presence, revocation, and high-water attestations. Inquirium supplies bounded inference
+  through host-selected runtime candidates and prompt assembly policy. Corpus supplies
+  topic routing, admitted profile roles, deliberation policy, answer acceptance, and
+  answer provenance.
 
 The implementation must not admit raw model adapters as room participants. If a model
 participates in deliberation, it does so through the host-owned Agent organ (P073), or a
@@ -1679,6 +1770,55 @@ sequenceDiagram
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code
 evidence) · `[!]` blocked/needs decision. Each item notes its tier and `blocked-by`.
+
+### Cross-cutting domain and outcome boundary
+
+- [x] **`P069-DOMAIN-001` — Freeze the domain-general Corpus invariant and bounded
+  outcome semantics.** The Executive Summary, dedicated Domain and Outcome Boundary,
+  Goals/Non-Goals, Live Deliberation, and Outcome / Answer Contract now state that
+  technical Sensorium-assisted work is one optional profile; procurement is one
+  participant-discovery path; and one signed envelope does not mean one objectively
+  best answer or forced consensus. Ordinary text deliberation requires no specialized
+  profile and may publish `plain-text` or `markdown`, including ordinary code fragments;
+  optional thematic profiles begin at machine interpretation, domain success/evidence
+  criteria, adjudication, typed publication, or effects, and opaque refs do not
+  themselves admit those profiles. Done criterion: all six locations carry the same
+  ownership boundary without introducing a domain enum or claiming new runtime
+  acceptance.
+- [x] **`P069-DOMAIN-002` — Record contrasting, non-normative profile examples and
+  their ownership split.** The dedicated boundary now covers technical, scientific,
+  social/mutual-aid, and creative/literary work and identifies profile-owned grammar,
+  evidence, outcome, and effect policy. Done criterion: every example preserves
+  Corpus routing/provenance semantics while leaving domain vocabulary and authority
+  outside the core and remains explicitly illustrative and non-exhaustive.
+- [x] **`P069-DOMAIN-003` — Propagate the boundary to Solution 038 and mark technical
+  acceptance as a non-defining specialization.** Solution 038 now carries the same
+  general-prose/thematic-profile split, links the ownership boundary back to this
+  proposal, and labels Story 012 / P074 evidence as technical-profile evidence rather
+  than Corpus-wide domain completeness. Done evidence: Solution 038 no longer relies
+  on terminal examples to communicate Corpus purpose and makes no unsupported
+  implementation claim.
+- [x] **`P069-DOMAIN-004` — Separate generic review-claim evidence from the Story 012
+  experiment wrapper.** The `corpus-reasoning-experiment-review.v3` accepted example
+  remains technical, while the scientific illustration validates directly against the
+  optional `corpus-deliberation-review-claims.v1` envelope. Negative fixtures preserve
+  each contract's structural boundary, and Data Contracts plus generated indexes state
+  that both schemas are accepted contracts while runtime/profile adoption remains in
+  progress. Done evidence: no non-technical fixture inherits CandidatePlan or terminal
+  requirements merely to demonstrate domain neutrality. Social or creative machine
+  fixtures remain deferred until separately admitted profiles exist.
+- [ ] **`P069-DOMAIN-005` — Define admission and lifecycle for optional
+  machine-interpreted thematic profiles.** Specify the additive Corpus contract by
+  which an operator or community may propose a namespaced, versioned vocabulary,
+  evidence, success, adjudication, publication, or effect profile. The seam must bind
+  issuer and exact revision, compatibility and supersession, receiving-host trust and
+  admission, non-compelling community/federation endorsement, withdrawal/revocation,
+  conformance fixtures, and fail-closed recovery. This task does not open or redesign
+  the completed V1 coordination-role algebra. Done criterion: an untrusted profile ref
+  cannot acquire semantics or authority, two hosts can independently accept or refuse
+  the same revision, federation policy cannot compel either result, and general prose
+  signed outcomes still require no profile. Depends on `P069-DOMAIN-001` and
+  `P069-DOMAIN-002`.
 
 ### MVP — Procurement slice (no live room)
 
@@ -2320,6 +2460,42 @@ task owns candidate construction or final Room admission.
   replay. The original v1
   reviewer-authored `revise` path remains valid for compatibility, but it is no
   longer the only implemented correction mechanism.
+- [x] **`P069-CLAIM-001` — Freeze an optional domain-neutral typed
+  deliberation-review-claim envelope and profile seam.** Profiles use this artifact
+  only when their review or adjudication needs structured claims; it is not the
+  universal grammar of Corpus deliberation or of `corpus-reasoning-answer.v1`.
+  General prose outcomes, including ordinary code fragments in `plain-text` or
+  `markdown`, do not require it. The envelope may close its structural shape but
+  carries only opaque `subject/ref`,
+  `predicate/ref`, `object/ref`, polarity, an opaque `modality/ref`, evidence refs, a
+  profile-owned disposition ref, and an optional typed next move; bounded commentary
+  is inert.
+  Corpus and Agent do not acquire a built-in PowerDNS, software-review, scientific,
+  social, or governance ontology. Each admitted deliberation profile owns its
+  predicate/disposition vocabulary, reference validators, evidence-adjudication
+  mode, and legal next-move combinations. An opaque `profile/ref` is not admission and
+  does not acquire semantics merely by appearing in a valid envelope. Operators and
+  communities may propose and publish namespaced, versioned profiles, and a federation
+  may endorse one, but their machine interpretation requires the explicit additive
+  admission, lifecycle, trust, and conformance seam tracked by `P069-DOMAIN-005`;
+  each receiving host accepts or refuses an exact revision under local policy, and
+  federation policy cannot compel admission. The set of vocabularies and problem
+  classes is never closed globally. Profiles that select host facts may require an
+  exact immutable catalog subset; future specialized scientific or social
+  claim-adjudication profiles may instead admit schema-valid novel claims while
+  preserving explicit evidence, epistemic status in `modality/ref`, disagreement,
+  and an accountable downstream adjudicator. The first implementation target,
+  completed by P074-033, is the Story 012 PowerDNS `catalog-select` specialization.
+  Its 2026-08-31 physical-two-host-three-node diagnostic passage passed with four
+  typed review envelopes, four model-authored experiments, no fallback, and exact DNS
+  assertions. This proves the optional envelope/profile seam, not the still-open
+  generic admission lifecycle. It does not claim that
+  scientific or social vocabularies have already been designed or validated.
+  Generative, literary, or helping profiles need not translate their
+  work into truth claims at all; they may use an assistance-plan, critique,
+  contribution-provenance, or creative-output contract instead. Additive domain
+  profiles must not change the generic envelope or smuggle decision semantics back
+  into commentary.
 - [ ] Establish a deployment-ready reviewer-to-solver correction rate before making
   critique-to-regeneration the default discovery path. The role-specific real-model
   bench must use at least ten pairs, one config digest, the exact staged host scope,

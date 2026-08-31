@@ -18,6 +18,8 @@ Related schemas:
 - `corpus-reasoning-bid.v1`
 - `corpus-reasoning-bid-state.v1`
 - `corpus-reasoning-answer.v1`
+- `corpus-deliberation-review-claims.v1`
+- `corpus-reasoning-experiment-review.v3`
 - `corpus-reasoning-room-policy.v1`
 - `corpus-reasoning-room-policy.v2`
 - `corpus-reasoning-chair-control-policy.v1`
@@ -60,10 +62,10 @@ require daemon-issued grant material bound to the exact Room, while local contro
 retains an explicit administrative path. Turn expiry shares the Room membership
 clock-skew tolerance without widening Room lifetime. Transport `seq/no`, rather
 than a second ephemeral `turn/no` store, owns monotonic replay. Inert Corpus
-answer-draft acceptance is implemented;
+outcome-draft acceptance through the existing answer envelope is implemented;
 a separate Corpus-owned local-control transition now validates ready quorum,
 room high-water, chair identity, evidence, and idempotency before signing and
-publishing the final answer. The Agent still has no publication authority.
+publishing the signed outcome. The Agent still has no publication authority.
 The optional Agent-chair moderation profile is also implemented. Distributor and
 operator ceilings resolve requested controls once into an immutable effective policy.
 Room policy v2 binds its exact ref and digest; Agent binding v2 separately binds that
@@ -101,9 +103,37 @@ or Agent. It composes them:
   federated transport, remote Room-authority trust, arbiter election, and N-way
   settlement remain later extensions.
 
-The durable output of Corpus reasoning is the signed answer and its traceable
-provenance. Live room chatter is not a protocol fact unless another component
+The durable output of Corpus reasoning is the signed outcome carried by the existing
+answer envelope, together with its traceable provenance. Live room chatter is not a
+protocol fact unless another component
 explicitly stores it under its own policy.
+
+### Domain and Outcome Boundary
+
+Corpus is domain-general. A technical repair session using an admitted Sensorium
+Interface is one optional profile, not the component's defining workflow. The same
+coordination contract can serve scientific inquiry, social or mutual-aid problem
+solving, creative collaboration such as collective literary work, and other topics;
+these examples are illustrative and non-exhaustive.
+
+Corpus owns topic routing, participation, bounded deliberation policy, provenance,
+disagreement preservation, and signed outcome formation. Ordinary deliberation on an
+arbitrary topic uses the default general-prose mode: bounded plain text or Markdown,
+including code fragments, with no domain claim profile. When a consumer instead needs
+machine interpretation, adjudication, publication, or effects, an optional namespaced
+and versioned thematic profile must own its vocabulary, evidence or critique rules,
+success criteria, and accountable policy. The signed outcome carried by the answer
+envelope is bounded: depending on the consumer semantics it may carry a synthesis, preserved
+alternatives, a recommendation, a hypothesis set, an assistance plan, or a creative
+artifact. Its name does not imply one objectively best answer.
+
+The present role and overlay algebra remains closed V1, and operator configuration
+may only narrow it; thematic-profile openness does not mint new participant roles.
+Operators or communities may propose a thematic profile, but under the current
+contract a new namespaced profile requires an explicit Corpus revision and local
+receiver resolution. A general profile-admission, lifecycle, and conformance seam is
+future work, not an implemented capability claim. The closed boundary governs carrier,
+authority, and executable interpretation, not the vocabulary of legitimate topics.
 
 ## Context and Problem Statement
 
@@ -116,7 +146,7 @@ thin coordination protocol that turns "I need an answer about this topic" into:
 3. bounded query broadcast;
 4. signed bid collection;
 5. selected procurement;
-6. optional live deliberation and final answer acceptance.
+6. optional live deliberation and signed outcome acceptance.
 
 Without Corpus, each story would have to glue these strata ad hoc, creating
 parallel query, topic, room, pricing, and answer semantics.
@@ -343,8 +373,9 @@ Responsibilities:
   validation, and actor-bound idempotent replay, with publication authority fixed
   false;
 - accept only text output blocks in the first publication profile and sign the
-  final answer under `corpus-reasoning-answer-signature.v1`, independently of
-  the artifact schema name;
+  bounded outcome carried by the answer envelope under
+  `corpus-reasoning-answer-signature.v1`, independently of the artifact schema
+  name;
 - route sensitive effects through host-owned human-in-loop gates.
 
 Status:
@@ -383,168 +414,100 @@ Unknown, modified, revoked, or locally substituted implementations refuse withou
 semantic fallback. The persisted invitation read model retains only the bounded
 prompt-free local/peer comparison needed for operator inspection and trace.
 
-### Optional Shared Enacted Views
+### Optional Shared Enacted Views — First Technical Thematic Acceptance Profile
 
 Corpus may compose a Room deliberation with an explicitly published Sensorium
-Interface, but it does not own the source, grant, projection, or observation
-runtime. Room membership and interface observation authority remain independent;
-the first terminal profile carries only a bounded cursor-free `latest-state`
-viewport and grants no terminal actuation.
+Interface, but ordinary Corpus deliberation does not require one. Corpus owns neither
+the source, grant, projection, observation runtime, nor actuation. Room membership and
+interface authority remain independent, and a shared view never turns prose into an
+effect.
 
-[Story 012](../../30-stories/story-012-agents-share-chair-terminal.md) defines the
-first concrete three-node profile. Its Workbench source, Room relay, Sensorium
-Interface projection, substrate-neutral Agent observation port, static wiring,
-and daemon-owned Room/Sensorium resolver are implemented. Its composed process
-runner reuses Story 011's federation/bootstrap lifecycle and proves exact
-generic need/binding admission, resolver-private read-result authority,
-independent B/C observation and deliberation, C revocation and audience
-convergence before repair, dirty restart and refreshed current-state admission on
-B, local-only repair, passing-state refresh for B with C still refused, and an
-unpublished Corpus answer draft. External host-TLS relay deployment remains
-separately evidenced by P070 rather than being simulated by Corpus. The profile's
-closed refusal matrix distinguishes direct composed-process checks from named
-lower-stratum P070/P082/P083 evidence owners.
+[Story 012](../../30-stories/story-012-agents-share-chair-terminal.md) is the first
+concrete three-node foundation and first **technical thematic acceptance profile**
+above the general-prose mode, not Corpus's defining workflow. Its implementation
+composes Workbench, Room, Sensorium Interfaces, Agent's
+substrate-neutral observation port, and daemon-owned resolvers while keeping each
+authority in its owning layer. The baseline composed-process runner proves independent
+participant observation, revocation and audience convergence, dirty recipient restart,
+newer-state admission, local-only repair, and an unpublished signed outcome draft.
+External host-TLS relay deployment remains P070 evidence rather than a Corpus claim.
 
-The additive vfkit v2 profile supplies the deterministic repair fixture inside
-the digest-pinned full-system guest and drives that same Story 012 behavior through
-one Workbench runtime. Its closed report proves P082 observation, P083-exclusive
-repair, exact revocation, dirty recipient restart, stale-generation refusal,
-artifact export, and the inert Corpus draft under the
-`single-runtime-vertical` evidence boundary.
+The technical evidence lineage is intentionally summarized here; its detailed
+contracts, matrices, and retained reports belong to Story 012, P069, P074, and the
+owning component proposals:
 
-The evidenced PowerDNS/Bielik specialization keeps Corpus semantics unchanged:
-two verified real Agent products become inert reasoning turns, while deterministic
-host-owned code alone crosses HIL and P083 to configure the guest. Its closed
-`single-host-full-system` report was retained from the 2026-07-24 real run and
-proves the localhost-only PowerDNS listener and exact `localdomain` answers.
-Structural profile validation remains distinct from that runtime evidence.
+- the vfkit v2 `single-runtime-vertical` report proves the digest-pinned guest,
+  bounded observation, exclusive repair, revocation, restart, stale-generation
+  refusal, artifact export, and inert outcome draft through one Workbench runtime;
+- the retained 2026-07-24 PowerDNS/Bielik and role-aware reports prove distinct Agent
+  products, solver/reviewer turns, terminal-feedback correction, HIL-gated P083
+  `claim -> invoke -> release`, exact guest behavior, and zero effects derived from
+  Room prose under the `single-host-full-system` evidence boundary;
+- the critique-gated successor is `ready`: its retained 2026-07-25 26-check run
+  proves Agent-authored CandidatePlan carriage, typed review and Chair gating, one
+  failed experiment followed by revision, lease release, and no direct prose effect;
+- the model-authored discovery successor has one retained 2026-08-01 30-check run
+  using two separately supervised Qwen2.5-Coder 7B runtimes. It removes the closed
+  solution template from model-facing inputs and proves a failed experiment followed
+  by a distinct successful plan informed by fresh terminal evidence. Repeatable seeded
+  success remains open; the ten-pair critique/regeneration bench promoted only one
+  successor, below the `0.6` threshold.
 
-The additive role-aware revision remains a consumer profile over those same
-contracts. The requester query opens the round, accepted instruction overlays
-distinguish solver from reviewer, and the controlled Chair maps `baton` to Room
-`round-robin`. The runner permits up to 64 ordered cycles under a five-minute
-deadline and feeds one verifier-rejected experiment back through the read-only
-terminal projection before the correction cycle. The experiment is not executed
-from free-form prose: the acceptance runner constructs an inert
-`inquirium.candidate-plan.v1`, and a remote solver node signs a
-`corpus-reasoning-experiment-proposal.v1` that content-addresses that plan without
-a local `adapter.manifest/ref` and binds its query, Room, admitted turn, author,
-requester-selected executor, classification, and expiry. The requester daemon
-resolves monotone distributor/operator/interface executor ceilings, verifies the
-retained turn and signature, binds the signer node to the author's canonical
-Room invite, compiles an entirely pending `InquiryFlowV1`, and
-persists only metadata for the executor passage. The local Chair Agent receives
-the plan plus one fresh terminal latest-state projection. The requester verifies
-the content-addressed Inquirium product and accepts only a closed `propose|no-effect`
-decision for the compiled flow node; `no-effect` cannot reach claim or invoke. For
-`propose`, the daemon binds and rechecks the exact actuation interface, grant,
-generation, operational context, method, input schema, payload digest,
-classification, lease ceiling, and portable-proposal expiry. It then requires the
-admitted operator-question decision before the existing P083 coordinator performs
-`claim -> invoke -> release`; no control lease spans inference. Corpus remains a
-carrier and admission owner, never a terminal actuator. The retained 2026-07-24
-report proves this revision with separate solver/reviewer roles, two round-robin
-cycles, failed and corrected experiments, Agent `propose`, admitted HIL, P083
-`claim -> invoke -> release`, and zero effects derived directly from Room prose.
-The executable first slice admits only
-`observe_only` and `local_agent`; `deterministic_host_compiler`,
-`remote_chair_agent`, and `designated_participant_agent` fail closed until their
-passage adapters exist. Every effect
-reuses the ordinary Agent operator-question/finalize lifecycle. To bound approval
-fan-out independently of the 64-node graph ceiling, host configuration defaults to
-one effect-proposal node per plan and may raise that value only to the hard maximum
-of eight. A separate host limit admits two distinct experiment proposals per round
-by default and may be raised only to eight; exact proposal and idempotency replays
-do not consume another slot.
+The current executable effectful passage admits only `observe_only` and
+`local_agent`. `deterministic_host_compiler`, `remote_chair_agent`, and
+`designated_participant_agent` remain fail-closed until equivalent passage adapters
+have implementation evidence. Every admitted effect rechecks the current Corpus
+binding, proposal and passage, exact P083 interface authority, generation, operational
+context, method and payload schema, classification, budget, HIL decision, lease,
+idempotency, and receipt. No lease spans inference.
 
-Corpus now preserves an append-only metadata execution join from proposal and
-compiled flow node through the Agent binding to the exact P083 operation and
-receipt. Startup changes unfinished `prepared` or `dispatched` joins to `unknown`
-and never repeats the effect. Recovery drains 1,024-record pages up to a 16-page
-startup ceiling and refuses startup explicitly if work remains. A terminal exact
-replay returns the retained receipt without another claim or invoke, while
-ambiguous, refused, and concurrent attempts fail closed. The Story 012 consumer
-uses two separately signed experiment proposals over host-constructed plans: a
-deliberate failure followed by a corrected plan after a newer terminal latest-state. Its
-fixture fallback is deadline-only diagnostic recovery and cannot satisfy the
-closed 17-check report.
+Corpus retains an append-only metadata join from proposal and compiled flow node
+through Agent binding to the P083 operation and receipt. Exact terminal replay returns
+the retained receipt without another effect. Startup converts unfinished
+`prepared` or `dispatched` joins to `unknown`, uses bounded recovery pages, and
+fails closed on ambiguous, refused, concurrent, or over-budget recovery instead of
+reinvoking the target.
 
-That retained 17-check profile does not prove that plan contents were derived from solver
-or reviewer text: its acceptance runner constructs both plans in host-owned code
-and binds them to retained turns. The additive
-`story-012-powerdns-bielik-critique-gated-vfkit` profile closes this evidence gap
-without making prose executable. It permits bounded technical and shell fragments
-as inert Room content, requires an Agent-authored content-addressed CandidatePlan,
-then orders an exact proposal-bound and terminal-state-bound
-`accept|revise|reject` review before a fail-closed Chair
-`block|request-revision|admit-reviewed-candidate` decision. Only the exact reviewed
-plan may proceed to the existing host admission, HIL, and P083 path. The signed
-review and Chair-decision contracts, pure gate resolver, Agent-product-bound
-CandidatePlan publication, append-only host recovery, critique-gated runner, and
-closed 26-check report revision are implemented. The profile is `ready`: a retained
-2026-07-25 macOS arm64 run passes all checks with two real Bielik runtimes, a failed
-experiment, reviewer revision, HIL, P083 lease release, and no direct effect from
-Room prose. Its story policy supplies one closed allowlisted command template for
-reproducibility; therefore the result proves exact model-product carriage and
-critique lineage, not unconstrained plan synthesis.
+The additive v3 correction profile uses the optional structured
+`corpus-deliberation-review-claims.v1` envelope. It is a domain-neutral,
+provenance-bearing review envelope over opaque claim and next-move references, not
+Corpus's universal outcome format and not a mandatory grammar for deliberation. Corpus
+validates shape, signatures, exact proposal/plan/terminal bindings, and regeneration
+lineage; the admitted profile owns vocabulary, evidence rules, legal claim
+combinations, disposition mapping, and accountable adjudication.
 
-The additive model-authored discovery successor removes that closed solution
-template from both the guest and every model-facing surface. A host-owned staged
-policy derives the only writable path from active terminal configuration and
-discloses a solution-aware stage selection to both model roles, while the solver
-still authors the bytes. The original v1 reviewer may author findings plus an
-optional replacement through the same requester-owned policy. The additive v2
-path instead makes critique inert: the reviewer requests one bounded regeneration,
-the solver authors a fresh CandidatePlan, and a fresh review must bind that exact
-successor before the Chair may select it. The daemon persists the signed source
-review and host-signed regeneration join, rechecks classification, executor, HIL,
-time, policy, and digest lineage, and exposes no effect before ordinary admission.
-It also verifies that each bound turn still carries a current accepted Room
-assignment for its exact `implementer` or `reviewer` responsibility and that the
-subject remains an effective Room member; prompt labels are not treated as
-authority.
-Host policy constrains admissible verdicts, so neither path claims an independent
-reviewer verdict. Pure
-contract tests, deterministic policy/review replay, a real-model stage bench, an
-append-only calibration ledger, and a closed full-system report contract are
-implemented. The path-aware active-directive oracle accepted two of five retained
-zone-declaration samples for the original pinned Bielik 4.5B Q8 artifact, but no
-goal-ready zone-data correction in either five-sample stage. The resolved second
-guest-attested variant is
-`powerdns-bind-missing-zone-data.v1`: a valid listener/backend/declaration chain
-whose referenced zone-data file is absent and whose image contains no final
-`localdomain` records. Its exact prepared-system source, manifest, image completion
-record, and fixture digest are implemented. A retained 2026-08-01 macOS arm64 run
-with two separately supervised Qwen2.5-Coder 7B runtimes passes the closed 30-check
-report after one nonpassing model-authored experiment and one distinct successful
-plan informed by fresh terminal evidence. HIL and P083 remain the only effect path,
-the legacy fixture is unused, and reported host structural shell framing does not
-rewrite CandidatePlan bytes. This is one post-MVP deployment proof; repeatable
-seeded success remains open. The 2026-08-01 critique-to-regeneration bench adds ten
-role-separated pairs: every reviewer requested regeneration, but only one solver
-successor passed the staged domain oracle, below the `0.6` promotion threshold.
-These post-MVP gaps do not reopen the completed baseline Story 012 gate.
+The first such consumer, `review-claim-profile:story-012-powerdns-v1`, is a closed
+`catalog-select` technical profile over host-projected immutable facts. Ordinary
+scientific, social or mutual-aid, creative, or other general-prose deliberation needs
+no such profile. If a future consumer requires machine-interpreted evidence,
+adjudication, publication, or effects in one of those domains, its specialized
+contract needs a separate revision, local admission, and its own readiness evidence.
+In particular, creative collaboration need not use a truth-claim review envelope at
+all.
 
-The shared runner assigns A/B/C distinct loopback addresses and exact peer
-certificate IP SANs. This is intentionally multi-address single-host evidence:
-it tests real process and network boundaries without presenting one kernel and
-failure domain as a true multi-host federation deployment.
-The acceptance pack also exposes a deliberately weaker single-address profile
-for unattended execution without privileged alias setup; it preserves distinct
-ports and reports its evidence class explicitly.
+The retained 2026-08-31 diagnostic passage
+`federation-run:story-012-physical-two-host-three-node-real-model:20260831T193333Z`
+completed this first profile over three real model runtimes on two physical hosts.
+Four model-authored experiments carried four host-checked typed envelopes with inert
+empty commentary and no fallback; the final experiment passed the exact
+`a.localdomain`, `b.localdomain`, and `c.localdomain` A-record assertions. The paired
+Story report has content SHA-256
+`759145ed615bf6d4a823d30b501f655c159456691ee0bbc25f39a063867fe3e7`.
+This is technical-profile runtime evidence, not a universal Corpus outcome contract,
+not generic domain-profile admission, and not three-physical-failure-domain evidence.
 
-The implemented P082-021 operational-context extension remains owned by Sensorium
-Interfaces. Corpus requires the exact source context before admitting a
-collaborative live view, preserves it with the current source generation through
-Room without reinterpretation, and lets each participant host apply the P064 caution
-policy before inference. Generation mismatch or P082 publication supersession makes
-the view stale; Corpus adds no independent TTL. P069 tracks the Story 012 replacement
-proof. The consumer examines the complete initial replay window, rejects a candidate
-result while a newer host-authenticated `suspended` status remains unresolved, and
-accepts a still newer latest-state result as resumption. Any `withdrawn` or `expired`
-status is terminal for that immutable `interface/id`, even if the replay contains a
-contradictory later snapshot. The consumer retains the full validated result unchanged
-for the daemon resolver. This metadata grants neither observation nor effect authority.
+The baseline composed runner's A/B/C loopback addresses and certificate bindings are
+multi-address single-host evidence. P074 separately retains both a true
+three-physical-host profile and the explicit two-host diagnostic profile described
+above. Evidence from the latter preserves its shared `node-b`/`node-c` failure domain
+and cannot be promoted to the former. These evidence limitations and the post-MVP
+repeatability gaps do not reopen the completed baseline Story 012 gate.
+
+The implemented P082 operational-context extension remains owned by Sensorium
+Interfaces. Corpus preserves the exact source context and generation without adding a
+TTL or interpreting the context as authority. Superseded, withdrawn, expired, or
+generation-mismatched views fail closed; participant hosts apply their own P064 caution
+policy before inference.
 
 ## Out of Scope
 

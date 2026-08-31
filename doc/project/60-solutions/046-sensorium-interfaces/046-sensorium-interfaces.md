@@ -139,6 +139,10 @@ publish effect adapter
 
 Observation authority never implies actuation authority. A collaboration carrier,
 Room membership, or control lease cannot replace the exact active interface grant.
+Ordinary Corpus deliberation requires neither plane. An admitted Sensorium Interface
+is an optional context or effect channel for a consumer that needs an enacted
+representation; it does not define the problem domain or confer authority through
+participation alone.
 
 [Proposal 083: Sensorium Interactive Interfaces](../../40-proposals/083-sensorium-interactive-interfaces.md)
 defines the promoted actuation rationale with separate resources, grants,

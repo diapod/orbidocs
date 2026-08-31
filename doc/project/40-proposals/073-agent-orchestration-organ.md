@@ -32,6 +32,16 @@ multiply or stop agents — that Inquirium deliberately excludes:
 > host own broader orchestration." — Proposal 063
 
 Agent is that missing home, defined so that no model ever gains ambient authority.
+It is purpose-neutral: technical repair, scientific investigation, social or
+mutual-aid work, creative collaboration, and other non-exhaustive uses may all drive
+the same bounded controller without becoming Agent Core semantics. Default Corpus
+general-prose deliberation needs no Agent domain profile. An optional thematic
+consumer profile sits above Agent only when machine interpretation, adjudication,
+publication, or effects require explicit meaning and success criteria.
+The current Corpus role and overlay algebra remains closed V1; operator policy only
+narrows it. Existing namespaced extensions require an explicit Corpus revision and
+local receiver resolution, while a general community profile-admission seam remains
+future work rather than an Agent capability.
 
 The governing rule is:
 
@@ -123,6 +133,10 @@ accountable subject or node role; a raw Inquirium adapter or model runtime is no
 a room member. If a deployment wants a one-shot model respondent, it should use a
 degenerate Agent profile with one step and an explicit budget rather than admit
 the adapter as a speaking actor.
+
+Story 012 is the first deeply evidenced technical thematic consumer profile layered
+above the general-prose mode. It tests this boundary but does not define what an Agent
+may reason about or what counts as a successful outcome in another context.
 
 ### 2. Lifecycle: spawn, fork, suspend, resume, stop
 

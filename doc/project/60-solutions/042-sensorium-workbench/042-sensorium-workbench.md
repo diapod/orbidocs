@@ -813,7 +813,12 @@ fake VMM are not substitutes. Firecracker remains a later separately evidenced
 profile; neither extension changes completion of the implemented vfkit reference
 profile.
 
-### Agent, Corpus, and Room Tool Use
+### Optional Workbench Tool Use by Agent, Corpus, and Room
+
+This is an optional technical composition, not a prerequisite for ordinary Corpus
+deliberation and not a definition of the problems Corpus may address. It applies only
+when a workflow deliberately requests bounded local system effects through the
+Workbench authority boundary.
 
 Based on:
 
@@ -846,8 +851,9 @@ Status:
   Sensorium Core. Agent proposals bind to one `directive/id` with idempotent
   replay. Product-specific workflow producers remain owned by Agent, Corpus,
   and Room rather than Workbench.
-- `implemented post-MVP V2 validator; fresh evidence pending`: the closed delegated
-  adaptive-executor profile digest-pins the retained real full-system Story 012
+- `implemented post-MVP V2 validator; fresh evidence pending`: the first composed,
+  non-defining technical acceptance profile is the closed delegated adaptive executor,
+  which digest-pins the retained real full-system Story 012
   report. It proves requester-owned P083 lifecycle records, correction feedback,
   released terminal leases, no fallback, and zero direct effects from Room prose.
   Corpus execution records and new source reports now retain the signed

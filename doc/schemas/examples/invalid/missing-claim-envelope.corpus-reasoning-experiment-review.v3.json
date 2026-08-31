@@ -1,0 +1,26 @@
+{
+  "schema/v": 3,
+  "review/ref": "corpus-experiment-review:sha256:opV8XtCu7DFwdh0y41t4XOvzYytD09MRGOyEnBw401I",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "proposal/digest": "sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "candidate-plan/ref": "candidate-plan/experiment-test",
+  "candidate-plan/artifact-ref": "object-store:sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "reviewer": {"kind": "nym", "id": "did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"},
+  "reviewer/node-id": "node:did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe",
+  "reviewer-turn/id": "corpus-turn:sha256:bC1rIHOAp60qgA0QuI8PDvYi3RHgsgks8MDgeG5587g",
+  "terminal-state/digest": "sha256:yyKThK7_A-ZFkzUEJfbRQXe8Zx9TtI2paxSmo8yYL8w",
+  "correction-state/digest": "sha256:Ts7aMQTkoBbh-sYdbnSk9uWm_sVcy-dKUpIwatJX1jA",
+  "verdict": "accept",
+  "class/key": "Community",
+  "reviewed-at": "2026-07-24T10:01:00Z",
+  "expires-at": "2026-07-24T10:05:00Z",
+  "idempotency/key": "experiment-review-v3-missing-claim-envelope",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "paK7d81BQtVciWg88Cl1E4tZLqjq1CZrTuELdVKQx2X1k5BMOn67CEW2bk8PPgSjMK1dPngIgwzsrydHLoztCA",
+    "key/public": "z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"
+  }
+}

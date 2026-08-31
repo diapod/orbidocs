@@ -68,6 +68,13 @@ budget, and produce an inert outcome. It never authorizes its own effects and
 never publishes its own result. This keeps model reasoning separate from
 authority and makes every state transition recoverable and auditable.
 
+Agent is purpose-neutral. Technical work, scientific inquiry, social or mutual-aid
+processes, creative collaboration, and other non-exhaustive uses can use the same
+bounded organ without installing their vocabularies, evidence rules, or notions of
+completion in Agent Core. Default Corpus general-prose deliberation needs no Agent
+domain profile. Story 012 is the first deeply evidenced technical thematic consumer
+profile above that mode, not the definition of Agent's purpose.
+
 ## Context and Problem Statement
 
 Bounded inquiry alone does not provide a durable entity that can pursue a goal
@@ -138,8 +145,9 @@ The daemon is the composition root. It resolves an admitted need through a
 registered domain adapter, validates the returned payload at schema-gate, and
 rechecks the owning domain's grants and current authority. The Story 012 adapter
 therefore knows the exact Room, relay, membership, recipient, and Sensorium
-Interface rules while `agent-core` remains unchanged. Effects follow the same
-shape in the other direction: Agent emits a generic immutable proposal and the
+Interface rules while `agent-core` remains unchanged. That adapter is a current
+technical acceptance specialization, not Agent goal semantics. Effects follow the
+same shape in the other direction: Agent emits a generic immutable proposal and the
 daemon compiles it through a closed, capability-specific adapter before policy,
 lease, HIL, and execution admission.
 
@@ -186,64 +194,49 @@ stores only its tier ceiling. Content-addressed digests use base64url-no-pad; P0
 instruction hash remains lowercase hexadecimal. Both asymmetries are intentional
 and do not authorize cross-format substitution.
 
+### Corpus Consumer Specialization and Technical Evidence
+
 The Room-bound specialization remains above Agent Core. Corpus owns
-`corpus-reasoning-inference-flow-binding.v1`, which joins one exact Agent Flow to the
-current query, Room, participant, accepted role, locally admitted instruction overlay,
-turn, disclosure policy, generation, classification, and expiry. The daemon
-revalidates that authority before passage admission, invocation, product commit,
-and terminal selection, and supplies only the
-verified overlay rendering as a required P064 operation layer. Agent Core receives
-the same neutral Flow and passage values as any other consumer; it does not learn
-Room, role, floor, or publication semantics. A local Flow actor may own the exact
-Flow for a `CollaborativeChair` or `CollaborativeParticipant`, but passages remain
-blocked until Corpus admits the outer binding. Intermediate products remain local,
-and terminal selection denotes an unpublished Corpus draft candidate rather than a
-Room message or accepted answer. Process evidence also proves that a bind-only Flow
-admission can be consumed by a later passage execution without rebinding, while a
-changed-content replay of the Corpus binding fails as a typed conflict.
+`corpus-reasoning-inference-flow-binding.v1` and revalidates the current query,
+Room, participant, role, instruction overlay, turn, disclosure policy, generation,
+classification, and expiry around passage execution. Agent receives the same neutral
+Flow, observation, product, and terminal-selection values as any other consumer; it
+does not learn Room, floor, publication, or domain vocabulary. Intermediate products
+remain local, and terminal selection denotes an unpublished Corpus outcome candidate.
 
-The process-local latest-state inbox refuses two different content digests at
-one relay epoch and sequence with a dedicated payload-free structured diagnostic.
-The conflicting delivery cannot replace the already admitted observation.
+An arbitrary-topic Corpus deliberation can remain bounded plain text or Markdown,
+including code fragments, with no domain claim profile. A consumer introduces an
+optional namespaced and versioned thematic specialization only when it needs machine
+interpretation, adjudication, publication, or effects. The current Corpus V1 role and
+overlay algebra remains closed and operator configuration only narrows it; thematic
+profiles do not mint Agent or Corpus roles. An operator or community may propose a
+profile, but today a namespaced extension requires an explicit Corpus contract revision
+and local receiver resolution. A general admission, lifecycle, and conformance seam is
+future work rather than an implemented Agent capability. The closed Agent boundary
+governs authority, budgets, lifecycle, ports, and registered consumer resolution; it
+does not close the vocabulary of legitimate problem domains.
 
-The composed Story 012 process profile revokes C and waits for relay-audience
-convergence before repair, dirty-restarts recipient B, then proves a newer passing
-state for B while C remains refused. Its 17-entry refusal matrix names whether
-each claim is evidenced directly by the composed runner or by the owning
-P070/P082/P083 lower-stratum suite.
+The Story 012 lineage is the foundation and first deeply evidenced **technical
+thematic consumer profile** above general-prose deliberation. It is summarized here
+rather than replayed in full; Story 012, P069, P074, and the owning component
+proposals retain the detailed matrices and reports:
 
-The additive vfkit v2 profile keeps Agent substrate-neutral while proving the
-same passage lifecycle through one virtualized Workbench runtime. The repair
-fixture is digest-pinned in the full-system guest; B/C observation, exact revoke,
-dirty B restart, stale-generation denial, repaired passing state, export, and the
-unpublished draft are recorded by the closed `single-runtime-vertical` report.
+- the baseline and vfkit `single-runtime-vertical` profiles prove bounded
+  Room/Sensorium observation, audience revocation, dirty restart, repaired state,
+  export, and an unpublished outcome while Agent Core stays substrate-neutral;
+- retained PowerDNS/Bielik and role-aware runs prove distinct model products,
+  solver/reviewer turns, terminal-feedback correction, HIL-gated P083 effects, lease
+  release, and zero effects derived directly from Room prose;
+- the critique-gated and model-authored discovery successors prove typed
+  CandidatePlan/review lineage and one retained 2026-08-01 successful technical run.
+  They do not establish repeatable seeded success or true multi-host Agent execution.
 
-The evidenced PowerDNS/Bielik specialization strengthens that proof without
-changing Agent Core. B and C select exact node-local Inquirium runtimes; the
-acceptance layer verifies each content-addressed Agent product and projects only
-its bounded text into an inert Corpus turn. Agent output never becomes terminal
-input. A separate host-owned HIL/P083 transition applies deterministic fixture
-code. The retained 2026-07-24 report proves two distinct inference refs, exact
-guest DNS behavior, and the unchanged effect boundary within budget.
-
-The additive role-aware runner uses an operator-defined Agent admission profile
-instead of weakening the conservative default: participant budgets admit at
-most 64 solver/reviewer cycles and the Chair budget covers the corresponding
-floor transitions, all under a five-minute deliberation deadline plus bounded
-in-flight grace. Role overlays and prior Room turns remain inert input data.
-Each terminal experiment or fallback obtains and releases its own P083 lease;
-Agent never holds terminal authority across inference. The retained 2026-07-24
-report proves this stronger path with separate solver/reviewer roles, two
-round-robin cycles, terminal-feedback correction, Agent `propose`, HIL, P083
-release, and no effect derived directly from Room prose.
-
-The planned Story 012 critique-gated technical profile adds no Room or shell
-semantics to Agent Core. A participant Agent may return inert technical prose and
-a content-addressed CandidatePlan product; Corpus owns the typed review and Chair
-decision, while the daemon adapter verifies their exact refs and digests. The Chair
-Agent can block, request revision, or propose host admission of the reviewed plan,
-but cannot execute prose, bypass HIL, or hold a Sensorium lease during inference.
-This remains planned consumer evidence, not an implemented Agent capability claim.
+The process-local latest-state inbox refuses conflicting content digests at one relay
+epoch and sequence. The current effectful passage still admits only the implemented
+local modes; remote or deterministic executor modes remain fail-closed until an
+authorized adapter has equivalent evidence. Agent output is inert, no Sensorium lease
+spans inference, and Corpus plus the host retain review, HIL, publication, and effect
+authority. These are current acceptance-specialization facts, not Agent goal semantics.
 
 The implemented post-MVP operational-context extension remains source-owned by P082.
 Agent Core carries only bounded generic qualifier refs and strict digests; the daemon
@@ -505,50 +498,18 @@ an extension hidden inside this solution.
    cross-node or federated execution.
 4. Keep detailed implementation evidence and future recommendations in Proposal
    073 rather than duplicating tracker prose here.
-5. Keep the implemented Story 012 path as a daemon-owned Sensorium resolver for
-   the generic Agent observation port: statically bind one need to one opaque
-   source, bind the resolved read result and inline snapshot to one Room recipient
-   and Agent passage, preserve its validated P081 causal context, keep content
-   ephemeral, and deny dynamic wiring, implicit actuation, or membership-derived
-   authority. New sources extend daemon wiring, not `agent-core`. Keep the
-   passing baseline and vfkit-v2 runners on the release gate: they reuse Story
-   011's bootstrap and prove distinct participant evidence, local repair
-   observation, observer revocation, dirty restart, and unpublished chair output;
-   the vfkit profile additionally binds those facts to one digest-pinned
-   full-system Workbench runtime.
+5. Keep the Story 012 technical lineage as a non-defining regression of the
+   generic observation, product, review, and effect boundaries. Preserve its current
+   single-host and repeatability evidence labels; keep detailed profile mechanics in
+   Story 012, P069, P074, and the owning components rather than duplicating them here.
 6. Keep the implemented neutral consumer-policy and authority-evidence binding v2 on
-   its current-policy recovery gate. Corpus is the first concrete resolver and golden
-   recovery consumer. Preserve v1 compatibility, exact v1/v2 conflict refusal,
-   revocation checks, and `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` as the one imported
-   bound across schema, admission, recovery, and adapter layers.
-7. Keep the retained Story 012 PowerDNS/Bielik single-host report in the
-   regression set. Treat it as composed acceptance of the existing Agent
-   observation/product/effect boundaries, not as a new Agent authority or as
-   multi-host evidence.
-8. For adaptive deliberation-to-actuation consumers, accept only typed inert
-   `inquirium.candidate-plan.v1` or experiment proposals. Requester policy may
-   designate a local Agent, deterministic host compiler, remote Chair Agent, or
-   another participant Agent as proposer/executor. Remote origin never bypasses
-   node A's admission: attribution plus a separate resource-scoped Sensorium
-   grant, current generation, review, classification, budget, lease, and
-   idempotency checks remain mandatory. Room role and membership are not effect
-   authority, and Room prose is never interpreted as an effect. Remote terminal
-   control reuses P083 / Solution 046 Sensorium Interactive Interfaces
-   claim/control/invoke rather than introducing an Agent-specific carrier.
-9. Keep the implemented Corpus experiment executor adapter narrow. The Agent
-   consumes an admitted portable `CandidatePlan` with no local adapter-manifest
-   provenance and one fresh, digest-bound latest-state
-   passage before returning one closed `propose|no-effect` product decision; the
-   proposal carries no lease, and `no-effect` cannot claim or invoke. After HIL, the
-   daemon revalidates the current Agent binding, proposal expiry, passage, exact
-   flow node, actuation grant, generation, operational context, method, input
-   schema, payload digest, classification, and lease ceiling, then asks the existing
-   P083 coordinator to claim, invoke, and immediately release the exact interface
-   generation. Local in-process dispatch removes HTTP/relay
-   overhead only; it does not remove P083 admission, fencing, idempotency, or receipt
-   semantics. Remote and deterministic executor modes remain portable vocabulary but
-   daemon admission refuses them until an authorized Room relay/direct-peer or host
-   compiler passage adapter has equivalent implementation evidence.
+   its current-policy recovery gate. Preserve v1 compatibility, exact v1/v2 conflict
+   refusal, revocation checks, and `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` as the
+   shared schema, admission, recovery, and adapter bound.
+7. Admit effectful consumer extensions only through typed inert plans and the existing
+   host/P083 review, HIL, classification, lease, idempotency, and receipt gates. Remote
+   and deterministic executor modes remain vocabulary only and fail closed until an
+   authorized adapter has equivalent implementation and acceptance evidence.
 
 ## Must Implement
 

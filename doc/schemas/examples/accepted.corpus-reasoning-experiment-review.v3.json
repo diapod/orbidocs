@@ -1,0 +1,59 @@
+{
+  "schema/v": 3,
+  "review/ref": "corpus-experiment-review:sha256:4tso14XVo-GZnHzlsU2vqLSfJzp_QXQvIxeSFVfWHFw",
+  "query/id": "query:experiment-test",
+  "room/id": "room:experiment-test",
+  "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "proposal/digest": "sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+  "candidate-plan/ref": "candidate-plan/experiment-test",
+  "candidate-plan/artifact-ref": "object-store:sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+  "reviewer": {"kind": "nym", "id": "did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"},
+  "reviewer/node-id": "node:did:key:z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe",
+  "reviewer-turn/id": "corpus-turn:sha256:bC1rIHOAp60qgA0QuI8PDvYi3RHgsgks8MDgeG5587g",
+  "terminal-state/digest": "sha256:yyKThK7_A-ZFkzUEJfbRQXe8Zx9TtI2paxSmo8yYL8w",
+  "correction-state/digest": "sha256:Ts7aMQTkoBbh-sYdbnSk9uWm_sVcy-dKUpIwatJX1jA",
+  "verdict": "accept",
+  "claim-envelope": {
+    "schema": "corpus-deliberation-review-claims.v1",
+    "profile/ref": "review-claim-profile:story-012-powerdns-v1",
+    "disposition/ref": "review-disposition:accept",
+    "claims": [
+      {
+        "subject/ref": "candidate-plan/experiment-test",
+        "predicate/ref": "story-012.powerdns:passes-host-policy",
+        "object/ref": "host-policy:candidate-plan",
+        "polarity": "positive",
+        "modality/ref": "claim-modality:host-verified",
+        "evidence/refs": ["host-fact:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA"]
+      },
+      {
+        "subject/ref": "candidate-plan/experiment-test",
+        "predicate/ref": "story-012.powerdns:projection-available",
+        "object/ref": "host-projection:candidate-plan/experiment-test",
+        "polarity": "positive",
+        "modality/ref": "claim-modality:host-verified",
+        "evidence/refs": ["host-fact:sha256:yyKThK7_A-ZFkzUEJfbRQXe8Zx9TtI2paxSmo8yYL8w"]
+      }
+    ],
+    "next-move": {
+      "kind/ref": "story-012.powerdns:execute-proposal",
+      "target/ref": "candidate-plan/experiment-test",
+      "expected": {
+        "predicate/ref": "story-012.powerdns:post-effect-verification-passes",
+        "object/ref": "candidate-plan/experiment-test",
+        "polarity": "positive"
+      }
+    },
+    "commentary": ["Profile-owned references are adjudicated only by the Story 012 PowerDNS host profile."]
+  },
+  "class/key": "Community",
+  "reviewed-at": "2026-07-24T10:01:00Z",
+  "expires-at": "2026-07-24T10:05:00Z",
+  "idempotency/key": "experiment-review-v3-Accept",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "Cpo0uGpeTLv438tMNEcG494BIiqTru9OhvWFzK22gYSfS9dtt-YO7UjHw4y3VTW5gM6w5-p8n9L4Xa8bFtx6Cw",
+    "key/public": "z6MktnTdkL6pctG9M9F9MaAZW33iozYnWADS3YWwbH5JuBFe"
+  }
+}

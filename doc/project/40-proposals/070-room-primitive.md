@@ -54,9 +54,13 @@ explicit planes:
    as facts.
 
 `answer-room` and `association-room` become projections of `room.v1`. Corpus and other
-consumers ride the same primitive. A deliberately contracted transport layer (auth,
-membership revocation, presence, retry, expiry, cleanup, sequence/replay, retention)
-replaces the under-specified "Matrix/WSS as options" hand-wave. The firewall-proof
+consumers ride the same primitive. Room is topic-agnostic: technical diagnosis,
+scientific inquiry, social or mutual-aid coordination, and creative collaboration are
+illustrative, non-exhaustive uses, not a closed Room domain enumeration; the owning
+consumer supplies their grammar and completion rules. A deliberately contracted
+transport layer (auth, membership revocation, presence, retry, expiry, cleanup,
+sequence/replay, retention) replaces the under-specified "Matrix/WSS as options"
+hand-wave. The firewall-proof
 baseline is one relocatable WSS relay endpoint per active relay epoch, reached through
 outbound TLS connections. Matrix remains an optional bridge profile and is never
 imported as Room ordering, membership, or durable-history semantics.

@@ -1,0 +1,18 @@
+{
+  "schema": "corpus-deliberation-review-claims.v1",
+  "profile/ref": "review-claim-profile:example-community-science-v1",
+  "disposition/ref": "example-science:needs-replication",
+  "claims": [
+    {
+      "subject/ref": "dataset:station-123-2026-08",
+      "predicate/ref": "example.climate:measurement-reproducible",
+      "object/ref": "example-protocol:station-calibration-v2",
+      "polarity": "positive",
+      "modality/ref": "example-epistemic-modality:observed",
+      "evidence/refs": ["dataset:sha256:abc123"]
+    }
+  ],
+  "next-move": null,
+  "commentary": [],
+  "verdict": "accept"
+}

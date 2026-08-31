@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-experiment-review:v3",
+  "title": "Corpus Reasoning Experiment Review v3",
+  "description": "Story 012 technical experiment-review revision and first thematic structured-review profile above the general Corpus prose exchange. It embeds a profile-bound structural claim artifact for this review boundary; it does not make that artifact a universal Corpus deliberation contract, require claim envelopes for ordinary plain-text or Markdown deliberation, or install PowerDNS semantics in the generic claim envelope. Schema validity does not establish readiness of the referenced review profile, which must be versioned and separately admitted by the receiving host; federation endorsement cannot compel admission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v", "review/ref", "query/id", "room/id", "proposal/ref", "proposal/digest",
+    "candidate-plan/ref", "candidate-plan/artifact-ref", "candidate-plan/digest", "reviewer",
+    "reviewer/node-id", "reviewer-turn/id", "terminal-state/digest", "correction-state/digest",
+    "verdict", "claim-envelope", "class/key", "reviewed-at", "expires-at", "idempotency/key", "signature"
+  ],
+  "properties": {
+    "schema/v": {"const": 3},
+    "review/ref": {"type": "string", "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$"},
+    "query/id": {"type": "string", "pattern": "^query:[^\\s]+$", "maxLength": 512},
+    "room/id": {"type": "string", "pattern": "^room:[^\\s]+$", "maxLength": 512},
+    "proposal/ref": {"type": "string", "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"},
+    "proposal/digest": {"$ref": "#/$defs/digest"},
+    "candidate-plan/ref": {"type": "string", "pattern": "^candidate-plan/[^\\s]+$", "maxLength": 512},
+    "candidate-plan/artifact-ref": {"$ref": "#/$defs/artifact-ref"},
+    "candidate-plan/digest": {"$ref": "#/$defs/digest"},
+    "reviewer": {"$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"},
+    "reviewer/node-id": {"type": "string", "pattern": "^node:did:key:[^\\s]+$", "maxLength": 512},
+    "reviewer-turn/id": {"type": "string", "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"},
+    "terminal-state/digest": {"$ref": "#/$defs/digest"},
+    "correction-state/digest": {"$ref": "#/$defs/digest"},
+    "verdict": {"enum": ["accept", "revise", "reject", "request-regeneration"]},
+    "claim-envelope": {
+      "description": "Structural review artifact interpreted only through a separately admitted, versioned Story 012 domain profile. Its use here does not require other Corpus deliberation profiles to use claim envelopes.",
+      "$ref": "corpus-deliberation-review-claims.v1.schema.json"
+    },
+    "replacement": {"$ref": "#/$defs/candidate-plan-binding"},
+    "class/key": {"enum": ["Public", "Community", "Personal"]},
+    "reviewed-at": {"type": "string", "format": "date-time"},
+    "expires-at": {"type": "string", "format": "date-time"},
+    "idempotency/key": {"type": "string", "minLength": 1, "maxLength": 256},
+    "signature": {"$ref": "#/$defs/signature"}
+  },
+  "allOf": [{
+    "if": {"properties": {"verdict": {"const": "revise"}}, "required": ["verdict"]},
+    "then": {"required": ["replacement"]},
+    "else": {"not": {"required": ["replacement"]}}
+  }],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$"},
+    "artifact-ref": {"type": "string", "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"},
+    "candidate-plan-binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate-plan/ref", "candidate-plan/artifact-ref", "candidate-plan/digest"],
+      "properties": {
+        "candidate-plan/ref": {"type": "string", "pattern": "^candidate-plan/[^\\s]+$", "maxLength": 512},
+        "candidate-plan/artifact-ref": {"$ref": "#/$defs/artifact-ref"},
+        "candidate-plan/digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "value", "key/public"],
+      "properties": {
+        "alg": {"const": "ed25519+domain-v1"},
+        "value": {"type": "string", "pattern": "^[A-Za-z0-9_-]{86}$"},
+        "key/public": {"type": "string", "pattern": "^z[A-Za-z0-9]+$", "maxLength": 128}
+      }
+    }
+  },
+  "x-dia-fixtures": {
+    "valid": [
+      "doc/schemas/examples/accepted.corpus-reasoning-experiment-review.v3.json"
+    ],
+    "invalid": [
+      "doc/schemas/examples/invalid/missing-claim-envelope.corpus-reasoning-experiment-review.v3.json"
+    ]
+  },
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/30-stories/story-012-agents-share-chair-terminal.md",
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/074-multi-node-federation-harness-and-trace-explorer.md",
+    "doc/project/60-solutions/038-corpus/038-corpus.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ]
+}

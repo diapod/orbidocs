@@ -1,0 +1,8 @@
+{
+  "schema": "corpus-deliberation-review-claims.v1",
+  "profile/ref": "bare-profile",
+  "disposition/ref": "example-science:needs-replication",
+  "claims": [],
+  "next-move": null,
+  "commentary": []
+}

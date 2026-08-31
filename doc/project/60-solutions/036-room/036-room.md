@@ -81,6 +81,10 @@ remains the narrow exception resolved by a strictly newer valid relay epoch.
 Room is the generic subject-addressed collaboration primitive for Orbiplex. It
 replaces bespoke answer-room and association-room shapes with one durable record
 family, one deterministic projection model, and one live transport contract.
+It is topic-agnostic: technical diagnosis, scientific inquiry, social or mutual-aid
+coordination, and creative collaboration are illustrative, non-exhaustive consumers
+rather than a closed Room domain enumeration; each owning component supplies its own
+grammar and completion rules.
 
 The durable plane is Agora-addressed and replayable. The live plane is
 non-retentive and carrier-agnostic. Bounded WSS with authority-selected relay epochs is

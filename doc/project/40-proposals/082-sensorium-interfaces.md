@@ -70,6 +70,11 @@ environment
 No consumer reaches a connector directly. No carrier grants authority. No stream
 creates a second source of truth.
 
+Ordinary Corpus deliberation does not require a Sensorium Interface. When a consumer
+explicitly composes one, it is an optional context projection whose source and
+observation authority remain with their owning layers; it neither defines the
+deliberation domain nor turns Room membership into access.
+
 This proposal owns publication, delegated read, subscription lifecycle, and
 carrier-neutral flow control across Sensorium-backed views. Proposal 045 continues
 to own local Sensorium admission and actuation. Proposal 071 and Room are first
