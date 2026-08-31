@@ -44,7 +44,8 @@ physical hosts, the shared `node-b`/`node-c` failure domain, and
 `diagnostic-not-promotable`; it therefore closes P074-032 without satisfying the
 exact three-host closure clause of P074-022.
 
-P074-033 is now complete for the first optional typed Reviewer-claim profile. The
+The first optional typed Reviewer-claim profile under P074-033 is runtime-complete,
+but P074-033 itself remains partial. The
 2026-08-31 passage
 `federation-run:story-012-physical-two-host-three-node-real-model:20260831T193333Z`
 used three real runtimes, four model-authored experiments, four host-checked
@@ -54,10 +55,14 @@ ms total; the paired Story report has content SHA-256
 `759145ed615bf6d4a823d30b501f655c159456691ee0bbc25f39a063867fe3e7`.
 The evidence remains `diagnostic-not-promotable`: it proves the first technical
 profile, not generic P069-DOMAIN-005 profile admission or three physical failure
-domains. P074-029 can now qualify the bounded Codex-backed Reviewer adapter on the
+domains. Reviewer-contract selection is now task-profile-owned rather than
+topology-owned, all discovery topologies use v3, internal helpers require an explicit
+mode, and the bench defaults to typed JSON. The compatible critique-gated v2 path still
+uses natural-language adjudication, so P074-033 closes only after that path is migrated
+or retired. P074-029 can then qualify the bounded Codex-backed Reviewer adapter on the
 real third physical host; resulting evidence must be labeled online/provider-backed,
 not local-model or offline acceptance. P074 remains partial post-MVP work: exact
-three-host interrupted-run closure, P074-029, Story 010 and trace-explorer consumers,
+three-host interrupted-run closure, P074-033, P074-029, Story 010 and trace-explorer consumers,
 the remaining P074-011 shared-input
 roles, optional macOS signing/firewall hardening, and the
 non-gating Bielik-specific P074-012 branch remain open. The baseline Story 012

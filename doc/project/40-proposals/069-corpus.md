@@ -2485,7 +2485,9 @@ task owns candidate construction or final Room admission.
   claim-adjudication profiles may instead admit schema-valid novel claims while
   preserving explicit evidence, epistemic status in `modality/ref`, disagreement,
   and an accountable downstream adjudicator. The first implementation target,
-  completed by P074-033, is the Story 012 PowerDNS `catalog-select` specialization.
+  implemented under P074-033, is the Story 012 PowerDNS `catalog-select`
+  specialization; P074-033 remains partial while its explicit v2 compatibility path
+  still adjudicates prose.
   Its 2026-08-31 physical-two-host-three-node diagnostic passage passed with four
   typed review envelopes, four model-authored experiments, no fallback, and exact DNS
   assertions. This proves the optional envelope/profile seam, not the still-open
