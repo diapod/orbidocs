@@ -336,7 +336,7 @@ the existing Agent admission surface and introduces a capability id only when a
 behavior is independently grantable, routable, or operator-visible. Capability
 Registry status changes accompany implementation evidence, not a Draft schema.
 
-### Decision 9: Codex is the first informative provider profile
+### Decision 9: Codex is first; a ChatGPT workspace agent is the second candidate
 
 The first intended provider profile is `openai-codex`. It may be implemented
 through either of two official surfaces:
@@ -345,6 +345,21 @@ through either of two official surfaces:
   bounded job-like integration;
 - Codex App Server for a richer bidirectional integration with conversation
   history, streamed events, approvals, and account/authentication state.
+
+`openai-chatgpt-workspace-agent` is the candidate second provider profile
+behind the same provider-neutral External Agent Runtime Adapter, alongside
+`openai-codex`. It is not a new Agent kind, an Inquirium adapter, or a Room
+identity. The profile may use only an official Workspace Agents integration
+surface and must satisfy the same identity, authority, accounting, retention,
+attribution, and conformance rules as every other provider profile.
+
+As of 2026-08-31, the documented Workspace Agents API can enqueue a run and
+expose beta run status, but the agent's response cannot be retrieved through the
+API. The candidate therefore remains unimplemented and non-routable until an
+official result-delivery surface can return enough bounded data for the host to
+produce a `product-candidate` and `turn-outcome`. Browser or UI automation,
+copied web sessions, session-cookie reuse, and conversation scraping are not
+acceptable substitutes.
 
 The Orbiplex contract does not expose either surface directly. Node owns the
 sidecar/process model, exact protocol mapping, binary/package pin, generated
@@ -364,6 +379,8 @@ Official informative references:
 - <https://learn.chatgpt.com/docs/codex-sdk> (accessed 2026-08-29)
 - <https://learn.chatgpt.com/docs/app-server> (accessed 2026-08-29)
 - <https://learn.chatgpt.com/docs/auth> (accessed 2026-08-29)
+- <https://learn.chatgpt.com/workspace-agents/trigger-runs> (accessed 2026-08-31)
+- <https://learn.chatgpt.com/workspace-agents/authentication> (accessed 2026-08-31)
 
 These references are informative descriptions of a moving provider surface,
 not Orbiplex contracts. A provider-side change may require a new Node profile or
@@ -375,9 +392,11 @@ this proposal.
 The first implementation must use a deterministic fake external runtime with
 controllable event ordering, duplicate events, crash points, delayed
 cancellation, unknown outcomes, malformed products, over-budget usage, tool
-requests, and stale-session replay. A Codex profile may become routable only
-after passing the same generic suite plus provider-specific process and auth
-checks.
+requests, and stale-session replay. No real provider profile may become
+routable until it passes the same generic suite plus provider-specific
+lifecycle, authentication, result-delivery, and failure checks. `openai-codex`
+remains the first intended admission; `openai-chatgpt-workspace-agent` remains
+blocked by the provider limitation recorded in Decision 9.
 
 ## Concrete Scenario
 
@@ -524,6 +543,11 @@ receipt evidence.
   and approval settings are defense in depth.
 - **P089-RD10:** Durable progress is limited to bounded host-derived metadata;
   provider reasoning and progress text are not durable Agent or Room evidence.
+- **P089-RD11:** `openai-chatgpt-workspace-agent` is the candidate second
+  provider profile behind the same provider-neutral External Agent Runtime
+  Adapter as `openai-codex`, not a new Agent kind or Room identity. It remains
+  non-routable until an official integration surface provides retrievable
+  terminal results compatible with the generic contract.
 
 ## Open Questions
 
@@ -541,6 +565,10 @@ receipt evidence.
 6. Which private driver behaviors reuse the existing Agent admission surface, and
    which, if any, are independently grantable or inspectable enough to require a
    new capability id?
+7. Which official Workspace Agents result-delivery and usage-evidence surfaces
+   are sufficient to map a completed run to a bounded `product-candidate`,
+   `turn-outcome`, accounting, cancellation, and recovery without UI automation
+   or session-cookie access?
 
 ## Implementation Tracker
 
@@ -562,8 +590,9 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P089-007` | Prove fake-runtime Room/Corpus conformance for participant and Chair roles. | `P089-005`, `P089-006` | `todo` | Acceptance covers authority revalidation, attribution, floor/lineage, explicit terminal selection, restart after dispatch, replay, cancellation, provider loss, unknown usage, and oversized/malformed events; no provider event or prose directly becomes a Room act or effect. |
 | `P089-008` | Implement one pinned Codex deliberation-only profile over one official local integration surface. | `P089-007` | `todo` | Node owns supervised lifecycle, exact protocol mapping, version/digest pins, local transport, auth/retention/egress declarations, session fencing, dependency-loss transitions, and real start/continue/resume/cancel evidence; all native effects remain refused. |
 | `P089-008a` | Retain a real-platform host-isolation proof independent of provider settings. | `P089-008` | `todo` | With deliberately permissive provider configuration, acceptance still denies workspace mutation, arbitrary child/tool configuration, unadmitted network/credential reach, and unmediated effect execution while allowing only the explicitly admitted provider control channel. |
+| `P089-008b` | Evaluate and implement `openai-chatgpt-workspace-agent` as the candidate second deliberation-only provider profile, but only over an official Workspace Agents surface that returns terminal results. | `P089-007`, stable official result-delivery surface | `deferred` | Node owns the exact API and scoped workspace-auth mapping plus retention, egress, accounting, session, status, result, cancellation, recovery, and failure semantics; the pinned profile retrieves a bounded product and outcome without UI automation or session-cookie access and passes the generic suite. |
 | `P089-009` | Add an actuation-capable Codex profile only after a stable interceptable tool surface exists. | `P089-008a`, stable provider surface | `deferred` | End-to-end Workbench/Sensorium request, receipt, observation return, revocation, restart, dependency loss, and negative bypass evidence exists before the profile becomes routable. |
-| `P089-010` | Promote only evidence-backed capability status and synchronize all affected surfaces. | `P089-008a`; `P089-009` for actuation claims only | `todo` | Solution 047, any actually introduced Capability Registry entries, Node's coarse implementation ledger, operator docs, acceptance README/report, generated docs, mirrors, and fixtures agree with retained generic and provider evidence. A trait or schema alone is insufficient. |
+| `P089-010` | Promote only evidence-backed capability status and synchronize all affected surfaces. | `P089-008a`; `P089-008b` for ChatGPT Workspace claims only; `P089-009` for actuation claims only | `todo` | Solution 047, any actually introduced Capability Registry entries, Node's coarse implementation ledger, operator docs, acceptance README/report, generated docs, mirrors, and fixtures agree with retained generic and provider evidence. A trait or schema alone is insufficient. |
 
 ### Dependency graph
 
@@ -585,8 +614,10 @@ graph TD
     P005 --> P007[P089-007 Room and Corpus]
     P006 --> P007
     P007 --> P008[P089-008 Codex deliberation-only]
+    P007 --> P008B[P089-008b optional ChatGPT Workspace profile]
     P008 --> P008A[P089-008a host isolation proof]
     P008A --> P010[P089-010 evidence-backed promotion]
+    P008B -. ChatGPT Workspace claims only .-> P010
     P008A --> P009[P089-009 optional actuation]
     P009 -. actuation claims only .-> P010
 ```
@@ -602,6 +633,10 @@ graph TD
    fake Room/Corpus acceptance in dependency order.
 4. Admit one pinned deliberation-only Codex profile only after the generic suite
    passes, then retain the independent host-isolation proof.
-5. Keep actuation deferred. Promote generic and deliberation-only evidence
+5. Keep `openai-chatgpt-workspace-agent` as the candidate second profile behind
+   the same adapter. Do not implement or route it until an official Workspace
+   Agents surface can return terminal response data and satisfy the generic
+   suite without UI automation or session-cookie access.
+6. Keep actuation deferred. Promote generic and deliberation-only evidence
    without waiting for actuation; never promote actuation claims before
    `P089-009` is complete.
