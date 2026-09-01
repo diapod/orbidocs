@@ -50,11 +50,14 @@
             "items": { "$ref": "#/$defs/token" }
           }
         },
-        "profile-claim/ref": { "type": "string", "pattern": "^acceptance-claim:[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 256 },
+        "profile-claim/ref": { "enum": ["acceptance-claim:story-012-two-physical-host-three-node-codex-reviewer-v1"] },
         "evidence/ceiling": { "enum": ["profile-defined", "diagnostic-not-promotable"] }
       },
       "allOf": [{
-        "if": { "properties": { "host-posture": { "const": "shared-physical-hosts" } } },
+        "if": {
+          "required": ["host-posture"],
+          "properties": { "host-posture": { "const": "shared-physical-hosts" } }
+        },
         "then": { "properties": {
           "shared-failure-domains": { "minItems": 1 }
         } },
