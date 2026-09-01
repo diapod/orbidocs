@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.external-runtime.turn-request:v1",
+  "title": "Agent External Runtime Turn Request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "turn/ref", "mode", "binding/ref", "binding/digest", "agent/id",
+    "passage/ref", "passage/no", "kind", "parent-product/refs", "input/parts",
+    "input/digest", "instruction/hash", "prompt-policy/ref", "output-schema/ref",
+    "visibility", "classification", "budget/reservation", "idempotency/key",
+    "deadline/at", "admitted/at", "admitted/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.external-runtime.turn-request.v1" },
+    "turn/ref": { "$ref": "#/$defs/ref" },
+    "mode": { "enum": ["start", "continue"] },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "binding/digest": { "$ref": "#/$defs/digest" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "passage/ref": { "$ref": "#/$defs/ref" },
+    "passage/no": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "kind": { "enum": ["draft", "critique", "revision", "final"] },
+    "parent-product/refs": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "input/parts": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "$ref": "#/$defs/input-part" } },
+    "input/digest": { "$ref": "#/$defs/digest" },
+    "instruction/hash": { "$ref": "#/$defs/digest" },
+    "prompt-policy/ref": { "$ref": "#/$defs/ref" },
+    "output-schema/ref": { "$ref": "#/$defs/ref" },
+    "visibility": { "enum": ["private", "operator", "shared"] },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "budget/reservation": { "$ref": "#/$defs/finite-budget" },
+    "observation": { "$ref": "#/$defs/observation" },
+    "idempotency/key": { "$ref": "#/$defs/ref" },
+    "deadline/at": { "type": "string", "format": "date-time" },
+    "admitted/at": { "type": "string", "format": "date-time" },
+    "admitted/by": { "$ref": "#/$defs/ref" }
+  },
+  "allOf": [
+    { "if": { "properties": { "mode": { "const": "start" } } }, "then": { "not": { "required": ["observation"] } } },
+    { "if": { "properties": { "mode": { "const": "continue" } } }, "then": { "required": ["observation"] } }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "positive-safe-integer": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "finite-budget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_tokens", "max_cost_micros", "max_wall_time_ms", "max_steps"],
+      "properties": {
+        "max_tokens": { "$ref": "#/$defs/positive-safe-integer" },
+        "max_cost_micros": { "$ref": "#/$defs/positive-safe-integer" },
+        "max_wall_time_ms": { "$ref": "#/$defs/positive-safe-integer" },
+        "max_steps": { "type": "integer", "minimum": 1, "maximum": 4294967295 }
+      }
+    },
+    "input-part": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["kind", "text"],
+          "properties": { "kind": { "const": "text" }, "text": { "type": "string", "minLength": 1, "maxLength": 65536 } }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["kind", "artifact/ref", "artifact/digest", "artifact/size-bytes"],
+          "properties": {
+            "kind": { "const": "artifact" },
+            "artifact/ref": { "$ref": "#/$defs/ref" },
+            "artifact/digest": { "$ref": "#/$defs/digest" },
+            "artifact/size-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 }
+          }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["request/ref", "disposition", "reason/code", "evidence/refs"],
+      "properties": {
+        "request/ref": { "$ref": "#/$defs/ref" },
+        "disposition": { "enum": ["admitted", "refused"] },
+        "reason/code": { "$ref": "#/$defs/reason-code" },
+        "receipt/ref": { "$ref": "#/$defs/ref" },
+        "evidence/refs": { "type": "array", "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } }
+      }
+    },
+    "reason-code": { "enum": [
+      "completed", "policy-denied", "binding-missing", "binding-stale", "binding-mismatch",
+      "binding-expired", "binding-revoked", "profile-disabled", "profile-mismatch",
+      "budget-exhausted", "usage-missing", "usage-malformed", "usage-overflow", "usage-conflict",
+      "session-fence-mismatch", "session-lost", "event-malformed", "event-duplicate",
+      "event-reordered", "event-oversized", "event-unauthorized", "event-stale", "event-timeout",
+      "tool-not-admitted", "approval-not-admitted", "provider-unavailable", "cancelled", "unknown"
+    ] }
+  }
+}

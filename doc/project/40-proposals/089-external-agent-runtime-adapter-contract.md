@@ -16,10 +16,12 @@ Based on:
 
 ## Status
 
-Draft. The architectural placement and authority boundary are recorded; exact
-schemas, the Agent-host seam, a deterministic reference adapter, and every
-provider profile remain unimplemented. This proposal carries no Codex, Room, or
-runtime-acceptance claim.
+Draft, with the provider-neutral foundation implemented through `P089-007`.
+The exact schemas, pure contract crate, private Agent-host driver seam,
+deterministic fake, durable Agent/Memarium execution, BDO/Scheduler recovery,
+effect mediation, and fake Room/Corpus conformance are implemented and tested.
+No concrete provider profile is routable yet, so this proposal still carries no
+Codex or real-provider runtime-acceptance claim.
 
 ## Date
 
@@ -398,6 +400,87 @@ lifecycle, authentication, result-delivery, and failure checks. `openai-codex`
 remains the first intended admission; `openai-chatgpt-workspace-agent` remains
 blocked by the provider limitation recorded in Decision 9.
 
+### Decision 11: The live seam audit preserves the inference path and adds a closed driver path
+
+The `P089-002` audit found that Agent identity, lifecycle, ordinary binding,
+budget axes, Memarium fact storage, terminal `agent.outcome.v1`, Corpus
+participant and Chair joins, and the Corpus answer-draft admission can be reused.
+The following Inquirium execution contracts cannot be populated truthfully by an
+external runtime and remain unchanged:
+
+- `agent.inference-flow-binding.v1`;
+- `agent.inference-passage-input.v1` and
+  `agent.inference-passage-invoke.v1`;
+- `agent.inference-passage-product.v1` and
+  `agent.inference-passage-trace.v1`.
+
+External execution therefore uses the closed `agent.external-runtime.*` family
+rather than a permissive revision or placeholder model/runtime values. Corpus
+continues to bind an opaque Agent flow ref and digest. A small Agent-owned
+authority view exposes only the common Agent, binding, policy, classification,
+visibility, prompt-policy, and lifetime ceilings needed by Corpus validation;
+Corpus does not depend on the external driver crate or inspect its profile.
+
+The generic contract ownership is:
+
+| Stratum | Ownership |
+| :--- | :--- |
+| Orbidocs | Canonical cross-boundary profile, binding, turn-request, event, product, and turn-outcome schemas plus fixtures and refusal vocabulary. |
+| Agent Core | The minimal driver-independent authority view already consumed by Corpus; no session, provider, transport, or event-loop behavior. |
+| External runtime core | Provider-neutral contract values, validation, transition and accounting rules. |
+| External runtime host | The private driver port, bounded call mechanics, and deterministic fake. It owns no Agent lifecycle or Room authority. |
+| Agent daemon runtime and Memarium adapter | Durable binding, dispatch intent, reservation, session fence, product, outcome, reconciliation, and terminal-selection facts plus the disposable projection. |
+| BDO registry | Bounded operator-facing status, polling and cancellation join; never domain truth. |
+| Replay Scheduler | Bounded reconciliation launch under Agent ownership; never a second turn state machine. |
+
+The private `ensure_session`, `start_turn`, `continue_turn`, `cancel_turn`,
+`inspect`, and `close_session` behaviors do not become separate capabilities in
+V1. They are mechanics below one already admitted Agent passage. A later public
+or independently delegated control operation requires an additive Capability
+Registry decision and evidence.
+
+### Decision 12: External turns reserve a finite per-axis ceiling before dispatch
+
+The existing Agent budget shape is reused for accounting axes, but an external
+turn ceiling rejects the Agent-level zero sentinel: tokens, cost, wall time, and
+steps must all be finite and positive for every dispatch. Operator policy may
+clamp a broader Agent budget to a smaller turn ceiling.
+
+The durable transition order is:
+
+```text
+admitted binding and passage
+  -> reservation plus dispatch intent committed in one fact bundle
+  -> provider I/O
+  -> normalized events and host-selected terminal product
+  -> per-axis settlement plus outcome committed in one fact bundle
+  -> optional Agent outcome / Corpus admission
+```
+
+Measured usage may release only the measured remainder of an authoritative axis.
+Estimated or unavailable usage retains the reserved ceiling for that axis.
+Malformed, negative, overflowing, conflicting, or missing usage is a typed
+refusal and never becomes zero. A dispatch with no provable terminal outcome
+becomes `unknown`, retains the reservation, and requires reconciliation.
+
+Exact replay is keyed by the stable driver-turn ref and request digest. It returns
+the committed product and settlement without another driver call. A recovered
+intent without proof of non-dispatch may not be restarted blindly.
+
+### Decision 13: A runtime session is scoped to one exact Agent runtime binding
+
+One opaque runtime session is scoped to one local Agent, ordinary Agent binding,
+external-runtime binding generation, runtime-profile generation, and adapter
+instance epoch. Compatible passages may reuse it only while every fence remains
+exact. Forking creates another binding and session fence. Session loss is handled
+by bounded reconstruction from Agent facts or a typed terminal refusal; provider
+history never becomes durable Agent memory.
+
+The first implementation standardizes the in-process private Rust driver port and
+the canonical data crossing it. Provider transports remain profile-owned. The
+deterministic fake is the first port implementation; no SDK, sidecar, stdio, HTTP,
+or WebSocket transport is promoted into generic semantics.
+
 ## Concrete Scenario
 
 An admitted Room participant is bound to Orbiplex Agent `agent:reviewer-17`.
@@ -548,24 +631,26 @@ receipt evidence.
   Adapter as `openai-codex`, not a new Agent kind or Room identity. It remains
   non-routable until an official integration surface provides retrievable
   terminal results compatible with the generic contract.
+- **P089-RD12:** The existing `agent.inference-*` contracts remain unchanged;
+  external controller turns use the closed `agent.external-runtime.*` family
+  and never synthesize model, runtime, or model-snapshot facts.
+- **P089-RD13:** V1 standardizes an in-process private Rust driver port. Provider
+  transports and SDK choices remain profile-owned implementation details.
+- **P089-RD14:** One external session is fenced to the exact Agent binding,
+  external-runtime binding generation, profile generation, and adapter instance
+  epoch. It is never Room identity or durable memory.
+- **P089-RD15:** Public reproducibility records only a generic auth class and an
+  optional non-secret principal snapshot ref. Credentials and provider-native
+  account identifiers remain outside domain contracts.
+- **P089-RD16:** Private session/start/continue/cancel/inspect/close behavior
+  reuses the admitted Agent passage surface and introduces no capability id in
+  V1.
 
-## Open Questions
+## Deferred Provider Questions
 
-1. Should V1 standardize one driver transport while allowing multiple provider
-   profiles, or admit both SDK-sidecar and App Server mappings from the start?
-2. Should one external session be scoped to the whole Agent binding or to one
-   inference-flow/passage family, given privacy and replay trade-offs?
-3. Which exact Agent flow-binding, passage input/invoke/product/trace, accounting,
-   and terminal-selection contracts can be reused unchanged, and which require a
-   minimal compatible version or closed driver variant?
-4. Which non-secret auth-class and provider-account/workspace snapshot fields are
-   necessary for reproducibility without turning credentials into domain data?
-5. What stable provider surface can replace experimental dynamic-tool mechanisms
+1. What stable provider surface can replace experimental dynamic-tool mechanisms
    before an actuation-capable Codex profile is admitted?
-6. Which private driver behaviors reuse the existing Agent admission surface, and
-   which, if any, are independently grantable or inspectable enough to require a
-   new capability id?
-7. Which official Workspace Agents result-delivery and usage-evidence surfaces
+2. Which official Workspace Agents result-delivery and usage-evidence surfaces
    are sufficient to map a completed run to a bounded `product-candidate`,
    `turn-outcome`, accounting, cancellation, and recovery without UI automation
    or session-cookie access?
@@ -579,15 +664,15 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P089-001` | Architectural placement: distinguish model-runtime adapters, one-shot external-agent evidence bridges, and stateful External Agent Runtime Adapters. | — | `done` | Decisions 1–5 here; the boundary is propagated to Proposals 064/071 and Solutions 044/047 without an implementation claim. |
 | `P089-001a` | Resolve review-level document consistency: fix source refs and attribution, make Solution 047 statuses explicit, define progress and the adapter instance epoch, and add one continuous Room scenario. | `P089-001` | `done` | P089 `Based on`, Terminology, Decisions 2–9, Concrete Scenario, and acceptance/failure matrices; Solution 047 `May Implement`. |
 | `P089-001b` | State the Inquirium MCP execution boundary without inventing a second effect path. | `P089-001` | `done` | Proposal 064 now defines `allowed/tools` as an admission ceiling and assigns every out-of-inquiry effect to its owning host domain. |
-| `P089-002` | Audit the live Agent/Corpus seam: binding, input, invoke, product, trace, accounting, terminal selection, lifecycle, recovery, and collaborative participant/Chair joins. Name every reusable contract and required compatible version or closed driver variant. | `P089-001a`, `P089-001b` | `todo` | A checked seam map cites current schemas and Node owners, preserves the Corpus authority path, and proves that no Inquirium-shaped field is populated falsely. |
-| `P089-002a` | Freeze the accounting precondition: durable per-axis reservation before I/O, measured and conservative settlement, exact replay, and `unknown` handling. Remove every missing/malformed-usage-to-zero path. | `P089-002` | `todo` | Tests prove missing, malformed, overflowed, unavailable, crash, and replay cases neither settle to zero nor double-charge or lose a reservation. |
-| `P089-002b` | Decide generic schema ownership and map the private driver behaviors to the smallest public capability surface. | `P089-002` | `todo` | The decision distinguishes canonical cross-boundary schemas from internal traits, reuses existing Agent capabilities where sufficient, and names a new capability only for independently grantable, routable, or inspectable semantics. |
-| `P089-003` | Freeze provider-neutral contracts and refusal data: driver binding/variant, request, bounded event metadata, `turn-outcome`, product/accounting, retryability, retention, idempotency, cancellation, trace, and session-fence semantics. | `P089-002a`, `P089-002b` | `todo` | Canonical Orbidocs schemas, Node mirrors, positive fixtures, negative/refusal fixtures, generated docs, and Schema Gate checks pass; Open Questions are resolved without provider fields in Agent Core, Corpus, or Room. |
-| `P089-004` | Implement the provider-neutral driver port and deterministic fake below the pure Agent decision boundary, with all external calls and streams bounded. | `P089-003` | `todo` | Placement follows the seam audit; provider/runtime I/O stays out of `agent-core` and `agent-host`; dependency guards pass; the fake supports deterministic start/continue/cancel/inspect/session behavior. |
-| `P089-004a` | Build conformance as data before the real provider: duplicate, reordered, malformed, unauthorized, stale, slow, oversized, cancelled, crashed, `unknown`, and replay profiles. | `P089-004` | `todo` | Unit/property, refusal, replay, and bounded-growth tests cover every closed outcome/code and prove that provider prompt, reasoning, progress prose, and raw output never enter durable status or trace. |
-| `P089-005` | Implement durable host execution and recovery using Agent/Memarium facts plus BDO and Replay Scheduler, without a private state machine or queue. | `P089-004a` | `todo` | Dispatch intent, reservation, session fence, outcome, and reconciliation are durable; BDO has an explicit operation kind and bounded poll/cancel projection; Scheduler owns bounded reconciliation; crash points before/after dispatch and commit are covered. |
-| `P089-006` | Mediate external tool and approval requests through existing inert Agent effect proposals and owning-domain admission. | `P089-004a`, `P089-005` | `todo` | A data-backed refusal matrix proves that a hostile runtime cannot widen grants, bypass HIL/lease/generation, execute directly, publish, or fabricate a receipt; one admitted fake round trip returns the real receipt as a normalized observation. |
-| `P089-007` | Prove fake-runtime Room/Corpus conformance for participant and Chair roles. | `P089-005`, `P089-006` | `todo` | Acceptance covers authority revalidation, attribution, floor/lineage, explicit terminal selection, restart after dispatch, replay, cancellation, provider loss, unknown usage, and oversized/malformed events; no provider event or prose directly becomes a Room act or effect. |
+| `P089-002` | Audit the live Agent/Corpus seam: binding, input, invoke, product, trace, accounting, terminal selection, lifecycle, recovery, and collaborative participant/Chair joins. Name every reusable contract and required compatible version or closed driver variant. | `P089-001a`, `P089-001b` | `done` | Decision 11 and the ownership map preserve Agent identity/lifecycle/outcome and Corpus joins, while keeping every `agent.inference-*` contract truthful and unchanged. |
+| `P089-002a` | Freeze the accounting precondition: durable per-axis reservation before I/O, measured and conservative settlement, exact replay, and `unknown` handling. Remove every missing/malformed-usage-to-zero path. | `P089-002` | `done` | Decision 12 plus `external-agent-runtime-core::settle_reservation` reject zero/unbounded reservations and missing, malformed, overflowing, or unavailable measured usage as zero; daemon tests prove pre-I/O durable reservation, full conservative settlement, exact replay without a second driver call, and no double charge. |
+| `P089-002b` | Decide generic schema ownership and map the private driver behaviors to the smallest public capability surface. | `P089-002` | `done` | Decisions 11–13 and P089-RD13–RD16 assign canonical schemas, pure contracts, private driver mechanics, durable facts, BDO, and Scheduler without adding a capability id. |
+| `P089-003` | Freeze provider-neutral contracts and refusal data: driver binding/variant, request, bounded event metadata, `turn-outcome`, product/accounting, retryability, retention, idempotency, cancellation, trace, and session-fence semantics. | `P089-002a`, `P089-002b` | `done` | Six canonical `agent.external-runtime.*.v1` schemas, Node mirrors, generated schema pages, positive/negative fixtures, typed Rust validation, Schema Gate import/export tests, canonical self-digests, and concrete-provider leakage guards pass. Provider-surface questions remain explicitly deferred rather than generic-contract blockers. |
+| `P089-004` | Implement the provider-neutral driver port and deterministic fake below the pure Agent decision boundary, with all external calls and streams bounded. | `P089-003` | `done` | `external-agent-runtime-host` owns the deadline-carrying private port, raw-frame normalization and bounded typed batches. Turn I/O receives the earlier of the profile timeout and absolute admitted turn deadline, and elapsed deadlines fail before driver I/O. Its deterministic fake supports fenced session/start/continue/cancel/inspect/close, while dependency guards keep the driver out of Agent Core/Host, Corpus, and Room. |
+| `P089-004a` | Build conformance as data before the real provider: duplicate, reordered, malformed, unauthorized, stale, slow, oversized, cancelled, crashed, `unknown`, and replay profiles. | `P089-004` | `done` | Data-backed fake scenarios and tests cover duplicate, reordered, malformed, unauthorized, stale, slow, oversized, cancelled, crashed, unknown, tool/question continuation, provider-prose exclusion, durable exact replay, trace persistence, and bounded mediation/reconciliation growth. |
+| `P089-005` | Implement durable host execution and recovery using Agent/Memarium facts plus BDO and Replay Scheduler, without a private state machine or queue. | `P089-004a` | `done` | Agent/Memarium owns external binding, fenced session/checkpoint, dispatch intent, dispatched marker, normalized observation, terminal selection, accounting, and commit facts. Exact replay avoids driver I/O; ambiguous dispatch retains its reservation. Canonical BDO `pending`/`running` projections expose bounded poll/cancel, cancellation is a private durable intent, and the Replay Scheduler owns bounded reconcile/cancel work. A stopped Agent rejects late provider output but still permits product-free cancellation cleanup, which conservatively charges the full ambiguous reservation. Crash-before-dispatch, crash-after-dispatch, commit replay, scheduler recovery, and stopped-Agent cleanup tests pass. Concrete startup registration remains profile-owned by `P089-008`. |
+| `P089-006` | Mediate external tool and approval requests through existing inert Agent effect proposals and owning-domain admission. | `P089-004a`, `P089-005` | `done` | Typed tool and operator requests become durable normalized observations only after host mediation. Missing grants and default operator questions return typed refusals; an admitted operator answer requires a real typed mediation receipt rather than a host-fabricated ref. Classification widening and late stopped-Agent output fail closed. The admitted fake tool round trip traverses the existing proposal, HIL, dispatch-plan, owning-domain execution, receipt, and outcome path; provider text cannot fabricate a receipt or publication act. |
+| `P089-007` | Prove fake-runtime Room/Corpus conformance for participant and Chair roles. | `P089-005`, `P089-006` | `done` | Daemon acceptance binds the fake runtime to separate Room-attested participant and Chair Agents, selects a terminal external product into ordinary `agent.outcome.v1`, restarts from Agent/Memarium facts, replays without driver I/O, and admits the Chair outcome through the existing inert Corpus answer-draft boundary. Combined host/daemon conformance covers floor/lineage, authority revalidation, accounting, cancellation, provider loss, unknown usage, oversized/malformed events, and provider-field/prose exclusion; Room/Corpus wire evidence names only the Agent, participant, role, and ordinary product lineage. |
 | `P089-008` | Implement one pinned Codex deliberation-only profile over one official local integration surface. | `P089-007` | `todo` | Node owns supervised lifecycle, exact protocol mapping, version/digest pins, local transport, auth/retention/egress declarations, session fencing, dependency-loss transitions, and real start/continue/resume/cancel evidence; all native effects remain refused. |
 | `P089-008a` | Retain a real-platform host-isolation proof independent of provider settings. | `P089-008` | `todo` | With deliberately permissive provider configuration, acceptance still denies workspace mutation, arbitrary child/tool configuration, unadmitted network/credential reach, and unmediated effect execution while allowing only the explicitly admitted provider control channel. |
 | `P089-008b` | Evaluate and implement `openai-chatgpt-workspace-agent` as the candidate second deliberation-only provider profile, but only over an official Workspace Agents surface that returns terminal results. | `P089-007`, stable official result-delivery surface | `deferred` | Node owns the exact API and scoped workspace-auth mapping plus retention, egress, accounting, session, status, result, cancellation, recovery, and failure semantics; the pinned profile retrieves a bounded product and outcome without UI automation or session-cookie access and passes the generic suite. |
@@ -624,19 +709,21 @@ graph TD
 
 ## Next Actions
 
-1. Complete `P089-002`, `P089-002a`, and `P089-002b`; do not freeze names,
-   versions, public capabilities, or accounting until the live seam and every
-   current zero/default path are accounted for.
-2. Freeze schemas and refusal data in `P089-003`, then prove the neutral port
-   with the deterministic fake and negative/replay suite before any Codex code.
-3. Add durable execution, BDO/Scheduler reconciliation, effect mediation, and
-   fake Room/Corpus acceptance in dependency order.
-4. Admit one pinned deliberation-only Codex profile only after the generic suite
-   passes, then retain the independent host-isolation proof.
-5. Keep `openai-chatgpt-workspace-agent` as the candidate second profile behind
+1. Audit one official local Codex integration surface against the completed
+   neutral contracts; freeze the exact version, digest, lifecycle, auth,
+   retention, egress, usage, result, cancellation, and recovery mapping in the
+   `P089-008` profile before making it routable.
+2. Implement that pinned deliberation-only profile below the existing private
+   driver port, register its bounded reconciliation job at daemon startup, and
+   pass the unchanged generic fake/conformance suite plus provider-specific
+   lifecycle tests.
+3. Retain a real-platform `P089-008a` host-isolation proof with provider-native
+   effects configured permissively, demonstrating that only the admitted
+   provider control channel remains reachable.
+4. Keep `openai-chatgpt-workspace-agent` as the candidate second profile behind
    the same adapter. Do not implement or route it until an official Workspace
    Agents surface can return terminal response data and satisfy the generic
    suite without UI automation or session-cookie access.
-6. Keep actuation deferred. Promote generic and deliberation-only evidence
+5. Keep actuation deferred. Promote generic and deliberation-only evidence
    without waiting for actuation; never promote actuation claims before
    `P089-009` is complete.

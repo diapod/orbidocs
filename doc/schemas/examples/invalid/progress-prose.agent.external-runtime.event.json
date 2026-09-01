@@ -1,0 +1,11 @@
+{
+  "schema": "agent.external-runtime.event.v1",
+  "event/ref": "agent-external-runtime-event:invalid:1",
+  "turn/ref": "agent-external-runtime-turn:invalid",
+  "seq/no": 1,
+  "kind": "progress",
+  "progress/code": "running",
+  "progress/current": 1,
+  "progress/text": "private provider reasoning",
+  "at": "2026-09-01T00:00:01Z"
+}

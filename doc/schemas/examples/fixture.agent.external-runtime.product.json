@@ -1,0 +1,34 @@
+{
+  "schema": "agent.external-runtime.product.v1",
+  "product/ref": "agent-external-runtime-product:reviewer:1",
+  "product/digest": "sha256:osrl7Ovx3v12s4mbCyCK-qSPJYa8qKBMLgF7P-4EUK0",
+  "turn/ref": "agent-external-runtime-turn:reviewer:1",
+  "passage/ref": "agent-external-runtime-passage:reviewer:1",
+  "binding/ref": "agent-external-runtime-binding:reviewer",
+  "agent/id": "agent:reviewer",
+  "kind": "draft",
+  "parent-product/refs": [],
+  "content/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "content/size-bytes": 54,
+  "artifact/ref": "object-store:sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "retained": true,
+  "output-schema/ref": "corpus-review.v1",
+  "producer/snapshot": "external-runtime-snapshot:deterministic-fake:1",
+  "budget/used": {
+    "max_tokens": 32,
+    "max_cost_micros": 1,
+    "max_wall_time_ms": 10,
+    "max_steps": 1
+  },
+  "visibility": "operator",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {"kind": "local-space", "space": "Personal"},
+    "bound_subjects": {"personal_or_community": [{"kind": "person", "id": "participant:reviewer"}]},
+    "declassify_trail": []
+  },
+  "committed/at": "2026-09-01T00:00:02Z",
+  "committed/by": "local-control"
+}

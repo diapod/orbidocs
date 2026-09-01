@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.external-runtime.binding:v1",
+  "title": "Agent External Runtime Binding v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "binding/ref", "binding/digest", "agent/id", "agent-binding/ref",
+    "profile/ref", "profile/generation", "adapter-instance/epoch", "max/passages",
+    "prompt-policy/refs", "output-schema/refs", "visibility/ceiling",
+    "classification/ceiling", "budget/turn-ceiling", "expires/at", "created/at", "created/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.external-runtime.binding.v1" },
+    "binding/ref": { "$ref": "#/$defs/ref" },
+    "binding/digest": { "$ref": "#/$defs/digest" },
+    "agent/id": { "$ref": "#/$defs/ref" },
+    "agent-binding/ref": { "$ref": "#/$defs/ref" },
+    "profile/ref": { "$ref": "#/$defs/ref" },
+    "profile/generation": { "$ref": "#/$defs/positive-safe-integer" },
+    "adapter-instance/epoch": { "$ref": "#/$defs/ref" },
+    "max/passages": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "prompt-policy/refs": { "$ref": "#/$defs/ref-set" },
+    "output-schema/refs": { "$ref": "#/$defs/ref-set" },
+    "visibility/ceiling": { "enum": ["private", "operator", "shared"] },
+    "classification/ceiling": { "enum": ["Public", "Community", "Personal"] },
+    "budget/turn-ceiling": { "$ref": "#/$defs/finite-budget" },
+    "expires/at": { "type": "string", "format": "date-time" },
+    "created/at": { "type": "string", "format": "date-time" },
+    "created/by": { "$ref": "#/$defs/ref" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "positive-safe-integer": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "ref-set": { "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/ref" } },
+    "finite-budget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_tokens", "max_cost_micros", "max_wall_time_ms", "max_steps"],
+      "properties": {
+        "max_tokens": { "$ref": "#/$defs/positive-safe-integer" },
+        "max_cost_micros": { "$ref": "#/$defs/positive-safe-integer" },
+        "max_wall_time_ms": { "$ref": "#/$defs/positive-safe-integer" },
+        "max_steps": { "type": "integer", "minimum": 1, "maximum": 4294967295 }
+      }
+    }
+  }
+}

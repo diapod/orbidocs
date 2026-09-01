@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.external-runtime.profile:v1",
+  "title": "Agent External Runtime Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "profile/ref", "profile/generation", "driver/variant", "driver/version",
+    "transport/class", "auth/class", "session/scope", "session/persistence",
+    "retention/class", "egress/classes", "tool/mode", "usage/fidelity",
+    "event/ordering", "supports", "limits", "created/at", "created/by"
+  ],
+  "properties": {
+    "schema": { "const": "agent.external-runtime.profile.v1" },
+    "profile/ref": { "$ref": "#/$defs/ref" },
+    "profile/generation": { "$ref": "#/$defs/positive-safe-integer" },
+    "driver/variant": { "$ref": "#/$defs/ref" },
+    "driver/version": { "$ref": "#/$defs/ref" },
+    "transport/class": { "enum": ["in-process", "supervised-process", "local-socket", "remote"] },
+    "auth/class": { "enum": ["none", "operator-session", "api-credential", "workload-identity"] },
+    "principal/snapshot-ref": { "$ref": "#/$defs/ref" },
+    "session/scope": { "const": "agent-runtime-binding" },
+    "session/persistence": { "enum": ["ephemeral", "adapter-restart", "remote"] },
+    "retention/class": { "enum": ["none", "operator-policy", "provider-policy"] },
+    "egress/classes": {
+      "type": "array", "maxItems": 4, "uniqueItems": true,
+      "items": { "enum": ["text", "artifact", "metadata", "none"] }
+    },
+    "tool/mode": { "enum": ["deny-all", "mediated"] },
+    "usage/fidelity": { "enum": ["authoritative", "host-measured", "estimated", "unavailable"] },
+    "event/ordering": { "const": "strict-sequence" },
+    "supports": {
+      "type": "object", "additionalProperties": false,
+      "required": ["exact-resume", "request-idempotency", "cancellation", "inspection", "session-close"],
+      "properties": {
+        "exact-resume": { "type": "boolean" },
+        "request-idempotency": { "type": "boolean" },
+        "cancellation": { "type": "boolean" },
+        "inspection": { "type": "boolean" },
+        "session-close": { "type": "boolean" }
+      }
+    },
+    "limits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max-events", "max-event-bytes", "max-product-bytes", "turn-timeout-ms"],
+      "properties": {
+        "max-events": { "type": "integer", "minimum": 1, "maximum": 1024 },
+        "max-event-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "max-product-bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "turn-timeout-ms": { "type": "integer", "minimum": 1, "maximum": 3600000 }
+      }
+    },
+    "created/at": { "type": "string", "format": "date-time" },
+    "created/by": { "$ref": "#/$defs/ref" }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$" },
+    "positive-safe-integer": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 }
+  }
+}

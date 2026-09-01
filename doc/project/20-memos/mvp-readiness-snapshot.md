@@ -1215,6 +1215,27 @@ Recent component deltas:
   of ambient publication. P069, P073, Solution 038, and Story-011 trackers carry the same
   evidence; readiness percentages remain unchanged because both documents were
   already at their completed node-local slices.
+- The 2026-09-01 post-MVP P089 foundation adds a provider-neutral External Agent
+  Runtime path without changing Agent, Corpus, or Room identity. Six canonical
+  `agent.external-runtime.*.v1` contracts and their Node mirrors are Schema-Gated;
+  pure core accounting rejects unbounded reservations and missing, malformed, or
+  overflowing usage; and a private bounded driver port has a deterministic fake
+  covering malformed, reordered, stale, slow, oversized, crashed, cancelled, and
+  `unknown` behavior. Agent/Memarium remains the durable source of truth for
+  binding, fenced session/checkpoint, pre-I/O reservation, dispatch, normalized
+  observations, terminal selection, product, settlement, and replay. BDO exposes
+  canonical bounded poll/cancel state, while Replay Scheduler owns reconciliation
+  and durable cancellation intent without a private queue. Absolute turn deadlines
+  bound driver I/O; a stopped Agent rejects late provider output while product-free
+  cancellation cleanup retains the full ambiguous charge. Typed tool and operator
+  requests traverse the existing inert Agent effect/HIL/receipt boundary or return
+  a typed refusal, and operator admission requires a real mediation receipt. Fake
+  acceptance proves separate Room-attested participant and
+  Chair Agents, restart and exact replay without reinvocation, ordinary
+  `agent.outcome.v1`, and inert Corpus answer-draft admission without provider
+  fields or prose in Room/Corpus evidence. P089-002 through P089-007 are complete;
+  no Codex or other concrete provider profile is registered or routable until
+  P089-008, so hard-MVP readiness percentages remain unchanged.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, public-gossip promotion, and bounded trace integrity/privacy. The current Node worktree consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private signal publication and now implements `whisper.trace.publish` with exact one-time operator consent for inline disclosure, transient byte validation, and metadata-only read models. Trace authoring atomically reserves idempotency keys, independently bounds inline bytes, extensions, and total JSON, and applies a 30-day default retention sweep to its local read model. Agora enforces public trace topic/disclosure admission and projects traces outside signal thresholding, while AD/INAC admits private traces through the existing signed-envelope carrier. Story-005 asserts the exact `agora-publish` and `inac-direct` carriers, proves that private traces stay absent from Agora projection, and retains its private-signal regression guard. `agora-projections` and `agora-service` also provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer room/curation UI, and remote model deployment.
 - The 2026-08-15 Arca/Dator closeout refresh completes the hard-MVP P016 buyer-host
   settlement slice. Remote terminal results remain Artifact Delivery facts rather

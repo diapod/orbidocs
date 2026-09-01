@@ -1,0 +1,10 @@
+{
+  "schema": "agent.external-runtime.event.v1",
+  "event/ref": "agent-external-runtime-event:reviewer:1:1",
+  "turn/ref": "agent-external-runtime-turn:reviewer:1",
+  "seq/no": 1,
+  "kind": "product-candidate",
+  "content": "The proposal preserves the stated authority boundary.",
+  "output-schema/ref": "corpus-review.v1",
+  "at": "2026-09-01T00:00:01Z"
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "agent.external-runtime.profile.v1",
+  "profile/ref": "external-runtime-profile:deterministic-fake",
+  "profile/generation": 1,
+  "driver/variant": "external-runtime-driver:deterministic-fake",
+  "driver/version": "external-runtime-driver-version:1",
+  "transport/class": "in-process",
+  "auth/class": "none",
+  "session/scope": "agent-runtime-binding",
+  "session/persistence": "ephemeral",
+  "retention/class": "none",
+  "egress/classes": ["none"],
+  "tool/mode": "mediated",
+  "usage/fidelity": "authoritative",
+  "event/ordering": "strict-sequence",
+  "supports": {
+    "exact-resume": true,
+    "request-idempotency": true,
+    "cancellation": true,
+    "inspection": true,
+    "session-close": true
+  },
+  "limits": {
+    "max-events": 16,
+    "max-event-bytes": 65536,
+    "max-product-bytes": 65536,
+    "turn-timeout-ms": 5000
+  },
+  "created/at": "2026-09-01T00:00:00Z",
+  "created/by": "local-control"
+}

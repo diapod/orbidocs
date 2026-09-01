@@ -1,0 +1,15 @@
+{
+  "schema": "agent.external-runtime.turn-outcome.v1",
+  "outcome/ref": "agent-external-runtime-outcome:invalid",
+  "turn/ref": "agent-external-runtime-turn:invalid",
+  "binding/ref": "agent-external-runtime-binding:invalid",
+  "agent/id": "agent:invalid",
+  "status": "completed",
+  "reason/code": "completed",
+  "retryability": "terminal",
+  "budget/reserved": {"max_tokens": 10, "max_cost_micros": 10, "max_wall_time_ms": 1000, "max_steps": 1},
+  "budget/charged": {"max_tokens": 1, "max_cost_micros": 1, "max_wall_time_ms": 1, "max_steps": 1},
+  "usage/fidelity": "authoritative",
+  "selected/at": "2026-09-01T00:00:02Z",
+  "selected/by": "local-control"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "agent.external-runtime.turn-request.v1",
+  "turn/ref": "agent-external-runtime-turn:reviewer:1",
+  "mode": "start",
+  "binding/ref": "agent-external-runtime-binding:reviewer",
+  "binding/digest": "sha256:fEU6Jc4DxxxXuzELH5wTX0QPcszpvFuCz1sHt4b7_Iw",
+  "agent/id": "agent:reviewer",
+  "passage/ref": "agent-external-runtime-passage:reviewer:1",
+  "passage/no": 1,
+  "kind": "draft",
+  "parent-product/refs": [],
+  "input/parts": [{"kind": "text", "text": "Review the bounded proposal."}],
+  "input/digest": "sha256:_iM5LmDx5qNO9opsVcV5-r9s1NIiIn6m7Q5jXPylKZo",
+  "instruction/hash": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "prompt-policy/ref": "prompt-policy:corpus-review",
+  "output-schema/ref": "corpus-review.v1",
+  "visibility": "operator",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {"kind": "local-space", "space": "Personal"},
+    "bound_subjects": {"personal_or_community": [{"kind": "person", "id": "participant:reviewer"}]},
+    "declassify_trail": []
+  },
+  "budget/reservation": {
+    "max_tokens": 512,
+    "max_cost_micros": 1000,
+    "max_wall_time_ms": 5000,
+    "max_steps": 1
+  },
+  "idempotency/key": "external-runtime-turn:reviewer:1",
+  "deadline/at": "2026-09-01T00:05:00Z",
+  "admitted/at": "2026-09-01T00:00:00Z",
+  "admitted/by": "local-control"
+}

@@ -538,7 +538,11 @@ an extension hidden inside this solution.
 - external Agent runtime adapter profiles behind the host-owned Agent controller
   boundary, as specified by Draft Proposal 089
   (`doc/project/40-proposals/089-external-agent-runtime-adapter-contract.md`) —
-  *draft design; no implementation or runtime-acceptance claim*;
+  *provider-neutral contracts, durable host path, deterministic fake, and
+  Room/Corpus conformance implemented, including absolute turn deadlines,
+  conservative stopped-Agent cancellation cleanup, and receipt-bound operator
+  mediation; concrete provider profiles and
+  real-provider acceptance remain unimplemented*;
 - additional capability-specific effect-policy adapters — *deferred until a
   concrete consumer and owning host surface exist*;
 - specialized projection caches justified by measured workload — *deferred

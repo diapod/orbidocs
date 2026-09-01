@@ -1,0 +1,21 @@
+{
+  "schema": "agent.external-runtime.profile.v1",
+  "profile/ref": "external-runtime-profile:invalid",
+  "profile/generation": 1,
+  "driver/variant": "external-runtime-driver:invalid",
+  "driver/version": "external-runtime-driver-version:1",
+  "transport/class": "in-process",
+  "auth/class": "none",
+  "session/scope": "agent-runtime-binding",
+  "session/persistence": "ephemeral",
+  "retention/class": "none",
+  "egress/classes": ["none"],
+  "tool/mode": "deny-all",
+  "usage/fidelity": "unavailable",
+  "event/ordering": "strict-sequence",
+  "supports": {"exact-resume": false, "request-idempotency": false, "cancellation": false, "inspection": false, "session-close": false},
+  "limits": {"max-events": 1, "max-event-bytes": 1024, "max-product-bytes": 1024, "turn-timeout-ms": 1000},
+  "codex/thread-id": "provider-thread",
+  "created/at": "2026-09-01T00:00:00Z",
+  "created/by": "local-control"
+}

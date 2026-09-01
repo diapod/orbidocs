@@ -1,0 +1,24 @@
+{
+  "schema": "agent.external-runtime.binding.v1",
+  "binding/ref": "agent-external-runtime-binding:reviewer",
+  "binding/digest": "sha256:fEU6Jc4DxxxXuzELH5wTX0QPcszpvFuCz1sHt4b7_Iw",
+  "agent/id": "agent:reviewer",
+  "agent-binding/ref": "agent-binding:reviewer",
+  "profile/ref": "external-runtime-profile:deterministic-fake",
+  "profile/generation": 1,
+  "adapter-instance/epoch": "adapter-instance-epoch:fake-1",
+  "max/passages": 8,
+  "prompt-policy/refs": ["prompt-policy:corpus-review"],
+  "output-schema/refs": ["corpus-review.v1"],
+  "visibility/ceiling": "operator",
+  "classification/ceiling": "Personal",
+  "budget/turn-ceiling": {
+    "max_tokens": 512,
+    "max_cost_micros": 1000,
+    "max_wall_time_ms": 5000,
+    "max_steps": 1
+  },
+  "expires/at": "2026-09-01T01:00:00Z",
+  "created/at": "2026-09-01T00:00:00Z",
+  "created/by": "local-control"
+}

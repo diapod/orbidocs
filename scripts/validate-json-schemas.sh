@@ -293,6 +293,24 @@ schema_for_file() {
     *.agent.inference-passage-trace.json)
       echo "$SCHEMAS_DIR/agent.inference-passage-trace.v1.schema.json"
       ;;
+    *.agent.external-runtime.profile.json)
+      echo "$SCHEMAS_DIR/agent.external-runtime.profile.v1.schema.json"
+      ;;
+    *.agent.external-runtime.binding.json)
+      echo "$SCHEMAS_DIR/agent.external-runtime.binding.v1.schema.json"
+      ;;
+    *.agent.external-runtime.turn-request.json)
+      echo "$SCHEMAS_DIR/agent.external-runtime.turn-request.v1.schema.json"
+      ;;
+    *.agent.external-runtime.event.json)
+      echo "$SCHEMAS_DIR/agent.external-runtime.event.v1.schema.json"
+      ;;
+    *.agent.external-runtime.product.json)
+      echo "$SCHEMAS_DIR/agent.external-runtime.product.v1.schema.json"
+      ;;
+    *.agent.external-runtime.turn-outcome.json)
+      echo "$SCHEMAS_DIR/agent.external-runtime.turn-outcome.v1.schema.json"
+      ;;
     *.inquirium-operation-descriptor.json)
       echo "$SCHEMAS_DIR/inquirium-operation-descriptor.v1.schema.json"
       ;;
