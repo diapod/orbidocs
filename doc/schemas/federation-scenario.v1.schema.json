@@ -11,6 +11,7 @@
     "scenario/ref": { "type": "string", "pattern": "^story-[A-Za-z0-9._:-]+$", "maxLength": 256 },
     "owner/slot": { "$ref": "#/$defs/token64" },
     "port/base": { "type": "integer", "minimum": 1024, "maximum": 64000 },
+    "evidence/claim-ref": { "type": "string", "pattern": "^acceptance-claim:[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 256 },
     "nodes": {
       "type": "object",
       "minProperties": 2,

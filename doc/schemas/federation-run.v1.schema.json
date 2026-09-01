@@ -50,18 +50,33 @@
             "items": { "$ref": "#/$defs/token" }
           }
         },
+        "profile-claim/ref": { "type": "string", "pattern": "^acceptance-claim:[A-Za-z0-9][A-Za-z0-9._:/-]*$", "maxLength": 256 },
         "evidence/ceiling": { "enum": ["profile-defined", "diagnostic-not-promotable"] }
       },
       "allOf": [{
         "if": { "properties": { "host-posture": { "const": "shared-physical-hosts" } } },
         "then": { "properties": {
-          "shared-failure-domains": { "minItems": 1 },
-          "evidence/ceiling": { "const": "diagnostic-not-promotable" }
+          "shared-failure-domains": { "minItems": 1 }
         } },
         "else": { "properties": {
           "shared-failure-domains": { "maxItems": 0 },
           "evidence/ceiling": { "const": "profile-defined" }
         } }
+      }, {
+        "if": {
+          "required": ["host-posture", "evidence/ceiling"],
+          "properties": {
+            "host-posture": { "const": "shared-physical-hosts" },
+            "evidence/ceiling": { "const": "profile-defined" }
+          }
+        },
+        "then": { "required": ["profile-claim/ref"] }
+      }, {
+        "if": {
+          "required": ["evidence/ceiling"],
+          "properties": { "evidence/ceiling": { "const": "diagnostic-not-promotable" } }
+        },
+        "then": { "not": { "required": ["profile-claim/ref"] } }
       }]
     },
     "storyEvidence": {

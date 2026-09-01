@@ -42,6 +42,9 @@ When:
 
 ```json
 {
+  "required": [
+    "status"
+  ],
   "properties": {
     "status": {
       "const": "completed"
@@ -67,6 +70,9 @@ When:
 
 ```json
 {
+  "required": [
+    "status"
+  ],
   "properties": {
     "status": {
       "enum": [
@@ -107,6 +113,9 @@ When:
 
 ```json
 {
+  "required": [
+    "status"
+  ],
   "properties": {
     "status": {
       "const": "unknown"

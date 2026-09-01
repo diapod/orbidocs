@@ -31,6 +31,12 @@ Related schemas:
 - `agent.effect.dispatch.request.v1`
 - `agent.effect.dispatch.response.v1`
 - `agent.outcome.v1`
+- `agent.external-runtime.profile.v1`
+- `agent.external-runtime.binding.v1`
+- `agent.external-runtime.turn-request.v1`
+- `agent.external-runtime.event.v1`
+- `agent.external-runtime.product.v1`
+- `agent.external-runtime.turn-outcome.v1`
 - `causal-context.v1`
 
 ## Status
@@ -541,8 +547,11 @@ an extension hidden inside this solution.
   *provider-neutral contracts, durable host path, deterministic fake, and
   Room/Corpus conformance implemented, including absolute turn deadlines,
   conservative stopped-Agent cancellation cleanup, and receipt-bound operator
-  mediation; concrete provider profiles and
-  real-provider acceptance remain unimplemented*;
+  mediation; the first pinned Codex Python SDK/App Server stdio profile and its
+  separate Room-participant Reviewer Agent are implemented and acceptance-proven
+  for the exact two-host/three-node Story-012 claim; real-platform host isolation,
+  routable active-turn cancellation, actuation, and the real third-host exercise
+  remain unimplemented*;
 - additional capability-specific effect-policy adapters — *deferred until a
   concrete consumer and owning host surface exist*;
 - specialized projection caches justified by measured workload — *deferred

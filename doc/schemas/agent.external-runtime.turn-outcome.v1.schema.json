@@ -28,9 +28,9 @@
     "selected/by": { "$ref": "#/$defs/ref" }
   },
   "allOf": [
-    { "if": { "properties": { "status": { "const": "completed" } } }, "then": { "required": ["product/ref", "product/digest"] } },
-    { "if": { "properties": { "status": { "enum": ["refused", "failed", "cancelled", "unknown"] } } }, "then": { "not": { "anyOf": [{ "required": ["product/ref"] }, { "required": ["product/digest"] }] } } },
-    { "if": { "properties": { "status": { "const": "unknown" } } }, "then": { "properties": { "retryability": { "const": "reconciliation-required" }, "reason/code": { "const": "unknown" } } } }
+    { "if": { "required": ["status"], "properties": { "status": { "const": "completed" } } }, "then": { "required": ["product/ref", "product/digest"] } },
+    { "if": { "required": ["status"], "properties": { "status": { "enum": ["refused", "failed", "cancelled", "unknown"] } } }, "then": { "not": { "anyOf": [{ "required": ["product/ref"] }, { "required": ["product/digest"] }] } } },
+    { "if": { "required": ["status"], "properties": { "status": { "const": "unknown" } } }, "then": { "properties": { "retryability": { "const": "reconciliation-required" }, "reason/code": { "const": "unknown" } } } }
   ],
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$" },

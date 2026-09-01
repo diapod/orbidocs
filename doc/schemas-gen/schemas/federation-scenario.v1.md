@@ -12,6 +12,7 @@ Story-owned declarative duties, services, and dependency-ordered steps over reus
 | [`scenario/ref`](#field-scenario-ref) | `yes` | string |  |
 | [`owner/slot`](#field-owner-slot) | `yes` | ref: `#/$defs/token64` |  |
 | [`port/base`](#field-port-base) | `yes` | integer |  |
+| [`evidence/claim-ref`](#field-evidence-claim-ref) | `no` | string |  |
 | [`nodes`](#field-nodes) | `yes` | object |  |
 | [`services`](#field-services) | `yes` | array |  |
 | [`steps`](#field-steps) | `yes` | array |  |
@@ -53,6 +54,12 @@ Story-owned declarative duties, services, and dependency-ordered steps over reus
 
 - Required: `yes`
 - Shape: integer
+
+<a id="field-evidence-claim-ref"></a>
+## `evidence/claim-ref`
+
+- Required: `no`
+- Shape: string
 
 <a id="field-nodes"></a>
 ## `nodes`

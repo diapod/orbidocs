@@ -16,12 +16,14 @@ Based on:
 
 ## Status
 
-Draft, with the provider-neutral foundation implemented through `P089-007`.
+Draft, with the provider-neutral foundation implemented through `P089-007` and
+the first concrete deliberation-only profile completed by `P089-008`/`P089-008c`.
 The exact schemas, pure contract crate, private Agent-host driver seam,
 deterministic fake, durable Agent/Memarium execution, BDO/Scheduler recovery,
-effect mediation, and fake Room/Corpus conformance are implemented and tested.
-No concrete provider profile is routable yet, so this proposal still carries no
-Codex or real-provider runtime-acceptance claim.
+effect mediation, fake Room/Corpus conformance, pinned Codex stdio adapter, and
+two-host/three-node Story acceptance are implemented and tested. The evidence
+does not yet claim real-platform host isolation, routable active-turn
+cancellation, actuation, or three physical failure domains.
 
 ## Date
 
@@ -458,10 +460,13 @@ admitted binding and passage
 ```
 
 Measured usage may release only the measured remainder of an authoritative axis.
-Estimated or unavailable usage retains the reserved ceiling for that axis.
-Malformed, negative, overflowing, conflicting, or missing usage is a typed
-refusal and never becomes zero. A dispatch with no provable terminal outcome
-becomes `unknown`, retains the reservation, and requires reconciliation.
+Estimated or unavailable usage retains the reserved ceiling for that axis. Every
+terminal provider batch under an `authoritative` or `host-measured` profile,
+including `refused`, `failed`, `cancelled`, and `unknown`, must carry matching
+usage. Missing measured usage and malformed, negative, overflowing, or conflicting
+usage are typed refusals and never become zero or silently downgrade the admitted
+profile fidelity. A dispatch with no provable terminal outcome becomes `unknown`,
+retains the reservation, and requires reconciliation.
 
 Exact replay is keyed by the stable driver-turn ref and request digest. It returns
 the committed product and settlement without another driver call. A recovered
@@ -480,6 +485,56 @@ The first implementation standardizes the in-process private Rust driver port an
 the canonical data crossing it. Provider transports remain profile-owned. The
 deterministic fake is the first port implementation; no SDK, sidecar, stdio, HTTP,
 or WebSocket transport is promoted into generic semantics.
+
+### Decision 14: The first Codex profile uses the pinned Python SDK over local stdio
+
+The selected integration surface follows the official
+[Codex SDK](https://developers.openai.com/codex/sdk/) and
+[Codex App Server](https://developers.openai.com/codex/app-server/)
+documentation. The SDK controls the local App Server; V1 retains its default
+JSONL-over-`stdio` transport rather than depending on the experimental WebSocket
+surface or treating `codex exec` as a durable Agent session API.
+
+The first concrete profile uses `openai-codex==0.147.0` on Python 3.10 or newer.
+That SDK pins `openai-codex-cli-bin==0.147.0` and supervises the local Codex App
+Server through its default JSONL-over-stdio transport. The macOS arm64 acceptance
+profile pins the downloaded wheel SHA-256 values
+`ab2e0b3a41dba5a62be8561397cf3e7913afb53b5372ad881002a6f0b77e6a0a` for
+`openai_codex` and
+`b851943fffc48aa7c5c130b6a34be09964833d2785546eda96d749427c6e24f2` for
+`openai_codex_cli_bin`; the installed bundled `codex` executable must additionally
+match SHA-256
+`19c4f144c5226a9f17c58e6f0fa854843b0f77a6eb420f40e2745a12f10f5d37`.
+These pins are profile evidence, not provider-neutral contract fields.
+
+The adapter maps one fenced external session to one App Server thread. New
+sessions use `thread/start`; post-turn recovery supplies the retained thread id
+to `thread/resume`; a passage uses `turn/start`; and terminal selection waits for
+`turn/completed`. The SDK and App Server are supervised children of Node. A
+driver restart may continue only the exact retained thread under the unchanged
+Agent/runtime fence. This is a narrower post-turn continuity claim, not generic
+exact-resume support for an ambiguously dispatched active turn. Unknown dispatch
+without a retained thread and turn identity remains `unknown`; it is never
+blindly replayed.
+
+The App Server exposes `turn/interrupt`, and the pinned asynchronous SDK path is
+qualified against that surface. The first synchronous driver, however, blocks
+inside one turn call and cannot concurrently route the durable host cancel intent
+to the same active SDK handle. Its admitted profile therefore declares
+`cancellation=false`; a separate `P089-008d` task owns concurrent, routable
+cancellation rather than promoting the provider primitive as an end-to-end Node
+capability.
+
+The profile authenticates through the operator's existing local Codex session,
+declares operator/provider retention, and permits only the provider control
+channel plus prompt/response metadata egress. Provider tools, approvals, shell,
+file mutation, and dynamic child configuration are disabled and independently
+refused by the host. Structured output is a provider-side framing aid only: the
+host validates the returned bytes against the canonical Story-owned schema and
+semantic claim catalog before Room publication. Because the App Server usage
+observation does not cover every generic budget axis and may be absent on a
+non-completed turn, this profile declares `unavailable` usage fidelity and
+conservatively charges the full per-turn reservation.
 
 ## Concrete Scenario
 
@@ -665,19 +720,21 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P089-001a` | Resolve review-level document consistency: fix source refs and attribution, make Solution 047 statuses explicit, define progress and the adapter instance epoch, and add one continuous Room scenario. | `P089-001` | `done` | P089 `Based on`, Terminology, Decisions 2–9, Concrete Scenario, and acceptance/failure matrices; Solution 047 `May Implement`. |
 | `P089-001b` | State the Inquirium MCP execution boundary without inventing a second effect path. | `P089-001` | `done` | Proposal 064 now defines `allowed/tools` as an admission ceiling and assigns every out-of-inquiry effect to its owning host domain. |
 | `P089-002` | Audit the live Agent/Corpus seam: binding, input, invoke, product, trace, accounting, terminal selection, lifecycle, recovery, and collaborative participant/Chair joins. Name every reusable contract and required compatible version or closed driver variant. | `P089-001a`, `P089-001b` | `done` | Decision 11 and the ownership map preserve Agent identity/lifecycle/outcome and Corpus joins, while keeping every `agent.inference-*` contract truthful and unchanged. |
-| `P089-002a` | Freeze the accounting precondition: durable per-axis reservation before I/O, measured and conservative settlement, exact replay, and `unknown` handling. Remove every missing/malformed-usage-to-zero path. | `P089-002` | `done` | Decision 12 plus `external-agent-runtime-core::settle_reservation` reject zero/unbounded reservations and missing, malformed, overflowing, or unavailable measured usage as zero; daemon tests prove pre-I/O durable reservation, full conservative settlement, exact replay without a second driver call, and no double charge. |
+| `P089-002a` | Freeze the accounting precondition: durable per-axis reservation before I/O, measured and conservative settlement, exact replay, and `unknown` handling. Remove every missing/malformed-usage-to-zero path. | `P089-002` | `done` | Decision 12 plus `external-agent-runtime-core::settle_reservation` reject zero/unbounded reservations and missing, malformed, overflowing, or unavailable measured usage as zero. Host conformance requires matching usage for every terminal `authoritative` or `host-measured` provider batch; daemon settlement preserves the admitted profile fidelity, retains the full reservation for `estimated` or `unavailable`, and tests prove pre-I/O durable reservation, exact replay without a second driver call, and no double charge. |
 | `P089-002b` | Decide generic schema ownership and map the private driver behaviors to the smallest public capability surface. | `P089-002` | `done` | Decisions 11–13 and P089-RD13–RD16 assign canonical schemas, pure contracts, private driver mechanics, durable facts, BDO, and Scheduler without adding a capability id. |
-| `P089-003` | Freeze provider-neutral contracts and refusal data: driver binding/variant, request, bounded event metadata, `turn-outcome`, product/accounting, retryability, retention, idempotency, cancellation, trace, and session-fence semantics. | `P089-002a`, `P089-002b` | `done` | Six canonical `agent.external-runtime.*.v1` schemas, Node mirrors, generated schema pages, positive/negative fixtures, typed Rust validation, Schema Gate import/export tests, canonical self-digests, and concrete-provider leakage guards pass. Provider-surface questions remain explicitly deferred rather than generic-contract blockers. |
+| `P089-003` | Freeze provider-neutral contracts and refusal data: driver binding/variant, request, bounded event metadata, `turn-outcome`, product/accounting, retryability, retention, idempotency, cancellation, trace, and session-fence semantics. | `P089-002a`, `P089-002b` | `done` | Six canonical `agent.external-runtime.*.v1` schemas, Node mirrors, generated schema pages, positive/negative fixtures, typed Rust validation, Schema Gate import/export tests, canonical self-digests, and concrete-provider leakage guards pass. Every `turn-outcome` conditional locally requires its `status` discriminator, so the conditional contract remains fail-closed if the enclosing required-field list changes. Provider-surface questions remain explicitly deferred rather than generic-contract blockers. |
 | `P089-004` | Implement the provider-neutral driver port and deterministic fake below the pure Agent decision boundary, with all external calls and streams bounded. | `P089-003` | `done` | `external-agent-runtime-host` owns the deadline-carrying private port, raw-frame normalization and bounded typed batches. Turn I/O receives the earlier of the profile timeout and absolute admitted turn deadline, and elapsed deadlines fail before driver I/O. Its deterministic fake supports fenced session/start/continue/cancel/inspect/close, while dependency guards keep the driver out of Agent Core/Host, Corpus, and Room. |
 | `P089-004a` | Build conformance as data before the real provider: duplicate, reordered, malformed, unauthorized, stale, slow, oversized, cancelled, crashed, `unknown`, and replay profiles. | `P089-004` | `done` | Data-backed fake scenarios and tests cover duplicate, reordered, malformed, unauthorized, stale, slow, oversized, cancelled, crashed, unknown, tool/question continuation, provider-prose exclusion, durable exact replay, trace persistence, and bounded mediation/reconciliation growth. |
 | `P089-005` | Implement durable host execution and recovery using Agent/Memarium facts plus BDO and Replay Scheduler, without a private state machine or queue. | `P089-004a` | `done` | Agent/Memarium owns external binding, fenced session/checkpoint, dispatch intent, dispatched marker, normalized observation, terminal selection, accounting, and commit facts. Exact replay avoids driver I/O; ambiguous dispatch retains its reservation. Canonical BDO `pending`/`running` projections expose bounded poll/cancel, cancellation is a private durable intent, and the Replay Scheduler owns bounded reconcile/cancel work. A stopped Agent rejects late provider output but still permits product-free cancellation cleanup, which conservatively charges the full ambiguous reservation. Crash-before-dispatch, crash-after-dispatch, commit replay, scheduler recovery, and stopped-Agent cleanup tests pass. Concrete startup registration remains profile-owned by `P089-008`. |
 | `P089-006` | Mediate external tool and approval requests through existing inert Agent effect proposals and owning-domain admission. | `P089-004a`, `P089-005` | `done` | Typed tool and operator requests become durable normalized observations only after host mediation. Missing grants and default operator questions return typed refusals; an admitted operator answer requires a real typed mediation receipt rather than a host-fabricated ref. Classification widening and late stopped-Agent output fail closed. The admitted fake tool round trip traverses the existing proposal, HIL, dispatch-plan, owning-domain execution, receipt, and outcome path; provider text cannot fabricate a receipt or publication act. |
 | `P089-007` | Prove fake-runtime Room/Corpus conformance for participant and Chair roles. | `P089-005`, `P089-006` | `done` | Daemon acceptance binds the fake runtime to separate Room-attested participant and Chair Agents, selects a terminal external product into ordinary `agent.outcome.v1`, restarts from Agent/Memarium facts, replays without driver I/O, and admits the Chair outcome through the existing inert Corpus answer-draft boundary. Combined host/daemon conformance covers floor/lineage, authority revalidation, accounting, cancellation, provider loss, unknown usage, oversized/malformed events, and provider-field/prose exclusion; Room/Corpus wire evidence names only the Agent, participant, role, and ordinary product lineage. |
-| `P089-008` | Implement one pinned Codex deliberation-only profile over one official local integration surface. | `P089-007` | `todo` | Node owns supervised lifecycle, exact protocol mapping, version/digest pins, local transport, auth/retention/egress declarations, session fencing, dependency-loss transitions, and real start/continue/resume/cancel evidence; all native effects remain refused. |
+| `P089-008` | Implement one pinned Codex deliberation-only profile over one official local integration surface. | `P089-007` | `done` | Decision 14 is implemented by `external-agent-runtime-codex` plus the bounded Python helper. The profile pins `openai-codex==0.147.0`, its complete hashed dependency closure and bundled runtime; validates the helper, interpreter, and runtime bytes before spawn; supervises JSONL-over-stdio App Server transport; uses the operator's existing authenticated session; fences every thread to one exact Agent/runtime binding; denies tools and approvals; redacts provider text from progress and trace; and conservatively settles unavailable usage. Retained real qualification proves start, continue, driver restart with post-turn `thread/resume`, close, dependency and digest refusal, and the App Server interruption primitive. The synchronous profile truthfully remains `exact-resume=false` and `cancellation=false`; active-turn routing belongs to `P089-008d`. The retained redacted qualification report is `${ORBIPLEX_ACCEPTANCE_REPORT_ROOT}/node-b/p089-008/codex-runtime-qualification.local.v1.json`. |
+| `P089-008c` | Route the pinned Codex profile through a real Room-participant Agent in the Story-012 physical acceptance profile. | `P089-008`, `P074-033` | `done` | The exact `physical-two-host-three-node-codex-reviewer` claim binds `node-c` to a distinct durable Agent, Room participant, external-runtime binding, fenced Codex thread, finite reservation, selected product, typed signed review, communication trace, and node-local evidence. A first passage restarted `node-c` after the first review and continued the same durable session; a later fresh run created a new run root and provider session, then restarted and rejoined `node-c` before cleanup. Both passed all ten Story assertions, exact DNS checks, typed host-owned claims, solver/Chair model post-effect revalidation, external-Agent status/revocation revalidation, closed traces, and cleanup. Their run ids are `federation-run:story-012-physical-two-host-three-node-codex-reviewer:20260901T031054Z` and `federation-run:story-012-physical-two-host-three-node-codex-reviewer:20260901T032223Z`; aggregate SHA-256 values are `930a590f6c68ffa7cb08c91a16bd7addb465a17662eb89b2343cc4e4ae6c81da` and `8e2ae6dedb32109de95acf36cef1df97a91de109cc461c5207752f6f0defd253`. Provider identity remains absent from Room/Corpus contracts and appears only in the runtime-edge report projection. This closes only the explicit two-host/three-node profile claim; the later three-host profile reuses the adapter without changing Agent semantics. |
+| `P089-008d` | Add routable cancellation for an active Codex turn without weakening the generic durable cancel contract. | `P089-008` | `todo` | Replace or extend the blocking synchronous turn path with one bounded concurrency seam that keeps the active SDK handle addressable by the Scheduler-owned cancel job. Prove same-session `turn/interrupt`, terminal `cancelled` normalization, crash races, late completion, bounded join, and conservative settlement before changing the profile's `cancellation` flag. The already qualified App Server primitive is necessary but not sufficient evidence. |
 | `P089-008a` | Retain a real-platform host-isolation proof independent of provider settings. | `P089-008` | `todo` | With deliberately permissive provider configuration, acceptance still denies workspace mutation, arbitrary child/tool configuration, unadmitted network/credential reach, and unmediated effect execution while allowing only the explicitly admitted provider control channel. |
 | `P089-008b` | Evaluate and implement `openai-chatgpt-workspace-agent` as the candidate second deliberation-only provider profile, but only over an official Workspace Agents surface that returns terminal results. | `P089-007`, stable official result-delivery surface | `deferred` | Node owns the exact API and scoped workspace-auth mapping plus retention, egress, accounting, session, status, result, cancellation, recovery, and failure semantics; the pinned profile retrieves a bounded product and outcome without UI automation or session-cookie access and passes the generic suite. |
 | `P089-009` | Add an actuation-capable Codex profile only after a stable interceptable tool surface exists. | `P089-008a`, stable provider surface | `deferred` | End-to-end Workbench/Sensorium request, receipt, observation return, revocation, restart, dependency loss, and negative bypass evidence exists before the profile becomes routable. |
-| `P089-010` | Promote only evidence-backed capability status and synchronize all affected surfaces. | `P089-008a`; `P089-008b` for ChatGPT Workspace claims only; `P089-009` for actuation claims only | `todo` | Solution 047, any actually introduced Capability Registry entries, Node's coarse implementation ledger, operator docs, acceptance README/report, generated docs, mirrors, and fixtures agree with retained generic and provider evidence. A trait or schema alone is insufficient. |
+| `P089-010` | Promote only evidence-backed capability status and synchronize all affected surfaces. | `P089-008a`; `P089-008b` for ChatGPT Workspace claims only; `P089-009` for actuation claims only | `partial` | Solution 047, Node's coarse implementation ledger, operator/acceptance docs, proposal trackers, MVP snapshot, canonical schemas, generated docs, mirrors, fixtures, qualification report, and retained Story aggregates now agree on the implemented provider-neutral path and the exact pinned Codex deliberation-only/two-host claim. No new public capability id was introduced because runtime selection remains a private Agent-host driver choice. Completion still requires P089-008a before host-isolation promotion; ChatGPT Workspace and actuation statuses remain deferred behind P089-008b/P089-009. A trait or schema alone remains insufficient. |
 
 ### Dependency graph
 
@@ -701,6 +758,8 @@ graph TD
     P007 --> P008[P089-008 Codex deliberation-only]
     P007 --> P008B[P089-008b optional ChatGPT Workspace profile]
     P008 --> P008A[P089-008a host isolation proof]
+    P008 --> P008C[P089-008c Story 012 Codex-backed Agent]
+    P008 --> P008D[P089-008d routable active-turn cancellation]
     P008A --> P010[P089-010 evidence-backed promotion]
     P008B -. ChatGPT Workspace claims only .-> P010
     P008A --> P009[P089-009 optional actuation]
@@ -709,14 +768,12 @@ graph TD
 
 ## Next Actions
 
-1. Audit one official local Codex integration surface against the completed
-   neutral contracts; freeze the exact version, digest, lifecycle, auth,
-   retention, egress, usage, result, cancellation, and recovery mapping in the
-   `P089-008` profile before making it routable.
-2. Implement that pinned deliberation-only profile below the existing private
-   driver port, register its bounded reconciliation job at daemon startup, and
-   pass the unchanged generic fake/conformance suite plus provider-specific
-   lifecycle tests.
+1. Move the same `P089-008c` adapter and Story-owned typed Reviewer contract to
+   `cyc.local` as `node-c`, then retain the exact three-physical-host passage.
+   Keep the completed two-host profile as a narrower, separately named claim.
+2. Implement `P089-008d` only through a bounded concurrency seam that makes the
+   active SDK handle addressable by the existing Scheduler-owned cancellation
+   job; do not infer end-to-end support from the App Server primitive alone.
 3. Retain a real-platform `P089-008a` host-isolation proof with provider-native
    effects configured permissively, demonstrating that only the admitted
    provider control channel remains reachable.
