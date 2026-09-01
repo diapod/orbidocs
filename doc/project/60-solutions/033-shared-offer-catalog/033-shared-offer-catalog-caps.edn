@@ -46,6 +46,20 @@
     "Hide withdrawn snapshots from active queries while preserving inspection access"]
    :status :done}
 
+  {:cap/id :shared-offer-catalog-inference-posture-query
+   :title "Inference Posture Index and Query"
+   :kind :api
+   :based-on ["doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/40-proposals/067-shared-offer-catalog-over-agora.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
+   :schemas ["inference-execution-posture.v1"]
+   :responsibilities
+   ["Index signed bounded pre-execution posture with assertion owner exact offer scope generation and processing-boundary ref"
+    "Filter by locality posture explicit boundary relations and optional open provider references with caller-owned policy and explicit withheld unknown handling"
+    "Keep offer declarations separate from realized inference-execution provenance"
+    "Avoid closed provider, evidence-policy, deliberation-profile, or problem-domain repertoires"]
+   :status :planned}
+
   {:cap/id :shared-offer-catalog-deployment-shapes
    :title "Shared Module, Two Deployment Shapes"
    :kind :architecture

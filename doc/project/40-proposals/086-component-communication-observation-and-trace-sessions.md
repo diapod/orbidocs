@@ -295,6 +295,17 @@ semantics of general operator events.
     metadata-only host-capability or carrier transition after the owning boundary
     admits it; an observation cannot create, renew, or substitute for that authority.
 
+### Relationship to inference execution provenance
+
+Proposal 090 may cite a P086 host-observed egress or component-reported event as
+one evidence ref. P086 does not own the result-level locality claim: observation
+is optional, policy-filtered, and potentially incomplete, while component reports
+remain reports rather than host observation. The host-owned
+`inference-execution-provenance.v1` descriptor records the portable execution
+claim and its evidence basis; P086 continues to own diagnostic capture,
+completeness, gaps, and viewing. Disabling capture must not disable mandatory
+provenance production.
+
 ### Architectural Strata
 
 ```mermaid

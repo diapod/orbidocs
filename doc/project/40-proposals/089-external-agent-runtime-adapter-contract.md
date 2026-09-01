@@ -14,6 +14,10 @@ Based on:
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/60-solutions/047-agent/047-agent.md`
 
+Extended by:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 ## Status
 
 Draft, with the provider-neutral foundation implemented through `P089-007` and
@@ -23,7 +27,9 @@ deterministic fake, durable Agent/Memarium execution, BDO/Scheduler recovery,
 effect mediation, fake Room/Corpus conformance, pinned Codex stdio adapter, and
 two-host/three-node Story acceptance are implemented and tested. The evidence
 does not yet claim real-platform host isolation, routable active-turn
-cancellation, actuation, or three physical failure domains.
+cancellation, actuation, three physical failure domains, or end-to-end inference
+execution provenance. The latter remains planned under Proposal 090 and
+`P089-011`.
 
 ## Date
 
@@ -536,6 +542,34 @@ observation does not cover every generic budget axis and may be absent on a
 non-completed turn, this profile declares `unavailable` usage fidelity and
 conservatively charges the full per-turn reservation.
 
+### Decision 15: Execution provenance is public semantics; provider-native state is not
+
+Proposal 090 introduces separate provider-neutral contracts shared by Inquirium
+and external Agent runtimes. Before execution, an admitted binding exposes
+`inference-execution-posture.v1` with exact assertion owner, profile generation,
+scope, validity, and processing-boundary ref. It informs routing and disclosure
+but grants no authority and is not realized proof. An external runtime turn must
+eventually stamp its terminal product, when one exists, and terminal outcome
+with the host-derived `inference-execution-provenance.v1` descriptor. A proven
+refusal before runtime/provider I/O is
+`not-dispatched`/`not-applicable`/`none`; insufficient evidence after possible
+dispatch is explicit `unknown`. A local control transport such as stdio,
+loopback HTTP, or `channel_json` does not by itself prove local inference: a
+supervised local adapter may still send protected input to a non-local provider.
+
+This characteristic is not a provider session, adapter identity, credential,
+endpoint, account, or Room actor. Provider-native fields and prose remain
+private to the runtime edge. Higher layers may receive only the generic
+locality/egress summary, its evidence class and refs, and an optional
+non-secret provider ref when the applicable local host or consumer disclosure
+policy permits it.
+Redacting that provider ref must not remove a known non-local contribution.
+
+The current V1 Room/Corpus acceptance evidence remains valid: it proves that no
+provider identity or provider-native field entered those contracts. The
+additive provenance work must use compatible revisions or new schema versions;
+it must not rewrite historical V1 evidence or make the runtime a participant.
+
 ## Concrete Scenario
 
 An admitted Room participant is bound to Orbiplex Agent `agent:reviewer-17`.
@@ -573,8 +607,10 @@ sequenceDiagram
 
 1. A deterministic external runtime can drive one Agent passage through the
    audited Agent/Corpus authority path. Any required contract revision uses a
-   closed provider-neutral driver variant; no provider field enters Agent Core,
-   Corpus, or Room contracts.
+   closed provider-neutral driver variant; no provider-native session, account,
+   credential, endpoint, adapter-instance field, or provider prose enters Agent
+   Core, Corpus, or Room contracts. A separately standardized generic inference
+   execution provenance characteristic is permitted.
 2. Room and Corpus evidence names the Orbiplex Agent, participant, and role; no
    provider session or adapter instance appears as the speaking actor.
 3. Missing, stale, mismatched, expired, or revoked Agent/runtime bindings fail
@@ -605,6 +641,10 @@ sequenceDiagram
 12. An actuation-capable Codex profile remains non-routable until it proves one
     complete tool-request-to-owning-domain receipt round trip and all negative
     cases in the generic conformance suite.
+13. Every admitted external-runtime terminal product carries or references the
+    Proposal 090 execution provenance value. A local control transport cannot
+    erase known non-local execution, missing evidence remains `unknown`, provider
+    redaction preserves locality, and parent-product composition is monotonic.
 
 ## Trade-offs
 
@@ -621,6 +661,8 @@ sequenceDiagram
 | Failure | Mitigation |
 | :--- | :--- |
 | Provider thread becomes Room identity | Room/Corpus schemas accept only the existing participant and Agent binding; provider refs remain host-local metadata. |
+| Generic provenance is mistaken for provider identity or authority | Keep the descriptor non-authoritative and provider-neutral; prohibit session, account, endpoint, credential, adapter-instance, and provider-prose fields at the Agent/Room/Corpus boundary. |
+| Local stdio, loopback HTTP, or `channel_json` is mistaken for local inference | Derive execution provenance from the admitted runtime/profile and host-observed egress evidence, never from the immediate transport shape alone. |
 | App Server approval is treated as authority | Translate it to an inert request and require the owning Orbiplex admission path; otherwise decline. |
 | Provider settings drift or become permissive | Node host isolation independently denies workspace mutation, unadmitted process/tool configuration, credential reach, and unadmitted egress; provider settings remain defense in depth. |
 | Provider session is mistaken for durable memory | Recovery always begins from Agent facts; session reuse is fenced and optional. |
@@ -700,6 +742,12 @@ receipt evidence.
 - **P089-RD16:** Private session/start/continue/cancel/inspect/close behavior
   reuses the admitted Agent passage surface and introduces no capability id in
   V1.
+- **P089-RD17:** A scoped pre-execution posture and a separate generic realized
+  inference execution provenance descriptor may cross Agent, Corpus, and Room
+  boundaries without making the provider or adapter an identity or authority
+  root. Provider-native state remains runtime-private, exact provider disclosure
+  is optional, and known non-local execution survives redaction and downstream
+  composition.
 
 ## Deferred Provider Questions
 
@@ -713,6 +761,13 @@ receipt evidence.
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
+
+`P089-012` and `P089-013` are independent urgent correctness blockers found by
+the cross-layer provenance audit. They are retained here because either can
+invalidate the evidence required for P089 provenance and promotion claims, not
+because P089 takes ownership of Inquirium or model-runtime. Their implementation
+remains in the owning Node layers and each may land without waiting for the
+other or for the complete P090 propagation vertical.
 
 | ID | Work item | Depends on | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- | :--- |
@@ -736,7 +791,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P089-008a` | Retain a real-platform host-isolation proof independent of provider settings. | `P089-008` | `todo` | With deliberately permissive provider configuration, acceptance still denies workspace mutation, arbitrary child/tool configuration, unadmitted network/credential reach, and unmediated effect execution while allowing only the explicitly admitted provider control channel. |
 | `P089-008b` | Evaluate and implement `openai-chatgpt-workspace-agent` as the candidate second deliberation-only provider profile, but only over an official Workspace Agents surface that returns terminal results. | `P089-007`, stable official result-delivery surface | `deferred` | Node owns the exact API and scoped workspace-auth mapping plus retention, egress, accounting, session, status, result, cancellation, recovery, and failure semantics; the pinned profile retrieves a bounded product and outcome without UI automation or session-cookie access and passes the generic suite. |
 | `P089-009` | Add an actuation-capable Codex profile only after a stable interceptable tool surface exists. | `P089-008a`, stable provider surface | `deferred` | End-to-end Workbench/Sensorium request, receipt, observation return, revocation, restart, dependency loss, and negative bypass evidence exists before the profile becomes routable. |
-| `P089-010` | Promote only evidence-backed capability status and synchronize all affected surfaces. | `P089-008a`; `P089-008b` for ChatGPT Workspace claims only; `P089-009` for actuation claims only | `partial` | Solution 047, Node's coarse implementation ledger, operator/acceptance docs, proposal trackers, MVP snapshot, canonical schemas, generated docs, mirrors, fixtures, qualification report, and retained Story aggregates now agree on the implemented provider-neutral path and the exact pinned Codex deliberation-only/two-host claim. No new public capability id was introduced because runtime selection remains a private Agent-host driver choice. Completion still requires P089-008a before host-isolation promotion; ChatGPT Workspace and actuation statuses remain deferred behind P089-008b/P089-009. A trait or schema alone remains insufficient. |
+| `P089-010` | Promote only evidence-backed capability status and synchronize all affected surfaces. | `P089-008a`, `P089-011`, `P089-012`, `P089-013`; `P089-008b` for ChatGPT Workspace claims only; `P089-009` for actuation claims only | `partial` | Solution 047, Node's coarse implementation ledger, operator/acceptance docs, proposal trackers, MVP snapshot, canonical schemas, generated docs, mirrors, fixtures, qualification report, and retained Story aggregates now agree on the implemented provider-neutral path and the exact pinned Codex deliberation-only/two-host claim. No new public capability id was introduced because runtime selection remains a private Agent-host driver choice. Completion still requires P089-008a and the provenance/correctness blockers P089-011 through P089-013 before broader promotion; ChatGPT Workspace and actuation statuses remain deferred behind P089-008b/P089-009. A trait or schema alone remains insufficient. |
+| `P089-011` | Bind external-runtime posture and project terminal products and outcomes into the shared provider-neutral inference execution provenance contract. | `P090-003`, `P089-003`, `P089-005` | `todo` | The admitted binding exposes separate `inference-execution-posture.v1` with exact assertion owner, profile generation, scope, validity, and processing boundary; it grants no authority and is not realized proof. The host stamps every terminal product, when one exists, and terminal outcome with the provider-neutral provenance descriptor: a proven pre-I/O refusal is `not-dispatched`/`not-applicable`/`none`, while insufficient evidence after possible dispatch is explicit `unknown`. Evidence class and refs remain typed; optional provider disclosure excludes provider-native session/account/auth/endpoint fields; parent products compose monotonically; redaction preserves known non-local execution; Room/Corpus/Assistant projections can consume the generic values without inspecting the runtime profile. Schema revisions, mirrors, fixtures, Schema Gate tests, durable replay, and downgrade/stripping refusals pass before any provenance capability claim is promoted. |
+| `P089-012` | **Urgent:** replace transport-only `runtime_is_remote` use in raw file-lease admission with explicit host-owned data-plane access eligibility, while deriving execution posture separately. | — | `todo` | Raw `file://` eligibility is an operation-scoped decision over the existing lease policy, runtime placement and path reachability, admitted adapter/runtime identity, canonical allowed-root containment, and egress/no-egress constraints; it is not inferred from `http_api`, loopback, stdio, or P090 locality alone. An OpenAI sidecar reached through `http_local` or `channel_json` is denied raw-file access; native llama/MLX is eligible only when co-located, explicitly admitted for that scope, and no-egress evidence and containment hold; a runtime on another host remains ineligible for this host's path even when both hosts belong to one admitted processing boundary and must use an artifact/object-store carrier. Missing, stale, or contradictory facts fail closed. A separate host-owned path later emits `inference-execution-posture.v1` and realized provenance relative to its exact boundary, and neither value grants file reachability. Regression tests cover the independent cross-product of transports, placement, lease policy, boundary relation, provider profile, unknown catalogs, and profile drift. This task is independent of `P089-013` and may land before the full propagation vertical or P090 acceptance. |
+| `P089-013` | **Urgent:** repair the OpenAI embedding adapter response/Rust DTO mismatch and retain a daemon-level regression path. | — | `todo` | The Python edge response and its private Rust adapter DTO agree on `provider` and `provider_request_id` under a reviewed schema-bound contract; `deny_unknown_fields` remains effective for truly unknown data; the full daemon OpenAI embedding path parses a real-shaped response and normalizes only the permitted provider ref and evidence class for future P090 projection. Provider request IDs remain runtime-private or are retained only behind a bounded local audit ref; they never enter the public P090 value. Negative fixtures cover missing, malformed, unexpected, and attempted public-leakage fields. This task is independent of `P089-012`. |
 
 ### Dependency graph
 
@@ -769,29 +827,44 @@ graph TD
     P008B -. ChatGPT Workspace claims only .-> P010
     P008A --> P009[P089-009 optional actuation]
     P009 -. actuation claims only .-> P010
+    P003 --> P011[P089-011 execution provenance]
+    P005 --> P011
+    P090003[Proposal 090 P090-003 canonical contracts] --> P011
+    P011 --> P010
+    P012[P089-012 urgent data-plane eligibility] --> P010
+    P013[P089-013 urgent embedding contract repair] --> P010
 ```
 
 ## Next Actions
 
-1. Move the same `P089-008c` adapter and Story-owned typed Reviewer contract to
+1. Complete `P089-012`: remove the `http_api == remote` heuristic from raw
+   file-lease admission, introduce explicit host-owned data-plane eligibility,
+   and keep it separate from boundary-relative execution posture and provenance.
+2. Complete the independent `P089-013` embedding contract repair with one full
+   daemon regression path; do not weaken `deny_unknown_fields` to make the
+   mismatch disappear.
+3. Freeze Proposal 090, then implement `P089-011` as an additive generic
+   provenance projection without exposing provider-native state or rewriting
+   the retained V1 Room/Corpus evidence.
+4. Move the same `P089-008c` adapter and Story-owned typed Reviewer contract to
    `cyc.local` as `node-c`, then retain the exact three-physical-host passage.
    Keep the completed two-host profile as a narrower, separately named claim.
-2. Implement `P089-008d` only through a bounded concurrency seam that makes the
+5. Implement `P089-008d` only through a bounded concurrency seam that makes the
    active SDK handle addressable by the existing Scheduler-owned cancellation
    job; do not infer end-to-end support from the App Server primitive alone.
-3. Retain a real-platform `P089-008a` host-isolation proof with provider-native
+6. Retain a real-platform `P089-008a` host-isolation proof with provider-native
    effects configured permissively, demonstrating that only the admitted
    provider control channel remains reachable.
-4. Implement `P089-008e` first through the documented thread-name surface. Keep
+7. Implement `P089-008e` first through the documented thread-name surface. Keep
    project grouping optional and provider-private until an official project
    create/assign operation exists.
-5. Review the proposed `P089-008f` 30-day retention default and disposition, then
+8. Review the proposed `P089-008f` 30-day retention default and disposition, then
    implement it as bounded Scheduler work over adapter-owned terminal sessions;
    never let provider cleanup erase Agent or Room/Corpus evidence.
-6. Keep `openai-chatgpt-workspace-agent` as the candidate second profile behind
+9. Keep `openai-chatgpt-workspace-agent` as the candidate second profile behind
    the same adapter. Do not implement or route it until an official Workspace
    Agents surface can return terminal response data and satisfy the generic
    suite without UI automation or session-cookie access.
-7. Keep actuation deferred. Promote generic and deliberation-only evidence
+10. Keep actuation deferred. Promote generic and deliberation-only evidence
    without waiting for actuation; never promote actuation claims before
    `P089-009` is complete.

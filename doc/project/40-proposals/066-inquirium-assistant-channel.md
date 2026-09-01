@@ -10,6 +10,10 @@ Based on:
 - `doc/normative/50-constitutional-ops/en/UNIVERSAL-BASIC-COMPUTE.en.md`
 - `doc/project/40-proposals/057-user-and-operator-notifications.md`
 
+Extended by:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Promoted to:
 
 - `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
@@ -1291,6 +1295,35 @@ retention may narrow how long audit facts remain, but it cannot make an expired
 or revoked grant active again. Authorization remains fail-closed independently
 of maintenance progress.
 
+### Decision 13: Remote disclosure has a preflight decision and a realized result fact
+
+The existing model-acceptance policy and egress acknowledgement remain the
+pre-I/O authority gate. They answer whether this turn may send the admitted
+input and context to a non-local inference path. They do not prove where the
+result was actually produced and must not be reused as post-result provenance.
+The planned `inference-execution-posture.v1` value is the bounded disclosure and
+routing input for that gate: it binds the assertion owner, selected runtime or
+profile generation, turn/context scope, validity, and exact processing-boundary
+ref. It does not itself grant egress or replace the existing acknowledgement and
+classification checks.
+
+Every terminal assistant response, retained result fact, transcript projection,
+and Activity item must eventually carry or reference the host-derived
+`inference-execution-provenance.v1` value defined by Proposal 090. The value
+records realized local, non-local, mixed, or unknown execution separately from
+the request policy. An optional non-secret provider ref may be shown when local
+operator disclosure policy permits it; account, credential, endpoint, adapter-instance,
+and provider-session fields remain outside the channel contract.
+
+Node UI must expose both moments truthfully: a preflight notice before every
+admitted non-local inference I/O, and a durable post-result badge derived from
+the realized provenance. The notice is always shown for the non-local route;
+consent or acknowledgement remains a separate authority gate whose necessity
+is determined by local classification/context policy (the current remote-turn
+slice requires it). Unknown provenance is visible and is handled by operator
+policy; it never becomes an implicit local result. Provider redaction may hide
+the provider ref but cannot hide known non-local execution.
+
 ## Contract Sketch
 
 The assistant MVP needs a generate/chat contract aligned with the already
@@ -1360,7 +1393,9 @@ daemon depend on `inquirium-core`. The important properties are:
 - local-only policy is enforceable;
 - context assembly is declarative and default-empty;
 - typed denials are first-class outcomes;
-- trace references are returned without leaking protected context.
+- trace references are returned without leaking protected context;
+- request locality remains policy while the response carries or references the
+  separate realized inference execution provenance.
 
 ### Assistant Turn Host Capability
 
@@ -1515,6 +1550,8 @@ Tasks:
 - validate dangerous combinations such as remote provider plus high acceptance
   unless explicitly acknowledged by the operator;
 - trace source, classification, decision, and egress per element;
+- attach the realized Proposal 090 provenance to the terminal response and
+  retained result rather than reconstructing it from the requested locality;
 - introduce `ClassKeyed<T>` resolution for prompt, retention, trace, redaction,
   and adapter parameters.
 
@@ -1525,6 +1562,8 @@ Done criteria:
   allows it and operator acknowledgement exists;
 - context denied by one layer cannot be reintroduced by a lower layer;
 - trace explains every context item decision.
+- terminal responses preserve `local`, `non-local`, `mixed`, or `unknown`
+  execution provenance and cannot be downgraded by transcript projection.
 
 ### Phase 2b: Observability Feed
 
@@ -1535,6 +1574,8 @@ Tasks:
 - add an "Activity" view beside the assistant conversation;
 - project over Inquirium trace/decision records;
 - mark provenance for each item;
+- render a post-result locality badge and optional disclosed provider separately
+  from the preflight egress acknowledgement;
 - keep it read-only, local-only, and operator-facing;
 - define which activity items become notifications.
 
@@ -1543,6 +1584,7 @@ Done criteria:
 - activity feed is not stored as transcript;
 - feed records are not sent to model prompts by default;
 - provenance and classification are visible to the operator.
+- known non-local execution and `unknown` remain visible after provider redaction.
 
 ### Phase 3: Agentic Effects
 
@@ -1694,29 +1736,32 @@ No unresolved questions remain for this proposal's current contract.
 
 ## Next Actions
 
-1. Continue conformance expansion after the landed generate/embed/classify/
+1. Freeze Proposal 090 and add `assistant-model-egress-provenance` plus
+   `assistant-remote-disclosure-ui` without weakening the current pre-I/O model
+   acceptance and acknowledgement gates.
+2. Continue conformance expansion after the landed generate/embed/classify/
    rerank and deterministic image runner slices when audio or live image
    provider contracts gain executable adapters. Summarize/transform reuse the
    hardened generate substrate rather than creating a parallel runner path.
-2. Build distributor packaging and real operator installation UX around the
+3. Build distributor packaging and real operator installation UX around the
    landed baseline profile renderer; the tool records artifact lifecycle data
    but intentionally does not install binaries or model weights. Follow the
    frozen production packaging profile in Decisions 8.5.1 and 8.5.2 and the
    post-MVP productization tracker below. Resolve the model-storage root before
    adding download or activation effects so large assets never acquire an
    implicit physical location.
-3. Keep the `inquirium-core` dependency-direction gate in CI as the vocabulary
+4. Keep the `inquirium-core` dependency-direction gate in CI as the vocabulary
    grows across summarize/transform/image and future audio/training contracts.
-4. Add broader tests proving no Messaging dispatch, no relationship record
+5. Add broader tests proving no Messaging dispatch, no relationship record
    creation, no Memarium read, and no remote egress in Phase 1.
-5. Derive future remote egress acknowledgements from admitted route/provider
+6. Derive future remote egress acknowledgements from admitted route/provider
    evidence. Explicit model-acceptance ceilings, exact caller acknowledgements,
    protected-source egress grants, revocation, and Decision 12
    archive-before-prune maintenance are already landed.
-6. Keep the landed dependency-direction lints in CI as new trace readers and
+7. Keep the landed dependency-direction lints in CI as new trace readers and
    operation families are added; transcript reads continue through a separate
    capability rather than Memarium runtime imports.
-7. Add richer widget rendering and, only if operator UX requires non-lazy
+8. Add richer widget rendering and, only if operator UX requires non-lazy
    timeout surfacing, a shared-scheduler sweep. Cancel/supersede and paired
    notification closure are already implemented.
 
@@ -1758,6 +1803,8 @@ That advisory remains only a working note; this table is the canonical backlog.
 | `assistant-model-acceptance-policy` | Add classification-aware model acceptance policy. | `done` | `ContextAcceptancePolicy` evaluates class-keyed include/drop/fail-closed decisions after assembly. An explicit remote turn must use `remote_allowed + remote_capable` and carry `AssistantRemoteAcceptancePolicy` with `accepts/max-tier`; the user turn and every included context item are checked against that ceiling, while missing classification remains Personal. The strict-local baseline remains the default and carries no remote policy. |
 | `assistant-model-egress-ack` | Validate high-sensitivity model acceptance and remote egress. | `done` | Remote assistant turns require an explicit `egress/ack-ref` and are local-control-only in this slice; module callers are denied until a module-scoped egress grant exists. Protected context must be resolved through `context_assembly`, where the durable participant/session/source grant must authorize egress and match the exact acknowledgement. Context traces record the effective tier, model ceiling, and acknowledgement ref; mismatches fail closed and can trigger host boundary-risk escalation. |
 | `assistant-context-decision-tracing` | Trace each context element's policy decision. | `done` | Assistant trace and transcript facts carry prompt-free context decision records with `context/ref`, source metadata, grant ref, effective tier, and include/drop/fail decision; model-egress enrichment remains later work. |
+| `assistant-model-egress-provenance` | Carry the Proposal 090 realized inference execution provenance through assistant responses, terminal transcript facts, trace records, replay, export/import, and Activity projections. | `todo` | Every inference-derived result and every terminal outcome after possible dispatch carries or references a schema-valid provenance value; a proven pre-I/O refusal is `not-dispatched`/`not-applicable`/`none`, while insufficient evidence after possible dispatch is explicit `unknown`. The host stamps the value from the admitted execution path and evidence rather than request metadata or model output; cache, transcript, bundle import/export, and rebuild preserve it; no consumer can downgrade known non-local or mixed execution to local. |
+| `assistant-remote-disclosure-ui` | Show preflight egress disclosure and post-result execution provenance as two distinct operator-facing states. | `todo` | Before every admitted non-local inference I/O, Node UI shows the host-admitted `inference-execution-posture.v1` value bound to the assertion owner, exact runtime/profile generation, turn/context scope, validity, and processing-boundary ref, plus destination/provider class when local disclosure policy permits it. Where local classification/context policy requires acknowledgement — including the current remote-turn slice — the UI also shows its ceiling and scope. The posture remains an input to existing authority gates, not a grant. After completion, the rendered answer and Activity item show realized locality or `unknown` plus an optional provider ref. Provider redaction preserves the non-local badge, and UI tests prove that request policy is never presented as execution fact. |
 | `class-keyed-mechanism-in-classification` | Put the shared ordered-axis resolve mechanism in the `classification` crate, beside `Classified<T>`. | `done` | `classification` owns `OrderedAxisRank`, `OrderedAxisKey`, `resolve_ordered_axis`, the shared three-value monotonicity predicate, and the full classification no-broadening relation over effective tier, bound subjects, and quarantine. `inquirium-core` keeps the concrete `ClassKeyed<T>` and `ModeKeyed<T>` DTOs and domain-specific error messages while using those shared mechanics for class- and mode-keyed escalation/rigor validation. Unit tests cover resolver, monotonic/non-monotonic axes, subject-set broadening, and quarantine preservation. |
 | `assistant-class-keyed-config` | Inquirium class-keyed config schemas in `inquirium-core` (Inquirium as first consumer). | `done` | `ClassKeyed<T>` is present in `inquirium-core` and used for retention/context policy plus the class axis of assistant escalation over the shared `classification` ordered-axis resolver. The per-classification prompt template named here is realized through `PromptLayer.class/key` in the host-owned `PromptAssemblyPolicy` (P064, *Configurable Prompt Assembly Policy* / tracker `inq-prompt-assembly-policy`), so the assistant does not grow a second prompt-shaping path. Escalation composes this class axis under `ModeKeyed` and validates that stricter modes and more sensitive classes cannot lower the floor. |
 | `assistant-observability-feed` | Add optional Activity feed over Inquirium traces. | `done` | `inquirium.assistant.activity.feed` returns metadata-only assistant trace items; module callers are denied, Node UI has a bounded limit selector, and local-control test covers the path. |

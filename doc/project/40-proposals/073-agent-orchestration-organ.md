@@ -335,6 +335,30 @@ trace. Step facts and traces bind that evidence to the enclosing `agent/id`,
 binding auditable; the causal context preserves the source chain without retaining
 payload bytes.
 
+#### Inference posture and execution provenance are not Agent identity
+
+Before an admitted passage or external-runtime turn, Agent Host exposes the
+separate `inference-execution-posture.v1` value needed by Assistant or Room
+policy. It binds the assertion owner, exact Agent runtime binding/profile
+generation, task/turn or Room-policy scope, validity, and processing-boundary
+ref. Agent Core treats it as bounded policy input, not as a grant, permanent
+Agent property, or proof of the later execution.
+
+Every Inquirium passage product and external-runtime product must eventually
+carry or reference the provider-neutral
+`inference-execution-provenance.v1` value defined by Proposal 090. Agent Core
+does not infer locality from runtime names, model snapshots, transport kinds, or
+provider-specific payloads. The host stamps the realized value at the execution
+boundary and Agent composes it monotonically through parent products, terminal
+selection, compatible trace and outcome revisions, and consumer projections.
+
+This characteristic describes how one product was processed; it does not change
+the Agent's identity, lifecycle, grants, Room role, or effect authority. A single
+Agent may produce local, non-local, mixed, and unknown products over time.
+Optional provider refs remain open and disclosure-controlled. Removing an exact
+provider ref cannot remove a known non-local contribution, and missing
+provenance cannot become local during replay or projection.
+
 ### 6. Stratification and crates
 
 ```text
@@ -624,6 +648,9 @@ a new approval surface; durable facts use the `memarium.write` fact plane.
 - `agent.outcome.v1` — the terminal product a consumer picks up: terminal state,
   `product/kind`, content-addressed `product/ref` (a draft, never inline),
   `budget-spent`, and `trace/ref`.
+- `agent.outcome.v2` — planned Proposal 090 successor preserving the v1 fields
+  and carrying the monotonically composed inference execution provenance or its
+  exact ref; v1 is not extended in place.
 - `agent.assistant-draft.accept.request.v1` /
   `agent.assistant-draft.acceptance.v1` /
   `agent.assistant-response-draft.v1` — a same-session, local-control acceptance
@@ -834,7 +861,9 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `agent-inference-execution-posture` | Expose scoped Proposal 090 posture for the selected built-in or external runtime binding without turning it into Agent identity or authority. | `todo` | Agent Host binds `inference-execution-posture.v1` to the assertion owner, exact Agent/runtime binding and profile generation, task/turn or Room-policy scope, validity, and processing-boundary ref. Agent Core carries only the bounded provider-neutral value. Missing, expired, invalid, contradictory, and unrelated-boundary posture remains `unknown` or non-match; posture grants no inference, egress, context, file lease, membership, floor, or effect authority and is never copied as realized evidence. Assistant and Room preflight conformance consume the same value. |
 | `agent-operational-context-framing` | Propagate source-owned operational impact into pre-inference Agent context without adding vertical vocabulary to `agent-core`. | `done` | `agent-core` carries only bounded generic qualifier refs and strict SHA-256 digests. The daemon resolver validates the complete current P082 read result, source generation, effective publication, schema, and digest before deriving those neutral qualifiers; stale, malformed, inconsistent, or superseded evidence fails closed without an Agent-owned TTL. The composition root computes a monotone local maximum across feeds, records host-owned provenance pairing each source class with its digest plus the local policy ref, floor, and selected class in both request metadata and the durable Inquirium trace, and supplies the versioned non-droppable P064 caution layer before feed-dependent inference. The trace receives that host projection directly rather than trusting caller metadata or provider output. Tests retain per-source evidence, prove order-independent maximum and provenance selection, and keep the at-most-512-byte source summary out of instructions and durable Agent payloads. |
+| `agent-inference-execution-provenance` | Preserve and monotonically compose Proposal 090 provenance across built-in Inquirium passages, external-runtime products, parent products, terminal selection, traces, the planned `agent.outcome.v2` or compatible successor, and consumer projections. | `todo` | Agent Core carries only the provider-neutral descriptor/ref and pure join; the host supplies schema-gated realized evidence. `agent.outcome.v1` remains the current historical carrier and is not extended in place. Exact replay and dirty restart retain the committed successor value without reinvocation. A non-local or mixed parent cannot yield a local child; absence becomes `unknown`; optional provider redaction preserves locality; provider-native session/account/auth/endpoint data and runtime-specific vocabulary remain outside Agent Core. Assistant, Corpus, and Room conformance prove no drop or downgrade at their acceptance boundaries. |
 | `agent-core-crate` | Create thin `agent-core` contract crate with Agent/controller/budget/grant DTOs and the lifecycle state machine. | `done` | `node/agent-core` compiles as a substrate-free contract crate: `AgentSpec`/`AgentParams`/`AgentBudget`/`ControllerPolicy`/`TerminationCondition`/`CapabilityGrant` DTOs with `deny_unknown_fields` and `validate()`, fail-closed classification ceiling, conservative developer defaults, `idempotency/key` on spawn, `agent.step-decision.v1`, `agent.spawn.response.v1`, `agent.status.request.v1`, `agent.status.response.v1`, `agent.stop.response.v1`, the `AgentLifecycleState::apply` state machine, and the `validate_fork_from` monotone-narrowing validator. Evidence: `cargo test -p orbiplex-node-agent-core`, `cargo clippy -p orbiplex-node-agent-core -- -D warnings`, and `python3 tools/check-agent-core-deps.py` pass. Runtime budget metering, fork budget split, and durable wiring are tracked separately below. |
 | `agent-dep-direction-lint` | Add a dependency-direction lint so `agent-core` cannot import substrate or another vertical domain. | `done` | `node/tools/check-agent-core-deps.py` uses a positive direct-dependency allowlist, admits the pure horizontal `semantic-registry-core` data/selection algebra, names pure `inquirium-core` DTOs as the sole vertical exception, rejects daemon/model-runtime/HTTP/async/SQLite and vertical-domain packages through `cargo tree`, and rejects Room, Corpus, Memarium, Sensorium, Workbench, and other source/effect vocabulary in the core source. It is wired into `.github/workflows/docs.yml`, and the current check passes. An `xtask`-level lint may later replace the standalone script. |
 | `agent-inquirium-boundary-docs` | Document that the durable agent loop lives above Inquirium and that assistant agentic effects are realized through Agent. | `done` | Proposal 064 now has the *Agent Loop Lives Above Inquirium* boundary note, Proposal 066 Phase 3 points agentic effects at Proposal 073, and this proposal owns the lifecycle/controller/budget tracker. |
@@ -867,25 +896,28 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 
 ## Next Actions
 
-1. Keep future capability-specific effect policy adapters additive: register a
+1. Implement `agent-inference-execution-provenance` only after Proposal 090 and
+   the Inquirium production boundary are frozen; preserve the pure horizontal
+   join and keep provider-native vocabulary outside Agent Core.
+2. Keep future capability-specific effect policy adapters additive: register a
    pure validator and closed execution target only when a concrete consumer and
    owning host surface exist; never add a generic fallback.
-2. Preserve the Assistant Channel boundary: escalation remains explicit and
+3. Preserve the Assistant Channel boundary: escalation remains explicit and
    human-approved, draft acceptance remains render-only, and publication remains
    a separately admitted effect.
-3. Keep the node-local operator list, diagnostics, maintenance, failpoint
+4. Keep the node-local operator list, diagnostics, maintenance, failpoint
    matrix, and standalone process/soak pack on the Agent release gate. A later
    cross-node or federated runtime must begin in a separate proposal and must
    not widen these host-local surfaces into network authority.
-4. Preserve the horizontal observation/effect port: new vertical domains extend
+5. Preserve the horizontal observation/effect port: new vertical domains extend
    the daemon resolver/adapter registries and static wiring, never `agent-core`.
    Every binding remains operator-authored, schema-gated, digest-pinned, and
    represented by a prompt-free resolution reference while preserving the
    validated P081 causal context in trace.
-5. Keep the shared Story 011/012 three-node bootstrap as the lower acceptance
+6. Keep the shared Story 011/012 three-node bootstrap as the lower acceptance
    stratum. Story-specific runners may add domain fixtures and assertions, but
    must not fork federation-root, participant-binding, or restart semantics.
-6. Treat Proposal 085 as the owner of optional post-MVP Agent decision hooks and
+7. Treat Proposal 085 as the owner of optional post-MVP Agent decision hooks and
    experiment packages. `choose-next-step`, fan-out shaping, or risk
    classification may select or narrow host-produced alternatives, but cannot
    widen the Agent profile, parent authority, budget, classification, effect

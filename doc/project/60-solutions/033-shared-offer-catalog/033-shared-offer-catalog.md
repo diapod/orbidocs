@@ -1,5 +1,14 @@
 # Shared Offer Catalog
 
+Based on:
+
+- `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
+- `doc/project/40-proposals/067-shared-offer-catalog-over-agora.md`
+
+Planned extension:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 The `Shared Offer Catalog` is a Node-attached middleware solution component that
 materializes a public/federated offer read model from Agora `offer-snapshot`
 records.
@@ -25,6 +34,8 @@ The component is responsible for:
 - storing the current offer projection in SQLite through the shared
   `lib/catalog.py` `SqliteCatalog` substrate,
 - exposing active-offer query APIs with provenance and trust metadata,
+- eventually indexing signed inference-posture characteristics without
+  presenting them as realized execution facts,
 - retaining rejected/skipped replay diagnostics.
 
 ## Scope
@@ -116,6 +127,26 @@ outside the middleware process.
 The service-catalog query supports `service_type`, provider participant,
 provider node, `active` / `active_only`, and `limit`. Active-only is default.
 
+### Inference posture query (planned)
+
+The additive Proposal 090 slice will index the separate signed
+`inference-execution-posture.v1` value carried by a compatible service-offer
+revision or sidecar and expose deterministic filters for locality posture,
+optional open provider refs, caller-owned provider allow/deny policy, and
+withheld or unknown identity. The value binds assertion owner, exact offer
+subject/generation/scope, and versioned processing-boundary ref. A filter
+compares only the same boundary or a locally admitted explicit boundary
+relation; unrelated boundaries are non-matching or `unknown`, never implicitly
+local. The vocabulary remains extensible; the component does not define a
+closed provider registry, deliberation-profile catalog, or evidence-policy
+repertoire.
+
+This query surface describes what an offer declares it may use. It cannot emit
+or infer realized `inference-execution-provenance.v1`, which is produced only
+after an invocation and validated by the service consumer. In particular,
+`corpus/model-class`, a loopback endpoint, or a local adapter process is not
+proof of local inference.
+
 ## Withdrawal
 
 Withdrawal is modeled as a higher-`sequence/no` `service-offer.v1` snapshot with
@@ -136,4 +167,6 @@ admission coverage.
 Remaining work is post-MVP hardening: richer production monitoring, broader
 multi-catalog deployment matrices, and eventual retirement of legacy
 `offer-catalog.fetch` / `offer-catalog.push` compatibility wire names after
-Agora-backed deployments cover the needed federation paths.
+Agora-backed deployments cover the needed federation paths. The Proposal 090
+inference-posture index and filter are also planned and not part of the completed
+hard-MVP evidence.

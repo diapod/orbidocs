@@ -10,6 +10,10 @@ Based on:
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/036-room/036-room.md`
 
+Planned extension:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Related schemas:
 
 - `topic-taxonomy.v1`
@@ -40,6 +44,8 @@ Related schemas:
 - `classification.v1`
 - `room-moderation-intent.v1`
 - `room-moderation-audit.v1`
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
 
 ## Status
 
@@ -185,6 +191,13 @@ Corpus wire contracts reuse existing money, procurement, classification,
 canonical JSON, and Room conventions. It does not introduce a Corpus-specific
 canonicalization profile or a new settlement rail.
 
+The additive Proposal 090 slice will keep offer posture and realized execution
+provenance separate. `corpus/model-class` remains a compatibility projection,
+not proof of locality. Corpus will consume Shared Offer Catalog posture filters,
+then validate and preserve the per-result provenance supplied by Inquirium or
+Agent through bids/products, contributions, drafts, signed answers, and
+publication candidates.
+
 ## Must Implement
 
 ### Topic Taxonomy and Resolution
@@ -287,6 +300,45 @@ Responsibilities:
 Status:
 
 - `done`
+
+### Inference Posture and Result Provenance
+
+Based on:
+
+- `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
+- `doc/project/40-proposals/069-corpus.md`
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
+Related schemas:
+
+- current `service-offer.v1` and `corpus-reasoning-answer.v1` do not carry the
+  Proposal 090 values and are not extended in place;
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
+- a compatible service-offer and answer successor or admitted immutable sidecar
+  ref (planned)
+
+Responsibilities:
+
+- route and filter through the offer's signed, extensible pre-execution posture
+  with exact assertion owner, offer subject/generation/scope, and processing-
+  boundary ref without treating it as a realized fact;
+- compare boundaries explicitly and keep unrelated boundaries non-matching or
+  `unknown` rather than interpreting another operator's locality as the buyer's;
+- keep `corpus/model-class` as a compatibility projection only;
+- validate delivered provenance against the selected offer and local buyer or
+  Room policy with explicit refuse, quarantine, or warn outcomes;
+- preserve or conservatively join provenance through contributions, Agent
+  drafts, signed answers, publication candidates, and settlement evidence;
+- preserve known non-local or mixed execution when provider identity is
+  redacted and treat missing legacy metadata as unknown;
+- keep provider refs, domain profiles, evidence policies, and success criteria
+  open and locally admitted rather than globally enumerated.
+
+Status:
+
+- `planned`; no current Corpus schema, runtime, or acceptance evidence carries
+  the P090 result-level contract end to end.
 
 ## May Implement
 
@@ -523,7 +575,9 @@ policy before inference.
 - Corpus-capable offer catalog projections;
 - Artifact Delivery delivery results;
 - procurement offer/contract/receipt records;
-- Room membership and policy records for post-MVP deliberation.
+- Room membership and policy records for post-MVP deliberation;
+- signed offer inference-posture characteristics and realized inference
+  provenance refs after P090 contract admission.
 
 ## Produces
 
@@ -531,7 +585,9 @@ policy before inference.
 - Corpus query and bid records;
 - requester bid-state projections;
 - selected procurement bridges;
-- Corpus answer records in the live-deliberation layer.
+- Corpus answer records in the live-deliberation layer;
+- provenance-preserving Corpus products and answer lineage after P090
+  implementation.
 
 ## Related Capability Data
 

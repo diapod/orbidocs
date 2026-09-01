@@ -13,6 +13,10 @@ Based on:
 - `doc/project/60-solutions/000-node/000-node.md`
 - `doc/normative/50-constitutional-ops/en/MARKETPLACE-ANTI-FRAUD-POLICY.en.md`
 
+Extended by:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 ## Status
 
 Accepted (hard MVP contract)
@@ -202,6 +206,32 @@ The minimum contract should include:
 - optional `model-first`
 - optional `confirmation/mode`
 - `signature`
+
+### Extensible Inference Execution Posture
+
+An offer that may be fulfilled through model or external-agent inference should
+publish a provider-declared execution posture separately from the service type,
+human-curation mode, and evidence criteria. The shared offer contract should
+therefore gain a bounded namespaced characteristic extension governed by
+Proposal 090 rather than another global closed repertoire of problem classes or
+providers.
+
+The separate `inference-execution-posture.v1` characteristic may state
+`local-only`, `may-use-non-local`, `non-local-required`, or `unknown`, plus
+optional open provider refs and their disclosure commitment/state/ref. It binds
+the offer signer, exact offer generation or validity, assertion scope, and
+versioned local-processing-boundary ref. It is a signed promise or routing hint
+before selection, not proof of how one purchased result was actually produced.
+The buyer or local operator owns admission, filtering, consent, and UI policy;
+the provider does not acquire that authority through its disclosure
+declaration. The delivered result must carry its own realized
+`inference-execution-provenance.v1` value.
+
+The existing Corpus `corpus/model-class` field remains a compatibility
+projection for current V1 offers. It must not become the semantic source for
+the new characteristic: its closed values conflate execution locality with
+human curation and cannot represent operator- or community-defined provider
+profiles without central schema churn.
 
 ## Recommended Hard-MVP Shape of `service-order.v1`
 
@@ -426,6 +456,16 @@ Resolved 2026-07-05:
 5. Classified pre-procurement rejection outcomes exposed to `Arca` use a typed
    rejection class, reason code, and retryability flag, without raw host
    internals.
+6. Inference execution posture is a separate extensible signed offer contract
+   bound to its signer, subject, generation/scope, and exact processing-boundary
+   ref; realized execution provenance belongs to the delivered result. Exact
+   provider disclosure remains optional and open rather than a global enum, and
+   the buyer or local operator retains admission and presentation policy.
+7. Generic remote procurement carries realized provenance through a compatible
+   `service-order.result` revision or immutable sidecar ref. It does not extend
+   V1 in place: Dator binds the producer value, Artifact Delivery carries it
+   opaquely, and buyer-side Arca verifies and preserves it without upgrading the
+   producer's evidence or reinterpreting its boundary.
 
 ## Implementation State
 
@@ -433,4 +473,12 @@ The hard-MVP schemas, host-owned bridge, settlement hint validation, classified
 rejections, redacted inspection surface, durable remote dispatch correlation, and
 buyer-host AD result closeout are implemented. Remaining work belongs to broader
 marketplace policy, remote escrow topology, and post-MVP catalog evolution rather
-than to this bridge contract.
+than to this bridge contract. The Proposal 090 offer-characteristic extension is
+planned post-MVP work and does not change the current hard-MVP completion claim.
+
+## Post-MVP Tracker
+
+| ID | Work item | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- |
+| `offer-inference-execution-posture` | Add the separate Proposal 090 provider-declared execution-posture contract to `service-offer` without closing provider or profile vocabularies. | `todo` | A compatible schema revision or successor carries `inference-execution-posture.v1` with assertion owner, exact offer subject/generation/scope, processing-boundary ref, optional open provider refs, provider disclosure commitment/state/ref, and signed offer provenance. Consumer policy remains buyer/operator-owned. Absence, expiry, invalid signature, missing boundary, and an unrelated boundary remain `unknown` or non-match; current `corpus/model-class` can be projected for compatibility but is not the source of truth. Positive and negative fixtures distinguish an offer promise from realized result provenance. |
+| `procurement-inference-execution-provenance` | Carry realized inference provenance through the generic Dator → `service-order.result` → Artifact Delivery → Arca return path. | `todo` | A compatible result revision or immutable sidecar ref binds `inference-execution-provenance.v1` without extending V1 in place. Dator stamps or preserves the producer value, Artifact Delivery protects and carries it opaquely with its own source/digest evidence, and Arca verifies and preserves it while applying buyer policy. Fixtures reject missing, stripped, substituted, replay-conflicting, and unrelated-boundary metadata; no carrier infers locality from offer posture, transport, or provider name. |

@@ -65,7 +65,25 @@
     "Keep price currency unit contract and receipt semantics owned by procurement"
     "Reject counter prices outside the query bracket unless explicitly selected by the requester"
     "Preserve query and correlation identifiers through the settlement path"]
-   :status :done}]
+   :status :done}
+
+  {:cap/id :corpus-inference-posture-and-provenance
+   :title "Inference Posture and Result Provenance"
+   :kind :cross-layer-contract
+   :based-on ["doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md"
+              "doc/project/40-proposals/069-corpus.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
+   :schemas ["inference-execution-posture.v1"
+             "inference-execution-provenance.v1"]
+   :responsibilities
+   ["Route by signed open offer posture with exact owner subject generation scope and processing-boundary ref without presenting it as realized execution"
+    "Compare boundaries explicitly and keep unrelated boundaries unknown or non-matching"
+    "Treat corpus/model-class only as a compatibility projection"
+    "Validate delivered provenance against the selected offer and local policy"
+    "Preserve or conservatively join provenance through contributions drafts answers publications and settlement evidence"
+    "Preserve known non-local or mixed execution when provider identity is redacted"
+    "Keep provider domain-profile evidence-policy and success vocabularies open and locally admitted"]
+   :status :planned}]
 
  :may-implement
  [{:cap/id :corpus-live-deliberation-room

@@ -24,6 +24,10 @@ Based on:
 - `doc/project/30-stories/story-002-federated-peer-learning.md`
 - `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 
+Extended by:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Promoted to:
 
 - `doc/project/60-solutions/038-corpus/038-corpus.md`
@@ -292,6 +296,35 @@ adds, not replaces. Decisions:
   offer-catalog revision authority for this flow; it remains available on Agora
   envelopes, while the catalog read-model reconciles offers by `offer/id`, monotonic
   `sequence/no`, status, and expiry.
+
+`corpus/model-class` remains a compatibility and discovery projection. It combines
+locality-like labels with production mode and therefore MUST NOT be treated as the
+source of truth for either an offer's inference posture or a delivered result's
+execution provenance.
+
+### 3A. Inference Posture and Delivered-Result Provenance
+
+When Proposal 090 is accepted and implemented, a Corpus-capable offer may carry the
+separate `inference-execution-posture.v1` contract defined canonically by Proposal
+090 and introduced into service offers by Proposal 021. It binds the assertion
+owner, exact offer subject/generation/scope, and versioned processing-boundary ref.
+Corpus may route or filter on its shared locality ceiling and optional open provider
+refs only after explicit boundary comparison, but the declaration describes only
+what the provider may use. It is not evidence of any later execution. An unrelated
+sender boundary is a non-match or `unknown`, never an implicit match for the buyer's
+`local-only` requirement.
+
+Every inference-derived bid product, participant contribution, answer draft, and
+answer must then preserve or reference the realized
+`inference-execution-provenance.v1` produced by the executing boundary. Corpus
+validates the realized descriptor independently against the selected offer and local
+buyer or Room policy. A mismatch is a typed refuse, quarantine, or warn decision; it
+never rewrites `non-local`, `mixed`, or `unknown` to match the offer.
+
+Provider refs and evidence profiles remain open, namespaced, and locally admitted.
+Neither Corpus nor the Shared Offer Catalog defines a closed global provider list,
+problem-class repertoire, deliberation profile catalog, or universal success and
+evidence policy.
 
 ### 4. Procurement over Artifact Delivery (the MVP)
 
@@ -657,6 +690,14 @@ bid; and `policy/digest` must equal the round's `corpus/taxonomy-digest`. This m
 the answer a provider-originated fact attached to a selected round, not a requester-local
 JSON note.
 
+The Proposal 090 extension is additive and not part of the current answer contract.
+Once its canonical schema exists, a compatible answer-contract revision or admitted
+sidecar ref carries either the bounded realized descriptor or its immutable
+content-addressed ref, and any synthesis joins the provenance of all
+inference-derived parents conservatively. Classification, human/model origin,
+contributor attribution, and inference execution provenance remain separate
+dimensions; `corpus-reasoning-answer.v1` is not extended in place implicitly.
+
 ### 7. Settlement Bridge (single contracting provider for MVP)
 
 For the MVP and first live layer there is **one contracting party** — a single
@@ -749,6 +790,8 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
 | `corpus-reasoning-answer.v1` | new | post-MVP, first slice implemented | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
+| `inference-execution-posture.v1` | planned in P090 | cross-cutting, post-contract | Separate signed offer/binding declaration with assertion owner, exact subject/scope/generation, and processing-boundary ref; Corpus consumes it for explicit boundary-aware routing but does not own the schema. |
+| `inference-execution-provenance.v1` | planned in P090 | cross-cutting, post-contract | Provider-neutral realized execution provenance preserved by bids/products, contributions, drafts, and answers; Corpus consumes but does not own the schema. |
 | `contribution-allocation.v1` | future (reserved) | post-MVP | N-way settlement split (separate proposal). |
 
 Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
@@ -2562,6 +2605,28 @@ task owns candidate construction or final Room admission.
   semantic fallback. The same run retains complete P086 recordings with
   zero gaps or drops for requester node A (564 observations), solver node B (19),
   and reviewer node C (22).
+
+#### Phase 8D — Inference posture and realized provenance `[ ] planned`
+
+- [ ] `corpus-inference-posture-routing`: consume the signed, open
+  `inference-execution-posture.v1` contract through Shared Offer Catalog
+  filters; require assertion owner, exact subject/generation/scope, and
+  processing-boundary ref; make unrelated-boundary, unknown, and withheld-
+  provider policy explicit; retain `corpus/model-class` only as a compatibility
+  projection; add no closed provider, domain-profile, or evidence-policy
+  enumeration.
+- [ ] `corpus-result-inference-provenance`: validate every delivered
+  inference-derived product against the selected offer posture and local
+  buyer/Room policy, then preserve or conservatively join
+  `inference-execution-provenance.v1` through participant contributions,
+  Agent answer drafts, signed answers, publication candidates, and settlement
+  evidence. No known non-local/mixed fact may be dropped or downgraded, and
+  provider redaction must not erase the non-local characteristic.
+- [ ] Add negative fixtures for a `local-only` declaration followed by
+  non-local, mixed, unknown, missing, or provider-mismatched provenance, plus
+  multi-parent and cache/replay cases. Acceptance must exercise both the
+  procurement and live-deliberation paths without inferring locality from
+  `corpus/model-class`, runtime names, or transport.
 
 #### Phase 9 — N-way settlement
 

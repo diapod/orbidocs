@@ -14,6 +14,10 @@ Based on:
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
 
+Planned extension:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Related schemas:
 
 - `agent.spec.v1`
@@ -38,6 +42,8 @@ Related schemas:
 - `agent.external-runtime.product.v1`
 - `agent.external-runtime.turn-outcome.v1`
 - `causal-context.v1`
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
 
 ## Status
 
@@ -49,6 +55,9 @@ human-in-loop admission, recovery, lease reconciliation, and prompt-free audit
 surface are implemented and refusal-tested. FlowNode, Assistant Channel, and
 Corpus integrations are implemented consumers; they do not widen Agent
 authority. Cross-node or federated Agent execution is not part of this solution.
+The Proposal 090 provenance integration across products, traces, outcomes, and
+consumer projections remains planned and is not included in the implemented
+hard-MVP claim.
 
 ## Date
 
@@ -353,6 +362,31 @@ Step traces contain references, digests, decisions, accounting, and causal
 links, never raw prompts or generated response content. Content-addressed
 products live outside status and notification projections.
 
+### Scoped Pre-execution Inference Posture
+
+Agent Host exposes `inference-execution-posture.v1` for the selected built-in or
+external runtime binding before a passage or turn. The value binds assertion
+owner, exact Agent/runtime binding and profile generation, task/turn or Room-
+policy scope, validity, and processing-boundary ref. It is policy and preflight
+input only: it is not Agent identity, membership, a grant, data-plane authority,
+or realized execution evidence. Missing, invalid, expired, contradictory, or
+unrelated-boundary posture remains `unknown` or non-match.
+
+### Inference Execution Provenance
+
+Agent preserves the provider-neutral execution provenance supplied by the
+Inquirium or External Agent Runtime boundary. It composes parent provenance
+monotonically through structured products, terminal selection, traces, and
+the planned `agent.outcome.v2`; it does not reconstruct locality from runtime names, model
+snapshots, or transport kinds.
+
+The descriptor is evidence about one product, not Agent identity or authority.
+A single Agent may use different execution paths in successive passages.
+Optional provider disclosure remains policy-scoped and open-ended, while
+provider-native session, account, credential, endpoint, and adapter-instance
+data remain outside Agent Core and consumer contracts. Known non-local execution
+survives provider redaction; missing evidence remains `unknown`.
+
 ### Effects Are Proposals
 
 Agent output is evidence, not authority. A requested effect first becomes an
@@ -495,24 +529,27 @@ an extension hidden inside this solution.
 
 ## Next Actions
 
-1. Keep node-local Agent on the hard-MVP release gate and preserve the full
+1. Implement Proposal 090 propagation through inference and external-runtime
+   products, parent joins, terminal selection, traces, outcomes, replay, and
+   consumer acceptance without importing provider vocabulary into Agent Core.
+2. Keep node-local Agent on the hard-MVP release gate and preserve the full
    process-level dirty-restart acceptance suite.
-2. Add effect-policy adapters only with a concrete consumer and owning host
+3. Add effect-policy adapters only with a concrete consumer and owning host
    surface; unknown capabilities must continue to fail closed.
-3. Keep node-local operator list, diagnostics, maintenance, failpoint matrix,
+4. Keep node-local operator list, diagnostics, maintenance, failpoint matrix,
    and standalone process/soak pack on the Agent release gate before proposing
    cross-node or federated execution.
-4. Keep detailed implementation evidence and future recommendations in Proposal
+5. Keep detailed implementation evidence and future recommendations in Proposal
    073 rather than duplicating tracker prose here.
-5. Keep the Story 012 technical lineage as a non-defining regression of the
+6. Keep the Story 012 technical lineage as a non-defining regression of the
    generic observation, product, review, and effect boundaries. Preserve its current
    single-host and repeatability evidence labels; keep detailed profile mechanics in
    Story 012, P069, P074, and the owning components rather than duplicating them here.
-6. Keep the implemented neutral consumer-policy and authority-evidence binding v2 on
+7. Keep the implemented neutral consumer-policy and authority-evidence binding v2 on
    its current-policy recovery gate. Preserve v1 compatibility, exact v1/v2 conflict
    refusal, revocation checks, and `AGENT_AUTHORITY_EVIDENCE_REFS_MAX = 16` as the
    shared schema, admission, recovery, and adapter bound.
-7. Admit effectful consumer extensions only through typed inert plans and the existing
+8. Admit effectful consumer extensions only through typed inert plans and the existing
    host/P083 review, HIL, classification, lease, idempotency, and receipt gates. Remote
    and deterministic executor modes remain vocabulary only and fail closed until an
    authorized adapter has equivalent implementation and acceptance evidence.
@@ -532,6 +569,8 @@ an extension hidden inside this solution.
   maintenance;
 - hard-MVP unit, refusal, failpoint, restart, process smoke, and sustained
   short-session soak coverage.
+- provider-neutral, monotonically composed inference execution provenance on
+  products, traces, outcomes, replay, and consumer projections — *planned*.
 
 ## May Implement
 
@@ -574,6 +613,8 @@ owning components may be absent from a deployment.
 - operator Agent profiles and current admission policy;
 - authenticated local-control or module capability context;
 - Inquirium inference capabilities and usage evidence;
+- host-derived inference execution provenance from built-in and external
+  runtime paths;
 - Memarium fact append/query surfaces;
 - operator-authored static observation wiring and separately admitted grants;
 - daemon-owned Sensorium and Artifact Delivery host adapters and plans;
@@ -587,7 +628,12 @@ owning components may be absent from a deployment.
 - bounded observation evidence with validated P081 causal context and opaque
   source-version and resolution refs;
 - inert effect proposals and execution outcomes;
-- content-addressed `agent.outcome.v1` values for consumer-owned acceptance.
+- content-addressed `agent.outcome.v1` values for consumer-owned acceptance;
+- scoped `inference-execution-posture.v1` projections for selected built-in or
+  external runtime bindings — *planned*;
+- `agent.outcome.v2` and compatible passage product/trace successors carrying or
+  referencing `inference-execution-provenance.v1` — *planned*; current V1
+  carriers are not extended in place.
 
 ## Related Capability Data
 

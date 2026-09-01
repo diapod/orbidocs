@@ -19,6 +19,7 @@ Promoted to:
 
 Related:
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
 
 ## Status
 
@@ -110,6 +111,11 @@ Inquirium is responsible for:
 - selecting a model profile or delegating model selection to NSE;
 - invoking a concrete runtime through `model-runtime`;
 - normalizing provider-specific responses into stable result contracts;
+- deriving provider-neutral realized inference-execution provenance from
+  host-known dispatch and egress evidence, without treating requested locality
+  policy as proof of where execution occurred;
+- preserving that provenance through terminal results, deferred completions,
+  artifacts, caches, replay, and downstream projections;
 - returning synchronous results or canonical deferred operations;
 - emitting audit records and redacted traces.
 
@@ -464,6 +470,7 @@ Providers must not know Orbiplex domain semantics.
 | Runtime Instance | A materialized live process, loaded model, session, or worker instance created under host/model-runtime supervision. |
 | Model Binding | The configured provider-facing model name or handle, mapped to a `model/ref`, optional digest/hash, defaults, and constraints. |
 | Provider Worker | A concrete server, process, or API implementing model execution. It is not an Orbiplex organ and does not own policy. |
+| Inference Execution Provenance | A provider-neutral, evidence-qualified account of the realized execution path for one inference-derived result or post-dispatch terminal outcome. It is distinct from the locality/egress policy admitted before execution. |
 
 #### Responsibilities by Layer
 
@@ -478,6 +485,7 @@ following matrix is the contract:
 | Profile selection (caller-requested or NSE) | **owns** | exposes candidates | — | — |
 | Request/result schema normalization | **owns** | — | maps to/from provider | — |
 | Audit/provenance/artifact manifest | **owns** | — | — | — |
+| Realized inference-execution provenance | **derives and owns** | exposes candidate and instance facts | reports bounded execution observations | no authority to lower or replace host evidence |
 | Lifecycle, supervision, health probes | calls | **owns** | implements | — |
 | Resource ceilings, sandbox profile | enforces | **owns** | applies | runs under |
 | Transport mapping (HTTP, stdio, …) | — | calls | **owns** | — |
@@ -707,6 +715,32 @@ For longer operations Inquirium should return `deferred-operation.v1` and later
 complete with `deferred-operation-status.v1`, reusing proposal 055 rather than
 inventing a second async contract.
 
+Every inference-derived result and every terminal outcome after dispatch must
+also carry, or content-addressedly reference, the provider-neutral
+`inference-execution-provenance.v1` descriptor defined by Proposal 090. The
+host derives the descriptor from the selected runtime and adapter instance,
+host-observed dispatch and egress facts, and bounded lower-confidence reports.
+The adapter or provider may contribute evidence, but cannot declare a less
+restrictive execution origin than the host can support.
+
+Before selection or disclosure, the host separately owns or verifies
+`inference-execution-posture.v1`, bound to the assertion owner, exact runtime or
+profile subject and generation/validity, invocation scope, and versioned
+processing-boundary ref. Posture informs routing and consent but grants no
+inference, egress, context, data-plane, or effect authority and is never copied
+as realized evidence.
+
+This descriptor is not the request's locality policy. Policy states what the
+host admitted before execution; realized provenance states what the host can
+support about the execution that actually occurred and how strong that support
+is. A refusal before provider/runtime I/O records `dispatch = not-dispatched`,
+`locality = not-applicable`, and `input-egress = none` as terminal-operation
+provenance rather than inventing an inference result or unknown/realized
+execution. After possible dispatch,
+missing or insufficient evidence becomes `unknown`, never an implicit `local`.
+Optional provider identity may be redacted under local disclosure policy, but that
+redaction must not remove or lower known non-locality or egress.
+
 ### Model Selection
 
 Model selection is host policy, not caller authority. A caller may request a
@@ -935,6 +969,8 @@ explicit success criterion for retiring the Sensorium OS model actions.
 | Python workers bypass host policy. | Workers run behind model-runtime adapters and receive only normalized requests; no direct host capability authority. |
 | Prompts or outputs leak into logs/traces. | Inquirium owns trace and retention policy; default to metadata-only traces and explicit opt-in persistence. |
 | Models are treated as truth. | Result contracts label outputs as candidates, scores, or generated artifacts; downstream components decide acceptance. |
+| Locality policy or transport kind is presented as proof of realized execution. | Keep admission policy separate from `inference-execution-provenance.v1`; derive the latter from evidence at the host boundary and retain its evidence class. |
+| A cache, artifact projection, or downstream response drops or lowers known non-local provenance. | Make provenance part of the terminal value and its content binding; use monotone composition, preserve `unknown`, and test no-drop/no-downgrade paths. |
 | Runtime health and model selection become hidden magic. | Expose `inquirium.runtime.status`, model profile diagnostics, selected runtime metadata, and NSE trace summaries. |
 | Long model calls block workflow threads. | Reuse `deferred-operation.v1` and bounded host poll/resume paths. |
 
@@ -1065,6 +1101,12 @@ explicit success criterion for retiring the Sensorium OS model actions.
    cross-device export/import, remote assistant acceptance/egress policy, and
    automatic host escalation are already implemented; distributor packaging
    and later provider families remain product-level work.
+4. Implement the Proposal 090 execution-provenance contract in dependency order:
+   accept and bind its shared contract and composition rules, then add host
+   derivation, terminal-result carriage, cache/artifact/deferred/replay
+   preservation, and consumer acceptance. The Inquirium implementation tracker
+   and its no-drop/no-downgrade criteria remain in Proposal 064; this proposal
+   does not claim that slice has landed.
 
 ## Tracking
 
@@ -1074,7 +1116,7 @@ explicit success criterion for retiring the Sensorium OS model actions.
 | P063-02 | Reframe `model-runtime` as Inquirium substrate | accepted | Existing Node crates are useful lower layers, but should not be workflow-facing. |
 | P063-03 | Define Inquirium capability vocabulary | done | The workflow-facing vocabulary now has explicit generate, embed, batch-embed, classify, rerank, summarize, transform, image-generate, image-edit, and train-adapt operation classes. Summarize/transform are intentionally compiled by the host to the lower generate primitive; image and train-adapt retain separate runtime/data-plane semantics. |
 | P063-04 | Define request/result schemas | done | `inquirium-core` owns operation-specific request/result contracts for generate, direct/batch embed, classify, rerank, summarize, schema-constrained transform, image generate/edit artifact output, the content-addressed training dataset manifest, and `train-adapt`. Generate has optional profile pinning and bounded parameters; embeddings cover inline vectors and lease-backed artifact output; classify/rerank use closed result domains; summarize and transform enforce single text/structured results; image responses forbid inline bytes and carry verified artifact metadata; training binds every ordered sample to a source lease/digest and exact feedback/training-grant pair. Golden vectors protect the extended JSON shapes. |
-| P063-05 | Implement Inquirium Core wrapper over model-runtime | done | The daemon exposes inference-grant-gated host surfaces for generate, embed, classify, rerank, summarize, transform, image-generate, and image-edit over routable runtime candidates and host-owned model bindings. Summarize/transform lower into the hardened generate substrate while retaining their own contracts, budgets, and traces. Image operations use explicit runtime operation declarations, operation-bound read/write leases, `ArtifactOutputIntent`, object-store persistence, and artifact-only responses; image conformance uses a deterministic raster stub without persisting fixture bytes, while the first live provider path maps neutral image generation/edit through the supervised OpenAI adapter directly to the provider image endpoints. Image edit selects the exact runtime/model binding before resolving its source lease, applies the same 32 MiB pre-read limit to object-store, descriptor, and local-file sources, checks magic bytes and declared content type, and sends the provider result back through host digest/size verification and publication. Generate/embed also have real HTTP/provider paths, while classify/rerank have deterministic and local HTTP/simulator handlers. `train.adapt` has a fixed-thread bounded worker that consumes private durable continuations, drains restart recovery through operation-kind/status-scoped bounded pages, recognizes an already persisted publication idempotently, rechecks grants and leases before new adapter work, invokes the exact implemented `http_local` neutral training-adapter handler, admits only evaluation-passing results, caps decoded artifacts at 96 MiB, verifies returned object-store-canonical digest/size, publishes through the host object store, records provenance, reports progress, and supports cooperative cancellation before publication with typed terminal/conflict outcomes. Other local transport kinds remain fail-closed until a trainer handler exists. The opt-in simulator supplies the first deterministic trainer behavior for conformance and lifecycle testing, not as a claim of weight optimization. |
+| P063-05 | Implement Inquirium Core wrapper over model-runtime | done | The daemon exposes inference-grant-gated host surfaces for generate, embed, classify, rerank, summarize, transform, image-generate, and image-edit over routable runtime candidates and host-owned model bindings. Summarize/transform lower into the hardened generate substrate while retaining their own contracts, budgets, and traces. Image operations use explicit runtime operation declarations, operation-bound read/write leases, `ArtifactOutputIntent`, object-store persistence, and artifact-only responses; image conformance uses a deterministic raster stub without persisting fixture bytes, while the first live provider path maps neutral image generation/edit through the supervised OpenAI adapter directly to the provider image endpoints. Image edit selects the exact runtime/model binding before resolving its source lease, applies the same 32 MiB pre-read limit to object-store, descriptor, and local-file sources, checks magic bytes and declared content type, and sends the provider result back through host digest/size verification and publication. Generate and embedding have real lower HTTP/provider handlers, while classify/rerank have deterministic and local HTTP/simulator handlers; the OpenAI embedding daemon vertical is not accepted end to end until the private edge-response DTO mismatch in `P089-013` is repaired. `train.adapt` has a fixed-thread bounded worker that consumes private durable continuations, drains restart recovery through operation-kind/status-scoped bounded pages, recognizes an already persisted publication idempotently, rechecks grants and leases before new adapter work, invokes the exact implemented `http_local` neutral training-adapter handler, admits only evaluation-passing results, caps decoded artifacts at 96 MiB, verifies returned object-store-canonical digest/size, publishes through the host object store, records provenance, reports progress, and supports cooperative cancellation before publication with typed terminal/conflict outcomes. Other local transport kinds remain fail-closed until a trainer handler exists. The opt-in simulator supplies the first deterministic trainer behavior for conformance and lifecycle testing, not as a claim of weight optimization. |
 | P063-06 | Integrate NSE model selection | done | `inquirium.generate` can build a prompt-free `select-llm-model` request over host-filtered routable runtime candidates; NSE returns `UseRuntime { runtime/ref, reason }`, and the daemon validates the selected runtime against the host candidate set before invocation. |
 | P063-07 | Add host capability gate and audit | done | Generate, embed, classify, rerank, summarize, transform, image-generate, image-edit, and assistant-turn require local control-plane auth or an explicit JSON-e/module inference grant; `allowed_calls` alone is not authority, and grants bind request size plus optional runtime/profile refs. Every implemented operation writes a metadata-only trace with a host-keyed, operation-domain-separated HMAC request digest and no prompt/input, generated content, vectors, labels, reranked content, or image bytes. Local-control transcript/grant lifecycle capabilities remain separately table-gated. |
 | P063-08 | Migrate one existing model-adjacent path | done | Story-009 JSON-e Flow roles use `inquirium.generate` preflight for the migrated text/model-adjacent path; remote Arca/Dator service-order dispatch uses explicit Artifact Delivery and INAC admission boundaries. The image operation and deterministic artifact path now exist, while Story-009 live image-provider migration remains a separate product integration. |
@@ -1082,4 +1124,6 @@ explicit success criterion for retiring the Sensorium OS model actions.
 | P063-10 | Language-agnostic adapter seam + signed manifest | done | `command_stdio`, local HTTP, remote HTTP, bundled Python provider adapters, the local simulator adapter, and the `deterministic_stub` transport are present. Bundled Python Inquirium adapters now declare `inquirium.adapter.manifest.v1` as data and register it through the existing signed config artifact sidecar path, with a dedicated `orbiplex.inquirium.adapter-manifest.v1` signing domain. That domain is not eligible for node-self bootstrap; adapter-manifest activation requires an explicit operator sidecar, which keeps remote egress adapters behind operator intent rather than TOFU. Story 005 proves the supervised HTTP adapter seam without secrets or egress. |
 | P063-11 | Deterministic stub runtime | done | Implemented as an explicit `deterministic_stub` adapter-instance transport with daemon generate execution, local deterministic embedding vectors, closed-label classification, deterministic reranking, and deterministic PPM image generate/edit artifacts for contract/conformance/smoke coverage; it is opt-in catalog data, not an ambient production fallback. |
 | P063-12 | Apply classification taxonomy by reference | done | `inquirium.generate.request.v1` imports `classification.v1`; missing classification defaults fail-closed to Personal/quarantine, and daemon policy permits Personal data only through local-only/strict-local runtime candidates. Future operation surfaces should reuse the same boundary. |
-| P063-13 | Data-plane lease schema + pilot | done | Daemon persists model-runtime leases under `storage/model-runtime-leases.sqlite`, exposes local create/read APIs, supports artifact/object-store/query scopes plus local-only canonical/allowlisted `file://` leases, rejects raw file leases for remote candidates, hides expired leases, and restricts caller metadata. `batch.embed` and grant-rechecked local `train.adapt` use `DeferredOperationRegistry` with operation/runtime/model-binding-bound read/write leases. Batch artifacts and evaluation-passing training artifacts flow through the shared `ArtifactOutputIntent`, object-store digest/size verification, and provenance descriptor path. The bounded training worker restart-recovers private continuations through operation-kind/status-scoped bounded pages, rechecks authority, reports progress, caps decoded adapted-model artifacts at 96 MiB, and uses an atomic compare-and-set status transition so cancellation cannot race publication; event-log tests prove the losing transition is not appended. Training manifest windows use canonical UTC second timestamps. |
+| P063-13 | Data-plane lease schema + pilot | partial | Daemon persists model-runtime leases under `storage/model-runtime-leases.sqlite`, exposes local create/read APIs, supports artifact/object-store/query scopes plus canonical/allowlisted `file://` leases, hides expired leases, and restricts caller metadata. Canonical containment and the durable lease/artifact/deferred substrate are implemented, but raw-file eligibility still uses the transport-only `runtime_is_remote` heuristic; the broader claim that every ineligible runtime is refused remains open under urgent `P089-012`. `batch.embed` and grant-rechecked local `train.adapt` use `DeferredOperationRegistry` with operation/runtime/model-binding-bound read/write leases. Batch artifacts and evaluation-passing training artifacts flow through the shared `ArtifactOutputIntent`, object-store digest/size verification, and provenance descriptor path. The bounded training worker restart-recovers private continuations through operation-kind/status-scoped bounded pages, rechecks authority, reports progress, caps decoded adapted-model artifacts at 96 MiB, and uses an atomic compare-and-set status transition so cancellation cannot race publication; event-log tests prove the losing transition is not appended. Training manifest windows use canonical UTC second timestamps. |
+| P063-14 | Emit and preserve realized inference-execution provenance | accepted | Inquirium owns a provider-neutral descriptor for every inference-derived result and post-dispatch terminal outcome, while pre-dispatch refusals remain explicitly `dispatch = not-dispatched` with `locality = not-applicable`. Requested locality and egress policy are not execution proof. Exact contract semantics are governed by Proposal 090; implementation and acceptance remain open in Proposal 064. |
+| P063-15 | Bind scoped pre-execution inference posture | accepted | Inquirium's host boundary owns or verifies a separate `inference-execution-posture.v1` value with assertion owner, exact runtime/profile subject and generation/validity, invocation scope, and processing-boundary ref. It informs routing, consent, and disclosure without granting inference, egress, context, file-lease, or effect authority or becoming realized proof. Exact implementation and acceptance remain open in Proposal 064. |

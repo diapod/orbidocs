@@ -18,6 +18,10 @@ Based on:
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/30-stories/story-002-federated-peer-learning.md`
 
+Extended by:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 ## Status
 
 `promoted`
@@ -636,6 +640,42 @@ content-classification contract merely because `name` looks harmless.
 lineage for the effective topic and summary without copying their text into
 metadata-only audit records.
 
+### 4F. Scoped Inference Posture and Per-Contribution Provenance
+
+Room identity and authority do not say where a participant's inference runs. A
+participant may use different admitted runtimes across tasks or turns, while the
+speaking subject, membership, grants, floor state, and delegation remain unchanged.
+
+The Proposal 090 extension therefore keeps two values separate:
+
+- a signed, Room- and time-scoped `inference-execution-posture.v1` value bound to
+  assertion owner, participant/runtime-binding subject, policy generation,
+  validity, and exact processing-boundary ref, used for admission, consent,
+  policy, and presentation; and
+- realized `inference-execution-provenance.v1` carried by or immutably referenced
+  from each inference-derived live contribution, captured product, or durable
+  consumer-owned outcome.
+
+The Room read model may derive bounded presentation metadata such as "non-local
+inference observed" and a disclosed provider-ref set. This projection is not a
+permanent participant attribute, identity claim, capability, grant, membership fact,
+floor decision, or evidence that every contribution used the same path. Provider
+runtime sessions, accounts, endpoints, request ids, and credentials never enter Room
+membership or message identity.
+
+Room preserves the descriptor or uses the canonical conservative join when it derives
+an aggregate. Known `non-local` or `mixed` execution cannot become local; missing
+legacy metadata becomes `unknown`; redacting an exact provider does not erase the
+non-local characteristic. A receiving node preserves the sender-relative boundary and
+records the disclosed claim as peer-attested rather than upgrading it to a local host
+observation. Local Room policy may refuse, warn, allow, or filter contributions, but
+the decision does not rewrite their provenance.
+
+Posture/locality comparisons require the same processing-boundary ref or an
+explicit, versioned boundary relation admitted by the receiving node. An
+unrelated sender boundary remains non-matching or `unknown`; it is not treated as
+the receiver's `local-only` posture merely because the vocabulary matches.
+
 ### 5. Projection of Existing Rooms
 
 - **answer-room (P003)**: re-expressed as a `room.v1` opened by a `question-envelope`,
@@ -672,6 +712,8 @@ primitive instead of maintaining a compatibility projection first.
 | `room-floor-lease.v1` | implemented Phase 7 (ephemeral) | Short-lived subject- and generation-bound permission to use an existing `speak` grant in a controlled-floor mode. It grants no membership. |
 | `room-moderation-audit.v1` | implemented Phase 7 | Bounded metadata-only audit fact for admitted, refused, replayed, expired, and cleanup-degraded moderation intents. |
 | `room-live-message.v2` | implemented Phase 7 (ephemeral wire) | Replaces v1 `nonce` with stable Room-scoped `message/ref` and adds bounded reply linkage without adding shared retention. |
+| `inference-execution-posture.v1` admission/projection | planned Phase 9, schema owned by P090 | Signed Room- and time-scoped participant/runtime-binding declaration with exact assertion owner, generation/validity, and processing-boundary ref. It is policy input and presentation metadata, not identity, membership, grant, or realized evidence. |
+| `inference-execution-provenance.v1` carriage/projection | planned Phase 9, schema owned by P090 | Conditionally required value or immutable ref for inference-derived contributions, absent for non-inference contributions, plus derived Room read-model metadata. It does not change Room identity, membership, authority, ordering, or retention. |
 
 ## Relationship to Existing Mechanisms
 
@@ -721,6 +763,8 @@ primitive instead of maintaining a compatibility projection first.
 | A private Room summary leaks through an attestation, notification, or diagnostic | Up to 3000 scalar values of problem context escape the authorized audience | Exclude descriptive text from membership attestations and metadata-only audit; disclose it only through a Room projection authorized by current exposure and any explicit content-classification contract. |
 | A later opening or in-place update changes `name` | Replay produces different Room identity from the same durable history | Bind `name` to the sole accepted opening payload; exact replay is idempotent and any differing opening is a typed conflict. Define no name-update operation. |
 | Character and byte limits are conflated | Multibyte text is refused inconsistently or oversized input consumes resources | Enforce scalar-value limits in `room-core`, independent UTF-8 byte ceilings at admission, and coarse schema ceilings; prove both with multibyte fixtures. |
+| Participant posture or a provider badge is treated as proof for every turn | A declaration becomes a false realized-execution claim and may silently authorize disclosure | Scope posture to policy/time, require per-contribution realized provenance, and keep the participant aggregate explicitly derived. |
+| Provider identity is redacted by dropping all provenance | Consumers lose the material non-local fact and may present a remote result as local | Preserve locality, egress, disclosure completeness, and peer-evidence limits even when exact provider refs are withheld. |
 
 ## Resolved Decisions
 
@@ -869,6 +913,13 @@ primitive instead of maintaining a compatibility projection first.
     `moderate` authority narrowed by `metadata/update` may set them. All three values
     remain content-like, exposure-governed, non-authoritative data and are excluded
     from membership attestations and metadata-only diagnostics.
+34. **Inference execution metadata.** A scoped `inference-execution-posture.v1`
+    value binds its assertion owner, participant/runtime-binding subject, policy
+    generation, validity, and processing-boundary ref and remains an admission and
+    presentation input, not realized evidence. Inference-derived contributions carry
+    or reference per-result P090 provenance, while participant/provider badges are
+    derived read-model metadata only. Neither value changes identity, membership,
+    grants, floor control, moderation, ordering, or effect authority.
 
 ## Implementation Contract
 
@@ -1915,6 +1966,30 @@ authority, membership, relay, or moderation baselines.
   restart reconstruction, and absence of private descriptive text from attestations,
   diagnostics, notifications, and redacted audit.
 
+### Phase 9 — Inference posture, contribution provenance, and projection
+
+This additive phase depends on the accepted P090 schema and canonical join. It does
+not reopen the completed Room identity, membership, authority, relay, moderation, or
+message-ordering contracts.
+
+- [ ] `room-inference-posture-characteristic`: define and admit a signed,
+  Room- and time-scoped `inference-execution-posture.v1` value; bind its
+  assertion owner, participant/runtime-binding subject, policy generation,
+  validity, and exact processing-boundary ref without making it a membership
+  grant or a permanent participant property. Sender boundaries are compared
+  only through explicit locally admitted relations; unrelated boundaries remain
+  non-matching or `unknown`.
+- [ ] `room-contribution-inference-provenance`: carry the bounded descriptor or
+  immutable ref on inference-derived live contributions and captured products;
+  preserve it across carrier adapters, replay/capture boundaries, and federated
+  projections without exposing provider-native sessions or credentials.
+- [ ] `room-inference-provenance-read-model`: derive per-contribution and bounded
+  participant/Room aggregates with the canonical monotonic join, explicit unknown and
+  provider-withheld states, sender-relative boundary refs, and peer-attested evidence.
+- [ ] Add policy and UI projection tests for deny, warn, allow, and filter behavior;
+  local plus non-local, non-local plus unknown, provider redaction, legacy absence,
+  participant runtime changes, and a receiver that must not upgrade peer evidence.
+
 ## Open Questions
 
 No unresolved question blocks Phase 6A, Phase 6B, or Phase 8. MLS, QUIC, and
@@ -1931,6 +2006,9 @@ implementation choices inside the relocatable relay baseline.
    leases, or source cursors into either carrier.
 3. Implement Phase 8 contract and pure-projection tests before exposing editable
    metadata controls in daemon or Node UI surfaces.
-4. Collect non-member relay observations at realistic Room sizes before replacing the
+4. Accept the P090 schema and canonical join before adding Room posture, contribution,
+   badge, or UI fields independently; then implement Phase 9 producer-neutral
+   carriage before consumer presentation.
+5. Collect non-member relay observations at realistic Room sizes before replacing the
    bounded O(n) sender-key distribution profile. MLS or another tree profile requires
    measured pressure plus a separate contract, implementation, and security review.

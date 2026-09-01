@@ -17,6 +17,10 @@ Based on:
 - `node:room-service/tests/phase6b_relay.rs`
 - `node:tools/acceptance/p070-room-relay-phase6b/run.py`
 
+Planned extension:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Related schemas:
 
 - `room.v1`
@@ -37,6 +41,8 @@ Related schemas:
 - `room-relay-delivery.v1`
 - `room-relay-sender-key-distribution.v1`
 - `room-relay-sealed-delivery.v1`
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
 
 ## Status
 
@@ -95,6 +101,14 @@ contract, not a separate room, ordering, or history semantics.
 Room is not a reasoning engine, procurement system, or chat transcript archive.
 It gives higher-level components a stable membership, policy, attestation,
 presence, and live-message substrate.
+
+Proposal 090 adds a planned horizontal metadata slice: a scoped
+`inference-execution-posture.v1` value for admission and per-contribution
+realized provenance for presentation and downstream policy. Posture binds its
+assertion owner, participant/runtime-binding subject, policy generation,
+validity, and exact processing-boundary ref. Neither value becomes Room identity,
+membership, authority, or a permanent property of the participant. No current
+Room schema or runtime implements this slice.
 
 ## Context and Problem Statement
 
@@ -349,6 +363,42 @@ Status:
 
 - `done`
 
+### Inference Provenance Carriage and Projection
+
+Based on:
+
+- `doc/project/40-proposals/070-room-primitive.md`
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
+Related schemas:
+
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
+- a future compatible Room contribution/message projection contract
+
+Responsibilities:
+
+- admit a signed, Room- and time-scoped participant inference posture with exact
+  assertion owner, binding subject, policy generation, validity, and boundary
+  ref without turning it into identity, membership, grants, or realized
+  evidence;
+- compare sender boundaries only through explicit locally admitted relations;
+  unrelated boundaries remain non-matching or `unknown`;
+- carry or immutably reference realized provenance on every inference-derived
+  contribution or captured product;
+- preserve known non-local/mixed execution and explicit unknown through carrier,
+  replay/capture, redaction, and federation boundaries;
+- derive bounded participant and Room aggregates with the canonical conservative
+  join while keeping them presentation-only read-model metadata;
+- preserve sender-relative locality and peer-attested evidence without upgrading
+  it to receiver-observed fact;
+- keep provider sessions, accounts, endpoints, request ids, and credentials out
+  of generic Room contracts.
+
+Status:
+
+- `planned`; current Room live and durable contracts do not carry P090 provenance.
+
 ### Relocatable Federated WSS Relay
 
 Based on:
@@ -512,7 +562,9 @@ Status:
   candidate admission;
 - INAC or membership-attestation authorization material;
 - room policy profiles;
-- host signing for membership attestations.
+- host signing for membership attestations;
+- scoped `inference-execution-posture.v1` and per-result
+  `inference-execution-provenance.v1` refs after P090 admission.
 
 ## Produces
 
@@ -526,7 +578,8 @@ Status:
 - one authority-selected WSS relay endpoint and relay epoch projection;
 - signed pairwise sender-key distributions and authenticated encrypted relay deliveries
   for non-member federation relays;
-- Room projections for former answer-room and association-room flows.
+- Room projections for former answer-room and association-room flows;
+- bounded inference-provenance projections after P090 implementation.
 
 ## Related Capability Data
 

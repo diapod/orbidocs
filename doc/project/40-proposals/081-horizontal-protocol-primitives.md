@@ -281,6 +281,15 @@ operation appends another receipt; it never rewrites the prior receipt. A domain
 project a current operation state from those facts, but the generic receipt family
 does not own that projection.
 
+#### Relationship to inference execution provenance
+
+Proposal 090 may cite an `execution-receipt.v1` as evidence for dispatch,
+completion, or causal linkage. The receipt does not itself decide whether model
+execution was local, non-local, mixed, or unknown, and a completed receipt is not
+proof of physical locality. The host-owned
+`inference-execution-provenance.v1` descriptor remains the portable semantic
+claim; P081 remains the owner of immutable execution linkage and receipt status.
+
 The first closed transition vocabulary is:
 
 ```text

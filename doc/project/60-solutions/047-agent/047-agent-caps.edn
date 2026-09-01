@@ -133,7 +133,38 @@
     "Cover dirty restart inference HIL and outcomes through real HTTP"
     "Recover 1000 durable short sessions with no live-index residue"
     "Keep cross-node execution outside the node-local acceptance gate"]
-   :status :done}]
+   :status :done}
+
+  {:cap/id :agent-inference-execution-posture
+   :title "Scoped Pre-execution Inference Posture"
+   :kind :policy-input
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/40-proposals/089-external-agent-runtime-adapter-contract.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
+   :schemas ["inference-execution-posture.v1"]
+   :responsibilities
+   ["Bind posture to assertion owner exact Agent runtime binding profile generation scope validity and processing-boundary ref"
+    "Expose one provider-neutral value to Assistant and Room preflight policy"
+    "Keep missing expired invalid contradictory and unrelated-boundary posture unknown or non-matching"
+    "Grant no inference egress context data-plane membership floor or effect authority and never present posture as realized evidence"]
+   :status :planned}
+
+  {:cap/id :agent-inference-execution-provenance
+   :title "Inference Execution Provenance"
+   :kind :evidence-propagation
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"
+              "doc/project/40-proposals/089-external-agent-runtime-adapter-contract.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
+   :schemas ["inference-execution-provenance.v1"
+             "agent.inference-passage-product.v2"
+             "agent.inference-passage-trace.v2"
+             "agent.outcome.v2"]
+   :responsibilities
+   ["Preserve host-derived provenance from built-in and external runtime products"
+    "Compose parent provenance monotonically through terminal selection and outcomes"
+    "Keep missing evidence unknown and known non-local execution visible after provider redaction"
+    "Keep provider-native session account credential endpoint and adapter vocabulary outside Agent Core"]
+   :status :planned}]
 
  :may-implement
  [{:cap/id :agent-assistant-channel-integration
@@ -195,6 +226,7 @@
  ["operator Agent profiles and admission policy"
   "authenticated local-control or bounded module grants"
   "Inquirium inference and accounting evidence"
+  "host-derived inference execution provenance"
   "Memarium facts and model-runtime leases"
   "Sensorium Artifact Delivery and operator-question host surfaces"]
 
@@ -203,4 +235,6 @@
   "bounded node-local recovery and status projections"
   "prompt-free causal and accounting traces"
   "inert effect proposals and execution outcomes"
-  "content-addressed agent.outcome.v1 values"]}
+  "content-addressed agent.outcome.v1 values"
+  "planned scoped inference-execution posture projections for selected runtime bindings"
+  "planned agent.outcome.v2 and compatible provenance-bearing passage product and trace revisions"]}

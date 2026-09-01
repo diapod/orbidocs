@@ -11,6 +11,10 @@ Based on:
 - `doc/project/60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md`
 - `node:model-runtime/README.md`
 
+Planned extension:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Related schemas:
 
 - `model-runtime-catalog.v0.2.2`
@@ -36,15 +40,24 @@ Related schemas:
 - `inquirium.adapter.manifest.v1`
 - `inquirium.adapter.response.v1`
 - `inquirium.effect-intent.v1`
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
 
 ## Status
 
-Implemented MVP solution.
+Implemented MVP foundation; component status is `partial` for the additive
+execution-provenance slice and the two audited correctness/acceptance gaps
+tracked urgently as `P089-012` and `P089-013`.
 
 The bounded inquiry organ, host policy boundary, runtime-adapter substrate,
 conformance gate, direct data-plane pilot, and first local and remote provider
-paths are implemented. Additional provider families, richer evaluator profiles,
-and production trainer backends are additive extensions.
+paths have implemented foundations. The current raw-file lease classification
+does not yet prove full data-plane eligibility, and the OpenAI embedding edge
+DTO mismatch blocks a full daemon provider-path claim. Additional provider
+families, richer evaluator profiles, and production trainer backends are
+additive extensions. The provider-neutral realized inference-execution
+provenance obligation defined below is planned and is not included in the
+implemented-MVP claim.
 
 ## Date
 
@@ -123,6 +136,11 @@ Model-returned control values and plans are inert proposals. The host validates
 and may forward them to an owning component, but Inquirium does not execute
 tools, mutate relationships, publish artifacts, or run an agent loop merely
 because a model requested it.
+
+Admission locality and egress policy answer what execution the host may select.
+They are not evidence of where one particular inference was performed. The host
+must derive that separate realized provenance after dispatch and preserve its
+evidence strength for downstream consumers.
 
 ## Must Implement
 
@@ -238,20 +256,66 @@ Responsibilities:
 
 Status: `done`.
 
+### Scoped Pre-execution Inference Posture
+
+Responsibilities:
+
+- bind `inference-execution-posture.v1` to the assertion owner, exact
+  runtime/profile subject and generation or validity, invocation scope, and
+  versioned processing-boundary ref;
+- preserve open, bounded provider refs and disclosure state without granting
+  the provider control over local admission, filtering, consent, or UI policy;
+- treat missing, expired, invalid, contradictory, or unrelated-boundary posture
+  as `unknown` or non-match rather than inferring it from transport, hostname,
+  model, or adapter names;
+- keep posture as preflight policy input only; it grants no inference, egress,
+  context, raw-file lease, or effect authority and is not realized provenance.
+
+Status: `planned`; Proposal 090 owns the shared contract and Proposal 064 tracks
+the host binding and acceptance slice.
+
+### Realized Inference Execution Provenance
+
+Responsibilities:
+
+- derive the provider-neutral `inference-execution-provenance.v1` descriptor
+  from selected runtime/adapter/model facts and host-known dispatch and egress
+  evidence rather than from a transport-name heuristic;
+- distinguish admitted locality and egress policy from the realized path and
+  its evidence class;
+- attach or content-addressedly reference the descriptor on every
+  inference-derived result and post-dispatch terminal outcome; represent a
+  pre-dispatch refusal as `dispatch = not-dispatched` with
+  `locality = not-applicable`, and insufficient post-dispatch evidence as
+  `unknown` rather than implicit locality;
+- preserve or monotonically join provenance through deferred completion,
+  result transformation, artifacts, caches, replay, traces, effect intents, and
+  consumer projections;
+- allow policy-controlled provider redaction without dropping known
+  non-locality, egress, uncertainty, or evidence class; keep provider session,
+  account, credential, request, and endpoint details at the runtime edge.
+
+Status: `planned`; Proposal 090 owns the shared semantic contract, and Proposal
+064 tracks implementation and acceptance. Existing runtime/model refs and
+diagnostics do not satisfy this capability by themselves.
+
 ### Direct Data Plane And Artifact Outputs
 
 Responsibilities:
 
 - issue bounded, expiring, operation- and runtime-bound leases for artifact,
   object-store, query, and allowlisted local-file scopes;
-- deny raw file leases to remote runtimes and validate canonical path
-  containment fail-closed;
+- validate canonical path containment fail-closed and replace the current
+  transport-only raw-file rejection heuristic with operation-scoped host-owned
+  data-plane eligibility (`P089-012`);
 - use bounded deferred operations for long-running batch embedding and model
   adaptation;
 - verify output digest and size before object-store publication and preserve
   lease, runtime, model-binding, and operation provenance.
 
-Status: `done`.
+Status: `partial`; the durable lease, containment, artifact, and deferred-
+operation substrate is implemented, but the broad raw-file eligibility claim
+remains open under urgent `P089-012`.
 
 ### Budgets, Caching, And Effect Intents
 
@@ -333,6 +397,14 @@ first obtain a neutral contract and a fail-closed host path.
   file access.
 - **Cache corruption or stale affinity:** validate the cached result and fall
   back to a real invocation without weakening authority.
+- **Admission policy or transport kind is mistaken for execution proof:** derive
+  provenance from evidence at the host boundary and preserve its evidence class.
+- **Provenance is dropped, downgraded, or made falsely local by a cache or
+  projection:** content-bind the descriptor, compose monotonically, preserve
+  `unknown`, and fail closed on conflicting or stripped values.
+- **Provider disclosure is too broad:** redact exact provider identity and
+  provider-native session/request details independently of the non-locality and
+  egress facts that consumers need.
 - **Model proposes an effect:** keep the proposal inert and hand it to the
   owning capability boundary only after independent admission.
 
@@ -351,6 +423,9 @@ own proposal or an explicit revision of the implementation recommendations.
    trainer deployments remain a separate product integration.
 3. Implement durable agent loops in the Agent organ rather than extending
    Inquirium into an orchestration authority.
+4. Implement Proposal 090 through the dependency-ordered P064 tracker: contract,
+   host derivation, terminal-result carriage, persistence across
+   cache/artifact/deferred/replay paths, then cross-layer acceptance.
 
 ## Out Of Scope
 
@@ -370,6 +445,10 @@ own proposal or an explicit revision of the implementation recommendations.
 ## Produces
 
 - typed operation responses and denials;
+- scoped provider-neutral `inference-execution-posture.v1` values for admitted
+  runtime/profile bindings — *planned*;
+- provider-neutral realized inference-execution provenance descriptors or
+  content-bound references on inference-derived results — *planned*;
 - verified artifact descriptors and deferred-operation refs;
 - metadata-only trace and accounting intents;
 - inert control proposals and compiled Inquiry Flow values.

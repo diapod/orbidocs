@@ -4,6 +4,9 @@ Based on:
 - `doc/project/40-proposals/063-inquirium-model-inquiry-organ.md`
 - `node/DEV-GUIDELINES.md`
 
+Extended by:
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Applies to:
 - `doc/project/60-solutions/044-inquirium/044-inquirium.md`
 - `doc/project/60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md`
@@ -60,6 +63,9 @@ These recommendations are filtered through the Node development guidelines:
 - avoid ambient filesystem, network, tool, model, or agent authority;
 - prefer local-first operation;
 - preserve exportable traces without leaking protected inputs;
+- preserve evidence-qualified realized inference-execution provenance through
+  every result-bearing boundary without treating admission policy as execution
+  proof;
 - keep provider-specific mechanics out of workflow-facing contracts.
 
 ## Primary Rule: Adapters Translate Execution, Not Semantics
@@ -1056,6 +1062,77 @@ Fine-tuned adapter/model-artifact = Entity derivedFrom base model + dataset
 
 Trace metadata may contain refs and hashes. Trace details may contain protected
 material only with a separate grant and retention profile.
+
+## Scoped Pre-execution Inference Posture
+
+Proposal 090 defines `inference-execution-posture.v1` separately from realized
+provenance. Inquirium's host boundary binds the posture assertion owner, exact
+runtime/profile or offer subject, generation or validity, invocation scope, and
+versioned processing-boundary ref before selection or disclosure. Optional
+provider refs and disclosure commitments remain open, bounded characteristics.
+Transport, hostname, or a provider-facing model name cannot supply missing
+posture semantics.
+
+The value informs routing, consent, filtering, and preflight presentation, but
+does not itself grant inference, egress, context access, data-plane access, or
+effects. Those permissions remain with the existing classification, grant,
+lease, and host-policy gates. A missing, expired, invalid, or unrelated-boundary
+posture becomes `unknown` or non-match according to local policy; it is never
+copied into realized provenance as proof.
+
+## Realized Inference Execution Provenance
+
+Runtime-candidate locality, adapter egress policy, and the caller-requested or
+host-selected profile are admission inputs. They describe what may be selected
+and invoked; they do not by themselves prove where a particular inference was
+executed. A loopback
+or stdio adapter may dispatch to a non-local provider, while a remote-shaped
+transport may front infrastructure whose exact location is not known to the
+host. Transport names therefore remain mechanics, not provenance semantics.
+
+Proposal 090 defines the provider-neutral
+`inference-execution-provenance.v1` contract. Inquirium implements its local
+producer boundary as this stratified flow:
+
+```text
+requested locality and egress policy
+  -> admission decision
+
+selected runtime + adapter instance + model binding
+  + host-observed dispatch/egress facts
+  + bounded adapter/provider/peer assertions
+  -> host-derived realized execution provenance
+  -> terminal result / trace / effect intent
+  -> deferred completion / artifact / cache / replay / consumer projection
+```
+
+The host, not the adapter, owns the resulting descriptor. Adapter- or
+provider-reported fields can add evidence under their declared evidence class,
+but cannot lower host-observed non-locality, egress, or uncertainty. A
+pre-dispatch refusal records `dispatch = not-dispatched`,
+`locality = not-applicable`, and `input-egress = none`; it does not synthesize
+an inference result. Every
+inference-derived result and post-dispatch terminal outcome carries or
+content-addressedly references the descriptor. After possible dispatch,
+missing or incomplete evidence becomes `unknown`, never an implicit local
+execution claim.
+
+Propagation is monotone over what the host can support. A derived result joins
+the provenance of every inference-bearing parent. Cache hits retain the origin
+of the cached computation rather than describing the cache read as fresh local
+inference. Deferred completion, artifact publication, effect-intent execution,
+replay, and redacted consumer projections must preserve the same content-bound
+descriptor or a monotone aggregate. A projection may withhold an exact provider
+reference or expose a partial provider set under selective-disclosure policy,
+but it must retain known non-locality, egress, the evidence class, and disclosure
+completeness. Provider request ids, sessions, accounts, credentials, and endpoint
+details remain private runtime-edge data rather than generic workflow vocabulary.
+
+This provenance axis remains separate from `classification.v1`. Classification
+answers what data may flow. Inference execution provenance records what can be
+supported about how and where model processing occurred. The former may gate a
+candidate before dispatch; the latter informs downstream policy and people
+after an execution path was selected or attempted.
 
 ## Tool Delegation as Policy
 
@@ -2338,6 +2415,9 @@ Supply chain risk
 Sensitive information disclosure
   -> metadata-only trace, redaction, retention profile, egress gate
 
+Execution-origin stripping or false locality
+  -> host-derived provenance, explicit unknown, monotone join, no-drop/no-downgrade tests
+
 Insecure plugin/tool design
   -> allowed/tools enumeration, tool call policy, no ambient capabilities
 
@@ -2700,6 +2780,13 @@ inq-io-schema-contract
 
 inq-flow-ir
   depends on prompt assembly, I/O schema contract, and conformance evidence.
+
+P090-003 canonical execution-provenance contract and pure join
+  -> inq-execution-provenance-contract
+       -> inq-execution-provenance-host-derivation
+            -> inq-execution-provenance-result-carriage
+                 -> inq-execution-provenance-persistence
+                      -> inq-execution-provenance-acceptance
 ```
 
 Rows may be implemented incrementally, but dependent rows should not be marked
@@ -2709,15 +2796,25 @@ Status values:
 
 - `todo` — not started,
 - `in-progress` — design or implementation has started,
+- `partial` — a meaningful slice exists, but a stated correctness or acceptance
+  claim remains open,
 - `done` — implemented and covered by tests, schema validation, or documented
   operator evidence,
 - `deferred` — intentionally postponed.
 
-The tracker below covers the completed Inquirium organ/runtime implementation
-slice used by the hard-MVP readiness calculation. Post-MVP local-model package
-productization is tracked separately in Proposal 066 under
-`assistant-model-*`; its partial release and operator-wiring rows do not reopen
-the completed P064 hard-MVP slice.
+The tracker below covers the Inquirium organ/runtime implementation slice used
+by the hard-MVP readiness calculation. The current audit has reopened three
+claims as `partial`: remote-provider adapter and embedding completion under
+urgent `P089-013`, and raw-file direct-data-plane eligibility under urgent
+`P089-012`. These are correctness and acceptance gaps in the existing slice,
+not additive Proposal 090 work. Post-MVP local-model package productization
+remains tracked separately in Proposal 066 under `assistant-model-*`.
+
+The posture and execution-provenance rows introduced by Proposal 090 are an
+additive post-MVP slice and remain open until their own contract,
+implementation, and runtime evidence exist. They refine P090-004 for the
+Inquirium component and contribute to P090-012 acceptance; they do not redefine
+the horizontal semantics owned by P090-002/P090-003.
 
 **Invariants to preserve (landed decisions with sharp edges).** These are
 implemented and easy to break in a well-meaning refactor; treat each change as
@@ -2753,6 +2850,12 @@ a migration event, not a tweak:
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `inq-execution-posture-contract` | Bind runtime/profile admission and preflight disclosure to canonical `inference-execution-posture.v1`. | `todo` | Depends on Proposal 090 `P090-003`. The host owns or verifies the assertion owner, exact subject and generation/validity, invocation scope, processing-boundary ref, locality commitment, optional open provider refs, and disclosure state. Missing, expired, invalid, contradictory, and unrelated-boundary values remain `unknown` or non-match. The value is policy input only and grants no inference, egress, context, file lease, or effect authority; fixtures reject transport/name inference and provider-owned consumer policy. |
+| `inq-execution-provenance-contract` | Bind Inquirium to the canonical provider-neutral `inference-execution-provenance.v1` value and pure composition rules. | `todo` | Depends on Proposal 090 `P090-003`. `inquirium-core` consumes the canonical Node contract rather than defining an operation-local variant; every operation can carry the bounded value or exact content-addressed ref. Integration fixtures preserve `dispatch = not-dispatched`, `locality = not-applicable`, explicit `unknown`, provider-disclosure completeness, and monotone joins. Legacy provenance missing after possible dispatch projects to `unknown`, never `local`; `classification.v1` and provider-native session data remain separate. |
+| `inq-execution-provenance-host-derivation` | Derive realized provenance at the host boundary from selected runtime/adapter/model facts and the strongest available execution evidence. | `todo` | Depends on `inq-execution-posture-contract` and `inq-execution-provenance-contract`, while never copying posture as realized proof. A pure host-owned derivation path distinguishes admitted locality/egress policy from realized execution, records pre-dispatch refusal as `dispatch = not-dispatched` with `locality = not-applicable`, and treats possible or completed dispatch with insufficient evidence as `unknown`. Local transport names are not accepted as proof of local inference; adapter/provider reports can add evidence but cannot lower host-observed non-locality, egress, or uncertainty. |
+| `inq-execution-provenance-result-carriage` | Carry realized provenance through every Inquirium terminal result and result-bearing trace/effect intent. | `todo` | Depends on `inq-execution-provenance-host-derivation`. Generate, direct and batch embed, classify, rerank, summarize, transform, image generate/edit, train-adapt, assistant-facing decisions, and future operation descriptors expose the same descriptor or content-bound ref on every inference-derived result and post-dispatch terminal outcome. Tests prove no operation-specific normalization path drops it and no provider response can replace or downgrade it. |
+| `inq-execution-provenance-persistence` | Preserve provenance through deferred completion, artifact publication, deterministic cache, replay, and redacted projections. | `todo` | Depends on `inq-execution-provenance-result-carriage`. Cache keys/entries and hits retain the provenance of the original computation; artifact descriptors, deferred terminal state, effect-intent execution, durable traces, and replay preserve or monotonically join the exact content-bound value. Provider redaction removes only fields admitted by disclosure policy and cannot remove known non-locality, egress, `unknown`, or evidence class. Tampered, stripped, conflicting, or downgraded values fail closed or become an explicit conservative projection rather than silent success. |
+| `inq-execution-provenance-acceptance` | Prove the complete local, non-local, mixed, unknown, redacted-provider, cache, artifact, and replay matrix. | `todo` | Depends on `inq-execution-provenance-persistence`. Acceptance covers a host-enforced no-egress local runtime, a supervised local adapter that dispatches to a non-local provider, direct remote HTTP, mixed-parent composition, provider-hidden disclosure, ambiguous/unknown execution, pre-dispatch refusal, cache hit, deferred artifact completion, restart replay, and attempted stripping/downgrade. Retained evidence shows the same descriptor reaches a representative higher-layer consumer without inferring locality from runtime names or transport kinds. |
 | `inq-mlx-qwen-story-012-acceptance` | Qualify the exact Qwen2.5-Coder 7B MLX package, then compose it with Story 012 without changing the story semantics. | `in-progress` | The reproducible locked launcher, exact nine-file model package, native lifecycle v2 runner, mapped malformed-message refusal, exact runtime/model descriptor, additive vfkit profile, neutral harness rendering, fail-closed host output validation, no-fallback CLI boundary, and Schema-Gate-registered closed Story report v2 validator are implemented. The retained native report passes all ten lifecycle checks with generation 3. Completion now requires only the retained two-runtime Story report with measured memory, warmup, turn, deliberation, and end-to-end budgets. |
 | `inq-operational-context-prompt-framing` | Render admitted Sensorium operational impact as a pre-inference host-owned caution layer. | `done` | The daemon-owned prompt resolver accepts only qualifiers produced after exact P082 current-generation/current-publication validation, applies a monotone local floor and multi-feed maximum, and renders a closed, versioned Developer caution layer before feed-dependent inference. Host-owned request metadata and the durable Inquirium trace record the local policy ref, local floor, selected class, and a deterministic per-source list pairing each source class with its exact context digest, so an audit distinguishes source declaration from local elevation. The trace projection is passed from the composition root rather than inferred from caller metadata or provider output. The at-most-512-byte publisher summary remains retrieved data below the instruction hierarchy. Golden ordering and instruction-hash tests, provenance, missing-floor refusal, order-independence, and non-droppable production/critical tests cover the boundary without introducing an Inquirium TTL or adapter-owned policy. |
 | `inq-runtime-catalog-v02` | Move the lower model-runtime catalog to adapter implementations, adapter instances, model bindings, runtime candidates, runtime profiles, and conformance fixtures. | `done` | `node/model-runtime` contract v0.2 validates cross references and rejects missing adapter/model/conformance references. |
@@ -2761,10 +2864,10 @@ a migration event, not a tweak:
 | `inq-daemon-runtime-routing` | Supervise adapter instances and route by `runtime/ref` in the daemon. | `done` | Daemon status separates `healthy` from `routable`, reports adapter/model binding refs, and counts only routable candidates. Direct Inquirium generation and NSE use the same explicit selection order with stable runtime-ref tie-breaking; tests prove that a preferred candidate wins independently of identifier order and that an unroutable default falls back deterministically. Focused daemon runtime tests pass sequentially. |
 | `inq-nse-use-runtime` | Make NSE choose runtime candidates instead of runtime/model pairs. | `done` | `nse` and `nse-rhai` use `UseRuntime { runtime_id, reason }`; Rhai scripts return `decision: "use-runtime"`. |
 | `inq-signed-adapter-manifests` | Treat adapter manifests as signed data, not hidden code promises. | `done` | Bundled Python Inquirium adapters declare `adapter_manifest` using `inquirium.adapter.manifest.v1` and register that fragment through `signed_config_artifacts[]` with the `orbiplex.inquirium.adapter-manifest.v1` signing domain. The shared adapter report returns the manifest from config, and the daemon signed-config loader now resolves hyphenated module ids against underscore config keys so those adapter-manifest sidecars are discovered. |
-| `inq-python-remote-provider-adapters` | Add first middleware-hosted remote provider adapters while preserving adapter-instance/runtime-candidate stratification. | `done` | The OpenAI adapter maps neutral generation and host-authorized JSON Schema to Responses and neutral embedding to the native `/v1/embeddings` endpoint; the Anthropic adapter maps generation and the same schema subset to Messages and deliberately does not claim an embedding API. Both share `node/middleware-modules/lib/inquirium_adapter`, expose neutral and chat-compatible endpoints, read secrets from env/file config, and have fake-provider coverage. `model-runtime-http` starts each adapter as a managed process, exercises invoke and shutdown, verifies one OpenAI instance serving two model bindings, and covers provider-backed OpenAI embeddings end to end. Host validation and rails remain authoritative after normalization. |
+| `inq-python-remote-provider-adapters` | Add first middleware-hosted remote provider adapters while preserving adapter-instance/runtime-candidate stratification. | `partial` | The OpenAI adapter maps neutral generation and host-authorized JSON Schema to Responses and neutral embedding to the native `/v1/embeddings` endpoint; the Anthropic adapter maps generation and the same schema subset to Messages and deliberately does not claim an embedding API. Both share `node/middleware-modules/lib/inquirium_adapter`, expose neutral and chat-compatible endpoints, read secrets from env/file config, and have fake-provider coverage. `model-runtime-http` starts each adapter as a managed process, exercises invoke and shutdown, and verifies one OpenAI instance serving two model bindings. Lower provider-backed embedding coverage exists, but the full daemon OpenAI embedding vertical remains blocked by the Python response/private Rust DTO mismatch tracked urgently as `P089-013`; no end-to-end claim is made until that regression passes. Host validation and rails remain authoritative after normalization. |
 | `inq-embedding-contracts` | Add explicit direct and batch embedding request/response contracts. | `done` | `node/inquirium-core` owns `inquirium.embed.{request,response}.v1` and `inquirium.batch-embed.{request,response}.v1` DTOs with validation for schema, operation, dimensions, leases, bounded duplicate-free batch source lease refs, vector shape, finite vector values, and stable slash-scoped artifact/lease refs. `node/model-runtime` re-exports these DTOs for runtime-facing compatibility. |
-| `inq-embed-host-surface` | Expose direct embedding through the same host capability and audit model as text generation. | `done` | Daemon exposes `POST /v1/host/capabilities/inquirium.embed`, advertises it through host capability discovery when an implemented handler is routable, requires explicit inference grants for module callers, selects `embed` runtime candidates by host-owned model binding, and writes metadata-only traces under `trace/inquirium/embed` with host-keyed request digests and no input text or vector values. `node/inquirium-host` owns direct request validation, profile/classification/locality/trust eligibility, and model-binding admission; missing classification fails closed to Personal/local-only. Daemon executes deterministic, HTTP-local, HTTP-API, or channel adapter handlers and revalidates vector count, order, dimensions, finiteness, and host-owned runtime/model refs. OpenAI provider-backed embedding and supervised process lifecycle are covered; Anthropic remains generation-only because its native API exposes no embedding operation. |
-| `inq-direct-data-plane` | Add durable direct data-plane leases, artifact output persistence, and deferred long operations. | `done` | Daemon persists model-runtime leases in SQLite, exposes local lease create/read APIs, rejects remote raw file leases, rejects symlinked allowed file roots and symlink escapes through canonical containment, hides expired leases, restricts caller metadata with per-value and total caps, admits `batch.embed` through `DeferredOperationRegistry`, and verifies/writes pilot output artifacts through the object store with selected-binding and operation-bound write-lease provenance. Pilot artifact output is now planned as an `ArtifactOutputIntent` and executed by the shared daemon artifact-output effect interpreter rather than as an inline endpoint write. |
+| `inq-embed-host-surface` | Expose direct embedding through the same host capability and audit model as text generation. | `partial` | Daemon exposes `POST /v1/host/capabilities/inquirium.embed`, advertises it through host capability discovery when an implemented handler is routable, requires explicit inference grants for module callers, selects `embed` runtime candidates by host-owned model binding, and writes metadata-only traces under `trace/inquirium/embed` with host-keyed request digests and no input text or vector values. `node/inquirium-host` owns direct request validation, profile/classification/locality/trust eligibility, and model-binding admission; missing classification fails closed to Personal/local-only. Deterministic and lower HTTP/channel handlers plus vector revalidation are implemented. OpenAI provider-backed daemon completion remains unaccepted until `P089-013` repairs the edge-response DTO mismatch and a full regression passes; Anthropic remains generation-only because its native API exposes no embedding operation. |
+| `inq-direct-data-plane` | Add durable direct data-plane leases, artifact output persistence, and deferred long operations. | `partial` | Daemon persists model-runtime leases in SQLite, exposes local lease create/read APIs, enforces canonical allowed-root containment and rejects symlinked roots/escapes, hides expired leases, restricts caller metadata with per-value and total caps, admits `batch.embed` through `DeferredOperationRegistry`, and verifies/writes pilot output artifacts through the object store with selected-binding and operation-bound write-lease provenance. Raw-file eligibility still depends on transport-only `runtime_is_remote`; urgent `P089-012` must replace it with operation-scoped host-owned data-plane eligibility before the rejection claim is complete. Pilot artifact output is now planned as an `ArtifactOutputIntent` and executed by the shared daemon artifact-output effect interpreter rather than as an inline endpoint write. |
 | `inq-conformance-runner` | Add conformance fixture execution, durable reports, and report-backed routability. | `done` | Daemon persists reports in SQLite, exposes `run-conformance`, evaluates generate/embed/classify/rerank fixtures plus profile-aware candidate requirements, scopes baseline reports by profile and deployment host class, applies TTL freshness fail-closed, and keeps required candidates non-routable until the current fixture digest passes. Baseline checks retain the local-transport allowlist and 16 KiB output-cap assertion. Tests cover classify/rerank report-backed routing, stale/registry-error/disabled candidates, denied remote or command-stdio baseline transports, non-offline candidates, oversized output, TTL overflow, profile mismatch, bounded failure payloads, and direct local baseline E2E. The SQLite registry now uses explicit schema v1 → v2 migration and rejects unsupported future versions instead of silently applying additive columns. |
 | `inq-baseline-profile-renderer` | Turn an installed local OpenAI-compatible runtime into explicit baseline-assistant operator configuration without adding a proxy. | `done` | `node/tools/inquirium-baseline-profile.py` renders the validated reference catalog for an unmanaged loopback Ollama endpoint or a managed local `llama-server`; it rejects non-loopback endpoints, verifies executable/model files, records the model SHA-256 digest in binding/candidate metadata, and leaves provider-binary installation to the distributor or operator. Its Ollama path has a read-only, non-redirecting loopback doctor, an explicit model-pull plan that executes only with `--execute` and never through a shell, atomic profile activation with mode `0600`, active status, and scoped deactivation. Daemon health and conformance remain runtime authority. Unit tests cover model-name injection denial, plan-only behavior, explicit pull, loopback denial, executable checks, digest binding, activation/deactivation, invalid status, and symlink escape refusal. |
 | `inq-model-package-contracts` | Freeze the local-model package and lifecycle data boundary before installer effects. | `done` | `node/inquirium-model-package-core` plus seven accepted, mirrored, Schema Gate-registered contracts define manifest, source trust, operator endorsement, federation-root provider-key endorsement, install receipt, active profile, and inert install plan values. Canonical digest, source, platform, asset, authority-mode, lifecycle, provider-key purpose, exact root binding, strict validity intervals, and rollback invariants are covered by semantic tests plus structural negative boundary assertions for every schema family. Host integration additionally preserves the signed provider scope through exact release-catalog admission. |

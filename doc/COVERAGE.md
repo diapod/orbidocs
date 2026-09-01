@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `4` | `2` |
 | `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `17` | `1` |
-| `40-proposals` (Proposals) | `92` | `80` |
+| `40-proposals` (Proposals) | `93` | `81` |
 | `50-requirements` (Requirements) | `17` | `15` |
-| `60-solutions` (Solutions) | `66` | `45` |
+| `60-solutions` (Solutions) | `66` | `46` |
 
-- Total project markdown files: `252`
-- Proposals referencing source material: `80` / `92`
+- Total project markdown files: `253`
+- Proposals referencing source material: `81` / `93`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -36,6 +36,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md) | `13` | `13` | `yes` | `yes` | `1` | `1` |
 | [`agent-semantic-entry.v1.schema.json`](schemas-gen/schemas/agent-semantic-entry.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
+| [`agent.external-runtime.binding.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.binding.v1.md) | `17` | `0` | `no` | `yes` | `1` | `1` |
+| [`agent.external-runtime.event.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.event.v1.md) | `0` | `0` | `no` | `yes` | `1` | `1` |
+| [`agent.external-runtime.product.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.product.v1.md) | `20` | `0` | `no` | `yes` | `1` | `1` |
+| [`agent.external-runtime.profile.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.profile.v1.md) | `19` | `0` | `no` | `yes` | `1` | `1` |
+| [`agent.external-runtime.turn-outcome.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.turn-outcome.v1.md) | `16` | `0` | `no` | `yes` | `1` | `1` |
+| [`agent.external-runtime.turn-request.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.turn-request.v1.md) | `23` | `0` | `no` | `yes` | `1` | `0` |
 | [`agent.inference-flow-binding.v1.schema.json`](schemas-gen/schemas/agent.inference-flow-binding.v1.md) | `23` | `0` | `yes` | `yes` | `1` | `1` |
 | [`agent.inference-flow-inspection.v1.schema.json`](schemas-gen/schemas/agent.inference-flow-inspection.v1.md) | `25` | `0` | `yes` | `yes` | `1` | `1` |
 | [`agent.inference-passage-input.v1.schema.json`](schemas-gen/schemas/agent.inference-passage-input.v1.md) | `19` | `0` | `yes` | `yes` | `1` | `1` |
@@ -157,7 +163,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`federation-node.v1.schema.json`](schemas-gen/schemas/federation-node.v1.md) | `16` | `0` | `no` | `yes` | `0` | `0` |
 | [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `3` | `7` |
 | [`federation-run.v1.schema.json`](schemas-gen/schemas/federation-run.v1.md) | `14` | `0` | `no` | `yes` | `0` | `0` |
-| [`federation-scenario.v1.schema.json`](schemas-gen/schemas/federation-scenario.v1.md) | `8` | `0` | `no` | `yes` | `2` | `0` |
+| [`federation-scenario.v1.schema.json`](schemas-gen/schemas/federation-scenario.v1.md) | `9` | `0` | `no` | `yes` | `2` | `0` |
 | [`federation-service-endorsement-revocation.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement-revocation.v1.md) | `10` | `10` | `yes` | `yes` | `1` | `0` |
 | [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md) | `11` | `11` | `yes` | `yes` | `1` | `1` |
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
@@ -464,6 +470,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`membership-enums.v1.schema.json`](schemas-gen/schemas/membership-enums.v1.md) | [`requirements-001-node-onboarding.md`](project/50-requirements/requirements-001-node-onboarding.md), [`requirements-006-node-networking-mvp.md`](project/50-requirements/requirements-006-node-networking-mvp.md), [`requirements-009-capability-limits.md`](project/50-requirements/requirements-009-capability-limits.md), [`requirements-015-newcomer-surface-limits.md`](project/50-requirements/requirements-015-newcomer-surface-limits.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md) |
 | [`adapter-artifact.v1.schema.json`](schemas-gen/schemas/adapter-artifact.v1.md) | [`requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md), [`requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md), [`requirements-004-transcript-curation.md`](project/50-requirements/requirements-004-transcript-curation.md), [`requirements-005-transcript-segments.md`](project/50-requirements/requirements-005-transcript-segments.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-002-federated-peer-learning.md`](project/30-stories/story-002-federated-peer-learning.md), [`story-003-remote-memory-preservation.md`](project/30-stories/story-003-remote-memory-preservation.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`agent-semantic-entry.v1.schema.json`](schemas-gen/schemas/agent-semantic-entry.v1.md) |  |  |
+| [`agent.external-runtime.binding.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.binding.v1.md) |  |  |
+| [`agent.external-runtime.event.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.event.v1.md) |  |  |
+| [`agent.external-runtime.product.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.product.v1.md) |  |  |
+| [`agent.external-runtime.profile.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.profile.v1.md) |  |  |
+| [`agent.external-runtime.turn-outcome.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.turn-outcome.v1.md) |  |  |
+| [`agent.external-runtime.turn-request.v1.schema.json`](schemas-gen/schemas/agent.external-runtime.turn-request.v1.md) |  |  |
 | [`agent.inference-flow-binding.v1.schema.json`](schemas-gen/schemas/agent.inference-flow-binding.v1.md) | [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md) | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`agent.inference-flow-inspection.v1.schema.json`](schemas-gen/schemas/agent.inference-flow-inspection.v1.md) |  |  |
 | [`agent.inference-passage-input.v1.schema.json`](schemas-gen/schemas/agent.inference-passage-input.v1.md) | [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md) | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
@@ -1043,7 +1055,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) |
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) |
 
-- Canonical schemas: `423`
-- Generated schema docs: `423`
-- Positive examples: `436`
-- Negative examples: `379`
+- Canonical schemas: `429`
+- Generated schema docs: `429`
+- Positive examples: `442`
+- Negative examples: `384`

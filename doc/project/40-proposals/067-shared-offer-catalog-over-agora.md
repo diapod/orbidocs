@@ -1,6 +1,7 @@
 # Proposal 067: Shared Offer Catalog Over Agora
 
 Based on:
+- `doc/project/40-proposals/021-service-offers-orders-and-procurement-bridge.md`
 - `doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
@@ -8,6 +9,10 @@ Based on:
 - `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/30-stories/story-009-arca-dator-sensorium-swarm-workflow.md`
 - `doc/project/60-solutions/000-node/000-node.md`
+
+Extended by:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
 
 ## Status
 
@@ -385,6 +390,34 @@ The minimum query surface should support:
 This is intentionally close to existing `Arca` and `Dator` query behavior so
 that migration can reuse code and tests.
 
+### Planned inference-posture indexing
+
+Proposal 090 adds a separate, post-MVP query dimension. A signed offer may
+declare the pre-execution posture of inference it can use, independently of the
+actual provenance of any later result. The catalog should index the separate,
+bounded `inference-execution-posture.v1` contract defined canonically by
+Proposal 090 and introduced into service offers by Proposal 021, including
+assertion owner, exact offer subject/generation/scope, and versioned
+local-processing-boundary ref, and support explicit filters for:
+
+- `local-only`, `may-use-non-local`, `non-local-required`, and `unknown`;
+- optional open, namespaced provider references;
+- the caller's provider allow/deny policy and treatment of withheld or unknown
+  provider identity.
+
+Locality filters compare only the same boundary ref or an explicit, locally
+admitted versioned boundary relation. An unrelated sender boundary is a
+non-match or `unknown` according to caller policy; it never satisfies the
+caller's `local-only` filter by name alone.
+
+This is an open characteristic, not a closed catalog of service meanings,
+deliberation profiles, or acceptable evidence criteria. Operators and
+communities may register additional namespaced characteristics without changing
+the shared core. The catalog preserves the signed declaration and never reports
+it as proof of how a future result was executed. Realized
+`inference-execution-provenance.v1` belongs to delivery and consumer validation,
+not to this offer projection.
+
 ## Migration Notes
 
 Current implementation evidence:
@@ -651,3 +684,20 @@ handled separately at admission via Seed Directory (P025), not as an offer recor
   supersession (`stale` outcome guards) and `active_only` filtering hide it.
 - [x] Confirm provider revocation removes offers via admission (Seed Directory
   non-revocation check, Phase 2), independent of snapshot status/expiry.
+
+### Phase 9 — Inference-posture indexing and filtering (planned)
+
+- [ ] `offer-inference-posture-index`: admit and preserve the signed
+  `inference-execution-posture.v1` value from Proposal 021, including assertion
+  owner, exact subject/generation/scope, processing-boundary ref, and bounded
+  namespaced extensions, without converting it into realized execution
+  provenance.
+- [ ] `offer-inference-posture-query`: add deterministic filters for the shared
+  locality posture, explicit boundary matching, caller-owned provider
+  allow/deny policy, and treatment of withheld or unknown provider identity.
+  Unknown, missing-boundary, expired, and unrelated-boundary values must not
+  match `local-only`, and no closed provider or domain-profile enumeration may
+  enter the shared query contract.
+- [ ] Add positive and negative fixtures proving signature coverage, bounded
+  open extensions, stable ordering, unknown handling, and no inference from
+  `corpus/model-class`, runtime names, endpoints, or transport kinds.

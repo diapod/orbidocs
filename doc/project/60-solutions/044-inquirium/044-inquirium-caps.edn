@@ -1,7 +1,7 @@
 {:component/id :orbiplex/inquirium
  :component/title "Inquirium"
  :component/type :node-organ
- :component/status :done
+ :component/status :partial
 
  :summary
  "Host-owned organ for bounded provider-neutral model inquiry, runtime selection,
@@ -85,6 +85,35 @@
     "Emit metadata-only host-keyed traces without protected model content"]
    :status :done}
 
+  {:cap/id :inquirium-inference-execution-posture
+   :title "Scoped Pre-execution Inference Posture"
+   :kind :data-contract
+   :based-on ["doc/project/40-proposals/063-inquirium-model-inquiry-organ.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
+   :schemas ["inference-execution-posture.v1"]
+   :responsibilities
+   ["Bind posture to assertion owner exact runtime profile generation validity invocation scope and processing-boundary ref"
+    "Keep provider disclosure open bounded and subordinate to local consumer policy"
+    "Treat missing expired invalid contradictory and unrelated-boundary posture as unknown or non-matching"
+    "Grant no inference egress context raw-file lease or effect authority and never present posture as realized evidence"]
+   :status :planned}
+
+  {:cap/id :inquirium-inference-execution-provenance
+   :title "Realized Inference Execution Provenance"
+   :kind :data-contract
+   :based-on ["doc/project/40-proposals/063-inquirium-model-inquiry-organ.md"
+              "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
+   :schemas ["inference-execution-provenance.v1"]
+   :responsibilities
+   ["Derive provider-neutral realized provenance from host-known dispatch and egress evidence"
+    "Keep admission locality and egress policy distinct from execution evidence"
+    "Carry provenance on every inference-derived result and post-dispatch terminal outcome"
+    "Preserve or monotonically join provenance through caches artifacts deferred completion replay traces and consumer projections"
+    "Allow provider redaction without dropping non-locality egress uncertainty or evidence class"]
+   :status :planned}
+
   {:cap/id :inquirium-direct-data-plane
    :title "Direct Data Plane and Artifact Outputs"
    :kind :data-plane
@@ -99,10 +128,10 @@
              "inquirium.artifact-output.intent.v1"]
    :responsibilities
    ["Issue bounded expiring operation-bound runtime-bound leases"
-    "Deny raw file leases to remote runtimes and validate canonical local containment"
+    "Validate canonical local containment and derive raw-file eligibility from explicit host-owned data-plane facts rather than transport"
     "Use bounded deferred operations for batch embedding and model adaptation"
     "Verify artifact digest size and provenance before object-store publication"]
-   :status :done}
+   :status :partial}
 
   {:cap/id :inquirium-budget-cache-effect-intents
    :title "Budgets Cache and Effect Intents"
@@ -160,6 +189,8 @@
 
  :produces
  ["typed Inquirium operation responses and denials"
+  "scoped provider-neutral pre-execution posture values for admitted runtime profile bindings"
+  "provider-neutral realized inference-execution provenance descriptors or content-bound references"
   "verified artifact descriptors and deferred-operation refs"
   "metadata-only trace and accounting intents"
   "inert control proposals and Inquiry Flow values"]}

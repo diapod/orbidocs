@@ -107,7 +107,24 @@
     "Keep one-way trace refs free of prompt and response content"
     "Render the assistant as an inquiry affordance rather than a contact"
     "Avoid autonomous engagement and dopamine-oriented interaction patterns"]
-   :status :done}]
+   :status :done}
+
+  {:cap/id :assistant-inference-provenance-disclosure
+   :title "Inference Execution Provenance Disclosure"
+   :kind :transparency-boundary
+   :based-on ["doc/project/40-proposals/066-inquirium-assistant-channel.md"
+              "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+              "doc/project/60-solutions/044-inquirium/044-inquirium.md"]
+   :schemas ["inference-execution-posture.v1"
+             "inference-execution-provenance.v1"
+             "inquirium.assistant.turn.response.v2"]
+   :responsibilities
+   ["Bind preflight posture to the exact assertion owner runtime profile generation context and processing-boundary ref while keeping it separate from realized provenance"
+    "Show the admitted non-local posture before every non-local inference I/O while keeping any required acknowledgement as a separate local-policy gate"
+    "Preserve provenance through terminal transcript replay export import and Activity projections"
+    "Render local non-local mixed and unknown outcomes with optional policy-scoped provider disclosure"
+    "Prevent provider redaction or missing metadata from becoming an implicit local claim"]
+   :status :planned}]
 
  :may-implement
  [{:cap/id :assistant-agentic-effect-integration

@@ -11,6 +11,10 @@ Based on:
 - `doc/project/60-solutions/039-notifications/039-notifications.md`
 - `doc/normative/50-constitutional-ops/en/UNIVERSAL-BASIC-COMPUTE.en.md`
 
+Planned extension:
+
+- `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
+
 Related schemas:
 
 - `inquirium.assistant.turn.request.v1`
@@ -26,6 +30,9 @@ Related schemas:
 - `inquirium.training-grant.issue.request.v1`
 - `inquirium.training-grant.revoke.request.v1`
 - `inquirium.crisis-candidate.v1`
+- `inference-execution-posture.v1` (planned)
+- `inference-execution-provenance.v1` (planned)
+- `inquirium.assistant.turn.response.v2` (planned)
 
 ## Status
 
@@ -35,6 +42,9 @@ The advise-first Assistant Channel, local baseline profile, classified context
 grants, transcript lifecycle, operator questions, notification projection,
 feedback, training grants, observability feed, and non-dopamine UI affordance are
 implemented. Agentic effects remain a separately governed Agent integration.
+Realized inference execution provenance and its remote-disclosure UI remain
+planned; the implemented egress acknowledgement is only the pre-I/O authority
+gate.
 
 ## Date
 
@@ -55,8 +65,10 @@ operator or participant
 
 The channel is advise-first and operator-initiated. It cannot mutate
 relationships, publish to the swarm, or execute tools. Context requires explicit
-host grants, response provenance remains visible, and any blocking operator
-question uses registered notification widgets rather than model-defined UI.
+host grants, response classification and runtime refs remain visible, and any
+blocking operator question uses registered notification widgets rather than
+model-defined UI. Proposal 090 owns the planned end-to-end execution provenance
+characteristic; this solution does not claim it is implemented yet.
 
 ## Context and Problem Statement
 
@@ -118,6 +130,30 @@ proves malformed empty text-message payloads are rejected before worker I/O.
 The row remains post-MVP and `in-progress` because the two-runtime Story report
 and independent evidence for every optional MLX capability are still absent; no
 optional capability is part of the Assistant Channel guarantee.
+
+### Execution Provenance And Remote Disclosure
+
+Before I/O, the channel consumes host-admitted
+`inference-execution-posture.v1` bound to the assertion owner, exact runtime or
+profile generation, turn/context scope, validity, and processing-boundary ref.
+After possible execution, it consumes the provider-neutral
+`inference-execution-provenance.v1` value produced by Inquirium. It does not
+infer actual execution locality from posture, request policy, runtime names,
+model names, or the transport used to reach an adapter.
+
+The operator surface has two distinct obligations:
+
+1. before I/O, show the admitted non-local posture and obtain any required
+   classification- and context-bound egress acknowledgement;
+2. after the turn, show the realized local, non-local, mixed, or unknown
+   provenance and an optional non-secret provider ref when local operator
+   disclosure policy permits it.
+
+Transcript facts, exports, imports, rebuilds, and Activity projections preserve
+the realized value monotonically. Provider redaction may remove the exact
+provider ref, but never a known non-local contribution. Provider-native
+accounts, credentials, endpoints, adapter instances, and session identifiers
+remain outside the Assistant Channel contract.
 
 ## Must Implement
 
@@ -213,6 +249,21 @@ Responsibilities:
 
 Status: `done`.
 
+### Inference Execution Provenance Disclosure
+
+Responsibilities:
+
+- carry or reference Proposal 090 provenance on terminal assistant responses,
+  retained result facts, transcript bundles, replay, and Activity items;
+- keep preflight model acceptance and egress acknowledgement separate from the
+  realized result fact;
+- render local, non-local, mixed, and unknown outcomes without silently treating
+  missing metadata as local;
+- disclose an optional provider ref under policy while excluding provider-native
+  session, account, credential, endpoint, and adapter-instance data.
+
+Status: `planned`.
+
 ## May Implement
 
 ### Agentic Effect Integration
@@ -278,6 +329,11 @@ without dependency on a provider or network path.
   identity.
 - **Remote model receives undeclared context:** require source grants,
   classification admission, model acceptance, and egress acknowledgement.
+- **Preflight policy is shown as proof of actual execution:** carry the
+  host-derived Proposal 090 result characteristic separately and render
+  `unknown` when it is unavailable.
+- **Provider redaction hides non-local execution:** redact only optional provider
+  identity; preserve the locality/egress summary and evidence class.
 - **Model injects an operator widget:** accept only registered host-shaped
   question kinds and validate answers server-side.
 - **Transcript persistence fails:** preserve typed degraded behavior and the
@@ -295,12 +351,14 @@ separate integrations with their owning components and capability gates.
 
 ## Next Actions
 
-1. Preserve the local baseline and no-contact invariants as UI surfaces evolve.
-2. Complete the remaining post-MVP local-model release rows in Proposal 066:
+1. Implement the Proposal 090 assistant vertical across response, transcript,
+   replay, Activity, and UI; retain separate preflight and post-result states.
+2. Preserve the local baseline and no-contact invariants as UI surfaces evolve.
+3. Complete the remaining post-MVP local-model release rows in Proposal 066:
    publish the production-key-signed llama release, execute the additive
    two-runtime Story-012 MLX profile, and probe each optional MLX capability
    independently before promoting it.
-3. Preserve the process-level escalation/acceptance smoke as Agent, notification,
+4. Preserve the process-level escalation/acceptance smoke as Agent, notification,
    and local-control surfaces evolve.
 
 ## Out Of Scope
@@ -317,11 +375,18 @@ separate integrations with their owning components and capability gates.
 - `inquirium.assistant.turn.request.v1`;
 - classified context grants and source projections;
 - baseline and selected runtime conformance state;
+- host-admitted `inference-execution-posture.v1` bound to the exact runtime or
+  profile generation, context, and processing-boundary ref;
+- host-derived inference execution provenance and its disclosure projection;
 - notification and transcript storage ports.
 
 ## Produces
 
-- `inquirium.assistant.turn.response.v1`;
+- current `inquirium.assistant.turn.response.v1`, which does not carry Proposal
+  090 provenance and is not extended in place;
+- planned `inquirium.assistant.turn.response.v2` or a compatible successor,
+  plus terminal result and transcript projections carrying or referencing
+  `inference-execution-provenance.v1`;
 - participant-scoped transcript facts and bundles;
 - metadata-only activity and trace projections;
 - registered operator questions and notification actions;
