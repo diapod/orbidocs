@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-09-01.
+Snapshot date: 2026-09-03.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -59,16 +59,15 @@ domains. Reviewer-contract selection is now task-profile-owned rather than
 topology-owned, all discovery topologies use v3, internal helpers require an explicit
 mode, and the bench defaults to typed JSON. The compatible critique-gated v2 path still
 uses natural-language adjudication, so P074-033 closes only after that path is migrated
-or retired. P074-029 now retains the two-host Codex-backed Reviewer evidence below
-and completes only after moving the unchanged adapter to the real third physical
-host; resulting evidence must remain labeled online/provider-backed, not local-model
-or offline acceptance. P074 remains partial post-MVP work: exact
-three-host interrupted-run closure, P074-033, P074-029, Story 010 and trace-explorer consumers,
-the remaining P074-011 shared-input
-roles, optional macOS signing/firewall hardening, and the
-non-gating Bielik-specific P074-012 branch remain open. The baseline Story 012
-and hard-MVP readiness percentages remain unchanged because this is a
-post-hard-MVP physical acceptance profile.
+or retired. P074-029 is now runtime-complete through the separately named
+three-host Codex-backed Reviewer evidence below; that evidence remains labeled
+online/provider-backed, not local-model or offline acceptance. P074 remains
+partial post-MVP work: the generic P074-022 `exploration-retain` fault/resume
+exercise, the injected P074-037 Room WSS reset, P074-033, Story 010 and
+trace-explorer consumers, the remaining P074-011 shared-input roles, optional
+macOS signing/firewall hardening, and the non-gating Bielik-specific P074-012
+branch remain open. The baseline Story 012 and hard-MVP readiness percentages
+remain unchanged because this is a post-hard-MVP physical acceptance profile.
 
 The additive P089-008/P074-034 profile then completed a narrower promotable claim
 for three logical Nodes on two physical hosts with the Reviewer implemented by a
@@ -88,8 +87,30 @@ provider identity in Room/Corpus contracts. Their aggregates have SHA-256
 The exact claim exports `profile-defined`, while recording two physical hosts and
 the shared `node-b`/`node-c` failure domain; generic shared-host evidence remains
 `diagnostic-not-promotable`. This completes P089-008, P089-008c, and P074-034,
-but not P074-029's `cyc.local` qualification or the three-host clauses of
-P074-008/P074-022. Hard-MVP readiness percentages remain unchanged.
+but it does not establish a third physical failure domain.
+
+The subsequent P074-029 profile moved the unchanged Reviewer-Agent contract to
+`cyc.local` and completed a separately posture-bound three-physical-host claim.
+The retained passage
+`federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260903T181349Z`
+restarted `node-c` after its first review, resumed the same durable
+Reviewer-Agent/runtime session, and passed all ten Story assertions. Its
+Schema-Gate-valid aggregate and Story report have SHA-256 values
+`4441c9a85742ef0facce73e58fbe8016a2b177404a9350f727067fa067441c61` and
+`75740180f08605647d048917ee66fb8e87736a964f72c82f2e5ea272e4cbc826`.
+The independent fresh passage
+`federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260903T185604Z`
+created new run and provider-session roots, completed five real cycles and five
+model-authored experiments without fallback, and passed the same ten assertions.
+Its aggregate and Story report digests are
+`7375be7d79d7dc750ec40d98d07954b9e5730e5db645d34d86ec742d03f6f408` and
+`b965c4bc3ad2f6da22314671741a908b19427abd47fcb0c2408afcdeb17baf11`.
+The fresh run measured 240,693 ms of deliberation and 437,538 ms total and
+retained exact A/B/C DNS results, complete no-drop/no-gap communication traces,
+post-effect revalidation, vfkit cleanup, all lease releases, and zero redundant
+peer-session workers on all three hosts. This completes P074-029 and the live
+evidence required by P074-038, but not the independent P074-022 or P074-037
+fault-injection contracts. Hard-MVP readiness percentages remain unchanged.
 
 Scope rules: localized duplicates (`*.pl.md`), indexes, backlog files, implementation notes, coding guides, and generated registries are excluded. Solution rows use the main `NNN-*/NNN-*.md` document for each component.
 
@@ -1262,12 +1283,13 @@ Recent component deltas:
   P089-008c are complete. The first concrete profile pins
   `openai-codex==0.147.0`, supervises its local App Server over `stdio`, admits
   only deliberation, and truthfully keeps active-turn cancellation and exact
-  ambiguous-dispatch resume disabled. The two retained Story passages prove the
-  separate Reviewer Agent, finite reservation, post-turn session continuity,
-  restart/rejoin, a later fresh session, closed traces, and cleanup. P089-008a
-  real-platform host isolation, P089-008d routable active-turn cancellation, and
-  the real three-host `cyc.local` profile remain open; hard-MVP readiness
-  percentages remain unchanged.
+  ambiguous-dispatch resume disabled. Retained two-host and three-host Story
+  passages prove the separate Reviewer Agent, finite reservation, post-turn
+  session continuity, restart/rejoin, later fresh sessions, closed traces, and
+  cleanup. The three-host profile keeps `node-c` on `cyc.local` and completed
+  P074-029 without changing the provider-neutral Agent contract. P089-008a
+  real-platform host isolation and P089-008d routable active-turn cancellation
+  remain open; hard-MVP readiness percentages remain unchanged.
 - Story 005 remains hard-MVP complete, and its post-M4 productization tracker now lives in the Whisper implementation note instead of a workspace-root draft file. The closed slice has a CI-runnable Inquirium acceptance bridge: an opt-in supervised simulator adapter is routed only through model-runtime/Inquirium by `runtime/ref` and host-owned `model.binding/ref`. `whisper-core` carries the production-shaped policy primitives for routing failure mode, source class, outbound privacy resolution, correlation policy explanation, association-room proposal lifecycle, public-gossip promotion, and bounded trace integrity/privacy. The current Node worktree consumes those primitives in the publish path: `whisper-intake` performs outbound privacy preflight before public/private signal publication and now implements `whisper.trace.publish` with exact one-time operator consent for inline disclosure, transient byte validation, and metadata-only read models. Trace authoring atomically reserves idempotency keys, independently bounds inline bytes, extensions, and total JSON, and applies a 30-day default retention sweep to its local read model. Agora enforces public trace topic/disclosure admission and projects traces outside signal thresholding, while AD/INAC admits private traces through the existing signed-envelope carrier. Story-005 asserts the exact `agora-publish` and `inac-direct` carriers, proves that private traces stay absent from Agora projection, and retains its private-signal regression guard. `agora-projections` and `agora-service` also provide a minimal local association-room lifecycle seed plus public-gossip promotion drafts from accepted rooms, with authenticated actor binding, bounded lifecycle facts, FK-backed proposal refs, and bounded opaque lineage refs. These move Proposal 013 closer to post-M4 productization while preserving the readiness interpretation for unfinished product/runtime surfaces such as real Anon relay transport, production semantic correlation, full association-room case management on the accepted signed room-event log over Artifact Delivery with multi-Agora fanout/merge, bounded replica retention status, and per-thread predecessor digest links, final public-gossip publication runtime, live Monus/Sensorium source verification, richer room/curation UI, and remote model deployment.
 - The 2026-08-15 Arca/Dator closeout refresh completes the hard-MVP P016 buyer-host
   settlement slice. Remote terminal results remain Artifact Delivery facts rather

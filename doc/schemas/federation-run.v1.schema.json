@@ -50,7 +50,12 @@
             "items": { "$ref": "#/$defs/token" }
           }
         },
-        "profile-claim/ref": { "enum": ["acceptance-claim:story-012-two-physical-host-three-node-codex-reviewer-v1"] },
+        "profile-claim/ref": {
+          "enum": [
+            "acceptance-claim:story-012-two-physical-host-three-node-codex-reviewer-v1",
+            "acceptance-claim:story-012-three-physical-host-three-node-codex-reviewer-v1"
+          ]
+        },
         "evidence/ceiling": { "enum": ["profile-defined", "diagnostic-not-promotable"] }
       },
       "allOf": [{
@@ -73,13 +78,34 @@
             "evidence/ceiling": { "const": "profile-defined" }
           }
         },
-        "then": { "required": ["profile-claim/ref"] }
+        "then": {
+          "required": ["profile-claim/ref"],
+          "properties": {
+            "profile-claim/ref": {
+              "const": "acceptance-claim:story-012-two-physical-host-three-node-codex-reviewer-v1"
+            }
+          }
+        }
       }, {
         "if": {
           "required": ["evidence/ceiling"],
           "properties": { "evidence/ceiling": { "const": "diagnostic-not-promotable" } }
         },
         "then": { "not": { "required": ["profile-claim/ref"] } }
+      }, {
+        "if": {
+          "required": ["host-posture", "profile-claim/ref"],
+          "properties": {
+            "host-posture": { "const": "distinct-physical-hosts" }
+          }
+        },
+        "then": {
+          "properties": {
+            "profile-claim/ref": {
+              "const": "acceptance-claim:story-012-three-physical-host-three-node-codex-reviewer-v1"
+            }
+          }
+        }
       }]
     },
     "storyEvidence": {

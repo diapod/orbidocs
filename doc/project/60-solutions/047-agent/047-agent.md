@@ -588,9 +588,9 @@ an extension hidden inside this solution.
   conservative stopped-Agent cancellation cleanup, and receipt-bound operator
   mediation; the first pinned Codex Python SDK/App Server stdio profile and its
   separate Room-participant Reviewer Agent are implemented and acceptance-proven
-  for the exact two-host/three-node Story-012 claim; real-platform host isolation,
-  routable active-turn cancellation, actuation, and the real third-host exercise
-  remain unimplemented*;
+  for separately bounded two-host/three-node and three-host/three-node Story-012
+  claims; real-platform host isolation, routable active-turn cancellation, and
+  actuation remain unimplemented*;
 - additional capability-specific effect-policy adapters — *deferred until a
   concrete consumer and owning host surface exist*;
 - specialized projection caches justified by measured workload — *deferred
