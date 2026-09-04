@@ -29,6 +29,9 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.agent.controller-execution-provenance.v1.json)
+      echo "$SCHEMAS_DIR/agent.controller-execution-provenance.v1.schema.json"
+      ;;
     *.communication-boundary-registry.json)
       echo "$SCHEMAS_DIR/communication-boundary-registry.v1.schema.json"
       ;;

@@ -1,0 +1,11 @@
+{
+  "schema": "agent.controller-execution-provenance.v1",
+  "provenance/ref": "agent-controller-execution-provenance:fixture:1",
+  "agent/id": "agent:fixture",
+  "agent-binding/ref": "agent-binding:fixture",
+  "execution-binding/ref": "agent-external-runtime-binding:fixture",
+  "step/no": 1,
+  "request/ref": "agent-external-runtime-turn:fixture",
+  "product/ref": "inquirium-result:fixture",
+  "product/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

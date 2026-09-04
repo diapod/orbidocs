@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.external-runtime.turn-outcome:v2",
+  "title": "External Agent Runtime Turn Outcome V2",
+  "description": "Compatible successor binding every V1 terminal external-runtime outcome to provider-neutral realized inference execution provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "outcome", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.external-runtime.turn-outcome.v2" },
+    "outcome": { "$ref": "agent.external-runtime.turn-outcome.v1.schema.json" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

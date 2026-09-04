@@ -7,21 +7,15 @@ Source schema: [`doc/schemas/inference-execution-provenance.v1.schema.json`](../
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `inference-execution-provenance.v1` |  |
-| [`descriptor/digest`](#field-descriptor-digest) | `yes` | ref: `#/$defs/digest` |  |
+| [`descriptor/digest`](#field-descriptor-digest) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/digest` |  |
 | [`descriptor/size-bytes`](#field-descriptor-size-bytes) | `yes` | integer |  |
 | [`descriptor`](#field-descriptor) | `no` | ref: `#/$defs/descriptor` |  |
-| [`descriptor/ref`](#field-descriptor-ref) | `no` | ref: `#/$defs/ref` |  |
+| [`descriptor/ref`](#field-descriptor-ref) | `no` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
-| [`ref`](#def-ref) | string |  |
-| [`digest`](#def-digest) | string |  |
-| [`provider-ref`](#def-provider-ref) | string |  |
-| [`provider-disclosure`](#def-provider-disclosure) | enum: `complete`, `partial`, `withheld`, `unknown` |  |
-| [`evidence-basis`](#def-evidence-basis) | unspecified |  |
-| [`extensions`](#def-extensions) | object |  |
 | [`bindings`](#def-bindings) | object |  |
 | [`evidence`](#def-evidence) | object |  |
 | [`lineage`](#def-lineage) | object |  |
@@ -89,7 +83,7 @@ Then:
 ## `descriptor/digest`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/digest`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/digest`
 
 <a id="field-descriptor-size-bytes"></a>
 ## `descriptor/size-bytes`
@@ -107,39 +101,9 @@ Then:
 ## `descriptor/ref`
 
 - Required: `no`
-- Shape: ref: `#/$defs/ref`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 ## Definition Semantics
-
-<a id="def-ref"></a>
-## `$defs.ref`
-
-- Shape: string
-
-<a id="def-digest"></a>
-## `$defs.digest`
-
-- Shape: string
-
-<a id="def-provider-ref"></a>
-## `$defs.provider-ref`
-
-- Shape: string
-
-<a id="def-provider-disclosure"></a>
-## `$defs.provider-disclosure`
-
-- Shape: enum: `complete`, `partial`, `withheld`, `unknown`
-
-<a id="def-evidence-basis"></a>
-## `$defs.evidence-basis`
-
-- Shape: unspecified
-
-<a id="def-extensions"></a>
-## `$defs.extensions`
-
-- Shape: object
 
 <a id="def-bindings"></a>
 ## `$defs.bindings`

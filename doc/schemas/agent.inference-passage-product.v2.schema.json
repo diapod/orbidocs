@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-passage-product:v2",
+  "title": "Agent Inference Passage Product v2",
+  "description": "Compatible successor binding one V1 Agent inference product to the joined provider-neutral provenance of its current execution and inherited Agent products.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "product", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.inference-passage-product.v2" },
+    "product": { "$ref": "agent.inference-passage-product.v1.schema.json" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

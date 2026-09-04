@@ -11,25 +11,25 @@
   ],
   "properties": {
     "schema": { "const": "inference-execution-posture.v1" },
-    "posture/id": { "$ref": "#/$defs/digest" },
-    "assertion/owner": { "$ref": "#/$defs/ref" },
-    "subject/ref": { "$ref": "#/$defs/ref" },
-    "scope/ref": { "$ref": "#/$defs/ref" },
+    "posture/id": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+    "assertion/owner": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "subject/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "scope/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
     "generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
-    "processing-boundary/ref": { "$ref": "#/$defs/ref" },
+    "processing-boundary/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
     "locality": { "enum": ["local-only", "may-use-non-local", "non-local-required", "unknown"] },
-    "provider/disclosure": { "$ref": "#/$defs/provider-disclosure" },
+    "provider/disclosure": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/provider-disclosure" },
     "provider/refs": {
       "type": "array", "maxItems": 32, "uniqueItems": true,
-      "items": { "$ref": "#/$defs/provider-ref" }
+      "items": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/provider-ref" }
     },
     "valid/from": { "type": "string", "format": "date-time" },
     "valid/until": { "type": "string", "format": "date-time" },
     "evidence/requirements": {
       "type": "array", "maxItems": 32, "uniqueItems": true,
-      "items": { "$ref": "#/$defs/evidence-basis" }
+      "items": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/evidence-requirement" }
     },
-    "extensions": { "$ref": "#/$defs/extensions" }
+    "extensions": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/extensions" }
   },
   "allOf": [
     {
@@ -46,21 +46,5 @@
       },
       "then": { "properties": { "provider/refs": { "maxItems": 0 } } }
     }
-  ],
-  "$defs": {
-    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$" },
-    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
-    "provider-ref": { "type": "string", "pattern": "^inference-provider:[a-z0-9](?:[a-z0-9._-]{0,61}[a-z0-9])?(?::[A-Za-z0-9](?:[A-Za-z0-9._/-]{0,125}[A-Za-z0-9])?)?$" },
-    "provider-disclosure": { "enum": ["complete", "partial", "withheld", "unknown"] },
-    "evidence-basis": {
-      "anyOf": [
-        { "enum": ["host-enforced-no-egress", "host-observed-egress", "host-selected-profile", "adapter-declared", "provider-declared", "peer-attested", "derived", "unknown"] },
-        { "type": "string", "minLength": 21, "maxLength": 192, "pattern": "^inference-evidence:[A-Za-z0-9._/-]+:[A-Za-z0-9._/-]+$" }
-      ]
-    },
-    "extensions": {
-      "type": "object", "maxProperties": 64,
-      "propertyNames": { "minLength": 3, "maxLength": 192, "pattern": "^[A-Za-z0-9._:-]+/[A-Za-z0-9._:/-]+$" }
-    }
-  }
+  ]
 }

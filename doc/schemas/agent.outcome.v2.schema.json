@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.outcome:v2",
+  "title": "Agent Outcome v2",
+  "description": "Compatible successor preserving the exact selected Agent product digest and provider-neutral execution provenance.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "outcome", "execution-binding/ref", "product/digest", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.outcome.v2" },
+    "outcome": { "$ref": "agent.outcome.v1.schema.json" },
+    "execution-binding/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "product/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

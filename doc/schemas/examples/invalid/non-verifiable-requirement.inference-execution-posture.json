@@ -1,0 +1,15 @@
+{
+  "schema": "inference-execution-posture.v1",
+  "posture/id": "sha256:n5K8AypfRs4u7LoQQR7mmjlbIEa-i2wJ3QAhpQHDZ0Y",
+  "assertion/owner": "node:self",
+  "subject/ref": "runtime-profile:mlx-local-v1",
+  "scope/ref": "inquirium:generate",
+  "generation": 1,
+  "processing-boundary/ref": "processing-boundary:host:self",
+  "locality": "local-only",
+  "provider/disclosure": "complete",
+  "provider/refs": ["inference-provider:mlx"],
+  "valid/from": "2026-09-04T10:00:00Z",
+  "evidence/requirements": ["unknown"],
+  "extensions": {}
+}

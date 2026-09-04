@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-passage-trace:v2",
+  "title": "Agent Inference Passage Trace v2",
+  "description": "Compatible terminal trace successor preserving product-bound or product-free refusal provenance; admission posture remains a separate contract.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "trace", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.inference-passage-trace.v2" },
+    "trace": {
+      "allOf": [
+        { "$ref": "agent.inference-passage-trace.v1.schema.json" },
+        {
+          "not": {
+            "properties": { "state": { "const": "admitted" } },
+            "required": ["state"]
+          }
+        }
+      ]
+    },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

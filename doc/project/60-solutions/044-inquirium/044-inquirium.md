@@ -58,8 +58,11 @@ families, richer evaluator profiles, and production trainer backends are
 additive extensions. The provider-neutral posture and provenance schemas plus
 their pure comparison, join, projection, migration, and Schema Gate foundation
 are implemented under `P090-003`; Inquirium's producer binding and result-
-carrier migrations remain planned and are not included in the implemented-MVP
-claim.
+carrier migrations are now partial. The real Agent-passage `generate` path has
+an exact result sidecar and durable V2 propagation, while the remaining
+operations, admitted realized-locality characteristics, direct traces, caches,
+artifacts, and deferred paths remain open. This additive work is not included
+in the implemented-MVP claim.
 
 ## Date
 
@@ -273,9 +276,9 @@ Responsibilities:
 - keep posture as preflight policy input only; it grants no inference, egress,
   context, raw-file lease, or effect authority and is not realized provenance.
 
-Status: `planned` for the Inquirium binding; the shared contract and pure
-comparison foundation are implemented under Proposal 090, while Proposal 064
-tracks the host binding and acceptance slice.
+Status: `partial`; the shared contract, pure comparison foundation, and a
+conservative host derivation function exist. Runtime/profile preflight exposure
+bound to current generation and validity remains open in Proposal 064.
 
 ### Realized Inference Execution Provenance
 
@@ -298,11 +301,13 @@ Responsibilities:
   non-locality, egress, uncertainty, or evidence class; keep provider session,
   account, credential, request, and endpoint details at the runtime edge.
 
-Status: `planned` for Inquirium result production and carriage; Proposal 090's
-shared schema, pure join/projection, migration, and Schema Gate foundation are
-implemented. Proposal 064 tracks the remaining producer integration and
-acceptance. Existing runtime/model refs and diagnostics do not satisfy this
-capability by themselves.
+Status: `partial`; Proposal 090's shared schema, pure join/projection,
+migration, and Schema Gate foundation are implemented. `inquirium-core` owns an
+exact response-bound sidecar, and the real Agent-passage `generate` path emits
+and durably replays a conservative descriptor. Proposal 064 still tracks every
+other operation, stronger admitted runtime evidence, direct traces/effects,
+cache/artifact/deferred preservation, and acceptance. Runtime/model refs and
+diagnostics alone do not satisfy this capability.
 
 ### Direct Data Plane And Artifact Outputs
 
@@ -451,9 +456,11 @@ own proposal or an explicit revision of the implementation recommendations.
 
 - typed operation responses and denials;
 - scoped provider-neutral `inference-execution-posture.v1` values for admitted
-  runtime/profile bindings — *planned*;
+  runtime/profile bindings — *partial host derivation; preflight exposure
+  remains planned*;
 - provider-neutral realized inference-execution provenance descriptors or
-  content-bound references on inference-derived results — *planned*;
+  content-bound references on inference-derived results — *partial for the
+  Agent-passage `generate` vertical*;
 - verified artifact descriptors and deferred-operation refs;
 - metadata-only trace and accounting intents;
 - inert control proposals and compiled Inquiry Flow values.

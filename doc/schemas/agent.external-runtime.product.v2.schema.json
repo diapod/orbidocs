@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.external-runtime.product:v2",
+  "title": "External Agent Runtime Product V2",
+  "description": "Compatible successor binding one V1 external-runtime product to provider-neutral realized inference execution provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "product", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.external-runtime.product.v2" },
+    "product": { "$ref": "agent.external-runtime.product.v1.schema.json" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

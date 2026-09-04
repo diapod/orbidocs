@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-passage-invoke.response:v2",
+  "title": "Agent Inference Passage Invoke Response v2",
+  "description": "Successful Agent passage invocation response preserving the exact product and its provider-neutral execution provenance. Refusals use the capability refusal envelope.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "replayed", "product", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.inference-passage-invoke.response.v2" },
+    "status": { "const": "completed" },
+    "replayed": { "type": "boolean" },
+    "product": { "$ref": "agent.inference-passage-product.v1.schema.json" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

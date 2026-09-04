@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.inference-terminal-selection:v2",
+  "title": "Agent Inference Terminal Selection v2",
+  "description": "Compatible successor preserving the selected Agent product's exact provider-neutral execution provenance.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "selection", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "agent.inference-terminal-selection.v2" },
+    "selection": { "$ref": "agent.inference-terminal-selection.v1.schema.json" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

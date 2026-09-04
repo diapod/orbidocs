@@ -56,9 +56,17 @@ surface are implemented and refusal-tested. FlowNode, Assistant Channel, and
 Corpus integrations are implemented consumers; they do not widen Agent
 authority. Cross-node or federated Agent execution is not part of this solution.
 Proposal 090's provider-neutral schemas, pure comparison/join/projection core,
-legacy migration, and Schema Gate foundation are implemented. Agent binding
-and propagation across products, traces, outcomes, and consumer projections
-remain planned and are not included in the implemented hard-MVP claim.
+legacy migration, and Schema Gate foundation are implemented. A first
+Inquirium inference-Flow vertical now preserves provenance through compatible
+V2 product, invoke response, terminal selection, trace, restart replay, and
+`agent.outcome.v2`; External Runtime also retains V2 product/outcome sidecars.
+Its ordinary controller action now carries the exact realized descriptor
+through a durable sidecar, prompt-free trace, recovery, and terminal
+`agent.outcome.v2`. A retained three-host Story-012 run additionally proves the
+same path for a real Codex-backed Reviewer Agent across a mid-passage restart
+and records the exact final controller sidecar in its report. Scoped posture
+and consumer projections remain open. None of this changes the implemented
+hard-MVP claim.
 
 ## Date
 
@@ -378,8 +386,14 @@ unrelated-boundary posture remains `unknown` or non-match.
 Agent preserves the provider-neutral execution provenance supplied by the
 Inquirium or External Agent Runtime boundary. It composes parent provenance
 monotonically through structured products, terminal selection, traces, and
-the planned `agent.outcome.v2`; it does not reconstruct locality from runtime names, model
-snapshots, or transport kinds.
+`agent.outcome.v2`; it does not reconstruct locality from runtime names, model
+snapshots, or transport kinds. An ordinary controller step backed by an External
+Agent Runtime writes an exact `agent.controller-execution-provenance.v1` sidecar
+before its compatibility step/trace projection. Recovery validates that sidecar
+against the external-runtime V2 commit rather than deriving provenance from
+references. Acceptance binds the sidecar to the observed controller `step/ref`,
+not to the later status-read time; an advanced status may retain an older exact
+step, while an unrelated or missing step sidecar fails closed.
 
 The descriptor is evidence about one product, not Agent identity or authority.
 A single Agent may use different execution paths in successive passages.
@@ -530,9 +544,11 @@ an extension hidden inside this solution.
 
 ## Next Actions
 
-1. Implement Proposal 090 propagation through inference and external-runtime
-   products, parent joins, terminal selection, traces, outcomes, replay, and
-   consumer acceptance without importing provider vocabulary into Agent Core.
+1. Complete Proposal 090 propagation through remaining inference operations,
+   scoped posture, and consumer acceptance while preserving the implemented
+   parent joins, terminal selection, external-runtime controller sidecar,
+   exact step-bound acceptance, traces, outcomes, and replay without importing
+   provider vocabulary into Agent Core.
 2. Keep node-local Agent on the hard-MVP release gate and preserve the full
    process-level dirty-restart acceptance suite.
 3. Add effect-policy adapters only with a concrete consumer and owning host
@@ -571,7 +587,10 @@ an extension hidden inside this solution.
 - hard-MVP unit, refusal, failpoint, restart, process smoke, and sustained
   short-session soak coverage.
 - provider-neutral, monotonically composed inference execution provenance on
-  products, traces, outcomes, replay, and consumer projections — *planned*.
+  products, traces, outcomes, replay, and consumer projections — *partial*;
+  the Inquirium inference-Flow chain, External Runtime terminal sidecars,
+  proven pre-turn non-dispatch, and ordinary controller/outcome bridge are
+  implemented, while scoped posture and consumer projections remain open.
 
 ## May Implement
 
@@ -632,9 +651,12 @@ owning components may be absent from a deployment.
 - content-addressed `agent.outcome.v1` values for consumer-owned acceptance;
 - scoped `inference-execution-posture.v1` projections for selected built-in or
   external runtime bindings — *planned*;
-- `agent.outcome.v2` and compatible passage product/trace successors carrying or
-  referencing `inference-execution-provenance.v1` — *planned*; current V1
-  carriers are not extended in place.
+- `agent.outcome.v2` and compatible passage product/invoke-response/selection/
+  trace successors carrying or referencing
+  `inference-execution-provenance.v1` — *implemented for the Inquirium
+  inference-Flow vertical and ordinary External Agent Runtime controller
+  actions, with retained real three-host Codex restart evidence*; current V1
+  carriers are not extended in place, and consumer carriage remains planned.
 
 ## Related Capability Data
 

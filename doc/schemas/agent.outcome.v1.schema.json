@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.outcome:v1",
+  "title": "Agent Outcome v1",
+  "description": "Content-addressed terminal Agent draft produced for its bound domain consumer; it grants neither publication nor effect authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "outcome/ref", "agent/id", "binding/ref", "state", "product/kind",
+    "product/ref", "classification", "budget_spent", "trace/ref", "at"
+  ],
+  "properties": {
+    "schema": { "const": "agent.outcome.v1" },
+    "outcome/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "agent/id": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "binding/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "state": { "const": "completed" },
+    "product/kind": {
+      "enum": ["flow-result", "assistant-response-draft", "collaborative-answer-draft", "collaborative-turn-draft"]
+    },
+    "product/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "budget_spent": { "$ref": "agent.inference-passage-product.v1.schema.json#/$defs/budget" },
+    "trace/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "at": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" }
+  }
+}

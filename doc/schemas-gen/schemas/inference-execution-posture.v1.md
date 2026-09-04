@@ -7,30 +7,19 @@ Source schema: [`doc/schemas/inference-execution-posture.v1.schema.json`](../../
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `inference-execution-posture.v1` |  |
-| [`posture/id`](#field-posture-id) | `yes` | ref: `#/$defs/digest` |  |
-| [`assertion/owner`](#field-assertion-owner) | `yes` | ref: `#/$defs/ref` |  |
-| [`subject/ref`](#field-subject-ref) | `yes` | ref: `#/$defs/ref` |  |
-| [`scope/ref`](#field-scope-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`posture/id`](#field-posture-id) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/digest` |  |
+| [`assertion/owner`](#field-assertion-owner) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
+| [`subject/ref`](#field-subject-ref) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
+| [`scope/ref`](#field-scope-ref) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
 | [`generation`](#field-generation) | `yes` | integer |  |
-| [`processing-boundary/ref`](#field-processing-boundary-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`processing-boundary/ref`](#field-processing-boundary-ref) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
 | [`locality`](#field-locality) | `yes` | enum: `local-only`, `may-use-non-local`, `non-local-required`, `unknown` |  |
-| [`provider/disclosure`](#field-provider-disclosure) | `yes` | ref: `#/$defs/provider-disclosure` |  |
+| [`provider/disclosure`](#field-provider-disclosure) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/provider-disclosure` |  |
 | [`provider/refs`](#field-provider-refs) | `yes` | array |  |
 | [`valid/from`](#field-valid-from) | `yes` | string |  |
 | [`valid/until`](#field-valid-until) | `no` | string |  |
 | [`evidence/requirements`](#field-evidence-requirements) | `yes` | array |  |
-| [`extensions`](#field-extensions) | `yes` | ref: `#/$defs/extensions` |  |
-
-## Definitions
-
-| Definition | Shape | Description |
-|---|---|---|
-| [`ref`](#def-ref) | string |  |
-| [`digest`](#def-digest) | string |  |
-| [`provider-ref`](#def-provider-ref) | string |  |
-| [`provider-disclosure`](#def-provider-disclosure) | enum: `complete`, `partial`, `withheld`, `unknown` |  |
-| [`evidence-basis`](#def-evidence-basis) | unspecified |  |
-| [`extensions`](#def-extensions) | object |  |
+| [`extensions`](#field-extensions) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/extensions` |  |
 
 ## Conditional Rules
 
@@ -107,25 +96,25 @@ Then:
 ## `posture/id`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/digest`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/digest`
 
 <a id="field-assertion-owner"></a>
 ## `assertion/owner`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/ref`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 <a id="field-subject-ref"></a>
 ## `subject/ref`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/ref`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 <a id="field-scope-ref"></a>
 ## `scope/ref`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/ref`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 <a id="field-generation"></a>
 ## `generation`
@@ -137,7 +126,7 @@ Then:
 ## `processing-boundary/ref`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/ref`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 <a id="field-locality"></a>
 ## `locality`
@@ -149,7 +138,7 @@ Then:
 ## `provider/disclosure`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/provider-disclosure`
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/provider-disclosure`
 
 <a id="field-provider-refs"></a>
 ## `provider/refs`
@@ -179,36 +168,4 @@ Then:
 ## `extensions`
 
 - Required: `yes`
-- Shape: ref: `#/$defs/extensions`
-
-## Definition Semantics
-
-<a id="def-ref"></a>
-## `$defs.ref`
-
-- Shape: string
-
-<a id="def-digest"></a>
-## `$defs.digest`
-
-- Shape: string
-
-<a id="def-provider-ref"></a>
-## `$defs.provider-ref`
-
-- Shape: string
-
-<a id="def-provider-disclosure"></a>
-## `$defs.provider-disclosure`
-
-- Shape: enum: `complete`, `partial`, `withheld`, `unknown`
-
-<a id="def-evidence-basis"></a>
-## `$defs.evidence-basis`
-
-- Shape: unspecified
-
-<a id="def-extensions"></a>
-## `$defs.extensions`
-
-- Shape: object
+- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/extensions`

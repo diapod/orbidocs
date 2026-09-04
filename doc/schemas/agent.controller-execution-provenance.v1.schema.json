@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.controller-execution-provenance:v1",
+  "title": "Agent Controller Execution Provenance v1",
+  "description": "Immutable bridge from one ordinary Agent controller step to the exact realized execution provenance of its retained product.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md",
+    "doc/project/60-solutions/047-agent/047-agent.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "provenance/ref",
+    "agent/id",
+    "agent-binding/ref",
+    "execution-binding/ref",
+    "step/no",
+    "request/ref",
+    "product/ref",
+    "product/digest",
+    "execution/provenance"
+  ],
+  "properties": {
+    "schema": { "const": "agent.controller-execution-provenance.v1" },
+    "provenance/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "agent/id": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "agent-binding/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "execution-binding/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "step/no": { "type": "integer", "minimum": 1 },
+    "request/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "product/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "product/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+  }
+}

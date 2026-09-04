@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium.result-provenance:v1",
+  "title": "Inquirium Result Provenance V1",
+  "description": "Immutable content-bound sidecar associating one existing Inquirium result with provider-neutral realized inference execution provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "result/ref", "execution/provenance"],
+  "properties": {
+    "schema": { "const": "inquirium.result-provenance.v1" },
+    "result/ref": {
+      "type": "string",
+      "pattern": "^inquirium-result:sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 96
+    },
+    "execution/provenance": {
+      "$ref": "inference-execution-provenance.v1.schema.json"
+    }
+  }
+}
