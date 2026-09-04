@@ -94,7 +94,7 @@
         "then": { "not": { "required": ["profile-claim/ref"] } }
       }, {
         "if": {
-          "required": ["host-posture", "profile-claim/ref"],
+          "required": ["host-posture"],
           "properties": {
             "host-posture": { "const": "distinct-physical-hosts" }
           }
