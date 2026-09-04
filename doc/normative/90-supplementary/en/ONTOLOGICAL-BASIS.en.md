@@ -276,6 +276,37 @@ for colors as properties of things and few expressions for color as experienced.
 This does not indicate poverty of experience, but the cost of translating it into a
 language of publicly comparable distinctions.
 
+#### Scope of justification and transition contracts
+
+Layers do not automatically inherit their justifications. An observation,
+correlation, or explanation formulated in one layer directly justifies only a claim
+belonging to the same layer, scale, and granularity. Carrying a conclusion into
+another layer requires an explicit **transition contract**. Such a contract states
+the relation between the layers, the purpose and scope of the transfer, its
+granularity and scale, the boundary of the system under study, the distinctions
+preserved, lost, and newly added, and the conditions under which the transition
+should be challenged. It does not guarantee the truth of the conclusion in the
+target layer, but makes explicit why data from one grammar may support a claim
+formulated in another.
+
+A transition contract does not, however, connect two ready-made levels that existed
+as such prior to cognition. Its endpoints, their scale, and the boundary of the
+system under study have already been distinguished from a process through acts of
+differentiation. The contract therefore also describes the conditions under which,
+for a given question, we recognize the two levels as distinct. These boundaries are
+elements of the model, not properties of reality given prior to cognition. This does
+not invalidate the local usefulness of layers, but guards against treating them as
+self-subsisting parts of the world.
+
+The absence of such a contract does not justify the contrary claim. Withholding
+judgment can be a fully legitimate epistemic outcome. "I do not know" then signifies
+not the absence of a model, but a precise recognition of the point at which its
+capacity to preserve the distinctions needed for an answer ends. Understood in this
+way, the contract is a natural consequence of the genealogy of experience and a
+practice of epistemic honesty: it preserves the local force of a claim without
+granting it a scope that we cannot justify. The following model of constitutive
+thresholds develops the mechanics of such transitions.
+
 #### Constitutive Thresholds and Layer Grammars
 
 Translation asymmetry explains why we cannot recover a canonical original from an

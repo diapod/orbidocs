@@ -275,6 +275,35 @@ właściwości rzeczy i niewiele określeń dla barwy tak, jak jest doświadcza
 świadczy to o ubóstwie doświadczenia, lecz o koszcie przekładu na język publicznie
 porównywalnych rozróżnień.
 
+#### Zakres uzasadnienia i kontrakty przejścia
+
+Warstwy nie dziedziczą automatycznie swoich uzasadnień. Obserwacja, korelacja lub
+wyjaśnienie sformułowane w jednej warstwie bezpośrednio uzasadnia jedynie twierdzenie
+należące do tej samej warstwy, skali i ziarnistości. Przeniesienie wniosku do innej
+warstwy wymaga jawnego **kontraktu przejścia**. Kontrakt taki określa relację między
+warstwami, cel i zakres przeniesienia, ziarnistość i skalę, granicę badanego układu,
+zachowane, utracone i nowo dodane rozróżnienia oraz warunki, w których przejście
+należałoby podważyć. Nie gwarantuje prawdziwości wniosku w warstwie docelowej, lecz
+ujawnia, dlaczego dane z jednej gramatyki mogą wspierać twierdzenie sformułowane
+w innej.
+
+Kontrakt przejścia nie łączy jednak dwóch gotowych poziomów, które istniały jako
+takie przed poznaniem. Jego krańce, ich skala oraz granica badanego układu zostały
+wcześniej wyodrębnione z procesu przez akty rozróżniania. Kontrakt opisuje więc
+również warunki, pod którymi dla danego pytania rozpoznajemy oba poziomy jako
+odrębne. Granice te są elementami modelu, a nie własnościami rzeczywistości danymi
+przed poznaniem. Nie unieważnia to lokalnej użyteczności warstw, lecz chroni przed
+uznaniem ich za samoistne części świata.
+
+Brak takiego kontraktu nie uzasadnia twierdzenia przeciwnego. Pełnoprawnym wynikiem
+poznawczym może być powstrzymanie się od rozstrzygnięcia. "Nie wiem" nie oznacza
+wówczas braku modelu, lecz precyzyjne rozpoznanie miejsca, w którym kończy się jego
+zdolność zachowywania rozróżnień potrzebnych do odpowiedzi. Tak rozumiany kontrakt
+jest naturalną konsekwencją genealogii doświadczenia i praktyką poznawczej
+uczciwości: zachowuje lokalną moc twierdzenia bez dopisywania mu zasięgu, którego nie
+potrafimy uzasadnić. Poniższy model progów konstytuowania rozwija mechanikę takich
+przejść.
+
 #### Progi konstytuowania i gramatyki warstw
 
 Asymetria przekładu wyjaśnia, dlaczego z abstraktu nie odzyskujemy kanonicznego

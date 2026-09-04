@@ -255,6 +255,33 @@ nikoli samotné textury zkušenosti: máme přesná pojmenování barev jako vla
 a málo výrazů pro barvu tak, jak je zakoušena. Nesvědčí to o chudobě zkušenosti,
 nýbrž o ceně jejího překladu do jazyka veřejně porovnatelných rozlišení.
 
+#### Rozsah zdůvodnění a kontrakty přechodu
+
+Vrstvy automaticky nedědí svá zdůvodnění. Pozorování, korelace nebo vysvětlení
+formulované v jedné vrstvě bezprostředně zdůvodňuje pouze tvrzení, které náleží téže
+vrstvě, měřítku a zrnitosti. Přenesení závěru do jiné vrstvy vyžaduje explicitní
+**kontrakt přechodu**. Takový kontrakt určuje vztah mezi vrstvami, účel a rozsah
+přenosu, zrnitost a měřítko, hranici zkoumaného systému, zachovaná, ztracená a nově
+přidaná rozlišení a podmínky, za nichž by měl být přechod zpochybněn. Nezaručuje
+pravdivost závěru v cílové vrstvě, nýbrž odhaluje, proč mohou data z jedné gramatiky
+podporovat tvrzení formulované v jiné.
+
+Kontrakt přechodu však nespojuje dvě hotové úrovně, které jako takové existovaly před
+poznáním. Jeho koncové body, jejich měřítko i hranice zkoumaného systému byly už
+dříve vyděleny z procesu akty rozlišování. Kontrakt tedy popisuje také podmínky, za
+nichž pro danou otázku rozpoznáváme obě úrovně jako oddělené. Tyto hranice jsou
+prvky modelu, nikoli vlastnostmi skutečnosti danými před poznáním. To neruší lokální
+užitečnost vrstev, nýbrž brání tomu, abychom je pokládali za samostatně existující
+části světa.
+
+Absence takového kontraktu nezdůvodňuje opačné tvrzení. Plnohodnotným poznávacím
+výsledkem může být zdržení se soudu. "Nevím" pak neznamená absenci modelu, nýbrž
+přesné rozpoznání bodu, v němž končí jeho schopnost zachovávat rozlišení potřebná
+pro odpověď. Takto chápaný kontrakt je přirozeným důsledkem genealogie zkušenosti
+a praxí poznávací poctivosti: zachovává lokální sílu tvrzení, aniž mu připisuje
+dosah, který nedokážeme zdůvodnit. Následující model prahů konstituce rozvíjí
+mechaniku takových přechodů.
+
 #### Prahy konstituce a gramatiky vrstev
 
 Asymetrie překladu vysvětluje, proč z abstraktu nezískáváme kanonický originál.
