@@ -314,6 +314,9 @@ schema_for_file() {
     *.agent.external-runtime.turn-outcome.json)
       echo "$SCHEMAS_DIR/agent.external-runtime.turn-outcome.v1.schema.json"
       ;;
+    *.inference-provider-registry.v1.json)
+      echo "$SCHEMAS_DIR/inference-provider-registry.v1.schema.json"
+      ;;
     *.inference-execution-posture.json)
       echo "$SCHEMAS_DIR/inference-execution-posture.v1.schema.json"
       ;;

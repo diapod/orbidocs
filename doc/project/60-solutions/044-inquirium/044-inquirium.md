@@ -58,11 +58,16 @@ families, richer evaluator profiles, and production trainer backends are
 additive extensions. The provider-neutral posture and provenance schemas plus
 their pure comparison, join, projection, migration, and Schema Gate foundation
 are implemented under `P090-003`; Inquirium's producer binding and result-
-carrier migrations are now partial. The real Agent-passage `generate` path has
-an exact result sidecar and durable V2 propagation, while the remaining
-operations, admitted realized-locality characteristics, direct traces, caches,
-artifacts, and deferred paths remain open. This additive work is not included
-in the implemented-MVP claim.
+carrier migrations are now partial. The daemon admits explicit provider-neutral
+execution characteristics per active runtime without inferring realized facts
+from transport or catalog posture. The real Agent-passage `generate` path has an
+exact result sidecar and durable V2 propagation; direct successful `generate`,
+`embed`, `classify`, `rerank`, `summarize`, `transform`, image-generate, and
+image-edit operations also commit exact sidecars in durable traces. Typed
+pre-I/O `generate` refusal records proven non-dispatch. Post-dispatch terminal
+errors, batch/training, compatible response successors, parent joins, caches,
+artifact/deferred carriage, and effects remain open. This additive work is not
+included in the implemented-MVP claim.
 
 ## Date
 
@@ -277,8 +282,13 @@ Responsibilities:
   context, raw-file lease, or effect authority and is not realized provenance.
 
 Status: `partial`; the shared contract, pure comparison foundation, and a
-conservative host derivation function exist. Runtime/profile preflight exposure
-bound to current generation and validity remains open in Proposal 064.
+conservative host derivation function exist. Operator HTTP now exposes exact
+runtime/profile declarations bound to current catalog and provider-registry
+digests, owner, invocation scope, generation, boundary and validity; missing or
+changed bindings return a typed non-match. The admitted provider registry has
+shared CLI/UI preview-confirm-install tooling and canonical import validation.
+This inspection grants no authority. Full invocation-policy preflight and
+Agent/external-runtime scope exposure remain open in P090.
 
 ### Realized Inference Execution Provenance
 
@@ -303,9 +313,12 @@ Responsibilities:
 
 Status: `partial`; Proposal 090's shared schema, pure join/projection,
 migration, and Schema Gate foundation are implemented. `inquirium-core` owns an
-exact response-bound sidecar, and the real Agent-passage `generate` path emits
-and durably replays a conservative descriptor. Proposal 064 still tracks every
-other operation, stronger admitted runtime evidence, direct traces/effects,
+exact response-bound sidecar. The daemon's explicit runtime characteristics
+feed direct-success traces for generation, embedding, classification, reranking,
+summarization, transformation, and image work; missing characteristics remain
+`unknown`, and the Agent-passage `generate` path durably replays its conservative
+descriptor. Proposal 064 still tracks terminal errors after dispatch,
+batch/training, compatible response successors, parent joins, direct effects,
 cache/artifact/deferred preservation, and acceptance. Runtime/model refs and
 diagnostics alone do not satisfy this capability.
 
@@ -460,7 +473,7 @@ own proposal or an explicit revision of the implementation recommendations.
   remains planned*;
 - provider-neutral realized inference-execution provenance descriptors or
   content-bound references on inference-derived results — *partial for the
-  Agent-passage `generate` vertical*;
+  Agent-passage `generate` vertical and direct-success operation traces*;
 - verified artifact descriptors and deferred-operation refs;
 - metadata-only trace and accounting intents;
 - inert control proposals and compiled Inquiry Flow values.

@@ -1,0 +1,13 @@
+{
+  "schema": "inference-provider-registry.v1",
+  "generation": 1,
+  "digest": "sha256:jeHe7bEecbW-3DsPEEyKdJcf1rpgzUpRTAi8byKmaHw",
+  "entries": [
+    {
+      "provider/ref": "inference-provider:example:lab",
+      "aliases": ["lab"],
+      "display/name": "Household lab",
+      "disclosure/default": "withheld"
+    }
+  ]
+}

@@ -25,7 +25,7 @@ Content-addressed terminal Agent draft produced for its bound domain consumer; i
 | [`classification`](#field-classification) | `yes` | ref: `classification.v1.schema.json` |  |
 | [`budget_spent`](#field-budget-spent) | `yes` | ref: `agent.inference-passage-product.v1.schema.json#/$defs/budget` |  |
 | [`trace/ref`](#field-trace-ref) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
-| [`at`](#field-at) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
+| [`at`](#field-at) | `yes` | string |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -92,4 +92,4 @@ Content-addressed terminal Agent draft produced for its bound domain consumer; i
 ## `at`
 
 - Required: `yes`
-- Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
+- Shape: string

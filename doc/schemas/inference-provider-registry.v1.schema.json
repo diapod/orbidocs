@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inference-provider-registry:v1",
+  "title": "Inference provider registry V1",
+  "description": "Bounded operator-owned display vocabulary. No credentials, endpoints, discovery or inference authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "generation",
+    "digest",
+    "entries"
+  ],
+  "properties": {
+    "schema": {
+      "const": "inference-provider-registry.v1"
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "digest": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest"
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider/ref",
+        "aliases",
+        "display/name",
+        "disclosure/default"
+      ],
+      "properties": {
+        "provider/ref": {
+          "$ref": "inference-provenance-common.v1.schema.json#/$defs/provider-ref"
+        },
+        "aliases": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[A-Za-z0-9._-]+$"
+          }
+        },
+        "display/name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        },
+        "disclosure/default": {
+          "$ref": "inference-provenance-common.v1.schema.json#/$defs/provider-disclosure"
+        }
+      }
+    }
+  }
+}

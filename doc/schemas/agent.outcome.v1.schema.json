@@ -28,6 +28,6 @@
     "classification": { "$ref": "classification.v1.schema.json" },
     "budget_spent": { "$ref": "agent.inference-passage-product.v1.schema.json#/$defs/budget" },
     "trace/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
-    "at": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" }
+    "at": { "type": "string", "format": "date-time" }
   }
 }

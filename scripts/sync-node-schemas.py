@@ -24,6 +24,7 @@ NODE_WORKSPACE_SENTINELS = (
 )
 
 SCHEMA_WHITELIST = (
+    "inference-provider-registry.v1.schema.json",
     "node-identity.v1.schema.json",
     "node-advertisement.v1.schema.json",
     "node-succession.v1.schema.json",
@@ -555,6 +556,7 @@ EXAMPLE_WHITELIST = (
     "fixture.agent.external-runtime.product.json",
     "fixture.agent.external-runtime.turn-outcome.json",
     "fixture.inference-execution-posture.json",
+    "household.inference-provider-registry.v1.json",
     "fixture.inference-execution-provenance.json",
     "fixture.inquirium-operation-descriptor.json",
     "fixture.batch-embed.inquirium-operation-descriptor.json",
