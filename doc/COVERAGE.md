@@ -169,6 +169,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | `20` | `19` | `yes` | `yes` | `1` | `1` |
 | [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `1` |
 | [`inac-control.v1.schema.json`](schemas-gen/schemas/inac-control.v1.md) | `10` | `0` | `no` | `yes` | `2` | `1` |
+| [`inference-execution-posture.v1.schema.json`](schemas-gen/schemas/inference-execution-posture.v1.md) | `14` | `0` | `no` | `yes` | `1` | `1` |
+| [`inference-execution-provenance.v1.schema.json`](schemas-gen/schemas/inference-execution-provenance.v1.md) | `5` | `0` | `no` | `yes` | `1` | `1` |
+| [`inference-provenance-common.v1.schema.json`](schemas-gen/schemas/inference-provenance-common.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`inquirium-federated-resource-profile.v1.schema.json`](schemas-gen/schemas/inquirium-federated-resource-profile.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `2` |
 | [`inquirium-operation-descriptor.v1.schema.json`](schemas-gen/schemas/inquirium-operation-descriptor.v1.md) | `10` | `0` | `yes` | `yes` | `5` | `1` |
 | [`inquirium-resource-profile.v1.schema.json`](schemas-gen/schemas/inquirium-resource-profile.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `3` |
@@ -603,6 +606,9 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`gateway-policy.v1.schema.json`](schemas-gen/schemas/gateway-policy.v1.md) | [`requirements-007-gateway-escrow-mvp.md`](project/50-requirements/requirements-007-gateway-escrow-mvp.md), [`requirements-008-org-subject-rollout.md`](project/50-requirements/requirements-008-org-subject-rollout.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`gateway-receipt.v1.schema.json`](schemas-gen/schemas/gateway-receipt.v1.md) | [`requirements-007-gateway-escrow-mvp.md`](project/50-requirements/requirements-007-gateway-escrow-mvp.md), [`requirements-008-org-subject-rollout.md`](project/50-requirements/requirements-008-org-subject-rollout.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`inac-control.v1.schema.json`](schemas-gen/schemas/inac-control.v1.md) |  |  |
+| [`inference-execution-posture.v1.schema.json`](schemas-gen/schemas/inference-execution-posture.v1.md) |  |  |
+| [`inference-execution-provenance.v1.schema.json`](schemas-gen/schemas/inference-execution-provenance.v1.md) |  |  |
+| [`inference-provenance-common.v1.schema.json`](schemas-gen/schemas/inference-provenance-common.v1.md) |  |  |
 | [`inquirium-federated-resource-profile.v1.schema.json`](schemas-gen/schemas/inquirium-federated-resource-profile.v1.md) |  |  |
 | [`inquirium-operation-descriptor.v1.schema.json`](schemas-gen/schemas/inquirium-operation-descriptor.v1.md) | [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md) | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
 | [`inquirium-resource-profile.v1.schema.json`](schemas-gen/schemas/inquirium-resource-profile.v1.md) |  |  |
@@ -1055,7 +1061,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) |
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) |
 
-- Canonical schemas: `429`
-- Generated schema docs: `429`
-- Positive examples: `442`
-- Negative examples: `384`
+- Canonical schemas: `432`
+- Generated schema docs: `432`
+- Positive examples: `444`
+- Negative examples: `386`
