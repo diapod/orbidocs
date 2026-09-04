@@ -1,0 +1,15 @@
+{
+  "schema": "inference-execution-posture.v1",
+  "posture/id": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "assertion/owner": "node:self",
+  "subject/ref": "runtime-profile:remote",
+  "scope/ref": "inquirium:generate",
+  "generation": 1,
+  "processing-boundary/ref": "processing-boundary:host:self",
+  "locality": "may-use-non-local",
+  "provider/disclosure": "withheld",
+  "provider/refs": ["inference-provider:openai"],
+  "valid/from": "2026-09-04T10:00:00Z",
+  "evidence/requirements": ["host-selected-profile"],
+  "extensions": {}
+}

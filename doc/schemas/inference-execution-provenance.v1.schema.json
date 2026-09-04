@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inference-execution-provenance:v1",
+  "title": "Inference Execution Provenance v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "descriptor/digest", "descriptor/size-bytes"],
+  "properties": {
+    "schema": { "const": "inference-execution-provenance.v1" },
+    "descriptor/digest": { "$ref": "#/$defs/digest" },
+    "descriptor/size-bytes": { "type": "integer", "minimum": 1, "maximum": 65536 },
+    "descriptor": { "$ref": "#/$defs/descriptor" },
+    "descriptor/ref": { "$ref": "#/$defs/ref" }
+  },
+  "oneOf": [
+    { "required": ["descriptor"], "not": { "required": ["descriptor/ref"] } },
+    { "required": ["descriptor/ref"], "not": { "required": ["descriptor"] } }
+  ],
+  "allOf": [
+    {
+      "if": { "required": ["descriptor"] },
+      "then": { "properties": { "descriptor/size-bytes": { "maximum": 16384 } } }
+    },
+    {
+      "if": { "required": ["descriptor/ref"] },
+      "then": { "properties": { "descriptor/size-bytes": { "minimum": 16385 } } }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "provider-ref": { "type": "string", "pattern": "^inference-provider:[a-z0-9](?:[a-z0-9._-]{0,61}[a-z0-9])?(?::[A-Za-z0-9](?:[A-Za-z0-9._/-]{0,125}[A-Za-z0-9])?)?$" },
+    "provider-disclosure": { "enum": ["complete", "partial", "withheld", "unknown"] },
+    "evidence-basis": {
+      "anyOf": [
+        { "enum": ["host-enforced-no-egress", "host-observed-egress", "host-selected-profile", "adapter-declared", "provider-declared", "peer-attested", "derived", "unknown"] },
+        { "type": "string", "minLength": 21, "maxLength": 192, "pattern": "^inference-evidence:[A-Za-z0-9._/-]+:[A-Za-z0-9._/-]+$" }
+      ]
+    },
+    "extensions": {
+      "type": "object", "maxProperties": 64,
+      "propertyNames": { "minLength": 3, "maxLength": 192, "pattern": "^[A-Za-z0-9._:-]+/[A-Za-z0-9._:/-]+$" }
+    },
+    "bindings": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "runtime/ref": { "$ref": "#/$defs/ref" },
+        "adapter-profile/ref": { "$ref": "#/$defs/ref" },
+        "model-binding/ref": { "$ref": "#/$defs/ref" },
+        "model-snapshot/ref": { "$ref": "#/$defs/ref" },
+        "external-runtime-profile/ref": { "$ref": "#/$defs/ref" }
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["basis", "assertion/ref", "evidence/refs"],
+      "properties": {
+        "basis": { "$ref": "#/$defs/evidence-basis" },
+        "assertion/ref": { "$ref": "#/$defs/ref" },
+        "evidence/refs": {
+          "type": "array", "maxItems": 16, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/ref" }
+        },
+        "limitation": { "type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^[^\\u0000-\\u001f\\u007f]+$" }
+      }
+    },
+    "lineage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parent/descriptor-ids", "parent/count", "complete"],
+      "properties": {
+        "parent/descriptor-ids": {
+          "type": "array", "maxItems": 32, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/digest" }
+        },
+        "parent/count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "aggregate/ref": { "$ref": "#/$defs/ref" },
+        "complete": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": { "required": ["aggregate/ref"] },
+          "then": { "properties": { "parent/descriptor-ids": { "maxItems": 0 } } }
+        }
+      ]
+    },
+    "descriptor": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "descriptor/id", "projection/id", "projection/kind", "subject/ref", "asserted/by",
+        "observed/at", "processing-boundary/ref", "dispatch", "dispatch/components",
+        "locality", "locality/components", "input-egress", "input-egress/components",
+        "provider/disclosure", "provider/refs", "bindings", "evidence", "evidence/complete",
+        "lineage", "extensions"
+      ],
+      "properties": {
+        "descriptor/id": { "$ref": "#/$defs/digest" },
+        "projection/id": { "$ref": "#/$defs/digest" },
+        "projection/kind": { "enum": ["full", "redacted"] },
+        "subject/ref": { "$ref": "#/$defs/ref" },
+        "asserted/by": { "$ref": "#/$defs/ref" },
+        "observed/at": { "type": "string", "format": "date-time" },
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "processing-boundary/ref": { "$ref": "#/$defs/ref" },
+        "dispatch": { "enum": ["not-dispatched", "dispatched", "ambiguous"] },
+        "dispatch/components": {
+          "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true,
+          "items": { "enum": ["not-dispatched", "dispatched", "ambiguous"] }
+        },
+        "locality": { "enum": ["local", "non-local", "mixed", "unknown", "not-applicable"] },
+        "locality/components": {
+          "type": "array", "maxItems": 3, "uniqueItems": true,
+          "items": { "enum": ["local", "non-local", "unknown"] }
+        },
+        "input-egress": { "enum": ["none", "possible", "occurred", "unknown"] },
+        "input-egress/components": {
+          "type": "array", "minItems": 1, "maxItems": 4, "uniqueItems": true,
+          "items": { "enum": ["none", "possible", "occurred", "unknown"] }
+        },
+        "provider/disclosure": { "$ref": "#/$defs/provider-disclosure" },
+        "provider/refs": {
+          "type": "array", "maxItems": 32, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/provider-ref" }
+        },
+        "bindings": { "$ref": "#/$defs/bindings" },
+        "evidence": {
+          "type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "evidence/complete": { "type": "boolean" },
+        "lineage": { "$ref": "#/$defs/lineage" },
+        "extensions": { "$ref": "#/$defs/extensions" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["provider/disclosure"],
+            "properties": { "provider/disclosure": { "const": "partial" } }
+          },
+          "then": { "properties": { "provider/refs": { "minItems": 1 } } }
+        },
+        {
+          "if": {
+            "required": ["provider/disclosure"],
+            "properties": { "provider/disclosure": { "enum": ["withheld", "unknown"] } }
+          },
+          "then": { "properties": { "provider/refs": { "maxItems": 0 } } }
+        },
+        {
+          "if": {
+            "required": ["dispatch"],
+            "properties": { "dispatch": { "const": "not-dispatched" } }
+          },
+          "then": {
+            "properties": {
+              "locality": { "const": "not-applicable" },
+              "input-egress": { "const": "none" }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["dispatch"],
+            "properties": { "dispatch": { "enum": ["dispatched", "ambiguous"] } }
+          },
+          "then": { "properties": { "locality": { "not": { "const": "not-applicable" } } } }
+        }
+      ]
+    }
+  }
+}

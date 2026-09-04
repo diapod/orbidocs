@@ -24,13 +24,15 @@ Related producer contract, extended by this proposal:
 
 ## Status
 
-Draft. The initial cross-layer semantic and live-contract audit identifies the
-gap, but the complete carrier inventory, canonical schemas, pure
-comparison/join contracts, component propagation, consumer policies, operator
-surfaces, and cross-node acceptance described here remain open. Existing
-locality policies, provider metadata, classification labels, origin classes,
-runtime traces, and offer fields are antecedents only; none currently proves
-this proposal's complete result-level contract.
+Accepted design, with the repository-evidenced carrier inventory and the five
+V1 design questions resolved on 2026-09-04. The two canonical schemas, pure
+comparison/join/projection and migration core, boundary Schema Gate, fixtures,
+and layering guards are implemented by `P090-003`. Producer propagation,
+consumer policies, the guided provider registry, operator surfaces, and cross-
+node acceptance remain implementation work. Existing locality policies,
+provider metadata, classification labels, origin classes, runtime traces, and
+offer fields are antecedents only; none currently proves the proposal's
+complete result-level vertical.
 
 ## Date
 
@@ -487,6 +489,46 @@ the projection misleading.
 | P081 / P086 mechanisms | Supply causal, receipt, or observation evidence refs; do not own the result-level semantic descriptor. |
 | Receiving node or client | Verify framing/signature, preserve assertion provenance, apply local admit/warn/filter policy, and never upgrade peer evidence. |
 
+### Carrier inventory and compatibility migration plan
+
+The `P090-001a` audit below records the current repository carriers rather than
+an aspirational component list. A **major successor** is required when the
+consumer interprets the result and absence of provenance would change admission,
+completion, or product meaning. A **bound sidecar/ref** is appropriate when the
+carrier transports or stores an opaque product and can bind the descriptor to
+the exact content digest and result identity without interpreting it. Internal
+provider-edge DTOs remain provider evidence inputs and do not become realized
+provenance owners.
+
+| Current owner and carrier | Current inference relationship | V1 migration assignment | Repository evidence |
+| :--- | :--- | :--- | :--- |
+| model-runtime catalog, `RuntimeCandidateConfig`, `AdapterInstanceConfig`, and `ModelRuntimeProfile` | Selection and admission inputs, not realized results | Compatible local configuration additions may bind posture and processing-boundary refs; current `LocalityMode`/`TrustMode` migrate conservatively and never become realized proof. | `node:model-runtime/src/lib.rs` |
+| Inquirium `GenerateResponse` | Direct inference result and common lower carrier for summarize, transform, Agent, Corpus, JSON-e Flow, and Assistant | `inquirium.generate.response.v2`; V1 remains readable only as provenance `unknown` or through an exact bound sidecar. | `node:inquirium-core/src/lib.rs`, `node:inquirium-host/src/lib.rs`, `node:daemon/src/model_runtime_host.rs` |
+| Inquirium `EmbeddingResponse` | Direct embedding result; cached and consumed by future Semantic Index projections | `inquirium.embed.response.v2`; exact cache replay preserves its descriptor identity. V1 cache entries migrate to `unknown`, never current catalog facts. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/model_runtime_host.rs`, `node:daemon/src/inquirium_response_cache.rs` |
+| Inquirium `BatchEmbeddingResponse` | Artifact-producing batch inference | `inquirium.batch-embed.response.v2`; the artifact also carries a content-bound descriptor sidecar/ref so an opaque store does not need to interpret it. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/model_runtime_host.rs` |
+| Inquirium `ClassifyResponse` and `RerankResponse` | Direct interpreted inference results | `inquirium.classify.response.v2` and `inquirium.rerank.response.v2`. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/model_runtime_host.rs` |
+| Inquirium `SummarizeResponse` and `TransformResponse` | Lossy translations of `GenerateResponse` | `inquirium.summarize.response.v2` and `inquirium.transform.response.v2`; conversion preserves the exact descriptor for one-parent projection or performs the canonical join. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/host_capabilities_host.rs` |
+| Inquirium `ImageResponse` | Host-verified artifact result shared by image generation and editing | `inquirium.image.response.v2` plus a content-bound artifact sidecar/ref. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/model_runtime_host.rs`, `node:daemon/src/host_capabilities_host.rs` |
+| training adapter `TrainAdaptAdapterResponse` | Private provider-edge response, followed by host evaluation and artifact publication | Keep the private adapter DTO as evidence input. Bind realized provenance to the host-published artifact and deferred terminal result through an immutable sidecar/ref; do not call adapter self-report realized provenance. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/inquirium_training_worker.rs`, `node:daemon/src/deferred_registry.rs` |
+| `AssistantTurnResponse` and retained transcript facts | Assistant-visible projection and durable transcript of generate output | `inquirium.assistant.turn.response.v2` and a compatible transcript-fact successor; preflight posture remains separate from the result descriptor. | `node:inquirium-core/src/lib.rs`, `node:daemon/src/host_capabilities_host.rs`, `node:daemon/src/inquirium_transcript_projection.rs` |
+| model invocation traces and deterministic response cache | Local diagnostics and replay state | Add an immutable descriptor/ref to the trace and cache record. Exact replay returns the original descriptor; V1 cache absence becomes `unknown`. | `node:daemon/src/middleware_host.rs`, `node:daemon/src/inquirium_response_cache.rs`, `node:daemon/src/model_runtime_host.rs` |
+| `ExternalRuntimeProduct` and `ExternalRuntimeTurnOutcome` | Provider-neutral external-Agent result and terminal state | `agent.external-runtime.product.v2` and `agent.external-runtime.turn-outcome.v2`; provider-native sessions, accounts, endpoints, auth, and request ids stay private. | `node:external-agent-runtime-core/src/lib.rs`, `node:daemon/src/external_agent_runtime.rs` |
+| `AgentInferencePassageProduct`, `AgentInferenceTerminalSelection`, and `AgentInferencePassageTrace` | Agent passage product, selected lineage, and replay trace | Compatible V2 successors; every inference parent is preserved or canonically joined before terminal selection. | `node:agent-core/src/passage.rs`, `node:daemon/src/agent_runtime.rs`, `node:daemon/src/agent_memarium_store.rs` |
+| `AgentOutcome` and Assistant draft projection | Interpreted terminal Agent product | `agent.outcome.v2` and a compatible Assistant draft successor. V1 is historical and is not extended in place. | `node:agent-core/src/lib.rs`, `node:daemon/src/agent_runtime.rs`, `node:daemon/src/host_capabilities_host.rs` |
+| JSON-e Flow and generic middleware envelopes/traces | Declarative translation and routing of Inquirium or Agent results | Carry a schema-gated content-bound provenance sidecar/ref in the workflow envelope and trace; JSON-e must not reimplement join or infer locality. | `node:middleware-runtime/src/json_e_executor.rs`, `node:daemon/src/middleware_host.rs`, `node:middleware-runtime/fixtures/json-e-flow/` |
+| Whisper redaction prepare request/response | Currently deterministic JSON-e/Sensorium transform; future implementations may use Inquirium | Preserve a bound provenance sidecar/ref when the selected implementation has inference ancestry. Deterministic no-inference execution uses the proven empty-fold identity; missing ancestry does not. | `node:whisper-intake/src/lib.rs`, `node:middleware-runtime/fixtures/json-e-flow/whisper-redaction/` |
+| Semantic Index embedding row/projection | Planned rebuildable consumer of Inquirium embeddings; no current Node runtime carrier exists | Require a content-bound descriptor/ref in the first durable row schema rather than introducing a legacy provenance-free row. | `orbidocs:doc/project/60-solutions/022-semantic-index/022-semantic-index.md`; no implementing Node crate exists as of the audit |
+| `service-offer.v1` and Shared Offer Catalog projections | Pre-execution declaration and indexing | Add the separate posture through a compatible offer successor or signed characteristic sidecar; never place realized provenance in an offer. | `orbidocs:doc/schemas/service-offer.v1.schema.json`, `node:catalog/`, `node:daemon/src/catalog_host.rs` |
+| `service-order.result.v1`, Dator result production, and Arca admission | Interpreted remote procurement result | Compatible result successor or mandatory content-bound sidecar/ref. Producer assertion, Artifact Delivery transport provenance, and buyer verification remain distinct. | `orbidocs:doc/schemas/service-order-result.v1.schema.json`, `node:daemon/src/execution_host.rs`, `node:daemon/src/settlement_host.rs` |
+| Artifact Delivery envelopes, object pointers, results, and retained artifacts | Opaque transport and storage | Carry the immutable sidecar/ref with exact artifact, result, and digest binding; Artifact Delivery does not interpret locality. | `node:artifact-delivery-core/`, `node:artifact-delivery/`, `orbidocs:doc/schemas/artifact-delivery-envelope.v1.schema.json` |
+| Corpus query/bid/answer, draft, experiment-review, and publication paths | Offer selection plus interpreted deliberation products | Posture enters a compatible offer/query binding; realized result contracts that affect validation or publication receive major successors. Domain-specific review claims remain orthogonal. | `node:corpus-core/src/lib.rs`, `node:daemon/src/corpus_host.rs`, `orbidocs:doc/schemas/corpus-reasoning-answer.v1.schema.json` |
+| Room live messages, relay delivery, durable events, and read models | Per-contribution carriage and participant aggregate projection | Compatible message/event successors carry a descriptor or immutable ref; relay carriers transport it opaquely. Participant posture and badges remain scoped read-model data, not membership identity. | `node:room-core/src/lib.rs`, `node:room-service/`, `node:room-wss/`, `orbidocs:doc/schemas/room-live-message.v2.schema.json` |
+| P081 receipts and P086 observations | Causal and diagnostic evidence | Reuse as bounded evidence refs. Neither contract is extended into a competing inference-provenance vocabulary. | `node:horizontal-protocol-core/`, `node:communication-trace-core/` |
+
+This inventory is also the initial layering allowlist for `P090-003`. Adding a
+new inference-derived translator without assigning a successor or bound sidecar
+is a promotion-blocking compatibility change, not an implicit extension of V1.
+
 No consumer may infer the characteristic from adapter name, model name, host
 label, URL shape, or transport. If the producer contract is absent during
 migration, the consumer receives `unknown` or refuses according to policy.
@@ -770,21 +812,37 @@ changing identity or membership authority.
 | Closed offer vocabulary forces every domain into one profile taxonomy | Keep shared posture small and namespaced characteristics open; let communities define additional criteria. |
 | UI shows only preflight consent and hides the actual route | Require both preflight posture and post-result realized provenance projections. |
 
-## Open Questions
+## Resolved Design Questions
 
-1. Which local-processing-boundary profiles should Node ship as examples without
-   turning examples into a mandatory global taxonomy?
-2. Which provider-reference namespace and local registry should be the initial
-   interoperability convention? The schema must remain open regardless of that
-   first convention.
-3. Which exact postures and evidence requirements should default Corpus and Room
-   policies use for `unknown`? The shared contract should support deny, warn, and
-   allow without selecting one universal policy.
-4. When should cryptographic workload attestation become an additional evidence
-   class? It is not a prerequisite for the honest-reporting V1 contract.
-5. Which existing response and message contracts require a new major version,
-   and which can adopt a mandatory sidecar ref without misleading legacy
-   consumers?
+The following decisions were accepted on 2026-09-04 without recorded dissent:
+
+1. Node ships two non-normative boundary examples: one exact infrastructure
+   host and one explicitly enumerated operator-controlled host set. “Local” in
+   the default profile means the exact infrastructure host. LAN membership,
+   hostname similarity, co-location, or transport never establishes locality.
+2. Provider refs use the open convention
+   `inference-provider:<namespace>[:<name>]`. A versioned, admitted, digest-bound
+   local registry supplies display metadata and aliases without becoming global
+   naming authority or storing endpoints, accounts, sessions, auth, or secrets.
+   Operator tooling should make the common path a guided selection or simple
+   configuration value. It may accept a URI or DID only through an explicit
+   confirmation step and should help derive, preview, validate, and optionally
+   install the resulting provider ref.
+3. `unknown` never satisfies `local-only`. Protected-data egress, effects,
+   settlement, automatic publication, and other high-impact paths deny or
+   quarantine it. An explicitly configured ordinary deliberation profile may
+   admit it with a visible warning. Storage and joins preserve `unknown`; they
+   do not erase the result.
+4. Cryptographic workload attestation is a later optional evidence class after
+   honest-reporting V1. It becomes useful when a profile requires a verifier to
+   bind runtime, model, boundary, and invocation measurements across an operator
+   boundary. It supplements host observation and cannot optimistically upgrade
+   adapter or peer assertions.
+5. Compatibility follows the inventory-backed hybrid rule above. Interpreted
+   result contracts receive major successors; opaque transport, artifact,
+   cache, and replay carriers use content-bound immutable sidecars/refs. Legacy
+   absence becomes `unknown`, and operator or power-user surfaces must make the
+   distinction and remediation path understandable.
 
 ## Implementation Tracker
 
@@ -793,9 +851,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | ID | Work item | Depends on | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- | :--- |
 | `P090-001` | Complete the initial cross-layer semantic audit and distinguish posture, realized provenance, evidence, classification, origin, and authority. | — | `done` | This proposal's Context, Decisions 1–12, ownership table, scenarios, and acceptance matrix identify the semantic gap without claiming a complete carrier inventory or implementation. |
-| `P090-001a` | Inventory existing inference-derived translators and carriers and draft their compatibility migration plan. | `P090-001` | `todo` | A repository-evidenced inventory covers every current Inquirium/Agent operation, Whisper redaction preparation, Semantic Index embedding projections, generic workflow/JSON-e/Flow paths, and higher-layer response, offer, Room, Corpus, Assistant, cache, replay, artifact, and procurement carriers. For each owner it records whether a compatible major successor or an immutable sidecar/ref is required; no V1 carrier is silently extended. |
-| `P090-002` | Review and accept the horizontal semantic contract and threat model. | `P090-001`, `P090-001a` | `todo` | Review uses the carrier inventory to resolve the remaining five Open Questions required for V1; records any dissent; freezes boundary-relative locality, dispatch, egress, evidence, selective-disclosure, join, compatibility-migration, and hidden-cascade semantics. The V1 inline-plus-digest/ref-above-threshold representation and stable semantic descriptor identity are already resolved by Decision 2. |
-| `P090-003` | Define separate canonical `inference-execution-posture.v1` and `inference-execution-provenance.v1` contracts in a pure `inference-provenance-core`, plus comparison/join/projection rules, error vocabulary, and Schema Gate corpus. | `P090-002` | `todo` | Posture binds assertion owner, exact subject/scope, generation or validity, and local-processing-boundary ref; provenance binds realized execution and evidence. The legacy `LocalityMode`/`TrustMode` migration is total over every valid tuple and missing/invalid case, table-driven, and tested without treating `LocalPreferred` as a locality ceiling. Canonical schemas and Node mirrors use domain-separated `JcsV1` semantic identity with `sha256_base64url_canonical_json_prefixed`, an exact inline threshold, stable source descriptor identity plus separate projection identity, explicit bounds, and positive/negative fixtures. The pure locality join is a data table with all 25 pairs; exhaustive and `proptest` multiset tests cover its algebra and exposure monotonicity; pure projection property tests enforce “never strengthened”. JSON Schema remains permissive only where cross-field semantics require the core, and every conditional `if` includes its discriminator fields in `required` before `then`; core tests enforce rules such as local requiring non-empty admitted evidence. A repository layering test forbids host/provider/runtime dependencies in the pure core and checks every upper consumer named by `P090-001a`, including future additions, against direct producer-specific leakage. Generated docs, boundary-comparison tables, redaction, unknown migration, stripping, and no-downgrade tests pass. No provider-specific enum enters the shared core. |
+| `P090-001a` | Inventory existing inference-derived translators and carriers and draft their compatibility migration plan. | `P090-001` | `done` | The repository-evidenced carrier inventory above covers every current Inquirium/Agent operation, Whisper redaction preparation, the planned first Semantic Index embedding row, generic workflow/JSON-e/Flow paths, and higher-layer response, offer, Room, Corpus, Assistant, cache, replay, artifact, and procurement carriers. Each owner is assigned a compatible major successor or an immutable sidecar/ref; no V1 carrier is silently extended. |
+| `P090-002` | Review and accept the horizontal semantic contract and threat model. | `P090-001`, `P090-001a` | `done` | The 2026-09-04 resolution above records acceptance without dissent of the host-local and operator-controlled boundary examples, open provider-ref convention and registry UX, risk-tiered `unknown`, deferred optional attestation, and hybrid compatibility rule. Decisions 1–12 freeze boundary-relative locality, dispatch, egress, evidence, selective disclosure, join, hidden-cascade limits, and inline-plus-digest/ref-above-threshold identity semantics. |
+| `P090-003` | Define separate canonical `inference-execution-posture.v1` and `inference-execution-provenance.v1` contracts in a pure `inference-provenance-core`, plus comparison/join/projection rules, error vocabulary, and Schema Gate corpus. | `P090-002` | `done` | `inference-provenance-core` binds posture and realized provenance to exact subjects and processing boundaries, conservatively migrates the complete legacy locality/trust matrix, and owns domain-separated `JcsV1` source and projection identities. The canonical 16 KiB inline and 64 KiB descriptor limits, content-addressed external form, bounded lineage, hidden uncertainty components, and provider-neutral error vocabulary are mirrored in both schemas and Schema Gate. Exhaustive tables cover all 25 locality, 9 dispatch, 16 egress, and 16 provider-disclosure pairs; unit and property tests cover identity, permutation, associativity, idempotence, replay, redaction, missing ancestry, no-downgrade, and unrelated-boundary policy. Positive, schema-negative, and semantic-negative fixtures are synchronized into Node; every schema conditional has a non-empty local discriminator requirement. Mechanical dependency tests protect the pure core and the five currently inventoried semantic consumers; adding another consumer requires extending that explicit inventory and guard. Generated schema docs, full Orbidocs schema validation, crate tests, full Schema Gate tests, and Clippy with warnings denied pass. No provider-specific enum enters the shared core. |
+| `P090-003a` | Add the admitted provider-ref registry and guided operator configuration surface. | `P090-003` | `todo` | A bounded local registry stores open `inference-provider:<namespace>[:<name>]` refs, aliases, display metadata, disclosure defaults, generation, and digest without credentials or provider-native session data. CLI and UI can select known entries or guide creation; URI/DID input requires an explicit confirmation, previews the derived ref, validates collisions, and only then offers an atomic configuration update. Simple hand-authored configuration remains supported and diagnostics name the exact invalid field and repair path. |
 | `P090-004` | Bind Inquirium pre-execution posture and produce realized provenance for every inference-derived result and post-dispatch terminal outcome. | `P090-003` | `todo` | The host binds `inference-execution-posture.v1` to the exact runtime/profile generation, invocation scope, validity, and processing boundary without turning it into authority or realized proof. Every currently registered and future operation is covered, including generate, direct and batch embed, classify, rerank, summarize, transform, image generate/edit, train-adapt, and assistant-facing outcomes. Each derives provenance from admitted runtime/profile and host evidence; pre-I/O refusal is `not-dispatched`; operation trace, artifact, cache, and replay preserve exact semantics. Catalog deserialization, migration DTOs, builders, and defaults are audited so an absent `locality`, capabilities locality, or `trust_mode` can only fail validation or migrate to `unknown`; no enum/container default or `unwrap_or_default()` may establish local posture or provenance. A negative fixture proves “legacy catalog without locality/trust facts -> unknown, never local”, while a separately retained malformed-current-catalog fixture proves required current fields still fail deserialization. OpenAI embedding cannot contribute provider-path acceptance evidence until urgent `P089-013` repairs its edge DTO and the full daemon regression passes. |
 | `P090-005` | Bind External Agent Runtime posture and make its products and terminal outcomes produce the same provider-neutral provenance. | `P090-003`, provider-neutral P089 runtime contract | `todo` | Each admitted external-runtime binding exposes `inference-execution-posture.v1` with exact owner/profile generation, scope, validity, and processing boundary, separately from realized facts. Fake and Codex profiles emit host-owned provenance descriptors; local stdio does not imply local inference; provider session/account data stays private; unknown dispatch and redacted provider cases pass generic conformance. The first retained P090 positive fixture reuses the already implemented Codex/App Server stdio path from P089 and proves `local stdio -> non-local inference`; it is new P090 descriptor evidence rather than a relabeling of prior P089 runtime acceptance. |
 | `P090-006` | Expose scoped posture and propagate/join realized provenance through Orbiplex Agent products, passages, lineage, and `AgentOutcome`. | `P090-004`, `P090-005` | `todo` | Built-in Inquirium and external-runtime bindings converge on one separate posture contract for task/turn/Room preflight without creating Agent identity or authority. Their realized products converge on one provenance value; parent joins are deterministic and bounded; consumer projections cannot drop or lower known non-local/mixed facts. |
@@ -844,24 +903,21 @@ graph TD
 
 ## Next Actions
 
-1. Complete `P090-001a`, then review and accept P090's semantic distinctions
-   before adding provider or locality fields independently to existing response
-   schemas.
-2. Resolve the remaining inventory-backed migration Open Questions, then
-   implement Decision 2's fixed inline-plus-digest/ref-above-threshold
-   representation, canonical schemas, pure comparison/join/projection contracts,
-   and negative fixtures as `P090-003`.
-3. Implement producers first: Inquirium and External Agent Runtime must bind the
+1. Implement `P090-003a` as a separate operator-facing layer over the open
+   provider-ref primitive. Keep hand-authored configuration simple, guide common
+   selection, and require explicit confirmation before deriving a provider ref
+   from a URI or DID.
+2. Implement producers first: Inquirium and External Agent Runtime must bind the
    separate posture contract and emit the same realized horizontal value before
    Agent, Corpus, Room, or Assistant attempts to infer either from local catalog
    state.
-4. Implement Agent propagation, complete the repository-wide translator
+3. Implement Agent propagation, complete the repository-wide translator
    no-drop gates, and add Assistant disclosure, then service-offer
    posture/Catalog filtering, Corpus validation, Room carriage, and federated
    projection in dependency order.
-5. Treat legacy absence as `unknown`, retain both preflight and post-result
+4. Treat legacy absence as `unknown`, retain both preflight and post-result
    disclosure, and keep provider-native sessions, accounts, endpoints, and
    credentials outside generic contracts.
-6. Promote solution and implementation-ledger status only after the complete
+5. Promote solution and implementation-ledger status only after the complete
    cross-layer acceptance matrix has retained evidence. A proposal, schema, or
    local trace alone does not establish runtime completion.

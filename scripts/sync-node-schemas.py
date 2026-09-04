@@ -191,6 +191,8 @@ SCHEMA_WHITELIST = (
     "agent.external-runtime.event.v1.schema.json",
     "agent.external-runtime.product.v1.schema.json",
     "agent.external-runtime.turn-outcome.v1.schema.json",
+    "inference-execution-posture.v1.schema.json",
+    "inference-execution-provenance.v1.schema.json",
     "inquirium-operation-descriptor.v1.schema.json",
     "dator.dispatch-entry-deactivation.v1.schema.json",
     "dator.dispatch-entry-deactivation-result.v1.schema.json",
@@ -541,6 +543,8 @@ EXAMPLE_WHITELIST = (
     "fixture.agent.external-runtime.event.json",
     "fixture.agent.external-runtime.product.json",
     "fixture.agent.external-runtime.turn-outcome.json",
+    "fixture.inference-execution-posture.json",
+    "fixture.inference-execution-provenance.json",
     "fixture.inquirium-operation-descriptor.json",
     "fixture.batch-embed.inquirium-operation-descriptor.json",
     "fixture.image-generate.inquirium-operation-descriptor.json",
@@ -906,6 +910,8 @@ INVALID_EXAMPLE_WHITELIST = (
     "progress-prose.agent.external-runtime.event.json",
     "inference-field.agent.external-runtime.product.json",
     "missing-product.agent.external-runtime.turn-outcome.json",
+    "withheld-provider-ref.inference-execution-posture.json",
+    "reference-below-threshold.inference-execution-provenance.json",
     "open-operation.inquirium-operation-descriptor.json",
     "unknown-status.dator.dispatch-entry-deactivation-result.json",
     "bad-profile-ref.inquirium-resource-profile.json",
@@ -999,6 +1005,7 @@ INVALID_EXAMPLE_WHITELIST = (
 SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
     "unknown-candidate.corpus-turn-order-decision.json",
     "mismatched-source.sensorium-web-latest-state.json",
+    "mismatched-summary.inference-execution-provenance.json",
 )
 
 GOLDEN_WHITELIST = (

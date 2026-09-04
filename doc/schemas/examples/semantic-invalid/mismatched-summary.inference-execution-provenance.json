@@ -1,0 +1,37 @@
+{
+  "schema": "inference-execution-provenance.v1",
+  "descriptor/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "descriptor/size-bytes": 1024,
+  "descriptor": {
+    "descriptor/id": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "projection/id": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "projection/kind": "full",
+    "subject/ref": "inquirium-result:invalid-summary",
+    "asserted/by": "node:self",
+    "observed/at": "2026-09-04T10:00:00Z",
+    "processing-boundary/ref": "processing-boundary:host:self",
+    "dispatch": "dispatched",
+    "dispatch/components": ["dispatched"],
+    "locality": "local",
+    "locality/components": ["non-local"],
+    "input-egress": "none",
+    "input-egress/components": ["none"],
+    "provider/disclosure": "complete",
+    "provider/refs": [],
+    "bindings": {},
+    "evidence": [
+      {
+        "basis": "host-selected-profile",
+        "assertion/ref": "runtime-selection:fixture",
+        "evidence/refs": []
+      }
+    ],
+    "evidence/complete": true,
+    "lineage": {
+      "parent/descriptor-ids": [],
+      "parent/count": 0,
+      "complete": true
+    },
+    "extensions": {}
+  }
+}

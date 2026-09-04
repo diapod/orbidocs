@@ -311,6 +311,12 @@ schema_for_file() {
     *.agent.external-runtime.turn-outcome.json)
       echo "$SCHEMAS_DIR/agent.external-runtime.turn-outcome.v1.schema.json"
       ;;
+    *.inference-execution-posture.json)
+      echo "$SCHEMAS_DIR/inference-execution-posture.v1.schema.json"
+      ;;
+    *.inference-execution-provenance.json)
+      echo "$SCHEMAS_DIR/inference-execution-provenance.v1.schema.json"
+      ;;
     *.inquirium-operation-descriptor.json)
       echo "$SCHEMAS_DIR/inquirium-operation-descriptor.v1.schema.json"
       ;;

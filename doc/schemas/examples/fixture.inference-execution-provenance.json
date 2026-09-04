@@ -1,0 +1,47 @@
+{
+  "schema": "inference-execution-provenance.v1",
+  "descriptor/digest": "sha256:q_oQw-BT-0WyDGjHgEr6unk9cTR4fuyWnQU_Vn9iah8",
+  "descriptor/size-bytes": 1094,
+  "descriptor": {
+    "descriptor/id": "sha256:oYYwbSQ46pI3wCV1XsK6VdpDsU_vyWoinX8DNSJq6wA",
+    "projection/id": "sha256:uJZnGQW1JaBPytp8qbwQAqmT4NsBXTf_P1cTuIPC_Es",
+    "projection/kind": "full",
+    "subject/ref": "inquirium-result:fixture",
+    "asserted/by": "node:self",
+    "observed/at": "2026-09-04T10:00:00Z",
+    "sequence": 1,
+    "processing-boundary/ref": "processing-boundary:host:self",
+    "dispatch": "dispatched",
+    "dispatch/components": ["dispatched"],
+    "locality": "local",
+    "locality/components": ["local"],
+    "input-egress": "none",
+    "input-egress/components": ["none"],
+    "provider/disclosure": "complete",
+    "provider/refs": ["inference-provider:mlx"],
+    "bindings": {
+      "runtime/ref": "model-runtime:mlx",
+      "adapter-profile/ref": "adapter-profile:mlx-local",
+      "model-binding/ref": "model-binding:bielik-4.5b-v3.0-instruct"
+    },
+    "evidence": [
+      {
+        "basis": "host-enforced-no-egress",
+        "assertion/ref": "observation:fixture-no-egress",
+        "evidence/refs": ["component-trace:fixture"]
+      },
+      {
+        "basis": "host-selected-profile",
+        "assertion/ref": "runtime-selection:fixture",
+        "evidence/refs": []
+      }
+    ],
+    "evidence/complete": true,
+    "lineage": {
+      "parent/descriptor-ids": [],
+      "parent/count": 0,
+      "complete": true
+    },
+    "extensions": {}
+  }
+}

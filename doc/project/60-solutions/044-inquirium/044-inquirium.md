@@ -40,8 +40,8 @@ Related schemas:
 - `inquirium.adapter.manifest.v1`
 - `inquirium.adapter.response.v1`
 - `inquirium.effect-intent.v1`
-- `inference-execution-posture.v1` (planned)
-- `inference-execution-provenance.v1` (planned)
+- `inference-execution-posture.v1`
+- `inference-execution-provenance.v1`
 
 ## Status
 
@@ -55,9 +55,11 @@ paths have implemented foundations. The current raw-file lease classification
 does not yet prove full data-plane eligibility, and the OpenAI embedding edge
 DTO mismatch blocks a full daemon provider-path claim. Additional provider
 families, richer evaluator profiles, and production trainer backends are
-additive extensions. The provider-neutral realized inference-execution
-provenance obligation defined below is planned and is not included in the
-implemented-MVP claim.
+additive extensions. The provider-neutral posture and provenance schemas plus
+their pure comparison, join, projection, migration, and Schema Gate foundation
+are implemented under `P090-003`; Inquirium's producer binding and result-
+carrier migrations remain planned and are not included in the implemented-MVP
+claim.
 
 ## Date
 
@@ -271,8 +273,9 @@ Responsibilities:
 - keep posture as preflight policy input only; it grants no inference, egress,
   context, raw-file lease, or effect authority and is not realized provenance.
 
-Status: `planned`; Proposal 090 owns the shared contract and Proposal 064 tracks
-the host binding and acceptance slice.
+Status: `planned` for the Inquirium binding; the shared contract and pure
+comparison foundation are implemented under Proposal 090, while Proposal 064
+tracks the host binding and acceptance slice.
 
 ### Realized Inference Execution Provenance
 
@@ -295,9 +298,11 @@ Responsibilities:
   non-locality, egress, uncertainty, or evidence class; keep provider session,
   account, credential, request, and endpoint details at the runtime edge.
 
-Status: `planned`; Proposal 090 owns the shared semantic contract, and Proposal
-064 tracks implementation and acceptance. Existing runtime/model refs and
-diagnostics do not satisfy this capability by themselves.
+Status: `planned` for Inquirium result production and carriage; Proposal 090's
+shared schema, pure join/projection, migration, and Schema Gate foundation are
+implemented. Proposal 064 tracks the remaining producer integration and
+acceptance. Existing runtime/model refs and diagnostics do not satisfy this
+capability by themselves.
 
 ### Direct Data Plane And Artifact Outputs
 

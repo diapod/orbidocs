@@ -1,0 +1,6 @@
+{
+  "schema": "inference-execution-provenance.v1",
+  "descriptor/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "descriptor/size-bytes": 1024,
+  "descriptor/ref": "inference-provenance:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

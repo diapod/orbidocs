@@ -42,8 +42,8 @@ Related schemas:
 - `agent.external-runtime.product.v1`
 - `agent.external-runtime.turn-outcome.v1`
 - `causal-context.v1`
-- `inference-execution-posture.v1` (planned)
-- `inference-execution-provenance.v1` (planned)
+- `inference-execution-posture.v1`
+- `inference-execution-provenance.v1`
 
 ## Status
 
@@ -55,9 +55,10 @@ human-in-loop admission, recovery, lease reconciliation, and prompt-free audit
 surface are implemented and refusal-tested. FlowNode, Assistant Channel, and
 Corpus integrations are implemented consumers; they do not widen Agent
 authority. Cross-node or federated Agent execution is not part of this solution.
-The Proposal 090 provenance integration across products, traces, outcomes, and
-consumer projections remains planned and is not included in the implemented
-hard-MVP claim.
+Proposal 090's provider-neutral schemas, pure comparison/join/projection core,
+legacy migration, and Schema Gate foundation are implemented. Agent binding
+and propagation across products, traces, outcomes, and consumer projections
+remain planned and are not included in the implemented hard-MVP claim.
 
 ## Date
 
