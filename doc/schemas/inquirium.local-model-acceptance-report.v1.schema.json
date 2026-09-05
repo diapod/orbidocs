@@ -7,7 +7,7 @@
   "additionalProperties": false,
   "x-dia-workflow": "project",
   "x-dia-status": "accepted",
-  "x-dia-basis": ["doc/project/60-solutions/046-inquirium.md", "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"],
+  "x-dia-basis": ["doc/project/60-solutions/044-inquirium/044-inquirium.md", "doc/project/40-proposals/064-inquirium-implementation-recommendations.md"],
   "required": ["schema", "schema/v", "status", "platform/ref", "llama-server", "model", "checks", "measurements", "budgets", "generations"],
   "properties": {
     "schema": { "const": "inquirium.local-model-acceptance-report.v1" },

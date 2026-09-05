@@ -6,7 +6,7 @@ A host-admitted closed vocabulary binding one JSON-e Flow to one Agent and its e
 
 ## Governing Basis
 
-- [`doc/project/40-proposals/049-json-e-flow-middleware.md`](../../project/40-proposals/049-json-e-flow-middleware.md)
+- [`doc/project/40-proposals/049-json-e-middleware-transformer-executor.md`](../../project/40-proposals/049-json-e-middleware-transformer-executor.md)
 - [`doc/project/40-proposals/064-inquirium-implementation-recommendations.md`](../../project/40-proposals/064-inquirium-implementation-recommendations.md)
 - [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](../../project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md)
 - [`doc/project/60-solutions/047-agent/047-agent.md`](../../project/60-solutions/047-agent/047-agent.md)

@@ -6,7 +6,7 @@ Closed metadata-only evidence that one real local model package passed lifecycle
 
 ## Governing Basis
 
-- [`doc/project/60-solutions/046-inquirium.md`](../../project/60-solutions/046-inquirium.md)
+- [`doc/project/60-solutions/044-inquirium/044-inquirium.md`](../../project/60-solutions/044-inquirium/044-inquirium.md)
 - [`doc/project/40-proposals/064-inquirium-implementation-recommendations.md`](../../project/40-proposals/064-inquirium-implementation-recommendations.md)
 
 ## Project Lineage

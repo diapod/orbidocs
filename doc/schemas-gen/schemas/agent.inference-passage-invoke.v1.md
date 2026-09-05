@@ -6,7 +6,7 @@ Claims one host-local execution slot for an admitted passage, invokes host-scope
 
 ## Governing Basis
 
-- [`doc/project/40-proposals/049-json-e-flow.md`](../../project/40-proposals/049-json-e-flow.md)
+- [`doc/project/40-proposals/049-json-e-middleware-transformer-executor.md`](../../project/40-proposals/049-json-e-middleware-transformer-executor.md)
 - [`doc/project/40-proposals/064-inquirium-implementation-recommendations.md`](../../project/40-proposals/064-inquirium-implementation-recommendations.md)
 - [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](../../project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md)
 - [`doc/project/60-solutions/047-agent/047-agent.md`](../../project/60-solutions/047-agent/047-agent.md)
