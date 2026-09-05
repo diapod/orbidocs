@@ -29,6 +29,33 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.corpus-agent-answer-draft.v2.json)
+      echo "$SCHEMAS_DIR/corpus-agent-answer-draft.v2.schema.json"
+      ;;
+    *.service-order-result.v2.json)
+      echo "$SCHEMAS_DIR/service-order-result.v2.schema.json"
+      ;;
+    *.service-dispatch-result.v2.json)
+      echo "$SCHEMAS_DIR/service-dispatch-result.v2.schema.json"
+      ;;
+    *.service-order.result.prepare.request.v1.json)
+      echo "$SCHEMAS_DIR/service-order.result.prepare.request.v1.schema.json"
+      ;;
+    *.inference-policy.evaluate.request.v1.json)
+      echo "$SCHEMAS_DIR/inference-policy.evaluate.request.v1.schema.json"
+      ;;
+    *.inference-policy.evaluate.response.v1.json)
+      echo "$SCHEMAS_DIR/inference-policy.evaluate.response.v1.schema.json"
+      ;;
+    *.inference-consumption-policy.v1.json)
+      echo "$SCHEMAS_DIR/inference-consumption-policy.v1.schema.json"
+      ;;
+    *.inquirium.assistant.disclosure.v1.json)
+      echo "$SCHEMAS_DIR/inquirium.assistant.disclosure.v1.schema.json"
+      ;;
+    *.inquirium.assistant.turn.request.v2.json)
+      echo "$SCHEMAS_DIR/inquirium.assistant.turn.request.v2.schema.json"
+      ;;
     *.agent.controller-execution-provenance.v1.json)
       echo "$SCHEMAS_DIR/agent.controller-execution-provenance.v1.schema.json"
       ;;

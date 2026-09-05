@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-order.result.prepare.request:v1",
+  "title": "service-order.result.prepare.request.v1",
+  "description": "Data-only producer binding. Source authority remains independent; missing evidence never implies local execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "result",
+    "source"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-order.result.prepare.request.v1"
+    },
+    "result": {
+      "$ref": "service-order-result.v1.schema.json"
+    },
+    "source": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "service-dispatch-result.v2.schema.json"
+        }
+      ]
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ]
+}

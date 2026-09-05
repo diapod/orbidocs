@@ -1,0 +1,187 @@
+{
+  "schema": "corpus-agent-answer-draft.v2",
+  "draft": {
+    "schema": "corpus-agent-answer-draft.v1",
+    "draft/ref": "corpus-agent-answer-draft:fixture",
+    "query/id": "query:collaboration-fixture",
+    "room/id": "room:collaboration-fixture",
+    "agent/ref": "agent:chair-fixture",
+    "participant/ref": "participant:chair-fixture",
+    "binding/ref": "agent-binding:chair-fixture",
+    "outcome/ref": "agent-outcome:chair-fixture",
+    "product/ref": "object-store:sha256:fixture",
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Personal"
+      },
+      "bound_subjects": {
+        "personal_or_community": []
+      },
+      "declassify_trail": []
+    },
+    "membership-attestation/ref": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "room-event/high-water": 7,
+    "publication/authorized": false,
+    "idempotency/key": "idem:chair-fixture",
+    "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "accepted-at": "2026-09-05T10:00:00Z",
+    "accepted-by": "local-control"
+  },
+  "owner/node-id": "node:corpus-owner",
+  "source/outcome": {
+    "schema": "agent.outcome.v2",
+    "outcome": {
+      "schema": "agent.outcome.v1",
+      "outcome/ref": "agent-outcome:chair-fixture",
+      "agent/id": "agent:chair-fixture",
+      "binding/ref": "agent-binding:chair-fixture",
+      "state": "completed",
+      "product/kind": "collaborative-answer-draft",
+      "product/ref": "object-store:sha256:fixture",
+      "classification": {
+        "schema": "classification.v1",
+        "source_tier": "Personal",
+        "effective_tier": "Personal",
+        "provenance": {
+          "kind": "local-space",
+          "space": "Personal"
+        },
+        "bound_subjects": {
+          "personal_or_community": []
+        },
+        "declassify_trail": []
+      },
+      "budget_spent": {
+        "max_tokens": 12,
+        "max_cost_micros": 0,
+        "max_wall_time_ms": 100,
+        "max_steps": 1
+      },
+      "trace/ref": "agent-trace:fixture",
+      "at": "2026-09-05T09:59:00Z"
+    },
+    "execution-binding/ref": "execution-binding:fixture",
+    "product/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "execution/provenance": {
+      "schema": "inference-execution-provenance.v1",
+      "descriptor/digest": "sha256:VEmFNRNjxvKWNLZkAGqPpY8Xjh-GFkgvlqUEN8a8hkw",
+      "descriptor/size-bytes": 1097,
+      "descriptor": {
+        "descriptor/id": "sha256:F8Y5iJisA-AzDqMb_4YgxO93aDk5VXwKoOanAmHycxI",
+        "projection/id": "sha256:vqiFImCnv4Hkn3lguew_TQj7_b9o0hnlqedEAunL7n8",
+        "projection/kind": "full",
+        "subject/ref": "object-store:sha256:fixture",
+        "asserted/by": "node:self",
+        "observed/at": "2026-09-04T10:00:00Z",
+        "sequence": 1,
+        "processing-boundary/ref": "processing-boundary:host:self",
+        "dispatch": "dispatched",
+        "dispatch/components": [
+          "dispatched"
+        ],
+        "locality": "local",
+        "locality/components": [
+          "local"
+        ],
+        "input-egress": "none",
+        "input-egress/components": [
+          "none"
+        ],
+        "provider/disclosure": "complete",
+        "provider/refs": [
+          "inference-provider:mlx"
+        ],
+        "bindings": {
+          "runtime/ref": "model-runtime:mlx",
+          "adapter-profile/ref": "adapter-profile:mlx-local",
+          "model-binding/ref": "model-binding:bielik-4.5b-v3.0-instruct"
+        },
+        "evidence": [
+          {
+            "basis": "host-enforced-no-egress",
+            "assertion/ref": "observation:fixture-no-egress",
+            "evidence/refs": [
+              "component-trace:fixture"
+            ]
+          },
+          {
+            "basis": "host-selected-profile",
+            "assertion/ref": "runtime-selection:fixture",
+            "evidence/refs": []
+          }
+        ],
+        "evidence/complete": true,
+        "lineage": {
+          "parent/descriptor-ids": [],
+          "parent/count": 0,
+          "complete": true
+        },
+        "extensions": {}
+      }
+    }
+  },
+  "execution/provenance": {
+    "schema": "inference-execution-provenance.v1",
+    "descriptor/digest": "sha256:nVR6BYHOzlMLdUCPJqmibUablAynh_CifHNCC_CBCUg",
+    "descriptor/size-bytes": 1244,
+    "descriptor": {
+      "descriptor/id": "sha256:LpAYOJf4X4C2nzbImpTzaWggwXRnmtTtPV38HvETOAk",
+      "projection/id": "sha256:-Z81cPAj-5Yfb1YOewG3ejO7mghRgmNG__almMpDh-s",
+      "projection/kind": "full",
+      "subject/ref": "corpus-agent-answer-draft-binding:sha256:ikB-CpPANaE1w-SxJhXp4d3k23K3hwVCCag9gbTCDyg",
+      "asserted/by": "node:corpus-owner",
+      "observed/at": "2026-09-04T10:00:00Z",
+      "processing-boundary/ref": "processing-boundary:host:self",
+      "dispatch": "dispatched",
+      "dispatch/components": [
+        "dispatched"
+      ],
+      "locality": "local",
+      "locality/components": [
+        "local"
+      ],
+      "input-egress": "none",
+      "input-egress/components": [
+        "none"
+      ],
+      "provider/disclosure": "complete",
+      "provider/refs": [
+        "inference-provider:mlx"
+      ],
+      "bindings": {},
+      "evidence": [
+        {
+          "basis": "derived",
+          "assertion/ref": "corpus-agent-answer-draft-binding:sha256:ikB-CpPANaE1w-SxJhXp4d3k23K3hwVCCag9gbTCDyg",
+          "evidence/refs": [],
+          "limitation": "joined from descriptor lineage"
+        },
+        {
+          "basis": "host-enforced-no-egress",
+          "assertion/ref": "observation:fixture-no-egress",
+          "evidence/refs": [
+            "component-trace:fixture"
+          ]
+        },
+        {
+          "basis": "host-selected-profile",
+          "assertion/ref": "runtime-selection:fixture",
+          "evidence/refs": []
+        }
+      ],
+      "evidence/complete": true,
+      "lineage": {
+        "parent/descriptor-ids": [
+          "sha256:F8Y5iJisA-AzDqMb_4YgxO93aDk5VXwKoOanAmHycxI"
+        ],
+        "parent/count": 1,
+        "complete": true
+      },
+      "extensions": {}
+    }
+  }
+}

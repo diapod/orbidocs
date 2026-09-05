@@ -222,6 +222,12 @@
     "policy_annotations": {
       "type": "object",
       "additionalProperties": true,
+      "properties": {
+        "inference/posture": {
+          "$ref": "inference-execution-posture.v1.schema.json",
+          "description": "Optional characteristic covered by the offer signature. Its assertion owner is provider/participant-id, subject/ref and scope/ref equal offer/id, and generation equals sequence/no. It declares execution posture, not observed execution or authority."
+        }
+      },
       "description": "Optional marketplace-local or federation-local annotations that do not redefine the core standing-offer semantics."
     },
     "signature": {

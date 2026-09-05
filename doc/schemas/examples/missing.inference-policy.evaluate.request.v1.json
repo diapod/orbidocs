@@ -1,0 +1,22 @@
+{
+  "schema": "inference-policy.evaluate.request.v1",
+  "policy": {
+    "schema": "inference-consumption-policy.v1",
+    "processing-boundary/ref": "processing-boundary:fixture:host-a",
+    "locality": "local-only",
+    "provider/allow": [],
+    "provider/deny": [],
+    "unknown/policy": "deny",
+    "evidence/complete-required": true
+  },
+  "at": "2026-09-05T10:00:00Z",
+  "subjects": [
+    {
+      "subject/ref": "offer:missing",
+      "evidence": {
+        "kind": "declared",
+        "posture": null
+      }
+    }
+  ]
+}

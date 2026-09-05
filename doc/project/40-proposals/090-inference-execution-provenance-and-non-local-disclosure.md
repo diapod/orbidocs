@@ -578,6 +578,21 @@ proof.
 The legacy `corpus/model-class` may remain as a compatibility projection while
 consumers migrate. It must not be extended into a second provenance vocabulary.
 
+The 2026-09-05 procurement implementation freezes the exact selected declaration
+and host selection time before dispatch. Scope and the half-open validity
+interval are checked at selection; later delivery does not replace that promise
+with today's catalog generation or a new expiry check. Existing catalog
+admission still owns source/signature authority. Realized-result comparison and
+buyer consumption policy are independent conjunctions. Unknown handling follows
+the admitted buyer policy, defaulting to denial when a selected declaration has
+no explicit policy. A known contradiction remains a denial. Complete declared
+provider refs bound the set of possible providers, including a complete empty
+set; partial declarations do not assert a closed set. Evidence requirements are
+matched against bases actually verified by the receiving boundary, not labels
+inside an unverified peer claim. The initial remote receiving path supplies only
+`peer-attested`; stronger or namespaced requirements need an admitted verifier.
+This generic procurement checkpoint does not implement Corpus output carriage.
+
 ### Decision 9: Room posture is scoped; realized provenance is per contribution
 
 Whether an Agent may use non-local inference is not a permanent property of its
@@ -891,10 +906,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P090-005` | Bind External Agent Runtime posture and make its products and terminal outcomes produce the same provider-neutral provenance. | `P090-003`, provider-neutral P089 runtime contract | `partial` | The host layer derives posture only from an explicit host-owned context, not transport. V2 product and terminal-outcome contracts bind exact canonical V1 bytes. The daemon durably writes their V2 commit sidecar before V1 compatibility, recovers an interrupted V2-first bundle without duplicate charging or driver I/O, records `not-dispatched` plus `not-applicable` locality and `none` egress after a host-local pre-turn refusal with zero turn-driver calls, records ambiguous dispatch only after an uncertain dispatch boundary, and leaves the generic fake at `unknown`. The Codex composition root explicitly admits `non-local` plus occurred egress with provider identity withheld; neither `stdio` nor provider-specific session/account data enters the generic contract. Three-host Story acceptance now retains a real Codex-backed descriptor through its ordinary Agent controller sidecar. Completion still requires generic external-runtime conformance for all provider-disclosure variants. |
 | `P090-006` | Expose scoped posture and propagate/join realized provenance through Orbiplex Agent products, passages, lineage, and `AgentOutcome`. | `P090-004`, `P090-005` | `partial` | `agent-core` owns compatible V2 passage product, successful invoke response, terminal selection, passage trace, and outcome contracts. The host distinguishes current execution from inherited Agent products, requires exact parent refs for a complete join, preserves explicit incomplete ancestry as `unknown`, and refuses substitution or stripping. Memarium facts write stronger V2 values first, repair V1 compatibility projections after interruption, and replay a four-passage Inquirium chain without reinvocation or duplicate charging. An ordinary External Agent Runtime action writes `agent.controller-execution-provenance.v1` before its controller step/trace, deterministically rebinds the external product descriptor to the retained Agent artifact, exposes the sidecar ref as trace evidence, and emits `agent.outcome.v2`; dirty recovery recomputes the exact bridge and appends nothing. Real three-host Story-012 run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260904T160513Z` then interrupted and resumed the Codex Reviewer Agent and retained the exact final sidecar ref `agent-controller-execution-provenance:agent:story-012-reviewer:11` in its passing Story report. Operator inspection now reuses a pure five-axis scope matcher and checks runtime/profile catalog and registry fingerprints with half-open validity; a real HTTP regression proves missing, matched and wrong-generation outcomes. P090-004a adds independently scoped optional Agent/external-runtime policy preflight before new I/O, rechecks current fingerprints and preserves durable replay after policy change. Inquirium passages consume the received bound result rather than reconstructing evidence. Ordinary non-passage Inquirium controllers, guided posture policy UX and Assistant/Corpus/Room consumer projections remain open. |
 | `P090-006a` | Gate every inventoried Inquirium/Agent result translator and higher-layer carrier against metadata loss or downgrade. | `P090-003`, `P090-004`, `P090-006` | `partial` | Schema Gate refuses stripped provenance across the representative Inquirium result sidecar, Agent/external-runtime V2 product, invoke-response, selection, trace, controller-execution sidecar, and outcome chain. Durable partial-write and restart tests cover the representative generate passage, external-runtime terminal commit, pre-turn refusal, and ordinary-controller bridge through terminal Agent outcome. Story-012 now binds each external Reviewer evidence check to the exact observed controller step, permits a later status projection without confusing value with observation time, rejects an older unrelated sidecar, and retains the final sidecar ref in its report. Node owns a 24-entry inventory with source/test pointers plus operation-enum and translator discovery across Inquirium Rust modules. Its reusable named verification sets use bounded argument vectors rather than a shell; CI executes the deduplicated checks for every `done` or `partial` entry, and `--require`/`--promote` run the selected checks after refusing unfinished or unlisted claims. P090-004a adds operation-specific checks for bound results, terminal translation, current embedding cache/restart, invocation preflight and the daemon Agent passage. The current embedding-cache row is done; other carrier rows retain honest partial status. This proves only the named checks, not runtime completion of the remaining row. Completion still requires the full `P090-001a` inventory: every operation, aggregate, cache/deferred/artifact replay, Assistant, Corpus, Room, offer, and procurement translator plus promotion-time inventory enforcement. |
-| `P090-007` | Add Assistant preflight and post-result disclosure. | `P090-004`, `P090-003` | `todo` | Before every admitted non-local inference I/O, UI shows posture bound to the exact context and profile generation; acknowledgement remains a separate gate required according to local classification/context policy. Response, transcript, trace, activity feed, and UI then show realized locality/egress and conservative unknown; route changes remain visible. |
-| `P090-008` | Add open inference posture to service offers and Shared Offer Catalog filtering. | `P090-003` | `todo` | Signed offers carry the separate posture contract with assertion owner, exact scope/generation, processing-boundary ref, open provider characteristics, and disclosure state. Catalog queries support locality, provider allow/deny, explicit boundary matching, and unknown policy; `corpus/model-class` is compatibility-only and no closed domain-profile repertoire is introduced. |
-| `P090-008a` | Carry realized provenance through the generic remote-procurement result path. | `P090-003`, `P090-008` | `todo` | A compatible `service-order.result` revision or immutable sidecar ref binds the producer descriptor without extending V1 in place; Dator stamps or preserves the producer value, Artifact Delivery carries it opaquely with its own source/digest evidence, and Arca verifies, preserves, and applies buyer policy without reinterpreting sender-relative locality. Missing, stripped, substituted, unrelated-boundary, and replay cases have negative fixtures. |
-| `P090-009` | Make Corpus validate offer posture against delivered provenance and preserve it in outputs. | `P090-006`, `P090-008`, `P090-008a` | `todo` | Procurement and deliberation paths refuse/quarantine/warn on typed mismatch according to buyer policy; answers, drafts, publications, and settlement evidence retain descriptor lineage. |
+| `P090-007` | Add Assistant preflight and post-result disclosure. | `P090-004`, `P090-003` | `partial` | Current checkpoint implements authenticated preview/execute, independent sensitive-input acknowledgement, V2 response/refusal carriage, transcript-owned exact sidecars, restart replay without producer I/O, and UI/feed projection; final branch/inventory closeout remains in P090-007a. Acceptance target: before every admitted non-local inference I/O, UI shows posture bound to the exact context and profile generation; acknowledgement remains a separate gate required according to local classification/context policy. Response, transcript, trace, activity feed, and UI then show realized locality/egress and conservative unknown; route changes remain visible. |
+| `P090-008` | Add open inference posture to service offers and Shared Offer Catalog filtering. | `P090-003` | `partial` | Current checkpoint admits the optional signed `policy_annotations.inference/posture` characteristic with exact owner/offer/generation binding, retains it in Rust and Python catalog snapshots, and adds a pure receiving-policy contract/evaluator. Bounded host-evaluated filtering now covers Shared Offer Catalog, topic-query links and Arca local/observed projections before pagination; broader selection/dispatch integration remains pending. Acceptance target: signed offers carry the separate posture contract with assertion owner, exact scope/generation, processing-boundary ref, open provider characteristics, and disclosure state. Catalog queries support locality, provider allow/deny, explicit boundary matching, and unknown policy; `corpus/model-class` is compatibility-only and no closed domain-profile repertoire is introduced. |
+| `P090-008a` | Carry realized provenance through the generic remote-procurement result path. | `P090-003`, `P090-008` | `partial` | Current receiver checkpoint adds a content-bound V2 wrapper, all-boundary Schema Gate, authenticated buyer AD admission, optional buyer result-policy assessment, durable carrier/trace retention and replay/restart regression. Arca retains exact artifact bytes. New remote purchases freeze scoped offer posture at host selection time; receiving comparison preserves peer-attested strength and fails before closeout on missing, non-local or unrelated evidence. Paid replay/restart regression proves independence from later catalog generations. Dator now durably binds the unchanged role source before normalization and final result bytes before AD delivery; bounded retries and database restart reuse frozen identity/profile without executing the role again. Authenticated Python-to-daemon preparation is tested with deterministic role and AD doubles. Deployment role/schema admission, AD allowlists and external descriptor resolution remain pending. A compatible `service-order.result` revision or immutable sidecar ref binds the producer descriptor without extending V1 in place; Dator stamps or preserves the producer value, Artifact Delivery carries it opaquely with its own source/digest evidence, and Arca verifies, preserves, and applies buyer policy without reinterpreting sender-relative locality. Missing, stripped, substituted, unrelated-boundary, and replay cases have negative fixtures. |
+| `P090-009` | Make Corpus validate offer posture against delivered provenance and preserve it in outputs. | `P090-006`, `P090-008`, `P090-008a` | `partial` | Agent-to-Corpus draft acceptance now retains the exact V2 outcome in a content-bound inert draft, committed atomically with its V1 projection. Core/Schema Gate checks and a deterministic daemon HTTP/restart passage cover source identity, substitution, absence, boundary/time preservation and retention through legacy publication. Signed V2 answers/publications, Corpus buyer-policy comparison and contribution joins remain pending. Completion still requires procurement and deliberation paths to refuse/quarantine/warn on typed mismatch according to buyer policy, with answers, drafts, publications and settlement evidence retaining descriptor lineage. |
 | `P090-010` | Add Room scoped posture, per-contribution provenance, read-model aggregates, and policy/UI projection. | `P090-006`, `P090-003` | `todo` | Membership identity and authority remain unchanged; contribution metadata/ref survives durable/live carriage; local policy admits, warns, or filters non-local/mixed/unknown; participant badge is explicitly derived. |
 | `P090-011` | Add federated projection and verification semantics. | `P090-003`, `P090-010` | `todo` | Signed redacted projection preserves locality, egress, incomplete provider disclosure, and sender boundary; receiver records `peer-attested` basis and never upgrades evidence. Unknown and unsupported versions fail according to explicit policy. |
 | `P090-012` | Retain end-to-end multi-node acceptance and synchronize evidence-backed documentation. | `P090-004` through `P090-011` | `partial` | The bounded Codex-over-stdio producer-to-Agent slice is retained on three distinct physical hosts. Fresh run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260904T154427Z` and restarted run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260904T160513Z` both pass all ten Story assertions, exact DNS effects, post-effect revalidation, complete traces, cleanup, and the exact `profile-defined` three-host claim. The fresh run's aggregate and Story-report SHA-256 values are `5512af53ccd2376e723197ffe5762fd50bf186b2aaf3dcc0cd63be6112e6a861` and `574426784b9762df4e8530dd5c9565614b46633c0d558e45fe734e4bb4b8858a`; the restarted run's corresponding values are `12848bc6cf487100cf29cfbe3eb2f8d29b1aeee731ca4207794b6b49a6089a4c` and `25ae2c316f596a87e822df9a50ce28081eee724a511286d97cc161ad73aaa4ee`, and its report retains the final controller sidecar ref. Completion still requires the full matrix: local MLX/llama, OpenAI via local sidecar, mixed join, cache/replay, redaction, Assistant warning, Corpus filtering, Room aggregation, peer projection, stripping refusal, and hidden-cascade limitation, with all owning documents and ledgers synchronized. |
@@ -910,6 +925,117 @@ ontology: the operation owner still validates the enclosed result. This reuses
 the exact-result sidecar and canonical join instead of copying provenance
 semantics into each translator. Legacy response-only cache entries remain in
 their existing namespace and are not upgraded into stronger evidence.
+
+### Producer-to-consumer implementation passage (2026-09-05)
+
+The following ordered checkpoints implement the operator-approved next passage.
+Each checkpoint requires implementation review, refusal/replay tests, executable
+inventory evidence and documentation synchronization before completion. They do
+not replace the parent completion criteria or claim new physical acceptance.
+
+| ID | Work item | Status | Completion gate |
+| :--- | :--- | :--- | :--- |
+| `P090-004b` | Complete producer terminal coverage, public V2 selection, ordinary Inquirium Agent carriage, batch/training and artifact/deferred preservation. | `in-progress` | Exact result evidence survives every owned boundary and restart; stripping, substitution and duplicate execution/charging are refused. Preserve V1 compatibility without silently falling back when V2 is requested. |
+| `P090-007a` | Implement Assistant preflight disclosure and realized result carriage through response, transcript, trace and UI. | `in-progress` | Implemented: host-authenticated exact-context preview/execute, independent acknowledgement for sensitive non-local/unknown input, under-lock current-view verification, V2 result/refusal carriage, transcript-owned immutable sidecars and UI/feed disclosure. Eighteen Inquirium HTTP tests and eight UI tests pass; the Assistant fixture carries nonzero usage, proves trace-before-charge on a real filesystem refusal, rejects substituted receipts/requests, and replays the exact sidecar after restart with its producer stopped. Final refusal/terminal matrix and documentation/inventory closeout remain under review. This is deterministic local evidence, not physical acceptance. |
+| `P090-009a` | Implement offer/catalog posture, generic procurement carriage and Corpus result validation in dependency order. | `in-progress` | The selected signed declaration and delivered evidence remain distinct; buyer policy rejects or explicitly handles mismatch, unrelated boundaries and unavailable evidence without rewriting provenance. |
+| `P090-010a` | Preserve Room contribution provenance and derive participant read models. | `todo` | Durable/live carriage, restart and aggregation retain exact contribution ancestry; badges neither alter membership nor grant authority. |
+
+Producer subcheckpoints keep the remaining durable work explicit:
+
+| ID | Work item | Status | Completion gate |
+| :--- | :--- | :--- | :--- |
+| `P090-004b1` | Bind synchronous runtime results and select public V2 explicitly. | `done` | Eight-operation HTTP V1/V2 tests, malformed received-HTTP terminals, image publication/refusal ancestry, output mutation and catalog-change negatives, and fractional JSON roundtrip pass. This does not close source-artifact lineage or durable publication recovery. |
+| `P090-004b2` | Preserve ordinary Inquirium Agent controller evidence through its durable source commit and recovery bridge. | `partial` | Completed `CallInquirium` requests V2, commits its original sidecar with the controller projection through Agent/Memarium, and recovers by explicit source-fact family rather than an External Runtime assumption. Exact JCS source/product binding and unchanged source time/boundary are checked. The deterministic Agent-to-Corpus HTTP/restart path retains V2 through acceptance. Completion still requires the dedicated partial-write and terminal-failure matrix, with exact Agent, binding, step, request, product and budget identity on replay and no reconstruction from current routing. |
+| `P090-004b3` | Separate batch/training execution commit from deferred status and artifact publication. | `todo` | Inquirium owns a durable intent and exact producer-result commit; BDO remains a read model, not inference authority. Recovery reuses a verified committed result without adapter I/O; an interrupted attempt without a commit remains ambiguous and cannot silently reinvoke. Batch acceptance must exercise real batch execution, not admission or a caller-supplied artifact. |
+| `P090-004b4` | Retain artifact/effect sidecars and source ancestry across publication and restart. | `todo` | Verify the immutable producer commit and destination bytes before publication; replay the publication without new inference; preserve source-image ancestry, exact artifact bindings and all failure/refusal evidence. |
+
+`P069-DOMAIN-005` is a separate workstream in this passage: optional thematic
+profile admission and lifecycle, not a prerequisite for provenance carriage.
+An exact profile revision requires receiving-host admission; endorsement cannot
+compel it, and general prose outcomes remain valid without such a profile.
+Federated projection (`P090-011`), remaining inventory consumers and full
+multi-node acceptance (`P090-012`) keep their independent completion gates.
+
+Consumer implementation checkpoints preserve three independent inputs: a signed
+offer declaration, the delivered producer descriptor, and receiving-host policy.
+`P090-009a` first implements a shared, provider-neutral consumption-policy value
+and pure evaluation for locality, explicit processing-boundary matching,
+provider allow/deny and incomplete evidence. Catalog, Corpus and Room reuse that
+evaluation; policy never rewrites evidence. A known violation dominates a warning
+about missing evidence. The offer migration may use the existing signed
+`policy_annotations` extension as a characteristic sidecar, bound to the exact
+offer id, sequence and accountable signer; this does not add a V1 top-level field
+or change the compatibility-only meaning of `corpus/model-class`. Wire result
+carriage now uses the compatible `service-order.result.v2` receiving contract:
+the unchanged V1 result plus mandatory provenance whose subject binds the JCS
+result digest and whose assertion owner is the selected provider node. The host
+still authenticates AD source and request/workflow correlation independently.
+Buyer `request/output-constraints.inference/policy` is an explicit terminal
+acceptance rule, not preflight egress authority; absence retains V1 behavior
+without claiming local execution. Warnings and exact carriers survive durable
+execution/trace replay. External refs refuse until a bounded authenticated
+resolver is available. The producer checkpoint below adds the bridge across
+normalization; deployment role/AD admission and external resolution still keep
+P090-008a partial.
+
+The producer bridge uses an explicit `service-dispatch-result.v2` wrapper for
+the unchanged role product and content-bound source descriptor. A bounded,
+data-only `service.order.result.prepare` host capability reuses the Rust JCS
+and join implementation to derive `service-order.result.v2` from the final
+normalized V1 result. It does not authenticate the role, observe inference,
+persist a commit, deliver artifacts, or authorize settlement. Dator owns those
+source/commit boundaries; absent legacy evidence stays incomplete and unknown.
+The source boundary and observation time survive derivation without relabeling.
+Before delivery Dator freezes the result bytes and digest in its existing
+request-keyed durable journal. Delivery retry is bounded and generation-fenced;
+it cannot invoke the role again. Interrupted execution without a result commit
+remains ambiguous and requires reconciliation, not blind execution retry.
+
+Ordinary-controller recovery checkpoint: an Inquirium source fact is committed
+before the Step and trace. If recovery finds the source but no Step, a new active
+controller action is refused pending reconciliation; it cannot execute the model
+again. A source-only durable-stream regression covers this guard. Automatic
+reconciliation and the full terminal/partial-write matrix remain open in
+P090-004b2.
+
+Corpus draft checkpoint: `corpus-agent-answer-draft.v2` preserves the admitted
+Agent outcome, not merely its prose or legacy projection. The descriptor subject
+is the JCS identity of `{draft, source/outcome}`; the original draft identity and
+classification are unchanged. Derived evidence retains the parent observation
+time and sender processing boundary. Round ownership, source admission, Room
+membership and publication authority remain independently checked host facts.
+The V1 and V2 draft views share one existing round snapshot; evidence is checked
+on export and both log/checkpoint recovery. Exact replay precedes current Agent
+or product lookup. Historical absence is not backfilled from a live runtime.
+Newly accepted legacy outcomes carry explicit unknown evidence. Existing HTTP
+draft and answer projections remain V1, with the V2 draft exposed separately in
+authenticated round inspection. A separately signed V2 publication must cover
+the outcome and its evidence before claiming end-to-end Corpus carriage; a V1
+answer signature does not authenticate the adjacent draft sidecar.
+
+Python catalog consumers reuse the pure Rust policy through the data-only,
+host-local `inference.policy.evaluate` capability. Declared and realized inputs
+are distinct variants, requests bind unique subjects, and assessment grants no
+execution or publication authority. Catalog filtering precedes pagination,
+preserves the query in topic links, and refuses unavailable/over-budget
+evaluation. Scope: 32 subjects per request, 2 MiB per evaluation, 4096 scanned
+catalog rows and a 20-second assessment deadline.
+
+Producer checkpoint: public capability POST routes select the compatible
+`inquirium.response.v2` envelope explicitly with
+`response-schema=inquirium.response.v2`; absence retains V1. Selection changes
+neither execution authority nor routing. Unknown, duplicate and unavailable
+versions refuse before execution, with no silent downgrade. Current HTTP evidence
+covers generate, embed, classify, rerank, summarize, transform, image-generate and
+image-edit. Image publication derives its response or refusal from the
+content-bound runtime execution parent without consulting current configuration.
+Classify/rerank
+carry the exact runtime-bound result into traces, and invalid received classify,
+rerank and image HTTP responses preserve dispatched/unknown terminal evidence.
+Fractional embedding roundtrip tests protect canonical result identity across
+serialization. These checks close a producer subpiece, not P090-004b as a whole:
+batch/training execution, artifact/deferred preservation and ordinary Inquirium
+Agent controller recovery still require their own durable boundaries.
 
 ### Dependency graph
 

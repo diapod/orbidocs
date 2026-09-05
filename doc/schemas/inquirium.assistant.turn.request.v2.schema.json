@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium.assistant.turn.request:v2",
+  "title": "Assistant preview and execution submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "action", "request", "disclosure", "acknowledgement"],
+  "properties": {
+    "schema": {"const": "inquirium.assistant.turn.request.v2"},
+    "action": {"enum": ["preview", "execute"]},
+    "request": {
+      "description": "The unchanged V1 operation request is validated by AssistantTurnRequest at the Schema Gate semantic boundary.",
+      "type": "object",
+      "required": ["schema", "turn/id"],
+      "properties": {
+        "schema": {"const": "inquirium.assistant.turn.request.v1"},
+        "turn/id": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"}
+      }
+    },
+    "disclosure": {"oneOf": [{"type": "null"}, {"$ref": "inquirium.assistant.disclosure.v1.schema.json"}]},
+    "acknowledgement": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["disclosure/token", "accepted"],
+          "properties": {
+            "disclosure/token": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+            "accepted": {"const": true}
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"required": ["action"], "properties": {"action": {"const": "preview"}}},
+      "then": {"properties": {"disclosure": {"type": "null"}, "acknowledgement": {"type": "null"}}},
+      "else": {"properties": {"disclosure": {"type": "object"}}}
+    },
+    {
+      "if": {
+        "required": ["disclosure"],
+        "properties": {"disclosure": {
+          "type": "object",
+          "required": ["acknowledgement/required"],
+          "properties": {"acknowledgement/required": {"const": true}}
+        }}
+      },
+      "then": {"properties": {"acknowledgement": {"type": "object"}}}
+    }
+  ]
+}

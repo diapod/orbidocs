@@ -1,0 +1,8 @@
+{
+  "schema": "inference-consumption-policy.v1",
+  "processing-boundary/ref": "processing-boundary:host:self",
+  "locality": "local-only",
+  "provider/allow": [],
+  "provider/deny": [],
+  "evidence/complete-required": true
+}

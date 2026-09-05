@@ -1,0 +1,61 @@
+{
+  "schema": "inquirium.assistant.turn.request.v2",
+  "action": "preview",
+  "request": {
+    "schema": "inquirium.assistant.turn.request.v1",
+    "session/ref": "assistant-session:fixture",
+    "turn/id": "assistant-turn:fixture",
+    "idempotency/key": "assistant-turn:fixture",
+    "participant/ref": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "turn": {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Draft a bounded answer."
+        }
+      ]
+    },
+    "parameters": {
+      "max_tokens": 128
+    },
+    "policy": {
+      "locality": "local_only",
+      "trust_mode": "strict_local",
+      "scope": "assistant-session-only",
+      "on_context_denied": "fail_closed",
+      "plurality": "preserve"
+    },
+    "metadata": {}
+  },
+  "disclosure": {
+    "schema": "inquirium.assistant.disclosure.v1",
+    "principal/ref": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+    "session/ref": "assistant-session:fixture",
+    "request/binding": "hmac-sha256:fixture-request",
+    "plan/binding": "hmac-sha256:fixture-context",
+    "runtime/ref": "runtime:fixture",
+    "configuration/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Personal"
+      },
+      "bound_subjects": {
+        "personal_or_community": []
+      },
+      "declassify_trail": []
+    },
+    "posture": null,
+    "expires/at-epoch-seconds": 1788600000,
+    "acknowledgement/required": true,
+    "token": "fixture-host-token"
+  },
+  "acknowledgement": {
+    "disclosure/token": "fixture-host-token",
+    "accepted": true
+  }
+}

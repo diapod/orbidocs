@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-agent-answer-draft:v2",
+  "title": "Corpus Agent answer draft v2",
+  "description": "Exact inert draft and admitted Agent outcome with content-bound derived provenance. Neither source labels nor provenance grant publication authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "draft",
+    "owner/node-id",
+    "source/outcome",
+    "execution/provenance"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-agent-answer-draft.v2"
+    },
+    "draft": {
+      "$ref": "corpus-agent-answer-draft.v1.schema.json"
+    },
+    "owner/node-id": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "source/outcome": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "agent.outcome.v2.schema.json"
+        }
+      ]
+    },
+    "execution/provenance": {
+      "$ref": "inference-execution-provenance.v1.schema.json"
+    }
+  }
+}

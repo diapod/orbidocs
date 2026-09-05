@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-order-result:v2",
+  "title": "ServiceOrderResult v2",
+  "description": "Compatible terminal-result envelope. The exact V1 result and provider-owned inference descriptor are content-bound. Transport authenticity and buyer correlation/policy remain independent admission gates. External descriptor refs must be resolved and verified before acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "result",
+    "execution/provenance"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-order.result.v2"
+    },
+    "result": {
+      "$ref": "service-order-result.v1.schema.json"
+    },
+    "execution/provenance": {
+      "$ref": "inference-execution-provenance.v1.schema.json"
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ]
+}

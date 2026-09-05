@@ -1,0 +1,95 @@
+{
+  "schema": "corpus-agent-answer-draft.v2",
+  "draft": {
+    "schema": "corpus-agent-answer-draft.v1",
+    "draft/ref": "corpus-agent-answer-draft:fixture",
+    "query/id": "query:collaboration-fixture",
+    "room/id": "room:collaboration-fixture",
+    "agent/ref": "agent:chair-fixture",
+    "participant/ref": "participant:chair-fixture",
+    "binding/ref": "agent-binding:chair-fixture",
+    "outcome/ref": "agent-outcome:chair-fixture",
+    "product/ref": "object-store:sha256:fixture",
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Personal",
+      "effective_tier": "Personal",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Personal"
+      },
+      "bound_subjects": {
+        "personal_or_community": []
+      },
+      "declassify_trail": []
+    },
+    "membership-attestation/ref": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "room-event/high-water": 7,
+    "publication/authorized": false,
+    "idempotency/key": "idem:chair-fixture",
+    "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "accepted-at": "2026-09-05T10:00:00Z",
+    "accepted-by": "local-control"
+  },
+  "owner/node-id": "node:corpus-owner",
+  "execution/provenance": {
+    "schema": "inference-execution-provenance.v1",
+    "descriptor/digest": "sha256:nVR6BYHOzlMLdUCPJqmibUablAynh_CifHNCC_CBCUg",
+    "descriptor/size-bytes": 1244,
+    "descriptor": {
+      "descriptor/id": "sha256:LpAYOJf4X4C2nzbImpTzaWggwXRnmtTtPV38HvETOAk",
+      "projection/id": "sha256:-Z81cPAj-5Yfb1YOewG3ejO7mghRgmNG__almMpDh-s",
+      "projection/kind": "full",
+      "subject/ref": "corpus-agent-answer-draft-binding:sha256:ikB-CpPANaE1w-SxJhXp4d3k23K3hwVCCag9gbTCDyg",
+      "asserted/by": "node:corpus-owner",
+      "observed/at": "2026-09-04T10:00:00Z",
+      "processing-boundary/ref": "processing-boundary:host:self",
+      "dispatch": "dispatched",
+      "dispatch/components": [
+        "dispatched"
+      ],
+      "locality": "local",
+      "locality/components": [
+        "local"
+      ],
+      "input-egress": "none",
+      "input-egress/components": [
+        "none"
+      ],
+      "provider/disclosure": "complete",
+      "provider/refs": [
+        "inference-provider:mlx"
+      ],
+      "bindings": {},
+      "evidence": [
+        {
+          "basis": "derived",
+          "assertion/ref": "corpus-agent-answer-draft-binding:sha256:ikB-CpPANaE1w-SxJhXp4d3k23K3hwVCCag9gbTCDyg",
+          "evidence/refs": [],
+          "limitation": "joined from descriptor lineage"
+        },
+        {
+          "basis": "host-enforced-no-egress",
+          "assertion/ref": "observation:fixture-no-egress",
+          "evidence/refs": [
+            "component-trace:fixture"
+          ]
+        },
+        {
+          "basis": "host-selected-profile",
+          "assertion/ref": "runtime-selection:fixture",
+          "evidence/refs": []
+        }
+      ],
+      "evidence/complete": true,
+      "lineage": {
+        "parent/descriptor-ids": [
+          "sha256:F8Y5iJisA-AzDqMb_4YgxO93aDk5VXwKoOanAmHycxI"
+        ],
+        "parent/count": 1,
+        "complete": true
+      },
+      "extensions": {}
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium.assistant.disclosure:v1",
+  "title": "Exact Assistant pre-execution disclosure",
+  "description": "Host-authenticated view of one prepared invocation. Neither the view nor acknowledgement grants inference or context authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "principal/ref", "session/ref", "request/binding", "plan/binding", "runtime/ref", "configuration/digest", "classification", "posture", "expires/at-epoch-seconds", "acknowledgement/required", "token"],
+  "properties": {
+    "schema": {"const": "inquirium.assistant.disclosure.v1"},
+    "principal/ref": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+    "session/ref": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+    "request/binding": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+    "plan/binding": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+    "runtime/ref": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+    "configuration/digest": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/digest"},
+    "posture": {"oneOf": [{"type": "null"}, {"$ref": "inference-execution-posture.v1.schema.json"}]},
+    "classification": {"$ref": "classification.v1.schema.json"},
+    "expires/at-epoch-seconds": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "acknowledgement/required": {"type": "boolean"},
+    "token": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"}
+  }
+}

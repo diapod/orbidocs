@@ -11,7 +11,7 @@ Sanitized terminal failure. Dispatch and egress are carried separately in exact 
 | [`schema`](#field-schema) | `yes` | const: `inquirium.terminal-outcome.v1` |  |
 | [`operation`](#field-operation) | `yes` | string |  |
 | [`status`](#field-status) | `yes` | const: `failed` |  |
-| [`reason/code`](#field-reason-code) | `yes` | const: `runtime-execution-failed` |  |
+| [`reason/code`](#field-reason-code) | `yes` | enum: `runtime-execution-failed`, `result-publication-failed` |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -36,4 +36,4 @@ Sanitized terminal failure. Dispatch and egress are carried separately in exact 
 ## `reason/code`
 
 - Required: `yes`
-- Shape: const: `runtime-execution-failed`
+- Shape: enum: `runtime-execution-failed`, `result-publication-failed`

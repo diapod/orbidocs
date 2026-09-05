@@ -8,8 +8,8 @@
   "required": ["schema", "operation", "status", "reason/code"],
   "properties": {
     "schema": {"const": "inquirium.terminal-outcome.v1"},
-    "operation": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "operation": {"type": "string", "pattern": "^[a-z][a-z0-9._-]*$"},
     "status": {"const": "failed"},
-    "reason/code": {"const": "runtime-execution-failed"}
+    "reason/code": {"enum": ["runtime-execution-failed", "result-publication-failed"]}
   }
 }

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-agent-answer-draft:v1",
+  "title": "Corpus Agent answer draft v1",
+  "description": "Inert admitted Agent draft. Publication requires separate host authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "draft/ref",
+    "query/id",
+    "room/id",
+    "agent/ref",
+    "participant/ref",
+    "binding/ref",
+    "outcome/ref",
+    "product/ref",
+    "membership-attestation/ref",
+    "idempotency/key",
+    "request/digest",
+    "accepted-by",
+    "classification",
+    "room-event/high-water",
+    "publication/authorized",
+    "accepted-at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-agent-answer-draft.v1"
+    },
+    "draft/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "query/id": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref",
+      "pattern": "^query:.+$"
+    },
+    "room/id": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref",
+      "pattern": "^room:.+$"
+    },
+    "agent/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "participant/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "binding/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "outcome/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "product/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "membership-attestation/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref",
+      "pattern": "^sha256:.+$"
+    },
+    "idempotency/key": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "request/digest": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "accepted-by": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "classification": {
+      "$ref": "classification.v1.schema.json"
+    },
+    "room-event/high-water": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "publication/authorized": {
+      "const": false
+    },
+    "accepted-at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -67,8 +67,14 @@ image-edit operations also commit exact sidecars in durable traces. Typed
 pre-I/O `generate` refusal records proven non-dispatch. P090-004a adds bound
 generate/embed results, sanitized failure dispatch evidence, a shared V2
 response envelope, parent-preserving summarize/transform and current embedding
-cache/restart. Other operation terminals, general public V2 negotiation,
-batch/training, artifact/deferred carriage and effects remain open. This work is not
+cache/restart. P090-004b additionally carries runtime-bound classify/rerank
+results, classify/rerank/image HTTP failures, and explicit public V2 selection
+for the eight synchronous operations. Image publication derives its response or
+refusal from the exact runtime execution parent. The Assistant translator seed
+retains its generate parent in the exact final-response trace, with settlement
+before transcript publication; this is not preflight or UI disclosure completion.
+Remaining terminals,
+batch/training, durable artifact/deferred carriage and recovery remain open. This work is not
 included in the implemented-MVP claim.
 
 ## Date
@@ -324,9 +330,11 @@ summarization, transformation, and image work; missing characteristics remain
 `unknown`, and the Agent-passage `generate` path durably replays its conservative
 descriptor. P090-004a binds generate/embed success and failure at invocation,
 preserves generate ancestry through translation and current embedding cache,
-and verifies exact Agent passage restart. Proposal 064 still tracks other
-operation terminals, public V2 negotiation, batch/training, direct effects,
-artifact/deferred preservation and full acceptance. Runtime/model refs and
+and verifies exact Agent passage restart. P090-004b exposes explicit public V2
+selection without silent downgrade, binds classify/rerank at invocation and
+retains image execution ancestry through publication or refusal. Proposal 064
+still tracks remaining terminals, batch/training, direct effects,
+durable artifact/deferred preservation and full acceptance. Runtime/model refs and
 diagnostics alone do not satisfy this capability.
 
 ### Direct Data Plane And Artifact Outputs

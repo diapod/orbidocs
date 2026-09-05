@@ -1,6 +1,6 @@
 # MVP Readiness Snapshot
 
-Snapshot date: 2026-09-04.
+Snapshot date: 2026-09-05.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
@@ -1325,8 +1325,45 @@ Recent component deltas:
   refusal. Its operation-specific gate also passes HTTP translation checks and
   a four-passage daemon restart retaining exact non-local/withheld fixture
   ancestry without duplicate Agent charge. This is local deterministic evidence,
-  not a new physical Story-012 run. Other operation terminals, general public V2
-  negotiation, batch/training, Assistant, offers, Corpus, Room,
+  not a new physical Story-012 run. The P090-004b producer checkpoint adds
+  runtime-bound classify/rerank results and image output, eight-operation
+  explicit public V2 selection, conservative received-HTTP failure evidence,
+  image publication/refusal ancestry and exact fractional JSON roundtrip tests.
+  The Assistant translator seed also binds its actual final response to the
+  generate parent in the durable trace without changing the legacy public DTO.
+  The following consumer checkpoint adds authenticated exact-context Assistant
+  preview/execute, independent sensitive-input acknowledgement, transcript-owned
+  sidecars and separate preflight/result UI disclosure. Local HTTP regressions
+  prove trace-before-charge with nonzero usage, replay after restart with the
+  producer stopped, and refusal to replay across transcript excision. The shared
+  receiving-policy core and optional signed offer-characteristic binding now
+  have contract tests; catalog snapshots preserve the declaration opaquely.
+  Bounded shared-host policy evaluation now filters catalog and Arca projections
+  before pagination. The procurement receiving checkpoint accepts content-bound
+  V2 results, retains exact evidence through paid closeout and restart, and keeps
+  source authentication separate from buyer result policy. Arca preserves exact
+  received bytes. Dator's opt-in V2 path now commits the raw role source before
+  normalization and immutable result bytes before AD delivery. Bounded retries
+  preserve identity/profile and never reexecute a committed role; migration
+  does not manufacture proof for legacy rows. A real Python-to-daemon HTTP
+  preparation test covers a completed product and restart with role/AD doubles.
+  The buyer now freezes scoped posture at selection and compares results before
+  closeout, independently of later catalog revisions and buyer consumption
+  policy. Paid negative/replay/restart tests preserve the active reservation on
+  refusal and retain peer-attested, not invented host-observed, assurance.
+  Ordinary `CallInquirium` now commits its source sidecar through Agent/Memarium
+  and recovers by explicit source family, without requiring an external-runtime
+  commit. Its dedicated partial-write and terminal matrix remains open.
+  Corpus draft admission now retains the exact Agent V2 outcome and derived
+  evidence in the same durable snapshot as the inert V1 draft. Exact replay,
+  checkpoint/log validation and deterministic daemon restart preserve the source
+  without consulting current runtime facts. Legacy answer publication retains
+  the adjacent evidence but does not sign it; V2 signed publication remains open.
+  Deployment role/AD schema admission, Corpus comparison and Room consumers
+  remain incomplete; these checks do not prove the entire stages 2–4.
+  This does not complete stage 1 or P090. Remaining
+  terminals, ordinary Inquirium Agent controller recovery, batch/training,
+  Assistant, offers, Corpus, Room,
   artifact/deferred carriers, effects and remote procurement remain open.
   P090-012 is therefore partial, not complete. P090-003a now has the canonical
   bounded provider registry,

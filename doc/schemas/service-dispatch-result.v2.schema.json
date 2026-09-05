@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:service-dispatch-result:v2",
+  "title": "service-dispatch-result.v2",
+  "description": "Data-only producer binding. Source authority remains independent; missing evidence never implies local execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "result",
+    "execution/provenance"
+  ],
+  "properties": {
+    "schema": {
+      "const": "service-dispatch-result.v2"
+    },
+    "result": {
+      "type": "object",
+      "description": "Unchanged role dispatch response. Its admitted role contract is validated independently; this wrapper binds its canonical bytes."
+    },
+    "execution/provenance": {
+      "$ref": "inference-execution-provenance.v1.schema.json"
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ]
+}

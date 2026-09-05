@@ -1,0 +1,9 @@
+{
+  "schema": "inference-policy.evaluate.response.v1",
+  "assessments": [
+    {
+      "subject/ref": "offer:missing",
+      "decision": "deny"
+    }
+  ]
+}

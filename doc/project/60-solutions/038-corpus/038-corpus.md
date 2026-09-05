@@ -337,8 +337,15 @@ Responsibilities:
 
 Status:
 
-- `planned`; no current Corpus schema, runtime, or acceptance evidence carries
-  the P090 result-level contract end to end.
+- `partial`: Agent outcome V2 survives admission into an inert
+  `corpus-agent-answer-draft.v2` and the existing durable round snapshot. The
+  envelope binds the exact draft and source outcome; import/export, checkpoint
+  recovery and deterministic HTTP/restart checks preserve source time, boundary
+  and identity. V1 draft and publication projections remain compatible and do
+  not confer inference or publication authority on the Agent.
+- Signed provenance-bearing answers/publications, Corpus policy comparison,
+  contribution joins and federated admission are still planned; this checkpoint
+  does not carry P090 end to end.
 
 ## May Implement
 

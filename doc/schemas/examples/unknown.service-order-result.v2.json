@@ -1,0 +1,69 @@
+{
+  "schema": "service-order.result.v2",
+  "result": {
+    "schema": "service-order.result.v1",
+    "request_id": "remote-execution:arca-run-redaction:draft:a1",
+    "workflow/run-id": "arca-run:redaction",
+    "workflow/phase-id": "draft",
+    "correlation/id": "arca-run:redaction",
+    "service_type": "text/redaction",
+    "status": "completed",
+    "output": {
+      "answer/content": "Zredagowany tekst.",
+      "answer/format": "markdown"
+    },
+    "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+    "provider/participant-id": "participant:did:key:z6MkOlaParticipant11111111111111111111111111",
+    "provider/metadata": {
+      "confidence/signal": 0.91,
+      "provenance/origin-classes": [
+        "local-module"
+      ]
+    },
+    "responded_at": "2026-04-01T06:10:00Z"
+  },
+  "execution/provenance": {
+    "schema": "inference-execution-provenance.v1",
+    "descriptor/digest": "sha256:h7lg8hq6hVUqaCB5n-ceFo92BlFdjaDM7AhdROTWmDY",
+    "descriptor/size-bytes": 989,
+    "descriptor": {
+      "descriptor/id": "sha256:dHek9n8VkrMC0APkE9TYNww5q4dUejM3mUAyUGFMe9U",
+      "projection/id": "sha256:hOIYhOkMwX8yjih_6-fLqdrK-eE4WS7O5eH1x5N7pvM",
+      "projection/kind": "full",
+      "subject/ref": "service-order-result:sha256:1mEIw8SkZcfrw6cRofGNVWh0R5LLWHimWaXIqjUxb-8",
+      "asserted/by": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+      "observed/at": "2026-04-01T06:10:00Z",
+      "processing-boundary/ref": "processing-boundary:fixture:provider",
+      "dispatch": "ambiguous",
+      "dispatch/components": [
+        "ambiguous"
+      ],
+      "locality": "unknown",
+      "locality/components": [
+        "unknown"
+      ],
+      "input-egress": "unknown",
+      "input-egress/components": [
+        "unknown"
+      ],
+      "provider/disclosure": "unknown",
+      "provider/refs": [],
+      "bindings": {},
+      "evidence": [
+        {
+          "basis": "unknown",
+          "assertion/ref": "service-order-result:sha256:1mEIw8SkZcfrw6cRofGNVWh0R5LLWHimWaXIqjUxb-8",
+          "evidence/refs": [],
+          "limitation": "inference parent set is absent or incomplete"
+        }
+      ],
+      "evidence/complete": false,
+      "lineage": {
+        "parent/descriptor-ids": [],
+        "parent/count": 0,
+        "complete": false
+      },
+      "extensions": {}
+    }
+  }
+}
