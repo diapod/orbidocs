@@ -703,10 +703,10 @@ nižší a nikdy ji nenahrazuje, nazýváme **aktérskou subsidiaritou**. Jejím
 v organizačním řádu je „Škálování skrze lokální odpovědnost“.
 
 Hodnoty této sekce — dar a výměna, vzájemnost, dostatek nad akumulací, minimum přežití
-a přístup bez tributu — tvoří jeden vyvozený celek, který nazýváme **ekonomikou
-aktérské vzájemnosti**. Její úplné vyvození z ontologických předpokladů popisuje
-[Ontologický základ — Důsledky pro
-ekonomiku](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#ekonomie).
+a přístup bez tributu — tvoří syntézu přijatou v projektu, kterou nazýváme
+**ekonomikou aktérské vzájemnosti**. Její rozbor, ontologické inspirace a dodatečné
+axiologické a návrhové předpoklady představuje
+[Ekonomika aktérské vzájemnosti](../../90-supplementary/cs/ECONOMY-OF-AGENTIC-MUTUALITY.cs.md).
 
 ### Kultura spolupráce
 

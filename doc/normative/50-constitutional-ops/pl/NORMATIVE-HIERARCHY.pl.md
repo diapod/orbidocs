@@ -61,11 +61,13 @@ kategorie:
 Zmiana dokumentów Poziomu 2 wymaga jawnego uzasadnienia i przeglądu spójności
 z Konstytucją, ale **nie wymaga pełnej procedury zmiany konstytucyjnej**.
 
-`doc/normative/90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md` jest materiałem
-objaśniającym genezę i spójność wartości, lecz nie stanowi samodzielnego źródła
-wykładni Poziomu 2 ani nie tworzy praw, obowiązków lub klasyfikacji osób. Nie może
-służyć jako test światopoglądowy, lojalnościowy, członkowski, tożsamościowy ani
-reputacyjny. W razie rozbieżności pierwszeństwo mają Konstytucja i źródła Poziomu 2.
+`doc/normative/90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md` oraz
+`doc/normative/90-supplementary/pl/ECONOMY-OF-AGENTIC-MUTUALITY.pl.md` są materiałami
+objaśniającymi genezę i spójność wartości oraz przyjętej syntezy
+społeczno-ekonomicznej. Nie stanowią samodzielnych źródeł wykładni Poziomu 2 ani nie
+tworzą praw, obowiązków lub klasyfikacji osób. Nie mogą służyć jako test
+światopoglądowy, lojalnościowy, członkowski, tożsamościowy ani reputacyjny. W razie
+rozbieżności pierwszeństwo mają Konstytucja i źródła Poziomu 2.
 
 ### Poziom 3 - Ustawy wykonawcze
 

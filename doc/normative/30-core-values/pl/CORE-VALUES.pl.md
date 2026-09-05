@@ -724,10 +724,10 @@ i nigdy jej nie zastępuje, nazywamy **subsydiarnością sprawczości**. Jej wy
 w ładzie organizacyjnym jest "Skalowanie przez lokalną odpowiedzialność".
 
 Wartości tej sekcji – dar i wymiana, wzajemność, dostatek ponad akumulację, minimum
-przetrwania i dostęp bez trybutu – składają się na jedną wyprowadzoną całość, którą
-nazywamy **ekonomią sprawczej wzajemności**. Jej pełne wyprowadzenie z założeń
-ontologicznych opisuje [Podstawa ontologiczna — Konsekwencje dla
-ekonomii](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#ekonomia).
+przetrwania i dostęp bez trybutu – składają się na przyjętą w projekcie syntezę, którą
+nazywamy **ekonomią sprawczej wzajemności**. Jej omówienie, inspiracje ontologiczne
+oraz dodatkowe założenia aksjologiczne i projektowe przedstawia
+[Ekonomia sprawczej wzajemności](../../90-supplementary/pl/ECONOMY-OF-AGENTIC-MUTUALITY.pl.md).
 
 ### Kultura współdziałania
 

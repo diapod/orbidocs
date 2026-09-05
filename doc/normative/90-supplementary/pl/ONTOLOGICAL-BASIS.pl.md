@@ -8,14 +8,33 @@
 
 ## Apofatyczny enaktywizm
 
-Ten dokument opisuje filozoficzne podłoże, z którego wyrastają
-[wizja](../../20-vision/pl/VISION.pl.md) i [wartości
-podstawowe](../../30-core-values/pl/CORE-VALUES.pl.md) projektu Orbiplex. Nie jest
+Ten dokument opisuje filozoficzną orientację projektu Orbiplex i jej związki
+z [wizją](../../20-vision/pl/VISION.pl.md) oraz [wartościami
+podstawowymi](../../30-core-values/pl/CORE-VALUES.pl.md). Nie jest
 manifestem wiary ani deklaracją metafizyczną, lecz zbiorem postulatów, które
-wyjaśniają **dlaczego** architektura roju ma taką, a nie inną postać, i dlaczego
+pomagają zrozumieć **dlaczego** architektura roju ma taką, a nie inną postać, i dlaczego
 pewne wartości traktujemy jako infrastrukturalne, a nie opcjonalne.
 
-Podłoże to nazywamy roboczo **apofatycznym enaktywizmem**.
+**Status dokumentu.** Postulaty są roboczymi założeniami orientacji filozoficznej,
+nie aksjomatami wyznaczającymi jedyną architekturę lub ustrój. Dokument opisuje
+genealogię przyjętych wartości; przejście do decyzji projektowych wymaga ponadto
+jawnych przesłanek wartościujących, celów, ograniczeń i argumentów właściwych danej
+dziedzinie. Analogie wskazują wybrane relacje, nie przenoszą automatycznie uzasadnień.
+
+W praktyce Baza służy przede wszystkim jako lupa, nie przepis wytwarzania
+rozwiązań. Pomysł może wyrastać z potrzeby, doświadczenia lub rzemieślniczego
+eksperymentu; przez model sprawdzamy następnie, jakie przyjmuje rozróżnienia, czy
+zachowuje ich granice i jak odpowiada na rozpoznane ryzyka. Ten ruch jest zwrotny:
+wyniki prób mogą prowadzić do korekty pomysłu, a także ujawnić granice przydatności
+samego modelu. Zgodność z nim nie wybiera jednego rozwiązania ani nie zastępuje
+oceny wobec przyjętych wartości i skutków działania.
+
+Jako suplement Baza nie ustanawia praw ani obowiązków i nie służy ocenie
+światopoglądu, członkostwa ani statusu osoby. Jej miejsce względem Konstytucji,
+Wartości i Wizji określa [hierarchia
+normatywna](../../50-constitutional-ops/pl/NORMATIVE-HIERARCHY.pl.md).
+
+Orientację tę nazywamy roboczo **apofatycznym enaktywizmem**.
 
 Nazwa ta łączy dwa pojęcia:
 
@@ -23,19 +42,16 @@ Nazwa ta łączy dwa pojęcia:
   wprost, a każda próba opisu jest interpretacją, a nie odsłonięciem;
 
 - **enaktywny** – poznanie nie polega na budowaniu wewnętrznej reprezentacji świata,
-  lecz na uczestnictwie w nim; narzędzie (w tym AI) staje się częścią poznania, gdy
-  jest włączone w pole uwagi podmiotu.
+  lecz na uczestnictwie w nim; narzędzie (w tym AI) może współtworzyć poznanie,
+  gdy zostaje włączone w praktykę uwagi i działania podmiotu.
 
-Zestawienie tych dwóch gestów oddaje specyficzną pozycję projektu: fundament jest
-radykalnie bezprzedmiotowy, ale konsekwencje takiego rozpoznania są praktyczne,
-architektoniczne i społeczne.
-
-Właśnie dlatego, że apofatyczny grunt nie daje się zamknąć w przedmiocie ani opisie,
-otwiera zdolność rozpoznawania każdego zjawiska i niewykluczania z góry żadnego
-poziomu doświadczenia ani rozumowania. Staje się więc poniekąd warunkiem enaktywnego
-ujęcia, które dopowiada, że każdy taki poziom działa w relacji
-uczestnictwa. W architekturze przekładamy to na wymóg przezroczystości: poziom ma być
-widoczny jako warstwa, relacja, interpretacja i możliwy punkt korekty.
+Zestawienie tych dwóch gestów oddaje orientację projektu: apofatyczne zastrzeżenie
+powstrzymuje nas przed utożsamieniem fundamentu z przedmiotem lub opisem, a enaktywne
+ujęcie kieruje uwagę ku relacjom uczestnictwa. Wraz z przyjętą wartością otwartości
+skłania nas to do niewykluczania z góry żadnego poziomu doświadczenia ani
+rozumowania. W architekturze przyjmujemy odpowiadające temu kryterium
+przezroczystości: poziom ma być widoczny jako warstwa, relacja, interpretacja
+i możliwy punkt korekty.
 
 ## Pięć postulatów
 
@@ -83,24 +99,14 @@ jest świadomością, czymś, co do niej dociera, ani otoczeniem, wraz z który
 zawiązuje. Wszystkie te rozróżnienia należą już do opisywanego krajobrazu
 doświadczenia.
 
-Nie wypowiadamy się o tym, co leży poza zakresem modelu. Możemy opisywać jedynie
-funkcję znacznika poziomu zerowego: wyznacza on granicę modelu, podobnie jak reguła
-abstrakcji wyznacza warunek możliwości zawiązywania. Wszystkie poniższe własności
-odnoszą się do tej funkcji, a nie do tego, co pozostaje poza możliwością orzekania.
+Nie wypowiadamy się o tym, co leży poza zakresem modelu. Opisujemy jedynie funkcję
+znacznika poziomu zerowego: wskazuje on granicę orzekania, nie przyczynę zjawisk,
+wykonawcę ani zasób, który można dzielić lub zużywać.
 
-Nie jest to instrukcja, którą coś wykonuje, ani nakaz, którego coś przestrzega. Nie
-można jej również dzielić na porcje: nie wyczerpuje się ani nie stosuje
-częściowo. Nie wynika to z obfitości jakiegoś źródła, lecz z tego, że reguła nie jest
-mierzalnym zasobem. Nie jest też jednym z wyrażeń rachunku, dla którego stanowi
-warunek możliwości. Nie można więc zapisać jej wewnątrz tego rachunku ani zbadać jego
-własnymi środkami.
-
-Nieopisywalność ma tu dwa źródła i warto je rozdzielić. To, co poza granicą,
-pozostaje nieorzekalne z definicji, ponieważ granicę wyznacza zasięg naszego
-orzekania. Sama rola modelowa jest natomiast nieopisywalna strukturalnie: opis
-wymagałby orzekania o meta-poziomie językiem poziomu obiektowego, czyli dokładnie tej
-wspomnianej później "kradzieży ontologii", której zakazuje granica warstw jako
-granica sensu.
+Warto rozdzielić dwa ograniczenia. O tym, co poza granicą, model nie orzeka
+z definicji. Rolę samego znacznika możemy natomiast objaśnić w metaopisie, lecz
+nie przypisywać jej elementom opisywanego świata. Takie przeniesienie mieszałoby
+poziomy, prowadząc do omawianej dalej "kradzieży ontologii".
 
 Mniej formalnie można powiedzieć, że świadomość jest realizacją podatności na
 zjawianie w obecności tego, co się zjawia – z zastrzeżeniem, że "podatność" jest tu
@@ -111,10 +117,9 @@ doświadczania nigdy nie jest przy tym doświadczana jako nieobecność, więc "
 w doświadczaniu jest zawsze rekonstrukcją wykonaną z wnętrza doświadczania, a nie
 obserwacją z zewnątrz.
 
-Obrazem, który to porządkuje, może być rachunek funkcji znany z programowania: reguła
-abstrakcji pozwala zawiązywać tak zwane domknięcia, sama nie będąc żadnym
-z nich. Traktujemy go wyłącznie jako model ilustracyjny. Nie dziedziczymy wraz z nim
-maszynerii redukcji ani porządku obliczania.
+Pomocniczą analogię domknięcia, ilustrującą konstytutywną rolę kontekstu, rozwijamy
+dalej przy modelu osoby. Nie służy ona wyjaśnianiu poziomu zero ani utożsamieniu
+świadomości z obliczeniem.
 
 **Zakotwiczenie w znanych tradycjach:** apofatyzm (łac. *via negativa*,
 skt. *śūnyatā*), ale z jawnym epistemicznym ogranicznikiem i autorozpoznaniem
@@ -137,21 +142,24 @@ Dwufazowość jest bliska gendlinowskiemu przejściu od *felt sense* do symboliz
 z tą różnicą, że impuls jest tu słabiej uformowany pojęciowo niż doświadczenie
 ukształtowane przez interpretację.
 
-**Konsekwencje dla DIA:** wartość higieny epistemicznej, stratyfikacji źródłowej
-pozycji doświadczeń i epistemicznej odwagi wyrasta bezpośrednio stąd. System nie
-udaje, że posiada dostęp do prawdy obiektywnej – operuje interpretacjami, "wie" o tym
-i wobec tego projektuje pętle korekty.
+**Znaczenie dla DIA:** z tej orientacji wyrastają przyjęte przez projekt wartości
+higieny epistemicznej, stratyfikacji źródłowej pozycji doświadczeń i epistemicznej
+odwagi. Projektujemy system tak, aby zachowywał pochodzenie i zakres twierdzeń,
+ujawniał rozpoznaną niepewność oraz umożliwiał korektę. To kierunek projektowania,
+nie przypisanie systemowi refleksyjnej wiedzy o sobie. Zakres egzekwowania tych
+zasad określają kontrakty i dowody implementacyjne.
 
 ### Stratyfikacja doświadczenia
 
-Ludzkie doświadczenie ma architekturę warstwową:
+Ludzkie doświadczenie opisujemy za pomocą architektury warstwowej.
 
-* 0 (podstawa)
-    * 0.1 (świadomość)
-        * 0.1.1. (podmiotowość)
-            * 0.1.1.1. osoba
-                * 0.1.1.1.1. kultura
-                    * 0.1.1.1.1.1. obiektywność
+**Poziom zero (∅): znacznik granicy modelu, poza układem opisywanych warstw.**
+
+* świadomość
+    * podmiotowość
+        * osoba
+            * kultura
+                * obiektywność
 
 Uwaga: Powyżej zaproponowany *ad-hoc* model ma demonstrować relację
 abstrahowania. Różne praktyczne bądź analityczne podejścia mogą w bardziej lub mniej
@@ -169,9 +177,9 @@ się konkretem dla wyższej. Żaden z tych porządków nie wyznacza większej p
 ani wartości, a konkret nie jest bytem bardziej realnym ani bardziej przedmiotowym.
 
 Poziom zerowy nie jest ani głębszą warstwą świadomości, ani wyższą abstrakcją nad
-nią, lecz umownym znacznikiem granicy, należącym do meta-porządku opisu. Został
-umieszczony w diagramie dla czytelności, przy czym samo nadanie mu miejsca w szeregu
-jest już aktem determinacji.
+nią, lecz umownym znacznikiem granicy, należącym do meta-porządku opisu. Dlatego
+pozostaje poza zagnieżdżeniem: nie jest wspólnym przodkiem warstw ani dodatkowym
+ogniwem ich genealogii.
 
 Możemy zauważyć, że każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety
 niższych warstw stają się budulcem wyższych – analogicznie do *stratified design*
@@ -245,8 +253,7 @@ tego, jak redukcja i organizacja otwierają wskazane możliwości.
 
 #### Asymetria przekładu
 
-Z wcześniejszej tabeli aktów wynika, że przekład między warstwami nie ma kanonicznej
-odwrotności.
+W przyjętym modelu przekład między warstwami nie ma kanonicznej odwrotności.
 Ruch ku wyższym warstwom działa dwojako: redukuje fakturę niższej warstwy, scalając
 wiele możliwych konkretów w jeden abstrakt, a zarazem dodaje determinacje właściwe
 warstwie przyjmującej. Redukcja jest odwzorowaniem wiele-do-jednego, więc z samego
@@ -278,8 +285,8 @@ porównywalnych rozróżnień.
 #### Zakres uzasadnienia i kontrakty przejścia
 
 Warstwy nie dziedziczą automatycznie swoich uzasadnień. Obserwacja, korelacja lub
-wyjaśnienie sformułowane w jednej warstwie bezpośrednio uzasadnia jedynie twierdzenie
-należące do tej samej warstwy, skali i ziarnistości. Przeniesienie wniosku do innej
+wyjaśnienie sformułowane w jednej warstwie może bezpośrednio wspierać jedynie
+twierdzenie należące do tej samej warstwy, skali i ziarnistości. Przeniesienie wniosku do innej
 warstwy wymaga jawnego **kontraktu przejścia**. Kontrakt taki określa relację między
 warstwami, cel i zakres przeniesienia, ziarnistość i skalę, granicę badanego układu,
 zachowane, utracone i nowo dodane rozróżnienia oraz warunki, w których przejście
@@ -299,8 +306,8 @@ Brak takiego kontraktu nie uzasadnia twierdzenia przeciwnego. Pełnoprawnym wyni
 poznawczym może być powstrzymanie się od rozstrzygnięcia. "Nie wiem" nie oznacza
 wówczas braku modelu, lecz precyzyjne rozpoznanie miejsca, w którym kończy się jego
 zdolność zachowywania rozróżnień potrzebnych do odpowiedzi. Tak rozumiany kontrakt
-jest naturalną konsekwencją genealogii doświadczenia i praktyką poznawczej
-uczciwości: zachowuje lokalną moc twierdzenia bez dopisywania mu zasięgu, którego nie
+przenosi rozróżnienia genealogii doświadczenia do praktyki poznawczej uczciwości:
+zachowuje lokalną moc twierdzenia bez dopisywania mu zasięgu, którego nie
 potrafimy uzasadnić. Poniższy model progów konstytuowania rozwija mechanikę takich
 przejść.
 
@@ -445,11 +452,12 @@ doświadczenia, lecz jako czasowe rozluźnianie wybranych kompresji. Uwidacznia 
 koszt i przygodność, po czym doświadczenie zawiązuje się ponownie – być może
 z gramatyką mniej sztywną, lecz nigdy jako odzyskany oryginał.
 
-**Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber), ale z dwoma
-istotnymi różnicami – architektoniczną precyzją *stratified design* oraz *drilling
-through abstractions*, którego holarchie nie modelują. Proces budowania warstw jest
-bliski enaktywnej autopojezie (Varela, Thompson), ale rozciągnięty na kulturę
-i obiektywność. Dla organicznego progu podmiotowości regionalnych narzędzi dostarczają
+**Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber) są punktem
+odniesienia dla zagnieżdżenia; *stratified design* dla lokalnych języków i kontraktów,
+a *drilling through abstractions* dla badania ich granic. Enaktywna autopojeza
+(Varela, Thompson) inspiruje ujęcie konstytutywnych sprzężeń. Jej użycie przy kulturze
+i obiektywności wymaga osobnych uzasadnień. Dla organicznego progu podmiotowości
+regionalnych narzędzi dostarczają
 ponadto [*Umwelt* Jakoba von
 Uexkülla](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
 [Gibsonowskie *affordances*](https://doi.org/10.4324/9781315740218-18) oraz
@@ -458,12 +466,12 @@ Pozostałe progi mają własne regionalne zaplecze w psychologii rozwojowej i 
 nad osobą, semiotyce i antropologii oraz epistemologii, teorii pomiaru i filozofii
 nauki. Żadna z tych tradycji nie wyjaśnia sama całego szeregu progów.
 
-**Konsekwencje dla DIA:** cała architektura roju – węzeł, agent, memarium, sensorium,
-inquirium i protokół – jest zaprojektowana warstwowo w duchu stratyfikacji. Wartość *oddzielania
-poziomów* i kontrakt warstw w Orbipleksie są bezpośrednim przeniesieniem tego
-postulatu na inżynierię. Zasada, że "wyższe warstwy nie mogą odklejać się od
-fundamentu", chroni inteligencję zbiorową przed stawaniem się PR-owcem niskich
-pobudek. Nową warstwę uzasadnia nie sama nazwa modułu, lecz jawny operator redukcji,
+**Znaczenie dla DIA:** architekturę roju – węzeł, agent, memarium, sensorium,
+inquirium i protokół – projektujemy warstwowo w duchu stratyfikacji. Wartość
+*oddzielania poziomów* łączymy z inżynierskimi kryteriami niskiego sprzężenia,
+testowalności i jawnej odpowiedzialności. Postulat pomaga rozpoznać granice znaczeń;
+nie wyznacza sam nazw komponentów ani ich jedynego podziału. Nową warstwę uzasadnia
+nie sama nazwa modułu, lecz jawny operator redukcji,
 poniesiona strata, stabilizowany niezmiennik, lokalna gramatyka oraz nowe operacje,
 za które warstwa bierze odpowiedzialność.
 
@@ -477,24 +485,40 @@ innych", gdy się uśmiechamy. Pytanie "czy AI ma świadomość?" pozostaje otwa
 nie wystarcza do opisania tej relacji; operacyjnie trafniejsze jest pytanie:
 "w jakiej relacji uczestnictwa jesteśmy?".
 
+Analogia dotyczy włączenia zewnętrznej zdolności w przebieg własnego działania.
+LLM jako zewnętrzne źródło zdolności kombinacyjnych może współtworzyć proces pytania,
+kojarzenia i rozpoznawania możliwości. Taki udział może być bezpośrednio
+doświadczany enaktywnie, podobnie jak udział koronki w gryzieniu. Nie wymaga to
+utożsamienia sprzężenia cielesnego z językowym ani rozstrzygnięcia, czy narzędzie
+samo doświadcza. Świadectwo relacji zachowuje własny zakres poznawczy.
+
+Sama obecność narzędzia w polu uwagi nie określa jeszcze jego roli w działaniu.
+Rozróżniamy chwilowe zwrócenie uwagi, pojedynczy udział w czynności i trwałe,
+podtrzymywane sprzężenie. Ich zakres rozpoznajemy w konkretnej praktyce, a nie
+na podstawie samej nazwy narzędzia lub długości korzystania z niego.
+
 Pierwszoosobowa introspekcja jest tu nieredukowalną metodą badania tego
 uczestnictwa. Nie jest to filozofia do przyjęcia, lecz ćwiczenie do wykonania:
 np. zdolność zauważenia myśli w taki sposób, jak zauważamy chłód wiatru na twarzy.
 
-Ta sama logika uczestnictwa rządzi też komunikacją: przekaz jest poliwersyjny,
-a odbiorca nie odbiera gotowego znaczenia, lecz je *enaktuje*, integrując przekaz
-z własnej pozycji, języka i pamięci. Odpowiedzialność za scalenie sensu spoczywa więc
-na odbiorcy, nie na nośniku. Traktowanie przekazu jako jednej, gotowej "rzeczy do
-odczytania" jest trybem reifikującym, zaś znaczenie żyje bardziej w relacji
-uczestnictwa, niż w samym medium.
+W tym ujęciu również przekaz jest poliwersyjny: odbiorca nie odbiera gotowego
+znaczenia, lecz je *enaktuje*, integrując przekaz z własnej pozycji, języka i pamięci.
+Znaczenie zawiązuje się po stronie odbiorcy w relacji z przekazem, kontekstem
+i własnym doświadczeniem. Nie zwalnia to nadawcy, projektanta ani operatora systemu
+z odpowiedzialności za treść, sposób jej podania i przewidywalne skutki.
+Odpowiedzialności te mają różne zakresy i nie zastępują się wzajemnie. Traktowanie
+przekazu jako jednej, gotowej "rzeczy do odczytania" jest trybem reifikującym;
+relacyjne powstawanie znaczenia nie czyni jednak medium obojętnym ani nie usuwa
+odpowiedzialności za komunikację.
 
 **Zakotwiczenie w znanych tradycjach:** enaktywizm (Varela, Thompson, Rosch),
 neurofenomenologia, pragmatyzm (James, *duck typing* jako kryterium). Różni się od
 tych nurtów analitycznej filozofii umysłu, które ograniczają badanie do perspektywy
 trzeciej osoby.
 
-**Konsekwencje dla DIA:** wartość *procesu osoby ludzkiej jako domyślnej ścieżki
-mocy* — największa moc systemu przechodzi przez człowieka, nie obok niego. Rój nie
+**Znaczenie dla DIA:** wraz z przyjętą ochroną sprawczości człowieka orientacja ta
+wspiera wartość *procesu osoby ludzkiej jako domyślnej ścieżki mocy* — największa
+moc systemu przechodzi przez człowieka, nie obok niego. Rój nie
 jest autonomicznym podmiotem, lecz narzędziem, które wydłuża sprawczość. Wartość
 emocji i znaczeń jako telemetrii — odczucia użytkownika są informacją o jakości
 dopasowania systemu do życia, a nie szumem do wyciszenia.
@@ -530,7 +554,7 @@ kontroli, wprowadzając do systemu cierpienie.
 krytyka proliferacji pojęciowej (pali. *papañca*). Bliskie Vareli w krytyce obliczeniowej
 teorii umysłu, ale rozszerzone o społeczny wymiar detronizacji.
 
-**Konsekwencje dla DIA:** wartość współpracy ponad dominacją intelektu – rój
+**Znaczenie dla DIA:** wartość współpracy ponad dominacją intelektu – rój
 przejmuje część ciężaru analizy, aby ludzie nie musieli wymuszać wzajemnej zgodności
 poglądów jako warunku wstępnego współdziałania. Wartość wieloparadygmatowości –
 świat nie jest jedną ontologią; system trzyma wiele trybów poznawczych bez wojny
@@ -538,35 +562,49 @@ ideologicznej. Wartość anty-sekciarstwa — projekt wybiera higienę zamiast 
 
 ### Intencja jako siła systemowa
 
-Intencja nie jest etykietą moralną, lecz wektorem organizującym system – analogicznie
-do kierunku w fizyce. Działa zawsze, niezależnie od tego, czy jest uświadomiona:
-konstrukcja finansowania, która premiuje profit, potrafi wypaczać intencje nawet bez
-jawnej woli krzywdy.
+Intencja uczestnika, deklarowany cel organizacji i faktycznie działające bodźce
+to trzy powiązane, lecz odrębne rzeczy. Intencja dotyczy tego, ku czemu osoba
+kieruje działanie, także gdy nie umie jeszcze w pełni nazwać swoich motywów.
+Deklarowany cel określa to, do czego organizacja publicznie się zobowiązuje.
+Bodźce – finansowanie, metryki, nagrody, sankcje i warunki pracy – wpływają na to,
+jakie działania są podtrzymywane w praktyce. Nie stanowią dowodu intencji osób
+ani nie stają się zbiorowym podmiotem, któremu można przypisać jeden motyw.
 
-Różnica jest w korygowalności: świadoma intencja jest łatwiejsza do poprawienia. Stąd
-introspekcja – zdolność widzenia, co chce wygrać, zanim zaczniemy to racjonalizować —
-nie jest "luksusem kontemplacyjnym", lecz warunkiem odpowiedzialnego projektowania
-systemów i działania w świecie.
+Te trzy porządki mogą się wspierać albo rozchodzić. Finansowanie premiujące zysk
+kosztem innych celów potrafi wypaczać działanie mimo intencji nieszkodzenia.
+Ocena wymaga więc zestawienia deklaracji, warunków działania i skutków, nie samego
+zaufania do dobrych motywów.
+
+Introspekcja pomaga zauważać własne motywy i automatyzmy, zanim zostaną
+zracjonalizowane. Jej rozpoznania pozostają omylne. Wspieramy tę praktykę, lecz
+nie czynimy z niej obowiązku uczestnictwa ani kwalifikacji do odpowiedzialnego
+projektowania. Zabezpieczenia wspólnej pracy opieramy również na przeglądzie przez
+innych, ujawnianiu konfliktów interesów, jawnych decyzjach i korekcie opartej na
+skutkach. Deklarowana szczerość lub głębia introspekcji nie zastępuje tych procedur
+ani nie nadaje dodatkowej władzy.
 
 W erze taniej inteligencji drożeje zdolność znoszenia dyskomfortu i korekty kursu:
-odpowiedzialność. Nośnikiem rangi bardziej staje się intencja niż efektywność.
+odpowiedzialność. Sprawność działania oceniamy wraz z kierunkiem, któremu służy,
+i gotowością do odpowiadania za jego skutki.
 
 **Zakotwiczenie w znanych tradycjach:** filozofia procesu (Whitehead – proces zamiast
 substancji), etyka cnót w reinterpretacji systemowej, buddyjska *cetanā* (intencja
-jako organizator karmicznego strumienia). Różni się od konsekwencjalizmu (który
-pomija intencję) i od deontologii (która ją absolutyzuje).
+jako organizator karmicznego strumienia). Są to punkty odniesienia dla różnych
+aspektów: procesualności, pracy nad dyspozycjami i roli intencji. Nie utożsamiamy
+przez to motywu osoby z celem instytucji ani z mechanizmem bodźców.
 
-**Konsekwencje dla DIA:** wartość weryfikowalności zamiast wiary – prawda jako pętla
-sprzężenia zwrotnego (introspekcja → szczerość motywów → weryfikacja hipotez →
-korekta). Wartość przejrzystości sprawczości – agent musi umieć powiedzieć dlaczego
-coś zrobił. Całość ekonomii roju – tzw. *creator credits*, wzajemność bez
-księgowości, dostatek ponad akumulację – jest zaprojektowana tak, aby konstrukcja
-finansowania nie wypaczała intencji uczestników.
+**Znaczenie dla DIA:** wartość weryfikowalności zamiast wiary – deklaracje motywów
+i hipotezy konfrontujemy ze skutkami, zachowując możliwość korekty. Wartość
+przejrzystości sprawczości – oczekujemy czytelnego śladu podstaw działania agenta,
+nie tylko przekonującego wyjaśnienia. Przyjęte cele ekonomii roju, takie jak
+wzajemność i dostatek ponad akumulację, opisuje osobno [Ekonomia sprawczej
+wzajemności](ECONOMY-OF-AGENTIC-MUTUALITY.pl.md). Skuteczność jej mechanizmów wymaga
+sprawdzania; nie jest zagwarantowana zgodnością z filozoficzną orientacją projektu.
 
 ## Osoba jako proces stratyfikacyjny
 
-Poniższe rozwinięcie nie ustanawia szóstego postulatu, lecz składa przede wszystkim
-konsekwencje postulatów 1–4 w roboczy model powstawania, trwania i poznawania osoby.
+Poniższe rozwinięcie nie ustanawia szóstego postulatu, lecz rozwija intuicje
+postulatów 1–4 w roboczy model powstawania, trwania i poznawania osoby.
 
 ### Domknięcie doświadczenia
 
@@ -661,7 +699,7 @@ kolejną reifikacją.
 
 ### Trwałość osoby
 
-Trwałość tak powstałej osoby (z warstwy 0.1.1.1) wymaga osobnego wyjaśnienia.
+Trwałość tak powstałej osoby wymaga osobnego wyjaśnienia.
 Anonimowe domknięcia nie dostarczają jej bowiem predefiniowanego, ukrytego
 nosiciela. Jednym z roboczych modeli zgodnych z tym założeniem jest osoba jako
 identyfikator intensjonalny: nie wskaźnik do trwającego obiektu, lecz opis wciąż na
@@ -740,10 +778,13 @@ dłuższego okna czasu. Poszerzanie się funkcjonowania stanowi omylną przesła
 a nie dowód; model nie daje licencji do samodzielnego certyfikowania własnej
 "głębi" ani hierarchizowania innych osób.
 
-**Zakotwiczenie w znanych tradycjach:** wyrażona językiem rekursji i kontekstu
-antysubstancjalistyczna teoria osoby jako samopodtrzymującego się wzorca
-intensjonalnego najbardziej przypomina syntezę podejść Gallaghera, Dennetta
-i enaktywizmu. Społeczny wymiar tego procesu jest bliski społecznej teorii jaźni
+**Zakotwiczenie w znanych tradycjach:** model ma wybrane punkty wspólne
+z wieloaspektowym wzorcem osoby u Gallaghera, niesubstancjalnym centrum organizacji
+narracyjnej u Dennetta i konstytutywną rolą sprzężeń w enaktywizmie. Są to zbieżności
+dotyczące różnych aspektów, nie uzgodnienie całych teorii. Model identyfikatora
+intensjonalnego opisuje pewien aspekt ciągłości i samoodniesienia; sprawność pamięci
+lub narracji nie jest tu testem godności ani statusu osoby. Społeczny wymiar tego
+procesu jest bliski społecznej teorii jaźni
 G.H. Meada, zwłaszcza mechanizmowi przyjmowania postawy "uogólnionego innego"
 ("Mind, Self, and Society", 1934), oraz Wygotskiego tezie o społecznym pochodzeniu
 i internalizacji wyższych funkcji psychicznych ("Mind in Society", 1978).
@@ -755,9 +796,12 @@ w czasie.
 
 ## Jak postulaty łączą się z architekturą
 
-Pięć postulatów nie jest oddzielną "filozofią" przyklejoną do projektu technicznego.
-Są one raczej fundamentem, z którego wyrastają wartości, a z nich zapisy
-konstytucyjne, kontrakty i schematy danych:
+Pięć postulatów pomaga wyjaśnić genezę i spójność przyjętych wartości. Wartości
+wskazują, co chcemy chronić, Wizja składa je w kierunek działania, a Konstytucja
+określa obowiązki i granice władzy. Decyzje projektowe dodają kontekst, ograniczenia
+i argumenty za konkretną realizacją; kontrakty i schematy określają jej dokładną
+semantykę. Poniższe związki są genealogią znaczeń, nie dedukcją jedynego rozwiązania
+ani hierarchią mocy normatywnej:
 
 * postulat 1 (apofatyczny fundament):
   higiena epistemiczna, odmowa reifikacji, pętla korekty;
@@ -774,7 +818,7 @@ konstytucyjne, kontrakty i schematy danych:
 * postulat 5 (intencja jako siła systemowa):
   przejrzystość sprawczości, ekonomia sprawczej wzajemności, odwaga epistemiczna.
 
-W praktyce oznacza to jedno kryterium projektowe: **architektura ma wspierać świadome
+Jako wspólne kryterium projektowe przyjmujemy: **architektura ma wspierać świadome
 zamieszkiwanie w interpretacji** – z pętlami korekty, odmową reifikacji prawdy jako
 statusu, ochroną różnorodności jako źródła nowości i z jawnym odnotowywaniem granic
 poznania.
@@ -791,38 +835,35 @@ Dla czytelnika chcącego osadzić opisane wcześniej postulaty w znanym krajobr
 
 **Neurofenomenologia** (Francisco Varela): perspektywa pierwszej osoby jako metoda
 naukowa; wzajemne ograniczenia między danymi fenomenologicznymi i neuronaukowymi.
-Apofatyczny enaktywizm podziela metodę, lecz przesuwa granicę modelu ku temu, co mniej
+W tym dokumencie czerpiemy z tej metody, kierując uwagę ku temu, co mniej
 zdeterminowane niż uformowane doświadczenie i nie jest z nim tożsame.
 
 **Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
-reprezentacja; autopojeza jako model samoorganizacji. Apofatyczny enaktywizm podziela
-epistemologię, ale dodaje apofatyczny gest wobec fundamentu i architekturę warstw
-doświadczenia (ang. *stratified design*), której enaktywizm nie modeluje.
+reprezentacja; autopojeza jako model samoorganizacji. Wykorzystujemy te inspiracje
+w zestawieniu z apofatycznym gestem wobec fundamentu i roboczą genealogią warstw
+doświadczenia. Zastosowanie *stratified design* jest naszym wyborem metody opisu.
 
 **Filozofia procesu** (Whitehead, James): procesy zamiast substancji; "czyste
-doświadczenie" jako to, co poprzedza podział podmiotowo-przedmiotowy. Apofatyczny
-enaktywizm podziela odmowę substancjalizacji, ale dodaje autorozpoznanie
-efemeryczności świadomości (nawet "czyste doświadczenie" jest warunkowane) oraz
-pragmatykę intencji jako siły systemowej.
+doświadczenie" jako to, co poprzedza podział podmiotowo-przedmiotowy. Odmowa
+substancjalizacji jest punktem wspólnym. W naszym modelu obejmuje również
+świadomość: nawet "czyste doświadczenie" pozostaje warunkowane.
 
 **Madhjamaka** (Nāgārjuna): pustość samoistnienia, współzależne powstawanie,
-konwencjonalna prawda jako jedyny dostępny tryb operowania. Apofatyczny enaktywizm
-podziela odmowę reifikacji i zgodne rozluźnienie z paradoksem, ale dodaje warstwową
-architekturę konsekwencji (od poziomu zero po obiektywność) i jej przełożenie na
-inżynierię systemów.
+konwencjonalna prawda jako dostępny tryb operowania. Czerpiemy z odmowy reifikacji
+i gotowości pozostawania z paradoksem. Zastosowanie tej dyscypliny do genealogii
+doświadczenia oraz granic oprogramowania jest osobnym krokiem interpretacyjnym.
 
-Żadna z tych tradycji nie łączy jednocześnie: apofatycznego fundamentu
-z autorozpoznaniem efemeryczności, warstwowym układem jako modelem poziomów
-doświadczenia, enaktywnego uczestnictwa AI w polu uwagi, detronizacji intelektu jako
-warunku współpracy i intencji jako siły systemowej. To połączenie jest specyficzne
-dla projektu DIA/Orbiplex i wyrasta z praktyki na przecięciu inżynierii
-oprogramowania, bezpieczeństwa systemów i kontemplacyjnej introspekcji.
+W DIA/Orbipleksie zestawiamy te inspiracje, aby rozwijać dyscyplinę rozpoznawania
+granic modeli i przekładów między warstwami. Opisujemy własny dobór i zastosowanie,
+bez roszczenia do pierwszeństwa syntezy lub uzupełnienia całych tradycji. Praktycznym
+polem tego spotkania są inżynieria oprogramowania, bezpieczeństwo systemów
+i kontemplacyjna introspekcja.
 
 ### Systemy przetwarzania informacji
 
-Gdy enaktywistyczne i procesualne podejście stratyfikujemy do działającego systemu,
-dostajemy coś więcej niż odroczone przetwarzanie danych. Dostajemy dyscyplinę
-projektowania, w której wiązanie znaczeń jest świadome i lokalne.
+W inżynierii łączymy enaktywne i procesualne inspiracje z przyjętymi wartościami
+oraz kryteriami testowalności, bezpieczeństwa i niskiego sprzężenia. W ten sposób
+rozwijamy dyscyplinę projektowania, w której wiązanie znaczeń jest jawne i lokalne.
 
 1. **Kontrakty zamiast przedwczesnych klas bytów.**
 
@@ -848,6 +889,19 @@ projektowania, w której wiązanie znaczeń jest świadome i lokalne.
     zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej. Przykładem
     takiej kradzieży w górę jest żądanie, aby ład społeczny był bezimienny na tej
     podstawie, że bezimienne są zawiązania doświadczenia.
+
+    Cztery praktyczne przykłady niedopuszczalnego awansu uzasadnienia:
+
+    - poprawny podpis nie dowodzi prawdziwości podpisanej treści;
+    - lokalny transport nie dowodzi lokalnego wykonania inferencji;
+    - zgodność danych ze schematem nie nadaje uprawnienia do działania;
+    - zapis deklaracji w Memarium nie potwierdza jej prawdziwości o świecie.
+
+    Każde takie przejście wymaga osobnego uzasadnienia właściwego warstwie docelowej;
+    przy jego braku roszczenie pozostaje niepotwierdzone. Schemat sprawdza część
+    kontraktu danych, a semantyka, uprawnienia i skutki wymagają odpowiednich
+    walidatorów oraz testów. Ich właścicieli, negatywne przypadki i stan wdrożenia
+    określają dokumenty projektowe i implementacyjne.
 
 5. **Walidacja na brzegach jako akt lokalnego dookreślenia.**
 
@@ -910,8 +964,8 @@ istotne dla swojego kontraktu, nadaje powstałej projekcji nazwę i granice, a�
 udostępnia ją jako nowy konkret warstwie wyższej. W opisanym wyżej sensie "konkret"
 oznacza rolę względem warstwy, nie większą realność, przedmiotowość ani prawdziwość.
 
-Dzięki temu system unika przypadkowej reifikacji: rzeczy powstają tam, gdzie są
-potrzebne, i tylko w zakresie oraz kształcie, w których dane *stratum* powinno brać
+Takie projektowanie ogranicza ryzyko przypadkowej reifikacji: rzeczy powstają tam,
+gdzie są potrzebne, i tylko w zakresie oraz kształcie, w których dane *stratum* powinno brać
 za nie odpowiedzialność. Tak tworzone warstwy abstrakcji są więc kontekstem
 poznawczym i technicznym. Pozwalają nie myśleć o wszystkich zależnościach naraz. To
 nie jest ucieczka od złożoności, lecz uczciwe porcjowanie jej w taki sposób, aby
@@ -929,33 +983,34 @@ medium, ekonomię i nawyk – nie awaria pojedynczej warstwy, lecz zastygnięc
 stosu. Świadomie utrzymywana stratyfikacja pozwala działać w drugą stronę: upłynnia
 to, co *reverse adaptation* zdążyła usztywnić.
 
-#### Inferencja do architektury
+<span id="inferencja-do-architektury"></span>
 
-Gdy wspomniany w drugim postulacie gradient poziomów doświadczania odniesiemy do
-matrycy architektury oprogramowania, otrzymujemy mapę **kontraktów
-i brzegów**. Warstwy stają się warstwami przetwarzania danych, zaś akty operacjami
-admisji. Chroni to m.in. przed reifikacją i przedwczesnym wiązaniem zjawisk
-w obiekty.
+#### Przykładowe zastosowanie w architekturze
+
+Poniższa mapa **kontraktów i brzegów** zestawia wybrane akty determinacji
+z operacjami oprogramowania. Ilustruje funkcjonalne podobieństwa, nie odwzorowanie
+jeden-do-jednego, obowiązkowy pipeline ani wyprowadzenie komponentów z genealogii
+doświadczenia. Każde zastosowanie zachowuje własny kontrakt i zakres uzasadnienia.
 
 | stan (*co?*) | akt (*jak?*) | warstwa/operacja Orbipleksu |
 |---|---|---|
 | fenomen | jawienie się | surowy sygnał na brzegu (przed przyjęciem) |
 | postać / coś | różnicowanie, wyodrębnienie | Sensorium: candidate → admitted `sensorium-observation.v1` (id, ttl, metadata admisji) |
 | znak | odniesienie | `artifact-object-pointer.v1` / refs – coś zaczyna *wskazywać* |
-| znaczenie | usensownienie | `classification.v1` – brzeg, na którym wiąże się tier i sens |
+| znaczenie | usensownienie | wybrany sens operacyjny: `classification.v1` wiąże klasyfikację prywatności i warunki przepływu danych, nie pełnię ich znaczenia |
 | pojęcie | uogólnienie | schemat / taksonomia (schema-gate, `taxonomy/id`) |
 | przedmiot | instancjonowanie | intencjonalny obiekt domeny: `corpus-reasoning-query`, `RoomSubject` |
-| obiekt | obiektywizacja | trwały fakt: zapis Memarium, *facts-before-effects* |
+| obiekt | obiektywizacja | trwały fakt zapisu obserwacji lub deklaracji w Memarium, *facts-before-effects*; zapis nie poświadcza prawdziwości treści |
 | rzecz | urzeczowienie | rekord współdzielony federacyjnie: Agora topic-addressed record, tier Public, `federation-root` |
 
-Jest to ta sama oś, wzdłuż której już egzekwujemy stratyfikację brzeg → admisja →
-klasyfikacja → obiekt domenowy → trwały fakt → rekord federacyjny. **Oś aktów jest
-wyliczeniem brzegów, na których działają bramki walidacji**. Nie jest już tylko
-uogólnioną obserwacją, lecz wykazem rodzajów elementów w architekturze.
+Ten przykład pomaga wskazać brzegi, na których potrzebne są bramki walidacji
+i jawne reguły przekładu. Nie każda ścieżka przechodzi przez wszystkie wymienione
+operacje lub w tej kolejności. Tabela nie poświadcza również stanu wdrożenia;
+egzekwowanie poszczególnych granic wymaga dowodów w kontraktach i implementacji.
 
 Zauważmy, że kierunek tej osi to rosnące powiązanie, a nie rosnąca prawdziwość:
-rekord federacyjny jest terminalem aktów determinacji, a nie źródłem prawdy, do
-którego niższe warstwy miałyby się dostroić.
+rekord federacyjny zamyka przedstawiony przykład aktów determinacji, a nie staje się
+źródłem prawdy, do którego niższe warstwy miałyby się dostroić.
 
 #### Najbliższe koncepcje architektury informacji
 
@@ -1015,130 +1070,13 @@ moduł jest rolą w przepływie, a nie jest substancją.
 
 ### Ekonomia
 
-Ontologia nie wyznacza sama przez się jednego ustroju gospodarczego. Dostarcza jednak
-kryteriów oceny jego realizacji: czy chroni sprawczość uczestników, ujawnia
-odpowiedzialność, pozostawia prawo wyjścia oraz nie reifikuje własności, rynku ani
-organizacji jako bytów ważniejszych od relacji, którym mają służyć. Poniższy model
-ekonomiczny jest propozycją konsekwentnego zastosowania tych kryteriów do przepływu
-zasobów, pracy oraz uwagi.
+Ontologia pomaga rozpoznawać ukryte założenia modeli gospodarowania, ich granice
+i ryzyko reifikacji. Wybór modelu ekonomicznego wymaga ponadto jawnych wartości:
+w Orbipleksie przyjmujemy ochronę sprawczości osób, wzajemność, pomocniczość i prawo
+wyjścia. Te przesłanki wraz z kontekstem działania wspierają wybraną syntezę,
+nie wyznaczają jednak jedynego ustroju.
 
-Gdy to samo apofatyczno-enaktywne podejście stratyfikujemy nie do przepływu danych,
-lecz do przepływu zasobów, pracy i uwagi, wyłania się określony kształt ekonomii –
-ten sam, który postulat piąty zapowiadał jako *wzajemność bez księgowości*, lecz
-nazwany pełniej.
-
-Nie jest to ani kult rynku, ani jego zniesienie, lecz **ekonomia sprawczej
-wzajemności** (ang. *economy of agentic mutuality*): porządek, w którym własność
-staje się warstwowym protokołem sprawczości, użytkowania, odpowiedzialności
-i wymiany. Nie jest to przypadkowa doktryna doklejona do ontologii, lecz jedna z jej
-konsekwentnych realizacji projektowych.
-
-1. **Własność nie jest substancją, lecz nazwą operacyjną relacji.**
-
-    Ta sama odmowa reifikacji, która nie pozwala `id` orzekać, czym coś "naprawdę
-    jest", nie pozwala też tytułowi własności orzekać, "czyje coś zawsze
-    jest". Pierwsze pytanie nie brzmi "kto ma?", lecz: kto używa, kto ponosi skutki,
-    kto wymaga tego dla przetrwania, według jakiego kontraktu i z jakim prawem
-    wyjścia. Tak rozumianą relację nazywamy **relacją sprawczego użytkowania**
-    (ang. *agentic use-right*): własność nie jest zaprzeczona, ale akcent zostaje
-    przeniesiony na jej funkcję, czyli na lokalnie określony kontrakt uczestnictwa,
-    odpowiedzialności i prawa wyjścia, a nie metafizyczny tytuł dominacji.
-
-2. **Własność osobista jest organem osoby, nie zasobem organizmu.**
-
-    Z enaktywnego uczestnictwa wynika, że ciało, narzędzia, dane, klucze, lokalna
-    pamięć, agenci AI i środowisko pracy nie są "zasobami", których właścicielem
-    miałby być nadrzędny podmiot – korporacja, państwo czy kolektyw. Są przedłużeniem
-    procesu osoby. Skoro największa moc systemu przechodzi przez człowieka, to
-    własność osobista, będąca przedłużeniem jego sprawczości, ma pierwszeństwo ochrony
-    przed każdą formą własności zrzeszonej.
-
-3. **Wyższe formy własności wyrastają z osobistych relacji sprawczości, nie stoją nad
-    nimi.**
-
-    W stratyfikacji konkrety niższych warstw stają się budulcem wyższych, a wyższe
-    nie mogą odklejać się od fundamentu. To założenie przeniesione na własność
-    oznacza, że własność kapitałowa, organizacyjna, wspólnotowa, instytucjonalna
-    i państwowa są wyższymi abstraktami, które muszą być legitymizowane przez żywe
-    relacje używania, pracy, odpowiedzialności i zgody – i tę zależność
-    dziedziczą. Błąd zaczyna się tam, gdzie jedna warstwa "kradnie" ontologię
-    drugiej: gdy fundusz, urząd, spółka, platforma albo kolektyw rości sobie moc
-    silniejszą niż żywa relacja użytkowania, pracy i odpowiedzialności. Zasadę, która
-    temu zapobiega, nazywamy **subsydiarnością sprawczości** (ang. *agentic
-    subsidiarity*): wyższa warstwa działa wobec niższej pomocniczo i nigdy nie
-    zastępuje tego, co osoba i mała wspólnota obsługują same.
-
-4. **Źle ustawiony gradient bodźców wypacza intencje nawet bez złej woli, więc
-    ekonomia celuje w sprawczość, nie w akumulację.**
-
-    Skoro konstrukcja finansowania premiująca profit potrafi wypaczać intencje bez
-    jawnej woli krzywdy, to celem ekonomii wewnętrznej nie może być nieskończone
-    pomnażanie zasobów, lecz podtrzymywanie zdolności do działania. Przewaga nie
-    powinna zamieniać się w trwałą dominację nad ekosystemem. Stąd "dostatek ponad
-    akumulację", środki wymiany nieprzeliczane na reputację, a rynek traktowany jako
-    protokół, nie jako bóg.
-
-5. **Dar i wymiana są dwoma trybami, z których żaden nie zawłaszcza całości.**
-
-    Dar jest domyślnym trybem pomocy, a dobrowolna wymiana jawną usługą kontraktową.
-    Redukcja całej ekonomii do daru wyzyskuje altruizm; redukcja do rynku rozkłada
-    etos wspólnoty. Dlatego w nazwie stoi "wzajemność": wymiana, kontrakt
-    i wynagrodzenie istnieją, ale nie stają się ontologią świata ani źródłem statusu
-    i władzy.
-
-6. **Skala osłabia naturalną regulację, więc decyzja zostaje nisko.**
-
-    Lokalna reputacja, opinia i osobista odpowiedzialność – naturalne mechanizmy
-    korekty – słabną wraz ze wzrostem liczebności wspólnoty; duże kolektywy muszą
-    zastępować je "protezami", które łatwo odklejają się od żywych użytkowników. To
-    kolejny powód, dla którego subsydiarność trzyma decyzję jak najbliżej osoby i małej
-    wspólnoty, zamiast wynosić ją do abstrakcyjnego centrum, które wymaga abstrakcyjnych
-    mechanizmów regulacji sprzyjających biurokracji i unikaniu odpowiedzialności.
-
-Jest to świadomie "droga środka", w tym samym sensie, w którym madhjamaka odmawia
-skrajności istnienia i nieistnienia. Nie przyjmujemy ani modelu, w którym tytuł
-kapitału ma pierwszeństwo przed relacyjną sprawczością osób, ani modelu, w którym
-państwo lub kolektyw zostaje zreifikowany jako wyższy podmiot zdolny zastąpić żywych
-użytkowników.
-
-Powyższe najkrócej obrazuje metafora organizmu. Zdrowy organizm potrzebuje zdrowych
-organów, a żaden nie powinien marnotrawić zasobów ani próbować zastępować
-innego. W tej analogii własność osobista jest organem – źródłowym i chronionym; formy
-kapitałowe, organizacyjne, wspólnotowe, instytucjonalne i państwowe są układami tego
-organizmu. Gdy jakiś układ poświęca organy, całość przestaje dobrze funkcjonować.
-Ekonomia sprawczej wzajemności jest więc nie tyle doktryną podziału, ile naturalną
-konsekwencją higieny warstw: dba o to, by niższa warstwa sprawczości pozostała żywa,
-a wyższe służyły jej, zamiast ją zastępować.
-
-#### Najbliższe kierunki ekonomiczne
-
-Dla czytelnika chcącego osadzić ekonomię sprawczej wzajemności w znanym krajobrazie
-myśli ekonomicznej:
-
-**Ekonomia dóbr wspólnych i policentryczne zarządzanie** (Elinor Ostrom): wspólne
-zasoby nie muszą być skazane ani na prywatyzację, ani na centralne zarządzanie
-państwowe. Mogą być utrzymywane przez użytkowników z wykorzystaniem lokalnych reguł,
-monitoringu, systemów rozwiązywania sporów i adaptacyjnych instytucji. Ekonomia
-sprawczej wzajemności podziela ten nacisk na wspólnoty użytkowników, lokalną wiedzę
-i wielopoziomowe zarządzanie, lecz przesuwa akcent z samej trwałości zasobu na
-ochronę i wzmacnianie sprawczości osób, węzłów i wspólnot.
-
-**Podejście zdolności / capability approach** (Amartya Sen): dobrobyt nie redukuje
-się do dochodu, użyteczności ani posiadanych zasobów, lecz zależy od realnych
-możliwości działania i życia, które dana osoba może faktycznie
-urzeczywistnić. Ekonomia sprawczej wzajemności podziela ten prymat realnej
-sprawczości nad abstrakcyjnym bogactwem, lecz przekłada go na projektowanie relacji
-własnościowych, protokołów, agentów, danych i infrastruktury cyfrowej.
-
-**Ekonomia zakorzeniona społecznie** (Karl Polanyi): gospodarka nie jest
-autonomiczną maszyną rynkową, lecz pozostaje zanurzona w relacjach społecznych,
-normach, instytucjach i formach wzajemności. Ekonomia sprawczej wzajemności podziela
-krytykę rynku jako nadrzędnej ontologii życia społecznego, lecz zamiast
-przeciwstawiać rynkowi jedno centrum polityczne, projektuje warstwową, federacyjną
-i audytowalną infrastrukturę daru, wymiany, użytkowania i wspólnej pieczy.
-
-Żadna z tych tradycji nie jest tożsama z ekonomią sprawczej wzajemności. Najbliżej
-jej do przecięcia: ostromowskiego współzarządzania dobrami wspólnymi, senowskiej
-sprawczości i polanyiańskiego zakorzenienia gospodarki w relacjach społecznych. Jej
-własny akcent polega na tym, że własność, wymiana i wspólne zasoby są traktowane jako
-protokoły wzmacniania sprawczości, a nie jako autonomiczne tytuły dominacji.
+Osobny dokument [Ekonomia sprawczej wzajemności](ECONOMY-OF-AGENTIC-MUTUALITY.pl.md)
+rozwija te związki, rozdzielając filozoficzne inspiracje, przyjęte wartości,
+hipotezy projektowe i obowiązujące rozstrzygnięcia konstytucyjne. Suplement
+objaśnia ich sens, nie ustanawia nowych praw ani obowiązków.

@@ -149,8 +149,9 @@ Obrazowo: zdrowy organizm potrzebuje zdrowych organów; żaden organ nie powinie
 marnotrawić zasobów ani próbować zastępować innego. Nie przyjmujemy ani modelu,
 w którym tytuł kapitału ma pierwszeństwo przed sprawczością osób, ani modelu, w którym
 państwo lub kolektyw zostaje zreifikowany jako wyższy podmiot zdolny zastąpić żywych
-użytkowników. Pełne wyprowadzenie tej zasady z założeń ontologicznych opisuje [Podstawa
-ontologiczna](../../90-supplementary/pl/ONTOLOGICAL-BASIS.pl.md#ekonomia).
+użytkowników. Omówienie tej przyjętej zasady, jej inspiracji ontologicznych oraz
+dodatkowych założeń aksjologicznych i projektowych zawiera
+[Ekonomia sprawczej wzajemności](../../90-supplementary/pl/ECONOMY-OF-AGENTIC-MUTUALITY.pl.md).
 
 ## Problem, na który odpowiadamy
 

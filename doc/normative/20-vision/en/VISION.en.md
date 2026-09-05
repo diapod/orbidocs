@@ -152,9 +152,10 @@ We call this principle of service
 Figuratively: a healthy organism needs healthy organs; no organ should waste resources
 or try to replace another. We accept neither a model in which the title of capital
 takes precedence over the agency of persons, nor a model in which the state or the
-collective is reified as a higher subject able to replace living users. The full
-derivation of this principle from ontological assumptions is described in [Ontological
-Basis](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#economy).
+collective is reified as a higher subject able to replace living users. A discussion
+of this adopted principle, its ontological inspirations, and additional axiological
+and design assumptions appears in
+[Economy of Agentic Mutuality](../../90-supplementary/en/ECONOMY-OF-AGENTIC-MUTUALITY.en.md).
 
 ## The Problem We Address
 

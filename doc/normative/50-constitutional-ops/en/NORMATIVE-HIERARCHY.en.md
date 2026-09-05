@@ -63,11 +63,13 @@ Changing Level 2 documents requires an explicit rationale and a coherence review
 against the Constitution, but **does not require the full constitutional
 amendment procedure**.
 
-`doc/normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md` is explanatory material
-for the genealogy and coherence of values, but it is not an independent Level 2
-source of interpretation and creates no rights, duties, or classifications of
-persons. It may not serve as a worldview, loyalty, membership, identity, or
-reputation test. In case of divergence, the Constitution and Level 2 sources prevail.
+`doc/normative/90-supplementary/en/ONTOLOGICAL-BASIS.en.md` and
+`doc/normative/90-supplementary/en/ECONOMY-OF-AGENTIC-MUTUALITY.en.md` are explanatory
+materials for the genealogy and coherence of values and the adopted socioeconomic
+synthesis. They are not independent Level 2 sources of interpretation and create no
+rights, duties, or classifications of persons. They may not serve as worldview,
+loyalty, membership, identity, or reputation tests. In case of divergence, the
+Constitution and Level 2 sources prevail.
 
 ### Level 3 - Implementing Acts
 

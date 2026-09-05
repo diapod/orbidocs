@@ -724,10 +724,11 @@ The principle that a higher layer serves the lower and never replaces it we call
 Local Accountability".
 
 The values of this section — gift and exchange, reciprocity, sufficiency over
-accumulation, the minimum of survival, and access without tribute — compose one derived
-whole, which we call the **economy of agentic mutuality**. Its full derivation from
-ontological assumptions is described in [Ontological Basis — Consequences for the
-economy](../../90-supplementary/en/ONTOLOGICAL-BASIS.en.md#economy).
+accumulation, the minimum of survival, and access without tribute — form a synthesis
+adopted by the project, which we call the **economy of agentic mutuality**. Its
+discussion, ontological inspirations, and additional axiological and design
+assumptions appear in
+[Economy of Agentic Mutuality](../../90-supplementary/en/ECONOMY-OF-AGENTIC-MUTUALITY.en.md).
 
 ### Culture of Cooperation
 

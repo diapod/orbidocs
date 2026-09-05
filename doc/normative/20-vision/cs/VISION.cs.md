@@ -144,9 +144,10 @@ této služebnosti nazýváme **aktérskou subsidiaritou**.
 Obrazně: zdravý organismus potřebuje zdravé orgány; žádný orgán by neměl plýtvat zdroji
 ani se pokoušet nahradit jiný. Nepřijímáme ani model, v němž titul kapitálu má přednost
 před schopností jednat osob, ani model, v němž je stát či kolektiv reifikován jako vyšší
-subjekt schopný nahradit živé uživatele. Úplné vyvození této zásady z ontologických
-předpokladů popisuje [Ontologický
-základ](../../90-supplementary/cs/ONTOLOGICAL-BASIS.cs.md#ekonomie).
+subjekt schopný nahradit živé uživatele. Rozbor této přijaté zásady, jejích
+ontologických inspirací a dodatečných axiologických a návrhových předpokladů
+obsahuje
+[Ekonomika aktérské vzájemnosti](../../90-supplementary/cs/ECONOMY-OF-AGENTIC-MUTUALITY.cs.md).
 
 ## Problém, na který odpovídáme
 
