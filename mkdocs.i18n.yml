@@ -95,6 +95,7 @@ plugins:
                 - Supplementary:
                     - doc/normative/90-supplementary/SUPPLEMENTARY.md
                     - Ontological Basis of DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
+                    - Economy of Agentic Mutuality: doc/normative/90-supplementary/ECONOMY-OF-AGENTIC-MUTUALITY.md
           # BEGIN GENERATED PROJECT NAV EN
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV EN
@@ -203,6 +204,7 @@ plugins:
                 - Doplňkové:
                     - doc/normative/90-supplementary/SUPPLEMENTARY.md
                     - Ontologický základ DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
+                    - Ekonomika aktérské vzájemnosti: doc/normative/90-supplementary/ECONOMY-OF-AGENTIC-MUTUALITY.md
           # BEGIN GENERATED PROJECT NAV CS
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV CS
@@ -265,6 +267,7 @@ plugins:
                 - Dodatkowe:
                     - doc/normative/90-supplementary/SUPPLEMENTARY.md
                     - Podstawa ontologiczna DIA / Orbiplex: doc/normative/90-supplementary/ONTOLOGICAL-BASIS.md
+                    - Ekonomia sprawczej wzajemności: doc/normative/90-supplementary/ECONOMY-OF-AGENTIC-MUTUALITY.md
           # BEGIN GENERATED PROJECT NAV PL
           # Project nav is generated into mkdocs.i18n.generated.yml from doc/project/*/.nav.yml.
           # END GENERATED PROJECT NAV PL

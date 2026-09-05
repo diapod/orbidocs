@@ -381,6 +381,16 @@ input only: it is not Agent identity, membership, a grant, data-plane authority,
 or realized execution evidence. Missing, invalid, expired, contradictory, or
 unrelated-boundary posture remains `unknown` or non-match.
 
+P090-004a implements an optional independently admitted invocation policy for
+the exact Agent and selected runtime/profile or external binding. Configured
+scopes refuse missing/stale declarations and disallowed `unknown` before new
+runtime/session/turn I/O; current fingerprints are rechecked. Unconfigured
+scopes retain legacy admission, not a positive posture claim. Durable replay
+does not start another driver or reinterpret old evidence under today's policy;
+cancellation remains available. Operator runtime preflight inspection shares the
+same matcher but grants no permit. Guided policy UX and downstream consumer
+projections remain separate work.
+
 ### Inference Execution Provenance
 
 Agent preserves the provider-neutral execution provenance supplied by the
@@ -401,6 +411,13 @@ Optional provider disclosure remains policy-scoped and open-ended, while
 provider-native session, account, credential, endpoint, and adapter-instance
 data remain outside Agent Core and consumer contracts. Known non-local execution
 survives provider redaction; missing evidence remains `unknown`.
+
+Inquirium passages now consume the exact bound generate response via the shared
+`inquirium.response.v2` envelope. A local deterministic four-passage process
+regression preserves deliberately non-local/withheld fixture evidence and exact
+ancestry across restart, with no duplicate Agent spending. This proves carriage,
+not actual remote inference by a stub; ordinary non-passage Inquirium controller
+carriage remains a separate inventory item.
 
 ### Effects Are Proposals
 

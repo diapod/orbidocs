@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium.terminal-outcome:v1",
+  "title": "Inquirium failed invocation",
+  "description": "Sanitized terminal failure. Dispatch and egress are carried separately in exact result-bound provenance, not inferred from this failure code.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "operation", "status", "reason/code"],
+  "properties": {
+    "schema": {"const": "inquirium.terminal-outcome.v1"},
+    "operation": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "status": {"const": "failed"},
+    "reason/code": {"const": "runtime-execution-failed"}
+  }
+}

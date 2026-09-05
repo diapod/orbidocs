@@ -1318,15 +1318,24 @@ Recent component deltas:
   reranking, summarization, transformation, and image operations. A typed
   pre-I/O generation refusal records proven non-dispatch, and a real daemon
   regression confirms that a catalog-local transport does not imply realized
-  locality. Post-dispatch terminal errors, batch/training, compatible response
-  successors, parent joins, Assistant, offers, Corpus, Room,
-  cache/artifact/deferred carriers, effects, and remote procurement remain open.
+  locality. The 2026-09-05 P090-004a closeout adds bound generate/embed results,
+  sanitized failure dispatch evidence, the shared compatible V2 envelope,
+  parent-preserving summarize/transform, and current embedding L1/SQLite replay
+  with original evidence, zero current usage and corruption/stripping/substitution
+  refusal. Its operation-specific gate also passes HTTP translation checks and
+  a four-passage daemon restart retaining exact non-local/withheld fixture
+  ancestry without duplicate Agent charge. This is local deterministic evidence,
+  not a new physical Story-012 run. Other operation terminals, general public V2
+  negotiation, batch/training, Assistant, offers, Corpus, Room,
+  artifact/deferred carriers, effects and remote procurement remain open.
   P090-012 is therefore partial, not complete. P090-003a now has the canonical
   bounded provider registry,
   shared CLI/UI preview and explicit confirmation, atomic compare-and-swap
   installation, and tested operator HTTP. Runtime/profile posture inspection
-  checks exact scope, validity and current catalog/registry digests; full
-  Agent/external-runtime preflight remains open. The executable 24-entry
+  checks exact scope, validity and current catalog/registry digests. P090-004a
+  adds optional scoped Agent/external-runtime preflight before new I/O, with
+  independent invocation policy, session-free refusal and policy-independent
+  durable replay; guided policy UX remains open. The executable 24-entry
   translator inventory checks operation and translator coverage in CI, runs
   bounded deduplicated verification sets for every current `done` or `partial`
   row, and refuses promotion of unfinished entries; it does not establish their

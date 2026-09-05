@@ -64,9 +64,11 @@ from transport or catalog posture. The real Agent-passage `generate` path has an
 exact result sidecar and durable V2 propagation; direct successful `generate`,
 `embed`, `classify`, `rerank`, `summarize`, `transform`, image-generate, and
 image-edit operations also commit exact sidecars in durable traces. Typed
-pre-I/O `generate` refusal records proven non-dispatch. Post-dispatch terminal
-errors, batch/training, compatible response successors, parent joins, caches,
-artifact/deferred carriage, and effects remain open. This additive work is not
+pre-I/O `generate` refusal records proven non-dispatch. P090-004a adds bound
+generate/embed results, sanitized failure dispatch evidence, a shared V2
+response envelope, parent-preserving summarize/transform and current embedding
+cache/restart. Other operation terminals, general public V2 negotiation,
+batch/training, artifact/deferred carriage and effects remain open. This work is not
 included in the implemented-MVP claim.
 
 ## Date
@@ -287,8 +289,11 @@ runtime/profile declarations bound to current catalog and provider-registry
 digests, owner, invocation scope, generation, boundary and validity; missing or
 changed bindings return a typed non-match. The admitted provider registry has
 shared CLI/UI preview-confirm-install tooling and canonical import validation.
-This inspection grants no authority. Full invocation-policy preflight and
-Agent/external-runtime scope exposure remain open in P090.
+This inspection grants no authority. P090-004a also checks optional independently
+admitted Agent/external-runtime invocation policy against exact scope and current
+configuration before new I/O. Runtime preflight inspection reuses that checker;
+exact replay retains historical evidence without re-execution. Guided policy
+installation and broader consumer projections remain open in P090.
 
 ### Realized Inference Execution Provenance
 
@@ -317,9 +322,11 @@ exact response-bound sidecar. The daemon's explicit runtime characteristics
 feed direct-success traces for generation, embedding, classification, reranking,
 summarization, transformation, and image work; missing characteristics remain
 `unknown`, and the Agent-passage `generate` path durably replays its conservative
-descriptor. Proposal 064 still tracks terminal errors after dispatch,
-batch/training, compatible response successors, parent joins, direct effects,
-cache/artifact/deferred preservation, and acceptance. Runtime/model refs and
+descriptor. P090-004a binds generate/embed success and failure at invocation,
+preserves generate ancestry through translation and current embedding cache,
+and verifies exact Agent passage restart. Proposal 064 still tracks other
+operation terminals, public V2 negotiation, batch/training, direct effects,
+artifact/deferred preservation and full acceptance. Runtime/model refs and
 diagnostics alone do not satisfy this capability.
 
 ### Direct Data Plane And Artifact Outputs

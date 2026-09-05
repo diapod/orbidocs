@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium.response:v2",
+  "title": "Provenance-bearing Inquirium response",
+  "description": "Compatible envelope around an exact operation response. The operation owner additionally validates the enclosed response and content binding; this envelope grants no execution authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "response", "result/provenance"],
+  "properties": {
+    "schema": {"const": "inquirium.response.v2"},
+    "response": {"type": "object", "description": "The operation owner validates this payload against its own versioned response contract."},
+    "result/provenance": {"$ref": "inquirium.result-provenance.v1.schema.json"}
+  }
+}

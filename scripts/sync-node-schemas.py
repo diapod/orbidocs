@@ -205,6 +205,8 @@ SCHEMA_WHITELIST = (
     "inference-execution-posture.v1.schema.json",
     "inference-execution-provenance.v1.schema.json",
     "inquirium.result-provenance.v1.schema.json",
+    "inquirium.response.v2.schema.json",
+    "inquirium.terminal-outcome.v1.schema.json",
     "inquirium-operation-descriptor.v1.schema.json",
     "dator.dispatch-entry-deactivation.v1.schema.json",
     "dator.dispatch-entry-deactivation-result.v1.schema.json",
