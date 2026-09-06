@@ -152,6 +152,55 @@ the structured level. Its typed evidence, review, and host-admission seams demon
 one specialization above general prose deliberation; they do not define the grammar of
 other technical work or of Corpus as a whole.
 
+### Optional thematic-profile admission and lifecycle (2026-09-06)
+
+`corpus-thematic-profile.v1` is an optional, code-backed semantic-registry
+entry, not a universal deliberation grammar. Its identity is the exact tuple
+`entry/ref`, `entry/revision`, and `digest`. The reference has the form
+`corpus-profile:<namespace>:<name>`; the namespace is not an authority claim.
+The digest uses the existing semantic-entry RFC 8785 algorithm and covers the
+issuer, open facet map, implementation/schema refs, capability requirements,
+compatibility declarations, and supersession relation. No facet name is a
+closed enum of technical, scientific, social, or creative domains.
+
+An issuer supplies authenticated distribution/package evidence through the
+existing P085 admission boundary. `issuer/ref` in the entry does not authenticate
+itself. Before interpretation, the receiving host must independently verify
+that evidence, trust its issuer, explicitly enable the exact digest, and have
+the named implementation and required capabilities admitted. A profile cannot
+install code, fetch a vocabulary, widen authority, or grant effect permission.
+Facet refs remain inert data until a separately admitted implementation gives
+them meaning. Effects still require the ordinary capability, classification,
+human-in-the-loop, and lease gates.
+
+`compatible/with` and `supersedes` contain exact revision tuples, not version
+ranges. They are issuer declarations, not automatic migrations or permission
+to substitute another digest. A superseded revision can remain locally admitted;
+switching to a successor requires a fresh local decision. Endorsements by a
+community, federation, or another host can inform this decision but cannot add
+to the operator-enabled set. Two hosts can legitimately disagree about the same
+authenticated revision without changing each other's coordination roles.
+
+The shared semantic registry supplies activation generations, exact bindings,
+and deactivation. Withdrawal or revocation carries authenticated issuer evidence
+or an accountable local operator decision, targets the exact revision/digest,
+and fences new interpretation before further work. Recovery must reload the
+retained withdrawal/revocation facts before restoring active bindings; missing
+signature evidence, unavailable implementation, stale generation, changed digest,
+or incomplete lifecycle history refuses machine interpretation. Retained outcomes
+remain historical facts and are not rewritten or reinterpreted under a successor.
+Revocation does not erase criticism, alternatives, or published artifacts.
+
+The Node conformance implementation composes `semantic-registry-core` rather
+than adding a parallel activation mechanism. Tests cover independent host
+accept/refuse, issuer substitution, exact digest admission, stale-generation
+recovery, deactivation and attempted authority widening. The creative fixture
+is a profile-definition example, not an executed literary adjudicator. General
+prose and signed outcomes continue to require no thematic profile, and the V1
+coordination-role algebra is unchanged. This defines the admission contract;
+automatic thematic-package installation and a running thematic interpreter are
+not claimed by `P069-DOMAIN-005`.
+
 ## Context and Problem Statement
 
 The machinery exists but is spread across components: marketplace procurement (P021/P011,
@@ -772,6 +821,7 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 
 | Schema | Status | Phase | Purpose |
 |---|---|---|---|
+| `corpus-thematic-profile.v1` | accepted contract and pure conformance (`P069-DOMAIN-005`) | optional post-MVP | Exact issuer/revision/digest, open thematic facets, compatibility, non-compelling admission and shared-registry lifecycle. No automatic installation or interpretation. |
 | `topic-taxonomy.v1` | new | MVP | Signed, versioned, federated taxonomy governance artifact. |
 | `topic-resolution.v1` | new | MVP | Signed resolver output: canonical term or ranked `ambiguous` (with `epsilon`, `matched/labels`). |
 | `service-offer.v1` (`corpus` extension) | extend | MVP | `corpus/topics`, `corpus/model-class`, `corpus/taxonomy-digest`, `corpus/taxonomy-issuer`. |
@@ -1009,6 +1059,28 @@ optional `revision/no`, not an overwrite. Local validation rejects dangling
 revision numbers.
 
 ## Implementation Contract
+
+### 2026-09-06 compatibility and receiving-host correction
+
+The receiving host freezes a named catalog-admitted offer declaration when it
+admits the bid, before ranking. An unresolved, malformed, expired, inactive or
+foreign source refuses the new bid. Current accepted/countered bid signatures
+require the source ID; source-less refusals and retained legacy absence do not
+assert local inference. Later selection reuses this immutable
+checkpoint rather than consulting today's catalog. Offer expiry does not erase
+an already admitted commitment; the bid's own validity still limits selection.
+Historical bids without a checkpoint require current admission and cannot gain
+a fabricated past declaration. This corrects P090-009c without widening provider
+authority or redefining Corpus participation.
+
+The accepted `corpus-reasoning-answer.v1` identifier grammar has a validator
+erratum: `answer/id` and `supersedes` admit `_`, already emitted by the existing
+base64url SHA-256 answer-ID producer. Old V1 validators may reject these answers.
+Deploy corrected validators on both peers before enabling digest-derived
+publication; never rewrite signed IDs as a fallback. V2 embeds V1 and inherits
+this requirement. Signature domains and canonicalization are unchanged. This is
+an explicit V1 compatibility correction, not a backward-compatibility claim for
+uncorrected peers or a new acceptance result.
 
 This section is the execution bridge between the proposal and code. Runtime work MUST
 advance slice-by-slice, and each runtime slice is blocked until its contract gate is
@@ -1850,7 +1922,7 @@ evidence) · `[!]` blocked/needs decision. Each item notes its tier and `blocked
   progress. Done evidence: no non-technical fixture inherits CandidatePlan or terminal
   requirements merely to demonstrate domain neutrality. Social or creative machine
   fixtures remain deferred until separately admitted profiles exist.
-- [ ] **`P069-DOMAIN-005` — Define admission and lifecycle for optional
+- [x] **`P069-DOMAIN-005` — Define admission and lifecycle for optional
   machine-interpreted thematic profiles.** Specify the additive Corpus contract by
   which an operator or community may propose a namespaced, versioned vocabulary,
   evidence, success, adjudication, publication, or effect profile. The seam must bind
@@ -1861,7 +1933,13 @@ evidence) · `[!]` blocked/needs decision. Each item notes its tier and `blocked
   cannot acquire semantics or authority, two hosts can independently accept or refuse
   the same revision, federation policy cannot compel either result, and general prose
   signed outcomes still require no profile. Depends on `P069-DOMAIN-001` and
-  `P069-DOMAIN-002`.
+  `P069-DOMAIN-002`. Definition checkpoint (2026-09-06): the normative lifecycle
+  section, canonical `corpus-thematic-profile.v1`, creative definition fixture,
+  four-boundary Schema Gate, and pure `corpus-core::CorpusThematicProfile`
+  conformance freeze these invariants using the existing semantic registry.
+  This closes the definition task, not deployment of a thematic interpreter or
+  automatic package installation; existing role dispatch and general prose are
+  unchanged.
 
 ### MVP — Procurement slice (no live room)
 

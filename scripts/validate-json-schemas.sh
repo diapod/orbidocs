@@ -296,6 +296,9 @@ schema_for_file() {
     *.corpus-semantic-entry.json)
       echo "$SCHEMAS_DIR/corpus-semantic-entry.v1.schema.json"
       ;;
+    *.corpus-thematic-profile.v1.json)
+      echo "$SCHEMAS_DIR/corpus-thematic-profile.v1.schema.json"
+      ;;
     *.arca-strategy-entry.json)
       echo "$SCHEMAS_DIR/arca-strategy-entry.v1.schema.json"
       ;;

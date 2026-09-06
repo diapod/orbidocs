@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-live-message:v3",
+  "title": "Room live message v3",
+  "description": "Explicit inference-aware successor; removing its immutable contribution evidence is invalid.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema/v", "room/id", "from/subject", "seq/no", "message/ref", "size/bytes", "content/type", "content", "extensions"],
+  "properties": {
+    "schema/v": {"const": 3},
+    "room/id": {"$ref": "room-live-message.v2.schema.json#/properties/room~1id"},
+    "from/subject": {"$ref": "room-live-message.v2.schema.json#/properties/from~1subject"},
+    "seq/no": {"$ref": "room-live-message.v2.schema.json#/properties/seq~1no"},
+    "message/ref": {"$ref": "room-live-message.v2.schema.json#/properties/message~1ref"},
+    "reply/refs": {"$ref": "room-live-message.v2.schema.json#/properties/reply~1refs"},
+    "size/bytes": {"$ref": "room-live-message.v2.schema.json#/properties/size~1bytes"},
+    "content/type": {"$ref": "room-live-message.v2.schema.json#/properties/content~1type"},
+    "content": {"type": "string"},
+    "content/digest": {"$ref": "room-live-message.v2.schema.json#/properties/content~1digest"},
+    "sent-at": {"$ref": "room-live-message.v2.schema.json#/properties/sent-at"},
+    "extensions": {
+      "allOf": [{"$ref": "room.v1.schema.json#/$defs/extensions"}],
+      "type": "object",
+      "required": ["inference/contribution"],
+      "properties": {"inference/contribution": {"$ref": "room-contribution-inference.v1.schema.json"}}
+    }
+  }
+}

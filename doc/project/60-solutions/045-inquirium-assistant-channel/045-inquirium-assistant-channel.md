@@ -262,7 +262,13 @@ Responsibilities:
 - disclose an optional provider ref under policy while excluding provider-native
   session, account, credential, endpoint, and adapter-instance data.
 
-Status: `planned`.
+Status: P090-007a is implemented for the inline Assistant path: authenticated
+preview/execute, separate acknowledgement, explicit `inquirium.response.v2`,
+immutable transcript-owned replay, and separate preflight/result UI disclosure.
+A durable keyed dispatch fence prevents a crash or publication failure from
+automatically rerunning the same turn after restart. It is not a rebuildable
+index or an automatic post-processing repair. Broader remote descriptor and
+provider-disclosure variants remain P090 work.
 
 ## May Implement
 

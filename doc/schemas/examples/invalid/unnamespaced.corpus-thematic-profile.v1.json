@@ -1,0 +1,19 @@
+{
+  "entry/ref": "corpus-profile:literature-v1",
+  "entry/revision": 1,
+  "implementation/ref": "corpus.example.literature",
+  "request/schema-ref": "example-literature-request.v1",
+  "response/schema-ref": "example-literature-outcome.v1",
+  "required/capability-ids": [],
+  "constraints": {
+    "issuer/ref": "issuer:community-example",
+    "facets": {
+      "example:critique": "rules:literature-v1"
+    },
+    "compatible/with": [],
+    "supersedes": null,
+    "authority/widening": false
+  },
+  "provenance": "distribution-default",
+  "digest": "sha256:XQJy0j3Vg0SGGjI2_FccN4wcaR_wOW9rD35IyF6hKHQ"
+}

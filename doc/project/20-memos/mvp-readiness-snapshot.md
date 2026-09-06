@@ -1351,20 +1351,38 @@ Recent component deltas:
   closeout, independently of later catalog revisions and buyer consumption
   policy. Paid negative/replay/restart tests preserve the active reservation on
   refusal and retain peer-attested, not invented host-observed, assurance.
+  The 2026-09-06 consumer review also closes direct External Runtime V2 outcome
+  loss and Assistant replay regressions: historical V1 remains key-only with no
+  fabricated evidence; modern replay uses a source-backed incremental index,
+  preserves excision, and survives long histories. Disclosure traces retain
+  token bindings, not credentials; unknown and declared non-local consent have
+  distinct wording. The subsequent 2026-09-06 closeout completes the scoped
+  consumer tasks P090-007a, P090-009a/b/c and P090-010a, and the optional profile
+  definition/conformance P069-DOMAIN-005. Assistant now reserves attempts before
+  model I/O; uncertain completion refuses automatic redispatch after restart,
+  while finished transcript replay preserves its original result. This is not
+  automatic post-processing repair.
   Ordinary `CallInquirium` now commits its source sidecar through Agent/Memarium
   and recovers by explicit source family, without requiring an external-runtime
   commit. Its dedicated partial-write and terminal matrix remains open.
   Corpus draft admission now retains the exact Agent V2 outcome and derived
   evidence in the same durable snapshot as the inert V1 draft. Exact replay,
   checkpoint/log validation and deterministic daemon restart preserve the source
-  without consulting current runtime facts. Legacy answer publication retains
-  the adjacent evidence but does not sign it; V2 signed publication remains open.
-  Deployment role/AD schema admission, Corpus comparison and Room consumers
-  remain incomplete; these checks do not prove the entire stages 2–4.
+  without consulting current runtime facts. Signed V2 publication and AD
+  receiving policy now bind the answer, producer lineage and frozen offer
+  declaration, with private assessments and restart/stripping regressions.
+  Room V3 carries content-bound, minimally disclosed contribution evidence;
+  WSS replay and durable sequence recovery reject stripping. Agent effects
+  attach explicitly referenced owned sources; bounded UI badges keep sender
+  boundaries, missing evidence and peer-attested strength separate. Optional
+  thematic admission reuses the semantic registry and does not install an
+  interpreter or make technical roles universal.
   This does not complete stage 1 or P090. Remaining
   terminals, ordinary Inquirium Agent controller recovery, batch/training,
-  Assistant, offers, Corpus, Room,
-  artifact/deferred carriers, effects and remote procurement remain open.
+  artifact/deferred carriers and effects remain open, as do deployment Dator
+  role/AD admission, remote descriptor resolution, general contribution-to-
+  synthesis joins, scoped Room declarations and federated projection. The
+  consumer closeout is deterministic local evidence, not a new physical passage.
   P090-012 is therefore partial, not complete. P090-003a now has the canonical
   bounded provider registry,
   shared CLI/UI preview and explicit confirmation, atomic compare-and-swap

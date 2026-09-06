@@ -26,7 +26,8 @@
     "schema/v": { "const": 1 },
     "answer/id": {
       "type": "string",
-      "pattern": "^answer:[A-Za-z0-9][A-Za-z0-9:-]*$"
+      "description": "V1 erratum (2026-09-06): allow the complete base64url digest alphabet, including underscore. Older V1 validators reject such identifiers; deploy the corrected validators before exchanging digest-derived answers. Signed identifiers must never be rewritten for compatibility.",
+      "pattern": "^answer:[A-Za-z0-9][A-Za-z0-9:_-]*$"
     },
     "query/id": {
       "type": "string",
@@ -47,7 +48,7 @@
     },
     "supersedes": {
       "type": "string",
-      "pattern": "^answer:[A-Za-z0-9][A-Za-z0-9:-]*$",
+      "pattern": "^answer:[A-Za-z0-9][A-Za-z0-9:_-]*$",
       "description": "Optional previous answer revision replaced by this answer in local latest read-models. Federated publication remains append-only: a superseding answer is a new fact, not an overwrite."
     },
     "revision/no": {

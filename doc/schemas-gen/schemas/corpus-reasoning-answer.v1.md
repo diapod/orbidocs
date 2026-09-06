@@ -15,7 +15,7 @@ Signed final answer artifact for one Corpus reasoning query. This is the post-pr
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`answer/id`](#field-answer-id) | `yes` | string |  |
+| [`answer/id`](#field-answer-id) | `yes` | string | V1 erratum (2026-09-06): allow the complete base64url digest alphabet, including underscore. Older V1 validators reject such identifiers; deploy the corrected validators before exchanging digest-derived answers. Signed identifiers must never be rewritten for compatibility. |
 | [`query/id`](#field-query-id) | `yes` | string |  |
 | [`correlation/id`](#field-correlation-id) | `yes` | string |  |
 | [`responder/node-id`](#field-responder-node-id) | `yes` | string |  |
@@ -55,6 +55,8 @@ Signed final answer artifact for one Corpus reasoning query. This is the post-pr
 
 - Required: `yes`
 - Shape: string
+
+V1 erratum (2026-09-06): allow the complete base64url digest alphabet, including underscore. Older V1 validators reject such identifiers; deploy the corrected validators before exchanging digest-derived answers. Signed identifiers must never be rewritten for compatibility.
 
 <a id="field-query-id"></a>
 ## `query/id`

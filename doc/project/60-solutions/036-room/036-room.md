@@ -78,6 +78,13 @@ current projection until an authoritative rebuild; Room status exposes the typed
 projection state and a bounded technical conflict reason. The relay same-epoch conflict
 remains the narrow exception resolved by a strictly newer valid relay epoch.
 
+The WSS send acknowledgement echoes the complete admitted live-message value,
+including optional fields and extensions. Object key order is irrelevant; value
+normalization, default insertion, digest completion and timestamp rewriting are
+not permitted. This is the P070 live-plane conformance rule, independent of
+whether the message carries inference evidence. Admission metadata is separate
+from the echoed message; peers that transform it must be updated before rollout.
+
 ## Date
 
 2026-06-25
@@ -579,7 +586,12 @@ Status:
 - signed pairwise sender-key distributions and authenticated encrypted relay deliveries
   for non-member federation relays;
 - Room projections for former answer-room and association-room flows;
-- bounded inference-provenance projections after P090 implementation.
+- P090-010a content-bound `room-contribution-inference.v1` on explicit
+  `room-live-message.v3`, with minimal provider disclosure, evidence-aware replay
+  and durable sequence recovery;
+- bounded participant inference views and UI badges, preserving separate sender
+  boundaries, unknown counts and peer-attested strength. They grant no membership
+  or effect authority. Scoped declarations remain broader P090-010 work.
 
 ## Related Capability Data
 

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-answer:v2",
+  "title": "Corpus provenance-bearing signed outcome v2",
+  "description": "An unchanged V1 answer and content-bound execution evidence, jointly authenticated with corpus-reasoning-answer-signature.v2 over RFC 8785 JSON after removing only the outer signature. Receiving hosts independently admit the responder, evidence and publication policy. Source sessions are not exported.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md", "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "answer", "execution/provenance", "signature"],
+  "properties": {
+    "schema": {"const": "corpus-reasoning-answer.v2"},
+    "answer": {"$ref": "corpus-reasoning-answer.v1.schema.json"},
+    "execution/provenance": {"$ref": "inference-execution-provenance.v1.schema.json"},
+    "publication/assessment": {
+      "description": "Non-compelling publisher decision. A policy digest avoids disclosing private provider allow/deny sets; the publisher retains the exact policy for audit.",
+      "type": "object", "additionalProperties": false,
+      "required": ["policy/digest", "decision"],
+      "properties": {
+        "policy/digest": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/digest"},
+        "decision": {"enum": ["admit", "warn"]}
+      }
+    },
+    "signature": {
+      "allOf": [
+        {"$ref": "corpus-reasoning-answer.v1.schema.json#/$defs/signature"},
+        {"required": ["key/public"], "properties": {"alg": {"const": "ed25519+domain-v1"}}}
+      ]
+    }
+  }
+}

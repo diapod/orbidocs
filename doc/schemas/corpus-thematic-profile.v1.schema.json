@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-thematic-profile:v1",
+  "title": "Corpus thematic profile v1",
+  "description": "Optional exact-revision semantic-registry entry. Signed package or distribution authentication and receiving-host admission are prerequisites, not assertions made by this entry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entry/ref", "entry/revision", "implementation/ref", "request/schema-ref", "response/schema-ref", "required/capability-ids", "constraints", "provenance", "digest"],
+  "properties": {
+    "entry/ref": {"allOf": [{"$ref": "corpus-semantic-entry.v1.schema.json#/$defs/id"}, {"pattern": "^corpus-profile:[^:]+:.+$"}]},
+    "entry/revision": {"$ref": "corpus-semantic-entry.v1.schema.json#/properties/entry~1revision"},
+    "implementation/ref": {"$ref": "corpus-semantic-entry.v1.schema.json#/$defs/id"},
+    "request/schema-ref": {"$ref": "corpus-semantic-entry.v1.schema.json#/properties/request~1schema-ref"},
+    "response/schema-ref": {"$ref": "corpus-semantic-entry.v1.schema.json#/properties/response~1schema-ref"},
+    "required/capability-ids": {"$ref": "corpus-semantic-entry.v1.schema.json#/properties/required~1capability-ids"},
+    "provenance": {"$ref": "corpus-semantic-entry.v1.schema.json#/properties/provenance"},
+    "package/ref": {"$ref": "corpus-semantic-entry.v1.schema.json#/properties/package~1ref"},
+    "digest": {"$ref": "corpus-semantic-entry.v1.schema.json#/$defs/digest"},
+    "constraints": {
+      "type": "object", "additionalProperties": false,
+      "required": ["issuer/ref", "facets", "compatible/with", "supersedes", "authority/widening"],
+      "properties": {
+        "issuer/ref": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+        "facets": {
+          "type": "object", "minProperties": 1, "maxProperties": 32,
+          "propertyNames": {"allOf": [{"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"}, {"pattern": "^[^:]+:.+$"}]},
+          "additionalProperties": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"}
+        },
+        "compatible/with": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/revision"}},
+        "supersedes": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/revision"}]},
+        "authority/widening": {"const": false}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"required": ["provenance"], "properties": {"provenance": {"const": "operator-package"}}}, "then": {"required": ["package/ref"]}},
+    {"if": {"required": ["provenance"], "properties": {"provenance": {"const": "distribution-default"}}}, "then": {"not": {"required": ["package/ref"]}}}
+  ],
+  "$defs": {
+    "revision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profile/ref", "revision", "digest"],
+      "properties": {
+        "profile/ref": {"$ref": "#/properties/entry~1ref"},
+        "revision": {"$ref": "#/properties/entry~1revision"},
+        "digest": {"$ref": "#/properties/digest"}
+      }
+    }
+  }
+}

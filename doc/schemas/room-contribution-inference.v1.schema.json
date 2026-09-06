@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:room-contribution-inference:v1",
+  "title": "Room contribution inference v1",
+  "description": "Immutable content-bound contribution evidence; not membership or effect authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "room/id", "subject", "message/ref", "message/seq-no", "content/type", "content/digest", "execution/provenance"],
+  "properties": {
+    "schema": {"const": "room-contribution-inference.v1"},
+    "room/id": {"$ref": "room.v1.schema.json#/$defs/room_id"},
+    "subject": {"$ref": "room.v1.schema.json#/$defs/subject"},
+    "message/ref": {"$ref": "room-live-message.v2.schema.json#/properties/message~1ref"},
+    "message/seq-no": {"type": "integer", "minimum": 0},
+    "content/type": {"$ref": "room-live-message.v2.schema.json#/properties/content~1type"},
+    "content/digest": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/digest"},
+    "execution/provenance": {"$ref": "inference-execution-provenance.v1.schema.json"}
+  }
+}

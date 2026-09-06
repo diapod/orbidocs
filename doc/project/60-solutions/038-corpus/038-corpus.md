@@ -311,12 +311,15 @@ Based on:
 
 Related schemas:
 
-- current `service-offer.v1` and `corpus-reasoning-answer.v1` do not carry the
-  Proposal 090 values and are not extended in place;
-- `inference-execution-posture.v1` (planned)
-- `inference-execution-provenance.v1` (planned)
-- a compatible service-offer and answer successor or admitted immutable sidecar
-  ref (planned)
+- `service-offer.v1` admits an optional signed `policy_annotations.inference/posture`
+  characteristic; the catalog projection does not create signature authority;
+- `inference-execution-posture.v1` and `inference-execution-provenance.v1`
+  are implemented horizontal contracts;
+- `corpus-reasoning-answer.v2` binds the unchanged signed V1 answer and its
+  realized evidence with a second signature. V1 remains a compatibility view;
+- `corpus-thematic-profile.v1` defines optional exact-revision interpretation
+  through the existing semantic registry. Definition/conformance is implemented;
+  an automatic thematic-package installer or running thematic interpreter is not.
 
 Responsibilities:
 
@@ -343,9 +346,13 @@ Status:
   recovery and deterministic HTTP/restart checks preserve source time, boundary
   and identity. V1 draft and publication projections remain compatible and do
   not confer inference or publication authority on the Agent.
-- Signed provenance-bearing answers/publications, Corpus policy comparison,
-  contribution joins and federated admission are still planned; this checkpoint
-  does not carry P090 end to end.
+- Signed V2 answers/publications and the inline AD receiving path now retain
+  exact lineage, independently apply receiver policy and compare the frozen
+  selected-offer declaration. Both signatures, atomic legacy/evidence retention,
+  restart without the product and evidence-stripping refusal have deterministic
+  coverage. Room V3 carries per-contribution evidence and bounded sender-relative
+  badges. General contribution-to-synthesis joins, scoped participant declarations
+  and general federated projection remain open; this is not all of P090.
 
 ## May Implement
 

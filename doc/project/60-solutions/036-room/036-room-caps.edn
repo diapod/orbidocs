@@ -82,7 +82,9 @@
    :based-on ["doc/project/40-proposals/070-room-primitive.md"
               "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
    :schemas ["inference-execution-posture.v1"
-             "inference-execution-provenance.v1"]
+             "inference-execution-provenance.v1"
+             "room-contribution-inference.v1"
+             "room-live-message.v3"]
    :responsibilities
    ["Admit scoped participant inference posture with exact owner binding generation validity and processing-boundary ref without changing identity membership grants or authority"
     "Compare sender boundaries only through explicit locally admitted relations and keep unrelated boundaries unknown or non-matching"
@@ -90,7 +92,7 @@
     "Preserve known non-local mixed and unknown states through carrier redaction replay and federation boundaries"
     "Derive bounded presentation-only participant and Room aggregates with the canonical conservative join"
     "Keep provider-native sessions accounts endpoints request ids and credentials outside generic Room contracts"]
-   :status :planned}]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :corpus-deliberation-rooms

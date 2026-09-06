@@ -74,7 +74,10 @@
               "doc/project/40-proposals/069-corpus.md"
               "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"]
    :schemas ["inference-execution-posture.v1"
-             "inference-execution-provenance.v1"]
+             "inference-execution-provenance.v1"
+             "corpus-reasoning-answer.v2"
+             "corpus-agent-answer.publish.request.v2"
+             "corpus-thematic-profile.v1"]
    :responsibilities
    ["Route by signed open offer posture with exact owner subject generation scope and processing-boundary ref without presenting it as realized execution"
     "Compare boundaries explicitly and keep unrelated boundaries unknown or non-matching"
@@ -83,7 +86,7 @@
     "Preserve or conservatively join provenance through contributions drafts answers publications and settlement evidence"
     "Preserve known non-local or mixed execution when provider identity is redacted"
     "Keep provider domain-profile evidence-policy and success vocabularies open and locally admitted"]
-   :status :planned}]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :corpus-live-deliberation-room

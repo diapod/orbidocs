@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-agent-answer.publish.request:v2",
+  "title": "Publish an admitted Agent draft with signed execution evidence",
+  "description": "Explicit V2 representation selection, bound into the publication idempotency digest. Requires retained draft evidence; cannot upgrade a historical V1 publication or confer publication authority on its producer.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "idempotency/key", "query/id", "room/id", "draft/ref"],
+  "properties": {
+    "schema": {"const": "corpus-agent-answer.publish.request.v2"},
+    "idempotency/key": {"$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"},
+    "query/id": {"type": "string", "pattern": "^query:[^\\s]+$"},
+    "room/id": {"type": "string", "pattern": "^room:[^\\s]+$"},
+    "draft/ref": {"type": "string", "pattern": "^corpus-agent-answer-draft:[^\\s]+$"}
+  }
+}

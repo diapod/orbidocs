@@ -171,6 +171,12 @@ pub/sub):
 - **Presence**: presence (joined/ready/left/timed-out) is derived and ephemeral on the
   live plane but anchored by durable `ready`/`left` `room-event.v1` where it changes
   authority or budget accounting.
+- **Acknowledgement identity**: the WSS send acknowledgement MUST echo the full
+  admitted `room-live-message` value, including optional fields and extensions,
+  without adding, removing, or normalizing values. JSON object key order is not
+  significant. In particular, peers MUST NOT normalize `sent-at` or fill an
+  absent `content/digest` in the ACK. Admission metadata belongs outside the
+  echoed message. A changed message is a protocol refusal, not send success.
 - **Retry / expiry / cleanup**: live frames are best-effort and idempotent by
   `(room/id, from, seq/no)`; the room has a durable `expires-at`; on expiry or close
   the transport channel is torn down through a bounded P055-style cleanup operation and
@@ -1971,6 +1977,18 @@ authority, membership, relay, or moderation baselines.
 This additive phase depends on the accepted P090 schema and canonical join. It does
 not reopen the completed Room identity, membership, authority, relay, moderation, or
 message-ordering contracts.
+
+P090-010a checkpoint (2026-09-06): explicit `room-live-message.v3` carries the
+content-bound `room-contribution-inference.v1` with minimal disclosure. Local WSS
+delivery/replay, durable evidence-aware sequence recovery, Agent-owned source
+attachment, receiving policy and bounded sender-relative UI badges have executable
+coverage. The open rows below are broader: captured-product adapters, scoped
+participant declarations and general federated projections are not closed by that
+inline contribution checkpoint. No new physical federation acceptance is claimed.
+
+- [x] P090-010a inline live contribution carriage, durable replay, independent
+  receiver policy and bounded participant badges; control frames are excluded
+  from inference counts and missing ancestry stays unknown.
 
 - [ ] `room-inference-posture-characteristic`: define and admit a signed,
   Room- and time-scoped `inference-execution-posture.v1` value; bind its
