@@ -21,7 +21,7 @@ genealogię przyjętych wartości; przejście do decyzji projektowych wymaga pon
 jawnych przesłanek wartościujących, celów, ograniczeń i argumentów właściwych danej
 dziedzinie. Analogie wskazują wybrane relacje, nie przenoszą automatycznie uzasadnień.
 
-W praktyce Baza służy przede wszystkim jako lupa, nie przepis wytwarzania
+W praktyce Podstawa służy przede wszystkim jako lupa, nie przepis wytwarzania
 rozwiązań. Pomysł może wyrastać z potrzeby, doświadczenia lub rzemieślniczego
 eksperymentu; przez model sprawdzamy następnie, jakie przyjmuje rozróżnienia, czy
 zachowuje ich granice i jak odpowiada na rozpoznane ryzyka. Ten ruch jest zwrotny:
@@ -29,7 +29,7 @@ wyniki prób mogą prowadzić do korekty pomysłu, a także ujawnić granice pr
 samego modelu. Zgodność z nim nie wybiera jednego rozwiązania ani nie zastępuje
 oceny wobec przyjętych wartości i skutków działania.
 
-Jako suplement Baza nie ustanawia praw ani obowiązków i nie służy ocenie
+Jako suplement Podstawa nie ustanawia praw ani obowiązków i nie służy ocenie
 światopoglądu, członkostwa ani statusu osoby. Jej miejsce względem Konstytucji,
 Wartości i Wizji określa [hierarchia
 normatywna](../../50-constitutional-ops/pl/NORMATIVE-HIERARCHY.pl.md).
