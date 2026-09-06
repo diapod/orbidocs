@@ -148,7 +148,11 @@ unfiltered result. Local and observed Arca catalog projections use the same
 rules; policy-filtered observed reads retain ordinary expiry cleanup. P090-008b
 separately binds selection/dispatch to the exact admitted signed revision,
 so replacing this read model does not rewrite a purchase's declaration.
-Broader declaration/disclosure variants remain outside the scoped checkpoint.
+P090-008 completes the declaration/disclosure checkpoint with complete, partial,
+withheld and unknown values preserved through signed admission and Rust/Python
+projections. The receiving filter distinguishes deny/warn/allow for incomplete
+provider identity and never softens a known provider prohibition. Valid resealed
+posture substitution without the offer's signature is refused.
 
 This query surface describes what an offer declares it may use. It cannot emit
 or infer realized `inference-execution-provenance.v1`, which is produced only
@@ -178,5 +182,5 @@ multi-catalog deployment matrices, and eventual retirement of legacy
 `offer-catalog.fetch` / `offer-catalog.push` compatibility wire names after
 Agora-backed deployments cover the needed federation paths. The Proposal 090
 inference-posture query is implemented for the scoped inline catalog/selection
-path; broader declaration/disclosure variants remain partial. This additive
+path; P090-008 also completes all four declaration/disclosure states. This additive
 evidence does not change the completed hard-MVP claim.

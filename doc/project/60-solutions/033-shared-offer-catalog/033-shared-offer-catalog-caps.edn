@@ -58,7 +58,7 @@
     "Filter by locality posture explicit boundary relations and optional open provider references with caller-owned policy and explicit withheld unknown handling"
     "Keep offer declarations separate from realized inference-execution provenance"
     "Avoid closed provider, evidence-policy, deliberation-profile, or problem-domain repertoires"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :shared-offer-catalog-deployment-shapes
    :title "Shared Module, Two Deployment Shapes"

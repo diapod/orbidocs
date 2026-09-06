@@ -398,7 +398,7 @@ The minimum query surface should support:
 This is intentionally close to existing `Arca` and `Dator` query behavior so
 that migration can reuse code and tests.
 
-### Planned inference-posture indexing
+### Inference-posture indexing
 
 Proposal 090 adds a separate, post-MVP query dimension. A signed offer may
 declare the pre-execution posture of inference it can use, independently of the
@@ -693,27 +693,30 @@ handled separately at admission via Seed Directory (P025), not as an offer recor
 - [x] Confirm provider revocation removes offers via admission (Seed Directory
   non-revocation check, Phase 2), independent of snapshot status/expiry.
 
-### Phase 9 — Inference-posture indexing and filtering (partial)
+### Phase 9 — Inference-posture indexing and filtering (done)
 
 2026-09-06 checkpoint: the shared Python catalog/Arca policy path implements
 bounded filtering before pagination, expiry cleanup and conservative unknown
 handling. Host admission retains exact signed offer revisions; P090-008b freezes
 the selected revision through dispatch, replacement and restart. P090-008c proves
-the inline result return path independently of catalog discovery. The unchecked
-items below retain their broader declaration/index and provider-disclosure scope;
-this is not evidence of a new physical Agora discovery passage.
+the inline result return path independently of catalog discovery. P090-008 now
+adds all four disclosure states through signed admission, Rust/Python snapshots
+and the schema-gated policy evaluator, including deny/warn/allow, known-denial
+precedence and signed-source substitution refusal. This completes the items
+below, not a new physical Agora discovery passage.
 
-- [ ] `offer-inference-posture-index`: admit and preserve the signed
+- [x] `offer-inference-posture-index`: admit and preserve the signed
   `inference-execution-posture.v1` value from Proposal 021, including assertion
   owner, exact subject/generation/scope, processing-boundary ref, and bounded
   namespaced extensions, without converting it into realized execution
   provenance.
-- [ ] `offer-inference-posture-query`: add deterministic filters for the shared
+- [x] `offer-inference-posture-query`: add deterministic filters for the shared
   locality posture, explicit boundary matching, caller-owned provider
   allow/deny policy, and treatment of withheld or unknown provider identity.
   Unknown, missing-boundary, expired, and unrelated-boundary values must not
-  match `local-only`, and no closed provider or domain-profile enumeration may
-  enter the shared query contract.
-- [ ] Add positive and negative fixtures proving signature coverage, bounded
+  become known `local-only`; admission under uncertainty follows the explicit
+  caller-owned unknown policy. No closed provider or domain-profile enumeration
+  may enter the shared query contract.
+- [x] Add positive and negative fixtures proving signature coverage, bounded
   open extensions, stable ordering, unknown handling, and no inference from
   `corpus/model-class`, runtime names, endpoints, or transport kinds.

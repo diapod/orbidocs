@@ -1390,6 +1390,11 @@ Recent component deltas:
   boundaries, missing evidence and peer-attested strength separate. Optional
   thematic admission reuses the semantic registry and does not install an
   interpreter or make technical roles universal.
+  P090-005 and P090-008 are now done: a deterministic four-state disclosure
+  matrix covers external-runtime completed/cancelled commits and replay, signed
+  catalog admission, independent provider-policy decisions and Rust/Python
+  preservation. P089-011 higher-layer carriage and P090-008a remote descriptor
+  resolution remain partial; this is not a new physical acceptance passage.
   This does not complete stage 1 or P090. Remaining
   producers beyond synchronous text, batch/training,
   artifact/deferred carriers and effects remain open, as do

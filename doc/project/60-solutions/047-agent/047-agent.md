@@ -393,6 +393,12 @@ projections remain separate work.
 
 ### Inference Execution Provenance
 
+P090-005 completes the external-runtime producer boundary: all four provider
+disclosure states survive completed/cancelled V2 commits and exact recovery,
+without new driver I/O, extra facts or duplicate charging. Provider disclosure
+does not alter the separately retained non-local execution and egress facts.
+This does not close every higher-layer Agent or Room projection.
+
 Agent preserves the provider-neutral execution provenance supplied by the
 Inquirium or External Agent Runtime boundary. It composes parent provenance
 monotonically through structured products, terminal selection, traces, and
