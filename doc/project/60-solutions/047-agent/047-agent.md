@@ -405,6 +405,14 @@ references. Acceptance binds the sidecar to the observed controller `step/ref`,
 not to the later status-read time; an advanced status may retain an older exact
 step, while an unrelated or missing step sidecar fails closed.
 
+Ordinary Inquirium controller actions have their own source-family journal:
+an intent precedes I/O, and one immutable completion binds source, step, trace
+and accounting. A committed result repairs those projections after restart;
+an intent without completion refuses both redispatch and passive advancement.
+Typed terminal artifacts remain evidence, not publishable products. This
+node-local recovery mechanism does not add Inquirium fields to the neutral
+Agent or Corpus contracts; its executable matrix is P090-004b2a.
+
 The descriptor is evidence about one product, not Agent identity or authority.
 A single Agent may use different execution paths in successive passages.
 Optional provider disclosure remains policy-scoped and open-ended, while

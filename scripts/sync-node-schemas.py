@@ -249,6 +249,10 @@ SCHEMA_WHITELIST = (
     "middleware-channel-accepted.v1.schema.json",
     "middleware-channel-frame.v1.schema.json",
     "middleware-channel-host-capability-call.v1.schema.json",
+    "middleware-channel-hello.v2.schema.json",
+    "middleware-channel-accepted.v2.schema.json",
+    "middleware-channel-frame.v2.schema.json",
+    "middleware-channel-host-capability-call.v2.schema.json",
     "middleware-channel-call-result.v1.schema.json",
     "middleware-channel-request-cancel.v1.schema.json",
     "middleware-channel-heartbeat.v1.schema.json",
@@ -1063,6 +1067,7 @@ GOLDEN_WHITELIST = (
     "golden-room-projection-input.json",
     "golden-room-projection-output.json",
     "middleware-channel-v1.golden.json",
+    "middleware-channel-v2.golden.json",
     "sensorium-actuation-relative-path.v1.json",
 )
 

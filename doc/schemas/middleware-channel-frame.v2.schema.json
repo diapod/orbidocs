@@ -1,0 +1,416 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-frame:v2",
+  "title": "Middleware Channel Frame v2",
+  "description": "Strict outer application frame for one accepted middleware channel session.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "session/id",
+    "session/epoch",
+    "frame/seq",
+    "message/kind",
+    "operation",
+    "payload/schema",
+    "payload"
+  ],
+  "properties": {
+    "schema": {
+      "const": "middleware-channel-frame.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "session/id": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/session~1id"
+    },
+    "session/epoch": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/session~1epoch"
+    },
+    "frame/seq": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/frame~1seq"
+    },
+    "message/kind": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/message~1kind"
+    },
+    "operation": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/operation"
+    },
+    "request/id": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/request~1id"
+    },
+    "reply/to": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/reply~1to"
+    },
+    "deadline/at": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/deadline~1at"
+    },
+    "trace/correlation-id": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/trace~1correlation-id"
+    },
+    "payload/schema": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/payload~1schema"
+    },
+    "payload": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/properties/payload"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "request"
+          }
+        },
+        "required": [
+          "message/kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "request/id",
+          "deadline/at"
+        ],
+        "not": {
+          "required": [
+            "reply/to"
+          ]
+        },
+        "properties": {
+          "operation": {
+            "enum": [
+              "middleware.init",
+              "middleware.invoke",
+              "module-http.invoke",
+              "host-capability.invoke"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "response"
+          }
+        },
+        "required": [
+          "message/kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "reply/to"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "request/id"
+              ]
+            },
+            {
+              "required": [
+                "deadline/at"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "operation": {
+            "enum": [
+              "middleware.init",
+              "middleware.invoke",
+              "module-http.invoke",
+              "host-capability.invoke"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "event"
+          }
+        },
+        "required": [
+          "message/kind"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "request/id"
+              ]
+            },
+            {
+              "required": [
+                "reply/to"
+              ]
+            },
+            {
+              "required": [
+                "deadline/at"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "operation": {
+            "enum": [
+              "middleware.observe",
+              "middleware.trace.report"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "event"
+          },
+          "operation": {
+            "const": "middleware.trace.report"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "component-communication-report.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "control"
+          }
+        },
+        "required": [
+          "message/kind"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "request/id"
+              ]
+            },
+            {
+              "required": [
+                "reply/to"
+              ]
+            },
+            {
+              "required": [
+                "deadline/at"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "operation": {
+            "enum": [
+              "request.cancel",
+              "heartbeat",
+              "session.shutdown"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "request"
+          },
+          "operation": {
+            "const": "host-capability.invoke"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-channel-host-capability-call.v2"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "response"
+          },
+          "operation": {
+            "const": "host-capability.invoke"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-channel-call-result.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "request"
+          },
+          "operation": {
+            "const": "module-http.invoke"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-module-http-request.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "response"
+          },
+          "operation": {
+            "const": "module-http.invoke"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-module-http-response.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "control"
+          },
+          "operation": {
+            "const": "request.cancel"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-channel-request-cancel.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "control"
+          },
+          "operation": {
+            "const": "heartbeat"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-channel-heartbeat.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "control"
+          },
+          "operation": {
+            "const": "session.shutdown"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "middleware-channel-session-shutdown.v1"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/$defs/id"
+    },
+    "schemaName": {
+      "$ref": "middleware-channel-frame.v1.schema.json#/$defs/schemaName"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md",
+    "orbidocs:doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ]
+}

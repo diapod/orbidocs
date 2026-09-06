@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-hello:v2",
+  "title": "Middleware Channel Hello v2",
+  "description": "Module-supplied consistency assertions and requested limits for one authenticated channel launch.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "executor/id",
+    "module/id",
+    "component/id",
+    "launch/instance-id",
+    "channel/features",
+    "limits/requested"
+  ],
+  "properties": {
+    "schema": {
+      "const": "middleware-channel-hello.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "executor/id": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/properties/executor~1id"
+    },
+    "module/id": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/properties/module~1id"
+    },
+    "component/id": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/properties/component~1id"
+    },
+    "launch/instance-id": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/properties/launch~1instance-id"
+    },
+    "channel/features": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/properties/channel~1features"
+    },
+    "limits/requested": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/properties/limits~1requested"
+    }
+  },
+  "$defs": {
+    "id": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/$defs/id"
+    },
+    "requestedLimits": {
+      "$ref": "middleware-channel-hello.v1.schema.json#/$defs/requestedLimits"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md",
+    "orbidocs:doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-host-capability-call:v2",
+  "title": "Middleware Channel Host Capability Call v2",
+  "description": "Module-authored request body for invoking one host-authorized capability or reading its host-owned routing view through an authenticated channel session.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "capability/id",
+    "request/schema",
+    "request"
+  ],
+  "properties": {
+    "schema": {
+      "const": "middleware-channel-host-capability-call.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "capability/id": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/capability~1id"
+    },
+    "operation": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/operation"
+    },
+    "request/schema": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/request~1schema"
+    },
+    "request": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/request"
+    },
+    "completion/mode": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/completion~1mode"
+    },
+    "idempotency/key": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/idempotency~1key"
+    },
+    "response/schema": {
+      "$ref": "middleware-channel-host-capability-call.v1.schema.json#/properties/request~1schema",
+      "description": "Optional exact successful response representation. Unsupported selection refuses before capability I/O; no automatic downgrade."
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "operation"
+        ],
+        "properties": {
+          "operation": {
+            "const": "lookup"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "response/schema"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -14,6 +14,15 @@ Based on:
 - `node:middleware/README.md`
 - `node:middleware-runtime/README.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans scoped configuration read/explain DTOs over the existing host-call
+channel, plus pre-channel launch snapshots and separate consumption receipts.
+It reuses dependency-aware supervision and wraps durable on/off control without
+adding another transport or giving modules operator-write authority. See
+P091-005/007/007a/011; this does not change existing P080 completion claims.
+
 ## Status
 
 Accepted (hard-MVP implemented; post-MVP hardening tracked)
@@ -229,7 +238,7 @@ Startup sequence:
 2. It creates the launch instance and token binding.
 3. It starts the child with the channel URL and credential references.
 4. The child opens WebSocket using subprotocol
-   `orbiplex.middleware-channel.v1` and sends `middleware-channel-hello.v1`.
+   `orbiplex.middleware-channel.v2` and sends `middleware-channel-hello.v2`.
 5. The host authenticates the launch context and negotiates the lower of host and
    module resource limits.
 6. The host sends the existing `middleware-init` payload as a channel request.
@@ -251,7 +260,14 @@ module-specific diagnostics remain report/status data.
 
 ## Wire Contracts
 
-All new v1 contracts use kebab-case values and namespaced on-wire keys. Security
+The V1 hello, acceptance, frame and capability-call examples below record the
+original design, not currently accepted attachments. P080-044/045 supersede
+those four contracts with V2; see [the active representation contract](
+#explicit-response-representation-channel-v2-2026-09-06). Their canonical V2
+schemas and `middleware-channel-v2.golden.json` define the live interface.
+Unchanged payload schemas, such as call results and cancellation, remain V1.
+
+Contracts use kebab-case values and namespaced on-wire keys. Security
 boundary schemas use `additionalProperties: false`. Extension data, if later needed,
 must live under an explicit `extensions` object.
 
@@ -412,6 +428,44 @@ selected capability does not support bounded deferred completion.
 Allowed outcomes are `succeeded`, `refused`, and `failed`. Failure class is explicit:
 `retryable`, `terminal`, or `policy-denied`. Protocol-visible messages remain
 redacted; provider-local details stay in host diagnostics keyed by `tracking/id`.
+
+### Explicit response representation, channel V2 (2026-09-06)
+
+P090's admitted role-to-procurement passage requires a module to request an exact
+response contract without encoding HTTP query syntax in `capability/id`. The
+operator approved extending the active durable-consumption slice with this seam.
+
+- V2 is the single active channel interface: hello, acceptance, frame and
+  host-capability-call use the V2 WebSocket subprotocol. V1 schemas remain
+  available for historical validation, not concurrent runtime compatibility.
+  Old attachments are explicitly refused without retry or automatic downgrade.
+  Unchanged payload contracts retain their own versions; this is not a global
+  renumbering of artifacts or signed historical facts.
+- The active V2 hello has no `contract/versions` list. Its exact schema and
+  WebSocket subprotocol select one interface; it does not advertise a redundant
+  singleton negotiation. The historical V1 schema keeps its original field.
+- A V2 call carries an optional bounded `response/schema` registry identifier.
+  Absence retains the capability's existing default. Selection is data, not a new
+  capability id, caller identity, policy grant or domain interpretation in the
+  transport. Unsupported representation selection refuses before capability I/O.
+- The composition adapter reuses the existing host authorization/dispatch path.
+  A requested representation must match the actual successful result schema;
+  a legacy result cannot silently satisfy a V2 request. Existing redacted channel
+  failure semantics remain separate from successful result carriage.
+- Inquirium authority remains outside the channel protocol. The host accepts
+  restart-bound `inquirium.module_inference_grants`, keyed by configured channel
+  module identity, using the same bounded inference-grant contract as JSON-e
+  Flow. Absence grants nothing. Duplicate grants, an unknown module, or a module
+  also declared as a JSON-e Flow refuse configuration; a module report cannot
+  create or widen a grant. Request-size and selected runtime/profile restrictions
+  remain enforced by Inquirium before runtime I/O.
+- Session contract version fences ingress and egress for the whole connection,
+  including reconnect, cancellation and late replies. Mismatched clients or hosts
+  refuse attachment before model I/O.
+- The first consumer is the P090 synchronous-text acceptance role. Its actual
+  Inquirium result passes through the shared Rust source/join validators before
+  becoming `service-dispatch-result.v2`. Dator, Artifact Delivery and Arca retain
+  their own admission, byte-commit, retry and settlement responsibilities.
 
 ### Module HTTP Bridge
 
@@ -1127,7 +1181,7 @@ contact-specific, and ephemeral passports are not public-publication targets.
 
 ## Post-MVP Phase 9: Repeated `channel_json` Reconnect Hardening
 
-The implemented v1 transport supports bounded reconnect for the same supervised
+The active V2 transport preserves bounded reconnect for the same supervised
 process launch. A reconnect authenticates the existing launch credential, creates a
 new `session/id`, advances `session/epoch`, repeats init/report and application
 heartbeat, and returns the component to `ready`. In-flight requests from the lost
@@ -1231,6 +1285,11 @@ freezes per-outage reconnect without transparent request replay, including the
 | P080-043 | Preserve no-transparent-replay across reconnect | done | Pending maps, outbound frames, cancellation state, and worker responses are bound to a monotonic session generation in Rust and Python. Lost-session calls fail terminally, detached calls fail fast, late results are discarded, and effect tests prove reconnect does not execute or deliver an old request again. |
 
 ## Next Actions
+
+| ID | Work item | Status | Completion gate |
+| :--- | :--- | :--- | :--- |
+| P080-044 | Version explicit host-capability response representation negotiation | done | Canonical V2 handshake/frame/call contracts preserve historical V1 validation, freeze successful-response selection semantics and refuse unknown/mixed versions, unsupported selectors and caller overrides. Core golden/refusal tests and canonical schema validation pass; completed runtime promotion is covered by P080-045. |
+| P080-045 | Implement and prove neutral V2 channel carriage | done | Core, host, Rust/Python clients and supervisor enforce one active V2 interface and no fallback. Protocol tests cover old attachment and schema mismatch refusal. The real supervised P090 role invokes Inquirium V2 through the channel, not hidden HTTP, and Dator delivers exact V2 bytes through WSS/AD to Arca after restart. Explicit bounded module inference grants remain separate from representation choice; missing/wrong runtime grants cause zero inference calls. |
 
 1. Keep the P080-002 product-listener inventory and retired-executor drift gates green
    as bundled factory modules are added or their listener ownership changes.

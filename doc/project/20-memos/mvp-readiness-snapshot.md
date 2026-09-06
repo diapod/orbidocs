@@ -1360,11 +1360,24 @@ Recent component deltas:
   consumer tasks P090-007a, P090-009a/b/c and P090-010a, and the optional profile
   definition/conformance P069-DOMAIN-005. Assistant now reserves attempts before
   model I/O; uncertain completion refuses automatic redispatch after restart,
-  while finished transcript replay preserves its original result. This is not
-  automatic post-processing repair.
+  while finished transcript replay preserves its original result. That earlier
+  checkpoint alone did not provide automatic post-processing repair.
+  The following durable-consumption checkpoint adds atomic ordinary
+  controller intent/completion facts and finalized Assistant publication plans.
+  Recovery of a committed plan preserves source evidence and original charge
+  identity without model I/O; intent-only and pre-plan failure remain fenced.
+  The 36-case controller matrix and HTTP publication-sink/restart tests cover
+  successful and terminal results, lost acknowledgements, exact replay and
+  unchanged accounting. Provider-signed offer selection and the real supervised
+  role/Inquirium/Dator/WSS-AD/Arca passage now pass with exact bytes across
+  restart, one role/model invocation and one paid release. P080 uses one active
+  V2 channel; missing/wrong inference grants cause zero model calls. The scoped
+  aggregate gate passes and P090-012a is done. This is deterministic loopback
+  acceptance with explicit input/workflow preconditions, not a physical
+  Story-012 run, and hard-MVP status is unchanged.
   Ordinary `CallInquirium` now commits its source sidecar through Agent/Memarium
   and recovers by explicit source family, without requiring an external-runtime
-  commit. Its dedicated partial-write and terminal matrix remains open.
+  commit. Its scoped partial-write and terminal matrix is now implemented.
   Corpus draft admission now retains the exact Agent V2 outcome and derived
   evidence in the same durable snapshot as the inert V1 draft. Exact replay,
   checkpoint/log validation and deterministic daemon restart preserve the source
@@ -1378,9 +1391,9 @@ Recent component deltas:
   thematic admission reuses the semantic registry and does not install an
   interpreter or make technical roles universal.
   This does not complete stage 1 or P090. Remaining
-  terminals, ordinary Inquirium Agent controller recovery, batch/training,
-  artifact/deferred carriers and effects remain open, as do deployment Dator
-  role/AD admission, remote descriptor resolution, general contribution-to-
+  producers beyond synchronous text, batch/training,
+  artifact/deferred carriers and effects remain open, as do
+  remote descriptor resolution, general contribution-to-
   synthesis joins, scoped Room declarations and federated projection. The
   consumer closeout is deterministic local evidence, not a new physical passage.
   P090-012 is therefore partial, not complete. P090-003a now has the canonical
@@ -1390,7 +1403,7 @@ Recent component deltas:
   checks exact scope, validity and current catalog/registry digests. P090-004a
   adds optional scoped Agent/external-runtime preflight before new I/O, with
   independent invocation policy, session-free refusal and policy-independent
-  durable replay; guided policy UX remains open. The executable 24-entry
+  durable replay; guided policy UX remains open. The executable 25-entry
   translator inventory checks operation and translator coverage in CI, runs
   bounded deduplicated verification sets for every current `done` or `partial`
   row, and refuses promotion of unfinished entries; it does not establish their

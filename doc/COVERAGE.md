@@ -18,15 +18,15 @@ Generated coverage snapshot for the current `doc/` structure.
 
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
-| `10-challenges` (Challenges) | `4` | `2` |
+| `10-challenges` (Challenges) | `5` | `2` |
 | `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `17` | `1` |
-| `40-proposals` (Proposals) | `93` | `81` |
+| `40-proposals` (Proposals) | `94` | `82` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `66` | `46` |
 
-- Total project markdown files: `253`
-- Proposals referencing source material: `81` / `93`
+- Total project markdown files: `255`
+- Proposals referencing source material: `82` / `94`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -235,11 +235,15 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`messaging.passport-revoked.v1.schema.json`](schemas-gen/schemas/messaging.passport-revoked.v1.md) | `9` | `0` | `yes` | `yes` | `0` | `0` |
 | [`messaging.retention-decided.v1.schema.json`](schemas-gen/schemas/messaging.retention-decided.v1.md) | `9` | `0` | `yes` | `yes` | `0` | `0` |
 | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `1` |
+| [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md) | `7` | `0` | `yes` | `yes` | `0` | `0` |
 | [`middleware-channel-call-result.v1.schema.json`](schemas-gen/schemas/middleware-channel-call-result.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
+| [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md) | `13` | `0` | `yes` | `yes` | `0` | `0` |
 | [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
+| [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md) | `8` | `0` | `yes` | `yes` | `0` | `0` |
 | [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md) | `8` | `3` | `yes` | `yes` | `1` | `2` |
+| [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) | `9` | `1` | `yes` | `yes` | `0` | `0` |
 | [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) | `5` | `1` | `yes` | `yes` | `2` | `3` |
@@ -700,11 +704,15 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`messaging.passport-revoked.v1.schema.json`](schemas-gen/schemas/messaging.passport-revoked.v1.md) |  |  |
 | [`messaging.retention-decided.v1.schema.json`](schemas-gen/schemas/messaging.retention-decided.v1.md) |  |  |
 | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md) |  |  |
+| [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md) |  |  |
 | [`middleware-channel-call-result.v1.schema.json`](schemas-gen/schemas/middleware-channel-call-result.v1.md) |  |  |
 | [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md) |  |  |
+| [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md) |  |  |
 | [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md) |  |  |
 | [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) |  |  |
+| [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md) |  |  |
 | [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md) |  |  |
+| [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |  |  |
 | [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md) |  |  |
 | [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md) |  |  |
 | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) |  |  |
@@ -1111,11 +1119,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/schemas/participant-bind.v1.schema.json`](schemas/participant-bind.v1.schema.json) | [`client-instance-attachment.v1.schema.json`](schemas-gen/schemas/client-instance-attachment.v1.md), [`client-instance-detachment.v1.schema.json`](schemas-gen/schemas/client-instance-detachment.v1.md), [`client-instance-recovery.v1.schema.json`](schemas-gen/schemas/client-instance-recovery.v1.md) |
 | [`doc/schemas/routing-subject-binding.v1.schema.json`](schemas/routing-subject-binding.v1.schema.json) | [`contact-claim.v1.schema.json`](schemas-gen/schemas/contact-claim.v1.md) |
 | [`doc/project/40-proposals/068-api-surface-projection.md`](project/40-proposals/068-api-surface-projection.md) | [`artifact-delivery-admission-response.v1.schema.json`](schemas-gen/schemas/artifact-delivery-admission-response.v1.md), [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md), [`middleware-status-response.v1.schema.json`](schemas-gen/schemas/middleware-status-response.v1.md), [`offer-catalog-query-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-query-response.v1.md), [`offer-catalog-status-response.v1.schema.json`](schemas-gen/schemas/offer-catalog-status-response.v1.md) |
-| [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](project/40-proposals/080-multiplexed-middleware-channel-executor.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-call-result.v1.schema.json`](schemas-gen/schemas/middleware-channel-call-result.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md), [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md), [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md), [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md), [`middleware-module-http-request.v1.schema.json`](schemas-gen/schemas/middleware-module-http-request.v1.md), [`middleware-module-http-response.v1.schema.json`](schemas-gen/schemas/middleware-module-http-response.v1.md) |
+| [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](project/40-proposals/080-multiplexed-middleware-channel-executor.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-call-result.v1.schema.json`](schemas-gen/schemas/middleware-channel-call-result.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-heartbeat.v1.schema.json`](schemas-gen/schemas/middleware-channel-heartbeat.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v1.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v1.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md), [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md), [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md), [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md), [`middleware-module-http-request.v1.schema.json`](schemas-gen/schemas/middleware-module-http-request.v1.md), [`middleware-module-http-response.v1.schema.json`](schemas-gen/schemas/middleware-module-http-response.v1.md) |
 | [`doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`](project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) |
-| [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md) |
+| [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md) |
+| [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 
-- Canonical schemas: `460`
-- Generated schema docs: `460`
+- Canonical schemas: `464`
+- Generated schema docs: `464`
 - Positive examples: `457`
 - Negative examples: `395`

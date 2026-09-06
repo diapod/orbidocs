@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-channel-accepted:v2",
+  "title": "Middleware Channel Accepted v2",
+  "description": "Host-authenticated session identity, epoch, contract version, and effective limits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "session/id",
+    "session/epoch",
+    "contract/version",
+    "limits/effective"
+  ],
+  "properties": {
+    "schema": {
+      "const": "middleware-channel-accepted.v2"
+    },
+    "schema/v": {
+      "const": 2
+    },
+    "session/id": {
+      "$ref": "middleware-channel-accepted.v1.schema.json#/properties/session~1id"
+    },
+    "session/epoch": {
+      "$ref": "middleware-channel-accepted.v1.schema.json#/properties/session~1epoch"
+    },
+    "contract/version": {
+      "const": "v2"
+    },
+    "channel/features": {
+      "$ref": "middleware-channel-accepted.v1.schema.json#/properties/channel~1features"
+    },
+    "limits/effective": {
+      "$ref": "middleware-channel-accepted.v1.schema.json#/properties/limits~1effective"
+    }
+  },
+  "$defs": {
+    "effectiveLimits": {
+      "$ref": "middleware-channel-accepted.v1.schema.json#/$defs/effectiveLimits"
+    }
+  },
+  "x-dia-basis": [
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "orbidocs:doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md",
+    "orbidocs:doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ]
+}

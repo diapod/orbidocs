@@ -387,6 +387,15 @@ dispatch gate, schema validation, timeout, size limits, and audit policy.
 
 ### Multiplexed Channel Direction
 
+P080's active channel uses V2 hello, acceptance, frame and host-capability-call
+contracts. Unchanged payloads retain their own versions; historical V1 schema
+validation is not live fallback. An optional `response/schema` selects an exact
+successful representation, not capability identity or authority. Unsupported
+selection refuses before dispatch and a mismatched product is not accepted.
+The host composition layer owns domain projection. Supervised module inference
+grants are operator-owned, restart-bound configuration, using the same bounded
+grant contract as JSON-e Flow; reports cannot create authority.
+
 Proposal 080 defines `channel_json` as the supervised module transport. One shared
 loopback WebSocket listener is host-owned;
 each supervised module initiates one authenticated session and receives independent

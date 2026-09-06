@@ -46,14 +46,17 @@ Related schemas:
 ## Status
 
 Implemented MVP foundation; component status is `partial` for the additive
-execution-provenance slice and the two audited correctness/acceptance gaps
-tracked urgently as `P089-012` and `P089-013`.
+execution-provenance slice. The earlier correctness/acceptance gaps
+`P089-012` and `P089-013` are closed, not remaining MVP blockers.
 
 The bounded inquiry organ, host policy boundary, runtime-adapter substrate,
 conformance gate, direct data-plane pilot, and first local and remote provider
-paths have implemented foundations. The current raw-file lease classification
-does not yet prove full data-plane eligibility, and the OpenAI embedding edge
-DTO mismatch blocks a full daemon provider-path claim. Additional provider
+paths have implemented foundations. Raw-file admission uses explicit,
+default-unknown adapter data-plane characteristics, exact runtime/model and
+lease-policy checks, and host-local no-egress enforcement. The OpenAI embedding
+DTO now accepts validated private provider metadata without exposing it in the
+neutral result; a full managed-adapter daemon regression uses a controlled fake
+provider. This is integration evidence, not live-provider acceptance. Additional provider
 families, richer evaluator profiles, and production trainer backends are
 additive extensions. The provider-neutral posture and provenance schemas plus
 their pure comparison, join, projection, migration, and Schema Gate foundation
@@ -70,12 +73,13 @@ response envelope, parent-preserving summarize/transform and current embedding
 cache/restart. P090-004b additionally carries runtime-bound classify/rerank
 results, classify/rerank/image HTTP failures, and explicit public V2 selection
 for the eight synchronous operations. Image publication derives its response or
-refusal from the exact runtime execution parent. The Assistant translator seed
-retains its generate parent in the exact final-response trace, with settlement
-before transcript publication; this is not preflight or UI disclosure completion.
-Remaining terminals,
-batch/training, durable artifact/deferred carriage and recovery remain open. This work is not
-included in the implemented-MVP claim.
+refusal from the exact runtime execution parent. P090-007a/007b now cover
+Assistant preview/execute, separate UI disclosure and finalized publication
+repair. The exact producer evidence precedes settlement; committed plans repair
+trace/charge/transcript projections without another inference. P090-004b2/004b2a
+cover ordinary synchronous-text Agent controller recovery. Remaining producer
+terminals, batch/training and general artifact/deferred recovery stay open.
+These additive P090 capabilities do not change the implemented-MVP claim.
 
 ## Date
 
@@ -337,23 +341,35 @@ still tracks remaining terminals, batch/training, direct effects,
 durable artifact/deferred preservation and full acceptance. Runtime/model refs and
 diagnostics alone do not satisfy this capability.
 
+For synchronous text, a finalized Assistant publication plan retains the exact
+received source, response classification and ordered trace, charge and transcript
+intents. Recovery authenticates the original request and checks session excision;
+it does not authorize another invocation or reconstruct evidence from current
+routing. A possibly dispatched attempt without a committed plan remains fenced.
+The bounded failure/restart gate passes under P090-007b and P090-012a; batch,
+training and general artifact/deferred recovery are not implied by this path.
+
 ### Direct Data Plane And Artifact Outputs
 
 Responsibilities:
 
 - issue bounded, expiring, operation- and runtime-bound leases for artifact,
   object-store, query, and allowlisted local-file scopes;
-- validate canonical path containment fail-closed and replace the current
-  transport-only raw-file rejection heuristic with operation-scoped host-owned
-  data-plane eligibility (`P089-012`);
+- validate canonical path containment fail-closed and enforce operation-scoped
+  host-owned data-plane eligibility from explicit adapter/runtime
+  characteristics, not transport names (`P089-012`);
 - use bounded deferred operations for long-running batch embedding and model
   adaptation;
 - verify output digest and size before object-store publication and preserve
   lease, runtime, model-binding, and operation provenance.
 
-Status: `partial`; the durable lease, containment, artifact, and deferred-
-operation substrate is implemented, but the broad raw-file eligibility claim
-remains open under urgent `P089-012`.
+Status: `done` for the bounded pilot tracked by P063-13 and
+`inq-direct-data-plane` in P064. P089-012 closes raw-file eligibility with
+default-unknown `AdapterDataPlaneCharacteristics`, exact runtime/model binding,
+both lease policies, host-local read-only access and no-egress enforcement.
+The daemon regression `file_lease_admission_requires_explicit_data_plane_policy_and_no_egress`
+pins fail-closed admission. Broader artifact/deferred inference-provenance
+preservation remains partial under P090; this pilot does not certify it.
 
 ### Budgets, Caching, And Effect Intents
 

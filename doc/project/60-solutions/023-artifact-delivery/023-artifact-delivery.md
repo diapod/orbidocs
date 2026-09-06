@@ -1050,6 +1050,19 @@ Allowed status values:
 Artifact Delivery maps these to transport-level responses and operator-visible
 counters. The acceptor owns any domain workflow it starts after admission.
 
+`retryable` is an observation of an unsuccessful attempt, not final admission.
+An exact subsequent request may rerun validation and the acceptor. The receiver
+serializes concurrent work for the same admission identity, preserves prior
+attempt facts, and projects the latest result. Accepted, already-present and
+rejected outcomes remain final for exact replay. A crash during domain handling
+still requires the acceptor's own idempotency contract; transport serialization
+does not promise exactly-once domain execution.
+
+A deferred-operation handle proves queue admission only. Dator may mark its
+result delivery complete only after a successful domain delivery result, not
+on HTTP 202 or a handle alone. Artifact bytes and idempotency identity remain
+unchanged through delivery retries; no retry reexecutes the role.
+
 JSON-e Flow may be an inbound acceptor only through an explicit declaration
 bound to a concrete JSON-e Flow instance/template. A valid schema alone never
 injects an artifact into JSON-e Flow. The operator-visible route table must show
@@ -1073,6 +1086,15 @@ service-order execution:
   by `(workflow/run-id, workflow/phase-id, request_id)`, treats identical
   redelivery as `already-present`, rejects conflicting result digests, and closes
   the workflow step exactly once.
+
+The provenance-bearing profile additionally admits `service-order.result.v2`
+in Dator's outbound rule and Arca's acceptor allowlist. It preserves the exact
+committed bytes and delegates independent inference-policy evaluation to the
+buyer host. P090-008c proves this result path over real local WSS/AD with
+supervised roles, restart and one paid release; its deterministic inference
+server and explicit input/workflow preconditions are not physical federation
+or end-to-end workflow-runner acceptance. External descriptor resolution remains
+outside that profile.
 
 Status: the direct node-to-node, inline-JSON thin slice is implemented in the
 Node reference Arca and Dator modules. Private-safe staged fallback

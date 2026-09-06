@@ -840,8 +840,8 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
 | `corpus-reasoning-arbiter-vote.v1` | new | later (Tracker P8) | Arbiter vote (durable room record). |
 | `corpus-reasoning-answer.v1` | new | post-MVP, first slice implemented | Content-addressed signed answer incl. `policy/digest` (required), `contributor/weights[]`. |
-| `inference-execution-posture.v1` | planned in P090 | cross-cutting, post-contract | Separate signed offer/binding declaration with assertion owner, exact subject/scope/generation, and processing-boundary ref; Corpus consumes it for explicit boundary-aware routing but does not own the schema. |
-| `inference-execution-provenance.v1` | planned in P090 | cross-cutting, post-contract | Provider-neutral realized execution provenance preserved by bids/products, contributions, drafts, and answers; Corpus consumes but does not own the schema. |
+| `inference-execution-posture.v1` | implemented contract in P090 | cross-cutting, scoped consumers | Separate signed offer/binding declaration with assertion owner, exact subject/scope/generation, and processing-boundary ref; Corpus consumes it for explicit boundary-aware routing but does not own the schema. |
+| `inference-execution-provenance.v1` | implemented contract in P090 | cross-cutting, scoped consumers | Provider-neutral realized execution provenance preserved by bids/products, contributions, drafts, and answers; Corpus consumes but does not own the schema. Broader consumer completion remains tracked separately. |
 | `contribution-allocation.v1` | future (reserved) | post-MVP | N-way settlement split (separate proposal). |
 
 Reused: `room.v1` / `room-membership.v1` / `room-event.v1` (P070),
@@ -2684,7 +2684,15 @@ task owns candidate construction or final Room admission.
   zero gaps or drops for requester node A (564 observations), solver node B (19),
   and reviewer node C (22).
 
-#### Phase 8D — Inference posture and realized provenance `[ ] planned`
+#### Phase 8D — Inference posture and realized provenance `[ ] partial`
+
+2026-09-06 checkpoint: P090-008b/008c and P090-009a/b/c implement exact signed
+offer selection, inline procurement result carriage, durable Agent drafts,
+signed V2 publication and independent receiving-policy assessment. The scoped
+gate includes deterministic daemon restart, WSS/AD result delivery and exact
+replay without another invocation, admission or charge. General contribution
+joins, external descriptors and broader live/federated evidence remain outside
+this checkpoint; the complete items below are not closed by one text profile.
 
 - [ ] `corpus-inference-posture-routing`: consume the signed, open
   `inference-execution-posture.v1` contract through Shared Offer Catalog

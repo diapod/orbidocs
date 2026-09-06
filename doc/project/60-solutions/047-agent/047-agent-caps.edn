@@ -147,7 +147,7 @@
     "Expose one provider-neutral value to Assistant and Room preflight policy"
     "Keep missing expired invalid contradictory and unrelated-boundary posture unknown or non-matching"
     "Grant no inference egress context data-plane membership floor or effect authority and never present posture as realized evidence"]
-   :status :planned}
+   :status :partial}
 
   {:cap/id :agent-inference-execution-provenance
    :title "Inference Execution Provenance"
@@ -164,7 +164,7 @@
     "Compose parent provenance monotonically through terminal selection and outcomes"
     "Keep missing evidence unknown and known non-local execution visible after provider redaction"
     "Keep provider-native session account credential endpoint and adapter vocabulary outside Agent Core"]
-   :status :planned}]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :agent-assistant-channel-integration

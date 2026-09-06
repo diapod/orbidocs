@@ -127,11 +127,11 @@ outside the middleware process.
 The service-catalog query supports `service_type`, provider participant,
 provider node, `active` / `active_only`, and `limit`. Active-only is default.
 
-### Inference posture query (planned)
+### Inference posture query (partial)
 
-The additive Proposal 090 slice will index the separate signed
-`inference-execution-posture.v1` value carried by a compatible service-offer
-revision or sidecar and expose deterministic filters for locality posture,
+The additive Proposal 090 slice preserves the separate signed
+`inference-execution-posture.v1` value in the offer's
+`policy_annotations.inference/posture` extension and exposes bounded filters for locality posture,
 optional open provider refs, caller-owned provider allow/deny policy, and
 withheld or unknown identity. The value binds assertion owner, exact offer
 subject/generation/scope, and versioned processing-boundary ref. A filter
@@ -140,6 +140,15 @@ relation; unrelated boundaries are non-matching or `unknown`, never implicitly
 local. The vocabulary remains extensible; the component does not define a
 closed provider registry, deliberation-profile catalog, or evidence-policy
 repertoire.
+
+The optional `inference_policy` query reuses the host's pure policy evaluator,
+filters before pagination and preserves independent assessments. Unavailable
+evaluation and incomplete over-budget scans refuse instead of returning an
+unfiltered result. Local and observed Arca catalog projections use the same
+rules; policy-filtered observed reads retain ordinary expiry cleanup. P090-008b
+separately binds selection/dispatch to the exact admitted signed revision,
+so replacing this read model does not rewrite a purchase's declaration.
+Broader declaration/disclosure variants remain outside the scoped checkpoint.
 
 This query surface describes what an offer declares it may use. It cannot emit
 or infer realized `inference-execution-provenance.v1`, which is produced only
@@ -168,5 +177,6 @@ Remaining work is post-MVP hardening: richer production monitoring, broader
 multi-catalog deployment matrices, and eventual retirement of legacy
 `offer-catalog.fetch` / `offer-catalog.push` compatibility wire names after
 Agora-backed deployments cover the needed federation paths. The Proposal 090
-inference-posture index and filter are also planned and not part of the completed
-hard-MVP evidence.
+inference-posture query is implemented for the scoped inline catalog/selection
+path; broader declaration/disclosure variants remain partial. This additive
+evidence does not change the completed hard-MVP claim.

@@ -693,7 +693,15 @@ handled separately at admission via Seed Directory (P025), not as an offer recor
 - [x] Confirm provider revocation removes offers via admission (Seed Directory
   non-revocation check, Phase 2), independent of snapshot status/expiry.
 
-### Phase 9 — Inference-posture indexing and filtering (planned)
+### Phase 9 — Inference-posture indexing and filtering (partial)
+
+2026-09-06 checkpoint: the shared Python catalog/Arca policy path implements
+bounded filtering before pagination, expiry cleanup and conservative unknown
+handling. Host admission retains exact signed offer revisions; P090-008b freezes
+the selected revision through dispatch, replacement and restart. P090-008c proves
+the inline result return path independently of catalog discovery. The unchecked
+items below retain their broader declaration/index and provider-disclosure scope;
+this is not evidence of a new physical Agora discovery passage.
 
 - [ ] `offer-inference-posture-index`: admit and preserve the signed
   `inference-execution-posture.v1` value from Proposal 021, including assertion

@@ -97,7 +97,7 @@
     "Keep provider disclosure open bounded and subordinate to local consumer policy"
     "Treat missing expired invalid contradictory and unrelated-boundary posture as unknown or non-matching"
     "Grant no inference egress context raw-file lease or effect authority and never present posture as realized evidence"]
-   :status :planned}
+   :status :partial}
 
   {:cap/id :inquirium-inference-execution-provenance
    :title "Realized Inference Execution Provenance"
@@ -112,7 +112,7 @@
     "Carry provenance on every inference-derived result and post-dispatch terminal outcome"
     "Preserve or monotonically join provenance through caches artifacts deferred completion replay traces and consumer projections"
     "Allow provider redaction without dropping non-locality egress uncertainty or evidence class"]
-   :status :planned}
+   :status :partial}
 
   {:cap/id :inquirium-direct-data-plane
    :title "Direct Data Plane and Artifact Outputs"
@@ -131,7 +131,7 @@
     "Validate canonical local containment and derive raw-file eligibility from explicit host-owned data-plane facts rather than transport"
     "Use bounded deferred operations for batch embedding and model adaptation"
     "Verify artifact digest size and provenance before object-store publication"]
-   :status :partial}
+   :status :done}
 
   {:cap/id :inquirium-budget-cache-effect-intents
    :title "Budgets Cache and Effect Intents"
