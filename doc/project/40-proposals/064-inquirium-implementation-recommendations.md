@@ -17,6 +17,14 @@ Related post-MVP extensibility solution:
 Implementation record:
 - `doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 reuses the domain-owned profile resolver while adding common source,
+descriptor, resolution and application bindings. Python consumes Rust-owned
+results rather than reimplementing profile algebra; provider adapters do not gain
+host configuration authority. P091-003/004/005/011 track this planned integration.
+
 ## Status
 
 Accepted implementation recommendations

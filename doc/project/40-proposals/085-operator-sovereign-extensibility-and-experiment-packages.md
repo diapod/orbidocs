@@ -25,6 +25,15 @@ Based on:
 - `doc/project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md`
 - `doc/project/60-solutions/019-middleware/019-middleware.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 reuses domain-owned resource-profile narrowing, descriptor admission,
+revocation and semantic-registry idioms. File precedence is not authority, a
+copied default is not operator approval, and configuration identities remain
+distinct from existing registry bindings. P091-002/004/006/014 own the shared
+configuration layer without replacing P085's admission or signed envelopes.
+
 ## Status
 
 `promoted`

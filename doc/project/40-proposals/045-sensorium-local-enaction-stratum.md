@@ -15,6 +15,14 @@ Based on:
 - `doc/project/60-solutions/000-node/000-node.md`
 - `doc/project/60-solutions/009-monus/009-monus.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 inventories Sensorium's module-local configuration sources and plans shared,
+owner-validated consumption. Observation/directive admission and signed action
+authority remain Sensorium responsibilities; an editable setting cannot replace
+them. Broader adoption is tracked by P091-001b/010a/015, not a reopened hard-MVP gate.
+
 ## Status
 
 Accepted / hard-MVP implemented.

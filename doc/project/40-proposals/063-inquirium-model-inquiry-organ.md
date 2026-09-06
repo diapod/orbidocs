@@ -21,6 +21,14 @@ Related:
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
 - `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans shared configuration addresses, explanation and consumption bindings
+for Inquirium, with a resource-profile limit in its first slice. Inquirium still
+owns inference semantics and model-runtime owns execution; source composition
+cannot manufacture authority or realized inference evidence. See P091-004/011/014.
+
 ## Status
 
 `promoted`

@@ -6,6 +6,14 @@ Based on:
 - `doc/project/30-stories/story-006-voluntary-swarm-exchange.md`
 - `doc/project/60-solutions/000-node/000-node.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans a shared, thin Python configuration client, host-provisioned startup
+snapshots and explicit migration of bundled module-local loaders. This extends
+configuration consumption, not packaging into a second runtime or Python policy
+engine. Use P080 for current supervision; P091-005/010/011 own the new evidence.
+
 ## Status
 
 Proposed (Draft)

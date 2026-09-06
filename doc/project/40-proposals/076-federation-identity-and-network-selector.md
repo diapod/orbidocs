@@ -18,6 +18,14 @@ Promoted to:
 
 - `doc/project/60-solutions/041-federation-root/041-federation-root.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 requires federation-root-derived runtime values to remain explicit domain
+derivations in configuration explanations, not ordinary late file overrides.
+Root identity, issuer authority and restart-only activation remain governed here.
+P091-001a/004/010/015 must preserve those boundaries during source migration.
+
 ## Status
 
 `promoted`

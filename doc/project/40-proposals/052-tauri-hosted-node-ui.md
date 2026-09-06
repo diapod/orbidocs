@@ -10,6 +10,15 @@ Based on:
 - `doc/project/60-solutions/001-node-ui/001-node-ui.md`
 - `node/DEV-GUIDELINES.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans one file-backed control contract for durable Node UI and desktop-host
+settings, including explicit bootstrap/offline access when the daemon is absent.
+Window observations and operational commands remain distinct from durable intent;
+a native settings window is not a second hidden settings store. P091-008 covers
+the first UI slice; desktop-specific adoption belongs to the wider inventory.
+
 ## Status
 
 Draft

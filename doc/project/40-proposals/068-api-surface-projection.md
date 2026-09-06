@@ -8,6 +8,15 @@ Based on:
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/032-local-relationship-layer/032-local-relationship-layer.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 proposes five local configuration operations whose implemented HTTP routes
+and DTOs must join the existing descriptive API projection. Describe/explain are
+scoped reads; plan/commit/apply remain operator-control routes. Discovery does not
+grant invocation authority, and candidate operations must not appear as live
+routes before implementation/admission. See P091-002/005a/015.
+
 ## Status
 
 Promoted to Solution

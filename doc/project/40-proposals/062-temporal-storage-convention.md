@@ -11,6 +11,15 @@ Promoted to: `doc/project/60-solutions/028-temporal-storage-convention/028-tempo
 This proposal records the rationale and decision history. The canonical
 implementation guidance now lives in the promoted solution document.
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 applies the promoted temporal convention to configuration commit/application
+facts and rebuildable views, while files retain editable intent. Its
+intent/replace/outcome protocol explicitly handles the file/journal boundary;
+temporal storage alone does not make that pair atomic. See P091-006/007 and
+Solution 028; this is a planned consumer, not a change to the convention's status.
+
 ## Executive Summary
 
 Orbiplex should adopt a small temporal storage convention for database-backed

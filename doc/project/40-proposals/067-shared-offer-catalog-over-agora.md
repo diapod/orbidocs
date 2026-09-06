@@ -14,6 +14,14 @@ Extended by:
 
 - `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 includes the offer-catalog configuration loader in the broader source and
+consumer migration. Public/shared and buyer-local deployment settings become
+explainable through the common contract; offer records, provider authority and
+catalog query semantics stay here. See P091-001b/010a/015, outside the first slice.
+
 ## Status
 
 Draft

@@ -12,6 +12,14 @@ Based on:
 - `doc/project/60-solutions/SOLUTIONS.en.md`
 - `orbidocs/AGENTS.md` (Node-attached roles)
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 inventories Agora's standalone configuration reader and its legacy
+file-selection/error behavior, then plans shared Rust consumption and explicit
+migration. This affects operator configuration, not Agora record identity,
+publication authority or relay semantics. See P091-001a/010a/011/015.
+
 ## Status
 
 Accepted

@@ -7,6 +7,14 @@ Based on:
 - `doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`
 - `doc/project/40-proposals/029-workflow-template-catalog.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans explainable, file-backed bindings for durable workflow parameters and
+policies through their existing owner. Fan-out, timing, per-run state and effect
+admission remain owned here; a setting edit does not execute a workflow.
+P091-009/010 track integration without making all temporal extensions prerequisites.
+
 ## Status
 
 Draft

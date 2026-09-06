@@ -8,6 +8,14 @@ Based on:
 - `doc/schemas/sensorium-directive-outcome.v1.schema.json`
 - `doc/schemas/sensorium-os-error-codes.v1.schema.json`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans consolidation of the OS connector's configuration acquisition and
+explanation through the shared Rust/host contract. The action catalog, signed
+allowlists and effect validation stay with Sensorium; a configuration snapshot
+is not permission to spawn a process. P091-001b/010a/015 own that adoption.
+
 ## Status
 
 Implemented for hard-MVP minimal runtime. Post-MVP class expansion remains.

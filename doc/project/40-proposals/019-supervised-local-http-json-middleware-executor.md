@@ -12,6 +12,14 @@ Post-MVP successor:
 
 - `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 plans to reuse the configuration layering and lifecycle antecedents recorded
+here, with read-only resolution and a wrapper around retained middleware on/off
+controls. It does not restore the retired `http_local_json` executor; P080 owns
+the current supervised channel contract. P091-003/007a/010 track integration.
+
 ## Status
 
 Implemented, then superseded by Proposal 080

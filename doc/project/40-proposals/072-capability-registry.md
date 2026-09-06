@@ -14,6 +14,15 @@ Based on:
   "Identifiers Must Be Explicit And Canonical", "Implementation Planning and Capability
   Mapping")
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 proposes registering all five configuration operations under P072: only
+describe/explain are module-dispatchable; plan/commit/apply are non-dispatchable
+host routes with independent operator authorization. The registry remains
+descriptive/enforcing metadata, not a source of grants. P091-002/005a own
+registration and security proof; the entries are not claimed to exist yet.
+
 ## Status
 
 `promoted`

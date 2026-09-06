@@ -24,6 +24,14 @@ Based on:
 - `doc/project/60-solutions/039-notifications/039-notifications.md`
 - `doc/project/60-solutions/042-sensorium-workbench/042-sensorium-workbench.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 uses Workbench ownership and sidecar boundaries to test component filename
+selection, scoped configuration and explicit source migration. Workbench approval,
+revocation and actuation semantics remain intact; ordinary file edits cannot
+replace signed consent. P091-004/006/010/015 own the new integration evidence.
+
 ## Status
 
 Accepted / implemented.

@@ -10,6 +10,14 @@ Based on:
 - `node:nse/README.md`
 - `node:middleware-runtime/README.md`
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 uses an existing JSON-e Flow instance parameter as its first live
+workflow-scoped configuration case. Instance identity, limits, validation and
+execution remain P049-owned; shared source explanation is not a new evaluator or
+a definition of all workflows. See P091-004/009/011/014.
+
 ## Status
 
 Accepted / hard-MVP implemented.

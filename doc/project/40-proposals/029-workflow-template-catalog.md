@@ -1,5 +1,13 @@
 # Proposal 029: Workflow Template Catalog
 
+Related configuration work (proposed):
+
+[Proposal 091: File-backed Configuration and Explainable Composition](091-file-backed-configuration-and-explainable-composition.md).
+P091 binds durable workflow controls to existing definition/owner identities and
+file-backed declarations. Templates remain reusable input, not active operator
+intent until instantiated and admitted. P091-009a/009/010 preserve template and
+workflow contracts without introducing another template store or plan language.
+
 ## Status
 
 Draft / Under Discussion.
