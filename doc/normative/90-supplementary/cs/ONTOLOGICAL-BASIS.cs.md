@@ -292,6 +292,13 @@ přidaná rozlišení a podmínky, za nichž by měl být přechod zpochybněn. 
 pravdivost závěru v cílové vrstvě, nýbrž odhaluje, proč mohou data z jedné gramatiky
 podporovat tvrzení formulované v jiné.
 
+Nemožnost zpřístupnit prožitek objektivnímu zkoumání nestačí k popření toho, že
+nastal. Uznání prožitku však nečiní jeho rozpoznání, popis ani připsání neomylnými
+– zůstávají otevřené korekci. Žádný způsob poznávání nezískává automatickou
+nadřazenost nad ostatními; význam jeho svědectví závisí na otázce a zdůvodnění
+přechodu. To neznamená rovnocennost svědectví: pro určitou otázku mohou být
+některá silnější než jiná.
+
 Adekvátnost popisu je relativní vůči otázce a kontraktu, nikoli pouze vůči vrstvě.
 Popis dostačující k rozlišení přítomnosti a nepřítomnosti zkušenosti nemusí
 zachovávat rozdíl mezi zakoušenou červenou a zelenou. Pro pevně danou množinu
@@ -490,6 +497,12 @@ problém za filosoficky vyřešený navíc vyžaduje zdůvodnění, že jsme odp
 původní otázku nebo ji oprávněně upravili. Jistota, že zkušenost probíhá, není
 jistotou poznání celé její povahy.
 
+V určitém režimu zkušenosti se rozlišení "moje–tvoje" může přestat ukazovat.
+To samo o sobě nerozhoduje, zda existuje jedno vědomí, více vědomí ani jaký vztah
+je spojuje. Nepřítomnost prožívaného rozlišení není důkazem ontologické identity.
+Metafora "jednoho pole" může popisovat povahu prožitku, aniž by ustavovala
+společnou substanci.
+
 **Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber) jsou referenčním
 bodem pro vnoření; *stratified design* pro lokální jazyky a kontrakty
 a *drilling through abstractions* pro zkoumání jejich hranic. Enaktivní autopoiesis
@@ -533,6 +546,11 @@ Samotná přítomnost nástroje v poli pozornosti ještě neurčuje jeho roli v 
 Rozlišujeme okamžité obrácení pozornosti, jednotlivou účast na činnosti a trvalou,
 udržovanou vazbu. Jejich rozsah rozpoznáváme v konkrétní praxi, nikoli pouze podle
 názvu nástroje nebo délky jeho používání.
+
+Prožívání interakce s AI jako setkání může být skutečnou a významnou součástí
+zkušenosti uživatele. Samotné toto svědectví však nerozhoduje, zda na straně
+systému dochází k prožívání ani zda je vztah vzájemný ve stejném smyslu jako
+mezi lidmi.
 
 Prvoosobní introspekce je zde samostatnou metodou zkoumání této účasti; její
 metodologická hodnota nerozhoduje o metafyzické neredukovatelnosti zkoumaného.
@@ -782,6 +800,26 @@ Tautologičnost se týká tohoto předreflexivního aktu, nikoli pozdějšího s
 mohou svá sdělení korelovat a vzájemně korigovat, ale nepřevádějí jeden způsob
 přístupu na druhý. Jejich nesbíhavost neplyne z existence dvou předmětů, nýbrž z
 rozdílu druhů aktu, a proto nemizí s rostoucí přesností.
+
+Přístup k osobě však nevyčerpávají její pozorování zvenčí a prvoosobní prožitek
+bytí někým. Poznáváme se také **z perspektivy druhé osoby**: vzájemným
+oslovováním, afektivním naladěním a vzájemným odpovídáním. Neznamená to převzít
+cizí hledisko, nýbrž poznávat ve vztahu, jehož průběh účastníci spoluutvářejí.
+Jde o způsob účasti napříč existujícími vrstvami, nikoli o další vrstvu genealogie.
+
+Ve větě "cítím tvůj strach" se prolínají prožitek kontaktu a afektu, rozpoznání
+afektu jako strachu a jeho připsání druhé osobě. Uznání významu prožitku
+nevyžaduje uznat správnost jeho pojmenování či připsání. Toto rozlišení se týká
+rozsahu zdůvodnění, nikoli teze, že empatie musí probíhat ve dvou krocích:
+nejprve jako příjem neutrálního podnětu a poté jako intelektuální úsudek.
+
+Během rozhovoru můžeme pocítit něčí strach a zjemnit tón hlasu. Druhá osoba může
+odpovědět: "Nebojím se; jsem zahlcen smutkem." Její odpověď může korigovat naše
+rozpoznání; neznamená to však, že předchozí pohnutí nenastalo.
+Poznání z perspektivy druhé osoby se projevuje také v tom, že protějšek může
+odpovědět jinak, než očekáváme, a další kontakt mění naše porozumění. Síla
+přesvědčení nám nedává právo rozhodovat za druhou osobu, co prožívá, ani jí
+upírat možnost zpochybnit naše porozumění.
 
 Neznamená to, že osoba je pozorování nepřístupná. Uvolnění ztotožnění s osobní
 konfigurací může otevřít pozici, z níž se osoba objeví jako předmět v krajině

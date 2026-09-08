@@ -323,6 +323,14 @@ should be challenged. It does not guarantee the truth of the conclusion in the
 target layer, but makes explicit why data from one grammar may support a claim
 formulated in another.
 
+An inability to make an experience available to objective examination is not
+enough to deny its occurrence. Acknowledging an experience does not, however,
+make its identification, description, or attribution infallible – these remain
+open to correction. No way of knowing gains automatic precedence over the others;
+the significance of its testimony depends on the question and the warrant for
+the transition. This does not make all testimony equivalent: for a given question,
+some may be stronger than others.
+
 A description's adequacy is relative to a question and contract, not solely to a
 layer. A description sufficient to distinguish the presence and absence of
 experience may fail to preserve the difference between experienced red and green.
@@ -540,6 +548,12 @@ solved additionally requires a warrant that we answered the original question or
 justifiably revised it. Certainty that experience occurs is not certainty of
 knowing its entire nature.
 
+In a particular mode of experience, the distinction between "mine and yours" may
+cease to appear. This does not by itself settle whether there is one consciousness,
+many consciousnesses, or what relation connects them. The absence of an experienced
+distinction is not proof of ontological identity. The metaphor of "one field" may
+describe the character of an experience without positing a shared substance.
+
 **Anchoring in known traditions:** holarchies (Koestler, Wilber) provide a point of
 reference for nesting; *stratified design* for local languages and contracts; and
 *drilling through abstractions* for examining their boundaries. Enactive autopoiesis
@@ -587,6 +601,11 @@ A tool's mere presence in the field of attention does not yet determine its role
 in action. We distinguish a momentary shift of attention, a single contribution
 to an activity, and a lasting, sustained coupling. Their scope is recognized in
 concrete practice, not from the tool's name or the duration of its use alone.
+
+Experiencing an interaction with AI as an encounter can be a real and meaningful
+part of the user's experience. This testimony alone does not, however, establish
+whether experiencing occurs on the system's side or whether the relation is
+reciprocal in the same sense as between humans.
 
 First-person introspection is here a distinct method of investigating this
 participation; its methodological value does not establish the metaphysical
@@ -863,6 +882,29 @@ Science and introspection can correlate and mutually correct their reports, but 
 do not transform one mode of access into the other. Their non-convergence does not
 result from the existence of two objects, but from a difference in kinds of act, and
 therefore does not disappear with greater precision.
+
+Access to the person is not, however, exhausted by observing them from outside
+and the first-person feeling of being someone. We also come to know one another
+**second-personally**: through addressing one another, affective attunement, and
+mutual response. This does not mean taking over another's point of view, but
+knowing within a relation whose course the participants co-shape. It is a way of
+participating across existing layers, not another layer of the genealogy.
+
+The statement "I feel your fear" intertwines the experience of contact and affect,
+the identification of that affect as fear, and its attribution to the other person.
+Acknowledging the significance of the experience does not require accepting the
+accuracy of its naming or attribution. This distinction concerns the scope of
+justification, not a claim that empathy must proceed in two stages: first receiving
+a neutral stimulus and then drawing an intellectual inference.
+
+During a conversation, we may feel someone's fear and soften our voice. The other
+person may reply: "I am not afraid; I am overwhelmed by sadness." Their response
+may correct our understanding without implying that the earlier affective response
+did not occur. Second-person knowing also manifests in the other
+person's ability to respond differently than we expect, while continued contact
+changes our understanding. The strength of our conviction does not give us the
+right to decide on their behalf what they experience or to deny them the
+opportunity to challenge our reading.
 
 This does not mean that the person is inaccessible to observation. Loosening
 identification with the personal configuration can open a position from which the

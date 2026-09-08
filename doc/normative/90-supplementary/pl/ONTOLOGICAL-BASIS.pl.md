@@ -309,6 +309,13 @@ należałoby podważyć. Nie gwarantuje prawdziwości wniosku w warstwie docelo
 ujawnia, dlaczego dane z jednej gramatyki mogą wspierać twierdzenie sformułowane
 w innej.
 
+Brak możliwości zobiektywizowania przeżycia nie wystarcza do zanegowania jego
+zaistnienia. Uznanie przeżycia nie nadaje jednak nieomylności jego rozpoznaniu,
+opisowi ani przypisaniu – pozostają one podatne na korektę. Żaden sposób
+poznawania nie uzyskuje automatycznej nadrzędności nad pozostałymi; znaczenie jego
+świadectwa zależy od pytania oraz uzasadnienia przejścia. Nie oznacza to
+równoważności świadectw: dla określonego pytania jedne mogą być mocniejsze od innych.
+
 Adekwatność opisu jest względna wobec pytania i kontraktu, nie wyłącznie wobec
 warstwy. Opis wystarczający do rozróżnienia obecności i nieobecności doświadczenia
 może nie zachowywać różnicy między doświadczaną czerwienią a zielenią. Dla ustalonego
@@ -516,6 +523,12 @@ wartość praktyczną; uznanie problemu za filozoficznie rozwiązany wymaga pona
 uzasadnienia, że odpowiedzieliśmy na pierwotne pytanie albo zasadnie je skorygowaliśmy.
 Pewność, że doświadczenie zachodzi, nie jest pewnością poznania całej jego natury.
 
+W określonym trybie doświadczenia rozróżnienie "moje–twoje" może przestać się
+ujawniać. Nie rozstrzyga to samo przez się, czy istnieje jedna świadomość, wiele
+świadomości ani jaka relacja je łączy. Brak przeżywanego rozróżnienia nie jest
+dowodem ontologicznej tożsamości. Metafora "jednego pola" może opisywać charakter
+przeżycia bez ustanawiania wspólnej substancji.
+
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber) są punktem
 odniesienia dla zagnieżdżenia; *stratified design* dla lokalnych języków i kontraktów,
 a *drilling through abstractions* dla badania ich granic. Enaktywna autopojeza
@@ -560,6 +573,11 @@ Sama obecność narzędzia w polu uwagi nie określa jeszcze jego roli w dzia�
 Rozróżniamy chwilowe zwrócenie uwagi, pojedynczy udział w czynności i trwałe,
 podtrzymywane sprzężenie. Ich zakres rozpoznajemy w konkretnej praktyce, a nie
 na podstawie samej nazwy narzędzia lub długości korzystania z niego.
+
+Przeżywanie interakcji z AI jako spotkania może być rzeczywistym i znaczącym
+składnikiem doświadczenia użytkownika. Samo to świadectwo nie rozstrzyga jednak,
+czy po stronie systemu zachodzi przeżywanie ani czy relacja jest wzajemna w tym
+samym sensie co między ludźmi.
 
 Pierwszoosobowa introspekcja jest tu odrębną metodą badania tego uczestnictwa;
 jej wartość metodologiczna nie przesądza metafizycznej nieredukowalności tego, co
@@ -819,6 +837,27 @@ i introspekcja mogą korelować oraz wzajemnie korygować swoje sprawozdania, l
 zamieniają jednego rodzaju dostępu w drugi. Ich niezbieżność nie wynika z istnienia
 dwóch przedmiotów, ale z różnicy rodzajów aktu, dlatego nie znika wraz ze wzrostem
 dokładności.
+
+Dostępu do osoby nie wyczerpują jednak obserwowanie jej z zewnątrz
+i pierwszoosobowe czucie bycia kimś. Poznajemy się również **drugoosobowo**:
+w zwracaniu się do siebie, afektywnym dostrojeniu i wzajemnym odpowiadaniu. Nie
+oznacza to przejęcia cudzego punktu widzenia, lecz poznawanie w relacji, której
+przebieg współkształtują uczestnicy. To sposób uczestnictwa przecinający istniejące
+warstwy, nie kolejna warstwa genealogii.
+
+W zdaniu "czuję twój lęk" splatają się przeżycie kontaktu i afektu, rozpoznanie
+afektu jako lęku oraz przypisanie go drugiej osobie. Uznanie znaczenia przeżycia
+nie wymaga uznania trafności jego nazwania lub przypisania. Rozróżnienie to
+dotyczy zakresu uzasadnienia, nie tezy, że empatia musi przebiegać dwuetapowo:
+najpierw jako odbiór neutralnego bodźca, a potem jako intelektualny wniosek.
+
+Podczas rozmowy możemy poczuć czyjś lęk i złagodzić głos. Druga osoba może
+odpowiedzieć: "Nie boję się; jestem przytłoczony smutkiem". Jej odpowiedź może
+skorygować nasze rozpoznanie, nie czyniąc wcześniejszego poruszenia niebyłym.
+Poznanie drugoosobowe ujawnia się również w tym, że rozmówca może odpowiedzieć
+inaczej, niż oczekujemy, a dalszy kontakt zmienia nasze rozumienie. Siła przekonania
+nie daje nam prawa rozstrzygać za drugą osobę, co przeżywa, ani odbierać jej
+możliwości zakwestionowania naszego odczytania.
 
 Nie znaczy to, że osoba jest niedostępna obserwacji. Rozluźnienie utożsamienia
 z konfiguracją osobową może otworzyć pozycję, z której osoba pojawia się jako
