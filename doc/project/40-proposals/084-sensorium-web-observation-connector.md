@@ -1148,11 +1148,32 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | done | SQLite WAL state content-binds idempotent source updates, fences replacements, caps sources, generations, operations, and snapshots, retains metadata before bodies, and resolves interrupted work to `unknown`. Exact `304` reuse requires retained generation, requested/final URL, profile, fetch-result, and body evidence. Replay Scheduler launches a bounded batch of at most 16 due sources per tick, narrowed by `max_records`, the remaining deadline, and worker capacity. Each claim's 1-120000 ms timeout is schema-gated, retained in the private P055 continuation, and applied to the actual connector invocation; every post-claim refusal is compensated with structured failure diagnostics. Cancellation remains fenced before every external effect and commit. Restart recovery runs synchronously after connector readiness and before scheduler startup, traverses owned BDOs once by stable keyset pages, and is marked recovered only after the full pass succeeds. Shutdown never blocks on a full queue or an unbounded join. Connector absence and source launch-rate exhaustion remain distinct typed scheduler diagnostics. Direct refresh remains capped at 20 seconds. Pause/resume/run-now, launch budgets, bounded backoff, and schema-gated operator inspection remain source-owned. |
 | P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | done | Changed documents are submitted through `sensorium.observe.submit` with classification, required operational context, source and generation refs, fetch and extraction digests, and P081 causal context. Explicit representation retention invokes authenticated `artifact.delivery.retain`, stores only the immutable artifact ref in the source snapshot, omits representation bytes from the observation envelope and SQLite cache evidence, and chains the Artifact Delivery receipt into the Sensorium observation receipt. Refresh status retains a bounded redacted receipt-ref chain plus closed failure code, phase, and retry class; raw-body artifact refs remain opt-in. |
 | P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | partial | The optional `sensorium-web-latest-state` adapter registers only when the connector is configured, schema-gates the daemon/module boundary, rechecks source, generation, and canonical snapshot digest, emits latest-state cursors, coalesces unchanged reads, and rejects stale generations. It exposes no refresh operation, so P082 read/subscribe cannot acquire fetch authority. Dedicated local SSE and authorized direct-peer/Room acceptance, revocation, and remote-refresh refusal evidence remain. |
-| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, automated real macOS no-egress evidence, BDO recovery/cancellation, and content-bound representation-retention evidence are implemented without public-site dependency. Durable-source load and dedicated P082 local/remote E2E remain. |
+| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, automated real macOS no-egress evidence, BDO recovery/cancellation, and content-bound representation-retention evidence are implemented without public-site dependency. A single-URL operator runner now exercises the authenticated daemon bridge, exact-origin bounded fetch, static extraction, observation admission, bound text/JSON export, and scoped process cleanup; its offline mode explicitly substitutes host fetch/admission. Durable-source load and dedicated P082 local/remote E2E remain. |
 | P084-010 | Add `sensorium-web-browser.v1` isolated JavaScript rendering profile | deferred | Requires a separately accepted browser process, host-controlled egress, empty profile, resource caps, no credentials/shares, rendered snapshot contracts, and deployment evidence. |
 | P084-011 | Define and implement P084 Phase 2 `sensorium-web-crawl.v1` frontier and politeness profile | deferred | After static-profile acceptance, P084 must freeze frontier lifecycle, fail-closed robots behavior, depth/page/origin budgets, restart, cancellation, retention, and operator evidence before implementation is accepted. |
 | P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | deferred | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
+
+### Single-URL operator acceptance (2026-09-08)
+
+`node:tools/acceptance/sensorium-web-url/` closes a bounded operator experiment
+within P084-009. The macOS live run fetched the explicitly selected
+`https://randomseed.io/txt/ai-and-consciousness/` through the real daemon and
+supervised connector: HTTP 200, 82,172 body bytes, 39,148 extracted characters,
+164 blocks, 29 inert links, no truncation, one host fetch, an admitted observation
+receipt reference, and graceful process cleanup. A separate mismatched-origin
+run proved `OriginDenied`, no output document, and graceful cleanup. Evidence is
+retained in `node:docs/SENSORIUM-WEB-URL-EVIDENCE.md`.
+A subsequent review-closure run also verified both `all` and `internal-loopback`
+OpenAPI projections, the documentation shell, and module health/readiness before
+fetching, after correcting response bindings and shared launch-environment order.
+
+The runner reads the admitted inline representation through
+`sensorium.observation.get`; separate representation Artifact Delivery retention
+is disabled for this experiment. Its offline mode uses the real connector and
+SQLite source store with explicit host fetch/admission doubles. This evidence
+does not close P084-008, durable-source load acceptance, or the remaining parts
+of P084-009.
 
 ## Next Actions
 

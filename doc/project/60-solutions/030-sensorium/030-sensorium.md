@@ -385,6 +385,17 @@ Status:
   authenticated content-bound `artifact.delivery.retain` boundary and their P081
   receipt is chained into the Sensorium observation receipt; retained bytes are
   omitted from both the observation envelope and the SQLite cache projection.
+  The single-URL operator runner in `node:tools/acceptance/sensorium-web-url/`
+  uses the real daemon/channel path and reads the admitted inline representation
+  through `sensorium.observation.get`, with exact source/snapshot/digest bindings
+  and bounded process cleanup. Its deterministic offline mode uses the real
+  connector/store with explicit host fetch/admission doubles. Declared API routes
+  make source operations and health/readiness reachable through the existing
+  operator bridge, with resolvable OpenAPI schema URNs. The runner checks both
+  node-wide projections and the documentation shell. Sandbox environment clearing
+  precedes explicit launch values and host channel bootstrap; profile values and
+  temporary-variable removal are enforced afterwards in channel and stdio paths.
+  The DNS deadline timer is constructed inside its owning Tokio runtime.
   P084 remains partial
   until durable-source load and dedicated local/direct-peer/Room acceptance are
   retained.
