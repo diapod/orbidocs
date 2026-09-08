@@ -31,7 +31,7 @@
       "minItems": 1,
       "maxItems": 4,
       "uniqueItems": true,
-      "items": { "type": "string", "pattern": "^execution-receipt:[A-Za-z0-9_-]{43}$" }
+      "items": { "$ref": "execution-receipt.v1.schema.json#/properties/receipt~1id" }
     },
     "retry/class": { "enum": ["terminal", "retryable", "policy-dependent"] }
   },

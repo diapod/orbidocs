@@ -550,6 +550,8 @@ child causal context from that receipt before `sensorium.observe.submit`;
 Sensorium Core emits the second receipt with `previous/receipt-ref` bound to the
 retention receipt. Durable source status retains at most four receipt refs and a
 closed failure phase, never representation bytes, URLs, or host paths.
+Those refs reuse the P081 `execution-receipt.v1` identifier contract, including
+namespaced issuer identifiers; P084 does not narrow them to an unqualified digest.
 
 Cache entries require an owner, key, byte cap, entry cap, TTL or retention rule,
 and restart behavior. Cache eviction may force a full refetch but must not turn a
@@ -1147,8 +1149,8 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-005 | Implement the supervised Python static extraction connector without ambient egress | done | The channel-only `sensorium-web` module consumes only daemon-fetched schema-gated values, revalidates inline and content-bound artifact bytes, applies the frozen stdlib profile, and produces bounded inert blocks. macOS Seatbelt permits only the exact host-created loopback middleware endpoint; portable harness tests and automated macOS deployment evidence prove exact-channel success plus refusal of another loopback port, DNS, proxy, and subprocess paths. Unsupported host adapters fail closed. |
 | P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | done | SQLite WAL state content-binds idempotent source updates, fences replacements, caps sources, generations, operations, and snapshots, retains metadata before bodies, and resolves interrupted work to `unknown`. Exact `304` reuse requires retained generation, requested/final URL, profile, fetch-result, and body evidence. Replay Scheduler launches a bounded batch of at most 16 due sources per tick, narrowed by `max_records`, the remaining deadline, and worker capacity. Each claim's 1-120000 ms timeout is schema-gated, retained in the private P055 continuation, and applied to the actual connector invocation; every post-claim refusal is compensated with structured failure diagnostics. Cancellation remains fenced before every external effect and commit. Restart recovery runs synchronously after connector readiness and before scheduler startup, traverses owned BDOs once by stable keyset pages, and is marked recovered only after the full pass succeeds. Shutdown never blocks on a full queue or an unbounded join. Connector absence and source launch-rate exhaustion remain distinct typed scheduler diagnostics. Direct refresh remains capped at 20 seconds. Pause/resume/run-now, launch budgets, bounded backoff, and schema-gated operator inspection remain source-owned. |
 | P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | done | Changed documents are submitted through `sensorium.observe.submit` with classification, required operational context, source and generation refs, fetch and extraction digests, and P081 causal context. Explicit representation retention invokes authenticated `artifact.delivery.retain`, stores only the immutable artifact ref in the source snapshot, omits representation bytes from the observation envelope and SQLite cache evidence, and chains the Artifact Delivery receipt into the Sensorium observation receipt. Refresh status retains a bounded redacted receipt-ref chain plus closed failure code, phase, and retry class; raw-body artifact refs remain opt-in. |
-| P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | partial | The optional `sensorium-web-latest-state` adapter registers only when the connector is configured, schema-gates the daemon/module boundary, rechecks source, generation, and canonical snapshot digest, emits latest-state cursors, coalesces unchanged reads, and rejects stale generations. It exposes no refresh operation, so P082 read/subscribe cannot acquire fetch authority. Dedicated local SSE and authorized direct-peer/Room acceptance, revocation, and remote-refresh refusal evidence remain. |
-| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, automated real macOS no-egress evidence, BDO recovery/cancellation, and content-bound representation-retention evidence are implemented without public-site dependency. A single-URL operator runner now exercises the authenticated daemon bridge, exact-origin bounded fetch, static extraction, observation admission, bound text/JSON export, and scoped process cleanup; its offline mode explicitly substitutes host fetch/admission. Durable-source load and dedicated P082 local/remote E2E remain. |
+| P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | partial | The optional `sensorium-web-latest-state` adapter registers only when the connector is configured, schema-gates the daemon/module boundary, rechecks source, generation, and canonical snapshot digest, emits latest-state cursors, coalesces unchanged reads, and rejects stale generations. It exposes no refresh operation, so P082 read/subscribe cannot acquire fetch authority. Real macOS local read/SSE acceptance now covers admitted snapshot and digest binding, no-change coalescing, changed content, grant revocation, typed generation fencing, and explicit supersession with fresh authority; exact host/fixture counters prove no consumer fetch. Dedicated authorized direct-peer/Room acceptance and remote-refresh refusal evidence remain. |
+| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, automated real macOS no-egress evidence, BDO recovery/cancellation, and content-bound representation-retention evidence are implemented without public-site dependency. A single-URL operator runner now exercises the authenticated daemon bridge, exact-origin bounded fetch, static extraction, observation admission, bound text/JSON export, and scoped process cleanup; its offline mode explicitly substitutes host fetch/admission. The dedicated local P082 E2E is retained in `node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`. Durable-source load and dedicated P082 remote E2E remain. |
 | P084-010 | Add `sensorium-web-browser.v1` isolated JavaScript rendering profile | deferred | Requires a separately accepted browser process, host-controlled egress, empty profile, resource caps, no credentials/shares, rendered snapshot contracts, and deployment evidence. |
 | P084-011 | Define and implement P084 Phase 2 `sensorium-web-crawl.v1` frontier and politeness profile | deferred | After static-profile acceptance, P084 must freeze frontier lifecycle, fail-closed robots behavior, depth/page/origin budgets, restart, cancellation, retention, and operator evidence before implementation is accepted. |
 | P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | deferred | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
@@ -1175,9 +1177,30 @@ SQLite source store with explicit host fetch/admission doubles. This evidence
 does not close P084-008, durable-source load acceptance, or the remaining parts
 of P084-009.
 
+### Local P082 read/SSE acceptance (2026-09-08)
+
+`node:tools/acceptance/sensorium-web-local-interface/` closes the local part of
+P084-008 using the real daemon, bounded fetch host, supervised no-egress static
+connector, SQLite source store, observation admission, and authenticated P082
+HTTP/SSE routes. A deterministic local HTTP fixture uses a test-only resolver
+and loopback destination admission; release builds expose no policy override.
+The test checks initial payload/digest binding, no-change, changed content,
+revocation, typed stale-generation refusal, stream closure, and explicit
+supersession with a fresh grant. Four explicit operator refreshes account for
+all four host fetch attempts and fixture requests; consumer read/subscribe adds
+none. The daemon and isolated data are cleaned up.
+
+This evidence exposed and corrected runtime Schema Gate boundary selections,
+P084 receipt references narrower than the P081 identifier contract, inconsistent
+authenticated module actor refs across HTTP/SSE, and loss of terminal generation
+errors after broker failure. The measured run, 60 P082 regression tests, and two
+focused Schema Gate tests are retained in
+`node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`. P084-008 and P084-009 remain
+partial pending dedicated remote-carrier and durable-source load evidence.
+
 ## Next Actions
 
-1. Complete P084-008 with dedicated local SSE, direct-peer, and Room acceptance,
+1. Complete P084-008 with dedicated direct-peer and Room acceptance,
    including revocation, stale generation, supersession, and remote-refresh refusal.
 2. Add durable-source capacity/load evidence across restart and operator inspection.
 3. Evaluate any proposed alternate extraction profile against the same checked-in

@@ -219,8 +219,11 @@ only an already admitted latest snapshot, rechecks source/generation and the
 canonical snapshot digest, coalesces an unchanged cursor to `no-change`, and has
 no refresh method. Existing local SSE, direct-peer, and Room carriers therefore
 remain transport projections rather than acquisition authority. Dedicated
-multi-carrier P084 acceptance remains tracked by P084-008 and does not reopen
-P082 hard-MVP readiness.
+direct-peer/Room P084 acceptance remains tracked by P084-008 and does not reopen
+P082 hard-MVP readiness. The real macOS local read/SSE slice is retained in
+`node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`: admitted payload/digest
+binding, no-change, changed snapshots, revocation, generation fencing, and
+explicit supersession requiring fresh grants, with zero consumer-triggered fetches.
 
 ### Source Adaptation
 
@@ -236,6 +239,9 @@ Responsibilities:
   `artifact-snapshot` latest-state adapter;
 - keep source-specific validation and production behind a bounded registry and
   revalidate persisted bindings after restart;
+- revalidate current publication and source bindings after successful or failed
+  provider I/O so terminal generation and supersession failures retain their
+  interface type across the consumer-neutral broker boundary;
 - require all four built-in adapters at daemon startup while treating readiness
   snapshots as advisory and each bounded source read as authoritative;
 - preserve source classification and apply redaction before publication.
@@ -271,7 +277,9 @@ Status: `done`.
 Responsibilities:
 
 - expose local host-capability reads and management through authenticated host
-  caller binding;
+  caller binding; derive `module:<module-id>` from that binding consistently for
+  capability admission, causal-context validation, feed ownership, and local SSE,
+  rather than accepting the request body's actor as authority;
 - admit direct-peer requests only after signed Capability Passport validation
   against `sensorium-interface@v1`, exact authenticated remote target, local
   source-node issuer, resource, operation, classification ceiling, batch caps,

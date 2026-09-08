@@ -396,9 +396,14 @@ Status:
   precedes explicit launch values and host channel bootstrap; profile values and
   temporary-variable removal are enforced afterwards in channel and stdio paths.
   The DNS deadline timer is constructed inside its owning Tokio runtime.
-  P084 remains partial
-  until durable-source load and dedicated local/direct-peer/Room acceptance are
-  retained.
+  Dedicated macOS local P082 acceptance now verifies real admitted snapshots
+  through authenticated read and SSE, unchanged/changed content, grant revocation,
+  typed generation fencing, and explicit supersession requiring a fresh grant.
+  Four explicit refreshes account for all host fetches and fixture requests;
+  consumers add no fetches. Evidence is retained in
+  `node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`.
+  P084 remains partial until durable-source load and dedicated direct-peer/Room
+  acceptance are retained.
 
 ## Out of Scope
 
