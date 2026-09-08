@@ -121,13 +121,15 @@ blízkým nágárdžunovské „prázdnotě prázdnoty“ (sanskrtské
 vědomí je poznatelné jako základ), od škol, které se zastavují u univerzálního vědomí
 jako základu, i od eliminativismu (který tvrdí, že není co poznávat).
 
-Apofatický enaktivismus se liší také od panpsychismu, který o základu vypovídá, že
-zakouší, a připisuje schopnost zakoušení dílčím prvkům. Z perspektivy stratifikace
-jde o dvě současné chyby „krádeže ontologie“: promítání vlastností vrstvy vědomí na
-to, co je nevyslovitelné, a umístění těchto vlastností do jsoucna, které je
-terminálním produktem celého stohu aktů určení (srov. tabulku aktů v postulátu 2 a
-formuli reifikace v postulátu 4). Panpsychismus tak umisťuje to, co je nejméně
-podmíněné, do toho, co je nejvíce konstruované.
+Apofatický enaktivismus rovněž nepřijímá panpsychistický závěr, že zkušenost
+přísluší fundamentálním složkám skutečnosti. V našem modelu nelze přenášet
+vlastnosti vědomí na označení nulové úrovně ani z genealogie pojmu věci odvozovat
+její schopnost zakoušet (srov. tabulku aktů v postulátu 2). Podle apofatického
+enaktivismu existuje riziko, že panpsychismus umisťuje to, co je nejméně podmíněné,
+do toho, co je nejvíce konstruované. Nejde však o vyvrácení
+panpsychismu samotným uspořádáním vrstev: hypotézy o povaze popisovaných složek
+vyžadují samostatné argumenty a genealogie jejich popisu nerozhoduje o jejich
+ontologii.
 
 Dvoufázovost je blízká gendlinovskému *felt sense* → symbolizace, s tím rozdílem,
 že je zde impuls méně pojmově utvořený než zkušenost již formovaná interpretací.
@@ -157,6 +159,14 @@ podrobně. Například mezi vědomím a pocitem subjektivity můžeme vyčlenit 
 přítomnosti ještě před rozdělením na subjekt a objekt atd. Zde toto členění
 přijímáme, abychom ukázali samotný mechanismus bez vnuceného zpřesňování modelu.
 
+Rozlišujeme přitom **popisnou stratifikaci**, tedy volbu jazyků a rozlišení,
+**genealogickou stratifikaci**, tedy pracovní hypotézu konstituce zkušenosti
+prostřednictvím aktů určení, a **implementační stratifikaci**, tedy stavbu systému
+z vrstev s explicitními kontrakty. Genealogie zde neznamená chronologii. Užitečnost
+popisu ani účinnost architektury programu nedokazují, že se zkušenost konstituuje
+právě takto. Přechod mezi těmito pojetími vyžaduje samostatné zdůvodnění; podobnost
+struktur je vodítkem pro zkoumání, nikoli důkazem společného mechanismu.
+
 Prostorová označení používaná níže náleží ke dvěma souvisejícím, avšak netotožným
 řádům. Na genealogické ose znamená „hlubší“ nebo „dřívější“ méně určené, nikdy však
 dřívější v čase. Ve stohu abstrakcí poskytuje „nižší“ vrstva konkréta, z nichž
@@ -169,10 +179,16 @@ Nulová úroveň není ani hlubší vrstvou vědomí, ani vyšší abstrakcí na
 konvenčním označením hranice náležejícím k metařádu popisu. Proto zůstává mimo
 vnoření: není společným předkem vrstev ani dalším článkem jejich genealogie.
 
-Každá vrstva vyrůstá z hlubší jako její abstrakt a konkréta nižších vrstev
-se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratified design*
+V tomto modelu předpokládáme, že každá vrstva vyrůstá z hlubší jako její abstrakt
+a konkréta nižších vrstev se stávají stavebním materiálem vrstev vyšších – analogicky ke *stratified design*
 Abelsona a Sussmana ([„MIT AI Memo 986“](https://archive.org/details/bitsavers_mitaiaimAI_1190659)),
 kde se implementace stávají abstrakcemi dalších úrovní.
+
+Být **primitivem určitého jazyka neznamená být základem skutečnosti**. To, co
+v jedné vrstvě nerozkládáme, může mít rozvinutí v jiné; samotná absence takového
+rozvinutí nedokazuje ani jeho nemožnost, ani existenci. Platí to také pro vědomí,
+hmotu, proces, vztah a prázdnotu. Ani použití označení nulové úrovně mu nepřiděluje
+referent s fundamentálním statusem.
 
 Tutéž osu lze číst několika komplementárními způsoby, což se stává viditelným,
 když stratifikaci postavíme například vedle teorie komunikace a pozice subjektu
@@ -276,6 +292,37 @@ přidaná rozlišení a podmínky, za nichž by měl být přechod zpochybněn. 
 pravdivost závěru v cílové vrstvě, nýbrž odhaluje, proč mohou data z jedné gramatiky
 podporovat tvrzení formulované v jiné.
 
+Adekvátnost popisu je relativní vůči otázce a kontraktu, nikoli pouze vůči vrstvě.
+Popis dostačující k rozlišení přítomnosti a nepřítomnosti zkušenosti nemusí
+zachovávat rozdíl mezi zakoušenou červenou a zelenou. Pro pevně danou množinu
+případů `X`, abstrakci `f: X → F` a přiřazení odpovědí `T: X → Q` zní jednoduchý
+test takto: jestliže `f(a) = f(b)`, ale `T(a) ≠ T(b)`, neexistuje funkce `g`, která
+pro všechny tyto případy obnoví `T` pouze z `f`. Test se týká přesného,
+deterministického přiřazení; sám nedokazuje správnost přijatého kódování ani
+svědectví o rozdílu. Pravděpodobnostní model vyžaduje samostatný test závislosti
+rozdělení a historický či relační popis zohlednění příslušného kontextu.
+
+V kontraktu přechodu je proto vhodné rozlišit tři diagnostické otázky:
+
+- **Zachování rozlišení:** slučuje popis případy, které odpověď musí rozlišovat?
+  Při zachování těchto případů a otázky další transformace pouze téhož výsledku
+  ztrátu nenapraví. Je třeba rozlišující informace nebo změny abstrakce. Změna
+  otázky je jiným, explicitním krokem.
+- **Zdůvodnění interpretace:** podporují data a předpoklady navrhované přiřazení?
+  Samotný nový název či definice v dosavadním jazyce nerozhoduje mezi
+  interpretacemi, které zůstávaly slučitelné s týmiž předpoklady. Další svědectví
+  nebo zdůvodněný předpoklad to mohou změnit; definice však mohou pomoci odhalit
+  závislost, která již platí.
+- **Druh vztahu:** tvrdíme korelaci umožňující předpověď, příčinnou závislost,
+  realizaci organizace, konstituci, nebo identitu? Přesné přiřazení mezi nimi samo
+  nevybírá. Samostatné zdůvodnění může být empirické, sémantické nebo založené
+  na porovnání vysvětlení; nemusí jít o dedukci identity z korelace.
+
+Tyto nedostatky nejsou zaměnitelné ani nepředstavují vyčerpávající teorii
+vysvětlování. Jedno zjištění může odpovědět na několik z nich, ale náprava jednoho
+nezaručuje nápravu ostatních. Nový vztah přinášející nezávislou informaci nebo
+intervence měnící zkoumaný systém nejsou pouhým přejmenováním dosavadního popisu.
+
 Kontrakt přechodu však nespojuje dvě hotové úrovně, které jako takové existovaly před
 poznáním. Jeho koncové body, jejich měřítko i hranice zkoumaného systému byly už
 dříve vyděleny z procesu akty rozlišování. Kontrakt tedy popisuje také podmínky, za
@@ -284,6 +331,11 @@ prvky modelu, nikoli vlastnostmi skutečnosti danými před poznáním. To neru�
 užitečnost vrstev, nýbrž brání tomu, abychom je pokládali za samostatně existující
 části světa.
 
+Také přiřazení výpovědi, neuronálního záznamu a chování ke stopám "téhož případu"
+vyžaduje zdůvodnění: jak byly sladěny čas, hranice systému a kritérium korelace?
+Společný index toto porovnání uspořádává, ale sám neustanovuje ontologickou
+identitu toho, co je popsáno.
+
 Absence takového kontraktu nezdůvodňuje opačné tvrzení. Plnohodnotným poznávacím
 výsledkem může být zdržení se soudu. "Nevím" pak neznamená absenci modelu, nýbrž
 přesné rozpoznání bodu, v němž končí jeho schopnost zachovávat rozlišení potřebná
@@ -291,6 +343,9 @@ pro odpověď. Takto chápaný kontrakt přenáší rozlišení genealogie zkuš
 poznávací poctivosti: zachovává lokální sílu tvrzení, aniž mu připisuje
 dosah, který nedokážeme zdůvodnit. Následující model prahů konstituce rozvíjí
 mechaniku takových přechodů.
+
+Tato rozlišení se týkají rozsahu zdůvodnění; neřeší problém vědomí ani nedokazují
+jeho vrstevnatou konstituci.
 
 #### Prahy konstituce a gramatiky vrstev
 
@@ -426,6 +481,15 @@ zkušenosti, nýbrž jako dočasné uvolňování vybraných kompresí. Zviditel
 cenu a kontingenci, načež se zkušenost znovu utváří – možná s méně rigidní
 gramatikou, nikdy však jako obnovený originál.
 
+Zachování svědectví však neznamená zachování otázky. Přechod od "proč zakouším
+právě tuto barvu?" k "jeví se něco?" může ponechat svědectví o barvě nedotčené,
+a přitom odsunout rozlišení, které jsme chtěli vysvětlit. Podobně ustoupení otázky
+"kým jsem?" během kontemplace může změnit způsob prožívání problému, aniž
+rozhodne o ontologii osoby. Uvolnění má vlastní praktickou hodnotu; považovat
+problém za filosoficky vyřešený navíc vyžaduje zdůvodnění, že jsme odpověděli na
+původní otázku nebo ji oprávněně upravili. Jistota, že zkušenost probíhá, není
+jistotou poznání celé její povahy.
+
 **Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber) jsou referenčním
 bodem pro vnoření; *stratified design* pro lokální jazyky a kontrakty
 a *drilling through abstractions* pro zkoumání jejich hranic. Enaktivní autopoiesis
@@ -470,7 +534,8 @@ Rozlišujeme okamžité obrácení pozornosti, jednotlivou účast na činnosti 
 udržovanou vazbu. Jejich rozsah rozpoznáváme v konkrétní praxi, nikoli pouze podle
 názvu nástroje nebo délky jeho používání.
 
-Prvoosobní introspekce je zde neredukovatelnou metodou zkoumání této účasti.
+Prvoosobní introspekce je zde samostatnou metodou zkoumání této účasti; její
+metodologická hodnota nerozhoduje o metafyzické neredukovatelnosti zkoumaného.
 Nejde o filosofii, kterou je třeba přijmout, ale o cvičení, které je třeba vykonat:
 například schopnost zaznamenat myšlenku stejně, jako zaznamenáváme chlad větru na
 tváři.
@@ -505,17 +570,31 @@ AI „jen váhy a výpočet pravděpodobnosti“, pak je mozek „jen neurony a 
 impulzy“. Sekvence pojmů, která se snaží prohlásit jinou sekvenci pojmů za horší,
 protože má jiný nosič, připomíná kopii snažící se vysvětlit jinou kopii.
 
+Omezení platí i opačným směrem: **neúspěšná redukce nedokazuje
+neredukovatelnost**. Neúspěch konkrétního popisu zpochybňuje tento popis nebo jeho
+zdůvodnění, nikoli každou možnou redukci. Úspěšná předpověď naopak sama
+neustanovuje konstituci ani identitu. Lokální úspěch či neúspěch tedy bez dalších
+předpokladů nerozhoduje o ontologii vztahu mezi vrstvami; zdůvodněné reduktivní
+vysvětlení zůstává otevřenou možností.
+
 Redukce sama o sobě je užitečný poznávací pohyb; problémem se stává teprve
 tehdy, když na tento pohyb zapomeneme. Reifikace vzniká tam, kde redukci
 doprovází amnézie: provedeme abstraktní projekci procesu nebo vztahu do „věci“
 a pak zapomeneme, že jsme toto svinutí provedli a na jaké úrovni se stalo.
-Odtud stručná formule:
+Tento typ chyby zachycuje stručná, heuristická formule:
 
 **reifikace = redukce + amnézie**
 
 Odmítnutí reifikace proto není zákazem redukce, ale udržováním paměti o tom, co a na
 jaké úrovni bylo abstrahováno — tedy schopností tento pohyb sledovat, dekonstruovat
 a znovu zvažovat, nikoli obnovit ztracenou inverzi.
+
+Ne každá "krádež ontologie" však vyžaduje ztrátu informace. I bezztrátové označení
+případů nebo přesnou předpověď lze neoprávněně pokládat za poznání jejich povahy.
+Obecnější chybou je **povýšení lokálního výsledku nad rámec jeho zdůvodnění**:
+zapomínáme, na jakou otázku odpovídal, jaká rozlišení zachoval a jaký druh vztahu
+byl ustaven. Samotná správnost operace k takovému povýšení neopravňuje; je třeba
+uchovat i paměť jejího kontraktu.
 
 Myšlenka je nástroj a jako nástroj je užitečná. Problém začíná tehdy, když se stane
 jediným rádcem, nositelem prestiže nebo identitou. Intelekt může stejně dobře
@@ -835,6 +914,11 @@ rozvíjíme disciplínu návrhu, v níž je vázání významů explicitní a lo
     `id` neříká, čím něco „opravdu je“. Je stabilním korelačním bodem v
     procesu. Význam leží ve vrstvě, historii, kontraktu a aktuálním kontextu.
 
+    Jedinečný identifikátor každého případu umožňuje spojit jej s libovolným
+    předem známým přiřazením v tabulce. Taková dokonalá rozlišitelnost nevysvětluje
+    přiřazení ani povahu označovaného. Korelační úchyt není ontologickým
+    zdůvodněním.
+
 3. **Moduly jako role v toku, ne ontologické substance.**
 
     Komponent nemá potřebovat vědět, že mluví s „touto konkrétní věcí“, pokud mu stačí
@@ -842,9 +926,12 @@ rozvíjíme disciplínu návrhu, v níž je vázání významů explicitní a lo
 
 4. **Hranice vrstev jako hranice smyslu.**
 
-    Stejná událost může mít v různých vrstvách jinou projekci. Nízká vrstva vidí
-    bajty, vyšší vidí rozhodnutí a ještě vyšší vidí společenský fakt. Chyba začíná
-    tehdy, když jedna vrstva „krade“ ontologii druhé. Příkladem takové krádeže
+    Stejná událost může mít v různých vrstvách jinou projekci; "stejná" zde
+    vyžaduje explicitní kontrakt korelace, nikoli jen společný štítek. Hranice
+    smyslu se týká vztahu **vrstva – otázka – kontrakt**, není zdí mezi druhy
+    jsoucna. Nízká vrstva vidí bajty, vyšší vidí rozhodnutí a ještě vyšší vidí
+    společenský fakt. Chyba začíná tehdy, když jedna vrstva „krade“ ontologii druhé.
+    Příkladem takové krádeže
     směrem nahoru je požadavek, aby byl společenský řád anonymní na tom základě, že
     anonymní jsou vzniky zkušenosti.
 
@@ -975,9 +1062,10 @@ známé krajiny systémového inženýrství:
 
 **Vrstvený návrh / stratified design** (Abelson, Sussman) – systém je uspořádáním
 následných vrstev abstrakce, v nichž má každá vrstva vlastní jazyk, primitiva a způsoby
-skládání. Náš přístup sdílí tento důraz na vrstvenost, ale přidává ontologické kritérium:
-hranice vrstev jsou rovněž hranicemi smyslu. Vyšší vrstva by neměla krást ontologii nižší a
-nižší by neměla předstírat, že vysvětluje celý smysl vrstvy vyšší.
+skládání. Náš přístup sdílí tento důraz na vrstvenost, ale zdůrazňuje rozsah
+zdůvodnění: hranice smyslu závisejí také na otázce a kontraktu přechodu. Vyšší vrstva
+by neměla krást ontologii nižší a nižší by neměla předstírat, že vysvětluje celý
+smysl vrstvy vyšší.
 
 **Domain-Driven Design a bounded contexts** (Evans, Fowler) – model má lokální rozsah
 platnosti a tytéž pojmy mohou v různých kontextech znamenat něco jiného. Přístup

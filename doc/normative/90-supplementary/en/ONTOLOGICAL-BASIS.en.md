@@ -135,14 +135,16 @@ that consciousness is knowable as the foundation, from schools that stop at
 universal consciousness as ground, and from eliminativism, which claims that there
 is nothing there to know.
 
-Apophatic enactivism also differs from panpsychism, which predicates of the
-foundation that it experiences and attributes a capacity for experience to partial
-elements. From the perspective of stratification, these are two simultaneous errors
-of "theft of ontology": projecting properties of the consciousness layer onto what
-is ineffable, and locating those properties in an entity that is the terminal
-product of the entire stack of acts of determination (see the table of acts in
-postulate 2 and the formula of reification in postulate 4). Panpsychism therefore
-locates what is least conditioned in what is most constructed.
+Apophatic enactivism also does not adopt the panpsychist conclusion that experience
+belongs to the fundamental constituents of reality. Within our model, properties
+of consciousness cannot be transferred to the level-zero marker, nor can a thing's
+capacity for experience be derived from the genealogy of its concept (see the table
+of acts in postulate 2). According to apophatic enactivism, there is a risk that
+panpsychism locates what is least conditioned in what is most constructed.
+This is not, however, a refutation of panpsychism by the
+arrangement of layers alone: hypotheses about the nature of the constituents
+described require separate arguments, and the genealogy of their description does
+not settle their ontology.
 
 The two-phase structure is close to Gendlin's *felt sense* → symbolization,
 with the difference that the impulse here is less conceptually formed than
@@ -176,6 +178,15 @@ the sense of subjectivity we may distinguish a perspective of presence before
 the split into subject and object, and so on. Here we accept this division in
 order to show the mechanism itself without forcing additional detail onto the model.
 
+Here we distinguish **descriptive stratification**, the choice of languages and
+distinctions; **genealogical stratification**, a working hypothesis of how experience
+is constituted through acts of determination; and **implementation stratification**,
+the construction of a system from layers with explicit contracts. Genealogy here
+does not mean chronology. Neither a description's usefulness nor a software
+architecture's effectiveness proves that experience is constituted in this way.
+Moving between these accounts requires a separate warrant; structural resemblance
+is a clue for inquiry, not proof of a shared mechanism.
+
 The spatial terms used below belong to two related but non-identical orders. On the
 genealogical axis, "deeper" or "earlier" means less determined, never earlier in
 time. In the abstraction stack, a "lower" layer provides the concretes from which a
@@ -189,11 +200,18 @@ it, but a conventional boundary marker belonging to the meta-order of descriptio
 It therefore remains outside the nesting: it is neither a common ancestor of the
 layers nor an additional link in their genealogy.
 
-We can notice that each layer arises from a deeper one as its abstraction, and
-the concretes of the lower layers become the building material of the higher
+Within this model, we posit that each layer arises from a deeper one as its
+abstraction, and the concretes of the lower layers become the building material of the higher
 ones, analogously to Abelson and Sussman's *stratified design* (["MIT AI Memo
 986"](https://archive.org/details/bitsavers_mitaiaimAI_1190659)), in which
 implementations become abstractions for subsequent levels.
+
+Being **primitive in a language does not mean being fundamental to reality**.
+What we do not decompose in one layer may have an elaboration in another; the
+absence of such an elaboration alone proves neither its impossibility nor its
+existence. This also applies to consciousness, matter, process, relation, and
+emptiness. Using the level-zero marker likewise does not give it a referent with
+fundamental status.
 
 The same axis can be read in several complementary ways, which becomes visible
 when stratification is placed, for example, beside communication theory and the
@@ -305,6 +323,42 @@ should be challenged. It does not guarantee the truth of the conclusion in the
 target layer, but makes explicit why data from one grammar may support a claim
 formulated in another.
 
+A description's adequacy is relative to a question and contract, not solely to a
+layer. A description sufficient to distinguish the presence and absence of
+experience may fail to preserve the difference between experienced red and green.
+For a fixed set of cases `X`, an abstraction `f: X → F`, and an answer assignment
+`T: X → Q`, a simple test is: if `f(a) = f(b)` but `T(a) ≠ T(b)`, no function `g`
+can recover `T` solely from `f` for all these cases. The test concerns an exact,
+deterministic assignment; it does not itself establish that the adopted coding and
+evidence for the contrast are sound. A probabilistic model requires a separate
+test of distributional dependence; a historical or relational account requires
+the relevant context.
+
+It is therefore useful to distinguish three diagnostic questions in a transition
+contract:
+
+- **Preserving distinctions:** does the description merge cases that the answer
+  must distinguish? Holding those cases and the question fixed, further
+  transformation solely of the same result cannot repair the loss. Discriminating
+  information or a revised abstraction is needed. Changing the question is a
+  different, explicit step.
+- **Warranting interpretation:** do the data and premises support the proposed
+  assignment? A new name or definition in the existing language alone does not
+  decide between interpretations that remained compatible with the same premises.
+  Additional evidence or a justified premise may change this; definitions can
+  nevertheless help reveal a dependence that already holds.
+- **Type of relation:** are we asserting a predictive correlation, causal
+  dependence, realization of an organization, constitution, or identity? An accurate
+  mapping does not itself choose between them. A separate warrant may be empirical,
+  semantic, or based on comparing explanations; it need not be a deduction of
+  identity from correlation.
+
+These deficiencies are neither interchangeable nor an exhaustive theory of
+explanation. One finding may address several, but repairing one does not guarantee
+repairing the others. A new relation importing independent information, or an
+intervention changing the system under study, is not merely a renaming of the
+existing description.
+
 A transition contract does not, however, connect two ready-made levels that existed
 as such prior to cognition. Its endpoints, their scale, and the boundary of the
 system under study have already been distinguished from a process through acts of
@@ -314,6 +368,11 @@ elements of the model, not properties of reality given prior to cognition. This 
 not invalidate the local usefulness of layers, but guards against treating them as
 self-subsisting parts of the world.
 
+Likewise, aligning a report, a neural recording, and behavior as traces of "the same
+case" requires a warrant: how were the time span, system boundary, and correlation
+criterion aligned? A shared index organizes this comparison, but does not itself
+establish the ontological identity of what is described.
+
 The absence of such a contract does not justify the contrary claim. Withholding
 judgment can be a fully legitimate epistemic outcome. "I do not know" then signifies
 not the absence of a model, but a precise recognition of the point at which its
@@ -322,6 +381,9 @@ way, the contract carries the distinctions of the genealogy of experience into t
 practice of epistemic honesty: it preserves the local force of a claim without
 granting it a scope that we cannot justify. The following model of constitutive
 thresholds develops the mechanics of such transitions.
+
+These distinctions concern the scope of warrants; they neither solve the problem
+of consciousness nor prove its layered constitution.
 
 #### Constitutive Thresholds and Layer Grammars
 
@@ -468,6 +530,16 @@ experience, but as a temporary loosening of selected compressions. It reveals th
 cost and contingency, after which experience forms again — perhaps with a less rigid
 grammar, but never as a recovered original.
 
+Preserving evidence does not, however, mean preserving the question. Moving from
+"why do I experience this particular color?" to "does anything appear?" may leave
+the color evidence intact while setting aside the distinction we sought to
+explain. Similarly, the subsiding of "who am I?" during contemplation may change
+how the problem is experienced without settling the ontology of the person.
+Loosening has its own practical value; treating the problem as philosophically
+solved additionally requires a warrant that we answered the original question or
+justifiably revised it. Certainty that experience occurs is not certainty of
+knowing its entire nature.
+
 **Anchoring in known traditions:** holarchies (Koestler, Wilber) provide a point of
 reference for nesting; *stratified design* for local languages and contracts; and
 *drilling through abstractions* for examining their boundaries. Enactive autopoiesis
@@ -516,10 +588,11 @@ in action. We distinguish a momentary shift of attention, a single contribution
 to an activity, and a lasting, sustained coupling. Their scope is recognized in
 concrete practice, not from the tool's name or the duration of its use alone.
 
-First-person introspection is here an irreducible method of investigating this
-participation. This is not a philosophy to be accepted, but an exercise to be
-done: for example, noticing a thought in the same way we notice the coolness of
-wind on the face.
+First-person introspection is here a distinct method of investigating this
+participation; its methodological value does not establish the metaphysical
+irreducibility of what is investigated. This is not a philosophy to be accepted,
+but an exercise to be done: for example, noticing a thought in the same way we
+notice the coolness of wind on the face.
 
 In this account, a transmission is also polyversional: the receiver does not
 receive a ready-made meaning, but *enacts* it by integrating the transmission from
@@ -556,11 +629,18 @@ sequence of concepts attempting to declare another sequence of concepts inferior
 because it has a different substrate resembles one photocopy trying to explain
 another photocopy.
 
+The limitation also works in the other direction: **failed reduction does not
+prove irreducibility**. The failure of a particular account challenges that account
+or its warrant, not every possible reduction. Conversely, successful prediction
+does not itself establish constitution or identity. Without further premises,
+local success or failure therefore does not settle the ontology of the relation
+between layers; a warranted reductive explanation remains an open possibility.
+
 Reduction itself is a useful cognitive move; it becomes a problem only when
 that move is forgotten. Reification arises when reduction is accompanied by
 amnesia: we make an abstract projection of a process or relation into a
 "thing" and then forget that we performed the folding, and at what level it
-happened. Hence the concise formula:
+happened. This mode of error is captured by a concise, heuristic formula:
 
 **reification = reduction + amnesia**
 
@@ -568,6 +648,14 @@ Refusing reification is therefore not a ban on reduction, but the maintenance
 of memory about what was abstracted, and at what level — that is, the ability
 to trace, deconstruct, and reconsider that move, rather than recover the inverse
 information that it lost.
+
+Not every "theft of ontology" requires information loss, however. Even lossless
+labeling of cases or accurate prediction can be unwarrantedly treated as knowledge
+of their nature. The more general error is **promoting a local result beyond the
+scope of its warrant**: forgetting which question it answered, which distinctions
+it preserved, and which type of relation was established. The correctness of the
+operation alone does not license that promotion; its contract must also be
+remembered.
 
 Thought is a tool and as a tool it is useful. The problem begins when it becomes
 the only adviser, a carrier of prestige, or an identity. Intellect can serve
@@ -917,6 +1005,11 @@ a design discipline in which the binding of meanings is explicit and local.
     correlation in a process. Meaning lives in the layer, history, contract, and
     current context.
 
+    A unique identifier for each case allows it to be associated with any
+    previously known assignment in a table. Such perfect distinguishability does
+    not explain the assignment or the nature of what is labeled. A correlation
+    handle is not an ontological warrant.
+
 3. **Modules as roles in a flow, not ontological substances.**
 
     A component should not need to know that it is talking to "this concrete thing"
@@ -924,10 +1017,13 @@ a design discipline in which the binding of meanings is explicit and local.
 
 4. **Layer boundaries as boundaries of meaning.**
 
-    The same event can have a different projection in different layers. A low layer
-    sees bytes, a higher layer sees a decision, and an even higher layer sees a social
-    fact. The error begins when one layer steals the ontology of another. An example
-    of such theft upward is the demand that the social order be anonymous on the
+    The same event can have a different projection in different layers; "the same"
+    here requires an explicit correlation contract, not just a shared label. A
+    boundary of meaning concerns **layer – question – contract**, not a wall between
+    kinds of being. A low layer sees bytes, a higher layer sees a decision, and an
+    even higher layer sees a social fact. The error begins when one layer steals
+    the ontology of another. An example of such theft upward is the demand that
+    the social order be anonymous on the
     grounds that the formations of experience are anonymous.
 
     Four practical examples of an unwarranted promotion of justification:
@@ -1062,9 +1158,10 @@ systems within a familiar landscape of systems engineering:
 
 **Layered design / stratified design** (Abelson, Sussman): a system is an arrangement of
 successive layers of abstraction, in which each layer has its own language, primitives,
-and ways of composing. Our approach shares this emphasis on layering, but adds an
-ontological criterion: layer boundaries are also boundaries of meaning. A higher layer
-should not steal the ontology of a lower one, and a lower one should not pretend to
+and ways of composing. Our approach shares this emphasis on layering, but stresses
+the scope of justification: boundaries of meaning also depend on the question and
+transition contract. A higher layer should not steal the ontology of a lower one,
+and a lower one should not pretend to
 explain the whole meaning of a higher layer.
 
 **Domain-Driven Design and bounded contexts** (Evans, Fowler): a model has a local scope

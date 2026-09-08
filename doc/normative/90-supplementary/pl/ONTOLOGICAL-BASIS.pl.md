@@ -129,14 +129,15 @@ twierdzi, że świadomość jest poznawalna jako fundament), od szkół, które 
 się na świadomości uniwersalnej jako gruncie, a także od eliminatywizmu (który
 twierdzi, że nie ma czego poznawać).
 
-Apofatyczny enaktywizm odróżnia się także od panpsychizmu, który orzeka
-o fundamencie, że jest doświadczający, i przypisuje zdolność doświadczania cząstkowym
-elementom. Z perspektywy stratyfikacji są to dwa błędy "kradzieży ontologii" naraz:
-rzutowanie własności warstwy świadomościowej na to, co nieorzekalne, oraz
-umieszczenie jej w bycie, który jest terminalnym produktem całego stosu aktów
-determinacji (por. tabelę aktów w postulacie 2 oraz formułę reifikacji
-w postulacie 4). Panpsychizm lokuje więc to, co najmniej uwarunkowane, w tym, co
-najbardziej konstruowane.
+Apofatyczny enaktywizm nie przyjmuje również panpsychistycznego rozstrzygnięcia,
+że doświadczenie przysługuje fundamentalnym składnikom rzeczywistości. W naszym
+modelu nie wolno przenosić własności świadomości na znacznik poziomu zero ani
+z genealogii pojęcia rzeczy wyprowadzać jej zdolności doświadczania (por. tabelę
+aktów w postulacie 2). Według apofatycznego enaktywizmu istnieje ryzyko, że
+panpsychizm lokuje to, co najmniej uwarunkowane, w tym, co najbardziej konstruowane.
+Nie jest to jednak obalenie panpsychizmu przez sam układ
+warstw: hipotezy o naturze opisywanych składników wymagają osobnych argumentów,
+a genealogia ich opisu nie rozstrzyga ich ontologii.
 
 Dwufazowość jest bliska gendlinowskiemu przejściu od *felt sense* do symbolizacji,
 z tą różnicą, że impuls jest tu słabiej uformowany pojęciowo niż doświadczenie
@@ -168,6 +169,14 @@ a poczuciem podmiotowości możemy wyróżnić perspektywę obecności jeszcze 
 podziałem na podmiot i przedmiot itd. W tym miejscu przyjmujemy właśnie taki podział,
 aby pokazać sam mechanizm bez nachalnego uszczegóławiania modelu.
 
+Rozróżniamy przy tym **stratyfikację opisową**, czyli dobór języków i rozróżnień,
+**genealogiczną**, czyli roboczą hipotezę konstytuowania doświadczenia przez akty
+determinacji, oraz **implementacyjną**, czyli budowę systemu z warstw o jawnych
+kontraktach. Genealogia nie oznacza tu chronologii. Użyteczność opisu ani skuteczność
+architektury programu nie dowodzą, że doświadczenie konstytuuje się właśnie w ten
+sposób. Przejście między tymi ujęciami wymaga osobnego uzasadnienia; podobieństwo
+struktur jest wskazówką do badania, nie dowodem wspólnego mechanizmu.
+
 Używane dalej określenia przestrzenne należą do dwóch powiązanych, ale nietożsamych
 porządków. Na osi genealogicznej "głębsze" lub "wcześniejsze" oznacza mniej
 zdeterminowane, nigdy zaś wcześniejsze w czasie. W stosie abstrakcji warstwa "niższa"
@@ -181,11 +190,17 @@ nią, lecz umownym znacznikiem granicy, należącym do meta-porządku opisu. Dla
 pozostaje poza zagnieżdżeniem: nie jest wspólnym przodkiem warstw ani dodatkowym
 ogniwem ich genealogii.
 
-Możemy zauważyć, że każda warstwa wyrasta z głębszej jako jej abstrakt, a konkrety
-niższych warstw stają się budulcem wyższych – analogicznie do *stratified design*
-Abelsona i Sussmana (["MIT AI Memo
+W tym modelu przyjmujemy, że każda warstwa wyrasta z głębszej jako jej abstrakt,
+a konkrety niższych warstw stają się budulcem wyższych – analogicznie do
+*stratified design* Abelsona i Sussmana (["MIT AI Memo
 986"](https://archive.org/details/bitsavers_mitaiaimAI_1190659)), gdzie implementacje
 stają się abstrakcjami kolejnych poziomów.
+
+Bycie **prymitywem danego języka nie oznacza bycia fundamentem rzeczywistości**.
+To, czego nie rozkładamy w jednej warstwie, może mieć rozwinięcie w innej; sam brak
+takiego rozwinięcia nie dowodzi ani jego niemożliwości, ani istnienia. Dotyczy to
+także świadomości, materii, procesu, relacji i pustki. Użycie znacznika poziomu zero
+również nie nadaje mu desygnatu o fundamentalnym statusie.
 
 Tę samą oś można czytać na różne komplementarne sposoby, co staje się widoczne, gdy
 stratyfikację zestawić na przykład z teorią komunikacji i pozycji podmiotu
@@ -294,6 +309,38 @@ należałoby podważyć. Nie gwarantuje prawdziwości wniosku w warstwie docelo
 ujawnia, dlaczego dane z jednej gramatyki mogą wspierać twierdzenie sformułowane
 w innej.
 
+Adekwatność opisu jest względna wobec pytania i kontraktu, nie wyłącznie wobec
+warstwy. Opis wystarczający do rozróżnienia obecności i nieobecności doświadczenia
+może nie zachowywać różnicy między doświadczaną czerwienią a zielenią. Dla ustalonego
+zbioru przypadków `X`, abstrakcji `f: X → F` i przypisania odpowiedzi `T: X → Q`
+prosty test brzmi: jeżeli `f(a) = f(b)`, lecz `T(a) ≠ T(b)`, to nie istnieje
+funkcja `g`, która dla wszystkich tych przypadków odtwarza `T` wyłącznie z `f`.
+Test dotyczy dokładnego, deterministycznego przypisania; nie dowodzi sam, że
+przyjęte kodowanie i świadectwo różnicy są trafne. Model probabilistyczny wymaga
+osobnego testu zależności rozkładów, a opis historyczny lub relacyjny – uwzględnienia
+właściwego kontekstu.
+
+W kontrakcie przejścia warto zatem odróżnić trzy pytania diagnostyczne:
+
+- **Zachowanie rozróżnień:** czy opis scala przypadki, które odpowiedź musi
+  rozróżniać? Przy zachowaniu tych przypadków i pytania kolejne przekształcenie
+  wyłącznie tego samego wyniku nie naprawi straty. Potrzeba informacji
+  różnicującej lub zmiany abstrakcji. Zmiana pytania jest innym, jawnym krokiem.
+- **Uzasadnienie interpretacji:** czy dane i przesłanki wystarczają do przyjęcia
+  danego przypisania? Sama nowa nazwa lub definicja w dotychczasowym języku nie
+  rozstrzyga między interpretacjami, które pozostawały zgodne z tymi samymi
+  przesłankami. Dodatkowe świadectwo albo uzasadniona przesłanka mogą to zmienić;
+  definicje mogą natomiast pomóc dostrzec już zachodzącą zależność.
+- **Rodzaj relacji:** czy stwierdzamy przewidywalną korelację, zależność przyczynową,
+  realizację organizacji, konstytucję czy tożsamość? Trafne przyporządkowanie nie
+  wybiera samo między nimi. Osobne uzasadnienie może być empiryczne, semantyczne
+  lub oparte na porównaniu wyjaśnień; nie musi być dedukcją tożsamości z korelacji.
+
+Te braki nie są zamienne ani nie wyczerpują teorii wyjaśniania. Jedno ustalenie
+może odpowiedzieć na kilka z nich, lecz naprawa jednego nie gwarantuje naprawy
+pozostałych. Nowa relacja wnosząca niezależną informację albo interwencja
+zmieniająca badany układ nie jest tylko przemianowaniem dotychczasowego opisu.
+
 Kontrakt przejścia nie łączy jednak dwóch gotowych poziomów, które istniały jako
 takie przed poznaniem. Jego krańce, ich skala oraz granica badanego układu zostały
 wcześniej wyodrębnione z procesu przez akty rozróżniania. Kontrakt opisuje więc
@@ -301,6 +348,11 @@ również warunki, pod którymi dla danego pytania rozpoznajemy oba poziomy jako
 odrębne. Granice te są elementami modelu, a nie własnościami rzeczywistości danymi
 przed poznaniem. Nie unieważnia to lokalnej użyteczności warstw, lecz chroni przed
 uznaniem ich za samoistne części świata.
+
+Również zestawienie raportu, zapisu neuronalnego i zachowania jako śladów "tego
+samego przypadku" wymaga uzasadnienia: jak uzgodniono czas, granicę układu
+i kryterium korelacji? Wspólny indeks porządkuje to zestawienie, lecz sam nie
+ustanawia ontologicznej tożsamości tego, co opisane.
 
 Brak takiego kontraktu nie uzasadnia twierdzenia przeciwnego. Pełnoprawnym wynikiem
 poznawczym może być powstrzymanie się od rozstrzygnięcia. "Nie wiem" nie oznacza
@@ -310,6 +362,9 @@ przenosi rozróżnienia genealogii doświadczenia do praktyki poznawczej uczciwo
 zachowuje lokalną moc twierdzenia bez dopisywania mu zasięgu, którego nie
 potrafimy uzasadnić. Poniższy model progów konstytuowania rozwija mechanikę takich
 przejść.
+
+Te rozróżnienia dotyczą zakresu uzasadnień; nie rozwiązują problemu świadomości
+ani nie dowodzą jej warstwowej konstytucji.
 
 #### Progi konstytuowania i gramatyki warstw
 
@@ -452,6 +507,15 @@ doświadczenia, lecz jako czasowe rozluźnianie wybranych kompresji. Uwidacznia 
 koszt i przygodność, po czym doświadczenie zawiązuje się ponownie – być może
 z gramatyką mniej sztywną, lecz nigdy jako odzyskany oryginał.
 
+Zachowanie świadectwa nie oznacza jednak zachowania pytania. Przejście od "dlaczego
+doświadczam właśnie takiej barwy?" do "czy coś się jawi?" może pozostawić świadectwo
+barwy nietknięte, a zarazem odsunąć rozróżnienie, którego wyjaśnienia szukaliśmy.
+Podobnie ustąpienie pytania "kim jestem?" podczas kontemplacji może zmienić sposób
+przeżywania problemu, nie rozstrzygając ontologii osoby. Rozluźnienie ma własną
+wartość praktyczną; uznanie problemu za filozoficznie rozwiązany wymaga ponadto
+uzasadnienia, że odpowiedzieliśmy na pierwotne pytanie albo zasadnie je skorygowaliśmy.
+Pewność, że doświadczenie zachodzi, nie jest pewnością poznania całej jego natury.
+
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber) są punktem
 odniesienia dla zagnieżdżenia; *stratified design* dla lokalnych języków i kontraktów,
 a *drilling through abstractions* dla badania ich granic. Enaktywna autopojeza
@@ -497,8 +561,9 @@ Rozróżniamy chwilowe zwrócenie uwagi, pojedynczy udział w czynności i trw
 podtrzymywane sprzężenie. Ich zakres rozpoznajemy w konkretnej praktyce, a nie
 na podstawie samej nazwy narzędzia lub długości korzystania z niego.
 
-Pierwszoosobowa introspekcja jest tu nieredukowalną metodą badania tego
-uczestnictwa. Nie jest to filozofia do przyjęcia, lecz ćwiczenie do wykonania:
+Pierwszoosobowa introspekcja jest tu odrębną metodą badania tego uczestnictwa;
+jej wartość metodologiczna nie przesądza metafizycznej nieredukowalności tego, co
+badane. Nie jest to filozofia do przyjęcia, lecz ćwiczenie do wykonania:
 np. zdolność zauważenia myśli w taki sposób, jak zauważamy chłód wiatru na twarzy.
 
 W tym ujęciu również przekaz jest poliwersyjny: odbiorca nie odbiera gotowego
@@ -532,11 +597,18 @@ symetrycznie: jeżeli AI "to tylko wagi i rachunek prawdopodobieństwa", wtedy 
 sekwencja pojęć jest gorsza, bo ma inny nośnik, przypomina kserokopię próbującą
 wyjaśnić inną kserokopię.
 
+Ograniczenie działa także w drugą stronę: **nieudana redukcja nie dowodzi
+nieredukowalności**. Niepowodzenie konkretnego opisu podważa ten opis lub jego
+uzasadnienie, nie każdą możliwą redukcję. Z kolei skuteczne przewidywanie nie
+ustanawia samo konstytucji ani tożsamości. Lokalny sukces lub porażka nie
+rozstrzyga więc bez dalszych przesłanek ontologii relacji między warstwami;
+uzasadnione wyjaśnienie redukcyjne pozostaje otwartą możliwością.
+
 Redukcja sama w sobie jest użytecznym ruchem poznawczym – problemem staje się
 dopiero, gdy dochodzi do zapomnienia tego ruchu. Reifikacja powstaje, gdy redukcji
 towarzyszy amnezja: dokonujemy abstrakcyjnej projekcji procesu lub relacji do
 "rzeczy", a następnie zapominamy, że dokonaliśmy zwinięcia i na jakim stało się to
-poziomie. Stąd zwięzła formuła:
+poziomie. Ten tryb błędu ujmuje zwięzła, heurystyczna formuła:
 
 **reifikacja = redukcja + amnezja**
 
@@ -544,6 +616,13 @@ Odmowa reifikacji nie jest więc zakazem redukcji, lecz utrzymywaniem pamięci o
 co i na jakim poziomie zostało wyabstrahowane — czyli zdolnością do śledzenia,
 dekonstruowania i ponownego rozpatrywania tego ruchu, nie zaś odzyskania utraconej
 odwrotności.
+
+Nie każda "kradzież ontologii" wymaga jednak utraty informacji. Nawet bezstratne
+oznaczenie przypadków lub trafne przewidywanie może zostać bezpodstawnie uznane za
+poznanie ich natury. Ogólniejszym błędem jest **awans lokalnego wyniku poza zakres
+jego uzasadnienia**: zapominamy, na jakie pytanie odpowiadał, jakie rozróżnienia
+zachował i jaki rodzaj relacji ustalono. Sama poprawność operacji nie uprawnia do
+takiego awansu; trzeba zachować również pamięć jej kontraktu.
 
 Myśl jest narzędziem i jako narzędzie jest pomocna. Problem zaczyna się, gdy staje
 się jedynym doradcą, nośnikiem prestiżu lub tożsamością. Intelekt potrafi równie
@@ -877,6 +956,11 @@ rozwijamy dyscyplinę projektowania, w której wiązanie znaczeń jest jawne i�
     w procesie. Znaczenie jest w warstwie, historii, kontrakcie i aktualnym
     kontekście.
 
+    Unikalny identyfikator każdego przypadku pozwala powiązać go z dowolnym
+    wcześniej znanym przypisaniem w tabeli. Taka doskonała rozróżnialność nie
+    wyjaśnia przypisania ani natury tego, co oznaczone. Uchwyt korelacji nie jest
+    uzasadnieniem ontologicznym.
+
 3. **Moduły jako role w przepływie, nie ontologiczne substancje.**
 
     Komponent nie powinien wiedzieć, że rozmawia z "tym konkretnym czymś", jeżeli
@@ -884,11 +968,13 @@ rozwijamy dyscyplinę projektowania, w której wiązanie znaczeń jest jawne i�
 
 4. **Granice warstw jako granice sensu.**
 
-    To samo zdarzenie może mieć inną projekcję w różnych warstwach. Niska warstwa
-    widzi bajty, wyższa widzi decyzję, jeszcze wyższa widzi fakt społeczny. Błąd
-    zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej. Przykładem
-    takiej kradzieży w górę jest żądanie, aby ład społeczny był bezimienny na tej
-    podstawie, że bezimienne są zawiązania doświadczenia.
+    To samo zdarzenie może mieć inną projekcję w różnych warstwach; "to samo" wymaga
+    tu jawnego kontraktu korelacji, nie tylko wspólnej etykiety. Granica sensu
+    dotyczy układu **warstwa – pytanie – kontrakt**, nie jest ścianą między rodzajami
+    bytu. Niska warstwa widzi bajty, wyższa widzi decyzję, jeszcze wyższa widzi fakt
+    społeczny. Błąd zaczyna się wtedy, gdy jedna warstwa "kradnie" ontologię drugiej.
+    Przykładem takiej kradzieży w górę jest żądanie, aby ład społeczny był bezimienny
+    na tej podstawie, że bezimienne są zawiązania doświadczenia.
 
     Cztery praktyczne przykłady niedopuszczalnego awansu uzasadnienia:
 
@@ -1020,9 +1106,9 @@ informacji w znanym krajobrazie inżynierii systemów:
 **Projektowanie warstwowe / stratified design** (Abelson, Sussman): system jest
 układem kolejnych warstw abstrakcji, w których każda warstwa ma własny język,
 prymitywy i sposoby komponowania. Nasze podejście podziela ten nacisk na warstwowość,
-ale dodaje kryterium ontologiczne: granice warstw są również granicami sensu. Wyższa
-warstwa nie powinna kraść ontologii niższej, a niższa nie powinna udawać, że wyjaśnia
-całość znaczenia warstwy wyższej.
+ale akcentuje kryterium zakresu uzasadnienia: granice sensu zależą również od
+pytania i kontraktu przejścia. Wyższa warstwa nie powinna kraść ontologii niższej,
+a niższa nie powinna udawać, że wyjaśnia całość znaczenia warstwy wyższej.
 
 **Domain-Driven Design i bounded contexts** (Evans, Fowler): model ma lokalny zakres
 ważności, a te same pojęcia mogą znaczyć co innego w różnych kontekstach. Podejście
