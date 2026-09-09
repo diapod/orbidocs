@@ -299,9 +299,18 @@ independently of that with which it forms.
 
 The position of the subject in communication reinforces this asymmetry. A judgment
 formulated at the layer of objectivity abstracts, in its justification, from the
-particular position of the speaker and claims validity independent of it. This does
-not exclude disciplined first-person testimony, but it requires an explicit account
-of its conditions, translation, and grounds for public evaluation.
+particular position of the speaker and claims validity independent of it. When
+first-person testimony is used to justify such a judgment, it requires an explicit
+account of its conditions, translation, and grounds for public evaluation. This
+does not, however, mean that every expression of experience or response to another
+person must take the form of such a judgment.
+
+Public criteria for language use do not require every experience to be publicly
+objectifiable. A shared form of life enables us to learn expressions, understand
+them, and correct their use while preserving the asymmetry between expressing
+one's own suffering, responding to another's, and describing it as an observer.
+These are related uses, not mutually interchangeable translations. Their sense
+does not require reducing them on every occasion to descriptions of a hidden object.
 
 A side effect can be the illusion that genealogically earlier layers are poor. A
 rich vocabulary usually concerns their already individuated and objectified

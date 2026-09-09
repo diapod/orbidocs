@@ -286,9 +286,17 @@ tego, z czym się zawiązuje.
 
 Asymetrię wzmacnia pozycja podmiotu w przekazie. Sąd formułowany w warstwie
 obiektywności abstrahuje w uzasadnieniu od konkretnej pozycji orzekającego i rości
-sobie ważność od niej niezależną. Nie wyklucza to zdyscyplinowanego świadectwa
-pierwszoosobowego, wymaga jednak jawnego opisania warunków, przekładu i podstaw jego
-publicznej oceny.
+sobie ważność od niej niezależną. Gdy świadectwo pierwszoosobowe ma uzasadniać taki
+sąd, wymaga jawnego opisania warunków, przekładu i podstaw publicznej oceny. Nie
+oznacza to jednak, że każda ekspresja przeżycia lub odpowiedź na drugą osobę musi
+przyjmować postać takiego sądu.
+
+Publiczne kryteria użycia języka nie są wymogiem publicznej obiektywizowalności
+każdego przeżycia. Wspólna forma życia pozwala uczyć się wyrażeń, rozumieć je
+i korygować ich użycie, zachowując asymetrię między wyrażaniem własnego cierpienia,
+odpowiadaniem na cudze i opisywaniem go z pozycji obserwatora. Są to powiązane
+użycia, nie wzajemnie zastępowalne translacje. Ich sens nie wymaga każdorazowego
+sprowadzenia do opisu ukrytego przedmiotu.
 
 Skutkiem ubocznym bywa złudzenie, że warstwy wcześniejsze genealogicznie są ubogie.
 Bogaty słownik dotyczy zwykle ich już wyodrębnionych i uprzedmiotowionych

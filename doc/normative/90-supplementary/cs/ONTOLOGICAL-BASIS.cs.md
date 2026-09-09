@@ -271,9 +271,17 @@ se utváří.
 
 Tuto asymetrii posiluje pozice subjektu ve sdělení. Soud formulovaný ve vrstvě
 objektivity abstrahuje ve svém zdůvodnění od konkrétní pozice vypovídajícího a
-nárokuje si platnost na ní nezávislou. To nevylučuje disciplinované prvoosobní
-svědectví, vyžaduje však výslovný popis jeho podmínek, překladu a důvodů pro veřejné
-hodnocení.
+nárokuje si platnost na ní nezávislou. Má-li prvoosobní svědectví zdůvodňovat takový
+soud, vyžaduje výslovný popis podmínek, překladu a důvodů pro veřejné hodnocení.
+To však neznamená, že každý výraz prožitku nebo odpověď druhé osobě musí mít
+podobu takového soudu.
+
+Veřejná kritéria užívání jazyka nevyžadují, aby byl každý prožitek veřejně
+objektivizovatelný. Sdílená forma života umožňuje učit se výrazům, rozumět jim
+a korigovat jejich užití při zachování asymetrie mezi vyjadřováním vlastního
+utrpení, odpovídáním na utrpení druhého a jeho popisem z pozice pozorovatele.
+Jde o propojená užití, nikoli vzájemně zaměnitelné překlady. Jejich smysl
+nevyžaduje pokaždé převod na popis skrytého předmětu.
 
 Vedlejším účinkem může být iluze, že genealogicky dřívější vrstvy jsou chudé. Bohatá
 slovní zásoba se zpravidla týká jejich již vydělených a zpředmětněných protějšků,
