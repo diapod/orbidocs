@@ -77,8 +77,16 @@ refusal from the exact runtime execution parent. P090-007a/007b now cover
 Assistant preview/execute, separate UI disclosure and finalized publication
 repair. The exact producer evidence precedes settlement; committed plans repair
 trace/charge/transcript projections without another inference. P090-004b2/004b2a
-cover ordinary synchronous-text Agent controller recovery. Remaining producer
-terminals, batch/training and general artifact/deferred recovery stay open.
+cover ordinary synchronous-text Agent controller recovery. P090-004b3/004b4 add
+bounded batch execution, exact training commits and image-byte recovery, with
+artifact sidecars committed before descriptor visibility. Replay verifies the
+source and destination rather than invoking the adapter again. The local
+producer review additionally bounds worker shutdown, compensates refused queue
+admission without overwriting concurrent claims, and separates a known image
+terminal from failed result persistence. An uncommitted execution remains
+fenced; missing durable evidence never authorizes reinference. The local
+deterministic worker/sink matrix does not close broader producer refusals,
+generalized segmented/file/query batching or federated projections.
 These additive P090 capabilities do not change the implemented-MVP claim.
 
 ## Date
@@ -337,8 +345,9 @@ preserves generate ancestry through translation and current embedding cache,
 and verifies exact Agent passage restart. P090-004b exposes explicit public V2
 selection without silent downgrade, binds classify/rerank at invocation and
 retains image execution ancestry through publication or refusal. Proposal 064
-still tracks remaining terminals, batch/training, direct effects,
-durable artifact/deferred preservation and full acceptance. Runtime/model refs and
+tracks the scoped durable batch/training/image checkpoint separately from
+remaining terminals, general effects, remote resolution and full acceptance.
+Runtime/model refs and
 diagnostics alone do not satisfy this capability.
 
 For synchronous text, a finalized Assistant publication plan retains the exact

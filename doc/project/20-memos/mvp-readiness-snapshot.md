@@ -1395,9 +1395,17 @@ Recent component deltas:
   catalog admission, independent provider-policy decisions and Rust/Python
   preservation. P089-011 higher-layer carriage and P090-008a remote descriptor
   resolution remain partial; this is not a new physical acceptance passage.
-  This does not complete stage 1 or P090. Remaining
-  producers beyond synchronous text, batch/training,
-  artifact/deferred carriers and effects remain open, as do
+  P090-004b3/004b4 now add immutable batch/training execution commits, image-byte
+  recovery and artifact sidecars before publication. The local deterministic
+  gate exercises adapter dispatch, a 24-case worker restart matrix, ambiguous
+  attempts and publication-sink refusal/retry. BDO does not establish execution
+  authority; verified replay never invokes the model again. This is a scoped
+  producer checkpoint, not new physical Story-012 evidence or a hard-MVP change.
+  H-1–H-14 review adds bounded shutdown, pending-only queue compensation,
+  acknowledged recovery and explicit context refusal; a known image terminal
+  remains observable after failed persistence without pretending it durable.
+  This does not complete stage 1 or P090. Generalized producer/effect carriers
+  and the complete no-drop inventory remain open, as do
   remote descriptor resolution, general contribution-to-
   synthesis joins, scoped Room declarations and federated projection. The
   consumer closeout is deterministic local evidence, not a new physical passage.

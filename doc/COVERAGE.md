@@ -441,7 +441,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-web-latest-state.v1.schema.json`](schemas-gen/schemas/sensorium-web-latest-state.v1.md) | `8` | `0` | `no` | `yes` | `1` | `0` |
 | [`sensorium-web-operator-snapshot.v1.schema.json`](schemas-gen/schemas/sensorium-web-operator-snapshot.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-refresh-claim.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-claim.v1.md) | `0` | `0` | `no` | `yes` | `1` | `1` |
-| [`sensorium-web-refresh-status.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-status.v1.md) | `18` | `0` | `no` | `yes` | `1` | `1` |
+| [`sensorium-web-refresh-status.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-status.v1.md) | `18` | `0` | `no` | `yes` | `2` | `1` |
 | [`sensorium-web-refresh-sweep-outcome.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-sweep-outcome.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-refresh-sweep.v1.schema.json`](schemas-gen/schemas/sensorium-web-refresh-sweep.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
 | [`sensorium-web-source.v1.schema.json`](schemas-gen/schemas/sensorium-web-source.v1.md) | `10` | `0` | `no` | `yes` | `1` | `2` |
@@ -1126,5 +1126,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `464`
 - Generated schema docs: `464`
-- Positive examples: `457`
+- Positive examples: `458`
 - Negative examples: `395`
