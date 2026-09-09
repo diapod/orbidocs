@@ -13,7 +13,7 @@ Source schema: [`doc/schemas/sensorium-web-extraction-result.v1.schema.json`](..
 | [`source/generation-ref`](#field-source-generation-ref) | `yes` | string |  |
 | [`fetch/result-digest`](#field-fetch-result-digest) | `yes` | ref: `#/$defs/sha256Digest` |  |
 | [`extraction/profile-ref`](#field-extraction-profile-ref) | `yes` | const: `sensorium-web-extraction:static-stdlib-main-v1` |  |
-| [`extraction/profile-digest`](#field-extraction-profile-digest) | `yes` | const: `sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg` |  |
+| [`extraction/profile-digest`](#field-extraction-profile-digest) | `yes` | const: `sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk` |  |
 | [`representation/digest`](#field-representation-digest) | `no` | ref: `#/$defs/sha256Digest` |  |
 | [`representation`](#field-representation) | `no` | ref: `sensorium-web-document-blocks.v1.schema.json` |  |
 | [`confidence/basis`](#field-confidence-basis) | `no` | enum: `sufficient-text`, `short-text` |  |
@@ -112,7 +112,7 @@ Then:
 ## `extraction/profile-digest`
 
 - Required: `yes`
-- Shape: const: `sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg`
+- Shape: const: `sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk`
 
 <a id="field-representation-digest"></a>
 ## `representation/digest`

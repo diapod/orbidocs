@@ -17,13 +17,44 @@
     "body/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
     "fetch/result-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
     "extraction/profile-ref": "sensorium-web-extraction:static-stdlib-main-v1",
-    "extraction/profile-digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg",
+    "extraction/profile-digest": "sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk",
     "representation/digest": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-    "operational/context": {"schema": "sensorium-operational-context.v1", "schema/v": 1, "impact/class": "production", "context/summary": "Public web observation"},
-    "classification": {"schema": "classification.v1", "source_tier": "Public", "effective_tier": "Public", "provenance": {"kind": "local-space", "space": "Public"}, "bound_subjects": {"public_projection": {"subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "count": 0}}, "declassify_trail": []},
-    "causal/context": {"schema": "causal-context.v1", "schema/v": 1, "context/id": "causal-context:web-fixture-001", "correlation/id": "correlation:web-fixture-001", "operation/id": "operation:web-fixture-001", "causation/refs": ["fetch-request:fixture-001"], "origin/actor-ref": "module:sensorium-web", "created/at": "2026-08-01T10:00:01Z"}
+    "operational/context": {
+      "schema": "sensorium-operational-context.v1",
+      "schema/v": 1,
+      "impact/class": "production",
+      "context/summary": "Public web observation"
+    },
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Public",
+      "effective_tier": "Public",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Public"
+      },
+      "bound_subjects": {
+        "public_projection": {
+          "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "count": 0
+        }
+      },
+      "declassify_trail": []
+    },
+    "causal/context": {
+      "schema": "causal-context.v1",
+      "schema/v": 1,
+      "context/id": "causal-context:web-fixture-001",
+      "correlation/id": "correlation:web-fixture-001",
+      "operation/id": "operation:web-fixture-001",
+      "causation/refs": [
+        "fetch-request:fixture-001"
+      ],
+      "origin/actor-ref": "module:sensorium-web",
+      "created/at": "2026-08-01T10:00:01Z"
+    }
   },
-  "snapshot/digest": "sha256:Cf_kvSnPFB3bxZJoxqpPH-idn5X_0pwUZ52D1xJ4eV4",
+  "snapshot/digest": "sha256:Pc6QTcTWQ20GscQjprOFco18ZrD63jU_XqTjFOqkiL8",
   "representation": null,
   "observation/id": "sensorium-observation:web-fixture-001"
 }

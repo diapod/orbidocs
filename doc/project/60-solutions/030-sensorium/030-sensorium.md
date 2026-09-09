@@ -364,12 +364,12 @@ Responsibilities:
   consumer-neutral fetch host.
 
 Status:
-- `partial`. The daemon-owned fetch boundary and its deterministic local
+- `done` for the static public-web macOS profile. The daemon-owned fetch boundary and its deterministic local
   conformance harness are implemented with P084 as the first configured
   consumer. The canonical nested source envelope round-trips through the pure
   Rust contract; all twenty contracts are Schema Gate-registered; daemon
   ingress/egress integration plus resolver concurrency and shutdown are covered
-  without public egress; and the supervised extractor passes an eleven-check
+  without public egress; and the supervised extractor passes a thirteen-check
   offline corpus including deterministic parser-event/depth ceilings,
   content-bound artifact transfer, and capability-withheld
   refusal. The macOS Seatbelt adapter now admits only the exact host-created
@@ -402,8 +402,40 @@ Status:
   Four explicit refreshes account for all host fetches and fixture requests;
   consumers add no fetches. Evidence is retained in
   `node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`.
-  P084 remains partial until durable-source load and dedicated direct-peer/Room
-  acceptance are retained.
+  Dedicated direct-peer/Room acceptance now also verifies signed read/subscription
+  over the real daemon TLS peer session, dual-authority Room snapshots, revocation,
+  generation fencing, supersession with fresh grants, and remote-refresh refusal.
+  The Room fixture uses local WebSocket and admitted membership facts; it does not
+  claim remote membership issuance or federated relay. Evidence in
+  `node:docs/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md` closes P084-008 with
+  four explicit refreshes, four host calls and eight HTTP hops. Profile 1.2.0
+  strips query values from published links under a new content-bound identity;
+  old persisted profiles refuse before host effects and require an explicit new
+  generation. Canary checks cover operator/carrier data and retained artifacts,
+  including 100 files, 31 databases and 274 rows without leakage.
+  `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md` closes P084-009 with
+  full declared store capacity, 5,120 refreshes, 128 recovered claims, eight
+  SIGKILL barriers, real HTTP overload/failures, BDO recovery and a separate
+  successful randomseed probe. Static P084-001–009 are done; browser, credentials,
+  crawl and broader P078 integration remain deferred. P084-012a adds explicit
+  same-Node, grant-admitted snapshot intake into the local Harvester review
+  registry, preserving source classification and artifact provenance without
+  acquisition or publication authority. Its measured acceptance is tracked in
+  `node:docs/SENSORIUM-WEB-HARVESTER-EVIDENCE.md`. This does not claim non-macOS
+  isolation or multi-host Room deployment.
+
+### P084-012a review hardening
+
+Review H-1 through H-10 distinguishes pre-claim `not-started` refusal from
+settling an already claimed operation, using the same refresh-status contract
+and failure semantics. A bounded refusal projection isolates the rejected
+source generation and makes its reason visible without consuming operation
+slots or starving healthy sources. The 1.2.1 extraction revision computes link
+truncation after deduplication. Harvester configuration equality is semantic;
+no-op registration returns HTTP 200. Safe host trace categories preserve refusal
+causes, and the post-artifact read uses its own causal child operation without
+extending the original deadline. Evidence:
+`node:docs/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
 
 ## Out of Scope
 

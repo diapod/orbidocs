@@ -8,8 +8,8 @@
   "origin/policy-ref": "policy:web-public-fixture-v1",
   "extraction/profile": {
     "profile/ref": "sensorium-web-extraction:static-stdlib-main-v1",
-    "profile/version": "1.1.0",
-    "profile/digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg",
+    "profile/version": "1.2.1",
+    "profile/digest": "sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk",
     "output/schema-ref": "sensorium-web-document-blocks.v1"
   },
   "operational/context": {
@@ -22,8 +22,16 @@
     "schema": "classification.v1",
     "source_tier": "Public",
     "effective_tier": "Public",
-    "provenance": {"kind": "local-space", "space": "Public"},
-    "bound_subjects": {"public_projection": {"subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "count": 0}},
+    "provenance": {
+      "kind": "local-space",
+      "space": "Public"
+    },
+    "bound_subjects": {
+      "public_projection": {
+        "subject_set_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "count": 0
+      }
+    },
     "declassify_trail": []
   }
 }

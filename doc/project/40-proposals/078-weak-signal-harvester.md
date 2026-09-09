@@ -278,6 +278,13 @@ Agent may orchestrate a bounded harvesting pass: schedule scan, ask Inquirium to
 cluster candidates, write findings, and stop. The Agent must not bypass source
 grants, output directory policy, or review gates.
 
+P084-012a narrows the first integration to an operator-selected, already admitted
+snapshot on the same Node. Its immutable source configuration does not grant
+read access; independent P082 admission and bounded retained-artifact verification
+precede a classified, reference-only local review candidate. It creates neither
+network acquisition nor a Whisper draft. The full P078-007 network-capable
+profile remains deferred, including remote handoff and automated correlation.
+
 ### 8. Network-capable future
 
 The proposal intentionally omits "local" from the name. Later harvesters may

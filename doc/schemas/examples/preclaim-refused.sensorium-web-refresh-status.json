@@ -1,0 +1,12 @@
+{
+  "schema": "sensorium-web-refresh-status.v1",
+  "schema/v": 1,
+  "source/ref": "sensorium-web-source:fixture",
+  "source/generation-ref": "source-generation:web-fixture-v1",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "status": "not-started",
+  "outcome": "refused",
+  "failure/code": "profile-mismatch",
+  "failure/phase": "claim",
+  "retry/class": "terminal"
+}

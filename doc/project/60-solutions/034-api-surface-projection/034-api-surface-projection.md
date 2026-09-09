@@ -62,6 +62,16 @@ local `#/components/schemas/<component-name>` entries in the emitted OpenAPI
 3.1 document. Registry entries must use `urn:orbiplex:schema:<name>:v<n>` form;
 filename references and URL-form aliases are not valid projection identifiers.
 
+Implementation limitation confirmed on 2026-09-09: this resolution guarantee
+currently covers top-level descriptor bindings only. Embedded schemas are copied
+literally, including relative file `$ref` values; their transitive closure is not
+bundled into the OpenAPI document. Schema Gate can resolve those same files using
+its closed embedded retriever, which does not make them resolvable for an OpenAPI
+client. The Node ledger tracks separate P068 work to bundle references and verify
+offline closure, including cycles. Until then, successful projection generation
+does not prove that every nested component reference is client-resolvable.
+
+
 ## Surfaces
 
 The descriptor surface taxonomy is:

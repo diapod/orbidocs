@@ -267,12 +267,37 @@ subprocess such as `curl`.
 
 The initial acquisition profile is `sensorium-web-static.v1`. Its first frozen
 extraction implementation is
-`sensorium-web-extraction:static-stdlib-main-v1`, version `1.1.0`, with profile
-digest `sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg`, output schema
+`sensorium-web-extraction:static-stdlib-main-v1`, version `1.2.1`, with profile
+digest `sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk`, output schema
 `sensorium-web-document-blocks.v1`, and algorithm identity
 `python-stdlib-html-parser-main-content-v1`. An alternative extractor is a new,
 separately versioned and evidenced profile; package substitution under this
 identity is forbidden.
+
+Version `1.2.0` adds the content-bound descriptor field
+`link-query/policy: strip-all`: extracted link destinations omit all query
+parameters as well as fragments and user-info, before link and representation
+digests are computed. The private acquisition URL keeps its exact identity.
+This supersedes `1.1.0` explicitly; old source configurations are refused before
+host effects, not silently relabeled. An operator must select the new profile in
+a new source generation and republish with fresh interface authority. Existing
+artifacts and evidence are not rewritten or claimed to have been scrubbed.
+
+Revision `1.2.1` binds `link-truncation/policy: distinct-published-urls`.
+Truncation reflects omitted distinct output after link redaction/deduplication;
+query variants alone cannot mark a complete representation truncated. Its new
+identity is explicit because this correction changes representation digests.
+Migration from 1.2.0 likewise requires a new source generation. Historical
+acceptance remains labeled with the profile actually executed.
+
+Persisted-generation admission refusal is a first-class `not-started` variant
+of `sensorium-web-refresh-status.v1`, with no operation identity or attempt.
+The bounded source refusal projection excludes that generation from scheduling
+and exposes the reason in the operator snapshot; healthy sources continue.
+An already claimed operation instead settles `terminal` with the same typed
+failure/code and failure/phase. Both return the declared contract at HTTP 200.
+This preserves operation accounting without inventing an operation merely to
+report a deterministic refusal. New generation admission clears the projection.
 
 The acquisition profile has these boundaries:
 
@@ -516,10 +541,10 @@ the canonical observation and cannot replace the structured blocks or plain-text
 projection during admission or replay.
 
 Consumer-visible links contain only a canonical destination URL without
-user-info or fragment and bounded relation and text metadata. They remain inert
+user-info, fragment, or query parameters and bounded relation and text metadata. They remain inert
 data: publication never follows them automatically and never grants acquisition
-authority. Query redaction follows the same private-URL and display-URL rules as
-the source URL.
+authority. The active 1.2.1 profile exposes no allowlisted query fields; it
+strips the query entirely before computing the published link digest.
 
 Prompt injection is a content-integrity problem, not only an LLM prompt problem.
 Higher layers must receive source attribution and the external-content caution
@@ -696,6 +721,39 @@ correlation, findings, redaction workflow, and review. A web snapshot does not
 automatically become a finding, and a finding cannot request broader crawl or
 publication authority.
 
+### 13.1. P084-012a: admitted snapshot to local review
+
+The first Harvester slice is explicit local intake. The operator registers an
+immutable, bounded binding between a Harvester source id and a P082 interface,
+P084 source/generation and extraction profile digest, then selects an exact
+snapshot digest. Configuration is not a read grant. Each import requires the
+operator session and an independent current resource-scoped P082 read grant for
+`operator:local-control`; body-supplied actors cannot replace that identity.
+
+The host admits a one-shot P082 read, verifies the web adapter and exact binding,
+then verifies and schema-gates the locally retained representation under a 1 MiB
+ceiling. It rechecks current admission and snapshot after artifact I/O. Missing
+retention, stale generations, revoked grants, digest/profile mismatches and
+corrupt representations refuse, including on repeated imports. An admitted read
+is the authorization point; subsequent revocation does not delete prior review.
+
+The review registry stores one stable finding per configured source and selected
+snapshot, with durable deduplication across reopen. The finding is
+`pending-review`, preserves the full source classification and digest/reference
+provenance, and requires redaction review. Source text, titles, bylines and URLs
+are not copied into findings. This reference-only candidate records an operator
+selection, not automated signal detection. Grouping, correlation, remote artifact
+handoff, automatic harvesting and publication remain outside 012a. Review and
+optional local Whisper draft preparation remain separate operator actions.
+
+The daemon-local configure/import request shapes remain typed operator API data;
+P082 reads, snapshots, document blocks and findings retain their canonical
+Schema Gate contracts. `weak-signal-finding.v1` adds optional
+`source/refs[]/source/classification`, preserving source policy without changing
+existing findings. Implementation and measured evidence are tracked separately
+in `node:docs/SENSORIUM-WEB-HARVESTER-EVIDENCE.md` and its review follow-up
+`node:docs/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
+
 ## Implementation Guidance
 
 ### Reuse map: named primitives before new mechanism
@@ -788,7 +846,7 @@ vocabulary:
   and fails closed when either the declared policy or the observed process
   contradicts it;
 - absence of the private bounded-fetch host capability is terminal, and the
-  refusal is a typed member of `sensorium-web-error-codes.v1`, not a log line;
+  refusal is a typed member of the `failure.code` enum of `sensorium-web-extraction-result.v1`, not a log line;
 - the acceptance pack proves the negative directly: with the bounded-fetch host
   capability withheld, an ordinary fetch fails with the typed refusal and produces no
   socket, no subprocess, and no observation.
@@ -967,7 +1025,7 @@ audit row, operator snapshot, and interface frame.
 The corpus below is close to sufficient. Two structural additions make it
 self-maintaining:
 
-- drive the refusal matrix from `sensorium-web-error-codes.v1` so that every
+- drive the refusal matrix from the `failure.code` enum of `sensorium-web-extraction-result.v1` so that every
   declared code has at least one fixture, and a new code without a fixture fails
   the build. A closed error vocabulary whose members are unreachable is a
   documentation artifact, not a gate;
@@ -1044,7 +1102,7 @@ The checked-in test corpus should include:
 - redaction proof: a fixture serving secret-shaped headers, cookies, and signed
   query values, with absence asserted across snapshots, artifacts, audit records,
   the operator snapshot, and interface frames;
-- one fixture per declared member of `sensorium-web-error-codes.v1`, enforced so
+- one fixture per declared member of the `failure.code` enum of `sensorium-web-extraction-result.v1`, enforced so
   that an unreachable error code fails the build.
 
 Tests use local fixture servers and deterministic DNS adapters. Ordinary CI does
@@ -1127,7 +1185,7 @@ reviews and implementation evidence can refer to stable identifiers.
    P084. P084-011 owns its frontier and politeness contracts; no separate
    proposal is required.
 8. **Consumer-visible link data: A.** A snapshot may carry a canonical
-   destination URL without user-info or fragment plus bounded relation and text
+   destination URL without user-info, fragment, or query parameters plus bounded relation and text
    metadata. Links are inert and are never followed automatically.
 
 ## Open Questions
@@ -1135,6 +1193,24 @@ reviews and implementation evidence can refer to stable identifiers.
 None. Decisions 1-8 freeze the current static V1 boundaries and ownership of the
 deferred browser, authenticated-source, and crawl profiles. New questions found
 while specifying Phase 2 must be recorded here before their contract is frozen.
+
+## Static acceptance closeout (2026-09-09)
+
+The initial carrier-only closure was too broad: it had not exercised secret
+canaries or full store capacity. The combined closeout now passes recognizable
+header/cookie/signed-query and in-main link canaries through real direct-peer
+and Room carriers, including retained artifacts and every persisted record.
+It also passes full-capacity load, eight controlled SIGKILL barriers, real HTTP
+body failures/overload, BDO recovery, OS isolation and the additional randomseed
+article run. The stronger fixture exposed link-query leakage and led to the
+explicit 1.2.0 profile and migration boundary above. All 14 extraction-error
+enum members are executed by a schema-derived gate.
+
+The reviewed aggregate is `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`.
+Solutions 030/046, the Node ledger and readiness projection are synchronized.
+P084-001 through P084-009 are done for this static macOS acceptance scope;
+P084-010 through P084-013 remain deferred. This is not full browser, crawl,
+credential-bound, multi-host or non-macOS deployment acceptance.
 
 ## Implementation Tracker
 
@@ -1144,16 +1220,17 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 |---|---|---|---|
 | P084-001 | Freeze architecture, static V1 scope, source identity, authority split, named invariants, and profile ownership decisions | done | Decisions 1-8 freeze static admission and representation plus the boundaries of deferred robots, browser, credential-bound, and crawl work. |
 | P084-002 | Define the twenty-schema V1 contract family, typed errors, positive/negative fixtures, and Schema Gate registration | done | Eight reusable host schemas and twelve P084 domain schemas are closed, mirrored, Schema Gate-tested, and semantically checked for source/profile/fetch bindings, artifact ref/digest binding, representation counts, relation uniqueness, durable schedule bounds, generation fencing, operator redaction, latest-state digests, claim/timeout bindings, bounded sweep outcomes, and caller-bound Artifact Delivery retention receipts. |
-| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | done | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, cross-runtime frozen extraction-profile `1.1.0` identity including deterministic parser-event and nesting-depth limits, bounded inert document blocks with unique relation tokens, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Durable source-state semantics are completed under P084-006 rather than duplicated in the pure cores. |
+| P084-003 | Implement pure URL, destination, budget, generation, digest, and failure semantics in `bounded-http-fetch-core` and `sensorium-web-core` | done | Pure Rust tests cover URL/origin canonicalization, bounded label globs, literal-IP policy including wildcard IPv6 refusal, bracket-normalized IPv6 hosts, IPv4-compatible and mapped IPv6, standard and local-use NAT64 classification, limit intersection, the closed static media-type gate, cross-runtime frozen extraction-profile `1.2.1` identity including deterministic parser-event and nesting-depth limits, bounded inert document blocks with unique relation tokens, generation replacement, snapshot fencing, retry classification, and exact canonical source-envelope round-trip. Durable source-state semantics are completed under P084-006 rather than duplicated in the pure cores. |
 | P084-004 | Implement the daemon-owned reusable bounded HTTP(S) fetch host capability, with P084 as its first admitted consumer | done | Exact caller/action/origin admission including explicit missing-caller refusal, internally timed DNS resolution, bounded workers and queue backpressure, a 64-address answer cap, all-address classification, fresh per-hop connection pinning with explicit rustls/WebPKI TLS and once-parsed roots, exact redirect-status handling, independent 64-header and byte caps, compressed/decompressed caps, per-hop plus total deadlines, global/per-origin concurrency, inline or content-bound Artifact Delivery handoff with recency-aware bounded transfer retention, exact caller/action isolation, and exact bounded eviction tombstones that distinguish `artifact-transfer-expired` from binding mismatch, metadata-only terminal trace, aggregate snapshot, daemon ingress/egress integration, no-socket-return conformance, and the P084-006 durable operator projection are implemented. |
 | P084-005 | Implement the supervised Python static extraction connector without ambient egress | done | The channel-only `sensorium-web` module consumes only daemon-fetched schema-gated values, revalidates inline and content-bound artifact bytes, applies the frozen stdlib profile, and produces bounded inert blocks. macOS Seatbelt permits only the exact host-created loopback middleware endpoint; portable harness tests and automated macOS deployment evidence prove exact-channel success plus refusal of another loopback port, DNS, proxy, and subprocess paths. Unsupported host adapters fail closed. |
 | P084-006 | Add durable source configuration, metadata-first cache, conditional refresh, scheduler, BDO, restart, and operator inspection | done | SQLite WAL state content-binds idempotent source updates, fences replacements, caps sources, generations, operations, and snapshots, retains metadata before bodies, and resolves interrupted work to `unknown`. Exact `304` reuse requires retained generation, requested/final URL, profile, fetch-result, and body evidence. Replay Scheduler launches a bounded batch of at most 16 due sources per tick, narrowed by `max_records`, the remaining deadline, and worker capacity. Each claim's 1-120000 ms timeout is schema-gated, retained in the private P055 continuation, and applied to the actual connector invocation; every post-claim refusal is compensated with structured failure diagnostics. Cancellation remains fenced before every external effect and commit. Restart recovery runs synchronously after connector readiness and before scheduler startup, traverses owned BDOs once by stable keyset pages, and is marked recovered only after the full pass succeeds. Shutdown never blocks on a full queue or an unbounded join. Connector absence and source launch-rate exhaustion remain distinct typed scheduler diagnostics. Direct refresh remains capped at 20 seconds. Pause/resume/run-now, launch budgets, bounded backoff, and schema-gated operator inspection remain source-owned. |
 | P084-007 | Integrate Sensorium observation admission, P081 causal context, classification, operational context, and Artifact Delivery | done | Changed documents are submitted through `sensorium.observe.submit` with classification, required operational context, source and generation refs, fetch and extraction digests, and P081 causal context. Explicit representation retention invokes authenticated `artifact.delivery.retain`, stores only the immutable artifact ref in the source snapshot, omits representation bytes from the observation envelope and SQLite cache evidence, and chains the Artifact Delivery receipt into the Sensorium observation receipt. Refresh status retains a bounded redacted receipt-ref chain plus closed failure code, phase, and retry class; raw-body artifact refs remain opt-in. |
-| P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | partial | The optional `sensorium-web-latest-state` adapter registers only when the connector is configured, schema-gates the daemon/module boundary, rechecks source, generation, and canonical snapshot digest, emits latest-state cursors, coalesces unchanged reads, and rejects stale generations. It exposes no refresh operation, so P082 read/subscribe cannot acquire fetch authority. Real macOS local read/SSE acceptance now covers admitted snapshot and digest binding, no-change coalescing, changed content, grant revocation, typed generation fencing, and explicit supersession with fresh authority; exact host/fixture counters prove no consumer fetch. Dedicated authorized direct-peer/Room acceptance and remote-refresh refusal evidence remain. |
-| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | partial | Deterministic host, extractor, durable-state, schema, adapter, portable no-egress harness, automated real macOS no-egress evidence, BDO recovery/cancellation, and content-bound representation-retention evidence are implemented without public-site dependency. A single-URL operator runner now exercises the authenticated daemon bridge, exact-origin bounded fetch, static extraction, observation admission, bound text/JSON export, and scoped process cleanup; its offline mode explicitly substitutes host fetch/admission. The dedicated local P082 E2E is retained in `node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`. Durable-source load and dedicated P082 remote E2E remain. |
+| P084-008 | Register the P082 `latest-state` source-provider adapter and local/remote interface acceptance | done | The optional `sensorium-web-latest-state` adapter registers only when the connector is configured, schema-gates the daemon/module boundary, rechecks source, generation, and canonical snapshot digest, emits latest-state cursors, coalesces unchanged reads, and rejects stale generations. It exposes no refresh operation, so P082 read/subscribe cannot acquire fetch authority. Real macOS local read/SSE acceptance now covers admitted snapshot and digest binding, no-change coalescing, changed content, grant revocation, typed generation fencing, and explicit supersession with fresh authority; exact host/fixture counters prove no consumer fetch. Dedicated macOS acceptance also verifies real authenticated TLS peer read/subscription and Room projection, exact and dual authority, revocation, generation fencing, explicit supersession, and remote-refresh refusal; 4/4/8 operator/host/HTTP-hop counters prove zero consumer acquisition. Secret canaries include signed redirects and an extracted in-main link; zero leakage is asserted in carrier/operator values, 100 files, 31 databases, 274 rows and two real retained artifacts on profile 1.2.0. Evidence: `node:docs/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md` and `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`. |
+| P084-009 | Add static-profile conformance, load, refusal, and end-to-end evidence; synchronize Solution 030/046, Node ledgers, trackers, and readiness | done | The reviewed aggregate `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md` combines real local SSE/direct-peer/Room and retained-artifact canaries, 31 service tests, 13 conformance checks including all 14 extraction errors, the Schema Gate family/boundary matrix, 83 daemon regressions, real OS no-egress and 24 host tests. Deterministic capacity reaches 1,024 sources, 4,096 generations/operations and 1,024 snapshots across 5,120 refreshes; 128 interrupted claims and eight SIGKILL barriers recover without automatic effects. Real truncated/stalled bodies reject excess calls and release capacity. Randomseed is a separate successful live probe. Solutions 030/046, Node ledger and readiness are synchronized; deferred extensions and platform/evidence limits remain explicit. |
 | P084-010 | Add `sensorium-web-browser.v1` isolated JavaScript rendering profile | deferred | Requires a separately accepted browser process, host-controlled egress, empty profile, resource caps, no credentials/shares, rendered snapshot contracts, and deployment evidence. |
 | P084-011 | Define and implement P084 Phase 2 `sensorium-web-crawl.v1` frontier and politeness profile | deferred | After static-profile acceptance, P084 must freeze frontier lifecycle, fail-closed robots behavior, depth/page/origin budgets, restart, cancellation, retention, and operator evidence before implementation is accepted. |
-| P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | deferred | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
+| P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | partial | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
+| P084-012a | Admitted web snapshot to local Harvester review | done | Immutable source binding; independent P082 read authority; bounded retained-artifact verification; reference-only classified pending review; durable dedup; no acquisition or publication. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
 
 ### Single-URL operator acceptance (2026-09-08)
@@ -1173,9 +1250,8 @@ fetching, after correcting response bindings and shared launch-environment order
 The runner reads the admitted inline representation through
 `sensorium.observation.get`; separate representation Artifact Delivery retention
 is disabled for this experiment. Its offline mode uses the real connector and
-SQLite source store with explicit host fetch/admission doubles. This evidence
-does not close P084-008, durable-source load acceptance, or the remaining parts
-of P084-009.
+SQLite source store with explicit host fetch/admission doubles. On its own, this historical experiment does not establish carrier redaction
+or capacity; the combined 2026-09-09 closeout above supplies those gates.
 
 ### Local P082 read/SSE acceptance (2026-09-08)
 
@@ -1183,7 +1259,9 @@ of P084-009.
 P084-008 using the real daemon, bounded fetch host, supervised no-egress static
 connector, SQLite source store, observation admission, and authenticated P082
 HTTP/SSE routes. A deterministic local HTTP fixture uses a test-only resolver
-and loopback destination admission; release builds expose no policy override.
+and loopback destination admission. The daemon release integration exposes no
+fixture injection switch; the reusable fetch library still has a public custom-policy
+constructor, and no lint fences other callers.
 The test checks initial payload/digest binding, no-change, changed content,
 revocation, typed stale-generation refusal, stream closure, and explicit
 supersession with a fresh grant. Four explicit operator refreshes account for
@@ -1195,19 +1273,51 @@ P084 receipt references narrower than the P081 identifier contract, inconsistent
 authenticated module actor refs across HTTP/SSE, and loss of terminal generation
 errors after broker failure. The measured run, 60 P082 regression tests, and two
 focused Schema Gate tests are retained in
-`node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`. P084-008 and P084-009 remain
-partial pending dedicated remote-carrier and durable-source load evidence.
+`node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`. The final combined
+2026-09-09 run re-executed local and remote acceptance on profile 1.2.0; the
+aggregate closeout supplies redaction, load and crash evidence for P084-008/009.
+
+### Remote P082 acceptance and review closure (2026-09-09)
+
+`node:tools/acceptance/sensorium-web-remote-interface/` closes P084-008 using the
+same real static connector, bounded fetch host, durable source store and admitted
+Sensorium snapshot. Signed interface Passports authorize read/subscription over
+an actual daemon TLS/WebSocket peer session. A real loopback Room WebSocket
+projection requires both admitted Room observe authority and a current interface
+grant. The Room fixture supplies membership facts directly; it is not remote
+membership issuance, TLS Room deployment or federated relay evidence.
+
+The scenario verifies unchanged/changed snapshots and digest binding, exact
+Passport target/resource scopes, both sides of Room authority, grant revocation,
+stale-generation refusal, explicit supersession with fresh authority, and remote
+refresh refusal on both carriers. The strengthened canary scenario uses real
+representation retention and signed redirects: four explicit refreshes account
+for four host calls and eight HTTP hops. Zero markers escaped into 100 files,
+31 databases, 274 rows or two retained artifacts. The final combined daemon run
+passed 83 tests in 45.19 seconds, including local and remote acceptance. The
+measured boundary and regressions are retained in
+`node:docs/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md`.
+
+Review corrected the Schema Gate registry rather than relabeling transport reads
+as file imports: every module response is admitted at receiver-relative `Ingress`.
+The P084 family/boundary matrix and six declared response routes now execute their
+validators against positive and malformed fixtures. Test cleanup cannot turn a
+worker panic into a second panic during unwind; terminal SSE batches may close
+without an extra terminal event. Raw legacy P082 actors are not aliased into
+canonical identities: operators inspect and reissue authority where needed,
+without assuming all deployed state was empty. P068 separately tracks transitive
+OpenAPI schema bundling; top-level URN resolution alone does not close that debt.
 
 ## Next Actions
 
-1. Complete P084-008 with dedicated direct-peer and Room acceptance,
-   including revocation, stale generation, supersession, and remote-refresh refusal.
-2. Add durable-source capacity/load evidence across restart and operator inspection.
-3. Evaluate any proposed alternate extraction profile against the same checked-in
-   corpus under a new profile identity; do not mutate the frozen stdlib profile.
-4. Keep browser rendering, credentials, P084 Phase 2 crawling, and P078
-   integration deferred until the static snapshot path has end-to-end authority
-   and retention evidence.
+1. Reproduce the static acceptance gates when changing the profile, host boundary,
+   retention or carriers. Migrate old configurations through an explicit new
+   source generation; never relabel retained profile evidence.
+2. Evaluate any alternate extraction profile against the same checked-in corpus
+   under its own version and digest.
+3. Keep browser rendering, credentials, Phase 2 crawling and P078 integration in
+   their separately accepted deferred workstreams. Static acceptance does not
+   grant their authority or provide their deployment evidence.
 
 ## External Standards and Implementation References
 

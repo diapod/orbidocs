@@ -218,12 +218,43 @@ configured and is deliberately not a fifth required built-in. The adapter reads
 only an already admitted latest snapshot, rechecks source/generation and the
 canonical snapshot digest, coalesces an unchanged cursor to `no-change`, and has
 no refresh method. Existing local SSE, direct-peer, and Room carriers therefore
-remain transport projections rather than acquisition authority. Dedicated
-direct-peer/Room P084 acceptance remains tracked by P084-008 and does not reopen
-P082 hard-MVP readiness. The real macOS local read/SSE slice is retained in
+remain transport projections rather than acquisition authority. Dedicated real
+TLS peer read/subscription and local Room WebSocket acceptance now closes
+P084-008 with exact Passport scopes, dual Room/interface authority, revocation,
+generation fencing, explicit supersession and remote-refresh refusal. The Room
+fixture supplies admitted membership facts; this does not claim federated relay
+or remote membership issuance. Evidence is retained in
+`node:docs/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md`. The strengthened 1.2.0
+profile run also proves secret-canary absence in operator/carrier data and real
+retained artifacts; link query values are removed before digest binding. Its
+explicit profile migration requires a new generation and fresh publication
+authority. Full capacity, controlled failures and the combined review close
+P084-009 in `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`; P082 hard-MVP
+readiness is unchanged. The real macOS local read/SSE slice is retained in
 `node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`: admitted payload/digest
 binding, no-change, changed snapshots, revocation, generation fencing, and
 explicit supersession requiring fresh grants, with zero consumer-triggered fetches.
+
+P084-012a also composes this adapter with local Harvester intake. An operator
+session configures an immutable source binding, but each selected-snapshot import
+still requires an independent current interface read grant. The bridge verifies
+the retained document-block artifact and repeats admission after artifact I/O;
+findings preserve source classification and exact provenance. It adds no refresh,
+remote handoff or publication path. Evidence:
+`node:docs/SENSORIUM-WEB-HARVESTER-EVIDENCE.md`.
+
+### P084-012a review hardening
+
+Review H-1 through H-10 distinguishes pre-claim `not-started` refusal from
+settling an already claimed operation, using the same refresh-status contract
+and failure semantics. A bounded refusal projection isolates the rejected
+source generation and makes its reason visible without consuming operation
+slots or starving healthy sources. The 1.2.1 extraction revision computes link
+truncation after deduplication. Harvester configuration equality is semantic;
+no-op registration returns HTTP 200. Safe host trace categories preserve refusal
+causes, and the post-artifact read uses its own causal child operation without
+extending the original deadline. Evidence:
+`node:docs/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
 
 ### Source Adaptation
 

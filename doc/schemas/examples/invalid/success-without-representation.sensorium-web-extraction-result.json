@@ -6,5 +6,5 @@
   "source/generation-ref": "source-generation:web-fixture-v1",
   "fetch/result-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "extraction/profile-ref": "sensorium-web-extraction:static-stdlib-main-v1",
-  "extraction/profile-digest": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg"
+  "extraction/profile-digest": "sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk"
 }

@@ -16,7 +16,7 @@
     "source/generation-ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[^\\s\\u0000]+$" },
     "fetch/result-digest": { "$ref": "#/$defs/sha256Digest" },
     "extraction/profile-ref": { "const": "sensorium-web-extraction:static-stdlib-main-v1" },
-    "extraction/profile-digest": { "const": "sha256:lW1Oos_09Srd_Vrze9X8ZwPK-W0Hjpsjl9ss9PYqbAg" },
+    "extraction/profile-digest": { "const": "sha256:0gMi6eb_EENqcuRAdqjUJq-tNJxgskpqFOuzIzd7gmk" },
     "representation/digest": { "$ref": "#/$defs/sha256Digest" },
     "representation": { "$ref": "sensorium-web-document-blocks.v1.schema.json" },
     "confidence/basis": { "enum": ["sufficient-text", "short-text"] },

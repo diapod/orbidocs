@@ -8,19 +8,19 @@ Source schema: [`doc/schemas/sensorium-web-refresh-status.v1.schema.json`](../..
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-web-refresh-status.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`operation/id`](#field-operation-id) | `yes` | ref: `#/$defs/ref` |  |
+| [`operation/id`](#field-operation-id) | `no` | ref: `#/$defs/ref` |  |
 | [`source/ref`](#field-source-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
-| [`status`](#field-status) | `yes` | enum: `pending`, `running`, `terminal` |  |
+| [`status`](#field-status) | `yes` | enum: `pending`, `running`, `terminal`, `not-started` |  |
 | [`outcome`](#field-outcome) | `yes` | enum: `pending`, `changed`, `no-change`, `refused`, `failed`, `unknown`, `cancelled` |  |
-| [`attempt`](#field-attempt) | `yes` | integer |  |
-| [`started/at`](#field-started-at) | `yes` | string |  |
+| [`attempt`](#field-attempt) | `no` | integer |  |
+| [`started/at`](#field-started-at) | `no` | string |  |
 | [`completed/at`](#field-completed-at) | `no` | string |  |
 | [`request/digest`](#field-request-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`snapshot/id`](#field-snapshot-id) | `no` | ref: `#/$defs/ref` |  |
 | [`snapshot/digest`](#field-snapshot-digest) | `no` | ref: `#/$defs/digest` |  |
 | [`observation/id`](#field-observation-id) | `no` | ref: `#/$defs/ref` |  |
-| [`failure/code`](#field-failure-code) | `no` | enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled` |  |
+| [`failure/code`](#field-failure-code) | `no` | enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`, `profile-mismatch` |  |
 | [`failure/phase`](#field-failure-phase) | `no` | enum: `claim`, `fetch`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel` |  |
 | [`receipt/refs`](#field-receipt-refs) | `no` | array |  |
 | [`retry/class`](#field-retry-class) | `no` | enum: `terminal`, `retryable`, `policy-dependent` |  |
@@ -93,6 +93,82 @@ Then:
 }
 ```
 
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "status": {
+      "const": "not-started"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "outcome": {
+      "const": "refused"
+    },
+    "failure/phase": {
+      "const": "claim"
+    },
+    "retry/class": {
+      "const": "terminal"
+    }
+  },
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "operation/id"
+        ]
+      },
+      {
+        "required": [
+          "attempt"
+        ]
+      },
+      {
+        "required": [
+          "started/at"
+        ]
+      },
+      {
+        "required": [
+          "completed/at"
+        ]
+      },
+      {
+        "required": [
+          "snapshot/id"
+        ]
+      },
+      {
+        "required": [
+          "snapshot/digest"
+        ]
+      },
+      {
+        "required": [
+          "observation/id"
+        ]
+      },
+      {
+        "required": [
+          "receipt/refs"
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -110,7 +186,7 @@ Then:
 <a id="field-operation-id"></a>
 ## `operation/id`
 
-- Required: `yes`
+- Required: `no`
 - Shape: ref: `#/$defs/ref`
 
 <a id="field-source-ref"></a>
@@ -129,7 +205,7 @@ Then:
 ## `status`
 
 - Required: `yes`
-- Shape: enum: `pending`, `running`, `terminal`
+- Shape: enum: `pending`, `running`, `terminal`, `not-started`
 
 <a id="field-outcome"></a>
 ## `outcome`
@@ -140,13 +216,13 @@ Then:
 <a id="field-attempt"></a>
 ## `attempt`
 
-- Required: `yes`
+- Required: `no`
 - Shape: integer
 
 <a id="field-started-at"></a>
 ## `started/at`
 
-- Required: `yes`
+- Required: `no`
 - Shape: string
 
 <a id="field-completed-at"></a>
@@ -183,7 +259,7 @@ Then:
 ## `failure/code`
 
 - Required: `no`
-- Shape: enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`
+- Shape: enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`, `profile-mismatch`
 
 <a id="field-failure-phase"></a>
 ## `failure/phase`

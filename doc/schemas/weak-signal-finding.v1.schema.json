@@ -141,6 +141,7 @@
           "type": "string",
           "maxLength": 256
         },
+        "source/classification": { "$ref": "classification.v1.schema.json" },
         "source/observed-at": {
           "type": "string",
           "format": "date-time"
