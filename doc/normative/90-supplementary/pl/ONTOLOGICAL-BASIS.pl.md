@@ -298,6 +298,12 @@ odpowiadaniem na cudze i opisywaniem go z pozycji obserwatora. Są to powiąza
 użycia, nie wzajemnie zastępowalne translacje. Ich sens nie wymaga każdorazowego
 sprowadzenia do opisu ukrytego przedmiotu.
 
+Ton głosu, gest, milczenie czy słowa "boli mnie" nie muszą być jedynie opisami
+ukrytego stanu. Mogą należeć do samego sposobu, w jaki cierpienie wyraża się
+w relacji i spotyka z odpowiedzią. Nie każda odpowiedź na doświadczenie drugiej
+osoby musi więc zaczynać się od rozpoznania go jako przedmiotu. **Ekspresja może
+być częścią sposobu, w jaki doświadczenie wchodzi w przestrzeń wspólną.**
+
 Skutkiem ubocznym bywa złudzenie, że warstwy wcześniejsze genealogicznie są ubogie.
 Bogaty słownik dotyczy zwykle ich już wyodrębnionych i uprzedmiotowionych
 odpowiedników, nie zaś samej faktury doświadczenia: mamy precyzyjne nazwy barw jako
@@ -319,8 +325,8 @@ w innej.
 
 Brak możliwości zobiektywizowania przeżycia nie wystarcza do zanegowania jego
 zaistnienia. Uznanie przeżycia nie nadaje jednak nieomylności jego rozpoznaniu,
-opisowi ani przypisaniu – pozostają one podatne na korektę. Żaden sposób
-poznawania nie uzyskuje automatycznej nadrzędności nad pozostałymi; znaczenie jego
+opisowi ani przypisaniu – pozostają one podatne na korektę. **Gramatyki mogą się
+wzajemnie korygować, nie uzyskując przez to automatycznej nadrzędności.** Znaczenie
 świadectwa zależy od pytania oraz uzasadnienia przejścia. Nie oznacza to
 równoważności świadectw: dla określonego pytania jedne mogą być mocniejsze od innych.
 
@@ -602,6 +608,35 @@ przekazu jako jednej, gotowej "rzeczy do odczytania" jest trybem reifikującym;
 relacyjne powstawanie znaczenia nie czyni jednak medium obojętnym ani nie usuwa
 odpowiedzialności za komunikację.
 
+Przekaz nie musi jedynie opisywać doświadczenia. Może również zapraszać do
+działania, kierować uwagą lub pomagać stworzyć warunki, w których zawiąże się
+doświadczenie pokrewne pod określonym względem. Wspólna procedura nie gwarantuje
+jednak wspólnego wyniku ani nie ustanawia jednej poprawnej interpretacji tego,
+co się pojawi. Na przykład zamiast wyłącznie opisywać napięcie muzycznej frazy,
+można zaprosić do jej zaśpiewania z zatrzymaniem przed rozwiązaniem. Powstaje
+możliwość porównania odczuć, nie dowód, że wszyscy przeżyli to samo. **Przekaz może
+być zaproszeniem do doświadczenia, nie tylko jego opisem.**
+
+Komunikacja może przyjmować postać obustronnej pętli korekty. Słowo, gest, obraz
+lub pytanie jednej osoby staje się okazją do odpowiedzi drugiej; odpowiedź ta może
+następnie zmienić sposób, w jaki pierwsza osoba rozumie i wyraża własne
+doświadczenie. Uczestnicy nie muszą odtwarzać tego samego przeżycia. Mogą
+doprecyzowywać rozróżnienia, rozpoznawać rozbieżności lub współtworzyć sens,
+którego wcześniej żadne z nich nie potrafiło wyrazić.
+
+Podczas rozmowy możemy początkowo nazwać odczuwane napięcie "lękiem". Pytanie
+o moment, w którym się nasila, może pomóc zastąpić tę nazwę określeniem "presja,
+żeby odpowiedzieć natychmiast". Rozmówca pozostawia więcej czasu i sprawdza, czy
+zmienia to przebieg rozmowy. Korekta obejmuje tutaj zarówno opis, jak i sposób
+uczestnictwa; nie dowodzi odnalezienia ostatecznej nazwy przeżycia.
+
+**Wierność przekazu obejmuje nie tylko dokładność opisu, lecz także możliwość
+jego korekty przez uczestników.** Ponowny kontakt z doświadczeniem nie jest
+odzyskaniem nietkniętego oryginału: zmieniać się może zarówno opis, jak i samo
+przeżywanie sytuacji. Różnica odpowiedzi lub brak oczekiwanego rezultatu nie
+świadczą same przez się o niekompetencji uczestnika i nie odbierają mu prawa
+do odmowy udziału.
+
 **Zakotwiczenie w znanych tradycjach:** enaktywizm (Varela, Thompson, Rosch),
 neurofenomenologia, pragmatyzm (James, *duck typing* jako kryterium). Różni się od
 tych nurtów analitycznej filozofii umysłu, które ograniczają badanie do perspektywy
@@ -866,6 +901,11 @@ Poznanie drugoosobowe ujawnia się również w tym, że rozmówca może odpowie
 inaczej, niż oczekujemy, a dalszy kontakt zmienia nasze rozumienie. Siła przekonania
 nie daje nam prawa rozstrzygać za drugą osobę, co przeżywa, ani odbierać jej
 możliwości zakwestionowania naszego odczytania.
+
+Druga osoba może pomagać rozluźniać gotowe interpretacje przez pytania o konkretny
+przebieg doświadczenia, nie narzucając jego treści. Wiarygodność takiej rozmowy
+zależy również od sposobu zadawania pytań, możliwości korekty i swobody niewiedzy.
+Sama zgodność rozmówców ani spójność opowieści nie gwarantują trafności.
 
 Nie znaczy to, że osoba jest niedostępna obserwacji. Rozluźnienie utożsamienia
 z konfiguracją osobową może otworzyć pozycję, z której osoba pojawia się jako

@@ -312,6 +312,12 @@ one's own suffering, responding to another's, and describing it as an observer.
 These are related uses, not mutually interchangeable translations. Their sense
 does not require reducing them on every occasion to descriptions of a hidden object.
 
+Tone of voice, gesture, silence, or the words "it hurts" need not merely describe
+a hidden state. They can belong to the very way suffering is expressed in a
+relationship and meets a response. Not every response to another person's
+experience therefore has to begin by recognizing it as an object. **Expression
+can be part of the way experience enters a shared space.**
+
 A side effect can be the illusion that genealogically earlier layers are poor. A
 rich vocabulary usually concerns their already individuated and objectified
 counterparts rather than the texture of experience itself: we have precise names
@@ -335,10 +341,10 @@ formulated in another.
 An inability to make an experience available to objective examination is not
 enough to deny its occurrence. Acknowledging an experience does not, however,
 make its identification, description, or attribution infallible – these remain
-open to correction. No way of knowing gains automatic precedence over the others;
-the significance of its testimony depends on the question and the warrant for
-the transition. This does not make all testimony equivalent: for a given question,
-some may be stronger than others.
+open to correction. **Grammars can correct one another without thereby gaining
+automatic precedence.** The significance of testimony depends on the question and
+the warrant for the transition. This does not make all testimony equivalent: for
+a given question, some may be stronger than others.
 
 A description's adequacy is relative to a question and contract, not solely to a
 layer. A description sufficient to distinguish the presence and absence of
@@ -633,6 +639,36 @@ one ready-made "thing to be read" is a reifying mode; the relational arising of
 meaning nevertheless neither makes the medium irrelevant nor removes
 responsibility for communication.
 
+A message need not merely describe experience. It can also invite action, direct
+attention, or help create conditions in which an experience similar in a specified
+respect may form. A shared procedure does not, however, guarantee a shared outcome
+or establish a single correct interpretation of what appears. For example, rather
+than only describing the tension of a musical phrase, one can invite someone to
+sing it, pausing before the resolution. This creates an opportunity to compare
+what is felt, not proof that everyone experienced the same thing. **A message can
+be an invitation to experience, not only a description of it.**
+
+Communication can take the form of a reciprocal correction loop. One person's
+word, gesture, image, or question becomes an occasion for another's response;
+that response can then change how the first person understands and expresses
+their own experience. Participants need not recreate the same experience. They
+can refine distinctions, recognize divergences, or co-create a meaning that
+neither could previously express.
+
+During a conversation, we may initially call the tension we feel "fear". A
+question about the moment when it intensifies may help replace that name with
+"pressure to answer immediately". The other person allows more time and checks
+whether this changes the course of the conversation. Correction here concerns
+both the description and the mode of participation; it does not prove that the
+definitive name for the experience has been found.
+
+**Fidelity in communication includes not only descriptive accuracy, but also
+the participants' ability to correct the communication.** Renewed contact with
+experience is not the recovery of an untouched original: both the description
+and the experiencing of the situation itself may change. A different response or
+the absence of an expected outcome does not in itself indicate a participant's
+incompetence or remove their right to decline participation.
+
 **Anchoring in known traditions:** enactivism (Varela, Thompson, Rosch),
 neurophenomenology, pragmatism (James, with *duck typing* as a criterion). It differs
 from those currents of analytic philosophy of mind that restrict inquiry to the
@@ -914,6 +950,12 @@ person's ability to respond differently than we expect, while continued contact
 changes our understanding. The strength of our conviction does not give us the
 right to decide on their behalf what they experience or to deny them the
 opportunity to challenge our reading.
+
+Another person can help loosen ready-made interpretations through questions
+about the concrete course of experience, without imposing its content. The
+reliability of such a conversation also depends on how questions are asked, the
+possibility of correction, and the freedom not to know. Agreement between the
+participants or the coherence of their account alone does not guarantee accuracy.
 
 This does not mean that the person is inaccessible to observation. Loosening
 identification with the personal configuration can open a position from which the

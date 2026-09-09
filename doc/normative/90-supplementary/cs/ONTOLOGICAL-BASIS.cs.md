@@ -283,6 +283,12 @@ utrpení, odpovídáním na utrpení druhého a jeho popisem z pozice pozorovate
 Jde o propojená užití, nikoli vzájemně zaměnitelné překlady. Jejich smysl
 nevyžaduje pokaždé převod na popis skrytého předmětu.
 
+Tón hlasu, gesto, mlčení či slova "bolí mě to" nemusí být pouhými popisy skrytého
+stavu. Mohou patřit k samotnému způsobu, jímž se utrpení vyjadřuje ve vztahu a
+setkává s odpovědí. Ne každá odpověď na zkušenost druhé osoby tedy musí začínat
+jejím rozpoznáním jako předmětu. **Výraz může být součástí způsobu, jímž zkušenost
+vstupuje do sdíleného prostoru.**
+
 Vedlejším účinkem může být iluze, že genealogicky dřívější vrstvy jsou chudé. Bohatá
 slovní zásoba se zpravidla týká jejich již vydělených a zpředmětněných protějšků,
 nikoli samotné textury zkušenosti: máme přesná pojmenování barev jako vlastností věcí
@@ -302,8 +308,8 @@ podporovat tvrzení formulované v jiné.
 
 Nemožnost zpřístupnit prožitek objektivnímu zkoumání nestačí k popření toho, že
 nastal. Uznání prožitku však nečiní jeho rozpoznání, popis ani připsání neomylnými
-– zůstávají otevřené korekci. Žádný způsob poznávání nezískává automatickou
-nadřazenost nad ostatními; význam jeho svědectví závisí na otázce a zdůvodnění
+– zůstávají otevřené korekci. **Gramatiky se mohou vzájemně korigovat, aniž by tím
+získávaly automatickou nadřazenost.** Význam svědectví závisí na otázce a zdůvodnění
 přechodu. To neznamená rovnocennost svědectví: pro určitou otázku mohou být
 některá silnější než jiná.
 
@@ -575,6 +581,33 @@ odpovědnosti mají různý rozsah a navzájem se nenahrazují. Zacházet se sd�
 jako s jednou hotovou "věcí ke čtení" je reifikující režim; vztahové vznikání
 významu však nečiní médium neutrálním ani neodstraňuje odpovědnost za komunikaci.
 
+Sdělení nemusí zkušenost pouze popisovat. Může také vybízet k jednání, směrovat
+pozornost nebo pomáhat vytvářet podmínky, v nichž se utvoří zkušenost příbuzná
+v určitém ohledu. Společný postup však nezaručuje společný výsledek ani neurčuje
+jedinou správnou interpretaci toho, co se objeví. Například místo pouhého popisu
+napětí hudební fráze lze vybídnout k jejímu zazpívání se zastavením před
+rozvedením. Vzniká možnost porovnat pocity, nikoli důkaz, že všichni prožili totéž.
+**Sdělení může být pozváním ke zkušenosti, nejen jejím popisem.**
+
+Komunikace může mít podobu oboustranné smyčky korekce. Slovo, gesto, obraz nebo
+otázka jedné osoby se stává příležitostí k odpovědi druhé; tato odpověď pak může
+změnit způsob, jakým první osoba rozumí vlastní zkušenosti a vyjadřuje ji.
+Účastníci nemusí znovu vytvářet tentýž prožitek. Mohou zpřesňovat rozlišení,
+rozpoznávat rozdíly nebo spoluutvářet smysl, který dříve ani jeden z nich
+nedokázal vyjádřit.
+
+Během rozhovoru můžeme pociťované napětí zpočátku pojmenovat jako "strach".
+Otázka na okamžik, kdy zesiluje, může pomoci nahradit tento název označením
+"tlak na okamžitou odpověď". Druhá osoba ponechá více času a ověřuje, zda to
+mění průběh rozhovoru. Korekce se zde týká jak popisu, tak způsobu účasti;
+nedokazuje nalezení konečného názvu prožitku.
+
+**Věrnost sdělení zahrnuje nejen přesnost popisu, ale také možnost jeho korekce
+účastníky.** Obnovený kontakt se zkušeností není získáním nedotčeného originálu:
+měnit se může jak popis, tak samotné prožívání situace. Odlišná odpověď nebo
+absence očekávaného výsledku samy o sobě nesvědčí o nekompetentnosti účastníka
+ani mu neodnímají právo účast odmítnout.
+
 **Ukotvení ve známých tradicích:** enaktivismus (Varela, Thompson, Rosch),
 neurofenomenologie, pragmatismus (James, *duck typing* jako kritérium). Liší se od
 těch proudů analytické filosofie mysli, které omezují zkoumání na perspektivu třetí
@@ -828,6 +861,11 @@ Poznání z perspektivy druhé osoby se projevuje také v tom, že protějšek m
 odpovědět jinak, než očekáváme, a další kontakt mění naše porozumění. Síla
 přesvědčení nám nedává právo rozhodovat za druhou osobu, co prožívá, ani jí
 upírat možnost zpochybnit naše porozumění.
+
+Druhá osoba může pomáhat uvolňovat hotové interpretace otázkami na konkrétní
+průběh zkušenosti, aniž by vnucovala její obsah. Věrohodnost takového rozhovoru
+závisí také na způsobu kladení otázek, možnosti korekce a svobodě připustit,
+že nevíme. Samotná shoda účastníků ani soudržnost vyprávění nezaručují správnost.
 
 Neznamená to, že osoba je pozorování nepřístupná. Uvolnění ztotožnění s osobní
 konfigurací může otevřít pozici, z níž se osoba objeví jako předmět v krajině
