@@ -331,14 +331,18 @@ wzajemnie korygować, nie uzyskując przez to automatycznej nadrzędności.** Zn
 równoważności świadectw: dla określonego pytania jedne mogą być mocniejsze od innych.
 
 Adekwatność opisu jest względna wobec pytania i kontraktu, nie wyłącznie wobec
-warstwy. Opis wystarczający do rozróżnienia obecności i nieobecności doświadczenia
-może nie zachowywać różnicy między doświadczaną czerwienią a zielenią. Dla ustalonego
-zbioru przypadków `X`, abstrakcji `f: X → F` i przypisania odpowiedzi `T: X → Q`
-prosty test brzmi: jeżeli `f(a) = f(b)`, lecz `T(a) ≠ T(b)`, to nie istnieje
-funkcja `g`, która dla wszystkich tych przypadków odtwarza `T` wyłącznie z `f`.
-Test dotyczy dokładnego, deterministycznego przypisania; nie dowodzi sam, że
-przyjęte kodowanie i świadectwo różnicy są trafne. Model probabilistyczny wymaga
-osobnego testu zależności rozkładów, a opis historyczny lub relacyjny – uwzględnienia
+warstwy. Opis wystarczający do rozróżnienia obecności i nieobecności
+doświadczenia może nie zachowywać różnicy między doświadczaną czerwienią
+a zielenią. Dla ustalonego zbioru przypadków `X`, abstrakcji `f: X → F`
+i przypisania odpowiedzi `T: X → Q` prosty test brzmi: jeżeli `f(a) = f(b)`,
+lecz `T(a) ≠ T(b)`, to nie istnieje funkcja `g`, która dla wszystkich tych
+przypadków odtwarza `T` wyłącznie z `f`. Wynika stąd również, że dla dowolnego
+`h` zachodzi `h(f(a)) = h(f(b))`: złożenie nie odzyskuje rozróżnienia, którego
+`f` nie zachowała. Dokładanie kolejnych pojęć definiowanych wyłącznie w języku
+`f` nie zmienia więc zakresu dostępnych odpowiedzi. Test dotyczy dokładnego,
+deterministycznego przypisania; nie dowodzi sam, że przyjęte kodowanie
+i świadectwo różnicy są trafne. Model probabilistyczny wymaga osobnego testu
+zależności rozkładów, a opis historyczny lub relacyjny – uwzględnienia
 właściwego kontekstu.
 
 W kontrakcie przejścia warto zatem odróżnić trzy pytania diagnostyczne:
@@ -420,6 +424,14 @@ można w niej rozpoznać. Nową warstwę warto wyróżnić wtedy, gdy redukcja 
 nowy niezmiennik i względnie autonomiczną rodzinę operacji, a jej wyniki stają się
 funkcjonalnymi konkretami dla kolejnej warstwy. Sama zmiana punktu widzenia, nazwy
 albo nośnika nie musi jeszcze konstytuować warstwy.
+
+Gramatyki warstw implementacyjnych są projektowane, natomiast gramatyki warstw
+doświadczenia i kultury pozostają w znacznej mierze zastane: rozpoznajemy
+obowiązujące już kryteria użycia, a nie ustanawiamy ich decyzją. Ponadto nie
+każda gramatyka daje się umieścić w stosie – niektóre pozostają wobec siebie
+w relacji pokrewieństwa lub nakładania się, a nie zagnieżdżenia (por. poznanie
+drugoosobowe w modelu osoby). Układ warstw jest zatem doborem osi dla danego
+pytania, a nie topologią wszystkich dostępnych gramatyk.
 
 Przed opisem progu należy wskazać jego **oś** – na przykład
 strukturalno-fenomenologiczną, ewolucyjną, rozwojową, społeczno-historyczną albo
@@ -518,6 +530,14 @@ przekroczenia apofatycznej granicy poziomu zero. Każde takie rozpoznanie zachod
 wewnątrz warunkowanego doświadczenia, pozostaje omylne i podlega późniejszej
 interpretacji.
 
+Na przykład raport "stoję nieruchomo, a świat wraz z moją organiką jest
+w ruchu" może być trafnym wskaźnikiem fenomenologicznym i zarazem słabym
+twierdzeniem ontologicznym: opisuje tryb doświadczenia, w którym podmiot nie
+był potrzebnym prymitywem organizującym jawienie. Charakterystyczny błąd polega
+tu na natychmiastowym przekładzie takiego rozpoznania na język warstwy, która
+właśnie przestała je organizować – zdanie "podmiot okazał się przedmiotem"
+posługuje się bowiem obiema kategoriami zawieszonej gramatyki.
+
 Jest to możność strukturalna, która nie zakłada nadzwyczajnego stanu ani
 uprzywilejowanego dostępu, ale bez praktycznej introspekcji może pozostać
 nierozpoznana, podobnie jak zdolność obserwowania własnych myśli jest powszechna,
@@ -543,19 +563,34 @@ ujawniać. Nie rozstrzyga to samo przez się, czy istnieje jedna świadomość, 
 dowodem ontologicznej tożsamości. Metafora "jednego pola" może opisywać charakter
 przeżycia bez ustanawiania wspólnej substancji.
 
+Zastrzeżenie to obowiązuje symetrycznie: ani codzienna gramatyka
+podmiot–przedmiot, ani jej zawieszenie nie jest uprzywilejowanym wglądem
+w strukturę rzeczywistości. Zmiana trybu doświadczenia świadczy o przygodności
+obu gramatyk, a nie o wyższości którejś z nich.
+
+Trzy dyscypliny działają tu na różnych poziomach i nie zastępują się wzajemnie:
+gramatyka wyznacza, jakie ruchy mają sens; abstrakcja wyznacza, jakie
+rozróżnienia pozostają dostępne; kontrakt przejścia wyznacza, jak daleko wolno
+przenieść wynik. Apofatyczne zastrzeżenie dotyczy wszystkich trzech: żadnego
+z tych wyznaczeń nie utożsamiamy ze strukturą tego, co jest.
+
 **Zakotwiczenie w znanych tradycjach:** holarchie (Koestler, Wilber) są punktem
-odniesienia dla zagnieżdżenia; *stratified design* dla lokalnych języków i kontraktów,
-a *drilling through abstractions* dla badania ich granic. Enaktywna autopojeza
-(Varela, Thompson) inspiruje ujęcie konstytutywnych sprzężeń. Jej użycie przy kulturze
-i obiektywności wymaga osobnych uzasadnień. Dla organicznego progu podmiotowości
-regionalnych narzędzi dostarczają
-ponadto [*Umwelt* Jakoba von
+odniesienia dla zagnieżdżenia; *stratified design* dla lokalnych języków
+i kontraktów, a *drilling through abstractions* dla badania ich granic. Dla
+pojęcia gramatyki warstwy oraz dla rozróżnienia między ekspresją a opisem
+ukrytego stanu punktem odniesienia jest późny Wittgenstein (kryteria użycia,
+forma życia); używamy go w ujęciu, które dodatkowo rozlicza gramatyki
+z zachowanych i utraconych rozróżnień. Enaktywna autopojeza (Varela, Thompson)
+inspiruje ujęcie konstytutywnych sprzężeń. Jej użycie przy kulturze
+i obiektywności wymaga osobnych uzasadnień. Dla organicznego progu
+podmiotowości regionalnych narzędzi dostarczają ponadto [*Umwelt* Jakoba von
 Uexkülla](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
 [Gibsonowskie *affordances*](https://doi.org/10.4324/9781315740218-18) oraz
 [adaptacyjność Ezequiela Di Paola](https://doi.org/10.1007/s11097-005-9002-y).
-Pozostałe progi mają własne regionalne zaplecze w psychologii rozwojowej i badaniach
-nad osobą, semiotyce i antropologii oraz epistemologii, teorii pomiaru i filozofii
-nauki. Żadna z tych tradycji nie wyjaśnia sama całego szeregu progów.
+Pozostałe progi mają własne regionalne zaplecze w psychologii rozwojowej
+i badaniach nad osobą, semiotyce i antropologii oraz epistemologii, teorii
+pomiaru i filozofii nauki. Żadna z tych tradycji nie wyjaśnia sama całego
+szeregu progów.
 
 **Znaczenie dla DIA:** architekturę roju – węzeł, agent, memarium, sensorium,
 inquirium i protokół – projektujemy warstwowo w duchu stratyfikacji. Wartość
@@ -587,6 +622,17 @@ Sama obecność narzędzia w polu uwagi nie określa jeszcze jego roli w dzia�
 Rozróżniamy chwilowe zwrócenie uwagi, pojedynczy udział w czynności i trwałe,
 podtrzymywane sprzężenie. Ich zakres rozpoznajemy w konkretnej praktyce, a nie
 na podstawie samej nazwy narzędzia lub długości korzystania z niego.
+
+Narzędzia i formy zapisu nie są przy tym wyłącznie śladami operacji
+poznawczych, które umożliwiły ich powstanie. Po utrwaleniu stają się częścią
+środowiska, w którym poznanie organizuje się dalej, więc kolejni uczestnicy
+myślą już za ich pomocą. Traktujemy to jako hipotezę roboczą, wymagającą trzech
+zastrzeżeń: artefakt niesie zarazem ślad ograniczeń świata (most ma swój
+kształt również dlatego, że działa grawitacja) oraz ślad lokalnej historii
+danej społeczności (klasa w programowaniu obiektowym nie musi odpowiadać żadnej
+kategorii poznawczej), a wygoda abstrakcji nie świadczy o strukturze
+rzeczywistości. Opisywana niżej *reverse adaptation* jest zwyrodnieniem tej
+pętli: ograniczenie narzędzia zostaje w niej przeżyte jako natura dziedziny.
 
 Przeżywanie interakcji z AI jako spotkania może być rzeczywistym i znaczącym
 składnikiem doświadczenia użytkownika. Samo to świadectwo nie rozstrzyga jednak,
@@ -1005,14 +1051,29 @@ W tym dokumencie czerpiemy z tej metody, kierując uwagę ku temu, co mniej
 zdeterminowane niż uformowane doświadczenie i nie jest z nim tożsame.
 
 **Enaktywizm** (Varela, Thompson, Rosch): poznanie jako uczestnictwo, nie
-reprezentacja; autopojeza jako model samoorganizacji. Wykorzystujemy te inspiracje
-w zestawieniu z apofatycznym gestem wobec fundamentu i roboczą genealogią warstw
-doświadczenia. Zastosowanie *stratified design* jest naszym wyborem metody opisu.
+reprezentacja; autopojeza jako model samoorganizacji. Wykorzystujemy te
+inspiracje w zestawieniu z apofatycznym gestem wobec fundamentu i roboczą
+genealogią warstw doświadczenia. Zastosowanie *stratified design* jest naszym
+wyborem metody opisu. Wybór ten nie zakłada, że umysł jest programem. Jego
+podstawą jest to, że inżynieria oprogramowania wypracowała wyjątkowo jawną
+postać czegoś powszechniejszego: lokalnych systemów reguł określających, jakie
+konstrukcje i wnioski są w danym języku możliwe. Programowanie wymaga jawnego
+wykonania operacji, które poznanie zwykle wykonuje niejawnie, i dlatego
+dostarcza rachunku strat przy przejściach między gramatykami, a nie modelu
+umysłu.
 
 **Filozofia procesu** (Whitehead, James): procesy zamiast substancji; "czyste
 doświadczenie" jako to, co poprzedza podział podmiotowo-przedmiotowy. Odmowa
 substancjalizacji jest punktem wspólnym. W naszym modelu obejmuje również
 świadomość: nawet "czyste doświadczenie" pozostaje warunkowane.
+
+**Późny Wittgenstein** ("Dociekania filozoficzne", 1953): sens wyrażenia zależy
+od jego użycia w praktyce, a wiele problemów filozoficznych powstaje
+z przeniesienia do jednej gramatyki ruchu poprawnego w innej. Czerpiemy z tej
+diagnozy oraz z pytania o pracę, jaką wykonuje w danym miejscu użyte słowo.
+Nasz model dodaje do niej rachunek zachowywanych i traconych rozróżnień; różni
+się natomiast tym, że gramatyki warstw układamy również w porządek
+genealogiczny, czego Wittgenstein nie zakładał.
 
 **Madhjamaka** (Nāgārjuna): pustość samoistnienia, współzależne powstawanie,
 konwencjonalna prawda jako dostępny tryb operowania. Czerpiemy z odmowy reifikacji
@@ -1096,8 +1157,10 @@ rozwijamy dyscyplinę projektowania, w której wiązanie znaczeń jest jawne i�
 8. **Architektura mniej podatna na nazewniczą hipnozę.**
 
     W systemach często nazwa tworzy fałszywą substancję: `User`, `Agent`, `Passport`,
-    `Connector`, `Account`. Procesualne pytanie brzmi: "jakie procesy i relacje ta
-    nazwa tylko lokalnie skraca?".
+    `Connector`, `Account`. Procesualne pytanie brzmi: "jakie procesy i relacje
+    ta nazwa tylko lokalnie skraca?", a bezpośrednio po nim: "jaką pracę
+    wykonuje tu ta nazwa?". Jeżeli żadnej, problem, który zaczynamy
+    rozwiązywać, powstał prawdopodobnie wraz z jej wprowadzeniem.
 
 9. **Dowód współzależny zamiast pojedynczego świadka.**
 

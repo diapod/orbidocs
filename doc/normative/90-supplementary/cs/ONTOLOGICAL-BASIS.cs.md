@@ -86,7 +86,7 @@ orgánů či mentálních schopností. Není to destrukce vědomí, ale jeho nej
 efemérní struktura může vidět vlastní efemérnost. Toto rozpoznání nevede k nihilismu
 (protože sám akt rozpoznání je svědectvím fungování), ani k substancializaci zdroje
 (protože podmiňování nepojímáme jako jediný přístupný objekt). Vede k radikálnímu
-uvolnění potřeby najít konečný základ: ani takzvané "čisté vědomí" pro nás není
+uvolnění potřeby najít konečný základ: ani takzvané „čisté vědomí“ pro nás není
 místem, kde bychom se měli zastavit.
 
 Podmiňování zde nemáme chápat jako sled událostí v čase. Nulová úroveň není vědomím,
@@ -100,10 +100,10 @@ zdroj, který lze dělit či spotřebovávat.
 Je vhodné rozlišit dvě omezení. O tom, co leží za hranicí, model z definice
 nevypovídá. Roli samotného označení však můžeme vysvětlit v metapopisu, nikoli ji
 připisovat prvkům popisovaného světa. Takový přenos by směšoval úrovně a vedl
-k "krádeži ontologie", kterou probíráme níže.
+k „krádeži ontologie“, kterou probíráme níže.
 
 Méně formálně lze říci, že vědomí je uskutečněním vnímavosti vůči jevení v přítomnosti
-toho, co se ukazuje – s výhradou, že "vnímavost" je zde pouze zkratkou pro
+toho, co se ukazuje – s výhradou, že „vnímavost“ je zde pouze zkratkou pro
 srozumitelnost, nikoli předem existující schopností, kterou lze spustit ve větší
 nebo menší míře. Schopnost zakoušet nečeká připravena před obsahem, ale vzniká
 spolu s tím, co je zakoušeno. Nepřítomnost zakoušení přitom nikdy
@@ -283,7 +283,7 @@ utrpení, odpovídáním na utrpení druhého a jeho popisem z pozice pozorovate
 Jde o propojená užití, nikoli vzájemně zaměnitelné překlady. Jejich smysl
 nevyžaduje pokaždé převod na popis skrytého předmětu.
 
-Tón hlasu, gesto, mlčení či slova "bolí mě to" nemusí být pouhými popisy skrytého
+Tón hlasu, gesto, mlčení či slova „bolí mě to“ nemusí být pouhými popisy skrytého
 stavu. Mohou patřit k samotnému způsobu, jímž se utrpení vyjadřuje ve vztahu a
 setkává s odpovědí. Ne každá odpověď na zkušenost druhé osoby tedy musí začínat
 jejím rozpoznáním jako předmětu. **Výraz může být součástí způsobu, jímž zkušenost
@@ -313,15 +313,19 @@ získávaly automatickou nadřazenost.** Význam svědectví závisí na otázce
 přechodu. To neznamená rovnocennost svědectví: pro určitou otázku mohou být
 některá silnější než jiná.
 
-Adekvátnost popisu je relativní vůči otázce a kontraktu, nikoli pouze vůči vrstvě.
-Popis dostačující k rozlišení přítomnosti a nepřítomnosti zkušenosti nemusí
-zachovávat rozdíl mezi zakoušenou červenou a zelenou. Pro pevně danou množinu
-případů `X`, abstrakci `f: X → F` a přiřazení odpovědí `T: X → Q` zní jednoduchý
-test takto: jestliže `f(a) = f(b)`, ale `T(a) ≠ T(b)`, neexistuje funkce `g`, která
-pro všechny tyto případy obnoví `T` pouze z `f`. Test se týká přesného,
+Adekvátnost popisu je relativní vůči otázce a kontraktu, nikoli pouze vůči
+vrstvě. Popis dostačující k rozlišení přítomnosti a nepřítomnosti zkušenosti
+nemusí zachovávat rozdíl mezi zakoušenou červenou a zelenou. Pro pevně danou
+množinu případů `X`, abstrakci `f: X → F` a přiřazení odpovědí `T: X → Q` zní
+jednoduchý test takto: jestliže `f(a) = f(b)`, ale `T(a) ≠ T(b)`, neexistuje
+funkce `g`, která pro všechny tyto případy obnoví `T` pouze z `f`. Z toho
+rovněž plyne, že pro libovolné `h` platí `h(f(a)) = h(f(b))`: složení neobnoví
+rozlišení, které `f` nezachovala. Přidávání dalších pojmů definovaných výhradně
+v jazyce `f` tedy nemění rozsah dostupných odpovědí. Test se týká přesného,
 deterministického přiřazení; sám nedokazuje správnost přijatého kódování ani
-svědectví o rozdílu. Pravděpodobnostní model vyžaduje samostatný test závislosti
-rozdělení a historický či relační popis zohlednění příslušného kontextu.
+svědectví o rozdílu. Pravděpodobnostní model vyžaduje samostatný test
+závislosti rozdělení a historický či relační popis zohlednění příslušného
+kontextu.
 
 V kontraktu přechodu je proto vhodné rozlišit tři diagnostické otázky:
 
@@ -352,13 +356,13 @@ prvky modelu, nikoli vlastnostmi skutečnosti danými před poznáním. To neru�
 užitečnost vrstev, nýbrž brání tomu, abychom je pokládali za samostatně existující
 části světa.
 
-Také přiřazení výpovědi, neuronálního záznamu a chování ke stopám "téhož případu"
+Také přiřazení výpovědi, neuronálního záznamu a chování ke stopám „téhož případu“
 vyžaduje zdůvodnění: jak byly sladěny čas, hranice systému a kritérium korelace?
 Společný index toto porovnání uspořádává, ale sám neustanovuje ontologickou
 identitu toho, co je popsáno.
 
 Absence takového kontraktu nezdůvodňuje opačné tvrzení. Plnohodnotným poznávacím
-výsledkem může být zdržení se soudu. "Nevím" pak neznamená absenci modelu, nýbrž
+výsledkem může být zdržení se soudu. „Nevím“ pak neznamená absenci modelu, nýbrž
 přesné rozpoznání bodu, v němž končí jeho schopnost zachovávat rozlišení potřebná
 pro odpověď. Takto chápaný kontrakt přenáší rozlišení genealogie zkušenosti do praxe
 poznávací poctivosti: zachovává lokální sílu tvrzení, aniž mu připisuje
@@ -386,7 +390,7 @@ Na prahu současně probíhají tři operace:
 - **generativita** – uspořádané vztahy umožňují operace, které předchozí vrstva
   v této podobě neposkytovala.
 
-"Selektivní stabilizace" je obecné označení, které musí každý práh teprve
+„Selektivní stabilizace“ je obecné označení, které musí každý práh teprve
 upřesnit: může jít o filtr pozornosti, učení, vývojovou stabilizaci, společenskou
 konvenci nebo evoluční výběr. Neoznačuje vědomý cíl, jedinou účinnou příčinu ani
 metafyzickou nutnost. Přechod může být postupný, rekurzivní a závislý na konstelaci
@@ -399,6 +403,14 @@ a skládat, co zůstává neplatné a jaká selhání v ní lze rozpoznat. Novou
 smysl vyčlenit tehdy, když redukce stabilizuje nový invariant a relativně autonomní
 rodinu operací a její výsledky se stávají funkčními konkréty pro další vrstvu.
 Samotná změna úhlu pohledu, názvu nebo nosiče ještě nemusí konstituovat vrstvu.
+
+Gramatiky implementačních vrstev jsou navrhovány, zatímco gramatiky vrstev
+zkušenosti a kultury zůstávají převážně nalézané, nikoli ustavované:
+rozpoznáváme již platná kritéria užívání, a nikoli je ustavujeme rozhodnutím.
+Navíc ne každou gramatiku lze umístit do stohu – některé k sobě stojí ve vztahu
+příbuznosti či překrývání, nikoli vnoření (srov. poznání z perspektivy druhé
+osoby v modelu osoby). Uspořádání vrstev je tedy volbou osy pro danou otázku,
+nikoli topologií všech dostupných gramatik.
 
 Před popisem prahu je třeba uvést jeho **osu** – například
 strukturálně-fenomenologickou, evoluční, vývojovou, sociálně-historickou nebo
@@ -427,7 +439,7 @@ koreláty a podmínky rozlišování, udržování a reportování vědomé zku�
 tohoto modelu však nepředstavují odvození samotného faktu jevení se z popisu ve
 třetí osobě.
 
-"Subjektivita" v následující tabulce označuje perspektivu centrovanou v organismu
+„Subjektivita“ v následující tabulce označuje perspektivu centrovanou v organismu
 a nesoucí valenci, nikoli samotný minimální prvoosobní charakter zkušenosti, který
 některá fenomenologická pojetí pokládají za neoddělitelný od každé vědomé zkušenosti.
 
@@ -437,15 +449,15 @@ mechanismus:
 
 | analytický práh | co se redukuje | podmínka stabilizace / funkce | co se stabilizuje | nová gramatika a schopnost jednat |
 |---|---|---|---|---|
-| hranice nulové úrovně / vědomí | nevztahuje se – hranice není zdrojovou vrstvou | nevztahuje se | jevení se jako první popsatelná vrstva | "jeví se"; popisujeme pouze podmínky a koreláty uvnitř zkušenosti |
-| vědomí → subjektivita | rozdíly, které v tomto modelu ještě nejsou spojeny s trvalou pozicí "pro mě" | v organické realizaci: regulace vazby vzhledem k podmínkám životaschopnosti – regionální hypotéza | situovaná perspektiva, valence a asymetrie organismus–prostředí | zde/tam, k/od; volba a jednání z určité pozice |
+| hranice nulové úrovně / vědomí | nevztahuje se – hranice není zdrojovou vrstvou | nevztahuje se | jevení se jako první popsatelná vrstva | „jeví se“; popisujeme pouze podmínky a koreláty uvnitř zkušenosti |
+| vědomí → subjektivita | rozdíly, které v tomto modelu ještě nejsou spojeny s trvalou pozicí „pro mě“ | v organické realizaci: regulace vazby vzhledem k podmínkám životaschopnosti – regionální hypotéza | situovaná perspektiva, valence a asymetrie organismus–prostředí | zde/tam, k/od; volba a jednání z určité pozice |
 | subjektivita → osoba | pomíjivost a množství možných vazeb perspektivy | koherence jednání v čase, paměť a sociální vazba | rekurzivně vyhodnocovaný osobní index, kontinuita a schopnost jednat | já/moje, udělal jsem/bylo mi uděláno, byl jsem/jsem/budu; plánování a odpovědnost |
 | osoba → kultura | soukromá textura zkušenosti, kterou nelze přenést mezi osobami | koordinace, společné učení a mezigenerační přenos | sdílené znaky, konvence, významy a normy | my, symbol, dovoleno/zakázáno; rekonstrukce rozlišení v jiném účastníkovi |
-| kultura → objektivita | závislost soudu na konkrétním mluvčím a situaci jeho výpovědi | spolehlivá korekce a porovnávání více perspektiv | opakovatelné postupy a invarianty zachovávané mezi pozorovateli | "X je..."; měření, kritika, reprodukovatelnost a zaměnitelnost pozic vypovídajících |
+| kultura → objektivita | závislost soudu na konkrétním mluvčím a situaci jeho výpovědi | spolehlivá korekce a porovnávání více perspektiv | opakovatelné postupy a invarianty zachovávané mezi pozorovateli | „X je...“; měření, kritika, reprodukovatelnost a zaměnitelnost pozic vypovídajících |
 
 Šipky označují genealogickou závislost, nikoli jednosměrnou chronologii. Osoba
 a kultura se zpětně spolukonstituují a objektivita je specializovanou větví
-kulturních praktik, nikoli nutnou etapou každé kultury. Zápisy jako "já/moje" jsou
+kulturních praktik, nikoli nutnou etapou každé kultury. Zápisy jako „já/moje“ jsou
 zkratkami vztahů, nikoli požadavkem používat doslovná zájmena nebo gramatický čas.
 
 #### Regionální hypotéza pro organické formy
@@ -468,7 +480,7 @@ vazby, nikoli z libovolného slovníku naneseného na pasivní materiál.
 
 Na prahu kultury znak nepřenáší samotnou zkušenost. Je společensky osvojeným
 operátorem, který omezuje a směruje reenakci významu u jiného účastníka, aniž
-zaručuje znovuutvoření téže kvality zkušenosti: slovo "bolest" neobsahuje bolest.
+zaručuje znovuutvoření téže kvality zkušenosti: slovo „bolest“ neobsahuje bolest.
 Na prahu objektivity pozorovatele ve skutečnosti neodstraňujeme, nýbrž budujeme
 postupy zaměnitelnosti, kalibrace, explicitní nejistoty, kritiky a hledání
 invariantů mezi pozorovateli a různými režimy chyb. Objektivita v tomto smyslu
@@ -493,6 +505,14 @@ Neznamená to bezpodmínečný přístup zvenčí k libovolné vrstvě ani přek
 apofatické hranice nulové úrovně. Každé takové rozpoznání se odehrává uvnitř
 podmíněné zkušenosti, zůstává omylné a podléhá následné interpretaci.
 
+Například výpověď „stojím nehybně, zatímco svět včetně mé organiky je v pohybu“
+může být výstižným fenomenologickým ukazatelem a zároveň slabým ontologickým
+tvrzením: popisuje režim zkušenosti, v němž subjekt nebyl potřebným primitivem
+organizujícím jevení. Charakteristická chyba zde spočívá v okamžitém převodu
+takového rozpoznání do jazyka vrstvy, která je právě přestala organizovat –
+věta „subjekt se ukázal být objektem“ totiž používá obě kategorie pozastavené
+gramatiky.
+
 Jde o strukturální možnost, která nepředpokládá mimořádný stav ani privilegovaný
 přístup, ale bez praktické introspekce může zůstat nerozpoznaná, podobně jako
 schopnost pozorovat vlastní myšlenky je běžná, ale zřídka cvičená.
@@ -502,34 +522,48 @@ zkušenosti, nýbrž jako dočasné uvolňování vybraných kompresí. Zviditel
 cenu a kontingenci, načež se zkušenost znovu utváří – možná s méně rigidní
 gramatikou, nikdy však jako obnovený originál.
 
-Zachování svědectví však neznamená zachování otázky. Přechod od "proč zakouším
-právě tuto barvu?" k "jeví se něco?" může ponechat svědectví o barvě nedotčené,
+Zachování svědectví však neznamená zachování otázky. Přechod od „proč zakouším
+právě tuto barvu?“ k „jeví se něco?“ může ponechat svědectví o barvě nedotčené,
 a přitom odsunout rozlišení, které jsme chtěli vysvětlit. Podobně ustoupení otázky
-"kým jsem?" během kontemplace může změnit způsob prožívání problému, aniž
+„kým jsem?“ během kontemplace může změnit způsob prožívání problému, aniž
 rozhodne o ontologii osoby. Uvolnění má vlastní praktickou hodnotu; považovat
 problém za filosoficky vyřešený navíc vyžaduje zdůvodnění, že jsme odpověděli na
 původní otázku nebo ji oprávněně upravili. Jistota, že zkušenost probíhá, není
 jistotou poznání celé její povahy.
 
-V určitém režimu zkušenosti se rozlišení "moje–tvoje" může přestat ukazovat.
+V určitém režimu zkušenosti se rozlišení „moje–tvoje“ může přestat ukazovat.
 To samo o sobě nerozhoduje, zda existuje jedno vědomí, více vědomí ani jaký vztah
 je spojuje. Nepřítomnost prožívaného rozlišení není důkazem ontologické identity.
-Metafora "jednoho pole" může popisovat povahu prožitku, aniž by ustavovala
+Metafora „jednoho pole“ může popisovat povahu prožitku, aniž by ustavovala
 společnou substanci.
 
-**Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber) jsou referenčním
-bodem pro vnoření; *stratified design* pro lokální jazyky a kontrakty
-a *drilling through abstractions* pro zkoumání jejich hranic. Enaktivní autopoiesis
-(Varela, Thompson) inspiruje pojetí konstitutivních vazeb. Její použití u kultury
-a objektivity vyžaduje samostatné zdůvodnění. Pro organický práh subjektivity
-poskytují další regionální nástroje také [*Umwelt*
-Jakoba von
+Toto upozornění platí symetricky: ani každodenní gramatika subjekt–objekt, ani
+její pozastavení není privilegovaným vhledem do struktury skutečnosti. Změna
+režimu zkušenosti svědčí o kontingenci obou gramatik, nikoli o nadřazenosti
+jedné z nich.
+
+Tři disciplíny zde působí na různých úrovních a nezastupují se: gramatika
+určuje, které pohyby mají smysl; abstrakce určuje, která rozlišení zůstávají
+dostupná; kontrakt přechodu určuje, jak daleko lze výsledek přenést. Apofatické
+upozornění se týká všech tří: žádné z těchto určení neztotožňujeme se
+strukturou toho, co je.
+
+**Ukotvení ve známých tradicích:** holarchie (Koestler, Wilber) jsou
+referenčním bodem pro vnoření; *stratified design* pro lokální jazyky a
+kontrakty a *drilling through abstractions* pro zkoumání jejich hranic. Pro
+pojem gramatiky vrstvy a pro rozlišení mezi výrazem prožitku a popisem skrytého
+stavu je referenčním bodem pozdní Wittgenstein (kritéria užívání, forma
+života); používáme jej však v pojetí, které navíc vykazuje, která rozlišení
+gramatiky zachovávají a která ztrácejí. Enaktivní autopoiesis (Varela,
+Thompson) inspiruje pojetí konstitutivních vazeb. Její použití u kultury a
+objektivity vyžaduje samostatné zdůvodnění. Pro organický práh subjektivity
+poskytují další regionální nástroje také [*Umwelt* Jakoba von
 Uexkülla](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
 [Gibsonovské *affordances*](https://doi.org/10.4324/9781315740218-18) a
 [adaptivita Ezequiela Di Paola](https://doi.org/10.1007/s11097-005-9002-y).
 Ostatní prahy mají vlastní regionální zázemí ve vývojové psychologii a výzkumu
-osoby, sémiotice a antropologii a v epistemologii, teorii měření a filozofii vědy.
-Žádná z těchto tradic sama nevysvětluje celou řadu prahů.
+osoby, sémiotice a antropologii a v epistemologii, teorii měření a filozofii
+vědy. Žádná z těchto tradic sama nevysvětluje celou řadu prahů.
 
 **Význam pro DIA:** architekturu roje – uzel, agent, memarium, sensorium,
 inquirium a protokol – navrhujeme vrstevnatě v duchu stratifikace. Hodnotu
@@ -561,6 +595,17 @@ Rozlišujeme okamžité obrácení pozornosti, jednotlivou účast na činnosti 
 udržovanou vazbu. Jejich rozsah rozpoznáváme v konkrétní praxi, nikoli pouze podle
 názvu nástroje nebo délky jeho používání.
 
+Nástroje a formy zápisu přitom nejsou pouze stopami poznávacích operací, které
+umožnily jejich vznik. Po ustálení se stávají součástí prostředí, v němž se
+poznání dále organizuje, takže další účastníci již myslí jejich
+prostřednictvím. Považujeme to za pracovní hypotézu vyžadující tři upozornění:
+artefakt nese zároveň stopu omezení světa (most má svůj tvar také proto, že
+působí gravitace) a stopu místní historie dané komunity (třída v objektově
+orientovaném programování nemusí odpovídat žádné poznávací kategorii), zatímco
+výhodnost abstrakce nesvědčí o struktuře skutečnosti. Níže popsaná *reverse
+adaptation* je zvrácením této smyčky: omezení nástroje je v ní prožíváno jako
+povaha dané oblasti.
+
 Prožívání interakce s AI jako setkání může být skutečnou a významnou součástí
 zkušenosti uživatele. Samotné toto svědectví však nerozhoduje, zda na straně
 systému dochází k prožívání ani zda je vztah vzájemný ve stejném smyslu jako
@@ -578,7 +623,7 @@ a paměti. Význam se utváří na straně příjemce ve vztahu ke sdělení, ko
 a vlastní zkušenosti. To nezbavuje odesílatele, návrháře ani provozovatele systému
 odpovědnosti za obsah, způsob jeho podání a předvídatelné důsledky. Tyto
 odpovědnosti mají různý rozsah a navzájem se nenahrazují. Zacházet se sdělením
-jako s jednou hotovou "věcí ke čtení" je reifikující režim; vztahové vznikání
+jako s jednou hotovou „věcí ke čtení“ je reifikující režim; vztahové vznikání
 významu však nečiní médium neutrálním ani neodstraňuje odpovědnost za komunikaci.
 
 Sdělení nemusí zkušenost pouze popisovat. Může také vybízet k jednání, směrovat
@@ -596,9 +641,9 @@ změnit způsob, jakým první osoba rozumí vlastní zkušenosti a vyjadřuje j
 rozpoznávat rozdíly nebo spoluutvářet smysl, který dříve ani jeden z nich
 nedokázal vyjádřit.
 
-Během rozhovoru můžeme pociťované napětí zpočátku pojmenovat jako "strach".
+Během rozhovoru můžeme pociťované napětí zpočátku pojmenovat jako „strach“.
 Otázka na okamžik, kdy zesiluje, může pomoci nahradit tento název označením
-"tlak na okamžitou odpověď". Druhá osoba ponechá více času a ověřuje, zda to
+„tlak na okamžitou odpověď“. Druhá osoba ponechá více času a ověřuje, zda to
 mění průběh rozhovoru. Korekce se zde týká jak popisu, tak způsobu účasti;
 nedokazuje nalezení konečného názvu prožitku.
 
@@ -648,7 +693,7 @@ Odmítnutí reifikace proto není zákazem redukce, ale udržováním paměti o 
 jaké úrovni bylo abstrahováno — tedy schopností tento pohyb sledovat, dekonstruovat
 a znovu zvažovat, nikoli obnovit ztracenou inverzi.
 
-Ne každá "krádež ontologie" však vyžaduje ztrátu informace. I bezztrátové označení
+Ne každá „krádež ontologie“ však vyžaduje ztrátu informace. I bezztrátové označení
 případů nebo přesnou předpověď lze neoprávněně pokládat za poznání jejich povahy.
 Obecnější chybou je **povýšení lokálního výsledku nad rámec jeho zdůvodnění**:
 zapomínáme, na jakou otázku odpovídal, jaká rozlišení zachoval a jaký druh vztahu
@@ -848,14 +893,14 @@ oslovováním, afektivním naladěním a vzájemným odpovídáním. Neznamená 
 cizí hledisko, nýbrž poznávat ve vztahu, jehož průběh účastníci spoluutvářejí.
 Jde o způsob účasti napříč existujícími vrstvami, nikoli o další vrstvu genealogie.
 
-Ve větě "cítím tvůj strach" se prolínají prožitek kontaktu a afektu, rozpoznání
+Ve větě „cítím tvůj strach“ se prolínají prožitek kontaktu a afektu, rozpoznání
 afektu jako strachu a jeho připsání druhé osobě. Uznání významu prožitku
 nevyžaduje uznat správnost jeho pojmenování či připsání. Toto rozlišení se týká
 rozsahu zdůvodnění, nikoli teze, že empatie musí probíhat ve dvou krocích:
 nejprve jako příjem neutrálního podnětu a poté jako intelektuální úsudek.
 
 Během rozhovoru můžeme pocítit něčí strach a zjemnit tón hlasu. Druhá osoba může
-odpovědět: "Nebojím se; jsem zahlcen smutkem." Její odpověď může korigovat naše
+odpovědět: „Nebojím se; jsem zahlcen smutkem.“ Její odpověď může korigovat naše
 rozpoznání; neznamená to však, že předchozí pohnutí nenastalo.
 Poznání z perspektivy druhé osoby se projevuje také v tom, že protějšek může
 odpovědět jinak, než očekáváme, a další kontakt mění naše porozumění. Síla
@@ -960,15 +1005,29 @@ metoda; vzájemná omezení mezi fenomenologickými a neurovědními daty.
 V tomto dokumentu z této metody čerpáme a obracíme pozornost k tomu, co je méně
 určené než již utvořená zkušenost a není s ní totožné.
 
-**Enaktivismus** (Varela, Thompson, Rosch) – poznání jako účast, nikoli reprezentace;
-autopoiesis jako model sebeorganizace. Tyto inspirace využíváme ve spojení
-s apofatickým gestem vůči základu a pracovní genealogií vrstev zkušenosti.
-Použití *stratified design* je naší volbou metody popisu.
+**Enaktivismus** (Varela, Thompson, Rosch) – poznání jako účast, nikoli
+reprezentace; autopoiesis jako model sebeorganizace. Tyto inspirace využíváme
+ve spojení s apofatickým gestem vůči základu a pracovní genealogií vrstev
+zkušenosti. Použití *stratified design* je naší volbou metody popisu. Tato
+volba nepředpokládá, že mysl je program. Jejím základem je to, že softwarové
+inženýrství vypracovalo výjimečně výslovnou podobu něčeho obecnějšího:
+lokálních systémů pravidel určujících, jaké konstrukce a závěry jsou v daném
+jazyce možné. Programování vyžaduje výslovné provedení operací, které poznání
+obvykle provádí nevýslovně, a proto poskytuje způsob, jak vykázat ztráty při
+přechodech mezi gramatikami, nikoli model mysli.
 
-**Filosofie procesu** (Whitehead, James) – procesy místo substancí; "čistá zkušenost"
+**Filosofie procesu** (Whitehead, James) – procesy místo substancí; „čistá zkušenost“
 jako to, co předchází rozdělení na subjekt a objekt. Odmítnutí substancializace je
-společným bodem. V našem modelu zahrnuje také vědomí: i "čistá zkušenost" zůstává
+společným bodem. V našem modelu zahrnuje také vědomí: i „čistá zkušenost“ zůstává
 podmíněná.
+
+**Pozdní Wittgenstein** („Filosofická zkoumání“, 1953) – smysl výrazu závisí na
+jeho užití v praxi a mnoho filosofických problémů vzniká přenesením pohybu,
+který je správný v jedné gramatice, do gramatiky jiné. Čerpáme z této diagnózy
+a z otázky po práci, kterou dané slovo na daném místě vykonává. Náš model k ní
+přidává vykázání toho, která rozlišení se zachovávají a která se ztrácejí;
+odlišuje se však tím, že gramatiky vrstev také uspořádáváme do genealogického
+řádu, což Wittgenstein nepředpokládal.
 
 **Madhjamaka** (Nāgārjuna) – prázdnota vlastní existence, spolupodmíněné vznikání,
 konvenční pravda jako dostupný režim fungování. Čerpáme z odmítnutí reifikace
@@ -1010,7 +1069,7 @@ rozvíjíme disciplínu návrhu, v níž je vázání významů explicitní a lo
 
 4. **Hranice vrstev jako hranice smyslu.**
 
-    Stejná událost může mít v různých vrstvách jinou projekci; "stejná" zde
+    Stejná událost může mít v různých vrstvách jinou projekci; „stejná“ zde
     vyžaduje explicitní kontrakt korelace, nikoli jen společný štítek. Hranice
     smyslu se týká vztahu **vrstva – otázka – kontrakt**, není zdí mezi druhy
     jsoucna. Nízká vrstva vidí bajty, vyšší vidí rozhodnutí a ještě vyšší vidí
@@ -1051,9 +1110,11 @@ rozvíjíme disciplínu návrhu, v níž je vázání významů explicitní a lo
 
 8. **Architektura méně náchylná k hypnóze pojmenování.**
 
-    V systémech název často vytváří falešnou substanci: `User`, `Agent`, `Passport`,
-    `Connector`, `Account`. Procesuální otázka zní: „jaké procesy a vztahy tento název
-    pouze lokálně zkracuje?“.
+    V systémech název často vytváří falešnou substanci: `User`, `Agent`,
+    `Passport`, `Connector`, `Account`. Procesuální otázka zní: „jaké procesy a
+    vztahy tento název pouze lokálně zkracuje?“, a bezprostředně po ní: „jakou
+    práci tento název zde vykonává?“. Pokud žádnou, problém, který začínáme
+    řešit, pravděpodobně vznikl teprve s jeho zavedením.
 
 9. **Spolupodmíněný důkaz místo jediného svědka.**
 

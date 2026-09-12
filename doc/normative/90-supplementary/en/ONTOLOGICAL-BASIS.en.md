@@ -346,16 +346,19 @@ automatic precedence.** The significance of testimony depends on the question an
 the warrant for the transition. This does not make all testimony equivalent: for
 a given question, some may be stronger than others.
 
-A description's adequacy is relative to a question and contract, not solely to a
-layer. A description sufficient to distinguish the presence and absence of
-experience may fail to preserve the difference between experienced red and green.
-For a fixed set of cases `X`, an abstraction `f: X → F`, and an answer assignment
-`T: X → Q`, a simple test is: if `f(a) = f(b)` but `T(a) ≠ T(b)`, no function `g`
-can recover `T` solely from `f` for all these cases. The test concerns an exact,
-deterministic assignment; it does not itself establish that the adopted coding and
-evidence for the contrast are sound. A probabilistic model requires a separate
-test of distributional dependence; a historical or relational account requires
-the relevant context.
+A description's adequacy is relative to a question and contract, not solely to
+a layer. A description sufficient to distinguish the presence and absence of
+experience may fail to preserve the difference between experienced red and
+green. For a fixed set of cases `X`, an abstraction `f: X → F`, and an answer
+assignment `T: X → Q`, a simple test is: if `f(a) = f(b)` but `T(a) ≠ T(b)`, no
+function `g` can recover `T` solely from `f` for all these cases. It follows
+that for any `h`, `h(f(a)) = h(f(b))`: composition does not recover a
+distinction that `f` failed to preserve. Adding further concepts defined solely
+in the language of `f` therefore does not change the range of available
+answers. The test concerns an exact, deterministic assignment; it does not
+itself establish that the adopted coding and evidence for the contrast are
+sound. A probabilistic model requires a separate test of distributional
+dependence; a historical or relational account requires the relevant context.
 
 It is therefore useful to distinguish three diagnostic questions in a transition
 contract:
@@ -442,6 +445,15 @@ failures can be recognized within that layer. A new layer is worth distinguishin
 when reduction stabilizes a new invariant and a relatively autonomous family of
 operations, and when its outputs become functional concretes for the next layer.
 A mere change of viewpoint, name, or medium need not yet constitute a layer.
+
+The grammars of implementation layers are designed, whereas the grammars of
+layers of experience and culture largely remain found rather than instituted:
+we recognize criteria of use that already hold rather than establishing them by
+decision. Moreover, not every grammar can be placed in a stack — some stand to
+one another in a relation of kinship or overlap rather than nesting (compare
+second-person knowing in the model of the person). The arrangement of layers is
+therefore a choice of axis for a given question, not a topology of all
+available grammars.
 
 Before describing a threshold, one should specify its **axis** — for example,
 structural-phenomenological, evolutionary, developmental, socio-historical, or
@@ -544,6 +556,15 @@ apophatic boundary of level zero. Every such recognition takes place within
 conditioned experience, remains fallible, and is subject to subsequent
 interpretation.
 
+For example, the report "I stand still while the world, my own organism
+included, is in motion" may be an apt phenomenological indicator and at the
+same time a weak ontological claim: it describes a mode of experience in which
+the subject was not a required primitive organizing appearance. The
+characteristic error here is to translate such a recognition immediately into
+the language of the layer that has just ceased to organize it — the sentence
+"the subject turned out to be an object" employs both categories of the
+suspended grammar.
+
 This is a structural capacity that presupposes neither an extraordinary state nor
 privileged access, but without practical introspection it may remain unrecognized,
 much as the ability to observe one's own thoughts is widespread yet rarely trained.
@@ -569,19 +590,35 @@ many consciousnesses, or what relation connects them. The absence of an experien
 distinction is not proof of ontological identity. The metaphor of "one field" may
 describe the character of an experience without positing a shared substance.
 
-**Anchoring in known traditions:** holarchies (Koestler, Wilber) provide a point of
-reference for nesting; *stratified design* for local languages and contracts; and
-*drilling through abstractions* for examining their boundaries. Enactive autopoiesis
-(Varela, Thompson) inspires the account of constitutive couplings. Applying it to
-culture and objectivity requires separate justifications. Further regional tools
-for the organic threshold of subjectivity are provided by [Jakob von Uexküll's
+This caveat holds symmetrically: neither the everyday subject–object grammar
+nor its suspension is a privileged insight into the structure of reality. A
+change in the mode of experience attests to the contingency of both grammars,
+not to the superiority of either.
+
+Three disciplines operate here at different levels and do not substitute for
+one another: grammar determines which moves make sense; abstraction determines
+which distinctions remain available; the transition contract determines how far
+a result may be carried. The apophatic caveat applies to all three: we identify
+none of these determinations with the structure of what is.
+
+**Anchoring in known traditions:** holarchies (Koestler, Wilber) provide a
+point of reference for nesting; *stratified design* for local languages and
+contracts; and *drilling through abstractions* for examining their boundaries.
+For the notion of layer grammar and for the distinction between expression and
+the description of a hidden state, the point of reference is the later
+Wittgenstein (criteria of use, form of life); we use it in an account that
+additionally holds grammars to account for the distinctions they preserve and
+lose. Enactive autopoiesis (Varela, Thompson) inspires the account of
+constitutive couplings. Applying it to culture and objectivity requires
+separate justifications. Further regional tools for the organic threshold of
+subjectivity are provided by [Jakob von Uexküll's
 *Umwelt*](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
-[Gibsonian *affordances*](https://doi.org/10.4324/9781315740218-18), and [Ezequiel Di
-Paolo's adaptivity](https://doi.org/10.1007/s11097-005-9002-y). The remaining
-thresholds have their own regional grounding in developmental psychology and studies
-of the person, semiotics and anthropology, and epistemology, measurement theory, and
-philosophy of science. None of these traditions explains the entire sequence of
-thresholds by itself.
+[Gibsonian *affordances*](https://doi.org/10.4324/9781315740218-18), and
+[Ezequiel Di Paolo's adaptivity](https://doi.org/10.1007/s11097-005-9002-y).
+The remaining thresholds have their own regional grounding in developmental
+psychology and studies of the person, semiotics and anthropology, and
+epistemology, measurement theory, and philosophy of science. None of these
+traditions explains the entire sequence of thresholds by itself.
 
 **Significance for DIA:** we design the swarm architecture — node, agent, memarium,
 sensorium, inquirium, and protocol — in layers in the spirit of stratification. We
@@ -616,6 +653,18 @@ A tool's mere presence in the field of attention does not yet determine its role
 in action. We distinguish a momentary shift of attention, a single contribution
 to an activity, and a lasting, sustained coupling. Their scope is recognized in
 concrete practice, not from the tool's name or the duration of its use alone.
+
+Tools and forms of notation are not, moreover, merely traces of the cognitive
+operations that made them possible. Once established, they become part of the
+environment in which cognition organizes itself further, so subsequent
+participants already think by means of them. We treat this as a working
+hypothesis requiring three caveats: an artifact carries both the trace of the
+world's constraints (a bridge has its shape also because gravity acts) and the
+trace of a given community's local history (a class in object-oriented
+programming need not correspond to any cognitive category), while the
+convenience of an abstraction is no evidence about the structure of reality.
+The *reverse adaptation* described below is a degeneration of this loop: in it,
+a tool's limitation comes to be experienced as the nature of the domain.
 
 Experiencing an interaction with AI as an encounter can be a real and meaningful
 part of the user's experience. This testimony alone does not, however, establish
@@ -1057,16 +1106,30 @@ scientific method; mutual constraints between phenomenological and neuroscientif
 data. In this document we draw on this method, directing attention toward
 what is less determined than formed experience and is not identical with it.
 
-**Enactivism** (Varela, Thompson, Rosch): cognition as participation rather than
-representation; autopoiesis as a model of self-organization. We use these inspirations
-alongside an apophatic gesture toward the foundation and a working genealogy of
-layers of experience. Applying *stratified design* is our choice of descriptive
-method.
+**Enactivism** (Varela, Thompson, Rosch): cognition as participation rather
+than representation; autopoiesis as a model of self-organization. We use these
+inspirations alongside an apophatic gesture toward the foundation and a working
+genealogy of layers of experience. Applying *stratified design* is our choice
+of descriptive method. This choice does not assume that the mind is a program.
+Its basis is that software engineering has developed an unusually explicit form
+of something more general: local systems of rules determining which
+constructions and inferences are possible in a given language. Programming
+requires the explicit performance of operations that cognition usually performs
+implicitly, and therefore supplies an accounting of losses at transitions
+between grammars rather than a model of the mind.
 
 **Process philosophy** (Whitehead, James): processes instead of substances;
 "pure experience" as that which precedes the subject-object split. The refusal of
 substantialization is a point in common. In our model, it also extends to
 consciousness: even "pure experience" remains conditioned.
+
+**The later Wittgenstein** ("Philosophical Investigations", 1953): the sense of
+an expression depends on its use in practice, and many philosophical problems
+arise from carrying a move that is valid in one grammar over into another. We
+draw on this diagnosis and on the question of the work a word does in a given
+place. Our model adds to it an accounting of the distinctions preserved and
+lost; it differs, however, in that we also arrange layer grammars in a
+genealogical order, which Wittgenstein did not assume.
 
 **Madhyamaka** (Nāgārjuna): emptiness of self-existence, dependent arising,
 conventional truth as an available operational mode. We draw on the refusal of
@@ -1151,9 +1214,12 @@ a design discipline in which the binding of meanings is explicit and local.
 
 8. **Architecture less vulnerable to naming hypnosis.**
 
-    In systems, a name often creates a false substance: `User`, `Agent`, `Passport`,
-    `Connector`, `Account`. The processual question is: "what processes and relations
-    does this name only locally abbreviate?".
+    In systems, a name often creates a false substance: `User`, `Agent`,
+    `Passport`, `Connector`, `Account`. The processual question is: "what
+    processes and relations does this name only locally abbreviate?", and
+    immediately after it: "what work does this name do here?". If none, the
+    problem we are setting out to solve probably arose together with its
+    introduction.
 
 9. **Convergent evidence instead of a single witness.**
 
