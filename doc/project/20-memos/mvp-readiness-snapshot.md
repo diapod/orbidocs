@@ -1415,8 +1415,16 @@ Recent component deltas:
   evidence.
   This does not complete stage 1 or P090. Generalized producer/effect carriers
   and the complete no-drop inventory remain open, as do
-  remote descriptor resolution, general contribution-to-
-  synthesis joins, scoped Room declarations and federated projection. The
+  remote descriptor resolution, generalized contribution-to-synthesis profiles,
+  scoped Room declarations and federated projection. The bounded controller
+  checkpoint adds host-owned exact input manifests, retained multi-boundary
+  source compositions and signed receiver restart tests. P090-012b's thirteen-test
+  gate, including actual controller HTTP/process replay, passes; scoped Clippy,
+  canonical schema checks and docs build also pass. No new physical Story-012
+  or hard-MVP completion follows from these changes. The F-01–F-16 review
+  strengthens actual-byte Room budgets, minimal broker disclosure, current
+  authority on continuation and exact source-step selection within this same
+  scope; full owner-recovery facts remain distinct from public projections. The
   consumer closeout is deterministic local evidence, not a new physical passage.
   P090-012 is therefore partial, not complete. P090-003a now has the canonical
   bounded provider registry,

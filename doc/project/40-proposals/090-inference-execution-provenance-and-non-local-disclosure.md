@@ -1186,6 +1186,54 @@ not an inference semantic requirement. Keeping its discovery reference here does
 make it part of the producer contract; implementation ownership remains with
 the Node test harness. No row is promoted merely by documenting its criterion.
 
+### Supplied-input and synthesis checkpoint (2026-09-13)
+
+This checkpoint tracks implementation of the adopted P090-006/006a to
+P090-009 sequence.
+An input manifest is an observation by the composing host of the exact
+material supplied at its execution boundary. It is not a model's declaration
+of attention, a citation list, or proof that all supplied material influenced
+the result. Source resolution and access checks precede retention and dispatch.
+Private input bytes remain in owner-controlled storage; metadata commitments
+do not grant publication or access to the underlying material.
+
+| Task | Scope | Status | Completion evidence |
+| :--- | :--- | :--- | :--- |
+| `P090-006b` | Host-owned, bounded, ordered supplied-input manifests independent of citations and evidence refs. | `done` | Contract, four-boundary Schema Gate, authenticated owner resolution, classification checks and exact UTF-8 materialization implemented. Current resolvers admit same-Agent controller products and classified turns in the active bound Room. Every real inference controller action retains its request/input commitment; omitted refs do not select a legacy bypass. Both adapter edges and real controller HTTP/process invocation pass the shared gate. |
+| `P090-006c` | Durable input ancestry through Agent products, effects and outcomes. | `done` | Scoped controller manifests bind source-family execution commits and survive prefix recovery; removing the manifest refuses recovery. Exact source frames, recursive policy/redaction and missing ancestry are preserved through products, effect derivation and outcomes. The shared gate verifies committed replay without another charge and preserves intent-only refusal rather than granting redispatch. Generalized source/effect profiles remain outside this checkpoint. |
+| `P090-009d` | Bind signed Corpus synthesis to its supplied contributions and synthesis execution. | `done` | Existing signed V2 derivation retains exact parent compositions and the private manifest commitment. Signature tampering and receiver restart after policy change pass without repeat publication. The shared producer/consumer gate is green; private manifests are not published and no new physical deliberation is claimed. |
+| `P090-012b` | Executable supplied-input to signed-synthesis closure gate. | `done` | Node's named supplied-input-synthesis checkpoint passes all thirteen tests across five commands: missing parent, mixed/non-local, policy/redaction, both adapter edges, substitution/stripping, controller/effect recovery, signed receiver replay and actual daemon HTTP/restart. The process fixture separately bounds executable warmup without widening runtime readiness. Scoped all-target Clippy, canonical schemas and docs build pass. This closes the bounded controller checkpoint, not every P090 carrier or physical acceptance. |
+
+Cross-boundary composition must preserve the source's processing boundary.
+The current single-boundary join is not authority to rename a foreign
+descriptor's boundary or reinterpret its locality from the Chair's viewpoint.
+Decision (accepted 2026-09-13): retain multiple source boundaries alongside the
+synthesis execution. The rejected alternative was a same-boundary-only checkpoint.
+A bounded composition retains the exact parent descriptors, their own boundary
+references and the completeness assertion. Its enclosing descriptor remains
+relative to the composing host: a foreign inference contributes unknown locality
+and egress in that view, never a renamed local observation. The foreign source's
+known non-local or mixed observation remains available in its original frame.
+Receiving policy examines the retained sources too; a known provider denial must
+not disappear behind an unknown boundary. Redaction traverses the composition
+without dropping parents or strengthening their evidence. Existing single-boundary
+joins keep their refusal contract; the explicit composition operation is separate.
+Bounded depth, parent count and canonical byte limits apply before publication;
+overflow refuses rather than silently truncating or externalizing evidence.
+
+Review clarification (2026-09-13): a retained manifest pins content, not future
+access rights. Pending continuation rechecks current Room authority separately
+from immutable input retrieval. Repeated product bytes require an unambiguous
+source occurrence (`provenance/ref`), not first-match selection. Room event
+retention measures actual serialized bytes; broker reads are minimally disclosed
+and bounded by their projected size. Peer assertions remain peer assertions.
+The owner controller sidecar is named `supplied/input-manifest` and is not a
+redactable recovery record: publish a separately projected carrier instead.
+Composition validation includes exact evidence derivation, and Schema Gate's
+semantic checks enforce total ancestry depth and size beyond JSON Schema.
+The Node review records individual F-01–F-16 dispositions and scoped evidence
+in `node:docs/P090-SUPPLIED-INPUT-REVIEW.md`; broad P090 status is unchanged.
+
 ## Next Actions
 
 1. Explicitly inventory any additional admitted batch/training profiles before
@@ -1198,10 +1246,12 @@ the Node test harness. No row is promoted merely by documenting its criterion.
    signed Corpus work. Source commits, publication and BDO projections remain
    distinct. New file/query/segmented batch profiles need their own bounded
    execution and recovery proof, not a broader claim from the present gate.
-2. Complete the remaining `P090-006/006a` parent/effect joins and translator
-   inventory, then connect contribution-to-synthesis aggregation under
-   `P090-009`. A signed result does not by itself prove which Room
-   contributions were consumed.
+2. Preserve the completed bounded `P090-006b/006c/009d/012b` controller
+   checkpoint. Extend remaining `P090-006/006a` source/effect profiles and
+   translator-inventory entries only with their owning resolver and executable
+   no-drop/recovery proof. Do not repeat the pure contract, rebase foreign
+   locality or treat supplied material as proof of model attention. Full
+   contribution-to-synthesis generality is not established by this text path.
 3. Add scoped participant declarations under `P090-010`, followed by signed,
    redacted federated projections under `P090-011`. Preserve sender-relative
    boundaries and peer-attested strength without changing membership or

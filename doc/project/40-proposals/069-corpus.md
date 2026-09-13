@@ -2694,6 +2694,14 @@ replay without another invocation, admission or charge. General contribution
 joins, external descriptors and broader live/federated evidence remain outside
 this checkpoint; the complete items below are not closed by one text profile.
 
+The 2026-09-13 P090-006b/006c/009d checkpoint adds host-owned supplied-input
+commitments and exact multi-boundary ancestry to controller-backed synthesis.
+Signed output retains the manifest commitment and source/execution composition;
+foreign locality is not rebased onto the Chair. Receiver restart and substitution
+checks are local deterministic evidence. The shared closure gate is P090-012b;
+these scoped changes do not close the broader Phase 8D checklist or establish
+a universal vocabulary of contribution, critique or success.
+
 - [ ] `corpus-inference-posture-routing`: consume the signed, open
   `inference-execution-posture.v1` contract through Shared Offer Catalog
   filters; require assertion owner, exact subject/generation/scope, and

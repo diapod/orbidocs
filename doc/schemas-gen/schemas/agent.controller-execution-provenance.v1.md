@@ -26,6 +26,7 @@ Immutable bridge from one ordinary Agent controller step to the exact realized e
 | [`product/ref`](#field-product-ref) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/ref` |  |
 | [`product/digest`](#field-product-digest) | `yes` | ref: `inference-provenance-common.v1.schema.json#/$defs/digest` |  |
 | [`execution/provenance`](#field-execution-provenance) | `yes` | ref: `inference-execution-provenance.v1.schema.json` |  |
+| [`supplied/input-manifest`](#field-supplied-input-manifest) | `no` | ref: `agent.supplied-input-manifest.v1.schema.json` |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -87,3 +88,9 @@ Immutable bridge from one ordinary Agent controller step to the exact realized e
 
 - Required: `yes`
 - Shape: ref: `inference-execution-provenance.v1.schema.json`
+
+<a id="field-supplied-input-manifest"></a>
+## `supplied/input-manifest`
+
+- Required: `no`
+- Shape: ref: `agent.supplied-input-manifest.v1.schema.json`

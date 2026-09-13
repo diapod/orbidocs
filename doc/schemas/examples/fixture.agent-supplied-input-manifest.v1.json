@@ -1,0 +1,22 @@
+{
+  "schema": "agent.supplied-input-manifest.v1",
+  "agent/id": "agent:fixture",
+  "agent-binding/ref": "binding:fixture",
+  "step/no": 1,
+  "request/ref": "request:fixture",
+  "request/digest": "sha256:L-eEsNKRF0TnbvpFb7KLE-6XnL8OhMtEJyw8vMHoqCM",
+  "context/ancestry-complete": false,
+  "inputs": [
+    {
+      "source": {
+        "source/kind": "fixture:source",
+        "scope/ref": "scope:fixture",
+        "source/ref": "source:fixture",
+        "content/digest": "sha256:vaPH7ww_O6r5rvkqQDAb9EOhMeZ1_SWdm8nUZYDgY-g"
+      },
+      "content/size-bytes": 13,
+      "execution/provenance": null
+    }
+  ],
+  "manifest/ref": "agent-input-manifest:sha256:vljuCLeoDe2q_Rcqvj_JTZqLY-HpTwziVxAmxvE9Re0"
+}

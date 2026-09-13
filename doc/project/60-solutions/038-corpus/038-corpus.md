@@ -351,7 +351,12 @@ Status:
   selected-offer declaration. Both signatures, atomic legacy/evidence retention,
   restart without the product and evidence-stripping refusal have deterministic
   coverage. Room V3 carries per-contribution evidence and bounded sender-relative
-  badges. General contribution-to-synthesis joins, scoped participant declarations
+  badges. The bounded controller synthesis checkpoint now preserves a host-owned
+  input-manifest commitment and exact source/execution descriptors through the
+  signed answer. Foreign boundaries remain distinct, and receiver policy also
+  evaluates retained sources. Local deterministic tests cover signature tampering
+  and exact receiver restart; this is not a physical deliberation result.
+  Generalized source/effect profiles, scoped participant declarations
   and general federated projection remain open; this is not all of P090.
 
 ## May Implement

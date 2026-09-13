@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.supplied-input-manifest:v1",
+  "title": "Agent Supplied Input Manifest v1",
+  "description": "Host-authored ordered commitment to exact input material at the Agent execution edge. This is not a citation list, provider-side token trace, model-attention claim or source-access grant.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/073-agent-orchestration-organ.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "manifest/ref", "agent/id", "agent-binding/ref", "step/no", "request/ref", "request/digest", "context/ancestry-complete", "inputs"],
+  "properties": {
+    "schema": { "const": "agent.supplied-input-manifest.v1" },
+    "manifest/ref": { "type": "string", "pattern": "^agent-input-manifest:sha256:[A-Za-z0-9_-]{43}$" },
+    "agent/id": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "agent-binding/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "step/no": { "type": "integer", "minimum": 1, "maximum": 4294967295 },
+    "request/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "request/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+    "context/ancestry-complete": { "type": "boolean" },
+    "inputs": { "type": "array", "maxItems": 8, "items": { "$ref": "#/$defs/input" } }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source/kind", "scope/ref", "source/ref", "content/digest"],
+      "properties": {
+        "source/kind": {
+          "allOf": [
+            { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+            { "pattern": "^[^:]+:.+$" }
+          ]
+        },
+        "scope/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+        "source/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+        "content/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "content/size-bytes", "execution/provenance"],
+      "properties": {
+        "source": { "$ref": "#/$defs/source" },
+        "content/size-bytes": { "type": "integer", "minimum": 1, "maximum": 65536 },
+        "execution/provenance": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "allOf": [
+                { "$ref": "inference-execution-provenance.v1.schema.json" },
+                { "type": "object", "required": ["descriptor"], "not": { "required": ["descriptor/ref"] } }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ Source schema: [`doc/schemas/inference-execution-provenance.v1.schema.json`](../
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`composition`](#def-composition) | object | Exact parent assertions in their original processing boundaries; bounded depth and total node count are also enforced by semantic validation. |
 | [`bindings`](#def-bindings) | object |  |
 | [`evidence`](#def-evidence) | object |  |
 | [`lineage`](#def-lineage) | object |  |
@@ -104,6 +105,13 @@ Then:
 - Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 ## Definition Semantics
+
+<a id="def-composition"></a>
+## `$defs.composition`
+
+- Shape: object
+
+Exact parent assertions in their original processing boundaries; bounded depth and total node count are also enforced by semantic validation.
 
 <a id="def-bindings"></a>
 ## `$defs.bindings`

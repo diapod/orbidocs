@@ -904,6 +904,15 @@ Status values: `todo`, `in-progress`, `done`, `deferred`.
 
 ## Next Actions
 
+The 2026-09-13 P090-006b/006c controller checkpoint adds host-owned ordered
+input manifests, source classification checks and exact retained composition
+across processing boundaries. It covers the existing Inquirium and neutral
+External Runtime request edges, controller source recovery and propagation into
+outcome/effect evidence. The shared P090-012b gate also binds signed Corpus
+synthesis and real local HTTP/process replay. This narrows the remaining work
+in `agent-inference-execution-provenance`; it does not promote the broader row
+or replace its retained three-host acceptance evidence.
+
 1. Complete `agent-inference-execution-provenance` by adding scoped posture and
    Assistant, Corpus, and Room no-drop projections; preserve the implemented
    pure horizontal join, ordinary external-runtime controller bridge, and exact

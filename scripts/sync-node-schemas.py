@@ -200,6 +200,7 @@ SCHEMA_WHITELIST = (
     "corpus-reasoning-answer.v2.schema.json",
     "corpus-agent-answer.publish.request.v2.schema.json",
     "agent.controller-execution-provenance.v1.schema.json",
+    "agent.supplied-input-manifest.v1.schema.json",
     "agent.external-runtime.profile.v1.schema.json",
     "agent.external-runtime.binding.v1.schema.json",
     "agent.external-runtime.turn-request.v1.schema.json",
@@ -402,6 +403,7 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "fixture.agent-supplied-input-manifest.v1.json",
     "bootstrap.node-identity.json",
     "seed-wss.node-advertisement.json",
     "vector-signed.node-advertisement.json",

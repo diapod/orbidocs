@@ -27,6 +27,15 @@
     }
   ],
   "$defs": {
+    "composition": {
+      "description": "Exact parent assertions in their original processing boundaries; bounded depth and total node count are also enforced by semantic validation.",
+      "type": "object", "additionalProperties": false,
+      "required": ["parent-set/complete", "parents"],
+      "properties": {
+        "parent-set/complete": { "type": "boolean" },
+        "parents": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/descriptor" } }
+      }
+    },
     "bindings": {
       "type": "object", "additionalProperties": false,
       "properties": {
@@ -114,6 +123,7 @@
         },
         "evidence/complete": { "type": "boolean" },
         "lineage": { "$ref": "#/$defs/lineage" },
+        "composition": { "$ref": "#/$defs/composition" },
         "extensions": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/extensions" }
       },
       "allOf": [

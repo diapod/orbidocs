@@ -56,6 +56,9 @@ schema_for_file() {
     *.inquirium.assistant.turn.request.v2.json)
       echo "$SCHEMAS_DIR/inquirium.assistant.turn.request.v2.schema.json"
       ;;
+    *.agent-supplied-input-manifest.v1.json)
+      echo "$SCHEMAS_DIR/agent.supplied-input-manifest.v1.schema.json"
+      ;;
     *.agent.controller-execution-provenance.v1.json)
       echo "$SCHEMAS_DIR/agent.controller-execution-provenance.v1.schema.json"
       ;;

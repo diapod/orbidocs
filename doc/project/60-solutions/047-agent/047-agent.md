@@ -419,6 +419,19 @@ Typed terminal artifacts remain evidence, not publishable products. This
 node-local recovery mechanism does not add Inquirium fields to the neutral
 Agent or Corpus contracts; its executable matrix is P090-004b2a.
 
+The P090-006b/006c controller checkpoint also records a host-owned ordered
+supplied-input manifest before dispatch. It binds the exact composed request,
+authorized source content addresses and their admitted evidence, independently
+of citations. Current resolvers cover the same Agent's retained products and
+classified turns in its active bound Room. Destination classification cannot
+weaken the source. Missing context or input ancestry remains explicitly unknown.
+Products and outcomes retain the manifest commitment and source descriptors;
+effect derivation preserves that composition without treating supporting refs
+as a complete genealogy. Recovery checks the original manifest/source commit,
+not the current Room view. Private bytes remain owner-controlled; metadata
+neither grants access nor proves model attention. Multiple processing boundaries
+remain explicit rather than rebasing a contributor's locality onto the Agent.
+
 The descriptor is evidence about one product, not Agent identity or authority.
 A single Agent may use different execution paths in successive passages.
 Optional provider disclosure remains policy-scoped and open-ended, while

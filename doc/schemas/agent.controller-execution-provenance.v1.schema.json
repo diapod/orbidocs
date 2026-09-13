@@ -34,6 +34,7 @@
     "request/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
     "product/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
     "product/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
-    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" }
+    "execution/provenance": { "$ref": "inference-execution-provenance.v1.schema.json" },
+    "supplied/input-manifest": { "$ref": "agent.supplied-input-manifest.v1.schema.json" }
   }
 }
