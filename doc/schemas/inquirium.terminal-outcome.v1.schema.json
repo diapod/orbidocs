@@ -1,15 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:inquirium.terminal-outcome:v1",
-  "title": "Inquirium failed invocation",
-  "description": "Sanitized terminal failure. Dispatch and egress are carried separately in exact result-bound provenance, not inferred from this failure code.",
+  "title": "Inquirium terminal invocation outcome",
+  "description": "Sanitized terminal refusal or failure. Dispatch and egress are carried separately in exact result-bound provenance, not inferred from this outcome code.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "operation", "status", "reason/code"],
   "properties": {
     "schema": {"const": "inquirium.terminal-outcome.v1"},
     "operation": {"type": "string", "pattern": "^[a-z][a-z0-9._-]*$"},
-    "status": {"const": "failed"},
-    "reason/code": {"enum": ["runtime-execution-failed", "result-publication-failed"]}
-  }
+    "status": {"enum": ["failed", "refused"]},
+    "reason/code": {"enum": ["runtime-execution-failed", "result-publication-failed", "result-retention-failed", "retained-result-unavailable", "invocation-refused"]}
+  },
+  "oneOf": [
+    {"properties": {"status": {"const": "refused"}, "reason/code": {"const": "invocation-refused"}}},
+    {"properties": {"status": {"const": "failed"}, "reason/code": {"enum": ["runtime-execution-failed", "result-publication-failed", "result-retention-failed", "retained-result-unavailable"]}}}
+  ]
 }

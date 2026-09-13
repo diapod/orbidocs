@@ -84,9 +84,21 @@ source and destination rather than invoking the adapter again. The local
 producer review additionally bounds worker shutdown, compensates refused queue
 admission without overwriting concurrent claims, and separates a known image
 terminal from failed result persistence. An uncommitted execution remains
-fenced; missing durable evidence never authorizes reinference. The local
-deterministic worker/sink matrix does not close broader producer refusals,
-generalized segmented/file/query batching or federated projections.
+fenced; missing durable evidence never authorizes reinference. P090-004c adds
+the ten-operation terminal matrix, intrinsic ingress separation, sanitized
+pre-dispatch refusals and exact terminal/provenance trace pairs. Synchronous
+trace sinks, image byte/commit faults and corrupt replay preserve the known
+observation. Deferred result-object failure retains a separate bounded owner
+journal fact: BDO stores diagnostic digests, not the source bytes, and neither
+that projection nor the failure fact authorizes publication or redispatch.
+The common gate requires all fully qualified proofs in one bounded run, from
+explicit Cargo targets with captured completion output. A failure to bind an
+observation preserves its dispatch class instead of creating non-dispatch.
+Preparation refusals commit atomically without a dispatch-intent window;
+committed-image retrieval failure has a distinct public terminal class.
+Admission trace writes are bounded, and Legacy refusal taxonomy is retained.
+Generalized segmented/file/query batching, effect carriage and federated
+projections remain open; no physical acceptance is implied.
 These additive P090 capabilities do not change the implemented-MVP claim.
 
 ## Date

@@ -1404,6 +1404,15 @@ Recent component deltas:
   H-1–H-14 review adds bounded shutdown, pending-only queue compensation,
   acknowledged recovery and explicit context refusal; a known image terminal
   remains observable after failed persistence without pretending it durable.
+  P090-004c1–004c5 and the scoped P090-004b aggregate are now complete for
+  ten admitted operations. The sixty-cell gate requires thirty-one named
+  proofs in one bounded run; core/host, HTTP, worker and sink/replay tests pass,
+  as do nineteen negative controls, all-target scoped Clippy, schema
+  validation and the documentation build. Exact terminal traces, image
+  recovery and a separate deferred retention-failure fact preserve observed
+  ancestry without granting reinference. Library fixtures withhold ambient
+  model-store authority. This changes neither hard-MVP nor physical acceptance
+  evidence.
   This does not complete stage 1 or P090. Generalized producer/effect carriers
   and the complete no-drop inventory remain open, as do
   remote descriptor resolution, general contribution-to-
