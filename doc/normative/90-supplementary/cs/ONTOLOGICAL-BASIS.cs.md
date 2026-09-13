@@ -289,6 +289,25 @@ setkává s odpovědí. Ne každá odpověď na zkušenost druhé osoby tedy mus
 jejím rozpoznáním jako předmětu. **Výraz může být součástí způsobu, jímž zkušenost
 vstupuje do sdíleného prostoru.**
 
+Podobnou mnohovrstevnatost odhaluje výraz "omlouvám se". Může vyjadřovat lítost,
+uznávat význam prožitku druhého, být pokusem o nápravu vztahu nebo přijetím
+odpovědnosti za určité jednání. Tyto funkce se mohou prolínat, ale automaticky se
+nenahrazují. Vyjádření lítosti není totéž co rozhodnutí o vině a uznání perspektivy
+druhé osoby nevyžaduje přijetí všech jejích tvrzení o průběhu událostí.
+
+Během sporu může jedna osoba očekávat uznání bolestivého způsobu vedení rozhovoru,
+zatímco druhá v očekávání omluvy slyší požadavek, aby se vzdala vlastního
+stanoviska. Odpověď "neomluvím se, protože mám pravdu" pak může míjet to, čeho se
+výzva týká. Rozlišení umožňuje odpovědět: "Tuto věc stále hodnotím jinak. Omlouvám
+se, že jsem tě přerušoval a nedal ti prostor představit svou perspektivu."
+Přijetí odpovědnosti za způsob rozhovoru nerozhoduje o jeho předmětu. **Lze mít
+pravdu v předmětu sporu a přesto mít za co se omluvit ve způsobu jeho vedení.**
+
+Chyba nespočívá ve zkoumání faktů, nýbrž v tom, že je toto zkoumání považováno
+za jedinou přípustnou odpověď na prožitek. Stejně tak samotné vyjádření empatie
+nerozhoduje o faktech ani nenahrazuje odpovědnost a nápravu. **Uznání prožitku
+není kapitulací ve sporu; mít ve sporu pravdu nečiní prožitek neplatným.**
+
 Vedlejším účinkem může být iluze, že genealogicky dřívější vrstvy jsou chudé. Bohatá
 slovní zásoba se zpravidla týká jejich již vydělených a zpředmětněných protějšků,
 nikoli samotné textury zkušenosti: máme přesná pojmenování barev jako vlastností věcí

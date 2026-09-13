@@ -304,6 +304,27 @@ w relacji i spotyka z odpowiedzią. Nie każda odpowiedź na doświadczenie d
 osoby musi więc zaczynać się od rozpoznania go jako przedmiotu. **Ekspresja może
 być częścią sposobu, w jaki doświadczenie wchodzi w przestrzeń wspólną.**
 
+Podobną wielowarstwowość ujawnia słowo "przepraszam". Może wyrażać żal, uznawać
+znaczenie cudzego przeżycia, podejmować próbę naprawy relacji lub przyjmować
+odpowiedzialność za określone działanie. Funkcje te mogą się splatać, lecz nie
+zastępują się automatycznie. Wyrażenie żalu nie jest tym samym co rozstrzygnięcie
+winy, a uznanie perspektywy drugiej osoby nie wymaga przyjęcia wszystkich jej
+twierdzeń o przebiegu zdarzeń.
+
+Podczas sporu jedna osoba może oczekiwać uznania bolesnego sposobu prowadzenia
+rozmowy, podczas gdy druga słyszy w oczekiwaniu przeprosin żądanie porzucenia
+własnego stanowiska. Odpowiedź "nie przeproszę, bo mam rację" może wtedy pomijać
+to, czego dotyczy wezwanie. Rozróżnienie pozwala odpowiedzieć: "Nadal inaczej
+oceniam tę sprawę. Przepraszam, że ci przerywałem i nie dałem miejsca na
+przedstawienie twojej perspektywy". Przyjęcie odpowiedzialności za sposób rozmowy
+nie rozstrzyga jej przedmiotu. **Można mieć rację w przedmiocie sporu i nadal mieć
+za co przeprosić w sposobie jego prowadzenia.**
+
+Błąd nie polega na badaniu faktów, lecz na traktowaniu tego badania jako jedynej
+dopuszczalnej odpowiedzi na przeżycie. Analogicznie sama deklaracja empatii nie
+rozstrzyga faktów ani nie zastępuje odpowiedzialności i naprawy. **Uznanie
+przeżycia nie jest kapitulacją w sporze; racja w sporze nie unieważnia przeżycia.**
+
 Skutkiem ubocznym bywa złudzenie, że warstwy wcześniejsze genealogicznie są ubogie.
 Bogaty słownik dotyczy zwykle ich już wyodrębnionych i uprzedmiotowionych
 odpowiedników, nie zaś samej faktury doświadczenia: mamy precyzyjne nazwy barw jako

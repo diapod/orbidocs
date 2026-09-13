@@ -318,6 +318,30 @@ relationship and meets a response. Not every response to another person's
 experience therefore has to begin by recognizing it as an object. **Expression
 can be part of the way experience enters a shared space.**
 
+The expression "I'm sorry" reveals a similar interplay of layers. It can express
+regret, acknowledge the significance of another person's experience, attempt to
+repair a relationship, or accept responsibility for a particular action. These
+functions can intertwine, but do not automatically substitute for one another.
+Expressing regret is not the same as determining fault, and acknowledging another
+person's perspective does not require accepting all their claims about what
+happened.
+
+During a disagreement, one person may seek acknowledgment of a painful way of
+conducting the conversation, while the other hears the expectation of an apology
+as a demand to abandon their position. The response "I won't apologize because
+I'm right" may then miss what the appeal concerns. Making the distinction allows
+a response such as: "I still see this matter differently. I'm sorry I interrupted
+you and left no room for you to present your perspective." Accepting responsibility
+for how a conversation is conducted does not settle its subject matter. **One can
+be right about the subject of a dispute and still have something to apologize for
+in the way it was conducted.**
+
+The error lies not in examining facts, but in treating that examination as the
+only admissible response to an experience. Likewise, a declaration of empathy
+alone neither settles the facts nor replaces responsibility and repair.
+**Acknowledging an experience is not conceding a dispute; being right in a
+dispute does not invalidate an experience.**
+
 A side effect can be the illusion that genealogically earlier layers are poor. A
 rich vocabulary usually concerns their already individuated and objectified
 counterparts rather than the texture of experience itself: we have precise names
