@@ -1282,14 +1282,24 @@ Recent component deltas:
   fields or prose in Room/Corpus evidence. P089-002 through P089-008 and
   P089-008c are complete. The first concrete profile pins
   `openai-codex==0.147.0`, supervises its local App Server over `stdio`, admits
-  only deliberation, and truthfully keeps active-turn cancellation and exact
-  ambiguous-dispatch resume disabled. Retained two-host and three-host Story
+  only deliberation, and keeps exact ambiguous-dispatch resume disabled.
+  P089-008d now qualifies active-turn cancellation on macOS arm64: the same SDK
+  handle receives interrupt through the durable BDO/Scheduler job, ACK remains
+  non-terminal, registry reconstruction preserves intent, and confirmed
+  cancellation settles once. Operator views distinguish requested, confirmed,
+  completed-before-cancel and unknown states. The review closes request-thread
+  waiting with explicit BDO 202 continuation, adds fair binding-scoped polling
+  with attributable diagnostics, and distinguishes zero-cost local refusal from
+  ambiguous dispatch. The corrected helper passes a new 16-check macOS run.
+  A lost helper handle still means
+  unknown, never cancellation or permission to redispatch. Retained two-host and three-host Story
   passages prove the separate Reviewer Agent, finite reservation, post-turn
   session continuity, restart/rejoin, later fresh sessions, closed traces, and
   cleanup. The three-host profile keeps `node-c` on `cyc.local` and completed
   P074-029 without changing the provider-neutral Agent contract. P089-008a
-  real-platform host isolation and P089-008d routable active-turn cancellation
-  remain open; hard-MVP readiness percentages remain unchanged.
+  real-platform host isolation remains open. The new cancellation evidence is
+  not a rerun of those historical Story profiles; hard-MVP readiness percentages
+  remain unchanged.
 - The 2026-09-04 P090 foundation now has accepted semantics, a repository-wide
   carrier inventory, canonical `inference-execution-posture.v1` and
   `inference-execution-provenance.v1` schemas, and a pure provider-neutral Rust

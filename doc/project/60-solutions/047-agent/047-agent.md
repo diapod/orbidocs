@@ -653,8 +653,15 @@ an extension hidden inside this solution.
   mediation; the first pinned Codex Python SDK/App Server stdio profile and its
   separate Room-participant Reviewer Agent are implemented and acceptance-proven
   for separately bounded two-host/three-node and three-host/three-node Story-012
-  claims; real-platform host isolation, routable active-turn cancellation, and
-  actuation remain unimplemented*;
+  claims; P089-008d adds bounded active-turn cancellation with durable BDO intent,
+  Scheduler routing, conservative settlement and real macOS qualification;
+  active controller calls return canonical BDO 202 continuations rather than
+  waiting for the model; fair binding-scoped reconciliation retains rejection
+  diagnostics and separates the Scheduler executor from admission authority;
+  positive driver-local non-dispatch refusals release the reservation with zero
+  charge, while ambiguous handoffs retain conservative accounting;
+  helper loss remains unknown rather than exact active-turn resume;
+  real-platform host isolation and actuation remain unimplemented*;
 - additional capability-specific effect-policy adapters — *deferred until a
   concrete consumer and owning host surface exist*;
 - specialized projection caches justified by measured workload — *deferred
