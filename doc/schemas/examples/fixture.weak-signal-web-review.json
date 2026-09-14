@@ -1,0 +1,17 @@
+{
+  "schema": "weak-signal-web-review.v1",
+  "review/id": "web-review:aff470bebc2f95344d4df7a616492a521163e5ce8aef51a13cb784d27dc8a766",
+  "reviewed/by": "operator:local-control",
+  "reviewed/at": "2026-09-14T10:00:00Z",
+  "review/request": {
+    "finding/id": "finding:web-review-fixture",
+    "source/finding-digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "outcome": "accepted",
+    "create/whisper-draft": true,
+    "redaction": {
+      "summary/redacted": "A reviewed local signal.",
+      "topic/class": "research/consciousness",
+      "signal/polarity": "idea"
+    }
+  }
+}

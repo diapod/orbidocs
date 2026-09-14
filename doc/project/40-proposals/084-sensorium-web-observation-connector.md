@@ -754,7 +754,88 @@ existing findings. Implementation and measured evidence are tracked separately
 in `node:docs/SENSORIUM-WEB-HARVESTER-EVIDENCE.md` and its review follow-up
 `node:docs/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
 
+### 13.2. P084-012b: explicit web review and local draft
+
+The operator-only `POST /v1/weak-signal-harvester/web-snapshot/review` accepts an
+exact `finding/id` and `source/finding-digest`, a terminal `outcome` (`accepted`,
+`rejected`, `archived`) and mandatory Boolean `create/whisper-draft`. Accepted
+review requires `redaction` with nonblank `summary/redacted` (at most 4,096 Unicode
+characters), `topic/class` (at most 160 ASCII token characters), and optional
+`signal/polarity` (`problem`, `idea`, `question`, `context`, `mixed`). Rejected and
+archived decisions forbid redaction and require `create/whisper-draft = false`.
+Unknown fields and explicit nulls outside the contract refuse. The request body
+is bounded to 24 KiB. Redaction means operator-authored content, not a claim that
+an automatic secret detector has proved arbitrary text safe.
+
+The host assigns `reviewed/by = operator:local-control`, the review time and a
+canonical content-addressed `review/id`: `web-review:` followed by the lowercase
+SHA-256 hex digest of JCS v1 JSON containing exactly `schema`, `reviewed/by`, and
+`review/request`. The timestamp belongs to the first committed fact, not its
+idempotency identity. A `weak-signal-web-review.v1` fact binds
+the entire request to the immutable original finding digest. The original finding,
+classification and acquisition provenance remain unchanged. Review operates on
+already admitted local evidence: it neither rereads P082 nor fetches retained
+source content. Revoking a source grant does not erase that prior admission.
+
+The local request parser validates the canonical `review/request` fragment without
+fabricating a fact or reading the clock. Invalid input/binding returns HTTP 400;
+conflicting terminal intent returns 409; retained-decision capacity returns 503;
+host storage/corrupt-state failures return 500. Safe closed response statuses
+expose no source content or private underlying cause. Capacity requires operator
+intervention, not automatic retry or evidence eviction.
+
+One decision per finding is append-only. The fact, terminal review projection,
+optional local draft and event digest commit in one SQLite transaction. Exact
+replay returns the original decision and `review/no-op = true`; a changed digest,
+redaction, outcome or draft intent refuses. No-op replay does not change the
+reviewer, timestamp or draft id. A terminal decision cannot be edited in this
+slice; revision/supersession needs a separately specified contract.
+
+Store schema v3 adds `weak_signal_web_reviews`. Registry open validates retained
+facts through Schema Gate at `Import` and repairs only divergent review projections;
+emission crosses `Export`. At most 4,096 decisions are retained, each no more
+than 32 KiB. The byte bound is checked before append and at replay, with a
+SQLite CHECK as defense in depth. Capacity refuses new decisions while exact
+replay remains available. Every registry connection explicitly enables foreign keys.
+There is no automatic eviction of review evidence; retention follows the local
+Harvester store, and operator export/pruning remains outside this slice. A corrupt
+fact fails registry open rather than silently discarding review history; because
+the registry is a required daemon startup dependency, this also blocks daemon
+startup until the retained store is repaired or restored. Enabling foreign keys
+does not repair previously damaged data. This is
+a bounded fact/projection application of Solution 028, not a rewrite of older
+Harvester event storage.
+
+A local `weak-signal-whisper-draft.local.v1` is created only when the accepted
+request explicitly sets `create/whisper-draft = true`. It carries the approved
+summary/topic/polarity, finding digest, review reference, original source refs
+with classification, and snapshot/source/generation/profile provenance. It stays
+`publication/state = not-published` with `next/gate = whisper-publication-review`.
+Preparing the draft supplies no publication authority and executes no publication
+call. A draft remains subject to the separate Whisper disclosure gate. Both
+legacy and web review paths use one typed local draft serializer. Required source
+refs and web provenance must be present; missing evidence refuses instead of
+becoming null. This local draft shape is not a publication wire contract.
+
+Compatibility: pre-v3 findings and local drafts are retained. Pending web findings
+now require the dedicated review route; the generic findings review route refuses
+them instead of applying its historical default draft creation. Non-web findings
+keep the P078 MVP behavior. The generic import wrapper cannot assign the reserved
+host import source `sensorium-web-snapshot`. Existing already-terminal web reviews
+are not silently replaced or backfilled with new approval facts.
+
+Acceptance covers the real daemon import/redaction/draft path, module-token and
+forged-actor refusals, digest binding, immutable replay, explicit rejection,
+daemon restart, classification/provenance preservation and canary-free retained
+state. Unit controls cover transaction failure, projection reconstruction, bounds,
+corrupt facts and accepted review without a draft. Browser, crawl, authenticated
+sources, automatic discovery/grouping, remote artifact handoff, UI and publication
+remain separate work. P084-012 remains `partial`.
+
+
+
 ## Implementation Guidance
+
 
 ### Reuse map: named primitives before new mechanism
 
@@ -1209,7 +1290,7 @@ enum members are executed by a schema-derived gate.
 The reviewed aggregate is `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`.
 Solutions 030/046, the Node ledger and readiness projection are synchronized.
 P084-001 through P084-009 are done for this static macOS acceptance scope;
-P084-010 through P084-013 remain deferred. This is not full browser, crawl,
+P084-010/011/013 remain deferred; P084-012 is partial with completed local intake (012a) and explicit local review/draft (012b). This is not full browser, crawl,
 credential-bound, multi-host or non-macOS deployment acceptance.
 
 ## Implementation Tracker
@@ -1231,6 +1312,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-011 | Define and implement P084 Phase 2 `sensorium-web-crawl.v1` frontier and politeness profile | deferred | After static-profile acceptance, P084 must freeze frontier lifecycle, fail-closed robots behavior, depth/page/origin budgets, restart, cancellation, retention, and operator evidence before implementation is accepted. |
 | P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | partial | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
 | P084-012a | Admitted web snapshot to local Harvester review | done | Immutable source binding; independent P082 read authority; bounded retained-artifact verification; reference-only classified pending review; durable dedup; no acquisition or publication. |
+| P084-012b | Explicit web finding redaction to optional local Whisper draft | done | Immutable digest-bound operator decision, explicit draft intent, atomic fact/projection persistence; deterministic daemon HTTP/restart, refusal and canary acceptance recorded in `node:docs/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`. Broader integration remains partial. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
 
 ### Single-URL operator acceptance (2026-09-08)
@@ -1315,8 +1397,8 @@ OpenAPI schema bundling; top-level URN resolution alone does not close that debt
    source generation; never relabel retained profile evidence.
 2. Evaluate any alternate extraction profile against the same checked-in corpus
    under its own version and digest.
-3. Keep browser rendering, credentials, Phase 2 crawling and P078 integration in
-   their separately accepted deferred workstreams. Static acceptance does not
+3. Keep browser rendering, credentials and Phase 2 crawling in their separately
+   accepted deferred workstreams; broader P078 integration remains partial. Static acceptance does not
    grant their authority or provide their deployment evidence.
 
 ## External Standards and Implementation References

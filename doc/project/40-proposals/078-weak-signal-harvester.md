@@ -224,8 +224,8 @@ The Node MVP implementation freezes these operational choices:
 - The filesystem adapter is intentionally redaction-light: it normalizes and
   bounds `source/snippet/redacted`, but it also sets `redaction-required`.
   Human/model redaction remains a later review or Whisper publication gate.
-- `accepted` review creates a local Whisper draft stub by default unless the
-  operator request sets `create/whisper-draft = false`. The draft carries
+- For non-web findings, `accepted` review creates a local Whisper draft stub by
+  default unless the operator request sets `create/whisper-draft = false`. The draft carries
   `publication/state = "not-published"` and has no publication authority.
 - Repeating the same terminal review outcome is idempotent and returns a
   `review/no-op = true` receipt rather than mutating `reviewed/by` or
@@ -236,6 +236,25 @@ The Node MVP implementation freezes these operational choices:
 - The status directories under `findings/{incoming,accepted,rejected,archived}`
   are convention markers and future export/materialization roots. The dedicated
   review store remains the source of truth in the MVP.
+
+### P084-012b: explicit web review and local draft
+
+The dedicated operator web review route extends the P084-012a local intake with
+an immutable redaction decision and explicit local draft intent. It preserves
+the original finding, classification and provenance; the new
+`weak-signal-web-review.v1` fact binds the approved summary/topic/polarity and
+reviewer/time to the exact finding digest. A false draft choice, rejection or
+archival creates no draft. A true accepted choice creates only a local,
+unpublished Whisper draft subject to the existing publication gate.
+
+The canonical request, state machine, v3 migration, bounded fact/projection
+recovery and compatibility rules are in
+[P084, explicit web review](084-sensorium-web-observation-connector.md#132-p084-012b-explicit-web-review-and-local-draft).
+In particular, web findings require the dedicated review endpoint, while non-web
+findings retain the MVP review behavior. Review consumes already admitted local
+evidence and neither reacquires P082 access nor initiates network acquisition.
+Acceptance is recorded in `node:docs/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`.
+Broader P084-012 remains partial and P078-007 remains deferred.
 
 ### 6. Relationship to Whisper
 

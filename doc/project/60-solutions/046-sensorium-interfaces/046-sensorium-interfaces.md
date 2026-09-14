@@ -602,3 +602,20 @@ implementation choices.
 5. Add a multiprocess two-deployed-node direct-peer terminal-feed run only as
    stronger deployment evidence; retain the implemented peer-runtime transport test
    as the component-level proof and do not fork the live-feed contract.
+
+### P084-012b local review boundary
+
+After P084-012a admission, the operator can supply an explicit redacted summary,
+topic, optional polarity and draft intent through the local Harvester web review
+API. `weak-signal-web-review.v1` binds this immutable decision to the original
+finding digest; classification and snapshot provenance survive into an optional
+unpublished local Whisper draft. This consumes already admitted local evidence
+and grants no new P082 read, acquisition, remote delivery or publication authority.
+The bounded v3 review store records facts and projections atomically and rebuilds
+divergent review projections on reopen while validating retained facts. Explicit
+FK enforcement preserves parent bindings; safe HTTP classes distinguish invalid
+input, conflicting decisions, retained capacity and host failures. See P084 section "P084-012b: explicit web review and
+local draft" and `node:docs/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md` for the
+contract, compatibility limits and measured acceptance. P084-012b is done for
+this bounded local slice. Broader P084-012 remains
+partial; the new slice does not close P078-007.

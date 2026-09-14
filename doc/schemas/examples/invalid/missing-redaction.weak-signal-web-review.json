@@ -1,0 +1,12 @@
+{
+  "schema": "weak-signal-web-review.v1",
+  "review/id": "web-review:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "reviewed/by": "operator:local-control",
+  "reviewed/at": "2026-09-14T10:00:00Z",
+  "review/request": {
+    "finding/id": "finding:web-review-fixture",
+    "source/finding-digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "outcome": "accepted",
+    "create/whisper-draft": true
+  }
+}

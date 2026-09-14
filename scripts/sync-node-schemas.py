@@ -83,6 +83,7 @@ SCHEMA_WHITELIST = (
     "whisper-trace-publish-result.v1.schema.json",
     "whisper-threshold-reached.v1.schema.json",
     "weak-signal-finding.v1.schema.json",
+    "weak-signal-web-review.v1.schema.json",
     "whisper-redaction-prepare-request.v1.schema.json",
     "whisper-redaction-prepare-response.v1.schema.json",
     "procurement-offer.v1.schema.json",
@@ -515,6 +516,7 @@ EXAMPLE_WHITELIST = (
     "email-dispatched.whisper-trace-publish-request.json",
     "accepted.whisper-trace-publish-result.json",
     "filesystem-retaliation.weak-signal-finding.json",
+    "fixture.weak-signal-web-review.json",
     "declassify.memarium-host-api.json",
     "revoked.memarium-host-api.json",
     "private-whisper.artifact-delivery-envelope.json",
@@ -755,6 +757,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-redaction.weak-signal-web-review.json",
     "global-bypass.orbiplex-acceptance-storage-policy.json",
     "missing-risk.orbiplex-acceptance-storage-policy.json",
     "shared-intermediate.corpus-reasoning-inference-flow-binding.json",

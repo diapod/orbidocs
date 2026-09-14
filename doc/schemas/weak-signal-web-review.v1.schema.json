@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.orbiplex.ai/weak-signal-web-review.v1.schema.json",
+  "title": "Weak Signal Web Review v1",
+  "description": "Immutable local operator review bound to an admitted finding digest. Redacted text is operator-authored; this decision grants no publication authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/078-weak-signal-harvester.md",
+    "doc/project/40-proposals/084-sensorium-web-observation-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "review/id",
+    "reviewed/by",
+    "reviewed/at",
+    "review/request"
+  ],
+  "properties": {
+    "schema": {
+      "const": "weak-signal-web-review.v1"
+    },
+    "review/id": {
+      "type": "string",
+      "pattern": "^web-review:[a-f0-9]{64}$"
+    },
+    "reviewed/by": {
+      "const": "operator:local-control"
+    },
+    "reviewed/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review/request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding/id",
+        "source/finding-digest",
+        "outcome",
+        "create/whisper-draft"
+      ],
+      "properties": {
+        "finding/id": {
+          "type": "string",
+          "pattern": "^finding:[A-Za-z0-9._:-]{6,160}$"
+        },
+        "source/finding-digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "outcome": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "archived"
+          ]
+        },
+        "create/whisper-draft": {
+          "type": "boolean"
+        },
+        "redaction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "summary/redacted",
+            "topic/class"
+          ],
+          "properties": {
+            "summary/redacted": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096,
+              "pattern": "\\S"
+            },
+            "topic/class": {
+              "type": "string",
+              "maxLength": 160,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+            },
+            "signal/polarity": {
+              "enum": [
+                "problem",
+                "idea",
+                "question",
+                "context",
+                "mixed"
+              ]
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "accepted"
+              }
+            },
+            "required": [
+              "outcome"
+            ]
+          },
+          "then": {
+            "required": [
+              "redaction"
+            ]
+          },
+          "else": {
+            "properties": {
+              "create/whisper-draft": {
+                "const": false
+              }
+            },
+            "not": {
+              "required": [
+                "redaction"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
