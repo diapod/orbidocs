@@ -488,10 +488,22 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
 | P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
 
+### Operator UI checkpoint (P084-012c)
+
+P084-012c is done for the measured local operator UI scope. The web-finding
+operator queue in node-ui composes the local review API without
+adding intake or publication authority. The UI presents classification, provenance
+and the bound digest before accepting operator redaction and explicit local draft
+intent. The daemon owns immutable decisions; refresh reads committed state and
+exact replay does not create another draft. Other source classes keep their
+existing API review flow. See
+[P084 operator UI](084-sensorium-web-observation-connector.md#133-p084-012c-operator-review-ui)
+and `node:tools/acceptance/sensorium-web-review-ui/README.md` for acceptance.
+
 ## Next Actions
 
-1. Add an operator UI surface for reviewing imported findings and local Whisper
-   draft stubs.
+1. Consider other source classes separately before extending the operator review
+   surface beyond the completed P084-012c admitted-web queue.
 2. Decide whether a bounded directory-watch import profile is worth adding
    before public gateway work.
 3. Keep network-capable and public gateway profiles deferred until their
