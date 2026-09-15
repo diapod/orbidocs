@@ -1300,6 +1300,20 @@ Recent component deltas:
   real-platform host isolation remains open. The new cancellation evidence is
   not a rerun of those historical Story profiles; hard-MVP readiness percentages
   remain unchanged.
+  P089-008e additionally closes optional provider-private thread naming on
+  2026-09-14: nine local macOS qualification checks prove name readback, a
+  preserved operator rename, restart without another inference, and archival
+  of the owned test thread. Naming runs independently after the first accepted
+  turn and cannot change Agent identity, provenance or accounting. Bounded
+  collision reservations and metadata-only failure outcomes stay adapter-local.
+  The review adds operator-file/ENV precedence, host-injected identity, release
+  of closed-session presentation entries and independent capacity diagnostics;
+  optional status observation cannot replace a control outcome. This hardens
+  the same local naming baseline, without broadening its acceptance claim.
+  The reviewed 2026-09-15 helper passed the same nine-check local qualification,
+  including owned-thread archival; the report binds its exact helper digest.
+  No other physical hosts participated; project grouping and P089-008f automatic
+  retention remain unimplemented, with no hard-MVP readiness change.
 - The 2026-09-04 P090 foundation now has accepted semantics, a repository-wide
   carrier inventory, canonical `inference-execution-posture.v1` and
   `inference-execution-provenance.v1` schemas, and a pure provider-neutral Rust

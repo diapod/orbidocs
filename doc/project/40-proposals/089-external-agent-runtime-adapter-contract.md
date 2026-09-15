@@ -771,6 +771,61 @@ receipt evidence.
   is optional, and known non-local execution survives redaction and downstream
   composition.
 
+### Provider-private thread presentation (P089-008e)
+
+The opt-in naming policy defaults to prefix `dia-`. Its private node label is
+the first eight lowercase hex digits of SHA-256 over the complete UTF-8 node
+identifier, supplied by the host from its already-admitted public identity. This
+is a display fingerprint, not a new protocol-wide short identity or an authority.
+It avoids assuming that identifiers share a particular namespace or alphabet.
+
+The Node operator file exposes `agent.codex_thread_names.enabled` (default false)
+and `agent.codex_thread_names.prefix` (default `dia-`). The corresponding
+`ORBIPLEX_EXTERNAL_AGENT_CODEX_THREAD_NAMES` and
+`ORBIPLEX_EXTERNAL_AGENT_CODEX_THREAD_NAME_PREFIX` variables override individual
+fields at startup. Explicit false does not activate an absent runtime. Invalid
+configuration fails explicitly; optional filesystem/provider failures only
+degrade naming. Presentation does not reopen the host's identity file.
+
+Names have the form `<prefix><node-label>-<unix-seconds>-<counter>`. An atomic,
+append-only, adapter-private reservation index owns uniqueness within one Node
+data directory. Counter zero is tried first and advances only on collision;
+neither account-wide uniqueness nor uniqueness against operator-created names
+is claimed. Allocation is bounded to 10,000 retained reservations and 1,024
+candidates per timestamp. Reservations are not automatically deleted or reused.
+The independent 128-entry process cache releases closed sessions and is cleared
+on helper shutdown. Read-only reservation occupancy is documented for operators;
+reclamation is deferred until P089-008f can preserve at-most-once tombstones.
+
+The baseline starts one independent, bounded `thread/name/set` task after the
+first accepted turn of a newly created thread. Naming a still-empty thread in
+the pinned runtime can lack an acknowledgement until its rollout materializes;
+session creation and turn control therefore never wait for metadata work.
+The task records the reservation before the call and a metadata-only result
+afterwards. Restart never retries an uncertain naming call, overwrites an
+operator's later rename, or renames a historical session. A naming failure or
+lost acknowledgement is diagnostic only: it cannot change Agent session fences,
+dispatch, provenance, settlement, or trigger another inference. Operators may
+name degraded threads manually. A crash before the first naming task can leave
+the thread unnamed; this is not a reason to replay inference. Cancelling a local
+naming task is not proof that its remote mutation was cancelled. Retrying
+presentation and retention remain separate work; P089-008f does not become done
+through this index.
+
+No project grouping is implemented without an admitted official API. The
+working directory remains a workspace, not a project. Only the explicitly
+enabled display fingerprint and time are disclosed as provider metadata;
+provider thread identifiers, names and naming outcomes remain private to the
+adapter and never become Room/Corpus or accounting fields.
+
+The review separates optional status observation from control-result
+classification, including malformed/missing session metadata, and distinguishes
+security refusal, process capacity, durable capacity, collision exhaustion and
+storage unavailability. Warnings are session-scoped. Qualification waits within
+a separate bounded observation window for the name after the inference terminal;
+it never repeats a naming mutation or inference. Defensive SDK-id/SQLite-range
+checks and duplicate-reservation refusal remain intentional boundary guards.
+
 ## Deferred Provider Questions
 
 1. What stable provider surface can replace experimental dynamic-tool mechanisms
@@ -808,8 +863,8 @@ other or for the complete P090 propagation vertical.
 | `P089-008` | Implement one pinned Codex deliberation-only profile over one official local integration surface. | `P089-007` | `done` | Decision 14 is implemented by `external-agent-runtime-codex` plus the bounded Python helper. The profile pins `openai-codex==0.147.0`, its complete hashed dependency closure and bundled runtime; validates the helper, interpreter, and runtime bytes before spawn; supervises JSONL-over-stdio App Server transport; uses the operator's existing authenticated session; fences every thread to one exact Agent/runtime binding; denies tools and approvals; redacts provider text from progress and trace; and conservatively settles unavailable usage. Retained real qualification proves start, continue, driver restart with post-turn `thread/resume`, close, dependency and digest refusal, and the App Server interruption primitive. The initial synchronous qualification kept cancellation disabled; `P089-008d` now separately qualifies active cancellation while `exact-resume=false` remains unchanged. The retained redacted qualification report is `${ORBIPLEX_ACCEPTANCE_REPORT_ROOT}/node-b/p089-008/codex-runtime-qualification.local.v1.json`. |
 | `P089-008c` | Route the pinned Codex profile through a real Room-participant Agent in the Story-012 physical acceptance profile. | `P089-008`, `P074-033` | `done` | The exact `physical-two-host-three-node-codex-reviewer` claim first bound `node-c` to a distinct durable Agent, Room participant, external-runtime binding, fenced Codex thread, finite reservation, selected product, typed signed review, communication trace, and node-local evidence. Its restarted and fresh passages passed all ten Story assertions, exact DNS checks, typed host-owned claims, solver/Chair model post-effect revalidation, external-Agent status/revocation revalidation, closed traces, and cleanup. Their run ids are `federation-run:story-012-physical-two-host-three-node-codex-reviewer:20260901T031054Z` and `federation-run:story-012-physical-two-host-three-node-codex-reviewer:20260901T032223Z`; aggregate SHA-256 values are `930a590f6c68ffa7cb08c91a16bd7addb465a17662eb89b2343cc4e4ae6c81da` and `8e2ae6dedb32109de95acf36cef1df97a91de109cc461c5207752f6f0defd253`. The unchanged adapter was then admitted on `cyc.local` under the distinct three-physical-host claim. Run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260903T181349Z` restarted `node-c` after its first review and resumed the same durable Reviewer-Agent/runtime session; its aggregate and Story-report SHA-256 values are `4441c9a85742ef0facce73e58fbe8016a2b177404a9350f727067fa067441c61` and `75740180f08605647d048917ee66fb8e87736a964f72c82f2e5ea272e4cbc826`. The independent fresh run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260903T185604Z` completed five cycles and five model-authored experiments without fallback, passed all ten Story assertions, retained complete no-drop/no-gap traces, exact DNS results, post-effect revalidation, cleanup and lease release; its corresponding digests are `7375be7d79d7dc750ec40d98d07954b9e5730e5db645d34d86ec742d03f6f408` and `b965c4bc3ad2f6da22314671741a908b19427abd47fcb0c2408afcdeb17baf11`. Provider identity remains absent from Room/Corpus contracts and appears only in the runtime-edge report projection. These are separately bounded two-host and three-host Story claims; the latter changes topology and concrete runtime installation, not Agent semantics. |
 | `P089-008d` | Add routable cancellation for an active Codex turn without weakening the generic durable cancel contract. | `P089-008` | `done` | The bounded private start/poll/interrupt seam retains the exact SDK handle. Shared Scheduler reconciliation routes durable BDO cancel intent without holding the Agent registry over model execution. ACK is non-terminal; start/interrupt refusal retries only control; completion-before-cancel wins; unknown handle loss never permits redispatch or releases the reservation. Deterministic tests cover repeated intent, registry recovery, one conservative settlement, late stopped-Agent refusal, and distinct operator request/confirmed/unknown views. On 2026-09-14 macOS arm64, the real Python qualification and `external_agent_runtime::tests::real_codex_active_turn_cancels_through_durable_scheduler_job` passed through the pinned SDK and Rust/BDO job respectively. Helper shutdown is bounded; thread names/retention and full active-handle recovery remain outside this claim. The 2026-09-14 review additionally closes request-thread model waits with canonical BDO 202 continuations, fair binding-scoped reconciliation and bounded diagnostic attribution, positive local non-dispatch refusal with zero charge, and negotiated control timeouts. The corrected helper passes 16 real macOS checks and the Rust/BDO test; the report is `p089-008d/codex-active-cancellation-review.local.v1.json`. Explicit provider-local archival of a lost reader preserves unknown evidence; its generic operator HTTP/UI exposure is not part of this completed row. The updated profile enables cancellation/inspection but not exact-resume; Linux and a new full multi-host Story cancellation passage require their own real evidence. |
-| `P089-008e` | Add optional provider-private presentation identity and grouping for Codex-backed Agent threads. | `P089-008` | `todo` | Implement the available baseline through the documented `thread/name/set` operation without waiting for project support. Add an optional adapter setting with default prefix `dia-` and a collision-safe display name such as `dia-<node-short>-<unix-epoch-seconds>-<counter>`; the bounded counter advances only on a detected collision. Before coding, either reuse a repository-wide short-node-id convention or specify and review one; no such convention is currently established. If a stable official project create/assign surface appears, grouping may be added behind the same provider-private presentation policy. Do not substitute UI automation, call a working-directory convention a project, or leak names and project identity into Agent, Room, Corpus, accounting, or evidence contracts. |
-| `P089-008f` | Add bounded retention for provider threads created by the Codex adapter. | `P089-005`, `P089-008` | `todo` | Add an explicit provider-private retention policy with a proposed 30-day default. Measure idle time from the later of App Server `updatedAt` and the last durable Agent session activity; the provider timestamp advances when a turn starts rather than on a read-only resume, so it is not sufficient alone. Make both the idle duration and disposition configurable; evaluate `delete-if-supported-else-archive` as the default requested policy, while retaining a safer `archive` mode and a disabled mode. A bounded Replay Scheduler job pages only through threads provably owned by this adapter, excludes pinned, active, ambiguously dispatched, or durably resumable sessions, and revalidates Agent terminal state plus the session fence immediately before mutation. Because `thread/delete` also deletes spawned descendants, delete only when the complete descendant closure belongs to the same retention cohort; otherwise archive or refuse according to policy. Fall back from delete to archive only for a typed unsupported-method result, never for authentication, transport, timeout, or partial-deletion failure. Separately expose the implemented provider-local unknown-session archival as an explicit, authorized operator action: never include ambiguous sessions in automatic retention, never relabel unknown as cancelled, and retain the non-redispatch/accounting fence. Retention preserves Agent/Memarium facts and signed Room/Corpus evidence, emits a metadata-only audit outcome, supports dry-run, is idempotent across restart, and proves expiry boundaries, pagination, races, operator pinning, descendant ownership, partial failure, and exact replay. |
+| `P089-008e` | Implement and qualify optional provider-private display names for Codex-backed Agent threads; keep project grouping explicitly deferred. | `P089-008` | `done` | The optional private adapter policy uses the pinned SDK's documented thread/name/set after the first accepted turn, with a host-derived display fingerprint, atomic bounded collision reservations, separate metadata outcomes, no transaction across provider I/O, at-most-once naming and explicit degradation. Configuration, concurrent allocation, capacity, failure, restart and no-renaming checks pass; real macOS arm64 qualification passes nine checks, including exact SDK readback, a preserved operator rename, restart without another inference and owned-thread archival. The 2026-09-15 review adds operator-file/ENV precedence, admitted-identity injection, control-response isolation, independent live-entry reclamation and security/capacity diagnostics; all nine local qualification checks pass again for the reviewed helper. See the provider-private presentation decision above and Node docs/CODEX-THREAD-PRESENTATION.md. This closes the available naming baseline, not project grouping, P089-008f retention, or a new multi-host Story claim. |
+| `P089-008f` | Add bounded retention for provider threads created by the Codex adapter. | `P089-005`, `P089-008` | `todo` | Add an explicit provider-private retention policy with a proposed 30-day default. Measure idle time from the later of App Server `updatedAt` and the last durable Agent session activity; the provider timestamp advances when a turn starts rather than on a read-only resume, so it is not sufficient alone. Make both the idle duration and disposition configurable; evaluate `delete-if-supported-else-archive` as the default requested policy, while retaining a safer `archive` mode and a disabled mode. A bounded Replay Scheduler job pages only through threads provably owned by this adapter, excludes pinned, active, ambiguously dispatched, or durably resumable sessions, and revalidates Agent terminal state plus the session fence immediately before mutation. Because `thread/delete` also deletes spawned descendants, delete only when the complete descendant closure belongs to the same retention cohort; otherwise archive or refuse according to policy. Fall back from delete to archive only for a typed unsupported-method result, never for authentication, transport, timeout, or partial-deletion failure. Separately expose the implemented provider-local unknown-session archival as an explicit, authorized operator action: never include ambiguous sessions in automatic retention, never relabel unknown as cancelled, and retain the non-redispatch/accounting fence. Define bounded maintenance of the presentation reservation index, including occupancy diagnostics and an explicit safe reclamation/tombstone contract before releasing capacity; never erase an uncertain naming-attempt fence as a retry mechanism. Retention preserves Agent/Memarium facts and signed Room/Corpus evidence, emits a metadata-only audit outcome, supports dry-run, is idempotent across restart, and proves expiry boundaries, pagination, races, operator pinning, descendant ownership, partial failure, and exact replay. |
 | `P089-008a` | Retain a real-platform host-isolation proof independent of provider settings. | `P089-008` | `todo` | With deliberately permissive provider configuration, acceptance still denies workspace mutation, arbitrary child/tool configuration, unadmitted network/credential reach, and unmediated effect execution while allowing only the explicitly admitted provider control channel. |
 | `P089-008b` | Evaluate and implement `openai-chatgpt-workspace-agent` as the candidate second deliberation-only provider profile, but only over an official Workspace Agents surface that returns terminal results. | `P089-007`, stable official result-delivery surface | `deferred` | Node owns the exact API and scoped workspace-auth mapping plus retention, egress, accounting, session, status, result, cancellation, recovery, and failure semantics; the pinned profile retrieves a bounded product and outcome without UI automation or session-cookie access and passes the generic suite. |
 | `P089-009` | Add an actuation-capable Codex profile only after a stable interceptable tool surface exists. | `P089-008a`, stable provider surface | `deferred` | End-to-end Workbench/Sensorium request, receipt, observation return, revocation, restart, dependency loss, and negative bypass evidence exists before the profile becomes routable. |
@@ -873,12 +928,16 @@ graph TD
 4. Retain a real-platform `P089-008a` host-isolation proof with provider-native
    effects configured permissively, demonstrating that only the admitted
    provider control channel remains reachable.
-5. Implement `P089-008e` first through the documented thread-name surface. Keep
-   project grouping optional and provider-private until an official project
-   create/assign operation exists.
+5. `P089-008e` is complete for opt-in thread names, including local macOS
+   qualification and the 2026-09-15 operator-file/ENV and failure-boundary review.
+   Preserve the independent live-entry lifecycle and requalify changed helper
+   bytes. Keep project grouping deferred until an official project create/assign
+   operation is admitted; no new multi-host evidence is claimed.
 6. Review the proposed `P089-008f` 30-day retention default and disposition, then
    implement it as bounded Scheduler work over adapter-owned terminal sessions;
-   never let provider cleanup erase Agent or Room/Corpus evidence.
+   never let provider cleanup erase Agent or Room/Corpus evidence. Define safe
+   presentation-index reclamation/tombstones before releasing its capacity;
+   read-only occupancy inspection does not authorize deleting uncertain fences.
 7. Keep `openai-chatgpt-workspace-agent` as the candidate second profile behind
    the same adapter. Do not implement or route it until an official Workspace
    Agents surface can return terminal response data and satisfy the generic

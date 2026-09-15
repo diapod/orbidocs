@@ -661,6 +661,14 @@ an extension hidden inside this solution.
   positive driver-local non-dispatch refusals release the reservation with zero
   charge, while ambiguous handoffs retain conservative accounting;
   helper loss remains unknown rather than exact active-turn resume;
+  P089-008e provides opt-in provider-private thread names, with bounded atomic
+  reservations; operator-file settings have per-field ENV overrides, validated
+  host identity is injected, and optional diagnostics cannot reclassify a turn;
+  one asynchronous metadata attempt runs after the first accepted
+  turn; real local qualification proves name persistence, preserved manual
+  renaming, restart without another inference, and owned-thread archival;
+  naming failure cannot alter Agent evidence or settlement, and automatic
+  retention/project grouping remain outside this implemented baseline;
   real-platform host isolation and actuation remain unimplemented*;
 - additional capability-specific effect-policy adapters — *deferred until a
   concrete consumer and owning host surface exist*;
