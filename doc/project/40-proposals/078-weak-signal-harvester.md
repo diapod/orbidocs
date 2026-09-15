@@ -253,7 +253,7 @@ recovery and compatibility rules are in
 In particular, web findings require the dedicated review endpoint, while non-web
 findings retain the MVP review behavior. Review consumes already admitted local
 evidence and neither reacquires P082 access nor initiates network acquisition.
-Acceptance is recorded in `node:docs/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`.
+Acceptance is recorded in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`.
 Broader P084-012 remains partial and P078-007 remains deferred.
 
 ### 6. Relationship to Whisper

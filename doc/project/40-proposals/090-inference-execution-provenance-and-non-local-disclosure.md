@@ -980,13 +980,13 @@ and declared possible non-local execution have distinct consent wording.
 Direct External Runtime completion also preserves its durable producer V2 into
 Agent outcomes without inventing a controller step. These review corrections do
 not close the remaining consumer or producer tasks below. The finding-by-finding
-implementation record is `node:docs/P090-CONSUMER-REVIEW.md`.
+implementation record is `node:docs/evidence/inference-provenance/P090-CONSUMER-REVIEW.md`.
 
 | ID | Work item | Status | Completion gate |
 | :--- | :--- | :--- | :--- |
 | `P090-004b1` | Bind synchronous runtime results and select public V2 explicitly. | `done` | Eight-operation HTTP V1/V2 tests, malformed received-HTTP terminals, image publication/refusal ancestry, output mutation and catalog-change negatives, and fractional JSON roundtrip pass. This does not close source-artifact lineage or durable publication recovery. |
 | `P090-004b2` | Preserve ordinary Inquirium Agent controller evidence through its durable source commit and recovery bridge. | `done` | Completed for the scoped synchronous text controller. CallInquirium requests V2 and commits its exact canonical source, step, trace and budget through Agent/Memarium. P090-004b2a covers 36 intent/commit refusal and lost-acknowledgement cases across successful and terminal results. Product-free daemon restart retains the exact Agent/Corpus outcome; absent completion remains fenced and does not authorize reinference. Batch, training and general artifact/deferred producers are outside this row. |
-| `P090-004b3` | Separate batch/training execution commit from deferred status and artifact publication. | `done` | The 2026-09-09 immutable intent/result journal owns exact source commits; BDO is only a projection. Eighteen worker restart states cover both producers, three projection states and committed success/terminal versus ambiguous intent-only execution. Recovery works with runtime/input unavailable and never reinvokes. Local adapter tests exercise actual bounded batch execution, training success/cancellation and received HTTP 503 evidence. Owner-scoped keyset recovery drains 501 refused operations while leaving a foreign-owned operation untouched. The first batch profile composes one existing embedding invocation over immutable object/artifact leases, with a 1 MiB source budget; caller output, file/query and segmented batch profiles are not admitted. See `node:docs/P090-DURABLE-PRODUCERS.md`; generalized producer coverage remains P090-004. H-1–H-14 review adds bounded shutdown, pending-only enqueue compensation and acknowledged recovery; six conflicting-context restart cases extend the matrix to 24 states. |
+| `P090-004b3` | Separate batch/training execution commit from deferred status and artifact publication. | `done` | The 2026-09-09 immutable intent/result journal owns exact source commits; BDO is only a projection. Eighteen worker restart states cover both producers, three projection states and committed success/terminal versus ambiguous intent-only execution. Recovery works with runtime/input unavailable and never reinvokes. Local adapter tests exercise actual bounded batch execution, training success/cancellation and received HTTP 503 evidence. Owner-scoped keyset recovery drains 501 refused operations while leaving a foreign-owned operation untouched. The first batch profile composes one existing embedding invocation over immutable object/artifact leases, with a 1 MiB source budget; caller output, file/query and segmented batch profiles are not admitted. See `node:docs/evidence/inference-provenance/P090-DURABLE-PRODUCERS.md`; generalized producer coverage remains P090-004. H-1–H-14 review adds bounded shutdown, pending-only enqueue compensation and acknowledged recovery; six conflicting-context restart cases extend the matrix to 24 states. |
 | `P090-004b4` | Retain artifact/effect sidecars and source ancestry across publication and restart. | `done` | The 2026-09-09 batch/training/image publication boundary verifies the immutable producer commit and destination bytes, commits a bound sidecar before descriptor visibility and replays exact publication without inference. Image replay retains exact bytes; editing joins known source-artifact ancestry and preserves absent ancestry as incomplete. Injected publication failure, seven intent/context faults, substitution, restart and repair are tested; sanitized publication refusals retain their execution parent durably. Unbound generic artifact effects refuse before other effects. Current output authority remains required. This closes the owned producer-artifact checkpoint, not general P090-006 effect joins or full P090 acceptance. H-1–H-14 review retains observed image terminals separately from failed commits, derives batch summaries only at publication and pins repeated-refusal idempotency. |
 
 `P069-DOMAIN-005` is a separate workstream in this passage: optional thematic
@@ -1089,7 +1089,7 @@ ambiguous execution. A known image terminal survives in the typed error/V2
 response when result persistence fails, without claiming durable retention or
 authorizing reinference. Batch summaries bind to the published artifact, and
 repeated publication refusals retain one exact source-named pointer. See
-`node:docs/P090-DURABLE-PRODUCERS-H-REVIEW.md`; scope and whole-P090 status are
+`node:docs/evidence/inference-provenance/P090-DURABLE-PRODUCERS-H-REVIEW.md`; scope and whole-P090 status are
 unchanged.
 
 ### Durable result to informed consumption and publication (2026-09-06)
@@ -1232,7 +1232,7 @@ redactable recovery record: publish a separately projected carrier instead.
 Composition validation includes exact evidence derivation, and Schema Gate's
 semantic checks enforce total ancestry depth and size beyond JSON Schema.
 The Node review records individual F-01–F-16 dispositions and scoped evidence
-in `node:docs/P090-SUPPLIED-INPUT-REVIEW.md`; broad P090 status is unchanged.
+in `node:docs/evidence/inference-provenance/P090-SUPPLIED-INPUT-REVIEW.md`; broad P090 status is unchanged.
 
 ## Next Actions
 

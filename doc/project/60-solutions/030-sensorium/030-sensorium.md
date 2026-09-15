@@ -401,19 +401,19 @@ Status:
   typed generation fencing, and explicit supersession requiring a fresh grant.
   Four explicit refreshes account for all host fetches and fixture requests;
   consumers add no fetches. Evidence is retained in
-  `node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`.
+  `node:docs/evidence/sensorium-web/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`.
   Dedicated direct-peer/Room acceptance now also verifies signed read/subscription
   over the real daemon TLS peer session, dual-authority Room snapshots, revocation,
   generation fencing, supersession with fresh grants, and remote-refresh refusal.
   The Room fixture uses local WebSocket and admitted membership facts; it does not
   claim remote membership issuance or federated relay. Evidence in
-  `node:docs/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md` closes P084-008 with
+  `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md` closes P084-008 with
   four explicit refreshes, four host calls and eight HTTP hops. Profile 1.2.0
   strips query values from published links under a new content-bound identity;
   old persisted profiles refuse before host effects and require an explicit new
   generation. Canary checks cover operator/carrier data and retained artifacts,
   including 100 files, 31 databases and 274 rows without leakage.
-  `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md` closes P084-009 with
+  `node:docs/evidence/sensorium-web/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md` closes P084-009 with
   full declared store capacity, 5,120 refreshes, 128 recovered claims, eight
   SIGKILL barriers, real HTTP overload/failures, BDO recovery and a separate
   successful randomseed probe. Static P084-001–009 are done; browser, credentials,
@@ -421,7 +421,7 @@ Status:
   same-Node, grant-admitted snapshot intake into the local Harvester review
   registry, preserving source classification and artifact provenance without
   acquisition or publication authority. Its measured acceptance is tracked in
-  `node:docs/SENSORIUM-WEB-HARVESTER-EVIDENCE.md`. This does not claim non-macOS
+  `node:docs/evidence/sensorium-web/SENSORIUM-WEB-HARVESTER-EVIDENCE.md`. This does not claim non-macOS
   isolation or multi-host Room deployment.
 
 ### P084-012a review hardening
@@ -435,7 +435,7 @@ truncation after deduplication. Harvester configuration equality is semantic;
 no-op registration returns HTTP 200. Safe host trace categories preserve refusal
 causes, and the post-artifact read uses its own causal child operation without
 extending the original deadline. Evidence:
-`node:docs/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
 
 ## Out of Scope
 
@@ -523,7 +523,7 @@ The bounded v3 review store records facts and projections atomically and rebuild
 divergent review projections on reopen while validating retained facts. Explicit
 FK enforcement preserves parent bindings; safe HTTP classes distinguish invalid
 input, conflicting decisions, retained capacity and host failures. See P084 section "P084-012b: explicit web review and
-local draft" and `node:docs/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md` for the
+local draft" and `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md` for the
 contract, compatibility limits and measured acceptance. P084-012b is done for
 this bounded local slice. Broader P084-012 remains
 partial; the new slice does not close P078-007.

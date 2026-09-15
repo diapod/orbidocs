@@ -224,14 +224,14 @@ P084-008 with exact Passport scopes, dual Room/interface authority, revocation,
 generation fencing, explicit supersession and remote-refresh refusal. The Room
 fixture supplies admitted membership facts; this does not claim federated relay
 or remote membership issuance. Evidence is retained in
-`node:docs/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md`. The strengthened 1.2.0
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-REMOTE-INTERFACE-EVIDENCE.md`. The strengthened 1.2.0
 profile run also proves secret-canary absence in operator/carrier data and real
 retained artifacts; link query values are removed before digest binding. Its
 explicit profile migration requires a new generation and fresh publication
 authority. Full capacity, controlled failures and the combined review close
-P084-009 in `node:docs/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`; P082 hard-MVP
+P084-009 in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`; P082 hard-MVP
 readiness is unchanged. The real macOS local read/SSE slice is retained in
-`node:docs/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`: admitted payload/digest
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-LOCAL-INTERFACE-EVIDENCE.md`: admitted payload/digest
 binding, no-change, changed snapshots, revocation, generation fencing, and
 explicit supersession requiring fresh grants, with zero consumer-triggered fetches.
 
@@ -241,7 +241,7 @@ still requires an independent current interface read grant. The bridge verifies
 the retained document-block artifact and repeats admission after artifact I/O;
 findings preserve source classification and exact provenance. It adds no refresh,
 remote handoff or publication path. Evidence:
-`node:docs/SENSORIUM-WEB-HARVESTER-EVIDENCE.md`.
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-HARVESTER-EVIDENCE.md`.
 
 ### P084-012a review hardening
 
@@ -254,7 +254,7 @@ truncation after deduplication. Harvester configuration equality is semantic;
 no-op registration returns HTTP 200. Safe host trace categories preserve refusal
 causes, and the post-artifact read uses its own causal child operation without
 extending the original deadline. Evidence:
-`node:docs/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-HARVESTER-REVIEW-EVIDENCE.md`.
 
 ### Source Adaptation
 
@@ -615,7 +615,7 @@ The bounded v3 review store records facts and projections atomically and rebuild
 divergent review projections on reopen while validating retained facts. Explicit
 FK enforcement preserves parent bindings; safe HTTP classes distinguish invalid
 input, conflicting decisions, retained capacity and host failures. See P084 section "P084-012b: explicit web review and
-local draft" and `node:docs/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md` for the
+local draft" and `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md` for the
 contract, compatibility limits and measured acceptance. P084-012b is done for
 this bounded local slice. Broader P084-012 remains
 partial; the new slice does not close P078-007.

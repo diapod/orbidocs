@@ -76,7 +76,7 @@ bound configuration snapshot rather than a second live filesystem resolver.
 
 ### Reuse baseline and design consequences
 
-The dated Node Configuration Reuse Audit (`node:docs/CONFIGURATION-REUSE-AUDIT.md`)
+The dated Node Configuration Reuse Audit (`node:docs/audits/CONFIGURATION-REUSE-AUDIT.md`)
 retains the 2026-09-06 source/workflow tables, errata and scoped evidence.
 It is input to P091-001a/001b, not exhaustive inventory or runtime completion.
 

@@ -65,7 +65,7 @@ Implemented now:
 ## Based On
 
 - [Proposal 042: Inter-Node Artifact Channel](../../40-proposals/042-inter-node-artifact-channel.md)
-- [INAC implementation guidelines](./017-inter-node-artifact-channel-impl.md)
+- [INAC implementation guidelines](017-inter-node-artifact-channel-impl.md)
 - [Agora relay implementation notes](../008-agora/008-agora-topic-addressed-relay-impl.md)
 - [Whisper solution](../011-whisper/011-whisper.md)
 
