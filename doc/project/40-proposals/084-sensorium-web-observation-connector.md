@@ -829,10 +829,37 @@ forged-actor refusals, digest binding, immutable replay, explicit rejection,
 daemon restart, classification/provenance preservation and canary-free retained
 state. Unit controls cover transaction failure, projection reconstruction, bounds,
 corrupt facts and accepted review without a draft. Browser, crawl, authenticated
-sources, automatic discovery/grouping, remote artifact handoff, UI and publication
-remain separate work. P084-012 remains `partial`.
+sources, automatic discovery/grouping, remote artifact handoff and publication
+remain separate work; the operator UI is tracked separately as P084-012c. P084-012 remains `partial`.
 
 
+
+### 13.3. P084-012c: operator review UI
+
+The Node operator UI exposes the existing local review contract for already
+imported web findings. It projects a bounded status queue, finding digest,
+source classification and reference provenance. The operator supplies the
+approved summary, topic and optional polarity; local draft creation requires
+an explicit initially unchecked choice. Reject/archive carry neither redaction
+nor draft intent. Terminal views show the immutable decision and any unpublished
+draft; legacy terminal records remain read only.
+
+This is a thin operator surface over P084-012b. The daemon remains the sole
+owner of review authority and persistence. Operator authentication, same-origin
+checks and CSRF protect mutations; a participant session alone gives no access.
+The UI does not acquire source content, grant P082 access, or publish Whisper.
+An exact repeated decision remains a no-op; changed intent conflicts. A transport
+failure cannot trigger automatic mutation retry because the host may already
+have committed. Input, conflict, capacity and host failures retain separate safe
+presentations. Successful submission redirects to the committed read model.
+
+Measured acceptance on 2026-09-15 passes real node-ui/daemon form requests for acceptance with and
+without a draft, rejection and archive; independent auth/CSRF controls, escaping,
+replay/conflict, restart, unchanged acquisition/delivery counts and canary checks.
+Procedure: `node:tools/acceptance/sensorium-web-review-ui/README.md`.
+Evidence: `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`.
+The UI slice does not complete broader P084-012, browser extraction, crawl,
+credential-bound observation, remote handoff or publication.
 
 ## Implementation Guidance
 
@@ -1290,7 +1317,7 @@ enum members are executed by a schema-derived gate.
 The reviewed aggregate is `node:docs/evidence/sensorium-web/SENSORIUM-WEB-STATIC-ACCEPTANCE-EVIDENCE.md`.
 Solutions 030/046, the Node ledger and readiness projection are synchronized.
 P084-001 through P084-009 are done for this static macOS acceptance scope;
-P084-010/011/013 remain deferred; P084-012 is partial with completed local intake (012a) and explicit local review/draft (012b). This is not full browser, crawl,
+P084-010/011/013 remain deferred; P084-012 is partial with completed local intake (012a), explicit local review/draft (012b) and operator review UI (012c). This is not full browser, crawl,
 credential-bound, multi-host or non-macOS deployment acceptance.
 
 ## Implementation Tracker
@@ -1313,6 +1340,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P084-012 | Integrate explicitly configured P084 snapshots as an optional P078 Harvester source | partial | Harvester receives only admitted snapshot/artifact refs and cannot widen fetch, crawl, finding-publication, or Whisper authority. |
 | P084-012a | Admitted web snapshot to local Harvester review | done | Immutable source binding; independent P082 read authority; bounded retained-artifact verification; reference-only classified pending review; durable dedup; no acquisition or publication. |
 | P084-012b | Explicit web finding redaction to optional local Whisper draft | done | Immutable digest-bound operator decision, explicit draft intent, atomic fact/projection persistence; deterministic daemon HTTP/restart, refusal and canary acceptance recorded in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-EVIDENCE.md`. Broader integration remains partial. |
+| P084-012c | Operator UI over admitted web finding review | done | Bounded operator queue, explicit redaction/draft forms, auth/CSRF, safe failures, real UI/daemon replay/restart, zero extra acquisition/delivery and no escaped canaries; evidence in `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`. |
 | P084-013 | Define and implement the separate credential-bound authenticated-source profile | deferred | Starts only after static public-web acceptance; host-owned secret use is fail-closed and no credential, cookie, authenticated handle, or secret-bearing diagnostic reaches consumer-visible or durable evidence. |
 
 ### Single-URL operator acceptance (2026-09-08)

@@ -619,3 +619,15 @@ local draft" and `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEWED-DRAFT-
 contract, compatibility limits and measured acceptance. P084-012b is done for
 this bounded local slice. Broader P084-012 remains
 partial; the new slice does not close P078-007.
+
+
+### P084-012c operator review projection
+
+The node-ui review surface consumes already imported findings and sends explicit
+operator decisions through the P084-012b API. Classification, provenance and the
+finding digest remain visible; draft creation requires an affirmative choice.
+Authentication and CSRF remain at the operator UI boundary and the daemon retains
+review authority, immutable facts and the unpublished local draft. The UI grants
+no fetch, P082 read or Whisper publication authority. Broader P084/P078 integration
+remains partial. P084-012c is done for measured local operator UI acceptance; see
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`.

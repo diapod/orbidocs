@@ -40,6 +40,18 @@ the solution layer focused on ownership and architecture while preserving a
 single operational source for developers changing concrete templates, handlers,
 and CSS/JS helpers.
 
+## Admitted Web Finding Review
+
+P084-012c adds an operator queue over the daemon's existing Harvester review API.
+The UI projects source classification, provenance and the immutable finding
+digest, accepts explicit operator redaction and an optional unpublished local
+draft choice, and displays the committed decision. The daemon remains the only
+review authority and decision store. Operator auth/CSRF guards apply; source
+acquisition, P082 grants and Whisper publication are outside this surface.
+Runtime procedure and bounded acceptance live in `node:node-ui/README.md` and
+`node:tools/acceptance/sensorium-web-review-ui/README.md`; evidence is recorded in
+`node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`.
+
 ## Middleware Operator UI Extensions
 
 The built-in Node UI should not need compile-time knowledge of every middleware

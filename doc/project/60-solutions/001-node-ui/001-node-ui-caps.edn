@@ -12,11 +12,16 @@
    :kind :client-surface
    :based-on ["doc/project/30-stories/story-001-swarm-node-onboarding.md"
               "doc/project/30-stories/story-004-pod-client-onboarding.md"
-              "doc/project/20-memos/pod-backed-thin-clients.md"]
+              "doc/project/20-memos/pod-backed-thin-clients.md"
+              "doc/project/40-proposals/078-weak-signal-harvester.md"
+              "doc/project/40-proposals/084-sensorium-web-observation-connector.md"]
    :schemas ["answer-room-metadata.v1"
-             "response-envelope.v1"]
+             "response-envelope.v1"
+             "weak-signal-finding.v1"
+             "weak-signal-web-review.v1"]
    :responsibilities
    ["Expose bounded controls for room participation and answer review"
+    "Review admitted web findings with explicit redaction and optional unpublished local draft intent through the daemon authority"
     "Show enough room metadata for scope and policy understanding"
     "Avoid becoming a second protocol authority beside the Node"]
    :status :partial}
