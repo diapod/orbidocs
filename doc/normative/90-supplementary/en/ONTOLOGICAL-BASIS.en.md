@@ -568,6 +568,48 @@ constitutive hypothesis advanced by this document, which should be assessed
 separately for each threshold rather than extended automatically to all biological,
 psychological, and social processes.
 
+#### Paradox and differences between grammars
+
+A paradox, in the layered model of experiencing, is a situation in which
+apparently sound reasoning or a combination of persuasive claims leads to a
+contradiction or a conclusion that challenges what is taken for granted.
+
+Apophatic enactivism treats it as an invitation to examine not only the claims
+but also the ways in which we produce their sense. We provisionally call one
+particular case a **cross-grammar paradox**: the same expression participates in
+different practices of experiencing, describing, and acting, yet is treated as
+though it retained an identical meaning and scope of application everywhere. We
+do not assume that every paradox has this origin. Drawing on Wittgenstein's
+language-games and Ryle's critique of category mistakes, we then ask what the
+expression allows us to distinguish and do in each use.
+
+The enactive gesture consists in returning to these practices and re-examining
+the distinctions in experience; the apophatic gesture consists in refraining
+from treating a difficulty in our description as a discovered contradiction in
+reality itself.
+
+For example, the statements "the self exists" and "the self does not exist" may
+be only apparently contradictory if the former concerns a person functioning in
+relationships, while the latter denies an unchanging, self-subsistent owner of
+experiences. Similarly, "matter is material" and "matter is immaterial" need
+not contradict each other if the former attributes physical properties to
+phenomena and the latter denies them an independent essence of "materiality"
+(understood as the property of something solid, accessible to the senses of
+touch and sight), rather than denying those properties.
+
+According to the classical principle of non-contradiction, a contradiction
+requires affirming and denying the same thing, of the same subject, at the same
+time and in the same respect. Once differences in meaning are made explicit, we
+may therefore obtain `P₁ ∧ ¬P₂` instead of `P ∧ ¬P`: two different contents that
+need not exclude each other.
+
+Distinguishing the senses does not, however, establish the truth of either
+statement; the distinction must be justified by their actual use, not supplied
+to rescue the argument. A paradox can then serve to "drill through
+abstractions": to expose omitted conditions of sense rather than establish a
+new metaphysics. If the contradiction remains after meanings and conditions
+have been clarified, merely invoking different grammars does not resolve it.
+
 #### Return toward less determined layers
 
 Consciousness can "drill through abstractions": it can loosen or temporarily suspend
@@ -1154,6 +1196,12 @@ draw on this diagnosis and on the question of the work a word does in a given
 place. Our model adds to it an accounting of the distinctions preserved and
 lost; it differs, however, in that we also arrange layer grammars in a
 genealogical order, which Wittgenstein did not assume.
+
+**Analytic anti-Cartesianism** (Ryle): "The Concept of Mind" (1949) offers the
+classic critique of the "ghost in the machine" and of the category mistake. For
+us it is a supporting perspective that lets us name category mistakes and the
+substantialization of mental processes when defining paradox and discussing the
+"theft of ontology" between layers.
 
 **Madhyamaka** (Nāgārjuna): emptiness of self-existence, dependent arising,
 conventional truth as an available operational mode. We draw on the refusal of

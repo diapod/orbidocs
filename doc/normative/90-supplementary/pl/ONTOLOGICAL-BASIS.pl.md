@@ -538,6 +538,45 @@ konstytuowania warstw tego dokumentu, którą należy oceniać osobno dla każde
 a nie rozszerzać automatycznie na wszystkie procesy biologiczne, psychiczne
 i społeczne.
 
+#### Paradoks i różnice gramatyk
+
+Paradoks w ujęciu warstwowego modelu doświadczania to sytuacja, w której pozornie
+poprawne rozumowanie lub zestawienie przekonujących twierdzeń prowadzi do
+sprzeczności albo do wniosku podważającego przyjęte oczywistości.
+
+Apofatyczny enaktywizm traktuje go jako zaproszenie do zbadania nie tylko twierdzeń,
+lecz także sposobów, w jakie wytwarzamy ich sens. Szczególny przypadek nazywamy tu
+roboczo **paradoksem międzygramatycznym**: to samo określenie uczestniczy w różnych
+praktykach doświadczania, opisywania i działania, ale zostaje potraktowane tak, jakby
+wszędzie zachowywało identyczne znaczenie i zakres zastosowania. Nie zakładamy, że
+każdy paradoks ma takie źródło. W nawiązaniu do wittgensteinowskich gier językowych
+oraz ryle'owskiej krytyki błędów kategorialnych pytamy wtedy, co dane wyrażenie
+pozwala rozróżniać i robić w każdym użyciu.
+
+Gest enaktywny polega na powrocie do tych praktyk i ponownym sprawdzeniu rozróżnień
+w doświadczeniu, zaś gest apofatyczny na powstrzymaniu się od uznania trudności
+naszego opisu za odkrytą sprzeczność samej rzeczywistości.
+
+Na przykład zdania "»ja« istnieje" i "»ja« nie istnieje" mogą być pozornie sprzeczne,
+jeżeli pierwsze dotyczy osoby funkcjonującej w relacjach, a drugie neguje istnienie
+niezmiennego, samoistnego właściciela doświadczeń. Podobnie "materia jest materialna"
+i "materia jest niematerialna" nie muszą sobie przeczyć, jeżeli pierwsze przypisuje
+zjawiskom właściwości fizyczne, a drugie odmawia im niezależnej esencji
+"materialności" (rozumianej jako cecha czegoś solidnego, dostępnego przez zmysły
+dotyku i wzroku), zamiast zaprzeczać tym właściwościom.
+
+Zgodnie z klasyczną zasadą niesprzeczności sprzeczność wymaga twierdzenia
+i przeczenia tego samego, o tym samym, w tym samym czasie i pod tym samym
+względem. Po ujawnieniu różnic znaczenia zamiast `P ∧ ¬P` możemy więc otrzymać
+`P₁ ∧ ¬P₂`: dwie różne treści, które nie muszą się wykluczać.
+
+Rozdzielenie sensów nie dowodzi jednak prawdziwości żadnego ze zdań; jego zasadność
+trzeba wykazać w ich rzeczywistym użyciu, a nie dopisać dla uratowania
+argumentu. Paradoks może wówczas służyć "wierceniu dziur w abstrakcjach", czyli
+odsłaniać pominięte warunki sensu, zamiast ustanawiać nową metafizykę. Jeżeli jednak
+sprzeczność pozostaje po doprecyzowaniu znaczeń i warunków, samo powołanie się na
+różne gramatyki jej nie rozwiązuje.
+
 #### Powrót ku mniej zdeterminowanym warstwom
 
 Świadomość może "wiercić dziury w abstrakcjach", czyli rozluźniać lub czasowo
@@ -1095,6 +1134,12 @@ diagnozy oraz z pytania o pracę, jaką wykonuje w danym miejscu użyte słow
 Nasz model dodaje do niej rachunek zachowywanych i traconych rozróżnień; różni
 się natomiast tym, że gramatyki warstw układamy również w porządek
 genealogiczny, czego Wittgenstein nie zakładał.
+
+**Analityczny antykartezjanizm** (Ryle): w "Czym jest umysł" (1970) znajdziemy
+klasyczną krytykę "ducha w maszynie" i błędu kategorialnego. Jest to dla nas
+wspierająca perspektywa pozwalająca nazywać pomyłki kategorialne i substancjalizację
+procesów umysłowych podczas definiowania paradoksu i omawiania "kradzieży ontologii"
+między warstwami.
 
 **Madhjamaka** (Nāgārjuna): pustość samoistnienia, współzależne powstawanie,
 konwencjonalna prawda jako dostępny tryb operowania. Czerpiemy z odmowy reifikacji

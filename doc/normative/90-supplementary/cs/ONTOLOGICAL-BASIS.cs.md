@@ -513,6 +513,45 @@ spojená s organizací: **omezení → nová možnost**. Jde o vlastní konstitu
 hypotézu tohoto dokumentu, kterou je třeba posuzovat zvlášť pro každý práh, nikoli
 automaticky rozšiřovat na všechny biologické, psychické a sociální procesy.
 
+#### Paradox a rozdíly mezi gramatikami
+
+Paradox je v rámci vrstevnatého modelu zakoušení situace, v níž zdánlivě správné
+usuzování nebo spojení přesvědčivých tvrzení vede ke sporu či k závěru
+zpochybňujícímu to, co považujeme za samozřejmé.
+
+Apofatický enaktivismus jej chápe jako výzvu ke zkoumání nejen tvrzení, ale také
+způsobů, jimiž vytváříme jejich smysl. Jeden zvláštní případ zde pracovně
+nazýváme **mezigramatickým paradoxem**: tentýž výraz se účastní různých praktik
+zakoušení, popisování a jednání, ale zachází se s ním, jako by si všude
+zachovával totožný význam a rozsah použití. Nepředpokládáme, že každý paradox
+má tento původ. V návaznosti na Wittgensteinovy jazykové hry a Ryleovu kritiku
+kategoriálních omylů se pak ptáme, co daný výraz umožňuje rozlišovat a dělat
+v každém použití.
+
+Enaktivní gesto spočívá v návratu k těmto praktikám a v novém prověření
+rozlišení ve zkušenosti; apofatické gesto spočívá ve zdrženlivosti vůči tomu,
+abychom obtíž našeho popisu považovali za odhalený rozpor ve skutečnosti samé.
+
+Například výroky „já existuje“ a „já neexistuje“ mohou být jen zdánlivě
+rozporné, pokud se první týká osoby fungující ve vztazích, zatímco druhý popírá
+existenci neměnného, samostatně existujícího vlastníka zkušeností. Podobně si
+výroky „hmota je hmotná“ a „hmota je nehmotná“ nemusí odporovat, pokud první
+připisuje jevům fyzikální vlastnosti a druhý jim upírá nezávislou esenci
+„hmotnosti“ (chápané jako vlastnost něčeho pevného, přístupného smyslům hmatu
+a zraku), místo aby popíral tyto vlastnosti.
+
+Podle klasického principu bezespornosti vyžaduje spor tvrzení a popření téhož
+o témže, v témže čase a v témže ohledu. Po objasnění rozdílů ve významu tedy
+můžeme místo `P ∧ ¬P` získat `P₁ ∧ ¬P₂`: dva různé obsahy, které se nemusí
+vylučovat.
+
+Rozlišení významů však nedokazuje pravdivost žádného z výroků; jeho oprávněnost
+je třeba doložit jejich skutečným užitím, nikoli je doplnit pro záchranu
+argumentu. Paradox pak může sloužit k „vrtání děr do abstrakcí“: odhalovat
+opomenuté podmínky smyslu, místo aby ustavoval novou metafyziku. Pokud však
+rozpor přetrvává i po upřesnění významů a podmínek, samotný odkaz na různé
+gramatiky jej neřeší.
+
 #### Návrat k méně určeným vrstvám
 
 Vědomí může „vrtat díry do abstrakcí“: uvolňovat či dočasně pozastavovat návyk
@@ -1047,6 +1086,12 @@ a z otázky po práci, kterou dané slovo na daném místě vykonává. Náš mo
 přidává vykázání toho, která rozlišení se zachovávají a která se ztrácejí;
 odlišuje se však tím, že gramatiky vrstev také uspořádáváme do genealogického
 řádu, což Wittgenstein nepředpokládal.
+
+**Analytické antikarteziánství** (Ryle) – v „The Concept of Mind“ (1949)
+nalezneme klasickou kritiku „ducha ve stroji“ a kategoriálního omylu. Je to pro
+nás podpůrná perspektiva, která umožňuje pojmenovat kategoriální omyly
+a substancializaci mentálních procesů při definování paradoxu a při výkladu
+„krádeže ontologie“ mezi vrstvami.
 
 **Madhjamaka** (Nāgārjuna) – prázdnota vlastní existence, spolupodmíněné vznikání,
 konvenční pravda jako dostupný režim fungování. Čerpáme z odmítnutí reifikace
