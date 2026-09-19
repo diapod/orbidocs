@@ -97,17 +97,31 @@
         "broker-unavailable",
         "fetch-not-completed",
         "extraction-refused",
+        "invalid-request",
+        "unsupported-media-type",
+        "charset-conflict",
+        "decode-failed",
+        "empty-document",
+        "parser-limit",
+        "artifact-unavailable",
+        "artifact-size-limit",
+        "artifact-transfer-expired",
+        "consumer-denied",
         "observation-rejected",
         "storage-failed",
         "interrupted",
         "cancelled",
         "profile-mismatch"
-      ]
+      ],
+      "description": "Typed refusal cause. The extraction stage reports its own code rather than collapsing every cause into `extraction-refused`, so an operator can tell an unsupported media type from an expired artifact handoff."
     },
     "failure/phase": {
       "enum": [
         "claim",
+        "request",
         "fetch",
+        "artifact",
+        "decode",
         "extract",
         "retain",
         "observe",
@@ -116,6 +130,18 @@
         "recovery",
         "cancel"
       ]
+    },
+    "failure/upstream-code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Cause reported by the layer under this refresh, such as the host fetch error code behind `fetch-not-completed`. Present only when that layer named one."
+    },
+    "failure/upstream-phase": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Stage the layer under this refresh was in when it failed, such as the host fetch phase behind `fetch-not-completed`."
     },
     "receipt/refs": {
       "type": "array",

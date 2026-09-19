@@ -532,6 +532,21 @@ The connector must:
 - label every extracted representation as untrusted external content for Agent
   and Inquirium consumers.
 
+`sensorium-web-refresh-status.v1` carries those typed causes rather than one
+flat code. A refused extraction reports the extraction stage's own
+`failure/code` and `failure/phase` — `unsupported-media-type`,
+`charset-conflict`, `decode-failed`, `empty-document`, `parser-limit`,
+`invalid-request`, or one of the artifact-handoff refusals — and keeps
+`extraction-refused` only when the stage named no cause. Collapsing every cause
+into `extraction-refused` would contradict the preservation required above and
+leaves a failing refresh undiagnosable from its status alone.
+
+A refusal owned by the layer under the connector is reported the same way.
+`fetch-not-completed` says the host fetch delivered no body; the host's own
+cause travels beside it as `failure/upstream-code` and `failure/upstream-phase`,
+so one status answers both what refused and why the layer under it did, without
+asking an operator to correlate two logs.
+
 The canonical extracted representation is a closed sequence of structured JSON
 blocks plus a deterministic plain-text projection derived from those blocks.
 Block order, whitespace normalization, omitted-node policy, and metadata bounds

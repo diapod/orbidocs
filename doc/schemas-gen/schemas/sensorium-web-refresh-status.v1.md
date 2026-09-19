@@ -20,8 +20,10 @@ Source schema: [`doc/schemas/sensorium-web-refresh-status.v1.schema.json`](../..
 | [`snapshot/id`](#field-snapshot-id) | `no` | ref: `#/$defs/ref` |  |
 | [`snapshot/digest`](#field-snapshot-digest) | `no` | ref: `#/$defs/digest` |  |
 | [`observation/id`](#field-observation-id) | `no` | ref: `#/$defs/ref` |  |
-| [`failure/code`](#field-failure-code) | `no` | enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`, `profile-mismatch` |  |
-| [`failure/phase`](#field-failure-phase) | `no` | enum: `claim`, `fetch`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel` |  |
+| [`failure/code`](#field-failure-code) | `no` | enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `invalid-request`, `unsupported-media-type`, `charset-conflict`, `decode-failed`, `empty-document`, `parser-limit`, `artifact-unavailable`, `artifact-size-limit`, `artifact-transfer-expired`, `consumer-denied`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`, `profile-mismatch` | Typed refusal cause. The extraction stage reports its own code rather than collapsing every cause into `extraction-refused`, so an operator can tell an unsupported media type from an expired artifact handoff. |
+| [`failure/phase`](#field-failure-phase) | `no` | enum: `claim`, `request`, `fetch`, `artifact`, `decode`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel` |  |
+| [`failure/upstream-code`](#field-failure-upstream-code) | `no` | string | Cause reported by the layer under this refresh, such as the host fetch error code behind `fetch-not-completed`. Present only when that layer named one. |
+| [`failure/upstream-phase`](#field-failure-upstream-phase) | `no` | string | Stage the layer under this refresh was in when it failed, such as the host fetch phase behind `fetch-not-completed`. |
 | [`receipt/refs`](#field-receipt-refs) | `no` | array |  |
 | [`retry/class`](#field-retry-class) | `no` | enum: `terminal`, `retryable`, `policy-dependent` |  |
 
@@ -259,13 +261,31 @@ Then:
 ## `failure/code`
 
 - Required: `no`
-- Shape: enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`, `profile-mismatch`
+- Shape: enum: `source-not-found`, `source-superseded`, `refresh-in-progress`, `cache-evidence-missing`, `cache-binding-mismatch`, `artifact-binding-mismatch`, `receipt-binding-mismatch`, `broker-unavailable`, `fetch-not-completed`, `extraction-refused`, `invalid-request`, `unsupported-media-type`, `charset-conflict`, `decode-failed`, `empty-document`, `parser-limit`, `artifact-unavailable`, `artifact-size-limit`, `artifact-transfer-expired`, `consumer-denied`, `observation-rejected`, `storage-failed`, `interrupted`, `cancelled`, `profile-mismatch`
+
+Typed refusal cause. The extraction stage reports its own code rather than collapsing every cause into `extraction-refused`, so an operator can tell an unsupported media type from an expired artifact handoff.
 
 <a id="field-failure-phase"></a>
 ## `failure/phase`
 
 - Required: `no`
-- Shape: enum: `claim`, `fetch`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel`
+- Shape: enum: `claim`, `request`, `fetch`, `artifact`, `decode`, `extract`, `retain`, `observe`, `commit`, `fence`, `recovery`, `cancel`
+
+<a id="field-failure-upstream-code"></a>
+## `failure/upstream-code`
+
+- Required: `no`
+- Shape: string
+
+Cause reported by the layer under this refresh, such as the host fetch error code behind `fetch-not-completed`. Present only when that layer named one.
+
+<a id="field-failure-upstream-phase"></a>
+## `failure/upstream-phase`
+
+- Required: `no`
+- Shape: string
+
+Stage the layer under this refresh was in when it failed, such as the host fetch phase behind `fetch-not-completed`.
 
 <a id="field-receipt-refs"></a>
 ## `receipt/refs`
