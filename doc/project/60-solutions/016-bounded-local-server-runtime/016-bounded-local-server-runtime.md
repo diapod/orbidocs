@@ -85,6 +85,39 @@ use cooperative bounded drain. If a supervised process cannot be stopped within
 its configured stop/kill budget, the daemon/operator surface must report the
 remaining process rather than hiding it as a successful shutdown.
 
+### Outbound counterpart: host-owned HTTP runtime
+
+The same invariant applies in the other direction. `reqwest::blocking::Client`
+builds and owns a private Tokio runtime, and its clones keep that runtime alive,
+so a node that constructs one blocking client per component accumulates one
+executor per component that no shutdown path can reclaim — the outbound mirror of
+an unbounded accept loop.
+
+Synchronous outbound HTTP therefore goes through the host-owned surface
+`orbiplex-node-http-runtime` (`HttpClient`, `HttpRuntime`), which keeps the
+familiar blocking call shape while every request runs on a runtime the host
+already owns and drains. `HttpRuntime::mark_drained()` makes every clone refuse
+new work with `HttpError::RuntimeDrained` instead of reaching a stopping reactor,
+and the host marks the runtime drained after stopping the components that submit
+work and before shutting the executor down. Bodies are read with
+`Response::bytes_up_to(limit + 1)` — a caller treats a longer result as a refusal
+— or streamed through `Response::into_reader()` when they must not be
+materialized.
+
+Components that are genuinely asynchronous keep `reqwest::Client`: the async
+client owns no runtime and therefore leaks none. The invariant targets the
+blocking client.
+
+### Releasing the component graph on shutdown
+
+A drained executor is not enough if the component graph outlives its owner.
+Components are wired in both directions — a host owns a sink, the sink calls back
+into the host — and a strong handle on such a back-edge keeps the whole graph,
+and every file handle and connection it owns, alive past `Drop`. Callback sinks,
+late-bound installation slots filled after construction, and registry-held
+adapters therefore hold `Weak` and upgrade at use, refusing the call when the
+owner is gone. A residual handle is as real as a residual process.
+
 ## Trade-offs
 
 | Benefit | Risk / Constraint |
@@ -132,6 +165,16 @@ remaining process rather than hiding it as a successful shutdown.
 - [x] Add bounded Python HTTP helper test for fast 503 rejection.
 - [x] Add integration test that verifies 503 under load in a real daemon context.
 - [x] Make acceptor/worker startup fallible and prove partial-pool cleanup.
+- [x] Add the outbound counterpart: host-owned `orbiplex-node-http-runtime`
+      replacing `reqwest::blocking` across the daemon process, with a drain flag
+      and bounded body reads.
+- [x] Hold back-edges (callback sinks, late-bound slots, registry-held adapters)
+      as `Weak` so a dropped host releases its whole component graph; covered by a
+      daemon regression test.
 - [ ] Post-MVP: keep an explicit audit inventory for any production local
       listener that is not backed by `bounded-server`,
       `BoundedThreadingHTTPServer`, or a documented equivalent bounded adapter.
+- [ ] Post-MVP: migrate the standalone middleware binaries
+      (`attestation-service`, `contact-catalog-service`, `messaging-service`,
+      `whisper-intake`, `node-desktop`, `middleware-channel-client`) off
+      `reqwest::blocking` onto the host-owned surface.
