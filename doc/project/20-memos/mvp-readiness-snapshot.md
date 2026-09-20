@@ -2,6 +2,17 @@
 
 Snapshot date: 2026-09-05.
 
+Incremental Node checkpoint — 2026-09-20: Story-000's dedicated local operator
+binding revoke/supersede actions are implemented, including signed withdrawal,
+idempotent replay, restart repair and readiness withdrawal; see
+[P034's lifecycle checkpoint](../40-proposals/034-node-operator-binding-and-derived-node-assurance.md#next-actions).
+This closes the runtime-action gap without claiming automatic remote revocation
+delivery. Node's approved `alpha-node` profile covers the entire current
+`node:docs/MVP.md` hard-MVP scope, not its post-MVP sections. Its mechanically
+checked implementation status is separate from contract maturity and fresh
+candidate-bound release qualification. No alpha qualification is asserted by
+this update; historical table estimates below are not a release certificate.
+
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
 The 2026-08-30 P074 refresh retains two different evidence classes. The first

@@ -219,6 +219,13 @@ Status:
   minimal participant-bind/client-instance lifecycle, richer federation policy,
   and additional transport work is post-MVP extension work rather than a blocker
   for the P014 transport seed.
+- P034's local operator-binding lifecycle is implemented through dedicated
+  operator control and Identity UI actions. Revoke and supersede retain signed
+  subject withdrawal with the old binding, repair the local revocation view on
+  restart/retry, and remove inactive bindings from readiness. Supersession uses
+  an already accepted local replacement. This is local lifecycle evidence, not
+  automatic remote propagation or a fresh release qualification; see
+  [the P034 checkpoint](../../40-proposals/034-node-operator-binding-and-derived-node-assurance.md#next-actions).
 
 ### Host Signer and Key-Use Boundary
 

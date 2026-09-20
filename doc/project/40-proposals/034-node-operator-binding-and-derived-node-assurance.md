@@ -364,20 +364,43 @@ Resolved 2026-07-05:
 
 ## Next Actions
 
-1. Validate `node-operator-binding.v1.schema.json` with one positive example.
-2. Add runtime support for issuing the `node-primary-operator` passport, signing
-   node acceptance, storing the bundle, and optionally publishing it.
-3. Add requirements when the reward/grant policy is promoted from concept to
+### Node-local lifecycle checkpoint — 2026-09-20
+
+The reference Node now exposes dedicated operator revoke and supersede actions
+over its existing authenticated control API and Identity UI. This realizes the
+existing withdrawal semantics rather than extending the binding's authority:
+the subject Node signs a passport revocation, retains it with the inactive old
+binding, and repairs its local revocation projection on identical retry or
+restart. Supersession selects an already accepted, active local replacement and
+records the forward `superseded-by/ref`; it does not silently create a new
+operator, rewrite the replacement, or require a reciprocal display link.
+
+Imported remote bindings cannot be mutated through these local consent actions.
+Middleware callers are refused; browser forms retain operator and CSRF guards.
+An inactive binding does not satisfy readiness, and automatic onboarding cannot
+renew explicitly withdrawn consent. The retained signed fact is not removable
+through local binding deletion. Signed passport and Node-acceptance bytes remain
+unchanged; lifecycle status is their local projection, not a new signature claim.
+
+Remote directory propagation remains a separate explicit action through the
+existing revocation contract. This checkpoint makes no fresh federation-wide
+delivery or release-qualification claim. Operational requests and focused
+replay/fault tests live in
+`node:docs/operations/OPERATOR-BINDING-LIFECYCLE.md`.
+
+### Remaining system-level actions
+
+The previous runtime foundation actions are implemented: schema fixtures,
+passport issuance and Node acceptance, separate retained binding records,
+explicit optional Seed Directory publication through the existing capability
+catalog, and onboarding's operator consent flow. The lifecycle checkpoint above
+closes the dedicated withdrawal actions. These implementation statements do not
+replace the separate contract audit or qualify a release candidate.
+
+1. Add requirements when the reward/grant policy is promoted from concept to
    implementation.
-4. Decide whether current Node identity creation should emit this binding during
-   onboarding or only after participant attestation exists.
-5. Add Seed Directory integration through the existing passport-backed capability
-   catalog with profile-specific verification for operator binding visibility; do
-   not introduce a dedicated `operator-binding` surface in the baseline.
-6. Confirm that `node-identity.v1` does not embed a current binding reference;
-   bindings remain separate append-only records.
-7. Document the organization-owned node custody pattern:
+2. Document the organization-owned node custody pattern:
    `org/custodian-ref` plus one or more participant operator bindings. The
    organization is the custody subject; people remain accountable operators.
-8. Plan a smaller `node-operator-binding-presentation.v1` proof wrapper so peers do
+3. Plan a smaller `node-operator-binding-presentation.v1` proof wrapper so peers do
    not need the full binding bundle for routine verification.
