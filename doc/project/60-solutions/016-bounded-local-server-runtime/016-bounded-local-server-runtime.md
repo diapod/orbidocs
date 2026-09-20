@@ -108,6 +108,23 @@ Components that are genuinely asynchronous keep `reqwest::Client`: the async
 client owns no runtime and therefore leaks none. The invariant targets the
 blocking client.
 
+A supervised middleware service runs as its own process, so it is its own host.
+It builds one multi-thread runtime at its entry point, binds an `HttpRuntime` to
+that handle, and threads the value down to whatever constructs clients; on the
+way out it drains before shutting the executor down, and does so explicitly
+where the process exits without unwinding. Library types that a service reaches
+for — the loopback product bridge, the host-capability client, a remote catalog
+adapter — take the runtime as a parameter rather than building a client
+internally, so a shared bridge cannot smuggle a private executor into a process
+that believes it owns only one. A client that speaks either over the middleware
+channel or over HTTP carries the HTTP transport as an option, because the two
+are exclusive and an unreachable client is a cost with no reader.
+
+Acceptance tests that drive a running service from the outside are the one place
+a blocking client remains reasonable: each is a throwaway process with a single
+client, so nothing accumulates. That dependency belongs in `dev-dependencies`,
+never in the production graph.
+
 ### Releasing the component graph on shutdown
 
 A drained executor is not enough if the component graph outlives its owner.
