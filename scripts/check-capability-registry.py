@@ -8,6 +8,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from capability_registry_docs import update_document
+
 
 ROOT = Path(__file__).resolve().parents[1]
 NODE_ROOT = ROOT.parent / "node"
@@ -120,8 +122,8 @@ def expected_surfaces(flags: dict[str, bool]) -> set[str]:
     return surfaces
 
 
-def load_machine_registry() -> dict[str, dict[str, Any]]:
-    raw = json.loads(MACHINE_REGISTRY.read_text(encoding="utf-8"))
+def load_machine_registry(path: Path = MACHINE_REGISTRY) -> dict[str, dict[str, Any]]:
+    raw = json.loads(path.read_text(encoding="utf-8"))
     errors: list[str] = []
     if raw.get("schema/v") != "capability-registry.v1":
         errors.append("registry schema/v must be capability-registry.v1")
@@ -478,7 +480,11 @@ def main() -> int:
     for registry_path in (REGISTRY_EN, REGISTRY_PL):
         try:
             human_registry = parse_human_registry_table(registry_path)
-        except RegistryError as exc:
+            language = registry_path.name.split(".")[-2]
+            text = registry_path.read_text(encoding="utf-8")
+            if update_document(text, registry, language) != text:
+                errors.append(f"{registry_path.name}: stale host catalogue; run make capability-registry-docs")
+        except (OSError, ValueError, RegistryError) as exc:
             errors.append(str(exc))
             continue
         errors.extend(compare_projection(human_projection, human_registry, registry_path.name))

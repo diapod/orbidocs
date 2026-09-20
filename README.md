@@ -55,7 +55,8 @@ Within `doc/project/60-solutions/`, keep a distinction between:
 
 - component pages such as `node.md` or `node-ui.md`,
 - generated capability overviews such as `CAPABILITY-MATRIX.*.md`,
-- and human-maintained contract maps such as `CAPABILITY-REGISTRY.*.md`.
+- and hybrid contract maps such as `CAPABILITY-REGISTRY.*.md` (manual semantics
+  with a generated, exhaustive host-local catalogue).
 
 `CAPABILITY-REGISTRY.*.md` is the human-facing read model for stable
 `capability_id` semantics. It should be updated whenever capability ids, wire
@@ -80,7 +81,8 @@ social rules, it should be promoted into `doc/normative/40-constitution/` or
 - `.github/workflows/orbidocs-pages.yml` – GitHub Pages build/deploy workflow for the `public` branch.
 - `requirements-docs.txt` – Python dependencies for schema validation and MkDocs builds in CI.
 - `scripts/validate-json-schemas.sh` – schema/example validator wrapper.
-- `scripts/check-capability-registry.py` – verifies that `CAPABILITY-REGISTRY.*.md` matches the runtime capability map in `../node/capability/src/lib.rs`.
+- `scripts/check-capability-registry.py` – checks the curated tables, generated host-local catalogues, legacy Rust projection and fixtures against `node:capability/capability-registry.v1.json`.
+- `scripts/generate-capability-registry-docs.py` – refreshes the marked PL/EN host-local catalogues, grouped by canonical owner, without changing manual prose or the curated semantic tables.
 - `scripts/generate-schema-docs.py` – generator for human-facing schema pages.
 - `scripts/generate-workflow-coverage.py` – generator for workflow coverage overview.
 - `scripts/build-site-docs.py` – staging-tree normalizer for the developer HTML build.
@@ -122,9 +124,25 @@ make validate-schemas
 
 ### Capability registry consistency
 
+With the canonical Node repository checked out alongside Orbidocs:
+
 ```sh
+make capability-registry-docs
+make test-capability-registry-docs
 make check-capability-registry
 ```
+
+For a different Node checkout, regenerate with
+`make capability-registry-docs NODE_SRC=path/to/node` and check the generated
+blocks without writing with `make check-capability-registry-docs NODE_SRC=path/to/node`.
+Missing input or missing/ambiguous block markers fail rather than silently
+overwriting prose or producing an empty catalogue. Both destinations are checked
+before either is updated; unchanged files are not rewritten.
+
+`docs-gen` and HTML builds use the committed catalogue and do not require Node.
+Standalone Orbidocs CI tests the generator on fixtures; checking catalogue
+freshness against the canonical registry requires the explicit Node-backed check
+above. It is not a live probe of host availability or a runtime readiness claim.
 
 ### Mermaid diagram link consistency
 

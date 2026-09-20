@@ -41,6 +41,17 @@ check-no-absolute-local-paths:
 check-capability-registry:
 	$(PYTHON) ./scripts/check-capability-registry.py
 
+.PHONY: capability-registry-docs check-capability-registry-docs test-capability-registry-docs
+
+capability-registry-docs:
+	$(PYTHON) ./scripts/generate-capability-registry-docs.py --node-src "$(NODE_SRC)"
+
+check-capability-registry-docs:
+	$(PYTHON) ./scripts/generate-capability-registry-docs.py --node-src "$(NODE_SRC)" --check
+
+test-capability-registry-docs:
+	$(PYTHON) -m unittest scripts/test_capability_registry_docs.py
+
 check-constitution:
 	$(PYTHON) ./scripts/check-constitution.py
 

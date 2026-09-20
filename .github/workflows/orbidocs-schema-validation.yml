@@ -68,6 +68,9 @@ jobs:
       - name: Verify Node schema sync target validation
         run: make check-sync-schema-targets
 
+      - name: Test capability catalogue generation and drift detection
+        run: make test-capability-registry-docs
+
       - name: Verify generated documentation artifacts
         run: |
           make docs-gen

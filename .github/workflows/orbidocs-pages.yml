@@ -60,6 +60,9 @@ jobs:
       - name: Verify Mermaid diagram links
         run: make check-mermaid-links
 
+      - name: Test capability catalogue generation and drift detection
+        run: make test-capability-registry-docs
+
       - name: Verify generated documentation artifacts
         run: |
           make docs-gen

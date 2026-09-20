@@ -151,20 +151,25 @@ Under `doc/project/60-solutions/`, keep human-facing component pages in Markdown
 catalogs in sidecar `*-caps.edn` files.
 
 Treat `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` and
-`doc/project/60-solutions/CAPABILITY-REGISTRY.pl.md` as human-maintained read
-models of stable `capability_id` semantics. Update them when capability ids,
+`doc/project/60-solutions/CAPABILITY-REGISTRY.pl.md` as hybrid read models:
+manual semantic prose and a curated table selected by `docs.human-registry`, plus
+a marked, generated catalogue of every `host-local` entry. Update them when capability ids,
 wire names, semantic role boundaries, or primary runtime ownership change in:
 
-- `node:capability/src/lib.rs`
+- `node:capability/capability-registry.v1.json` (canonical machine source)
 - `doc/project/60-solutions/000-node/000-node.md`
 - attached-role or capability proposals
 
 Before considering a capability-registry edit done, run:
+- `make capability-registry-docs` (refreshes both languages from sibling Node)
+- `make test-capability-registry-docs`
 - `make check-capability-registry`
 
-This checker compares the registry tables against
-`../node/capability/src/lib.rs` and is the mechanical guard for
-`capability_id -> wire name` drift. It does not replace semantic review.
+This checker compares both document projections and the legacy Rust projection
+against the canonical machine registry. It guards against id/wire, ownership,
+status, surface and flag drift; it does not replace semantic review. For a Node
+checkout elsewhere, `make check-capability-registry-docs NODE_SRC=path/to/node`
+checks only the generated catalogue. The full checker expects sibling Node.
 
 For the sibling `node` repository, the implementation-side counterpart is
 `../node/docs/implementation-ledger.toml` (assuming that node repository is cloned
@@ -208,9 +213,12 @@ Treat the following as generated artifacts rather than hand-edited source:
 When changing their source inputs or generators, regenerate them before
 considering the change done.
 
-By contrast, `CAPABILITY-REGISTRY.*.md` is not generated. It should stay concise,
-manual, and in sync with the current capability surface rather than with every
-incidental runtime detail.
+In `CAPABILITY-REGISTRY.*.md`, only the block between `BEGIN GENERATED HOST
+CAPABILITIES` and `END GENERATED HOST CAPABILITIES` is generated. Never hand-edit
+that block. Keep the surrounding semantic prose and curated table manual and
+concise. Catalogue generation is explicit, outside `docs-gen`, because it needs
+Node's canonical registry; standalone documentation builds use the committed
+catalogues without fetching another repository.
 
 ## 9. Diagrams
 

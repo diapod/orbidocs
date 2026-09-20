@@ -21,7 +21,9 @@ This registry covers capability IDs used as:
 Historically it excluded host-local capabilities such as `recovery.sign` or
 `catalog.local.query`. That boundary is now superseded: `node/capability/capability-registry.v1.json`
 is the enforced machine source of truth for both federated and host-local capabilities,
-and this document is its human-facing, CI-validated projection.
+and this document is its mechanically checked human-facing projection. The curated
+semantic table covers entries selected by `docs.human-registry`; the generated
+[complete host-local catalogue](#host-local-capabilities) covers all host capabilities.
 
 ## Assertion Layers
 
@@ -143,6 +145,341 @@ admission.
 | `whisper.trace.publish` | `host/whisper.trace.publish` | local authoring | validates and publishes one bounded `whisper-trace.v1` assertion through the existing Agora or AD/INAC carrier | Whisper Intake trace authoring provider | yes | Host-local and non-passportable. Inline disclosure requires exact sender-host operator consent; the resulting signed `agora-record.v1` remains subject to disclosure, signing, and carrier admission policy. |
 | `escrow` | `role/escrow` | attached supervisory role | supervisor of hold, release, refund, freeze, and dispute paths for settlement contracts | escrow supervisor node or attached service | yes | This capability governs the lifecycle of reserved funds for a contract, not full ledger authority. |
 | `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification, or adjudication surface | future oracle service | planned | Machine status: `reserved`. At this stage it is a namespace reservation and extension direction rather than an admissible runtime capability or full hard-MVP runtime slice. |
+
+<!-- BEGIN GENERATED HOST CAPABILITIES -->
+
+<a id="host-local-capabilities"></a>
+
+## Complete Host-local Catalogue
+
+Generated from `node:capability/capability-registry.v1.json`; do not edit this block.
+Regenerate both languages with `make capability-registry-docs`.
+Includes every entry with the `host-local` surface, regardless of lifecycle status
+or `docs.human-registry` (which selects only the curated table above).
+
+Entries: **186** host-local / **218** total; **25** owner groups.
+
+Grouped by the exact registry `owner`, then sorted by `capability/id`.
+`dispatchable` and `host-route` are independent eligibility flags; the last column
+lists the other flags set to `true` (omitted flags are `false`). Entries may also
+have the `federated` surface, shown explicitly below.
+
+Neither an entry nor `active` status guarantees an installed handler, a running
+endpoint, or caller authorization. Runtime availability, grants, approvals and
+domain policy remain separate checks. Wire names are not endpoint URLs.
+
+### <code>Sensorium Interfaces runtime</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>sensorium.interface.invoke</code> | <code>sensorium/interface.invoke</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+| <code>sensorium.interface.manage</code> | <code>sensorium/interface.manage</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.interface.read</code> | <code>sensorium/interface.read</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+| <code>sensorium.interface.remote-feed</code> | <code>sensorium/interface.remote-feed</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.interface.subscribe</code> | <code>sensorium/interface.subscribe</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>Sensorium Workbench connector</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>sensorium.workbench.env</code> | <code>sensorium/workbench.env</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+| <code>sensorium.workbench.file</code> | <code>sensorium/workbench.file</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+| <code>sensorium.workbench.patch</code> | <code>sensorium/workbench.patch</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | false | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+| <code>sensorium.workbench.terminal</code> | <code>sensorium/workbench.terminal</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>Whisper Intake trace authoring provider</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>whisper.trace.publish</code> | <code>host/whisper.trace.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>capability/passport domain</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>memarium.read</code> | <code>app/memarium.read</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>daemon Agent host runtime</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>agent.assistant.draft.accept</code> | <code>host/agent.assistant.draft.accept</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.assistant.escalate</code> | <code>host/agent.assistant.escalate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.binding.create</code> | <code>host/agent.binding.create</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.controller.run</code> | <code>host/agent.controller.run</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.effect.dispatch</code> | <code>host/agent.effect.dispatch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.effect.propose</code> | <code>host/agent.effect.propose</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.fork</code> | <code>host/agent.fork</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.inference-flow.bind</code> | <code>host/agent.inference-flow.bind</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.inference-passage.admit</code> | <code>host/agent.inference-passage.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.inference-passage.commit</code> | <code>host/agent.inference-passage.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.inference-passage.invoke</code> | <code>host/agent.inference-passage.invoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.inference-terminal.select</code> | <code>host/agent.inference-terminal.select</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.product.read</code> | <code>host/agent.product.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.resume</code> | <code>host/agent.resume</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.spawn</code> | <code>host/agent.spawn</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.status</code> | <code>host/agent.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.stop</code> | <code>host/agent.stop</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.suspend</code> | <code>host/agent.suspend</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.turn-order.resolve</code> | <code>host/agent.turn-order.resolve</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Artifact Delivery host capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>artifact.delivery.retain</code> | <code>host/artifact.delivery.retain</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Corpus Agent effect bridge</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>corpus.room.turn</code> | <code>host/corpus.room.turn</code> | <code>active</code> | <code>host-local</code> | true | false | — |
+
+### <code>daemon Corpus Agent moderation effect bridge</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>corpus.room.moderate</code> | <code>host/corpus.room.moderate</code> | <code>active</code> | <code>host-local</code> | true | false | — |
+
+### <code>daemon Inquirium host runtime</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>inquirium.assistant.feedback.append</code> | <code>host/inquirium.assistant.feedback.append</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.transcript.export</code> | <code>host/inquirium.assistant.transcript.export</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.transcript.import</code> | <code>host/inquirium.assistant.transcript.import</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.transcript.rebuild</code> | <code>host/inquirium.assistant.transcript.rebuild</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.transcript.search</code> | <code>host/inquirium.assistant.transcript.search</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.context-grant.issue</code> | <code>host/inquirium.context-grant.issue</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.context-grant.revoke</code> | <code>host/inquirium.context-grant.revoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.operator-question.transition</code> | <code>host/inquirium.operator-question.transition</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.training-grant.issue</code> | <code>host/inquirium.training-grant.issue</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.training-grant.revoke</code> | <code>host/inquirium.training-grant.revoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Sensorium Virt host broker</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>sensorium.virt.host</code> | <code>host/sensorium.virt.host</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon bounded HTTP fetch host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>http.fetch.bounded</code> | <code>host/http.fetch.bounded</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon capability host capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>capability.passport.publish</code> | <code>host/capability.passport.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.passport.revocation.sign</code> | <code>host/capability.passport.revocation.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.passport.revocation.verify</code> | <code>host/capability.passport.revocation.verify</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.passport.verify</code> | <code>host/capability.passport.verify</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon capability passport publication reconciler</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>capability.passport.reconcile</code> | <code>host/capability.passport.reconcile</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon gateway control</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>gateway.sovereign-manual-receipt</code> | <code>host/gateway.sovereign-manual-receipt</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon host capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>memarium.promote</code> | <code>host/memarium.promote</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon identity host capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>identity.nym.create</code> | <code>host/identity.nym.create</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.org.create</code> | <code>host/identity.org.create</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.participant.create</code> | <code>host/identity.participant.create</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.participant.import</code> | <code>host/identity.participant.import</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.participant.recovery-bundle-export</code> | <code>host/identity.participant.recovery-bundle-export</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.participant.recovery-bundle-import</code> | <code>host/identity.participant.recovery-bundle-import</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.participant.recovery-export</code> | <code>host/identity.participant.recovery-export</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.pseudonym-vault.export</code> | <code>host/identity.pseudonym-vault.export</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.pseudonym-vault.import</code> | <code>host/identity.pseudonym-vault.import</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon interaction broker</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>interaction-broker.probe</code> | <code>host/interaction-broker.probe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>interaction-broker.wait</code> | <code>host/interaction-broker.wait</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>interaction-broker.watch</code> | <code>host/interaction-broker.watch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon operator settlement control</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>ledger.operator-credit</code> | <code>host/ledger.operator-credit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon operator-extension lifecycle host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>operator.extension.inspect</code> | <code>host/operator.extension.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>operator.extension.lifecycle</code> | <code>host/operator.extension.lifecycle</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>operator.extension.safe-mode</code> | <code>host/operator.extension.safe-mode</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+
+### <code>daemon or supervised middleware host capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>agora.publish.authorize</code> | <code>host/agora.publish.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.record.admit</code> | <code>host/agora.record.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.record.sign</code> | <code>host/agora.record.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.record.verify</code> | <code>host/agora.record.verify</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.relay</code> | <code>host/agora.relay</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+| <code>agora.subscribe.authorize</code> | <code>host/agora.subscribe.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.trace.append</code> | <code>host/agora.trace.append</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.vault.delete</code> | <code>host/agora.vault.delete</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
+| <code>agora.vault.get</code> | <code>host/agora.vault.get</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
+| <code>agora.vault.list</code> | <code>host/agora.vault.list</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
+| <code>agora.vault.put</code> | <code>host/agora.vault.put</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>passport/eligible</code> |
+| <code>artifact.delivery.send</code> | <code>host/artifact.delivery.send</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>artifact.delivery.status</code> | <code>host/artifact.delivery.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>artifact.delivery.submit</code> | <code>host/artifact.delivery.submit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.passport.issue</code> | <code>host/capability.passport.issue</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.passport.lookup</code> | <code>host/capability.passport.lookup</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.passport.sign</code> | <code>host/capability.passport.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.revocation.snapshot</code> | <code>host/capability.revocation.snapshot</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>contact.lookup</code> | <code>host/contact.lookup</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.messaging-recovery.mirror</code> | <code>host/identity.messaging-recovery.mirror</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.recovery</code> | <code>host/identity.recovery</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>identity.routing-subject.create</code> | <code>host/identity.routing-subject.create</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inac.offer</code> | <code>host/inac.offer</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inac.push</code> | <code>host/inac.push</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inac.request</code> | <code>host/inac.request</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.activity.feed</code> | <code>host/inquirium.assistant.activity.feed</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.transcript.excise</code> | <code>host/inquirium.assistant.transcript.excise</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.assistant.turn</code> | <code>host/inquirium.assistant.turn</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.classify</code> | <code>host/inquirium.classify</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.embed</code> | <code>host/inquirium.embed</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.generate</code> | <code>host/inquirium.generate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.image.edit</code> | <code>host/inquirium.image.edit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.image.generate</code> | <code>host/inquirium.image.generate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.rerank</code> | <code>host/inquirium.rerank</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.summarize</code> | <code>host/inquirium.summarize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.transform</code> | <code>host/inquirium.transform</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>local-recipient-mailbox.resolve</code> | <code>host/local-recipient-mailbox.resolve</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>local-relationship.group.resolve</code> | <code>host/local-relationship.group.resolve</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>local-relationship.membership.append</code> | <code>host/local-relationship.membership.append</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>local-relationship.membership.latest</code> | <code>host/local-relationship.membership.latest</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>local-relationship.predicate.evaluate</code> | <code>host/local-relationship.predicate.evaluate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.cache</code> | <code>host/memarium.cache</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.crisis.resolve</code> | <code>host/memarium.crisis.resolve</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.crisis.status</code> | <code>host/memarium.crisis.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.declassify</code> | <code>host/memarium.declassify</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.forget</code> | <code>host/memarium.forget</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.index</code> | <code>host/memarium.index</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>memarium.write</code> | <code>host/memarium.write</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>middleware.rewrite.broadcast</code> | <code>host/middleware.rewrite.broadcast</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>middleware.rewrite.peer-message</code> | <code>host/middleware.rewrite.peer-message</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>middleware.snooper.observe</code> | <code>host/middleware.snooper.observe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>middleware.snooper.test</code> | <code>host/middleware.snooper.test</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>notification.create</code> | <code>host/notification.create</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>offer-catalog.query</code> | <code>host/offer-catalog.query</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>offers.local.query</code> | <code>host/offers.local.query</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>peer.message.dispatch</code> | <code>host/peer.message.dispatch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>peer.session.establish</code> | <code>host/peer.session.establish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>recovery.hsm.store</code> | <code>host/recovery.hsm.store</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>recovery.hsm.unseal</code> | <code>host/recovery.hsm.unseal</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>recovery.sign</code> | <code>host/recovery.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sealer.derive-aead-key</code> | <code>host/sealer.derive-aead-key</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sealer.master.init</code> | <code>host/sealer.master.init</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sealer.open</code> | <code>host/sealer.open</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sealer.seal</code> | <code>host/sealer.seal</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sealer.unlock</code> | <code>host/sealer.unlock</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>seed.directory.query</code> | <code>host/seed.directory.query</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.audit.read</code> | <code>host/sensorium.audit.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.connector.invoke</code> | <code>host/sensorium.connector.invoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.connector.operation.cancel</code> | <code>host/sensorium.connector.operation.cancel</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.connector.operation.status</code> | <code>host/sensorium.connector.operation.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.connector.os.action</code> | <code>host/sensorium.connector.os.action</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.directive.invoke</code> | <code>host/sensorium.directive.invoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.directive.list</code> | <code>host/sensorium.directive.list</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.health</code> | <code>host/sensorium.health</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.observation.get</code> | <code>host/sensorium.observation.get</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.observe.query</code> | <code>host/sensorium.observe.query</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.observe.submit</code> | <code>host/sensorium.observe.submit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.operation.cancel</code> | <code>host/sensorium.operation.cancel</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.operation.status</code> | <code>host/sensorium.operation.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.os.catalog.reload</code> | <code>host/sensorium.os.catalog.reload</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.os.catalog.status</code> | <code>host/sensorium.os.catalog.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>sensorium.topic.summary</code> | <code>host/sensorium.topic.summary</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>signer.derive-shared-secret</code> | <code>host/signer.derive-shared-secret</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>signer.lock</code> | <code>host/signer.lock</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>signer.sign</code> | <code>host/signer.sign</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>signer.status</code> | <code>host/signer.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>signer.unlock</code> | <code>host/signer.unlock</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>whisper.intake</code> | <code>host/whisper.intake</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>whisper.redaction.prepare</code> | <code>host/whisper.redaction.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>workflow.orchestrate</code> | <code>host/workflow.orchestrate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>workflow.step.completed.publish</code> | <code>host/workflow.step.completed.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>workflow.test.trigger</code> | <code>host/workflow.test.trigger</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>inference-provenance-core through daemon host boundary</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>inference.policy.evaluate</code> | <code>host/inference.policy.evaluate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>procurement core through daemon host boundary</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>service.order.result.prepare</code> | <code>host/service.order.result.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>supervised JSON-e Flow acceptance capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>role.agent.inference-passage.acceptance</code> | <code>host/role.agent.inference-passage.acceptance</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>supervised middleware Corpus turn-order flow</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>role.corpus.turn-order.resolve</code> | <code>host/role.corpus.turn-order.resolve</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>supervised middleware or test fixture capability</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>base.rumor-rewrite</code> | <code>host/base.rumor-rewrite</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>base.whisper-redaction</code> | <code>host/base.whisper-redaction</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.adapter.anthropic</code> | <code>host/inquirium.adapter.anthropic</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.adapter.openai</code> | <code>host/inquirium.adapter.openai</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>inquirium.adapter.simulator</code> | <code>host/inquirium.adapter.simulator</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>other.minimal</code> | <code>host/other.minimal</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>other.operator-hinting</code> | <code>host/other.operator-hinting</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>other.test</code> | <code>host/other.test</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.bielik-editor-in-chief.execute</code> | <code>host/role.bielik-editor-in-chief.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.bielik-git-publisher.execute</code> | <code>host/role.bielik-git-publisher.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.bielik-illustrator.execute</code> | <code>host/role.bielik-illustrator.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.bielik-publication-verifier.execute</code> | <code>host/role.bielik-publication-verifier.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.bielik-researcher.execute</code> | <code>host/role.bielik-researcher.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.example-summarizer.execute</code> | <code>host/role.example-summarizer.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.example.execute</code> | <code>host/role.example.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.inquirium.generate</code> | <code>host/role.inquirium.generate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.raw-signal.execute</code> | <code>host/role.raw-signal.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.raw.component2</code> | <code>host/role.raw.component2</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.raw.component3</code> | <code>host/role.raw.component3</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.raw.component4</code> | <code>host/role.raw.component4</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.test.execute</code> | <code>host/role.test.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>role.test.success.execute</code> | <code>host/role.test.success.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+<!-- END GENERATED HOST CAPABILITIES -->
 
 ## Semantic Distinctions
 

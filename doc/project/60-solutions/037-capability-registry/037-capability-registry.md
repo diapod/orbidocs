@@ -147,6 +147,10 @@ Related schemas:
 Responsibilities:
 
 - validate human EN/PL registry projections against the machine registry;
+- generate the complete host-local catalogues in `CAPABILITY-REGISTRY.en.md`
+  and `CAPABILITY-REGISTRY.pl.md`, grouped by registry owner, through
+  `orbidocs:scripts/generate-capability-registry-docs.py`; preserve the manual
+  semantic prose and curated tables selected by `docs.human-registry`;
 - validate passport, advertisement, Seed Directory, and authorization-policy
   fixtures against registered capability refs;
 - validate literal daemon host-capability POST routes against the registry;
