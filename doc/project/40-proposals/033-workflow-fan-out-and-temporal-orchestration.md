@@ -198,7 +198,7 @@ A workflow-level deadline can also be declared at the root:
 
 This is an absolute maximum duration for the entire workflow run from first step
 to completion.  When elapsed, any pending steps are cancelled and the run is
-marked `deadline_exceeded`.
+marked `deadline-exceeded`.
 
 ### 4. Extended Step Record (full shape)
 
@@ -275,7 +275,7 @@ or alongside it) that:
    policy to the parent step, triggers retry if configured.
 3. Checks all active workflow runs against the run-level `deadline`.
 4. On deadline exceeded: cancels all pending dispatches for the run, marks run
-   `deadline_exceeded`.
+   `deadline-exceeded`.
 
 ### `Arca` contract
 
@@ -360,12 +360,25 @@ resulting workflow transition.
 
 ## Workflow Run Status Extensions
 
+Workflow run and step status tokens use kebab-case. The 2026-09-20 coordinated
+Node/Arca contract update replaces the earlier snake_case spellings in both
+repositories; it does not admit both spellings. Existing persisted workflow
+snapshots using the old tokens require an explicit data migration before reuse.
+Local Arca phase names and configuration keys are separate vocabularies and do
+not change. This correction does not add a new orchestration capability.
+
+Host inspection retains timeout and fan-out distinctions. The narrower module
+update/response vocabulary projects host timeout states to `failed` and
+`awaiting-fan-out` to `awaiting-execution`; modules cannot submit host-only states.
+Host run-list filters and their UI clients use the full host vocabulary, including
+both timeout states, rather than the narrower module update vocabulary.
+
 Add two new terminal statuses to `WorkflowRunStatus`:
 
 | Status | Meaning |
 |---|---|
-| `deadline_exceeded` | The run-level deadline was reached before all steps completed |
-| `step_timeout` | A step timed out and `on_timeout = "fail"` or `"abort_workflow"` |
+| `deadline-exceeded` | The run-level deadline was reached before all steps completed |
+| `step-timeout` | A step timed out and `on_timeout = "fail"` or `"abort_workflow"` |
 
 ---
 

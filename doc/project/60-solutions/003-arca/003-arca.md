@@ -33,7 +33,7 @@ The component is responsible for the solution-level execution path of:
 - building per-step `service-order.v1` requests, submitting them
   through the classified buyer ingress, polling execution through
   `AwaitingManualRelease`, and resolving each step to `completed`,
-  `failed`, `deadline_exceeded`, or `step_timeout`,
+  `failed`, `deadline-exceeded`, or `step-timeout`,
 - applying per-step retry policy with `retry_delay_ms` backoff and a
   `max_retries` cap, and per-step `fail_policy` (currently
   `abort_workflow`) when the retry budget is exhausted,
@@ -102,7 +102,7 @@ Responsibilities:
 - submit one service-order per step through the classified buyer
   ingress at `POST /v1/service-orders`,
 - poll execution state through `AwaitingManualRelease` and resolve to
-  `completed`, `failed`, `deadline_exceeded`, or `step_timeout`,
+  `completed`, `failed`, `deadline-exceeded`, or `step-timeout`,
 - apply per-step retry policy with `retry_delay_ms` backoff and
   `max_retries` cap; honor `fail_policy` (currently `abort_workflow`)
   on retry-budget exhaustion,
@@ -223,7 +223,7 @@ Responsibilities:
   domain-owned peer waiter loop,
 - persist the returned deferred operation/status/audit references in
   workflow step details and keep the step in the existing
-  `awaiting_execution` state until a terminal result artifact arrives,
+  `awaiting-execution` state until a terminal result artifact arrives,
 - own the single supervised inbound acceptor for
   `service-order.result.v1`,
 - relay the host-issued one-shot invocation token with the exact admitted artifact
@@ -399,8 +399,8 @@ Based on:
 
 Responsibilities:
 - honor per-step `timing.timeout` / `timing.on_timeout` and emit
-  `step_timeout` when exceeded,
-- honor a workflow-run-level `deadline` and emit `deadline_exceeded`
+  `step-timeout` when exceeded,
+- honor a workflow-run-level `deadline` and emit `deadline-exceeded`
   when exceeded,
 - express retry with explicit backoff and a `max_attempts` cap at the
   `WorkflowDefinition` layer.

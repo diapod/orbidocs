@@ -2184,6 +2184,17 @@ This second table is the canonical continuation of the first P085 tracker, not a
 parallel source of truth. Both tables share one identifier sequence. The Phase 3
 table below continues that sequence at `P085-034`.
 
+P085-026 verification maintenance (2026-09-20): Python anchor fingerprints use
+the explicitly tagged `orbiplex-python-ast-v1` structural encoding rather than
+`ast.dump()` output, whose empty-field rendering differs between Python releases.
+Locations and empty optional fields are omitted; node kinds, nonempty named
+fields, typed constant values and list order remain binding. The four reviewed
+fingerprints were regenerated without changing their classification or deadline.
+Python 3.12 and 3.14 produce the same inventory; negative controls in the workspace
+gate retain detection of changed constants, branches and instruction order. This
+is a fingerprint-encoding correction, not a new registry capability or wire-token
+migration.
+
 | ID | Phase 2 work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `P085-026` | Machine-classify candidate enums and hard-coded dispatch across Inquirium, Agent, Corpus, Dator, and Arca | `done` | Recursive Rust `syn` and Python `ast` scanners plus reviewed dispatch-anchor extractors cover the five target domains. Accepted `enum-classification.v1` and `dispatch-classification.v1` records carry stable source fingerprints, disposition, owner, call sites, wire impact, capability owner, refusal behavior, evidence, and `review-by`; duplicate, missing, stale, changed, unclassified, or overdue subjects fail the no-grace CI workflow. Regeneration preserves reviewed dispositions and assigns `unclassified` to every newly discovered enum until an explicit review changes it. Both inventories form one review cohort owned by `operator-extension-maintainers`, share one review deadline, and are checked by the same CI workflow. The initial inventory records 93 Rust enums and four reviewed Python dispatch anchors while retaining lifecycle, authority, status, error, and transition enums as closed invariants. |

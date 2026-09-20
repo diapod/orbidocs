@@ -104,6 +104,13 @@ work and before shutting the executor down. Bodies are read with
 — or streamed through `Response::into_reader()` when they must not be
 materialized.
 
+The drain admission check also applies to body consumption after headers have
+arrived (`bytes`, `text`, `json`, bounded reads, and streaming pulls). The bounded
+reader retains at most the requested prefix, not a full additional transport
+chunk. A successfully drained daemon instance is not restartable in place:
+restart constructs a fresh owner and recovers durable state. Concurrent shutdown
+still requires the host to quiesce callers; the flag is not an active-call lease.
+
 Components that are genuinely asynchronous keep `reqwest::Client`: the async
 client owns no runtime and therefore leaks none. The invariant targets the
 blocking client.
@@ -191,7 +198,7 @@ owner is gone. A residual handle is as real as a residual process.
 - [ ] Post-MVP: keep an explicit audit inventory for any production local
       listener that is not backed by `bounded-server`,
       `BoundedThreadingHTTPServer`, or a documented equivalent bounded adapter.
-- [ ] Post-MVP: migrate the standalone middleware binaries
+- [x] Migrate the standalone middleware binaries
       (`attestation-service`, `contact-catalog-service`, `messaging-service`,
       `whisper-intake`, `node-desktop`, `middleware-channel-client`) off
       `reqwest::blocking` onto the host-owned surface.
