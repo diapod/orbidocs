@@ -332,6 +332,176 @@ właściwości rzeczy i niewiele określeń dla barwy tak, jak jest doświadcza
 świadczy to o ubóstwie doświadczenia, lecz o koszcie przekładu na język publicznie
 porównywalnych rozróżnień.
 
+#### Język naturalny a skale doświadczenia
+
+Części mowy i konstrukcje gramatyczne języka naturalnego nie odpowiadają wprost
+warstwom doświadczenia. Są natomiast śladami różnych sposobów jego określania:
+wyodrębniania, kwalifikowania, ujmowania w czasie, wskazywania i czynienia
+przedmiotem dalszego poznawania.
+
+Samo posługiwanie się językiem naturalnym jako społecznie podzielaną praktyką
+symboliczną ujmujemy w warstwie kulturowej, w której pojawia się językowa abstrakcja:
+powiązania form, znaczeń i sposobów użycia, które uczestnicy mogą podtrzymywać,
+przekazywać i korygować. Jest to umiejscowienie progu w naszym modelu, nie
+twierdzenie, że akt mowy dotyczy wyłącznie tej warstwy i zachodzi tylko
+w niej. Mówienie pozostaje ucieleśnione i doświadczane, a sądy formułowane w sferze
+obiektywności również korzystają z kulturowo dostępnego języka.
+
+Warto podkreślić, że **warstwa artykulacji nie jest tym samym co warstwa odniesienia
+wypowiedzi**. Język pozwala opisywać osobową tożsamość, pierwszoosobowe czucie,
+relacje kulturowe i zobiektywizowane wyniki pomiarów; może też pośrednio wskazywać na
+jawienie. Opis mniej zdeterminowanego doświadczenia nie przestaje przez to być
+kulturową artykulacją. Nie przenosi gotowego przeżycia do odbiorcy, lecz dostarcza mu
+warunków do uformowania własnego rozumienia.
+
+W analizie rozdzielamy więc kulturowy próg artykulacji, warstwę opisywanego
+doświadczenia, perspektywę wypowiedzi oraz stopień determinacji tego, co
+opisywane. **Stopień określenia opisu nie jest stopniem określenia opisywanego
+doświadczenia.** Na przykład zdanie złożone może precyzyjnie opisywać brak wyraźnego
+rozdzielenia podmiotu i przedmiotu, zaś pojedyncze "to" użyte w kontekście wskazywać
+bardzo dokładnie zidentyfikowany obiekt. Złożoność składni nie mierzy genealogicznej
+głębokości, a brak wypowiedzianego podmiotu nie dowodzi braku doświadczającego.
+
+Najbardziej użytecznym punktem odniesienia jest tu **skalowanie epistemizacyjne**
+(dalej krótko: skala epistemizacji), czytane wraz z odpowiadającymi mu **aktami
+determinacji**. Genealogia określa, którego wymiaru doświadczenia dotyczy wypowiedź,
+a skala epistemizacji pomaga rozpoznać, jak dalece jej temat został wyodrębniony,
+usensowniony, uogólniony lub zobiektywizowany. Części mowy i konstrukcje
+gramatyczne wiążemy z tym drugim porządkiem funkcjonalnie, nie przez przypisanie
+każdej formie jednego miejsca.
+
+Same akty determinacji nie muszą być językowe. Wypowiedź może uczestniczyć w ich
+wykonywaniu lub je opisywać. Nie zakładamy więc, że wyróżnienie figury albo
+doświadczanie podmiotowości wymagają mowy. Mamy tu do czynienia z powiązaniem
+wiele-do-wielu: jedna konstrukcja może obsługiwać różne operacje, a jedną operację
+można artykułować na różne sposoby.
+
+Poniższa tabela jest roboczym rozwinięciem, inspirowanym badaniami nad werbalizacją
+doświadczenia i gramatyką kognitywną, nie wynikiem empirycznego potwierdzenia całej
+skali. Wiersze wskazują operację wyróżnioną w danym użyciu, a nie wszystkie operacje
+obecne w zdaniu. Każdy przykład jest już znaczącą wypowiedzią kulturową, także wtedy,
+gdy opisuje wcześniejsze rozróżnienie na skali. Nie stanowi zapisu etapu "przed
+znaczeniem". Jest to porządek rozróżnień w modelu, a nie chronologia przeżywania ani
+powstawania języków.
+
+| Miejsce na skali epistemizacji | Wyróżniona funkcja | Pomocne części mowy i konstrukcje | Przykład użycia |
+|---|---|---|---|
+| **Fenomen – jawienie** | Pośrednie naprowadzanie na to, jak doświadczenie się jawi, bez rozwijania identyfikacji rzeczy. | Pomocniczo bezpodmiotowe wypowiedzi jakościowe oraz wyrażenia dźwiękonaśladowcze; żadna forma nie jest dosłownym odpowiednikiem jawienia. | "Jasno." bądź "Dzyń!" – jako wskazówki w ustalonym kontekście, a nie nieprzetworzony zapis doświadczenia. |
+| **Fenomen → postać – różnicowanie** | Wyróżnienie kontrastu lub figury względem tła. | Przymiotniki, stopniowanie, konstrukcje porównawcze i kontrastowe. | "Na jasnym tle wyróżnia się ciemniejsza plama." |
+| **Postać → coś – wyodrębnienie** | Wybranie czegoś jako tematu, choćby bez ustalenia jego rodzaju; możliwość kwalifikowania i śledzenia zmian. | Zaimki wskazujące i nieokreślone, przymiotniki, czasowniki. | "To coś jest jasne i drży." |
+| **Coś → znak – odniesienie** | Ustanowienie lub wskazanie relacji, w której znak stoi za czymś. | Nazwy, symbole przywoływane w wypowiedzi, konstrukcje nazywania i oznaczania. | "To krótkie rozjaśnienie fragmentu pola widzenia oznaczę w notatce literą B." |
+| **Znak → znaczenie – usensownienie** | Powiązanie znaku z sensem w danym kontekście. | Konstrukcje interpretacyjne z "oznacza", "rozumiem jako", "odczytuję jako". | "B oznacza tutaj rozjaśnienie fragmentu, a nie jego domniemaną przyczynę." |
+| **Znaczenie → pojęcie – uogólnienie** | Ujęcie różnych przypadków pod wspólnym określeniem. | Rzeczowniki w użyciu ogólnym, przymiotniki klasyfikujące, zdania definicyjne. | "Podobne krótkie rozjaśnienia nazywamy błyskami." |
+| **Pojęcie → przedmiot – instancjonowanie** | Ujęcie jednostkowego przypadku jako przypadku danego pojęcia. | Frazy rzeczownikowe z określeniami wskazującymi, liczebnikami lub identyfikatorami. | "Ten drugi błysk jest jednym z takich przypadków." |
+| **Przedmiot → obiekt – obiektywizacja** | Ustalenie publicznie stosowalnych kryteriów identyfikowania, porównywania lub pomiaru. | Terminy operacyjne, frazy ilościowe, czasowniki relacyjne, zdania warunkowe. | "W tej procedurze za czas trwania błysku przyjmujemy długość przedziału, w którym sygnał z czujnika pozostaje powyżej ustalonego progu." |
+| **Obiekt → rzecz – urzeczowienie** | Zatarcie pamięci o rozróżnieniach, redukcjach i warunkach, dzięki którym uzyskano dane ujęcie. | Brak formy koniecznej lub wystarczającej; decyduje sposób traktowania opisu, nie część mowy. | "Błysk sam w sobie jest dokładnie tym obiektem, który zdefiniowała nasza procedura" – gdy wynik operacji zostaje utożsamiony z niezależną istotą zjawiska. |
+
+Poziom zerowy pozostaje poza przyporządkowaniem. Ani określona część mowy, ani
+wielokropek, ani milczenie nie stanowią w modelu dostępu poza granicę orzekania.
+
+Powiązanie przywołanych niżej ujęć językoznawczych i semiotycznych ze skalami tego
+modelu jest własną syntezą. Nie przypisujemy im potwierdzenia całej genealogii ani
+uniwersalnej hierarchii części mowy. Nie jest to pełny wykaz części mowy: tabela
+wybiera formy pomocne w pokazaniu operacji. Przykłady w tej wersji dotyczą
+polszczyzny; w innych wersjach językowych formy i przykłady dostosowujemy do danego
+języka, zachowując te same rozróżnienia modelu, nie pozorną zgodność kategorii.
+
+Na przykład polskie "Jasno." i czeskie "Je světlo." można w odpowiednim kontekście
+oddać angielskim "It's bright." albo skrótowym "Bright!". Angielskie "it" pełni
+w pierwszej z tych wypowiedzi funkcję [podmiotu formalnego](https://dictionary.cambridge.org/us/grammar/british-grammar/it-as-empty-subject),
+nie wskazuje osoby ani właściciela doświadczenia. Z kolei [angielskie
+określniki](https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this), w tym rodzajniki
+"a/an" i "the", nie mają odpowiedników jeden-do-jednego w polszczyźnie ani
+czeszczyźnie; wskazywanie i identyfikowanie może w nich korzystać m.in. z zaimków
+oraz kontekstu. W polskim i czeskim niewypowiedzenie zaimka podmiotowego bywa też
+zwykłą możliwością gramatyczną, nie opisem zaniku podmiotowości. W każdym z tych
+przypadków porównujemy funkcję wypowiedzi w użyciu, nie same etykiety części mowy.
+
+#### Operacje przecinające skalę epistemizacji
+
+**Kwalifikowanie, ujmowanie w czasie i nominalizowanie nie są dodatkowymi szczeblami
+genealogii.** Mogą występować w opisach różnych warstw i różnych miejsc skali
+epistemizacji. Przymiotnik może charakteryzować dopiero wyróżnianą figurę ("jasna
+plama"), ale również pojęcie ("jasne kryterium"). Czasownik może opisywać doznawanie
+("drży"), a także relację w zobiektywizowanym modelu ("temperatura rośnie"). Sam
+wybór części mowy nie ustala stopnia determinacji doświadczenia.
+
+Porównajmy "jaśnieje", "jasne" i "jasność". Pierwsze wyrażenie eksponuje przebieg
+zmiany, drugie charakterystykę, a trzecie pozwala uczynić ją tematem dalszego
+orzekania. Takie rozróżnienie jest bliskie langackerowskiemu **profilowaniu**: różne
+konstrukcje wysuwają na pierwszy plan odmienne aspekty przywołanej sytuacji. Nie
+wynika stąd jednak, że każda zmiana formy gramatycznej oznacza przejście do innej
+warstwy doświadczenia.
+
+Trzeba w tym miejscu oddzielić **nominalizację** (językowe ujmowanie jakości,
+czynności lub relacji rzeczownikowo) od **reifikacji**. "Jasność" i "drżenie"
+umożliwiają porównywanie, pytanie i pomiar bez konieczności uznawania ich za
+samoistne byty. Pokrewny ruch opisuje Peirce jako tzw. abstrakcję hipostatyczną: to,
+co było orzekane, staje się przedmiotem dalszego orzekania; samo to nie stanowi
+jeszcze błędu. W apofatycznym enaktywizmie problemem jest dopiero **redukcja
+połączona z amnezją** (por. formułę reifikacji w postulacie 4), nie
+rzeczownikowość jako taka.
+
+Również opisywanie, wskazywanie i obrazowe odgrywanie doświadczenia nie tworzą
+szeregu od "późniejszego" do "wcześniejszego". Są różnymi sposobami komunikacyjnego
+uczestnictwa, które mogą współdziałać. "Dzyń!" może odgrywać charakter brzmienia,
+"tak" wskazywać sposób, a rozbudowane zdanie wyjaśniać warunki interpretacji. Żaden
+z tych sposobów nie jest z definicji mniej uwarunkowany. Krótka wypowiedź może
+wymagać szczególnie bogatego wspólnego kontekstu.
+
+#### Oznaczanie warstwy, perspektywy i zakresu wypowiedzi
+
+Gdy konstrukcja językowa opisuje doświadczenie z innej warstwy niż sugeruje jej
+zwyczajowe odczytanie, komunikacja wymaga dostarczenia informacji pozwalających
+rozpoznać to przesunięcie. Dotyczy to również przesunięć na skali epistemizacji:
+nazwa może służyć naprowadzaniu na jakość doświadczenia, ale zostać odczytana jako
+nazwa samoistnej rzeczy. Informacja nie musi przyjmować postaci technicznej etykiety,
+lecz może wynikać z wprowadzenia, przykładu, gestu albo podzielanej praktyki. Powinna
+jednak być dostępna odbiorcy, a nie jedynie domyślna dla nadawcy.
+
+W wypowiedziach narażonych na takie pomyłki rama powinna rozróżniać **warstwę
+odniesienia** – czego w modelu dotyczy opis; **stopień determinacji** – czy
+wskazujemy na jakość, wyodrębniony fenomen, pojęcie czy obiekt określony procedurą;
+**perspektywę** – z czyjej pozycji i w jakich warunkach formułowana jest wypowiedź;
+oraz **status i zakres** – czy jest to świadectwo, wskazówka, metafora, hipoteza czy
+sąd poddawany publicznej ocenie. Nie trzeba deklarować dokładnego miejsca na skali,
+jeśli nie potrafimy go uzasadnić. Wystarczy oznaczyć istotne rozróżnienia
+i pozostającą niepewność.
+
+Na przykład "jasność" może oznaczać jakość widzenia albo wielkość określoną przez
+procedurę pomiarową. Zdanie "Nie mówię o wyniku pomiaru, lecz o tym, jak jawiło się
+pole widzenia" wskazuje odmienny zakres niż "Przez jasność rozumiem tu wynik tej
+procedury". Ta sama forma rzeczownikowa nie zapewnia tożsamości obu znaczeń ani prawa
+do bezpośredniego przenoszenia wniosków między nimi.
+
+Podobnie zdanie "Nie ma mnie" można odczytać jako zaprzeczenie istnieniu osoby. Inny
+zakres wyznacza dopowiedzenie:
+
+> "Opisuję doświadczenie, w którym nie wyodrębniał się osobny obserwator: barwy
+> i dźwięki były obecne, lecz nie ujmowałem ich jako moich. Nie zaprzeczam przez to
+> własnemu ciału, pamięci ani zobowiązaniom".
+
+W modelu taki opis kieruje uwagę ku relacji jawienia i podmiotowości oraz ku
+osłabieniu określonego sposobu wyodrębniania doświadczającego. Nadal jest jednak
+kulturowo uformowanym świadectwem, a nie dowodem dostępu do nieuwarunkowanej
+świadomości. Bez wskazania zakresu powstaje pozorny paradoks "kto mówi, że go nie
+ma?", lecz po jego wskazaniu można osobno badać sens świadectwa, trafność
+interpretacji i to, jakie wnioski rzeczywiście z tej interpretacji wynikają.
+
+**Oznaczenie kontekstu nie zastępuje uzasadnienia**, ale pozwala odróżnić
+nieporozumienie od rzeczywistego sporu – bez gwarancji prawdziwości twierdzenia bądź
+usuwania rzeczywistej sprzeczności. Przeniesienie wniosku do innej warstwy nadal
+wymaga kontraktu przejścia opisanego niżej: jawnego określenia, które rozróżnienia
+zachowujemy, jakie dodajemy i na jakiej podstawie dokonujemy translacji. W duchu
+enaktywnego uczestnictwa odpowiedzialność za czytelność ramy jest współdzielona:
+nadawca dostarcza dostępnych wskazówek, a odbiorca uczestniczy w ustalaniu sensu
+i może sprawdzać własne rozumienie, a także w toku wymiany zdań ustalać, czy jest ono
+bliskie temu, co druga strona chciała wyrazić.
+
+Nie szukamy więc części mowy "najbliższej źródłu", lecz rozpoznajemy, **jakie
+określenia wypowiedź wprowadza, na co próbuje naprowadzić i czego nie uprawnia nas
+twierdzić**.
+
 #### Zakres uzasadnienia i kontrakty przejścia
 
 Warstwy nie dziedziczą automatycznie swoich uzasadnień. Obserwacja, korelacja lub
@@ -1140,6 +1310,26 @@ klasyczną krytykę "ducha w maszynie" i błędu kategorialnego. Jest to dla n
 wspierająca perspektywa pozwalająca nazywać pomyłki kategorialne i substancjalizację
 procesów umysłowych podczas definiowania paradoksu i omawiania "kradzieży ontologii"
 między warstwami.
+
+**Językoznawstwo kognitywne i funkcjonalne** ([Croft](https://academic.oup.com/book/32815),
+[Langacker](https://academic.oup.com/book/10750/chapter-abstract/274879505),
+[Ferrara i Hodge](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00716/full)):
+gramatyka jako narzędzie rozczłonkowywania, typizowania i ponownego wiązania
+doświadczenia; profilowanie jako wysuwanie na pierwszy plan odmiennych aspektów
+przywołanej sytuacji; rozróżnienie opisywania, wskazywania i obrazowego
+przedstawiania. Czerpiemy z tych analiz przy wiązaniu konstrukcji językowych ze
+skalowaniem epistemizacyjnym. Naszym dodatkiem jest powiązanie tych analiz ze
+skalą modelu AE, nie teza, że przywołani autorzy przypisują częściom mowy
+uniwersalne miejsca w genealogii doświadczenia. Sami również nie przypisujemy
+im stałego miejsca na skali ani nie wyprowadzamy z gramatyki porządku
+genealogicznego.
+
+**Pragmatyzm i semiotyka** (Peirce, *Collected Papers*, 4.235): abstrakcja
+hipostatyczna, w której to, co było orzekane, staje się przedmiotem dalszego
+orzekania. Korzystamy z tego rozróżnienia, aby oddzielić nominalizację od
+reifikacji. U Peirce'a sama taka operacja również nie jest błędem. Naszym
+dodatkiem jest kryterium reifikacji jako redukcji połączonej z amnezją;
+samo uczynienie jakości tematem go nie spełnia.
 
 **Madhjamaka** (Nāgārjuna): pustość samoistnienia, współzależne powstawanie,
 konwencjonalna prawda jako dostępny tryb operowania. Czerpiemy z odmowy reifikacji

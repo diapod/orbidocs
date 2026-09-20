@@ -314,6 +314,176 @@ nikoli samotné textury zkušenosti: máme přesná pojmenování barev jako vla
 a málo výrazů pro barvu tak, jak je zakoušena. Nesvědčí to o chudobě zkušenosti,
 nýbrž o ceně jejího překladu do jazyka veřejně porovnatelných rozlišení.
 
+#### Přirozený jazyk a škály zkušenosti
+
+Slovní druhy a gramatické konstrukce přirozeného jazyka neodpovídají přímo vrstvám
+zkušenosti. Jsou však stopami různých způsobů jejího určování: vydělování,
+charakterizování, časového uchopování, ukazování a činění předmětem dalšího
+poznávání.
+
+Samotné užívání přirozeného jazyka jako společensky sdílené symbolické praxe
+řadíme do kulturní vrstvy, v níž se objevuje jazyková abstrakce: vazby mezi
+formami, významy a způsoby užití, které účastníci mohou udržovat, předávat
+a korigovat. Jde o umístění prahu v našem modelu, nikoli o tvrzení, že řečový
+akt se týká výhradně této vrstvy a probíhá pouze v ní. Mluvení zůstává vtělené
+a zakoušené a soudy formulované ve sféře objektivity rovněž využívají kulturně
+dostupný jazyk.
+
+Je třeba zdůraznit, že **vrstva artikulace není totéž co vrstva, k níž výpověď
+odkazuje**. Jazyk umožňuje popisovat osobní identitu, prvoosobové cítění,
+kulturní vztahy a objektivizované výsledky měření; může také nepřímo ukazovat
+k jevení se. Popis méně určené zkušenosti tím nepřestává být kulturní
+artikulací. Nepřenáší hotový prožitek k příjemci, nýbrž mu poskytuje podmínky
+pro utváření vlastního porozumění.
+
+V analýze tedy rozlišujeme kulturní práh artikulace, vrstvu popisované
+zkušenosti, perspektivu výpovědi a stupeň určení toho, co se popisuje.
+**Stupeň určenosti popisu není stupněm určenosti popisované zkušenosti.**
+Například souvětí může přesně popisovat absenci zřetelného rozdělení na subjekt
+a objekt, zatímco jediné "to" užité v kontextu může ukazovat na velmi přesně
+identifikovaný objekt. Složitost syntaxe neměří genealogickou hloubku a absence
+vyjádřeného gramatického podmětu nedokazuje absenci zakoušejícího.
+
+Nejužitečnějším východiskem je zde **epistemizační škálování** (dále stručně:
+škála epistemizace), čtené spolu s odpovídajícími **akty určení**. Genealogie
+určuje, kterého rozměru zkušenosti se výpověď týká, zatímco škála epistemizace
+pomáhá rozpoznat, nakolik bylo její téma vyděleno, zvýznamněno, zobecněno či
+objektivizováno. Slovní druhy a gramatické konstrukce vztahujeme k tomuto
+druhému řádu funkčně, nikoli přiřazením jediného místa každé formě.
+
+Samotné akty určení nemusí být jazykové. Výpověď se může podílet na jejich
+vykonávání nebo je popisovat. Nepředpokládáme tedy, že rozlišení figury či
+zakoušení subjektivity vyžaduje řeč. Jde o vztah mnoho-ku-mnoha: jedna
+konstrukce může sloužit různým operacím a jednu operaci lze artikulovat
+různými způsoby.
+
+Následující tabulka je pracovním rozvinutím inspirovaným výzkumem verbalizace
+zkušenosti a kognitivní gramatikou, nikoli výsledkem empirického potvrzení celé
+škály. Řádky zdůrazňují operaci v daném užití, nikoli všechny operace přítomné
+ve větě. Každý příklad je již smysluplnou kulturní výpovědí, i když popisuje
+dřívější rozlišení na škále. Není záznamem fáze "před významem". Jde o pořadí
+rozlišení v modelu, nikoli o chronologii prožívání či vzniku jazyků.
+
+| Místo na škále epistemizace | Zdůrazněná funkce | Užitečné slovní druhy a konstrukce | Příklad užití |
+|---|---|---|---|
+| **Fenomén – jevení se** | Nepřímé navádění k tomu, jak se zkušenost jeví, bez rozvíjení identifikace věcí. | Pomocně neosobní kvalitativní výpovědi se sponou, zkrácené výpovědi a zvukomalebné výrazy; žádná forma není doslovným protějškem jevení se. | "Je světlo." nebo "Cink!" – jako vodítka v ustáleném kontextu, nikoli jako nezpracovaný záznam zkušenosti. |
+| **Fenomén → podoba – rozlišování** | Rozlišení kontrastu či figury vůči pozadí. | Přídavná jména, stupňování, srovnávací a kontrastní konstrukce. | "Na světlém pozadí vystupuje tmavší skvrna." |
+| **Podoba → něco – vydělení** | Vybrání něčeho jako tématu, třeba i bez určení jeho druhu; možnost charakterizování a sledování změn. | Ukazovací a neurčitá zájmena, přídavná jména, slovesa. | "Tohle je něco světlého a chvěje se to." |
+| **Něco → znak – odkazování** | Ustavení či označení vztahu, v němž znak zastupuje něco jiného. | Pojmenování, symboly užité ve výpovědi, konstrukce pojmenovávání a označování. | "Toto krátké rozjasnění části zorného pole si v poznámce označím písmenem B." |
+| **Znak → význam – zvýznamnění** | Spojení znaku se smyslem v daném kontextu. | Interpretační konstrukce se "znamená", "chápu jako", "čtu jako". | "B zde znamená rozjasnění dané části, nikoli jeho domnělou příčinu." |
+| **Význam → pojem – zobecnění** | Uchopení různých případů pod společným označením. | Podstatná jména v obecném užití, klasifikující přídavná jména, definiční věty. | "Podobná krátká rozjasnění nazýváme záblesky." |
+| **Pojem → předmět – instancování** | Uchopení jednotlivého případu jako případu daného pojmu. | Jmenné fráze s ukazovacími zájmeny, číslovkami či identifikátory. | "Ten druhý záblesk je jedním z takových případů." |
+| **Předmět → objekt – objektivizace** | Stanovení veřejně použitelných kritérií identifikace, porovnávání či měření. | Operační termíny, kvantitativní fráze, relační slovesa, podmínkové věty. | "V tomto postupu považujeme za dobu trvání záblesku délku intervalu, v němž signál ze snímače zůstává nad stanoveným prahem." |
+| **Objekt → věc – zvěcnění** | Ztráta povědomí o rozlišeních, redukcích a podmínkách, díky nimž jsme k danému pojetí dospěli. | Žádná forma není nutná ani dostačující; rozhoduje zacházení s popisem, nikoli slovní druh. | "Záblesk sám o sobě je přesně tím objektem, který definoval náš postup" – když se výsledek operace ztotožní s nezávislou podstatou jevu. |
+
+Nulová úroveň zůstává mimo přiřazení. Ani určitý slovní druh, ani trojtečka,
+ani mlčení neposkytují v modelu přístup za hranici vypovídání.
+
+Propojení níže uvedených lingvistických a sémiotických přístupů se škálami
+tohoto modelu je naší vlastní syntézou. Nepřipisujeme jim potvrzení celé
+genealogie ani univerzální hierarchie slovních druhů. Nejde o úplný seznam
+slovních druhů: tabulka vybírá formy užitečné pro znázornění operací. Příklady
+v této verzi se týkají češtiny; v jiných jazykových verzích přizpůsobujeme formy
+a příklady danému jazyku při zachování týchž rozlišení modelu, nikoli zdánlivé
+shody kategorií.
+
+Například polské "Jasno." a české "Je světlo." lze ve vhodném kontextu vyjádřit
+anglickým "It's bright." nebo zkráceným "Bright!". Anglické "it" má v první
+z těchto výpovědí funkci [formálního podmětu](https://dictionary.cambridge.org/us/grammar/british-grammar/it-as-empty-subject),
+neoznačuje osobu ani vlastníka zkušenosti. [Anglické
+determinátory](https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this), včetně členů "a/an" a "the", zase nemají
+v polštině ani češtině protějšky jeden-ku-jednomu; ukazování a identifikace
+v těchto jazycích mohou využívat mimo jiné zájmena a kontext. V polštině
+a češtině může být nevyjádření podmětového zájmena také běžnou gramatickou
+možností, nikoli popisem zániku subjektivity. V každém z těchto případů
+porovnáváme funkci výpovědi v užití, nikoli jen označení slovních druhů.
+
+#### Operace protínající škálu epistemizace
+
+**Charakterizování, časové uchopování a nominalizace nejsou dalšími stupni
+genealogie.** Mohou se vyskytovat v popisech různých vrstev a různých míst
+škály epistemizace. Přídavné jméno může charakterizovat teprve rozlišovanou
+figuru ("světlá skvrna"), ale také pojem ("jasné kritérium"). Sloveso může
+popisovat pociťování ("chvěje se") i vztah v objektivizovaném modelu
+("teplota roste"). Samotná volba slovního druhu neurčuje stupeň určení
+zkušenosti.
+
+Porovnejme "rozjasňuje se", "jasné" a "jasnost". První výraz zdůrazňuje
+průběh změny, druhý charakteristiku a třetí umožňuje učinit ji tématem
+dalšího vypovídání. Toto rozlišení je blízké Langackerovu **profilování**:
+různé konstrukce staví do popředí různé aspekty evokované situace. Nevyplývá
+z toho však, že každá změna gramatické formy znamená přechod do jiné vrstvy
+zkušenosti.
+
+Zde je třeba oddělit **nominalizaci** (jazykové uchopení kvality, činnosti či
+vztahu pomocí jmenného vyjádření) od **reifikace**. "Jasnost" a "chvění"
+umožňují porovnávání, tázání i měření, aniž bychom je museli považovat za
+samostatně existující jsoucna. Příbuzný pohyb popisuje Peirce jako tzv.
+hypostatickou abstrakci: to, co bylo vypovídáno o něčem, se stává předmětem
+dalšího vypovídání; samo o sobě to ještě není chyba. V apofatickém enaktivismu
+je problémem až **redukce spojená s amnézií** (srov. formuli reifikace
+v postulátu 4), nikoli jmenné vyjádření jako takové.
+
+Ani popisování, ukazování a názorné předvádění zkušenosti netvoří řadu od
+"pozdějšího" k "dřívějšímu". Jsou různými způsoby komunikačního
+účastenství, které mohou působit společně. "Cink!" může předvádět charakter
+zvuku, "takhle" ukazovat způsob a rozvinutá věta vysvětlovat podmínky
+interpretace. Žádný z těchto způsobů není z definice méně podmíněný. Krátká
+výpověď může vyžadovat zvlášť bohatý sdílený kontext.
+
+#### Označování vrstvy, perspektivy a rozsahu výpovědi
+
+Když jazyková konstrukce popisuje zkušenost z jiné vrstvy, než jakou naznačuje
+její obvyklé čtení, vyžaduje komunikace informace umožňující tento posun
+rozpoznat. To platí i pro posuny na škále epistemizace: pojmenování může
+navádět ke kvalitě zkušenosti, ale být čteno jako název samostatně existující
+věci. Informace nemusí mít podobu technické značky; může vyplývat z úvodu,
+příkladu, gesta nebo sdílené praxe. Měla by však být dostupná příjemci,
+nikoli pouze implicitní pro mluvčího.
+
+U výpovědí náchylných k takovým omylům by měl rámec rozlišovat **vrstvu
+odkazu** – čeho se popis v modelu týká; **stupeň určení** – zda ukazujeme
+ke kvalitě, vydělenému fenoménu, pojmu nebo objektu vymezenému postupem;
+**perspektivu** – z čí pozice a za jakých podmínek je výpověď formulována;
+a **status a rozsah** – zda jde o svědectví, vodítko, metaforu, hypotézu
+nebo soud podrobovaný veřejnému posouzení. Není třeba deklarovat přesné místo
+na škále, pokud je nedokážeme zdůvodnit. Stačí označit podstatná rozlišení
+a přetrvávající nejistotu.
+
+Například "jasnost" může označovat kvalitu vidění nebo veličinu vymezenou
+měřicím postupem. Věta "Nemluvím o výsledku měření, nýbrž o tom, jak se jevilo
+zorné pole" vymezuje jiný rozsah než "Jasností zde rozumím výsledek tohoto
+postupu". Stejná jmenná forma nezaručuje totožnost obou významů ani právo
+přenášet mezi nimi závěry přímo.
+
+Podobně lze větu "Nejsem" číst jako popření existence osoby. Jiný rozsah
+vymezuje doplnění:
+
+> "Popisuji zkušenost, v níž se nevyděloval samostatný pozorovatel: barvy
+> a zvuky byly přítomné, ale nechápal jsem je jako své. Nepopírám tím vlastní
+> tělo, paměť ani závazky."
+
+V modelu tento popis zaměřuje pozornost ke vztahu jevení se a subjektivity
+a k oslabení určitého způsobu vydělování zakoušejícího. Stále však jde
+o kulturně utvářené svědectví, nikoli o důkaz přístupu k nepodmíněnému
+vědomí. Bez vymezení rozsahu vzniká zdánlivý paradox "kdo říká, že není?";
+po jeho vymezení lze odděleně zkoumat smysl svědectví, přiléhavost
+interpretace a to, jaké závěry z ní skutečně vyplývají.
+
+**Označení kontextu nenahrazuje zdůvodnění**, ale umožňuje odlišit
+nedorozumění od skutečného sporu, aniž by zaručovalo pravdivost tvrzení nebo
+odstraňovalo skutečný rozpor. Přenos závěru do jiné vrstvy stále vyžaduje
+níže popsaný kontrakt přechodu: explicitní určení toho, která rozlišení
+zachováváme, která přidáváme a na jakém základě překládáme. V duchu enaktivní
+účasti je odpovědnost za srozumitelnost rámce sdílená: mluvčí poskytuje
+dostupná vodítka a příjemce se podílí na ustalování smyslu, může ověřovat
+vlastní porozumění a v průběhu rozhovoru také zjišťovat, nakolik se blíží
+tomu, co chtěl druhý vyjádřit.
+
+Nehledáme tedy slovní druh "nejbližší zdroji", nýbrž rozpoznáváme,
+**jaká určení výpověď zavádí, k čemu se snaží navést a co nás neopravňuje
+tvrdit**.
+
 #### Rozsah zdůvodnění a kontrakty přechodu
 
 Vrstvy automaticky nedědí svá zdůvodnění. Pozorování, korelace nebo vysvětlení
@@ -1092,6 +1262,25 @@ nalezneme klasickou kritiku „ducha ve stroji“ a kategoriálního omylu. Je t
 nás podpůrná perspektiva, která umožňuje pojmenovat kategoriální omyly
 a substancializaci mentálních procesů při definování paradoxu a při výkladu
 „krádeže ontologie“ mezi vrstvami.
+
+**Kognitivní a funkční lingvistika** ([Croft](https://academic.oup.com/book/32815),
+[Langacker](https://academic.oup.com/book/10750/chapter-abstract/274879505),
+[Ferrara a Hodge](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00716/full)):
+gramatika jako nástroj členění, typizování a opětovného propojování zkušenosti;
+profilování jako stavění různých aspektů evokované situace do popředí;
+rozlišení popisování, ukazování a názorného předvádění. Z těchto analýz čerpáme
+při vztahování jazykových konstrukcí k epistemizačnímu škálování. Naším
+doplňkem je propojení těchto analýz se škálou modelu AE, nikoli tvrzení, že
+citovaní autoři přiřazují slovním druhům univerzální místa v genealogii
+zkušenosti. Sami jim rovněž nepřiřazujeme pevné místo na škále ani
+nevyvozujeme z gramatiky genealogický řád.
+
+**Pragmatismus a sémiotika** (Peirce, *Collected Papers*, 4.235): hypostatická
+abstrakce, při níž se to, co bylo vypovídáno o něčem, stává předmětem dalšího
+vypovídání. Toto rozlišení využíváme k oddělení nominalizace od reifikace.
+Ani u Peirce není samotná taková operace chybou. Naším doplňkem je kritérium
+reifikace jako redukce spojené s amnézií; samotné učinění kvality tématem
+je nenaplňuje.
 
 **Madhjamaka** (Nāgārjuna) – prázdnota vlastní existence, spolupodmíněné vznikání,
 konvenční pravda jako dostupný režim fungování. Čerpáme z odmítnutí reifikace

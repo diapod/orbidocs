@@ -349,6 +349,187 @@ for colors as properties of things and few expressions for color as experienced.
 This does not indicate poverty of experience, but the cost of translating it into a
 language of publicly comparable distinctions.
 
+#### Natural language and scales of experience
+
+The parts of speech and grammatical constructions of natural language do not
+correspond directly to layers of experience. They are, however, traces of different
+ways of determining it: individuating, qualifying, framing in time, indicating,
+and making it a subject of further inquiry.
+
+We locate the use of natural language as a socially shared symbolic practice in
+the cultural layer, where linguistic abstraction becomes possible: connections
+between forms, meanings, and uses that participants can sustain, transmit, and
+correct. This locates a threshold within our model; it does not claim that a speech
+act concerns only this layer or occurs only within it. Speaking remains embodied
+and experienced, while judgments formulated in the sphere of objectivity also draw
+on culturally available language.
+
+It is worth emphasizing that **the layer of articulation is not the same as the
+layer an utterance refers to**. Language lets us describe personal identity,
+first-person feeling, cultural relations, and objectified measurement results; it
+can also point indirectly toward appearing. Describing less determined experience
+does not cease to be cultural articulation. It does not transfer a ready-made
+experience to the recipient, but provides conditions for forming their own
+understanding.
+
+In analysis, we therefore distinguish the cultural threshold of articulation, the
+layer of experience being described, the utterance's perspective, and the degree
+of determination of what is described. **How determinate a description is does not
+tell us how determinate the experience it describes is.** For example, a complex
+sentence can precisely describe the absence of a clear subject–object distinction,
+while a single "this", used in context, can indicate a very precisely identified
+object. Syntactic complexity does not measure genealogical depth, and the absence
+of an expressed grammatical subject does not prove the absence of an experiencer.
+
+The most useful point of reference here is **epistemizing scaling** (hereafter:
+the scale of epistemization), read together with the corresponding **acts of
+determination**. Genealogy identifies which dimension of experience an utterance
+concerns, while the scale of epistemization helps us recognize how far its topic
+has been individuated, given meaning, generalized, or objectified. We relate parts
+of speech and grammatical constructions to this second order functionally, not by
+assigning each form a single position.
+
+Acts of determination need not themselves be linguistic. An utterance can
+participate in performing them or describe them. We therefore do not assume that
+distinguishing a figure or experiencing subjectivity requires speech. The mapping
+is many-to-many: one construction can support different operations, and one
+operation can be articulated in different ways.
+
+The following table is a working elaboration inspired by research on the
+verbalization of experience and cognitive grammar, not an empirical confirmation
+of the entire scale. Each row highlights an operation in a particular use, not
+every operation present in the sentence. Every example is already a meaningful
+cultural utterance, even when it describes an earlier distinction on the scale.
+It does not record a stage "before meaning". This is an ordering of distinctions
+within the model, not a chronology of experiencing or of languages coming into
+being.
+
+| Position on the scale of epistemization | Highlighted function | Helpful word classes and constructions | Example of use |
+|---|---|---|---|
+| **Phenomenon – appearing** | Indirectly guiding attention toward how experience appears, without elaborating the identification of things. | As aids, qualitative clauses with dummy "it", elliptical adjective utterances, and onomatopoeic expressions; no form is a literal counterpart of appearing. | "It's bright." or "Ding!" – as cues within an established context, not an unprocessed record of experience. |
+| **Phenomenon → figure – differentiation** | Distinguishing a contrast or figure against a background. | Adjectives, comparatives, and comparative or contrastive constructions. | "A darker patch stands out against the bright background." |
+| **Figure → something – individuation** | Selecting something as a topic, even without establishing its kind; enabling qualification and the tracking of change. | Demonstrative and indefinite pronouns, adjectives, and verbs. | "Something here is bright and quivering." |
+| **Something → sign – reference** | Establishing or indicating a relation in which a sign stands for something. | Names, symbols invoked in an utterance, and naming or labeling constructions. | "I'll label this brief brightening of part of the visual field B in my notes." |
+| **Sign → meaning – signification** | Connecting a sign with a sense in a given context. | Interpretive constructions with "means", "I understand as", or "I read as". | "B here means the brightening of that part, not its presumed cause." |
+| **Meaning → concept – generalization** | Bringing different instances under a shared term. | Generically used nouns, classifying adjectives, and definitional sentences. | "We call similar brief brightenings flashes." |
+| **Concept → item – instantiation** | Treating an individual instance as an instance of a given concept. | Noun phrases with determiners, including articles and demonstratives, or with numerals or identifiers. | "That second flash is one such instance." |
+| **Item → object – objectivation** | Establishing publicly applicable criteria for identification, comparison, or measurement. | Operational terms, quantitative phrases, relational verbs, and conditional sentences. | "In this procedure, we define a flash's duration as the length of the interval during which the sensor signal remains above the specified threshold." |
+| **Object → thing – reification** | Losing sight of the distinctions, reductions, and conditions through which the account was obtained. | No necessary or sufficient form; what matters is how the description is treated, not its word class. | "The flash in itself is exactly the object our procedure has defined" – when the result of an operation is identified with the phenomenon's independent essence. |
+
+Level zero remains outside the mapping. Neither a particular word class, an
+ellipsis mark, nor silence provides access beyond the model's boundary of predication.
+
+Connecting the linguistic and semiotic approaches cited below with the scales of
+this model is our own synthesis. We do not attribute to them confirmation of the
+entire genealogy or a universal hierarchy of parts of speech. This is not a
+complete inventory of word classes: the table selects forms useful for showing
+the operations. The examples in this version concern English; in other language
+versions, we adapt forms and examples to the language while preserving the same
+model distinctions, not a superficial correspondence between categories.
+
+For example, Polish "Jasno." and Czech "Je světlo." can, in an appropriate
+context, be rendered as English "It's bright." or the abbreviated "Bright!".
+In the first English utterance, "it" functions as a [dummy subject](https://dictionary.cambridge.org/us/grammar/british-grammar/it-as-empty-subject);
+it does not identify a person or an owner of experience. [English
+determiners](https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this), including the
+articles "a/an" and "the", in turn have no one-to-one equivalents in Polish or
+Czech; indication and identification in those languages can draw on pronouns and
+context, among other resources. In Polish and Czech, omitting a subject pronoun
+can also be an ordinary grammatical option, not a description of disappearing
+subjectivity. In each case, we compare the utterance's function in use, not word
+class labels alone.
+
+#### Operations that cut across the scale of epistemization
+
+**Qualifying, framing in time, and nominalizing are not additional steps in the
+genealogy.** They can occur in descriptions of different layers and at different
+positions on the scale of epistemization. An adjective can characterize a figure
+only just being distinguished ("a bright patch"), but also a concept ("a clear
+criterion"). A verb can describe sensation ("it quivers") as well as a relation
+in an objectified model ("the temperature rises"). The choice of word class alone
+does not establish the degree of determination of experience.
+
+Compare "it brightens", "bright", and "brightness". The first expression
+foregrounds a change unfolding, the second a characteristic, and the third lets
+us make that characteristic a topic of further predication. This distinction is
+close to Langacker's **profiling**: different constructions foreground different
+aspects of the situation they evoke. It does not follow, however, that every
+change in grammatical form means a transition to another layer of experience.
+
+Here we need to distinguish **nominalization** (linguistically framing a quality,
+activity, or relation in nominal form) from **reification**. "Brightness" and
+"quivering" allow comparison, questioning, and measurement without requiring us
+to treat them as self-subsisting entities. Peirce describes a related move as
+hypostatic abstraction: what was predicated becomes a subject of further
+predication; this alone is not yet an error. In apophatic enactivism, the problem
+arises only with **reduction combined with amnesia** (see the formula for
+reification in postulate 4), not with nominal form as such.
+
+Describing, indicating, and depicting experience likewise do not form a sequence
+from "later" to "earlier". They are different ways of participating in
+communication and can work together. "Ding!" can enact the character of a sound,
+"like this" indicate a manner, and an elaborate sentence explain the conditions
+of interpretation. None of these ways is, by definition, less conditioned. A
+short utterance may require a particularly rich shared context.
+
+#### Marking an utterance's layer, perspective, and scope
+
+When a linguistic construction describes experience from a layer other than the
+one suggested by its customary reading, communication requires information that
+lets the recipient recognize the shift. This also applies to shifts on the scale
+of epistemization: a name can guide attention toward a quality of experience yet
+be read as the name of a self-subsisting thing. The information need not take the
+form of a technical label; it can come from an introduction, an example, a gesture,
+or a shared practice. It should, however, be available to the recipient, not merely
+implicit for the speaker.
+
+For utterances prone to such misunderstandings, the frame should distinguish
+**the layer of reference** – what the description concerns within the model;
+**the degree of determination** – whether we point toward a quality, an
+individuated phenomenon, a concept, or a procedurally defined object;
+**the perspective** – from whose position and under what conditions the utterance
+is formulated; and **the status and scope** – whether it is testimony, a cue, a
+metaphor, a hypothesis, or a judgment open to public evaluation. We need not declare
+an exact position on the scale if we cannot justify it. Marking the relevant
+distinctions and remaining uncertainty is enough.
+
+For example, "brightness" can denote a quality of seeing or a quantity defined
+by a measurement procedure. The sentence "I'm not talking about a measurement
+result, but about how the visual field appeared" indicates a different scope
+from "By brightness I mean the result of this procedure here". The same nominal
+form guarantees neither identity between the two meanings nor a right to transfer
+conclusions directly between them.
+
+Similarly, "I do not exist" can be read as denying the existence of a person.
+A different scope is established by the clarification:
+
+> "I'm describing an experience in which no separate observer stood out: colors
+> and sounds were present, but I did not frame them as mine. This does not mean
+> that I deny my own body, memory, or obligations."
+
+Within the model, such a description directs attention toward the relation
+between appearing and subjectivity, and toward the loosening of a particular way
+of individuating the experiencer. It remains culturally formed testimony, however,
+not proof of access to unconditioned consciousness. Without specifying the scope,
+the apparent paradox "who says they do not exist?" arises; once the scope has been
+specified, we can separately examine the testimony's sense, the interpretation's
+adequacy, and which conclusions actually follow from it.
+
+**Marking context does not replace justification**, but helps distinguish a
+misunderstanding from a genuine dispute, without guaranteeing a claim's truth or
+removing an actual contradiction. Transferring a conclusion to another layer still
+requires the transition contract described below: explicitly stating which
+distinctions we preserve, which we add, and on what grounds we translate. In the
+spirit of enactive participation, responsibility for the frame's intelligibility
+is shared: the speaker provides accessible cues, while the recipient participates
+in establishing sense and can check their own understanding, as well as explore
+through conversation whether it is close to what the other person intended to
+express.
+
+We therefore do not seek the part of speech "closest to the source", but recognize
+**which determinations an utterance introduces, what it tries to guide us toward,
+and what it does not warrant us in claiming**.
+
 #### Scope of justification and transition contracts
 
 Layers do not automatically inherit their justifications. An observation,
@@ -1202,6 +1383,25 @@ classic critique of the "ghost in the machine" and of the category mistake. For
 us it is a supporting perspective that lets us name category mistakes and the
 substantialization of mental processes when defining paradox and discussing the
 "theft of ontology" between layers.
+
+**Cognitive and functional linguistics** ([Croft](https://academic.oup.com/book/32815),
+[Langacker](https://academic.oup.com/book/10750/chapter-abstract/274879505),
+[Ferrara and Hodge](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.00716/full)):
+grammar as a tool for segmenting, typing, and reconnecting experience; profiling
+as foregrounding different aspects of an evoked situation; the distinction
+between describing, indicating, and depicting. We draw on these analyses when
+relating linguistic constructions to epistemizing scaling. Our addition is their
+connection with the scale of the AE model, not a claim that the cited authors
+assign word classes universal positions in the genealogy of experience. We too
+neither assign them fixed positions on the scale nor derive genealogical order
+from grammar.
+
+**Pragmatism and semiotics** (Peirce, *Collected Papers*, 4.235): hypostatic
+abstraction, in which what was predicated becomes a subject of further predication.
+We draw on this distinction to separate nominalization from reification. For
+Peirce, such an operation is not itself an error either. Our addition is the
+criterion of reification as reduction combined with amnesia; merely making a
+quality a topic does not meet it.
 
 **Madhyamaka** (Nāgārjuna): emptiness of self-existence, dependent arising,
 conventional truth as an available operational mode. We draw on the refusal of
