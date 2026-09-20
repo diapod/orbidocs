@@ -29,6 +29,12 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.room-live-message.v4.json)
+      echo "$SCHEMAS_DIR/room-live-message.v4.schema.json"
+      ;;
+    *.room-inference-assertion.v1.json)
+      echo "$SCHEMAS_DIR/room-inference-assertion.v1.schema.json"
+      ;;
     *.corpus-agent-answer-draft.v2.json)
       echo "$SCHEMAS_DIR/corpus-agent-answer-draft.v2.schema.json"
       ;;

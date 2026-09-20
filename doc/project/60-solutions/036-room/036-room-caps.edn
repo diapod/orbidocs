@@ -84,7 +84,9 @@
    :schemas ["inference-execution-posture.v1"
              "inference-execution-provenance.v1"
              "room-contribution-inference.v1"
-             "room-live-message.v3"]
+             "room-live-message.v3"
+             "room-inference-assertion.v1"
+             "room-live-message.v4"]
    :responsibilities
    ["Admit scoped participant inference posture with exact owner binding generation validity and processing-boundary ref without changing identity membership grants or authority"
     "Compare sender boundaries only through explicit locally admitted relations and keep unrelated boundaries unknown or non-matching"

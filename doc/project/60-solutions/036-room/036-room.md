@@ -41,8 +41,10 @@ Related schemas:
 - `room-relay-delivery.v1`
 - `room-relay-sender-key-distribution.v1`
 - `room-relay-sealed-delivery.v1`
-- `inference-execution-posture.v1` (planned)
-- `inference-execution-provenance.v1` (planned)
+- `inference-execution-posture.v1`
+- `inference-execution-provenance.v1`
+- `room-inference-assertion.v1`
+- `room-live-message.v4`
 
 ## Status
 
@@ -109,13 +111,14 @@ Room is not a reasoning engine, procurement system, or chat transcript archive.
 It gives higher-level components a stable membership, policy, attestation,
 presence, and live-message substrate.
 
-Proposal 090 adds a planned horizontal metadata slice: a scoped
+Proposal 090 adds an implemented inline horizontal metadata slice: a scoped
 `inference-execution-posture.v1` value for admission and per-contribution
 realized provenance for presentation and downstream policy. Posture binds its
 assertion owner, participant/runtime-binding subject, policy generation,
 validity, and exact processing-boundary ref. Neither value becomes Room identity,
-membership, authority, or a permanent property of the participant. No current
-Room schema or runtime implements this slice.
+membership, authority, or a permanent property of the participant. V4 signs the
+minimally disclosed declaration or contribution; Node issuers sign their exact
+Room subject.
 
 ## Context and Problem Statement
 
@@ -379,9 +382,10 @@ Based on:
 
 Related schemas:
 
-- `inference-execution-posture.v1` (planned)
-- `inference-execution-provenance.v1` (planned)
-- a future compatible Room contribution/message projection contract
+- `inference-execution-posture.v1`
+- `inference-execution-provenance.v1`
+- `room-contribution-inference.v1`
+- `room-inference-assertion.v1` and `room-live-message.v4`
 
 Responsibilities:
 
@@ -404,7 +408,12 @@ Responsibilities:
 
 Status:
 
-- `planned`; current Room live and durable contracts do not carry P090 provenance.
+- `partial`: P090-010a/010b/011a implement inline contribution carriage,
+  subject-owned signed declarations, separate declared/observed UI and signed
+  minimal WSS projection with durable receiver verification/replay. The local
+  P090-012c gate is not fresh physical acceptance. Delegated runtime-binding
+  issuers, other-adapter qualification, arbitrary captured products and remote
+  descriptor resolution remain open.
 
 ### Relocatable Federated WSS Relay
 
@@ -591,7 +600,10 @@ Status:
   and durable sequence recovery;
 - bounded participant inference views and UI badges, preserving separate sender
   boundaries, unknown counts and peer-attested strength. They grant no membership
-  or effect authority. Scoped declarations remain broader P090-010 work.
+  or effect authority;
+- P090-010b/011a subject-signed V4 declaration or contribution assertions,
+  monotone declaration generations with at most one-day validity, separate
+  current/expired/unknown posture view, and whole-assertion replay checkpoints.
 
 ## Related Capability Data
 

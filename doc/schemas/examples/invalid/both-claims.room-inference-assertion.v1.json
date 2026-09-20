@@ -1,0 +1,106 @@
+{
+  "schema": "room-inference-assertion.v1",
+  "room/id": "room:deliberation:alpha",
+  "subject": {
+    "kind": "node",
+    "id": "node:did:key:z6MkkcXuo2aKz9gak5BhHi1zebGBkbpgLUHgwf6MVqssSy8D"
+  },
+  "message/ref": "room-message:alpha-participant-a-4",
+  "message/seq-no": 4,
+  "content/type": "text/plain",
+  "content/digest": "sha256:X9S_Tbrr6fmLvu3UV1mAZ8zXPeSBi9hX-u-N7W0qCYw",
+  "contribution": {
+    "schema": "room-contribution-inference.v1",
+    "room/id": "room:deliberation:alpha",
+    "subject": {
+      "kind": "node",
+      "id": "node:did:key:z6MkkcXuo2aKz9gak5BhHi1zebGBkbpgLUHgwf6MVqssSy8D"
+    },
+    "message/ref": "room-message:alpha-participant-a-4",
+    "message/seq-no": 4,
+    "content/type": "text/plain",
+    "content/digest": "sha256:X9S_Tbrr6fmLvu3UV1mAZ8zXPeSBi9hX-u-N7W0qCYw",
+    "execution/provenance": {
+      "schema": "inference-execution-provenance.v1",
+      "descriptor/digest": "sha256:fnCChf7N08v2ZrMIcGsan1nIMsuBft_8T0gbz6M7ubU",
+      "descriptor/size-bytes": 1332,
+      "descriptor": {
+        "descriptor/id": "sha256:JxqWKxn4BMcixfnZjkTsGmP4rn8UNA_h4uN_0bAYk0U",
+        "projection/id": "sha256:i3d-JtOyK6kchUGZrNE6VGBaf6HU3Kpzz6EawzJGN2E",
+        "projection/kind": "redacted",
+        "subject/ref": "room-contribution-binding:sha256:7lmBAZdh9b_8GdWSbtu3z8U5EJOBCQOPZHCCeBgw6B0",
+        "asserted/by": "node:did:key:z6MkkcXuo2aKz9gak5BhHi1zebGBkbpgLUHgwf6MVqssSy8D",
+        "observed/at": "2026-09-04T10:00:00Z",
+        "processing-boundary/ref": "processing-boundary:host:self",
+        "dispatch": "dispatched",
+        "dispatch/components": [
+          "dispatched"
+        ],
+        "locality": "local",
+        "locality/components": [
+          "local"
+        ],
+        "input-egress": "none",
+        "input-egress/components": [
+          "none"
+        ],
+        "provider/disclosure": "withheld",
+        "provider/refs": [],
+        "bindings": {},
+        "evidence": [
+          {
+            "basis": "derived",
+            "assertion/ref": "room-contribution-binding:sha256:7lmBAZdh9b_8GdWSbtu3z8U5EJOBCQOPZHCCeBgw6B0",
+            "evidence/refs": [],
+            "limitation": "joined from descriptor lineage"
+          },
+          {
+            "basis": "host-enforced-no-egress",
+            "assertion/ref": "observation:fixture-no-egress",
+            "evidence/refs": [],
+            "limitation": "evidence refs withheld by projection"
+          },
+          {
+            "basis": "host-selected-profile",
+            "assertion/ref": "runtime-selection:fixture",
+            "evidence/refs": [],
+            "limitation": "evidence refs withheld by projection"
+          }
+        ],
+        "evidence/complete": false,
+        "lineage": {
+          "parent/descriptor-ids": [
+            "sha256:oYYwbSQ46pI3wCV1XsK6VdpDsU_vyWoinX8DNSJq6wA"
+          ],
+          "parent/count": 1,
+          "complete": true
+        },
+        "extensions": {}
+      }
+    }
+  },
+  "signer/ref": "node:did:key:z6MkkcXuo2aKz9gak5BhHi1zebGBkbpgLUHgwf6MVqssSy8D",
+  "signature": {
+    "alg": "ed25519",
+    "value": "QWZUWYmqhQaX451Wl5U3rLpoRcznW92-aUSdnG3wIp6Jjszt4V4guxkEG77qvLNNvuAt0Nx7VYkrwVPi2h4zDA"
+  },
+  "posture": {
+    "schema": "inference-execution-posture.v1",
+    "posture/id": "sha256:m0TfRlHFBdX_JVaKejgG9vF_65vvNPkXDEqzu6zXguE",
+    "assertion/owner": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk",
+    "subject/ref": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk",
+    "scope/ref": "room:deliberation:alpha",
+    "generation": 1,
+    "processing-boundary/ref": "processing-boundary:host:self",
+    "locality": "local-only",
+    "provider/disclosure": "withheld",
+    "provider/refs": [],
+    "valid/from": "2026-09-20T10:00:00Z",
+    "valid/until": "2026-09-20T11:00:00Z",
+    "evidence/requirements": [
+      "host-enforced-no-egress",
+      "host-selected-profile"
+    ],
+    "extensions": {}
+  }
+}

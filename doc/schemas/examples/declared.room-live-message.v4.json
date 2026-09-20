@@ -1,0 +1,56 @@
+{
+  "schema/v": 4,
+  "room/id": "room:deliberation:alpha",
+  "from/subject": {
+    "kind": "node",
+    "id": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk"
+  },
+  "seq/no": 4,
+  "message/ref": "room-message:alpha-participant-a-4",
+  "reply/refs": [
+    "room-message:alpha-participant-b-3"
+  ],
+  "size/bytes": 621,
+  "content/type": "application/vnd.orbiplex.room-inference-posture+json",
+  "content": "{\"schema\":\"inference-execution-posture.v1\",\"posture/id\":\"sha256:m0TfRlHFBdX_JVaKejgG9vF_65vvNPkXDEqzu6zXguE\",\"assertion/owner\":\"node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk\",\"subject/ref\":\"node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk\",\"scope/ref\":\"room:deliberation:alpha\",\"generation\":1,\"processing-boundary/ref\":\"processing-boundary:host:self\",\"locality\":\"local-only\",\"provider/disclosure\":\"withheld\",\"provider/refs\":[],\"valid/from\":\"2026-09-20T10:00:00Z\",\"valid/until\":\"2026-09-20T11:00:00Z\",\"evidence/requirements\":[\"host-enforced-no-egress\",\"host-selected-profile\"],\"extensions\":{}}",
+  "content/digest": "sha256:KzTqeFHYM6xv0p5OPnqjKu6I8_jUa6GAzcTkk-FYtrs",
+  "sent-at": "2026-07-22T10:00:03Z",
+  "extensions": {
+    "inference/assertion": {
+      "schema": "room-inference-assertion.v1",
+      "room/id": "room:deliberation:alpha",
+      "subject": {
+        "kind": "node",
+        "id": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk"
+      },
+      "message/ref": "room-message:alpha-participant-a-4",
+      "message/seq-no": 4,
+      "content/type": "application/vnd.orbiplex.room-inference-posture+json",
+      "content/digest": "sha256:KzTqeFHYM6xv0p5OPnqjKu6I8_jUa6GAzcTkk-FYtrs",
+      "posture": {
+        "schema": "inference-execution-posture.v1",
+        "posture/id": "sha256:m0TfRlHFBdX_JVaKejgG9vF_65vvNPkXDEqzu6zXguE",
+        "assertion/owner": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk",
+        "subject/ref": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk",
+        "scope/ref": "room:deliberation:alpha",
+        "generation": 1,
+        "processing-boundary/ref": "processing-boundary:host:self",
+        "locality": "local-only",
+        "provider/disclosure": "withheld",
+        "provider/refs": [],
+        "valid/from": "2026-09-20T10:00:00Z",
+        "valid/until": "2026-09-20T11:00:00Z",
+        "evidence/requirements": [
+          "host-enforced-no-egress",
+          "host-selected-profile"
+        ],
+        "extensions": {}
+      },
+      "signer/ref": "node:did:key:z6Mkj6joiZPz3kKe5PpGNLjCrTphanK4S5PXgpwVQPkyrvVk",
+      "signature": {
+        "alg": "ed25519",
+        "value": "7PRKUsMmxD8hFXkkHGoCjqOQ0-jW6HzWHL4TOGN9Xb3mOmrme4Dd-mbooI9Ha-Dfj-sfkfj22ndVc0It4606CA"
+      }
+    }
+  }
+}

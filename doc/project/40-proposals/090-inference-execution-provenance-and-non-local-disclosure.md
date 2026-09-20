@@ -919,9 +919,33 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P090-008` | Add open inference posture to service offers and Shared Offer Catalog filtering. | `P090-003` | `done` | Current checkpoint admits the optional signed `policy_annotations.inference/posture` characteristic with exact owner/offer/generation binding, retains it in Rust and Python catalog snapshots, and adds a pure receiving-policy contract/evaluator. Bounded host-evaluated filtering now covers Shared Offer Catalog, topic-query links and Arca local/observed projections before pagination; P090-008b freezes exact signed selection through paid dispatch and restart. The 2026-09-06 four-state disclosure matrix closes the declaration/catalog scope: complete, partial, withheld and unknown values survive signed admission, immutable revision retention and Rust/Python projections. Sixteen schema-gated receiving-policy cases cover provider allow-list checks under deny/warn/allow and known-denial precedence; valid resealed substitutions without a new offer signature refuse. Realized result carriage and remote resolution remain P090-008a. Acceptance target: signed offers carry the separate posture contract with assertion owner, exact scope/generation, processing-boundary ref, open provider characteristics, and disclosure state. Catalog queries support locality, provider allow/deny, explicit boundary matching, and unknown policy; `corpus/model-class` is compatibility-only and no closed domain-profile repertoire is introduced. |
 | `P090-008a` | Carry realized provenance through the generic remote-procurement result path. | `P090-003`, `P090-008` | `partial` | Current receiver checkpoint adds a content-bound V2 wrapper, all-boundary Schema Gate, authenticated buyer AD admission, optional buyer result-policy assessment, durable carrier/trace retention and replay/restart regression. Arca retains exact artifact bytes. New remote purchases freeze scoped offer posture at host selection time; receiving comparison preserves peer-attested strength and fails before closeout on missing, non-local or unrelated evidence. Paid replay/restart regression proves independence from later catalog generations. Dator now durably binds the unchanged role source before normalization and final result bytes before AD delivery; bounded retries and database restart reuse frozen identity/profile without executing the role again. Authenticated Python-to-daemon preparation is tested with deterministic role and AD doubles. P090-008c now passes real supervised role/schema admission, explicit AD allowlists and WSS delivery to Arca after restart, with exact bytes and one paid release. External descriptor resolution remains pending; this row is not done. A compatible `service-order.result` revision or immutable sidecar ref binds the producer descriptor without extending V1 in place; Dator stamps or preserves the producer value, Artifact Delivery carries it opaquely with its own source/digest evidence, and Arca verifies, preserves, and applies buyer policy without reinterpreting sender-relative locality. Missing, stripped, substituted, unrelated-boundary, and replay cases have negative fixtures. |
 | `P090-009` | Make Corpus validate offer posture against delivered provenance and preserve it in outputs. | `P090-006`, `P090-008`, `P090-008a` | `partial` | P090-009a/b/c close the inline draft, signed publication, AD receiving-policy and frozen-offer comparison paths with durable replay. General contribution-to-synthesis aggregation and remote descriptor resolution remain separate work; signed publication of admitted Agent ancestry does not prove that every Room contribution was consumed. |
-| `P090-010` | Add Room scoped posture, per-contribution provenance, read-model aggregates, and policy/UI projection. | `P090-006`, `P090-003` | `partial` | P090-010a closes contribution carriage, independent receiving policy and derived sender-relative badges. Scoped participant declarations remain open; identity, membership and authority are unchanged. |
-| `P090-011` | Add federated projection and verification semantics. | `P090-003`, `P090-010` | `todo` | Signed redacted projection preserves locality, egress, incomplete provider disclosure, and sender boundary; receiver records `peer-attested` basis and never upgrades evidence. Unknown and unsupported versions fail according to explicit policy. |
+| `P090-010` | Add Room scoped posture, per-contribution provenance, read-model aggregates, and policy/UI projection. | `P090-006`, `P090-003` | `partial` | P090-010a closes contribution carriage, independent receiving policy and sender-relative badges. P090-010b adds subject-owned signed declarations, bounded validity and monotone generation, durable recovery and separate declared/observed UI. Delegated runtime-binding issuers and additional captured-product/carrier profiles remain open; identity, membership and authority are unchanged. |
+| `P090-011` | Add federated projection and verification semantics. | `P090-003`, `P090-010` | `partial` | P090-011a implements signed minimal inline Room projection with subject-key verification, source identity, sender-relative locality/egress and incomplete disclosure preserved. P090-012c verifies mutation, stripping and restart through local WSS. Additional adapters and delegated issuer profiles require separate qualification; unresolved external descriptors remain refused. Peer authenticity never becomes receiver-observed execution. |
 | `P090-012` | Retain end-to-end multi-node acceptance and synchronize evidence-backed documentation. | `P090-004` through `P090-011` | `partial` | The bounded Codex-over-stdio producer-to-Agent slice is retained on three distinct physical hosts. Fresh run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260904T154427Z` and restarted run `federation-run:story-012-physical-three-host-three-node-codex-reviewer:20260904T160513Z` both pass all ten Story assertions, exact DNS effects, post-effect revalidation, complete traces, cleanup, and the exact `profile-defined` three-host claim. The fresh run's aggregate and Story-report SHA-256 values are `5512af53ccd2376e723197ffe5762fd50bf186b2aaf3dcc0cd63be6112e6a861` and `574426784b9762df4e8530dd5c9565614b46633c0d558e45fe734e4bb4b8858a`; the restarted run's corresponding values are `12848bc6cf487100cf29cfbe3eb2f8d29b1aeee731ca4207794b6b49a6089a4c` and `25ae2c316f596a87e822df9a50ce28081eee724a511286d97cc161ad73aaa4ee`, and its report retains the final controller sidecar ref. Completion still requires the full matrix: local MLX/llama, OpenAI via local sidecar, mixed join, cache/replay, redaction, Assistant warning, Corpus filtering, Room aggregation, peer projection, stripping refusal, and hidden-cascade limitation, with all owning documents and ledgers synchronized. |
+
+### Room disclosure slice (2026-09-20)
+
+This checkpoint reuses P090-006b/006c/009d; it does not reopen their supplied-input
+or synthesis implementation. A participant declaration is a signed control
+message, separate from a contribution and from membership. The first profile
+requires the Room subject itself to name the signing `did:key`; delegated
+assertion issuers need a separately admitted authority contract. The existing
+invite-message operator API carries the declaration, with exact Room/subject,
+generation and bounded validity. It grants no execution or publication authority.
+
+New signed inference messages use an explicit V4 carrier. Its signature binds
+the message coordinates and the minimally disclosed declaration or contribution.
+Receiver verification establishes only `peer-attested` authenticity, never
+receiver-local execution or independent verification of sender claims. Durable
+observations retain the signed value; replay binds the entire assertion, not
+only contribution text. Old V2/V3 traffic remains distinguishable and cannot
+impersonate a signed V4 replay. Unresolved external descriptors remain refused.
+
+| ID | Work item | Depends on | Status | Done criteria / evidence |
+| :--- | :--- | :--- | :--- | :--- |
+| `P090-010b` | Signed scoped participant declarations and separate declared/observed Room view. | `P090-010a` | `done` | Exact subject/Room binding, monotone declaration generation, half-open validity, durable replay and UI separation; expired or missing declarations never imply local execution. |
+| `P090-011a` | Signed minimally disclosed inline Room federation projection. | `P090-010b` | `done` | Sender-owned signature and receiver verification bind exact message and projection; withheld providers, non-local/mixed/unknown and sender boundaries survive without membership or evidence-strength promotion. |
+| `P090-012c` | Shared Room disclosure regression gate. | `P090-010b`, `P090-011a` | `done` | The six-command Node gate `check-inference-provenance-inventory.py --verify room` passes; schema, core, daemon and UI checks cover mutation, stripping, replay, receiver restart, expiry and independent receiving policy. Local deterministic/WSS evidence is distinct from fresh physical-host acceptance. |
 
 ### Active result-lifecycle slice (2026-09-05)
 
@@ -1252,10 +1276,12 @@ in `node:docs/evidence/inference-provenance/P090-SUPPLIED-INPUT-REVIEW.md`; broa
    no-drop/recovery proof. Do not repeat the pure contract, rebase foreign
    locality or treat supplied material as proof of model attention. Full
    contribution-to-synthesis generality is not established by this text path.
-3. Add scoped participant declarations under `P090-010`, followed by signed,
-   redacted federated projections under `P090-011`. Preserve sender-relative
-   boundaries and peer-attested strength without changing membership or
-   authority.
+3. Preserve the `P090-010b/011a/012c` signed inline Room checkpoint. Extend
+   delegated assertion issuers, additional carrier adapters or captured-product
+   profiles only with their explicit admission and replay proof. The current
+   Node issuer signs its own Room subject; neither a declaration nor a remote
+   signature grants membership or upgrades peer evidence. A guided declaration
+   editor can reuse the authenticated data API without inventing runtime claims.
 4. Design and implement bounded, authenticated external descriptor resolution
    for `P090-008a` before admitting external references. Until then reject
    them explicitly; retain the completed inline procurement path unchanged.

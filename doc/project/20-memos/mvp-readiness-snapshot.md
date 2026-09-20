@@ -1323,8 +1323,14 @@ Recent component deltas:
   the same local naming baseline, without broadening its acceptance claim.
   The reviewed 2026-09-15 helper passed the same nine-check local qualification,
   including owned-thread archival; the report binds its exact helper digest.
-  No other physical hosts participated; project grouping and P089-008f automatic
-  retention remain unimplemented, with no hard-MVP readiness change.
+  No other physical hosts participated; project grouping remains deferred.
+  The P089-008f implementation now provides opt-in/30-idle-day/archive retention,
+  durable ownership and Orbiplex pins, protected provider sections, bounded
+  Scheduler/BDO maintenance and naming-index tombstones. Deterministic tests
+  cover restart, lost observation, unchanged accounting and daemon preview
+  receipt replay. Retention remains disabled by default; verification did not
+  archive existing provider threads. This adds no live-provider, Linux,
+  multi-host or hard-MVP readiness claim.
 - The 2026-09-04 P090 foundation now has accepted semantics, a repository-wide
   carrier inventory, canonical `inference-execution-posture.v1` and
   `inference-execution-provenance.v1` schemas, and a pure provider-neutral Rust
@@ -1451,7 +1457,13 @@ Recent component deltas:
   This does not complete stage 1 or P090. Generalized producer/effect carriers
   and the complete no-drop inventory remain open, as do
   remote descriptor resolution, generalized contribution-to-synthesis profiles,
-  scoped Room declarations and federated projection. The bounded controller
+  delegated Room assertion issuers and additional carrier qualifications. The
+  2026-09-20 P090-010b/011a checkpoint adds subject-owned signed declarations,
+  separate declared/observed views and signed minimal inline WSS projection.
+  P090-012c checks generation/expiry, redaction, mutation, all-boundary schema
+  validation and durable receiver replay, including a restarted local WSS
+  transport. This is neither a fresh physical Story-012 run nor additional
+  hard-MVP/release qualification. The bounded controller
   checkpoint adds host-owned exact input manifests, retained multi-boundary
   source compositions and signed receiver restart tests. P090-012b's thirteen-test
   gate, including actual controller HTTP/process replay, passes; scoped Clippy,

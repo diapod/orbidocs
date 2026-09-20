@@ -1,0 +1,17 @@
+{
+  "schema/v": 4,
+  "room/id": "room:deliberation:alpha",
+  "from/subject": {
+    "kind": "node",
+    "id": "node:did:key:z6MkkcXuo2aKz9gak5BhHi1zebGBkbpgLUHgwf6MVqssSy8D"
+  },
+  "seq/no": 4,
+  "message/ref": "room-message:alpha-participant-a-4",
+  "reply/refs": [
+    "room-message:alpha-participant-b-3"
+  ],
+  "size/bytes": 11,
+  "content/type": "text/plain",
+  "content": "hello room!",
+  "sent-at": "2026-07-22T10:00:03Z"
+}

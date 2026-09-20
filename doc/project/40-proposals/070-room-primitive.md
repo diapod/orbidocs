@@ -718,8 +718,8 @@ primitive instead of maintaining a compatibility projection first.
 | `room-floor-lease.v1` | implemented Phase 7 (ephemeral) | Short-lived subject- and generation-bound permission to use an existing `speak` grant in a controlled-floor mode. It grants no membership. |
 | `room-moderation-audit.v1` | implemented Phase 7 | Bounded metadata-only audit fact for admitted, refused, replayed, expired, and cleanup-degraded moderation intents. |
 | `room-live-message.v2` | implemented Phase 7 (ephemeral wire) | Replaces v1 `nonce` with stable Room-scoped `message/ref` and adds bounded reply linkage without adding shared retention. |
-| `inference-execution-posture.v1` admission/projection | planned Phase 9, schema owned by P090 | Signed Room- and time-scoped participant/runtime-binding declaration with exact assertion owner, generation/validity, and processing-boundary ref. It is policy input and presentation metadata, not identity, membership, grant, or realized evidence. |
-| `inference-execution-provenance.v1` carriage/projection | planned Phase 9, schema owned by P090 | Conditionally required value or immutable ref for inference-derived contributions, absent for non-inference contributions, plus derived Room read-model metadata. It does not change Room identity, membership, authority, ordering, or retention. |
+| `inference-execution-posture.v1` admission/projection | scoped Phase 9 implemented, schema owned by P090 | Subject-owned signed Room/time-scoped declarations retain generation, validity and exact processing boundary. Delegated runtime-binding issuers remain pending. Declarations are policy input and presentation metadata, not membership, grants or realized evidence. |
+| `inference-execution-provenance.v1` carriage/projection | scoped Phase 9 implemented, schema owned by P090 | Signed minimal inline contribution projection and independent receiver policy preserve sender-relative evidence through restart. External descriptor references and additional carrier profiles remain pending; identity, membership and authority are unchanged. |
 
 ## Relationship to Existing Mechanisms
 
@@ -1990,6 +1990,23 @@ inline contribution checkpoint. No new physical federation acceptance is claimed
   receiver policy and bounded participant badges; control frames are excluded
   from inference counts and missing ancestry stays unknown.
 
+P090-010b/011a checkpoint (2026-09-20): the subject-owned signed inline
+`room-inference-assertion.v1` is mandatory on explicit `room-live-message.v4`.
+The Node issuer signs its own Room subject, not an implicit delegated Agent or
+participant. Declaration generations and bounded validity remain separate from
+execution evidence. The latest declaration survives outside the observation
+window; UI displays it beside, never instead of, observed sender-relative badges.
+Signed minimally disclosed contributions retain source identity, locality,
+egress and incompleteness. Receiver restart restores the whole assertion digest;
+V2/V3 downgrade and substituted replay refuse. P090-012c names the executable
+local gate, including actual WSS and all four Schema Gate boundaries. These
+checks do not qualify every carrier, captured product or fresh physical topology.
+
+- [x] P090-010b subject-owned signed declaration and separate current/expired/
+  unknown participant view; no membership or execution authority is granted.
+- [x] P090-011a signed inline WSS projection, durable verification and replay
+  without upgrading peer-attested evidence or rebasing the sender boundary.
+
 - [ ] `room-inference-posture-characteristic`: define and admit a signed,
   Room- and time-scoped `inference-execution-posture.v1` value; bind its
   assertion owner, participant/runtime-binding subject, policy generation,
@@ -1997,6 +2014,8 @@ inline contribution checkpoint. No new physical federation acceptance is claimed
   grant or a permanent participant property. Sender boundaries are compared
   only through explicit locally admitted relations; unrelated boundaries remain
   non-matching or `unknown`.
+  The Node-subject profile is implemented by P090-010b; explicit delegated
+  runtime-binding issuers remain outside this checkpoint.
 - [ ] `room-contribution-inference-provenance`: carry the bounded descriptor or
   immutable ref on inference-derived live contributions and captured products;
   preserve it across carrier adapters, replay/capture boundaries, and federated

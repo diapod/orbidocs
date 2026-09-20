@@ -2709,6 +2709,11 @@ a universal vocabulary of contribution, critique or success.
   provider policy explicit; retain `corpus/model-class` only as a compatibility
   projection; add no closed provider, domain-profile, or evidence-policy
   enumeration.
+  Scoped completion: P090-008/008b already implement catalog filtering and
+  immutable signed offer selection. P090-010b/011a additionally implement
+  subject-owned Room declarations and signed inline WSS projection. Remaining
+  delegated issuer and other carrier profiles are not another implementation
+  of offer filtering.
 - [ ] `corpus-result-inference-provenance`: validate every delivered
   inference-derived product against the selected offer posture and local
   buyer/Room policy, then preserve or conservatively join
@@ -2716,6 +2721,13 @@ a universal vocabulary of contribution, critique or success.
   Agent answer drafts, signed answers, publication candidates, and settlement
   evidence. No known non-local/mixed fact may be dropped or downgraded, and
   provider redaction must not erase the non-local characteristic.
+  Scoped completion: P090-009a/b/c and P090-006b/006c/009d already retain inline
+  procurement, exact supplied-input ancestry and signed controller-backed
+  synthesis. Additional contribution/source families, external descriptor
+  resolution and additional Room federation profiles remain open; P090-010b/
+  011a/012c close the subject-signed inline WSS boundary and its local gate. This
+  2026-09-20 reconciliation preserves those limits rather than reopening the
+  completed checkpoints or marking the whole aggregate done.
 - [ ] Add negative fixtures for a `local-only` declaration followed by
   non-local, mixed, unknown, missing, or provider-mismatched provenance, plus
   multi-parent and cache/replay cases. Acceptance must exercise both the

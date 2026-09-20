@@ -667,8 +667,12 @@ an extension hidden inside this solution.
   one asynchronous metadata attempt runs after the first accepted
   turn; real local qualification proves name persistence, preserved manual
   renaming, restart without another inference, and owned-thread archival;
-  naming failure cannot alter Agent evidence or settlement, and automatic
-  retention/project grouping remain outside this implemented baseline;
+  naming failure cannot alter Agent evidence or settlement;
+  P089-008f adds opt-in/30-day/archive retention with durable creation ownership,
+  Orbiplex pins, protected provider sections, Scheduler/BDO operator maintenance,
+  metadata receipts and naming tombstones. Deterministic qualification proves
+  lost-reply inspection, restart and unchanged accounting; live-provider/Linux
+  and multi-host retention claims are not made. Project grouping stays deferred;
   real-platform host isolation and actuation remain unimplemented*;
 - additional capability-specific effect-policy adapters — *deferred until a
   concrete consumer and owning host surface exist*;
