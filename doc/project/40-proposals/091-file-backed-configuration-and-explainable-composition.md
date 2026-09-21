@@ -1983,7 +1983,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-001a` | Inventory foundation sources/writers and establish the executable inventory | — | `done` | Completed 2026-09-21: delivered `node:docs/configuration-inventory.v1.json`, the bounded checker, 18 structural/negative-control tests and CI `--verify-current`; mapped the three daemon seams, policy port, bootstrap/toggle writers, Agora, Node UI, four first-slice cases and minimum Python/Arca/Flow bindings. Pending/partial inventory states remain explicit. |
 | `P091-001b` | Inventory remaining module-local and record-backed controls | — | `done` | Completed 2026-09-21: the common inventory covers production Python loaders, workflow record fields, daemon/UI CLI, reviewed environment inputs, launch projections, the operator-storage non-setting and named retirement owners. This does not turn domain resources into settings. |
 | `P091-002` | Freeze shared contracts under resolved operator choices | `P091-001a` | `done` | 2026-09-21 follow-up closes Review 283's contract-only gaps: measured five-owner/four-case corpus and finite budget boundaries; executable retained replay/detail-mode and disclosure relations; predicted values, exact approval/replan, durable-data attempt/receipt and old/new/third/no-op recovery vectors. See the Node freeze evidence map below. Existing 21 schemas, 20 positive/6 conditional-negative vectors, Rust/Python DTOs, Schema Gate and five-operation registry remain synchronized. The bounded reference model is not P091-003's production resolver; disk/crash/cross-process acceptance stays with P091-006/007/013. No route, writer or component application is enabled; P091-005a remains mandatory. |
-| `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `todo` | `configuration-core` has no host/UI/provider dependencies; layering checks cover all current upper crates. Preserve `json-utils` behavior, extract retirement-policy validation and bootstrap writes. Both detail modes yield identical values/refusals; retained inputs support lazy per-pointer explanation after source/descriptor change. No read-time mutation/fetch. |
+| `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `partial` | 2026-09-21 logging checkpoint: production `configuration-core` resolver folds immutable retained inputs through an observed `json-utils` primitive; default/base/operator/invocation precedence, values/detail parity, `/logging/level` plus `/logging` evidence, historical replay and in-path budgets pass. See the Node evidence note below. Review 284 additionally verified bounded preflight, child-closed structural provenance and ancestor replacement barriers. Remaining: general domain dependency evaluation, production owner-port bindings, retirement-policy extraction and host/bootstrap seams. No acquisition, route, writer, apply or read-time mutation/fetch. |
 | `P091-004` | Bind descriptors, admission and domain derivation ports | `P091-002` | `todo` | Reuse registry sealing/CAS and explicit unresolved constraints with separate identity axes. First-slice owners retain validation/merge policy, P085 and sidecar semantics. Withdrawal with unchanged source bytes invalidates new resolution/admission but preserves historical explanation; offline admission never inferred from file presence. |
 | `P091-005` | Build scoped read/explain adapters and deliver the offline helper | `P091-003`, `P091-004` | `todo` | Rust, P080 and retained HTTP share resolution-bound DTOs; thin non-UI Python facade validates responses, has no fallback. Deliver/install/pin the one-shot Rust helper with bounded structured I/O and missing-binary/version refusals; support injected/exported snapshots. Bounded carrier/projection/aggregate fixtures pass. New routes remain disabled pending P091-005a. |
 | `P091-005a` | Pass the named security boundary fixtures before exposure | `P091-005`, `P091-006` | `todo` | All eight `config-security-*` fixtures cover relevant transports/offline/export paths; instrumented denial precedes source acquisition. Route flags do not grant scope or operator authority. No UI/compatibility adoption or enabled new API without this proof. Later adapters require equivalent coverage. |
@@ -2008,8 +2008,10 @@ correctly rejected the earlier inventory-only/projection-only evidence. Its gaps
 are now closed by the
 [Node gate-to-evidence map](https://github.com/diapod/node/blob/master/docs/audits/P091-002-FREEZE-EVIDENCE.md),
 with executable relation tests, native semantic-owner checks and retained corpus
-measurements. The logging replay/derivation model is explicitly a bounded freeze
-specification, not the production P091-003 resolver. No runtime adoption is claimed.
+measurements. At P091-002 closure the logging replay/derivation model was explicitly
+a bounded freeze specification rather than a production resolver. The later
+P091-003 checkpoint below replaces that test-local algorithm; no runtime adoption
+is claimed.
 `node:configuration-core` owns validated addresses, closed enums, four distinct
 identity types and domain-tagged canonical preimages, safe counters, bounded JSON
 admission, deterministic target selection, current-use/withdrawal checks,
@@ -2049,6 +2051,44 @@ dispatch/host-route/human-registry flags decided above. Registration is not
 availability: no daemon route or writer was added. The Node implementation ledger
 therefore remains `partial` and `out-of-scope` for hard MVP, and P091-005a remains
 the non-bypassable prerequisite for route exposure.
+
+#### P091-003 logging resolver checkpoint — 2026-09-21
+
+The first bounded P091-003 checkpoint is implemented. `configuration-core` now
+owns serializable immutable retained inputs and one production ordered-JSON
+resolver. It verifies exact source, descriptor, context, normalization, resolver
+and domain-port bindings, then folds sources through the existing `json-utils`
+mechanism into a private accumulator. `json-utils` gained a fallible,
+domain-neutral structural observer; its existing public merge functions reuse
+the same walk with instrumentation disabled and preserve their value, stable
+map-order behavior and direct subtree moves.
+The dependency guard continues to exclude host and domain runtimes.
+
+The shared path resolves the four logging sources — compiled default, base file,
+operator file and explicit invocation override — and gives identical values,
+identities and semantic refusals in `values-only` and `with-derivation` modes.
+The optional observer materializes bounded contributor evidence for
+`/logging/level` and `/logging`. Its exhaustion reports unavailable detail while
+preserving the validated value. Retained snapshots replay after separate current
+source/descriptor changes; missing, substituted or revision-incompatible inputs
+refuse. Source, retained-byte, structural, work, pointer, contributor, dependency,
+response and inline-detail limits are enforced by the actual resolver path.
+
+Review 284 corrected input preflight ordering and structural explanation: a
+selected subtree now includes all child dependencies, preserves multiple decisive
+sources and accounts for ancestor replacement. Descriptor scopes/references and
+owner evidence bindings are checked; unimplemented domain dependencies yield
+unavailable detail. These corrections and per-finding dispositions are recorded
+in [Node Review 284](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-284-CONFIGURATION.md).
+
+The complete command/evidence map is the
+[Node P091-003 logging resolver slice](https://github.com/diapod/node/blob/master/docs/audits/P091-003-LOGGING-RESOLVER-SLICE.md).
+This is intentionally not P091-003 completion. The logging owner in current tests
+is a pure fixture port mirroring the daemon vocabulary; P091-004 still owns the
+production owner binding and remaining domain ports. General domain dependency
+evaluation, retirement-policy extraction, acquisition,
+bootstrap/materialization, routes, writers, application and runtime consumption
+also remain open. P091-005a still blocks exposure.
 
 ### Dependency-ordered slices
 
@@ -2184,9 +2224,10 @@ the host's structural safety guards; do not inherit unbounded helper reads.
 
 ## Next Actions
 
-1. Implement P091-003 from the completed P091-001 inventory and P091-002
-   contract freeze; extend existing primitives,
-   supervisor provisioning and host bridges before implementing UI.
+1. Complete the remaining P091-003 extraction seams and domain dependency work,
+   then bind P091-004 owner ports from the completed inventory and contract
+   freeze; extend existing primitives, supervisor provisioning and host bridges
+   before implementing UI.
 2. Complete the four-case slice with real cross-process consumption, then expand
    by inventory rather than
    declaring that every subsystem became configurable through one demonstration.
