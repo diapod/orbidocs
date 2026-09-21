@@ -1,0 +1,1 @@
+{"schema":"config-change.plan.request.v1","schema/v":1,"scope/kind":"node","scope/ref":"node:local","edits":[{"operation":"set","setting/address":{"scope/kind":"node","scope/ref":"node:local","owner/ref":"daemon:logging","setting/pointer":"/logging/level","contract/revision":"logging-config:v1"},"value":"debug"}],"requested-application/mode":"live-reload"}

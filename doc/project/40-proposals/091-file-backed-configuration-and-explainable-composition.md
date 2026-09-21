@@ -78,7 +78,8 @@ bound configuration snapshot rather than a second live filesystem resolver.
 
 The dated Node Configuration Reuse Audit (`node:docs/audits/CONFIGURATION-REUSE-AUDIT.md`)
 retains the 2026-09-06 source/workflow tables, errata and scoped evidence.
-It is input to P091-001a/001b, not exhaustive inventory or runtime completion.
+It was the input to P091-001a/001b; its 2026-09-21 addendum links the executable
+inventory completion, which still is not runtime completion.
 
 Reuse `json-utils` for mechanical JSON composition; keep domain interpretation
 with existing resolvers. Separate daemon bootstrap/materialization and the raw
@@ -121,8 +122,8 @@ inventory idioms inform P091; configuration never proves realized locality or
 egress. Likewise, the Corpus examples in the Node audit are precedents, not a
 requirement to change Corpus or Room contracts for the first configuration slice.
 
-P091-001b/015 must extend this map and the reciprocal proposal links when the
-remaining inventory identifies another concrete integration owner. Do not link
+P091-015 must extend this map and the reciprocal proposal links when later
+adoption work identifies another concrete integration owner. Do not link
 every domain merely because it has settings, or infer proposal-wide readiness
 from a reference or a completed configuration fixture.
 
@@ -836,8 +837,8 @@ its own configuration. Operator plan/commit/apply stays on the operator control
 boundary; a middleware host token or self-asserted component id is not a daemon
 control credential. Any delegated write needs a separately scoped grant.
 Register all five operations in one discoverable P072 inventory, with the
-following proposed policy. They remain unimplemented candidates until P091-002
-registers their exact contracts:
+following policy. P091-002 registers these contract identities; runtime routes
+remain unimplemented and unavailable:
 
 | Candidate operation | `dispatchable` | `host-route` | `docs.human-registry` | Invocation boundary |
 | :--- | :--- | :--- | :--- | :--- |
@@ -959,8 +960,9 @@ not enroll an existing file into the new ownership model.
 
 ### Data contracts before endpoints
 
-The following are proposed V1 shapes, not schemas already shipped. P091-002 owns
-their complete request/response bindings and executable constraints.
+The following V1 families now have canonical schemas and Node mirrors. P091-002
+still owns completion of their relational freeze gate; schema registration alone
+is not proof of complete semantics or implemented routes.
 
 | Candidate artifact | Required semantics / representative fields |
 | :--- | :--- |
@@ -1168,13 +1170,253 @@ Inventory their actual capabilities before labeling a setting reloadable or
 restart-only. V1 requires an explicit apply action (which may be explicitly combined
 with save), not a new filesystem watcher that silently activates every file edit.
 
+### P091-001: Inventory sources, writers and semantic ownership
+
+Foundation guidance recorded on **2026-09-21** and implemented by
+P091-001a/001b as an auditable map before changing loaders. Start from the dated
+`node:docs/audits/CONFIGURATION-REUSE-AUDIT.md`, then verify its claims against
+current symbols and tests; the audit is neither exhaustive nor current runtime
+acceptance. Follow `node:DEV-GUIDELINES.md`: data and contracts first, narrow
+mutation, validation at the owning boundary, explicit failures and scoped evidence.
+
+#### Inventory record and discovery algorithm
+
+Use one entry per semantic setting at an explicit scope, not one entry per JSON
+file or UI widget. Separate reusable seam, writer, legacy-profile and verification
+records and reference them by stable inventory-local IDs. Several settings can
+share a loader without sharing a validator, application mode or retirement plan.
+These are candidate inventory shapes, not P091-002 runtime DTOs or a new registry
+of domain authority. Every setting entry must supply the following information,
+directly or through checked references:
+
+| Field | Required content |
+| :--- | :--- |
+| `id`, `classification`, `status` | Stable inventory ID; ordinary durable setting, invocation input, bootstrap input, secret locator, projection or non-setting with justification. Use the inventory status vocabulary below, not tracker `todo`. State the exact coverage claim. |
+| `address` | Scope, semantic owner/subject or instance binding, JSON Pointer and contract revision. Keep the semantic address separate from each physical source pointer; array position, filename and display label are not owner identity. |
+| `semantic_owner` | Existing component/contract that defines meaning, constraints and allowed transitions; link its code and manual. Distinguish this owner from acquisition, persistence and application owners. |
+| `sources` | Ordered source bindings/classes, selectors, default origins and missing-source behavior; include invocation inputs and pinned domain constraints where applicable. Record locators and identity recipes, not secret values. |
+| `writers` | Every production write/materialization path, caller and target, including manual edits, bootstrap, CLI, UI and domain projection. Record create/replace/append behavior, trigger, coordination/recovery and which source membership or content it can change. |
+| `selection_precedence` | Named/versioned selection profile: filename filters, ignore rules, ordering, absent/invalid/root-shape behavior, overlay stages and domain derivation. Keep observed legacy behavior separate from the proposed admitted behavior. |
+| `validator` | Actual parser/schema/typed guard and domain-policy ports, their order, refusal behavior and owner. Schema-backed protocol/middleware boundaries use the Node schema gate; local configuration validation does not become a substitute for that boundary. |
+| `resolver` | Mechanical primitive plus domain normalization/constraint functions, with input/output bindings and code references. Mark impure orchestration and undeclared inputs; a merged `Value` is not provenance. |
+| `application_mode` | Proven startup, reload, start/stop, next-invocation or other owner-defined behavior, affected instance/unit and acknowledgement boundary. Record requested, supported and observed behavior separately; unsupported/unknown is not silently reloadable. |
+| `legacy_profile` | A named acquisition/interpretation profile with current compatibility differences and migration conditions, or an explicit justified not-applicable value. A profile names a gap; it does not grant P091 conformance. |
+| `retirement_owner` | Component responsible for removing/repointing each legacy reader/writer, linked tracker task and equivalence/rollback gate. Keep this migration responsibility distinct from the retired-executor policy owner. |
+| `evidence`, `verification` | Repository-relative path plus symbol, inspected revision/date, manual/discrepancies, executable command refs, expected fixtures/assertions, retained result and scope. Distinguish source inspection, legacy behavior, new contract proof and actual consumption. |
+
+Do not infer that an omitted field means not applicable. An unknown has an owner,
+reason and tracked completion condition; it blocks any claim that requires that
+knowledge. Keep audit coverage and runtime-adoption claims distinct: recording an
+existing test does not make a setting P091-compliant. Non-settings retain a reason
+and owning contract, not an invented setting address.
+
+Discover in two directions. First enumerate readers, merge calls, configuration
+environment reads, CLI parsers and write/materialization functions within reviewed
+source roots. Trace each reader upstream to inputs and downstream through typed
+decoding, normalization and consumption. Then trace each UI/CLI/domain writer back
+to its persisted target and forward to every affected reader/application unit.
+Join these maps by explicit source/owner bindings; flag unclassified candidates,
+unreferenced writers and contradictory manuals for review. Use deterministic
+sorted records and ID-to-record indexes, with referential-integrity checks rather
+than an inferred call graph as proof of coverage. Bound discovery inputs and
+verification work; do not traverse runtime data directories or execute discovered
+command text automatically.
+
+#### Three daemon entry seams and a separate retirement-policy port
+
+Record all three entries in `node:daemon/src/identity_store.rs` independently,
+including callers and transitive effects, even when one delegates to another:
+
+| Entry seam | Responsibility to inventory | Separation required by P091 |
+| :--- | :--- | :--- |
+| `load_merged_config_json` | Raw directory acquisition: sorted non-ignored regular files, missing/empty directory, parse/I/O errors, root shapes and per-source retirement validation before `deep_merge_json`. The current selector is not simply `*.json`. | Host owns acquisition; `json-utils` owns mechanical merge; daemon policy owns retirement refusal. Do not call the whole function a pure merger or silently narrow its accepted legacy file set. |
+| `build_effective_runtime_config_json` | Factory-module discovery, initial node read, missing seed creation, node re-read, middleware-settings materialization/read, settings overlay, conditional factory inclusion, final composition and runtime-default projection. | Model the ordered stages and their inputs/outputs explicitly. Bootstrap/materialization is a write phase; default projection is a named derivation. Read-only resolve/explain cannot wrap this orchestration unchanged. |
+| `load_layered_daemon_config_json` | Delegating public-to-crate loading boundary used by typed daemon configuration. It inherits the effective builder's writes and policy, despite its read-like name. | Keep a distinct call-site inventory and redirect callers deliberately; do not introduce a third resolver or treat delegation as independent purity evidence. |
+
+Inventory `node:daemon/src/retired_middleware.rs::reject_in_config` as a separate
+daemon-owned policy port. Its input is a selected parsed declaration plus source
+binding; its output is acceptance or a typed, safely projected refusal. The
+mechanical JSON algebra must know neither retired executor names nor daemon error
+types. P091-003/004 extract/bind that policy without weakening it: validate every
+selected source before ordinary folding, so a later overlay cannot hide a retired
+root or nested executor reference. Keep `reject_in_package_manifest` at its separate
+package-admission boundary. An empty retired root still refuses; unrelated product
+HTTP configuration does not. Test both positive and refusal paths and the
+"retired declaration shadowed by a later source" case. P091-001 records these
+requirements; it does not perform the extraction or retire the safety guard.
+
+#### Writers, bootstrap and invocation inputs
+
+- Inventory `seed_missing_factory_module_fragments`,
+  `materialize_middleware_last_settings`, `write_daemon_config_file` and their
+  callers in `identity_store.rs`; also include explicit materialize commands and
+  migration writers. Preserve `50-<config_key>.json` spelling and the actual
+  `control/middleware-settings.json` target. Record `module_id`/`config_key`
+  fallback separately from newly validated operator-target stems.
+- Include `middleware_settings_snapshot` as a read-labelled path that can
+  materialize, and `update_middleware_enabled` as a retained write path in
+  `node:daemon/src/middleware_settings.rs`. Trace the supervisor handler and
+  `apply_middleware_enabled_runtime` separately. Generated initial defaults and
+  later explicit operator toggles need distinct migration evidence; an existing
+  materialized `enabled` value alone does not establish operator intent.
+- Classify CLI/env at the consuming seam, not by spelling alone. Trace daemon
+  `DaemonCliOptions`, `DaemonConfig::apply_overrides` and `main.rs::resolve_config`,
+  Node UI startup configuration, and supervisor/Python launch inputs. Record
+  whether each value is a durable declaration, ephemeral override, bootstrap
+  locator, explicit secret source or transport binding, including its precedence
+  and lifetime. A CLI override must not be persisted merely because it wins.
+- In particular, `--log-level` is an invocation override; Node UI's `password_env`
+  is an explicit secret locator with its own exclusivity/authentication rules.
+  `MiddlewareEnv.from_env` and host-provided directory/channel bindings are not
+  automatically behavioral settings. Trace actual module/node projection before
+  adding overlays; no duplicated node layer, silent host-denial fallback or
+  expanded ambient host authority.
+- Compare factory seeds, toggle storage, manual edits and planned 80/90 operator
+  files as distinct writer/target bindings. Record concurrent creation as source
+  membership change. P091-010 owns explicit first-slice migration; P091-010a owns
+  remaining loader consolidation. Preview, protected backup, pinned effective-value
+  equivalence and restoration evidence are required before retiring a writer.
+
+#### Four first-slice inventory cases
+
+Each case must instantiate the full record above; the following are concrete
+starting bindings and required evidence, not pre-completed inventory entries.
+Use named legacy profiles derived from the observed stages rather than one
+universal "legacy merge" profile.
+
+1. **`logging.level`.** Address `/logging/level` at node scope; daemon logging
+   owns meaning through `DaemonLoggingConfig` and `DaemonLogLevel`. Map compiled
+   defaults, selected node files and final `--log-level` override through
+   `with_config_dir_overrides`, `apply_overrides`, `apply_cli_overrides` and
+   `main.rs::resolve_config`.
+   Writers are manual/config-materialization paths and, later, the shared
+   operator target; the CLI is an ephemeral source, not a writer. Validator and
+   resolver are typed level decoding plus ordered ordinary composition, not a
+   tracing-library side effect. Trace startup `init_tracing` and control-path
+   `reload_tracing` before claiming reload/application success. Name the legacy
+   daemon effective/CLI profile and daemon-owned retirement work in P091-003/010.
+   Retain source probes plus the Step 3 fixture: default/file/CLI precedence,
+   invalid level, no read-time writes and saved-versus-consumed distinction.
+   No existing source probe alone proves the new read-only contract.
+2. **Middleware `enabled`.** Bind the module identity and its physical
+   `/<config_key>/enabled` source pointer explicitly; daemon middleware settings
+   and supervisor lifecycle own eligibility and application. Sources include
+   factory/default/seed/node declarations and the legacy last-settings overlay;
+   writers include bootstrap materialization, retained toggle API/UI callers and
+   manual edits. Record `default_middleware_enabled`, persisted-settings decoding,
+   protected-module/dependency guards and conditional factory inclusion as separate
+   rules. Application can be eligible live start/stop, pending or restart-bound;
+   an enabled JSON value is not a running-instance receipt. Name the legacy toggle
+   materialization profile. Retirement belongs to those same daemon owners through
+   P091-007a/010, preserving the on/off mechanism. Baseline tests below cover seed,
+   overlay and refusal behavior; add no-write inspection, shadowing, save/apply
+   separation and restart/consumption fixtures before claiming P091 adoption.
+3. **JSON-e Flow, with Arca as a non-Flow control.** Create two owner-bound
+   entries, not one generic workflow blob. For Flow, select an existing executor
+   instance under `middleware_json_e_flow_services`, bind its exact identity and
+   declaration pointer, and use `JsonEFlowExecutorConfig::validate` plus its schema
+   gate. For Arca, bind a concrete `/arca/workflow` declaration/owned setting and
+   the relevant definition/handler revision; retain
+   `WorkflowDefinitionRecord`, `WorkflowKindHandlerRegistration` and
+   `normalize_plan_from_trigger`. Inventory factory/node/module declarations,
+   Python launch projection, manual/config writers and owner-mediated definition
+   or template materialization. Classify per-run inputs/history separately; record
+   non-file-backed durable controls as migration gaps. Selection, normalization,
+   validation and next-run/restart behavior remain owner-specific; authoring must
+   not trigger a run. Name separate Flow-instance and Arca legacy acquisition
+   profiles, with middleware-runtime/daemon and Arca owners respectively retiring
+   them through P091-009/010/010a. Existing Flow schema and Arca normalization
+   checks are baseline evidence; P091-009a adds exact scope/source/revision,
+   ambiguous-handler refusal and no Flow-schema coercion without claiming live
+   Arca consumption. P091-001a includes enough pre-channel Python binding to
+   freeze the shared DTO without inventing a universal plan language.
+4. **An Inquirium resource limit under P085.** Use the existing
+   `classify/labels-max` axis as a concrete candidate; the declaration pointer is
+   `/inquirium/resource_profile/limits/classify~1labels-max`, with the profile,
+   operation and class/context bound separately. `inquirium-core` owns limit
+   algebra; daemon Inquirium/resource-envelope hosts own acquisition and current-use
+   admission. Map distribution defaults, local operator profile, admitted signed
+   envelopes, distributor safety ranges and task/session narrowing as distinct
+   inputs. Ordinary config/manual writers do not become envelope issuers; signed
+   sidecar/envelope and revocation writers retain their append-only/admission
+   contracts. Reuse profile validation and
+   `resolve_inquirium_resource_profile_sources_with_envelopes_and_safety_ranges`:
+   axis-specific min/max, bounded signed widening, applicable-envelope intersection
+   and final task narrowing are not last-writer-wins file order. Keep the existing
+   digest encoding and pre-policy boundary-safety limits. Record legacy profile
+   acquisition and the exact future-operation/application boundary, including
+   `require_active_exact(..., &now)` and fresh expiry/revocation checks; historical
+   resolution is not current authority. Retirement belongs to the Inquirium/daemon
+   owners through P091-004/010, not removal of P085 policy. Baselines below cover
+   narrowing/envelope semantics; add wrong-context, expired/revoked constraint,
+   unchanged-bytes/changed-authority and no generic-merge bypass proofs.
+
+#### Verification commands and foundation completion
+
+Attach reviewed commands as structured `argv`, repository-relative `cwd`, bounded
+timeout/output, expected tests/assertions and retained result references. The
+following are concrete baseline commands to verify when populating the inventory;
+listing them here does not assert they were rerun or that P091 exists. CWD is
+`node` except the Arca row. A zero-test filtered run is not a pass. Source probes
+establish locations only; record missing behavioral fixtures as pending work.
+
+| Coverage | Command / evidence boundary |
+| :--- | :--- |
+| All three daemon seams and materialization | `rg -n -e 'fn load_merged_config_json' -e 'fn build_effective_runtime_config_json' -e 'fn load_layered_daemon_config_json' -e 'fn seed_missing_factory_module_fragments' -e 'fn materialize_middleware_last_settings' daemon/src/identity_store.rs` — inspect bodies/callers; presence alone proves no behavior. |
+| Ordinary mechanical merge | `cargo test -p orbiplex-node-json-utils` — no source-selection, policy or consumption claim. |
+| Retirement policy | `cargo test -p orbiplex-node-daemon --lib retired_middleware::tests` and `cargo test -p orbiplex-node-daemon --lib persisted_middleware_settings_reject_retired_executor_on_restart` — add the cross-source shadowing fixture if absent. |
+| Logging acquisition/application | `rg -n -e log_level -e 'logging.level' -e resolve_config -e init_tracing -e reload_tracing daemon/src/config.rs daemon/src/main.rs daemon/src/lib.rs` — source probe; add the Step 3 behavioral test command after implementing that fixture. |
+| Toggle bootstrap and persistence | `cargo test -p orbiplex-node-daemon --lib middleware_last_settings_` — test names mentioning restart do not prove live application. |
+| Flow contract | `cargo test -p orbiplex-node-middleware-runtime --test runtime json_e_flow_story009_fixture_configs_validate` — owner-schema baseline, not a P091 operator run. |
+| Arca non-Flow normalization | From `node/middleware-modules/arca`: `python3 -m unittest test_service.ModuleReportTests test_service.ArcaWorkflowPlanTests` — local owner/plan baseline, not cross-process consumption. |
+| Inquirium profile and envelopes | `cargo test -p orbiplex-node-inquirium-core resource_profile::tests` and `cargo test -p orbiplex-node-daemon --lib inquirium_resource_envelopes::tests` — domain/core and host checks; bind each claimed invariant to actual test names. |
+
+The implemented P091-001a delivers the inventory, checker, structural tests and
+day-one CI hook specified below, with reviewed foundation entries for these cases, all three seams,
+the policy port, writers, Agora/Node UI differences and minimum launch/workflow
+bindings. Test the checker with a missing seam, dangling writer/profile ref,
+unclassified override, renamed symbol, unsupported status, empty/zero-test evidence
+and a hidden required migration gap. Run structural mode and `--verify-current`;
+reserve `--promote` for completed required adoption, not inventory creation.
+The implemented P091-001b extends the same map to remaining module-local and
+record-backed controls.
+P091-001 closes the audit when coverage, discrepancies and owned gaps are explicit;
+it does not close those migration gaps or promote runtime status. Unknowns needed
+to freeze ownership, inputs or cross-language bindings still block P091-002.
+
+#### Implemented audit foundation — 2026-09-21
+
+P091-001, P091-001a and P091-001b are complete at their deliberately bounded
+inventory layer. The canonical artifacts are
+`node:docs/configuration-inventory.v1.json`,
+`node:tools/check-configuration-inventory.py`, its 18 negative-control tests and
+the dated completion addendum in
+`node:docs/audits/CONFIGURATION-REUSE-AUDIT.md`. Node documentation CI executes
+the structural suite and `--verify-current`.
+
+The inventory contains 120 deterministic entries, the three distinct daemon
+seams, the separate retirement-policy port, ten writer/explicit-absence records
+and all discovered daemon override fields, daemon CLI fields, workflow-record fields,
+Node UI options, eight Python layered loaders and 35 static environment inputs in
+the reviewed roots. Two projection/non-setting claims are `done`, nine
+legacy-evidence claims are `partial` and 109 migration/adoption claims remain
+`pending`. Accordingly, `--promote` still refuses: audit closure is not shared
+runtime adoption. The executable baseline additionally retains the cross-source
+retired-declaration shadowing regression required above.
+
+This completion changes no runtime reader, writer, route, capability, ledger row
+or MVP claim. P091-002 was the next dependency-ordered task at inventory closure;
+its subsequent contract freeze is recorded below. P091-003/010/010a
+own the recorded reader/writer migrations, and P091-015 still owns the separate
+source-boundary checker and broad promotion gate.
+
 ### Conformance and drift checks
 
 Maintain `node:docs/configuration-inventory.v1.json`, mapping each behavior to its
 address, sources/writers, validator, resolver, application mode, manual, evidence
 commands and retirement owner. Reuse the structural/status/verification idiom of
 `check-inference-provenance-inventory.py` and the middleware listener inventory,
-not their domain-specific field enums. P091-001a delivers the initial artifact
+not their domain-specific field enums. P091-001a delivered the initial artifact
 and `node:tools/check-configuration-inventory.py`; CI runs structural checks and
 `--verify-current` in `node:.github/workflows/docs.yml` from the first day.
 Only `done`/`partial` entries assert current executable evidence.
@@ -1244,6 +1486,415 @@ When implementation changes coverage, reconcile
 P091-014 (retained acceptance) and P091-015 (wide rollout) each include this
 checkpoint. Docs-only planning does not promote runtime status.
 
+### Four implementation steps after the foundation inventory
+
+After the [P091-001 foundation inventory](#p091-001-inventory-sources-writers-and-semantic-ownership),
+use the following engineering guidance recorded on **2026-09-21**. These four steps refine the
+existing tracker under `node:DEV-GUIDELINES.md`, especially Data and Contracts,
+Implementation Style, Host-Owned Runtime Primitives and Code Reviewing Guidelines.
+The type names and record sketches below are implementation candidates; P091-002
+still owns the exact wire contract and freeze gate. They do not register schemas,
+enable routes or promote implementation status. Keep code-specific API documentation
+and measured evidence beside their Node owners when implemented.
+
+| Step | Tracker ownership | Reviewable result |
+| :--- | :--- | :--- |
+| 1. Freeze executable contracts | P091-002, after P091-001a | Versioned shapes, identity preimages, transition tables and shared positive/refusal fixtures |
+| 2. Build resolution and domain ports | P091-003 and P091-004 | Pure deterministic composition plus owner-bound validation/derivation ports; both workstreams use Step 1's contracts |
+| 3. Prove read-only `logging.level` | A bounded checkpoint within P091-003/004 and preparation for P091-005 | Direct describe/resolve/explain tests over one immutable resolution, without exposing a route |
+| 4. Add change, application and exposure | P091-005/006/007, P091-005a, then P091-007a | Durable source outcomes, separately acknowledged consumption, security fixtures and retained toggle integration |
+
+The completed P091-001b inventory remains an input alongside these steps. The
+single-setting checkpoint is intentionally narrower than any claim of complete P091-003/004,
+P091-005 or four-case runtime acceptance. Implementation dependencies remain those
+in the tracker; Step 4 is an integration sequence, not one atomic milestone.
+
+#### Step 1: Freeze data shapes, identity functions and transition tables
+
+Begin with representative input/output fixtures from all four first-slice owners,
+including the Arca non-Flow binding and Python pre-channel launch. Infer shared
+structure from these cases while retaining domain validation in the owning port.
+Use small immutable records and tagged alternatives for mutually exclusive cases:
+
+| Candidate structure | Data and invariant |
+| :--- | :--- |
+| `SettingAddress` | Admitted scope kind, owner/subject binding, JSON Pointer and contract revision. A workflow binding retains its exact definition/handler or executor/instance identity; a label never selects an owner. |
+| `SourceSlot` | Stable source ref/class, selector position and `Present(content-revision, retained-value-ref)` or `Absent(target-binding)`. An absent interactive target participates in membership fencing. |
+| `SourceSetSnapshot` | Selection-profile revision, scope, owner-mapping revision and ordered source slots; an explicit digest identifies this immutable selection. |
+| `DescriptorSetBinding` | Exact ref, digest and checked generation, with retained descriptor and owner-issued admission evidence. Admission availability is explicit and is not an empty descriptor list. |
+| `ResolutionInputs` | Source snapshot, descriptor binding, pinned constraint/context evidence, resolver/domain-port revisions and normalization inputs, including historical validation time where semantically relevant. |
+| `ResolutionResult` | Validated values or a typed refusal/unresolved result, with input binding and bounded diagnostics. Requested explanation detail is separate from the semantic result. |
+| `DerivationEntry` | Output pointer, rule ref/revision, ordered contributor refs/roles and structural or domain dependency refs; completeness is explicit. |
+| `ChangeIntent` | Exact source target, bounded declaration edits, expected identities, application-unit binding and requested apply policy. |
+| `ApplicationBinding` | Component instance, resolution id, owner-local activation generation when allocated, consumption receipt and freshness. It is separate from a commit receipt. |
+
+In Rust, distinguish source revision, descriptor digest/generation, resolution id
+and activation generation with validated newtypes. Keep closed protocol states
+as enums with exhaustive handling and explicit wire spellings; keep the repertoire
+of domain owners and versioned rule implementations open through admitted ports.
+Deserialize neutral DTOs at the responsible boundary, then construct validated
+values. A valid DTO or a type named `Admitted` does not itself prove host authority.
+Use `Result` for failure; distinguish missing, explicit JSON `null`, unavailable
+context and denial rather than encoding all four as `None` or an empty map.
+Serializable transition data remains necessary even if local typestate proves
+some sequencing constraints.
+
+Specify each identity as a named projection into canonical JSON followed by the
+existing domain-separated digest helper. A proposed preimage decomposition is:
+
+```text
+source-set preimage = selection profile + scope + owner mapping + ordered slots
+descriptor-set preimage = set identity + generation + admitted descriptor revisions
+resolution preimage = source-set revision + descriptor-set binding
+                    + constraint/context binding + resolver/domain-port revisions
+                    + normalization inputs and semantic historical time
+activation binding = component instance + durable owner sequence + resolution id
+```
+
+Freeze exact fields, domain tags and normalization rules as test vectors. Include
+the evidence revisions that change admission; exclude presentation labels,
+`resolved/at` bookkeeping and requested detail/projection from resolution identity.
+Keep admitted-content revisions distinct from exact file-byte digests used for
+commit/recovery: a whitespace-only edit may preserve content identity while
+invalidating the file precondition. Encode absent targets explicitly rather than
+hashing them as empty objects. Counters reject zero and any increment beyond
+9007199254740991; that upper value is valid, but cannot be incremented. Never wrap,
+saturate or reset counters on restart. Storage locators and arena indices stay
+outside semantic preimages; retain content revisions and semantic source bindings
+instead. Preserve existing domain encodings, such as Inquirium's effective-profile
+digest, behind their own types instead of recoding them as P091 identities.
+
+Freeze a common JSON admission profile before typed decoding: reject duplicate
+object keys, non-finite numbers, unsupported numeric representations, malformed
+pointers and invalid active-setting fields. Use a duplicate-detecting parser at
+the bytes-to-value boundary; a later validator cannot recover overwritten keys.
+Decode pointer escapes once into segments, retain their canonical encoding and
+match ancestry by segment boundaries. Require object roots for admitted
+configuration documents while preserving `json-utils`' generic value contract.
+Version intentional extension objects explicitly; avoid a blanket unknown-field
+policy that either hides misspellings or closes every domain's extension point.
+
+Represent limits in a validated `ResolutionBudget` and separate host
+acquisition/output/history budgets. The initial measurement candidates, qualified
+on 2026-09-21 as finite first-slice contract defaults (not deployment capacity), are
+64 selected sources, 1 MiB per source,
+8 MiB total retained input including descriptors/context, depth 64, 65536 visited
+JSON nodes, 262144 contributor links and 1 MiB response bytes. Preserve Decision
+12's 16 KiB inline carrier ceiling. The measured four-case corpus and complete
+axis table are retained in the
+[Node freeze evidence](https://github.com/diapod/node/blob/master/docs/audits/P091-002-FREEZE-EVIDENCE.md).
+V1 additionally freezes 4096 descriptors, 262144 dependency edges, 2048-byte
+pointers, 65536-byte strings, 1048576 work steps, 1024 history records and 64 MiB
+history bytes. Ordinary retention is an explicit 90-day engineering policy, not
+a benchmark-derived lifetime. Protected unresolved/active evidence cannot be
+evicted to admit new work. Replans are bounded to three per request, each with a
+fresh whole-plan approval. Account before allocation, use checked
+addition/multiplication, and specify which owner enforces each limit. Exceeding
+one returns a bounded refusal; callers cannot disable structural ceilings.
+
+Use an executable transition relation of the form
+`(prior-state, event, verified-bindings) -> next-state + facts-to-record | refusal`.
+Give commit/recovery and per-instance application separate relations. Cover every
+Decision 6 state, duplicate events and mismatched receipts without adding a
+generic boolean `success` that erases pending or unknown consumption. Freeze
+phase-specific current-use time checks separately from historical replay.
+
+**Verification checkpoint:** positive/negative schema fixtures plus relational
+tests cover substituted identities, expiry, counter boundaries, conditional
+required fields, all state/event pairs, disclosure and inline/ref consistency.
+Run the same JSON vectors through Rust DTOs and the thin Python snapshot decoder;
+Python tests check binding and refusal propagation, not a second merge algorithm.
+Register all five operations with Decision 12's flags and complete the final
+P091-002 freeze gate, including schema mirrors, registry projections and the
+contract-only ledger entry. Routes remain disabled until P091-005a.
+
+#### Step 2: Implement the pure fold and owner-bound derivation ports
+
+Keep three explicit transformations:
+
+```text
+authorized host acquisition -> immutable ResolutionInputs
+resolve(ResolutionInputs, domain ports, detail) -> ResolutionResult
+project(ResolutionResult, admitted selection, disclosure policy) -> read DTO
+```
+
+The host supplies snapshots and authority evidence. The resolver borrows values
+and builds a new result; mutation is confined to its local accumulator. Store
+sources in an ordered vector, descriptors in an address-indexed map and retained
+values once per source. A deterministic `BTreeMap` is a reasonable initial index
+for addresses and JSON Pointers; it does not replace JCS serialization or define
+source precedence. Share immutable inputs across consumers only when ownership
+requires it; avoid an `Arc<Mutex<...>>` around an entire mutable configuration.
+
+For ordinary JSON composition, use a **left fold in admitted source order**.
+Visit object keys deterministically, recursively combine object/object pairs and
+replace the slot for other pairs. Arrays remain whole replacement values;
+omission inherits and `null` retains the descriptor's meaning. Keep the mechanical
+walk in `json-utils`: if instrumentation is needed, add a narrow observer for
+structural events with the existing public functions delegating through a no-op
+observer. Configuration interprets these events; the utility receives no source
+identity, policy, filesystem or activation types. A depth guard or explicit stack
+must bound the walk before descending, including inserted/replaced subtrees.
+
+Do not parallel-reduce or regroup ordinary layers. For example, composing
+`{"a":{"x":1}}`, then `{"a":0}`, then `{"a":{}}` yields `{"a":{}}`;
+merging the last two first can preserve `x` incorrectly. Differential fixtures
+against the existing primitive pin this behavior. `values-only` and
+`with-derivation` run the same validation and value algorithm; the optional
+observer changes evidence materialization only.
+
+For explanation, retain a bounded arena/vector of structural contributions and
+index entries by output pointer. Store source indices/refs and input pointers
+instead of copying entire JSON subtrees into every contributor. Record replacement
+at an ancestor, then resolve affected descendants through that ancestor edge;
+do not report displaced child declarations as current winners. Empty objects,
+arrays, equal declarations, defaults and derived nodes need explicit coverage.
+Contributor roles describe the selected result: an overwritten declaration is
+shadowed; equality remains visible; rejection records the owner's reason and
+cannot silently remove a constraint. Multi-source narrowing may have several
+decisive inputs. Compact structural edges are acceptable only if queries expand
+them completely within bounds or report unavailable detail.
+
+Budget actual traversal, value-copy and contributor work. With `V` visited nodes,
+`E` retained contribution/dependency links and `P` indexed pointers, index work is
+approximately `O((V + E) log P)` plus parsing, copying and domain validation; it
+is not automatically linear in the number of declared leaves. Count subtree
+replacement/replay expansion too. Measure this simple baseline before introducing
+tries, persistent trees or interning.
+
+Let a host-admitted registry map an exact rule/validator ref and revision to a
+small domain port. A candidate port takes ordered scoped declarations, pinned
+constraints/context and a budget, and returns the existing domain result plus
+bounded derivation/dependency refs or a typed refusal. The port is deterministic
+and performs no I/O; host adapters obtain signatures, revocation views and fresh
+time before calling it. Use a trait object for heterogeneous runtime-selected
+ports when needed and ordinary functions for local fixed algorithms. Never
+dispatch by an incidental component name or execute code supplied in JSON.
+
+Reuse Inquirium's resource-profile functions, including their per-axis min/max,
+envelope and task narrowing behavior. The adapter preserves the existing output
+and digest and enriches evidence at the owning derivation seam; generic P091 code
+does not recompute policy from a final value. Keep retirement checks, toggle
+eligibility and signed-sidecar validation with their owners. Missing, ambiguous,
+withdrawn or unsupported port bindings refuse before producing validated values.
+An offline export supplies exact admitted bindings or explicit unresolved context.
+
+When domain-derived settings depend on other settings, use declared read/write
+sets and a bounded directed graph. Topologically order it with Kahn's algorithm
+and a stable ready-set order; reject cycles, missing inputs and ambiguous output
+ownership before evaluation. This graph orders configuration derivations only.
+Store reverse edges for later impact analysis. If a domain cannot expose a safe
+dependency closure, bind and recompute its entire declared application unit; never
+guess dependencies from the shape of its returned JSON.
+
+Retain input artifacts and resolver/port versions for lazy explanation. Replaying
+an old resolution uses those inputs, not the current registry; an unavailable
+historic implementation or retained input yields `resolution-unavailable`.
+Cache derived indexes in memory by resolution and detail contract. If caching
+projected output, also bind caller disclosure context and recheck access on every
+read. Optional detail-budget exhaustion preserves the semantic resolution/refusal
+and reports incomplete/unavailable detail; it cannot turn a denied value into an
+admitted one or make a truncated explanation appear complete.
+
+**Verification checkpoint:** determinism, immutable inputs, parity of both detail
+modes, scalar/object/array replacement, equal layers, escaped pointers and lazy
+historical replay. Use property tests for applicable laws such as P085 narrowing,
+with explicit non-associative counterexamples for ordinary merging. Domain tests
+cover descriptor withdrawal without a source change, offline missing authority,
+Arca/Flow owner mismatch, graph cycles and budget refusal. Dependency guards
+enumerate current workspace consumers and forbid host/UI/provider dependencies
+from `configuration-core`; no helper extraction may retire a domain refusal.
+
+#### Step 3: Exercise `logging.level` through a read-only local seam
+
+Use `logging.level` as the first concrete setting, addressed by `/logging/level`
+in an admitted node scope. Bind its descriptor to the daemon's `DaemonLogLevel`
+vocabulary (`trace`, `debug`, `info`, `warn`, `error`), existing default source and
+validation semantics. Reuse the owner and safe-target lookup from Decision 3;
+the fixture may bind `80-operator.json` explicitly without inventing a component
+stem for the daemon. A proposed local test input is:
+
+```json
+{
+  "selection": {"scope": "node", "pointer": "/logging/level"},
+  "layers": [
+    {"ref": "compiled-default", "value": {"logging": {"level": "info"}}},
+    {"ref": "10-base.json", "value": {"logging": {"level": "warn"}}},
+    {"ref": "80-operator.json", "value": {"logging": {"level": "debug"}}},
+    {"ref": "invocation:log-level", "value": {"logging": {"level": "trace"}}}
+  ]
+}
+```
+
+This is a fixture recipe, not a complete wire DTO: its builder must supply the
+source classes/revisions, descriptor/context bindings and budgets from Steps 1/2.
+The expected resolved value is `trace`; without the explicit invocation source it
+is `debug`. Removing only the operator declaration in a new in-memory candidate
+restores `warn` when no invocation override exists. A same-valued operator
+declaration remains explicit. Offline acquisition without an invocation snapshot
+must not claim to reproduce a running process's `--log-level` override.
+
+Exercise `describe`, `resolve`, `read` and `explain` as direct library/host-adapter
+calls in tests. First inject immutable inputs, then add a confined temporary-file
+acquisition test with explicit caller admission. Separate the raw reader from
+`build_effective_runtime_config_json` and its seed/materialization behavior;
+retain `retired_middleware::reject_in_config` at the appropriate owner validation
+boundary. Do not call an existing mutating loader merely because its return type
+is JSON. Keep legacy selection/error profiles named during extraction.
+
+The acquisition algorithm admits scope first, enumerates a bounded selected set,
+opens confined source handles, reads bounded bytes and builds the pinned snapshot.
+Cooperating source writers use shared coordination. Detect changes in membership
+and content while acquiring, and return a coherent snapshot or `source-conflict`
+after a finite retry budget. Metadata/mtime checks alone are insufficient; even
+repeated digest passes do not provide atomic snapshots against arbitrary
+non-cooperating editors. Keep that limitation explicit and never re-read a source
+inside an individual getter. Look up `resolution/id` once, then query its immutable
+handle; different file bytes produce a newly acquired candidate, never a changed
+answer under the old identity.
+
+**Verification checkpoint:** assert the fixture values and contributor roles,
+including a `/logging` subtree; preserve the old explanation after changing its
+source or current descriptor. Unknown level, duplicate key, wrong scope, changed
+source set and exceeded budget return exact refusals. Instrument reads and
+effects: denied scope performs zero acquisitions; inspection performs zero
+writes, directory creation, secret/provider calls, tracing reloads and process
+starts/stops. Compare temporary-file membership/content/permissions before and
+after to complement the effect counters. Existing daemon behavior remains the
+value oracle on explicitly prepared legacy fixtures, not a callable dependency
+of the new read path.
+
+The descriptor may advertise an owner-supported apply mode after inventory
+verification, but these tests never invoke it. The daemon's tracing reload path
+is the later application seam; a resolved JSON value is not evidence that its
+subscriber accepted the new level. This step has no active-consumption claim and
+does not expose CLI, HTTP or P080 operations before the security gate.
+
+#### Step 4: Compose planning, durable commit, application and exposure
+
+Implement read adapters and the write/application host use cases behind disabled
+routes, retaining the Step 2 pure resolver as their common value oracle. Start
+with one-file transactions and full selected-input fencing. Narrowing the fence
+is an optimization requiring a proven dependency closure and compatible scoped
+application semantics.
+
+Represent declaration edits as a bounded ordered sequence of
+`Set(pointer, JSON-value)` or `Reset(pointer)` against one admitted target. These
+are candidate edit operations, not JSON Merge Patch: `Set(..., null)` must not
+mean deletion. Reject duplicate or ancestor-overlapping edits in one V1 plan
+rather than inventing ambiguous patch order. The owner defines allowed targets
+and paths; use whole-array replacement unless it explicitly supports narrower
+edits. Reset removes only that declaration and preserves unrelated values plus
+the empty root `{}`. It does not remove the file or manufacture a default.
+
+A concrete planner copies the target declaration once, applies edits, constructs
+a candidate source snapshot and runs the same resolver/domain ports. Compute
+impacted addresses from edited paths, ancestor replacements and the reverse
+dependency graph, conservatively widening to the full application unit when
+needed. Compare base/candidate resolved values and separately record declaration
+changes and effective-value impact. Derive `shadowed` from contributions, not
+just equal output: an explicit equal declaration and a shadowed declaration can
+both leave the value unchanged for different reasons. A plan binds its target,
+ordered edits, old/new byte digests, source membership, descriptor/constraint
+identities, base/candidate resolution, predictions, expiry and application unit.
+Authorization is checked independently against that exact plan at commit time.
+
+Use Decision 8's conflict family and three reason codes. Compare pinned/current
+membership, order, source content and domain dependencies; classify a change as
+unrelated only with positive host evidence. Even an unrelated content change
+refuses the stale plan. A bounded replan returns a new id, fresh authority checks
+and new predictions; no approval transfers implicitly. Exact-byte fencing also
+catches formatting edits without treating them as changed semantic values. Use a
+specified deterministic source serializer to prepare the candidate bytes during
+planning, preserve unrelated declarations and revalidate the exact bytes before
+replacement. Hash those bytes separately from canonical semantic preimages.
+
+For durable commit, reuse Solution 028's append-only facts and rebuildable
+projections. A candidate `CommitIntent` carries transaction/idempotency key,
+plan binding, confined target, explicit old absence or old byte digest, intended
+new byte digest and a protected recovery payload ref. A separate `CommitOutcome`
+records the verified source result. An indexed pending-intent projection allows
+bounded recovery pages; it is rebuildable from those facts.
+
+Under shared host-writer coordination, revalidate current bindings/authority,
+append durable intent, prepare and flush a unique sibling temporary file,
+atomically replace the target and persist the durable verified outcome. Include
+bootstrap/package writers in the same protocol. Keep storage transactions short;
+do not hold them across provider/lifecycle work. A target replacement can be
+visible before the outcome is durable, so failure then means `recovery-required`
+and no application. Do not claim filesystem/journal atomicity or hide uncertainty
+behind an automatic restore.
+
+Implement recovery as a pure classifier over a bounded observation, followed by
+explicit host actions:
+
+| Observed target versus retained intent | Recovery decision |
+| :--- | :--- |
+| Old bytes or explicitly expected old absence | Record not-committed; no apply |
+| Intended new bytes, distinct from old | Record recovered committed outcome; any apply needs fresh authorization |
+| Observed bytes match both identical old and new bindings | Record no-op content outcome; do not claim which process wrote it |
+| Third version, unexpected absence, unreadable or invalid bytes | Record conflict/recovery-required; preserve the observed target |
+
+After validating the observed target, check whether it matches both old and new
+before choosing either exclusive case. Equal planned digests alone do not classify
+a third version or unreadable target as a no-op. Retention
+must protect unresolved intents and their recovery payloads, active/pending
+resolution evidence and acknowledged bindings needed by the supported history
+contract. If protected evidence fills the budget, refuse new admission instead
+of evicting recovery data. Temporary-file cleanup is scoped to owned transactions.
+
+Application consumes either a reconciled commit outcome or an explicit durable
+observed-source admission for manual file edits. Use a pure decision table over
+the prior per-instance application state, requested resolution, fresh domain
+admission and consumption events. Serialize concurrent apply admission with
+owner-local expected-generation checks and durable allocation. Persist attempts
+and generation allocation before lifecycle dispatch; record `active` only after
+an exact bound consumption
+acknowledgement. Keep the previous acknowledgement when the attempted new apply
+fails. A delayed acknowledgement for a superseded instance/generation cannot
+advance the current projection. Reconstruct durable sequence allocation on
+restart; an uncertain dispatched effect requires owner reconciliation before
+retry, not a fresh generation and blind repeat.
+
+Classify each concrete effect using DEV-GUIDELINES' recovery classes and record
+its owner, key, deadline and reconciliation/disposal policy. File replacement
+uses the journal protocol above; stopping a process cannot undo work it already
+published. Reuse the existing supervisor dependency graph for provider-first
+startup, dependent-first drain, readiness and `operator_stopped` behavior. Recheck
+expiry/revocation at queued dispatch, retry and recovery; a saved or provisioned
+resolution never renews authority. Long application operations use the existing
+[Bounded Deferred Operations](../60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md)
+contract, with bounded reconciliation through the
+[Replay Scheduler](../60-solutions/020-scheduler/020-scheduler.md).
+Link operation and application ids explicitly; do not add a private polling loop.
+
+P091-005 adapters share the same scoped request/result bindings and thin Python
+facade, including exported/injected and supervisor-provisioned snapshots. Reuse
+P080 dispatch and existing operator-control routes with Schema Gate at actual
+ingress/egress/import/export boundaries. Retained Rust HTTP clients use the
+host-owned HTTP runtime and bounded bodies prescribed by DEV-GUIDELINES; Python
+uses bounded reads and validates the requested scope, resolution and completeness.
+The one-shot offline helper remains installed/pinned and uses bounded structured
+I/O. No adapter adds a resolver fallback after denial or outage.
+
+**Exposure and verification checkpoint:** P091-005a must pass all eight named
+`config-security-*` fixtures on the relevant adapters before enabling any new
+route or repointing UI/compatibility callers. P091-007's consumption/recovery
+evidence is also required before P091-007a integrates middleware on/off. Repoint
+compatibility handlers to the shared use case, with one source commit and one
+authorized lifecycle dispatch; retain eligibility and dependency checks behind
+it. Physical legacy-file migration remains P091-010.
+
+Retain tests for each crash boundary around intent/replace/outcome, file and
+journal failure, third-version recovery, shared-file conflicts, stale/revoked
+plans, expiry after successful save, lost/duplicate acknowledgements and restart
+fencing. Test shadowed `enabled` edits against the actual resolved value, saved
+but not applied outcomes, repeated compatibility calls and provider loss. Assert
+effect counts as well as receipts; an idempotency key alone proves no effect
+guarantee. Update the exact contract/runtime ledger scope and generated view at
+each completed milestone; P091-014/015 still own the four-case and broad coverage
+claims respectively.
+
 ## Trade-offs
 
 - **Benefit:** one discoverable control model reduces memorized locations and
@@ -1311,7 +1962,8 @@ checkpoint. Docs-only planning does not promote runtime status.
 
 ## Implementation Tracker
 
-All rows are `todo` for new P091 scope. The tracker vocabulary is
+P091-001/001a/001b are complete at the bounded audit layer; the remaining rows
+retain their implementation status below. The tracker vocabulary is
 `todo | partial | done`; an abandoned task must retain an explicit dated
 supersession, not silently disappear. Inventory vocabulary is
 `planned | pending | partial | done`: planned/identified unfinished items map
@@ -1327,10 +1979,10 @@ only when both explicitly delimit that narrower claim.
 
 | ID | Work item | Depends on | Status | Completion gate |
 | :--- | :--- | :--- | :--- | :--- |
-| `P091-001` | Close the configuration/reuse inventory audit | `P091-001a`, `P091-001b` | `todo` | Aggregate audit completion, not runtime implementation: source/writer and retirement ownership mapped, discrepancies documented, every remaining gap represented in the machine-readable inventory. |
-| `P091-001a` | Inventory foundation sources/writers and establish the executable inventory | — | `todo` | Deliver `node:docs/configuration-inventory.v1.json`, `node:tools/check-configuration-inventory.py`, structural tests and CI `--verify-current` from day one. Map daemon's raw/effective/layered entries, retirement check, bootstrap seeds, toggles, Agora, Node UI, identities/filenames and all four first-slice seams, including minimum Python launch and Arca/Flow bindings needed to freeze cross-language DTOs. Audit claims remain planned/pending until verified. |
-| `P091-001b` | Inventory remaining module-local and record-backed controls | — | `todo` | Extend P091-001a's common format with Python/services, domain loaders, workflow record fields, env/CLI, projections, non-settings and retirement owners. May run alongside contracts; no implication that a database resource is a setting. Named gaps remain visible. |
-| `P091-002` | Freeze shared contracts under resolved operator choices | `P091-001a` | `todo` | Satisfy the final P091-002 freeze gate below. Adopted semantics, registered contracts and runtime adoption remain distinct. |
+| `P091-001` | Close the configuration/reuse inventory audit | `P091-001a`, `P091-001b` | `done` | Completed 2026-09-21 at the audit layer: source/writer and retirement ownership are mapped, discrepancies are retained in the dated Node audit and every remaining migration/adoption gap is represented in the machine-readable inventory. No runtime-completion claim. |
+| `P091-001a` | Inventory foundation sources/writers and establish the executable inventory | — | `done` | Completed 2026-09-21: delivered `node:docs/configuration-inventory.v1.json`, the bounded checker, 18 structural/negative-control tests and CI `--verify-current`; mapped the three daemon seams, policy port, bootstrap/toggle writers, Agora, Node UI, four first-slice cases and minimum Python/Arca/Flow bindings. Pending/partial inventory states remain explicit. |
+| `P091-001b` | Inventory remaining module-local and record-backed controls | — | `done` | Completed 2026-09-21: the common inventory covers production Python loaders, workflow record fields, daemon/UI CLI, reviewed environment inputs, launch projections, the operator-storage non-setting and named retirement owners. This does not turn domain resources into settings. |
+| `P091-002` | Freeze shared contracts under resolved operator choices | `P091-001a` | `done` | 2026-09-21 follow-up closes Review 283's contract-only gaps: measured five-owner/four-case corpus and finite budget boundaries; executable retained replay/detail-mode and disclosure relations; predicted values, exact approval/replan, durable-data attempt/receipt and old/new/third/no-op recovery vectors. See the Node freeze evidence map below. Existing 21 schemas, 20 positive/6 conditional-negative vectors, Rust/Python DTOs, Schema Gate and five-operation registry remain synchronized. The bounded reference model is not P091-003's production resolver; disk/crash/cross-process acceptance stays with P091-006/007/013. No route, writer or component application is enabled; P091-005a remains mandatory. |
 | `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `todo` | `configuration-core` has no host/UI/provider dependencies; layering checks cover all current upper crates. Preserve `json-utils` behavior, extract retirement-policy validation and bootstrap writes. Both detail modes yield identical values/refusals; retained inputs support lazy per-pointer explanation after source/descriptor change. No read-time mutation/fetch. |
 | `P091-004` | Bind descriptors, admission and domain derivation ports | `P091-002` | `todo` | Reuse registry sealing/CAS and explicit unresolved constraints with separate identity axes. First-slice owners retain validation/merge policy, P085 and sidecar semantics. Withdrawal with unchanged source bytes invalidates new resolution/admission but preserves historical explanation; offline admission never inferred from file presence. |
 | `P091-005` | Build scoped read/explain adapters and deliver the offline helper | `P091-003`, `P091-004` | `todo` | Rust, P080 and retained HTTP share resolution-bound DTOs; thin non-UI Python facade validates responses, has no fallback. Deliver/install/pin the one-shot Rust helper with bounded structured I/O and missing-binary/version refusals; support injected/exported snapshots. Bounded carrier/projection/aggregate fixtures pass. New routes remain disabled pending P091-005a. |
@@ -1349,6 +2001,55 @@ only when both explicitly delimit that narrower claim.
 | `P091-014` | Retain the four-case operator slice and synchronize evidence | `P091-011`, `P091-012`, `P091-013` | `todo` | All cases complete locate/explain/edit/apply/restart/reset through files and interfaces. Update `node:docs/implementation-ledger.toml`, regenerate via `node:tools/generate-implementation-ledger.py`, reconcile `node:docs/MVP.md` for affected scope. Record usability obstacles, not universal cognitive-load reduction. |
 | `P091-015` | Close broad coverage and enforce drift/promotion gates | `P091-001`, `P091-010a`, `P091-014` | `todo` | `check-configuration-inventory.py --verify-current` and `check-config-source-boundaries.py` run in Node `.github/workflows/docs.yml`; `--promote` rejects unfinished required settings. Every ordinary durable setting has file-backed shared control; bootstrap/non-setting exceptions stay narrow. Reconcile ledger, generated view, affected MVP/manual coverage and schema indexes; hidden ordinary stores or partial same-surface ledger rows prevent done. |
 
+#### P091-002 implementation evidence — 2026-09-21
+
+The **contract-only freeze is complete** after the 2026-09-21 follow-up. Review 283
+correctly rejected the earlier inventory-only/projection-only evidence. Its gaps
+are now closed by the
+[Node gate-to-evidence map](https://github.com/diapod/node/blob/master/docs/audits/P091-002-FREEZE-EVIDENCE.md),
+with executable relation tests, native semantic-owner checks and retained corpus
+measurements. The logging replay/derivation model is explicitly a bounded freeze
+specification, not the production P091-003 resolver. No runtime adoption is claimed.
+`node:configuration-core` owns validated addresses, closed enums, four distinct
+identity types and domain-tagged canonical preimages, safe counters, bounded JSON
+admission, deterministic target selection, current-use/withdrawal checks,
+application and commit-phase relations, conflict classification and typed DTOs.
+Pure generation-fenced allocation/receipt and byte-observation recovery relations
+now have executable vectors; host durability and concurrent CAS remain later work.
+Its dependency guard excludes host, daemon, filesystem, network, database, UI and
+clock authority in production dependencies; test-only Schema Gate is intentionally
+allowed, along with the existing mechanical `json-utils` test oracle. Finite
+structural ceilings are qualified against the five-owner/four-scenario corpus,
+64-source sizing model and exact boundary tests. Native P085 composition preserves
+its own digest and refusal semantics. Inline/reference carriers bind typed detail,
+canonical size and digest; missing retained detail is explicitly unavailable.
+
+The Node protocol tree carries the common schema plus twenty exact artifact and
+request/response schemas. Schema Gate embeds them with positive fixtures and six
+conditional negative controls. Rust decodes, re-encodes and Schema-Gate-validates the same twenty vectors; the thin
+Python decoder consumes the shared launch/offline DTO, requires exact scope and
+resolution bindings, propagates typed refusal and has only an injected reader.
+`configuration-first-slice.v1.golden.json` records the full address, owner,
+sources, writers, precedence, validator, resolver, application mode, legacy
+profile, retirement owner, evidence and verification command for logging,
+middleware enablement, separate Flow and Arca owner entries, and the P085
+Inquirium limit case. These five owner records cover four scenarios and remain
+inventory evidence, not domain resolution or application acceptance.
+
+The [Node review record](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-283-CONFIGURATION.md)
+records all CR-283 dispositions and independent fixes. Source-set identity now
+excludes raw-byte CAS digests and retained-storage locators; DTOs preserve
+missing versus explicit null, invalidation is sticky, generations cannot regress,
+post-replace bookkeeping is independent of plan expiry, and Python snapshots are
+recursively immutable. URN resolution and bounded verification capture have
+regression coverage.
+
+Capability Registry records all five operation identities with the exact
+dispatch/host-route/human-registry flags decided above. Registration is not
+availability: no daemon route or writer was added. The Node implementation ledger
+therefore remains `partial` and `out-of-scope` for hard MVP, and P091-005a remains
+the non-bypassable prerequisite for route exposure.
+
 ### Dependency-ordered slices
 
 Start P091-001a and P091-001b concurrently as audit work; only the bounded foundation
@@ -1358,6 +2059,12 @@ P091-009a's Arca contract fixture can run before the live control/UI stack.
 P091-007/007a, P091-008 and P091-009 then converge with first-slice migration on
 P091-011's actual process evidence. Design Python/launch DTO fixtures during the
 foundation, not for the first time at cross-process acceptance.
+
+Use the [P091-001 guidance](#p091-001-inventory-sources-writers-and-semantic-ownership)
+for the entry contract, seam/writer audit and first-slice evidence. Then use the
+[four implementation steps](#four-implementation-steps-after-the-foundation-inventory)
+for candidate algorithms, data structures and verification checkpoints. The
+read-only logging checkpoint does not replace any task's full completion gate.
 
 P091-010a consolidates remaining loaders independently of first-slice acceptance.
 P091-014 closes that coherent operator stage; P091-015 additionally requires the
@@ -1449,12 +2156,14 @@ implemented. Affected tasks are defined in the updated tracker above.
 No unanswered operator choices remain from OQ-01/02/03. Engineering closure and
 evidence-driven extensions below remain separate from those resolved decisions.
 
-### Engineering closure items, owned by P091-001a/P091-002
+### Engineering closure items, owned by P091-002
 
 The reuse audit resolves the earlier route-family uncertainty: reuse P080 host
 capability dispatch for admitted reads and existing operator control for
 changes/application. The five-operation flag matrix and candidate DTO family are
-specified; exact schemas still need registration and executable fixtures.
+specified and registered with shape fixtures; the 2026-09-21 follow-up freezes
+relational evidence and measured first-slice contract budgets. Deployment capacity
+and runtime adoption remain separate acceptance work.
 Workflow-kind/definition and Flow instance bindings are available; Decision 13
 defines their distinct configuration ports under resolved OQ-02 A.
 
@@ -1475,11 +2184,10 @@ the host's structural safety guards; do not inherit unbounded helper reads.
 
 ## Next Actions
 
-1. Deliver P091-001a's initial inventory/gate; extend the audit with P091-001b
-   alongside contract work under the recorded A/A/B decisions.
-2. Freeze the shared Rust/Python contract and fixtures; extend existing primitives,
+1. Implement P091-003 from the completed P091-001 inventory and P091-002
+   contract freeze; extend existing primitives,
    supervisor provisioning and host bridges before implementing UI.
-3. Complete the four-case slice with real cross-process consumption, then expand
+2. Complete the four-case slice with real cross-process consumption, then expand
    by inventory rather than
    declaring that every subsystem became configurable through one demonstration.
 

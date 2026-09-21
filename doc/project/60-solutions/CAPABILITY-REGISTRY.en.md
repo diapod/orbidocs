@@ -137,6 +137,8 @@ admission.
 | `sensorium.interface.manage` | `sensorium/interface.manage` | host control | source-local observation and actuation publication, lifecycle, grant, revocation, inspection, metrics, and policy-driven preemption | Sensorium Interfaces runtime | no; host-local only | The implemented capability is non-advertisable and Passport-ineligible. Its authorization policy enumerates a closed action set, including `control.preempt`; authenticated caller binding, an active exact invoke grant for an operator lease, immutable management facts, and restart reconstruction remain mandatory. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | host network effect | one bounded HTTP(S) fetch admitted for an exact middleware consumer, action, origin policy, and destination class | daemon bounded HTTP fetch host | no; host-local only | Implemented as a reusable daemon-owned primitive with P084 as its first consumer. It resolves and classifies every address, pins the selected connection, revalidates same-origin redirects, enforces intersected byte/time/concurrency limits, and returns only bounded bytes or an Artifact Delivery pointer. It is not a public proxy and grants no Sensorium observation or publication authority. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | data-only assessment | bounded evaluation of explicit receiving policy against declared or realized evidence | inference provenance core through daemon | no; host-local only | Returns admit, warn or deny for exact subjects. Does not authenticate source assertions, install policy, dispatch inference or authorize effects. |
+| `config.setting.describe` | `host/config.setting.describe` | configuration read | bounded discovery of owner-declared setting contracts for an admitted scope | daemon configuration host | contract only; route disabled | P091-002 registers identity and eligibility only. The operation remains unavailable until the P091-005a local-control admission gate and route exist. |
+| `config.value.explain` | `host/config.value.explain` | configuration read | bounded values-only or derivation-backed explanation of one exact configuration resolution | daemon configuration host | contract only; route disabled | Presentation detail cannot alter resolved values or refusals. The operation remains unavailable until P091-005a. |
 | `service.order.result.prepare` | `host/service.order.result.prepare` | data-only derivation | content-bound procurement result preparation from the unchanged source product | procurement core through daemon | no; host-local only | Preserves source boundary and time. Does not observe execution, authenticate source, persist a commit, deliver artifacts or settle payment. |
 | `artifact.delivery.retain` | `host/artifact.delivery.retain` | host storage effect | retain one authenticated caller-owned, content-bound object in Artifact Delivery | daemon Artifact Delivery object store | no; host-local only | Implemented for P084 representation retention. The host verifies exact caller/owner, digest, size, classification, causal context, and digest-bound idempotency before storage, then returns an immutable ref and P081 receipt. It grants no read, delivery, publication, or recipient authority. |
 | `interaction-broker.wait` | `host/interaction-broker.wait` | host coordination | host-owned bounded wait over registered observation sources | daemon interaction broker | no; host-local only | Implemented control-plane coordination with deadlines, idempotency, daemon-issued grant context, durable recovery/retention, and live built-in plus dynamic source providers. |
@@ -157,7 +159,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **186** host-local / **218** total; **25** owner groups.
+Entries: **191** host-local / **223** total; **26** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -282,6 +284,16 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>capability.passport.reconcile</code> | <code>host/capability.passport.reconcile</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon configuration host</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>config.activation.apply</code> | <code>host/config.activation.apply</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>config.change.commit</code> | <code>host/config.change.commit</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>config.change.plan</code> | <code>host/config.change.plan</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>config.setting.describe</code> | <code>host/config.setting.describe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>config.value.explain</code> | <code>host/config.value.explain</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon gateway control</code>
 

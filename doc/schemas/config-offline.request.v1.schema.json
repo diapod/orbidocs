@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:config-offline.request:v1",
+  "title": "Offline Configuration Request v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"],
+  "$ref": "configuration-common.v1.schema.json#/$defs/offlineRequest"
+}

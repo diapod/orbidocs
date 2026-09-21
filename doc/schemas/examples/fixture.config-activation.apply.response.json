@@ -1,0 +1,1 @@
+{"schema":"config-activation.apply.response.v1","schema/v":1,"outcome":{"outcome":"refused","refusal":{"code":"constraint-conflict","reason":"constraint-expired"}}}

@@ -1,0 +1,9 @@
+{
+  "schema":"config-change-plan.v1","schema/v":1,"plan/ref":"config-plan:logging:1","target/ref":"config-file:80-operator.json",
+  "edits":[{"operation":"set","setting/address":{"scope/kind":"node","scope/ref":"node:local","owner/ref":"daemon:logging","setting/pointer":"/logging/level","contract/revision":"logging-config:v1"},"value":"debug"}],
+  "base-resolution/id":"sha256:JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJI","candidate-resolution/id":"sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA",
+  "expected/source-set-revision":"sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","expected/descriptor-set-id":"sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE",
+  "expected/file-bytes-digest":"sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCA","expected/host-writer-ref":"configuration-host:local",
+  "predicted/impacts":[{"setting/address":{"scope/kind":"node","scope/ref":"node:local","owner/ref":"daemon:logging","setting/pointer":"/logging/level","contract/revision":"logging-config:v1"},"resolved-value/changed":true,"diagnostic":"value-changed","predicted/value":"debug"}],
+  "expires/epoch-ms":1789984860000,"approval/generation":1
+}

@@ -29,6 +29,66 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.config-setting-descriptor.json)
+      echo "$SCHEMAS_DIR/config-setting-descriptor.v1.schema.json"
+      ;;
+    *.config-source-binding.json)
+      echo "$SCHEMAS_DIR/config-source-binding.v1.schema.json"
+      ;;
+    *.config-resolution.json)
+      echo "$SCHEMAS_DIR/config-resolution.v1.schema.json"
+      ;;
+    *.config-derivation.json)
+      echo "$SCHEMAS_DIR/config-derivation.v1.schema.json"
+      ;;
+    *.config-describe.request.json)
+      echo "$SCHEMAS_DIR/config-describe.request.v1.schema.json"
+      ;;
+    *.config-describe.response.json)
+      echo "$SCHEMAS_DIR/config-describe.response.v1.schema.json"
+      ;;
+    *.config-explain.request.json)
+      echo "$SCHEMAS_DIR/config-explain.request.v1.schema.json"
+      ;;
+    *.config-explain.response.json)
+      echo "$SCHEMAS_DIR/config-explain.response.v1.schema.json"
+      ;;
+    *.config-change-plan.json)
+      echo "$SCHEMAS_DIR/config-change-plan.v1.schema.json"
+      ;;
+    *.config-change.plan.request.json)
+      echo "$SCHEMAS_DIR/config-change.plan.request.v1.schema.json"
+      ;;
+    *.config-change.plan.response.json)
+      echo "$SCHEMAS_DIR/config-change.plan.response.v1.schema.json"
+      ;;
+    *.config-change.commit.request.json)
+      echo "$SCHEMAS_DIR/config-change.commit.request.v1.schema.json"
+      ;;
+    *.config-change.commit.response.json)
+      echo "$SCHEMAS_DIR/config-change.commit.response.v1.schema.json"
+      ;;
+    *.config-commit-receipt.json)
+      echo "$SCHEMAS_DIR/config-commit-receipt.v1.schema.json"
+      ;;
+    *.config-activation.apply.request.json)
+      echo "$SCHEMAS_DIR/config-activation.apply.request.v1.schema.json"
+      ;;
+    *.config-activation.apply.response.json)
+      echo "$SCHEMAS_DIR/config-activation.apply.response.v1.schema.json"
+      ;;
+    *.config-activation-receipt.json)
+      echo "$SCHEMAS_DIR/config-activation-receipt.v1.schema.json"
+      ;;
+    *.config-launch-snapshot.json)
+      echo "$SCHEMAS_DIR/config-launch-snapshot.v1.schema.json"
+      ;;
+    *.config-offline.request.json)
+      echo "$SCHEMAS_DIR/config-offline.request.v1.schema.json"
+      ;;
+    *.config-offline.response.json)
+      echo "$SCHEMAS_DIR/config-offline.response.v1.schema.json"
+      ;;
     *.middleware-observed-result.v1.json)
       echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
       ;;

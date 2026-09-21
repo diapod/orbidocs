@@ -1,0 +1,14 @@
+{
+  "schema": "config-source-binding.v1",
+  "schema/v": 1,
+  "source/slot": {
+    "source/ref": "config-file:80-operator.json",
+    "source/class": "operator-common",
+    "order/index": 4,
+    "owner/ref": "daemon:logging",
+    "source/presence": {"presence": "present", "content/revision": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBA", "file/bytes-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCA", "retained/value-ref": "retained-config:logging:1"}
+  },
+  "file/ref": "config-file:80-operator.json",
+  "file/pointer": "/logging/level",
+  "admitted/by": "configuration-host:local"
+}

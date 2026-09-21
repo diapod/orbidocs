@@ -1,0 +1,29 @@
+{
+  "schema": "config-derivation.v1",
+  "schema/v": 1,
+  "resolution/id": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA",
+  "complete": true,
+  "carrier": {
+    "carrier": "inline",
+    "digest": "sha256:v5zT9X7bcXWgzhCZo4CgdXwDJRx9A5LA9C9srUSvvCE",
+    "size/bytes": 250,
+    "value": {
+      "complete": true,
+      "entries": {
+        "/logging/level": {
+          "output/pointer": "/logging/level",
+          "rule/ref": "replace",
+          "rule/revision": "v1",
+          "contributors": [
+            {
+              "source/ref": "config-file:80-operator.json",
+              "role": "decisive"
+            }
+          ],
+          "dependency/refs": [],
+          "structural/node": false
+        }
+      }
+    }
+  }
+}

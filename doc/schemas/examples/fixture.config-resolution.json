@@ -1,0 +1,16 @@
+{
+  "schema": "config-resolution.v1",
+  "schema/v": 1,
+  "resolution/id": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA",
+  "inputs": {
+    "source-set/revision": "sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+    "descriptor-set/id": "sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE",
+    "constraint-context/digest": "sha256:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE",
+    "resolver/revision": "configuration-resolver:v1",
+    "domain-port/revisions": {"daemon:logging": "logging-validator:v1"},
+    "normalization-inputs/digest": "sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHE",
+    "historical-validation/epoch-ms": 1789984800000
+  },
+  "values": {"logging": {"level": "debug"}},
+  "resolved/at-epoch-ms": 1789984800123
+}

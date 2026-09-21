@@ -1,0 +1,1 @@
+{"schema":"config-describe.request.v1","schema/v":1,"scope/kind":"node","scope/ref":"node:local","setting/addresses":[{"scope/kind":"node","scope/ref":"node:local","owner/ref":"daemon:logging","setting/pointer":"/logging/level","contract/revision":"logging-config:v1"}],"result/limit":16}

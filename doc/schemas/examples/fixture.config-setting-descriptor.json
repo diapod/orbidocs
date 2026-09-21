@@ -1,0 +1,15 @@
+{
+  "schema": "config-setting-descriptor.v1",
+  "schema/v": 1,
+  "setting/address": {"scope/kind": "node", "scope/ref": "node:local", "owner/ref": "daemon:logging", "setting/pointer": "/logging/level", "contract/revision": "logging-config:v1"},
+  "value/schema-ref": "schema:logging-level:v1",
+  "scopes/supported": ["node"],
+  "composition/rule": "replace:v1",
+  "validator/ref": "validator:logging-level:v1",
+  "sensitive": false,
+  "application/mode": "live-reload",
+  "targets/editable": true,
+  "manual/ref": "manual:node-logging:v1",
+  "provenance": "distribution-default",
+  "descriptor/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

@@ -1,0 +1,1 @@
+{"schema":"config-activation.apply.request.v1","schema/v":1,"component-instance/ref":"daemon:logging","resolution/id":"sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA","requested-application/mode":"live-reload"}

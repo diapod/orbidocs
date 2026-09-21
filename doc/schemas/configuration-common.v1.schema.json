@@ -1,0 +1,391 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:configuration-common:v1",
+  "title": "P091 Configuration Common Contract v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "maxLength": 512},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"},
+    "counter": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "jsonPointer": {"type": "string", "maxLength": 2048, "pattern": "^(?:/(?:[^~/]|~[01])*)*$"},
+    "scopeKind": {"enum": ["node", "component", "workflow", "invocation"]},
+    "view": {"enum": ["declared", "resolved", "active"]},
+    "detailMode": {"enum": ["values-only", "with-derivation"]},
+    "sourceClass": {
+      "enum": [
+        "compiled-default", "distribution-default", "module-declaration",
+        "node-declaration", "operator-common", "operator-component",
+        "workflow-overlay", "invocation-override", "admitted-constraint",
+        "legacy-operator"
+      ]
+    },
+    "contributorRole": {"enum": ["decisive", "shadowed", "equal", "rejected"]},
+    "applicationMode": {
+      "enum": ["live-reload", "component-reload", "component-restart", "node-restart", "approval-required", "provision-only"]
+    },
+    "applicationState": {
+      "enum": ["provisioned", "active", "pending-reload", "pending-restart", "approval-required", "application-rejected", "descriptor-invalidated", "unknown"]
+    },
+    "refusalCode": {
+      "enum": ["missing-key", "denied", "unavailable-context", "host-unavailable", "unsupported-contract", "invalid-source", "source-conflict", "descriptor-conflict", "constraint-conflict", "resolution-unavailable", "invalid-target", "limit-exceeded", "persistence-failed", "recovery-required"]
+    },
+    "refusal": {
+      "type": "object",
+      "required": ["code", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"$ref": "#/$defs/refusalCode"},
+        "reason": {"$ref": "#/$defs/reason"}
+      }
+    },
+    "settingAddress": {
+      "type": "object",
+      "required": ["scope/kind", "scope/ref", "owner/ref", "setting/pointer", "contract/revision"],
+      "additionalProperties": false,
+      "properties": {
+        "scope/kind": {"$ref": "#/$defs/scopeKind"},
+        "scope/ref": {"$ref": "#/$defs/text"},
+        "owner/ref": {"$ref": "#/$defs/text"},
+        "setting/pointer": {"$ref": "#/$defs/jsonPointer"},
+        "contract/revision": {"$ref": "#/$defs/text"}
+      }
+    },
+    "descriptorAdmission": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "evidence/ref"],
+          "additionalProperties": false,
+          "properties": {"status": {"const": "admitted"}, "evidence/ref": {"$ref": "#/$defs/text"}}
+        },
+        {
+          "type": "object",
+          "required": ["status", "evidence/ref"],
+          "additionalProperties": false,
+          "properties": {"status": {"const": "withdrawn"}, "evidence/ref": {"$ref": "#/$defs/text"}}
+        },
+        {
+          "type": "object",
+          "required": ["status", "reason"],
+          "additionalProperties": false,
+          "properties": {"status": {"const": "unavailable"}, "reason": {"$ref": "#/$defs/reason"}}
+        }
+      ]
+    },
+    "sourcePresence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["presence", "content/revision", "retained/value-ref"],
+          "additionalProperties": false,
+          "properties": {
+            "presence": {"const": "present"},
+            "content/revision": {"$ref": "#/$defs/digest"},
+            "file/bytes-digest": {"$ref": "#/$defs/digest"},
+            "retained/value-ref": {"$ref": "#/$defs/text"}
+          }
+        },
+        {
+          "type": "object",
+          "required": ["presence", "target/binding"],
+          "additionalProperties": false,
+          "properties": {
+            "presence": {"const": "absent"},
+            "target/binding": {"$ref": "#/$defs/text"}
+          }
+        }
+      ]
+    },
+    "sourceSlot": {
+      "type": "object",
+      "required": ["source/ref", "source/class", "order/index", "owner/ref", "source/presence"],
+      "additionalProperties": false,
+      "properties": {
+        "source/ref": {"$ref": "#/$defs/text"},
+        "source/class": {"$ref": "#/$defs/sourceClass"},
+        "order/index": {"type": "integer", "minimum": 0, "maximum": 63},
+        "owner/ref": {"$ref": "#/$defs/text"},
+        "source/presence": {"$ref": "#/$defs/sourcePresence"}
+      }
+    },
+    "sourceBinding": {
+      "type": "object",
+      "required": ["schema", "schema/v", "source/slot", "admitted/by"],
+      "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-source-binding.v1"},
+        "schema/v": {"const": 1},
+        "source/slot": {"$ref": "#/$defs/sourceSlot"},
+        "file/ref": {"$ref": "#/$defs/text"},
+        "file/pointer": {"$ref": "#/$defs/jsonPointer"},
+        "admitted/by": {"$ref": "#/$defs/text"}
+      }
+    },
+    "settingDescriptor": {
+      "type": "object",
+      "required": ["schema", "schema/v", "setting/address", "value/schema-ref", "scopes/supported", "composition/rule", "validator/ref", "sensitive", "application/mode", "targets/editable", "manual/ref", "provenance", "descriptor/digest"],
+      "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-setting-descriptor.v1"},
+        "schema/v": {"const": 1},
+        "setting/address": {"$ref": "#/$defs/settingAddress"},
+        "value/schema-ref": {"$ref": "#/$defs/text"},
+        "scopes/supported": {"type": "array", "minItems": 1, "uniqueItems": true, "maxItems": 4, "items": {"$ref": "#/$defs/scopeKind"}},
+        "composition/rule": {"$ref": "#/$defs/text"},
+        "validator/ref": {"$ref": "#/$defs/text"},
+        "sensitive": {"type": "boolean"},
+        "application/mode": {"$ref": "#/$defs/applicationMode"},
+        "targets/editable": {"type": "boolean"},
+        "manual/ref": {"$ref": "#/$defs/text"},
+        "provenance": {"enum": ["distribution-default", "operator-package"]},
+        "descriptor/digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "resolutionInputs": {
+      "type": "object",
+      "required": ["source-set/revision", "descriptor-set/id", "constraint-context/digest", "resolver/revision", "domain-port/revisions", "normalization-inputs/digest", "historical-validation/epoch-ms"],
+      "additionalProperties": false,
+      "properties": {
+        "source-set/revision": {"$ref": "#/$defs/digest"},
+        "descriptor-set/id": {"$ref": "#/$defs/digest"},
+        "constraint-context/digest": {"$ref": "#/$defs/digest"},
+        "resolver/revision": {"$ref": "#/$defs/text"},
+        "domain-port/revisions": {"type": "object", "minProperties": 1, "maxProperties": 64, "additionalProperties": {"$ref": "#/$defs/text"}},
+        "normalization-inputs/digest": {"$ref": "#/$defs/digest"},
+        "historical-validation/epoch-ms": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "required": ["schema", "schema/v", "resolution/id", "inputs", "values", "resolved/at-epoch-ms"],
+      "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-resolution.v1"},
+        "schema/v": {"const": 1},
+        "resolution/id": {"$ref": "#/$defs/digest"},
+        "inputs": {"$ref": "#/$defs/resolutionInputs"},
+        "values": {"type": "object"},
+        "resolved/at-epoch-ms": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
+      }
+    },
+    "derivationContributor": {
+      "type": "object", "required": ["source/ref", "role"], "additionalProperties": false,
+      "properties": {"source/ref": {"$ref": "#/$defs/text"}, "role": {"$ref": "#/$defs/contributorRole"}}
+    },
+    "derivationEntry": {
+      "type": "object", "required": ["output/pointer", "rule/ref", "rule/revision", "contributors", "dependency/refs", "structural/node"], "additionalProperties": false,
+      "properties": {
+        "output/pointer": {"$ref": "#/$defs/jsonPointer"}, "rule/ref": {"$ref": "#/$defs/text"}, "rule/revision": {"$ref": "#/$defs/text"},
+        "contributors": {"type": "array", "maxItems": 262144, "items": {"$ref": "#/$defs/derivationContributor"}},
+        "dependency/refs": {"type": "array", "maxItems": 262144, "items": {"$ref": "#/$defs/text"}}, "structural/node": {"type": "boolean"}
+      }
+    },
+    "derivationDetail": {
+      "type": "object", "required": ["complete", "entries"], "additionalProperties": false,
+      "properties": {
+        "complete": {"type": "boolean"},
+        "entries": {"type": "object", "maxProperties": 4096, "propertyNames": {"$ref": "#/$defs/jsonPointer"}, "additionalProperties": {"$ref": "#/$defs/derivationEntry"}},
+        "aggregate/ref": {"$ref": "#/$defs/text"}
+      },
+      "allOf": [{"if": {"required": ["complete"], "properties": {"complete": {"const": false}}}, "then": {"required": ["aggregate/ref"]}}]
+    },
+    "derivationCarrier": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["carrier", "digest", "size/bytes", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "carrier": {"const": "inline"},
+            "digest": {"$ref": "#/$defs/digest"},
+            "size/bytes": {"type": "integer", "minimum": 1, "maximum": 16384},
+            "value": {"$ref": "#/$defs/derivationDetail"}
+          }
+        },
+        {
+          "type": "object",
+          "required": ["carrier", "digest", "size/bytes", "object/ref"],
+          "additionalProperties": false,
+          "properties": {
+            "carrier": {"const": "reference"},
+            "digest": {"$ref": "#/$defs/digest"},
+            "size/bytes": {"type": "integer", "minimum": 1, "maximum": 1048576},
+            "object/ref": {"$ref": "#/$defs/text"}
+          }
+        }
+      ]
+    },
+    "derivation": {
+      "type": "object",
+      "required": ["schema", "schema/v", "resolution/id", "complete", "carrier"],
+      "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-derivation.v1"},
+        "schema/v": {"const": 1},
+        "resolution/id": {"$ref": "#/$defs/digest"},
+        "complete": {"type": "boolean"},
+        "carrier": {"$ref": "#/$defs/derivationCarrier"},
+        "aggregate/ref": {"$ref": "#/$defs/text"}
+      },
+      "allOf": [
+        {
+          "if": {"required": ["complete"], "properties": {"complete": {"const": false}}},
+          "then": {"required": ["aggregate/ref"]}
+        }
+      ]
+    },
+    "describeRequest": {
+      "type": "object",
+      "required": ["schema", "schema/v", "scope/kind", "scope/ref", "setting/addresses", "result/limit"],
+      "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-describe.request.v1"}, "schema/v": {"const": 1},
+        "scope/kind": {"$ref": "#/$defs/scopeKind"}, "scope/ref": {"$ref": "#/$defs/text"},
+        "setting/addresses": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/settingAddress"}},
+        "result/limit": {"type": "integer", "minimum": 1, "maximum": 256}
+      }
+    },
+    "describeResponse": {
+      "type": "object", "required": ["schema", "schema/v", "outcome"], "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-describe.response.v1"}, "schema/v": {"const": 1},
+        "outcome": {
+          "oneOf": [
+            {"type": "object", "required": ["outcome", "result"], "additionalProperties": false, "properties": {"outcome": {"const": "ok"}, "result": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/settingDescriptor"}}}},
+            {"type": "object", "required": ["outcome", "refusal"], "additionalProperties": false, "properties": {"outcome": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+          ]
+        }
+      }
+    },
+    "disclosure": {
+      "type": "object", "required": ["include/values", "include/sources", "include/paths", "include/secret-refs"], "additionalProperties": false,
+      "properties": {"include/values": {"type": "boolean"}, "include/sources": {"type": "boolean"}, "include/paths": {"type": "boolean"}, "include/secret-refs": {"type": "boolean"}}
+    },
+    "explainRequest": {
+      "type": "object", "required": ["schema", "schema/v", "view", "setting/address", "detail", "disclosure"], "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-explain.request.v1"}, "schema/v": {"const": 1}, "view": {"$ref": "#/$defs/view"},
+        "setting/address": {"$ref": "#/$defs/settingAddress"}, "resolution/id": {"$ref": "#/$defs/digest"},
+        "component-instance/ref": {"$ref": "#/$defs/text"}, "detail": {"$ref": "#/$defs/detailMode"}, "disclosure": {"$ref": "#/$defs/disclosure"}
+      },
+      "allOf": [
+        {"if": {"required": ["view"], "properties": {"view": {"enum": ["resolved", "active"]}}}, "then": {"required": ["resolution/id"]}},
+        {"if": {"required": ["view"], "properties": {"view": {"const": "active"}}}, "then": {"required": ["component-instance/ref"]}}
+      ]
+    },
+    "explainResult": {
+      "type": "object", "required": ["view", "setting/address", "resolution/id", "value/status"], "additionalProperties": false,
+      "properties": {
+        "view": {"$ref": "#/$defs/view"}, "setting/address": {"$ref": "#/$defs/settingAddress"}, "resolution/id": {"$ref": "#/$defs/digest"},
+        "value": {}, "value/status": {"enum": ["present", "redacted", "unavailable"]}, "derivation": {"$ref": "#/$defs/derivation"},
+        "application/state": {"$ref": "#/$defs/applicationState"}, "acknowledged-resolution/id": {"$ref": "#/$defs/digest"}
+      },
+      "allOf": [
+        {"if": {"required": ["value/status"], "properties": {"value/status": {"const": "present"}}}, "then": {"required": ["value"]}, "else": {"not": {"required": ["value"]}}},
+        {"if": {"required": ["view"], "properties": {"view": {"const": "active"}}}, "then": {"required": ["application/state"]}}
+      ]
+    },
+    "explainResponse": {
+      "type": "object", "required": ["schema", "schema/v", "outcome"], "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-explain.response.v1"}, "schema/v": {"const": 1},
+        "outcome": {"oneOf": [
+          {"type": "object", "required": ["outcome", "result"], "additionalProperties": false, "properties": {"outcome": {"const": "ok"}, "result": {"$ref": "#/$defs/explainResult"}}},
+          {"type": "object", "required": ["outcome", "refusal"], "additionalProperties": false, "properties": {"outcome": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+        ]}
+      }
+    },
+    "declarationEdit": {
+      "oneOf": [
+        {"type": "object", "required": ["operation", "setting/address", "value"], "additionalProperties": false, "properties": {"operation": {"const": "set"}, "setting/address": {"$ref": "#/$defs/settingAddress"}, "value": {}}},
+        {"type": "object", "required": ["operation", "setting/address"], "additionalProperties": false, "properties": {"operation": {"const": "reset"}, "setting/address": {"$ref": "#/$defs/settingAddress"}}}
+      ]
+    },
+    "predictedImpact": {
+      "type": "object", "required": ["setting/address", "resolved-value/changed", "diagnostic"], "additionalProperties": false,
+      "properties": {"setting/address": {"$ref": "#/$defs/settingAddress"}, "resolved-value/changed": {"type": "boolean"}, "diagnostic": {"$ref": "#/$defs/reason"}, "predicted/value": {}}
+    },
+    "changePlan": {
+      "type": "object", "required": ["schema", "schema/v", "plan/ref", "target/ref", "edits", "base-resolution/id", "candidate-resolution/id", "expected/source-set-revision", "expected/descriptor-set-id", "expected/host-writer-ref", "predicted/impacts", "expires/epoch-ms"], "additionalProperties": false,
+      "properties": {
+        "schema": {"const": "config-change-plan.v1"}, "schema/v": {"const": 1}, "plan/ref": {"$ref": "#/$defs/text"}, "target/ref": {"$ref": "#/$defs/text"},
+        "edits": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/declarationEdit"}},
+        "base-resolution/id": {"$ref": "#/$defs/digest"}, "candidate-resolution/id": {"$ref": "#/$defs/digest"},
+        "expected/source-set-revision": {"$ref": "#/$defs/digest"}, "expected/descriptor-set-id": {"$ref": "#/$defs/digest"},
+        "expected/file-bytes-digest": {"$ref": "#/$defs/digest"}, "expected/host-writer-ref": {"$ref": "#/$defs/text"},
+        "predicted/impacts": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/predictedImpact"}},
+        "expires/epoch-ms": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}, "approval/generation": {"$ref": "#/$defs/counter"}
+      }
+    },
+    "changePlanRequest": {
+      "type": "object", "required": ["schema", "schema/v", "scope/kind", "scope/ref", "edits", "requested-application/mode"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-change.plan.request.v1"}, "schema/v": {"const": 1}, "scope/kind": {"$ref": "#/$defs/scopeKind"}, "scope/ref": {"$ref": "#/$defs/text"}, "target/ref": {"$ref": "#/$defs/text"}, "edits": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"$ref": "#/$defs/declarationEdit"}}, "requested-application/mode": {"$ref": "#/$defs/applicationMode"}}
+    },
+    "changePlanResponse": {
+      "type": "object", "required": ["schema", "schema/v", "outcome"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-change.plan.response.v1"}, "schema/v": {"const": 1}, "outcome": {"oneOf": [
+        {"type": "object", "required": ["outcome", "result"], "additionalProperties": false, "properties": {"outcome": {"const": "ok"}, "result": {"$ref": "#/$defs/changePlan"}}},
+        {"type": "object", "required": ["outcome", "refusal"], "additionalProperties": false, "properties": {"outcome": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+      ]}}
+    },
+    "changeCommitRequest": {
+      "type": "object", "required": ["schema", "schema/v", "plan/ref"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-change.commit.request.v1"}, "schema/v": {"const": 1}, "plan/ref": {"$ref": "#/$defs/text"}, "approval/ref": {"$ref": "#/$defs/text"}}
+    },
+    "commitReceipt": {
+      "type": "object", "required": ["schema", "schema/v", "transaction/ref", "plan/ref", "target/ref", "file/bytes-digest", "candidate-resolution/id", "resolved-value/impacts", "source/outcome"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-commit-receipt.v1"}, "schema/v": {"const": 1}, "transaction/ref": {"$ref": "#/$defs/text"}, "plan/ref": {"$ref": "#/$defs/text"}, "target/ref": {"$ref": "#/$defs/text"}, "file/bytes-digest": {"$ref": "#/$defs/digest"}, "candidate-resolution/id": {"$ref": "#/$defs/digest"}, "resolved-value/impacts": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/predictedImpact"}}, "source/outcome": {"enum": ["written", "unchanged", "recovered"]}}
+    },
+    "changeCommitResponse": {
+      "type": "object", "required": ["schema", "schema/v", "outcome"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-change.commit.response.v1"}, "schema/v": {"const": 1}, "outcome": {"oneOf": [
+        {"type": "object", "required": ["outcome", "result"], "additionalProperties": false, "properties": {"outcome": {"const": "ok"}, "result": {"$ref": "#/$defs/commitReceipt"}}},
+        {"type": "object", "required": ["outcome", "refusal"], "additionalProperties": false, "properties": {"outcome": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+      ]}}
+    },
+    "activationApplyRequest": {
+      "type": "object", "required": ["schema", "schema/v", "component-instance/ref", "resolution/id", "requested-application/mode"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-activation.apply.request.v1"}, "schema/v": {"const": 1}, "component-instance/ref": {"$ref": "#/$defs/text"}, "resolution/id": {"$ref": "#/$defs/digest"}, "requested-application/mode": {"$ref": "#/$defs/applicationMode"}}
+    },
+    "activationReceipt": {
+      "type": "object", "required": ["schema", "schema/v", "component-instance/ref", "resolution/id", "state", "freshness/evaluated-at-epoch-ms"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-activation-receipt.v1"}, "schema/v": {"const": 1}, "component-instance/ref": {"$ref": "#/$defs/text"}, "resolution/id": {"$ref": "#/$defs/digest"}, "activation/generation": {"$ref": "#/$defs/counter"}, "state": {"$ref": "#/$defs/applicationState"}, "reason": {"$ref": "#/$defs/reason"}, "consumption/evidence-ref": {"$ref": "#/$defs/text"}, "freshness/evaluated-at-epoch-ms": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}},
+      "allOf": [
+        {"if": {"required": ["state"], "properties": {"state": {"const": "active"}}}, "then": {"required": ["activation/generation", "consumption/evidence-ref"]}},
+        {"if": {"required": ["state"], "properties": {"state": {"not": {"const": "active"}}}}, "then": {"required": ["reason"]}}
+      ]
+    },
+    "activationApplyResponse": {
+      "type": "object", "required": ["schema", "schema/v", "outcome"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-activation.apply.response.v1"}, "schema/v": {"const": 1}, "outcome": {"oneOf": [
+        {"type": "object", "required": ["outcome", "result"], "additionalProperties": false, "properties": {"outcome": {"const": "ok"}, "result": {"$ref": "#/$defs/activationReceipt"}}},
+        {"type": "object", "required": ["outcome", "refusal"], "additionalProperties": false, "properties": {"outcome": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+      ]}}
+    },
+    "launchSnapshot": {
+      "type": "object", "required": ["schema", "schema/v", "scope/ref", "resolution/id", "values", "complete", "source-set/revision"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-launch-snapshot.v1"}, "schema/v": {"const": 1}, "scope/ref": {"$ref": "#/$defs/text"}, "resolution/id": {"$ref": "#/$defs/digest"}, "values": {"type": "object"}, "complete": {"const": true}, "source-set/revision": {"$ref": "#/$defs/digest"}}
+    },
+    "offlineAdmission": {
+      "oneOf": [
+        {"type": "object", "required": ["status", "evidence/ref"], "additionalProperties": false, "properties": {"status": {"const": "admitted"}, "evidence/ref": {"$ref": "#/$defs/text"}}},
+        {"type": "object", "required": ["status", "reason"], "additionalProperties": false, "properties": {"status": {"const": "unavailable"}, "reason": {"$ref": "#/$defs/reason"}}},
+        {"type": "object", "required": ["status", "refusal"], "additionalProperties": false, "properties": {"status": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+      ]
+    },
+    "offlineRequest": {
+      "type": "object", "required": ["schema", "schema/v", "scope/ref", "resolution/id", "offline/admission"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-offline.request.v1"}, "schema/v": {"const": 1}, "scope/ref": {"$ref": "#/$defs/text"}, "resolution/id": {"$ref": "#/$defs/digest"}, "offline/admission": {"$ref": "#/$defs/offlineAdmission"}}
+    },
+    "offlineResponse": {
+      "type": "object", "required": ["schema", "schema/v", "outcome"], "additionalProperties": false,
+      "properties": {"schema": {"const": "config-offline.response.v1"}, "schema/v": {"const": 1}, "outcome": {"oneOf": [
+        {"type": "object", "required": ["outcome", "result"], "additionalProperties": false, "properties": {"outcome": {"const": "ok"}, "result": {"$ref": "#/$defs/launchSnapshot"}}},
+        {"type": "object", "required": ["outcome", "refusal"], "additionalProperties": false, "properties": {"outcome": {"const": "refused"}, "refusal": {"$ref": "#/$defs/refusal"}}}
+      ]}}
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"schema":"config-change.commit.request.v1","schema/v":1,"plan/ref":"config-plan:logging:1","approval/ref":"operator-approval:logging:1"}

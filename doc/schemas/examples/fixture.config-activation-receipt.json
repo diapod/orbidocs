@@ -1,0 +1,1 @@
+{"schema":"config-activation-receipt.v1","schema/v":1,"component-instance/ref":"daemon:logging","resolution/id":"sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA","activation/generation":1,"state":"active","consumption/evidence-ref":"config-consumption:logging:1","freshness/evaluated-at-epoch-ms":1789984801000}

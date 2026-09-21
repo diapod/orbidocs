@@ -1,0 +1,1 @@
+{"schema":"config-source-binding.v1","schema/v":1,"source/slot":{"source/ref":"config-file:90-operator-arca.json","source/class":"operator-component","order/index":5,"owner/ref":"middleware:arca","source/presence":{"presence":"absent"}},"admitted/by":"configuration-host:local"}

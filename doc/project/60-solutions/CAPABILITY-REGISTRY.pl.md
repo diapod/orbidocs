@@ -139,6 +139,8 @@ odrzucane na admission gate.
 | `sensorium.interface.manage` | `sensorium/interface.manage` | sterowanie hosta | lokalne dla źródła publikowanie obserwacji i aktuacji, lifecycle, granty, revocation, inspekcja, metryki i preempcja wynikająca z polityki | Sensorium Interfaces runtime | nie; tylko host-local | Zaimplementowana capability nie jest reklamowana i nie kwalifikuje się do Passportu. Jej polityka autoryzacji wylicza zamknięty zbiór akcji, w tym `control.preempt`; wymagane pozostają uwierzytelnione związanie callera, aktywny dokładny grant invoke dla dzierżawy operatora, niezmienne fakty zarządcze i rekonstrukcja po restarcie. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | efekt sieciowy hosta | jedno ograniczone pobranie HTTP(S) dopuszczone dla dokładnego konsumenta middleware, akcji, polityki originu i klasy celu | daemon bounded HTTP fetch host | nie; tylko host-local | Zaimplementowany reużywalny prymityw należący do daemona, którego pierwszym konsumentem jest P084. Rozwiązuje i klasyfikuje każdy adres, pinuje wybrane połączenie, ponownie waliduje redirecty w tym samym originie, egzekwuje przecięte limity bajtów, czasu i współbieżności oraz zwraca wyłącznie ograniczone bajty albo wskaźnik Artifact Delivery. Nie jest publicznym proxy i nie nadaje władzy obserwacji ani publikacji Sensorium. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | ocena danych | ograniczona ocena jawnej polityki odbiorcy względem deklaracji lub dowodu wykonania | inference provenance core przez daemon | nie; tylko host-local | Zwraca admit, warn lub deny dla dokładnych podmiotów. Nie uwierzytelnia źródeł, nie instaluje polityki, nie uruchamia inferencji i nie nadaje uprawnień do efektów. |
+| `config.setting.describe` | `host/config.setting.describe` | odczyt konfiguracji | ograniczone odkrywanie deklarowanych przez właścicieli kontraktów ustawień dla dopuszczonego scope | daemonowy host konfiguracji | tylko kontrakt; route wyłączony | P091-002 rejestruje wyłącznie tożsamość i kwalifikację. Operacja pozostaje niedostępna do czasu powstania bramki admission i route lokalnego control-plane w P091-005a. |
+| `config.value.explain` | `host/config.value.explain` | odczyt konfiguracji | ograniczone wyjaśnienie values-only albo z derivation dla jednej dokładnej resolution konfiguracji | daemonowy host konfiguracji | tylko kontrakt; route wyłączony | Szczegół prezentacji nie może zmieniać resolved values ani refusals. Operacja pozostaje niedostępna do P091-005a. |
 | `service.order.result.prepare` | `host/service.order.result.prepare` | wyprowadzenie danych | przygotowanie koperty wyniku procurement z wiązaniem niezmienionego produktu źródłowego | procurement core przez daemon | nie; tylko host-local | Zachowuje granicę i czas źródła. Nie obserwuje wykonania, nie uwierzytelnia źródła, nie zapisuje commitu, nie dostarcza artefaktów i nie rozlicza płatności. |
 | `artifact.delivery.retain` | `host/artifact.delivery.retain` | efekt składowania hosta | zachowanie jednego uwierzytelnionego, należącego do callera i content-bound obiektu w Artifact Delivery | daemonowy object store Artifact Delivery | nie; tylko host-local | Zaimplementowany dla retencji reprezentacji P084. Host przed zapisem sprawdza dokładne powiązanie caller/owner, digest, rozmiar, klasyfikację, kontekst przyczynowy i idempotency związane z digestem, po czym zwraca niezmienny ref oraz receipt P081. Nie nadaje władzy odczytu, dostarczania, publikacji ani wyboru odbiorcy. |
 | `interaction-broker.wait` | `host/interaction-broker.wait` | koordynacja hosta | host-owned ograniczony wait nad zarejestrowanymi źródłami obserwacji | daemon interaction broker | nie; tylko host-local | Zaimplementowana koordynacja control-plane z deadline, idempotency, grant-context wystawianym przez daemon, trwałym recovery/retention oraz aktywnymi providerami wbudowanymi i dynamicznymi. |
@@ -159,7 +161,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **186** host-local / **218** ogółem; grupy właścicieli: **25**.
+Wpisy: **191** host-local / **223** ogółem; grupy właścicieli: **26**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -284,6 +286,16 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>capability.passport.reconcile</code> | <code>host/capability.passport.reconcile</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon configuration host</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>config.activation.apply</code> | <code>host/config.activation.apply</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>config.change.commit</code> | <code>host/config.change.commit</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>config.change.plan</code> | <code>host/config.change.plan</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>config.setting.describe</code> | <code>host/config.setting.describe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>config.value.explain</code> | <code>host/config.value.explain</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon gateway control</code>
 

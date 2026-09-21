@@ -1,0 +1,1 @@
+{"schema":"config-offline.request.v1","schema/v":1,"scope/ref":"middleware:arca:default","resolution/id":"sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA","offline/admission":{"status":"admitted","evidence/ref":"offline-admission:arca:1"}}

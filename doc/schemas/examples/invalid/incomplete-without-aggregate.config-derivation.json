@@ -1,0 +1,1 @@
+{"schema":"config-derivation.v1","schema/v":1,"resolution/id":"sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA","complete":false,"carrier":{"carrier":"reference","digest":"sha256:IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII","size/bytes":20000,"object/ref":"object-store:derivation:1"}}

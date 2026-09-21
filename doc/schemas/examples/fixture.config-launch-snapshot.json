@@ -1,0 +1,1 @@
+{"schema":"config-launch-snapshot.v1","schema/v":1,"scope/ref":"middleware:inquirium:default","resolution/id":"sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA","values":{"inquirium":{"resource_profile":{"limits":{"classify/labels-max":16}}}},"complete":true,"source-set/revision":"sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"}
