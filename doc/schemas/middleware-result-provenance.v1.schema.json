@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-result-provenance:v1",
+  "title": "Middleware Result Provenance V1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"],
+  "description": "Host-owned immutable sidecar binding exact canonical middleware result bytes to inference ancestry. Templates cannot create completeness or authority. The consuming boundary verifies the JCS result digest and descriptor subject; external descriptor resolution is not admitted by this profile.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "result/ref", "execution/provenance"],
+  "properties": {
+    "schema": {"const": "middleware-result-provenance.v1"},
+    "result/ref": {"type": "string", "pattern": "^middleware-result:sha256:[A-Za-z0-9_-]{43}$", "maxLength": 96},
+    "execution/provenance": {"$ref": "inference-execution-provenance.v1.schema.json"}
+  }
+}

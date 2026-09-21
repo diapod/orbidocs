@@ -1,0 +1,56 @@
+{
+  "schema": "middleware-observed-result.v1",
+  "result": {
+    "text": "redacted"
+  },
+  "result/provenance": {
+    "schema": "middleware-result-provenance.v1",
+    "result/ref": "middleware-result:sha256:4EaVjOQeUXsXLXdEOV57rdshtQmR6Xn_SVrWbO-uuU8",
+    "execution/provenance": {
+      "schema": "inference-execution-provenance.v1",
+      "descriptor/digest": "sha256:c1KFR3XMbjXWcN2OzwdolX4FHzWU5d2w1OmoKi9bcLA",
+      "descriptor/size-bytes": 976,
+      "descriptor": {
+        "descriptor/id": "sha256:nFo_K-O4vgejjtzABEGoLwDtG1e8LW1JJqXN6BbaK0o",
+        "projection/id": "sha256:VJomXMQZ7eZr0f1xI9wigal70Y7jofgbPWBCb54n8gM",
+        "projection/kind": "full",
+        "subject/ref": "middleware-result:sha256:4EaVjOQeUXsXLXdEOV57rdshtQmR6Xn_SVrWbO-uuU8",
+        "asserted/by": "node:self",
+        "observed/at": "2026-09-20T10:00:00Z",
+        "processing-boundary/ref": "processing-boundary:host:self",
+        "dispatch": "not-dispatched",
+        "dispatch/components": [
+          "not-dispatched"
+        ],
+        "locality": "not-applicable",
+        "locality/components": [],
+        "input-egress": "none",
+        "input-egress/components": [
+          "none"
+        ],
+        "provider/disclosure": "complete",
+        "provider/refs": [],
+        "bindings": {},
+        "evidence": [
+          {
+            "basis": "derived",
+            "assertion/ref": "middleware-result:sha256:4EaVjOQeUXsXLXdEOV57rdshtQmR6Xn_SVrWbO-uuU8",
+            "evidence/refs": [],
+            "limitation": "proven complete no-inference ancestry"
+          }
+        ],
+        "evidence/complete": true,
+        "lineage": {
+          "parent/descriptor-ids": [],
+          "parent/count": 0,
+          "complete": true
+        },
+        "composition": {
+          "parent-set/complete": true,
+          "parents": []
+        },
+        "extensions": {}
+      }
+    }
+  }
+}

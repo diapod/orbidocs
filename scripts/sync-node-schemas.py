@@ -221,6 +221,8 @@ SCHEMA_WHITELIST = (
     "service-order.result.prepare.request.v1.schema.json",
     "inference-execution-provenance.v1.schema.json",
     "inquirium.result-provenance.v1.schema.json",
+    "middleware-result-provenance.v1.schema.json",
+    "middleware-observed-result.v1.schema.json",
     "inquirium.response.v2.schema.json",
     "inquirium.assistant.disclosure.v1.schema.json",
     "inquirium.assistant.turn.request.v2.schema.json",
@@ -406,6 +408,7 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "accepted.middleware-observed-result.v1.json",
     "fixture.agent-supplied-input-manifest.v1.json",
     "bootstrap.node-identity.json",
     "seed-wss.node-advertisement.json",
@@ -762,6 +765,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-sidecar.middleware-observed-result.v1.json",
     "missing-redaction.weak-signal-web-review.json",
     "global-bypass.orbiplex-acceptance-storage-policy.json",
     "missing-risk.orbiplex-acceptance-storage-policy.json",

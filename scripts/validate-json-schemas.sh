@@ -29,6 +29,9 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.middleware-observed-result.v1.json)
+      echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
+      ;;
     *.room-live-message.v4.json)
       echo "$SCHEMAS_DIR/room-live-message.v4.schema.json"
       ;;

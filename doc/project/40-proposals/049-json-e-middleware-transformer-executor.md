@@ -1142,6 +1142,18 @@ schema or test fixture that makes the boundary visible.
 
 ## Post-MVP Tracker
 
+The P090-006d/006e/012d workstream separately tracks inference ancestry through
+Workflow/JSON-e/Flow and Whisper. Its explicit observed-result representation
+keeps host-owned sidecars outside template state; it does not reopen P049's
+completed static-language hard-MVP. The approved scope includes all current
+Flow capability ports. Typed extraction and private retained-result replay are
+an implementation checkpoint. P090-006d1 adds exact-source recovery beneath
+the collector: committed sources replay without redispatch and uncertain
+intents refuse. The workflow completion publisher retains source evidence;
+remaining effect/source and decision-authority adapters and deferred
+continuation still require their own completion evidence in
+[P090](090-inference-execution-provenance-and-non-local-disclosure.md).
+
 Post-MVP additions must preserve the same static authority boundary: rendered
 data may shape values but may not select capabilities, policy authority, or
 executable code. A deferred item becomes implementable only after a concrete

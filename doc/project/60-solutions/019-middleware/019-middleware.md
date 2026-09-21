@@ -166,6 +166,16 @@ template config is therefore a thin middleware instance with its own identity,
 bindings, limits, trace surface, operator status, and lifecycle, even when the
 code executing it is the shared daemon-hosted JSON-e executor.
 
+Observed Flow results carry host-owned provenance outside template values
+(P090-006d). The opt-in P090-006d1 recovery checkpoint journals exact call
+sources before aggregation, pins the admitted invocation/configuration and
+clock, and reuses committed sources after interruption. An unresolved dispatch
+intent never grants permission to invoke again. Current authority is required
+before new effects; decision-offer and deferred-operation continuation need
+their own adapters. This is scoped source recovery, not generic exactly-once
+execution. See the Node integration contract:
+`node:docs/integration/middleware/MIDDLEWARE-RESULT-PROVENANCE.md`.
+
 ## Package And Config Files
 
 Layered config directories and signed middleware package artifacts ignore

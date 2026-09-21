@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-observed-result:v1",
+  "title": "Middleware Observed Result V1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"],
+  "description": "Explicit result representation selected by the caller. The existing result remains unchanged inside result; its content-bound sidecar is mandatory and cannot be stripped on replay. This new carrier does not change any existing response V1 in place.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "result", "result/provenance"],
+  "properties": {
+    "schema": {"const": "middleware-observed-result.v1"},
+    "result": {},
+    "result/provenance": {"$ref": "middleware-result-provenance.v1.schema.json"}
+  }
+}

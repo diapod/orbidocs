@@ -1416,7 +1416,17 @@ Recent component deltas:
   aggregate gate passes and P090-012a is done. This is deterministic loopback
   acceptance with explicit input/workflow preconditions, not a physical
   Story-012 run, and hard-MVP status is unchanged.
-  Ordinary `CallInquirium` now commits its source sidecar through Agent/Memarium
+  The Workflow/Whisper P090-006d/006e checkpoint
+  adds explicit observed results, host-owned collectors and verified private
+  draft/result reopen, atomic workflow-step publication and sealed private
+  observation sync. The approved all-current-Flow coverage, deferred
+  continuation and remaining publishers stay in progress; no new alpha,
+  physical acceptance or full-P090 readiness claim follows.
+  P090-006d1 adds opt-in, host-scoped Flow source recovery: exact input/config
+  binding, conditional dispatch intents, source retention before aggregation
+  and replay without repeated execution. Uncertain dispatch remains fenced;
+  decision-authority adapters and deferred continuation are not implied.
+  Ordinary `CallInquirium` commits its source sidecar through Agent/Memarium
   and recovers by explicit source family, without requiring an external-runtime
   commit. Its scoped partial-write and terminal matrix is now implemented.
   Corpus draft admission now retains the exact Agent V2 outcome and derived

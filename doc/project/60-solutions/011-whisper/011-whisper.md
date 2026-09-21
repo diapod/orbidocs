@@ -354,6 +354,17 @@ The provider is not a publication authority. It may return `draft-ready`,
 `needs-human-review`, `unsafe-output`, `policy-denied`, `model-unavailable`,
 `retryable-timeout`, or `failed`; only the first two statuses may carry a draft,
 and even then the operator approval transition remains separate.
+
+P090-006e adds opt-in `middleware-observed-result.v1` carriage around this
+unchanged response. The host-owned sidecar binds exact bytes; the intake stores
+the private result and draft atomically and verifies retained readback. Missing
+ancestry remains unknown, including deterministic transformations of arbitrary
+Sensorium input. This partial checkpoint does not grant publication authority
+or claim the lifecycle complete. Private sync now seals the exact retained
+wrapper under a separate descriptor-addressed idempotency key; it does not
+rerun redaction. Manual draft writes clear the source association, including
+identical-byte writes. Full Memarium transport/recovery qualification and
+deferred/terminal recovery remain in the P090 tracker.
 The request schema currently leaves `raw/private-material` deliberately broad so
 early providers can pass structured intake envelopes, raw strings, or fixture
 values through the same loopback-only boundary. The intended stable contract is
