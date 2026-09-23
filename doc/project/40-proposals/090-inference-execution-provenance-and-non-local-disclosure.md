@@ -1001,6 +1001,17 @@ observations retain the signed value; replay binds the entire assertion, not
 only contribution text. Old V2/V3 traffic remains distinguishable and cannot
 impersonate a signed V4 replay. Unresolved external descriptors remain refused.
 
+V4 is a per-message authenticity contract, not sticky sender-version negotiation:
+a later message from the same subject may still use V2/V3. V3 contribution
+evidence remains transport-bound and cannot become a signed posture declaration.
+The current Corpus receiving policy evaluates descriptor characteristics, not a
+minimum carrier/signature version, so the same contribution characteristics can
+receive the same admission decision in V3 and V4. That decision admits content,
+not membership, execution, publication grants or host-observed evidence. Stripping
+a V4 assertion cannot pass as an exact signed replay, but requiring signatures on
+all future messages would need an explicit receiver policy and compatibility
+contract; it is not claimed by this profile.
+
 | ID | Work item | Depends on | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- | :--- |
 | `P090-010b` | Signed scoped participant declarations and separate declared/observed Room view. | `P090-010a` | `done` | Exact subject/Room binding, monotone declaration generation, half-open validity, durable replay and UI separation; expired or missing declarations never imply local execution. |
