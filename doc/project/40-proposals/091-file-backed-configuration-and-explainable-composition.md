@@ -1986,7 +1986,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-001a` | Inventory foundation sources/writers and establish the executable inventory | — | `done` | Completed 2026-09-21: delivered `node:docs/configuration-inventory.v1.json`, the bounded checker, 18 structural/negative-control tests and CI `--verify-current`; mapped the three daemon seams, policy port, bootstrap/toggle writers, Agora, Node UI, four first-slice cases and minimum Python/Arca/Flow bindings. Pending/partial inventory states remain explicit. |
 | `P091-001b` | Inventory remaining module-local and record-backed controls | — | `done` | Completed 2026-09-21: the common inventory covers production Python loaders, workflow record fields, daemon/UI CLI, reviewed environment inputs, launch projections, the operator-storage non-setting and named retirement owners. This does not turn domain resources into settings. |
 | `P091-002` | Freeze shared contracts under resolved operator choices | `P091-001a` | `done` | 2026-09-21 follow-up closes Review 283's contract-only gaps: measured five-owner/four-case corpus and finite budget boundaries; executable retained replay/detail-mode and disclosure relations; predicted values, exact approval/replan, durable-data attempt/receipt and old/new/third/no-op recovery vectors. See the Node freeze evidence map below. Existing 21 schemas, 20 positive/6 conditional-negative vectors, Rust/Python DTOs, Schema Gate and five-operation registry remain synchronized. The bounded reference model is not P091-003's production resolver; disk/crash/cross-process acceptance stays with P091-006/007/013. No route, writer or component application is enabled; P091-005a remains mandatory. |
-| `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `partial` | 2026-09-21 logging checkpoint: production `configuration-core` resolver folds immutable retained inputs through an observed `json-utils` primitive; default/base/operator/invocation precedence, values/detail parity, `/logging/level` plus `/logging` evidence, historical replay and in-path budgets pass. See the Node evidence note below. Review 284 additionally verified bounded preflight, child-closed structural provenance and ancestor replacement barriers. Remaining: general domain dependency evaluation, production owner-port bindings, retirement-policy extraction and host/bootstrap seams. No acquisition, route, writer, apply or read-time mutation/fetch. |
+| `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `partial` | 2026-09-21 logging checkpoint: production `configuration-core` resolver folds immutable retained inputs through an observed `json-utils` primitive; default/base/operator/invocation precedence, values/detail parity, `/logging/level` plus `/logging` evidence, historical replay and in-path budgets pass. See the Node evidence note below. Review 284 additionally verified bounded preflight, child-closed structural provenance and ancestor replacement barriers. 2026-09-25 retirement-policy checkpoint: `configuration-core` owns the owner-neutral `SourceAdmissionPolicy` port and `resolve_admitted_ordered_json`, which admit every selected source after preflight and before any fold; the daemon owns `RetiredMiddlewareSourcePolicy` over the same predicate as its legacy loader guard. Remaining: general domain dependency evaluation, production owner-port bindings and host/bootstrap seams, including production binding of the retirement policy with host acquisition. No acquisition, route, writer, apply or read-time mutation/fetch. |
 | `P091-004` | Bind descriptors, admission and domain derivation ports | `P091-002` | `todo` | Reuse registry sealing/CAS and explicit unresolved constraints with separate identity axes. First-slice owners retain validation/merge policy, P085 and sidecar semantics. Withdrawal with unchanged source bytes invalidates new resolution/admission but preserves historical explanation; offline admission never inferred from file presence. |
 | `P091-005` | Build scoped read/explain adapters and deliver the offline helper | `P091-003`, `P091-004` | `todo` | Rust, P080 and retained HTTP share resolution-bound DTOs; thin non-UI Python facade validates responses, has no fallback. Deliver/install/pin the one-shot Rust helper with bounded structured I/O and missing-binary/version refusals; support injected/exported snapshots. Bounded carrier/projection/aggregate fixtures pass. New routes remain disabled pending P091-005a. |
 | `P091-005a` | Pass the named security boundary fixtures before exposure | `P091-005`, `P091-006` | `todo` | All eight `config-security-*` fixtures cover relevant transports/offline/export paths; instrumented denial precedes source acquisition. Route flags do not grant scope or operator authority. No UI/compatibility adoption or enabled new API without this proof. Later adapters require equivalent coverage. |
@@ -2089,9 +2089,34 @@ The complete command/evidence map is the
 This is intentionally not P091-003 completion. The logging owner in current tests
 is a pure fixture port mirroring the daemon vocabulary; P091-004 still owns the
 production owner binding and remaining domain ports. General domain dependency
-evaluation, retirement-policy extraction, acquisition,
-bootstrap/materialization, routes, writers, application and runtime consumption
-also remain open. P091-005a still blocks exposure.
+evaluation, acquisition, bootstrap/materialization, routes, writers, application
+and runtime consumption also remain open. P091-005a still blocks exposure.
+
+#### P091-003 retirement-policy checkpoint — 2026-09-25
+
+The retirement policy is now a separate, owner-supplied source-admission port, as
+required by the three-entry-seam inventory above. `configuration-core` defines the
+refusal-only `SourceAdmissionPolicy` and `resolve_admitted_ordered_json`. Every
+policy inspects every selected, present source after resolver preflight has
+bounded it and its content digest has been verified, and before the first fold,
+so a later overlay cannot hide a retired root or nested executor, and a
+substituted input stays unavailable instead of becoming a policy refusal. A refusal names the source and the policy and carries a
+bounded machine code; both detail modes refuse identically. The core knows no
+retired executor names or daemon error types.
+
+Admission is a current-use gate, not part of resolution identity. Pinning a
+policy revision in `resolution-inputs` would expand the accepted contract, whose
+schema is closed; the retained inputs and resolution identity are therefore
+unchanged, and historical replay may run through `resolve_ordered_json` without
+current policies.
+
+The daemon owns `RetiredMiddlewareSourcePolicy`. It walks the same single
+predicate as the legacy `reject_in_config` guard, charging one work step per
+visited node, and a parity test keeps the two paths in agreement. An empty retired
+root still refuses; unrelated product HTTP configuration does not.
+`reject_in_package_manifest` stays at its separate package-admission boundary. No
+production resolution path calls the policy yet: binding it together with host
+acquisition belongs to the remaining P091-003/004 seams.
 
 ### Dependency-ordered slices
 
@@ -2247,8 +2272,9 @@ the host's structural safety guards; do not inherit unbounded helper reads.
 
 ## Next Actions
 
-1. Complete the remaining P091-003 extraction seams and domain dependency work,
-   then bind P091-004 owner ports from the completed inventory and contract
+1. Complete the remaining P091-003 host/bootstrap seams and domain dependency
+   work; the retirement-policy port is done and still needs its production binding
+   with host acquisition. Then bind P091-004 owner ports from the completed inventory and contract
    freeze; extend existing primitives, supervisor provisioning and host bridges
    before implementing UI.
 2. Complete the four-case slice with real cross-process consumption, then expand
