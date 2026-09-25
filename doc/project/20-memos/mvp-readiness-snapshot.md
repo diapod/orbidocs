@@ -1355,11 +1355,13 @@ Recent component deltas:
   tracker has 7 of 16 parent items done and 9 partial; 27 of 30 scoped
   sub-items are done, with `P090-006d`, `P090-006e` and `P090-012d` in progress.
   Node's translator inventory records 7 of 27 carriers done, 19 partial and the
-  Semantic Index row planned. `check-inference-provenance-inventory.py
+  Semantic Index row planned; later the same day the operator made that carrier
+  conditional, so it is now `deferred` until Solution 022 has a Node
+  implementation and no longer makes P090 completion unreachable. `check-inference-provenance-inventory.py
   --verify-current` passed all selected commands on the current Node checkout
   (1066 tests passed, 0 failed, 3 ignored), confirming the claimed checkpoints
-  rather than completion. Code inspection confirms the remaining gaps: no Semantic
-  Index implementation, external descriptors refused but never resolved, no
+  rather than completion. Code inspection confirms the remaining gaps: external
+  descriptors refused but never resolved, no
   delegated Room declaration issuers, incomplete Flow/Whisper adapters, and the
   unfinished multi-node `P090-012` matrix. Contract clarity and scoped evidence are
   high; the percentage is held below the item average because the remaining
