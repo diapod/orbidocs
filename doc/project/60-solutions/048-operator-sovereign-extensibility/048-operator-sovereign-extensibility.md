@@ -8,6 +8,7 @@ Based on:
 - `doc/project/40-proposals/072-capability-registry.md`
 - `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
 - `doc/project/40-proposals/081-horizontal-protocol-primitives.md`
+- `doc/project/40-proposals/093-package-scoped-private-capabilities.md`
 - `doc/project/60-solutions/015-host-owned-module-store/015-host-owned-module-store.md`
 - `doc/project/60-solutions/019-middleware/019-middleware.md`
 - `doc/project/60-solutions/037-capability-registry/037-capability-registry.md`
@@ -149,7 +150,9 @@ revocation state, dependencies, grants, and domain authority.
 
 No extension may:
 
-- mint a primitive capability;
+- mint a primitive capability or any other form of host authority (a
+  package-scoped private capability names behaviour the package provides and is not
+  a primitive; see Package-Scoped Private Capabilities below);
 - widen a host-built offer;
 - lower a risk floor;
 - invent a Room, Corpus, Agent, Inquirium, or Sensorium transition;
@@ -244,6 +247,61 @@ Guard hooks attach monotonic restrictions to a closed set of host admission
 anchors. They may restrict grant sets, narrow bounded budgets, or raise risk. The
 ordinary owning validator still runs. Missing authority, invalid guard semantics,
 stale package state, or an empty effective grant set refuses use.
+
+### Package-Scoped Private Capabilities
+
+Status: planned by Proposal 093; not implemented.
+
+A derived capability narrows authority and creates no callable surface. A
+package-scoped private capability is the complementary case: it gives a name to
+behaviour that an activated package itself provides, so grants, policy, traces, and
+refusal corpora can refer to that behaviour. The two must not be merged, because
+the derived-capability guarantee depends on creating nothing new.
+
+A package capability identifier is anchored to the admitted signing key and the name
+of its package, and carries its exposure scope in the namespace:
+
+```text
+review@pkg:did:key:<authority>/acme-review       package-internal
+review@node-pkg:did:key:<authority>/acme-review  grantable to local components
+review@peer-pkg:did:key:<authority>/acme-review  grantable to remote peers
+```
+
+This stratum owns the activation side. Solution 037 owns the identifier grammar and
+its admissible uses; admission of one concrete invocation – caller evidence, the
+invocation journal, outcomes, recovery, and idempotency – is specified by Proposal
+093.
+
+Activation responsibilities:
+
+- declarations are part of the signed package and appear in the activation plan
+  with their scope, recovery class, and required base capabilities;
+- the anchor must equal both the key that verified the package and the name part of
+  its `package_ref`, and each declared scope must equal its identifier's scope;
+- each declaration refers to the provider component's `provides[]` entry and effect
+  ids in `middleware-component-contract.v1`, its contract schemas compile under
+  bounded, package-internal reference resolution, and a `transactional-withheld`
+  capability's provider declares a read-only `reconciliation/operation`;
+- required base capabilities must be a subset of those actually granted to the
+  activation, not merely eligible in the registry;
+- the package capability overlay is a projection of the lifecycle journal: a
+  transition commits its facts and, on revocation, its tombstones in one
+  transaction, and the rebuilt overlay is published before the transition releases
+  its ordering gate;
+- local consumers gain reach only through a requirement edge – consumer activation,
+  capability id, and contract digest – approved in the consumer's activation plan,
+  and removal of the provider is a dependency lifecycle transition for them.
+
+Lifecycle separates suspension from retirement. Removal from the current overlay –
+a new activation that no longer declares the capability, safe mode, session expiry –
+suspends it: grants stay valid and resolve again when the capability returns. A
+rebuild that keeps the contract digest keeps grants; a contract change makes them
+stop resolving without voiding them. Only terminal revocation retires a capability,
+writing a tombstone whose watermark voids earlier grants.
+
+A package capability never carries host authority. Its implementation reaches host
+resources only through base capabilities granted at activation, so the checked-in
+registry remains the sole origin of authority.
 
 ### Operator Attention
 
@@ -365,7 +423,7 @@ package activation
 | A producer returns a wider or malformed decision | Shared hook validator refuses before the owning domain transition. |
 | Cached authority survives revocation | Generation, package, conformance, grant, and operator-binding fences are checked on use. |
 | One producer times out or fails | Required producer failure is typed refusal; advisory omission is explicit and bounded. |
-| A package attempts to invent a capability | Derived sets only intersect registered primitive capabilities; no new dispatch identity is created. |
+| A package attempts to invent a capability | Derived sets only intersect registered primitive capabilities; no new dispatch identity is created. A package may name its own behaviour only as a P093 package capability, which is admitted by the activation overlay, never by the registry, and cannot carry host authority. |
 | An operator is flooded with equivalent questions | Host-derived semantic grouping, rolling caps, quiet windows, and bounded durable accounting. |
 | A peer advertises a compatible-looking substitute | Exact required-entry agreement and signed posture; no name-based fallback. |
 | Restart interrupts activation or a passage | Append-only facts, transactional authority mutations, generation journaling, and bounded recovery. |
@@ -425,6 +483,9 @@ implemented status.
    extension sources are added.
 4. Implement Proposal 087 only through the existing offer, lifecycle, conformance,
    and hook-owned admission boundaries.
+5. Implement Proposal 093 package-scoped private capabilities through the same
+   activation, fence, and conformance boundaries, landing its identifier
+   foundation phase first.
 
 ## Must Implement
 
@@ -450,11 +511,13 @@ All items above are implemented.
   profiles;
 - new domain semantic registries built on the shared mechanics;
 - additional supervised evidence producers;
-- the WASM backend specified by Proposal 087.
+- the WASM backend specified by Proposal 087;
+- package-scoped private capabilities specified by Proposal 093.
 
 ## Out of Scope
 
-- arbitrary plugin-defined capabilities or host calls;
+- extension-defined primitive capabilities, host authority, or unscoped host calls
+  (package-scoped behaviour names are governed by Proposal 093);
 - package-owned admission, publication, Room, Agent, Inquirium, or Sensorium
   authority;
 - implicit package discovery, installation, activation, or fallback;

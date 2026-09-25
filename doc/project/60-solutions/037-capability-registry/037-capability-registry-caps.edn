@@ -61,7 +61,21 @@
     "Validate policy entries against registered capability ids"
     "Seed policy coverage for Sensorium Workbench and Interaction Broker capabilities"
     "Leave runtime grant issuance and enforcement to host-policy consumers"]
-   :status :done}]
+   :status :done}
+
+  {:cap/id :package-capability-identifiers
+   :title "Package Capability Identifiers and Admissible Uses"
+   :kind :schema-contract
+   :based-on ["doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+              "doc/project/40-proposals/072-capability-registry.md"]
+   :schemas ["capability-passport.v1"]
+   :responsibilities
+   ["Keep one capability identifier grammar and character set, parsed into one closed kind matched exhaustively"
+    "Keep the checked-in registry free of package ids and make base admission refuse them with a typed error"
+    "Limit package ids to dispatch and host-route use; advertisement, registry passport eligibility, signing domain, and federated discovery stay unrepresentable"
+    "Treat the scope token as deny-only: it may refuse an out-of-reach caller but never admits"
+    "Accept peer-pkg ids, and only those, in capability passport shape validation"]
+   :status :planned}]
 
  :may-implement
  [{:cap/id :federation-capability-namespace-governance
@@ -80,18 +94,21 @@
   "Replacing capability passports or operator approvals"
   "Owning federation namespace governance in this solution slice"
   "Treating the legacy Rust projection as a second source of truth"
-  "Embedding workflow policy in the registry"]
+  "Embedding workflow policy in the registry"
+  "Registering package capabilities in the checked-in registry or letting them carry host authority"]
 
  :consumes
  ["capability-registry.v1"
   "human capability registry tables"
   "capability advertisement/passport/Seed Directory fixtures"
   "daemon host-route declarations"
-  "middleware module reports"]
+  "middleware module reports"
+  "package capability identifiers in declarations and passports (planned, P093)"]
 
  :produces
  ["fail-closed registry admission decisions"
   "checked capability registry projections"
   "capability-authorization-policy.v1 validation"
-  "drift-check diagnostics"]}
+  "drift-check diagnostics"
+  "identifier-kind and admissible-use decisions for package capability identifiers (planned, P093)"]}
 

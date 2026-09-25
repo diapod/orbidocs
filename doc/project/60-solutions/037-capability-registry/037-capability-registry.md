@@ -184,6 +184,44 @@ Status:
 
 - `done`
 
+### Package Capability Identifiers and Admissible Uses
+
+Based on:
+
+- `doc/project/40-proposals/093-package-scoped-private-capabilities.md`
+- `doc/project/40-proposals/072-capability-registry.md`
+
+Related schemas:
+
+- `capability-passport.v1`
+
+Package capabilities name behaviour that a signed extension package provides. They
+are a fifth identifier shape beside the four P072 shapes:
+`name@<scope-ns>:did:key:<authority>/<package>`, where the namespace token `pkg`,
+`node-pkg`, or `peer-pkg` states the exposure scope. This solution owns what such an
+identifier is and which uses it may have. Admission by current activation belongs to
+Solution 048; admission of one concrete invocation belongs to Proposal 093.
+
+Responsibilities:
+
+- keep one capability identifier grammar with one character set, replacing the
+  protocol, parser, registry, and passport-schema copies, and parse identifiers into
+  one closed kind – registered, sovereign, or package – matched exhaustively at every
+  consuming site in place of the `contains('@')` classification;
+- keep the checked-in registry free of package identifiers, and make base
+  admission refuse a package identifier with a typed error;
+- limit package identifiers to dispatch and host-route use, leaving advertisement,
+  registry passport eligibility, signing domain, and federated discovery
+  unrepresentable;
+- treat the scope token as deny-only: it may refuse an out-of-reach caller by
+  parsing, but never admits;
+- accept `peer-pkg` identifiers, and only those, in capability passport shape
+  validation.
+
+Status:
+
+- `planned`
+
 ## May Implement
 
 ### Federation Namespace Governance
@@ -203,6 +241,10 @@ Responsibilities:
 - keep governance outside the node-local registry enforcement slice until a
   separate proposal accepts it.
 
+Package capabilities (P093) do not need this governance: each is namespaced by the
+admitted signing key that anchors it, so two authorities cannot collide on a name.
+Governance remains necessary only for bare and other publicly allocated names.
+
 Status:
 
 - `deferred`
@@ -213,7 +255,9 @@ Status:
 - replacing capability passports or operator approvals;
 - owning federation namespace governance in this solution slice;
 - treating the legacy Rust projection as a second source of truth;
-- embedding workflow policy in the registry.
+- embedding workflow policy in the registry;
+- registering package capabilities in the checked-in registry or letting them
+  carry host authority.
 
 ## Consumes
 
@@ -221,14 +265,17 @@ Status:
 - human capability registry tables;
 - capability advertisement/passport/Seed Directory fixtures;
 - daemon host-route declarations;
-- middleware module reports.
+- middleware module reports;
+- package capability identifiers in declarations and passports (planned, P093).
 
 ## Produces
 
 - fail-closed registry admission decisions;
 - checked capability registry projections;
 - authorization policy sidecar validation;
-- drift-check diagnostics.
+- drift-check diagnostics;
+- identifier-kind and admissible-use decisions for package capability identifiers
+  (planned, P093).
 
 ## Related Capability Data
 

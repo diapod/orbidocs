@@ -161,7 +161,27 @@
    :responsibilities
    ["Implement the import-free no-WASI producer specified by P087"
     "Reuse the existing package lifecycle offer and hook-owned admission boundary"]
-   :status :deferred}]
+   :status :deferred}
+
+  {:cap/id :operator-package-private-capabilities
+   :title "Package-Scoped Private Capabilities"
+   :kind :host-lifecycle
+   :based-on ["doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+              "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md"
+              "doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"]
+   :schemas ["operator-experiment-package.v1"
+             "middleware-component-contract.v1"
+             "package-capability-declaration.v1"
+             "package-capability-contract.v1"
+             "package-capability-tombstone.v1"]
+   :responsibilities
+   ["Carry signed package capability declarations and show scope, recovery class, and required base capabilities in the activation plan"
+    "Verify that each anchor equals the verifying key and the package_ref name, and each declared scope equals its identifier scope"
+    "Bind each declaration to the provider's provides entry and effect ids, compile its contract schemas under bounded package-internal resolution, and require a reconciliation operation for transactional-withheld capabilities"
+    "Require declared base capabilities to be a subset of those granted to the activation"
+    "Project the overlay from the lifecycle journal, committing tombstones with revocation and publishing before the ordering gate is released"
+    "Grant local reach only through approved requirement edges and separate suspension, which preserves grants, from retirement, which voids them"]
+   :status :planned}]
 
  :out-of-scope
  ["Extension-defined primitive capabilities or ambient host authority"
