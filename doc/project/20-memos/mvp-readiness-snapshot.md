@@ -13,6 +13,17 @@ checked implementation status is separate from contract maturity and fresh
 candidate-bound release qualification. No alpha qualification is asserted by
 this update; historical table estimates below are not a release certificate.
 
+Release-scope checkpoint — 2026-09-25: the operator made the completeness of
+Proposals 085, 089, 090, 091, 092 and 094 a blocker for hard-MVP readiness and for
+Node's `alpha-node` release profile. Completeness means every tracker item not
+explicitly `deferred` is done and the proposal's contract is accepted. Node records
+the change in the "operator-promoted proposal completeness" section of
+`node:docs/MVP.md`, in its implementation ledger and in
+`node:docs/release/alpha-node.toml`. P085 already
+satisfies the blocker; P089, P090, P091, P092 and P094 do not, so the hard-MVP
+release cannot be called closed until they do. The readiness estimates of the new
+rows below are engineering estimates, not release facts.
+
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
 
 The 2026-08-30 P074 refresh retains two different evidence classes. The first
@@ -145,6 +156,12 @@ Hard-MVP release-blocking proposals/contracts:
 - `proposal-081` / horizontal causal, replication, and scoped-nym-proof primitives
 - `proposal-082` / Sensorium Interfaces
 - `proposal-083` / Sensorium Interactive Interfaces
+- `proposal-085` / operator-sovereign extensibility (complete scope)
+- `proposal-089` / external Agent runtime adapter contract (complete scope)
+- `proposal-090` / inference execution provenance and non-local disclosure (complete scope)
+- `proposal-091` / file-backed configuration and explainable composition (complete scope)
+- `proposal-092` / Node contract maturity baseline (complete scope)
+- `proposal-094` / operator task packs for bounded problem solving (complete scope)
 
 P085 closeout summary:
 
@@ -1871,9 +1888,13 @@ Recent component deltas:
 | [Proposal 082: Sensorium Interfaces](../40-proposals/082-sensorium-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 083: Sensorium Interactive Interfaces](../40-proposals/083-sensorium-interactive-interfaces.md) | `true` | `true` | `true` | `100` |
 | [Proposal 084: Sensorium Web Observation Connector](../40-proposals/084-sensorium-web-observation-connector.md) | `false` | `false` | `false` | `80` |
-| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `false` | `false` | `true` | `100` |
+| [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `true` | `true` | `true` | `100` |
 | [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `90` |
-| [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `false` | `false` | `false` | `30` |
+| [Proposal 089: External Agent Runtime Adapter Contract](../40-proposals/089-external-agent-runtime-adapter-contract.md) | `true` | `false` | `false` | `80` |
+| [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `30` |
+| [Proposal 091: File-backed Configuration and Explainable Composition](../40-proposals/091-file-backed-configuration-and-explainable-composition.md) | `true` | `false` | `false` | `25` |
+| [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `false` | `false` | `85` |
+| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `10` |
 
 ## Solutions
 
