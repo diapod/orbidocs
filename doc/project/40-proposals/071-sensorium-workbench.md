@@ -2868,3 +2868,44 @@ evidence) · `[!]` blocked/needs decision.
   actuation grants to both environment ref and current generation, and refuse stale
   authority. Runtime replacement/race tests plus Workbench mixed-context and
   summary-provenance tests provide the Phase 5 evidence.
+
+### Phase 6 - Owner Contracts For Operator Task Packs
+
+Consumer: [Proposal 094: Operator Task Packs for Bounded Problem Solving](094-operator-task-packs-for-bounded-problem-solving.md).
+P094 consumes these contracts but does not own them; their semantics and enforcement
+stay here.
+
+- [ ] Add an enforced command-profile effect mode (P094 tracker item `P094-019`).
+  Ship `sensorium-command-profile.v2` with a closed
+  `effect/mode: observation | mutation` field, absent meaning `mutation`. The
+  Workbench must enforce `observation` inside the guest rather than trust the label:
+  host-side `read-only` filesystem sharing protects the host, not the guest disk.
+  The mechanism is an owner decision; candidates are running the step on a discarded
+  copy-on-write fork of the instance, or comparing digests of declared roots before
+  and after the step, with a detected change refusing the step and destroying the
+  instance. A refusal fixture must prove that a write attempt under `observation`
+  either does not take effect or is detected and refused. P094 treats a missing or
+  unenforced mode as `mutation` and blocks observation-dependent task profiles in
+  readiness until this item is done.
+- [ ] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003`,
+  `P094-008`). Today only patch artifacts and stage/apply results exist; nothing
+  states which patch a Workbench may admit. The policy is a closed, content-addressed
+  contract naming the admitted path set, maximum file size, ownership, mode, and
+  accepted content shape per path. The Workbench resolves paths canonically inside
+  the environment boundary, refuses a patch touching any path outside the set or
+  violating a constraint before staging, and never admits an unrestricted editor
+  command or arbitrary writes below system roots such as `/etc`. Refusal fixtures
+  cover an out-of-set path, a path escaping by symlink or `..`, an oversized file, a
+  mode or ownership change, and a content shape mismatch.
+- [ ] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003`,
+  `P094-008`). Command profiles and Interface descriptors do not name the capability
+  they consume, so consumers cannot derive it without guessing. The versioned map
+  gives each `(owner, kind, operation)` a registered P072 capability id and one
+  effect-class rule: fixed (`observation` or `mutation`), from the command profile's
+  enforced `effect/mode`, or from the Interface descriptor. Workbench owns the rows
+  for `observe`, `process`, `patch`, and `service-control`; the Interface rows for
+  `read`, `subscribe`, and `invoke` are co-owned with Proposal 083, and Interface
+  management operations have no row because they are never consumer actions. Every
+  capability id must pass registry admission, every row is unique, and an absent row
+  means refusal, not a default. A revision changes the map digest; P094 conformance
+  records that digest and becomes non-current on revision.
