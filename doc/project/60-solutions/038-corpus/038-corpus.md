@@ -135,11 +135,14 @@ artifact. Its name does not imply one objectively best answer.
 
 The present role and overlay algebra remains closed V1, and operator configuration
 may only narrow it; thematic-profile openness does not mint new participant roles.
-Operators or communities may propose a thematic profile, but under the current
-contract a new namespaced profile requires an explicit Corpus revision and local
-receiver resolution. A general profile-admission, lifecycle, and conformance seam is
-future work, not an implemented capability claim. The closed boundary governs carrier,
-authority, and executable interpretation, not the vocabulary of legitimate topics.
+Operators or communities may propose namespaced thematic-profile revisions. The
+receiving host admits an exact revision through the existing semantic registry only
+when authenticated issuer identity, local trust, the operator-enabled digest, an
+available implementation, required capabilities, and the current policy generation
+all agree. This general admission, lifecycle, and conformance seam is implemented; it
+does not install thematic packages, resolve opaque facet references, or provide a
+running domain interpreter. The closed boundary governs carrier, authority, and
+executable interpretation, not the vocabulary of legitimate topics.
 
 ## Context and Problem Statement
 
