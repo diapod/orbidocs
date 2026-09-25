@@ -126,7 +126,11 @@ None for this baseline. New or materially expanded contracts return to
 
 1. Keep the Node audit and generated ledger view synchronized with the authored
    TOML ledger.
-2. Add a structural check that accepted rows retain a resolvable acceptance
-   decision.
+2. Done on 2026-09-25: `node:tools/implementation_ledger.py` requires every
+   accepted row to name an id from the closed `acceptance_decisions` table whose
+   document is also in the row's `based_on`, refuses decisions on non-accepted
+   rows and unused decisions, and with `--orbidocs PATH` resolves each decision
+   document. The check immediately found the P091 foundation row accepted without
+   a decision; the operator then accepted the bounded P091-002 freeze in P091.
 3. Review future semantic expansions independently from implementation and release
    qualification.

@@ -21,7 +21,10 @@ the change in the "operator-promoted proposal completeness" section of
 `node:docs/MVP.md`, in its implementation ledger and in
 `node:docs/release/alpha-node.toml`. P085 already
 satisfies the blocker; P089, P090, P091, P092 and P094 do not, so the hard-MVP
-release cannot be called closed until they do. The readiness estimates of the new
+release cannot be called closed until they do. Later the same day P092 closed:
+the Node ledger tool now enforces a known, cited acceptance decision for every
+accepted row, which also led to the operator's bounded acceptance of the P091-002
+contract freeze. The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
@@ -1907,7 +1910,7 @@ Recent component deltas:
 | [Proposal 089: External Agent Runtime Adapter Contract](../40-proposals/089-external-agent-runtime-adapter-contract.md) | `true` | `false` | `false` | `80` |
 | [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `75` |
 | [Proposal 091: File-backed Configuration and Explainable Composition](../40-proposals/091-file-backed-configuration-and-explainable-composition.md) | `true` | `false` | `false` | `25` |
-| [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `false` | `false` | `85` |
+| [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `true` | `false` | `100` |
 | [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `10` |
 
 ## Solutions

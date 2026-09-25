@@ -39,7 +39,10 @@ component-name resolution contract and common-file fallback for OQ-03. These
 adopted design choices do not change the proposal's implementation status. The
 operator also selected retention of the existing middleware on/off implementation
 behind the shared P091 control contract; P091-007a owns the wrapper and call-site
-integration, not a replacement lifecycle engine.
+integration, not a replacement lifecycle engine. On 2026-09-25 the operator accepted
+the bounded P091-002 contract freeze; see
+[contract acceptance](#contract-acceptance-of-the-p091-002-freeze-2026-09-25). The
+proposal as a whole remains proposed.
 
 ## Date
 
@@ -2190,6 +2193,26 @@ A/A/B and the retained on/off wrapper. Earlier suggestions of one counter, a
 blanket environment ban, unregistered write operations or new control-directory
 stores were not selected. Reuse precedents do not make these P091 mechanisms
 implemented. Affected tasks are defined in the updated tracker above.
+
+## Contract acceptance of the P091-002 freeze (2026-09-25)
+
+The operator accepted the contract frozen by `P091-002`, in the bounded P092 sense:
+the acceptance unit is the Node ledger row
+`node:docs/implementation-ledger.toml#file-backed-configuration-contract-foundation`
+and ends at that row's stated exclusions. It covers the identity and revision
+vocabulary, finite budgets, canonical JSON admission, detail-mode and disclosure
+relations, plan approval and bounded replan, generation-fenced attempt, receipt
+and recovery relations, the Rust/Python/launch/offline DTOs, the five registry
+identities, and the twenty `config-*` schemas that row lists, as evidenced by
+`node:docs/audits/P091-002-FREEZE-EVIDENCE.md`.
+
+The acceptance does not promote this proposal, does not accept any item in the
+row's `next_steps`, and claims no runtime adoption: owner ports, domain
+dependency evaluation, host acquisition, routes, writers, filesystem effects,
+application, and UI remain unaccepted and unimplemented. `P091-005a` remains
+mandatory before any route exposure. A material expansion of the frozen contract
+returns to `draft` until separately accepted. The ledger records this decision as
+`p091-configuration-contract-freeze`.
 
 ## Open Questions
 
