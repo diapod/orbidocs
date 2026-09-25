@@ -1348,6 +1348,20 @@ Recent component deltas:
   receipt replay. Retention remains disabled by default; verification did not
   archive existing provider threads. This adds no live-provider, Linux,
   multi-host or hard-MVP readiness claim.
+- P090 re-estimate (2026-09-25): readiness rises from the stale `30` to `75`. The
+  tracker has 7 of 16 parent items done and 9 partial; 27 of 30 scoped
+  sub-items are done, with `P090-006d`, `P090-006e` and `P090-012d` in progress.
+  Node's translator inventory records 7 of 27 carriers done, 19 partial and the
+  Semantic Index row planned. `check-inference-provenance-inventory.py
+  --verify-current` passed all selected commands on the current Node checkout
+  (1066 tests passed, 0 failed, 3 ignored), confirming the claimed checkpoints
+  rather than completion. Code inspection confirms the remaining gaps: no Semantic
+  Index implementation, external descriptors refused but never resolved, no
+  delegated Room declaration issuers, incomplete Flow/Whisper adapters, and the
+  unfinished multi-node `P090-012` matrix. Contract clarity and scoped evidence are
+  high; the percentage is held below the item average because the remaining
+  carriers and the full acceptance matrix are the costly part. This is an
+  engineering estimate, not a release fact.
 - The 2026-09-04 P090 foundation now has accepted semantics, a repository-wide
   carrier inventory, canonical `inference-execution-posture.v1` and
   `inference-execution-provenance.v1` schemas, and a pure provider-neutral Rust
@@ -1891,7 +1905,7 @@ Recent component deltas:
 | [Proposal 085: Operator-Sovereign Extensibility and Experiment Packages](../40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md) | `true` | `true` | `true` | `100` |
 | [Proposal 086: Component Communication Observation and Trace Sessions](../40-proposals/086-component-communication-observation-and-trace-sessions.md) | `false` | `false` | `false` | `90` |
 | [Proposal 089: External Agent Runtime Adapter Contract](../40-proposals/089-external-agent-runtime-adapter-contract.md) | `true` | `false` | `false` | `80` |
-| [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `30` |
+| [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `75` |
 | [Proposal 091: File-backed Configuration and Explainable Composition](../40-proposals/091-file-backed-configuration-and-explainable-composition.md) | `true` | `false` | `false` | `25` |
 | [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `false` | `false` | `85` |
 | [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `10` |
