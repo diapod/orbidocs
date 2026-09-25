@@ -812,6 +812,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "outcome-without-result.config-describe.response.json",
     "active-without-generation.config-activation-receipt.json",
     "admitted-without-evidence.config-offline.request.json",
+    "embedded-digest.config-setting-descriptor.json",
     "missing-sidecar.middleware-observed-result.v1.json",
     "missing-redaction.weak-signal-web-review.json",
     "global-bypass.orbiplex-acceptance-storage-policy.json",

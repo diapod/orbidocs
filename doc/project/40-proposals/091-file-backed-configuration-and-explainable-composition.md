@@ -1986,8 +1986,8 @@ only when both explicitly delimit that narrower claim.
 | `P091-001a` | Inventory foundation sources/writers and establish the executable inventory | — | `done` | Completed 2026-09-21: delivered `node:docs/configuration-inventory.v1.json`, the bounded checker, 18 structural/negative-control tests and CI `--verify-current`; mapped the three daemon seams, policy port, bootstrap/toggle writers, Agora, Node UI, four first-slice cases and minimum Python/Arca/Flow bindings. Pending/partial inventory states remain explicit. |
 | `P091-001b` | Inventory remaining module-local and record-backed controls | — | `done` | Completed 2026-09-21: the common inventory covers production Python loaders, workflow record fields, daemon/UI CLI, reviewed environment inputs, launch projections, the operator-storage non-setting and named retirement owners. This does not turn domain resources into settings. |
 | `P091-002` | Freeze shared contracts under resolved operator choices | `P091-001a` | `done` | 2026-09-21 follow-up closes Review 283's contract-only gaps: measured five-owner/four-case corpus and finite budget boundaries; executable retained replay/detail-mode and disclosure relations; predicted values, exact approval/replan, durable-data attempt/receipt and old/new/third/no-op recovery vectors. See the Node freeze evidence map below. Existing 21 schemas, 20 positive/6 conditional-negative vectors, Rust/Python DTOs, Schema Gate and five-operation registry remain synchronized. The bounded reference model is not P091-003's production resolver; disk/crash/cross-process acceptance stays with P091-006/007/013. No route, writer or component application is enabled; P091-005a remains mandatory. |
-| `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `partial` | 2026-09-21 logging checkpoint: production `configuration-core` resolver folds immutable retained inputs through an observed `json-utils` primitive; default/base/operator/invocation precedence, values/detail parity, `/logging/level` plus `/logging` evidence, historical replay and in-path budgets pass. See the Node evidence note below. Review 284 additionally verified bounded preflight, child-closed structural provenance and ancestor replacement barriers. 2026-09-25 retirement-policy checkpoint: `configuration-core` owns the owner-neutral `SourceAdmissionPolicy` port and `resolve_admitted_ordered_json`, which admit every selected source after preflight and before any fold; the daemon owns `RetiredMiddlewareSourcePolicy` over the same predicate as its legacy loader guard. Remaining: general domain dependency evaluation, production owner-port bindings and host/bootstrap seams, including production binding of the retirement policy with host acquisition. No acquisition, route, writer, apply or read-time mutation/fetch. |
-| `P091-004` | Bind descriptors, admission and domain derivation ports | `P091-002` | `todo` | Reuse registry sealing/CAS and explicit unresolved constraints with separate identity axes. First-slice owners retain validation/merge policy, P085 and sidecar semantics. Withdrawal with unchanged source bytes invalidates new resolution/admission but preserves historical explanation; offline admission never inferred from file presence. |
+| `P091-003` | Implement pure source-aware resolution over reused JSON primitives | `P091-002` | `partial` | 2026-09-21 logging checkpoint: production `configuration-core` resolver folds immutable retained inputs through an observed `json-utils` primitive; default/base/operator/invocation precedence, values/detail parity, `/logging/level` plus `/logging` evidence, historical replay and in-path budgets pass. See the Node evidence note below. Review 284 additionally verified bounded preflight, child-closed structural provenance and ancestor replacement barriers. 2026-09-25 retirement-policy checkpoint: `configuration-core` owns the owner-neutral `SourceAdmissionPolicy` port and `resolve_admitted_ordered_json`, which admit every selected source after preflight and before any fold; the daemon owns `RetiredMiddlewareSourcePolicy` over the same predicate as its legacy loader guard. 2026-09-25 Step 3 checkpoint: the daemon's read-only `logging.level` seam admits the node scope before any read, acquires the legacy node configuration files through a confined, bounded reader with two agreeing passes and a finite `source-conflict` retry budget, and resolves them with the production `DaemonLoggingPort` and the retired-middleware policy bound in production; `ResolvedSnapshot` answers describe, read and explain from one resolution identity. Remaining: general domain dependency evaluation, acquisition for other scopes and owners, and bootstrap/materialization separation beyond this read seam. No route, writer, apply or read-time mutation. |
+| `P091-004` | Bind descriptors, admission and domain derivation ports | `P091-002` | `partial` | Reuse registry sealing/CAS and explicit unresolved constraints with separate identity axes. First-slice owners retain validation/merge policy, P085 and sidecar semantics. Withdrawal with unchanged source bytes invalidates new resolution/admission but preserves historical explanation; offline admission never inferred from file presence. 2026-09-25 checkpoint: the first production owner port, `DaemonLoggingPort`, validates `logging` with the typed daemon vocabulary under an owner-issued descriptor admission, replacing the test fixture on the Step 3 seam. Registry sealing/CAS, withdrawal semantics, offline admission and the remaining first-slice owners are open. |
 | `P091-005` | Build scoped read/explain adapters and deliver the offline helper | `P091-003`, `P091-004` | `todo` | Rust, P080 and retained HTTP share resolution-bound DTOs; thin non-UI Python facade validates responses, has no fallback. Deliver/install/pin the one-shot Rust helper with bounded structured I/O and missing-binary/version refusals; support injected/exported snapshots. Bounded carrier/projection/aggregate fixtures pass. New routes remain disabled pending P091-005a. |
 | `P091-005a` | Pass the named security boundary fixtures before exposure | `P091-005`, `P091-006` | `todo` | All eight `config-security-*` fixtures cover relevant transports/offline/export paths; instrumented denial precedes source acquisition. Route flags do not grant scope or operator authority. No UI/compatibility adoption or enabled new API without this proof. Later adapters require equivalent coverage. |
 | `P091-006` | Implement shared targets, predicted-value plans and durable commit | `P091-003`, `P091-004` | `todo` | Reuse owner/stem and explicit domain targets; preserve 80/90 lexical order and legacy 90 common-file case. Sparse patch/reset retains unrelated values and empty `{}`. Plans predict every affected effective value and derive shadowing. Affected/unrelated/unclassified conflict diagnostics and bounded replan without stale authorization are tested. Source membership, bootstrap writers and separate descriptor/constraint changes conflict. Intent/rename/outcome ordering, old/new/third/no-op recovery, durable failure and no pre-outcome apply are tested behind the exposure gate. |
@@ -2091,6 +2091,49 @@ is a pure fixture port mirroring the daemon vocabulary; P091-004 still owns the
 production owner binding and remaining domain ports. General domain dependency
 evaluation, acquisition, bootstrap/materialization, routes, writers, application
 and runtime consumption also remain open. P091-005a still blocks exposure.
+
+#### P091 Step 3 read-only logging seam — 2026-09-25
+
+Step 3 now runs on production parts rather than test fixtures, still without any
+route, CLI, HTTP or P080 operation. The daemon's `configuration_host` module:
+
+- admits the requested scope first; any scope other than the local node refuses
+  as `denied` before a single enumeration or read;
+- acquires the compiled default, the legacy node configuration files under a
+  named `daemon-node-config-dir:legacy-v1` selection profile, and the explicit
+  invocation override, through a confined reader that refuses symbolic links and
+  other non-regular entries and bounds every file by the resolution budget;
+- reads every source twice per attempt and accepts only agreeing passes, retrying
+  a finite number of times before refusing with `source-conflict`; this detects
+  cooperative and most accidental changes but is not an atomic snapshot against
+  arbitrary editors;
+- builds one immutable source selection in `configuration-core` and resolves it
+  with the production `DaemonLoggingPort` and the retired-middleware
+  source-admission policy, so the retirement guard is bound on this path; and
+- answers `describe`, `read` and `explain` from one `ResolvedSnapshot`, whose
+  identity never changes; changed bytes require a new acquisition.
+
+`explain` supports the `resolved` view, derivation detail limited to the address
+subtree, and disclosure narrowed by the host grant; its responses pass Schema
+Gate. The `declared` and `active` views refuse as unsupported until per-source
+declaration projection and application receipts exist. An admitted address
+without a value refuses as `missing-key`, because the contract's value states are
+`present`, `redacted` and `unavailable`.
+
+The new path is deliberately stricter than the legacy loader: duplicate JSON keys,
+symbolic links and non-regular entries refuse. Tests use the legacy loader only as
+the value oracle over prepared fixtures and prove the Step 3 checkpoint: fixture
+precedence, contributor roles for `/logging/level` and `/logging`, a same-valued
+operator declaration kept explicit, an old explanation surviving a later source
+change, exact refusals, zero reads for a denied scope, and an unchanged data
+directory after inspection. The evidence map is
+`node:docs/audits/P091-STEP-3-LOGGING-READ-SEAM.md`.
+
+The checkpoint exposed a contract gap: a descriptor document carried its own
+`descriptor/digest`, but nothing related it to the digest its revision binds, and
+the resolver checked only the latter. The
+[descriptor identity amendment](#amendment-descriptor-identity-2026-09-25)
+closes it by removing the self-digest from the document.
 
 #### P091-003 retirement-policy checkpoint — 2026-09-25
 
@@ -2239,6 +2282,41 @@ mandatory before any route exposure. A material expansion of the frozen contract
 returns to `draft` until separately accepted. The ledger records this decision as
 `p091-configuration-contract-freeze`.
 
+### Amendment: descriptor identity (2026-09-25)
+
+The operator amended `config-setting-descriptor.v1` in place and accepted the
+amendment as a separate decision, recorded in the ledger as
+`p091-descriptor-identity-amendment`. Nothing was released and no consumer outside
+the Node fixtures and tests used the removed field, so no `v2` is introduced.
+
+The Step 3 checkpoint showed that the frozen descriptor carried two near-identical
+identities. The document held its own `descriptor/digest`, the descriptor revision
+bound a digest of the whole retained document, and the resolver verified only the
+second. Producers and tests had already filled the two differently.
+
+The amendment keeps exactly one identity:
+
+- a descriptor document carries no digest of itself; `descriptor/digest` is removed
+  from `config-setting-descriptor.v1`, and a document that still contains it is
+  refused by Schema Gate and by the resolver (`descriptor-embeds-digest`);
+- the semantic identity is `descriptor_digest(document)`, the SHA-256 of the
+  canonical JSON preimage
+  `{"domain": "orbiplex/config-descriptor/v1", "payload": document}`, in the
+  naming style of the other P091 identity domains;
+- a descriptor revision binds that digest from outside, and the resolver
+  recomputes it from the retained document and refuses a difference as
+  `descriptor-digest-mismatch`; and
+- `descriptor-set/id` continues to bind the digest together with the descriptor
+  ref, address, admission evidence, and generation, while exact file bytes stay a
+  separate concern from this semantic identity.
+
+A `describe` answer therefore no longer carries a digest. A client that pins a
+revision recomputes `descriptor_digest`; if that becomes inconvenient, the right
+change is an envelope in the `describe` response, not a digest inside the
+document. The P091-002 budget measurements were regenerated for the smaller
+descriptor model, and the identity golden vectors changed with the descriptor
+digest. The rest of the frozen contract and its exclusions are unchanged.
+
 ## Open Questions
 
 No unanswered operator choices remain from OQ-01/02/03. Engineering closure and
@@ -2272,9 +2350,10 @@ the host's structural safety guards; do not inherit unbounded helper reads.
 
 ## Next Actions
 
-1. Complete the remaining P091-003 host/bootstrap seams and domain dependency
-   work; the retirement-policy port is done and still needs its production binding
-   with host acquisition. Then bind P091-004 owner ports from the completed inventory and contract
+1. Complete the remaining P091-003 domain dependency work and acquisition for
+   other scopes and owners; the Step 3 read seam for `logging.level` is done and
+   binds the retirement policy in production. Then bind the remaining P091-004
+   owner ports from the completed inventory and contract
    freeze; extend existing primitives, supervisor provisioning and host bridges
    before implementing UI.
 2. Complete the four-case slice with real cross-process consumption, then expand

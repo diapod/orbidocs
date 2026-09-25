@@ -126,7 +126,7 @@
     },
     "settingDescriptor": {
       "type": "object",
-      "required": ["schema", "schema/v", "setting/address", "value/schema-ref", "scopes/supported", "composition/rule", "validator/ref", "sensitive", "application/mode", "targets/editable", "manual/ref", "provenance", "descriptor/digest"],
+      "required": ["schema", "schema/v", "setting/address", "value/schema-ref", "scopes/supported", "composition/rule", "validator/ref", "sensitive", "application/mode", "targets/editable", "manual/ref", "provenance"],
       "additionalProperties": false,
       "properties": {
         "schema": {"const": "config-setting-descriptor.v1"},
@@ -140,8 +140,7 @@
         "application/mode": {"$ref": "#/$defs/applicationMode"},
         "targets/editable": {"type": "boolean"},
         "manual/ref": {"$ref": "#/$defs/text"},
-        "provenance": {"enum": ["distribution-default", "operator-package"]},
-        "descriptor/digest": {"$ref": "#/$defs/digest"}
+        "provenance": {"enum": ["distribution-default", "operator-package"]}
       }
     },
     "resolutionInputs": {

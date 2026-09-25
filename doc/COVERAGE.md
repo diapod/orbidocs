@@ -141,7 +141,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`config-offline.request.v1.schema.json`](schemas-gen/schemas/config-offline.request.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`config-offline.response.v1.schema.json`](schemas-gen/schemas/config-offline.response.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
 | [`config-resolution.v1.schema.json`](schemas-gen/schemas/config-resolution.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
-| [`config-setting-descriptor.v1.schema.json`](schemas-gen/schemas/config-setting-descriptor.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
+| [`config-setting-descriptor.v1.schema.json`](schemas-gen/schemas/config-setting-descriptor.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`config-source-binding.v1.schema.json`](schemas-gen/schemas/config-source-binding.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`configuration-common.v1.schema.json`](schemas-gen/schemas/configuration-common.v1.md) | `0` | `0` | `yes` | `yes` | `0` | `0` |
 | [`contact-attestation-request.v1.schema.json`](schemas-gen/schemas/contact-attestation-request.v1.md) | `13` | `1` | `yes` | `yes` | `1` | `0` |
@@ -1182,4 +1182,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `491`
 - Generated schema docs: `491`
 - Positive examples: `484`
-- Negative examples: `405`
+- Negative examples: `406`

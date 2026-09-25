@@ -10,6 +10,5 @@
   "application/mode": "live-reload",
   "targets/editable": true,
   "manual/ref": "manual:node-logging:v1",
-  "provenance": "distribution-default",
-  "descriptor/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  "provenance": "distribution-default"
 }
