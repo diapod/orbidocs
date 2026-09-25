@@ -24,7 +24,10 @@ satisfies the blocker; P089, P090, P091, P092 and P094 do not, so the hard-MVP
 release cannot be called closed until they do. Later the same day P092 closed:
 the Node ledger tool now enforces a known, cited acceptance decision for every
 accepted row, which also led to the operator's bounded acceptance of the P091-002
-contract freeze. The readiness estimates of the new
+contract freeze. The operator then accepted the bounded P089 external-runtime
+adapter contract, so P089 now blocks only on `P089-008a` and its P090-owned
+carriage, and accepted Story 013 as the P094 qmail reference contract
+(`P094-002`). The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
@@ -1913,7 +1916,7 @@ Recent component deltas:
 | [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `75` |
 | [Proposal 091: File-backed Configuration and Explainable Composition](../40-proposals/091-file-backed-configuration-and-explainable-composition.md) | `true` | `false` | `false` | `25` |
 | [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `true` | `false` | `100` |
-| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `10` |
+| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `12` |
 
 ## Solutions
 

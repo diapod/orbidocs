@@ -39,7 +39,10 @@ composition root is explicitly non-local independent of its `stdio` transport;
 current three-host Codex evidence now retains the exact final ordinary-controller
 sidecar after a mid-passage Agent restart. Generic four-state disclosure
 conformance is complete under P090-005; remaining higher-layer carriage is
-tracked separately under Proposal 090.
+tracked separately under Proposal 090. On 2026-09-25 the operator accepted the
+bounded provider-neutral contract; see
+[contract acceptance](#contract-acceptance-2026-09-25). The proposal as a whole
+remains draft until its remaining tracker items close.
 
 ## Date
 
@@ -876,6 +879,32 @@ storage unavailability. Warnings are session-scoped. Qualification waits within
 a separate bounded observation window for the name after the inference terminal;
 it never repeats a naming mutation or inference. Defensive SDK-id/SQLite-range
 checks and duplicate-reservation refusal remain intentional boundary guards.
+
+## Contract Acceptance (2026-09-25)
+
+The operator accepted the P089 contract in the bounded P092 sense: the acceptance
+unit is the Node ledger row
+`node:docs/implementation-ledger.toml#external-agent-runtime-adapter` and ends at
+that row's stated exclusions. It covers the provider-neutral external-runtime
+adapter contract as implemented and tested through `P089-007`, `P089-008`,
+`P089-008c`, `P089-008d`, `P089-012`, and `P089-013`:
+
+- the schemas `agent.external-runtime.binding.v1`, `profile.v1`,
+  `turn-request.v1`, `event.v1`, `turn-outcome.v1` and `turn-outcome.v2`, and
+  `product.v1` and `product.v2`;
+- the pure contract crate and the private Agent-host driver seam, whose runtime
+  selection stays a private host choice rather than a public capability id;
+- durable execution, recovery, and cancellation semantics as specified above; and
+- the pinned Codex stdio profile as a deliberation-only profile.
+
+The acceptance does not promote this proposal and claims no capability beyond the
+recorded evidence. It excludes the real-platform host-isolation proof
+(`P089-008a`), the deferred ChatGPT Workspace and actuation profiles (`P089-008b`,
+`P089-009`), evidence-backed promotion (`P089-010`), the remaining higher-layer
+provenance carriage owned by Proposal 090 (`P089-011`), and every item in the
+row's `next_steps`. A material expansion of the accepted contract returns to
+`draft` until separately accepted. The ledger records this decision as
+`p089-external-runtime-adapter-contract`.
 
 ## Deferred Provider Questions
 
