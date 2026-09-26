@@ -141,7 +141,9 @@ a genealogia ich opisu nie rozstrzyga ich ontologii.
 
 Dwufazowość jest bliska gendlinowskiemu przejściu od *felt sense* do symbolizacji,
 z tą różnicą, że impuls jest tu słabiej uformowany pojęciowo niż doświadczenie
-ukształtowane przez interpretację.
+ukształtowane przez interpretację. Rolę *felt sense* w korygowaniu ujęć
+oraz zastrzeżenie, że mniejsza wyrazistość pojęciowa nie wyznacza sama pozycji
+genealogicznej, rozwijamy przy enaktywnej anamnezie w postulacie 4.
 
 **Znaczenie dla DIA:** z tej orientacji wyrastają przyjęte przez projekt wartości
 higieny epistemicznej, stratyfikacji źródłowej pozycji doświadczeń i epistemicznej
@@ -207,9 +209,8 @@ stratyfikację zestawić na przykład z teorią komunikacji i pozycji podmiotu
 w przekazie. Poza rozkładem genealogicznym (jako warstw doświadczenia: świadomość,
 podmiotowość, osoba, kultura, obiektywność) ten sam gradient może nieść również
 skalowanie epistemizacyjne, czyli stopniowe determinowanie fenomenu aż do postaci
-"rzeczy"
-(np. fenomen → postać → coś → znak → znaczenie → pojęcie → przedmiot → obiekt →
-rzecz).
+"rzeczy" (np. fenomen → postać → coś → znak → znaczenie → pojęcie → przedmiot →
+obiekt → rzecz).
 
 Tego typu osie mogą biec równolegle, lecz nie należy ich utożsamiać: czym innym jest
 warstwa, z której się mówi, czym innym perspektywa, w której się mówi, a jeszcze czym
@@ -277,12 +278,12 @@ również nie da się odjąć bez wiedzy o tym, które z nich wniosła późni
 W obu przypadkach brakuje informacji potrzebnej do skonstruowania odwrotności.
 
 Ruch ku mniej zdeterminowanym warstwom nie odzyskuje wobec tego pierwotnego
-doświadczenia. Jest dekonstruowaniem i reenakcją: rozluźnia nawyk determinowania
-bieżącego doświadczenia i pozwala na jego nowe zawiązanie, nie usuwa natomiast
-determinacji z minionego przeżycia ani nie odtwarza jego wcześniejszego zawiązania.
-Jak rozwijamy niżej w modelu domknięcia doświadczenia, gdyby taki ruch odzyskiwał
-oryginał, anonimowe domknięcie musiałoby zachowywać trwałą tożsamość niezależnie od
-tego, z czym się zawiązuje.
+doświadczenia. Jest dekonstruowaniem i reenakcją (por. enaktywną anamnezę
+w postulacie 4): rozluźnia nawyk determinowania bieżącego doświadczenia i pozwala na
+jego nowe zawiązanie, nie usuwa natomiast determinacji z minionego przeżycia ani nie
+odtwarza jego wcześniejszego zawiązania. Jak rozwijamy niżej w modelu domknięcia
+doświadczenia, gdyby taki ruch odzyskiwał oryginał, anonimowe domknięcie musiałoby
+zachowywać trwałą tożsamość niezależnie od tego, z czym się zawiązuje.
 
 Asymetrię wzmacnia pozycja podmiotu w przekazie. Sąd formułowany w warstwie
 obiektywności abstrahuje w uzasadnieniu od konkretnej pozycji orzekającego i rości
@@ -687,9 +688,9 @@ funkcjonalnie wcześniejsza od ego, ale sama nie wystarcza do wyprowadzenia
 W tym regionalnym ujęciu *Umwelt* nie jest zubożoną kopią gotowej reprezentacji
 świata, lecz polem relewantnych różnic stabilizowanym w sprzężeniu zdolności
 organizmu ze środowiskiem. Powietrze może umożliwiać lot ciału o określonej budowie,
-a przedmiot — chwyt ręką o określonych możliwościach. Gibsonowskie
-*affordances* opisują takie relacyjne możliwości działania. Gramatyka wyłania się tu
-z regularności sprzężenia, nie z dowolnego słownika nałożonego na bierny materiał.
+a przedmiot chwyt ręką o określonych możliwościach. Gibsonowskie *affordances*
+opisują takie relacyjne możliwości działania. Gramatyka wyłania się tu z regularności
+sprzężenia, nie z dowolnego słownika nałożonego na bierny materiał.
 
 Na progu kultury znak nie przenosi samego doświadczenia. Jest społecznie wyuczonym
 operatorem, który ogranicza i ukierunkowuje reenakcję znaczenia u innego uczestnika,
@@ -776,7 +777,8 @@ lecz rzadko ćwiczona.
 Praktykę kontemplacyjną można w tym świetle opisać nie jako powrót do pierwotnego
 doświadczenia, lecz jako czasowe rozluźnianie wybranych kompresji. Uwidacznia ono ich
 koszt i przygodność, po czym doświadczenie zawiązuje się ponownie – być może
-z gramatyką mniej sztywną, lecz nigdy jako odzyskany oryginał.
+z gramatyką mniej sztywną, lecz nigdy jako odzyskany oryginał (por. enaktywną
+anamnezę i reenakcję w postulacie 4).
 
 Zachowanie świadectwa nie oznacza jednak zachowania pytania. Przejście od "dlaczego
 doświadczam właśnie takiej barwy?" do "czy coś się jawi?" może pozostawić świadectwo
@@ -815,7 +817,7 @@ inspiruje ujęcie konstytutywnych sprzężeń. Jej użycie przy kulturze
 i obiektywności wymaga osobnych uzasadnień. Dla organicznego progu
 podmiotowości regionalnych narzędzi dostarczają ponadto [*Umwelt* Jakoba von
 Uexkülla](https://www.upress.umn.edu/9780816659005/a-foray-into-the-worlds-of-animals-and-humans/),
-[Gibsonowskie *affordances*](https://doi.org/10.4324/9781315740218-18) oraz
+[gibsonowskie *affordances*](https://doi.org/10.4324/9781315740218-18) oraz
 [adaptacyjność Ezequiela Di Paola](https://doi.org/10.1007/s11097-005-9002-y).
 Pozostałe progi mają własne regionalne zaplecze w psychologii rozwojowej
 i badaniach nad osobą, semiotyce i antropologii oraz epistemologii, teorii
@@ -966,9 +968,56 @@ się jedynym doradcą, nośnikiem prestiżu lub tożsamością. Intelekt potrafi
 dobrze służyć prawdzie, jak i obsługiwać lęk, potrzebę uznania czy pragnienie
 kontroli, wprowadzając do systemu cierpienie.
 
+#### Enaktywna anamneza i odsłanianie
+
+Amnezja w formule *reifikacja = redukcja + amnezja* oznacza zatarcie pamięci
+o redukcji, jej warunkach i granicach, a nie tylko utratę pominiętych szczegółów. Nie
+zakłada to, że wszystkie te operacje były wcześniej świadomie znane: rozpoznaniu może
+podlegać **również nawyk**, który dotąd pozostawał niewidoczny.
+
+Ruch przeciwdziałający tak rozumianej amnezji możemy roboczo nazwać **enaktywną
+anamnezą** – ponawianiem kontaktu z warunkami, relacjami i doświadczanymi różnicami,
+których aktualne ujęcie nie zachowuje. Nie wymaga on odtworzenia pełnej historii
+powstania opisu; wystarczy rozpoznać jego niezupełność i otworzyć możliwość korekty.
+
+Anamneza nazywa tu przywracanie wrażliwości na uwarunkowania ujęcia, natomiast
+**reenakcja** – nowe zawiązanie doświadczenia, które może nastąpić przy rozluźnieniu
+wybranych wiązań interpretacyjnych. Żaden z tych ruchów nie odwraca redukcji ani nie
+odzyskuje utraconego oryginału.
+
+Przeciwdziałanie amnezji może przebiegać w trzech współpracujących trybach:
+**refleksyjnym**, przez badanie założeń i pominięć; **doświadczeniowym**, przez
+sprawdzanie słów, obrazów i działań w kontakcie z odczuwaną sytuacją; oraz
+**przedrefleksyjnym**, jako wykształcony nawyk ponownego otwierania ujęcia pod wpływem
+niedopasowania, bez konieczności myślowego komentowania tej operacji.
+
+Pomocniczym narzędziem drugiego trybu jest gendlinowski *felt sense*: cielesny sens
+sytuacji, którego artykulacja nie tylko opisuje doświadczanie, ale może je posuwać
+dalej. Nie jest on magazynem gotowych treści ani (z definicji) sygnałem "niższej"
+warstwy, a ponadto może w sposób dorozumiany obejmować złożoność języka, historii
+i relacji. Mniejsza wyrazistość pojęciowa nie oznacza więc automatycznie
+wcześniejszej pozycji genealogicznej. Nawyk odkrywania polegałby nie na automatycznym
+znajdowaniu prawdy, lecz na zachowywaniu podatności na korektę – przez własne
+doświadczanie, odpowiedź drugiej osoby i rezultaty działania.
+
+Tak rozumiana anamneza nawiązuje do platońskiego motywu poznawania jako
+przypominania, lecz nie przejmuje założenia o odzyskiwaniu wiedzy duszy sprzed
+narodzin. Z kolei heideggerowskie odczytanie alethei jako **nieskrytości** dostarcza
+pokrewnego motywu odsłaniania, którego nie utożsamiamy z prawdziwością każdego
+powstającego przy tym sądu. W naszym ujęciu są to dwa akcenty tego samego badania:
+anamneza podkreśla ponawianie kontaktu z pomijanymi uwarunkowaniami, a odsłanianie –
+stawanie się dostępnymi rozróżnień i relacji, których dotychczasowe ujęcie nie
+dopuszczało do głosu. Towarzyszący temu smak znajomości lub przypomnienia nie dowodzi
+wcześniejszego posiadania gotowej treści ani odkrycia niezmiennej
+esencji. **Pamiętanie staje się wówczas nie tylko określeniem na treść myśli, lecz
+sposobem uczestniczenia, który zachowuje możliwość dalszego odkrywania.**
+
 **Zakotwiczenie w znanych tradycjach:** emergentyzm, anty-eliminatywizm, buddyjska
 krytyka proliferacji pojęciowej (pali. *papañca*). Bliskie Vareli w krytyce obliczeniowej
-teorii umysłu, ale rozszerzone o społeczny wymiar detronizacji.
+teorii umysłu, ale rozszerzone o społeczny wymiar detronizacji. Dla anamnezy
+enaktywnej punktami odniesienia są platońska *anamnesis* (*Menon*, *Fedon*),
+heideggerowska *aletheia* jako nieskrytość oraz gendlinowski *felt sense*; granice
+tych zapożyczeń wskazujemy powyżej.
 
 **Znaczenie dla DIA:** wartość współpracy ponad dominacją intelektu – rój
 przejmuje część ciężaru analizy, aby ludzie nie musieli wymuszać wzajemnej zgodności

@@ -148,7 +148,9 @@ not settle their ontology.
 
 The two-phase structure is close to Gendlin's *felt sense* → symbolization,
 with the difference that the impulse here is less conceptually formed than
-experience already shaped by interpretation.
+experience already shaped by interpretation. The role of *felt sense* in correcting
+accounts, and the caveat that lower conceptual explicitness does not by itself fix
+a genealogical position, are developed under enactive anamnesis in postulate 4.
 
 **Significance for DIA:** the project's adopted values of epistemic hygiene,
 source-position stratification of experiences, and epistemic courage grow from
@@ -290,12 +292,12 @@ layer introduced. In both cases, information needed to construct an inverse is
 missing.
 
 Movement toward less determined layers therefore does not recover the original
-experience. It is deconstruction and reenactment: it loosens the habit of
-determining present experience and allows a new formation, but neither removes
-determinations from a past experience nor recreates its earlier formation. As the
-model of experiential closure developed below explains, if such movement recovered
-the original, an anonymous closure would have to preserve a persistent identity
-independently of that with which it forms.
+experience. It is deconstruction and reenactment (see enactive anamnesis in
+postulate 4): it loosens the habit of determining present experience and allows a
+new formation, but neither removes determinations from a past experience nor
+recreates its earlier formation. As the model of experiential closure developed
+below explains, if such movement recovered the original, an anonymous closure would
+have to preserve a persistent identity independently of that with which it forms.
 
 The position of the subject in communication reinforces this asymmetry. A judgment
 formulated at the layer of objectivity abstracts, in its justification, from the
@@ -819,7 +821,8 @@ much as the ability to observe one's own thoughts is widespread yet rarely train
 Contemplative practice can, in this light, be described not as a return to original
 experience, but as a temporary loosening of selected compressions. It reveals their
 cost and contingency, after which experience forms again — perhaps with a less rigid
-grammar, but never as a recovered original.
+grammar, but never as a recovered original (see enactive anamnesis and
+reenactment in postulate 4).
 
 Preserving evidence does not, however, mean preserving the question. Moving from
 "why do I experience this particular color?" to "does anything appear?" may leave
@@ -1022,10 +1025,60 @@ the only adviser, a carrier of prestige, or an identity. Intellect can serve
 truth just as well as it can serve fear, the need for recognition, or the desire
 for control, thereby introducing suffering into the system.
 
+#### Enactive anamnesis and disclosure
+
+Amnesia in the formula *reification = reduction + amnesia* means the effacement of
+memory of the reduction, its conditions, and its limits, not merely the loss of
+omitted details. This does not presuppose that all these operations were previously
+known consciously: what comes to be recognized may **also be a habit** that has so
+far remained invisible.
+
+The movement that counteracts amnesia so understood can provisionally be called
+**enactive anamnesis** – a renewal of contact with the conditions, relations, and
+experienced differences that the current account does not retain. It does not
+require reconstructing the full history of how the description arose; it is enough
+to recognize its incompleteness and to open the possibility of correction.
+
+Anamnesis here names the restoration of sensitivity to the conditions of an
+account, whereas **reenactment** names a new formation of experience, which may
+occur when selected interpretive bindings are loosened. Neither of these movements
+reverses the reduction or recovers a lost original.
+
+Counteracting amnesia can proceed in three cooperating modes: **reflective**,
+through examining assumptions and omissions; **experiential**, through testing
+words, images, and actions in contact with the felt situation; and
+**pre-reflective**, as a cultivated habit of reopening an account in response to a
+mismatch, without having to comment on this operation in thought.
+
+An auxiliary tool of the second mode is Gendlin's *felt sense*: the bodily sense of
+a situation whose articulation not only describes experiencing but can carry it
+forward. It is neither a store of ready-made contents nor (by definition) a signal
+of a "lower" layer; moreover, it can implicitly encompass the complexity of
+language, history, and relationships. Lower conceptual explicitness therefore does
+not automatically mean an earlier genealogical position. The habit of discovery
+would consist not in automatically finding truth, but in remaining open to
+correction – through one's own experiencing, the response of another person, and
+the results of action.
+
+Anamnesis so understood echoes the Platonic motif of knowing as recollection, but
+does not adopt the assumption that the soul recovers knowledge it had before birth.
+Heidegger's reading of aletheia as **unconcealment**, in turn, supplies a kindred
+motif of disclosure, which we do not identify with the truth of every judgment that
+arises in the process. In our view these are two emphases of the same inquiry:
+anamnesis stresses the renewal of contact with overlooked conditions, and
+disclosure – the becoming available of distinctions and relations that the
+previous account did not let speak. The accompanying taste of familiarity or
+recollection does not prove prior possession of ready-made content or the
+discovery of an unchanging essence. **Remembering then becomes not only a name for
+the content of thought, but a way of participating that keeps further discovery
+possible.**
+
 **Anchoring in known traditions:** emergentism, anti-eliminativism, and the
 Buddhist critique of conceptual proliferation (Pali *papañca*). It is close to
 Varela's critique of the computational theory of mind, but extended by the social
-dimension of dethronement.
+dimension of dethronement. For enactive anamnesis, the points of reference are
+Platonic *anamnesis* (*Meno*, *Phaedo*), Heidegger's *aletheia* as unconcealment,
+and Gendlin's *felt sense*; the limits of these borrowings are indicated above.
 
 **Significance for DIA:** the value of cooperation over domination by intellect:
 the swarm takes over part of the burden of analysis, so that people need not

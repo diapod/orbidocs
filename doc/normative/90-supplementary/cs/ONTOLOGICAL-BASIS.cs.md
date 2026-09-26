@@ -133,6 +133,8 @@ ontologii.
 
 Dvoufázovost je blízká gendlinovskému *felt sense* → symbolizace, s tím rozdílem,
 že je zde impuls méně pojmově utvořený než zkušenost již formovaná interpretací.
+Roli *felt sense* při korigování pojetí a výhradu, že menší pojmová zřetelnost sama
+neurčuje genealogickou pozici, rozvádíme u enaktivní anamnézy v postulátu 4.
 
 **Význam pro DIA:** z této orientace vyrůstají projektem přijaté hodnoty
 epistemické hygieny, stratifikace zdrojové pozice zkušeností a epistemické odvahy.
@@ -262,12 +264,12 @@ výsledku nelze rozpoznat, která konkréta byla sloučena. Ani přidaná určen
 odebrat bez znalosti toho, která z nich zavedla pozdější vrstva. V obou případech
 chybí informace potřebná ke konstrukci inverze.
 
-Pohyb k méně určeným vrstvám proto neobnovuje původní zkušenost. Je dekonstrukcí a
-reenakcí: uvolňuje návyk určovat přítomnou zkušenost a umožňuje její nové utvoření,
-neodstraňuje však určení z minulé zkušenosti ani neobnovuje její dřívější utvoření.
-Jak rozvíjíme níže v modelu uzávěru zkušenosti, kdyby takový pohyb obnovoval
-originál, musel by anonymní uzávěr uchovávat trvalou identitu nezávisle na tom, s čím
-se utváří.
+Pohyb k méně určeným vrstvám proto neobnovuje původní zkušenost. Je dekonstrukcí
+a reenakcí (srov. enaktivní anamnézu v postulátu 4): uvolňuje návyk určovat
+přítomnou zkušenost a umožňuje její nové utvoření, neodstraňuje však určení
+z minulé zkušenosti ani neobnovuje její dřívější utvoření. Jak rozvíjíme níže
+v modelu uzávěru zkušenosti, kdyby takový pohyb obnovoval originál, musel by
+anonymní uzávěr uchovávat trvalou identitu nezávisle na tom, s čím se utváří.
 
 Tuto asymetrii posiluje pozice subjektu ve sdělení. Soud formulovaný ve vrstvě
 objektivity abstrahuje ve svém zdůvodnění od konkrétní pozice vypovídajícího a
@@ -748,7 +750,8 @@ schopnost pozorovat vlastní myšlenky je běžná, ale zřídka cvičená.
 Kontemplativní praxi lze v tomto světle popsat nikoli jako návrat k původní
 zkušenosti, nýbrž jako dočasné uvolňování vybraných kompresí. Zviditelňuje jejich
 cenu a kontingenci, načež se zkušenost znovu utváří – možná s méně rigidní
-gramatikou, nikdy však jako obnovený originál.
+gramatikou, nikdy však jako obnovený originál (srov. enaktivní anamnézu a reenakci
+v postulátu 4).
 
 Zachování svědectví však neznamená zachování otázky. Přechod od „proč zakouším
 právě tuto barvu?“ k „jeví se něco?“ může ponechat svědectví o barvě nedotčené,
@@ -933,9 +936,55 @@ jediným rádcem, nositelem prestiže nebo identitou. Intelekt může stejně do
 sloužit pravdě jako obsluhovat strach, potřebu uznání či touhu po kontrole
 a vnášet do systému utrpení.
 
+#### Enaktivní anamnéza a odkrývání
+
+Amnézie ve formuli *reifikace = redukce + amnézie* znamená setření paměti
+o redukci, jejích podmínkách a mezích, nikoli pouze ztrátu opomenutých podrobností.
+Nepředpokládá to, že všechny tyto operace byly dříve vědomě známy: rozpoznání může
+podléhat **i návyk**, který dosud zůstával neviditelný.
+
+Pohyb, který takto chápané amnézii čelí, můžeme pracovně nazvat **enaktivní
+anamnézou** – obnovováním kontaktu s podmínkami, vztahy a zakoušenými rozdíly,
+které současné pojetí neuchovává. Nevyžaduje rekonstrukci úplné historie vzniku
+popisu; stačí rozpoznat jeho neúplnost a otevřít možnost korekce.
+
+Anamnéza zde označuje obnovování citlivosti k podmíněnosti pojetí, kdežto
+**reenakce** označuje nové utvoření zkušenosti, k němuž může dojít při uvolnění
+vybraných interpretačních vazeb. Žádný z těchto pohybů nezvrací redukci ani
+neobnovuje ztracený originál.
+
+Proti amnézii lze působit ve třech spolupracujících režimech: **reflexivním**,
+zkoumáním předpokladů a opomenutí; **zkušenostním**, ověřováním slov, obrazů
+a jednání v kontaktu s pociťovanou situací; a **předreflexivním**, jako vypěstovaný
+návyk znovu otevírat pojetí pod vlivem nesouladu, aniž by bylo nutné tuto operaci
+myšlenkově komentovat.
+
+Pomocným nástrojem druhého režimu je gendlinovský *felt sense*: tělesný smysl
+situace, jehož artikulace zakoušení nejen popisuje, ale může je i posouvat dál.
+Není zásobárnou hotových obsahů ani (z definice) signálem „nižší“ vrstvy a navíc
+může implicitně zahrnovat složitost jazyka, historie a vztahů. Menší pojmová
+zřetelnost proto automaticky neznamená dřívější genealogickou pozici. Návyk
+objevování by nespočíval v automatickém nalézání pravdy, nýbrž v udržování
+otevřenosti vůči korekci – skrze vlastní zakoušení, odpověď druhého člověka
+a výsledky jednání.
+
+Takto chápaná anamnéza navazuje na platónský motiv poznávání jako rozpomínání,
+nepřejímá však předpoklad, že duše získává zpět vědění z doby před narozením.
+Heideggerovo čtení alétheie jako **neskrytosti** zase poskytuje příbuzný motiv
+odkrývání, který neztotožňujeme s pravdivostí každého soudu, jenž při tom vzniká.
+V našem pojetí jde o dva akcenty téhož zkoumání: anamnéza zdůrazňuje obnovování
+kontaktu s přehlíženými podmínkami, odkrývání pak zpřístupňování rozlišení
+a vztahů, které dosavadní pojetí nepouštělo ke slovu. Doprovodná příchuť důvěrné
+známosti či rozpomínání nedokazuje dřívější držení hotového obsahu ani objev
+neměnné esence. **Pamatování se pak stává nejen označením obsahu myšlení, nýbrž
+způsobem účasti, který uchovává možnost dalšího objevování.**
+
 **Ukotvení ve známých tradicích:** emergentismus, anti-eliminativismus, buddhistická
 kritika pojmové proliferace (pálijské *papañca*). Je to blízké Varelovi v kritice
-výpočetní teorie mysli, ale rozšířené o společenský rozměr detronizace.
+výpočetní teorie mysli, ale rozšířené o společenský rozměr detronizace. Pro
+enaktivní anamnézu jsou východisky platónská *anamnésis* (*Menón*, *Faidón*),
+Heideggerova *alétheia* jako neskrytost a gendlinovský *felt sense*; meze těchto
+výpůjček vymezujeme výše.
 
 **Význam pro DIA:** hodnota spolupráce nad dominancí intelektu – roj přebírá část
 břemene analýzy, aby lidé nemuseli vynucovat vzájemnou shodu názorů jako podmínku
