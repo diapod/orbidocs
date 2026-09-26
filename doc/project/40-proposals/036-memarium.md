@@ -722,7 +722,7 @@ node/
    correctness-first connection exceeds the operator budget.
 2. Continue production monitoring for the classification strict-mode gate.
    The reference default is the self-arming `StrictRequired` mode: it keeps
-   stamping until 2026-06-30 and seven consecutive zero-fallback days, then
+   stamping until 2026-06-30 and seven consecutive observed zero-fallback days, then
    refuses unlabeled writes with `classification_missing`. Migrate producers
    that are refused to explicit labels; `stamp-then-warn` remains an explicit
    operator opt-out.

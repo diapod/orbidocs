@@ -454,9 +454,12 @@ the existing Memarium audit-decision discipline.
 - Phase M2.5: flip to `StrictRequired` only after `strict_not_before` and after
   the fallback metric is zero for the configured observation window. The
   reference daemon default is no earlier than 2026-06-30 plus seven zero days.
-  Authorization runs before fallback stamping, and accepted fallback markers
-  are reconstructed from durable Memarium records, so an unauthorized caller
-  or daemon restart cannot reset or postpone the ratchet.
+  Authorization runs before fallback stamping, and accepted fallbacks are
+  recorded in a durable host-owned ledger of observed days, so an
+  unauthorized caller or daemon restart cannot reset or postpone the ratchet.
+  The ratchet measures only the `memarium.write` boundary that strict mode can
+  refuse; ingress stamping of observed peer messages, INAC custody, or other
+  producers keeps its quarantine marker but does not count.
 - Phase M3: activate egress guards on Agora / Whisper / INAC.
 - Phase M4: introduce `memarium.declassify` and wire the passport scope.
 - Phase M5: projection rule enforced at Whisper validator.

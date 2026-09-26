@@ -225,9 +225,9 @@ values below are the reference defaults:
 
 `strict-required` is self-arming: it keeps stamping while the gate is closed
 and refuses unlabeled writes with `classification_missing` once the gate
-opens, so no manual flip is needed after the window. A node without any
-accepted fallback history satisfies the zero-fallback window immediately after
-`strict_not_before` and is therefore strict from its first unlabeled write.
+opens, so no manual flip is needed after the window. Only days observed by
+the host's durable fallback ledger count toward the window, so a fresh or
+newly upgraded node keeps stamping until it has observed a full clean window.
 `"mode": "stamp-then-warn"` is an explicit operator opt-out that always stamps.
 Daemon-authored facts, such as Inquirium transcript excision markers, carry
 their own label rather than relying on fallback stamping.
@@ -235,13 +235,17 @@ their own label rather than relying on fallback stamping.
 The fallback counter is exported in runtime metrics under
 `memarium_fallback_stamped_facts_per_space_per_day` keyed by
 `YYYY-MM-DD:<space>`.
-Passport authorization runs before fallback stamping, and the counter is
-reconstructed from accepted, durable quarantine markers after restart. The
-reconstruction runs once per process and is then maintained by successful
-appends. It counts every `no-label-at-ingress` marker, including observe-rule
-and INAC custody facts, so a node that still receives unlabeled peer ingress
-keeps stamping. An unauthorized request therefore cannot postpone the strict-mode
-ratchet.
+Passport authorization runs before fallback stamping, so an unauthorized
+request cannot postpone the strict-mode ratchet. The ratchet is a durable,
+host-owned ledger of reserved Personal policy facts: a single
+`classification-fallback-ledger-started` fact marks the first observed day, and
+an idempotent `classification-fallback-observed` fact per day and space is
+written before each stamped value, so a failure can only overcount. The host
+loads the ledger once per process; while it cannot be loaded, unlabeled writes
+fail closed and labeled writes proceed. Ingress stamping by observe rules, INAC
+custody, or Inquirium carries the same quarantine marker but is not recorded,
+because strict mode governs only `memarium.write` and cannot refuse that
+ingress.
 All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
 object shape is an implementation detail and is not part of the Memarium
 host-capability contract.
