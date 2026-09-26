@@ -194,7 +194,8 @@ Responsibilities:
 - never report a session as excised while Memarium still holds it: without the
   Memarium excision marker, a session is excised locally only when Memarium's
   durable facts hold none of its transcript content, and any other excision is
-  refused as incomplete;
+  refused before any change with a retryable
+  `503 inquirium_assistant_transcript_excision_incomplete`;
 - project bounded working memory while assigning summary production to another
   configured component or workflow.
 
