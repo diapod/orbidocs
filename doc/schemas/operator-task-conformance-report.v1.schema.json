@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-conformance-report:v1",
+  "title": "Operator Task Conformance Report v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Conformance of one exact task profile against its package, schema set, action-semantics map, refusal corpus, fixtures, and runtime. A revised action-semantics map makes the report non-current.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "report/ref",
+    "task-profile/digest",
+    "package/digest",
+    "implementation/digest",
+    "schema-set/digest",
+    "action-semantics/digest",
+    "refusal-corpus/digest",
+    "fixture-set/digest",
+    "runtime/ref",
+    "evaluated-at",
+    "results"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-conformance-report.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "report/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "package/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "implementation/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "schema-set/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "action-semantics/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "refusal-corpus/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "fixture-set/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "runtime/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "evaluated-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structural",
+        "cross-reference",
+        "compatibility",
+        "refusal-corpus",
+        "positive-dry-run",
+        "environment-acceptance"
+      ],
+      "properties": {
+        "structural": {
+          "enum": [
+            "passed",
+            "failed",
+            "not-run"
+          ]
+        },
+        "cross-reference": {
+          "enum": [
+            "passed",
+            "failed",
+            "not-run"
+          ]
+        },
+        "compatibility": {
+          "enum": [
+            "passed",
+            "failed",
+            "not-run"
+          ]
+        },
+        "refusal-corpus": {
+          "enum": [
+            "passed",
+            "failed",
+            "not-run"
+          ]
+        },
+        "positive-dry-run": {
+          "enum": [
+            "passed",
+            "failed",
+            "not-run"
+          ]
+        },
+        "environment-acceptance": {
+          "enum": [
+            "passed",
+            "failed",
+            "not-run"
+          ]
+        }
+      }
+    }
+  }
+}

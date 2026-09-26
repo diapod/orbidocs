@@ -28,7 +28,8 @@ contract freeze. The operator then accepted the bounded P089 external-runtime
 adapter contract, so P089 now blocks only on `P089-008a` and its P090-owned
 carriage, and accepted Story 013 as the P094 qmail reference contract
 (`P094-002`). P091 then completed its Step 3 read-only `logging.level` seam on
-production parts, which moves `P091-004` to partial. The readiness estimates of the new
+production parts, which moves `P091-004` to partial. On 2026-09-26 the P094-owned schema family (`P094-003a`) was
+registered with positive and negative vectors and Node Schema Gate coverage. The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
@@ -1917,7 +1918,7 @@ Recent component deltas:
 | [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `75` |
 | [Proposal 091: File-backed Configuration and Explainable Composition](../40-proposals/091-file-backed-configuration-and-explainable-composition.md) | `true` | `false` | `false` | `30` |
 | [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `true` | `false` | `100` |
-| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `12` |
+| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `15` |
 
 ## Solutions
 

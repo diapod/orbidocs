@@ -89,6 +89,30 @@ schema_for_file() {
     *.config-offline.response.json)
       echo "$SCHEMAS_DIR/config-offline.response.v1.schema.json"
       ;;
+    *.operator-task-profile.json)
+      echo "$SCHEMAS_DIR/operator-task-profile.v1.schema.json"
+      ;;
+    *.operator-task-local-binding.json)
+      echo "$SCHEMAS_DIR/operator-task-local-binding.v1.schema.json"
+      ;;
+    *.operator-task-readiness.json)
+      echo "$SCHEMAS_DIR/operator-task-readiness.v1.schema.json"
+      ;;
+    *.operator-task-offer-draft.json)
+      echo "$SCHEMAS_DIR/operator-task-offer-draft.v1.schema.json"
+      ;;
+    *.operator-task-experiment-candidate.json)
+      echo "$SCHEMAS_DIR/operator-task-experiment-candidate.v1.schema.json"
+      ;;
+    *.operator-task-experiment-plan.json)
+      echo "$SCHEMAS_DIR/operator-task-experiment-plan.v1.schema.json"
+      ;;
+    *.operator-task-experiment-result.json)
+      echo "$SCHEMAS_DIR/operator-task-experiment-result.v1.schema.json"
+      ;;
+    *.operator-task-conformance-report.json)
+      echo "$SCHEMAS_DIR/operator-task-conformance-report.v1.schema.json"
+      ;;
     *.middleware-observed-result.v1.json)
       echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
       ;;

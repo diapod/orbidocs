@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-experiment-result:v1",
+  "title": "Operator Task Experiment Result v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Links to owner-domain evidence of one task run. Prompts, secrets, raw VM files, private command output, and chain-of-thought are never carried.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "run/ref",
+    "plan/ref",
+    "plan/digest",
+    "task-profile/digest",
+    "local-binding/digest",
+    "activation/generation",
+    "outcome",
+    "steps",
+    "rollback",
+    "timings",
+    "disclosure"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-experiment-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "run/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "activation/generation": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "outcome": {
+      "enum": [
+        "verified",
+        "verification-failed",
+        "refused",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    "refusal/code": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+    },
+    "deliberation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "corpus/deliberation-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "agent/passage-refs": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refs"
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step/id",
+          "outcome"
+        ],
+        "properties": {
+          "step/id": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          },
+          "outcome": {
+            "enum": [
+              "completed",
+              "refused",
+              "unknown",
+              "not-run"
+            ]
+          },
+          "refusal/code": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+          },
+          "hil/decision-ref": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          },
+          "evidence/refs": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/refs"
+          }
+        },
+        "if": {
+          "properties": {
+            "outcome": {
+              "const": "refused"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "refusal/code"
+          ]
+        },
+        "else": {
+          "not": {
+            "required": [
+              "refusal/code"
+            ]
+          }
+        }
+      }
+    },
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result/ref",
+        "evaluation/ref",
+        "passed"
+      ],
+      "properties": {
+        "result/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "evaluation/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "destroyed",
+            "rollback-pending"
+          ]
+        },
+        "destruction/confirmation-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        }
+      },
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "destroyed"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "destruction/confirmation-ref"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "destruction/confirmation-ref"
+          ]
+        }
+      }
+    },
+    "timings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "started-at",
+        "finished-at"
+      ],
+      "properties": {
+        "started-at": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+        },
+        "finished-at": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+        }
+      }
+    },
+    "resource-accounting/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "offer-fields",
+        "diagnostic-fields"
+      ],
+      "properties": {
+        "offer-fields": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          }
+        },
+        "diagnostic-fields": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "refused"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "refusal/code"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "refusal/code"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "verified",
+              "verification-failed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "verifier"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "verified"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verifier": {
+            "properties": {
+              "passed": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "verification-failed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verifier": {
+            "properties": {
+              "passed": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

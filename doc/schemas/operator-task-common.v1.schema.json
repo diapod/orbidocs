@@ -1,0 +1,702 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-common:v1",
+  "title": "P094 Operator Task Pack Common Contract v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 512,
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s/\\\\][^\\s\\\\]*$",
+      "description": "Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "counter": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "capabilityId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 256,
+      "pattern": "^[a-z][a-z0-9_-]*(?:\\.[a-z][a-z0-9_-]*)+$"
+    },
+    "exactRef": {
+      "type": "object",
+      "required": [
+        "ref",
+        "digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "refs": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/ref"
+      }
+    },
+    "hilMode": {
+      "enum": [
+        "each-step",
+        "each-mutation"
+      ]
+    },
+    "runtimeNetwork": {
+      "enum": [
+        "none",
+        "isolated"
+      ]
+    },
+    "impactClass": {
+      "enum": [
+        "research",
+        "experimental",
+        "test",
+        "production",
+        "critical"
+      ]
+    },
+    "bindingState": {
+      "enum": [
+        "enabled",
+        "paused"
+      ]
+    },
+    "stage": {
+      "enum": [
+        "package",
+        "binding",
+        "environment",
+        "deliberation",
+        "effects",
+        "verification",
+        "rollback",
+        "publication"
+      ]
+    },
+    "refusalStage": {
+      "enum": [
+        "package",
+        "binding",
+        "environment",
+        "deliberation",
+        "effects",
+        "verification",
+        "rollback",
+        "publication",
+        "run"
+      ]
+    },
+    "stageState": {
+      "enum": [
+        "ready",
+        "degraded",
+        "blocked",
+        "not-applicable",
+        "not-evaluated"
+      ]
+    },
+    "retryClass": {
+      "enum": [
+        "terminal",
+        "after-operator-action",
+        "after-deferred-operation",
+        "after-owner-reconcile",
+        "transient"
+      ]
+    },
+    "nextAction": {
+      "enum": [
+        "activate-package",
+        "create-binding",
+        "edit-binding",
+        "grant-capability",
+        "grant-interface",
+        "inspect-attention-budget",
+        "inspect-capability",
+        "inspect-deliberation",
+        "inspect-effects",
+        "inspect-environment",
+        "inspect-package",
+        "inspect-verification",
+        "none",
+        "prepare-environment",
+        "rebind-operator",
+        "resolve-binding-sources",
+        "resume-binding",
+        "retry-verification",
+        "review-profile-change",
+        "run-conformance",
+        "start-new-run"
+      ]
+    },
+    "refusalCode": {
+      "enum": [
+        "package/not-active",
+        "package/conformance-missing",
+        "package/profile-digest-mismatch",
+        "operator/binding-lost",
+        "local-binding/missing",
+        "local-binding/incomplete",
+        "local-binding/outside-package-ceiling",
+        "local-binding/profile-changed",
+        "local-binding/conflict",
+        "local-binding/paused",
+        "environment/image-mismatch",
+        "environment/prepared-system-unavailable",
+        "environment/runtime-egress-denied",
+        "environment/impact-class-exceeded",
+        "environment/not-contained",
+        "deliberation/flow-unavailable",
+        "capability/missing",
+        "capability/revoked",
+        "workbench/command-profile-missing",
+        "workbench/effect-mode-missing",
+        "interface/grant-missing",
+        "hil/attention-unavailable",
+        "verifier/unavailable",
+        "verifier/effect-mode-missing",
+        "rollback/unavailable",
+        "rollback/destroy-unconfirmed",
+        "publication/policy-missing",
+        "publication/disabled",
+        "offer/withdrawal-pending",
+        "package/generation-stale",
+        "plan/unknown-action-kind",
+        "plan/outside-profile",
+        "plan/first-step-not-observation",
+        "plan/recovery-class-not-admitted",
+        "plan/changed-replay",
+        "workbench/patch-outside-policy",
+        "interface/lease-lost",
+        "hil/denied",
+        "hil/expired",
+        "verifier/check-missing",
+        "verifier/mutation-not-admitted",
+        "verifier/timeout",
+        "run/cancelled",
+        "run/budget-exhausted"
+      ],
+      "description": "Closed P094 refusal vocabulary; the proposal's refusal table is the source of truth and a drift check keeps them equal."
+    },
+    "stepClass": {
+      "enum": [
+        "observation",
+        "contained-mutation"
+      ],
+      "description": "Version 1 admits only these classes; other effects refuse with plan/recovery-class-not-admitted."
+    },
+    "effectSource": {
+      "enum": [
+        "owner-enforced",
+        "missing-source-default"
+      ]
+    },
+    "argvAtom": {
+      "type": "string",
+      "maxLength": 1024
+    },
+    "arguments": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/$defs/argvAtom"
+      }
+    },
+    "deliberationLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "max/passages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "max/experiments": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "max/wall-time-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400000
+        }
+      }
+    },
+    "candidateStep": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "step/id",
+            "kind",
+            "profile/ref",
+            "arguments"
+          ],
+          "properties": {
+            "step/id": {
+              "$ref": "#/$defs/name"
+            },
+            "kind": {
+              "enum": [
+                "observe",
+                "process"
+              ]
+            },
+            "profile/ref": {
+              "$ref": "#/$defs/ref"
+            },
+            "arguments": {
+              "$ref": "#/$defs/arguments"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "step/id",
+            "kind",
+            "descriptor/ref",
+            "operation"
+          ],
+          "properties": {
+            "step/id": {
+              "$ref": "#/$defs/name"
+            },
+            "kind": {
+              "const": "observe"
+            },
+            "descriptor/ref": {
+              "$ref": "#/$defs/ref"
+            },
+            "operation": {
+              "enum": [
+                "read",
+                "subscribe"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "step/id",
+            "kind",
+            "profile/ref",
+            "patch/ref"
+          ],
+          "properties": {
+            "step/id": {
+              "$ref": "#/$defs/name"
+            },
+            "kind": {
+              "const": "patch"
+            },
+            "profile/ref": {
+              "$ref": "#/$defs/ref"
+            },
+            "patch/ref": {
+              "$ref": "#/$defs/ref"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "step/id",
+            "kind",
+            "profile/ref",
+            "action"
+          ],
+          "properties": {
+            "step/id": {
+              "$ref": "#/$defs/name"
+            },
+            "kind": {
+              "const": "service-control"
+            },
+            "profile/ref": {
+              "$ref": "#/$defs/ref"
+            },
+            "action": {
+              "$ref": "#/$defs/name"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "step/id",
+            "kind",
+            "descriptor/ref",
+            "operation",
+            "method/name"
+          ],
+          "properties": {
+            "step/id": {
+              "$ref": "#/$defs/name"
+            },
+            "kind": {
+              "const": "actuate"
+            },
+            "descriptor/ref": {
+              "$ref": "#/$defs/ref"
+            },
+            "operation": {
+              "const": "invoke"
+            },
+            "method/name": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9.-]{0,127}$"
+            }
+          }
+        }
+      ]
+    },
+    "planStep": {
+      "description": "Host-validated step. In Version 1 a mutation is always contained and always needs HIL, and only an owner-enforced source can yield observation.",
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "step/id",
+                "kind",
+                "profile/ref",
+                "profile/digest",
+                "arguments",
+                "capability/id",
+                "effect/class",
+                "effect/source",
+                "hil/required"
+              ],
+              "properties": {
+                "step/id": {
+                  "$ref": "#/$defs/name"
+                },
+                "kind": {
+                  "const": "observe"
+                },
+                "profile/ref": {
+                  "$ref": "#/$defs/ref"
+                },
+                "profile/digest": {
+                  "$ref": "#/$defs/digest"
+                },
+                "arguments": {
+                  "$ref": "#/$defs/arguments"
+                },
+                "capability/id": {
+                  "$ref": "#/$defs/capabilityId"
+                },
+                "effect/class": {
+                  "const": "observation"
+                },
+                "effect/source": {
+                  "const": "owner-enforced"
+                },
+                "hil/required": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "step/id",
+                "kind",
+                "profile/ref",
+                "profile/digest",
+                "arguments",
+                "capability/id",
+                "effect/class",
+                "effect/source",
+                "hil/required"
+              ],
+              "properties": {
+                "step/id": {
+                  "$ref": "#/$defs/name"
+                },
+                "kind": {
+                  "const": "process"
+                },
+                "profile/ref": {
+                  "$ref": "#/$defs/ref"
+                },
+                "profile/digest": {
+                  "$ref": "#/$defs/digest"
+                },
+                "arguments": {
+                  "$ref": "#/$defs/arguments"
+                },
+                "capability/id": {
+                  "$ref": "#/$defs/capabilityId"
+                },
+                "effect/class": {
+                  "$ref": "#/$defs/stepClass"
+                },
+                "effect/source": {
+                  "$ref": "#/$defs/effectSource"
+                },
+                "hil/required": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "step/id",
+                "kind",
+                "descriptor/ref",
+                "descriptor/digest",
+                "operation",
+                "capability/id",
+                "effect/class",
+                "effect/source",
+                "hil/required"
+              ],
+              "properties": {
+                "step/id": {
+                  "$ref": "#/$defs/name"
+                },
+                "kind": {
+                  "const": "observe"
+                },
+                "descriptor/ref": {
+                  "$ref": "#/$defs/ref"
+                },
+                "descriptor/digest": {
+                  "$ref": "#/$defs/digest"
+                },
+                "operation": {
+                  "enum": [
+                    "read",
+                    "subscribe"
+                  ]
+                },
+                "capability/id": {
+                  "$ref": "#/$defs/capabilityId"
+                },
+                "effect/class": {
+                  "const": "observation"
+                },
+                "effect/source": {
+                  "const": "owner-enforced"
+                },
+                "hil/required": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "step/id",
+                "kind",
+                "profile/ref",
+                "profile/digest",
+                "patch/ref",
+                "capability/id",
+                "effect/class",
+                "effect/source",
+                "hil/required"
+              ],
+              "properties": {
+                "step/id": {
+                  "$ref": "#/$defs/name"
+                },
+                "kind": {
+                  "const": "patch"
+                },
+                "profile/ref": {
+                  "$ref": "#/$defs/ref"
+                },
+                "profile/digest": {
+                  "$ref": "#/$defs/digest"
+                },
+                "patch/ref": {
+                  "$ref": "#/$defs/ref"
+                },
+                "capability/id": {
+                  "$ref": "#/$defs/capabilityId"
+                },
+                "effect/class": {
+                  "const": "contained-mutation"
+                },
+                "effect/source": {
+                  "$ref": "#/$defs/effectSource"
+                },
+                "hil/required": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "step/id",
+                "kind",
+                "profile/ref",
+                "profile/digest",
+                "action",
+                "capability/id",
+                "effect/class",
+                "effect/source",
+                "hil/required"
+              ],
+              "properties": {
+                "step/id": {
+                  "$ref": "#/$defs/name"
+                },
+                "kind": {
+                  "const": "service-control"
+                },
+                "profile/ref": {
+                  "$ref": "#/$defs/ref"
+                },
+                "profile/digest": {
+                  "$ref": "#/$defs/digest"
+                },
+                "action": {
+                  "$ref": "#/$defs/name"
+                },
+                "capability/id": {
+                  "$ref": "#/$defs/capabilityId"
+                },
+                "effect/class": {
+                  "const": "contained-mutation"
+                },
+                "effect/source": {
+                  "$ref": "#/$defs/effectSource"
+                },
+                "hil/required": {
+                  "type": "boolean"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "effect/class": {
+                "const": "observation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "effect/source": {
+                "const": "owner-enforced"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "effect/class": {
+                "const": "contained-mutation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "hil/required": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "stageReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "$ref": "#/$defs/stageState"
+        },
+        "evidence/refs": {
+          "$ref": "#/$defs/refs"
+        },
+        "refusal/code": {
+          "$ref": "#/$defs/refusalCode"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "blocked",
+                  "degraded"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "refusal/code"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "refusal/code"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

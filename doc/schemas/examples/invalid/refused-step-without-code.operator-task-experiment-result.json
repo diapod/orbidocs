@@ -1,0 +1,66 @@
+{
+  "schema": "operator-task-experiment-result.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01",
+  "plan/ref": "operator-task-plan:run-01",
+  "plan/digest": "sha256:ZIeffWuWCgGQl2LZEaMtRYLCABDFZB7pAni2RKnjtSU",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "local-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+  "activation/generation": 7,
+  "outcome": "verified",
+  "deliberation": {
+    "corpus/deliberation-ref": "corpus-deliberation:qmail-01",
+    "agent/passage-refs": [
+      "agent-passage:solver-01"
+    ]
+  },
+  "steps": [
+    {
+      "step/id": "inspect-qmail",
+      "outcome": "completed",
+      "evidence/refs": [
+        "workbench-result:inspect-01"
+      ]
+    },
+    {
+      "step/id": "apply-control-patch",
+      "outcome": "completed",
+      "hil/decision-ref": "hil-decision:patch-01",
+      "evidence/refs": [
+        "workbench-result:patch-01"
+      ]
+    },
+    {
+      "step/id": "restart-qmail",
+      "outcome": "refused",
+      "hil/decision-ref": "hil-decision:restart-01",
+      "evidence/refs": [
+        "workbench-result:restart-01"
+      ]
+    }
+  ],
+  "verifier": {
+    "result/ref": "verifier-result:qmail-01",
+    "evaluation/ref": "verifier-evaluation:qmail-01",
+    "passed": true
+  },
+  "rollback": {
+    "outcome": "destroyed",
+    "destruction/confirmation-ref": "environment-destruction:qmail-01"
+  },
+  "timings": {
+    "started-at": "2026-09-25T12:00:00Z",
+    "finished-at": "2026-09-25T12:14:00Z"
+  },
+  "resource-accounting/ref": "resource-accounting:run-01",
+  "disclosure": {
+    "offer-fields": [
+      "outcome"
+    ],
+    "diagnostic-fields": [
+      "outcome",
+      "steps",
+      "rollback"
+    ]
+  }
+}

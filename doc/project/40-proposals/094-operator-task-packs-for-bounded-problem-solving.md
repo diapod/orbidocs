@@ -363,6 +363,15 @@ validation. Schemas close security-significant objects with
 `additionalProperties: false`; extension fields, where deliberately allowed, are
 namespaced and byte bounded.
 
+### Registered schema family
+
+The contracts below are registered as draft schemas in `doc/schemas/`
+(`operator-task-common.v1` plus one thin schema per contract) with positive and
+negative vectors, and Node's Schema Gate validates them (`P094-003a`). The JSON
+examples in this section are illustrative; the schemas are authoritative for the exact
+shape. The refusal table later in this proposal is the source of truth for the
+refusal vocabulary, and a drift check keeps the schema enum equal to it.
+
 ### `operator-task-profile.v1`
 
 The profile is a portable, immutable composition contract. It contains identifiers and
@@ -370,6 +379,7 @@ digests, not the referenced large content.
 
 ```json
 {
+  "schema": "operator-task-profile.v1",
   "schema/v": 1,
   "profile/ref": "operator-task-profile:qmail-local-administration",
   "profile/revision": 1,
@@ -493,6 +503,7 @@ a portable package asset and not authority by itself.
 
 ```json
 {
+  "schema": "operator-task-local-binding.v1",
   "schema/v": 1,
   "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
   "binding/state": "enabled",
@@ -585,6 +596,7 @@ Readiness is an explainable projection of one local binding, not a grant:
 
 ```json
 {
+  "schema": "operator-task-readiness.v1",
   "schema/v": 1,
   "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
   "local-binding/digest": "sha256:LOCAL_BINDING_DIGEST",
@@ -696,6 +708,7 @@ model's output small:
 
 ```json
 {
+  "schema": "operator-task-experiment-candidate.v1",
   "schema/v": 1,
   "steps": [
     {
@@ -719,6 +732,7 @@ validated plan stamps identity and derived facts:
 
 ```json
 {
+  "schema": "operator-task-experiment-plan.v1",
   "schema/v": 1,
   "plan/ref": "operator-task-plan:run-01",
   "candidate/digest": "sha256:CANDIDATE_DIGEST",
@@ -787,6 +801,12 @@ The result links existing domain evidence rather than copying raw transcripts:
 Prompts, secrets, raw VM files, command stdout containing private material, and model
 chain-of-thought are not copied into the shared result.
 
+The run `outcome` is `verified`, `verification-failed`, `refused`, `cancelled`, or
+`unknown`; a refused run names its refusal code, and a verified or failed run links the
+verifier result and host evaluation. Each step is `completed`, `refused`, `unknown`, or
+`not-run`. The rollback outcome is `destroyed`, which requires the owner's destruction
+confirmation, or `rollback-pending` while that confirmation is outstanding.
+
 ### `operator-task-conformance-report.v1`
 
 Conformance binds the exact task-profile digest, package digest, implementation digest,
@@ -803,6 +823,9 @@ pack. It distinguishes:
 - positive dry-run result;
 - optional full environment acceptance result.
 
+Each result is `passed`, `failed`, or `not-run`; only the environment acceptance may
+remain `not-run` in a passing report.
+
 Only a current fully passing report may satisfy activation or publication policy where
 the profile marks conformance as required.
 
@@ -813,9 +836,9 @@ its domain owner and is registered through that owner's review, not as a P094 si
 
 | Contract | Owner | Purpose | Tracker |
 | :--- | :--- | :--- | :--- |
-| `sensorium-patch-policy.v1` (new) | Sensorium Workbench | Closed path set, file size, ownership, mode, and accepted content shape for patch admission. Today only patch artifacts and stage/apply results exist. Mirrored in the P071 tracker. | `P094-003`, `P094-008` |
+| `sensorium-patch-policy.v1` (new) | Sensorium Workbench | Closed path set, file size, ownership, mode, and accepted content shape for patch admission. Today only patch artifacts and stage/apply results exist. Mirrored in the P071 tracker. | `P094-003b`, `P094-008` |
 | `sensorium-command-profile.v2` effect mode (new field) | Sensorium Workbench | `effect/mode: observation \| mutation`. `observation` is enforced by the Workbench, not trusted as a label. Absent means `mutation`. Mirrored in the P071 tracker. | `P094-019` |
-| `sensorium-action-semantics.v1` (new) | Sensorium Workbench and Interfaces | Versioned map from `(owner, kind, operation)` to a registered capability id and to the effect-class rule: fixed, from the command profile's effect mode, or from the descriptor. Mirrored in the P071 tracker; Interface rows co-owned with P083. | `P094-003`, `P094-008` |
+| `sensorium-action-semantics.v1` (new) | Sensorium Workbench and Interfaces | Versioned map from `(owner, kind, operation)` to a registered capability id and to the effect-class rule: fixed, from the command profile's effect mode, or from the descriptor. Mirrored in the P071 tracker; Interface rows co-owned with P083. | `P094-003b`, `P094-008` |
 | P080 `isolated-environment` resource kind (extension) | P080 with Sensorium Virt as implementer | `ephemeral-revertible` host-local resource with typed idempotent disposer `environment.destroy` and durable destruction confirmation. | `P094-018` |
 
 Until an owner contract exists, the dependent P094 behaviour refuses or takes the more
@@ -1682,11 +1705,11 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 Work is sliced so that each milestone is useful on its own and the widest cross-domain
 change comes last:
 
-- **M1 – inspect and dry-run.** `P094-002` to `P094-006` and the read surfaces of
+- **M1 – inspect and dry-run.** `P094-002`, `P094-003a`, `P094-004` to `P094-006`, and the read surfaces of
   `P094-012`. An operator installs a pack, creates a binding from safe defaults, reads
   readiness with its decisive blocker, and validates candidate plans with the pure core.
   Nothing executes.
-- **M2 – local runs.** `P094-018`, `P094-019`, `P094-008` to `P094-011`, `P094-013`,
+- **M2 – local runs.** `P094-003b`, `P094-018`, `P094-019`, `P094-008` to `P094-011`, `P094-013`,
   and the run surfaces of `P094-012`. The operator is the requester; runs execute in the pinned VM
   under the Version 1 recovery scope. Nothing is published.
 - **M3 – federated offer.** `P094-007`, `P094-016`, and the publication surfaces of
@@ -1705,15 +1728,16 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | :--- | :--- | :--- | :--- | :--- |
 | `P094-001` | Freeze ownership, portable/local/current-use separation, lifecycle, and authority invariants | – | `done` | This proposal records the resolved design, prohibited portable fields, owner matrix, no-prose-authority rule, no-free-form-shell rule, current-use fence, narrowing axes, derived effect semantics, Version 1 recovery scope, pause/revoke split, publication separation, verifier boundary, rollback preference, and qmail-first acceptance target. This is design completion only, not runtime implementation. |
 | `P094-002` | Freeze the qmail reference story and acceptance contract | `001` | `done` | An accepted story names requester, solver, reviewer, thematic profile, prepared environment, bounded actions, mandatory HIL, verifier checks, rollback, refusal cases, and retained evidence without adding qmail branches to shared code. Evidence: [Story 013](../30-stories/story-013-qmail-task-pack.md), accepted on 2026-09-25, names the requester, solver, reviewer, and provider operator; the pinned qmail prepared system and its two-part misconfiguration; the admitted command and patch profiles; per-mutation HIL; seven verifier checks including the open-relay trap; destroy-and-recreate rollback; thirteen refusal cases; retained evidence; the substrate gates; and the local (`P094-013`) and federated (`P094-016`) profiles. |
-| `P094-003` | Register the P094 schema family, coordinate owner contracts, and add positive/negative fixtures | `001` | `todo` | Schema Gate covers task profile, local binding, readiness, offer draft, experiment candidate, experiment plan and result, and conformance report. The refusal enum matches the refusal table. Workbench and Interfaces owners register `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1`; the command-profile effect mode is tracked by `P094-019`. Negative fixtures cover arbitrary shell, absolute portable paths, hidden egress, unknown actions, Interface operations outside `access/modes` or `manage` in a candidate, candidate-supplied digests/capabilities/effect classes/HIL flags, binding fields restating portable facts, changed replay, missing digests, and verifier mutation. |
-| `P094-004` | Implement the pure task-pack core | `003` | `todo` | A daemon-free crate provides DTOs, semantic validation, exact cross-reference checks, `meet_layers`/`member`/`bounded_by_impact_max` with provenance and no derived-`Ord` dependence, readiness derivation with stage dependencies and decisive blocker, candidate-to-plan derivation of capability, step class, and HIL requirement from owner sources with `mutation` as the missing-source default, the exhaustive refusal spec, `derive_pack_facts` over the action-semantics map, property tests, and no filesystem/network/runtime effects. |
+| `P094-003a` | Register the P094-owned schema family with positive and negative fixtures | `001` | `done` | 2026-09-26: `operator-task-common.v1` holds the shared definitions, including the closed refusal-code, stage, retry-class and next-action vocabularies; eight thin schemas cover the task profile, local binding, readiness, offer draft, experiment candidate, experiment plan, experiment result and conformance report. Positive qmail vectors from Story 013 and 34 negative vectors cover arbitrary shell, absolute POSIX and Windows portable paths, hidden egress, unknown actions, `manage` in a candidate, candidate-supplied digests, capabilities, effect classes, HIL flags and binding identity, restated portable facts and activation generation in a binding, missing digests, embedded secrets, a mutation claimed as observation, an observation from a missing owner source, a mutation without HIL, an uncontained class, readiness without a refusal code or a stage, derived readiness fields contradicting their stages, an unknown refusal code, an unconfirmed or contradictory destruction, a verified run whose verifier failed, a refusal code on success or missing on a refused step, a raw transcript, a signed draft, and a conformance report without the action-semantics digest. Node's Schema Gate registers the eight families, and `scripts/test_operator_task_refusal_codes.py` keeps the refusal table and the schema enum equal. Changed replay and actual verifier mutation are semantic refusals owned by `P094-004`, `P094-009` and `P094-010`. |
+| `P094-003b` | Register the owner contracts P094 consumes | `001` | `todo` | The Workbench and Interfaces owners register `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1`, mirrored in P071 Phase 6; the command-profile effect mode is tracked by `P094-019`. |
+| `P094-004` | Implement the pure task-pack core | `003a` | `todo` | A daemon-free crate provides DTOs, semantic validation, exact cross-reference checks, `meet_layers`/`member`/`bounded_by_impact_max` with provenance and no derived-`Ord` dependence, readiness derivation with stage dependencies and decisive blocker, candidate-to-plan derivation of capability, step class, and HIL requirement from owner sources with `mutation` as the missing-source default, the exhaustive refusal spec, `derive_pack_facts` over the action-semantics map, property tests, and no filesystem/network/runtime effects. |
 | `P094-005` | Integrate task profiles with P085 semantic entries and lifecycle | `004` | `todo` | Task profiles install inertly through the existing P085 package, inherit the package operational class, recheck operator/package/revocation state and activation generation on use, recompute pack facts at conformance, survive durable restart where applicable, and introduce no second activation store. |
 | `P094-006` | Implement P091-backed local binding, readiness, and inspection | `004`, `005` | `todo` | Bindings are created from safe defaults with host-filled profile digests and no generation; `local-binding/incomplete` names missing choices; profile changes block with a per-axis diff and one-step acceptance; pause and resume work without reactivation; readiness is computed on read with one decisive blocker; local absolute paths and secrets remain absent from portable and remote views. |
 | `P094-007` | Implement offer draft, signing, publication, and withdrawal reconciliation | `006` | `todo` | Activation never publishes. An authenticated operator approves an exact draft; ordinary Service Offer signing/publication commits it; exact task-profile identity is standardized; revocation or pause closes local admission immediately and BDO/Replay Scheduler reconcile withdrawal. |
-| `P094-008` | Resolve prepared systems, Workbench profiles, Interfaces, containment, and immutable assets | `005`, `018`, `019` | `todo` | Exact image variant/prepared system, command/patch profiles, descriptor refs, scripts, fixtures, and acquisition refs resolve without fallback. The Workbench enforces patch policies and the `observation` effect mode. The containment predicate is checked at admission and before each step. Substitution, unavailable inventory, wider runtime network, lost containment, or an environment impact class above `impact-class/max` refuses. |
+| `P094-008` | Resolve prepared systems, Workbench profiles, Interfaces, containment, and immutable assets | `003b`, `005`, `018`, `019` | `todo` | Exact image variant/prepared system, command/patch profiles, descriptor refs, scripts, fixtures, and acquisition refs resolve without fallback. The Workbench enforces patch policies and the `observation` effect mode. The containment predicate is checked at admission and before each step. Substitution, unavailable inventory, wider runtime network, lost containment, or an environment impact class above `impact-class/max` refuses. |
 | `P094-009` | Implement the closed experiment-plan compiler and HIL boundary | `004`, `008` | `todo` | Prose/model output can only produce schema-valid candidates contained by the resolved plan. The host stamps digests, effect classes, and HIL requirements; every mutation reaches current HIL through the attention budget and owner authorization; arbitrary command strings, paths, endpoints, capability claims, HIL bypass, and classes outside the Version 1 scope refuse. |
 | `P094-010` | Implement verifier, rollback, refusal corpus, and Version 1 uncertain-outcome handling | `008`, `009` | `todo` | Verifier output is observation consumed by a host evaluator; missing checks and mutation refuse success; bounded verifier retry applies only in observation mode and the unchanged instance; destroy-and-recreate works after success, refusal, HIL denial, pause, and crash; an `unknown` step enters `rollback-pending`, terminalizes only after owner-confirmed destruction, is re-driven after restart, and is never repeated; refusal coverage reaches every registered code. |
-| `P094-011` | Build the qmail task pack assets and local profile | `003`, `004` | `todo` | A signed package binds thematic profile, reusable inference flow, pinned image/prepared system, exact command/patch profiles, fixtures, verifier, rollback, resource ceiling, and refusal corpus, with every digest and capability list produced by `derive_pack_facts`; no secrets or machine-local authority are portable. |
+| `P094-011` | Build the qmail task pack assets and local profile | `003a`, `003b`, `004` | `todo` | A signed package binds thematic profile, reusable inference flow, pinned image/prepared system, exact command/patch profiles, fixtures, verifier, rollback, resource ceiling, and refusal corpus, with every digest and capability list produced by `derive_pack_facts`; no secrets or machine-local authority are portable. |
 | `P094-012` | Add bounded operator API, CLI, and UI | `006`; runs `010`; publication `007` | `todo` | Authenticated binding-keyed surfaces inspect packs, bindings, readiness, profile changes, drafts, publication, runs, withdrawal, and evidence refs. They share one source of configuration, lead with the decisive blocker and next action, show effective values with their deciding layer, confirm widening separately, redact sensitive values, and expose no raw internal stores. |
 | `P094-013` | Run local acceptance | `010`, `011`, `012` | `todo` | Evidence covers clean install, conformance, activation, binding from defaults, operator-initiated deliberation, observation-first experiment, HIL mutation and denial, qmail verification, rollback, restart, pause/resume, profile-change blocking, and revocation. The acceptance contract is [Story 013](../30-stories/story-013-qmail-task-pack.md)'s local profile. |
 | `P094-014` | Publish operator HOWTO and troubleshooting guidance | `013`, `016` | `todo` | English and Polish HOWTOs describe only implemented commands and routes, teach qmail pack preparation and use, explain refusal/recovery states through the refusal table's next actions, and distinguish package provenance, local trust, and current execution authority. |

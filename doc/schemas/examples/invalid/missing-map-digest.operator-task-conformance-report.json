@@ -1,0 +1,21 @@
+{
+  "schema": "operator-task-conformance-report.v1",
+  "schema/v": 1,
+  "report/ref": "operator-task-conformance:qmail-01",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "package/digest": "sha256:vEpxGAhw95RRVfuwL0sKLj-qKmLW0xtwOQEwVe0Zhpo",
+  "implementation/digest": "sha256:2jEBLEAzDn4hU4591XUDsW6KCDkVnpYTcJDMzJkQsXE",
+  "schema-set/digest": "sha256:Jnd9HfK0JwFF2O6_ki5NVvOJyDzJHbgou8LhFSTsu-U",
+  "refusal-corpus/digest": "sha256:LkV9cIgvNuTah1PUer6TmjRkfYW9iUhcpEmvE3uxt6U",
+  "fixture-set/digest": "sha256:W0gY-BxyVuaGui4FNyWMhSxvXD5kboT5Yl-HRO3mqPg",
+  "runtime/ref": "node-runtime:local",
+  "evaluated-at": "2026-09-25T11:00:00Z",
+  "results": {
+    "structural": "passed",
+    "cross-reference": "passed",
+    "compatibility": "passed",
+    "refusal-corpus": "passed",
+    "positive-dry-run": "passed",
+    "environment-acceptance": "not-run"
+  }
+}

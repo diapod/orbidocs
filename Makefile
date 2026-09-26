@@ -41,7 +41,7 @@ check-no-absolute-local-paths:
 check-capability-registry:
 	$(PYTHON) ./scripts/check-capability-registry.py
 
-.PHONY: capability-registry-docs check-capability-registry-docs test-capability-registry-docs
+.PHONY: capability-registry-docs check-capability-registry-docs test-capability-registry-docs check-operator-task-refusal-codes
 
 capability-registry-docs:
 	$(PYTHON) ./scripts/generate-capability-registry-docs.py --node-src "$(NODE_SRC)"
@@ -51,6 +51,9 @@ check-capability-registry-docs:
 
 test-capability-registry-docs:
 	$(PYTHON) -m unittest scripts/test_capability_registry_docs.py
+
+check-operator-task-refusal-codes:
+	$(PYTHON) -m unittest scripts/test_operator_task_refusal_codes.py
 
 check-constitution:
 	$(PYTHON) ./scripts/check-constitution.py

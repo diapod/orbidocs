@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-readiness:v1",
+  "title": "Operator Task Readiness v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Prompt-free readiness projection of one local binding. It is not a grant; derived fields follow the closed P094 rules.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "local-binding/digest",
+    "task-profile/ref",
+    "task-profile/digest",
+    "evaluated-at",
+    "stages",
+    "blockers",
+    "advertisement",
+    "runnable",
+    "publishable"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-readiness.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "task-profile/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "activation/generation": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "evaluated-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "stages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package",
+        "binding",
+        "environment",
+        "deliberation",
+        "effects",
+        "verification",
+        "rollback",
+        "publication"
+      ],
+      "properties": {
+        "package": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "binding": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "environment": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "deliberation": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "effects": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "verification": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "rollback": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        },
+        "publication": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stageReport"
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "refusal/code",
+          "next-action"
+        ],
+        "properties": {
+          "stage": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/stage"
+          },
+          "refusal/code": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+          },
+          "next-action": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/nextAction"
+          }
+        }
+      }
+    },
+    "advertisement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "none",
+            "publication-pending",
+            "committed",
+            "withdrawal-pending"
+          ]
+        },
+        "offer/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        }
+      }
+    },
+    "runnable": {
+      "type": "boolean"
+    },
+    "publishable": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "publishable": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "runnable": {
+            "const": true
+          },
+          "stages": {
+            "properties": {
+              "publication": {
+                "properties": {
+                  "state": {
+                    "const": "ready"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runnable": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stages": {
+            "properties": {
+              "package": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              },
+              "binding": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              },
+              "environment": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              },
+              "deliberation": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              },
+              "effects": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              },
+              "verification": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              },
+              "rollback": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "ready",
+                      "degraded"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

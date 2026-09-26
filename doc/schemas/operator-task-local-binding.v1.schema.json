@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-local-binding:v1",
+  "title": "Operator Task Local Binding v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Host-owned local choices for one task profile. It carries only choices the profile leaves open: no activation generation, revision counter, or restated portable fact.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "binding/state",
+    "package/ref",
+    "task-profile/ref",
+    "task-profile/digest",
+    "workspace",
+    "publication",
+    "safety"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-local-binding.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "binding/state": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/bindingState"
+    },
+    "package/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "workspace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root/ref",
+        "backend/ref"
+      ],
+      "properties": {
+        "root/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "backend/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        }
+      }
+    },
+    "image-variant/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "inference": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "model-profile/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "runtime/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        }
+      }
+    },
+    "deliberation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "limits"
+      ],
+      "properties": {
+        "limits": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/deliberationLimits"
+        }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "provider/participant-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "price-policy/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "availability-policy/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hil/mode",
+        "runtime-network",
+        "max/concurrent-runs"
+      ],
+      "properties": {
+        "hil/mode": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/hilMode"
+        },
+        "runtime-network": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/runtimeNetwork"
+        },
+        "max/concurrent-runs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        }
+      }
+    }
+  }
+}

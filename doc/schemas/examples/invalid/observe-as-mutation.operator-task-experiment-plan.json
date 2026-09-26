@@ -1,0 +1,44 @@
+{
+  "schema": "operator-task-experiment-plan.v1",
+  "schema/v": 1,
+  "plan/ref": "operator-task-plan:run-01",
+  "candidate/digest": "sha256:3aGKDiGuR8U7QwlDTLwCrov3ZPqDpt77txlDEkJyKqc",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "local-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+  "activation/generation": 7,
+  "steps": [
+    {
+      "step/id": "inspect-qmail",
+      "kind": "observe",
+      "profile/ref": "sensorium-command-profile:qmail-showctl-v1",
+      "profile/digest": "sha256:U5xyGbaL26rqYwT4T1MI9d95KbHpxbiagiUx_QCu5Lg",
+      "arguments": [],
+      "capability/id": "sensorium.workbench.terminal",
+      "effect/class": "contained-mutation",
+      "effect/source": "owner-enforced",
+      "hil/required": true
+    },
+    {
+      "step/id": "apply-control-patch",
+      "kind": "patch",
+      "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
+      "profile/digest": "sha256:68L5nW55CZDL1CiEK5uxeWE2Bhz26LMPCe-uheePByI",
+      "patch/ref": "artifact:sha256:pIletEr8M2_su6blIM1n4XjazgJ2ZV0QL87_qOX3BXA",
+      "capability/id": "sensorium.workbench.patch",
+      "effect/class": "contained-mutation",
+      "effect/source": "owner-enforced",
+      "hil/required": true
+    },
+    {
+      "step/id": "restart-qmail",
+      "kind": "service-control",
+      "profile/ref": "sensorium-command-profile:qmail-service-v1",
+      "profile/digest": "sha256:nfawJqjGwm48Os0jcKFuk__9wAFf9b2Hkhh4gCXbAoA",
+      "action": "restart",
+      "capability/id": "sensorium.workbench.terminal",
+      "effect/class": "contained-mutation",
+      "effect/source": "owner-enforced",
+      "hil/required": true
+    }
+  ]
+}

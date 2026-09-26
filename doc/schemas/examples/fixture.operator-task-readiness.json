@@ -1,0 +1,70 @@
+{
+  "schema": "operator-task-readiness.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "local-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+  "task-profile/ref": "operator-task-profile:qmail-local-administration",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "activation/generation": 7,
+  "evaluated-at": "2026-09-25T12:00:00Z",
+  "stages": {
+    "package": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:package"
+      ]
+    },
+    "binding": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:binding"
+      ]
+    },
+    "environment": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:environment"
+      ]
+    },
+    "deliberation": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:deliberation"
+      ]
+    },
+    "effects": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:effects"
+      ]
+    },
+    "verification": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:verification"
+      ]
+    },
+    "rollback": {
+      "state": "ready",
+      "evidence/refs": [
+        "evidence:rollback"
+      ]
+    },
+    "publication": {
+      "state": "blocked",
+      "refusal/code": "publication/policy-missing"
+    }
+  },
+  "blockers": [
+    {
+      "stage": "publication",
+      "refusal/code": "publication/policy-missing",
+      "next-action": "edit-binding"
+    }
+  ],
+  "advertisement": {
+    "state": "none"
+  },
+  "runnable": true,
+  "publishable": false
+}

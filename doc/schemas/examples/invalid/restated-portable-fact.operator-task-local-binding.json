@@ -1,0 +1,31 @@
+{
+  "schema": "operator-task-local-binding.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "binding/state": "enabled",
+  "package/ref": "extension-package:qmail-operator-pack",
+  "task-profile/ref": "operator-task-profile:qmail-local-administration",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "workspace": {
+    "root/ref": "workspace-root:qmail-lab",
+    "backend/ref": "sensorium-virt-backend:cloud-hypervisor"
+  },
+  "inference": {
+    "model-profile/ref": "model-profile:qwen-coder-local",
+    "runtime/ref": "model-runtime:local-openai-compatible"
+  },
+  "publication": {
+    "enabled": true,
+    "provider/participant-ref": "participant:local-provider",
+    "price-policy/ref": "price-policy:qmail-lab-v1",
+    "availability-policy/ref": "availability-policy:qmail-lab-v1"
+  },
+  "safety": {
+    "hil/mode": "each-mutation",
+    "runtime-network": "none",
+    "max/concurrent-runs": 1
+  },
+  "environment": {
+    "prepared-system/ref": "sensorium-prepared-system:qmail-v1"
+  }
+}

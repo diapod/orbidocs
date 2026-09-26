@@ -2887,7 +2887,7 @@ stay here.
   either does not take effect or is detected and refused. P094 treats a missing or
   unenforced mode as `mutation` and blocks observation-dependent task profiles in
   readiness until this item is done.
-- [ ] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003`,
+- [ ] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
   `P094-008`). Today only patch artifacts and stage/apply results exist; nothing
   states which patch a Workbench may admit. The policy is a closed, content-addressed
   contract naming the admitted path set, maximum file size, ownership, mode, and
@@ -2897,7 +2897,7 @@ stay here.
   command or arbitrary writes below system roots such as `/etc`. Refusal fixtures
   cover an out-of-set path, a path escaping by symlink or `..`, an oversized file, a
   mode or ownership change, and a content shape mismatch.
-- [ ] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003`,
+- [ ] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003b`,
   `P094-008`). Command profiles and Interface descriptors do not name the capability
   they consume, so consumers cannot derive it without guessing. The versioned map
   gives each `(owner, kind, operation)` a registered P072 capability id and one

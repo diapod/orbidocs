@@ -1,0 +1,19 @@
+{
+  "schema": "operator-task-offer-draft.v1",
+  "schema/v": 1,
+  "draft/ref": "operator-task-offer-draft:qmail-on-workbench-a-1",
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "task-profile/ref": "operator-task-profile:qmail-local-administration",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "service/type": "orbiplex.problem-solving",
+  "offer-template/ref": "operator-task-offer-template:qmail-v1",
+  "offer-template/digest": "sha256:wBFCu04nkhbUmske005d45F4tYDD12SoOUtSkHIgILQ",
+  "topics": [
+    "mail/qmail",
+    "mail/local-delivery",
+    "mail/relay-policy"
+  ],
+  "provider/participant-ref": "participant:local-provider",
+  "price-policy/ref": "price-policy:qmail-lab-v1",
+  "availability-policy/ref": "availability-policy:qmail-lab-v1"
+}

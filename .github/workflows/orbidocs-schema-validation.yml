@@ -71,6 +71,9 @@ jobs:
       - name: Test capability catalogue generation and drift detection
         run: make test-capability-registry-docs
 
+      - name: Verify the P094 refusal table matches the operator-task schema
+        run: make check-operator-task-refusal-codes
+
       - name: Verify generated documentation artifacts
         run: |
           make docs-gen

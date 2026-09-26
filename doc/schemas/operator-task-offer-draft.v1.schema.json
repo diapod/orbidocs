@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-offer-draft:v1",
+  "title": "Operator Task Offer Draft v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Unsigned, non-public draft assembled from portable profile facts and local publication choices. The ordinary catalog host validates, signs, and publishes the resulting Service Offer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "draft/ref",
+    "binding/ref",
+    "task-profile/ref",
+    "task-profile/digest",
+    "service/type",
+    "offer-template/ref",
+    "offer-template/digest",
+    "topics",
+    "provider/participant-ref",
+    "price-policy/ref",
+    "availability-policy/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-offer-draft.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "draft/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "service/type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*)+$",
+      "maxLength": 128
+    },
+    "offer-template/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "offer-template/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 128,
+        "pattern": "^[a-z0-9-]+(?:/[a-z0-9-]+)*$"
+      }
+    },
+    "provider/participant-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "price-policy/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "availability-policy/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    }
+  }
+}

@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-profile:v1",
+  "title": "Operator Task Profile v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Portable, immutable composition contract of one task-pack profile. It carries refs and digests only: no secrets, machine-local paths, live endpoints, signatures, grants, shell text, or egress instructions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "profile/ref",
+    "profile/revision",
+    "thematic-profile",
+    "catalog",
+    "deliberation",
+    "environment",
+    "workbench",
+    "interfaces",
+    "experiment",
+    "verifier",
+    "rollback",
+    "required-capability/ids",
+    "resource-envelope/ref",
+    "resource-envelope/digest",
+    "refusal-corpus/ref",
+    "refusal-corpus/digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-profile.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "profile/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "profile/revision": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "thematic-profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain",
+        "entry/ref",
+        "entry/revision",
+        "implementation/ref",
+        "entry/digest"
+      ],
+      "properties": {
+        "domain": {
+          "const": "corpus"
+        },
+        "entry/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "entry/revision": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+        },
+        "implementation/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "entry/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service/type",
+        "offer-template/ref",
+        "offer-template/digest",
+        "taxonomy/ref",
+        "taxonomy/digest",
+        "topics"
+      ],
+      "properties": {
+        "service/type": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*)+$",
+          "maxLength": 128
+        },
+        "offer-template/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "offer-template/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "taxonomy/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "taxonomy/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "topics": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-z0-9-]+(?:/[a-z0-9-]+)*$"
+          }
+        }
+      }
+    },
+    "deliberation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inference-flow/ref",
+        "inference-flow/digest",
+        "agent-policy/ref",
+        "agent-policy/digest",
+        "roles",
+        "limits"
+      ],
+      "properties": {
+        "inference-flow/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "inference-flow/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "agent-policy/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "agent-policy/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          }
+        },
+        "limits": {
+          "allOf": [
+            {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/deliberationLimits"
+            }
+          ],
+          "required": [
+            "max/passages",
+            "max/experiments",
+            "max/wall-time-ms"
+          ]
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "image-variants",
+        "prepared-system/ref",
+        "prepared-system/digest",
+        "runtime-network/ceiling",
+        "impact-class/max"
+      ],
+      "properties": {
+        "image-variants": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "variant/ref",
+              "image-manifest/ref",
+              "image-manifest/digest"
+            ],
+            "properties": {
+              "variant/ref": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+              },
+              "image-manifest/ref": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+              },
+              "image-manifest/digest": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+              }
+            }
+          }
+        },
+        "prepared-system/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "prepared-system/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "runtime-network/ceiling": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/runtimeNetwork"
+        },
+        "impact-class/max": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/impactClass"
+        }
+      }
+    },
+    "workbench": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command-profiles"
+      ],
+      "properties": {
+        "command-profiles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/exactRef"
+          }
+        },
+        "patch-policy/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "patch-policy/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        }
+      },
+      "dependentRequired": {
+        "patch-policy/ref": [
+          "patch-policy/digest"
+        ],
+        "patch-policy/digest": [
+          "patch-policy/ref"
+        ]
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation-descriptors",
+        "actuation-descriptors"
+      ],
+      "properties": {
+        "observation-descriptors": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/exactRef"
+          }
+        },
+        "actuation-descriptors": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/exactRef"
+          }
+        }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input-schema/ref",
+        "input-schema/digest",
+        "candidate-schema/ref",
+        "candidate-schema/digest",
+        "hil/mode"
+      ],
+      "properties": {
+        "input-schema/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "input-schema/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "candidate-schema/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "candidate-schema/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "first-step/class": {
+          "const": "observation"
+        },
+        "hil/mode": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/hilMode"
+        }
+      }
+    },
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "digest",
+        "command-profile/ref",
+        "command-profile/digest",
+        "result-schema/ref",
+        "result-schema/digest"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "command-profile/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "command-profile/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "result-schema/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "result-schema/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "ref",
+        "digest"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "recreate-prepared-system",
+            "exact-rollback-profile"
+          ]
+        },
+        "ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        }
+      }
+    },
+    "required-capability/ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "operator-task-common.v1.schema.json#/$defs/capabilityId"
+      }
+    },
+    "resource-envelope/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "resource-envelope/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "refusal-corpus/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "refusal-corpus/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    }
+  }
+}

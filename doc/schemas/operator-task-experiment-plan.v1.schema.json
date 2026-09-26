@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-experiment-plan:v1",
+  "title": "Operator Task Experiment Plan v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Host-validated plan derived from one candidate. Every step carries its exact profile digest and the host-derived capability, effect class and source, and HIL requirement.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "plan/ref",
+    "candidate/digest",
+    "task-profile/digest",
+    "local-binding/digest",
+    "activation/generation",
+    "steps"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-experiment-plan.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "plan/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "candidate/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "activation/generation": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "operator-task-common.v1.schema.json#/$defs/planStep"
+      }
+    }
+  }
+}
