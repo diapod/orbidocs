@@ -589,9 +589,13 @@ These choices request disclosure; they do not grant it. Redaction must not turn
 an unresolved/refused result into an apparently validated one. Secret values must
 not leak through losing declarations, diffs, diagnostics, hashes or error text.
 Sensitivity follows overlapping value paths in the same scope, independently of
-descriptor owner or contract revision. An admitted sensitive ancestor protects
+descriptor owner or contract revision. A retained sensitive ancestor protects
 its descendants, and a selected subtree inherits sensitivity from its described
 children. Owner/revision still constrain address admission, not declassification.
+Retained withdrawn/unavailable descriptors can restrict disclosure but never
+grant address coverage. If an overlapping descriptor cannot be inspected,
+inspection refuses rather than assuming ordinary data. Fresh resolution still
+requires admitted descriptors; this rule also protects historical query inputs.
 Conversely, selecting an ancestor
 does not authorize disclosure of sibling values without admitted descriptor
 coverage. A query must refuse such an incompletely described subtree.
@@ -1983,6 +1987,8 @@ The dated Node audit is input, not complete machine-readable coverage.
 Dependencies are completion prerequisites; fixtures can be authored earlier.
 Code/DTO registration can exist behind disabled routes while security evidence is
 pending. No new route is enabled before P091-005a covers its boundary.
+On non-Unix platforms, source acquisition additionally requires P091-005p;
+the current fail-closed stub is not portable runtime completion.
 A task cannot be `done` while the ledger marks **the same claimed surface**
 partial. A completed contract-only slice may coexist with a partial component
 only when both explicitly delimit that narrower claim.
@@ -1997,6 +2003,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-004` | Bind descriptors, admission and domain derivation ports | `P091-002` | `partial` | Reuse registry sealing/CAS and explicit unresolved constraints with separate identity axes. First-slice owners retain validation/merge policy, P085 and sidecar semantics. Withdrawal with unchanged source bytes invalidates new resolution/admission but preserves historical explanation; offline admission never inferred from file presence. 2026-09-25 checkpoint: the first production owner port, `DaemonLoggingPort`, validates `logging` with the typed daemon vocabulary under an owner-issued descriptor admission, replacing the test fixture on the Step 3 seam. Registry sealing/CAS, withdrawal semantics, offline admission and the remaining first-slice owners are open. |
 | `P091-005` | Build scoped read/explain adapters and deliver the offline helper | `P091-003`, `P091-004` | `todo` | Rust, P080 and retained HTTP share resolution-bound DTOs; thin non-UI Python facade validates responses, has no fallback. Deliver/install/pin the one-shot Rust helper with bounded structured I/O and missing-binary/version refusals; support injected/exported snapshots. Bounded carrier/projection/aggregate fixtures pass. New routes remain disabled pending P091-005a. |
 | `P091-005a` | Pass the named security boundary fixtures before exposure | `P091-005`, `P091-006` | `todo` | All eight `config-security-*` fixtures cover relevant transports/offline/export paths; instrumented denial precedes source acquisition. Route flags do not grant scope or operator authority. No UI/compatibility adoption or enabled new API without this proof. Later adapters require equivalent coverage. |
+| `P091-005p` | Supply confined source acquisition on non-Unix hosts | `P091-005` | `todo` | Exposure gate: implement the Windows reader using pinned handles and reparse-point protection, with tests for directory replacement, regular-file enforcement, enumeration and byte budgets, missing/unreadable sources and fail-closed errors. Other supported non-Unix platforms require equivalent evidence before enabling acquisition; the current Step 3 Unix-only reader is not platform-complete. |
 | `P091-006` | Implement shared targets, predicted-value plans and durable commit | `P091-003`, `P091-004` | `todo` | Reuse owner/stem and explicit domain targets; preserve 80/90 lexical order and legacy 90 common-file case. Sparse patch/reset retains unrelated values and empty `{}`. Plans predict every affected effective value and derive shadowing. Affected/unrelated/unclassified conflict diagnostics and bounded replan without stale authorization are tested. Source membership, bootstrap writers and separate descriptor/constraint changes conflict. Intent/rename/outcome ordering, old/new/third/no-op recovery, durable failure and no pre-outcome apply are tested behind the exposure gate. |
 | `P091-007` | Bind application identity, consumption and lifecycle recovery | `P091-006` | `todo` | Reuse supervisor/daemon control and S028 facts/projections. Per-instance `activation/generation` binds a durably admitted resolution (commit or observed-source admission); provisioned, acknowledged, pending, rejected and invalidated remain distinct. `config-time-expiry-between-phases` and controlled-clock edge cases prove fresh current-use checks before apply/retry/recovery; expiry yields `constraint-conflict` / `constraint-expired` and `application-rejected` without effects, preserving replay and save facts. Pre-channel scoped provisioning, restart fencing and idempotent retry pass without repeating effects or reviving authority. |
 | `P091-007a` | Wrap retained middleware on/off and repoint existing callers | `P091-005a`, `P091-007` | `todo` | Preserve the existing toggle/supervisor implementation and domain guards. Repoint handlers/UI/CLI to the shared contract with minimal helper extraction, no bypass writer, dual-file mirror or duplicate apply. Test eligibility, dependencies, operator-stopped, shadowing, saved-not-applied and restart; reads never materialize. Physical source migration remains P091-010. |

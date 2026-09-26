@@ -259,6 +259,16 @@ and labeled writes proceed without advancing the observed window. Ingress
 stamping by observe rules, INAC custody, or Inquirium carries the same
 quarantine marker but is not recorded, because strict mode governs only
 `memarium.write` and cannot refuse that ingress.
+New markers use the versioned `memarium/classification-ledger/v2/` key namespace
+to bypass historical collisions with ordinary v1 facts without deleting them.
+Valid v1 policy facts still participate in reconstruction. The runtime validates
+reserved key/kind identity for direct `MemariumWrite` callers too; this is not
+a replacement for authorization of dedicated policy writers. The operator's
+runtime metrics expose `memarium_classification_ledger_available` as an optional
+last-observed boolean (null before any attempt). Corrupt policy facts remain
+fail-closed and require verified storage recovery, not automatic history reset.
+The Node recovery procedure is documented in
+`node:docs/operations/MEMARIUM-CLASSIFICATION-LEDGER.md`.
 All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
 object shape is an implementation detail and is not part of the Memarium
 host-capability contract.
