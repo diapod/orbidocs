@@ -453,10 +453,14 @@ the existing Memarium audit-decision discipline.
   `fallback_stamped_facts_per_space_per_day`.
 - Phase M2.5: flip to `StrictRequired` only after `strict_not_before` and after
   the fallback metric is zero for the configured observation window. The
-  reference daemon default is no earlier than 2026-06-30 plus seven zero days.
-  Authorization runs before fallback stamping, and accepted fallbacks are
-  recorded in a durable host-owned ledger of observed days, so an
-  unauthorized caller or daemon restart cannot reset or postpone the ratchet.
+  reference daemon default is no earlier than 2026-06-30 plus seven completed,
+  active, fallback-free UTC days. An active day requires at least one successful
+  write through the authorized Memarium host boundary. The window ends on the
+  previous UTC day; downtime and write-free days interrupt it instead of
+  counting as clean. Authorization runs before fallback stamping, and both
+  active days and accepted fallbacks are recorded in a durable host-owned
+  ledger, so an unauthorized caller or daemon restart cannot reset or postpone
+  the ratchet.
   The ratchet measures only the `memarium.write` boundary that strict mode can
   refuse; ingress stamping of observed peer messages, INAC custody, or other
   producers keeps its quarantine marker but does not count.

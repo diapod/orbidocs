@@ -722,9 +722,11 @@ node/
    correctness-first connection exceeds the operator budget.
 2. Continue production monitoring for the classification strict-mode gate.
    The reference default is the self-arming `StrictRequired` mode: it keeps
-   stamping until 2026-06-30 and seven consecutive observed zero-fallback days, then
-   refuses unlabeled writes with `classification_missing`. Migrate producers
-   that are refused to explicit labels; `stamp-then-warn` remains an explicit
-   operator opt-out.
+   stamping until 2026-06-30 and seven consecutive completed, active,
+   fallback-free UTC days, then refuses unlabeled writes with
+   `classification_missing`. The window ends on the previous UTC day. An active
+   day requires a successful authorized Memarium host write; downtime and
+   write-free days interrupt the window. Migrate producers that are refused to
+   explicit labels; `stamp-then-warn` remains an explicit operator opt-out.
 3. Treat richer Node UI batch affordances for quarantine, declassification, and
    archival handoff inspection as UX work, not as blockers for Proposal 036 v1.
