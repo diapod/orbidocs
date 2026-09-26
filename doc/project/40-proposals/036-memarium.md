@@ -720,8 +720,11 @@ node/
 1. Keep deployment telemetry on read-sidecar p95 and per-space row counts;
    batch fact-policy reads or add a SQLite read pool only if the single
    correctness-first connection exceeds the operator budget.
-2. Continue production monitoring for the classification strict-mode gate:
-   `StampThenWarn` remains until 2026-06-30 and seven consecutive zero-fallback
-   days.
+2. Continue production monitoring for the classification strict-mode gate.
+   The reference default is the self-arming `StrictRequired` mode: it keeps
+   stamping until 2026-06-30 and seven consecutive zero-fallback days, then
+   refuses unlabeled writes with `classification_missing`. Migrate producers
+   that are refused to explicit labels; `stamp-then-warn` remains an explicit
+   operator opt-out.
 3. Treat richer Node UI batch affordances for quarantine, declassification, and
    archival handoff inspection as UX work, not as blockers for Proposal 036 v1.

@@ -205,28 +205,42 @@ types and HTTP wire schemas remain separate contracts.
 Entries and facts carry a first-class `classification: classification.v1`
 label. The label is not encoded in `attributes` or `fields`. During the
 migration window, write requests that omit `classification` are accepted and
-stamped as `Personal` with ingress quarantine; once producers have been
-refactored, the contract should move to strict-required labels. The MVP
-migration gate is: no earlier than 2026-06-30, and only after
+stamped as `Personal` with ingress quarantine. The MVP migration gate is: no
+earlier than 2026-06-30, and only after
 `fallback_stamped_facts_per_space_per_day == 0` for seven consecutive days.
-The daemon exposes this migration policy through:
+The daemon exposes this migration policy in its JSON configuration; the
+values below are the reference defaults:
 
-```toml
-[memarium.classification]
-mode = "legacy-stamp-then-warn"
-strict_not_before = "2026-06-30"
-strict_after_zero_fallback_days = 7
+```json
+{
+  "memarium": {
+    "classification": {
+      "mode": "strict-required",
+      "strict_not_before": "2026-06-30",
+      "strict_after_zero_fallback_days": 7
+    }
+  }
+}
 ```
+
+`strict-required` is self-arming: it keeps stamping while the gate is closed
+and refuses unlabeled writes with `classification_missing` once the gate
+opens, so no manual flip is needed after the window. A node without any
+accepted fallback history satisfies the zero-fallback window immediately after
+`strict_not_before` and is therefore strict from its first unlabeled write.
+`"mode": "stamp-then-warn"` is an explicit operator opt-out that always stamps.
+Daemon-authored facts, such as Inquirium transcript excision markers, carry
+their own label rather than relying on fallback stamping.
 
 The fallback counter is exported in runtime metrics under
 `memarium_fallback_stamped_facts_per_space_per_day` keyed by
 `YYYY-MM-DD:<space>`.
-When `mode = "strict-required"`, the daemon now enforces this gate rather than
-only documenting it: unlabeled writes are rejected only after the configured
-date has passed and the configured consecutive-day zero-fallback window has
-been observed. Passport authorization runs before fallback stamping, and the
-counter is reconstructed from accepted, durable quarantine markers after
-restart. An unauthorized request therefore cannot postpone the strict-mode
+Passport authorization runs before fallback stamping, and the counter is
+reconstructed from accepted, durable quarantine markers after restart. The
+reconstruction runs once per process and is then maintained by successful
+appends. It counts every `no-label-at-ingress` marker, including observe-rule
+and INAC custody facts, so a node that still receives unlabeled peer ingress
+keeps stamping. An unauthorized request therefore cannot postpone the strict-mode
 ratchet.
 All HTTP wire timestamp fields are RFC3339 strings; Rust `SystemTime`'s serde
 object shape is an implementation detail and is not part of the Memarium
