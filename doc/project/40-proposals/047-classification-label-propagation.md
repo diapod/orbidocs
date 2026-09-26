@@ -457,10 +457,16 @@ the existing Memarium audit-decision discipline.
   active, fallback-free UTC days. An active day requires at least one successful
   write through the authorized Memarium host boundary. The window ends on the
   previous UTC day; downtime and write-free days interrupt it instead of
-  counting as clean. Authorization runs before fallback stamping, and both
+  counting as clean. A successful write is attributed to its UTC admission day,
+  captured once for both fallback and activity evidence; crossing midnight
+  during persistence cannot manufacture a clean day. Authorization runs before
+  fallback stamping, and both
   active days and accepted fallbacks are recorded in a durable host-owned
   ledger, so an unauthorized caller or daemon restart cannot reset or postpone
   the ratchet.
+  Its idempotency keys are reserved from ordinary host writes, and replayed
+  marker receipts must match the expected fact kind and fields before they
+  become evidence.
   The ratchet measures only the `memarium.write` boundary that strict mode can
   refuse; ingress stamping of observed peer messages, INAC custody, or other
   producers keeps its quarantine marker but does not count.

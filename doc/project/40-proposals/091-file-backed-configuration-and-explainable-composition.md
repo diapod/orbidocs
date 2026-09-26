@@ -588,6 +588,13 @@ Separate a local diagnostic projection from a redacted export using per-field
 These choices request disclosure; they do not grant it. Redaction must not turn
 an unresolved/refused result into an apparently validated one. Secret values must
 not leak through losing declarations, diffs, diagnostics, hashes or error text.
+Sensitivity follows overlapping value paths in the same scope, independently of
+descriptor owner or contract revision. An admitted sensitive ancestor protects
+its descendants, and a selected subtree inherits sensitivity from its described
+children. Owner/revision still constrain address admission, not declassification.
+Conversely, selecting an ancestor
+does not authorize disclosure of sibling values without admitted descriptor
+coverage. A query must refuse such an incompletely described subtree.
 Use opaque secret refs/revisions, not public hashes of low-entropy secret values.
 Absolute local paths may be shown in authorized local inspection, but are not
 written into committed documentation or portable/durable audit exports.
@@ -2128,6 +2135,13 @@ operator declaration kept explicit, an old explanation surviving a later source
 change, exact refusals, zero reads for a denied scope, and an unchanged data
 directory after inspection. The evidence map is
 `node:docs/audits/P091-STEP-3-LOGGING-READ-SEAM.md`.
+
+The 2026-09-26 audit hardens this checkpoint with aggregate acquisition budgets
+before hashing/copying, bounded directory enumeration and directory-handle-relative
+no-follow reads on Unix, fully described subtree selection, inherited sensitivity
+and explicit unavailable derivation when the
+requested pointer was not recorded. These corrections do not close the remaining
+P091-003/004 work or expose the seam as an endpoint.
 
 The checkpoint exposed a contract gap: a descriptor document carried its own
 `descriptor/digest`, but nothing related it to the digest its revision binds, and

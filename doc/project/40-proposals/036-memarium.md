@@ -725,7 +725,8 @@ node/
    stamping until 2026-06-30 and seven consecutive completed, active,
    fallback-free UTC days, then refuses unlabeled writes with
    `classification_missing`. The window ends on the previous UTC day. An active
-   day requires a successful authorized Memarium host write; downtime and
+   day requires a successful authorized Memarium host write, attributed to the
+   UTC day captured at admission for both fallback and activity evidence; downtime and
    write-free days interrupt the window. Migrate producers that are refused to
    explicit labels; `stamp-then-warn` remains an explicit operator opt-out.
 3. Treat richer Node UI batch affordances for quarantine, declassification, and

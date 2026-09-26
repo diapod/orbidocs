@@ -226,8 +226,10 @@ values below are the reference defaults:
 `strict-required` is self-arming: it keeps stamping while the gate is closed
 and refuses unlabeled writes with `classification_missing` once the gate
 opens, so no manual flip is needed after the window. Only completed, active UTC
-days on which the authorized host boundary accepted at least one Memarium write
-count toward the window. The window ends on the previous UTC day, allowing the
+days with at least one successful Memarium host write count toward the window.
+Each write uses the UTC date captured at admission for both its fallback and
+successful-activity evidence, even when persistence finishes after midnight.
+The window ends on the previous UTC day, allowing the
 first write today to be refused after a full clean window. Downtime and
 write-free days interrupt the window rather than being inferred as clean, so a
 fresh or newly upgraded node keeps stamping until it has observed a full clean
@@ -246,8 +248,13 @@ host-owned ledger of reserved Personal policy facts: a single
 idempotent `classification-write-day-observed` fact records each active UTC day
 after a host write succeeds; and an idempotent
 `classification-fallback-observed` fact per day and space is written before
-each stamped value, so a failure can only overcount fallback. The host loads the
-ledger once per process; while it cannot be loaded, unlabeled writes fail closed
+each stamped value, so a failure can only overcount fallback. Before updating
+in-memory evidence, the host verifies the persisted marker receipt. Internal
+idempotency keys are reserved from ordinary host writes, and a conflicting
+historical receipt cannot become clean-day or fallback evidence. A successful
+write admitted before the ledger's start does not create retrospective activity
+evidence. The host loads the ledger once per process; while it cannot be loaded,
+unlabeled writes fail closed
 and labeled writes proceed without advancing the observed window. Ingress
 stamping by observe rules, INAC custody, or Inquirium carries the same
 quarantine marker but is not recorded, because strict mode governs only

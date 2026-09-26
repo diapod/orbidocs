@@ -196,6 +196,12 @@ Responsibilities:
   durable facts hold none of its transcript content, and any other excision is
   refused before any change with a retryable
   `503 inquirium_assistant_transcript_excision_incomplete`;
+- check retained content through a storage existence operation, without current
+  classification projections; JSONL visits each segment once with integrity
+  verification instead of replaying the whole stream per page, buffering one
+  segment plus its path index (archived segments may be large); proving absence
+  still requires scanning the relevant streams, and unreadable history refuses
+  excision;
 - project bounded working memory while assigning summary production to another
   configured component or workflow.
 
