@@ -777,7 +777,13 @@ HIL mode and the class: `each-step` requires HIL for every step, `each-mutation`
 every step whose class is not `observation`. Validation refuses a candidate whose ref is outside the resolved plan
 (`plan/outside-profile`), whose first step is not of the profile's `first-step/class`
 (`plan/first-step-not-observation`), or whose derived class is outside the Version 1
-recovery scope (`plan/recovery-class-not-admitted`).
+recovery scope (`plan/recovery-class-not-admitted`). A triple without an
+action-semantics row is `plan/unknown-action-kind`, and an observation of an
+owner-declared mutation is `plan/outside-profile`. A missing owner source refuses with
+the owner's code: `workbench/command-profile-missing` for a command profile or patch
+policy without an exact owner source, `interface/grant-missing` for a descriptor without
+one, since no grant can name an absent descriptor, and `workbench/effect-mode-missing`
+for an observation whose Workbench enforcement is not attested.
 The stamped `capability/id` is what the current-use fence checks. `effect/source` is
 `owner-enforced` when the class comes from an owner contract, or
 `missing-source-default` when the owner source is absent and the step fell back to
@@ -1526,7 +1532,14 @@ Most cross-reference burden is mechanical and should never reach a human:
   `sensorium-action-semantics.v1` map recorded by the conformance report, the manifest
   superset, and refusal-corpus coverage of registered codes. Author tooling
   writes its output into the package; conformance recomputes it and refuses any
-  difference. The two can therefore not drift.
+  difference. The two can therefore not drift. The pure core computes no digest: each
+  owner computes the content address of its asset, for example `PatchPolicy::digest`,
+  and derivation fills and compares digests from that inventory. The admitted triples
+  follow from the profile's content: command profiles admit `observe`, `process` and
+  `service-control`, the verifier admits `observe`, a patch policy admits `patch`, and
+  each descriptor admits its access modes. A capability no row yields, such as the
+  host capability of a prepared system, comes from an owner's capability declaration
+  naming a source the profile references, never from P094 code.
 - **Bind fills, operator chooses.** `POST /task-bindings` starts from safe defaults,
   fills `task-profile/digest`, and asks only for choices without a safe default.
 - **Profile change as a diff.** When a package upgrade changes the profile digest, the
@@ -1709,11 +1722,11 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 Work is sliced so that each milestone is useful on its own and the widest cross-domain
 change comes last:
 
-- **M1 – inspect and dry-run.** `P094-002`, `P094-003a`, `P094-004a`, `P094-005`, `P094-006`, and the read surfaces of
+- **M1 – inspect and dry-run.** `P094-002`, `P094-003a`, `P094-004a`, `P094-004b`, `P094-005`, `P094-006`, and the read surfaces of
   `P094-012`. An operator installs a pack, creates a binding from safe defaults, reads
   readiness with its decisive blocker, and validates candidate plans with the pure core.
   Nothing executes.
-- **M2 – local runs.** `P094-004b`, `P094-018`, `P094-019b`, `P094-008` to `P094-011`, `P094-013`,
+- **M2 – local runs.** `P094-018`, `P094-019b`, `P094-008` to `P094-011`, `P094-013`,
   and the run surfaces of `P094-012`. The operator is the requester; runs execute in the pinned VM
   under the Version 1 recovery scope. Nothing is published.
 - **M3 – federated offer.** `P094-007`, `P094-016`, and the publication surfaces of
@@ -1735,7 +1748,7 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-003a` | Register the P094-owned schema family with positive and negative fixtures | `001` | `done` | 2026-09-26: `operator-task-common.v1` holds the shared definitions, including the closed refusal-code, stage, retry-class and next-action vocabularies; eight thin schemas cover the task profile, local binding, readiness, offer draft, experiment candidate, experiment plan, experiment result and conformance report. Positive qmail vectors from Story 013 and 34 negative vectors cover arbitrary shell, absolute POSIX and Windows portable paths, hidden egress, unknown actions, `manage` in a candidate, candidate-supplied digests, capabilities, effect classes, HIL flags and binding identity, restated portable facts and activation generation in a binding, missing digests, embedded secrets, a mutation claimed as observation, an observation from a missing owner source, a mutation without HIL, an uncontained class, readiness without a refusal code or a stage, derived readiness fields contradicting their stages, an unknown refusal code, an unconfirmed or contradictory destruction, a verified run whose verifier failed, a refusal code on success or missing on a refused step, a raw transcript, a signed draft, and a conformance report without the action-semantics digest. Node's Schema Gate registers the eight families, and `scripts/test_operator_task_refusal_codes.py` keeps the refusal table and the schema enum equal. Changed replay and actual verifier mutation are semantic refusals owned by `P094-004`, `P094-009` and `P094-010`. |
 | `P094-003b` | Register the owner contracts P094 consumes | `001` | `done` | 2026-09-26: `sensorium-patch-policy.v1` (line-oriented content shape per logical root and relative path) and `sensorium-action-semantics.v1` (the default map for the seven admitted triples) are registered with qmail vectors, schema-negative and semantic-negative vectors, mirrored in P071 Phase 6. `sensorium-actuation-core` owns their types: `PatchPolicy::validate` and `ActionSemanticsMap::validate` mirror the schema grammar and refuse what the schemas cannot express, such as a patch declared as a fixed observation, a repeated triple, or a line pattern with a backreference or lookaround; `PatchPolicy::digest` and `ActionSemanticsMap::digest` give the content addresses that plans and conformance reports record (SHA-256 over JCS v1, only for a valid document). Enforcement of the patch policy before staging is `P094-008`; registry admission of map capability ids belongs to the host that loads the map. |
 | `P094-004a` | Implement the pure task-pack core without owner-dependent derivations | `003a` | `done` | 2026-09-26: the daemon-free `operator-task-pack-core` crate provides DTOs for the eight contracts that round-trip the Story 013 vectors and re-serialize through Schema Gate; the refusal vocabulary generated from one table, tested equal to the schema enum; `meet_layers`, `member` and `bounded_by_impact_max` with explicit ranks and deciding layer, tested exhaustively over their domains; and `derive_readiness` with dependency order, `not-evaluated` propagation, one blocker per root cause, pause precedence and the closed `runnable`/`publishable` rules, whose outputs pass Schema Gate and reproduce the readiness vector. A dependency guard keeps the crate free of runtime, storage and effect crates. |
-| `P094-004b` | Derive plans and pack facts from owner sources | `004a`, `003b`, `019a` | `todo` | Candidate-to-plan derivation stamps capability, step class and HIL requirement from the `sensorium-action-semantics.v1` map and the enforced command-profile effect mode, with `mutation` as the missing-source default; `derive_pack_facts` computes digests, the capability list and refusal-corpus coverage; exact cross-reference checks cover package assets. |
+| `P094-004b` | Derive plans and pack facts from owner sources | `004a`, `003b`, `019a` | `done` | 2026-09-26: `derive_plan` in `operator-task-pack-core` stamps capability, step class, effect source and HIL requirement on every candidate step from `OwnerSources`, the host's mapping of the action-semantics map, command-profile effects, the patch policy and Interface descriptors, with `mutation` as the missing-source default; the effective HIL mode is met with the profile's again, so a host can only make HIL stricter, and an ambiguous owner source resolves to none; it reproduces the Story 013 plan and reaches every plan refusal of the candidate table for its own reason. `derive_pack_facts` fills every profile digest from the owners' inventory, refusing one that is not a `sha256:` content address, derives `required-capability/ids` from the rows of the triples the profile admits plus owner capability declarations, states the P085 manifest requirements and reports refusal-corpus coverage; `PackFacts::check` names every digest, capability, manifest and structural difference, and reproduces the Story 013 profile. The core stays free of owner crates and computes no digest. Binding package-owned inference flows is checked with the P085 package facts in `P094-005`. |
 | `P094-005` | Integrate task profiles with P085 semantic entries and lifecycle | `004a` | `todo` | Task profiles install inertly through the existing P085 package, inherit the package operational class, recheck operator/package/revocation state and activation generation on use, recompute pack facts at conformance, survive durable restart where applicable, and introduce no second activation store. |
 | `P094-006` | Implement P091-backed local binding, readiness, and inspection | `004a`, `005` | `todo` | Bindings are created from safe defaults with host-filled profile digests and no generation; `local-binding/incomplete` names missing choices; profile changes block with a per-axis diff and one-step acceptance; pause and resume work without reactivation; readiness is computed on read with one decisive blocker; local absolute paths and secrets remain absent from portable and remote views. |
 | `P094-007` | Implement offer draft, signing, publication, and withdrawal reconciliation | `006` | `todo` | Activation never publishes. An authenticated operator approves an exact draft; ordinary Service Offer signing/publication commits it; exact task-profile identity is standardized; revocation or pause closes local admission immediately and BDO/Replay Scheduler reconcile withdrawal. |
