@@ -212,7 +212,7 @@ result, disclosed according to the result's disclosure metadata.
 | Gate | Owner | Needed for |
 | :--- | :--- | :--- |
 | Task-profile schemas, candidate and plan contracts, refusal table | P094 (`P094-003`, `P094-004`) | all runs |
-| Package semantic entry and lifecycle | P085 through `P094-005` | all runs |
+| Package semantic entry and lifecycle | P085 through `P094-005a` (admission, done) and `P094-005b` (conformance recompute) | all runs |
 | Binding, readiness, and inspection | `P094-006` | all runs |
 | `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1` | Workbench, mirrored in P071 Phase 6 | effects |
 | Enforced command-profile effect mode | Workbench, `P094-019a` (contract, done) and `P094-019b` (enforcement) | observation steps and verifier |
