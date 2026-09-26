@@ -191,6 +191,10 @@ Responsibilities:
 - preserve idempotent replay without duplicating transcript facts;
 - support search, tags, rebuild, export/import, retention, and audit-preserving
   excision markers;
+- never report a session as excised while Memarium still holds it: without the
+  Memarium excision marker, a session is excised locally only when Memarium's
+  durable facts hold none of its transcript content, and any other excision is
+  refused as incomplete;
 - project bounded working memory while assigning summary production to another
   configured component or workflow.
 
