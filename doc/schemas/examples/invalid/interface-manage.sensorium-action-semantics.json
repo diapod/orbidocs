@@ -1,0 +1,64 @@
+{
+  "schema": "sensorium-action-semantics.v1",
+  "schema/v": 1,
+  "map/ref": "sensorium-action-semantics:node-default",
+  "map/revision": 1,
+  "rows": [
+    {
+      "owner": "workbench",
+      "kind": "observe",
+      "operation": "run",
+      "capability/id": "sensorium.workbench.terminal",
+      "effect/rule": "from-command-profile"
+    },
+    {
+      "owner": "workbench",
+      "kind": "process",
+      "operation": "run",
+      "capability/id": "sensorium.workbench.terminal",
+      "effect/rule": "from-command-profile"
+    },
+    {
+      "owner": "workbench",
+      "kind": "patch",
+      "operation": "apply",
+      "capability/id": "sensorium.workbench.patch",
+      "effect/rule": "fixed-mutation"
+    },
+    {
+      "owner": "workbench",
+      "kind": "service-control",
+      "operation": "control",
+      "capability/id": "sensorium.workbench.terminal",
+      "effect/rule": "fixed-mutation"
+    },
+    {
+      "owner": "interface",
+      "kind": "observe",
+      "operation": "read",
+      "capability/id": "sensorium.interface.read",
+      "effect/rule": "fixed-observation"
+    },
+    {
+      "owner": "interface",
+      "kind": "observe",
+      "operation": "subscribe",
+      "capability/id": "sensorium.interface.subscribe",
+      "effect/rule": "fixed-observation"
+    },
+    {
+      "owner": "interface",
+      "kind": "actuate",
+      "operation": "invoke",
+      "capability/id": "sensorium.interface.invoke",
+      "effect/rule": "from-descriptor"
+    },
+    {
+      "owner": "interface",
+      "kind": "observe",
+      "operation": "manage",
+      "capability/id": "sensorium.interface.manage",
+      "effect/rule": "fixed-observation"
+    }
+  ]
+}

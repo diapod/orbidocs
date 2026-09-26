@@ -2875,9 +2875,12 @@ Consumer: [Proposal 094: Operator Task Packs for Bounded Problem Solving](094-op
 P094 consumes these contracts but does not own them; their semantics and enforcement
 stay here.
 
-- [ ] Add an enforced command-profile effect mode (P094 tracker item `P094-019`).
-  Ship `sensorium-command-profile.v2` with a closed
-  `effect/mode: observation | mutation` field, absent meaning `mutation`. The
+- [~] Add an enforced command-profile effect mode (P094 tracker items `P094-019a`,
+  `P094-019b`). The contract part is done (2026-09-26): `sensorium-command-profile.v1`
+  gained an optional closed `effect/mode: observation | mutation` field in place,
+  because v1 is a draft that was never released; absent means `mutation`, and
+  `CommandProfile::declared_effect_mode` in `sensorium-actuation-core` reads it.
+  Enforcement remains (`P094-019b`). The
   Workbench must enforce `observation` inside the guest rather than trust the label:
   host-side `read-only` filesystem sharing protects the host, not the guest disk.
   The mechanism is an owner decision; candidates are running the step on a discarded
@@ -2887,8 +2890,17 @@ stay here.
   either does not take effect or is detected and refused. P094 treats a missing or
   unenforced mode as `mutation` and blocks observation-dependent task profiles in
   readiness until this item is done.
-- [ ] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
-  `P094-008`). Today only patch artifacts and stage/apply results exist; nothing
+- [~] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
+  `P094-008`). The contract and owner validation are done (2026-09-26): the schema
+  uses a line-oriented content shape (an anchored pattern every resulting line must
+  fully match, bounded lines and bytes, owner, group and mode) per logical root and
+  relative path. The pattern dialect is the RE2-compatible `regex` syntax without
+  backreferences or lookaround, evaluated as if wrapped in `^(?:...)$`.
+  `PatchPolicy::validate` mirrors the schema grammar and refuses absolute, escaping,
+  glob and duplicate targets, empty operations, unanchored or escaped-anchor patterns,
+  backreferences, lookaround, malformed account names and malformed modes;
+  `PatchPolicy::digest` gives its content address (SHA-256 over JCS v1, only for a
+  valid policy). Enforcement before staging remains with `P094-008`. Today only patch artifacts and stage/apply results exist; nothing
   states which patch a Workbench may admit. The policy is a closed, content-addressed
   contract naming the admitted path set, maximum file size, ownership, mode, and
   accepted content shape per path. The Workbench resolves paths canonically inside
@@ -2897,8 +2909,16 @@ stay here.
   command or arbitrary writes below system roots such as `/etc`. Refusal fixtures
   cover an out-of-set path, a path escaping by symlink or `..`, an oversized file, a
   mode or ownership change, and a content shape mismatch.
-- [ ] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003b`,
-  `P094-008`). Command profiles and Interface descriptors do not name the capability
+- [~] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003b`,
+  `P094-008`). The contract, the default map and owner validation are done
+  (2026-09-26): `ActionSemanticsMap::validate` admits only the listed triples,
+  refuses repeated triples, and restricts each triple to its admissible effect rules
+  (`process` and `actuate` may also be fixed mutations; `patch` and `service-control`
+  are only fixed mutations; Interface reads and subscriptions are only fixed
+  observations), so a patch can never be a fixed observation, and
+  `ActionSemanticsMap::digest` gives the map digest P094 conformance records. Registry admission of each capability
+  id remains with the host that loads the map, because this owner crate carries no
+  registry. Command profiles and Interface descriptors do not name the capability
   they consume, so consumers cannot derive it without guessing. The versioned map
   gives each `(owner, kind, operation)` a registered P072 capability id and one
   effect-class rule: fixed (`observation` or `mutation`), from the command profile's

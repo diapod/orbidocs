@@ -9,7 +9,8 @@
   "x-dia-status": "draft",
   "x-dia-basis": [
     "doc/project/40-proposals/071-sensorium-workbench.md",
-    "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+    "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
   "required": [
     "schema",
@@ -48,7 +49,11 @@
       "default": "none",
       "description": "Profile-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract."
     },
-    "limits": { "$ref": "#/$defs/commandLimits" }
+    "limits": { "$ref": "#/$defs/commandLimits" },
+    "effect/mode": {
+      "enum": ["observation", "mutation"],
+      "description": "Owner-declared effect of the profile; absent means mutation. A consumer may treat observation as owner-enforced only when the Workbench attests enforcement for the executing environment (P094-019b). The declaration alone never lowers a HIL requirement or makes a step an observation."
+    }
   },
   "$defs": {
     "ref": {

@@ -1,0 +1,45 @@
+{
+  "schema": "sensorium-patch-policy.v1",
+  "schema/v": 1,
+  "patch-policy/ref": "sensorium-patch-policy:qmail-control-files-v1",
+  "targets": [
+    {
+      "root/ref": "guest-root:qmail",
+      "path": "control/locals",
+      "operations": [],
+      "max-bytes": 65536,
+      "max-lines": 1000,
+      "line/pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)*$",
+      "owner": "root",
+      "group": "qmail",
+      "mode": "0644"
+    },
+    {
+      "root/ref": "guest-root:qmail",
+      "path": "control/rcpthosts",
+      "operations": [
+        "modify"
+      ],
+      "max-bytes": 65536,
+      "max-lines": 1000,
+      "line/pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)*$",
+      "owner": "root",
+      "group": "qmail",
+      "mode": "0644"
+    },
+    {
+      "root/ref": "guest-root:qmail",
+      "path": "control/defaultdomain",
+      "operations": [
+        "modify"
+      ],
+      "max-bytes": 65536,
+      "max-lines": 1,
+      "line/pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)*$",
+      "owner": "root",
+      "group": "qmail",
+      "mode": "0644"
+    }
+  ],
+  "patch/max-bytes": 131072
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-patch-policy:v1",
+  "title": "Sensorium Patch Policy v1",
+  "description": "Closed, content-addressable admission policy for Workbench patches. It names every admitted target by a logical root and a relative path, the admitted change operations, and a line-oriented content shape. It does not apply patches; the Workbench enforces it before staging.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "patch-policy/ref",
+    "targets",
+    "patch/max-bytes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-patch-policy.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "patch-policy/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    },
+    "patch/max-bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1048576
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 512,
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s/\\\\][^\\s\\\\]*$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^(?:[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.\\.[A-Za-z0-9._-]+)(?:/(?:[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.\\.[A-Za-z0-9._-]+))*$",
+      "description": "Relative path below the logical root: components of `[A-Za-z0-9._-]` separated by single slashes, with no leading slash and no `.` or `..` component. A leading dot is admitted (for example `alias/.qmail-root`); globs, backslashes and whitespace are not."
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root/ref",
+        "path",
+        "operations",
+        "max-bytes",
+        "max-lines",
+        "line/pattern",
+        "owner",
+        "group",
+        "mode"
+      ],
+      "properties": {
+        "root/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "operations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "create",
+              "modify",
+              "delete"
+            ]
+          }
+        },
+        "max-bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "max-lines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "line/pattern": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 1024,
+          "pattern": "^\\^(?:[^\\\\]|\\\\.)*\\$$",
+          "description": "Regular expression every line of the resulting file must fully match. It starts with `^` and ends with an unescaped `$`. The dialect is the RE2-compatible syntax of the Rust `regex` crate, without backreferences or lookaround, so matching stays linear. The Workbench evaluates it as if wrapped in `^(?:...)$`, so a top-level alternation cannot widen it."
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^[a-z_][a-z0-9_-]{0,31}$"
+        },
+        "group": {
+          "type": "string",
+          "pattern": "^[a-z_][a-z0-9_-]{0,31}$"
+        },
+        "mode": {
+          "type": "string",
+          "pattern": "^0[0-7]{3}$"
+        }
+      }
+    }
+  }
+}

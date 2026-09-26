@@ -341,6 +341,12 @@ schema_for_file() {
     *.sensorium-command-profile.json)
       echo "$SCHEMAS_DIR/sensorium-command-profile.v1.schema.json"
       ;;
+    *.sensorium-patch-policy.json)
+      echo "$SCHEMAS_DIR/sensorium-patch-policy.v1.schema.json"
+      ;;
+    *.sensorium-action-semantics.json)
+      echo "$SCHEMAS_DIR/sensorium-action-semantics.v1.schema.json"
+      ;;
     *.sensorium-command-intent.json)
       echo "$SCHEMAS_DIR/sensorium-command-intent.v1.schema.json"
       ;;

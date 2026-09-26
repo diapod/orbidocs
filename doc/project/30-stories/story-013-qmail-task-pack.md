@@ -215,7 +215,7 @@ result, disclosed according to the result's disclosure metadata.
 | Package semantic entry and lifecycle | P085 through `P094-005` | all runs |
 | Binding, readiness, and inspection | `P094-006` | all runs |
 | `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1` | Workbench, mirrored in P071 Phase 6 | effects |
-| Enforced command-profile effect mode | Workbench, `P094-019` | observation steps and verifier |
+| Enforced command-profile effect mode | Workbench, `P094-019a` (contract, done) and `P094-019b` (enforcement) | observation steps and verifier |
 | `isolated-environment` recovery class with `environment.destroy` | P080 and Sensorium Virt, `P094-018` | contained mutations and uncertain outcomes |
 | Offer draft, publication, and withdrawal | `P094-007` | federated profile only |
 

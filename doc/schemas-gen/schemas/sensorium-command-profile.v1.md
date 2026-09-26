@@ -8,6 +8,7 @@ Declarative command profile for local Sensorium actuation. The profile describes
 
 - [`doc/project/40-proposals/071-sensorium-workbench.md`](../../project/40-proposals/071-sensorium-workbench.md)
 - [`doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`](../../project/40-proposals/048-sensorium-os-connector-action-classes.md)
+- [`doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md`](../../project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md)
 
 ## Project Lineage
 
@@ -43,6 +44,7 @@ Declarative command profile for local Sensorium actuation. The profile describes
 | [`env`](#field-env) | `yes` | ref: `#/$defs/envPolicy` |  |
 | [`network`](#field-network) | `no` | ref: `#/$defs/networkPolicy` | Profile-level network policy. The Workbench hard-MVP contract admits only no-egress/local-only policy values; any future egress grant must use a separate capability contract. |
 | [`limits`](#field-limits) | `yes` | ref: `#/$defs/commandLimits` |  |
+| [`effect/mode`](#field-effect-mode) | `no` | enum: `observation`, `mutation` | Owner-declared effect of the profile; absent means mutation. A consumer may treat observation as owner-enforced only when the Workbench attests enforcement for the executing environment (P094-019b). The declaration alone never lowers a HIL requirement or makes a step an observation. |
 
 ## Definitions
 
@@ -121,6 +123,14 @@ Profile-level network policy. The Workbench hard-MVP contract admits only no-egr
 
 - Required: `yes`
 - Shape: ref: `#/$defs/commandLimits`
+
+<a id="field-effect-mode"></a>
+## `effect/mode`
+
+- Required: `no`
+- Shape: enum: `observation`, `mutation`
+
+Owner-declared effect of the profile; absent means mutation. A consumer may treat observation as owner-enforced only when the Workbench attests enforcement for the executing environment (P094-019b). The declaration alone never lowers a HIL requirement or makes a step an observation.
 
 ## Definition Semantics
 

@@ -1,0 +1,19 @@
+{
+  "schema": "sensorium-command-profile.v1",
+  "schema/v": 1,
+  "command.profile/ref": "sensorium-command-profile:qmail-showctl-v1",
+  "executable": "/var/qmail/bin/qmail-showctl",
+  "allowed_workspace_roots": [
+    "guest-root:qmail"
+  ],
+  "env": {
+    "mode": "profile-defaults-only"
+  },
+  "limits": {
+    "default_timeout_ms": 5000,
+    "max_timeout_ms": 10000,
+    "stdout_bytes": 65536,
+    "stderr_bytes": 16384
+  },
+  "effect/mode": "observation"
+}
