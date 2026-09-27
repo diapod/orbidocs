@@ -760,6 +760,12 @@ may terminalize a run only after destruction is confirmed:
 
 Sensorium Virt implements the disposer as `environment.teardown` over the
 `destroying` lifecycle state of `sensorium-virt-recovery-record.v1`.
+This includes cancellation of an interrupted launch: destruction intent is
+persisted before stopping the unrecorded VMM, and the launch intent remains
+available for recovery until destruction is confirmed. Direct teardown rechecks
+allocation bindings before effects. An invalid destruction record is quarantined
+without using its unverified paths or process identity; independently enumerated
+host-owned orphan allocations remain subject to ordinary reconciliation.
 
 ## Dispatch Abstraction Changes
 

@@ -51,6 +51,8 @@ an audit attempt alone is not commit evidence. `P094-018` added the P080
 `isolated-environment` disposer: Sensorium Virt records a durable `destroying`
 intent before tearing an environment down, and startup reconciliation completes
 an interrupted destruction; this is process-harness evidence, not a real-VM run.
+Review additionally covers interrupted-launch cleanup, rejection of unbound
+resource paths, record-only quarantine, and drained VMM identity validation.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
