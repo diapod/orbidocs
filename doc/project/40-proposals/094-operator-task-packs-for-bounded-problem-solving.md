@@ -367,7 +367,8 @@ namespaced and byte bounded.
 
 The contracts below are registered as draft schemas in `doc/schemas/`
 (`operator-task-common.v1` plus one thin schema per contract) with positive and
-negative vectors, and Node's Schema Gate validates them (`P094-003a`). The JSON
+negative vectors, and Node's Schema Gate validates them (`P094-003a`); the host
+evidence contract `operator-task-pack-facts-evidence.v1` joined them with `P094-005b`. The JSON
 examples in this section are illustrative; the schemas are authoritative for the exact
 shape. The refusal table later in this proposal is the source of truth for the
 refusal vocabulary, and a drift check keeps the schema enum equal to it.
@@ -842,6 +843,32 @@ remain `not-run` in a passing report.
 
 Only a current fully passing report may satisfy activation or publication policy where
 the profile marks conformance as required.
+
+### `operator-task-pack-facts-evidence.v1`
+
+The cross-reference part of conformance is host evidence, not an author's claim. For
+every task profile a package binds, the host recomputes the pack facts from the asset
+bytes supplied with the conformance request and from owner-published sources, and records
+`operator-task-pack-facts-evidence.v1`. It binds the P085 package ref and digest (the
+package's lowercase-hex artifact digest), the profile ref, revision and digest, and the
+host's action-semantics map ref, revision and digest; it lists every recomputed asset
+digest with the rule that produced it (`owner` or `jcs-v1`), the admitted triples and the
+derived capability list, and each mismatch against the authored profile and manifest. It
+carries no asset bytes, secrets or local paths. P085 stores it as domain conformance
+evidence (`P085-046`): the package's conformance report cannot be recorded, and its
+activation authorizes no use, until the evidence for every bound profile passes. Task
+admission additionally requires the evidence to be current under the host's map, so a
+revised map makes it stale.
+
+Digest rules are owner rules where an owner publishes one: the Workbench command profile
+(the validated whole document, so fields its typed view lacks, such as `network`, stay
+addressed), the Workbench patch policy, and the registry's semantic-entry header for the
+thematic profile. Every other slot uses SHA-256 over JCS v1 canonical JSON until its owner
+publishes a rule. Interface descriptors have no owner adapter on the host yet, so a
+profile naming one refuses conformance rather than guess. The map is the owners'
+published default, and capabilities no row yields come from the Workbench's published
+VM-environment requirements (`sensorium.virt.host`, `sensorium.workbench.file`), never
+from the author.
 
 ### Owner-side contracts this proposal requires
 
@@ -1543,7 +1570,10 @@ Most cross-reference burden is mechanical and should never reach a human:
   `service-control`, the verifier admits `observe`, a patch policy admits `patch`, and
   each descriptor admits its access modes. A capability no row yields, such as the
   host capability of a prepared system, comes from an owner's capability declaration
-  naming a source the profile references, never from P094 code.
+  naming a source the profile references, never from P094 code. Author tooling and
+  conformance share `derive_bundle_facts`: both digest the same asset bytes under the
+  same rules, so conformance can reproduce the facts without trusting the profile's
+  declarations, and records `operator-task-pack-facts-evidence.v1` with P085.
 - **Bind fills, operator chooses.** `POST /task-bindings` starts from safe defaults,
   fills `task-profile/digest`, and asks only for choices without a safe default.
 - **Profile change as a diff.** When a package upgrade changes the profile digest, the
@@ -1754,7 +1784,7 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-004a` | Implement the pure task-pack core without owner-dependent derivations | `003a` | `done` | 2026-09-26: the daemon-free `operator-task-pack-core` crate provides DTOs for the eight contracts that round-trip the Story 013 vectors and re-serialize through Schema Gate; the refusal vocabulary generated from one table, tested equal to the schema enum; `meet_layers`, `member` and `bounded_by_impact_max` with explicit ranks and deciding layer, tested exhaustively over their domains; and `derive_readiness` with dependency order, `not-evaluated` propagation, one blocker per root cause, pause precedence and the closed `runnable`/`publishable` rules, whose outputs pass Schema Gate and reproduce the readiness vector. A dependency guard keeps the crate free of runtime, storage and effect crates. |
 | `P094-004b` | Derive plans and pack facts from owner sources | `004a`, `003b`, `019a` | `done` | 2026-09-26: `derive_plan` in `operator-task-pack-core` stamps capability, step class, effect source and HIL requirement on every candidate step from `OwnerSources`, the host's mapping of the action-semantics map, command-profile effects, the patch policy and Interface descriptors, with `mutation` as the missing-source default; the effective HIL mode is met with the profile's again, so a host can only make HIL stricter, and an ambiguous owner source resolves to none; it reproduces the Story 013 plan and reaches every plan refusal of the candidate table for its own reason. `derive_pack_facts` fills every profile digest from the owners' inventory, refusing one that is not a `sha256:` content address, derives `required-capability/ids` from the rows of the triples the profile admits plus owner capability declarations, states the P085 manifest requirements and reports refusal-corpus coverage; `PackFacts::check` names every digest, capability, manifest and structural difference, and reproduces the Story 013 profile. The core stays free of owner crates and computes no digest. Binding package-owned inference flows is checked with the P085 package facts in `P094-005a`. Follow-up audit, 2026-09-26: pack-fact derivation additionally requires exact command-profile, verifier-profile and patch-policy owner bindings before deriving capabilities; paused readiness validates the supplied stage evidence before applying the pause overlay. These are core-boundary repairs, not runtime completion. |
 | `P094-005a` | Admit supplied task profiles from P085 packages | `004a` | `done` | 2026-09-26: P085 resolves asset-pinned semantic entries (`P085-045`); `admit_task_profile` in `operator-task-pack-core` admits a supplied profile only when its package is installed and currently activated at the manifest's package digest, binds the profile's ref, revision and digest, the activation's operator binding is the current authority, the caller's generation is current, and the manifest lists the profile's capabilities and resource envelope and binds any package-owned inference flow at the same digest; it refuses with `package/not-active`, `package/profile-digest-mismatch`, `operator/binding-lost`, `package/generation-stale` or `package/conformance-missing`, and inherits the package's operational class. The new `operator-task-pack-service` crate composes Schema Gate, the JCS v1 profile digest, the P085 adapter and an operator-authority port, with no store of its own. Activation, rollback, revocation and restart are exercised at the P085 owner. |
-| `P094-005b` | Recompute pack facts at package conformance | `004b`, `005a` | `todo` | The package conformance run recomputes the pack facts of every task profile it binds from exact owner sources, including every command profile, the verifier command profile even when absent from the ordinary command-profile list, and the optional patch policy, and records the result with the P085 conformance report; any difference to the authored profile or manifest fails conformance. |
+| `P094-005b` | Recompute pack facts at package conformance | `004b`, `005a` | `done` | 2026-09-27: `run_task_pack_conformance` in `operator-task-pack-service` takes each bound profile from a supplied asset bundle, requires its JCS v1 digest to be the pinned registration digest, digests every named asset itself (Workbench command profiles as whole validated documents, the patch policy and the thematic semantic-entry header by owner rules, other slots by JCS v1; Interface descriptors refuse as unsupported), takes the map and the Workbench VM-environment capabilities from their owners, and runs `derive_pack_facts` and `PackFacts::check`. A missing or malformed asset refuses without evidence; a mismatch records failing `operator-task-pack-facts-evidence.v1`. P085 domain conformance (`P085-046`) refuses the package's conformance report and every use of its activation until that evidence passes, and admission requires it to be current under the host map. Tests cover a correct pack, declared and omitted capabilities, a swapped policy, profile and command profile, a missing source, a missing map row, an unsupported descriptor and a later failing run. The daemon requires the domain; until a conformance request can carry the bundle, such packages fail closed there. |
 | `P094-006` | Implement P091-backed local binding, readiness, and inspection | `004a`, `005a` | `todo` | Bindings are created from safe defaults with host-filled profile digests and no generation; `local-binding/incomplete` names missing choices; profile changes block with a per-axis diff and one-step acceptance; pause and resume work without reactivation; readiness is computed on read with one decisive blocker; local absolute paths and secrets remain absent from portable and remote views. |
 | `P094-007` | Implement offer draft, signing, publication, and withdrawal reconciliation | `006` | `todo` | Activation never publishes. An authenticated operator approves an exact draft; ordinary Service Offer signing/publication commits it; exact task-profile identity is standardized; revocation or pause closes local admission immediately and BDO/Replay Scheduler reconcile withdrawal. |
 | `P094-008` | Resolve prepared systems, Workbench profiles, Interfaces, containment, and immutable assets | `003b`, `005a`, `018`, `019b` | `todo` | Exact image variant/prepared system, command/patch profiles, descriptor refs, scripts, fixtures, and acquisition refs resolve without fallback. The Workbench enforces patch policies and the `observation` effect mode. The containment predicate is checked at admission and before each step. Substitution, unavailable inventory, wider runtime network, lost containment, or an environment impact class above `impact-class/max` refuses. |

@@ -1,0 +1,69 @@
+{
+  "schema": "operator-task-pack-facts-evidence.v1",
+  "schema/v": 1,
+  "package/ref": "extension-package:qmail",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "task-profile/ref": "operator-task-profile:qmail-local-administration",
+  "task-profile/revision": 1,
+  "task-profile/digest": "sha256:XpHq2Xmr8pG_3oHlh6f-72QOQc4CZRjZxRTUBBU33gw",
+  "action-semantics/ref": "sensorium-action-semantics:node-default",
+  "action-semantics/revision": 1,
+  "action-semantics/digest": "sha256:X9v_HILfxnd7-zyR-3nME9arSkG4D_xW7J15sK_iJlU",
+  "sources": [
+    {
+      "field": "workbench/command-profiles",
+      "ref": "sensorium-command-profile:qmail-showctl-v1",
+      "digest": "sha256:U5xyGbaL26rqYwT4T1MI9d95KbHpxbiagiUx_QCu5Lg",
+      "rule": "owner"
+    },
+    {
+      "field": "workbench/patch-policy",
+      "ref": "sensorium-patch-policy:qmail-control-files-v1",
+      "digest": "sha256:RQdn4jtZD9NmIO3TUxw3C4yGL8k5sln9DGlyd2agiwA",
+      "rule": "owner"
+    },
+    {
+      "field": "verifier/command-profile",
+      "ref": "sensorium-command-profile:qmail-verify-v1",
+      "digest": "sha256:oS3Tp_0yA6RS6zTZGpviBWnV4zejOENHBoiVwH8-DFo",
+      "rule": "owner"
+    },
+    {
+      "field": "environment/prepared-system",
+      "ref": "sensorium-prepared-system:qmail-v1",
+      "digest": "sha256:NRHHnDNUoSy5BUmOUtDvL0DL-XW3RC1tFcFScBmUMew",
+      "rule": "jcs-v1"
+    }
+  ],
+  "admitted-actions": [
+    {
+      "owner": "workbench",
+      "kind": "observe",
+      "operation": "run"
+    },
+    {
+      "owner": "workbench",
+      "kind": "process",
+      "operation": "run"
+    },
+    {
+      "owner": "workbench",
+      "kind": "patch",
+      "operation": "apply"
+    },
+    {
+      "owner": "workbench",
+      "kind": "service-control",
+      "operation": "control"
+    }
+  ],
+  "required-capability/ids": [
+    "sensorium.virt.host",
+    "sensorium.workbench.file",
+    "sensorium.workbench.patch",
+    "sensorium.workbench.terminal"
+  ],
+  "result": "passed",
+  "mismatches": [],
+  "evaluated-at": "2026-09-27T10:00:00Z"
+}

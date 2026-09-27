@@ -113,6 +113,9 @@ schema_for_file() {
     *.operator-task-conformance-report.json)
       echo "$SCHEMAS_DIR/operator-task-conformance-report.v1.schema.json"
       ;;
+    *.operator-task-pack-facts-evidence.json)
+      echo "$SCHEMAS_DIR/operator-task-pack-facts-evidence.v1.schema.json"
+      ;;
     *.middleware-observed-result.v1.json)
       echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
       ;;

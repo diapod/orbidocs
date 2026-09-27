@@ -2916,7 +2916,15 @@ stay here.
   (`process` and `actuate` may also be fixed mutations; `patch` and `service-control`
   are only fixed mutations; Interface reads and subscriptions are only fixed
   observations), so a patch can never be a fixed observation, and
-  `ActionSemanticsMap::digest` gives the map digest P094 conformance records. Registry admission of each capability
+  `ActionSemanticsMap::digest` gives the map digest P094 conformance records. The
+  owner publishes its default map as `ActionSemanticsMap::node_default()`, equal to
+  the registered vector, and the capabilities any Workbench VM environment needs as
+  `WORKBENCH_VM_ENVIRONMENT_CAPABILITY_IDS` (`sensorium.virt.host`,
+  `sensorium.workbench.file`), so P094 conformance takes both from the owner
+  (2026-09-27, `P094-005b`). `command_profile_document_digest` addresses a command
+  profile by its whole validated document, because the typed `CommandProfile` view
+  does not carry every schema field (`schema`, `schema/v`, `network`); closing that
+  DTO gap remains owner work. Registry admission of each capability
   id remains with the host that loads the map, because this owner crate carries no
   registry. Command profiles and Interface descriptors do not name the capability
   they consume, so consumers cannot derive it without guessing. The versioned map

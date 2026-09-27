@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-pack-facts-evidence:v1",
+  "title": "Operator Task Pack Facts Evidence v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md",
+    "doc/project/40-proposals/085-operator-sovereign-extensibility-and-experiment-packages.md",
+    "doc/project/40-proposals/071-sensorium-workbench.md"
+  ],
+  "description": "Host evidence that the pack facts of one task profile bound by one P085 package were recomputed from owner sources at conformance, rather than taken from the author. It binds the exact package, profile and host action-semantics map, and lists every recomputed asset digest with the rule that produced it. It carries no asset bytes, secrets or local paths. P085 stores it as domain conformance evidence addressed by SHA-256 over its JCS v1 canonical JSON; a passing result is required before the package's conformance report can be recorded, and a revised host map makes it stale.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "package/ref",
+    "package/digest",
+    "task-profile/ref",
+    "task-profile/revision",
+    "task-profile/digest",
+    "action-semantics/ref",
+    "action-semantics/revision",
+    "action-semantics/digest",
+    "sources",
+    "admitted-actions",
+    "required-capability/ids",
+    "result",
+    "mismatches",
+    "evaluated-at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-pack-facts-evidence.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "package/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "package/digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "P085 package artifact digest in its lowercase hex form; it is not interchangeable with the base64url content addresses below."
+    },
+    "task-profile/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/revision": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "action-semantics/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "action-semantics/revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "action-semantics/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "admitted-actions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/action"
+      }
+    },
+    "required-capability/ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "operator-task-common.v1.schema.json#/$defs/capabilityId"
+      }
+    },
+    "result": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "mismatches": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/mismatch"
+      }
+    },
+    "evaluated-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "passed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "mismatches": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "mismatches": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slot": {
+      "enum": [
+        "thematic-profile",
+        "catalog/offer-template",
+        "catalog/taxonomy",
+        "deliberation/inference-flow",
+        "deliberation/agent-policy",
+        "environment/image-variants",
+        "environment/prepared-system",
+        "workbench/command-profiles",
+        "workbench/patch-policy",
+        "interfaces/observation-descriptors",
+        "interfaces/actuation-descriptors",
+        "experiment/input-schema",
+        "experiment/candidate-schema",
+        "verifier",
+        "verifier/command-profile",
+        "verifier/result-schema",
+        "rollback",
+        "resource-envelope",
+        "refusal-corpus"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "ref",
+        "digest",
+        "rule"
+      ],
+      "properties": {
+        "field": {
+          "$ref": "#/$defs/slot"
+        },
+        "ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "rule": {
+          "enum": [
+            "owner",
+            "jcs-v1"
+          ],
+          "description": "`owner`: the owning domain's digest function over the validated asset; `jcs-v1`: SHA-256 over the asset's JCS v1 canonical JSON, used until the owner publishes its own rule."
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "kind",
+        "operation"
+      ],
+      "properties": {
+        "owner": {
+          "enum": [
+            "workbench",
+            "interface"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "observe",
+            "process",
+            "patch",
+            "service-control",
+            "actuate"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "run",
+            "apply",
+            "control",
+            "read",
+            "subscribe",
+            "invoke"
+          ]
+        }
+      }
+    },
+    "mismatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "digest",
+            "missing-capability",
+            "unexpected-capability",
+            "manifest-capability",
+            "manifest-resource-envelope",
+            "manifest-inference-flow",
+            "structure"
+          ]
+        },
+        "field": {
+          "$ref": "#/$defs/slot"
+        },
+        "ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "capability/id": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/capabilityId"
+        }
+      }
+    }
+  }
+}
