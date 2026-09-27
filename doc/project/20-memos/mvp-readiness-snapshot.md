@@ -47,7 +47,11 @@ requires current operator authority for changes, fences stale requests with a
 host mutation revision, and provides a separate host-local emergency pause.
 Review covered concurrent operator revocation and the pause/resume/pause ABA
 cycle. P091-backed transactional history and recovery remain in `P094-006b`;
-an audit attempt alone is not commit evidence. The readiness estimates of the new
+an audit attempt alone is not commit evidence. `P094-018` added the P080
+`isolated-environment` disposer: Sensorium Virt records a durable `destroying`
+intent before tearing an environment down, and startup reconciliation completes
+an interrupted destruction; this is process-harness evidence, not a real-VM run.
+The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.

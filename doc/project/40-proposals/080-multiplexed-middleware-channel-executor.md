@@ -737,6 +737,30 @@ must match the declared resource kind. Durable and federated state is corrected 
 tombstone, supersession, compensation, or journal replay. Deleting a local record is
 never described as undoing an effect already observed by another component or node.
 
+#### Amendment: isolated environments (2026-09-27)
+
+For Proposal 094 (`P094-018`), `middleware-component-contract.v1` admits an eighth
+host-local pair: `resource/kind: isolated-environment` with
+`dispose/operation: environment.destroy`, under `ephemeral-revertible` and
+`host-local` scope like every other disposer. The amendment is additive: it extends
+two closed enums and the kind/operation pairing, so no existing declaration changes
+meaning or digest, and no new schema version is introduced.
+
+An isolated environment is one contained instance, such as a Sensorium Virt VM, and
+the instance as a whole is the revertible resource, not each change inside it. Its
+disposer has a stronger completion contract than the other kinds, because a caller
+may terminalize a run only after destruction is confirmed:
+
+- the owner records a durable destruction intent before the first destructive step;
+- the disposer is idempotent, and a completed destruction replays as confirmed;
+- confirmation is a durable record that the instance and its host resources are gone;
+- after a restart, reconciliation completes every recorded but unconfirmed
+  destruction; a recorded destruction never returns to a live state, and is
+  quarantined only when the owner can no longer prove what it would destroy.
+
+Sensorium Virt implements the disposer as `environment.teardown` over the
+`destroying` lifecycle state of `sensorium-virt-recovery-record.v1`.
+
 ## Dispatch Abstraction Changes
 
 The current supervisor API leaks HTTP through types such as `MiddlewareHttpTarget`
@@ -1283,6 +1307,7 @@ freezes per-outage reconnect without transparent request replay, including the
 | P080-041 | Add daemon-level shared-listener flap acceptance | done | Supervisor and real-daemon acceptance stop and restore the same bound listener while the child remains alive, then prove unchanged pid/launch, advanced epoch, renewed init/report plus heartbeat, restored routing/readiness, and no old-session completion. Full daemon restart provisions a new launch at epoch one. |
 | P080-042 | Measure and freeze the generated reconnect grace default | done | Generated factory and Story profiles now use 5 seconds; config admission accepts only `1..=60000` milliseconds. Authentication and protocol failures fail immediately rather than consuming reconnect grace, while transport loss retains bounded retry and unchanged shutdown escalation. |
 | P080-043 | Preserve no-transparent-replay across reconnect | done | Pending maps, outbound frames, cancellation state, and worker responses are bound to a monotonic session generation in Rust and Python. Lost-session calls fail terminally, detached calls fail fast, late results are discarded, and effect tests prove reconnect does not execute or deliver an old request again. |
+| P080-046 | Admit isolated environments with a confirmed `environment.destroy` disposer | done | 2026-09-27, for `P094-018`: `middleware-component-contract.v1` admits `isolated-environment` with `environment.destroy` as an additive amendment of its closed enums and pairing; `middleware-runtime` validates the pair and refuses a mismatched operation, kind, or non-host-local scope. The completion contract (durable intent, idempotent confirmation, restart completion) is recorded above and implemented by Sensorium Virt. |
 
 ## Next Actions
 

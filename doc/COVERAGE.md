@@ -268,7 +268,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) | `9` | `1` | `yes` | `yes` | `0` | `0` |
 | [`middleware-channel-request-cancel.v1.schema.json`](schemas-gen/schemas/middleware-channel-request-cancel.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`middleware-channel-session-shutdown.v1.schema.json`](schemas-gen/schemas/middleware-channel-session-shutdown.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
-| [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) | `5` | `1` | `yes` | `yes` | `2` | `3` |
+| [`middleware-component-contract.v1.schema.json`](schemas-gen/schemas/middleware-component-contract.v1.md) | `5` | `1` | `yes` | `yes` | `3` | `5` |
 | [`middleware-decision-response.v1.schema.json`](schemas-gen/schemas/middleware-decision-response.v1.md) | `8` | `0` | `yes` | `yes` | `0` | `0` |
 | [`middleware-module-http-request.v1.schema.json`](schemas-gen/schemas/middleware-module-http-request.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `2` |
 | [`middleware-module-http-response.v1.schema.json`](schemas-gen/schemas/middleware-module-http-response.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
@@ -475,7 +475,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-virt-export-result.v1.schema.json`](schemas-gen/schemas/sensorium-virt-export-result.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-virt-guest-frame.v1.schema.json`](schemas-gen/schemas/sensorium-virt-guest-frame.v1.md) | `19` | `0` | `yes` | `yes` | `2` | `2` |
 | [`sensorium-virt-image-manifest.v1.schema.json`](schemas-gen/schemas/sensorium-virt-image-manifest.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `1` |
-| [`sensorium-virt-recovery-record.v1.schema.json`](schemas-gen/schemas/sensorium-virt-recovery-record.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `1` |
+| [`sensorium-virt-recovery-record.v1.schema.json`](schemas-gen/schemas/sensorium-virt-recovery-record.v1.md) | `18` | `1` | `yes` | `yes` | `2` | `2` |
 | [`sensorium-virt-teardown-result.v1.schema.json`](schemas-gen/schemas/sensorium-virt-teardown-result.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-virt-vfkit-deployment-report.v1.schema.json`](schemas-gen/schemas/sensorium-virt-vfkit-deployment-report.v1.md) | `15` | `0` | `yes` | `yes` | `1` | `1` |
 | [`sensorium-virt-workspace-export.v1.schema.json`](schemas-gen/schemas/sensorium-virt-workspace-export.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `0` |
@@ -1225,5 +1225,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `512`
 - Generated schema docs: `512`
-- Positive examples: `508`
-- Negative examples: `486`
+- Positive examples: `510`
+- Negative examples: `489`

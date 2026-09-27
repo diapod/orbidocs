@@ -216,7 +216,7 @@ result, disclosed according to the result's disclosure metadata.
 | Binding, readiness, and inspection | `P094-006a` (host file store, done) and `P094-006b` (P091-backed) | all runs |
 | `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1` | Workbench, mirrored in P071 Phase 6 | effects |
 | Enforced command-profile effect mode | Workbench, `P094-019a` (contract, done) and `P094-019b` (enforcement) | observation steps and verifier |
-| `isolated-environment` recovery class with `environment.destroy` | P080 and Sensorium Virt, `P094-018` | contained mutations and uncertain outcomes |
+| `isolated-environment` recovery class with `environment.destroy` | P080 and Sensorium Virt, `P094-018` (done) | contained mutations and uncertain outcomes |
 | Offer draft, publication, and withdrawal | `P094-007` | federated profile only |
 
 The acceptance runner must refuse to start while a required gate is missing and

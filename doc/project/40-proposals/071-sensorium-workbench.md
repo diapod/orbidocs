@@ -1112,7 +1112,12 @@ authoritative.
 
 `drain` is monotonic and stops new sessions. `teardown` becomes terminal only
 after the VMM is gone, control sockets and host resources are removed, retained
-storage follows policy, and any requested export is durable. Memory snapshots
+storage follows policy, and any requested export is durable. It is the P080
+`environment.destroy` disposer (`P094-018`): the host records the
+`destroying` state durably before the first destructive step, only `destroying`
+reaches `closed`, every other operation on a `destroying` record refuses, and
+startup reconciliation completes an interrupted destruction instead of
+quarantining it, unless the record can no longer prove its resource identity. Memory snapshots
 and live migration are outside v1 recovery; v1 either recovers the exact live VM
 or safely tears it down and recreates from pinned image/storage policy.
 An exact live-boot recovery preserves its source generation. Any recreated or new

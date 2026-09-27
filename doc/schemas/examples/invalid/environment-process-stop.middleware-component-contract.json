@@ -1,0 +1,15 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "component/middleware/sensorium-workbench",
+  "provides": [],
+  "requires": [],
+  "effects": {
+    "effect/task-environment": {
+      "class": "ephemeral-revertible",
+      "scope": "host-local",
+      "resource/kind": "isolated-environment",
+      "resource/key": "sensorium-virt/environment",
+      "dispose/operation": "process.stop"
+    }
+  }
+}

@@ -20,7 +20,7 @@
     "backend/id": { "$ref": "#/$defs/ref" },
     "backend/version": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[ -~]+$" },
     "backend/binary-digest": { "$ref": "#/$defs/digest" },
-    "lifecycle/status": { "enum": ["allocating", "ready", "draining", "closed", "failed", "expired", "quarantined"] },
+    "lifecycle/status": { "enum": ["allocating", "ready", "draining", "destroying", "closed", "failed", "expired", "quarantined"], "description": "`destroying` is the durable intent of `environment.destroy`, recorded before the first destructive step; only it reaches `closed`, reconciliation completes it after a restart, and it never returns to a live state." },
     "process": {
       "type": "object", "additionalProperties": false, "required": ["pid", "start-marker"],
       "properties": { "pid": { "type": "integer", "minimum": 1 }, "start-marker": { "type": "string", "minLength": 1, "maxLength": 256 } }

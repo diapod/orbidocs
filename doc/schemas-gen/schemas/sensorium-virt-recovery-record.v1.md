@@ -42,7 +42,7 @@ Host-private durable identity used to recover or quarantine one Sensorium Virt e
 | [`backend/id`](#field-backend-id) | `yes` | ref: `#/$defs/ref` |  |
 | [`backend/version`](#field-backend-version) | `yes` | string |  |
 | [`backend/binary-digest`](#field-backend-binary-digest) | `yes` | ref: `#/$defs/digest` |  |
-| [`lifecycle/status`](#field-lifecycle-status) | `yes` | enum: `allocating`, `ready`, `draining`, `closed`, `failed`, `expired`, `quarantined` |  |
+| [`lifecycle/status`](#field-lifecycle-status) | `yes` | enum: `allocating`, `ready`, `draining`, `destroying`, `closed`, `failed`, `expired`, `quarantined` | `destroying` is the durable intent of `environment.destroy`, recorded before the first destructive step; only it reaches `closed`, reconciliation completes it after a restart, and it never returns to a live state. |
 | [`process`](#field-process) | `no` | object |  |
 | [`control-socket`](#field-control-socket) | `no` | object |  |
 | [`boot/nonce`](#field-boot-nonce) | `no` | string |  |
@@ -153,7 +153,9 @@ Then:
 ## `lifecycle/status`
 
 - Required: `yes`
-- Shape: enum: `allocating`, `ready`, `draining`, `closed`, `failed`, `expired`, `quarantined`
+- Shape: enum: `allocating`, `ready`, `draining`, `destroying`, `closed`, `failed`, `expired`, `quarantined`
+
+`destroying` is the durable intent of `environment.destroy`, recorded before the first destructive step; only it reaches `closed`, reconciliation completes it after a restart, and it never returns to a live state.
 
 <a id="field-process"></a>
 ## `process`

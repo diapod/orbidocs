@@ -88,7 +88,8 @@
             "temporary-root",
             "local-service-binding",
             "process",
-            "channel-session"
+            "channel-session",
+            "isolated-environment"
           ]
         },
         "resource/key": {"$ref": "#/$defs/ref"},
@@ -101,7 +102,8 @@
             "temp-root.remove",
             "local-service.unbind",
             "process.stop",
-            "channel-session.close"
+            "channel-session.close",
+            "environment.destroy"
           ]
         },
         "journal/ref": {"$ref": "#/$defs/ref"},
@@ -155,6 +157,12 @@
                 "properties": {
                   "resource/kind": {"const": "channel-session"},
                   "dispose/operation": {"const": "channel-session.close"}
+                }
+              },
+              {
+                "properties": {
+                  "resource/kind": {"const": "isolated-environment"},
+                  "dispose/operation": {"const": "environment.destroy"}
                 }
               }
             ],
