@@ -17,6 +17,7 @@
     "bounded-process-output",
     "guest-resource-plan-observed",
     "guest-pid-exhaustion-bounded",
+    "observation-enforced",
     "stale-generation-refusal",
     "quiesce-refusal",
     "deterministic-teardown"

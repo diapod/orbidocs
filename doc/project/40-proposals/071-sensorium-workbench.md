@@ -2880,21 +2880,44 @@ Consumer: [Proposal 094: Operator Task Packs for Bounded Problem Solving](094-op
 P094 consumes these contracts but does not own them; their semantics and enforcement
 stay here.
 
-- [~] Add an enforced command-profile effect mode (P094 tracker items `P094-019a`,
+- [x] Add an enforced command-profile effect mode (P094 tracker items `P094-019a`,
   `P094-019b`). The contract part is done (2026-09-26): `sensorium-command-profile.v1`
   gained an optional closed `effect/mode: observation | mutation` field in place,
   because v1 is a draft that was never released; absent means `mutation`, and
   `CommandProfile::declared_effect_mode` in `sensorium-actuation-core` reads it.
-  Enforcement remains (`P094-019b`). The
-  Workbench must enforce `observation` inside the guest rather than trust the label:
-  host-side `read-only` filesystem sharing protects the host, not the guest disk.
-  The mechanism is an owner decision; candidates are running the step on a discarded
-  copy-on-write fork of the instance, or comparing digests of declared roots before
-  and after the step, with a detected change refusing the step and destroying the
-  instance. A refusal fixture must prove that a write attempt under `observation`
-  either does not take effect or is detected and refused. P094 treats a missing or
-  unenforced mode as `mutation` and blocks observation-dependent task profiles in
-  readiness until this item is done.
+  Enforcement (`P094-019b`, 2026-09-28) combines prevention with detection inside the
+  guest; host-side `read-only` sharing would protect only the host. A
+  `spawn-process` request may carry `effect/mode: observation` with 1 to 8
+  workspace-relative `observation/roots`; `open-pty` stays a mutation.
+  `orbiplex-workbench-guest` then re-executes itself as a sandbox helper that enters
+  new mount, IPC, network and UTS namespaces, mounts private scratch on `/tmp`,
+  `/var/tmp` and `/dev/shm` and an empty read-only `/run`, remounts every other mount
+  read-only, sets `no_new_privs`, and drops to uid and gid 65534 before `exec`.
+  Losing root drops every capability, so the step cannot remount, signal or trace
+  privileged services, reach root-trusted sockets under `/run`, or use loopback. The guest also
+  digests the declared roots (content, metadata and link targets, never followed,
+  within 16,384 entries, 128 levels and 64 MiB) before and after the step. A difference refuses
+  it as `observation-effect-detected` with guest-execution evidence, taints the guest
+  so it serves only inspection and shutdown, and makes the host destroy the
+  environment through its `environment.destroy` disposer. A success reports
+  `effect/enforcement` with the mechanism, identity and roots digest. A guest that
+  cannot build the sandbox (any non-Linux guest) refuses observation as
+  `effect-mode-unenforceable` before anything runs; a failed sandbox step refuses as
+  `observation-sandbox-failed`, also before the command runs. Residual reach, stated
+  rather than hidden: services that accept unprivileged peers on filesystem sockets
+  outside `/run` remain reachable; without a PID namespace, ordinary same-UID
+  signal permissions also remain for uid-65534 processes. An observation reads
+  only what an unprivileged user may read. This is not a general-purpose
+  side-effect-free sandbox for arbitrary commands. P094 still treats a mode without an enforcing owner adapter as
+  `mutation`; reading this evidence into readiness belongs to `P094-008`.
+  Review hardening uses a private close-on-exec helper-status descriptor instead
+  of trusting command stderr, bounds pipe draining by the process deadline, and
+  persists a pending-observation marker before launch. Timeout or unknown helper
+  status retains taint across restart (`observation-outcome-unknown`); the host
+  also disposes on `environment-tainted` or tainted inspection after a lost reply.
+  The original real-vfkit 18-check proof predates this hardening. On 2026-09-28 the
+  revised Linux helper was compiled and tested on Linux and a rebuilt image passed a
+  fresh real-vfkit deployment with 18 of 18 checks, including `observation-enforced`.
 - [~] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
   `P094-008`). The contract and owner validation are done (2026-09-26): the schema
   uses a line-oriented content shape (an anchored pattern every resulting line must

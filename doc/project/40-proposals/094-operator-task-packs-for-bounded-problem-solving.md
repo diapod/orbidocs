@@ -1897,9 +1897,10 @@ change comes last:
 - **M4 – promotion.** `P094-014` and `P094-015`.
 
 `P094-018` and `P094-019b` are owner work on the M2 critical path that does not depend on
-the P094 core; they should start during M1. Until `P094-019b` lands, M1 readiness already
-shows the qmail pack as blocked with `workbench/effect-mode-missing`, which is the
-intended, explained state rather than a defect.
+the P094 core; both were done during M1 (2026-09-27 and 2026-09-28). Readiness still shows
+the qmail pack as blocked with `workbench/effect-mode-missing` until `P094-008` reads the
+owner's enforcement evidence for the bound environment, which is the intended, explained
+state rather than a defect.
 
 Publication is last because it is not needed to prove the authority boundary and adds
 asynchronous reconciliation that would otherwise slow every earlier test cycle.
@@ -1929,8 +1930,21 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-016` | Run multi-node publication acceptance | `007`, `013` | `todo` | Evidence covers offer publication, requester discovery, remote deliberation, exact profile-digest admission by the provider, stale-offer refusal after revocation, and committed withdrawal. The acceptance contract is [Story 013](../30-stories/story-013-qmail-task-pack.md)'s federated profile. |
 | `P094-017` | Admit effects outside a contained environment | `015` | `deferred` | Uncontained steps, including Interface actuation, are mapped to P080 classes (`transactional-withheld`, `compensatable`, `irreversible-external`) through owner sources and admitted only with the P080 recovery contract, P093 outcome and reconciliation semantics, and crash tests at every admission point. |
 | `P094-019a` | Add the command-profile effect mode to the Workbench contract | `001` | `done` | 2026-09-26: `sensorium-command-profile.v1` gained an optional `effect/mode: observation \| mutation` in place (v1 was an unreleased draft), absent meaning `mutation`; `CommandProfile::declared_effect_mode` reads it, with a qmail observation vector and a negative vector. The declaration alone never makes a step an observation. Mirrored in P071 Phase 6. |
-| `P094-019b` | Enforce the Workbench command-profile effect mode | `019a` | `todo` | The Workbench enforces `observation` inside the guest rather than trusting it. Host-side read-only sharing does not suffice, because it protects the host, not the guest disk. The owner chooses the mechanism, for example running on a discarded copy-on-write fork of the instance, or comparing digests of declared roots before and after with violation leading to refusal and instance destruction. A refusal fixture proves that a write attempt under `observation` does not take effect or is detected and refused. Mirrored as a Phase 6 item in the P071 tracker. |
+| `P094-019b` | Enforce the Workbench command-profile effect mode | `019a` | `done` | 2026-09-28. The Workbench guest enforces a declared observation in two layers instead of trusting it. `spawn-process` carries `effect/mode: observation` with 1 to 8 workspace-relative `observation/roots` (`sensorium-virt.host.request.v1`); `orbiplex-workbench-guest` re-executes itself as a sandbox helper that enters new mount, IPC, network and UTS namespaces, remounts every mount read-only, adds private scratch and an empty read-only `/run`, sets `no_new_privs` and drops to uid and gid 65534 before `exec`, and it digests the declared roots before and after the step. A change refuses the step as `observation-effect-detected` with guest-execution evidence, taints the guest, and makes the host destroy the environment through `environment.destroy` (`P094-018`); a non-Linux guest refuses observation as `effect-mode-unenforceable` and a failed sandbox step as `observation-sandbox-failed`, both before anything runs. The refusal fixture is the real-vfkit deployment check `observation-enforced` (18 of 18 passed): on the pinned GNU/Linux guest an observation runs as uid 65534 with an empty `/run`, a write into a world-writable directory fails with `Read-only file system`, and the file never exists. Unit tests cover detection, taint, metadata and link handling, the refusal off Linux, and the host's destruction decision. `open-pty` stays a mutation, and reading this evidence into readiness belongs to `P094-008`. |
 | `P094-018` | Extend P080 with the isolated-environment resource kind | `001` | `done` | 2026-09-27. `middleware-component-contract.v1` admits `resource/kind: isolated-environment` with `dispose/operation: environment.destroy` under `ephemeral-revertible` and `host-local` scope, as a dated additive amendment (P080-046); the P080 recovery section, the schema and `middleware-runtime` validation agree and refuse a mismatched operation, kind or scope. Sensorium Virt implements the disposer as `environment.teardown` over a new `destroying` state of `sensorium-virt-recovery-record.v1`: every backend (`fixture-copy.v1`, `vfkit-system.v1`, `cloud-hypervisor-system.v1`) records it durably before the first destructive step, only `destroying` reaches `closed`, a completed destruction replays as confirmed, and start, recover, drain and allocation replay refuse a `destroying` record instead of quarantining it. Startup reconciliation completes every recorded destruction and reports `records/destroyed`; a record that can no longer prove its resource identity is quarantined, never returned to a live state. Tests cover the transition table, a removal interrupted mid-way on `fixture-copy`, and a destruction interrupted with a live VMM on the fake-vfkit and fake Cloud Hypervisor process harnesses. Real-VM deployment runs were not repeated.  Review regressions also cover destruction interrupted during unrecorded-launch cleanup, refusal of unbound resource paths before teardown, record-only quarantine of an invalid destruction, and drained VMM identity validation. |
+
+### P094-019b Review Qualification
+
+The implementation now uses a private close-on-exec helper-status channel instead
+of trusting command stderr, bounds output draining by the process deadline,
+bounds tree traversal before allocation, and retains pending-observation taint
+across guest-agent restart. Timeout or unknown helper status fails closed with
+`observation-outcome-unknown`; the host also destroys on recovered taint, including
+inspection after a lost original response. Unit and process-conformance tests
+cover these paths. The original real-vfkit 18-check proof predates these fixes.
+
+- [x] Rebuild the Linux helper/image and repeat the real-vfkit deployment for the
+  reviewed revision before treating that binary as deployment-qualified. On 2026-09-28 the revised helper was compiled, linted and unit-tested on Linux in the pinned builder image, which caught and fixed an ambiguous `by_ref` that only the Linux build sees, and a rebuilt image passed a fresh real-vfkit deployment with 18 of 18 checks, including `observation-enforced`.
 
 ## Acceptance Criteria
 

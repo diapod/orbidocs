@@ -19,8 +19,8 @@
     "status": { "const": "passed" },
     "checks": {
       "type": "array",
-      "minItems": 17,
-      "maxItems": 17,
+      "minItems": 18,
+      "maxItems": 18,
       "uniqueItems": true,
       "items": {
         "enum": [
@@ -38,6 +38,7 @@
           "bounded-process-output",
           "guest-resource-plan-observed",
           "guest-pid-exhaustion-bounded",
+          "observation-enforced",
           "stale-generation-refusal",
           "quiesce-refusal",
           "deterministic-teardown"
