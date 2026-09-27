@@ -2924,7 +2924,10 @@ stay here.
   (2026-09-27, `P094-005b`). `command_profile_document_digest` addresses a command
   profile by its whole validated document, because the typed `CommandProfile` view
   does not carry every schema field (`schema`, `schema/v`, `network`); closing that
-  DTO gap remains owner work. Registry admission of each capability
+  DTO gap remains owner work. P094's L1 conformance imports command profiles through
+  Schema Gate before calling the digest helper, so those omitted fields and
+  unknown fields are still validated against the complete owner schema.
+  Registry admission of each capability
   id remains with the host that loads the map, because this owner crate carries no
   registry. Command profiles and Interface descriptors do not name the capability
   they consume, so consumers cannot derive it without guessing. The versioned map
