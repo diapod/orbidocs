@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-profile-change-result.v1.schema.json`](../../schemas/operator-task-profile-change-result.v1.schema.json)
 
-Per-axis diff between a binding's accepted task profile and the one its package now pins, each change classified as narrowing, widening or substitution, and whether the binding now follows the new profile. Values are enum names, numbers as text, or refs and digests; never local paths.
+Per-axis diff between a binding's accepted task profile and the one its package now pins, each change classified as narrowing, widening or substitution, and whether the binding now follows the new profile. Values are enum names, numbers as text, or refs and digests; never local paths. `local-binding/digest` identifies the binding's revision after the request, which an acceptance names as its expected revision.
 
 ## Governing Basis
 
@@ -17,6 +17,7 @@ Per-axis diff between a binding's accepted task profile and the one its package 
 | [`schema`](#field-schema) | `yes` | const: `operator-task-profile-change-result.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`binding/ref`](#field-binding-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
+| [`local-binding/digest`](#field-local-binding-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
 | [`from/digest`](#field-from-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
 | [`to/digest`](#field-to-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
 | [`changes`](#field-changes) | `yes` | array |  |
@@ -40,6 +41,12 @@ Per-axis diff between a binding's accepted task profile and the one its package 
 
 - Required: `yes`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/ref`
+
+<a id="field-local-binding-digest"></a>
+## `local-binding/digest`
+
+- Required: `yes`
+- Shape: ref: `operator-task-common.v1.schema.json#/$defs/digest`
 
 <a id="field-from-digest"></a>
 ## `from/digest`

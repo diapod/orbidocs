@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-change:v1",
+  "title": "Operator Task Binding Change v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Audit fact of an authorized local-binding change attempt: which binding, what kind of change, the verified actor, and the proposed binding revision before and after it, as `local-binding/digest` values. An ordinary change names the verified operator participant and operator binding; an emergency pause names the host-local channel and no operator. The fact is written before the binding, so a change without its fact never takes effect. If the binding write fails, the fact remains an attempt, not standalone proof of commit or authority to replay. It carries no profile content, local paths or secrets.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "change/kind",
+    "actor",
+    "local-binding/digest",
+    "recorded-at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-change.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "change/kind": {
+      "enum": [
+        "create",
+        "pause",
+        "resume",
+        "accept-profile",
+        "emergency-pause"
+      ]
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor/kind"
+      ],
+      "properties": {
+        "actor/kind": {
+          "enum": [
+            "operator",
+            "host-local"
+          ]
+        },
+        "participant/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "operator/binding-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "actor/kind": {
+                "const": "operator"
+              }
+            },
+            "required": [
+              "actor/kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "participant/ref",
+              "operator/binding-ref"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "participant/ref"
+                  ]
+                },
+                {
+                  "required": [
+                    "operator/binding-ref"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "local-binding/previous-digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "recorded-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "change/kind": {
+            "const": "create"
+          }
+        },
+        "required": [
+          "change/kind"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "local-binding/previous-digest"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "local-binding/previous-digest"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "change/kind": {
+            "const": "emergency-pause"
+          }
+        },
+        "required": [
+          "change/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "actor": {
+            "properties": {
+              "actor/kind": {
+                "const": "host-local"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "actor": {
+            "properties": {
+              "actor/kind": {
+                "const": "operator"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

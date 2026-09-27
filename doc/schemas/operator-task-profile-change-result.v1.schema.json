@@ -7,13 +7,14 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Per-axis diff between a binding's accepted task profile and the one its package now pins, each change classified as narrowing, widening or substitution, and whether the binding now follows the new profile. Values are enum names, numbers as text, or refs and digests; never local paths.",
+  "description": "Per-axis diff between a binding's accepted task profile and the one its package now pins, each change classified as narrowing, widening or substitution, and whether the binding now follows the new profile. Values are enum names, numbers as text, or refs and digests; never local paths. `local-binding/digest` identifies the binding's revision after the request, which an acceptance names as its expected revision.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "schema/v",
     "binding/ref",
+    "local-binding/digest",
     "from/digest",
     "to/digest",
     "changes",
@@ -28,6 +29,9 @@
     },
     "binding/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
     },
     "from/digest": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/digest"

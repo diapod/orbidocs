@@ -18,6 +18,7 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string | Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text. |
+| [`operatorBindingRef`](#def-operatorbindingref) | unspecified | The exact `node-operator-binding.v1` the host verifies as current through the P085 operator-authority check before it commits a binding change. |
 | [`digest`](#def-digest) | string |  |
 | [`counter`](#def-counter) | integer |  |
 | [`timestamp`](#def-timestamp) | string |  |
@@ -34,7 +35,7 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | [`stageState`](#def-stagestate) | enum: `ready`, `degraded`, `blocked`, `not-applicable`, `not-evaluated` |  |
 | [`retryClass`](#def-retryclass) | enum: `terminal`, `after-operator-action`, `after-deferred-operation`, `after-owner-reconcile`, `transient` |  |
 | [`nextAction`](#def-nextaction) | enum: `activate-package`, `create-binding`, `edit-binding`, `grant-capability`, `grant-interface`, `inspect-attention-budget`, `inspect-capability`, `inspect-deliberation`, `inspect-effects`, `inspect-environment`, `inspect-package`, `inspect-verification`, `none`, `prepare-environment`, `rebind-operator`, `resolve-binding-sources`, `resume-binding`, `retry-verification`, `review-profile-change`, `run-conformance`, `start-new-run` |  |
-| [`refusalCode`](#def-refusalcode) | enum: `package/not-active`, `package/conformance-missing`, `package/profile-digest-mismatch`, `operator/binding-lost`, `local-binding/missing`, `local-binding/incomplete`, `local-binding/outside-package-ceiling`, `local-binding/profile-changed`, `local-binding/conflict`, `local-binding/paused`, `environment/image-mismatch`, `environment/prepared-system-unavailable`, `environment/runtime-egress-denied`, `environment/impact-class-exceeded`, `environment/not-contained`, `deliberation/flow-unavailable`, `capability/missing`, `capability/revoked`, `workbench/command-profile-missing`, `workbench/effect-mode-missing`, `interface/grant-missing`, `hil/attention-unavailable`, `verifier/unavailable`, `verifier/effect-mode-missing`, `rollback/unavailable`, `rollback/destroy-unconfirmed`, `publication/policy-missing`, `publication/disabled`, `offer/withdrawal-pending`, `package/generation-stale`, `plan/unknown-action-kind`, `plan/outside-profile`, `plan/first-step-not-observation`, `plan/recovery-class-not-admitted`, `plan/changed-replay`, `workbench/patch-outside-policy`, `interface/lease-lost`, `hil/denied`, `hil/expired`, `verifier/check-missing`, `verifier/mutation-not-admitted`, `verifier/timeout`, `run/cancelled`, `run/budget-exhausted` | Closed P094 refusal vocabulary; the proposal's refusal table is the source of truth and a drift check keeps them equal. |
+| [`refusalCode`](#def-refusalcode) | enum: `package/not-active`, `package/conformance-missing`, `package/profile-digest-mismatch`, `operator/binding-lost`, `local-binding/missing`, `local-binding/incomplete`, `local-binding/outside-package-ceiling`, `local-binding/profile-changed`, `local-binding/conflict`, `local-binding/paused`, `local-binding/revision-stale`, `environment/image-mismatch`, `environment/prepared-system-unavailable`, `environment/runtime-egress-denied`, `environment/impact-class-exceeded`, `environment/not-contained`, `deliberation/flow-unavailable`, `capability/missing`, `capability/revoked`, `workbench/command-profile-missing`, `workbench/effect-mode-missing`, `interface/grant-missing`, `hil/attention-unavailable`, `verifier/unavailable`, `verifier/effect-mode-missing`, `rollback/unavailable`, `rollback/destroy-unconfirmed`, `publication/policy-missing`, `publication/disabled`, `offer/withdrawal-pending`, `package/generation-stale`, `plan/unknown-action-kind`, `plan/outside-profile`, `plan/first-step-not-observation`, `plan/recovery-class-not-admitted`, `plan/changed-replay`, `workbench/patch-outside-policy`, `interface/lease-lost`, `hil/denied`, `hil/expired`, `verifier/check-missing`, `verifier/mutation-not-admitted`, `verifier/timeout`, `run/cancelled`, `run/budget-exhausted` | Closed P094 refusal vocabulary; the proposal's refusal table is the source of truth and a drift check keeps them equal. |
 | [`stepClass`](#def-stepclass) | enum: `observation`, `contained-mutation` | Version 1 admits only these classes; other effects refuse with plan/recovery-class-not-admitted. |
 | [`effectSource`](#def-effectsource) | enum: `owner-enforced`, `missing-source-default` |  |
 | [`argvAtom`](#def-argvatom) | string |  |
@@ -53,6 +54,13 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 - Shape: string
 
 Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text.
+
+<a id="def-operatorbindingref"></a>
+## `$defs.operatorBindingRef`
+
+- Shape: unspecified
+
+The exact `node-operator-binding.v1` the host verifies as current through the P085 operator-authority check before it commits a binding change.
 
 <a id="def-digest"></a>
 ## `$defs.digest`
@@ -137,7 +145,7 @@ Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL p
 <a id="def-refusalcode"></a>
 ## `$defs.refusalCode`
 
-- Shape: enum: `package/not-active`, `package/conformance-missing`, `package/profile-digest-mismatch`, `operator/binding-lost`, `local-binding/missing`, `local-binding/incomplete`, `local-binding/outside-package-ceiling`, `local-binding/profile-changed`, `local-binding/conflict`, `local-binding/paused`, `environment/image-mismatch`, `environment/prepared-system-unavailable`, `environment/runtime-egress-denied`, `environment/impact-class-exceeded`, `environment/not-contained`, `deliberation/flow-unavailable`, `capability/missing`, `capability/revoked`, `workbench/command-profile-missing`, `workbench/effect-mode-missing`, `interface/grant-missing`, `hil/attention-unavailable`, `verifier/unavailable`, `verifier/effect-mode-missing`, `rollback/unavailable`, `rollback/destroy-unconfirmed`, `publication/policy-missing`, `publication/disabled`, `offer/withdrawal-pending`, `package/generation-stale`, `plan/unknown-action-kind`, `plan/outside-profile`, `plan/first-step-not-observation`, `plan/recovery-class-not-admitted`, `plan/changed-replay`, `workbench/patch-outside-policy`, `interface/lease-lost`, `hil/denied`, `hil/expired`, `verifier/check-missing`, `verifier/mutation-not-admitted`, `verifier/timeout`, `run/cancelled`, `run/budget-exhausted`
+- Shape: enum: `package/not-active`, `package/conformance-missing`, `package/profile-digest-mismatch`, `operator/binding-lost`, `local-binding/missing`, `local-binding/incomplete`, `local-binding/outside-package-ceiling`, `local-binding/profile-changed`, `local-binding/conflict`, `local-binding/paused`, `local-binding/revision-stale`, `environment/image-mismatch`, `environment/prepared-system-unavailable`, `environment/runtime-egress-denied`, `environment/impact-class-exceeded`, `environment/not-contained`, `deliberation/flow-unavailable`, `capability/missing`, `capability/revoked`, `workbench/command-profile-missing`, `workbench/effect-mode-missing`, `interface/grant-missing`, `hil/attention-unavailable`, `verifier/unavailable`, `verifier/effect-mode-missing`, `rollback/unavailable`, `rollback/destroy-unconfirmed`, `publication/policy-missing`, `publication/disabled`, `offer/withdrawal-pending`, `package/generation-stale`, `plan/unknown-action-kind`, `plan/outside-profile`, `plan/first-step-not-observation`, `plan/recovery-class-not-admitted`, `plan/changed-replay`, `workbench/patch-outside-policy`, `interface/lease-lost`, `hil/denied`, `hil/expired`, `verifier/check-missing`, `verifier/mutation-not-admitted`, `verifier/timeout`, `run/cancelled`, `run/budget-exhausted`
 
 Closed P094 refusal vocabulary; the proposal's refusal table is the source of truth and a drift check keeps them equal.
 

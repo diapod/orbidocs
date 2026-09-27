@@ -301,6 +301,45 @@ Recorded on `2026-09-25`.
     mutation would bypass HIL. Until the owner enforcement exists (`P094-019b`), the
     affected profiles are blocked in readiness, not weakened.
 
+Recorded on `2026-09-27`, resolving review question Q-01 of `P094-006a`:
+
+22. **Binding changes need current operator authority, through a lighter contract.** A
+    binding is configuration, not execution authority, yet its environment, profile and
+    limits shape every later run. Who may change it and whether it may be used now are
+    therefore separate questions: the second stays with P085 and the current-use fence.
+    Creating a binding, resuming it, accepting a changed profile, changing its
+    parameters, and an ordinary pause each name an exact `node-operator-binding`, which
+    the host verifies as current with the P085 operator-authority check, the same one
+    that gates P085 activation and session activation. No second local trust vocabulary
+    exists. The change does not repeat the P085 activation ceremony: it carries no
+    detached signature and no plan digest. Authority and the expected binding revision
+    are checked when the change is committed, not only when a diff or preview was
+    computed. Every committed change is recorded as `operator-task-binding-change.v1`
+    with the verified actor, the operator binding, and the binding revision before and
+    after it. Readiness, inspection and a profile-change review need only read access.
+    Preparing a binding document offline is allowed and grants nothing by itself.
+23. **Emergency pause is a separate host-local channel, not a fallback.** Losing or
+    revoking the operator binding must not take from the node owner the ability to
+    restrict the node. An explicit, authenticated host-local route accepts
+    `operator-task-binding-emergency-pause.v1`, which can only pause, needs no operator
+    binding and no expected revision, and is recorded with the host-local actor. An
+    ordinary request that fails authorization is refused; the host never retries it as
+    an emergency pause.
+24. **Changing configuration never transfers activation.** A new legitimate operator
+    may change a binding, but does not thereby take over a package activation issued
+    under a predecessor's operator binding. Readiness keeps reporting
+    `operator/binding-lost` for that activation until it is reissued under current
+    authority.
+25. **A binding revision fences mutation history, not just its current value.**
+    Accepted during the `P094-006c` review on `2026-09-27`: the host stores
+    `binding/revision`, starting at 1 and incrementing on every effective change,
+    including emergency pause. It is part of `local-binding/digest`. A pause/resume/
+    pause cycle therefore cannot make an old resume request current again (ABA).
+    The counter is never caller-supplied; no-op retries do not advance it. Legacy
+    records without it retain their digest until their first change assigns 1.
+    This supersedes the earlier exclusion of all binding revision counters, not the
+    exclusion of package activation generation or duplicated portable facts.
+
 ## Authority and Ownership
 
 ### Ownership matrix
@@ -372,7 +411,9 @@ evidence contract `operator-task-pack-facts-evidence.v1` joined them with `P094-
 the operator route contracts (`operator-task-pack-conformance-run.v1` and its result,
 `operator-task-binding-create.v1`, `operator-task-binding-state.v1`,
 `operator-task-profile-change.v1` and its result, and `operator-task-refusal.v1`) with
-`P094-006a`. The JSON
+`P094-006a`. `P094-006c` added current operator authority and the expected revision
+to the change requests, `operator-task-binding-emergency-pause.v1`, and the audit fact
+`operator-task-binding-change.v1`. The JSON
 examples in this section are illustrative; the schemas are authoritative for the exact
 shape. The refusal table later in this proposal is the source of truth for the
 refusal vocabulary, and a drift check keeps the schema enum equal to it.
@@ -557,14 +598,66 @@ Field ownership is explicit:
   foregrounds as widening.
 - **Host-filled on bind or re-accept:** `task-profile/digest`, copied from the current
   package's resolved semantic entry. The operator never types a digest.
-- **Absent by design:** activation generation, local binding digest, and revision
-  counters. The generation is read at resolution and recorded in the resolved plan and
-  run facts; the binding digest is computed from the canonical resolved binding and
-  identifies the revision.
+- **Host-filled on mutation:** `binding/revision`, a monotone JSON-safe counter
+  included in the binding digest, per Resolved Decision 25.
+- **Absent by design:** activation generation and the local binding digest itself.
+  The generation is read at resolution and recorded in the resolved plan and run
+  facts; the binding digest is computed from the canonical resolved binding,
+  including its mutation revision.
 
 The stored binding may use stable logical roots such as `workspace-root:qmail-lab`.
 Resolution to an absolute local path happens inside the owning Workbench or environment
 provider and is omitted from portable inspection and remote status.
+
+### Binding changes and their authority
+
+Resolved Decisions 22 to 24 separate who may change a binding from whether it may be used
+now. The gate depends on the operation:
+
+| Operation | Gate |
+| :--- | :--- |
+| Create a binding (it starts `enabled`) | a current, exactly verified operator binding |
+| Resume, accept a changed profile, change parameters | the same |
+| Pause | the same; additionally the host-local emergency channel |
+| Readiness, inspection, profile-change review | read access; no operator binding |
+| Prepare a binding document offline | allowed; grants nothing and starts nothing |
+
+A change request names `operator/binding-ref`; the state and profile-acceptance requests
+also name `local-binding/expected-digest`, the revision they were prepared against, as
+readiness or the review reported it; tooling copies it from that read, so the operator
+still never types a digest (Resolved Decision 19). Creation expects no binding under the ref, and an
+exact replay returns the stored binding. The host commits a change in this order, under
+one mutation guard shared with operator-binding revocation, supersession and deletion:
+
+1. validate the request against its contract;
+2. read the stored binding and compute the changed one;
+3. if the outcome already holds, return the stored binding and record nothing;
+4. verify the operator binding as current through the P085 authority check, else refuse
+   with `operator/binding-lost`;
+5. compare the stored revision with the expected one, else refuse with
+   `local-binding/revision-stale`;
+6. advance the host mutation revision (refuse exhaustion before writing), append
+   `operator-task-binding-change.v1`, then write the binding.
+
+A fact whose write fails leaves the binding unchanged. A fact whose binding write then
+fails is only an authorized attempt; it does not prove a committed transition and
+never authorizes automatic replay. The binding file is the current-state commit
+point, not a historical receipt. The provisional file store cannot establish which
+older attempts committed from the latest digest alone; transactional historical
+receipts and recovery belong to `P094-006b`.
+
+The emergency pause skips steps 4 and 5 and records `actor/kind: host-local`. It is
+reached only through its own route and contract; nothing in an ordinary request selects
+it.
+
+Scenario: an operator reviews a changed profile, the review reports the current
+`local-binding/digest`, and the operator accepts with that digest. Meanwhile a second
+operator session pauses the binding. The acceptance refuses with
+`local-binding/revision-stale`; the operator reviews again, now against the paused
+revision, and accepts. When the operator binding is later revoked, the node owner can
+still stop the binding with an emergency pause, while resuming it waits for a current
+operator binding and readiness keeps showing `operator/binding-lost` for the old
+activation.
 
 ### Narrowing axes
 
@@ -996,6 +1089,7 @@ reconcile state that the operator cannot change locally), and `transient`.
 | `local-binding/profile-changed` | binding | after-operator-action | `review-profile-change` |
 | `local-binding/conflict` | binding | after-operator-action | `resolve-binding-sources` |
 | `local-binding/paused` | binding | after-operator-action | `resume-binding` |
+| `local-binding/revision-stale` | binding | after-operator-action | `edit-binding` |
 | `environment/image-mismatch` | environment | terminal | `inspect-environment` |
 | `environment/prepared-system-unavailable` | environment | after-deferred-operation | `prepare-environment` |
 | `environment/runtime-egress-denied` | environment | after-operator-action | `edit-binding` |
@@ -1038,7 +1132,8 @@ grant. `retry-verification` is admitted only for a verifier whose command profil
 Workbench-enforced `observation`, in the unchanged instance, within the run deadline,
 and up to the verifier contract's bounded retry count; the host may perform those
 bounded retries itself before reporting the code. When they are exhausted, the run
-terminalizes, the instance is destroyed, and the operator starts a new run. `publication/disabled` is reported only when a publication
+terminalizes, the instance is destroyed, and the operator starts a new run. `local-binding/revision-stale` arises only when a binding change is committed against
+an older revision and is never a readiness blocker. `publication/disabled` is reported only when a publication
 request is made for a binding with publication off; readiness shows that stage as
 `not-applicable` instead.
 
@@ -1495,6 +1590,7 @@ GET  /v1/operator/task-bindings/{binding_ref}/readiness
 GET  /v1/operator/task-bindings/{binding_ref}/profile-change
 POST /v1/operator/task-bindings/{binding_ref}/accept-profile
 POST /v1/operator/task-bindings/{binding_ref}/state
+POST /v1/operator/task-bindings/{binding_ref}/emergency-pause
 POST /v1/operator/task-bindings/{binding_ref}/offer-draft
 POST /v1/operator/task-bindings/{binding_ref}/publish
 POST /v1/operator/task-bindings/{binding_ref}/withdraw
@@ -1507,7 +1603,8 @@ bindings, for example two Workbench environments, and readiness, offers, and run
 to exactly one of them. `POST /task-bindings` creates a binding with safe defaults and
 host-filled digests; `profile-change` returns the per-axis ceiling diff between the
 accepted and current profile digest; `accept-profile` records the new digest;
-`state` switches between `enabled` and `paused`.
+`state` switches between `enabled` and `paused`; `emergency-pause` is the host-local
+channel of [Binding changes and their authority](#binding-changes-and-their-authority).
 
 These names remain candidates until their schemas and authorization are reviewed. Read
 surfaces expose metadata, refs, digests, stage states, and bounded refusals only.
@@ -1618,9 +1715,14 @@ task-run-terminalized
 
 Readiness evaluations are not journaled: readiness is recomputed on read, and a loss of
 readiness that matters is recorded where it has a consequence, as the cause carried by
-`task-offer-withdrawal-requested` or by a run's terminal refusal. Pausing, resuming, and
-accepting a changed profile are binding changes and appear as `task-binding-accepted`
-with the new binding digest.
+`task-offer-withdrawal-requested` or by a run's terminal refusal. Creating, pausing,
+resuming, and accepting a changed profile are binding changes. Until `P094-006b` binds
+audit history to committed revisions transactionally, the daemon records each authorized
+attempt as `operator-task-binding-change.v1` – the change kind, the verified actor and
+operator binding, or the host-local actor of an emergency pause, and the binding digest
+before and after – ahead of the binding write. Such a fact is not by itself
+`task-binding-accepted`: the change committed only if the stored binding reached its
+digest.
 
 Each fact carries the task profile and local binding digests, activation generation,
 causation/correlation ids, and refs to owner-domain evidence. It does not duplicate
@@ -1645,6 +1747,8 @@ introduced, replay-equivalence and as-of-retention behaviour follow Solution 028
 ### Security and privacy review checklist
 
 - Authorize before every effect, not only before plan creation.
+- Authorize binding changes and compare their expected revision when committing them,
+  not when previewing them; never fall back from a refused change to the emergency pause.
 - Treat absent authority as denial and unknown enum members as invalid.
 - Never infer identity or authority from task labels, thematic topics, file names, or
   model prose.
@@ -1689,6 +1793,9 @@ reach the owning boundary and observe the admitted or refused result.
 | :--- | :--- |
 | Package installs but task-profile semantic entry is unknown | Installation may remain inert; conformance/activation for the task profile refuses. |
 | Local binding names a runtime outside the package ceiling | Terminal binding refusal; no fallback runtime. |
+| A binding change names a revoked, stale, or non-local operator binding | `operator/binding-lost`; nothing is recorded or written, and the request is not retried as an emergency pause. |
+| Two operator sessions change one binding concurrently | The later commit refuses with `local-binding/revision-stale`; the operator reviews the current revision and repeats the change. |
+| The operator binding is lost while a binding must be stopped | The host-local emergency pause stops it without operator authority; resuming waits for a current operator binding. |
 | Prepared image is unavailable | Readiness reports blocked; optional acquisition is an explicit deferred operation. |
 | Model returns a shell command | Plan parsing or action containment refuses it unless it resolves to an exact admitted command profile. |
 | Operator revokes package during a run | New steps refuse; current owner applies its bounded cancellation/draining policy; offer withdrawal is scheduled. |
@@ -1776,7 +1883,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 Work is sliced so that each milestone is useful on its own and the widest cross-domain
 change comes last:
 
-- **M1 – inspect and dry-run.** `P094-002`, `P094-003a`, `P094-004a`, `P094-004b`, `P094-005a`, `P094-005b`, `P094-006a`, `P094-006b`, and the read surfaces of
+- **M1 – inspect and dry-run.** `P094-002`, `P094-003a`, `P094-004a`, `P094-004b`, `P094-005a`, `P094-005b`, `P094-006a`, `P094-006b`, `P094-006c`, and the read surfaces of
   `P094-012`. An operator installs a pack, creates a binding from safe defaults, reads
   readiness with its decisive blocker, and validates candidate plans with the pure core.
   Nothing executes.
@@ -1806,13 +1913,14 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-005a` | Admit supplied task profiles from P085 packages | `004a` | `done` | 2026-09-26: P085 resolves asset-pinned semantic entries (`P085-045`); `admit_task_profile` in `operator-task-pack-core` admits a supplied profile only when its package is installed and currently activated at the manifest's package digest, binds the profile's ref, revision and digest, the activation's operator binding is the current authority, the caller's generation is current, and the manifest lists the profile's capabilities and resource envelope and binds any package-owned inference flow at the same digest; it refuses with `package/not-active`, `package/profile-digest-mismatch`, `operator/binding-lost`, `package/generation-stale` or `package/conformance-missing`, and inherits the package's operational class. The new `operator-task-pack-service` crate composes Schema Gate, the JCS v1 profile digest, the P085 adapter and an operator-authority port, with no store of its own. Activation, rollback, revocation and restart are exercised at the P085 owner. |
 | `P094-005b` | Recompute pack facts at package conformance | `004b`, `005a` | `done` | 2026-09-27: `run_task_pack_conformance` in `operator-task-pack-service` takes each bound profile from a supplied asset bundle, requires its JCS v1 digest to be the pinned registration digest, digests every named asset itself (Workbench command profiles as whole validated documents, the patch policy and the thematic semantic-entry header by owner rules, other slots by JCS v1; Interface descriptors refuse as unsupported), takes the map and the Workbench VM-environment capabilities from their owners, and runs `derive_pack_facts` and `PackFacts::check`. A missing or malformed asset refuses without evidence; a mismatch records failing `operator-task-pack-facts-evidence.v1`. P085 domain conformance (`P085-046`) refuses the package's conformance report and every use of its activation until that evidence passes, and admission requires it to be current under the host map. Tests cover a correct pack, declared and omitted capabilities, a swapped policy, profile and command profile, a missing source, a missing map row, an unsupported descriptor and a later failing run. The daemon requires the domain; its P085 conformance route alone still refuses such packages, and `/v1/operator/extensions/task-packs/conformance` (`P094-006a`) carries the bundle end to end. Review regression coverage also rejects invalid schema/version/network and unknown command-profile fields before derivation; the full owner Schema Gate runs before the incomplete typed view. |
 | `P094-006a` | Implement local binding, readiness, and inspection behind a store port | `004a`, `005a` | `done` | 2026-09-27: `create_binding` fills the most restrictive safety defaults, publication off and the host profile digest, names missing choices (`local-binding/incomplete` with `missing/fields`), refuses a choice wider than the profile's ceiling, and treats an unequal binding under an existing ref as `local-binding/conflict`; pause and resume change only the state; `review_profile_change` returns a per-axis diff classified as narrowing, widening or substitution and accepts it in one step only when the binding still fits the new ceilings. Readiness is computed on read from the P085 entry, current pack-facts evidence under the host map, the operator authority and the binding, with one decisive blocker per root cause; execution stages whose owner adapters do not exist yet report the tabled blocker for that missing owner fact. Bindings and the verified copy of each accepted profile live behind `BindingStorePort`, implemented by the daemon as host-writable canonical files. The daemon exposes `/v1/operator/extensions/task-packs/bindings`, `…/bindings/state`, `…/bindings/profile-change` and `…/bindings/readiness`, and `…/conformance`, which reads the asset bundle from a host-admitted P085 import root without following links and runs the P085 runner only after the pack facts pass; every request and answer passes its `operator-task-*` contract, and refusals are `operator-task-refusal.v1`.  Review regressions cover no-follow bounded storage and stored-schema checks, read-only previews, full identity/mode diffs, local deliberation ceiling acceptance, legacy-route refusal after passing conformance, and conformance-specific readiness blockers. |
-| `P094-006b` | Back local bindings with P091 | `006a`, P091 `003`/`004` | `todo` | The P091 collection of binding sources replaces the daemon file store behind the same port, with visible source provenance, `local-binding/conflict` for unequal duplicates, and writes only to host-writable sources; an operator-owned read-only source returns the canonical binding without taking effect. |
+| `P094-006b` | Back local bindings with P091 | `006a`, P091 `003`/`004` | `todo` | The P091 collection of binding sources replaces the daemon file store behind the same port, with visible source provenance, `local-binding/conflict` for unequal duplicates, and writes only to host-writable sources; an operator-owned read-only source returns the canonical binding without taking effect. Preserve the host mutation revision and atomically bind audit history to committed revisions; pending/failed attempts must remain distinguishable after restart. |
+| `P094-006c` | Commit binding changes under current operator authority | `006a` | `done` | 2026-09-27, resolving review question Q-01 of `P094-006a` through Resolved Decisions 22 to 24. `operator-task-binding-create.v1`, `operator-task-binding-state.v1`, and an accepting `operator-task-profile-change.v1` name `operator/binding-ref`; the state and acceptance requests also name `local-binding/expected-digest`, and a review names neither and reports the current revision in its result. The service commits every change in one order – outcome check, P085 operator-binding verification through `ChangeAuthorityPort` (`operator/binding-lost`), revision comparison (`local-binding/revision-stale`), `operator-task-binding-change.v1` fact, binding write – and a change whose fact is not recorded does not take effect. The daemon verifies the operator binding with the same `exact_active_operator_binding_authority` check that gates P085 activation, under the process-wide mutation guard, and stores each fact as a content-addressed file beside the binding. `operator-task-binding-emergency-pause.v1` on `/v1/operator/extensions/task-packs/bindings/emergency-pause`, behind the safe-mode route capability, pauses without operator authority and is recorded with the host-local actor. Tests cover recorded actors and revision chains, a lost operator binding that refuses every ordinary change while the emergency pause still stops the binding, a stale acceptance after a concurrent pause, a successor operator who configures without taking over the predecessor's activation, and a failed fact write; a daemon test drives the routes with a real operator binding before and after its revocation. The profile-change review still shares its route, and so its lifecycle capability, with acceptance; `P094-012` owns separating it. Review closeout: Decision 25 adds a host mutation revision to fence ABA, with legacy digest preservation, no-op and exhaustion tests. The mutation guard now also serializes operator-binding revocation, supersession and deletion; a concurrent-revocation regression pins that boundary. Failed binding writes retain only an attempt, never replay authority; transactional history remains P094-006b. |
 | `P094-007` | Implement offer draft, signing, publication, and withdrawal reconciliation | `006a` | `todo` | Activation never publishes. An authenticated operator approves an exact draft; ordinary Service Offer signing/publication commits it; exact task-profile identity is standardized; revocation or pause closes local admission immediately and BDO/Replay Scheduler reconcile withdrawal. |
 | `P094-008` | Resolve prepared systems, Workbench profiles, Interfaces, containment, and immutable assets | `003b`, `005a`, `018`, `019b` | `todo` | Exact image variant/prepared system, command/patch profiles, descriptor refs, scripts, fixtures, and acquisition refs resolve without fallback. The Workbench enforces patch policies and the `observation` effect mode. The containment predicate is checked at admission and before each step. Substitution, unavailable inventory, wider runtime network, lost containment, or an environment impact class above `impact-class/max` refuses. |
 | `P094-009` | Implement the closed experiment-plan compiler and HIL boundary | `004b`, `008` | `todo` | Prose/model output can only produce schema-valid candidates contained by the resolved plan. The host stamps digests, effect classes, and HIL requirements; every mutation reaches current HIL through the attention budget and owner authorization; arbitrary command strings, paths, endpoints, capability claims, HIL bypass, and classes outside the Version 1 scope refuse. |
 | `P094-010` | Implement verifier, rollback, refusal corpus, and Version 1 uncertain-outcome handling | `008`, `009` | `todo` | Verifier output is observation consumed by a host evaluator; missing checks and mutation refuse success; bounded verifier retry applies only in observation mode and the unchanged instance; destroy-and-recreate works after success, refusal, HIL denial, pause, and crash; an `unknown` step enters `rollback-pending`, terminalizes only after owner-confirmed destruction, is re-driven after restart, and is never repeated; refusal coverage reaches every registered code. |
 | `P094-011` | Build the qmail task pack assets and local profile | `003a`, `003b`, `004b` | `todo` | A signed package binds thematic profile, reusable inference flow, pinned image/prepared system, exact command/patch profiles, fixtures, verifier, rollback, resource ceiling, and refusal corpus, with every digest and capability list produced by `derive_pack_facts`; no secrets or machine-local authority are portable. |
-| `P094-012` | Add bounded operator API, CLI, and UI | `006a`; runs `010`; publication `007` | `todo` | Authenticated binding-keyed surfaces inspect packs, bindings, readiness, profile changes, drafts, publication, runs, withdrawal, and evidence refs. They share one source of configuration, lead with the decisive blocker and next action, show effective values with their deciding layer, confirm widening separately, redact sensitive values, and expose no raw internal stores. |
+| `P094-012` | Add bounded operator API, CLI, and UI | `006a`, `006c`; runs `010`; publication `007` | `todo` | Every binding change goes through the `P094-006c` contracts: CLI and UI send the operator binding and the expected revision from the preceding read, offer the emergency pause as its own action, and never switch to it after a refused change. Authenticated binding-keyed surfaces inspect packs, bindings, readiness, profile changes, drafts, publication, runs, withdrawal, and evidence refs. They share one source of configuration, lead with the decisive blocker and next action, show effective values with their deciding layer, confirm widening separately, redact sensitive values, and expose no raw internal stores. |
 | `P094-013` | Run local acceptance | `010`, `011`, `012` | `todo` | Evidence covers clean install, conformance, activation, binding from defaults, operator-initiated deliberation, observation-first experiment, HIL mutation and denial, qmail verification, rollback, restart, pause/resume, profile-change blocking, and revocation. The acceptance contract is [Story 013](../30-stories/story-013-qmail-task-pack.md)'s local profile. |
 | `P094-014` | Publish operator HOWTO and troubleshooting guidance | `013`, `016` | `todo` | English and Polish HOWTOs describe only implemented commands and routes, teach qmail pack preparation and use, explain refusal/recovery states through the refusal table's next actions, and distinguish package provenance, local trust, and current execution authority. |
 | `P094-015` | Review, ledger, solution, and readiness synchronization | `014` | `todo` | Code review finds no parallel authority or unbounded executor; Node implementation ledger, generated view, relevant solutions, capability/status matrices, and readiness snapshot distinguish implemented evidence from remaining proposal scope. Promotion decision is recorded explicitly. |
@@ -1831,6 +1939,8 @@ P094 may be promoted only when:
 - a local binding resolves to one immutable plan with no ambient alternatives;
 - an operator reaches a runnable binding by supplying only choices without a safe
   default, and never types a digest or activation generation;
+- every binding change except the host-local emergency pause is committed under a
+  current operator binding and the expected revision, and is recorded with its actor;
 - reactivation or P085 rollback of the same profile leaves the binding valid, while a
   changed profile digest blocks it until the operator accepts the diff;
 - ordinary Service Offer publication binds the exact task profile and can be withdrawn;

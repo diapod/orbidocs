@@ -7,14 +7,16 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Request to pause or resume one local binding. Pausing is reversible and needs no reactivation; revocation stays a P085 operation.",
+  "description": "Request to pause or resume one local binding under a current operator binding. Pausing is reversible and needs no reactivation; revocation stays a P085 operation. The host verifies the operator binding and the expected revision when it commits the change. A request whose outcome already holds changes and records nothing. A pause that must not depend on a current operator binding uses `operator-task-binding-emergency-pause.v1` instead; this request never falls back to it.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "schema/v",
     "binding/ref",
-    "binding/state"
+    "binding/state",
+    "operator/binding-ref",
+    "local-binding/expected-digest"
   ],
   "properties": {
     "schema": {
@@ -25,6 +27,13 @@
     },
     "binding/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+    },
+    "local-binding/expected-digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest",
+      "description": "The `local-binding/digest` of the revision this change was prepared against, as readiness or a profile-change review reported it. The host compares it with the stored binding when it commits the change and refuses a mismatch with `local-binding/revision-stale`."
     },
     "binding/state": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/bindingState"

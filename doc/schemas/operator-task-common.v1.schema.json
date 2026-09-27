@@ -15,6 +15,17 @@
       "pattern": "^[a-z][a-z0-9-]*:[^\\s/\\\\][^\\s\\\\]*$",
       "description": "Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text."
     },
+    "operatorBindingRef": {
+      "description": "The exact `node-operator-binding.v1` the host verifies as current through the P085 operator-authority check before it commits a binding change.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ref"
+        },
+        {
+          "pattern": "^node-operator-binding:"
+        }
+      ]
+    },
     "digest": {
       "type": "string",
       "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
@@ -172,6 +183,7 @@
         "local-binding/profile-changed",
         "local-binding/conflict",
         "local-binding/paused",
+        "local-binding/revision-stale",
         "environment/image-mismatch",
         "environment/prepared-system-unavailable",
         "environment/runtime-egress-denied",

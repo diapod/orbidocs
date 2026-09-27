@@ -1,0 +1,13 @@
+{
+  "schema": "operator-task-binding-change.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "change/kind": "resume",
+  "actor": {
+    "actor/kind": "operator",
+    "participant/ref": "participant:did:key:z6MkRomanParticipant11111111111111111111111",
+    "operator/binding-ref": "node-operator-binding:local"
+  },
+  "local-binding/digest": "sha256:Qm9vdGhlci1iaW5kaW5nLXJldmlzaW9uLWRpZ2VzdA0",
+  "recorded-at": "2026-09-27T12:00:00Z"
+}

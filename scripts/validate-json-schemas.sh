@@ -137,6 +137,12 @@ schema_for_file() {
     *.operator-task-profile-change-result.json)
       echo "$SCHEMAS_DIR/operator-task-profile-change-result.v1.schema.json"
       ;;
+    *.operator-task-binding-emergency-pause.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-emergency-pause.v1.schema.json"
+      ;;
+    *.operator-task-binding-change.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-change.v1.schema.json"
+      ;;
     *.middleware-observed-result.v1.json)
       echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
       ;;

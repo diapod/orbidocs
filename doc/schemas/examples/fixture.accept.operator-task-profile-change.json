@@ -1,9 +1,9 @@
 {
-  "schema": "operator-task-binding-create.v1",
+  "schema": "operator-task-profile-change.v1",
   "schema/v": 1,
   "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
   "operator/binding-ref": "node-operator-binding:local",
-  "package/ref": "extension-package:qmail",
+  "local-binding/expected-digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
   "task-profile": {
     "schema": "operator-task-profile.v1",
     "schema/v": 1,
@@ -115,9 +115,5 @@
     "refusal-corpus/ref": "refusal-corpus:qmail-task-pack-v1",
     "refusal-corpus/digest": "sha256:LkV9cIgvNuTah1PUer6TmjRkfYW9iUhcpEmvE3uxt6U"
   },
-  "workspace": {
-    "root/ref": "workspace-root:qmail-lab",
-    "backend/ref": "sensorium-virt-backend:cloud-hypervisor"
-  },
-  "activation/generation": 7
+  "accept": true
 }

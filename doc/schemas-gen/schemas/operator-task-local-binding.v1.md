@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-local-binding.v1.schema.json`](../../schemas/operator-task-local-binding.v1.schema.json)
 
-Host-owned local choices for one task profile. It carries only choices the profile leaves open: no activation generation, revision counter, or restated portable fact.
+Host-owned local choices for one task profile and a host mutation revision that fences stale requests across pause/resume cycles. No activation generation or restated portable fact. Legacy documents without binding/revision retain their original digest until the first change; new bindings start at revision 1 and every effective change increments it.
 
 ## Governing Basis
 
@@ -18,6 +18,7 @@ Host-owned local choices for one task profile. It carries only choices the profi
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`binding/ref`](#field-binding-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`binding/state`](#field-binding-state) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/bindingState` |  |
+| [`binding/revision`](#field-binding-revision) | `no` | ref: `operator-task-common.v1.schema.json#/$defs/counter` | Host-owned monotone mutation counter, included in local-binding/digest. It is never supplied in a change request; omitted only in legacy stored documents. No-op retries do not increment it. |
 | [`package/ref`](#field-package-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`task-profile/ref`](#field-task-profile-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`task-profile/digest`](#field-task-profile-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
@@ -52,6 +53,14 @@ Host-owned local choices for one task profile. It carries only choices the profi
 
 - Required: `yes`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/bindingState`
+
+<a id="field-binding-revision"></a>
+## `binding/revision`
+
+- Required: `no`
+- Shape: ref: `operator-task-common.v1.schema.json#/$defs/counter`
+
+Host-owned monotone mutation counter, included in local-binding/digest. It is never supplied in a change request; omitted only in legacy stored documents. No-op retries do not increment it.
 
 <a id="field-package-ref"></a>
 ## `package/ref`

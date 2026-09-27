@@ -42,7 +42,12 @@ Operators can now run that conformance, create and pause bindings, review profil
 changes and read readiness with one decisive blocker through daemon routes
 (`P094-006a`); P091-backed binding storage remains (`P094-006b`). Follow-up review
 hardened stored-document admission, profile-change ceilings and conformance
-diagnostics; it adds regression evidence, not runtime readiness. The readiness estimates of the new
+diagnostics; it adds regression evidence, not runtime readiness. `P094-006c` now
+requires current operator authority for changes, fences stale requests with a
+host mutation revision, and provides a separate host-local emergency pause.
+Review covered concurrent operator revocation and the pause/resume/pause ABA
+cycle. P091-backed transactional history and recovery remain in `P094-006b`;
+an audit attempt alone is not commit evidence. The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.

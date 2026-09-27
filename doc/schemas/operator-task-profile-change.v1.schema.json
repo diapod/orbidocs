@@ -7,7 +7,7 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Request to review, and optionally accept, the task profile an upgraded package now pins for one binding. The host admits the supplied profile only at the package's registered digest and diffs it against the binding's accepted profile; acceptance is one action and refuses when the binding's local choices would exceed the new ceilings.",
+  "description": "Request to review, and optionally accept, the task profile an upgraded package now pins for one binding. The host admits the supplied profile only at the package's registered digest and diffs it against the binding's accepted profile; acceptance is one action and refuses when the binding's local choices would exceed the new ceilings. A review (`accept: false`) is a read and carries no authority. An acceptance names the operator binding and the expected revision, which the host verifies when it commits the change, not when it computed the diff.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -27,11 +27,54 @@
     "binding/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
     },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+    },
+    "local-binding/expected-digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest",
+      "description": "The `local-binding/digest` of the revision this change was prepared against, as readiness or a profile-change review reported it. The host compares it with the stored binding when it commits the change and refuses a mismatch with `local-binding/revision-stale`."
+    },
     "task-profile": {
       "$ref": "operator-task-profile.v1.schema.json"
     },
     "accept": {
       "type": "boolean"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "accept": {
+            "const": true
+          }
+        },
+        "required": [
+          "accept"
+        ]
+      },
+      "then": {
+        "required": [
+          "operator/binding-ref",
+          "local-binding/expected-digest"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "operator/binding-ref"
+              ]
+            },
+            {
+              "required": [
+                "local-binding/expected-digest"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
 }

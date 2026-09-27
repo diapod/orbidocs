@@ -2,6 +2,7 @@
   "schema": "operator-task-binding-create.v1",
   "schema/v": 1,
   "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "operator/binding-ref": "node-operator-binding:local",
   "package/ref": "extension-package:qmail",
   "task-profile": {
     "schema": "operator-task-profile.v1",

@@ -7,13 +7,14 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Request to bind one task profile an installed package pins. The operator supplies the profile document, which the host admits only at the package's registered digest, and only the choices the profile leaves open. Omitted safety values take the most restrictive admissible default, publication defaults to off, and the host fills the profile digest. A missing workspace, or a missing image variant when the profile admits several, is refused as incomplete; the request cannot carry digests, generations or portable facts.",
+  "description": "Request to bind one task profile an installed package pins. The operator supplies the profile document, which the host admits only at the package's registered digest, and only the choices the profile leaves open. Omitted safety values take the most restrictive admissible default, publication defaults to off, and the host fills the profile digest. A missing workspace, or a missing image variant when the profile admits several, is refused as incomplete; the request cannot carry digests, generations or portable facts. Creating a binding is an ordinary binding change: it names the operator binding under which it is made, and the host verifies that binding as current when it commits the change.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "schema/v",
     "binding/ref",
+    "operator/binding-ref",
     "package/ref",
     "task-profile"
   ],
@@ -26,6 +27,9 @@
     },
     "binding/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
     },
     "package/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"

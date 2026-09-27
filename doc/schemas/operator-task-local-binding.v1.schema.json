@@ -7,7 +7,7 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Host-owned local choices for one task profile. It carries only choices the profile leaves open: no activation generation, revision counter, or restated portable fact.",
+  "description": "Host-owned local choices for one task profile and a host mutation revision that fences stale requests across pause/resume cycles. No activation generation or restated portable fact. Legacy documents without binding/revision retain their original digest until the first change; new bindings start at revision 1 and every effective change increments it.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -34,6 +34,10 @@
     },
     "binding/state": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/bindingState"
+    },
+    "binding/revision": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter",
+      "description": "Host-owned monotone mutation counter, included in local-binding/digest. It is never supplied in a change request; omitted only in legacy stored documents. No-op retries do not increment it."
     },
     "package/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"

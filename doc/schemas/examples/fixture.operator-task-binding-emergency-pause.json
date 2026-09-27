@@ -1,0 +1,5 @@
+{
+  "schema": "operator-task-binding-emergency-pause.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
+}
