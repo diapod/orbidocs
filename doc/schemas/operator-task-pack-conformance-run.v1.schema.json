@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-pack-conformance-run:v1",
+  "title": "Operator Task Pack Conformance Run v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Request to recompute the pack facts of every task profile an installed P085 package binds and, when they pass, to run the package's host-owned P085 conformance. The asset bundle is read from one host-admitted P085 import root; each entry names the asset ref the profile uses and its relative path there. The host digests every asset itself; the request carries no digests and no absolute paths.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "package/ref",
+    "assets"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-pack-conformance-run.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "package/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root/id",
+        "entries"
+      ],
+      "properties": {
+        "root/id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,128}$",
+          "description": "Identifier of a host-admitted P085 import root."
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "path"
+            ],
+            "properties": {
+              "ref": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[A-Za-z0-9_-][A-Za-z0-9._-]*(?:/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$",
+                "description": "Path below the admitted root: plain components separated by single slashes, none starting with a dot, no traversal, glob, backslash or whitespace."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

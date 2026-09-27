@@ -37,7 +37,12 @@ mode, the patch policy and the action-semantics map, with owner validation. Plan
 pack-fact derivation from those owner sources closed `P094-004` (`P094-004b`), and
 supplied task profiles are admitted from their active P085 package (`P094-005a`); the
 host now recomputes each profile's pack facts from supplied assets and owner sources at
-conformance, and P085 gates the package on that evidence (`P094-005b`, `P085-046`). The readiness estimates of the new
+conformance, and P085 gates the package on that evidence (`P094-005b`, `P085-046`).
+Operators can now run that conformance, create and pause bindings, review profile
+changes and read readiness with one decisive blocker through daemon routes
+(`P094-006a`); P091-backed binding storage remains (`P094-006b`). Follow-up review
+hardened stored-document admission, profile-change ceilings and conformance
+diagnostics; it adds regression evidence, not runtime readiness. The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.
@@ -1926,7 +1931,7 @@ Recent component deltas:
 | [Proposal 090: Inference Execution Provenance and Non-local Disclosure](../40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | `true` | `false` | `false` | `75` |
 | [Proposal 091: File-backed Configuration and Explainable Composition](../40-proposals/091-file-backed-configuration-and-explainable-composition.md) | `true` | `false` | `false` | `30` |
 | [Proposal 092: Node Contract Maturity Baseline](../40-proposals/092-node-contract-maturity-baseline.md) | `true` | `true` | `false` | `100` |
-| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `34` |
+| [Proposal 094: Operator Task Packs for Bounded Problem Solving](../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md) | `true` | `false` | `false` | `40` |
 
 ## Solutions
 

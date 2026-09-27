@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-pack-conformance-run-result:v1",
+  "title": "Operator Task Pack Conformance Run Result v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Outcome of one task-pack conformance run: the recorded pack-facts evidence of each bound profile and, when every profile passed, the P085 conformance report the host recorded. A failed run records its evidence and no report.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "package/ref",
+    "status",
+    "profiles"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-pack-conformance-run-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "package/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "failed"
+      ]
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task-profile/ref",
+          "task-profile/revision",
+          "evidence/digest",
+          "result",
+          "mismatches/count"
+        ],
+        "properties": {
+          "task-profile/ref": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          },
+          "task-profile/revision": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+          },
+          "evidence/digest": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+          },
+          "result": {
+            "enum": [
+              "passed",
+              "failed"
+            ]
+          },
+          "mismatches/count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 128
+          }
+        }
+      }
+    },
+    "package-report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report/ref",
+        "report/digest"
+      ],
+      "properties": {
+        "report/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "report/digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "passed"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "package-report"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "package-report"
+          ]
+        }
+      }
+    }
+  ]
+}

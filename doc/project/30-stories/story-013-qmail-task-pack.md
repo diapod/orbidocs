@@ -213,7 +213,7 @@ result, disclosed according to the result's disclosure metadata.
 | :--- | :--- | :--- |
 | Task-profile schemas, candidate and plan contracts, refusal table | P094 (`P094-003`, `P094-004`) | all runs |
 | Package semantic entry and lifecycle | P085 through `P094-005a` (admission, done) and `P094-005b` (host-recomputed pack facts at conformance, done) | all runs |
-| Binding, readiness, and inspection | `P094-006` | all runs |
+| Binding, readiness, and inspection | `P094-006a` (host file store, done) and `P094-006b` (P091-backed) | all runs |
 | `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1` | Workbench, mirrored in P071 Phase 6 | effects |
 | Enforced command-profile effect mode | Workbench, `P094-019a` (contract, done) and `P094-019b` (enforcement) | observation steps and verifier |
 | `isolated-environment` recovery class with `environment.destroy` | P080 and Sensorium Virt, `P094-018` | contained mutations and uncertain outcomes |

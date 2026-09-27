@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-refusal:v1",
+  "title": "Operator Task Refusal v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "A tabled P094 refusal as returned by operator task-pack routes: the code with its retry class and next operator action from the refusal table, and optionally which binding choices are missing or which asset caused it. It carries no prose, secrets or local paths.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "refusal/code",
+    "retry-class",
+    "next-action"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-refusal.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "refusal/code": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+    },
+    "retry-class": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/retryClass"
+    },
+    "next-action": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/nextAction"
+    },
+    "missing/fields": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "workspace",
+          "image-variant",
+          "inference"
+        ]
+      }
+    },
+    "subject/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    }
+  }
+}

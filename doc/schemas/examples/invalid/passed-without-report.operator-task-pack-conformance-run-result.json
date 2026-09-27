@@ -1,0 +1,15 @@
+{
+  "schema": "operator-task-pack-conformance-run-result.v1",
+  "schema/v": 1,
+  "package/ref": "extension-package:qmail",
+  "status": "passed",
+  "profiles": [
+    {
+      "task-profile/ref": "operator-task-profile:qmail-local-administration",
+      "task-profile/revision": 1,
+      "evidence/digest": "sha256:7oJQ-3bglLNLRx8Tpz275R0a4ULp31nXwNMewg8KCo4",
+      "result": "passed",
+      "mismatches/count": 0
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "operator-task-refusal.v1",
+  "schema/v": 1,
+  "refusal/code": "binding/whatever",
+  "retry-class": "after-operator-action",
+  "next-action": "edit-binding",
+  "missing/fields": [
+    "workspace"
+  ]
+}

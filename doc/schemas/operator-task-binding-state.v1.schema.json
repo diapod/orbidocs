@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-state:v1",
+  "title": "Operator Task Binding State v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Request to pause or resume one local binding. Pausing is reversible and needs no reactivation; revocation stays a P085 operation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "binding/state"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-state.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "binding/state": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/bindingState"
+    }
+  }
+}

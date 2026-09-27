@@ -1,0 +1,22 @@
+{
+  "schema": "operator-task-pack-conformance-run.v1",
+  "schema/v": 1,
+  "package/ref": "extension-package:qmail",
+  "assets": {
+    "root/id": "qmail-pack",
+    "entries": [
+      {
+        "ref": "operator-task-profile:qmail-local-administration",
+        "path": "profile/task-profile.json"
+      },
+      {
+        "ref": "sensorium-command-profile:qmail-showctl-v1",
+        "path": "workbench/qmail-showctl.json"
+      },
+      {
+        "ref": "sensorium-patch-policy:qmail-control-files-v1",
+        "path": "workbench/control-files-policy.json"
+      }
+    ]
+  }
+}

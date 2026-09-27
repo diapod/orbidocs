@@ -116,6 +116,27 @@ schema_for_file() {
     *.operator-task-pack-facts-evidence.json)
       echo "$SCHEMAS_DIR/operator-task-pack-facts-evidence.v1.schema.json"
       ;;
+    *.operator-task-pack-conformance-run.json)
+      echo "$SCHEMAS_DIR/operator-task-pack-conformance-run.v1.schema.json"
+      ;;
+    *.operator-task-pack-conformance-run-result.json)
+      echo "$SCHEMAS_DIR/operator-task-pack-conformance-run-result.v1.schema.json"
+      ;;
+    *.operator-task-refusal.json)
+      echo "$SCHEMAS_DIR/operator-task-refusal.v1.schema.json"
+      ;;
+    *.operator-task-binding-create.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-create.v1.schema.json"
+      ;;
+    *.operator-task-binding-state.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-state.v1.schema.json"
+      ;;
+    *.operator-task-profile-change.json)
+      echo "$SCHEMAS_DIR/operator-task-profile-change.v1.schema.json"
+      ;;
+    *.operator-task-profile-change-result.json)
+      echo "$SCHEMAS_DIR/operator-task-profile-change-result.v1.schema.json"
+      ;;
     *.middleware-observed-result.v1.json)
       echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
       ;;

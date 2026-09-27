@@ -1,0 +1,6 @@
+{
+  "schema": "operator-task-binding-state.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "binding/state": "revoked"
+}

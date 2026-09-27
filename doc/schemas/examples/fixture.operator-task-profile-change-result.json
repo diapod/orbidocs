@@ -1,0 +1,22 @@
+{
+  "schema": "operator-task-profile-change-result.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "from/digest": "sha256:wKgeijmWbCEr97W9yb7_LS6q1oIwLMWbkKwTxn2mWes",
+  "to/digest": "sha256:2IB98WbafESD_JAdFZOYxhm8CiIsaWByhorUoN54iFU",
+  "changes": [
+    {
+      "axis": "max/passages",
+      "kind": "narrowing",
+      "from": "18",
+      "to": "12"
+    },
+    {
+      "axis": "patch-policy",
+      "kind": "substitution",
+      "from": "sha256:7PWepYZ0_anbBQ7kEd2Nq8_CcOITdiQVRfe2auWR6F8",
+      "to": "sha256:jIgg6Ytwg3hBC5Ba9QicxbaRndaBiadxNTmctDlmwe0"
+    }
+  ],
+  "accepted": false
+}
