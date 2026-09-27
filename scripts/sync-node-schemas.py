@@ -23,6 +23,11 @@ NODE_WORKSPACE_SENTINELS = (
     Path("schema-gate/Cargo.toml"),
 )
 
+# Keep established Node filenames while copying the canonical documentation schema.
+NODE_SCHEMA_FILENAMES = {
+    "sensorium-os-error-codes.v1.schema.json": "sensorium-os-error-codes.v1.json",
+}
+
 SCHEMA_WHITELIST = (
     "configuration-common.v1.schema.json",
     "config-setting-descriptor.v1.schema.json",
@@ -315,6 +320,7 @@ SCHEMA_WHITELIST = (
     "operator-consent-binding.v1.schema.json",
     "sensorium-workbench.consent-descriptor.v1.schema.json",
     "sensorium-os.consent-descriptor.v1.schema.json",
+    "sensorium-os-error-codes.v1.schema.json",
     "sensorium-os.action-catalog-delta.v1.schema.json",
     "sensorium-os.action-catalog-sidecar.v1.schema.json",
     "sensorium-relative-path-address.v1.schema.json",
@@ -1277,11 +1283,16 @@ SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
 )
 
 
-def copy_files(files: tuple[str, ...], source_dir: Path, target_dir: Path) -> None:
+def copy_files(
+    files: tuple[str, ...],
+    source_dir: Path,
+    target_dir: Path,
+    target_names: dict[str, str] | None = None,
+) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     for name in files:
         source = source_dir / name
-        target = target_dir / name
+        target = target_dir / (target_names or {}).get(name, name)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
 
@@ -1338,7 +1349,7 @@ def main() -> int:
     schema_gate_agora_target = node_root / "schema-gate" / "contracts" / "schemas" / "agora"
     middleware_schema_target = node_root / "middleware" / "schemas"
 
-    copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target)
+    copy_files(SCHEMA_WHITELIST, SCHEMAS_DIR, schema_target, NODE_SCHEMA_FILENAMES)
     copy_shared_schemas(schema_target)
     copy_files(SCHEMA_GATE_AGORA_SCHEMA_WHITELIST, SCHEMAS_DIR, schema_gate_agora_target)
     copy_files(MIDDLEWARE_SCHEMA_WHITELIST, SCHEMAS_DIR, middleware_schema_target)
