@@ -16,6 +16,20 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_sensorium_os_schema_is_synced_to_its_existing_node_filename(self) -> None:
+        canonical = "sensorium-os-error-codes.v1.schema.json"
+        self.assertIn(canonical, SYNC.SCHEMA_WHITELIST)
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary)
+            SYNC.copy_files(
+                (canonical,), SYNC.SCHEMAS_DIR, target, SYNC.NODE_SCHEMA_FILENAMES
+            )
+            self.assertEqual(
+                (target / "sensorium-os-error-codes.v1.json").read_bytes(),
+                (SYNC.SCHEMAS_DIR / canonical).read_bytes(),
+            )
+            self.assertFalse((target / canonical).exists())
+
     def test_accepts_a_node_workspace_root(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "node"
