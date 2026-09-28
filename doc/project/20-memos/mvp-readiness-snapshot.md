@@ -57,12 +57,21 @@ resource paths, record-only quarantine, and drained VMM identity validation.
 unprivileged read-only namespace sandbox plus before/after digests of declared
 roots, with refusal, guest taint and environment destruction on a change. A
 real-vfkit deployment run proved the write refusal (18 of 18 checks); readiness
-still waits for the `P094-008` adapter. Review hardening adds private helper-status
+at that point still awaited the `P094-008` adapter. Review hardening adds private helper-status
 evidence, bounded pipe draining and persistent pending-observation taint, including
 host destruction on unknown outcomes and recovered taint. The original 18-check
 run predates those changes; the revised Linux helper was then qualified on a
-rebuilt image by a fresh 18-of-18 real-vfkit run on 2026-09-28. The readiness
-estimates of the new
+rebuilt image by a fresh 18-of-18 real-vfkit run on 2026-09-28. `P094-008`
+(2026-09-28) now reads those owner facts into readiness. It keeps verified
+package assets and binds the prepared system through the image manifest. The
+environment stage enforces the impact class and the containment predicate. The
+Workbench admits patches against a pinned patch policy before staging.
+Interface descriptors resolve by owner rules. The positive daemon environment
+path and a readiness run on a real backend remain acceptance work (`P094-013`).
+Follow-up review adds regressions for empty patch lines, a missing first-step
+observation command, invalid default contexts, and builder/owner validation and
+Unicode digest parity; it does not upgrade the real-backend evidence.
+The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
 This table is an estimated cross-document readiness snapshot for canonical Story, Proposal, and Solution documents.

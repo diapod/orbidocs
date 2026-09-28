@@ -30,7 +30,27 @@
     "retention/policy": { "const": "environment-state-until-teardown" },
     "replayed": { "type": "boolean" },
     "source/generation-ref": { "$ref": "#/$defs/ref" },
-    "classification": { "$ref": "classification.v1.schema.json" }
+    "classification": { "$ref": "classification.v1.schema.json" },
+    "patch-policy/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$",
+      "description": "Digest of the patch policy that admitted the bytes before staging. Present exactly when the stage request attached a policy; `patch/target` is then present too."
+    },
+    "patch/target": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Owner, group and mode the admitting policy assigns to the target file. The Workbench never chooses them.",
+      "required": ["owner", "group", "mode"],
+      "properties": {
+        "owner": { "type": "string", "pattern": "^[a-z_][a-z0-9_-]{0,31}$" },
+        "group": { "type": "string", "pattern": "^[a-z_][a-z0-9_-]{0,31}$" },
+        "mode": { "type": "string", "pattern": "^0[0-7]{3}$" }
+      }
+    }
+  },
+  "dependentRequired": {
+    "patch-policy/digest": ["patch/target"],
+    "patch/target": ["patch-policy/digest"]
   },
   "$defs": {
     "ref": { "type": "string", "minLength": 1, "maxLength": 512, "not": { "pattern": "\\u0000" } },

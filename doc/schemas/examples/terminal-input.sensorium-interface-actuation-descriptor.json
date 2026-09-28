@@ -1,0 +1,37 @@
+{
+  "schema": "sensorium-interface-actuation-descriptor.v1",
+  "schema/v": 1,
+  "interface/id": "sensorium-interface:terminal-input",
+  "interface/kind": "actuation",
+  "interface/name": "terminal-input",
+  "publisher/node-ref": "node:local",
+  "classification/max-tier": "Community",
+  "classification/topic-class": "sensorium-interface/terminal",
+  "source/generation-ref": "source-generation:g1",
+  "operational/context": {
+    "schema": "sensorium-operational-context.v1",
+    "schema/v": 1,
+    "impact/class": "test",
+    "context/summary": "isolated terminal fixture"
+  },
+  "published/at": "2027-01-01T00:00:00Z",
+  "expires/at": "2030-01-01T00:00:00Z",
+  "methods": [
+    {
+      "method/name": "terminal.input",
+      "input/schema-ref": "sensorium-interface-terminal-input.v1",
+      "reconciliation/mode": "none",
+      "effect/kind": "irreversible-stream"
+    }
+  ],
+  "receipt/schema-ref": "sensorium-interface-invoke-receipt.v1",
+  "coordination/mode": "shared",
+  "limits": {
+    "payload/max-bytes": 4096,
+    "rate/max-per-minute": 60,
+    "outstanding/caller-max": 2,
+    "outstanding/interface-max": 4,
+    "deadline/max-ms": 10000,
+    "idempotency/retention-seconds": 3600
+  }
+}

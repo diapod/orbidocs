@@ -44,6 +44,8 @@ Content-bound receipt for patch bytes staged inside one Workbench guest generati
 | [`replayed`](#field-replayed) | `yes` | boolean |  |
 | [`source/generation-ref`](#field-source-generation-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`classification`](#field-classification) | `yes` | ref: `classification.v1.schema.json` |  |
+| [`patch-policy/digest`](#field-patch-policy-digest) | `no` | string | Digest of the patch policy that admitted the bytes before staging. Present exactly when the stage request attached a policy; `patch/target` is then present too. |
+| [`patch/target`](#field-patch-target) | `no` | object | Owner, group and mode the admitting policy assigns to the target file. The Workbench never chooses them. |
 
 ## Definitions
 
@@ -124,6 +126,22 @@ Content-bound receipt for patch bytes staged inside one Workbench guest generati
 
 - Required: `yes`
 - Shape: ref: `classification.v1.schema.json`
+
+<a id="field-patch-policy-digest"></a>
+## `patch-policy/digest`
+
+- Required: `no`
+- Shape: string
+
+Digest of the patch policy that admitted the bytes before staging. Present exactly when the stage request attached a policy; `patch/target` is then present too.
+
+<a id="field-patch-target"></a>
+## `patch/target`
+
+- Required: `no`
+- Shape: object
+
+Owner, group and mode the admitting policy assigns to the target file. The Workbench never chooses them.
 
 ## Definition Semantics
 

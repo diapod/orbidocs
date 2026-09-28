@@ -34,7 +34,7 @@ Bounded companion-process request used by Python Sensorium connectors to delegat
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `sensorium-actuation.bridge.request.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`operation`](#field-operation) | `yes` | enum: `relative-path.validate`, `command-profile.matches-argv` |  |
+| [`operation`](#field-operation) | `yes` | enum: `relative-path.validate`, `command-profile.matches-argv`, `patch-policy.admit` |  |
 | [`payload`](#field-payload) | `yes` | object |  |
 
 ## Conditional Rules
@@ -117,6 +117,84 @@ Then:
 }
 ```
 
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "operation": {
+      "const": "patch-policy.admit"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "root/ref",
+        "path",
+        "operation"
+      ],
+      "properties": {
+        "policy": {
+          "type": "object"
+        },
+        "root/ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "write",
+            "delete"
+          ]
+        },
+        "content/base64": {
+          "type": "string",
+          "contentEncoding": "base64"
+        }
+      },
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "write"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "required": [
+          "content/base64"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "content/base64"
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -135,7 +213,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: enum: `relative-path.validate`, `command-profile.matches-argv`
+- Shape: enum: `relative-path.validate`, `command-profile.matches-argv`, `patch-policy.admit`
 
 <a id="field-payload"></a>
 ## `payload`

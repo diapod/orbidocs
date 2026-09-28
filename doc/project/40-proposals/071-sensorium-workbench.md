@@ -2928,8 +2928,20 @@ stay here.
   glob and duplicate targets, empty operations, unanchored or escaped-anchor patterns,
   backreferences, lookaround, malformed account names and malformed modes;
   `PatchPolicy::digest` gives its content address (SHA-256 over JCS v1, only for a
-  valid policy). Enforcement before staging remains with `P094-008`. Today only patch artifacts and stage/apply results exist; nothing
-  states which patch a Workbench may admit. The policy is a closed, content-addressed
+  valid policy). Enforcement before staging is done (2026-09-28, `P094-008b`): a
+  `patch.stage` request may attach the policy as `patch/policy` pinned by
+  `patch-policy/digest`; the Workbench asks the Rust actuation companion
+  (`patch-policy.admit`, `PatchPolicy::admit_content`) to admit the complete
+  resulting file before any byte reaches the guest, and refuses with
+  `patch-outside-policy` (unknown target, operation, size, non-UTF-8, line count,
+  line shape) or `patch-policy-invalid` (invalid policy, digest mismatch). The
+  guest's `target/existed` then selects `modify` or `create`, which the policy must
+  also admit. The receipt carries the policy digest and the owner, group and mode
+  the policy assigns, and the policy digest is part of the idempotent request.
+  Remaining: no operation applies staged guest bytes yet; when one exists it must
+  re-admit against the same pinned policy and set exactly the assigned owner,
+  group and mode. Before this, only patch artifacts and stage/apply results existed;
+  nothing stated which patch a Workbench may admit. The policy is a closed, content-addressed
   contract naming the admitted path set, maximum file size, ownership, mode, and
   accepted content shape per path. The Workbench resolves paths canonically inside
   the environment boundary, refuses a patch touching any path outside the set or

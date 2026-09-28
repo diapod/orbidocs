@@ -30,9 +30,9 @@
     },
     {
       "field": "environment/prepared-system",
-      "ref": "sensorium-prepared-system:qmail-v1",
+      "ref": "prepared-system:qmail-v1",
       "digest": "sha256:NRHHnDNUoSy5BUmOUtDvL0DL-XW3RC1tFcFScBmUMew",
-      "rule": "jcs-v1"
+      "rule": "owner"
     }
   ],
   "admitted-actions": [

@@ -20,6 +20,8 @@
     "guest-agent/digest": { "$ref": "#/$defs/digest" },
     "guest-protocol/schema-set-digest": { "$ref": "#/$defs/digest" },
     "guest-protocol/version": { "type": "integer", "const": 1 },
+    "guest/effect-modes": { "type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": { "enum": ["observation", "mutation"] }, "description": "Effect modes the image's guest agent enforces (P094-008). Absent means mutation only; a guest never claims observation by omission." },
+    "prepared-system/digest": { "$ref": "#/$defs/digest", "description": "Owner digest (SHA-256 over JCS v1) of the sensorium-virt-prepared-system.v1 document the builder wrote into the image (P094-008c). Absent means the image carries no prepared system." },
     "variants": {
       "type": "array",
       "minItems": 1,

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-virt-prepared-system:v1",
+  "title": "Sensorium Virt Prepared System v1",
+  "description": "Closed, content-bound state an image builder writes into a guest beyond its base image: files pinned by the digest of their bytes, paths that must be absent, and bounded claims for verifiers. Its content address is the SHA-256 over JCS v1 of the whole document, which an image manifest binds as `prepared-system/digest`. The shape is the one builder tooling already reads, so it carries no `schema/v`.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": ["schema", "profile/ref", "files", "absent/paths", "claims"],
+  "properties": {
+    "schema": { "const": "sensorium-virt-prepared-system.v1" },
+    "profile/ref": {
+      "type": "string",
+      "maxLength": 200,
+      "pattern": "^prepared-system:[^\\u0000]+$"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["guest/path", "source/path", "digest", "mode"],
+        "properties": {
+          "guest/path": { "$ref": "#/$defs/guestPath" },
+          "source/path": {
+            "type": "string",
+            "maxLength": 512,
+            "pattern": "^[A-Za-z0-9._+@-]+(?:/[A-Za-z0-9._+@-]+)*$",
+            "not": { "pattern": "(^|/)\\.\\.?(/|$)" },
+            "description": "Builder-side path relative to the prepared-system document; the builder refuses symlinks and escapes."
+          },
+          "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+          "mode": { "enum": ["0444", "0644"] }
+        }
+      }
+    },
+    "absent/paths": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/guestPath" }
+    },
+    "claims": {
+      "type": "object",
+      "maxProperties": 16,
+      "propertyNames": { "minLength": 1, "maxLength": 100 },
+      "additionalProperties": { "type": "string", "maxLength": 500 }
+    }
+  },
+  "$defs": {
+    "guestPath": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^(?:/[A-Za-z0-9._+@-]+)+$",
+      "not": { "pattern": "/\\.\\.?(/|$)" },
+      "description": "Absolute, normalized guest path: no empty, `.` or `..` component."
+    }
+  }
+}

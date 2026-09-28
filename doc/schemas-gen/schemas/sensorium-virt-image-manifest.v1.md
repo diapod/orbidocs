@@ -42,6 +42,8 @@ Digest-pinned logical full-system image and its backend variants.
 | [`guest-agent/digest`](#field-guest-agent-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`guest-protocol/schema-set-digest`](#field-guest-protocol-schema-set-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`guest-protocol/version`](#field-guest-protocol-version) | `yes` | const: `1` |  |
+| [`guest/effect-modes`](#field-guest-effect-modes) | `no` | array | Effect modes the image's guest agent enforces (P094-008). Absent means mutation only; a guest never claims observation by omission. |
+| [`prepared-system/digest`](#field-prepared-system-digest) | `no` | ref: `#/$defs/digest` | Owner digest (SHA-256 over JCS v1) of the sensorium-virt-prepared-system.v1 document the builder wrote into the image (P094-008c). Absent means the image carries no prepared system. |
 | [`variants`](#field-variants) | `yes` | array |  |
 
 ## Definitions
@@ -111,6 +113,22 @@ Digest-pinned logical full-system image and its backend variants.
 
 - Required: `yes`
 - Shape: const: `1`
+
+<a id="field-guest-effect-modes"></a>
+## `guest/effect-modes`
+
+- Required: `no`
+- Shape: array
+
+Effect modes the image's guest agent enforces (P094-008). Absent means mutation only; a guest never claims observation by omission.
+
+<a id="field-prepared-system-digest"></a>
+## `prepared-system/digest`
+
+- Required: `no`
+- Shape: ref: `#/$defs/digest`
+
+Owner digest (SHA-256 over JCS v1) of the sensorium-virt-prepared-system.v1 document the builder wrote into the image (P094-008c). Absent means the image carries no prepared system.
 
 <a id="field-variants"></a>
 ## `variants`

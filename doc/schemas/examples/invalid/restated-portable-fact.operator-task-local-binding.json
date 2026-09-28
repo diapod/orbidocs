@@ -8,7 +8,7 @@
   "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
   "workspace": {
     "root/ref": "workspace-root:qmail-lab",
-    "backend/ref": "sensorium-virt-backend:cloud-hypervisor"
+    "backend/ref": "sensorium-virt-backend:cloud-hypervisor-system.v1"
   },
   "inference": {
     "model-profile/ref": "model-profile:qwen-coder-local",
@@ -26,6 +26,6 @@
     "max/concurrent-runs": 1
   },
   "environment": {
-    "prepared-system/ref": "sensorium-prepared-system:qmail-v1"
+    "prepared-system/ref": "prepared-system:qmail-v1"
   }
 }

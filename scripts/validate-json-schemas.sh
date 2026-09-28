@@ -653,6 +653,12 @@ schema_for_file() {
     *.sensorium-virt-image-manifest.json)
       echo "$SCHEMAS_DIR/sensorium-virt-image-manifest.v1.schema.json"
       ;;
+    *.sensorium-virt-prepared-system.json)
+      echo "$SCHEMAS_DIR/sensorium-virt-prepared-system.v1.schema.json"
+      ;;
+    *.sensorium-interface-actuation-descriptor.json)
+      echo "$SCHEMAS_DIR/sensorium-interface-actuation-descriptor.v1.schema.json"
+      ;;
     *.sensorium-virt-recovery-record.json)
       echo "$SCHEMAS_DIR/sensorium-virt-recovery-record.v1.schema.json"
       ;;

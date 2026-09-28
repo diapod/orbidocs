@@ -1,0 +1,26 @@
+{
+  "schema": "sensorium-virt-prepared-system.v1",
+  "profile/ref": "prepared-system:story-012-powerdns-bind-missing-zone-data-v1",
+  "files": [
+    {
+      "guest/path": "/etc/powerdns/pdns.d/bind.conf",
+      "source/path": "bind.conf",
+      "digest": "sha256:269977791066ca0abbf3c4e9888c93300a605134ea30f5516b5b960f006365ab",
+      "mode": "0755"
+    },
+    {
+      "guest/path": "/etc/powerdns/named.conf",
+      "source/path": "named.conf",
+      "digest": "sha256:819ef3448197aa3daed92d34612a926ed393ff17f0f61c83cc2f5d8041e5ec30",
+      "mode": "0644"
+    }
+  ],
+  "absent/paths": [
+    "/var/lib/powerdns/localdomain.zone"
+  ],
+  "claims": {
+    "challenge/id": "powerdns-bind-missing-zone-data.v1",
+    "verifier/ref": "story-fixture:story-012-powerdns-missing-zone-data-v1/verify_powerdns.py",
+    "verifier/digest": "sha256:73ec1095582ea8a10742a6630b968832ba3d9c7263a38b2d3211dfad0d3dce84"
+  }
+}
