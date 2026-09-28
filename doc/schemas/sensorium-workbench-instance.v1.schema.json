@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-instance:v1",
+  "title": "Sensorium Workbench Instance v1",
+  "description": "The microVM instance of one run, allocated from a configured Workbench root (P094-021c). Its root ref is the content address of the workspace, the configured root and the instance key, so a Workbench restart re-binds the live VM. `allocating` means the host holds the allocation but the VM has not started; `unbound` means a restart could not re-bind it; either can still be torn down. A `closed` instance is never allocated again under its key.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "workspace/ref",
+    "root/ref",
+    "template/root-ref",
+    "instance/key",
+    "environment/ref",
+    "source/generation-ref",
+    "lifecycle/status",
+    "replayed"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-workbench-instance.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "workspace/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "root/ref": {
+      "type": "string",
+      "pattern": "^instance:[0-9a-f]{40}$"
+    },
+    "template/root-ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "profile/root-ref": {
+      "$ref": "#/$defs/ref",
+      "description": "Immutable portable root mapping selected by the host binding at allocation; absent means template/root-ref."
+    },
+    "instance/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    },
+    "environment/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "source/generation-ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "image/manifest-digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "lifecycle/status": {
+      "enum": [
+        "allocating",
+        "ready",
+        "unbound",
+        "closed"
+      ]
+    },
+    "replayed": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    }
+  }
+}

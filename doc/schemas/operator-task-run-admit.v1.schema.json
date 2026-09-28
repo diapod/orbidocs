@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-run-admit:v1",
+  "title": "Operator Task Run Admit v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Request to admit one run of a stored plan for the binding it was compiled for (P094-021f). The run ref is the content address of the plan ref and the run key, so admitting the same key again answers the admitted run. The background worker drives the run; this request never runs a step.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "plan/ref",
+    "run/key"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-run-admit.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-local-binding:"
+        }
+      ]
+    },
+    "plan/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-plan:"
+        }
+      ]
+    },
+    "run/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "operator-task-run-admit.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "plan/ref": "operator-task-plan:run-01",
+  "run/key": "relay-fix-2026-09-28"
+}

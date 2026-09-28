@@ -1,0 +1,24 @@
+{
+  "schema": "sensorium-workbench-patch-install-result.v1",
+  "schema/v": 1,
+  "result/ref": "patch-install:qmail-control-1",
+  "address": {
+    "workspace/ref": "workspace:qmail",
+    "root/ref": "guest-root:qmail",
+    "relative/path": "."
+  },
+  "patch-policy/digest": "sha256:kP2c9Yv7N0mR3tQ8wE5aZ1xL4sD6fG8hJ0kB2nM4pQ6",
+  "outcome": "applied",
+  "entries": [
+    {
+      "path": "control/me",
+      "action": "write",
+      "content/digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "path": "control/locals.bak",
+      "action": "delete"
+    }
+  ],
+  "source/generation-ref": "source-generation:qmail:1"
+}

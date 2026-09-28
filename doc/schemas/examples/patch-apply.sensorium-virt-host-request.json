@@ -1,0 +1,29 @@
+{
+  "schema": "sensorium-virt.host.request.v1",
+  "schema/v": 1,
+  "operation": "guest.invoke",
+  "payload": {
+    "environment/ref": "environment:full-system-proof",
+    "source/generation-ref": "source-generation:full-system-proof:1",
+    "guest/request": {
+      "operation/kind": "patch-apply",
+      "entries": [
+        {
+          "action": "write",
+          "path": "control/me",
+          "stage/ref": "patch-stage:sha256:017bc95f0d280353e8fd39acf530814c4de95195d3860278b6292a8dbd2961d8",
+          "content/digest": "sha256:b605992579170003fe8046760452a2563414e17a7929a1dfc0c4d0cfc7f77307",
+          "content/length": 13,
+          "owner": "root",
+          "group": "root",
+          "mode": "0644"
+        },
+        {
+          "action": "delete",
+          "path": "control/locals.bak"
+        }
+      ]
+    },
+    "timeout-ms": 6000
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "schema": "operator-task-run-cancel.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01"
+}

@@ -319,6 +319,9 @@
           "$ref": "#/$defs/guestPatchStage"
         },
         {
+          "$ref": "#/$defs/guestPatchApply"
+        },
+        {
           "$ref": "#/$defs/guestArtifactExport"
         },
         {
@@ -786,6 +789,97 @@
       "type": "object",
       "additionalProperties": false,
       "maxProperties": 0
+    },
+    "guestPatchApply": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Install staged writes and deletions (P094-021a). Every entry is admitted before the first change; a refusal changed nothing, and a failure after a change is unknown (patch-apply-partial).",
+      "required": [
+        "operation/kind",
+        "entries"
+      ],
+      "properties": {
+        "operation/kind": {
+          "const": "patch-apply"
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/guestPatchEntry"
+          }
+        }
+      }
+    },
+    "guestPatchEntry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "path",
+            "stage/ref",
+            "content/digest",
+            "content/length",
+            "owner",
+            "group",
+            "mode"
+          ],
+          "properties": {
+            "action": {
+              "const": "write"
+            },
+            "path": {
+              "$ref": "#/$defs/guestPath"
+            },
+            "stage/ref": {
+              "type": "string",
+              "pattern": "^patch-stage:sha256:[0-9a-f]{64}$"
+            },
+            "content/digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "content/length": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8388608
+            },
+            "owner": {
+              "$ref": "#/$defs/accountName"
+            },
+            "group": {
+              "$ref": "#/$defs/accountName"
+            },
+            "mode": {
+              "type": "string",
+              "pattern": "^0[0-7]{3}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "path"
+          ],
+          "properties": {
+            "action": {
+              "const": "delete"
+            },
+            "path": {
+              "$ref": "#/$defs/guestPath"
+            }
+          }
+        }
+      ]
+    },
+    "accountName": {
+      "type": "string",
+      "pattern": "^[a-z_][a-z0-9_-]{0,31}$"
     }
   }
 }

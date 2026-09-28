@@ -119,6 +119,15 @@ schema_for_file() {
     *.operator-task-refusal-corpus.json)
       echo "$SCHEMAS_DIR/operator-task-refusal-corpus.v1.schema.json"
       ;;
+    *.operator-task-run-admit.json)
+      echo "$SCHEMAS_DIR/operator-task-run-admit.v1.schema.json"
+      ;;
+    *.operator-task-run-cancel.json)
+      echo "$SCHEMAS_DIR/operator-task-run-cancel.v1.schema.json"
+      ;;
+    *.operator-task-run-status.json)
+      echo "$SCHEMAS_DIR/operator-task-run-status.v1.schema.json"
+      ;;
     *.operator-task-run-fact.json)
       echo "$SCHEMAS_DIR/operator-task-run-fact.v1.schema.json"
       ;;
@@ -661,6 +670,15 @@ schema_for_file() {
       ;;
     *.sensorium-workbench-patch-stage-result.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-patch-stage-result.v1.schema.json"
+      ;;
+    *.sensorium-workbench-process-run-result.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-process-run-result.v1.schema.json"
+      ;;
+    *.sensorium-workbench-patch-install-result.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-patch-install-result.v1.schema.json"
+      ;;
+    *.sensorium-workbench-instance.json)
+      echo "$SCHEMAS_DIR/sensorium-workbench-instance.v1.schema.json"
       ;;
     *.sensorium-workbench-outcome.json)
       echo "$SCHEMAS_DIR/sensorium-workbench-outcome.v1.schema.json"

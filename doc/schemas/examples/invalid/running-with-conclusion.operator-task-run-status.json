@@ -1,0 +1,26 @@
+{
+  "schema": "operator-task-run-status.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01",
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "plan/ref": "operator-task-plan:run-01",
+  "phase": "running",
+  "environment/ref": "environment:instance-1",
+  "steps": [
+    {
+      "step/id": "inspect-qmail",
+      "state": "completed"
+    },
+    {
+      "step/id": "apply-control-patch",
+      "state": "refused",
+      "refusal/code": "hil/denied"
+    }
+  ],
+  "cancel/requested": false,
+  "conclusion": {
+    "outcome": "refused",
+    "refusal/code": "hil/denied"
+  },
+  "destruction/confirmation-ref": "workbench-teardown:environment:instance-1"
+}

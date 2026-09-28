@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-patch-install-result:v1",
+  "title": "Sensorium Workbench Patch Install Result v1",
+  "description": "Outcome of installing admitted staged files and deletions in a microVM workspace under one pinned patch policy (P094-021b). `applied` lists the installed entries; `refused` proves that no file changed; `unknown`, such as `patch-apply-partial`, proves nothing and the environment must be destroyed. The result is kept under its idempotency key, so a patch is never installed twice.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "result/ref",
+    "address",
+    "patch-policy/digest",
+    "outcome",
+    "source/generation-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-workbench-patch-install-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "result/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "address": {
+      "$ref": "#/$defs/address"
+    },
+    "patch-policy/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "outcome": {
+      "enum": [
+        "applied",
+        "refused",
+        "unknown"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "action"
+        ],
+        "properties": {
+          "path": {
+            "$ref": "#/$defs/relativePath"
+          },
+          "action": {
+            "enum": [
+              "write",
+              "delete"
+            ]
+          },
+          "content/digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "error/code": {
+      "$ref": "#/$defs/code"
+    },
+    "source/generation-ref": {
+      "$ref": "#/$defs/ref"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "applied"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "entries"
+        ],
+        "not": {
+          "required": [
+            "error/code"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "error/code"
+        ],
+        "not": {
+          "required": [
+            "entries"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "^/"
+          },
+          {
+            "pattern": "(^|/)\\.\\.($|/)"
+          },
+          {
+            "pattern": "^\\./"
+          },
+          {
+            "pattern": "/\\.(/|$)"
+          },
+          {
+            "pattern": "\\u0000"
+          }
+        ]
+      }
+    },
+    "address": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace/ref",
+        "root/ref",
+        "relative/path"
+      ],
+      "properties": {
+        "workspace/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "root/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "relative/path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      }
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9.-]{0,127}$"
+    }
+  }
+}

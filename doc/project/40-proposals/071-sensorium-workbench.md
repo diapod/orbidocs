@@ -2905,21 +2905,27 @@ stay here.
   `effect-mode-unenforceable` before anything runs; a failed sandbox step refuses as
   `observation-sandbox-failed`, also before the command runs. Residual reach, stated
   rather than hidden: services that accept unprivileged peers on filesystem sockets
-  outside `/run` remain reachable; without a PID namespace, ordinary same-UID
-  signal permissions also remain for uid-65534 processes. An observation reads
+  outside `/run` remain reachable. P094-021 review adds a private PID namespace
+  with its own procfs, isolating other uid-65534 processes. An observation reads
   only what an unprivileged user may read. This is not a general-purpose
   side-effect-free sandbox for arbitrary commands. P094 still treats a mode without an enforcing owner adapter as
   `mutation`; reading this evidence into readiness belongs to `P094-008`.
   Review hardening uses a private close-on-exec helper-status descriptor instead
   of trusting command stderr, bounds pipe draining by the process deadline, and
-  persists a pending-observation marker before launch. Timeout or unknown helper
+  persists a pending-observation marker before launch. Unconfirmed timeout or unknown helper
   status retains taint across restart (`observation-outcome-unknown`); the host
   also disposes on `environment-tainted` or tainted inspection after a lost reply.
   The original real-vfkit 18-check proof predates this hardening. On 2026-09-28 the
   revised Linux helper was compiled and tested on Linux and a rebuilt image passed a
   fresh real-vfkit deployment with 18 of 18 checks, including `observation-enforced`.
-- [~] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
-  `P094-008`). The contract and owner validation are done (2026-09-26): the schema
+  The later PID-namespace supervisor reports `observation-timeout-quiesced` only
+  after waiting for namespace PID 1 and checking unchanged roots. Its private
+  status channel, not command output or exit code, supplies the proof. This clears
+  taint and permits bounded verifier retry; other timeouts still destroy the VM.
+  That newer supervisor needs Linux/VM qualification in P094-013; the preceding
+  vfkit report does not attest it.
+- [x] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
+  `P094-008`, `P094-021`). The contract and owner validation are done (2026-09-26): the schema
   uses a line-oriented content shape (an anchored pattern every resulting line must
   fully match, bounded lines and bytes, owner, group and mode) per logical root and
   relative path. The pattern dialect is the RE2-compatible `regex` syntax without
@@ -2941,9 +2947,16 @@ stay here.
   A task-pack plan (`P094-009b`) admits every file of a patch against the same
   policy at compilation, including `patch/max-bytes` over the whole patch,
   which a Workbench staging one file at a time cannot see.
-  Remaining: no operation applies staged guest bytes yet; when one exists it must
-  re-admit against the same pinned policy and set exactly the assigned owner,
-  group and mode. Before this, only patch artifacts and stage/apply results existed;
+  Applying staged bytes is done (2026-09-28, `P094-021a`, `P094-021b`). The guest
+  operation `patch-apply` admits every entry before its first change: the staged
+  bytes of exactly that path and content, a contained target, an owner and a group
+  that exist in the guest, and a mode without special bits. It then installs each
+  write through a synced temporary file and a rename, with the assigned owner, group
+  and mode. A failure after a change is `patch-apply-partial`, and the environment is
+  destroyed. The Workbench's `patch/install` builds that operation only from stages it
+  admitted under the same pinned policy in the current generation, taking the owner,
+  group and mode recorded at stage time. The policy admits each deletion at install
+  time. Before this, only patch artifacts and stage/apply results existed;
   nothing stated which patch a Workbench may admit. The policy is a closed, content-addressed
   contract naming the admitted path set, maximum file size, ownership, mode, and
   accepted content shape per path. The Workbench resolves paths canonically inside
@@ -2952,6 +2965,19 @@ stay here.
   command or arbitrary writes below system roots such as `/etc`. Refusal fixtures
   cover an out-of-set path, a path escaping by symlink or `..`, an oversized file, a
   mode or ownership change, and a content shape mismatch.
+- [x] Run structured commands and per-run instances for task packs (P094 tracker
+  items `P094-021b`, `P094-021c`, 2026-09-28). `process/run` runs one argv through
+  the guest `spawn-process` operation under a command profile pinned by digest. The
+  Rust actuation companion (`command-profile.admit`) admits the argv for the root
+  and answers the declared effect mode, timeout and output bound. A declared
+  observation runs as a guest-enforced observation of the workspace; a mutation
+  needs an operator-confirmed grant. `environment/allocate` builds the microVM
+  instance of one run from a configured root. The instance is keyed by an instance
+  key and re-bound after a Workbench restart; a torn-down instance is never
+  allocated again. `environment/instance-status` describes it. Answers are
+  `sensorium-workbench-process-run-result.v1`,
+  `sensorium-workbench-patch-install-result.v1` and
+  `sensorium-workbench-instance.v1`.
 - [~] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003b`,
   `P094-008`). The contract, the default map and owner validation are done
   (2026-09-26): `ActionSemanticsMap::validate` admits only the listed triples,

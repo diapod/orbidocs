@@ -62,6 +62,9 @@ Bounded internal request envelope for daemon-owned Sensorium Virt host authority
 | [`vfkitAllocate`](#def-vfkitallocate) | object |  |
 | [`environmentLimits`](#def-environmentlimits) | object |  |
 | [`emptyPayload`](#def-emptypayload) | object |  |
+| [`guestPatchApply`](#def-guestpatchapply) | object | Install staged writes and deletions (P094-021a). Every entry is admitted before the first change; a refusal changed nothing, and a failure after a change is unknown (patch-apply-partial). |
+| [`guestPatchEntry`](#def-guestpatchentry) | unspecified |  |
+| [`accountName`](#def-accountname) | string |  |
 
 ## Conditional Rules
 
@@ -351,3 +354,20 @@ Then:
 ## `$defs.emptyPayload`
 
 - Shape: object
+
+<a id="def-guestpatchapply"></a>
+## `$defs.guestPatchApply`
+
+- Shape: object
+
+Install staged writes and deletions (P094-021a). Every entry is admitted before the first change; a refusal changed nothing, and a failure after a change is unknown (patch-apply-partial).
+
+<a id="def-guestpatchentry"></a>
+## `$defs.guestPatchEntry`
+
+- Shape: unspecified
+
+<a id="def-accountname"></a>
+## `$defs.accountName`
+
+- Shape: string

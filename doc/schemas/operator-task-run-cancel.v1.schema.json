@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-run-cancel:v1",
+  "title": "Operator Task Run Cancel v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Request to cancel one run (P094-021f). Cancellation is monotone: the worker concludes the run as cancelled between steps and destroys its instance; it never undoes an admitted effect.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "run/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-run-cancel.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-workbench-process-run-result:v1",
+  "title": "Sensorium Workbench Process Run Result v1",
+  "description": "Outcome of one structured command run in a microVM workspace under the command profile it was pinned to (P094-021b). `completed` carries the exit code and bounded output, and for a declared observation the guest's enforcement evidence; `refused` proves that nothing ran, except for a detected observation effect or a proven quiesced observation timeout; `unknown` proves nothing. The result is kept under its idempotency key, so a replay within the retention window does not run it twice.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/071-sensorium-workbench.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "result/ref",
+    "address",
+    "command.profile/ref",
+    "command-profile/digest",
+    "effect/mode",
+    "outcome",
+    "source/generation-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-workbench-process-run-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "result/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "address": {
+      "$ref": "#/$defs/address"
+    },
+    "command.profile/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "command-profile/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "effect/mode": {
+      "enum": [
+        "observation",
+        "mutation"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "completed",
+        "refused",
+        "unknown"
+      ]
+    },
+    "exit/code": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Null when a signal ended the process."
+    },
+    "stdout/base64": {
+      "type": "string",
+      "contentEncoding": "base64",
+      "maxLength": 699052
+    },
+    "stderr/base64": {
+      "type": "string",
+      "contentEncoding": "base64",
+      "maxLength": 699052
+    },
+    "output/truncated": {
+      "type": "boolean"
+    },
+    "effect/enforcement": {
+      "type": "object",
+      "description": "The guest's evidence that it enforced the observation; present exactly for a completed observation."
+    },
+    "error/code": {
+      "$ref": "#/$defs/code"
+    },
+    "evidence/class": {
+      "enum": [
+        "guest-admission",
+        "guest-execution",
+        "none"
+      ]
+    },
+    "observation/timeout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["process/tree-quiesced", "roots/digest"],
+      "properties": {
+        "process/tree-quiesced": { "const": true },
+        "roots/digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "source/generation-ref": {
+      "$ref": "#/$defs/ref"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["error/code"],
+        "properties": { "error/code": { "const": "observation-timeout-quiesced" } }
+      },
+      "then": {
+        "required": ["observation/timeout", "evidence/class"],
+        "properties": {
+          "effect/mode": { "const": "observation" },
+          "outcome": { "const": "refused" },
+          "evidence/class": { "const": "guest-execution" }
+        }
+      },
+      "else": { "not": { "required": ["observation/timeout"] } }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "exit/code",
+          "stdout/base64",
+          "stderr/base64",
+          "output/truncated"
+        ],
+        "not": {
+          "required": [
+            "error/code"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "error/code"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "exit/code"
+              ]
+            },
+            {
+              "required": [
+                "stdout/base64"
+              ]
+            },
+            {
+              "required": [
+                "effect/enforcement"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "completed"
+          },
+          "effect/mode": {
+            "const": "observation"
+          }
+        },
+        "required": [
+          "outcome",
+          "effect/mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "effect/enforcement"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "effect/mode": {
+            "const": "mutation"
+          }
+        },
+        "required": [
+          "effect/mode"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "effect/enforcement"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "not": {
+        "pattern": "\\u0000"
+      }
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]+$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "^/"
+          },
+          {
+            "pattern": "(^|/)\\.\\.($|/)"
+          },
+          {
+            "pattern": "^\\./"
+          },
+          {
+            "pattern": "/\\.(/|$)"
+          },
+          {
+            "pattern": "\\u0000"
+          }
+        ]
+      }
+    },
+    "address": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace/ref",
+        "root/ref",
+        "relative/path"
+      ],
+      "properties": {
+        "workspace/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "root/ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "relative/path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      }
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9.-]{0,127}$"
+    }
+  }
+}

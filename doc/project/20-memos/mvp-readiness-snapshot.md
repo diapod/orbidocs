@@ -80,8 +80,18 @@ Executing steps and the step fence that consumes approvals remain `P094-012`.
 ports: append-only run facts, a fenced one-transition driver, host evaluation
 of verifier observations, owner-confirmed destruction after every conclusion,
 restart recovery that never repeats a step, and refusal-corpus execution in
-conformance. No step runs in a real environment until the daemon adapter
-(`P094-021`) exists.
+conformance. `P094-021` (2026-09-28) adds the daemon adapter. Each run gets its own
+Workbench microVM instance. Steps run as structured, pinned commands or as
+staged patches installed by the guest. A store-owning background worker drives
+runs off the request path, and recovery is proven never to read a live step as
+interrupted. The first run on a real VM is `P094-013` acceptance work.
+Independent review binds portable roots explicitly in the local binding and
+retains that mapping across restart. Verifier retry now requires a proven
+quiesced observation timeout with unchanged roots; unknown remains terminal.
+The new PID-namespace supervisor has no new Linux/VM deployment proof yet,
+so the earlier observation report does not complete this qualification.
+P094-021g also remains a prerequisite: descriptor-relative patch installation
+and an atomic create/modify policy fence at commit, rather than only at staging.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 

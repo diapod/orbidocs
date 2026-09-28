@@ -1,0 +1,17 @@
+{
+  "schema": "sensorium-workbench-process-run-result.v1",
+  "schema/v": 1,
+  "result/ref": "process-run:showctl-1",
+  "address": {
+    "workspace/ref": "workspace:qmail",
+    "root/ref": "guest-root:qmail",
+    "relative/path": "."
+  },
+  "command.profile/ref": "sensorium-command-profile:qmail-service-v1",
+  "command-profile/digest": "sha256:hH7Dw1n7aFpA8sPq3m5r1C0mYw8sI0bJq1l0pQz9y7A",
+  "effect/mode": "mutation",
+  "outcome": "unknown",
+  "source/generation-ref": "source-generation:qmail:1",
+  "error/code": "operation-interrupted",
+  "evidence/class": "none"
+}

@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-run-status:v1",
+  "title": "Operator Task Run Status v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Projection of one run's append-only facts (P094-021f): where it stands, each started step's outcome, its conclusion and whether its instance is confirmed destroyed. It carries refs and tabled codes only, never command output.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "run/ref",
+    "binding/ref",
+    "plan/ref",
+    "phase",
+    "steps",
+    "cancel/requested"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-run-status.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
+    },
+    "binding/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-local-binding:"
+        }
+      ]
+    },
+    "plan/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-plan:"
+        }
+      ]
+    },
+    "phase": {
+      "enum": [
+        "running",
+        "rollback-pending",
+        "terminal"
+      ]
+    },
+    "environment/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "steps": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step/id",
+          "state"
+        ],
+        "properties": {
+          "step/id": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          },
+          "state": {
+            "enum": [
+              "in-flight",
+              "completed",
+              "refused",
+              "unknown",
+              "not-run"
+            ]
+          },
+          "refusal/code": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+          }
+        }
+      }
+    },
+    "cancel/requested": {
+      "type": "boolean"
+    },
+    "conclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "verified",
+            "verification-failed",
+            "refused",
+            "cancelled",
+            "unknown"
+          ]
+        },
+        "refusal/code": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+        }
+      }
+    },
+    "destruction/confirmation-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "running"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "conclusion"
+              ]
+            },
+            {
+              "required": [
+                "destruction/confirmation-ref"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "rollback-pending"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "conclusion"
+        ],
+        "not": {
+          "required": [
+            "destruction/confirmation-ref"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "terminal"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "conclusion",
+          "destruction/confirmation-ref"
+        ]
+      }
+    }
+  ]
+}

@@ -61,6 +61,10 @@
         },
         "backend/ref": {
           "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "profile/root-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref",
+          "description": "Portable package root explicitly mapped to the selected local root. Absent means identity mapping; changing it changes the binding digest."
         }
       }
     },

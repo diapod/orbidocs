@@ -1,0 +1,13 @@
+{
+  "schema": "sensorium-workbench-instance.v1",
+  "schema/v": 1,
+  "workspace/ref": "workspace:qmail",
+  "root/ref": "guest-root:qmail",
+  "template/root-ref": "guest-root:qmail",
+  "instance/key": "operator-task-run:sha256:hH7Dw1n7aFpA8sPq3m5r1C0mYw8sI0bJq1l0pQz9y7A",
+  "environment/ref": "environment:9c1d",
+  "source/generation-ref": "source-generation:9c1d",
+  "image/manifest-digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "lifecycle/status": "ready",
+  "replayed": false
+}
