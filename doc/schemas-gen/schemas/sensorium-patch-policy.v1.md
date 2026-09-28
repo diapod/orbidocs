@@ -37,7 +37,7 @@ Closed, content-addressable admission policy for Workbench patches. It names eve
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`patch-policy/ref`](#field-patch-policy-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`targets`](#field-targets) | `yes` | array |  |
-| [`patch/max-bytes`](#field-patch-max-bytes) | `yes` | integer |  |
+| [`patch/max-bytes`](#field-patch-max-bytes) | `yes` | integer | Largest total content, in bytes, of one patch across all its written files. Each written file is also bounded by it and by its target's `max-bytes`; a Workbench that stages one file at a time can enforce only the per-file bound, so plan compilation enforces the total. |
 
 ## Definitions
 
@@ -77,6 +77,8 @@ Closed, content-addressable admission policy for Workbench patches. It names eve
 
 - Required: `yes`
 - Shape: integer
+
+Largest total content, in bytes, of one patch across all its written files. Each written file is also bounded by it and by its target's `max-bytes`; a Workbench that stages one file at a time can enforce only the per-file bound, so plan compilation enforces the total.
 
 ## Definition Semantics
 

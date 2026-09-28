@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-hil-decision:v1",
+  "title": "Operator Task HIL Decision v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "The host's record of one answered HIL request: the request, plan and step it decides, the decision, and the verified operator binding and participant that made it. It is written once; a different answer to the same request refuses. Approval is bound to that plan step and is consumed by the step fence at use; it is never remembered for another plan or step.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "request/ref",
+    "plan/ref",
+    "step/id",
+    "decision",
+    "operator/binding-ref",
+    "participant/ref",
+    "decided-at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-hil-decision.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "request/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "step/id": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+    },
+    "decision": {
+      "enum": [
+        "approve",
+        "deny"
+      ]
+    },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+    },
+    "participant/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "decided-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    }
+  }
+}

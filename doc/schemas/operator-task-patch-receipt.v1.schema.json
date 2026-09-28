@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-patch-receipt:v1",
+  "title": "Operator Task Patch Receipt v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "The content address under which the host stored one `operator-task-patch.v1`. A candidate's `patch` step names the patch by this ref only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "patch/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-patch-receipt.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "patch/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^artifact:sha256:"
+        }
+      ]
+    }
+  }
+}

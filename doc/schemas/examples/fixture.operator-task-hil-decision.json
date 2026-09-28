@@ -1,0 +1,11 @@
+{
+  "schema": "operator-task-hil-decision.v1",
+  "schema/v": 1,
+  "request/ref": "operator-task-hil:sha256:6mqgZS7W16XYWShIDUXjAnK7eFWPPhPCWGtDqbDE94k",
+  "plan/ref": "operator-task-plan:run-01",
+  "step/id": "apply-control-patch",
+  "decision": "approve",
+  "operator/binding-ref": "node-operator-binding:local",
+  "participant/ref": "participant:did:key:z6MkEditor",
+  "decided-at": "2026-09-28T12:05:00Z"
+}

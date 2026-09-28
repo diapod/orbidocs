@@ -13,7 +13,7 @@
       "step/id": "apply-control-patch",
       "kind": "patch",
       "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
-      "patch/ref": "artifact:sha256:pIletEr8M2_su6blIM1n4XjazgJ2ZV0QL87_qOX3BXA"
+      "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8"
     },
     {
       "step/id": "restart-qmail",

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-patch:v1",
+  "title": "Operator Task Patch v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Closed, content-addressed patch a plan's `patch` step applies: the complete resulting content of each written file, or its deletion, below logical roots, for exactly one patch policy. The host stores it before plan validation as `artifact:sha256:<base64url>`, the SHA-256 over its JCS v1 canonical JSON, and admits every file against the kept policy before any operator question is asked, so a HIL request shows the exact targets and content digests. A write carries the whole resulting file, which the policy's line shape judges; a patch never carries diffs, commands or paths outside the policy's targets.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "patch-policy/ref",
+    "files"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-patch.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "patch-policy/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref",
+      "description": "The patch policy this patch is written for; a plan step applies it only under that exact policy."
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/file"
+      }
+    }
+  },
+  "$defs": {
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root/ref",
+        "path",
+        "operation"
+      ],
+      "properties": {
+        "root/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^(?:[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.\\.[A-Za-z0-9._-]+)(?:/(?:[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.\\.[A-Za-z0-9._-]+))*$",
+          "description": "Relative path below the logical root, with the patch-policy path grammar."
+        },
+        "operation": {
+          "enum": [
+            "write",
+            "delete"
+          ]
+        },
+        "content/base64": {
+          "type": "string",
+          "maxLength": 1398104,
+          "pattern": "^[A-Za-z0-9+/]*={0,2}$",
+          "description": "Standard base64 of the complete resulting file, at most 1 MiB decoded. Present exactly for `write`."
+        }
+      },
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "write"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "content/base64"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "content/base64"
+          ]
+        }
+      }
+    }
+  }
+}

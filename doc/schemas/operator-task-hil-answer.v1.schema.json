@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-hil-answer:v1",
+  "title": "Operator Task HIL Answer v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "An operator's answer to one HIL request, made under a current operator binding that the host verifies when it records the decision. It names the request only; the host takes the plan, step and decision material from its stored request, so an answer cannot approve anything else. `approve` authorizes that one step of that one plan once; `deny` refuses it. A request is answered at most once.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "request/ref",
+    "operator/binding-ref",
+    "decision"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-hil-answer.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "request/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+    },
+    "decision": {
+      "enum": [
+        "approve",
+        "deny"
+      ]
+    }
+  }
+}

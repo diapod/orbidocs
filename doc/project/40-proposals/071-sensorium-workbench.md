@@ -2938,6 +2938,9 @@ stay here.
   guest's `target/existed` then selects `modify` or `create`, which the policy must
   also admit. The receipt carries the policy digest and the owner, group and mode
   the policy assigns, and the policy digest is part of the idempotent request.
+  A task-pack plan (`P094-009b`) admits every file of a patch against the same
+  policy at compilation, including `patch/max-bytes` over the whole patch,
+  which a Workbench staging one file at a time cannot see.
   Remaining: no operation applies staged guest bytes yet; when one exists it must
   re-admit against the same pinned policy and set exactly the assigned owner,
   group and mode. Before this, only patch artifacts and stage/apply results existed;

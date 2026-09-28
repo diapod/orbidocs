@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-hil-request:v1",
+  "title": "Operator Task HIL Request v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Host-issued request for an operator decision on one step of one stored experiment plan that requires HIL. It carries the decision material: the stamped step with its derived effect class and source, the exact files and content digests of a patch, and the rollback that would apply. Model prose is never part of it. Its ref is the content address of the plan ref and step id, so one step has exactly one request; delivery passes the P085 attention gate, which may deliver, group, defer or deny it but never approves. The request expires; an expired request cannot be approved.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "request/ref",
+    "plan/ref",
+    "binding/ref",
+    "task-profile/digest",
+    "local-binding/digest",
+    "activation/generation",
+    "step",
+    "rollback/mode",
+    "requested-at",
+    "expires-at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-hil-request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "request/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "activation/generation": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "step": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/planStep"
+        },
+        {
+          "type": "object",
+          "required": [
+            "hil/required"
+          ],
+          "properties": {
+            "hil/required": {
+              "const": true
+            }
+          }
+        }
+      ],
+      "description": "The plan step exactly as the plan stamps it; only a step that requires HIL has a request."
+    },
+    "patch/files": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/patchFile"
+      },
+      "description": "For a `patch` step: every file of the patch, with the digest and size of the complete resulting content of each written file."
+    },
+    "rollback/mode": {
+      "enum": [
+        "recreate-prepared-system",
+        "exact-rollback-profile"
+      ]
+    },
+    "requested-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "expires-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    }
+  },
+  "$defs": {
+    "patchFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root/ref",
+        "path",
+        "operation"
+      ],
+      "properties": {
+        "root/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^(?:[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.\\.[A-Za-z0-9._-]+)(?:/(?:[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.[A-Za-z0-9_-][A-Za-z0-9._-]*|\\.\\.[A-Za-z0-9._-]+))*$"
+        },
+        "operation": {
+          "enum": [
+            "write",
+            "delete"
+          ]
+        },
+        "content/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "content/bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        }
+      },
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "write"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "content/digest",
+          "content/bytes"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "content/digest"
+              ]
+            },
+            {
+              "required": [
+                "content/bytes"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

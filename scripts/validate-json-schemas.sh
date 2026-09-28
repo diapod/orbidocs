@@ -107,6 +107,30 @@ schema_for_file() {
     *.operator-task-experiment-plan.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-plan.v1.schema.json"
       ;;
+    *.operator-task-patch.json)
+      echo "$SCHEMAS_DIR/operator-task-patch.v1.schema.json"
+      ;;
+    *.operator-task-plan-compile.json)
+      echo "$SCHEMAS_DIR/operator-task-plan-compile.v1.schema.json"
+      ;;
+    *.operator-task-patch-receipt.json)
+      echo "$SCHEMAS_DIR/operator-task-patch-receipt.v1.schema.json"
+      ;;
+    *.operator-task-hil-issue.json)
+      echo "$SCHEMAS_DIR/operator-task-hil-issue.v1.schema.json"
+      ;;
+    *.operator-task-hil-status.json)
+      echo "$SCHEMAS_DIR/operator-task-hil-status.v1.schema.json"
+      ;;
+    *.operator-task-hil-request.json)
+      echo "$SCHEMAS_DIR/operator-task-hil-request.v1.schema.json"
+      ;;
+    *.operator-task-hil-answer.json)
+      echo "$SCHEMAS_DIR/operator-task-hil-answer.v1.schema.json"
+      ;;
+    *.operator-task-hil-decision.json)
+      echo "$SCHEMAS_DIR/operator-task-hil-decision.v1.schema.json"
+      ;;
     *.operator-task-experiment-result.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-result.v1.schema.json"
       ;;

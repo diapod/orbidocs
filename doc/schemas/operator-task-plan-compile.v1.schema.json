@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-plan-compile:v1",
+  "title": "Operator Task Plan Compile v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Request to compile one untrusted experiment candidate into the immutable plan of one local binding. The host admits the candidate under the checked-in candidate contract and the candidate schema the profile pins, requires the binding to be ready for a run, stamps every derived fact, and admits every patch file before storing the plan create-only. Compiling the same candidate for the same binding revision again returns the stored plan.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "candidate"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-plan-compile.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "candidate": {
+      "$ref": "operator-task-experiment-candidate.v1.schema.json"
+    }
+  }
+}

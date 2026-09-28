@@ -23,7 +23,7 @@
       "kind": "patch",
       "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
       "profile/digest": "sha256:68L5nW55CZDL1CiEK5uxeWE2Bhz26LMPCe-uheePByI",
-      "patch/ref": "artifact:sha256:pIletEr8M2_su6blIM1n4XjazgJ2ZV0QL87_qOX3BXA",
+      "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8",
       "capability/id": "sensorium.workbench.patch",
       "effect/class": "contained-mutation",
       "effect/source": "owner-enforced",

@@ -71,6 +71,11 @@ path and a readiness run on a real backend remain acceptance work (`P094-013`).
 Follow-up review adds regressions for empty patch lines, a missing first-step
 observation command, invalid default contexts, and builder/owner validation and
 Unicode digest parity; it does not upgrade the real-backend evidence.
+`P094-009` (2026-09-28) compiles untrusted candidates into immutable,
+content-addressed plans. Patches are admitted against the kept policy before
+any question, and each mutation gets one HIL request, delivered once through
+the P085 attention gate and decided once under a current operator binding.
+Executing steps and the step fence that consumes approvals remain `P094-012`.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 

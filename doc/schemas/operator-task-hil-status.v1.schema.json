@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-hil-status:v1",
+  "title": "Operator Task HIL Status v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "The HIL requests of one plan and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "plan/ref",
+    "requests"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-hil-status.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "plan/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "requests": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request",
+        "state"
+      ],
+      "properties": {
+        "request": {
+          "$ref": "operator-task-hil-request.v1.schema.json"
+        },
+        "state": {
+          "enum": [
+            "pending",
+            "decided",
+            "expired"
+          ]
+        },
+        "delivery": {
+          "enum": [
+            "delivered",
+            "grouped",
+            "deferred",
+            "denied"
+          ]
+        },
+        "decision": {
+          "$ref": "operator-task-hil-decision.v1.schema.json"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "decided"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "decision"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "decision"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "pending"
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "required": [
+                "delivery"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

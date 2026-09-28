@@ -1,0 +1,30 @@
+{
+  "schema": "operator-task-plan-compile.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "candidate": {
+    "schema": "operator-task-experiment-candidate.v1",
+    "schema/v": 1,
+    "steps": [
+      {
+        "step/id": "inspect-qmail",
+        "kind": "observe",
+        "profile/ref": "sensorium-command-profile:qmail-showctl-v1",
+        "arguments": []
+      },
+      {
+        "step/id": "apply-control-patch",
+        "kind": "patch",
+        "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
+        "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8"
+      },
+      {
+        "step/id": "restart-qmail",
+        "kind": "service-control",
+        "profile/ref": "sensorium-command-profile:qmail-service-v1",
+        "action": "restart"
+      }
+    ]
+  },
+  "hil/mode": "each-mutation"
+}

@@ -39,7 +39,8 @@
     "patch/max-bytes": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 1048576
+      "maximum": 1048576,
+      "description": "Largest total content, in bytes, of one patch across all its written files. Each written file is also bounded by it and by its target's `max-bytes`; a Workbench that stages one file at a time can enforce only the per-file bound, so plan compilation enforces the total."
     }
   },
   "$defs": {

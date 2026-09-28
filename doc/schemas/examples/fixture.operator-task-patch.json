@@ -1,0 +1,19 @@
+{
+  "schema": "operator-task-patch.v1",
+  "schema/v": 1,
+  "patch-policy/ref": "sensorium-patch-policy:qmail-control-files-v1",
+  "files": [
+    {
+      "root/ref": "guest-root:qmail",
+      "path": "control/locals",
+      "operation": "write",
+      "content/base64": "bG9jYWxob3N0CmV4YW1wbGUub3JnCg=="
+    },
+    {
+      "root/ref": "guest-root:qmail",
+      "path": "control/rcpthosts",
+      "operation": "write",
+      "content/base64": "ZXhhbXBsZS5vcmcK"
+    }
+  ]
+}

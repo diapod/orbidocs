@@ -1,0 +1,5 @@
+{
+  "schema": "operator-task-patch-receipt.v1",
+  "schema/v": 1,
+  "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8"
+}

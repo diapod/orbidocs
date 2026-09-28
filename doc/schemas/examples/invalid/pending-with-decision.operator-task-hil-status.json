@@ -1,0 +1,62 @@
+{
+  "schema": "operator-task-hil-status.v1",
+  "schema/v": 1,
+  "plan/ref": "operator-task-plan:run-01",
+  "requests": [
+    {
+      "request": {
+        "schema": "operator-task-hil-request.v1",
+        "schema/v": 1,
+        "request/ref": "operator-task-hil:sha256:6mqgZS7W16XYWShIDUXjAnK7eFWPPhPCWGtDqbDE94k",
+        "plan/ref": "operator-task-plan:run-01",
+        "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+        "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+        "local-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+        "activation/generation": 7,
+        "step": {
+          "step/id": "apply-control-patch",
+          "kind": "patch",
+          "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
+          "profile/digest": "sha256:68L5nW55CZDL1CiEK5uxeWE2Bhz26LMPCe-uheePByI",
+          "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8",
+          "capability/id": "sensorium.workbench.patch",
+          "effect/class": "contained-mutation",
+          "effect/source": "owner-enforced",
+          "hil/required": true
+        },
+        "patch/files": [
+          {
+            "root/ref": "guest-root:qmail",
+            "path": "control/locals",
+            "operation": "write",
+            "content/digest": "sha256:9RauJNWQqB4te5JynzY8K7baF4VybSIyL76uk5KkYrg",
+            "content/bytes": 22
+          },
+          {
+            "root/ref": "guest-root:qmail",
+            "path": "control/rcpthosts",
+            "operation": "write",
+            "content/digest": "sha256:BOUSh533rLGDkkBNmCobF56UwgtT7gO3VThiSGPYnpY",
+            "content/bytes": 12
+          }
+        ],
+        "rollback/mode": "recreate-prepared-system",
+        "requested-at": "2026-09-28T12:00:00Z",
+        "expires-at": "2026-09-28T13:00:00Z"
+      },
+      "state": "pending",
+      "delivery": "delivered",
+      "decision": {
+        "schema": "operator-task-hil-decision.v1",
+        "schema/v": 1,
+        "request/ref": "operator-task-hil:sha256:6mqgZS7W16XYWShIDUXjAnK7eFWPPhPCWGtDqbDE94k",
+        "plan/ref": "operator-task-plan:run-01",
+        "step/id": "apply-control-patch",
+        "decision": "approve",
+        "operator/binding-ref": "node-operator-binding:local",
+        "participant/ref": "participant:did:key:z6MkEditor",
+        "decided-at": "2026-09-28T12:05:00Z"
+      }
+    }
+  ]
+}
