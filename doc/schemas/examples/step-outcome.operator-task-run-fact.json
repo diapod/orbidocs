@@ -1,0 +1,16 @@
+{
+  "schema": "operator-task-run-fact.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01",
+  "sequence": 5,
+  "recorded-at": "2026-09-25T12:03:00Z",
+  "fact": {
+    "kind": "step-outcome",
+    "step/id": "apply-control-patch",
+    "outcome": "completed",
+    "hil/decision-ref": "hil-decision:patch-01",
+    "evidence/refs": [
+      "workbench-result:patch-01"
+    ]
+  }
+}

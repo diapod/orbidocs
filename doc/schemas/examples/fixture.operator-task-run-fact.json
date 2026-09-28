@@ -1,0 +1,16 @@
+{
+  "schema": "operator-task-run-fact.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01",
+  "sequence": 1,
+  "recorded-at": "2026-09-25T12:00:00Z",
+  "fact": {
+    "kind": "admitted",
+    "plan/ref": "operator-task-plan:run-01",
+    "plan/digest": "sha256:ZIeffWuWCgGQl2LZEaMtRYLCABDFZB7pAni2RKnjtSU",
+    "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+    "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+    "local-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+    "activation/generation": 7
+  }
+}

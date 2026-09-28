@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-refusal-corpus:v1",
+  "title": "Operator Task Refusal Corpus v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "A task pack's refusal corpus: cases that must be refused, each with the tabled refusal code it expects. A case with a candidate is executable: conformance compiles it against the profile under the most favourable admissible environment (contained, declared observations enforced), so the refusal it proves comes from the candidate itself, and a case refused with another code, or not refused, fails the pack facts evidence. A case without a candidate declares a refusal another layer proves (readiness, HIL, the run driver, the verifier) and counts towards coverage only. Coverage of the registered codes is recorded, never required.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "corpus/ref",
+    "cases"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-refusal-corpus.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "corpus/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^refusal-corpus:"
+        }
+      ]
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case/id",
+        "code"
+      ],
+      "properties": {
+        "case/id": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+        },
+        "code": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+        },
+        "candidate": {
+          "$ref": "operator-task-experiment-candidate.v1.schema.json"
+        }
+      }
+    }
+  }
+}

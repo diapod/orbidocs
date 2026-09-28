@@ -7,13 +7,13 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "The HIL requests of one plan and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.",
+  "description": "The HIL requests of one run and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "schema/v",
-    "plan/ref",
+    "run/ref",
     "requests"
   ],
   "properties": {
@@ -23,8 +23,15 @@
     "schema/v": {
       "const": 1
     },
-    "plan/ref": {
-      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
     },
     "requests": {
       "type": "array",

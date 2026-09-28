@@ -1,7 +1,7 @@
 {
   "schema": "operator-task-hil-answer.v1",
   "schema/v": 1,
-  "request/ref": "operator-task-hil:sha256:6mqgZS7W16XYWShIDUXjAnK7eFWPPhPCWGtDqbDE94k",
+  "request/ref": "operator-task-hil:sha256:HNXhrs1OPEaeW07fbrsxtTy5MXPwXS18pzi0h8-f2VM",
   "operator/binding-ref": "node-operator-binding:local",
   "decision": "approve",
   "step/id": "apply-control-patch"

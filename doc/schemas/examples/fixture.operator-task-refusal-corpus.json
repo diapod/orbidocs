@@ -1,0 +1,50 @@
+{
+  "schema": "operator-task-refusal-corpus.v1",
+  "schema/v": 1,
+  "corpus/ref": "refusal-corpus:qmail-task-pack-v1",
+  "cases": [
+    {
+      "case/id": "foreign-command-profile",
+      "code": "plan/outside-profile",
+      "candidate": {
+        "schema": "operator-task-experiment-candidate.v1",
+        "schema/v": 1,
+        "steps": [
+          {
+            "step/id": "open-shell",
+            "kind": "process",
+            "profile/ref": "sensorium-command-profile:bash-v1",
+            "arguments": [
+              "-c",
+              "id"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case/id": "mutation-first",
+      "code": "plan/first-step-not-observation",
+      "candidate": {
+        "schema": "operator-task-experiment-candidate.v1",
+        "schema/v": 1,
+        "steps": [
+          {
+            "step/id": "apply-control-patch",
+            "kind": "patch",
+            "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
+            "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8"
+          }
+        ]
+      }
+    },
+    {
+      "case/id": "operator-denies-restart",
+      "code": "hil/denied"
+    },
+    {
+      "case/id": "verifier-times-out",
+      "code": "verifier/timeout"
+    }
+  ]
+}

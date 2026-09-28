@@ -1,0 +1,24 @@
+{
+  "schema": "operator-task-verifier-evaluation.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01",
+  "verifier/ref": "operator-task-verifier:qmail-local-delivery-v1",
+  "verifier/digest": "sha256:fOxEHcbe3iUUcItZ0UphmB97icWR5SFOoEoxVJVxTCk",
+  "result/ref": "workbench-result:verify-01",
+  "result/digest": "sha256:3rfSjHYKeGsZKZG1jn9NInwNN_7kPwLyU_SEPSmyOUo",
+  "checks": [
+    {
+      "name": "locals-contain-domain",
+      "status": "pass"
+    },
+    {
+      "name": "rcpthosts-contain-domain",
+      "status": "pass"
+    },
+    {
+      "name": "local-delivery",
+      "status": "pass"
+    }
+  ],
+  "passed": true
+}

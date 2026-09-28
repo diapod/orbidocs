@@ -7,13 +7,14 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Host-issued request for an operator decision on one step of one stored experiment plan that requires HIL. It carries the decision material: the stamped step with its derived effect class and source, the exact files and content digests of a patch, and the rollback that would apply. Model prose is never part of it. Its ref is the content address of the plan ref and step id, so one step has exactly one request; delivery passes the P085 attention gate, which may deliver, group, defer or deny it but never approves. The request expires; an expired request cannot be approved.",
+  "description": "Host-issued request for an operator decision on one step, requiring HIL, of one admitted run of a stored experiment plan. It carries the decision material: the stamped step with its derived effect class and source, the exact files and content digests of a patch, and the rollback that would apply. Model prose is never part of it. Its ref is the content address of the run ref and step id, so each step of each run has exactly one request and an approval never carries over to another run of the same plan; delivery passes the P085 attention gate, which may deliver, group, defer or deny it but never approves. The request expires; an expired request cannot be approved.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "schema/v",
     "request/ref",
+    "run/ref",
     "plan/ref",
     "binding/ref",
     "task-profile/digest",
@@ -33,6 +34,16 @@
     },
     "request/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
     },
     "plan/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"

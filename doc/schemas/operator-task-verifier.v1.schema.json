@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-verifier:v1",
+  "title": "Operator Task Verifier v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "A task pack's verifier: the named checks its result must report, every one of them, the time the verifier may take, and how often a timed-out verifier may run again. The verifier runs as an enforced observation after the last admitted mutation; a timeout is retried only because the observation left the instance unchanged. The host evaluator, not the verifier, decides whether a run is verified.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "verifier/ref",
+    "checks",
+    "timeout/ms",
+    "retry/max"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-verifier.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "verifier/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-verifier:"
+        }
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+      }
+    },
+    "timeout/ms": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 600000
+    },
+    "retry/max": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    }
+  }
+}

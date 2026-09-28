@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-run-fact:v1",
+  "title": "Operator Task Run Fact v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "One immutable transition of one task run. A run is the ordered sequence of its facts, numbered contiguously from 1 for `admitted`; its state and its `operator-task-experiment-result.v1` are projections, never a second stored record. The host records a fact before it acts on it: `step-started` is the durable admission point of a step's effect, so a step started without an outcome is `unknown` after a crash and is never repeated. `concluded` records how the run ended; the run is terminal only after `destruction-confirmed`, the environment owner's durable confirmation that the run's exclusive instance is gone.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "run/ref",
+    "sequence",
+    "recorded-at",
+    "fact"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-run-fact.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
+    },
+    "sequence": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "recorded-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "fact": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "plan/ref",
+            "plan/digest",
+            "binding/ref",
+            "task-profile/digest",
+            "local-binding/digest",
+            "activation/generation"
+          ],
+          "properties": {
+            "kind": {
+              "const": "admitted"
+            },
+            "plan/ref": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            },
+            "plan/digest": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+            },
+            "binding/ref": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            },
+            "task-profile/digest": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+            },
+            "local-binding/digest": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+            },
+            "activation/generation": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "environment/ref"
+          ],
+          "properties": {
+            "kind": {
+              "const": "environment-allocated"
+            },
+            "environment/ref": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "step/id"
+          ],
+          "properties": {
+            "kind": {
+              "const": "step-started"
+            },
+            "step/id": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+            }
+          }
+        },
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "step-outcome"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/stepOutcome"
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "result/ref",
+            "evaluation/ref",
+            "passed"
+          ],
+          "properties": {
+            "kind": {
+              "const": "verifier-evaluated"
+            },
+            "result/ref": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            },
+            "evaluation/ref": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            },
+            "passed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "cancel-requested"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "outcome"
+          ],
+          "properties": {
+            "kind": {
+              "const": "concluded"
+            },
+            "outcome": {
+              "enum": [
+                "verified",
+                "verification-failed",
+                "refused",
+                "cancelled",
+                "unknown"
+              ]
+            },
+            "refusal/code": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+            }
+          },
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "refused"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "refusal/code"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "refusal/code"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "confirmation/ref"
+          ],
+          "properties": {
+            "kind": {
+              "const": "destruction-confirmed"
+            },
+            "confirmation/ref": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "stepOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "step/id",
+        "outcome"
+      ],
+      "properties": {
+        "kind": {
+          "const": "step-outcome"
+        },
+        "step/id": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+        },
+        "outcome": {
+          "enum": [
+            "completed",
+            "refused",
+            "unknown"
+          ],
+          "description": "`not-run` is a projection of a step never started, never a fact."
+        },
+        "refusal/code": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+        },
+        "hil/decision-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "evidence/refs": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refs"
+        }
+      },
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "refused"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "refusal/code"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "refusal/code"
+          ]
+        }
+      }
+    }
+  }
+}

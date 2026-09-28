@@ -107,6 +107,21 @@ schema_for_file() {
     *.operator-task-experiment-plan.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-plan.v1.schema.json"
       ;;
+    *.operator-task-verifier.json)
+      echo "$SCHEMAS_DIR/operator-task-verifier.v1.schema.json"
+      ;;
+    *.operator-task-verifier-result.json)
+      echo "$SCHEMAS_DIR/operator-task-verifier-result.v1.schema.json"
+      ;;
+    *.operator-task-verifier-evaluation.json)
+      echo "$SCHEMAS_DIR/operator-task-verifier-evaluation.v1.schema.json"
+      ;;
+    *.operator-task-refusal-corpus.json)
+      echo "$SCHEMAS_DIR/operator-task-refusal-corpus.v1.schema.json"
+      ;;
+    *.operator-task-run-fact.json)
+      echo "$SCHEMAS_DIR/operator-task-run-fact.v1.schema.json"
+      ;;
     *.operator-task-patch.json)
       echo "$SCHEMAS_DIR/operator-task-patch.v1.schema.json"
       ;;

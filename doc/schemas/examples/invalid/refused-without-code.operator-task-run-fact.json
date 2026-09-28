@@ -1,0 +1,11 @@
+{
+  "schema": "operator-task-run-fact.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:run-01",
+  "sequence": 1,
+  "recorded-at": "2026-09-25T12:00:00Z",
+  "fact": {
+    "kind": "concluded",
+    "outcome": "refused"
+  }
+}

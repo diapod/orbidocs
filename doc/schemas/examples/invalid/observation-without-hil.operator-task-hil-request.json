@@ -1,7 +1,8 @@
 {
   "schema": "operator-task-hil-request.v1",
   "schema/v": 1,
-  "request/ref": "operator-task-hil:sha256:6mqgZS7W16XYWShIDUXjAnK7eFWPPhPCWGtDqbDE94k",
+  "request/ref": "operator-task-hil:sha256:HNXhrs1OPEaeW07fbrsxtTy5MXPwXS18pzi0h8-f2VM",
+  "run/ref": "operator-task-run:run-01",
   "plan/ref": "operator-task-plan:run-01",
   "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
   "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",

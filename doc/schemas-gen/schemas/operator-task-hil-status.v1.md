@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-hil-status.v1.schema.json`](../../schemas/operator-task-hil-status.v1.schema.json)
 
-The HIL requests of one plan and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.
+The HIL requests of one run and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.
 
 ## Governing Basis
 
@@ -16,7 +16,7 @@ The HIL requests of one plan and where each stands: `pending` with the delivery 
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `operator-task-hil-status.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
-| [`plan/ref`](#field-plan-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
+| [`run/ref`](#field-run-ref) | `yes` | unspecified |  |
 | [`requests`](#field-requests) | `yes` | array |  |
 
 ## Definitions
@@ -38,11 +38,11 @@ The HIL requests of one plan and where each stands: `pending` with the delivery 
 - Required: `yes`
 - Shape: const: `1`
 
-<a id="field-plan-ref"></a>
-## `plan/ref`
+<a id="field-run-ref"></a>
+## `run/ref`
 
 - Required: `yes`
-- Shape: ref: `operator-task-common.v1.schema.json#/$defs/ref`
+- Shape: unspecified
 
 <a id="field-requests"></a>
 ## `requests`

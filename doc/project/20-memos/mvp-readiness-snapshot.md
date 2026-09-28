@@ -76,6 +76,12 @@ content-addressed plans. Patches are admitted against the kept policy before
 any question, and each mutation gets one HIL request, delivered once through
 the P085 attention gate and decided once under a current operator binding.
 Executing steps and the step fence that consumes approvals remain `P094-012`.
+`P094-010` (2026-09-28) adds the run engine in the task-pack service behind
+ports: append-only run facts, a fenced one-transition driver, host evaluation
+of verifier observations, owner-confirmed destruction after every conclusion,
+restart recovery that never repeats a step, and refusal-corpus execution in
+conformance. No step runs in a real environment until the daemon adapter
+(`P094-021`) exists.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 

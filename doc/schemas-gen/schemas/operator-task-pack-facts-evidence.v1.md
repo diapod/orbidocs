@@ -50,6 +50,7 @@ Host evidence that the pack facts of one task profile bound by one P085 package 
 | [`result`](#field-result) | `yes` | enum: `passed`, `failed` |  |
 | [`mismatches`](#field-mismatches) | `yes` | array |  |
 | [`evaluated-at`](#field-evaluated-at) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/timestamp` |  |
+| [`refusal-coverage`](#field-refusal-coverage) | `no` | object | Registered refusal codes the profile's refusal corpus names and those it does not, in refusal-table order (`P094-010e`). Recorded, never required. |
 
 ## Definitions
 
@@ -213,6 +214,14 @@ P085 package artifact digest in its lowercase hex form; it is not interchangeabl
 
 - Required: `yes`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/timestamp`
+
+<a id="field-refusal-coverage"></a>
+## `refusal-coverage`
+
+- Required: `no`
+- Shape: object
+
+Registered refusal codes the profile's refusal corpus names and those it does not, in refusal-table order (`P094-010e`). Recorded, never required.
 
 ## Definition Semantics
 

@@ -1,6 +1,5 @@
 {
   "schema": "operator-task-hil-issue.v1",
   "schema/v": 1,
-  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
-  "plan/ref": "operator-task-plan:run-01"
+  "run/ref": "operator-task-run:run-01"
 }

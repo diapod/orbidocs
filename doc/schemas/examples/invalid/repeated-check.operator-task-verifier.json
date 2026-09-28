@@ -1,0 +1,11 @@
+{
+  "schema": "operator-task-verifier.v1",
+  "schema/v": 1,
+  "verifier/ref": "operator-task-verifier:qmail-local-delivery-v1",
+  "checks": [
+    "local-delivery",
+    "local-delivery"
+  ],
+  "timeout/ms": 30000,
+  "retry/max": 1
+}

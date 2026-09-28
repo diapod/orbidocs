@@ -1,0 +1,22 @@
+{
+  "schema": "operator-task-verifier-result.v1",
+  "schema/v": 1,
+  "verifier/ref": "operator-task-verifier:qmail-local-delivery-v1",
+  "checks": [
+    {
+      "name": "locals-contain-domain",
+      "status": "pass"
+    },
+    {
+      "name": "rcpthosts-contain-domain",
+      "status": "pass"
+    },
+    {
+      "name": "local-delivery",
+      "status": "pass",
+      "observations": {
+        "queue": "empty"
+      }
+    }
+  ]
+}

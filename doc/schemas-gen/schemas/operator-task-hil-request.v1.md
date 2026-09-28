@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-hil-request.v1.schema.json`](../../schemas/operator-task-hil-request.v1.schema.json)
 
-Host-issued request for an operator decision on one step of one stored experiment plan that requires HIL. It carries the decision material: the stamped step with its derived effect class and source, the exact files and content digests of a patch, and the rollback that would apply. Model prose is never part of it. Its ref is the content address of the plan ref and step id, so one step has exactly one request; delivery passes the P085 attention gate, which may deliver, group, defer or deny it but never approves. The request expires; an expired request cannot be approved.
+Host-issued request for an operator decision on one step, requiring HIL, of one admitted run of a stored experiment plan. It carries the decision material: the stamped step with its derived effect class and source, the exact files and content digests of a patch, and the rollback that would apply. Model prose is never part of it. Its ref is the content address of the run ref and step id, so each step of each run has exactly one request and an approval never carries over to another run of the same plan; delivery passes the P085 attention gate, which may deliver, group, defer or deny it but never approves. The request expires; an expired request cannot be approved.
 
 ## Governing Basis
 
@@ -17,6 +17,7 @@ Host-issued request for an operator decision on one step of one stored experimen
 | [`schema`](#field-schema) | `yes` | const: `operator-task-hil-request.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`request/ref`](#field-request-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
+| [`run/ref`](#field-run-ref) | `yes` | unspecified |  |
 | [`plan/ref`](#field-plan-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`binding/ref`](#field-binding-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`task-profile/digest`](#field-task-profile-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
@@ -52,6 +53,12 @@ Host-issued request for an operator decision on one step of one stored experimen
 
 - Required: `yes`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/ref`
+
+<a id="field-run-ref"></a>
+## `run/ref`
+
+- Required: `yes`
+- Shape: unspecified
 
 <a id="field-plan-ref"></a>
 ## `plan/ref`

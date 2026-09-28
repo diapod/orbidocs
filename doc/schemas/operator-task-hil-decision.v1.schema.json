@@ -7,13 +7,14 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "The host's record of one answered HIL request: the request, plan and step it decides, the decision, and the verified operator binding and participant that made it. It is written once; a different answer to the same request refuses. Approval is bound to that plan step and is consumed by the step fence at use; it is never remembered for another plan or step.",
+  "description": "The host's record of one answered HIL request: the request, run, plan and step it decides, the decision, and the verified operator binding and participant that made it. It is written once; a different answer to the same request refuses. Approval is bound to that step of that run and is used by the run driver at most once, because a step never runs twice in one run; it never carries over to another run, plan or step.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema",
     "schema/v",
     "request/ref",
+    "run/ref",
     "plan/ref",
     "step/id",
     "decision",
@@ -30,6 +31,16 @@
     },
     "request/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
     },
     "plan/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"

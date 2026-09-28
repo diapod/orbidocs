@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-verifier-result:v1",
+  "title": "Operator Task Verifier Result v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "What one verifier run observed: each named check with `pass` or `fail` and bounded observations. It is observation data, never a verdict: the host evaluator requires exactly the checks the verifier declares, and the task pack's own result schema may narrow this contract further.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "verifier/ref",
+    "checks"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-verifier-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "verifier/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-verifier:"
+        }
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "status"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "observations": {
+          "type": "object",
+          "maxProperties": 16,
+          "propertyNames": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 512
+          }
+        }
+      }
+    }
+  }
+}

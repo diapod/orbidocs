@@ -107,6 +107,33 @@
     },
     "evaluated-at": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "refusal-coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "covered",
+        "uncovered"
+      ],
+      "description": "Registered refusal codes the profile's refusal corpus names and those it does not, in refusal-table order (`P094-010e`). Recorded, never required.",
+      "properties": {
+        "covered": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+          }
+        },
+        "uncovered": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+          }
+        }
+      }
     }
   },
   "allOf": [
@@ -246,7 +273,8 @@
             "manifest-capability",
             "manifest-resource-envelope",
             "manifest-inference-flow",
-            "structure"
+            "structure",
+            "refusal-case"
           ]
         },
         "field": {
@@ -257,8 +285,35 @@
         },
         "capability/id": {
           "$ref": "operator-task-common.v1.schema.json#/$defs/capabilityId"
+        },
+        "case/id": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/name",
+          "description": "The refusal-corpus case that was not refused with its expected code."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "refusal-case"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "field",
+              "ref",
+              "case/id"
+            ],
+            "properties": {
+              "field": {
+                "const": "refusal-corpus"
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

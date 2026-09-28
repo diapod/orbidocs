@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-verifier-evaluation:v1",
+  "title": "Operator Task Verifier Evaluation v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "The host's judgment of one verifier result for one run: the exact verifier and result digests, each declared check as reported, and any check missing or unexpected. A run is verified only when every declared check is reported exactly once and passes; a failing check makes it `verification-failed`; a missing or unexpected check, a result outside the contracts, a timeout or a detected mutation refuses success with its code.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "run/ref",
+    "verifier/ref",
+    "verifier/digest",
+    "checks",
+    "passed"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-verifier-evaluation.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "run/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-run:"
+        }
+      ]
+    },
+    "verifier/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-verifier:"
+        }
+      ]
+    },
+    "verifier/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "result/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "result/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "checks": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "refusal/code": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+    }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "status"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "missing",
+            "unexpected"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "refusal/code"
+        ]
+      },
+      "then": {
+        "properties": {
+          "passed": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "dependentRequired": {
+        "result/ref": [
+          "result/digest"
+        ],
+        "result/digest": [
+          "result/ref"
+        ]
+      }
+    }
+  ]
+}

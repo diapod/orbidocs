@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-hil-decision.v1.schema.json`](../../schemas/operator-task-hil-decision.v1.schema.json)
 
-The host's record of one answered HIL request: the request, plan and step it decides, the decision, and the verified operator binding and participant that made it. It is written once; a different answer to the same request refuses. Approval is bound to that plan step and is consumed by the step fence at use; it is never remembered for another plan or step.
+The host's record of one answered HIL request: the request, run, plan and step it decides, the decision, and the verified operator binding and participant that made it. It is written once; a different answer to the same request refuses. Approval is bound to that step of that run and is used by the run driver at most once, because a step never runs twice in one run; it never carries over to another run, plan or step.
 
 ## Governing Basis
 
@@ -17,6 +17,7 @@ The host's record of one answered HIL request: the request, plan and step it dec
 | [`schema`](#field-schema) | `yes` | const: `operator-task-hil-decision.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`request/ref`](#field-request-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
+| [`run/ref`](#field-run-ref) | `yes` | unspecified |  |
 | [`plan/ref`](#field-plan-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`step/id`](#field-step-id) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/name` |  |
 | [`decision`](#field-decision) | `yes` | enum: `approve`, `deny` |  |
@@ -42,6 +43,12 @@ The host's record of one answered HIL request: the request, plan and step it dec
 
 - Required: `yes`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/ref`
+
+<a id="field-run-ref"></a>
+## `run/ref`
+
+- Required: `yes`
+- Shape: unspecified
 
 <a id="field-plan-ref"></a>
 ## `plan/ref`
