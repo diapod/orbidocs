@@ -1296,6 +1296,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "legacy-operation.sensorium-virt-guest-frame.json",
     "unknown-operation.sensorium-virt-host-request.json",
     "setuid-mode.sensorium-virt-host-request.json",
+    "write-without-operation.sensorium-virt-host-request.json",
     "unknown-guest-operation.sensorium-virt-host-request.json",
     "observation-without-roots.sensorium-virt-host-request.json",
     "absolute-observation-root.sensorium-virt-host-request.json",

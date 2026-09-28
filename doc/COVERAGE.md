@@ -1266,4 +1266,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `532`
 - Generated schema docs: `532`
 - Positive examples: `539`
-- Negative examples: `518`
+- Negative examples: `519`

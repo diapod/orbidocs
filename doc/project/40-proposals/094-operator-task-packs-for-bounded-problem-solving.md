@@ -1984,10 +1984,19 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 
 | ID | Task | Depends on | Status | Acceptance |
 | :--- | :--- | :--- | :--- | :--- |
-| `P094-021g` | Fence patch targets and operation kind at installation | `021a`, `021b` | `todo` | Descriptor-relative no-follow traversal and commit prevent parent substitution from redirecting writes/deletes; enforce the admitted create/modify distinction atomically at installation, not only staging. Adversarial tests replace/delete/create the target between admission and commit. Preserve unknown-plus-destruction after any partial effect. Required before local acceptance P094-013. |
+| `P094-021g` | Fence patch targets and operation kind at installation | `021a`, `021b` | `done` | 2026-09-28; reviewed 2026-09-29. A patch write carries the operation its policy admitted at staging (`create` or `modify`, from `target/existed`), recorded by the Workbench with the stage and required by `sensorium-virt.host.request.v1`. The guest reaches each target's parent from the pinned workspace root one component at a time with `openat` and `O_NOFOLLOW`, pins it by descriptor and identity, and admits the target in the state the operation names. It commits only while walking the path again still reaches the pinned parent, and only through descriptor-relative atomic operations: `create` renames with `NOREPLACE`, `modify` exchanges with the target (`EXCHANGE`) and swaps back anything that is not a regular file, and a delete renames the file aside, checks its type and unlinks or restores it. A walk after the commit that no longer reaches the parent makes the result `patch-apply-partial`. New bytes and displaced objects use agent-owned `0700` scratch pinned by descriptor. Unsupported renames refuse with `patch-apply-unsupported` only before a target change; later failures, including restored replacements and unconfirmed cleanup, are `patch-apply-partial`. Adversarial tests replace a parent with a link or another directory, create a target before a `create`, delete a target or replace it with a link before a `modify`, and replace a deleted file with a directory; pre-rename conflicts refuse; conflicts detected after a rename require destruction even when restoration succeeds. Deterministic checkpoints cover post-rename metadata errors, scratch substitution and post-commit parent displacement. Parent checks do not prove absence of transient move-away-and-back races or protect against guest root. |
 
-The original P094-021a-f implementation is complete; this independent-review
-hardening remains open rather than being treated as part of the VM proof alone.
+The original P094-021a-f implementation is complete, and the independent-review
+hardening P094-021g is done (2026-09-28, reviewed 2026-09-29). New bytes and
+displaced objects now use an agent-owned, descriptor-pinned `0700` scratch
+directory on the target filesystem. Errors after the first target rename,
+even with successful restoration, and unconfirmed scratch cleanup require
+destruction. Unsupported renames are clean refusals only before any target
+change. The parent check detects displacement still visible at the check,
+not every transient move away and back; it does not claim protection against
+guest root. Deterministic test checkpoints cover metadata failure after
+displacement, scratch-name substitution and parent movement after commit.
+The qmail VM run remains P094-013.
 
 ### P094-019b Review Qualification
 

@@ -2956,7 +2956,18 @@ stay here.
   destroyed. The Workbench's `patch/install` builds that operation only from stages it
   admitted under the same pinned policy in the current generation, taking the owner,
   group and mode recorded at stage time. The policy admits each deletion at install
-  time. Before this, only patch artifacts and stage/apply results existed;
+  time. Installation is descriptor-relative and never follows a link
+  (`P094-021g`). Each write carries the create or modify operation the policy
+  admitted when the bytes were staged, and the guest enforces it atomically at
+  commit: a no-replace rename for `create`, an exchange that swaps back anything
+  but a regular file for `modify`, and a delete that moves the file aside and
+  checks its type first. New bytes and displaced objects are held in an
+  agent-owned `0700` directory on the target filesystem, accessed through its
+  pinned descriptor. An error after a target rename remains partial even after
+  restoration, as does unconfirmed scratch cleanup. Checking the parent after
+  commit detects displacement still visible then, not every transient move
+  away and back; guest root is outside this defense boundary.
+  Before this, only patch artifacts and stage/apply results existed;
   nothing stated which patch a Workbench may admit. The policy is a closed, content-addressed
   contract naming the admitted path set, maximum file size, ownership, mode, and
   accepted content shape per path. The Workbench resolves paths canonically inside

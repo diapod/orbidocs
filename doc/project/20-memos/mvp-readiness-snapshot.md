@@ -90,8 +90,13 @@ retains that mapping across restart. Verifier retry now requires a proven
 quiesced observation timeout with unchanged roots; unknown remains terminal.
 The new PID-namespace supervisor has no new Linux/VM deployment proof yet,
 so the earlier observation report does not complete this qualification.
-P094-021g also remains a prerequisite: descriptor-relative patch installation
-and an atomic create/modify policy fence at commit, rather than only at staging.
+P094-021g (2026-09-28, reviewed 2026-09-29) provides descriptor-relative
+installation and atomic create/modify existence fences. Private descriptor-pinned
+scratch prevents substitution of temporary names by workspace writers. Errors
+after the first target rename, including restored replacements and unconfirmed
+cleanup, require destruction. A post-commit check detects a displaced parent
+still absent at the check; it is not prevention of every transient move or
+protection against guest root. Linux/VM qualification remains P094-013.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 

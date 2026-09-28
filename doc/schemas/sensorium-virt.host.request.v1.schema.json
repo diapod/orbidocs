@@ -820,6 +820,7 @@
           "required": [
             "action",
             "path",
+            "operation",
             "stage/ref",
             "content/digest",
             "content/length",
@@ -833,6 +834,13 @@
             },
             "path": {
               "$ref": "#/$defs/guestPath"
+            },
+            "operation": {
+              "enum": [
+                "create",
+                "modify"
+              ],
+              "description": "The operation the patch policy admitted when the bytes were staged; the guest enforces it atomically at install (P094-021g)."
             },
             "stage/ref": {
               "type": "string",

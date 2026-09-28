@@ -11,7 +11,6 @@
         {
           "action": "write",
           "path": "control/me",
-          "operation": "modify",
           "stage/ref": "patch-stage:sha256:017bc95f0d280353e8fd39acf530814c4de95195d3860278b6292a8dbd2961d8",
           "content/digest": "sha256:b605992579170003fe8046760452a2563414e17a7929a1dfc0c4d0cfc7f77307",
           "content/length": 13,
