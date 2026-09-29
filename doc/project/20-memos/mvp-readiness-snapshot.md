@@ -97,6 +97,15 @@ after the first target rename, including restored replacements and unconfirmed
 cleanup, require destruction. A post-commit check detects a displaced parent
 still absent at the check; it is not prevention of every transient move or
 protection against guest root. Linux/VM qualification remains P094-013.
+`P094-011` (2026-09-29) builds the Story 013 qmail pack in
+`node/tools/acceptance/story-013-qmail-task-pack/`. Its digests and capability
+lists are derived by the same function conformance uses, and it passes host
+conformance with its refusal corpus. Host tests use a stand-in SMTP process
+and reject both open-relay repairs. Independent review also rejects RCPT-only
+repairs backed by unrelated Maildir files, preserves every registered Flow
+document in the exported pack, and gates the exported import request.
+The built image, real qmail behavior and live service health remain
+`P094-011e`; no guest acceptance is inferred from these host tests.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 

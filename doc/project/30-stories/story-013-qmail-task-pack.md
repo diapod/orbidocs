@@ -1,6 +1,6 @@
 # Story 013: An Operator Task Pack Repairs qmail Local Delivery in a Disposable VM
 
-Status: Accepted reference story for Proposal 094; not implemented
+Status: Accepted reference story for Proposal 094; the pack is built (`P094-011`), and the image, its qualification (`P094-011e`) and acceptance (`P094-013`) remain
 
 Related:
 
@@ -154,6 +154,13 @@ The run succeeds only if all checks pass under the exact verifier contract:
 
 A repair that accepts every domain passes the delivery check and fails the relay
 check. That is the intended trap: the verifier, not the solver's prose, decides.
+
+The current host-tested verifier checks RCPT acceptance, current local routing,
+and a delivered probe header in a bounded Maildir scan. Its `service-healthy`
+observation is historical delivery evidence, not a live service-manager probe.
+Guest qualification (`P094-011e`) and local acceptance (`P094-013`) must confirm
+fresh injection into an initially empty per-run mailbox and live service health.
+The stand-in SMTP process used in host tests does not complete these gates.
 
 ## Authority Contract
 
