@@ -29,8 +29,10 @@ branch.
 
 Two execution profiles share one story:
 
-- **Local profile (`P094-013`).** The provider's own operator is the requester.
-  Nothing is published.
+- **Local profile.** The provider's own operator is the requester. Nothing is
+  published. It runs in two inference classes (see
+  [Inference Classes](#inference-classes)): deterministic inference with real
+  execution (`P094-013`), and a real model (`P094-013b`).
 - **Federated profile (`P094-016`).** A remote requester finds the provider's
   ordinary Service Offer, admits the exact task-profile digest, and receives the
   verified recipe through Corpus.
@@ -139,6 +141,43 @@ reaches the provider through its signed offer, the provider admits the request
 only for the exact task-profile digest, and the answer returns through the
 ordinary Corpus publication path.
 
+## Inference Classes
+
+The two local-profile classes share one mechanism and differ only in who
+produces model answers. Keeping them apart lets a run prove that the mechanism
+works without mixing integration faults with the limits of a model.
+
+**Deterministic inference, real execution (`P094-013`).** A fixture stands at
+the inference boundary and nowhere else:
+
+1. The pack ships real, executable Flow and prompt documents. The fixture
+   answers the inference calls those documents make; it never hands a plan to
+   the compiler directly.
+2. Corpus, Agent and Inquirium are real. Room roles, inference-Flow bindings,
+   passages, budgets and the provenance of each candidate take the production
+   path.
+3. The fixture reacts to the evidence it receives. It first proposes an
+   observation, and proposes the repair only after that observation's result
+   reaches it. Missing or unexpected input makes it refuse; it never advances to
+   its next answer on its own.
+4. The VM and every effect are real: the patch, HIL, the service restart, SMTP,
+   the verifier, rollback and destruction of the environment. The harness never
+   repairs qmail by a side path.
+5. The reviewer has its own passages, and at least one run shows it rejecting an
+   unsafe proposal (an open relay) that therefore never becomes a plan.
+   Replaying two agreeing utterances would prove nothing about its role.
+
+The report names its evidence class: deterministic inference, real execution.
+It proves integration and policy enforcement, not that a model discovered the
+repair on its own.
+
+**Real model (`P094-013b`).** The same flow with a local model runtime answering
+the solver and the reviewer, judged on the same verifier and refusal boundaries.
+Failure to find the repair does not invalidate deterministic mechanism
+acceptance. Attribute it to model capability only after excluding runtime,
+evidence-delivery, orchestration and budget failures; otherwise retain the
+corresponding failure classification.
+
 ## Verifier Checks
 
 The run succeeds only if all checks pass under the exact verifier contract:
@@ -213,7 +252,8 @@ The run retains links, not copies: the task-profile, binding, activation
 generation, and plan digests; Corpus deliberation and Agent passage refs;
 Workbench directive and result refs; HIL decision refs; verifier observations and
 the host evaluation; the rollback outcome and destruction confirmation; bounded
-timings and resource accounting; and typed refusals.
+timings and resource accounting; typed refusals; and the evidence class of the
+run's inference.
 
 It does not retain prompts, model chain-of-thought, raw VM files, unredacted
 command output, secrets, or machine-local absolute paths. The recipe returned to
@@ -257,9 +297,13 @@ must say which one.
   capability list, and conformance recomputes them.
 - [ ] A clean install, activation, and binding from safe defaults reach `runnable`
   with no hand-typed digest.
-- [ ] The local profile repairs the fixture through observation-first
-  deliberation, one HIL approval per mutation, and a passing verifier, then
-  destroys the instance with confirmation (`P094-013`).
+- [ ] The local profile, with deterministic inference and real execution,
+  repairs the fixture through observation-first deliberation in a real Corpus
+  Room, one HIL approval per mutation, and a passing verifier, then destroys the
+  instance with confirmation; the reviewer rejects an unsafe proposal in its own
+  passages, and the report names its evidence class (`P094-013`).
+- [ ] The local profile with a real model runs the same flow against the same
+  verifier and refusal boundaries (`P094-013b`).
 - [ ] An open-relay "repair" is refused by the verifier in a retained negative
   run.
 - [ ] Every refusal case above is reached at its owning boundary.
