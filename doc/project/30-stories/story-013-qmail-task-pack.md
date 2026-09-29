@@ -165,8 +165,8 @@ loopback listener greets. The verifier failed the baseline and both open-relay
 states there. Local acceptance (`P094-013`) must show the same through the run
 engine's patch path, HIL and rollback.
 The retained qualification is evidence for its recorded command digest. A
-later review tightened report admission and empty-mailbox checks, with host
-regressions only; those corrections do not constitute a new guest run.
+later review tightened report admission and empty-mailbox checks; the image was
+then rebuilt and the revised qualifier passed again in a real guest.
 
 ## Authority Contract
 

@@ -111,8 +111,8 @@ repair with a freshly delivered probe, live qmail and a greeting listener.
 The run engine's end-to-end path remains `P094-013`.
 Follow-up review tightened the qualifier's step binding, ordering, unique
 checks and Maildir-read failures, plus the builder's absent-path checks.
-Those fixes are host-tested, not newly KVM-qualified; the retained report
-continues to describe the original steps digest.
+After those fixes the image was rebuilt and the revised qualifier passed all
+20 steps again in a real KVM guest; the retained summary records that run.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
