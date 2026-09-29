@@ -835,6 +835,7 @@ All Corpus contracts MUST follow the repo's existing signed-artifact conventions
 | `corpus-reasoning-instruction-overlay.v1` | new | post-MVP | Suggested per-role/per-turn instruction overlay consumed only through local prompt policy. |
 | `corpus-turn-order-offer.v1` | implemented (`P069-TURN-001`) | post-MVP | Host-built immutable candidate projection for one exact Room turn, including current eligibility, role-assignment provenance, round/turn context, previous floor holder, and Room-policy generation; it contains no preselected target or authority grant. |
 | `corpus-reasoning-experiment-proposal.v1` | implemented | post-MVP | Signed portable envelope binding one content-addressed inert `inquirium.candidate-plan.v1` to the exact query, Room, retained turn, author node, requester-selected executor, classification, expiry, and HIL requirement. A portable candidate must omit `adapter.manifest/ref`; that field remains optional producer provenance only for the separate adapter-authored compilation path. The envelope carries no adapter, Sensorium grant, generation, or lease authority. |
+| Typed experiment proposal (revision of `corpus-reasoning-experiment-proposal.v1`) | planned (`P069-EXEC-001`, P094 `P094-022a`) | post-MVP | Names the candidate artifact's type, ref and digest and its target (for a P094 task pack: the exact task profile and local binding), so the executor is selected by type and a review or Chair decision binds exactly those bytes. The v1 envelope and its `inquirium.candidate-plan.v1` binding stay unchanged. |
 | `corpus-deliberation-review-claims.v1` | accepted contract; first profile implemented (`P069-CLAIM-001`, `P074-033`) | optional post-MVP profile seam | Domain-neutral envelope for structured review claims. Its refs are opaque to Corpus; a profile ref is not admission. Explicitly admitted profiles own vocabulary, evidence adjudication, dispositions, and legal next moves. It is not required for every deliberation or outcome. Generic profile admission remains `P069-DOMAIN-005`. |
 | `corpus-reasoning-experiment-review.v3` | implemented by the first Story 012 profile (`P074-033`) | Story 012 technical profile | Technical experiment-review revision that embeds the optional claim envelope. Its CandidatePlan and terminal bindings are Story/profile semantics, not requirements for scientific, social, mutual-aid, or creative deliberation. |
 | `corpus-reasoning-arbiter-nomination.v1` | new | later (Tracker P8) | Arbiter nomination (durable room record). |
@@ -2479,6 +2480,24 @@ task owns candidate construction or final Room admission.
   round and is configurable only up to eight. Exact proposal and idempotency
   replays consume no additional slot. The independent 64-node CandidatePlan graph
   bound does not widen either HIL fan-out ceiling.
+- [ ] Implement the `deterministic-host-compiler` executor for task-pack
+  candidates (`P069-EXEC-001`, with P094 `P094-022a` and `P094-022b`). A typed
+  revision of the experiment proposal names its candidate artifact's type, ref
+  and digest and its target, so a P094 `operator-task-experiment-candidate.v1`
+  never rides in an envelope that promises `inquirium.candidate-plan.v1`. Review
+  and Chair decision cover exactly the proposed bytes; a correction yields a new
+  candidate that needs its own review. Corpus owns the proposal, review, Chair
+  decision, provenance and publication of the result; P094 owns candidate
+  validation, compilation and the run; Workbench and Sensorium Virt enforce each
+  effect. A Chair decision admits the experiment but grants no effect: package
+  activation, a current operator binding and HIL stay required, and an operator
+  who is also the Chair makes two separate decisions. The daemon selects the
+  executor implementation from the admitted artifact type and the executor's
+  binding; any other combination fails closed with no fallback to P083. The
+  executor records admitted proposal, plan, run, result and publication durably;
+  a retry finds the existing run, and a crash before publication retries only
+  the publication. The mode stays `executor_mode_not_implemented` for every other
+  artifact type.
 - [x] Define the additive Story 012 critique-gated technical deliberation profile.
   It permits bounded shell, file, configuration, diagnostic, verification, and
   rollback fragments as inert Room evidence; orders each cycle as

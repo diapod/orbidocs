@@ -270,6 +270,8 @@ result, disclosed according to the result's disclosure metadata.
 | `sensorium-patch-policy.v1` and `sensorium-action-semantics.v1` | Workbench, mirrored in P071 Phase 6 | effects |
 | Enforced command-profile effect mode | Workbench, `P094-019a` (contract, done) and `P094-019b` (enforcement, done) | observation steps and verifier |
 | `isolated-environment` recovery class with `environment.destroy` | P080 and Sensorium Virt, `P094-018` (done) | contained mutations and uncertain outcomes |
+| Corpus experiment executor for task packs: typed proposal, exact-bytes review, verified provenance, durable handoff | P069 `P069-EXEC-001` with `P094-022a` and `P094-022b` | deliberated runs |
+| Executable Flow and prompt documents and the deterministic inference fixture | `P094-023` | deterministic-inference class (`P094-013`) |
 | Offer draft, publication, and withdrawal | `P094-007` | federated profile only |
 
 The acceptance runner must refuse to start while a required gate is missing and
