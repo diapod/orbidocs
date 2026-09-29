@@ -1,0 +1,34 @@
+{
+  "schema/v": 4,
+  "review/ref": "corpus-experiment-review:sha256:XXUJPOZymMP07IyzD5TwGb77vSxMVBKjCm5JArS7e5M",
+  "query/id": "query:qmail-open-relay",
+  "room/id": "room:qmail-open-relay",
+  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "proposal/digest": "sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "candidate": {
+    "artifact/type": "operator-task-experiment-candidate.v1",
+    "ref": "operator-task-experiment-candidate:qmail-01",
+    "artifact-ref": "object-store:sha256:QGa-RIFDx_5JWXJhoEBazKOhcRUk5FLUdaPOJxHh5B8",
+    "digest": "sha256:QGa-RIFDx_5JWXJhoEBazKOhcRUk5FLUdaPOJxHh5B8"
+  },
+  "reviewer": {
+    "kind": "nym",
+    "id": "did:key:z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A"
+  },
+  "reviewer/node-id": "node:did:key:z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A",
+  "reviewer-turn/id": "corpus-turn:sha256:GVlxfK6n2SgRv0tkQA181b88-wTQ3-KmVjBtRaAOIjU",
+  "evidence-state/digest": "sha256:9Xl11eaOSuFfW-CGRIrhaa1AZeFrGzq2iZbhmaoa964",
+  "verdict": "accept",
+  "findings": [
+    "The patch closes relaying to the local domain and restarts only qmail."
+  ],
+  "class/key": "Community",
+  "reviewed-at": "2026-09-25T11:52:00Z",
+  "expires-at": "2026-09-25T12:50:00Z",
+  "idempotency/key": "qmail-open-relay-01-review",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "ygKQVmQ13W6-aGwIkQZGPVULFzdA_pB5HWPtP5zyO9zon0PRONl8CrqvXKvFdmdBz2gaGc_FKEfp6hAME4D6BA",
+    "key/public": "z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A"
+  }
+}

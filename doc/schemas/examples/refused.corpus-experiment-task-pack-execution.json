@@ -1,0 +1,37 @@
+{
+  "schema/v": 1,
+  "execution/ref": "corpus-task-pack-execution:sha256:NFxOsuV4gqpBkDdIoJXNo-_pCWCFnSWu3LAL-NR_v7I",
+  "query/id": "query:qmail-open-relay",
+  "room/id": "room:qmail-open-relay",
+  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "proposal/digest": "sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "review/ref": "corpus-experiment-review:sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+  "review/digest": "sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+  "decision/ref": "corpus-experiment-chair-decision:sha256:sdX8HBFOcoxHDsOAgh03BdIvSV3k-TMidIxqeGlSt4k",
+  "decision/digest": "sha256:sdX8HBFOcoxHDsOAgh03BdIvSV3k-TMidIxqeGlSt4k",
+  "candidate": {
+    "artifact/type": "operator-task-experiment-candidate.v1",
+    "ref": "operator-task-experiment-candidate:qmail-01",
+    "artifact-ref": "object-store:sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A",
+    "digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A"
+  },
+  "target": {
+    "task-profile/ref": "operator-task-profile:qmail-local-administration",
+    "task-profile/digest": "sha256:9EokdtncgdoE1iyYlZ90qwDHSrSLdWv5aho_Jvkx11Y",
+    "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
+  },
+  "plan/ref": "operator-task-plan:run-01",
+  "plan/digest": "sha256:ZIeffWuWCgGQl2LZEaMtRYLCABDFZB7pAni2RKnjtSU",
+  "run/ref": "operator-task-run:run-02",
+  "outcome": "refused",
+  "refusal/code": "local-binding/paused",
+  "evidence": [],
+  "host/node-id": "node:did:key:z6MkqB3fVxzXFbVUK2q1GPrLQzaxgwDGGVuxkDzaf5tsLnpo",
+  "recorded-at": "2026-09-25T11:56:00Z",
+  "idempotency/key": "qmail-open-relay-01-execution-refused",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "p5tB42chJDSDeh7XvtANmcIKaS4xSxC4YqyEQcb_NBeeqryLwTcQy4n3KbpPZeq94c7c6oM62YVTAAQmPM36Bw",
+    "key/public": "z6MkqB3fVxzXFbVUK2q1GPrLQzaxgwDGGVuxkDzaf5tsLnpo"
+  }
+}

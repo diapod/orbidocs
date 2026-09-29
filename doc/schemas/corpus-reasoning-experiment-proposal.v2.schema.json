@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-experiment-proposal:v2",
+  "title": "Corpus Reasoning Experiment Proposal v2",
+  "description": "Signed portable envelope binding one content-addressed inert candidate artifact of a named type to the exact query, Room, retained turn, author node, requester-selected executor, classification, expiry and HIL requirement. Unlike v1, which promises an `inquirium.candidate-plan.v1`, v2 names the artifact type, so the executor is selected by type. A P094 task-pack candidate (`operator-task-experiment-candidate.v1`) also names its target, the exact task profile and local binding, and can only be executed by the `deterministic-host-compiler` mode. The envelope carries no effect authority: package activation, a current operator binding and HIL remain required at execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "proposal/ref",
+    "query/id",
+    "room/id",
+    "turn/id",
+    "author",
+    "author/node-id",
+    "executor",
+    "candidate",
+    "class/key",
+    "human-in-loop/required",
+    "proposed-at",
+    "expires-at",
+    "idempotency/key",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 2
+    },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "room/id": {
+      "type": "string",
+      "pattern": "^room:[^\\s]+$",
+      "maxLength": 512
+    },
+    "turn/id": {
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "author": {
+      "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"
+    },
+    "author/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "executor": {
+      "$ref": "corpus-reasoning-experiment-proposal.v1.schema.json#/$defs/executor"
+    },
+    "candidate": {
+      "$ref": "#/$defs/candidate"
+    },
+    "target": {
+      "$ref": "#/$defs/task-pack-target"
+    },
+    "class/key": {
+      "enum": [
+        "Public",
+        "Community",
+        "Personal"
+      ]
+    },
+    "human-in-loop/required": {
+      "const": true
+    },
+    "proposed-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "signature": {
+      "$ref": "corpus-reasoning-experiment-proposal.v1.schema.json#/$defs/signature"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "artifact/type": {
+                "const": "operator-task-experiment-candidate.v1"
+              }
+            },
+            "required": [
+              "artifact/type"
+            ]
+          }
+        },
+        "required": [
+          "candidate"
+        ]
+      },
+      "then": {
+        "required": [
+          "target"
+        ],
+        "properties": {
+          "executor": {
+            "properties": {
+              "mode": {
+                "const": "deterministic-host-compiler"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "target"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "candidate": {
+      "description": "One content-addressed candidate artifact of a named type. The artifact ref is the object-store address of the digest.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact/type",
+        "ref",
+        "artifact-ref",
+        "digest"
+      ],
+      "properties": {
+        "artifact/type": {
+          "enum": [
+            "inquirium.candidate-plan.v1",
+            "operator-task-experiment-candidate.v1"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*[:/][^\\s]+$",
+          "maxLength": 512
+        },
+        "artifact-ref": {
+          "type": "string",
+          "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      }
+    },
+    "task-pack-target": {
+      "description": "The P094 task profile and local binding a task-pack candidate is meant for.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task-profile/ref",
+        "task-profile/digest",
+        "binding/ref"
+      ],
+      "properties": {
+        "task-profile/ref": {
+          "type": "string",
+          "pattern": "^operator-task-profile:[^\\s]+$",
+          "maxLength": 512
+        },
+        "task-profile/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "binding/ref": {
+          "type": "string",
+          "pattern": "^operator-task-local-binding:[^\\s]+$",
+          "maxLength": 512
+        }
+      }
+    }
+  },
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md",
+    "doc/project/30-stories/story-013-qmail-task-pack.md"
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-chair-experiment-decision:v2",
+  "title": "Corpus Reasoning Chair Experiment Decision v2",
+  "description": "The Chair's signed decision over one v4 review and exactly the typed candidate it reviewed. Admission of an experiment grants no effect: the executor still requires its own authority (for a task pack: package activation, a current operator binding and HIL). An operator who is also the Chair makes this decision and the HIL decisions as separate facts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "decision/ref",
+    "query/id",
+    "room/id",
+    "proposal/ref",
+    "review/ref",
+    "review/digest",
+    "reviewed-candidate",
+    "chair",
+    "chair/node-id",
+    "decision",
+    "reason/code",
+    "class/key",
+    "decided-at",
+    "expires-at",
+    "idempotency/key",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 2
+    },
+    "decision/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-chair-decision:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "room/id": {
+      "type": "string",
+      "pattern": "^room:[^\\s]+$",
+      "maxLength": 512
+    },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "review/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "review/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "reviewed-candidate": {
+      "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json#/$defs/candidate"
+    },
+    "chair": {
+      "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"
+    },
+    "chair/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "chair-agent/ref": {
+      "type": "string",
+      "pattern": "^agent:[^\\s]+$",
+      "maxLength": 512
+    },
+    "decision": {
+      "enum": [
+        "block",
+        "request-revision",
+        "admit-reviewed-candidate"
+      ]
+    },
+    "reason/code": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "class/key": {
+      "enum": [
+        "Public",
+        "Community",
+        "Personal"
+      ]
+    },
+    "decided-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "signature": {
+      "$ref": "corpus-reasoning-experiment-proposal.v1.schema.json#/$defs/signature"
+    }
+  },
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md",
+    "doc/project/30-stories/story-013-qmail-task-pack.md"
+  ]
+}

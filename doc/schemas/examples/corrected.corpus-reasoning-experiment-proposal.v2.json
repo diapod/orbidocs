@@ -1,0 +1,36 @@
+{
+  "schema/v": 2,
+  "proposal/ref": "corpus-experiment:sha256:zw3lS_ilgq98XfBcOZYCkt4JoDhEtBIZ8WkhbNz5Ka0",
+  "query/id": "query:qmail-open-relay",
+  "room/id": "room:qmail-open-relay",
+  "turn/id": "corpus-turn:sha256:BCI0NvyPUOuIjIfwzb1lW37ReOe7tnsYe-Ua1bRL_rc",
+  "author": {
+    "kind": "nym",
+    "id": "did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
+  },
+  "author/node-id": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+  "executor": {
+    "mode": "deterministic-host-compiler"
+  },
+  "candidate": {
+    "artifact/type": "operator-task-experiment-candidate.v1",
+    "ref": "operator-task-experiment-candidate:qmail-01",
+    "artifact-ref": "object-store:sha256:QGa-RIFDx_5JWXJhoEBazKOhcRUk5FLUdaPOJxHh5B8",
+    "digest": "sha256:QGa-RIFDx_5JWXJhoEBazKOhcRUk5FLUdaPOJxHh5B8"
+  },
+  "target": {
+    "task-profile/ref": "operator-task-profile:qmail-local-administration",
+    "task-profile/digest": "sha256:9EokdtncgdoE1iyYlZ90qwDHSrSLdWv5aho_Jvkx11Y",
+    "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
+  },
+  "class/key": "Community",
+  "human-in-loop/required": true,
+  "proposed-at": "2026-09-25T11:50:00Z",
+  "expires-at": "2026-09-25T12:50:00Z",
+  "idempotency/key": "qmail-open-relay-01",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "B9hmgYtKVLrlWyYnVFFGLahHD0CH9w8lKj3k_Y_yuvtxQy2uTG7VR7dMPECeOzMEx3GqeGnBjoXFsnYfSubJDA",
+    "key/public": "z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
+  }
+}

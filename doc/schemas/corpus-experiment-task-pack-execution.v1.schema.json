@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-experiment-task-pack-execution:v1",
+  "title": "Corpus Experiment Task-Pack Execution v1",
+  "description": "Host-signed record, published to the Room, of one admitted task-pack experiment executed as a P094 run: the proposal, review and Chair decision it executes, the compiled plan and the run, the instance the run used, its concluded outcome, and bounded evidence artifacts each named by step and by the record's own instance. A later solver passage reads it as evidence; observations of one instance are never the current state of another. An observation run that does not pass the target verifier is recorded as `verification-failed`, an expected negative verdict; timeout, missing evidence and an isolation breach keep their own refusal codes. The record carries refs and digests, never command output inline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "execution/ref",
+    "query/id",
+    "room/id",
+    "proposal/ref",
+    "proposal/digest",
+    "review/ref",
+    "review/digest",
+    "decision/ref",
+    "decision/digest",
+    "candidate",
+    "target",
+    "plan/ref",
+    "plan/digest",
+    "run/ref",
+    "outcome",
+    "evidence",
+    "host/node-id",
+    "recorded-at",
+    "idempotency/key",
+    "signature"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1
+    },
+    "execution/ref": {
+      "type": "string",
+      "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "room/id": {
+      "type": "string",
+      "pattern": "^room:[^\\s]+$",
+      "maxLength": 512
+    },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "proposal/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "review/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "review/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "decision/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-chair-decision:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "decision/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "candidate": {
+      "allOf": [
+        {
+          "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json#/$defs/candidate"
+        },
+        {
+          "properties": {
+            "artifact/type": {
+              "const": "operator-task-experiment-candidate.v1"
+            }
+          }
+        }
+      ]
+    },
+    "target": {
+      "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json#/$defs/task-pack-target"
+    },
+    "plan/ref": {
+      "type": "string",
+      "pattern": "^operator-task-plan:[^\\s]+$",
+      "maxLength": 512
+    },
+    "plan/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "run/ref": {
+      "type": "string",
+      "pattern": "^operator-task-run:[^\\s]+$",
+      "maxLength": 512
+    },
+    "environment/ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "outcome": {
+      "enum": [
+        "verified",
+        "verification-failed",
+        "refused",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    "refusal/code": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+    },
+    "result/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step/id",
+          "artifact-ref",
+          "digest",
+          "environment/ref"
+        ],
+        "properties": {
+          "step/id": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          },
+          "artifact-ref": {
+            "type": "string",
+            "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "environment/ref": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+            "maxLength": 512
+          }
+        }
+      }
+    },
+    "host/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "recorded-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "signature": {
+      "$ref": "corpus-reasoning-experiment-proposal.v1.schema.json#/$defs/signature"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "refused",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "refusal/code"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "verified",
+              "verification-failed"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "environment/ref",
+          "result/digest"
+        ]
+      }
+    }
+  ],
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md",
+    "doc/project/30-stories/story-013-qmail-task-pack.md"
+  ]
+}
