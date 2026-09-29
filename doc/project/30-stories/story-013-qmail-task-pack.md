@@ -1,6 +1,6 @@
 # Story 013: An Operator Task Pack Repairs qmail Local Delivery in a Disposable VM
 
-Status: Accepted reference story for Proposal 094; the pack is built (`P094-011`), and the image, its qualification (`P094-011e`) and acceptance (`P094-013`) remain
+Status: Accepted reference story for Proposal 094; the pack is built (`P094-011`) and its Debian x86_64 image is qualified in a real guest (`P094-011e`); acceptance (`P094-013`) remains
 
 Related:
 
@@ -158,9 +158,12 @@ check. That is the intended trap: the verifier, not the solver's prose, decides.
 The current host-tested verifier checks RCPT acceptance, current local routing,
 and a delivered probe header in a bounded Maildir scan. Its `service-healthy`
 observation is historical delivery evidence, not a live service-manager probe.
-Guest qualification (`P094-011e`) and local acceptance (`P094-013`) must confirm
-fresh injection into an initially empty per-run mailbox and live service health.
-The stand-in SMTP process used in host tests does not complete these gates.
+Guest qualification (`P094-011e`, 2026-09-29) confirmed both in a real Cloud
+Hypervisor guest with the real qmail: a probe injected after the repair reaches
+the initially empty Maildir, the service manager reports qmail live, and the
+loopback listener greets. The verifier failed the baseline and both open-relay
+states there. Local acceptance (`P094-013`) must show the same through the run
+engine's patch path, HIL and rollback.
 
 ## Authority Contract
 
@@ -239,10 +242,11 @@ must say which one.
 
 ## Open Questions
 
-- **First acceptance architecture.** P094 names one Debian amd64 image manifest.
-  Running the local profile on macOS with vfkit needs an arm64 variant, which the
-  profile's `image-variants` list can carry. The first acceptance host decides
-  which variant is built first; the story contract does not change.
+- **First acceptance architecture.** Resolved 2026-09-29: the first variant is
+  Debian 13 x86_64 on Cloud Hypervisor (Linux/KVM). Debian 13 ships no qmail,
+  so the image installs notqmail 1.09 as a local package built from the signed
+  release. The vfkit arm64 variant for macOS is `P094-011f`; the profile's
+  `image-variants` list carries it without changing the story contract.
 
 ## Done When
 

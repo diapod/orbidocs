@@ -104,8 +104,11 @@ conformance with its refusal corpus. Host tests use a stand-in SMTP process
 and reject both open-relay repairs. Independent review also rejects RCPT-only
 repairs backed by unrelated Maildir files, preserves every registered Flow
 document in the exported pack, and gates the exported import request.
-The built image, real qmail behavior and live service health remain
-`P094-011e`; no guest acceptance is inferred from these host tests.
+`P094-011e` (2026-09-29) builds its Debian 13 x86_64 Cloud Hypervisor image
+with notqmail from the signed release and qualifies it in a real guest: the
+verifier fails the baseline and both open-relay states, and passes after the
+repair with a freshly delivered probe, live qmail and a greeting listener.
+The run engine's end-to-end path remains `P094-013`.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
