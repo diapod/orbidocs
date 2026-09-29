@@ -109,6 +109,10 @@ with notqmail from the signed release and qualifies it in a real guest: the
 verifier fails the baseline and both open-relay states, and passes after the
 repair with a freshly delivered probe, live qmail and a greeting listener.
 The run engine's end-to-end path remains `P094-013`.
+Follow-up review tightened the qualifier's step binding, ordering, unique
+checks and Maildir-read failures, plus the builder's absent-path checks.
+Those fixes are host-tested, not newly KVM-qualified; the retained report
+continues to describe the original steps digest.
 The readiness estimates of the new
 rows below are engineering estimates, not release facts.
 
