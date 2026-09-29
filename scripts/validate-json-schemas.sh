@@ -191,6 +191,12 @@ schema_for_file() {
     *.operator-task-binding-change.json)
       echo "$SCHEMAS_DIR/operator-task-binding-change.v1.schema.json"
       ;;
+    *.operator-task-binding-list.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-list.v1.schema.json"
+      ;;
+    *.operator-task-binding-inspection.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-inspection.v1.schema.json"
+      ;;
     *.middleware-observed-result.v1.json)
       echo "$SCHEMAS_DIR/middleware-observed-result.v1.schema.json"
       ;;

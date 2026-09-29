@@ -1,0 +1,63 @@
+{
+  "schema": "operator-task-binding-inspection.v1",
+  "schema/v": 1,
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "binding/state": "enabled",
+  "binding/revision": 3,
+  "local-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+  "package/ref": "extension-package:qmail-operator-pack",
+  "task-profile/ref": "operator-task-profile:qmail-local-administration",
+  "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "evaluated-at": "2026-09-25T12:00:00Z",
+  "workspace": {
+    "root/ref": "workspace-root:qmail-lab",
+    "backend/ref": "sensorium-virt-backend:cloud-hypervisor-system.v1"
+  },
+  "inference": {
+    "model-profile/ref": "model-profile:qwen-coder-local",
+    "runtime/ref": "model-runtime:local-openai-compatible"
+  },
+  "runnable": false,
+  "decisive-blocker": {
+    "stage": "deliberation",
+    "refusal/code": "deliberation/flow-unavailable",
+    "next-action": "inspect-deliberation"
+  },
+  "effective": [
+    {
+      "axis": "hil/mode",
+      "value": "each-mutation",
+      "decided-by": "portable"
+    },
+    {
+      "axis": "runtime-network",
+      "value": "none",
+      "decided-by": "portable"
+    },
+    {
+      "axis": "max/passages",
+      "value": "12",
+      "decided-by": "local"
+    },
+    {
+      "axis": "max/concurrent-runs",
+      "value": "1",
+      "decided-by": "local"
+    },
+    {
+      "axis": "image-variant",
+      "value": "virt-image-variant:cloud-hypervisor-linux-x86_64-v1",
+      "decided-by": "portable"
+    }
+  ],
+  "publication": {
+    "enabled": false
+  },
+  "runs": [
+    {
+      "run/ref": "operator-task-run:qmail-repair-1",
+      "phase": "terminal",
+      "outcome": "verified"
+    }
+  ]
+}

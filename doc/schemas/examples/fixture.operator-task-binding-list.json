@@ -1,0 +1,31 @@
+{
+  "schema": "operator-task-binding-list.v1",
+  "schema/v": 1,
+  "evaluated-at": "2026-09-25T12:00:00Z",
+  "bindings": [
+    {
+      "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+      "binding/state": "enabled",
+      "package/ref": "extension-package:qmail-operator-pack",
+      "task-profile/ref": "operator-task-profile:qmail-local-administration",
+      "runnable": false,
+      "decisive-blocker": {
+        "stage": "deliberation",
+        "refusal/code": "deliberation/flow-unavailable",
+        "next-action": "inspect-deliberation"
+      }
+    },
+    {
+      "binding/ref": "operator-task-local-binding:qmail-on-workbench-b",
+      "binding/state": "paused",
+      "package/ref": "extension-package:qmail-operator-pack",
+      "task-profile/ref": "operator-task-profile:qmail-local-administration",
+      "runnable": false,
+      "decisive-blocker": {
+        "stage": "binding",
+        "refusal/code": "local-binding/paused",
+        "next-action": "resume-binding"
+      }
+    }
+  ]
+}

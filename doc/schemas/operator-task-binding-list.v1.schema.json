@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-list:v1",
+  "title": "Operator Task Binding List v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "The operator's first view of local task-pack bindings (P094-012): one row per binding in ref order with its state, whether it is runnable, and its decisive readiness blocker with the next action. Rows carry refs only; the drill-down is operator-task-binding-inspection.v1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "evaluated-at",
+    "bindings"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-list.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "evaluated-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "bindings": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "binding/ref",
+          "binding/state",
+          "package/ref",
+          "task-profile/ref",
+          "runnable"
+        ],
+        "properties": {
+          "binding/ref": {
+            "allOf": [
+              {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+              },
+              {
+                "pattern": "^operator-task-local-binding:"
+              }
+            ]
+          },
+          "binding/state": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/bindingState"
+          },
+          "package/ref": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          },
+          "task-profile/ref": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          },
+          "runnable": {
+            "type": "boolean"
+          },
+          "decisive-blocker": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stage",
+              "refusal/code",
+              "next-action"
+            ],
+            "properties": {
+              "stage": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/stage"
+              },
+              "refusal/code": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+              },
+              "next-action": {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/nextAction"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

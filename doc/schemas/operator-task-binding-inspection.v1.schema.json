@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-inspection:v1",
+  "title": "Operator Task Binding Inspection v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Operator drill-down of one local task-pack binding (P094-012), projected on read from the binding, its accepted profile, readiness and run facts. It leads with the decisive readiness blocker and its next action, shows each narrowing axis with its effective value and the layer that decided it, and names drill-down refs. Values are enum names, numbers as text, or refs and digests; never local paths, command output or raw stores. Readiness itself stays the operator-task-readiness.v1 contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "binding/state",
+    "local-binding/digest",
+    "package/ref",
+    "task-profile/ref",
+    "task-profile/digest",
+    "evaluated-at",
+    "workspace",
+    "runnable",
+    "effective",
+    "publication",
+    "runs"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-inspection.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "allOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-local-binding:"
+        }
+      ]
+    },
+    "binding/state": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/bindingState"
+    },
+    "binding/revision": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "package/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "task-profile/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "evaluated-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "workspace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root/ref",
+        "backend/ref"
+      ],
+      "properties": {
+        "root/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "backend/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "profile/root-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        }
+      }
+    },
+    "image-variant/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "inference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model-profile/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "runtime/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "runnable": {
+      "type": "boolean"
+    },
+    "decisive-blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "refusal/code",
+        "next-action"
+      ],
+      "properties": {
+        "stage": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/stage"
+        },
+        "refusal/code": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+        },
+        "next-action": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/nextAction"
+        }
+      }
+    },
+    "effective": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "axis",
+          "value",
+          "decided-by"
+        ],
+        "properties": {
+          "axis": {
+            "enum": [
+              "hil/mode",
+              "runtime-network",
+              "max/passages",
+              "max/experiments",
+              "max/wall-time-ms",
+              "max/concurrent-runs",
+              "image-variant"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "decided-by": {
+            "enum": [
+              "portable",
+              "local",
+              "current-use"
+            ]
+          }
+        }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "run/ref",
+          "phase"
+        ],
+        "properties": {
+          "run/ref": {
+            "allOf": [
+              {
+                "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+              },
+              {
+                "pattern": "^operator-task-run:"
+              }
+            ]
+          },
+          "phase": {
+            "enum": [
+              "running",
+              "rollback-pending",
+              "terminal"
+            ]
+          },
+          "outcome": {
+            "enum": [
+              "verified",
+              "verification-failed",
+              "refused",
+              "cancelled",
+              "unknown"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
