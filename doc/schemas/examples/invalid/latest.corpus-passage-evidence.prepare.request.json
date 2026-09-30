@@ -1,0 +1,23 @@
+{
+  "schema": "corpus-passage-evidence.prepare.request.v1",
+  "inference-flow-binding/ref": "corpus-inference-flow-binding:acceptance",
+  "projection": {
+    "id": "corpus-task-pack-evidence",
+    "revision": 1
+  },
+  "bytes/max": 16384,
+  "items": [
+    {
+      "kind": "execution",
+      "ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+      "digest": "latest",
+      "required": true
+    },
+    {
+      "kind": "artifact",
+      "ref": "object-store:sha256:clS9L-u50lBvnKL4B8jKpD190PLkfS86KUobKiQVHCE",
+      "digest": "sha256:clS9L-u50lBvnKL4B8jKpD190PLkfS86KUobKiQVHCE",
+      "required": false
+    }
+  ]
+}

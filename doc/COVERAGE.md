@@ -156,6 +156,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `1` |
 | [`corpus-experiment-authority-events.v1.schema.json`](schemas-gen/schemas/corpus-experiment-authority-events.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`corpus-experiment-task-pack-execution.v1.schema.json`](schemas-gen/schemas/corpus-experiment-task-pack-execution.v1.md) | `24` | `0` | `yes` | `yes` | `2` | `6` |
+| [`corpus-passage-evidence-binding.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-binding.v1.md) | `12` | `0` | `no` | `yes` | `1` | `1` |
+| [`corpus-passage-evidence-inspection.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-inspection.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
+| [`corpus-passage-evidence-manifest.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-manifest.v1.md) | `13` | `0` | `no` | `yes` | `1` | `3` |
+| [`corpus-passage-evidence.prepare.request.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence.prepare.request.v1.md) | `5` | `0` | `no` | `yes` | `1` | `3` |
 | [`corpus-reasoning-answer.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v1.md) | `19` | `4` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-answer.v2.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v2.md) | `5` | `1` | `yes` | `yes` | `0` | `0` |
 | [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `0` |
@@ -705,6 +709,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-entry.v1.schema.json`](schemas-gen/schemas/corpus-entry.v1.md) | [`requirements-002-peer-learning.md`](project/50-requirements/requirements-002-peer-learning.md), [`requirements-003-memory-archivists.md`](project/50-requirements/requirements-003-memory-archivists.md), [`requirements-004-transcript-curation.md`](project/50-requirements/requirements-004-transcript-curation.md), [`requirements-005-transcript-segments.md`](project/50-requirements/requirements-005-transcript-segments.md) | [`story-001-swarm-node-onboarding.md`](project/30-stories/story-001-swarm-node-onboarding.md), [`story-002-federated-peer-learning.md`](project/30-stories/story-002-federated-peer-learning.md), [`story-003-remote-memory-preservation.md`](project/30-stories/story-003-remote-memory-preservation.md), [`story-004-pod-client-onboarding.md`](project/30-stories/story-004-pod-client-onboarding.md) |
 | [`corpus-experiment-authority-events.v1.schema.json`](schemas-gen/schemas/corpus-experiment-authority-events.v1.md) |  |  |
 | [`corpus-experiment-task-pack-execution.v1.schema.json`](schemas-gen/schemas/corpus-experiment-task-pack-execution.v1.md) |  | [`story-013-qmail-task-pack.md`](project/30-stories/story-013-qmail-task-pack.md) |
+| [`corpus-passage-evidence-binding.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-binding.v1.md) |  |  |
+| [`corpus-passage-evidence-inspection.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-inspection.v1.md) |  |  |
+| [`corpus-passage-evidence-manifest.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-manifest.v1.md) |  |  |
+| [`corpus-passage-evidence.prepare.request.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence.prepare.request.v1.md) |  |  |
 | [`corpus-reasoning-answer.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v1.md) |  |  |
 | [`corpus-reasoning-answer.v2.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v2.md) |  |  |
 | [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) |  |  |
@@ -1288,7 +1296,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md) |
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 
-- Canonical schemas: `544`
-- Generated schema docs: `544`
-- Positive examples: `557`
-- Negative examples: `550`
+- Canonical schemas: `548`
+- Generated schema docs: `548`
+- Positive examples: `561`
+- Negative examples: `558`

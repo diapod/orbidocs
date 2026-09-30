@@ -1,0 +1,17 @@
+{
+  "schema": "corpus-passage-evidence-inspection.v1",
+  "binding": {
+    "schema": "corpus-passage-evidence-binding.v1",
+    "passage/ref": "agent-passage:qmail-solver:2",
+    "agent/id": "agent:acceptance:reviewer",
+    "agent-flow-binding/ref": "agent-inference-flow-binding:acceptance:reviewer",
+    "inference-flow-binding/ref": "corpus-inference-flow-binding:acceptance",
+    "input/digest": "sha256:GlxKPdkrCUM0Fjz7_gBTpzrGbx9c3mtIPpr8tZoLJDg",
+    "query/id": "query:acceptance",
+    "room/id": "room:acceptance",
+    "evidence/manifest-ref": "corpus-evidence-manifest:sha256:h_K9vloUJjxM0-OvjgBFHeLAavuLjQPFFExi-X7OtBA",
+    "evidence/manifest-digest": "sha256:h_K9vloUJjxM0-OvjgBFHeLAavuLjQPFFExi-X7OtBA",
+    "materialized/digest": "sha256:SI3fBk8ErGR-a2s8nt0TvBOFJ1YsMzgY99gvvJMhRHI",
+    "recorded-at": "2026-09-25T12:30:00Z"
+  }
+}

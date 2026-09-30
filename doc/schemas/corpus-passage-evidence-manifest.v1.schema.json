@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-passage-evidence-manifest:v1",
+  "title": "Corpus Passage Evidence Manifest v1",
+  "description": "Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "manifest/ref",
+    "query/id",
+    "room/id",
+    "reader",
+    "inference-flow-binding/ref",
+    "projection",
+    "bytes/max",
+    "items",
+    "class/key",
+    "content/ref",
+    "content/digest",
+    "content/size-bytes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-passage-evidence-manifest.v1"
+    },
+    "manifest/ref": {
+      "type": "string",
+      "pattern": "^corpus-evidence-manifest:sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 512
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "room/id": {
+      "type": "string",
+      "pattern": "^room:[^\\s]+$",
+      "maxLength": 512
+    },
+    "reader": {
+      "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"
+    },
+    "inference-flow-binding/ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "const": "corpus-task-pack-evidence"
+        },
+        "revision": {
+          "const": 1
+        }
+      }
+    },
+    "bytes/max": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 262144
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "ref",
+          "digest",
+          "required",
+          "included"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "execution",
+              "artifact"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+            "maxLength": 512
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "included": {
+            "type": "boolean"
+          },
+          "execution/ref": {
+            "type": "string",
+            "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$",
+            "maxLength": 512
+          },
+          "step/id": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/name"
+          },
+          "source/instance": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+            "maxLength": 512
+          },
+          "omitted/reason": {
+            "enum": [
+              "exceeds-limit"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "included": {
+                  "const": false
+                }
+              },
+              "required": [
+                "included"
+              ]
+            },
+            "then": {
+              "required": [
+                "omitted/reason"
+              ],
+              "properties": {
+                "required": {
+                  "const": false
+                }
+              }
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "omitted/reason"
+                ]
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "artifact"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "execution/ref"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "class/key": {
+      "enum": [
+        "Public",
+        "Community",
+        "Personal"
+      ]
+    },
+    "content/ref": {
+      "type": "string",
+      "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "content/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "content/size-bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 262144
+    }
+  }
+}

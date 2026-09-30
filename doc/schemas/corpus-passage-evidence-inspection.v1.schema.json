@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-passage-evidence-inspection:v1",
+  "title": "Corpus Passage Evidence Inspection v1",
+  "description": "The operator's view of one passage's evidence: its binding fact and the manifest it names.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "binding",
+    "manifest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-passage-evidence-inspection.v1"
+    },
+    "binding": {
+      "$ref": "corpus-passage-evidence-binding.v1.schema.json"
+    },
+    "manifest": {
+      "$ref": "corpus-passage-evidence-manifest.v1.schema.json"
+    }
+  }
+}
