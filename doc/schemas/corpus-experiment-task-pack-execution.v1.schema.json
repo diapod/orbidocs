@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:corpus-experiment-task-pack-execution:v1",
   "title": "Corpus Experiment Task-Pack Execution v1",
-  "description": "Host-signed record, published to the Room, of one admitted task-pack experiment executed as a P094 run: the proposal, review and Chair decision it executes, the compiled plan and the run, the instance the run used, its concluded outcome, and bounded evidence artifacts each named by step and by the record's own instance. A later solver passage reads it as evidence; observations of one instance are never the current state of another. An observation run that does not pass the target verifier is recorded as `verification-failed`, an expected negative verdict; timeout, missing evidence and an isolation breach keep their own refusal codes. The record carries refs and digests, never command output inline.",
+  "description": "Host-signed record, published to the Room, of one admitted task-pack experiment executed as a P094 run: the proposal, review and Chair decision it executes, the compiled plan and the run, the instance the run used, its concluded outcome, and bounded evidence artifacts each named by step and by the record's own instance. A later solver passage reads it as evidence; observations of one instance are never the current state of another. An observation run that does not pass the target verifier is recorded as `verification-failed`, an expected negative verdict; timeout, missing evidence and an isolation breach keep their own refusal codes. Every recorded run is concluded and names its result by digest; a refused run names its code, and an unknown outcome stays unknown: it is never consent to run the experiment again. The record carries refs and digests, never command output inline.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -22,6 +22,7 @@
     "plan/digest",
     "run/ref",
     "outcome",
+    "result/digest",
     "evidence",
     "host/node-id",
     "recorded-at",
@@ -178,8 +179,7 @@
         "properties": {
           "outcome": {
             "enum": [
-              "refused",
-              "unknown"
+              "refused"
             ]
           }
         },
@@ -209,8 +209,7 @@
       },
       "then": {
         "required": [
-          "environment/ref",
-          "result/digest"
+          "environment/ref"
         ]
       }
     }

@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/corpus-experiment-task-pack-execution.v1.schema.json`](../../schemas/corpus-experiment-task-pack-execution.v1.schema.json)
 
-Host-signed record, published to the Room, of one admitted task-pack experiment executed as a P094 run: the proposal, review and Chair decision it executes, the compiled plan and the run, the instance the run used, its concluded outcome, and bounded evidence artifacts each named by step and by the record's own instance. A later solver passage reads it as evidence; observations of one instance are never the current state of another. An observation run that does not pass the target verifier is recorded as `verification-failed`, an expected negative verdict; timeout, missing evidence and an isolation breach keep their own refusal codes. The record carries refs and digests, never command output inline.
+Host-signed record, published to the Room, of one admitted task-pack experiment executed as a P094 run: the proposal, review and Chair decision it executes, the compiled plan and the run, the instance the run used, its concluded outcome, and bounded evidence artifacts each named by step and by the record's own instance. A later solver passage reads it as evidence; observations of one instance are never the current state of another. An observation run that does not pass the target verifier is recorded as `verification-failed`, an expected negative verdict; timeout, missing evidence and an isolation breach keep their own refusal codes. Every recorded run is concluded and names its result by digest; a refused run names its code, and an unknown outcome stays unknown: it is never consent to run the experiment again. The record carries refs and digests, never command output inline.
 
 ## Governing Basis
 
@@ -38,7 +38,7 @@ Host-signed record, published to the Room, of one admitted task-pack experiment 
 | [`environment/ref`](#field-environment-ref) | `no` | string |  |
 | [`outcome`](#field-outcome) | `yes` | enum: `verified`, `verification-failed`, `refused`, `cancelled`, `unknown` |  |
 | [`refusal/code`](#field-refusal-code) | `no` | ref: `operator-task-common.v1.schema.json#/$defs/refusalCode` |  |
-| [`result/digest`](#field-result-digest) | `no` | string |  |
+| [`result/digest`](#field-result-digest) | `yes` | string |  |
 | [`evidence`](#field-evidence) | `yes` | array |  |
 | [`host/node-id`](#field-host-node-id) | `yes` | string |  |
 | [`recorded-at`](#field-recorded-at) | `yes` | string |  |
@@ -56,8 +56,7 @@ When:
   "properties": {
     "outcome": {
       "enum": [
-        "refused",
-        "unknown"
+        "refused"
       ]
     }
   },
@@ -102,8 +101,7 @@ Then:
 ```json
 {
   "required": [
-    "environment/ref",
-    "result/digest"
+    "environment/ref"
   ]
 }
 ```
@@ -221,7 +219,7 @@ Then:
 <a id="field-result-digest"></a>
 ## `result/digest`
 
-- Required: `no`
+- Required: `yes`
 - Shape: string
 
 <a id="field-evidence"></a>

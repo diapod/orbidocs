@@ -1110,7 +1110,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "untyped-candidate.corpus-reasoning-chair-experiment-decision.v2.json",
     "activation.corpus-reasoning-chair-experiment-decision.v2.json",
     "verified-without-instance.corpus-experiment-task-pack-execution.json",
-    "verified-without-result.corpus-experiment-task-pack-execution.json",
+    "without-result.corpus-experiment-task-pack-execution.json",
     "refused-without-code.corpus-experiment-task-pack-execution.json",
     "invented-code.corpus-experiment-task-pack-execution.json",
     "inline-output.corpus-experiment-task-pack-execution.json",
