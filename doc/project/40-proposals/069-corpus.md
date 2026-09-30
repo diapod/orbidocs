@@ -2501,6 +2501,16 @@ task owns candidate construction or final Room admission.
   a retry finds the existing run, and a crash before publication retries only
   the publication. The mode stays `executor_mode_not_implemented` for every other
   artifact type.
+- [ ] Carry task-pack experiments through deliberation (`P069-EXEC-002`, with P094
+  `P094-023a` to `P094-023c`). Corpus owns three parts. First, the evidence a passage
+  reads from the Room: the host reads published records and artifacts as the Agent's
+  Room subject and fixes a digest-bound evidence manifest in the passage lineage.
+  Second, the envelopes: Corpus adapters on each participant's node build and sign
+  proposal v2, review v4 and decision v2 from committed products or an explicit Chair
+  decision, deriving author, signer, authority and generation from admitted facts.
+  Third, the requester's durable Flow, which drives a bounded loop of proposal-review
+  cycles and admitted runs. A Chair decision and a HIL approval are separate facts;
+  `unknown` never starts another effect.
 - [x] Define the additive Story 012 critique-gated technical deliberation profile.
   It permits bounded shell, file, configuration, diagnostic, verification, and
   rollback fragments as inert Room evidence; orders each cycle as

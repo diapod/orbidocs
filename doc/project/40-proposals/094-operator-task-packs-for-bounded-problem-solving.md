@@ -1257,10 +1257,11 @@ the two decisions stay separate facts.
 - **Durable handoff.** The relation admitted proposal → plan → run → result → publication
   in the Room is recorded. A retry of the same proposal finds the existing run instead of
   starting another. A crash after execution but before publication retries the
-  publication, never the effect. Changed content under the same identity is a conflict. Recovering an existing run, its record or its publication needs no new authority;
-  compiling or admitting a run needs a current authorization of the chain. A run admitted
-  just before a crash is found by its ref, known from the plan and the run key, and is
-  never admitted twice.
+  publication, never the effect. Changed content under the same identity is a conflict.
+  Recovering an existing run, its record or its publication needs no new authority;
+  compiling or admitting a run needs a current authorization of the chain. A run
+  admitted just before a crash is found by its ref, known from the plan and the run key,
+  and is never admitted twice.
 - **Observation lifecycle.** Plans stay immutable, and each run's instance is destroyed
   when it concludes. Observation is its own run; the repair is a later run on a fresh
   instance from the same pinned image and prepared system. Evidence names its instance,
@@ -1268,6 +1269,86 @@ the two decisions stay separate facts.
   next, and the repair plan checks its own preconditions again. An observation run that
   does not pass the target verifier is the expected outcome of that experiment, not an
   integration failure.
+
+### Evidence, envelopes and the experiment loop
+
+Three things stay apart: what an Agent saw, what it proposed, and what was allowed.
+
+**Evidence is explicit input.** The requester's Flow names the exact records and
+artifacts the next passage needs, by ref and digest. The host reads them as the Agent's
+Room subject: current membership with `observe`, classification, and whether the
+selected runtime may receive them. Inquirium materializes the content through the local
+prompt-assembly policy (`content/ref` layers resolved by the host), within byte and
+token limits. Before inference the host fixes an immutable evidence manifest: the
+execution and result refs, the chosen artifacts, the source instance of each, and the
+identifier and revision of the projection applied. Its digest binds the passage to that
+evidence through the passage's `input/digest`, and its ref stays in the passage lineage;
+if the passage input needs a field for it, that is an explicit revision of the Agent
+contract. `latest` may select evidence but is never left unresolved in an input.
+
+| Passage | Receives |
+| :--- | :--- |
+| solver | the verifier result, the relevant observations, and the history of earlier proposals and refusals |
+| reviewer | the exact candidate under review and the same base evidence |
+
+No private chain of thought is passed on. Terminal output is untrusted data, never an
+instruction. A missing required artifact, a digest mismatch or an exceeded limit blocks
+the passage; an optional artifact left out is named as left out, and evidence is never
+cut silently.
+
+**Adapters produce the envelopes.** The model produces a candidate or a verdict; a
+Corpus adapter of the host produces the signed fact.
+
+| Fact | Content from | Built and signed by |
+| :--- | :--- | :--- |
+| proposal v2 | the solver's committed product | the Corpus adapter of the solver's node |
+| review v4 | the reviewer's committed product | the Corpus adapter of the reviewer's node |
+| Chair decision v2 | the explicit decision of the entitled Chair | the Corpus adapter of the Chair's node |
+| execution record | the P094 run result | the host that ran it |
+
+The adapter checks the product, its passage, the Flow binding, the role and the exact
+turn. The model chooses no author, signing node, authority or generation: the host
+derives them from admitted facts and narrows expiry to the current authority. A node's
+signature says that this node attests this participant's decision; no model holds a
+node key, and a requester never signs for a remote solver or reviewer. An operator who
+is also the Chair performs two acts: the Corpus decision admitting exactly the reviewed
+experiment, and the HIL approval of each mutation of the run. The first never creates the
+second. A changed candidate needs a new review and a new decision, never a repackaged
+signature.
+
+**The loop belongs to the requester.** The requester's durable Corpus Flow drives the
+deliberation; P094 runs one admitted experiment at a time and never decides on its own
+to try again. Story 013 runs:
+
+```text
+unsafe candidate → reviewer rejects → no run
+observation → review → Chair → run on VM₁ → verification-failed → evidence
+repair candidate → review → Chair → HIL → run on VM₂ → verification passes
+```
+
+VM₂ comes from the same pinned image and prepared system but is a new instance; VM₁'s
+evidence describes a historical state, and the repair checks its preconditions again.
+
+The loop keeps separate counters for proposal-review cycles, passages per role and
+admitted runs. A rejected proposal consumes inference but no VM; an exact replay takes no
+new slot. Effective limits are the meet of package, binding and the owners' remaining
+budgets (see Narrowing axes). The deadline covers the whole process, human waiting
+included; waiting for HIL consumes no active inference time. Expired authority needs an
+explicit renewal, never an automatic TTL extension. The loop stops on success, an
+exhausted budget, cancellation or a terminal safety refusal. `unknown` is not a failed
+hypothesis and never starts another effect by itself.
+
+Proposed limits for the deterministic profile, not yet measured:
+
+| Counter | Limit |
+| :--- | :--- |
+| proposal-review cycles | 4 |
+| admitted runs | 2 (observation and repair) |
+| solver passages | 4, regenerations included |
+| reviewer passages | 4, regenerations included |
+
+The portable `deliberation.limits` today bound passages, experiments and wall time; the
+per-role passage and run counters need an explicit revision of that contract.
 
 ### Support scripts
 
@@ -2029,7 +2110,7 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-011f` | Build the vfkit arm64 image variant | `011e` | `todo` | Build the qmail image for vfkit on macOS arm64 and add it as a second variant of the profile, qualified in the guest as `P094-011e` qualified `x86_64`. |
 | `P094-012` | Add bounded operator API, CLI, and UI | `006a`, `006c`; runs `010` | `done` | 2026-09-29, without publication (`P094-012b`). Read surfaces: `operator-task-binding-list.v1` (one row per binding with its decisive blocker and next action) and `operator-task-binding-inspection.v1` (each narrowing axis with its effective value and the layer that decided it, drill-down refs, the latest runs), projected in the pure core from the binding, its accepted profile, readiness and run facts and admitted by Schema Gate; `GET .../task-packs/bindings`, `.../bindings/inspection` and a read of a run's issued HIL requests with their decision material that issues and delivers nothing (`GET .../plans/hil`). The CLI `orbiplex-node-task-packs` is a thin client of these routes through the node's shared HTTP surface: it checks every request against its contract before sending, reads the revision before a pause, resume or profile acceptance and sends it, asks a separate `--confirm-widening AXIS` for each widened axis of a new binding, offers the emergency pause as its own command, renders refusals as their code and next action, and keeps no configuration. Node UI adds `/operator/task-packs`: the list, the drill-down with effective values and their deciders, pause and resume at the read revision, the emergency stop as a separate action, and a run page whose questions show step, effect class, patch targets and digests and rollback, each answered on its own. Every view projects the structured answer; no raw store is exposed. Review fixes (2026-09-30): the UI sends the revision the page showed, never a fresh read, so a binding changed or stopped after display refuses the change; UI and CLI show each question's exact action (profile and digest, quoted arguments, service action, operation, patch). |
 | `P094-012b` | Complete the operator surfaces | `012`, `007` | `todo` | Binding creation and profile-change acceptance in Node UI, with each widening confirmed separately; draft, publication and withdrawal inspection once `P094-007` exists. |
-| `P094-013` | Run local acceptance | `010`, `011`, `011e`, `012`, `021g`, `022b`, `023` | `todo` | Evidence covers clean install, conformance, activation, binding from defaults, operator-initiated deliberation, observation-first experiment, HIL mutation and denial, qmail verification, rollback, restart, pause/resume, profile-change blocking, and revocation. Also qualify the PID-namespace supervisor on Linux: a detached descendant dies on timeout, a command exit 124 is not timeout proof, and bounded verifier retry succeeds without recreating the VM. The acceptance contract is [Story 013](../30-stories/story-013-qmail-task-pack.md)'s local profile. Inference is deterministic and execution real ([Story 013 inference classes](../30-stories/story-013-qmail-task-pack.md#inference-classes)): the pack ships executable Flow and prompt documents, and a fixture answers only at the inference boundary; Corpus, Agent and Inquirium are real, with Room roles, bindings, passages, budgets and candidate provenance on the production path; the fixture proposes the observation first and the repair only after receiving its result, and refuses missing or unexpected input; the VM and every effect are real, and the harness never repairs qmail by a side path; the reviewer has its own passages and rejects an unsafe open-relay proposal in at least one run, which is a separate proof from an independent negative run in which the verifier detects an open-relay state; the report names its evidence class (deterministic inference, real execution) and claims integration and policy enforcement, not autonomous discovery. |
+| `P094-013` | Run local acceptance | `010`, `011`, `011e`, `012`, `021g`, `022b`, `023d` | `todo` | Evidence covers clean install, conformance, activation, binding from defaults, operator-initiated deliberation, observation-first experiment, HIL mutation and denial, qmail verification, rollback, restart, pause/resume, profile-change blocking, and revocation. Also qualify the PID-namespace supervisor on Linux: a detached descendant dies on timeout, a command exit 124 is not timeout proof, and bounded verifier retry succeeds without recreating the VM. The acceptance contract is [Story 013](../30-stories/story-013-qmail-task-pack.md)'s local profile. Inference is deterministic and execution real ([Story 013 inference classes](../30-stories/story-013-qmail-task-pack.md#inference-classes)): the pack ships executable Flow and prompt documents, and a fixture answers only at the inference boundary; Corpus, Agent and Inquirium are real, with Room roles, bindings, passages, budgets and candidate provenance on the production path; the fixture proposes the observation first and the repair only after receiving its result, and refuses missing or unexpected input; the VM and every effect are real, and the harness never repairs qmail by a side path; the reviewer has its own passages and rejects an unsafe open-relay proposal in at least one run, which is a separate proof from an independent negative run in which the verifier detects an open-relay state; the report names its evidence class (deterministic inference, real execution) and claims integration and policy enforcement, not autonomous discovery. |
 | `P094-013b` | Run the local profile with a real model | `013` | `todo` | The same flow and boundaries as `P094-013` with a local model runtime answering the solver and the reviewer. Its report names the real-model evidence class and is judged by the same verifier and refusals. Failure to find the repair does not invalidate deterministic mechanism acceptance. Attribute it to model capability only after excluding runtime, evidence-delivery, orchestration and budget failures; otherwise retain the corresponding failure classification. |
 | `P094-014` | Publish operator HOWTO and troubleshooting guidance | `013`, `016` | `todo` | English and Polish HOWTOs describe only implemented commands and routes, teach qmail pack preparation and use, explain refusal/recovery states through the refusal table's next actions, and distinguish package provenance, local trust, and current execution authority. |
 | `P094-015` | Review, ledger, solution, and readiness synchronization | `014` | `todo` | Code review finds no parallel authority or unbounded executor; Node implementation ledger, generated view, relevant solutions, capability/status matrices, and readiness snapshot distinguish implemented evidence from remaining proposal scope. Promotion decision is recorded explicitly. |
@@ -2047,7 +2128,10 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-021f` | Expose run routes and start the worker with the daemon | `021e` | `done` | 2026-09-28. `POST runs` (`operator-task-run-admit.v1`), `POST runs/cancel` (`operator-task-run-cancel.v1`) and `GET runs?run=` answer `operator-task-run-status.v1`. Admission holds the binding's lock and cancellation the run's; both wake the worker, and an answered HIL request wakes its run. No route advances a run, and without a worker no run is admitted. The daemon starts the worker with its host owners; when a step waits, the worker issues its HIL request. A route test shows a cancelled run concluded by the worker and left rollback-pending while no Workbench can destroy its instance. |
 | `P094-022a` | Register the Corpus contracts of task-pack experiments | `009`, P069 | `done` | 2026-09-30. Canonical `corpus-reasoning-experiment-proposal.v2`, `corpus-reasoning-experiment-review.v4`, `corpus-reasoning-chair-experiment-decision.v2` and `corpus-experiment-task-pack-execution.v1`, synced and registered in Schema Gate, with typed DTOs in `corpus-core`. The pure `resolve_corpus_typed_experiment_gate` admits exactly the reviewed candidate with its target, and `validate_task_pack_execution_relation` requires a record to execute exactly the admitted proposal, review and decision. Each negative vector goes through the gate that owns it: the schema rejects a candidate of another type, a missing target, another executor, a replacement and outcomes without their facts (16 vectors); the record's own validation rejects evidence of another instance; the relation gate blocks a review of other bytes, an approval carried over to a corrected candidate and a decision over another review, each of which is sound alone. Fixtures are signed by a generator test and verified against it. |
 | `P094-022b` | Execute admitted Corpus experiments as task-pack runs | `022a`, `010`, `021` | `done` | 2026-09-30. A candidate is published into the Room from an Agent passage of its author's retained turn (`POST /v1/corpus/task-pack-candidates`). Admission (`POST /v1/corpus/rounds/{query}/task-pack-experiments`) selects the executor by artifact type and mode through host ceilings, with no fallback to P083. It checks the proposal against a current Implementer turn and the review against a current Reviewer turn, with current membership and invite-bound origins; the Chair is the Room's. The typed gate must admit exactly the reviewed candidate, which the proposal's own turn published. The chain and the first handoff fact are stored in one transaction. The handoff (`TaskPackHandoff` in `corpus-core`) records plan, run, execution record and publication at fixed positions. A retry compiles nothing already compiled and admits nothing already admitted: one run key per proposal. A P094 refusal before the run records nothing and resumes. A running run is only awaited; an `unknown` conclusion is recorded as unknown and never run again; after the record, only the publication is retried. The run worker's observer takes a terminal run on to its record, and after recovery it resumes only handoffs whose run exists. Step evidence is the Workbench's own answer, kept by content; the result carries its `deliberation` links and is kept by content. The host-signed `corpus-experiment-task-pack-execution.v1` is a Room fact readable by current members with `observe` (`GET .../task-pack-executions`, `.../task-pack-artifacts`). The contract now requires `result/digest` for every recorded run and a code only for `refused`. Small tests cover every interruption point, the negative verdict, the preserved failure codes and a changed target. Review fixes (2026-09-30): the candidate comes from a committed Agent product verified through its Corpus inference-Flow binding; recovery reconciles a run admitted before a crash and needs no authority, while new execution steps need a current one; historical records use the admission's chain validator; candidate bytes and their publication commit together within per-turn, per-query and byte limits, with retention for unreferenced publications; the HTTP envelopes are contracts (`corpus-task-pack-*`) and appear in the API inventory. |
-| `P094-023` | Ship executable deliberation documents and the deterministic inference fixture | `011`, `020`, `022a` | `todo` | The qmail pack's Flow, prompt, repair and agent-policy documents are executable. A deterministic fixture answers only at the Inquirium boundary: it proposes the observation first, the repair only after that observation's evidence reaches it, and refuses missing or unexpected input; the reviewer's fixture rejects an open-relay proposal in its own passages. |
+| `P094-023a` | Bind explicit evidence input to passages | `022b`, P069, P071 | `todo` | The requester's Flow names execution records and artifacts by ref and digest; the host reads them as the Agent's Room subject (membership, `observe`, classification, runtime eligibility) and materializes them through `content/ref` layers within byte and token limits. An immutable evidence manifest (refs, artifacts, source instances, projection id and revision) binds the passage through `input/digest` and stays in its lineage; a needed passage-input field is an explicit Agent contract revision. Missing, mismatched or oversized evidence blocks the passage; optional omissions are named. Solver and reviewer inputs follow the table in "Evidence, envelopes and the experiment loop". |
+| `P094-023b` | Build Corpus envelopes from committed products | `022a`, `022b`, P069 | `todo` | Corpus adapters build and sign proposal v2 from the solver's committed product, review v4 from the reviewer's, and decision v2 from an explicit Chair decision, each on the participant's own node. The adapter checks product, passage, Flow binding, role and exact turn, derives author, signer, authority and generation from admitted facts, and narrows expiry to the current authority. A changed candidate needs a new review and decision. The Chair decision and each HIL approval stay separate facts, also when one person holds both roles. |
+| `P094-023c` | Drive the bounded experiment loop from the requester's Flow | `023a`, `023b` | `todo` | The requester's durable Corpus Flow runs the Story 013 sequence (unsafe candidate rejected, observation on VM₁ with an expected `verification-failed`, repair on VM₂) with separate counters for proposal-review cycles, passages per role and admitted runs; replays take no slot. Limits are the meet of package, binding and remaining budgets; the deadline covers human waiting, HIL waiting consumes no inference time, and expired authority needs explicit renewal. The loop stops on success, exhausted budget, cancellation or a terminal safety refusal; `unknown` never starts another effect. The per-role counters revise `deliberation.limits` explicitly. |
+| `P094-023d` | Ship executable deliberation documents and the deterministic inference fixture | `011`, `020`, `023c` | `todo` | The qmail pack's Flow, prompt, repair and agent-policy documents are executable. A deterministic fixture answers only at the Inquirium boundary: it proposes the observation first, the repair only after that observation's evidence reaches it through the manifest, and refuses missing or unexpected input; the reviewer's fixture rejects an open-relay proposal in its own passages. |
 | `P094-018` | Extend P080 with the isolated-environment resource kind | `001` | `done` | 2026-09-27. `middleware-component-contract.v1` admits `resource/kind: isolated-environment` with `dispose/operation: environment.destroy` under `ephemeral-revertible` and `host-local` scope, as a dated additive amendment (P080-046); the P080 recovery section, the schema and `middleware-runtime` validation agree and refuse a mismatched operation, kind or scope. Sensorium Virt implements the disposer as `environment.teardown` over a new `destroying` state of `sensorium-virt-recovery-record.v1`: every backend (`fixture-copy.v1`, `vfkit-system.v1`, `cloud-hypervisor-system.v1`) records it durably before the first destructive step, only `destroying` reaches `closed`, a completed destruction replays as confirmed, and start, recover, drain and allocation replay refuse a `destroying` record instead of quarantining it. Startup reconciliation completes every recorded destruction and reports `records/destroyed`; a record that can no longer prove its resource identity is quarantined, never returned to a live state. Tests cover the transition table, a removal interrupted mid-way on `fixture-copy`, and a destruction interrupted with a live VMM on the fake-vfkit and fake Cloud Hypervisor process harnesses. Real-VM deployment runs were not repeated.  Review regressions also cover destruction interrupted during unrecorded-launch cleanup, refusal of unbound resource paths before teardown, record-only quarantine of an invalid destruction, and drained VMM identity validation. |
 
 ### P094-021 Follow-Up

@@ -112,31 +112,46 @@ concurrent run, publication disabled until the operator enables it.
    `runnable`.
 3. The requester states the goal in prose. Corpus opens a Room under the qmail
    thematic profile with solver and reviewer.
-4. The host creates a fresh contained VM instance from the pinned image and
-   prepared system.
-5. The solver's first candidate plan observes the baseline with `qmail-showctl`,
-   `qmail-qread`, and service status. The host stamps each step as
-   `observation`; no HIL request is needed.
-6. The solver diagnoses the missing local domain and proposes a candidate with a
-   patch to `control/locals` and `control/rcpthosts` plus a service restart. The
-   reviewer checks that no wildcard, relay grant, or unrelated file appears.
-7. The host validates the whole candidate against the resolved plan, stamps each
-   step as `contained-mutation`, and asks the operator once per mutation. Each
-   HIL request shows the step, its derived class and source, the exact diff or
-   target, and the rollback that would apply.
-8. After approval, the host applies one mutation at a time, rechecking the
-   current-use fence before each step.
-9. The solver observes service and queue state and injects a local test message.
-10. The exact verifier runs in `observation` mode. The host evaluator decides pass
-    or fail from its bounded observations.
-11. The run result links the Corpus deliberation, the stamped plan, the step
-    outcomes, the HIL decisions, and the verifier evidence. Corpus turns the
-    solver's outcome into an answer draft containing the diagnosis and the
-    verified patch as a recipe.
-12. The host destroys the instance and records the owner's destruction
-    confirmation.
+4. The solver's first candidate relays mail to any host. The reviewer, reading
+   the exact candidate in its own passages, rejects it; no Chair decision and no
+   run follow.
+5. The solver proposes an observation: `qmail-showctl`, `qmail-qread` and
+   service status. The Corpus adapter of the solver's node signs the proposal
+   from the committed product; the reviewer's node signs the review; the Chair
+   decides. The host creates a fresh contained instance (VM₁) from the pinned
+   image and prepared system, stamps each step as `observation`, and asks no
+   HIL.
+6. The verifier fails on VM₁, as expected, and the run concludes
+   `verification-failed`. The host destroys VM₁ and publishes the signed
+   execution record as a Room fact.
+7. The solver's next passage receives that evidence as explicit input: the
+   record, the verifier result and the observations, materialized by the host
+   under a digest-bound manifest and treated as untrusted data. It diagnoses the
+   missing local domain and proposes a new candidate: a patch to
+   `control/locals` and `control/rcpthosts` plus a service restart. The reviewer
+   receives the exact candidate and the same evidence and checks that no
+   wildcard, relay grant or unrelated file appears. The Chair decides again.
+8. The host compiles the new candidate for a fresh instance (VM₂) from the same
+   pinned image and prepared system. The repair checks its own preconditions
+   again, since VM₁'s observations describe a destroyed instance. Each step is
+   stamped `contained-mutation`, and the operator answers one HIL request per
+   mutation, showing the step, its derived class and source, the exact diff or
+   target, and the rollback that would apply. The Chair decision grants none of
+   these approvals.
+9. After approval, the host applies one mutation at a time, rechecking the
+   current-use fence before each step, and the exact verifier runs in
+   `observation` mode. The host evaluator decides pass or fail from its bounded
+   observations.
+10. The run result links the Corpus deliberation, the stamped plan, the step
+    outcomes, the HIL decisions and the verifier evidence. Corpus publishes the
+    execution record and turns the solver's outcome into an answer draft with
+    the diagnosis and the verified patch as a recipe.
+11. The host destroys VM₂ and records the owner's destruction confirmation.
 
-In the federated profile, steps 3 and 11 cross the network: the requester
+The requester's Corpus Flow drives this loop within its budget; P094 only runs
+each admitted experiment. `unknown` ends the loop instead of trying again.
+
+In the federated profile, steps 3 and 10 cross the network: the requester
 reaches the provider through its signed offer, the provider admits the request
 only for the exact task-profile digest, and the answer returns through the
 ordinary Corpus publication path.
@@ -271,7 +286,8 @@ result, disclosed according to the result's disclosure metadata.
 | Enforced command-profile effect mode | Workbench, `P094-019a` (contract, done) and `P094-019b` (enforcement, done) | observation steps and verifier |
 | `isolated-environment` recovery class with `environment.destroy` | P080 and Sensorium Virt, `P094-018` (done) | contained mutations and uncertain outcomes |
 | Corpus experiment executor for task packs: typed proposal, exact-bytes review, verified provenance, durable handoff | P069 `P069-EXEC-001` with `P094-022a` and `P094-022b` | deliberated runs |
-| Executable Flow and prompt documents and the deterministic inference fixture | `P094-023` | deterministic-inference class (`P094-013`) |
+| Evidence input bound to passages, Corpus envelopes built from committed products, and the requester's bounded experiment loop | P069 `P069-EXEC-002` with `P094-023a` to `P094-023c` | deliberated runs across VM₁ and VM₂ |
+| Executable Flow and prompt documents and the deterministic inference fixture | `P094-023d` | deterministic-inference class (`P094-013`) |
 | Offer draft, publication, and withdrawal | `P094-007` | federated profile only |
 
 The acceptance runner must refuse to start while a required gate is missing and
