@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-artifact:v1",
+  "title": "Corpus Task-Pack Artifact v1",
+  "description": "One artifact a published task-pack execution record of the query names (its candidate, result or step evidence), read by its content address under the same right as the records.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "artifact/ref",
+    "document"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-artifact.v1"
+    },
+    "artifact/ref": {
+      "type": "string",
+      "pattern": "^object-store:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "document": {
+      "type": "object"
+    }
+  },
+  "x-dia-status": "draft"
+}

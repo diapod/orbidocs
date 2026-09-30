@@ -1,0 +1,40 @@
+{
+  "schema": "corpus-task-pack-candidate.publish.request.v1",
+  "query/id": "query:qmail-open-relay",
+  "room/id": "room:qmail-open-relay",
+  "turn/id": "corpus-turn:sha256:BCI0NvyPUOuIjIfwzb1lW37ReOe7tnsYe-Ua1bRL_rc",
+  "author": {
+    "kind": "nym",
+    "id": "did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
+  },
+  "author/node-id": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+  "source/peer": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+  "agent/id": "agent:qmail-solver",
+  "agent/product-ref": "agent-product:qmail-solver:observe-01",
+  "class/key": "Community",
+  "candidate/ref": "operator-task-experiment-candidate:qmail-01",
+  "candidate": {
+    "schema": "operator-task-experiment-candidate.v1",
+    "schema/v": 1,
+    "steps": [
+      {
+        "step/id": "inspect-qmail",
+        "kind": "observe",
+        "profile/ref": "sensorium-command-profile:qmail-showctl-v1",
+        "arguments": []
+      },
+      {
+        "step/id": "apply-control-patch",
+        "kind": "patch",
+        "profile/ref": "sensorium-patch-policy:qmail-control-files-v1",
+        "patch/ref": "artifact:sha256:SEa5ZYFXT2CB3WfvfG9RTck8WH-35vXV7DnsFlsMda8"
+      },
+      {
+        "step/id": "restart-qmail",
+        "kind": "service-control",
+        "profile/ref": "sensorium-command-profile:qmail-service-v1",
+        "action": "restart"
+      }
+    ]
+  }
+}

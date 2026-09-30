@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-experiment.admit.request:v1",
+  "title": "Corpus Task-Pack Experiment Admission Request v1",
+  "description": "Request to admit a typed task-pack experiment (P094-022b): the signed proposal, review and Chair decision with the peers they came from, and the Room publication of the candidate from the proposal's own turn. The same chain posted again finds its admission and resumes its handoff; a new execution step needs a current authorization of the chain.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "candidate-publication/ref",
+    "proposal/source-peer",
+    "proposal",
+    "review/source-peer",
+    "review",
+    "chair-decision/source-peer",
+    "chair-decision"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-experiment.admit.request.v1"
+    },
+    "candidate-publication/ref": {
+      "type": "string",
+      "pattern": "^corpus-task-pack-candidate-publication:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "proposal/source-peer": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "proposal": {
+      "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json"
+    },
+    "review/source-peer": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "review": {
+      "$ref": "corpus-reasoning-experiment-review.v4.schema.json"
+    },
+    "chair-decision/source-peer": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "chair-decision": {
+      "$ref": "corpus-reasoning-chair-experiment-decision.v2.schema.json"
+    }
+  },
+  "x-dia-status": "draft"
+}

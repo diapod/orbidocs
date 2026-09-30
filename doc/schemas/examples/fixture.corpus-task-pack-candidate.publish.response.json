@@ -1,0 +1,31 @@
+{
+  "schema": "corpus-task-pack-candidate.publish.response.v1",
+  "replayed": false,
+  "publication": {
+    "schema": "corpus-task-pack-candidate-publication.v1",
+    "publication/ref": "corpus-task-pack-candidate-publication:sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+    "query/id": "query:qmail-open-relay",
+    "room/id": "room:qmail-open-relay",
+    "turn/id": "corpus-turn:sha256:BCI0NvyPUOuIjIfwzb1lW37ReOe7tnsYe-Ua1bRL_rc",
+    "author": {
+      "kind": "nym",
+      "id": "did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
+    },
+    "author/node-id": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+    "source/peer": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+    "agent/id": "agent:qmail-solver",
+    "agent/product-ref": "agent-product:qmail-solver:observe-01",
+    "agent/product-digest": "sha256:qHkhV8tPJ_uUnANfRVGMYeiEu4bm9CAgQ3nCuqi-tm4",
+    "passage/ref": "agent-passage:qmail-solver:1",
+    "inference-flow-binding/ref": "corpus-inference-flow-binding:qmail-solver",
+    "candidate": {
+      "artifact/type": "operator-task-experiment-candidate.v1",
+      "ref": "operator-task-experiment-candidate:qmail-01",
+      "artifact-ref": "object-store:sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A",
+      "digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A"
+    },
+    "candidate/size-bytes": 508,
+    "class/key": "Community",
+    "published-at": "2026-09-25T11:49:00Z"
+  }
+}

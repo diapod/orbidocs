@@ -1,0 +1,101 @@
+{
+  "schema": "corpus-task-pack-experiment.admit.request.v1",
+  "candidate-publication/ref": "corpus-task-pack-candidate-publication:sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+  "proposal/source-peer": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+  "proposal": {
+    "schema/v": 1,
+    "proposal/ref": "corpus-experiment:sha256:Qt5BWa1-Kx4aqMLHkxLCv9z0h7nrFC4xlpCiF79jSPA",
+    "query/id": "query:experiment-test",
+    "room/id": "room:experiment-test",
+    "turn/id": "corpus-turn:sha256:9ZehrEOIubus093kwJsgZ3G6ZDhNbC1MnTj-2s36yw0",
+    "author": {
+      "kind": "nym",
+      "id": "did:key:z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ"
+    },
+    "author/node-id": "node:did:key:z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ",
+    "executor": {
+      "mode": "local-agent",
+      "agent/ref": "agent:requester-executor"
+    },
+    "candidate-plan/ref": "candidate-plan/experiment-test",
+    "candidate-plan/artifact-ref": "object-store:sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+    "candidate-plan/digest": "sha256:zV4XsKJcJ6S4ipAboAI0GoPqDa5sMXOXDwakG-ySatA",
+    "class/key": "Community",
+    "human-in-loop/required": true,
+    "proposed-at": "2026-07-24T10:00:00Z",
+    "expires-at": "2026-07-24T10:05:00Z",
+    "idempotency/key": "experiment-test",
+    "signature": {
+      "alg": "ed25519+domain-v1",
+      "value": "718iNeiugf9F7Cl5d0IHqeFXp56KP3ftYxzbOsvRmwuBBpXF4heacetz9kZb5j0jKhj2czVPjeTjfqUJOh1-DA",
+      "key/public": "z6Mkuhai1adkd5vSGvB99B2ezAUuZtfCf3zoYRN1ZM3XU2kQ"
+    }
+  },
+  "review/source-peer": "node:did:key:z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A",
+  "review": {
+    "schema/v": 4,
+    "review/ref": "corpus-experiment-review:sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+    "query/id": "query:qmail-open-relay",
+    "room/id": "room:qmail-open-relay",
+    "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+    "proposal/digest": "sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+    "candidate": {
+      "artifact/type": "operator-task-experiment-candidate.v1",
+      "ref": "operator-task-experiment-candidate:qmail-01",
+      "artifact-ref": "object-store:sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A",
+      "digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A"
+    },
+    "reviewer": {
+      "kind": "nym",
+      "id": "did:key:z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A"
+    },
+    "reviewer/node-id": "node:did:key:z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A",
+    "reviewer-turn/id": "corpus-turn:sha256:GVlxfK6n2SgRv0tkQA181b88-wTQ3-KmVjBtRaAOIjU",
+    "evidence-state/digest": "sha256:9Xl11eaOSuFfW-CGRIrhaa1AZeFrGzq2iZbhmaoa964",
+    "verdict": "accept",
+    "findings": [
+      "The patch closes relaying to the local domain and restarts only qmail."
+    ],
+    "class/key": "Community",
+    "reviewed-at": "2026-09-25T11:52:00Z",
+    "expires-at": "2026-09-25T12:50:00Z",
+    "idempotency/key": "qmail-open-relay-01-review",
+    "signature": {
+      "alg": "ed25519+domain-v1",
+      "value": "YM4TcZpG_OJ1Ltu-OLZmZWpa1jco7V4FJ5SGinOLy9u8leZ6TXKIOmhm0Z_TyQ86-n7FY_4Jixsvr_wWLLMjAA",
+      "key/public": "z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A"
+    }
+  },
+  "chair-decision/source-peer": "node:did:key:z6Mkw9YUWaWMuG7ZMhwtpfEytLaMZjiaxYnXe9SxDQHN64sy",
+  "chair-decision": {
+    "schema/v": 2,
+    "decision/ref": "corpus-experiment-chair-decision:sha256:sdX8HBFOcoxHDsOAgh03BdIvSV3k-TMidIxqeGlSt4k",
+    "query/id": "query:qmail-open-relay",
+    "room/id": "room:qmail-open-relay",
+    "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+    "review/ref": "corpus-experiment-review:sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+    "review/digest": "sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+    "reviewed-candidate": {
+      "artifact/type": "operator-task-experiment-candidate.v1",
+      "ref": "operator-task-experiment-candidate:qmail-01",
+      "artifact-ref": "object-store:sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A",
+      "digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A"
+    },
+    "chair": {
+      "kind": "nym",
+      "id": "did:key:z6Mkw9YUWaWMuG7ZMhwtpfEytLaMZjiaxYnXe9SxDQHN64sy"
+    },
+    "chair/node-id": "node:did:key:z6Mkw9YUWaWMuG7ZMhwtpfEytLaMZjiaxYnXe9SxDQHN64sy",
+    "decision": "admit-reviewed-candidate",
+    "reason/code": "reviewed-candidate-accepted",
+    "class/key": "Community",
+    "decided-at": "2026-09-25T11:54:00Z",
+    "expires-at": "2026-09-25T12:50:00Z",
+    "idempotency/key": "qmail-open-relay-01-decision",
+    "signature": {
+      "alg": "ed25519+domain-v1",
+      "value": "dCk-o8H10-oGRBxwVy5ZiVyzUgvCfFYIkI6YUEMH4GGUmOq89zg0tUrshfaKFN5-kLh4_mxiqNeRI_KDokzbBQ",
+      "key/public": "z6Mkw9YUWaWMuG7ZMhwtpfEytLaMZjiaxYnXe9SxDQHN64sy"
+    }
+  }
+}

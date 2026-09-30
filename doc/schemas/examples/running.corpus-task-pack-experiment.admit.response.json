@@ -1,0 +1,9 @@
+{
+  "schema": "corpus-task-pack-experiment.admit.response.v1",
+  "replayed": false,
+  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "handoff": {
+    "state": "running",
+    "run/ref": "operator-task-run:run-01"
+  }
+}

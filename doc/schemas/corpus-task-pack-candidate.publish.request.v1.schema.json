@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-candidate.publish.request:v1",
+  "title": "Corpus Task-Pack Candidate Publication Request v1",
+  "description": "Request to publish a P094 task-pack candidate into a Corpus Room (P094-022b). It names a committed Agent product of the author's retained turn and carries no candidate bytes: the host reads the product, checks that its passage's Corpus inference-Flow binding ties it to exactly this turn (query, Room, participant, role assignment, turn number) and class, and publishes the canonical candidate the product's kept bytes are.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "query/id",
+    "room/id",
+    "turn/id",
+    "author",
+    "author/node-id",
+    "source/peer",
+    "agent/id",
+    "agent/product-ref",
+    "class/key",
+    "candidate/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-candidate.publish.request.v1"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "room/id": {
+      "type": "string",
+      "pattern": "^room:[^\\s]+$",
+      "maxLength": 512
+    },
+    "turn/id": {
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "author": {
+      "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"
+    },
+    "author/node-id": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "source/peer": {
+      "type": "string",
+      "pattern": "^node:did:key:[^\\s]+$",
+      "maxLength": 512
+    },
+    "agent/id": {
+      "type": "string",
+      "pattern": "^agent:[^\\s]+$",
+      "maxLength": 512
+    },
+    "agent/product-ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "class/key": {
+      "enum": [
+        "Public",
+        "Community",
+        "Personal"
+      ]
+    },
+    "candidate/ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*[:/][^\\s]+$",
+      "maxLength": 512
+    }
+  },
+  "x-dia-status": "draft"
+}

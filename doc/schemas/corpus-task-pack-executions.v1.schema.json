@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-executions:v1",
+  "title": "Corpus Task-Pack Executions v1",
+  "description": "The published task-pack execution records of one Corpus query, as a reader with the current right to read its Room receives them: a current member holding `observe` in an unexpired Room, or the host itself. The host's signature on each record proves origin; it grants no access.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "query/id",
+    "executions"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-executions.v1"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "executions": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "corpus-experiment-task-pack-execution.v1.schema.json"
+      }
+    }
+  },
+  "x-dia-status": "draft"
+}

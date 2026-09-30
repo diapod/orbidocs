@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-candidate.publish.response:v1",
+  "title": "Corpus Task-Pack Candidate Publication Response v1",
+  "description": "The host's answer to a task-pack candidate publication: the publication record, with the Agent product, passage and Corpus inference-Flow binding it was verified against, and whether the same publication was found again.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "replayed",
+    "publication"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-candidate.publish.response.v1"
+    },
+    "replayed": {
+      "type": "boolean"
+    },
+    "publication": {
+      "$ref": "#/$defs/publication"
+    }
+  },
+  "x-dia-status": "draft",
+  "$defs": {
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "publication/ref",
+        "query/id",
+        "room/id",
+        "turn/id",
+        "author",
+        "author/node-id",
+        "source/peer",
+        "agent/id",
+        "agent/product-ref",
+        "agent/product-digest",
+        "passage/ref",
+        "inference-flow-binding/ref",
+        "candidate",
+        "candidate/size-bytes",
+        "class/key",
+        "published-at"
+      ],
+      "properties": {
+        "schema": {
+          "const": "corpus-task-pack-candidate-publication.v1"
+        },
+        "publication/ref": {
+          "type": "string",
+          "pattern": "^corpus-task-pack-candidate-publication:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "query/id": {
+          "type": "string",
+          "pattern": "^query:[^\\s]+$",
+          "maxLength": 512
+        },
+        "room/id": {
+          "type": "string",
+          "pattern": "^room:[^\\s]+$",
+          "maxLength": 512
+        },
+        "turn/id": {
+          "type": "string",
+          "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "author": {
+          "$ref": "corpus-reasoning-room-policy.v1.schema.json#/$defs/room-subject"
+        },
+        "author/node-id": {
+          "type": "string",
+          "pattern": "^node:did:key:[^\\s]+$",
+          "maxLength": 512
+        },
+        "source/peer": {
+          "type": "string",
+          "pattern": "^node:did:key:[^\\s]+$",
+          "maxLength": 512
+        },
+        "agent/id": {
+          "type": "string",
+          "pattern": "^agent:[^\\s]+$",
+          "maxLength": 512
+        },
+        "agent/product-ref": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+          "maxLength": 512
+        },
+        "agent/product-digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "passage/ref": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+          "maxLength": 512
+        },
+        "inference-flow-binding/ref": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+          "maxLength": 512
+        },
+        "candidate": {
+          "allOf": [
+            {
+              "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json#/$defs/candidate"
+            },
+            {
+              "properties": {
+                "artifact/type": {
+                  "const": "operator-task-experiment-candidate.v1"
+                }
+              }
+            }
+          ]
+        },
+        "candidate/size-bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 262144
+        },
+        "class/key": {
+          "enum": [
+            "Public",
+            "Community",
+            "Personal"
+          ]
+        },
+        "published-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        }
+      }
+    }
+  }
+}

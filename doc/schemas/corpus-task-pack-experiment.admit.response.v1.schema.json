@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-experiment.admit.response:v1",
+  "title": "Corpus Task-Pack Experiment Admission Response v1",
+  "description": "The host's answer to a task-pack experiment admission: whether the chain was found again, and where its handoff stands. `running` names the run its engine drives; `published` carries the host-signed execution record; `refused` is a P094 refusal before the run, which recorded nothing; `needs-authorization`, `unauthorized` and `target-changed` stop before a new execution step; `stopped` is any other failure, after which the handoff resumes from its recorded facts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "replayed",
+    "proposal/ref",
+    "handoff"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-experiment.admit.response.v1"
+    },
+    "replayed": {
+      "type": "boolean"
+    },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "handoff": {
+      "$ref": "#/$defs/handoff"
+    }
+  },
+  "x-dia-status": "draft",
+  "$defs": {
+    "handoff": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "run/ref"
+          ],
+          "properties": {
+            "state": {
+              "const": "running"
+            },
+            "run/ref": {
+              "type": "string",
+              "pattern": "^operator-task-run:[^\\s]+$",
+              "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "execution"
+          ],
+          "properties": {
+            "state": {
+              "const": "published"
+            },
+            "execution": {
+              "$ref": "corpus-experiment-task-pack-execution.v1.schema.json"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "refusal/code"
+          ],
+          "properties": {
+            "state": {
+              "const": "refused"
+            },
+            "refusal/code": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "needs-authorization",
+                "target-changed"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "reason"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "unauthorized",
+                "stopped"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          }
+        }
+      ]
+    }
+  }
+}
