@@ -1,0 +1,7 @@
+{
+  "schema": "corpus-task-pack-review.author.request.v1",
+  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "agent/id": "agent:qmail-reviewer",
+  "agent/product-ref": "agent-product:qmail-reviewer:1",
+  "reviewer-turn/id": "corpus-turn:sha256:GVlxfK6n2SgRv0tkQA181b88-wTQ3-KmVjBtRaAOIjU"
+}

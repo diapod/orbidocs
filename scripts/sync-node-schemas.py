@@ -206,6 +206,10 @@ SCHEMA_WHITELIST = (
     "corpus-passage-evidence-manifest.v1.schema.json",
     "corpus-passage-evidence-binding.v1.schema.json",
     "corpus-passage-evidence-inspection.v1.schema.json",
+    "corpus-task-pack-review-verdict.v1.schema.json",
+    "corpus-task-pack-proposal.author.request.v1.schema.json",
+    "corpus-task-pack-review.author.request.v1.schema.json",
+    "corpus-task-pack-chair-decision.author.request.v1.schema.json",
     "inquirium.candidate-plan.v1.schema.json",
     "inquirium-resource-profile.v1.schema.json",
     "inquirium-federated-resource-profile.v1.schema.json",
@@ -665,6 +669,11 @@ EXAMPLE_WHITELIST = (
     "fixture.corpus-passage-evidence-manifest.json",
     "fixture.corpus-passage-evidence-binding.json",
     "fixture.corpus-passage-evidence-inspection.json",
+    "reject.corpus-task-pack-review-verdict.json",
+    "fixture.corpus-task-pack-proposal.author.request.json",
+    "fixture.corpus-task-pack-review.author.request.json",
+    "fixture.corpus-task-pack-chair-decision.author.request.json",
+    "reviewer.corpus-passage-evidence.prepare.request.json",
     "workbench-experiment.inquirium.candidate-plan.json",
     "basic.service-offer-relay.json",
     "casualfeeders-breakfast-research.service-order.json",
@@ -1155,6 +1164,12 @@ INVALID_EXAMPLE_WHITELIST = (
     "orphan-artifact.corpus-passage-evidence-manifest.json",
     "without-input.corpus-passage-evidence-binding.json",
     "without-manifest.corpus-passage-evidence-inspection.json",
+    "revise.corpus-task-pack-review-verdict.json",
+    "replacement.corpus-task-pack-review-verdict.json",
+    "claimed-author.corpus-task-pack-proposal.author.request.json",
+    "client-verdict.corpus-task-pack-review.author.request.json",
+    "without-operator.corpus-task-pack-chair-decision.author.request.json",
+    "hil-approval.corpus-task-pack-chair-decision.author.request.json",
     # `mismatched-plan.corpus-reasoning-chair-experiment-decision.json` is a
     # signature-integrity negative (the reviewed-plan ref is re-pointed after
     # signing, so only the Ed25519 signature is invalid). The Node schema gate
@@ -1419,6 +1434,7 @@ SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
     "mismatched-source.sensorium-web-latest-state.json",
     "mismatched-summary.inference-execution-provenance.json",
     "foreign-evidence.corpus-experiment-task-pack-execution.json",
+    "target-not-read.corpus-passage-evidence.prepare.request.json",
 )
 
 GOLDEN_WHITELIST = (

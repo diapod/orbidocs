@@ -1022,6 +1022,18 @@ schema_for_file() {
     *.corpus-turn-order-decision.json)
       echo "$SCHEMAS_DIR/corpus-turn-order-decision.v1.schema.json"
       ;;
+    *.corpus-task-pack-review-verdict.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-review-verdict.v1.schema.json"
+      ;;
+    *.corpus-task-pack-proposal.author.request.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-proposal.author.request.v1.schema.json"
+      ;;
+    *.corpus-task-pack-review.author.request.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-review.author.request.v1.schema.json"
+      ;;
+    *.corpus-task-pack-chair-decision.author.request.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-chair-decision.author.request.v1.schema.json"
+      ;;
     *.corpus-passage-evidence.prepare.request.json)
       echo "$SCHEMAS_DIR/corpus-passage-evidence.prepare.request.v1.schema.json"
       ;;

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-chair-decision.author.request:v1",
+  "title": "Corpus Task-Pack Chair Decision Authoring Request v1",
+  "description": "An explicit Chair decision over one review (P094-023b), made by a current local operator binding on the Chair's node. It admits or refuses exactly the reviewed experiment and grants no effect: every mutation of a run still needs its own HIL approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "review/ref",
+    "decision",
+    "reason/code",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-chair-decision.author.request.v1"
+    },
+    "review/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 512
+    },
+    "decision": {
+      "enum": [
+        "block",
+        "request-revision",
+        "admit-reviewed-candidate"
+      ]
+    },
+    "reason/code": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "operator/binding-ref": {
+      "type": "string",
+      "pattern": "^node-operator-binding:[^\\s]+$",
+      "maxLength": 512
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    }
+  }
+}

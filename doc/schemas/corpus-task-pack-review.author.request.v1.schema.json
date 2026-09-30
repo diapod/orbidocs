@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-review.author.request:v1",
+  "title": "Corpus Task-Pack Review Authoring Request v1",
+  "description": "Request that the reviewer's node build and sign a review from a committed reviewer product (P094-023b). The product's passage must belong to the named reviewer turn and must have read the exact candidate under review as evidence; the verdict and findings come from the product, everything else from admitted facts.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "proposal/ref",
+    "agent/id",
+    "agent/product-ref",
+    "reviewer-turn/id"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-review.author.request.v1"
+    },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$",
+      "maxLength": 512
+    },
+    "agent/id": {
+      "type": "string",
+      "pattern": "^agent:[^\\s]+$",
+      "maxLength": 512
+    },
+    "agent/product-ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "reviewer-turn/id": {
+      "type": "string",
+      "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    }
+  }
+}

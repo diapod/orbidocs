@@ -1,0 +1,34 @@
+{
+  "schema": "corpus-passage-evidence.prepare.request.v1",
+  "inference-flow-binding/ref": "corpus-inference-flow-binding:acceptance",
+  "projection": {
+    "id": "corpus-task-pack-evidence",
+    "revision": 1
+  },
+  "bytes/max": 16384,
+  "items": [
+    {
+      "kind": "execution",
+      "ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+      "digest": "sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+      "required": true
+    },
+    {
+      "kind": "artifact",
+      "ref": "object-store:sha256:clS9L-u50lBvnKL4B8jKpD190PLkfS86KUobKiQVHCE",
+      "digest": "sha256:clS9L-u50lBvnKL4B8jKpD190PLkfS86KUobKiQVHCE",
+      "required": false
+    },
+    {
+      "kind": "candidate",
+      "ref": "corpus-task-pack-candidate-publication:sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+      "digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A",
+      "required": true
+    }
+  ],
+  "review/target": {
+    "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+    "proposal/digest": "sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+    "candidate/digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "schema": "corpus-task-pack-chair-decision.author.request.v1",
+  "review/ref": "corpus-experiment-review:sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+  "decision": "admit-reviewed-candidate",
+  "reason/code": "reviewed-candidate-accepted"
+}

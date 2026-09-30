@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:corpus-passage-evidence.prepare.request:v1",
   "title": "Corpus Passage Evidence Preparation Request v1",
-  "description": "Request to fix the evidence one Agent passage will read (P094-023a). It names the Corpus inference-Flow binding of the passage and each wanted item by exact ref and digest; `latest` is never an input. The host reads every item as the binding's Room subject and answers an immutable manifest, or refuses.",
+  "description": "Request to fix the evidence one Agent passage will read (P094-023a). It names the Corpus inference-Flow binding of the passage and each wanted item by exact ref and digest; `latest` is never an input. The host reads every item as the binding's Room subject and answers an immutable manifest, or refuses. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-status": "draft",
@@ -47,7 +47,11 @@
           "kind": {
             "enum": [
               "execution",
-              "artifact"
+              "artifact",
+              "candidate",
+              "proposal",
+              "review",
+              "decision"
             ]
           },
           "ref": {
@@ -64,6 +68,9 @@
           }
         }
       }
+    },
+    "review/target": {
+      "$ref": "#/$defs/review-target"
     }
   },
   "$defs": {
@@ -80,6 +87,29 @@
         },
         "revision": {
           "const": 1
+        }
+      }
+    },
+    "review-target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal/ref",
+        "proposal/digest",
+        "candidate/digest"
+      ],
+      "properties": {
+        "proposal/ref": {
+          "type": "string",
+          "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "proposal/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "candidate/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
         }
       }
     }

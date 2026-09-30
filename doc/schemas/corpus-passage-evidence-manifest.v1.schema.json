@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:corpus-passage-evidence-manifest:v1",
   "title": "Corpus Passage Evidence Manifest v1",
-  "description": "Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address.",
+  "description": "Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item (an execution record, an artifact a record names, a candidate publication, or a proposal, review or Chair decision of the Room) by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-status": "draft",
@@ -87,7 +87,11 @@
           "kind": {
             "enum": [
               "execution",
-              "artifact"
+              "artifact",
+              "candidate",
+              "proposal",
+              "review",
+              "decision"
             ]
           },
           "ref": {
@@ -193,6 +197,34 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 262144
+    },
+    "review/target": {
+      "$ref": "#/$defs/review-target"
+    }
+  },
+  "$defs": {
+    "review-target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal/ref",
+        "proposal/digest",
+        "candidate/digest"
+      ],
+      "properties": {
+        "proposal/ref": {
+          "type": "string",
+          "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "proposal/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "candidate/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      }
     }
   }
 }

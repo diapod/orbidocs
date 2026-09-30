@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-proposal.author.request:v1",
+  "title": "Corpus Task-Pack Proposal Authoring Request v1",
+  "description": "Request that the solver's node build and sign a typed proposal from a candidate it published (P094-023b). The request names the publication and the target; the host derives query, Room, turn, author, signer, executor, class and idempotency from admitted facts and narrows expiry to the current authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "candidate-publication/ref",
+    "target"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-proposal.author.request.v1"
+    },
+    "candidate-publication/ref": {
+      "type": "string",
+      "pattern": "^corpus-task-pack-candidate-publication:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "target": {
+      "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json#/$defs/task-pack-target"
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    }
+  }
+}

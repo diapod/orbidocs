@@ -1,0 +1,7 @@
+{
+  "schema": "corpus-task-pack-review-verdict.v1",
+  "verdict": "revise",
+  "findings": [
+    "The patch adds `:allow` to rcpthosts, which opens the relay to any host."
+  ]
+}

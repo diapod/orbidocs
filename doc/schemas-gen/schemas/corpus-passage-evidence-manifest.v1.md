@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/corpus-passage-evidence-manifest.v1.schema.json`](../../schemas/corpus-passage-evidence-manifest.v1.schema.json)
 
-Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address.
+Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item (an execution record, an artifact a record names, a candidate publication, or a proposal, review or Chair decision of the Room) by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item.
 
 ## Fields
 
@@ -21,6 +21,13 @@ Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a
 | [`content/ref`](#field-content-ref) | `yes` | string |  |
 | [`content/digest`](#field-content-digest) | `yes` | string |  |
 | [`content/size-bytes`](#field-content-size-bytes) | `yes` | integer |  |
+| [`review/target`](#field-review-target) | `no` | ref: `#/$defs/review-target` |  |
+
+## Definitions
+
+| Definition | Shape | Description |
+|---|---|---|
+| [`review-target`](#def-review-target) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -100,3 +107,16 @@ Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a
 
 - Required: `yes`
 - Shape: integer
+
+<a id="field-review-target"></a>
+## `review/target`
+
+- Required: `no`
+- Shape: ref: `#/$defs/review-target`
+
+## Definition Semantics
+
+<a id="def-review-target"></a>
+## `$defs.review-target`
+
+- Shape: object
