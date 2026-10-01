@@ -1034,6 +1034,15 @@ schema_for_file() {
     *.corpus-task-pack-chair-decision.author.request.json)
       echo "$SCHEMAS_DIR/corpus-task-pack-chair-decision.author.request.v1.schema.json"
       ;;
+    *.corpus-task-pack-step.request.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-step.request.v1.schema.json"
+      ;;
+    *.corpus-task-pack-chain.admit.request.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-chain.admit.request.v1.schema.json"
+      ;;
+    *.corpus-task-pack-position.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-position.v1.schema.json"
+      ;;
     *.corpus-task-pack-loop.open.request.json)
       echo "$SCHEMAS_DIR/corpus-task-pack-loop.open.request.v1.schema.json"
       ;;

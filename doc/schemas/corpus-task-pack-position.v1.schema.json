@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-position:v1",
+  "title": "Corpus Task-Pack Position v1",
+  "description": "Where a task-pack loop stands, for the pack's Flow to route its next step (P094-023d1): a projection of the loop and the proposals, reviews, Chair decisions and executions recorded for the query. actionable: step may be taken by its role. waiting: the Chair or a run acts first. blocked: step would be next, but a counter is spent or the deadline passed (an operator's renewal lifts a deadline). stopped: the loop takes nothing more. The position authorizes nothing; every step is checked again when it is taken. Evidence names facts by exact ref and digest, never their content; required items all appear, and optional ones beyond 32 are left out, oldest first, and counted.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "query/id",
+    "binding/ref",
+    "loop/state",
+    "deadline",
+    "limits",
+    "spent",
+    "status",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-position.v1"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "binding/ref": {
+      "type": "string",
+      "pattern": "^operator-task-local-binding:[^\\s]+$",
+      "maxLength": 512
+    },
+    "loop/state": {
+      "enum": [
+        "open",
+        "deadline-passed",
+        "stopped"
+      ]
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "limits": {
+      "$ref": "corpus-task-pack-loop.v1.schema.json#/$defs/limits"
+    },
+    "spent": {
+      "$ref": "corpus-task-pack-loop.v1.schema.json#/$defs/spent"
+    },
+    "status": {
+      "enum": [
+        "actionable",
+        "waiting",
+        "blocked",
+        "stopped"
+      ]
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "role"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "propose",
+            "review",
+            "admit"
+          ]
+        },
+        "role": {
+          "enum": [
+            "implementer",
+            "reviewer",
+            "coordinator"
+          ]
+        },
+        "proposal/ref": {
+          "type": "string",
+          "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "decision/ref": {
+          "type": "string",
+          "pattern": "^corpus-experiment-chair-decision:sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "review/target": {
+          "$ref": "corpus-passage-evidence.prepare.request.v1.schema.json#/$defs/review-target"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "propose"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "const": "implementer"
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "proposal/ref"
+                  ]
+                },
+                {
+                  "required": [
+                    "decision/ref"
+                  ]
+                },
+                {
+                  "required": [
+                    "review/target"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "review"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "const": "reviewer"
+              }
+            },
+            "required": [
+              "proposal/ref",
+              "review/target"
+            ],
+            "not": {
+              "required": [
+                "decision/ref"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "admit"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "const": "coordinator"
+              }
+            },
+            "required": [
+              "proposal/ref",
+              "decision/ref"
+            ],
+            "not": {
+              "required": [
+                "review/target"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "waiting": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "for",
+            "review/ref"
+          ],
+          "properties": {
+            "for": {
+              "const": "chair-decision"
+            },
+            "review/ref": {
+              "type": "string",
+              "pattern": "^corpus-experiment-review:sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "for",
+            "proposal/ref"
+          ],
+          "properties": {
+            "for": {
+              "const": "run"
+            },
+            "proposal/ref": {
+              "type": "string",
+              "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        }
+      ]
+    },
+    "blocked": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "by"
+          ],
+          "properties": {
+            "by": {
+              "const": "deadline"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "by",
+            "counter"
+          ],
+          "properties": {
+            "by": {
+              "const": "budget"
+            },
+            "counter": {
+              "enum": [
+                "max/passages",
+                "max/solver-passages",
+                "max/reviewer-passages",
+                "max/cycles",
+                "max/experiments"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stop": {
+      "$ref": "corpus-task-pack-loop.v1.schema.json#/$defs/stop"
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "ref",
+          "digest",
+          "required"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "execution",
+              "artifact",
+              "candidate",
+              "proposal",
+              "review",
+              "decision"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+            "maxLength": 512
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "evidence/omitted": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "actionable"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "step"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "waiting"
+              ]
+            },
+            {
+              "required": [
+                "blocked"
+              ]
+            },
+            {
+              "required": [
+                "stop"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "waiting"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "waiting"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "step"
+              ]
+            },
+            {
+              "required": [
+                "blocked"
+              ]
+            },
+            {
+              "required": [
+                "stop"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "blocked"
+        ],
+        "not": {
+          "required": [
+            "stop"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "stopped"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "stop"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "step"
+              ]
+            },
+            {
+              "required": [
+                "waiting"
+              ]
+            },
+            {
+              "required": [
+                "blocked"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

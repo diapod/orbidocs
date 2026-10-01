@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-chain.admit.request:v1",
+  "title": "Corpus Task-Pack Chain Admission Request v1",
+  "description": "A coordinator step (P094-023d1): admit the experiment of one recorded proposal, closed by the named Chair decision over its recorded review. The host assembles the chain from the Room documents it recorded and admits it as the experiment route does. Admission grants no HIL approval and no access to the Workbench.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "proposal/ref",
+    "decision/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-chain.admit.request.v1"
+    },
+    "proposal/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "decision/ref": {
+      "type": "string",
+      "pattern": "^corpus-experiment-chair-decision:sha256:[A-Za-z0-9_-]{43}$"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "corpus-task-pack-step.request.v1",
+  "query/id": "query:qmail-open-relay",
+  "context": {
+    "kind": "participant",
+    "turn/id": "corpus-turn:sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+    "agent/id": "agent:qmail-solver",
+    "inference-flow-binding/ref": "corpus-inference-flow-binding:qmail-solver-1"
+  },
+  "request": {
+    "schema": "corpus-task-pack-proposal.author.request.v1",
+    "candidate-publication/ref": "corpus-task-pack-candidate-publication:sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+    "target": {
+      "task-profile/ref": "operator-task-profile:qmail-local-administration",
+      "task-profile/digest": "sha256:9EokdtncgdoE1iyYlZ90qwDHSrSLdWv5aho_Jvkx11Y",
+      "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "corpus-task-pack-step.request.v1",
+  "query/id": "query:qmail-open-relay",
+  "context": {
+    "kind": "participant",
+    "turn/id": "corpus-turn:sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+    "agent/id": "agent:qmail-solver",
+    "inference-flow-binding/ref": "corpus-inference-flow-binding:qmail-solver-1",
+    "role": "reviewer"
+  }
+}

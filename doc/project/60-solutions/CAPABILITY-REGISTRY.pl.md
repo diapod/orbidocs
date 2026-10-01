@@ -161,7 +161,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **191** host-local / **223** ogółem; grupy właścicieli: **26**.
+Wpisy: **197** host-local / **229** ogółem; grupy właścicieli: **27**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -244,6 +244,17 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>corpus.room.moderate</code> | <code>host/corpus.room.moderate</code> | <code>active</code> | <code>host-local</code> | true | false | — |
+
+### <code>daemon Corpus task-pack steps</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>corpus.task-pack.candidate.publish</code> | <code>host/corpus.task-pack.candidate.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.evidence.prepare</code> | <code>host/corpus.task-pack.evidence.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.experiment.admit</code> | <code>host/corpus.task-pack.experiment.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.position.read</code> | <code>host/corpus.task-pack.position.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.proposal.author</code> | <code>host/corpus.task-pack.proposal.author</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.review.author</code> | <code>host/corpus.task-pack.review.author</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Inquirium host runtime</code>
 

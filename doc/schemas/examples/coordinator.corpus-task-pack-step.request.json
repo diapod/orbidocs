@@ -1,0 +1,7 @@
+{
+  "schema": "corpus-task-pack-step.request.v1",
+  "query/id": "query:qmail-open-relay",
+  "context": {
+    "kind": "coordinator"
+  }
+}

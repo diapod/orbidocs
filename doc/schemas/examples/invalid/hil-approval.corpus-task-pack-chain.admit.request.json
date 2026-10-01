@@ -1,0 +1,6 @@
+{
+  "schema": "corpus-task-pack-chain.admit.request.v1",
+  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "decision/ref": "corpus-experiment-chair-decision:sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+  "hil/approved": true
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "corpus-task-pack-position.v1",
+  "query/id": "query:qmail",
+  "binding/ref": "operator-task-local-binding:qmail",
+  "loop/state": "open",
+  "deadline": "2026-09-25T12:00:00Z",
+  "limits": {
+    "max/passages": 18,
+    "max/solver-passages": 4,
+    "max/reviewer-passages": 4,
+    "max/cycles": 4,
+    "max/experiments": 2,
+    "max/wall-time-ms": 3600000
+  },
+  "spent": {
+    "passages": 0,
+    "solver-passages": 0,
+    "reviewer-passages": 0,
+    "cycles": 1,
+    "runs": 0
+  },
+  "status": "actionable",
+  "evidence": [
+    {
+      "kind": "candidate",
+      "ref": "corpus-task-pack-candidate-publication:sha256:wxtjDDBf9-W0rtwhrnMX1VmJ9eT3Ub5ZCT5pVT8AJWs",
+      "digest": "sha256:iBOkMZfQA56FIk7K-jslfRbCS4rSsmifCPmcYIAVnZ0",
+      "required": true
+    },
+    {
+      "kind": "proposal",
+      "ref": "corpus-experiment:sha256:Yp4_yUj7XKVeufLMHNgVcDhBpPa-I7A4kl--Vr3BnCQ",
+      "digest": "sha256:Yp4_yUj7XKVeufLMHNgVcDhBpPa-I7A4kl--Vr3BnCQ",
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-step.request:v1",
+  "title": "Corpus Task-Pack Step Request v1",
+  "description": "A step a task pack's Flow takes in one Corpus query (P094-023d1), through a corpus.task-pack.* host capability. The context is typed. A participant step names the exact turn, Agent and Corpus inference-Flow binding it acts in: evidence preparation, candidate publication and proposal authoring in the Implementer's turn, review authoring in the Reviewer's. A coordinator step acts for the round: reading the position and admitting a closed chain. The request is the operation's own document, checked under its own contract. The Flow grants no role, opens no turn and creates no binding; the host checks every step against current facts and the role it needs.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "query/id",
+    "context"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-step.request.v1"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "context": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "turn/id",
+            "agent/id",
+            "inference-flow-binding/ref"
+          ],
+          "properties": {
+            "kind": {
+              "const": "participant"
+            },
+            "turn/id": {
+              "type": "string",
+              "pattern": "^corpus-turn:sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "agent/id": {
+              "type": "string",
+              "pattern": "^agent:[^\\s]+$",
+              "maxLength": 512
+            },
+            "inference-flow-binding/ref": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+              "maxLength": 512
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "coordinator"
+            }
+          }
+        }
+      ]
+    },
+    "request": {
+      "type": "object",
+      "description": "The operation's request document; absent for a position read."
+    }
+  }
+}

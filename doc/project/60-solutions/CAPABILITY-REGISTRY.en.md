@@ -159,7 +159,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **191** host-local / **223** total; **26** owner groups.
+Entries: **197** host-local / **229** total; **27** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -242,6 +242,17 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>corpus.room.moderate</code> | <code>host/corpus.room.moderate</code> | <code>active</code> | <code>host-local</code> | true | false | — |
+
+### <code>daemon Corpus task-pack steps</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>corpus.task-pack.candidate.publish</code> | <code>host/corpus.task-pack.candidate.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.evidence.prepare</code> | <code>host/corpus.task-pack.evidence.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.experiment.admit</code> | <code>host/corpus.task-pack.experiment.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.position.read</code> | <code>host/corpus.task-pack.position.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.proposal.author</code> | <code>host/corpus.task-pack.proposal.author</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.review.author</code> | <code>host/corpus.task-pack.review.author</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Inquirium host runtime</code>
 
