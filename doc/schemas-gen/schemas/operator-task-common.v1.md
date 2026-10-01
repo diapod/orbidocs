@@ -40,7 +40,7 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | [`effectSource`](#def-effectsource) | enum: `owner-enforced`, `missing-source-default` |  |
 | [`argvAtom`](#def-argvatom) | string |  |
 | [`arguments`](#def-arguments) | array |  |
-| [`deliberationLimits`](#def-deliberationlimits) | object |  |
+| [`deliberationLimits`](#def-deliberationlimits) | object | Bounds of one deliberation, met by `min` across the portable profile, the local binding and the host. `max/experiments` bounds admitted runs; `max/cycles` bounds proposal-review cycles; `max/solver-passages` and `max/reviewer-passages` bound passages per role, regenerations included; `max/wall-time-ms` bounds the whole process, human waiting included. |
 | [`candidateStep`](#def-candidatestep) | unspecified |  |
 | [`planStep`](#def-planstep) | unspecified | Host-validated step. In Version 1 a mutation is always contained and always needs HIL, and only an owner-enforced source can yield observation. |
 | [`stageReport`](#def-stagereport) | object |  |
@@ -175,6 +175,8 @@ Version 1 admits only these classes; other effects refuse with plan/recovery-cla
 ## `$defs.deliberationLimits`
 
 - Shape: object
+
+Bounds of one deliberation, met by `min` across the portable profile, the local binding and the host. `max/experiments` bounds admitted runs; `max/cycles` bounds proposal-review cycles; `max/solver-passages` and `max/reviewer-passages` bound passages per role, regenerations included; `max/wall-time-ms` bounds the whole process, human waiting included.
 
 <a id="def-candidatestep"></a>
 ## `$defs.candidateStep`

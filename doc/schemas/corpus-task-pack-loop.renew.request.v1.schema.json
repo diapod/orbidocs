@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-loop.renew.request:v1",
+  "title": "Corpus Task-Pack Loop Renewal Request v1",
+  "description": "Move the deadline of an unstopped loop later, made by a current local operator binding. Authority never renews itself: this request is the only way a deadline moves. The new deadline lies after the current one and at most one wall time from the renewal. The current deadline again answers the loop.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "deadline",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-loop.renew.request.v1"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "operator/binding-ref": {
+      "type": "string",
+      "pattern": "^node-operator-binding:[^\\s]+$",
+      "maxLength": 512
+    }
+  }
+}

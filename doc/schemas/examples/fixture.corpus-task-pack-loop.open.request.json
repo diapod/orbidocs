@@ -1,0 +1,5 @@
+{
+  "schema": "corpus-task-pack-loop.open.request.v1",
+  "binding/ref": "operator-task-local-binding:qmail-fixture",
+  "operator/binding-ref": "node-operator-binding:local-operator"
+}

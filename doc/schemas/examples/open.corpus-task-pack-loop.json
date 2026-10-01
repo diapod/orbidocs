@@ -1,0 +1,43 @@
+{
+  "schema": "corpus-task-pack-loop.v1",
+  "query/id": "query:qmail-fixture",
+  "binding/ref": "operator-task-local-binding:qmail-fixture",
+  "state": "open",
+  "limits": {
+    "max/passages": 18,
+    "max/solver-passages": 4,
+    "max/reviewer-passages": 4,
+    "max/cycles": 4,
+    "max/experiments": 2,
+    "max/wall-time-ms": 3600000
+  },
+  "deadline": "2026-09-25T12:00:00Z",
+  "spent": {
+    "passages": 0,
+    "solver-passages": 0,
+    "reviewer-passages": 0,
+    "cycles": 0,
+    "runs": 0
+  },
+  "facts": [
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 1,
+      "recorded-at": "2026-09-25T11:00:00Z",
+      "step": {
+        "kind": "opened",
+        "binding/ref": "operator-task-local-binding:qmail-fixture",
+        "limits": {
+          "max/passages": 18,
+          "max/solver-passages": 4,
+          "max/reviewer-passages": 4,
+          "max/cycles": 4,
+          "max/experiments": 2,
+          "max/wall-time-ms": 3600000
+        },
+        "deadline": "2026-09-25T12:00:00Z",
+        "operator/binding-ref": "node-operator-binding:local"
+      }
+    }
+  ]
+}

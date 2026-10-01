@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-loop.open.request:v1",
+  "title": "Corpus Task-Pack Loop Opening Request v1",
+  "description": "Open the bounded experiment loop of one Corpus query (P094-023c) on the node that owns the round, made by a current local operator binding. The host fixes the loop's limits as the meet of the task pack's profile, the named binding and its own hard caps, and its deadline as one wall time from the opening. A loop opens once per query: the same binding again answers the loop, another binding is a conflict.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "binding/ref",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-loop.open.request.v1"
+    },
+    "binding/ref": {
+      "type": "string",
+      "pattern": "^operator-task-local-binding:[^\\s]+$",
+      "maxLength": 512
+    },
+    "operator/binding-ref": {
+      "type": "string",
+      "pattern": "^node-operator-binding:[^\\s]+$",
+      "maxLength": 512
+    }
+  }
+}

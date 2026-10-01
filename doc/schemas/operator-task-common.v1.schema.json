@@ -260,12 +260,28 @@
           "minimum": 1,
           "maximum": 100
         },
+        "max/cycles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "max/solver-passages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "max/reviewer-passages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
         "max/wall-time-ms": {
           "type": "integer",
           "minimum": 1,
           "maximum": 86400000
         }
-      }
+      },
+      "description": "Bounds of one deliberation, met by `min` across the portable profile, the local binding and the host. `max/experiments` bounds admitted runs; `max/cycles` bounds proposal-review cycles; `max/solver-passages` and `max/reviewer-passages` bound passages per role, regenerations included; `max/wall-time-ms` bounds the whole process, human waiting included."
     },
     "candidateStep": {
       "oneOf": [

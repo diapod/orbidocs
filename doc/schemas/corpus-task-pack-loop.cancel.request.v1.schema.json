@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-loop.cancel.request:v1",
+  "title": "Corpus Task-Pack Loop Cancellation Request v1",
+  "description": "Stop a loop, made by a current local operator binding. No new charge and no new effect of an admitted run follows; a run already started is recovered and published, never abandoned. Cancelling a stopped loop answers the loop as it is.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-loop.cancel.request.v1"
+    },
+    "operator/binding-ref": {
+      "type": "string",
+      "pattern": "^node-operator-binding:[^\\s]+$",
+      "maxLength": 512
+    }
+  }
+}

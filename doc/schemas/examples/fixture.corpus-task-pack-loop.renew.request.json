@@ -1,0 +1,5 @@
+{
+  "schema": "corpus-task-pack-loop.renew.request.v1",
+  "deadline": "2026-09-25T12:30:00Z",
+  "operator/binding-ref": "node-operator-binding:local-operator"
+}

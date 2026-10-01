@@ -1,0 +1,418 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-loop:v1",
+  "title": "Corpus Task-Pack Loop v1",
+  "description": "The bounded experiment loop of one Corpus query (P094-023c): its append-only facts and their projection. The requester's Flow drives the deliberation; the host holds its bounds. A claimed passage spends `max/passages` and, for an implementer or a reviewer, its role's counter; a signed proposal opens a cycle; an admitted experiment spends a run, and needs its cycle. A charge has one key, so a replay spends nothing. The loop stops on a verified run, on a run concluded `unknown`, on a run refused for safety, or on cancellation; a run that fails verification, is denied by HIL or is cancelled leaves it going. An exhausted counter or a passed deadline refuses the next charge, and a passed deadline refuses every new effect of an admitted run.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-status": "draft",
+  "required": [
+    "schema",
+    "query/id",
+    "binding/ref",
+    "state",
+    "limits",
+    "deadline",
+    "spent",
+    "facts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-loop.v1"
+    },
+    "query/id": {
+      "type": "string",
+      "pattern": "^query:[^\\s]+$",
+      "maxLength": 512
+    },
+    "binding/ref": {
+      "type": "string",
+      "pattern": "^operator-task-local-binding:[^\\s]+$",
+      "maxLength": 512
+    },
+    "state": {
+      "description": "`open` takes charges; `deadline-passed` waits for a renewal; `stopped` takes nothing more.",
+      "enum": [
+        "open",
+        "deadline-passed",
+        "stopped"
+      ]
+    },
+    "limits": {
+      "$ref": "#/$defs/limits"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "spent": {
+      "$ref": "#/$defs/spent"
+    },
+    "stop": {
+      "$ref": "#/$defs/stop"
+    },
+    "facts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4096,
+      "items": {
+        "$ref": "#/$defs/fact"
+      },
+      "description": "At most 1366 facts by the loop's own bounds: its opening, every counter at the contract's widest, a conclusion per run, 64 renewals and one cancellation."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "stopped"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "stop"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "stop"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "limits": {
+      "description": "The effective limits: every counter is stated.",
+      "$ref": "operator-task-common.v1.schema.json#/$defs/deliberationLimits",
+      "required": [
+        "max/passages",
+        "max/solver-passages",
+        "max/reviewer-passages",
+        "max/cycles",
+        "max/experiments",
+        "max/wall-time-ms"
+      ]
+    },
+    "spent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passages",
+        "solver-passages",
+        "reviewer-passages",
+        "cycles",
+        "runs"
+      ],
+      "properties": {
+        "passages": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "solver-passages": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "reviewer-passages": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "cycles": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "runs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "stop": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reason",
+            "execution/ref"
+          ],
+          "properties": {
+            "reason": {
+              "enum": [
+                "succeeded",
+                "unknown"
+              ]
+            },
+            "execution/ref": {
+              "type": "string",
+              "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reason",
+            "execution/ref",
+            "refusal/code"
+          ],
+          "properties": {
+            "reason": {
+              "const": "safety-refused"
+            },
+            "execution/ref": {
+              "type": "string",
+              "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$"
+            },
+            "refusal/code": {
+              "enum": [
+                "environment/not-contained",
+                "environment/runtime-egress-denied",
+                "environment/impact-class-exceeded",
+                "verifier/mutation-not-admitted",
+                "workbench/patch-outside-policy"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reason",
+            "operator/binding-ref"
+          ],
+          "properties": {
+            "reason": {
+              "const": "cancelled"
+            },
+            "operator/binding-ref": {
+              "type": "string",
+              "pattern": "^node-operator-binding:[^\\s]+$",
+              "maxLength": 512
+            }
+          }
+        }
+      ]
+    },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query/id",
+        "sequence",
+        "recorded-at",
+        "step"
+      ],
+      "properties": {
+        "query/id": {
+          "type": "string",
+          "pattern": "^query:[^\\s]+$",
+          "maxLength": 512
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "recorded-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "step": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "binding/ref",
+                "limits",
+                "deadline",
+                "operator/binding-ref"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "opened"
+                },
+                "binding/ref": {
+                  "type": "string",
+                  "pattern": "^operator-task-local-binding:[^\\s]+$",
+                  "maxLength": 512
+                },
+                "limits": {
+                  "$ref": "#/$defs/limits"
+                },
+                "deadline": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 64
+                },
+                "operator/binding-ref": {
+                  "type": "string",
+                  "pattern": "^node-operator-binding:[^\\s]+$",
+                  "maxLength": 512
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "role",
+                "agent/id",
+                "passage/ref"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "passage-charged"
+                },
+                "role": {
+                  "enum": [
+                    "implementer",
+                    "reviewer",
+                    "adversarial-critic",
+                    "summarizer"
+                  ]
+                },
+                "agent/id": {
+                  "description": "A passage is unique within its Agent, so both name it.",
+                  "type": "string",
+                  "pattern": "^agent:[^\\s]+$",
+                  "maxLength": 512
+                },
+                "passage/ref": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+                  "maxLength": 512
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "proposal/ref"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "cycle-opened"
+                },
+                "proposal/ref": {
+                  "type": "string",
+                  "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "proposal/ref"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "run-admitted"
+                },
+                "proposal/ref": {
+                  "type": "string",
+                  "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "execution/ref",
+                "proposal/ref",
+                "outcome"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "concluded"
+                },
+                "execution/ref": {
+                  "type": "string",
+                  "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "proposal/ref": {
+                  "type": "string",
+                  "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+                },
+                "outcome": {
+                  "enum": [
+                    "verified",
+                    "verification-failed",
+                    "refused",
+                    "cancelled",
+                    "unknown"
+                  ]
+                },
+                "refusal/code": {
+                  "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "deadline",
+                "operator/binding-ref"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "renewed"
+                },
+                "deadline": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 64
+                },
+                "operator/binding-ref": {
+                  "type": "string",
+                  "pattern": "^node-operator-binding:[^\\s]+$",
+                  "maxLength": 512
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "operator/binding-ref"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "cancelled"
+                },
+                "operator/binding-ref": {
+                  "type": "string",
+                  "pattern": "^node-operator-binding:[^\\s]+$",
+                  "maxLength": 512
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

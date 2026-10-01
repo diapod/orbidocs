@@ -191,6 +191,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-task-pack-executions.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-executions.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
 | [`corpus-task-pack-experiment.admit.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-experiment.admit.request.v1.md) | `8` | `0` | `no` | `yes` | `1` | `2` |
 | [`corpus-task-pack-experiment.admit.response.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-experiment.admit.response.v1.md) | `4` | `0` | `no` | `yes` | `3` | `3` |
+| [`corpus-task-pack-loop.cancel.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.cancel.request.v1.md) | `2` | `0` | `no` | `yes` | `1` | `0` |
+| [`corpus-task-pack-loop.open.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.open.request.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
+| [`corpus-task-pack-loop.renew.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.renew.request.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
+| [`corpus-task-pack-loop.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.v1.md) | `9` | `1` | `no` | `yes` | `2` | `3` |
 | [`corpus-task-pack-proposal.author.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-proposal.author.request.v1.md) | `4` | `0` | `no` | `yes` | `1` | `1` |
 | [`corpus-task-pack-review-verdict.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-review-verdict.v1.md) | `3` | `0` | `no` | `yes` | `1` | `2` |
 | [`corpus-task-pack-review.author.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-review.author.request.v1.md) | `6` | `0` | `no` | `yes` | `1` | `1` |
@@ -748,6 +752,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-task-pack-executions.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-executions.v1.md) |  |  |
 | [`corpus-task-pack-experiment.admit.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-experiment.admit.request.v1.md) |  |  |
 | [`corpus-task-pack-experiment.admit.response.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-experiment.admit.response.v1.md) |  |  |
+| [`corpus-task-pack-loop.cancel.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.cancel.request.v1.md) |  |  |
+| [`corpus-task-pack-loop.open.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.open.request.v1.md) |  |  |
+| [`corpus-task-pack-loop.renew.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.renew.request.v1.md) |  |  |
+| [`corpus-task-pack-loop.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-loop.v1.md) |  |  |
 | [`corpus-task-pack-proposal.author.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-proposal.author.request.v1.md) |  |  |
 | [`corpus-task-pack-review-verdict.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-review-verdict.v1.md) |  |  |
 | [`corpus-task-pack-review.author.request.v1.schema.json`](schemas-gen/schemas/corpus-task-pack-review.author.request.v1.md) |  |  |
@@ -1304,7 +1312,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md) |
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 
-- Canonical schemas: `552`
-- Generated schema docs: `552`
-- Positive examples: `566`
-- Negative examples: `564`
+- Canonical schemas: `556`
+- Generated schema docs: `556`
+- Positive examples: `571`
+- Negative examples: `569`

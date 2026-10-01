@@ -143,6 +143,9 @@
               "runtime-network",
               "max/passages",
               "max/experiments",
+              "max/cycles",
+              "max/solver-passages",
+              "max/reviewer-passages",
               "max/wall-time-ms",
               "max/concurrent-runs",
               "image-variant"

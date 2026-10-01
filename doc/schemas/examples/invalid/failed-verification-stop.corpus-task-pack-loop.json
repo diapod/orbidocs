@@ -1,0 +1,180 @@
+{
+  "schema": "corpus-task-pack-loop.v1",
+  "query/id": "query:qmail-fixture",
+  "binding/ref": "operator-task-local-binding:qmail-fixture",
+  "state": "stopped",
+  "limits": {
+    "max/passages": 18,
+    "max/solver-passages": 4,
+    "max/reviewer-passages": 4,
+    "max/cycles": 4,
+    "max/experiments": 2,
+    "max/wall-time-ms": 3600000
+  },
+  "deadline": "2026-09-25T12:00:00Z",
+  "spent": {
+    "passages": 6,
+    "solver-passages": 3,
+    "reviewer-passages": 3,
+    "cycles": 3,
+    "runs": 2
+  },
+  "stop": {
+    "reason": "verification-failed",
+    "execution/ref": "corpus-task-pack-execution:sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI"
+  },
+  "facts": [
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 1,
+      "recorded-at": "2026-09-25T11:00:00Z",
+      "step": {
+        "kind": "opened",
+        "binding/ref": "operator-task-local-binding:qmail-fixture",
+        "limits": {
+          "max/passages": 18,
+          "max/solver-passages": 4,
+          "max/reviewer-passages": 4,
+          "max/cycles": 4,
+          "max/experiments": 2,
+          "max/wall-time-ms": 3600000
+        },
+        "deadline": "2026-09-25T12:00:00Z",
+        "operator/binding-ref": "node-operator-binding:local"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 2,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "passage-charged",
+        "role": "implementer",
+        "agent/id": "agent:solver",
+        "passage/ref": "inference-passage:solver-1"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 3,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "cycle-opened",
+        "proposal/ref": "corpus-experiment:sha256:Yp4_yUj7XKVeufLMHNgVcDhBpPa-I7A4kl--Vr3BnCQ"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 4,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "passage-charged",
+        "role": "reviewer",
+        "agent/id": "agent:reviewer",
+        "passage/ref": "inference-passage:reviewer-1"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 5,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "passage-charged",
+        "role": "implementer",
+        "agent/id": "agent:solver",
+        "passage/ref": "inference-passage:solver-2"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 6,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "cycle-opened",
+        "proposal/ref": "corpus-experiment:sha256:dOiSyREw2qXpxczfpFVb4FkGbsNzxSmVWWeavAW78wQ"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 7,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "passage-charged",
+        "role": "reviewer",
+        "agent/id": "agent:reviewer",
+        "passage/ref": "inference-passage:reviewer-2"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 8,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "run-admitted",
+        "proposal/ref": "corpus-experiment:sha256:dOiSyREw2qXpxczfpFVb4FkGbsNzxSmVWWeavAW78wQ"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 9,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "concluded",
+        "execution/ref": "corpus-task-pack-execution:sha256:dyxpU4SL9bGa7fmjTMsGbzHqzKKb2_yxuYIXZfEGAUk",
+        "proposal/ref": "corpus-experiment:sha256:dOiSyREw2qXpxczfpFVb4FkGbsNzxSmVWWeavAW78wQ",
+        "outcome": "verification-failed"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 10,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "passage-charged",
+        "role": "implementer",
+        "agent/id": "agent:solver",
+        "passage/ref": "inference-passage:solver-3"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 11,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "cycle-opened",
+        "proposal/ref": "corpus-experiment:sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 12,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "passage-charged",
+        "role": "reviewer",
+        "agent/id": "agent:reviewer",
+        "passage/ref": "inference-passage:reviewer-3"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 13,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "run-admitted",
+        "proposal/ref": "corpus-experiment:sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI"
+      }
+    },
+    {
+      "query/id": "query:qmail-fixture",
+      "sequence": 14,
+      "recorded-at": "2026-09-25T11:30:00Z",
+      "step": {
+        "kind": "concluded",
+        "execution/ref": "corpus-task-pack-execution:sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI",
+        "proposal/ref": "corpus-experiment:sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI",
+        "outcome": "verified"
+      }
+    }
+  ]
+}

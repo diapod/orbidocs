@@ -1,0 +1,4 @@
+{
+  "schema": "corpus-task-pack-loop.cancel.request.v1",
+  "operator/binding-ref": "node-operator-binding:local-operator"
+}
