@@ -604,6 +604,12 @@ mechanical helpers:
 
 - `sha256_json(value)` — deterministic hash over canonical JSON,
 - `sha256_text(value)` — hash over a UTF-8 string,
+- `sha256_jcs_b64u(value)` — the Orbiplex content address of a value:
+  `sha256:` and the unpadded base64url SHA-256 of its JCS v1 canonical form,
+  computed by the shared canonical-JSON primitive the host uses (for example
+  for an Agent passage `input/digest`); this hashes the supplied value and
+  does not normalize domain DTOs, so a passage request must have the form
+  the host serializes, including defaulted fields,
 - `default(value, fallback)` — null/missing fallback,
 - `has(value, path)` — path existence check,
 - `pick(value, fields)` — object field projection,

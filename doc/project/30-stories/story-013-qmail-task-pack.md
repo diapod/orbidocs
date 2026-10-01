@@ -151,6 +151,20 @@ concurrent run, publication disabled until the operator enables it.
 The requester's Corpus Flow drives this loop within its budget; P094 only runs
 each admitted experiment. `unknown` ends the loop instead of trying again.
 
+The pack's Flow performs steps in an authorized context and never governs the
+conversation. A **participant step** runs in one exact turn: the solver's turn
+for its passage, the candidate's publication and the proposal; the reviewer's
+turn for its passage and the review. A **coordinator step** runs for the round:
+admitting an experiment whose proposal, review and Chair decision are closed,
+and reading positions and results. Admission belongs to no participant's turn;
+it is a coordination after the Chair's decision. The pack's Flow grants no
+role, opens no turn and creates no turn binding. Choosing the next participant,
+opening and closing turns, their inference-Flow bindings, the Chair's decision
+and renewing authority stay Corpus and Room mechanics. In local acceptance
+(`P094-013`) a harness may perform them through the production API, as a
+scheduler only: it never chooses the repair, never reads results for the
+solver and never bypasses review.
+
 In the federated profile, steps 3 and 10 cross the network: the requester
 reaches the provider through its signed offer, the provider admits the request
 only for the exact task-profile digest, and the answer returns through the
