@@ -1044,6 +1044,21 @@ container and contains refs and digests, not arbitrary unbounded inline content:
   repair-profile, Agent-policy, model-profile, runtime, optional Corpus role/overlay,
   and passage ceilings; an activated package is an additional tighten-only ceiling
   over the Agent binding and cannot leave model or runtime choice ambient;
+  a registration names its Flow by the Flow's own id and by the digest of the
+  delivered Flow document, `sha256:` plus the unpadded base64url SHA-256 of the
+  JCS v1 form of the Flow's JSON object as delivered (not file bytes, and not
+  a runtime's typed reading with materialized defaults); a host keeps that
+  source digest with every Flow it loads (the final object after configuration
+  layers merge, or the object in an authorized package fragment) and admits a
+  packaged binding and each passage only while the loaded Flow under that id
+  carries exactly the registered digest, with no fallback when its source is
+  unverified (`P094-023d2`); provenance is issued only after validating the
+  original source against the closed Flow schema and its owner's semantics.
+  Host configuration validation also refuses provenance retained after changing
+  the typed Flow; this configuration integrity check is distinct from the source
+  digest and adds no document hashing to passage admission. A stable digest
+  identifies the artifact, while a
+  change in what a default means needs a runtime compatibility gate;
 - required base capabilities and module grants;
 - an exact `middleware-component-contract.v1` ref and digest on every supervised
   middleware package referenced as executable material when that component

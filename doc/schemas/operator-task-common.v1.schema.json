@@ -15,6 +15,20 @@
       "pattern": "^[a-z][a-z0-9-]*:[^\\s/\\\\][^\\s\\\\]*$",
       "description": "Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text."
     },
+    "assetRef": {
+      "description": "An asset's ref as its profile slot names it: a logical ref, or the Flow id of the deliberation Flow (`deliberation/inference-flow`).",
+      "anyOf": [
+        {"$ref": "#/$defs/ref"},
+        {"$ref": "#/$defs/flowId"}
+      ]
+    },
+    "flowId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$",
+      "description": "Identifier of an `orbiplex.json_e_flow.v1` Flow in its owner's grammar: lowercase ASCII letters and digits, with single `.`, `_` or `-` separators between them. One identifier names the Flow document, its configuration, its P085 registration and an Agent's binding to it; an actor ref derived from it is never another Flow id."
+    },
     "operatorBindingRef": {
       "description": "The exact `node-operator-binding.v1` the host verifies as current through the P085 operator-authority check before it commits a binding change.",
       "allOf": [
@@ -74,6 +88,14 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/$defs/ref"
+      }
+    },
+    "assetRefs": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/assetRef"
       }
     },
     "hilMode": {
@@ -693,7 +715,7 @@
           "$ref": "#/$defs/stageState"
         },
         "evidence/refs": {
-          "$ref": "#/$defs/refs"
+          "$ref": "#/$defs/assetRefs"
         },
         "refusal/code": {
           "$ref": "#/$defs/refusalCode"

@@ -1,10 +1,10 @@
 {
   "schema/v": 4,
-  "review/ref": "corpus-experiment-review:sha256:XXUJPOZymMP07IyzD5TwGb77vSxMVBKjCm5JArS7e5M",
+  "review/ref": "corpus-experiment-review:sha256:0q3votViikmqQKJR9ja8Em8EkH5q53D9VHQh1nEbMBE",
   "query/id": "query:qmail-open-relay",
   "room/id": "room:qmail-open-relay",
-  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
-  "proposal/digest": "sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
+  "proposal/ref": "corpus-experiment:sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
+  "proposal/digest": "sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
   "candidate": {
     "artifact/type": "operator-task-experiment-candidate.v1",
     "ref": "operator-task-experiment-candidate:qmail-01",
@@ -28,7 +28,7 @@
   "idempotency/key": "qmail-open-relay-01-review",
   "signature": {
     "alg": "ed25519+domain-v1",
-    "value": "ygKQVmQ13W6-aGwIkQZGPVULFzdA_pB5HWPtP5zyO9zon0PRONl8CrqvXKvFdmdBz2gaGc_FKEfp6hAME4D6BA",
+    "value": "ErjCgchlVoeW2KOW3dK4_3vpq6YgHwhj9Be8HBye_3lb9LRxTmDveRWKiJi6VAvAw6ujgqay7Mp0FU5E1GsnDQ",
     "key/public": "z6MkgcTiPMbTofzVghWywkKDM7SeNYnG4jPbFxerG2rVnV8A"
   }
 }

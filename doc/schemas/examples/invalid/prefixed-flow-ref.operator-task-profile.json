@@ -23,7 +23,7 @@
     ]
   },
   "deliberation": {
-    "inference-flow/ref": "qmail-task-pack-steps",
+    "inference-flow/ref": "operator-inference-flow:qmail-plan-v1",
     "inference-flow/digest": "sha256:OyEngXjtNGPzveOjXwiMr22Z_xsvZH2aDCuN5ZnsPcY",
     "agent-policy/ref": "agent-policy:qmail-experiment-v1",
     "agent-policy/digest": "sha256:4rKDt2HRpu8xjCsaKnN7DFtTOkUOgKdSQCr-FXFjr2k",
@@ -46,7 +46,7 @@
         "image-manifest/digest": "sha256:YQXWzHavQAMl6U1YjOURvlv9u3O0N9xR7KQ5F9ekPj0"
       }
     ],
-    "prepared-system/ref": "c:\\qmail\\prepared",
+    "prepared-system/ref": "prepared-system:qmail-v1",
     "prepared-system/digest": "sha256:sPSy55lqX08xW9vGIzlzN2FEhw7NZSTkF8BcNt3oh0U",
     "runtime-network/ceiling": "none",
     "impact-class/max": "test"

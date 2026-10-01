@@ -9,14 +9,14 @@
     "input/digest": "sha256:GlxKPdkrCUM0Fjz7_gBTpzrGbx9c3mtIPpr8tZoLJDg",
     "query/id": "query:acceptance",
     "room/id": "room:acceptance",
-    "evidence/manifest-ref": "corpus-evidence-manifest:sha256:h_K9vloUJjxM0-OvjgBFHeLAavuLjQPFFExi-X7OtBA",
-    "evidence/manifest-digest": "sha256:h_K9vloUJjxM0-OvjgBFHeLAavuLjQPFFExi-X7OtBA",
-    "materialized/digest": "sha256:SI3fBk8ErGR-a2s8nt0TvBOFJ1YsMzgY99gvvJMhRHI",
+    "evidence/manifest-ref": "corpus-evidence-manifest:sha256:aaUVQ0Ok_VleudwDnywq6cHVMTd8mU72ILGR12b8SPY",
+    "evidence/manifest-digest": "sha256:aaUVQ0Ok_VleudwDnywq6cHVMTd8mU72ILGR12b8SPY",
+    "materialized/digest": "sha256:AlPEkQRsp0QFG8hEa9P9VeM88SGvhbzoY9KC2148WR4",
     "recorded-at": "2026-09-25T12:30:00Z"
   },
   "manifest": {
     "schema": "corpus-passage-evidence-manifest.v1",
-    "manifest/ref": "corpus-evidence-manifest:sha256:h_K9vloUJjxM0-OvjgBFHeLAavuLjQPFFExi-X7OtBA",
+    "manifest/ref": "corpus-evidence-manifest:sha256:aaUVQ0Ok_VleudwDnywq6cHVMTd8mU72ILGR12b8SPY",
     "query/id": "query:acceptance",
     "room/id": "room:acceptance",
     "reader": {
@@ -32,11 +32,11 @@
     "items": [
       {
         "kind": "execution",
-        "ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
-        "digest": "sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+        "ref": "corpus-task-pack-execution:sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
+        "digest": "sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
         "required": true,
         "included": true,
-        "execution/ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+        "execution/ref": "corpus-task-pack-execution:sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
         "source/instance": "environment:qmail-01"
       },
       {
@@ -45,14 +45,14 @@
         "digest": "sha256:clS9L-u50lBvnKL4B8jKpD190PLkfS86KUobKiQVHCE",
         "required": false,
         "included": true,
-        "execution/ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+        "execution/ref": "corpus-task-pack-execution:sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
         "step/id": "inspect-qmail",
         "source/instance": "environment:qmail-01"
       }
     ],
     "class/key": "Community",
-    "content/ref": "object-store:sha256:SI3fBk8ErGR-a2s8nt0TvBOFJ1YsMzgY99gvvJMhRHI",
-    "content/digest": "sha256:SI3fBk8ErGR-a2s8nt0TvBOFJ1YsMzgY99gvvJMhRHI",
+    "content/ref": "object-store:sha256:AlPEkQRsp0QFG8hEa9P9VeM88SGvhbzoY9KC2148WR4",
+    "content/digest": "sha256:AlPEkQRsp0QFG8hEa9P9VeM88SGvhbzoY9KC2148WR4",
     "content/size-bytes": 3435
   }
 }

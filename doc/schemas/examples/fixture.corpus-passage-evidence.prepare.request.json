@@ -9,8 +9,8 @@
   "items": [
     {
       "kind": "execution",
-      "ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
-      "digest": "sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+      "ref": "corpus-task-pack-execution:sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
+      "digest": "sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
       "required": true
     },
     {

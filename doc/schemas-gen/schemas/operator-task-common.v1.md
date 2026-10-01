@@ -18,6 +18,8 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string | Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text. |
+| [`assetRef`](#def-assetref) | unspecified | An asset's ref as its profile slot names it: a logical ref, or the Flow id of the deliberation Flow (`deliberation/inference-flow`). |
+| [`flowId`](#def-flowid) | string | Identifier of an `orbiplex.json_e_flow.v1` Flow in its owner's grammar: lowercase ASCII letters and digits, with single `.`, `_` or `-` separators between them. One identifier names the Flow document, its configuration, its P085 registration and an Agent's binding to it; an actor ref derived from it is never another Flow id. |
 | [`operatorBindingRef`](#def-operatorbindingref) | unspecified | The exact `node-operator-binding.v1` the host verifies as current through the P085 operator-authority check before it commits a binding change. |
 | [`digest`](#def-digest) | string |  |
 | [`counter`](#def-counter) | integer |  |
@@ -26,6 +28,7 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | [`capabilityId`](#def-capabilityid) | string |  |
 | [`exactRef`](#def-exactref) | object |  |
 | [`refs`](#def-refs) | array |  |
+| [`assetRefs`](#def-assetrefs) | array |  |
 | [`hilMode`](#def-hilmode) | enum: `each-step`, `each-mutation` |  |
 | [`runtimeNetwork`](#def-runtimenetwork) | enum: `none`, `isolated` |  |
 | [`impactClass`](#def-impactclass) | enum: `research`, `experimental`, `test`, `production`, `critical` |  |
@@ -54,6 +57,20 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 - Shape: string
 
 Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text.
+
+<a id="def-assetref"></a>
+## `$defs.assetRef`
+
+- Shape: unspecified
+
+An asset's ref as its profile slot names it: a logical ref, or the Flow id of the deliberation Flow (`deliberation/inference-flow`).
+
+<a id="def-flowid"></a>
+## `$defs.flowId`
+
+- Shape: string
+
+Identifier of an `orbiplex.json_e_flow.v1` Flow in its owner's grammar: lowercase ASCII letters and digits, with single `.`, `_` or `-` separators between them. One identifier names the Flow document, its configuration, its P085 registration and an Agent's binding to it; an actor ref derived from it is never another Flow id.
 
 <a id="def-operatorbindingref"></a>
 ## `$defs.operatorBindingRef`
@@ -94,6 +111,11 @@ The exact `node-operator-binding.v1` the host verifies as current through the P0
 
 <a id="def-refs"></a>
 ## `$defs.refs`
+
+- Shape: array
+
+<a id="def-assetrefs"></a>
+## `$defs.assetRefs`
 
 - Shape: array
 

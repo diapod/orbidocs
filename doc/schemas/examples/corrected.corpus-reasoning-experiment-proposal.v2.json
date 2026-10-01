@@ -1,6 +1,6 @@
 {
   "schema/v": 2,
-  "proposal/ref": "corpus-experiment:sha256:zw3lS_ilgq98XfBcOZYCkt4JoDhEtBIZ8WkhbNz5Ka0",
+  "proposal/ref": "corpus-experiment:sha256:QmUfDQh3YBWXoz-DSaBiCveFMj_j2Jvbbz5qEyAUqu4",
   "query/id": "query:qmail-open-relay",
   "room/id": "room:qmail-open-relay",
   "turn/id": "corpus-turn:sha256:BCI0NvyPUOuIjIfwzb1lW37ReOe7tnsYe-Ua1bRL_rc",
@@ -20,7 +20,7 @@
   },
   "target": {
     "task-profile/ref": "operator-task-profile:qmail-local-administration",
-    "task-profile/digest": "sha256:9EokdtncgdoE1iyYlZ90qwDHSrSLdWv5aho_Jvkx11Y",
+    "task-profile/digest": "sha256:qOpwTunafl7k27Iz3HYIQMMrPniAOvCKLp48kU16a70",
     "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
   },
   "class/key": "Community",
@@ -30,7 +30,7 @@
   "idempotency/key": "qmail-open-relay-01",
   "signature": {
     "alg": "ed25519+domain-v1",
-    "value": "B9hmgYtKVLrlWyYnVFFGLahHD0CH9w8lKj3k_Y_yuvtxQy2uTG7VR7dMPECeOzMEx3GqeGnBjoXFsnYfSubJDA",
+    "value": "nZv8NxLSjGQIsOaFx92ssrg1Qom9RHywqo0hTJLRQO1GxTG0LgL-LGODEyCqXgS61eDReTRk3UB0G9gn_R1oBQ",
     "key/public": "z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
   }
 }

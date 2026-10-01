@@ -208,7 +208,7 @@
           "$ref": "#/$defs/slot"
         },
         "ref": {
-          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          "$ref": "operator-task-common.v1.schema.json#/$defs/assetRef"
         },
         "digest": {
           "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
@@ -281,7 +281,7 @@
           "$ref": "#/$defs/slot"
         },
         "ref": {
-          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          "$ref": "operator-task-common.v1.schema.json#/$defs/assetRef"
         },
         "capability/id": {
           "$ref": "operator-task-common.v1.schema.json#/$defs/capabilityId"

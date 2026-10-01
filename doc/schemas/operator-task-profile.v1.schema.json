@@ -126,7 +126,7 @@
       ],
       "properties": {
         "inference-flow/ref": {
-          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          "$ref": "operator-task-common.v1.schema.json#/$defs/flowId"
         },
         "inference-flow/digest": {
           "$ref": "operator-task-common.v1.schema.json#/$defs/digest"

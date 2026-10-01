@@ -1,14 +1,14 @@
 {
   "schema/v": 1,
-  "execution/ref": "corpus-task-pack-execution:sha256:0EuAAwbYn3utISzWgEQzuwst8QeZRpsimOsARibbvfI",
+  "execution/ref": "corpus-task-pack-execution:sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
   "query/id": "query:qmail-open-relay",
   "room/id": "room:qmail-open-relay",
-  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
-  "proposal/digest": "sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
-  "review/ref": "corpus-experiment-review:sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
-  "review/digest": "sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
-  "decision/ref": "corpus-experiment-chair-decision:sha256:sdX8HBFOcoxHDsOAgh03BdIvSV3k-TMidIxqeGlSt4k",
-  "decision/digest": "sha256:sdX8HBFOcoxHDsOAgh03BdIvSV3k-TMidIxqeGlSt4k",
+  "proposal/ref": "corpus-experiment:sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
+  "proposal/digest": "sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
+  "review/ref": "corpus-experiment-review:sha256:-wZwDPaemdSvfdPbI3S8uRNxpVHyDBJEXL9P-n9Ny7A",
+  "review/digest": "sha256:-wZwDPaemdSvfdPbI3S8uRNxpVHyDBJEXL9P-n9Ny7A",
+  "decision/ref": "corpus-experiment-chair-decision:sha256:oA28VKhsifc4ODhCXQhTYA5qikyleR46w0_GrRwpceE",
+  "decision/digest": "sha256:oA28VKhsifc4ODhCXQhTYA5qikyleR46w0_GrRwpceE",
   "candidate": {
     "artifact/type": "operator-task-experiment-candidate.v1",
     "ref": "operator-task-experiment-candidate:qmail-01",
@@ -17,7 +17,7 @@
   },
   "target": {
     "task-profile/ref": "operator-task-profile:qmail-local-administration",
-    "task-profile/digest": "sha256:9EokdtncgdoE1iyYlZ90qwDHSrSLdWv5aho_Jvkx11Y",
+    "task-profile/digest": "sha256:qOpwTunafl7k27Iz3HYIQMMrPniAOvCKLp48kU16a70",
     "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
   },
   "plan/ref": "operator-task-plan:run-01",
@@ -51,7 +51,7 @@
   "idempotency/key": "qmail-open-relay-01-execution",
   "signature": {
     "alg": "ed25519+domain-v1",
-    "value": "oQOMJo6ktKxApGLfHfWrxN65KUyL6ZGnR3Qrna45UJgVM8kWS57svyXeqP2-r9r4gKCv8FQUfJQiyatZWdKbBQ",
+    "value": "wtC_ytKRtLs3eW5b2_DJVVumfdUKo-epfXqR_iqUvqMU--orBXvjn-Wn0nBf6xv229XdxRZ1BNpxkgEfKcyrCw",
     "key/public": "z6MkqB3fVxzXFbVUK2q1GPrLQzaxgwDGGVuxkDzaf5tsLnpo"
   }
 }

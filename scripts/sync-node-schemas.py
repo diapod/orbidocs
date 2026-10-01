@@ -990,6 +990,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "absolute-path.operator-task-profile.json",
     "hidden-egress.operator-task-profile.json",
     "missing-digest.operator-task-profile.json",
+    "prefixed-flow-ref.operator-task-profile.json",
     "embedded-secret.operator-task-profile.json",
     "restated-portable-fact.operator-task-local-binding.json",
     "activation-generation.operator-task-local-binding.json",

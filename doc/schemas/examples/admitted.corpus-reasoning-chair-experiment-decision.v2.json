@@ -1,11 +1,11 @@
 {
   "schema/v": 2,
-  "decision/ref": "corpus-experiment-chair-decision:sha256:sdX8HBFOcoxHDsOAgh03BdIvSV3k-TMidIxqeGlSt4k",
+  "decision/ref": "corpus-experiment-chair-decision:sha256:oA28VKhsifc4ODhCXQhTYA5qikyleR46w0_GrRwpceE",
   "query/id": "query:qmail-open-relay",
   "room/id": "room:qmail-open-relay",
-  "proposal/ref": "corpus-experiment:sha256:GE3SSF0WPqoFq3t6eDxnmrLGeJIWv20Ux1qwDuovYmQ",
-  "review/ref": "corpus-experiment-review:sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
-  "review/digest": "sha256:Jd4RGWJ0-mLapi57NsTMwTxDSTLIJjvYhUh8PLH47f8",
+  "proposal/ref": "corpus-experiment:sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
+  "review/ref": "corpus-experiment-review:sha256:-wZwDPaemdSvfdPbI3S8uRNxpVHyDBJEXL9P-n9Ny7A",
+  "review/digest": "sha256:-wZwDPaemdSvfdPbI3S8uRNxpVHyDBJEXL9P-n9Ny7A",
   "reviewed-candidate": {
     "artifact/type": "operator-task-experiment-candidate.v1",
     "ref": "operator-task-experiment-candidate:qmail-01",
@@ -25,7 +25,7 @@
   "idempotency/key": "qmail-open-relay-01-decision",
   "signature": {
     "alg": "ed25519+domain-v1",
-    "value": "dCk-o8H10-oGRBxwVy5ZiVyzUgvCfFYIkI6YUEMH4GGUmOq89zg0tUrshfaKFN5-kLh4_mxiqNeRI_KDokzbBQ",
+    "value": "e-uGriae-GA9PQHPvfMFvhKjRkKTjeVS4BufcEDJIQv29BVgpzG6Zj0HL4bxhsCxUdaf1ro2s_x89152UTiCAQ",
     "key/public": "z6Mkw9YUWaWMuG7ZMhwtpfEytLaMZjiaxYnXe9SxDQHN64sy"
   }
 }

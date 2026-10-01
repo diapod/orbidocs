@@ -382,7 +382,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-task-plan-compile.v1.schema.json`](schemas-gen/schemas/operator-task-plan-compile.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-profile-change-result.v1.schema.json`](schemas-gen/schemas/operator-task-profile-change-result.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-task-profile-change.v1.schema.json`](schemas-gen/schemas/operator-task-profile-change.v1.md) | `7` | `1` | `yes` | `yes` | `2` | `3` |
-| [`operator-task-profile.v1.schema.json`](schemas-gen/schemas/operator-task-profile.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `5` |
+| [`operator-task-profile.v1.schema.json`](schemas-gen/schemas/operator-task-profile.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `6` |
 | [`operator-task-readiness.v1.schema.json`](schemas-gen/schemas/operator-task-readiness.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `6` |
 | [`operator-task-refusal-corpus.v1.schema.json`](schemas-gen/schemas/operator-task-refusal-corpus.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-refusal.v1.schema.json`](schemas-gen/schemas/operator-task-refusal.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `2` |
@@ -1321,4 +1321,4 @@ Generated coverage snapshot for the current `doc/` structure.
 - Canonical schemas: `559`
 - Generated schema docs: `559`
 - Positive examples: `577`
-- Negative examples: `576`
+- Negative examples: `577`

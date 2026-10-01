@@ -53,7 +53,7 @@
             ],
             "properties": {
               "ref": {
-                "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+                "$ref": "operator-task-common.v1.schema.json#/$defs/assetRef"
               },
               "path": {
                 "type": "string",
