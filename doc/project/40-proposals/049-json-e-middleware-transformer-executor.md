@@ -610,6 +610,12 @@ mechanical helpers:
   for an Agent passage `input/digest`); this hashes the supplied value and
   does not normalize domain DTOs, so a passage request must have the form
   the host serializes, including defaulted fields,
+- `ref_digest(ref)` — the `sha256:` digest a content-addressed
+  `<prefix>:sha256:<digest>` ref carries; the prefix uses the segmented ASCII
+  identifier grammar (1–128 characters, `^[a-z0-9]+(?:[._-][a-z0-9]+)*$`),
+  and the digest is canonical unpadded base64url of exactly 32 bytes, including
+  zero unused bits in its final character. Any other ref is an error. This is
+  a mechanical parser, not a verification of content or authority,
 - `default(value, fallback)` — null/missing fallback,
 - `has(value, path)` — path existence check,
 - `pick(value, fields)` — object field projection,
