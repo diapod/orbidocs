@@ -201,6 +201,14 @@ Recorded on `2026-09-25`.
    read-only contract over the host journal that never starts the provider or
    reconciliation and works after the original admission window while the record and a
    current grant exist (§13).
+9. **Derived names** (2026-10-02). An unanchored `~name` names a local P085 derived
+   declaration, an intersection of grants: it is no `CapabilityId` and no authority of
+   its own, and P085/Solution 048 own it as a `DerivedCapabilityName` in
+   `operator-extension-core`. A durable binding names the declaration, its revision and
+   digest, never the name alone. Capability presentation and passports refuse an
+   unanchored `~name`; an anchored `~name@participant:did:key:…` stays a P072 sovereign
+   identifier. The P085 schema's own field contract decides what a derived name may
+   contain; the parser migration does not narrow it.
 
 ## Proposed Model / Decision
 
@@ -1473,19 +1481,60 @@ Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code e
 
 Identifiers are stable; dependencies name the identifiers that must be done first.
 
+### Local vertical for P094 packaged Flows
+
+`P094-023d3` and `P094-013` need a package's step Flow to be callable by name on its own
+node. The local vertical takes subsets of Phases 0–3, marked partial here, and defers
+peer scope and federated publication, never idempotency, recovery or the contract
+check. Its stages:
+
+| Stage | Subsets | Content |
+| :--- | :--- | :--- |
+| A | `001`, `004`; prepares `002`, `003` | one parser; base admission refuses package ids |
+| B | `010`, `011`, `020` | the author tool derives `<name>@node-pkg:<did:key>/<package>` and the contract (Flow id, source digest, input and output schemas); activation compares the anchor with the key that verified the package |
+| C | `021`, `022`, `030`, `034` | overlay from the P085 journal behind the generation gate; one admission and one provider for the HTTP prefilter and the dispatcher; host-attested caller evidence; readiness before start |
+| D | `013`, `031`–`033`, `035`, `038` | declared effects and recovery class; `started` under the generation gate with a frozen recovery context; idempotency, conflicts, concurrent retries, key retention; input before `started`, output before release; a status read that never dispatches |
+| E | – | the operator scenario: import, a readable activation (what the package provides, what it needs, its scope), use, one decisive refusal with a next action after revocation |
+
+Rules for the vertical: the capability id names the Flow's behaviour and is bound to
+the Flow id, never replaces it; the anchor comes from the verified signature, never from
+a declared authority; two providers for one name refuse; the task-pack step Flow is not
+read-only, since it binds Agents, runs inference and publishes facts; P093 adds no HIL to an invocation
+(access follows activation and grants; mutation HIL stays with P094); the operator never
+types identifiers or digests.
+
 ### Phase 0 — Identifier foundation
 
 Independent of the rest; it fixes existing defects.
 
-- [ ] `P093-001` Single closed `CapabilityId` parser with the strict-intersection
+- [~] `P093-001` Single closed `CapabilityId` parser with the strict-intersection
   charset, canonical `Display`, and a round-trip property test. Depends on: –.
+  Partial (2026-10-02): the parser is `orbiplex-node-capability-id`, an L0 crate below
+  `orbiplex-node-protocol`, because `orbiplex-node-capability` depends on the protocol
+  crate and the protocol validator must call the same parser; `orbiplex-node-capability`
+  re-exports it as `id` and owns it with P072. Newtypes are validated at construction
+  (`did:key` must decode to an Ed25519 key); `parse(display(id)) == id` and arbitrary
+  input are property tests; direct registered construction is also tested at the
+  512-byte boundary; the nine reach cells are pinned. The registry shape check
+  goes through it. It becomes the only grammar with `P093-002` and `P093-003`.
 - [ ] `P093-002` Migrate the nine `is_sovereign_capability` callers to exhaustive
-  matching; remove the heuristic. Depends on: `P093-001`.
+  matching; remove the heuristic. Depends on: `P093-001`. Prepared: the drift table
+  `node:capability/tests/grammar_drift.rs` pins the heuristic calling a package
+  capability sovereign and the legacy parser admitting uppercase and leading `_`
+  names; sovereign fixtures with fake anchor keys must move to real keys.
 - [ ] `P093-003` Route the protocol validator and the registry shape check through the
   parser; add a generated test that the passport schema pattern agrees with it.
-  Advertisements keep refusing package identifiers. Depends on: `P093-001`.
-- [ ] `P093-004` Base admission refuses package identifiers with a typed error; guard
-  that the checked-in registry contains none. Depends on: `P093-001`.
+  Advertisements keep refusing package identifiers. Depends on: `P093-001`. Prepared:
+  the registry shape check is migrated; the drift table names every remaining
+  divergence of the protocol validator and passport pattern (no `.` in passport ids,
+  `.` and a leading `_` in protocol sovereign names, unanchored `~name`, bare `/`
+  names, prefix-only anchors). Unanchored `~name` belongs to P085/Solution 048 (resolved
+  decision 9): presentations and passports refuse it once they move to the parser.
+- [x] `P093-004` Base admission refuses package identifiers with a typed error; guard
+  that the checked-in registry contains none. Depends on: `P093-001`. Done
+  (2026-10-02): `CapabilityRegistryError::PackageIdentifier` for every registry use; a
+  registry entry naming a package capability refuses the registry; a test checks the
+  checked-in registry.
 
 ### Phase 1 — Contract and declaration schemas
 
