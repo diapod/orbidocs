@@ -318,8 +318,9 @@ must cover the whole invocation, not merely one effect of its highest class.
 Effects of the classes `transactional-withheld`, `compensatable`, and
 `irreversible-external` may declare an optional `reconciliation/operation` in the
 component contract: a read-only, time-bounded query that reports, from the provider's
-durable journal, what became of one invocation (§9). A package capability whose
-recovery class is `transactional-withheld` must declare it, because its correctness
+durable journal, what became of one invocation (§9). Every referenced
+`transactional-withheld` effect must declare it, even when another effect makes the
+aggregate recovery class more restrictive, because its correctness
 claim – nothing visible before a durable commit – can only be checked through it. This
 amends `middleware-component-contract.v1`.
 
@@ -343,8 +344,15 @@ outside the package or the Node's canonical schema set.
 Reference resolution is bounded. A `$ref` may point only into the same document, to
 another package schema listed in the contract's `refs` map (path plus digest), or to a
 canonical schema id known to the Node schema gate. URLs and filesystem paths outside the
-package are refused. Schema bytes, reference depth, and schema count are capped. Schemas
-are compiled once at activation; compilation failure refuses the activation.
+package are refused. The contract's Draft 2020-12 dialect cannot be replaced by a
+member; nested resource ids cannot shadow canonical owner schemas. Patterns use a
+linear engine with a bounded compiled size (1 MiB). Only schema positions interpret
+reference keywords, not literal instance data or property names. Schema bytes,
+reference depth, and schema count are capped. Depth is measured along the longest
+member chain, including shared members; cross-member cycles exceed the bound, while
+local fragment recursion remains valid. Schemas are compiled at activation;
+compilation failure refuses the activation. The executable overlay retains these
+validators in stage C; B3 alone admits and discards them, without exposing invocation.
 
 Validation points:
 
@@ -1584,7 +1592,22 @@ Independent of the rest; it fixes existing defects.
   bounded schema resolver with refusal tests for remote, filesystem, over-deep, and
   over-large references. Depends on: `P093-001`. Partial (2026-10-02): the contract
   schema with member paths that cannot leave the package, its JCS v1 digest and typed
-  validation; the bounded resolver is stage B3.
+  validation. Stage B3 (2026-10-02): a loose import reads every member a declaration
+  names beside the package file (same admitted root, traversal and symlink refusal,
+  256 KiB per member, 4 MiB per package), keeps it in the import transaction only when
+  its JCS digest is the one the signed manifest names, and re-checks the digest on each
+  read (`package/capability-rejected`). Exact import replay reads retained members,
+  not mutable source member files; first import still requires every source member.
+  An exact, currently trusted reimport can backfill manifest-only pre-v8 imports;
+  activation does not silently repair missing members.
+  Schema Gate compiles input and output schemas
+  offline from kept members: `#…`, a listed relative member, or a canonical Node schema;
+  remote, `file:`, absolute, `..`, unlisted, self-`$id` (including nested schemas),
+  changed dialect, over-deep (8, longest chain including shared paths/cycles),
+  over-many (34) and over-large (256 KiB) references refuse. Patterns are linear and
+  compiled-size bounded at 1 MiB. Review regressions distinguish schema positions
+  from literal data and exercise bare canonical filenames. Activation compiles;
+  retaining validators for invocation remains stage C.
 - [~] `P093-011` `package-capability-declaration.v1` referencing the provider's
   `provides[]` entry and effect ids; positive and negative fixtures; Node mirror.
   Depends on: `P093-010`. Partial (2026-10-02): the declaration with a host-managed
@@ -1603,8 +1626,10 @@ Independent of the rest; it fixes existing defects.
   `reconciliation/operation`, admitted by both Schema Gate and the typed P080 runtime
   contract and refused for `ephemeral-revertible`. P080 `provides` and `requires`
   capability refs admit the identifier owner's full 512-byte bound; component and
-  effect refs retain their separate 256-byte bound. The evidence contract and the
-  `transactional-withheld` requirement are stage D.
+  effect refs retain their separate 256-byte bound. Stage B3 (2026-10-02): activation
+  refuses a declaration that references a `transactional-withheld` effect without
+  `reconciliation/operation`, and derives the invocation's recovery class as the most
+  restrictive referenced effect. The evidence contract is stage D.
 
 ### Phase 2 — Activation overlay (Solution 048)
 
@@ -1614,8 +1639,20 @@ Independent of the rest; it fixes existing defects.
   name to `package/ref`, a JSON-e Flow provider to one exact Flow registration (two
   registrations under the same Flow id refuse even with different digests), the
   required base capabilities to `required-capability/ids` (so activation compatibility
-  covers them) and uniqueness. The activation checks against the verifying key, the
-  kept members and the component contract are stage B3.
+  covers them) and uniqueness. Stage B3 (2026-10-02): durable and session activation
+  admit every declaration against what the host holds, never against declared labels.
+  The key that verified the loose import must still be trusted
+  (`package/signing-authority-untrusted`); the identifier's anchor must be that key;
+  `peer-pkg` waits for `P093-040`; the kept contract must have the declared digest; the
+  component and all schema members are rechecked against their signed pins (not
+  merely their stored integrity digests). The kept component contract must be the
+  provider's, provide exactly this identifier at this contract digest and declare
+  every referenced effect; a JSON-e Flow provider must
+  be loaded under its Flow id as that component from the declared source digest;
+  a channel provider must exist in the host's supervised-channel configuration; both
+  schemas must compile. Every other refusal is `package/capability-rejected`. The P080
+  graph now includes JSON-e Flow components. The admitted set (recovery class, budget,
+  compiled schemas) is not yet held by an overlay: stage C.
 - [ ] `P093-021` Overlay as a projection of the P085 journal behind `GenerationGate`;
   startup rebuild before admission. Depends on: `P093-020`.
 - [ ] `P093-022` Revoke writes tombstones in the same transaction. Depends on:

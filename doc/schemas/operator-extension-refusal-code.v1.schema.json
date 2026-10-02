@@ -27,6 +27,7 @@
     "package/digest-mismatch",
     "package/conformance-failed",
     "package/incompatible",
+    "package/capability-rejected",
     "activation/plan-stale",
     "activation/operator-binding-missing",
     "activation/signature-invalid",
