@@ -268,6 +268,11 @@ subset of the base capabilities the operator actually **granted** to this activa
 its P085 plan; registry eligibility for `Dispatch` is necessary but not sufficient. The
 provider's own host calls continue to run under the activation's grant set.
 
+For a JSON-e Flow, the author tool derives these requirements from allowed calls,
+inference, Agent and Corpus task-pack grants, including the capability targets an
+Agent grant permits the Flow to dispatch or delegate. A wrapper such as
+`agent.effect.dispatch` cannot conceal the target from the required base set.
+
 The overlay entry has no eligibility flags. Advertisement, registry passport
 eligibility, signing domain, and federated discovery are unrepresentable rather than
 `false`.
@@ -1617,6 +1622,23 @@ Independent of the rest; it fixes existing defects.
   an unpinned Flow, a channel naming a Flow and a registered id. Review (2026-10-02):
   Rust enforces the component/effect and Flow grammars and rejects explicit null for
   optional members; source-digest tests preserve absent versus empty `refs`.
+  Stage B4 (2026-10-02): the P094 author tool derives declarations. An author writes a
+  capability's name, scope, provider (a JSON-e Flow by its id, or a channel component),
+  schema directory, effects, budget and replay window; `--signer` names the key that
+  will sign the package. The tool derives the identifier from that key and the package
+  name, the Flow binding from the profile's registration and the Flow document (its
+  component id and pinned source digest), the provider's base capabilities from every
+  call and grant of the Flow, including Agent-delegated targets (added to
+  `required-capability/ids`), the contract with
+  every other file of the directory as a listed ref, and the component contract. It
+  validates them with Schema Gate and the owners' typed checks, and compiles both
+  schemas as activation does. The Story 013 pack provides
+  `step@node-pkg:<signer>/qmail-task-pack` through `qmail-task-pack-steps`, with six
+  separately classified effects. Review (2026-10-02): authoring enforces per-effect
+  withheld reconciliation and the import reader's raw-member ceilings (256 KiB per
+  member, 4 MiB over all capability members, generated contracts included), not only
+  compiler bounds. These are declarations and activation inputs; the executable
+  overlay and invocation recovery remain stages C/D.
 - [ ] `P093-012` Update `capability-passport.v1` to admit `peer-pkg` identifiers only,
   with negative fixtures for `pkg` and `node-pkg`; Node mirror. Depends on: `P093-003`.
 - [~] `P093-013` Amend `middleware-component-contract.v1` with the optional
