@@ -46,8 +46,9 @@
     "capability/id": {
       "type": "string",
       "minLength": 1,
-      "pattern": "^[~]?[a-z0-9][a-z0-9_/-]*(?:@(participant|node|org):did:key:z[1-9A-HJ-NP-Za-km-z]+)?$",
-      "description": "Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id."
+      "maxLength": 512,
+      "pattern": "^(?:core/[a-z][a-z0-9-]*|[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*)*|~?[a-z0-9][a-z0-9_/-]{0,127}@(?:participant|node|org):did:key:z[1-9A-HJ-NP-Za-km-z]{44,48})$",
+      "description": "Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id. The shape follows the one capability identifier grammar (P072, P093): a registered id (dotted lowercase kebab segments or `core/<segment>`) or a sovereign id `[~]name@participant|node|org:did:key:z…`. An unanchored `~name` (a P085 derived declaration name) and package capability ids are refused; the host additionally checks that the anchor decodes to an Ed25519 key."
     },
     "compatible_with": {
       "type": "string",

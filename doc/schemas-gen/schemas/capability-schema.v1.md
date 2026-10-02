@@ -35,7 +35,7 @@ Portable, content-addressed machine-readable schema artifact for one capability 
 | [`schema/id`](#field-schema-id) | `yes` | string | Stable logical identifier of the capability schema contract. This identifies what contract the content describes, not where it is hosted. |
 | [`schema/ref`](#field-schema-ref) | `yes` | string | Content-addressed reference to the canonical schema content. Receivers MUST verify that `content` hashes to this reference before using the schema. |
 | [`schema/media-type`](#field-schema-media-type) | `yes` | string | Media type of `content`, for example `application/schema+json`, `application/vnd.malli+edn`, or another profile-accepted machine-readable schema format. |
-| [`capability/id`](#field-capability-id) | `no` | string | Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id. |
+| [`capability/id`](#field-capability-id) | `no` | string | Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id. The shape follows the one capability identifier grammar (P072, P093): a registered id (dotted lowercase kebab segments or `core/<segment>`) or a sovereign id `[~]name@participant\|node\|org:did:key:z…`. An unanchored `~name` (a P085 derived declaration name) and package capability ids are refused; the host additionally checks that the anchor decodes to an Ed25519 key. |
 | [`compatible_with`](#field-compatible-with) | `no` | string | Optional formal capability id whose public contract this schema claims to implement. Omit for purely custom `~...@...` protocols. |
 | [`wire/name`](#field-wire-name) | `no` | string | Optional wire-visible projection associated with the capability id. |
 | [`display/name`](#field-display-name) | `no` | string | Short human-readable capability name for UI display. |
@@ -95,7 +95,7 @@ Media type of `content`, for example `application/schema+json`, `application/vnd
 - Required: `no`
 - Shape: string
 
-Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id.
+Optional capability id this schema describes. Formal profiles may use a bare id; sovereign or private profiles may use an identity-anchored id. The shape follows the one capability identifier grammar (P072, P093): a registered id (dotted lowercase kebab segments or `core/<segment>`) or a sovereign id `[~]name@participant|node|org:did:key:z…`. An unanchored `~name` (a P085 derived declaration name) and package capability ids are refused; the host additionally checks that the anchor decodes to an Ed25519 key.
 
 <a id="field-compatible-with"></a>
 ## `compatible_with`

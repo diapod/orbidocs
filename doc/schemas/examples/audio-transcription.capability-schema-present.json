@@ -6,7 +6,7 @@
     "schema/id": "urn:orbiplex:capability-profile:audio-transcription:v1",
     "schema/ref": "orbiplex:blob:sha256:audioTranscriptionCapabilitySchemaV1",
     "schema/media-type": "application/schema+json",
-    "capability/id": "audio-transcription@participant:did:key:z6MkAnchor",
+    "capability/id": "audio-transcription@participant:did:key:z6MkqLCddjE5YZJwa57QufUmh2op899Fr7nNeiDaDUBUCriC",
     "wire/name": "sovereign/audio-transcription",
     "display/name": "Audio transcription",
     "description": "Transcribes audio input into timestamped text segments.",
@@ -18,7 +18,7 @@
     },
     "published-at": "2026-04-12T10:00:00Z",
     "author/node-id": "node:did:key:z6MkAudio",
-    "author/participant-id": "participant:did:key:z6MkAnchor",
+    "author/participant-id": "participant:did:key:z6MkqLCddjE5YZJwa57QufUmh2op899Fr7nNeiDaDUBUCriC",
     "signature": {
       "alg": "ed25519",
       "value": "base64url:capability-schema-signature"

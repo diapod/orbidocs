@@ -1507,29 +1507,38 @@ types identifiers or digests.
 
 Independent of the rest; it fixes existing defects.
 
-- [~] `P093-001` Single closed `CapabilityId` parser with the strict-intersection
+- [x] `P093-001` Single closed `CapabilityId` parser with the strict-intersection
   charset, canonical `Display`, and a round-trip property test. Depends on: –.
-  Partial (2026-10-02): the parser is `orbiplex-node-capability-id`, an L0 crate below
+  Done (2026-10-02): the parser is `orbiplex-node-capability-id`, an L0 crate below
   `orbiplex-node-protocol`, because `orbiplex-node-capability` depends on the protocol
-  crate and the protocol validator must call the same parser; `orbiplex-node-capability`
-  re-exports it as `id` and owns it with P072. Newtypes are validated at construction
-  (`did:key` must decode to an Ed25519 key); `parse(display(id)) == id` and arbitrary
-  input are property tests; direct registered construction is also tested at the
-  512-byte boundary; the nine reach cells are pinned. The registry shape check
-  goes through it. It becomes the only grammar with `P093-002` and `P093-003`.
-- [ ] `P093-002` Migrate the nine `is_sovereign_capability` callers to exhaustive
-  matching; remove the heuristic. Depends on: `P093-001`. Prepared: the drift table
-  `node:capability/tests/grammar_drift.rs` pins the heuristic calling a package
-  capability sovereign and the legacy parser admitting uppercase and leading `_`
-  names; sovereign fixtures with fake anchor keys must move to real keys.
-- [ ] `P093-003` Route the protocol validator and the registry shape check through the
+  crate and the protocol validator calls the same parser; `orbiplex-node-capability`
+  re-exports it and owns it with P072. Newtypes are validated at construction (a
+  `did:key` must decode to an Ed25519 key); `parse(display(id)) == id` and arbitrary
+  input are property tests; the nine reach cells are pinned. With `P093-002` and
+  `P093-003` it is the only grammar.
+- [x] `P093-002` Migrate the nine `is_sovereign_capability` callers to exhaustive
+  matching; remove the heuristic. Depends on: `P093-001`. Done (2026-10-02): the
+  heuristic and the legacy sovereign parser are gone; passports, the anchor policy,
+  advertisement admission, the Seed Directory catalogue and verification, and the
+  daemon's advertisement match `CapabilityId` exhaustively. A package capability is
+  refused where no path for it exists yet (presentations, advertisements, and passports
+  until `P093-012`). Sovereign fixtures moved to real Ed25519 anchor keys.
+- [x] `P093-003` Route the protocol validator and the registry shape check through the
   parser; add a generated test that the passport schema pattern agrees with it.
-  Advertisements keep refusing package identifiers. Depends on: `P093-001`. Prepared:
-  the registry shape check is migrated; the drift table names every remaining
-  divergence of the protocol validator and passport pattern (no `.` in passport ids,
-  `.` and a leading `_` in protocol sovereign names, unanchored `~name`, bare `/`
-  names, prefix-only anchors). Unanchored `~name` belongs to P085/Solution 048 (resolved
-  decision 9): presentations and passports refuse it once they move to the parser.
+  Advertisements keep refusing package identifiers. Depends on: `P093-001`. Done
+  (2026-10-02): the protocol validator and the registry shape check call the parser.
+  The capability-id patterns of `capability-passport.v1`, `capability-advertisement.v1`
+  and `capability-schema.v1` take its registered and sovereign shapes, and the dotted
+  owner subsets of `operator-task-common.v1` and `sensorium-action-semantics.v1` (and
+  the Sensorium action-map validator) its registered shape with at least two segments;
+  `node:capability/tests/grammar_agreement.rs` checks each complete capability-id
+  field schema with the Schema Gate JSON Schema engine, including the owner-specific
+  256-byte and shared 512-byte bounds, and checks the protocol validator against the
+  parser on named, generated and arbitrary identifiers. The one
+  admitted disagreement is a well-shaped anchor that is no Ed25519 key, which a
+  pattern cannot decode and the host refuses. Unanchored `~name` is refused (resolved
+  decision 9); dotted registered ids are now admissible in passports, as the registry's
+  passport-eligible entries require.
 - [x] `P093-004` Base admission refuses package identifiers with a typed error; guard
   that the checked-in registry contains none. Depends on: `P093-001`. Done
   (2026-10-02): `CapabilityRegistryError::PackageIdentifier` for every registry use; a
