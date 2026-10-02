@@ -271,7 +271,6 @@
             "missing-capability",
             "unexpected-capability",
             "manifest-capability",
-            "manifest-resource-envelope",
             "manifest-inference-flow",
             "structure",
             "refusal-case"
