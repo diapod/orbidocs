@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:middleware-component-contract:v1",
   "title": "Middleware Component Contract v1",
-  "description": "Transport-neutral dependency and recovery-semantics declaration for one supervised middleware component.",
+  "description": "Transport-neutral dependency and recovery-semantics declaration for one host-managed middleware component.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "component/id", "provides", "requires", "effects"],
@@ -37,6 +37,13 @@
       "pattern": "^[!-~]+$",
       "description": "Non-empty reference composed only of visible ASCII characters."
     },
+    "capabilityRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[!-~]+$",
+      "description": "Visible ASCII capability reference bounded by the capability identifier owner's 512-byte ceiling; component and effect refs retain their separate 256-byte bound."
+    },
     "digest": {
       "type": "string",
       "pattern": "^sha256:([0-9A-Fa-f]{64}|[A-Za-z0-9_-]{43})$"
@@ -46,7 +53,7 @@
       "additionalProperties": false,
       "required": ["capability/ref", "contract/digest"],
       "properties": {
-        "capability/ref": {"$ref": "#/$defs/ref"},
+        "capability/ref": {"$ref": "#/$defs/capabilityRef"},
         "contract/digest": {"$ref": "#/$defs/digest"}
       }
     },
@@ -55,7 +62,7 @@
       "additionalProperties": false,
       "required": ["capability/ref", "contract/digest"],
       "properties": {
-        "capability/ref": {"$ref": "#/$defs/ref"},
+        "capability/ref": {"$ref": "#/$defs/capabilityRef"},
         "contract/digest": {"$ref": "#/$defs/digest"},
         "provider/component-id": {"$ref": "#/$defs/ref"},
         "optional": {"type": "boolean", "default": false}
@@ -108,7 +115,11 @@
         },
         "journal/ref": {"$ref": "#/$defs/ref"},
         "compensation/operation": {"$ref": "#/$defs/ref"},
-        "approval/policy-ref": {"$ref": "#/$defs/ref"}
+        "approval/policy-ref": {"$ref": "#/$defs/ref"},
+        "reconciliation/operation": {
+          "$ref": "#/$defs/ref",
+          "description": "Read-only, time-bounded query reporting from the component's durable journal what became of one exact invocation (P093 §9). It never re-runs the work, never completes missing steps and never authorizes compensation; an ephemeral-revertible effect has none."
+        }
       },
       "allOf": [
         {
@@ -168,6 +179,7 @@
             ],
             "not": {
               "anyOf": [
+                {"required": ["reconciliation/operation"]},
                 {"required": ["journal/ref"]},
                 {"required": ["compensation/operation"]},
                 {"required": ["approval/policy-ref"]}

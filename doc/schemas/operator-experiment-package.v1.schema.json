@@ -15,6 +15,11 @@
     },
     "semantic-entries": {"type": "array", "maxItems": 256, "items": {"$ref": "#/$defs/semantic-entry"}, "default": []},
     "inference-flows": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/inference-flow"}, "default": []},
+    "package-capabilities": {
+      "type": "array", "maxItems": 16, "uniqueItems": true,
+      "items": {"$ref": "package-capability-declaration.v1.schema.json"}, "default": [],
+      "description": "Behaviours the package provides under package capability identifiers (P093). Each is admitted only at activation, against the key that verified this package, its `package/ref`, the provider component's contract, the members the host kept and the activation's granted base capabilities."
+    },
     "compatibility": {"$ref": "#/$defs/compatibility", "default": {}},
     "required-capability/ids": {"$ref": "#/$defs/refs"}, "resource-envelope/refs": {"$ref": "#/$defs/refs", "default": []},
     "derived-capability/refs": {"$ref": "#/$defs/refs", "default": []},

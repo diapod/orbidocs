@@ -21,6 +21,7 @@ Source schema: [`doc/schemas/operator-experiment-package.v1.schema.json`](../../
 | [`hooks`](#field-hooks) | `yes` | array | Hook registrations identify producers only. Generic scalar/profile decisions use nse-policy-table.v1; Corpus target-free turn ordering uses the separate nse-select-turn-order-table.v1 contract. |
 | [`semantic-entries`](#field-semantic-entries) | `no` | array |  |
 | [`inference-flows`](#field-inference-flows) | `no` | array |  |
+| [`package-capabilities`](#field-package-capabilities) | `no` | array | Behaviours the package provides under package capability identifiers (P093). Each is admitted only at activation, against the key that verified this package, its `package/ref`, the provider component's contract, the members the host kept and the activation's granted base capabilities. |
 | [`compatibility`](#field-compatibility) | `no` | ref: `#/$defs/compatibility` |  |
 | [`required-capability/ids`](#field-required-capability-ids) | `yes` | ref: `#/$defs/refs` |  |
 | [`resource-envelope/refs`](#field-resource-envelope-refs) | `no` | ref: `#/$defs/refs` |  |
@@ -100,6 +101,14 @@ Hook registrations identify producers only. Generic scalar/profile decisions use
 
 - Required: `no`
 - Shape: array
+
+<a id="field-package-capabilities"></a>
+## `package-capabilities`
+
+- Required: `no`
+- Shape: array
+
+Behaviours the package provides under package capability identifiers (P093). Each is admitted only at activation, against the key that verified this package, its `package/ref`, the provider component's contract, the members the host kept and the activation's granted base capabilities.
 
 <a id="field-compatibility"></a>
 ## `compatibility`

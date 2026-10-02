@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-declaration:v1",
+  "title": "Package Capability Declaration v1",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "description": "One behaviour a signed package provides under a package capability identifier (P093 §5). It names behaviour, never host authority: `requires/capabilities` must be a subset of the base capabilities the activation was granted. The provider is one host-managed component, identified by `provider.component/id` and the `provides[]` entry of its component contract; for an in-process JSON-e Flow the provider also pins the Flow id and the digest of its delivered source, which stay distinct from the capability id. Activation compares the identifier's anchor with the key that verified the package and the package name with `package/ref`; the declared value is never trusted as a label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "capability/id",
+    "capability/scope",
+    "provider",
+    "contract",
+    "component-contract",
+    "effect/refs",
+    "budget",
+    "replay/window-ms",
+    "requires/capabilities"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-declaration.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "capability/id": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^[a-z0-9][a-z0-9_/-]{0,127}@(?:pkg|node-pkg|peer-pkg):did:key:z[1-9A-HJ-NP-Za-km-z]{44,48}/[a-z0-9][a-z0-9-]{0,63}$",
+      "description": "`name@scope-ns:did:key:z…/package`, read by the one capability identifier grammar."
+    },
+    "capability/scope": {
+      "enum": [
+        "package",
+        "node",
+        "peer"
+      ],
+      "description": "Must equal the scope of the identifier's namespace; a scope can only refuse."
+    },
+    "provider": {
+      "$ref": "#/$defs/provider"
+    },
+    "contract": {
+      "$ref": "package-capability-contract.v1.schema.json#/$defs/member",
+      "description": "The `package-capability-contract.v1` member; its digest is the `contract/digest` grants and requirement edges bind."
+    },
+    "component-contract": {
+      "$ref": "package-capability-contract.v1.schema.json#/$defs/member",
+      "description": "The provider's `middleware-component-contract.v1` member, whose `provides[]` carries exactly this identifier and contract digest and whose `effects` declare every referenced effect."
+    },
+    "effect/refs": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/ref"
+      },
+      "description": "Effect ids of the component contract an invocation may produce. Their most restrictive class is the invocation's recovery class; an empty list declares a read-only operation."
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeout-ms",
+        "request/bytes-max",
+        "response/bytes-max",
+        "concurrency-max"
+      ],
+      "properties": {
+        "timeout-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600000
+        },
+        "request/bytes-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "response/bytes-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1048576
+        },
+        "concurrency-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        }
+      }
+    },
+    "replay/window-ms": {
+      "type": "integer",
+      "minimum": 1000,
+      "maximum": 3600000,
+      "description": "Replay window, at most the node's ceiling; `protected-until` is fixed from it at admission."
+    },
+    "requires/capabilities": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 512,
+        "pattern": "^(?:core/[a-z][a-z0-9-]*|[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*)*)$"
+      },
+      "description": "Registered base capabilities the implementation reaches the host through."
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component/id",
+        "execution/kind"
+      ],
+      "properties": {
+        "component/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[a-z0-9][a-z0-9._:-]*$",
+          "description": "The host-managed component that provides the capability; for a JSON-e Flow, its `component_id`."
+        },
+        "execution/kind": {
+          "enum": [
+            "json-e-flow",
+            "channel"
+          ],
+          "description": "How the host runs the component: in process by the JSON-e Flow executor, or behind a supervised middleware channel."
+        },
+        "flow/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$",
+          "description": "The JSON-e Flow id; the package's inference-Flow registration names the same id."
+        },
+        "flow/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "description": "Digest of the delivered Flow source, equal to the registration's `flow/digest`."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "execution/kind": {
+                "const": "json-e-flow"
+              }
+            },
+            "required": [
+              "execution/kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "flow/ref",
+              "flow/digest"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "flow/ref"
+                  ]
+                },
+                {
+                  "required": [
+                    "flow/digest"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

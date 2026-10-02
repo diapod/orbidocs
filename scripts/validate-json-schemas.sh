@@ -347,6 +347,12 @@ schema_for_file() {
     *.middleware-component-contract.json)
       echo "$SCHEMAS_DIR/middleware-component-contract.v1.schema.json"
       ;;
+    *.package-capability-contract.json)
+      echo "$SCHEMAS_DIR/package-capability-contract.v1.schema.json"
+      ;;
+    *.package-capability-declaration.json)
+      echo "$SCHEMAS_DIR/package-capability-declaration.v1.schema.json"
+      ;;
     *.middleware-module-http-request.json)
       echo "$SCHEMAS_DIR/middleware-module-http-request.v1.schema.json"
       ;;

@@ -274,7 +274,7 @@ eligibility, signing domain, and federated discovery are unrepresentable rather 
 
 ### 5. The declaration reuses the component contract
 
-A package capability is provided by exactly one supervised component whose
+A package capability is provided by exactly one host-managed component whose
 `middleware-component-contract.v1` contains a `provides[]` entry
 `{capability/ref: <package capability id>, contract/digest: <digest of §6>}`. The
 declaration refers to that entry and to the `effects` ids an invocation may produce;
@@ -282,6 +282,31 @@ it does not restate them. P080 graph resolution and P093 grants therefore use on
 digest, and recovery semantics come from the existing effect declarations – including
 `journal/ref`, `compensation/operation`, and `approval/policy-ref` – rather than from a
 bare four-valued enum.
+
+**Host-managed, not only supervised** (2026-10-02). The providing component is any
+component the host runs and accounts for, with an explicit execution kind in the
+declaration's `provider`: `channel` for a supervised middleware channel, or `json-e-flow`
+for a component the JSON-e Flow executor runs in process. A JSON-e Flow provider keeps
+its own `middleware-component-contract.v1` (`provides`, `requires`, `effects`) without a
+process or a P080 channel, and the P080 graph includes JSON-e Flow components as well as
+channel ones. The provider binding is exact: the `component_id`, the Flow id, the
+digest of the delivered Flow source (equal to the package's Flow registration), the
+package and the activation generation. The capability id names the Flow's behaviour and
+never replaces the Flow id.
+
+**A Flow is not atomic.** A Flow that binds Agents, runs inference and records facts
+declares those effects separately in its component contract: a single durable write
+whose owner keeps a commit point (an Agent binding, an evidence manifest, a passage
+product, a local Corpus fact) is `transactional-withheld`; a model call, whose cost and
+execution cannot be undone, is `irreversible-external`; a fact published beyond the local
+store is `irreversible-external` with scope `federated`. The invocation's aggregate class
+is the most restrictive, so such a Flow is `irreversible-external` as a whole. That adds
+no human-in-the-loop question to the invocation: the effect's `approval/policy-ref`
+names the activation and its grants, and per-mutation HIL stays with the owner (P094).
+Reconciliation reads the records of the exact invocation – the bindings, passage and
+product, publication and signed fact it covered – and never a current projection such
+as a loop position. A crash after inference but before publication is a partial result
+and `unknown`, never an automatic re-run; resuming needs a separately admitted operation.
 
 The **recovery class of an invocation** is the most restrictive class among its
 referenced effects, ordered `irreversible-external > compensatable >
@@ -305,6 +330,10 @@ amends `middleware-component-contract.v1`.
 ```text
 sha256:<base64url-no-pad>( JCS-v1( package-capability-contract.v1 document ) )
 ```
+
+The digest binds the delivered document, not a default-filled or normalized typed
+view. An omitted `refs` member and an explicit `refs: {}` are distinct documents;
+deserialization and retained recovery material preserve that distinction.
 
 The contract document names the input and output schemas as package members by path and
 digest. Each schema digest is taken over the JCS bytes of the schema document. Schemas
@@ -1267,8 +1296,12 @@ Declaration, carried inside the package:
   "schema/v": 1,
   "capability/id": "review@peer-pkg:did:key:z6MkAuthority/acme-review",
   "capability/scope": "peer",
-  "provider/component": "acme-review-service",
-  "contract/digest": "sha256:…",
+  "provider": {
+    "component/id": "acme-review-service",
+    "execution/kind": "channel"
+  },
+  "contract": {"path": "contracts/review.contract.json", "digest": "sha256:…"},
+  "component-contract": {"path": "contracts/review.component-contract.json", "digest": "sha256:…"},
   "effect/refs": ["review-record-write"],
   "budget": {
     "timeout-ms": 30000,
@@ -1547,23 +1580,42 @@ Independent of the rest; it fixes existing defects.
 
 ### Phase 1 — Contract and declaration schemas
 
-- [ ] `P093-010` `package-capability-contract.v1`, the frozen digest definition, and the
+- [~] `P093-010` `package-capability-contract.v1`, the frozen digest definition, and the
   bounded schema resolver with refusal tests for remote, filesystem, over-deep, and
-  over-large references. Depends on: `P093-001`.
-- [ ] `P093-011` `package-capability-declaration.v1` referencing the provider's
+  over-large references. Depends on: `P093-001`. Partial (2026-10-02): the contract
+  schema with member paths that cannot leave the package, its JCS v1 digest and typed
+  validation; the bounded resolver is stage B3.
+- [~] `P093-011` `package-capability-declaration.v1` referencing the provider's
   `provides[]` entry and effect ids; positive and negative fixtures; Node mirror.
-  Depends on: `P093-010`.
+  Depends on: `P093-010`. Partial (2026-10-02): the declaration with a host-managed
+  provider (`channel` or `json-e-flow`, the latter pinning the Flow id and source
+  digest), contract and component-contract members, effect refs, budget, replay window
+  and required base capabilities; typed validation through the one parser; fixtures for
+  an unpinned Flow, a channel naming a Flow and a registered id. Review (2026-10-02):
+  Rust enforces the component/effect and Flow grammars and rejects explicit null for
+  optional members; source-digest tests preserve absent versus empty `refs`.
 - [ ] `P093-012` Update `capability-passport.v1` to admit `peer-pkg` identifiers only,
   with negative fixtures for `pkg` and `node-pkg`; Node mirror. Depends on: `P093-003`.
-- [ ] `P093-013` Amend `middleware-component-contract.v1` with the optional
+- [~] `P093-013` Amend `middleware-component-contract.v1` with the optional
   `reconciliation/operation` and its per-class rules; add
   `package-capability-reconciliation-evidence.v1`; negative fixtures for forbidden
-  combinations; Node mirror. Depends on: `P093-011`.
+  combinations; Node mirror. Depends on: `P093-011`. Partial (2026-10-02): the optional
+  `reconciliation/operation`, admitted by both Schema Gate and the typed P080 runtime
+  contract and refused for `ephemeral-revertible`. P080 `provides` and `requires`
+  capability refs admit the identifier owner's full 512-byte bound; component and
+  effect refs retain their separate 256-byte bound. The evidence contract and the
+  `transactional-withheld` requirement are stage D.
 
 ### Phase 2 — Activation overlay (Solution 048)
 
-- [ ] `P093-020` Declarations in `operator-experiment-package.v1`; activation enforces
-  every R5 invariant. Depends on: `P093-011`, `P093-013`.
+- [~] `P093-020` Declarations in `operator-experiment-package.v1`; activation enforces
+  every R5 invariant. Depends on: `P093-011`, `P093-013`. Partial (2026-10-02): the
+  package carries declarations; its own validation binds each identifier's package
+  name to `package/ref`, a JSON-e Flow provider to one exact Flow registration (two
+  registrations under the same Flow id refuse even with different digests), the
+  required base capabilities to `required-capability/ids` (so activation compatibility
+  covers them) and uniqueness. The activation checks against the verifying key, the
+  kept members and the component contract are stage B3.
 - [ ] `P093-021` Overlay as a projection of the P085 journal behind `GenerationGate`;
   startup rebuild before admission. Depends on: `P093-020`.
 - [ ] `P093-022` Revoke writes tombstones in the same transaction. Depends on:

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-contract:v1",
+  "title": "Package Capability Contract v1",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "description": "The input and output contract of one package capability (P093 §6). It names its schemas as immutable package members by path and digest; the host keeps the members it verified at import and conformance and compiles the schemas offline at activation. `contract/digest` is `sha256:` over the base64url-no-pad JCS v1 bytes of this document. A schema `$ref` resolves only within its document, to a member listed in `refs`, or to a canonical Node schema id; nothing is fetched.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "schema/dialect",
+    "input/schema",
+    "output/schema"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-contract.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "schema/dialect": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "input/schema": {
+      "$ref": "#/$defs/member",
+      "description": "The schema every invocation input must satisfy before the admission point."
+    },
+    "output/schema": {
+      "$ref": "#/$defs/member",
+      "description": "The schema every provider output must satisfy before it is recorded completed or released."
+    },
+    "refs": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {
+        "$ref": "#/$defs/path"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/digest"
+      },
+      "description": "Further package members the two schemas may `$ref`, by path and digest."
+    }
+  },
+  "$defs": {
+    "path": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 256,
+      "pattern": "^(?:[a-z0-9][a-z0-9._-]*/){0,8}[a-z0-9][a-z0-9._-]*\\.json$",
+      "description": "A relative package member path: lowercase segments that never start with `.`, so `..` and absolute paths are unrepresentable."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+      "description": "`sha256:` over the base64url-no-pad JCS v1 bytes of the member document."
+    },
+    "member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "digest"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    }
+  }
+}

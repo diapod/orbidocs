@@ -1,0 +1,38 @@
+{
+  "schema": "package-capability-declaration.v1",
+  "schema/v": 1,
+  "capability/id": "corpus.task-pack.position.read",
+  "capability/scope": "node",
+  "provider": {
+    "component/id": "middleware.qmail-task-pack.steps",
+    "execution/kind": "json-e-flow",
+    "flow/ref": "qmail-task-pack-steps",
+    "flow/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "contract": {
+    "path": "contracts/step.contract.json",
+    "digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI"
+  },
+  "component-contract": {
+    "path": "contracts/step.component-contract.json",
+    "digest": "sha256:D8OnA4XKOxuLcSOhiQs0WVnpHtllmebxv1mCsXRISJU"
+  },
+  "effect/refs": [
+    "agent-flow-binding",
+    "inference-passage",
+    "candidate-publication",
+    "corpus-document"
+  ],
+  "budget": {
+    "timeout-ms": 300000,
+    "request/bytes-max": 65536,
+    "response/bytes-max": 262144,
+    "concurrency-max": 2
+  },
+  "replay/window-ms": 3600000,
+  "requires/capabilities": [
+    "agent.inference-flow.bind",
+    "agent.inference-passage.invoke",
+    "corpus.task-pack.position.read"
+  ]
+}

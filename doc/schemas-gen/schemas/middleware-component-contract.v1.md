@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/middleware-component-contract.v1.schema.json`](../../schemas/middleware-component-contract.v1.schema.json)
 
-Transport-neutral dependency and recovery-semantics declaration for one supervised middleware component.
+Transport-neutral dependency and recovery-semantics declaration for one host-managed middleware component.
 
 ## Governing Basis
 
@@ -26,6 +26,7 @@ Transport-neutral dependency and recovery-semantics declaration for one supervis
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string | Non-empty reference composed only of visible ASCII characters. |
+| [`capabilityRef`](#def-capabilityref) | string | Visible ASCII capability reference bounded by the capability identifier owner's 512-byte ceiling; component and effect refs retain their separate 256-byte bound. |
 | [`digest`](#def-digest) | string |  |
 | [`providedContract`](#def-providedcontract) | object |  |
 | [`requiredContract`](#def-requiredcontract) | object |  |
@@ -72,6 +73,13 @@ Effect declarations keyed by their unique effect/id. Ownership is inherited from
 - Shape: string
 
 Non-empty reference composed only of visible ASCII characters.
+
+<a id="def-capabilityref"></a>
+## `$defs.capabilityRef`
+
+- Shape: string
+
+Visible ASCII capability reference bounded by the capability identifier owner's 512-byte ceiling; component and effect refs retain their separate 256-byte bound.
 
 <a id="def-digest"></a>
 ## `$defs.digest`

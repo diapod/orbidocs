@@ -1,0 +1,37 @@
+{
+  "schema": "middleware-component-contract.v1",
+  "component/id": "middleware.qmail-task-pack.steps",
+  "provides": [
+    {
+      "capability/ref": "step@node-pkg:did:key:z6MkqLCddjE5YZJwa57QufUmh2op899Fr7nNeiDaDUBUCriC/qmail-task-pack",
+      "contract/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI"
+    }
+  ],
+  "requires": [],
+  "effects": {
+    "agent-flow-binding": {
+      "class": "transactional-withheld",
+      "scope": "durable",
+      "journal/ref": "agent-inference-flow-bindings",
+      "reconciliation/operation": "package-capability.reconcile"
+    },
+    "inference-passage": {
+      "class": "irreversible-external",
+      "scope": "external",
+      "reconciliation/operation": "package-capability.reconcile",
+      "approval/policy-ref": "operator-extension-activation"
+    },
+    "candidate-publication": {
+      "class": "transactional-withheld",
+      "scope": "durable",
+      "journal/ref": "corpus-task-pack-candidates",
+      "reconciliation/operation": "package-capability.reconcile"
+    },
+    "corpus-document": {
+      "class": "transactional-withheld",
+      "scope": "durable",
+      "journal/ref": "corpus-task-pack-documents",
+      "reconciliation/operation": "package-capability.reconcile"
+    }
+  }
+}

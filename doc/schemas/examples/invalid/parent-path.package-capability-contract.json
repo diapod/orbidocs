@@ -1,0 +1,13 @@
+{
+  "schema": "package-capability-contract.v1",
+  "schema/v": 1,
+  "schema/dialect": "https://json-schema.org/draft/2020-12/schema",
+  "input/schema": {
+    "path": "../schemas/step-input.schema.json",
+    "digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA"
+  },
+  "output/schema": {
+    "path": "schemas/step-output.schema.json",
+    "digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA"
+  }
+}
