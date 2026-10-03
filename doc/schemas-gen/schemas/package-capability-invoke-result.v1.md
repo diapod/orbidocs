@@ -14,6 +14,7 @@ The answer to one invocation (P093 R13). `refused` happens before the admission 
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
+| [`diagnostic`](#field-diagnostic) | `no` | ref: `package-capability-diagnostic.v1.schema.json` |  |
 | [`schema`](#field-schema) | `yes` | const: `package-capability-invoke-result.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`invocation/id`](#field-invocation-id) | `yes` | ref: `#/$defs/invocation-id` |  |
@@ -36,6 +37,33 @@ The answer to one invocation (P093 R13). `refused` happens before the admission 
 ## Conditional Rules
 
 ### Rule 1
+
+When:
+
+```json
+{
+  "required": [
+    "diagnostic"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "outcome": {
+      "const": "refused"
+    }
+  },
+  "required": [
+    "outcome"
+  ]
+}
+```
+
+### Rule 2
 
 When:
 
@@ -96,7 +124,7 @@ Then:
 }
 ```
 
-### Rule 2
+### Rule 3
 
 When:
 
@@ -136,7 +164,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 
@@ -164,7 +192,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -192,6 +220,12 @@ Then:
 ```
 
 ## Field Semantics
+
+<a id="field-diagnostic"></a>
+## `diagnostic`
+
+- Required: `no`
+- Shape: ref: `package-capability-diagnostic.v1.schema.json`
 
 <a id="field-schema"></a>
 ## `schema`

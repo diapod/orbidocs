@@ -16,6 +16,7 @@
     "outcome"
   ],
   "properties": {
+    "diagnostic": {"$ref": "package-capability-diagnostic.v1.schema.json"},
     "schema": {
       "const": "package-capability-invoke-result.v1"
     },
@@ -82,6 +83,10 @@
     }
   },
   "allOf": [
+    {
+      "if": {"required": ["diagnostic"]},
+      "then": {"properties": {"outcome": {"const": "refused"}}, "required": ["outcome"]}
+    },
     {
       "if": {
         "properties": {

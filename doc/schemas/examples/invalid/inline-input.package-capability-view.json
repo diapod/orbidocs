@@ -1,0 +1,27 @@
+{
+  "schema": "package-capability-view.v1",
+  "schema/v": 1,
+  "package/ref": "qmail-task-pack",
+  "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "supplies": [],
+  "activation": null,
+  "diagnostic": {
+    "schema": "package-capability-diagnostic.v1",
+    "schema/v": 1,
+    "cause": "flow-not-loaded",
+    "subject/refs": [
+      "qmail-task-pack",
+      "qmail-task-pack-steps"
+    ],
+    "next/action": "load-provider"
+  },
+  "uses": [],
+  "uses/omitted": 0,
+  "invocations": [],
+  "invocations/omitted": 0,
+  "journal/started": 0,
+  "journal/unknown": 0,
+  "input": {
+    "prompt": "not permitted"
+  }
+}

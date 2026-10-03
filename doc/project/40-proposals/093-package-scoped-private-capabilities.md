@@ -1536,6 +1536,8 @@ negative fixture for each forbidden combination.
 | :--- | :--- | :--- | :--- |
 | invocation journal (also idempotency) | daemon | `(caller, invocation/id)` | kept at least until the `protected-until` fixed at admission; `started` and unresolved `unknown` kept until resolved, then for the result retention period; retained recovery context follows the record; count and byte caps never evict such a record, and new work refuses as `busy` |
 | admission floors | daemon, same journal | `capability/id` | monotonic, persisted atomically with cleanup; retained across restart and reactivation; count-bounded, with capacity refusal for new capabilities rather than eviction of a safety fence |
+| retired invocation history | daemon, same journal | `(caller, invocation/id)` | local start profile: one final metadata fact per evicted key, at most 32 per capability and 8192 per node; full facts of a current/protected/unresolved record follow that record; eviction archives, deletes retired facts and advances the admission floor atomically |
+| approved local uses and facts | daemon, same journal | `use-binding/ref` | local start profile: 4096 uses and the latest 8 facts per use; retired uses kept for 24 h, then pruned in batches of 256 only when no invocation record depends on them; cleanup advances a monotonic approval floor per capability, so old owner facts or clock rollback cannot revive old consent; a newer explicit owner renewal can reapprove an expired, unstopped use |
 | retained results | daemon | same key | start profile: 15 min from completion, never beyond the record, 256 KiB per result, 64 MiB per node; dropped earliest first under pressure, then `result/status: unavailable` |
 | reconciliation schedule | daemon | same key | only for `unknown` records; bounded attempts with backoff; removed on resolution or escalation |
 | signature-verification cache | daemon | passport digest | count-bounded; holds only the verification result; flushed on trust-root change |
@@ -1590,7 +1592,7 @@ check. Its stages:
 | B | `010`, `011`, `020` | the author tool derives `<name>@node-pkg:<did:key>/<package>` and the contract (Flow id, source digest, input and output schemas); activation compares the anchor with the key that verified the package |
 | C | `021`, `022`, `030`, `034` | overlay from the P085 journal behind the generation gate; one admission and one provider for the HTTP prefilter and the dispatcher; host-attested caller evidence; readiness before start |
 | D | `013`, `031`–`033`, `035`, `038` | declared effects and recovery class; `started` under the generation gate with a frozen recovery context; idempotency, conflicts, concurrent retries, key retention; input before `started`, output before release; a status read that never dispatches |
-| E | – | the operator scenario: import, a readable activation (what the package provides, what it needs, its scope), use, one decisive refusal with a next action after revocation |
+| E | `024`, `038` (local subset) | the operator scenario: import, a readable activation (what the package provides, what it needs, its scope), use, one decisive refusal with a next action after revocation; implemented 2026-10-03 |
 
 Rules for the vertical: the capability id names the Flow's behaviour and is bound to
 the Flow id, never replaces it; the anchor comes from the verified signature, never from
@@ -1598,6 +1600,88 @@ a declared authority; two providers for one name refuse; the task-pack step Flow
 read-only, since it binds Agents, runs inference and publishes facts; P093 adds no HIL to an invocation
 (access follows activation and grants; mutation HIL stays with P094); the operator never
 types identifiers or digests.
+
+#### Local operator projection (Stage E, 2026-10-03)
+
+The existing P085 status and inspection show `package-capability-view.v1` for
+each installed package with declarations, even before activation. The host runs
+the same retained-member/provider admission as activation, without committing.
+The view names the supplied capability, scope, exact provider, verified effect
+and aggregate recovery classes, budget, replay window and base requirements
+with registry dispatchability. An unverified effect contract has no aggregate
+class; declarations are never presented as admitted authority. Current
+activation, generation, operator and expiry are explicit.
+
+Lifecycle mutations return the owner P085 inspection, not the optional host
+projection. A failure in P093 projection after commit must not turn a successful
+mutation into an error. On status reads, an unavailable per-package view is
+omitted and logged locally; omission means unavailable, not "supplies nothing".
+Cold inspection waits for a pending lifecycle writer without holding a read
+lock, with a 2-second acquisition bound and owner-only degradation on timeout.
+
+The operator signs the existing activation's exact `package/digest`, which
+already commits to declarations and pinned members. No second capability-set
+digest is required. The preview also contains volatile readiness and history,
+so its whole digest must not become a signed grant.
+
+`package-capability-diagnostic.v1` is a prompt-free, closed P093 cause/action
+projection, independent of P094's next-action vocabulary. The pure core chooses
+one decisive host-derived cause in explicit precedence order: revoked package
+and safe mode, signing/member/provider faults, missing activation/operator,
+withdrawn or stale use, then request/capacity faults. Activation refusals keep
+their P085 code and add this diagnostic. Local-control invocation/status
+refusals keep their admission code and add the explanation; peer and component
+callers never receive this operator-only projection. A withdrawn use may still
+return `grant-revoked-or-expired` after package revocation, while its decisive
+operator cause is `package-revoked`.
+
+Invocation diagnostics read only the package that declares the exact identifier,
+current owner authority, configured provider and cached failures pinned to the
+package digest and overlay publication. They never compile schemas, enumerate
+all packages or read invocation history. An expired activation is distinguished
+from missing activation, including after a session expiry sweep. Revocation of
+the same package reference remains terminal under P085; a "reactivated then
+expired" same-reference transition is not admitted by this owner contract.
+Use withdrawal records a typed owner reason: cancelled loop, stopped loop, or
+other authority withdrawal. Legacy withdrawals without a reason are reported
+as `use-withdrawn` with action `none`, never inferred as loop cancellation.
+
+The cause/action mapping is closed and parity-tested against the schema:
+`flow-not-loaded` and `flow-digest-mismatch` lead to `load-provider`, revocation
+to `activate-package`, a cancelled loop to `open-loop`, and a stale activation
+use to `reapprove-after-reactivation`. These are navigation hints, never
+fallback authority: terminal revocation requires a freshly reviewed package
+revision and fresh consent; a cancelled loop requires a new query, not revival
+of the cancelled loop. A stopped safety loop has action `none`.
+
+Operator inspection retains journal metadata after caller replay/status are
+fenced by withdrawal. It shows at most 32 uses and 32 latest invocation keys
+per package, reports omitted rows, and counts current `started` and `unknown`
+keys from indexed current records, independent of history retention. Keys retain
+caller kind and ref; ordering follows append sequence, not wall time. Eviction
+preserves only the bounded retired metadata tail in R14; omitted counts describe
+the retained window, not lifetime totals. No invocation input, output, prompt or model text is projected. `live`
+is a use-journal projection, not permission: dispatch still rechecks the
+current owner loop, operator and activation.
+
+Both invocation and use admission floors have a local start cap of 65536
+capabilities. Safety watermarks are never deleted to make room: a new capability
+refuses at capacity. While a use is retained, renewal keeps its original owner
+approval time. After retirement, recreating an expired use requires a newer
+explicit opening or renewal by the original approving operator, above the floor;
+resynchronizing old facts is not new consent. A stopped loop and a withdrawn use
+cannot be renewed. Journal v1 migration compacts legacy orphan invocation
+facts into the bounded tail and trims use-fact tails before publication. Existing
+authority or watermarks above a new cap are grandfathered, never silently evicted;
+no additional key is admitted until capacity permits. Startup and new work run
+bounded cleanup; deletion reuses SQLite pages but does not promise file shrinking.
+
+The Story 013 process proof covers authored import, preview, activation,
+loop-approved coordinator invocation, replay/status, cancellation and signed
+revocation with retained history, plus missing-Flow activation refusal. It
+also covers revocation with a still-open loop, post-commit projection failure,
+and operator requests without `capability/id` or `contract/digest`. It does not
+complete the solver/reviewer sequence or real-VM acceptance.
 
 ### Phase 0 — Identifier foundation
 
@@ -1730,8 +1814,16 @@ Independent of the rest; it fixes existing defects.
   `P093-021`. Partial (2026-10-02, local vertical C+D): a terminal revocation writes a tombstone for every package capability of the package in its own transaction (store v9); a use approved before the latest tombstone is void (`grant-voided-by-tombstone`). Passport watermarks are Phase 4.
 - [ ] `P093-023` Requirement edges approved in consumer activation plans. Depends on:
   `P093-020`.
-- [ ] `P093-024` Activation plan and inspection show package capabilities, their scope,
+- [~] `P093-024` Activation plan and inspection show package capabilities, their scope,
   required base capabilities, and recovery class. Depends on: `P093-020`.
+  Partial (2026-10-03, Stage E): host-composed preview and bounded use/journal
+  metadata on P085 status/inspection, the same admission before commit, closed
+  local cause/action diagnostics, and the Story 013 operator process proof.
+  Follow-up: one-package cached diagnostics on refusals, owner-only mutation
+  responses, per-package cold-view degradation, writer-aware inspection and
+  bounded physical history/use retention with durable approval floors (R14).
+  Existing signed package digests cover the displayed declarations; complete
+  activation-plan and federated/operator UI surfaces remain open.
 - [ ] `P093-025` Lifecycle table of §10, one test per row, including crash between
   commit and publication. Depends on: `P093-022`.
 
@@ -1775,6 +1867,9 @@ Independent of the rest; it fixes existing defects.
 - [~] `P093-038` Local status query over the host journal with invocation-equivalent
   authorization and no provider or reconciliation path. Depends on: `P093-030`,
   `P093-032`. Partial (2026-10-02, local vertical C+D): `package-capability-status.request.v1` on the capability's route, authorized like an invocation (a withdrawn use reads nothing), answered from the journal only, never dispatching or reconciling; `not-found` claims nothing about execution.
+  Stage E (2026-10-03) additionally exposes bounded metadata-only history through
+  authenticated P085 operator inspection after withdrawal; it neither reopens
+  caller status nor adds a provider/reconciliation path.
 - [ ] `P093-039` Measure retry-delay distribution, result-size distribution, and
   journal growth at the target invocation rate; calibrate the start profile and record
   the evidence. Depends on: `P093-032`.

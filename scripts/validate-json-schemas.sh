@@ -368,6 +368,12 @@ schema_for_file() {
     *.package-capability-invocation.json)
       echo "$SCHEMAS_DIR/package-capability-invocation.v1.schema.json"
       ;;
+    *.package-capability-view.json)
+      echo "$SCHEMAS_DIR/package-capability-view.v1.schema.json"
+      ;;
+    *.package-capability-diagnostic.json)
+      echo "$SCHEMAS_DIR/package-capability-diagnostic.v1.schema.json"
+      ;;
     *.middleware-module-http-request.json)
       echo "$SCHEMAS_DIR/middleware-module-http-request.v1.schema.json"
       ;;

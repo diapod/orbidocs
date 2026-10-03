@@ -30,6 +30,7 @@
       ]
     },
     "retryable": { "type": "boolean" },
+    "diagnostic": { "$ref": "package-capability-diagnostic.v1.schema.json" },
     "producer/ref": { "$ref": "#/$defs/ref" },
     "package/ref": { "$ref": "#/$defs/ref" },
     "hook/id": { "$ref": "#/$defs/field" },

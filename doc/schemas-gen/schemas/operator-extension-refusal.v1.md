@@ -18,6 +18,7 @@ Bounded metadata-only diagnostic for one refused extension operation.
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`refusal/code`](#field-refusal-code) | `yes` | enum: `contract/unknown-schema`, `hook/unknown`, `hook/version-mismatch`, `offer/digest-mismatch`, `offer/invocation-mismatch`, `decision/not-contained`, `decision/ambiguous`, `decision/unknown-outcome`, `producer/budget-unavailable`, `producer/required-failed`, `producer/output-malformed`, `producer/timeout`, `producer/crash`, `package/signing-authority-untrusted`, `package/digest-mismatch`, `package/conformance-failed`, `package/incompatible`, `package/capability-rejected`, `activation/plan-stale`, `activation/operator-binding-missing`, `activation/signature-invalid`, `activation/state-conflict`, `activation/session-not-eligible`, `guard/anchor-unknown`, `guard/cap-exceeded`, `identifier/invalid`, `policy/revoked`, `policy/expired`, `extension/safe-mode` |  |
 | [`retryable`](#field-retryable) | `yes` | boolean |  |
+| [`diagnostic`](#field-diagnostic) | `no` | ref: `package-capability-diagnostic.v1.schema.json` |  |
 | [`producer/ref`](#field-producer-ref) | `no` | ref: `#/$defs/ref` |  |
 | [`package/ref`](#field-package-ref) | `no` | ref: `#/$defs/ref` |  |
 | [`hook/id`](#field-hook-id) | `no` | ref: `#/$defs/field` |  |
@@ -63,6 +64,12 @@ Bounded metadata-only diagnostic for one refused extension operation.
 
 - Required: `yes`
 - Shape: boolean
+
+<a id="field-diagnostic"></a>
+## `diagnostic`
+
+- Required: `no`
+- Shape: ref: `package-capability-diagnostic.v1.schema.json`
 
 <a id="field-producer-ref"></a>
 ## `producer/ref`

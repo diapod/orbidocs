@@ -1,0 +1,587 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-diagnostic:v1",
+  "title": "Package Capability Diagnostic V1",
+  "description": "Host-derived, bounded local operator metadata. Never caller authority; no prompts, inputs or outputs.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "cause",
+    "subject/refs",
+    "next/action"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-diagnostic.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "cause": {
+      "enum": [
+        "package-revoked",
+        "safe-mode",
+        "signer-untrusted",
+        "member-pin-mismatch",
+        "declaration-invalid",
+        "peer-scope-unsupported",
+        "flow-not-loaded",
+        "flow-digest-mismatch",
+        "provider-mismatch",
+        "provider-collision",
+        "schema-invalid",
+        "activation-required",
+        "activation-expired",
+        "operator-binding-lost",
+        "use-missing",
+        "loop-cancelled",
+        "loop-stopped",
+        "use-withdrawn",
+        "use-expired",
+        "use-stale",
+        "use-scope-mismatch",
+        "provider-unavailable",
+        "capacity-exhausted",
+        "request-invalid",
+        "deadline-elapsed",
+        "request-stale",
+        "invocation-conflict"
+      ]
+    },
+    "subject/refs": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512,
+        "pattern": "^[!-~]+$"
+      }
+    },
+    "next/action": {
+      "enum": [
+        "activate-package",
+        "exit-safe-mode",
+        "trust-signer",
+        "reimport-package",
+        "await-peer-support",
+        "load-provider",
+        "disable-conflicting-package",
+        "rebind-operator",
+        "open-loop",
+        "none",
+        "renew-loop",
+        "reapprove-after-reactivation",
+        "review-request",
+        "retry-later"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["cause"], "properties": { "cause": { "const": "use-withdrawn" } } },
+      "then": { "properties": { "next/action": { "const": "none" } } }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "package-revoked"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "activate-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "safe-mode"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "exit-safe-mode"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "signer-untrusted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "trust-signer"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "member-pin-mismatch"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "reimport-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "declaration-invalid"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "reimport-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "peer-scope-unsupported"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "await-peer-support"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "flow-not-loaded"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "load-provider"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "flow-digest-mismatch"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "load-provider"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "provider-mismatch"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "load-provider"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "provider-collision"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "disable-conflicting-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "schema-invalid"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "reimport-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "activation-required"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "activate-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "activation-expired"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "activate-package"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "operator-binding-lost"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "rebind-operator"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "use-missing"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "open-loop"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "loop-cancelled"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "open-loop"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "loop-stopped"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "none"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "use-expired"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "renew-loop"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "use-stale"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "reapprove-after-reactivation"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "use-scope-mismatch"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "review-request"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "provider-unavailable"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "load-provider"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "capacity-exhausted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "retry-later"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "request-invalid"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "review-request"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "deadline-elapsed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "review-request"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "request-stale"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "review-request"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "cause"
+        ],
+        "properties": {
+          "cause": {
+            "const": "invocation-conflict"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next/action": {
+            "const": "review-request"
+          }
+        }
+      }
+    }
+  ]
+}

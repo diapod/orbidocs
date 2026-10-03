@@ -1,0 +1,10 @@
+{
+  "schema": "package-capability-diagnostic.v1",
+  "schema/v": 1,
+  "cause": "flow-not-loaded",
+  "subject/refs": [
+    "qmail-task-pack",
+    "qmail-task-pack-steps"
+  ],
+  "next/action": "load-provider"
+}

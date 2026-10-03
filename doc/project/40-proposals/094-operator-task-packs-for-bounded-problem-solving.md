@@ -2205,6 +2205,23 @@ The coordinator/replay proof does not complete the ignored solver-turn test,
 the reviewer sequence or the real-VM acceptance. These remain `023d3b` and
 `013`; no tracker item is promoted by the C+D review alone.
 
+P093 Stage E (2026-10-03) proves the local operator scenario in the same
+Story 013 process target: authored import, capability/provider/effect preview
+before activation, loop-approved coordinator use, replay/status, cancellation,
+signed revocation and retained prompt-free journal metadata. A host without
+the Flow refuses activation with `flow-not-loaded` / `load-provider`. Local
+diagnostics preserve admission codes and add one decisive cause/action; the
+operator types no capability id or digest. This closes Stage E of the P093
+local vertical, not `P094-023d3b1`, the live solver/reviewer sequence or the VM
+evidence of `P094-013`.
+
+The Stage E follow-up preserves successful owner lifecycle responses even when
+optional capability inspection is unavailable. The process proof additionally
+covers revocation while the loop is still open and operator requests without
+manual capability/contract handles. Journal retention never removes unresolved
+work; resynchronizing an old loop fact does not renew consent. Recreating an
+expired, retired use requires a newer explicit renewal by its approving operator.
+
 ### P094-021 Follow-Up
 
 | ID | Task | Depends on | Status | Acceptance |

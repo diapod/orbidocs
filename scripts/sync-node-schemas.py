@@ -246,6 +246,9 @@ SCHEMA_WHITELIST = (
     "operator-extension-loose-import.v1.schema.json",
     "operator-extension-import-receipt.v1.schema.json",
     "operator-extension-inspection.v1.schema.json",
+    "package-capability-view.v1.schema.json",
+    "package-capability-diagnostic.v1.schema.json",
+    "package-capability-invoke-result.v1.schema.json",
     "operator-effective-policy-inspection-input.v1.schema.json",
     "operator-effective-policy-inspection.v1.schema.json",
     "operator-extension-revocation.v1.schema.json",
@@ -826,6 +829,8 @@ EXAMPLE_WHITELIST = (
     "fixture.semantic-only.operator-extension-activation.json",
     "fixture.operator-extension-conformance-report.json",
     "fixture.operator-extension-inspection.json",
+    "preview.package-capability-view.json",
+    "flow-not-loaded.package-capability-diagnostic.json",
     "fixture.operator-effective-policy-inspection.json",
     "fixture.operator-effective-policy-inspection-input.json",
     "fixture.operator-extension-revocation.json",
@@ -972,6 +977,8 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "inline-input.package-capability-view.json",
+    "wrong-action.package-capability-diagnostic.json",
     "absent-without-target.config-source-binding.json",
     "incomplete-without-aggregate.config-derivation.json",
     "active-without-component.config-explain.request.json",
