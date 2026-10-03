@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-invoke:v1",
+  "title": "Package Capability Invoke v1",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "description": "One local invocation of a package capability (P093 §11, R13). `use-binding/ref` may name the approved use the caller acts under; the host attests the caller from its own session and records and never from this field. The request fingerprint covers `capability/id`, `contract/digest`, `issued-at`, `deadline` and `input`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "capability/id",
+    "contract/digest",
+    "invocation/id",
+    "issued-at",
+    "deadline",
+    "input"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-invoke.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "capability/id": {
+      "$ref": "#/$defs/capability-id"
+    },
+    "contract/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "invocation/id": {
+      "$ref": "#/$defs/invocation-id"
+    },
+    "issued-at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "deadline": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "use-binding/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "input": {
+      "description": "Validated by the host against the contract's input schema before the admission point."
+    }
+  },
+  "$defs": {
+    "capability-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[a-z0-9][a-z0-9._-]*@(pkg|node-pkg|peer-pkg):did:key:z[1-9A-HJ-NP-Za-km-z]+/[a-z0-9][a-z0-9._-]*$",
+      "description": "A package capability identifier (P093 §2); the host parses it with the one grammar."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "invocation-id": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^package-invocation:[A-Za-z0-9._-]+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 40,
+      "format": "date-time"
+    },
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[^\\s]+$"
+    }
+  }
+}

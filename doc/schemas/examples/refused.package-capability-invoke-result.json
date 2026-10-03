@@ -1,0 +1,8 @@
+{
+  "schema": "package-capability-invoke-result.v1",
+  "schema/v": 1,
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "outcome": "refused",
+  "refusal/code": "package-capability/grant-revoked-or-expired",
+  "retryable": false
+}

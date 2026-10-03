@@ -373,11 +373,11 @@ Validation points:
 
 ### 7. Reach, caller evidence, and requirement edges
 
-| scope \\ caller | same-package | local-component | remote-peer |
-| :--- | :---: | :---: | :---: |
-| `pkg` | reach | – | – |
-| `node-pkg` | reach | reach | – |
-| `peer-pkg` | reach | reach | reach |
+| scope \\ caller | same-package | local-component | local-control | remote-peer |
+| :--- | :---: | :---: | :---: | :---: |
+| `pkg` | reach | – | – | – |
+| `node-pkg` | reach | reach | reach | – |
+| `peer-pkg` | reach | reach | reach | reach |
 
 Reach is necessary, never sufficient. Caller evidence is produced by the host from its
 own session bindings, never from request payload:
@@ -390,7 +390,25 @@ own session bindings, never from request payload:
   current activation, plus the exact requirement edge `(consumer activation, capability
   id, contract digest)` approved in that activation's plan. A current consumer fence
   alone is not evidence.
+- **local-control** – the node's authenticated control plane, or the host's own
+  scheduler, acting under an operator-approved use binding the host keeps. The use binding
+  names the exact capability identifier and contract digest, the providing activation and
+  its generation, the operator binding that approved it, the execution scope as exact
+  input values by JSON Pointer, and its term. The host derives it from an existing operator
+  operation (for a task pack: opening its loop, until the loop's deadline); the operator
+  chooses the task and never types an identifier or a digest. A request may name a use
+  binding, never attest one; without a name the host selects the single live use whose
+  scope the input carries. Local bearer or API access does not replace a use binding, and
+  a scheduler gains no general operator authority: it acts only within the exact approved
+  scope. Withdrawing the use (the loop stops), revoking the operator binding or a new
+  activation generation blocks new starts; it never rewrites history and never authorizes
+  re-running uncertain work. There is no per-invocation HIL; mutation HIL stays with the
+  domain (P094).
 - **remote-peer** – the authenticated session node plus a passport verified as in §8.
+
+`local-control` is not `same-package` and needs no fictitious consumer activation: the
+operator's approved use is its own, real evidence of consent. The requirement edge stays
+mandatory for `local-component`.
 
 ### 8. Peer grants are capability passports, presented with every request
 
@@ -564,7 +582,7 @@ Local operator diagnostics keep the precise cause.
   decision, and in every invocation fact. `caller` is a host-derived tagged reference:
   `{"kind":"node","ref":<authenticated peer node id>}` for peers, or
   `{"kind":"component","ref":<local component ref>}` / `{"kind":"binding","ref":<local binding ref>}`
-  for local calls. These variants are disjoint; using only the host node id for local
+  for local calls; a `local-control` caller is keyed by its use binding. These variants are disjoint; using only the host node id for local
   calls would conflate different components. Caller identity is never taken from the
   request payload.
 - **Request fingerprint.** `request/digest` is taken over the JCS bytes of
@@ -897,10 +915,29 @@ pub enum CallerEvidence {
         activation: ActivationRef,
         edge: RequirementEdge,
     },
+    /// The control plane or the host's scheduler, under an approved use.
+    LocalControl {
+        binding: UseBinding,
+    },
     RemotePeer {
         session_node: NodeId,
         passport: VerifiedPackagePassport,
     },
+}
+
+/// An operator-approved local use of one package capability.
+pub struct UseBinding {
+    pub use_binding_ref: String,
+    pub capability: PackageCapabilityId,
+    pub contract: ContractDigest,
+    pub package_ref: String,
+    pub activation_generation: u64,
+    pub operator_binding_ref: String,
+    /// Exact input values by JSON Pointer: the approved execution scope.
+    pub scope: BTreeMap<String, Value>,
+    pub approved_at: OffsetDateTime,
+    pub expires_at: OffsetDateTime,
+    pub revoked_at: Option<OffsetDateTime>,
 }
 
 /// Operator-approved in the consumer's activation plan.
@@ -1235,7 +1272,7 @@ impl PackageCapabilityRefusal {
     pub const fn retryable(self) -> bool {
         matches!(
             self,
-            Self::ProviderUnavailable | Self::CapacityExhausted | Self::DeadlineExceeded
+            Self::ProviderUnavailable | Self::CapacityExhausted | Self::ActivationStale
         )
     }
 }
@@ -1244,6 +1281,19 @@ impl PackageCapabilityRefusal {
 `ProviderUnavailable` follows caller verification, but it still projects to
 `Unavailable`: the holder learns only to retry later, which `retryable` expresses
 locally. Every refusal is pre-admission; post-admission states are outcomes (R7).
+
+`retryable` means the unchanged request can succeed later. An elapsed or malformed
+deadline is therefore not retryable; a renewed request needs new times and a new
+invocation identity. `ActivationStale` describes a race before `started` (not a
+stale grant): re-reading current authority can admit the same request while its
+deadline and replay window still hold. `GrantBindingStale` remains non-retryable.
+
+The local synchronous JSON-e vertical narrows the Flow execution timeout to the
+remaining admitted deadline and refuses subsequent steps when it expires. It does
+not forcibly interrupt a host call already running; that call remains bounded by
+its owner's timeout. A valid late result is recorded, never converted into a
+pre-admission refusal or permission to redispatch. Propagating the remaining budget
+into every owner call remains required before claiming a hard wall-time bound.
 
 ### R11. Contract document, digest, and bounded resolution
 
@@ -1651,7 +1701,7 @@ Independent of the rest; it fixes existing defects.
   effect refs retain their separate 256-byte bound. Stage B3 (2026-10-02): activation
   refuses a declaration that references a `transactional-withheld` effect without
   `reconciliation/operation`, and derives the invocation's recovery class as the most
-  restrictive referenced effect. The evidence contract is stage D.
+  restrictive referenced effect. Stage D (2026-10-02): reconciliation evidence binds only through `bind`, which requires the recorded provider and every binding field, including the exact effect set; the evidence wire contract and the worker are `P093-037`.
 
 ### Phase 2 — Activation overlay (Solution 048)
 
@@ -1673,12 +1723,11 @@ Independent of the rest; it fixes existing defects.
   be loaded under its Flow id as that component from the declared source digest;
   a channel provider must exist in the host's supervised-channel configuration; both
   schemas must compile. Every other refusal is `package/capability-rejected`. The P080
-  graph now includes JSON-e Flow components. The admitted set (recovery class, budget,
-  compiled schemas) is not yet held by an overlay: stage C.
-- [ ] `P093-021` Overlay as a projection of the P085 journal behind `GenerationGate`;
-  startup rebuild before admission. Depends on: `P093-020`.
-- [ ] `P093-022` Revoke writes tombstones in the same transaction. Depends on:
-  `P093-021`.
+  graph now includes JSON-e Flow components. Stage C (2026-10-02): the overlay holds the admitted set (recovery class, budget, compiled schemas) and a joining activation whose provider another package serves is refused before its commit.
+- [~] `P093-021` Overlay as a projection of the P085 journal behind `GenerationGate`;
+  startup rebuild before admission. Depends on: `P093-020`. Partial (2026-10-02, local vertical C+D): `orbiplex-node-package-capability-core` holds the index (one provider per component across packages; a collision refuses) and the daemon a `GenerationGate` whose write side spans every P085 transition (durable and session activation, revocation, session deactivation and expiry sweep, safe mode) and the publication of the overlay rebuilt from the committed journal (`package_capability_activations`), even after a failed transition. The overlay is built at startup, after invocation recovery and before any admission; it fails closed per package. Each entry carries its activation's term, so an expired activation provides nothing before the next publication. Not yet: provider loss as a dependency transition.
+- [~] `P093-022` Revoke writes tombstones in the same transaction. Depends on:
+  `P093-021`. Partial (2026-10-02, local vertical C+D): a terminal revocation writes a tombstone for every package capability of the package in its own transaction (store v9); a use approved before the latest tombstone is void (`grant-voided-by-tombstone`). Passport watermarks are Phase 4.
 - [ ] `P093-023` Requirement edges approved in consumer activation plans. Depends on:
   `P093-020`.
 - [ ] `P093-024` Activation plan and inspection show package capabilities, their scope,
@@ -1688,23 +1737,34 @@ Independent of the rest; it fixes existing defects.
 
 ### Phase 3 — Local invocation with journal and recovery
 
-- [ ] `P093-030` Host-attested caller evidence for same-package and local-component
-  calls; payload-claim refusal test. Depends on: `P093-021`, `P093-023`.
-- [ ] `P093-031` Invocation journal with the admission point under the generation read
+- [~] `P093-030` Host-attested caller evidence for same-package and local-component
+  calls; payload-claim refusal test. Depends on: `P093-021`, `P093-023`. Partial (2026-10-02, local vertical C+D): the fourth caller class `local-control` (§7): the host attests the authenticated control plane or its scheduler under an operator-approved use binding it keeps; a request may name, never attest, the use; without a name the single live use whose scope the input carries is chosen. Opening a task-pack loop approves the use of the package's `node-pkg` capabilities for that query and local binding until the loop's deadline; renewal extends it; cancellation withdraws it. A module caller is refused (`caller-evidence-invalid`) until same-package and local-component evidence (`P093-023`) exists; the invoke contract refuses a payload `caller`.
+- [~] `P093-031` Invocation journal with the admission point under the generation read
   gate, atomic unique-key admission, and immutable recovery context; define
-  `package-capability-invocation.v1` and its Node mirror. Depends on: `P093-021`.
-- [ ] `P093-032` Idempotency contract of §12: fingerprint, window, `stale-request`,
+  `package-capability-invocation.v1` and its Node mirror. Depends on: `P093-021`. Partial (2026-10-02, local vertical C+D): the daemon journal (`package-capability-invocations.sqlite`): append-only `package-capability-invocation.v1` facts and a current record per `(caller, invocation/id)` in one transaction; the admission point rechecks the published entry under the gate's read side and appends `started` as one unique-key insert that also rechecks the floor; the record freezes package digest, provider, contract, effects and recovery class.
+- [~] `P093-032` Idempotency contract of §12: fingerprint, window, `stale-request`,
   `invocation-id-conflict`, `protected-until` fixed at admission, unresolved-record
   retention, protected-record capacity, and result retention with early eviction under
   the node budget; durable admission floors prevent resurrection after window growth
-  or clock rollback. Depends on: `P093-031`.
-- [ ] `P093-033` Outcome state machine and startup recovery from the recorded context,
+  or clock rollback. Depends on: `P093-031`. Partial (2026-10-02, local vertical C+D): the fingerprint over capability, contract, `issued-at`, `deadline` and input; the replay window and 60 s skew; `stale-request`; `invocation-id-conflict`; `protected-until` fixed at admission; unresolved records never evicted; capacity refusal (`capacity-exhausted`); 15-minute and 256 KiB result retention; eviction that raises the per-capability floor in the same transaction. Not yet: the node-wide retained-result budget and window-growth tests.
+- [~] `P093-033` Outcome state machine and startup recovery from the recorded context,
   with no original-operation redispatch; confirmed disposal before ephemeral abort and
-  conditional terminal transitions. Depends on: `P093-031`.
-- [ ] `P093-034` Provider readiness and contract compatibility in the P080 graph before
-  the admission point; provider loss as a dependency transition. Depends on: `P093-030`.
-- [ ] `P093-035` Input validation before the admission point; output validation before
-  release, with `output-contract-violation`. Depends on: `P093-010`, `P093-031`.
+  conditional terminal transitions. Depends on: `P093-031`. Partial (2026-10-02, local vertical C+D): the outcome table of §9 is a pure, exhaustively tested function; outcomes are conditional transitions that never overwrite a terminal state; startup moves every `started` record by its own frozen class and dispatches nothing. Ephemeral disposal has no provider yet.
+- [~] `P093-034` Provider readiness and contract compatibility in the P080 graph before
+  the admission point; provider loss as a dependency transition. Depends on: `P093-030`. Partial (2026-10-02, local vertical C+D): readiness before the admission point: a JSON-e Flow provider must be loaded under its Flow id, as its component, from its pinned source digest; supervised channel providers are not dispatched yet.
+- [~] `P093-035` Input validation before the admission point; output validation before
+  release, with `output-contract-violation`. Depends on: `P093-010`, `P093-031`. Partial (2026-10-02, local vertical C+D): input against the compiled input schema and the request bound before the admission point; output against the output schema and the response bound before it is recorded or released, otherwise `unknown` (`output-contract-violation`), or `aborted` for a read-only invocation.
+  Review (2026-10-03): the durable start rechecks the current approved use, operator,
+  tombstone, clock, replay window and capacity; withdrawal and start share the
+  journal mutex. Output validation keeps the original compiled contract even when
+  the overlay changes. Installed provider declarations reserve legacy role routes
+  independently of activation, expiry, safe mode or restart. The Flow timeout is
+  narrowed to the remaining admitted deadline; hard cancellation of in-flight owner
+  calls and end-to-end remaining-budget propagation are still open.
+  The use journal is only a projection: admission and status also read the current
+  approving Corpus loop, including published-run conclusions. A stopped loop
+  refuses even if a crash left its use projection unwithdrawn. This is revalidation,
+  not a distributed transaction between the two stores.
 - [ ] `P093-036` Interruption tests of R15 for every recovery class, including a crash
   during reconciliation, concurrent retries, and recovery across upgrades. Depends on:
   `P093-032`, `P093-033`, `P093-035`, `P093-037`.
@@ -1712,9 +1772,9 @@ Independent of the rest; it fixes existing defects.
   effect-coverage binding checks, resolution table,
   backoff, attempt bound, escalation to the operator resolution queue; never compensates
   and never releases unvalidated output. Depends on: `P093-013`, `P093-033`.
-- [ ] `P093-038` Local status query over the host journal with invocation-equivalent
+- [~] `P093-038` Local status query over the host journal with invocation-equivalent
   authorization and no provider or reconciliation path. Depends on: `P093-030`,
-  `P093-032`.
+  `P093-032`. Partial (2026-10-02, local vertical C+D): `package-capability-status.request.v1` on the capability's route, authorized like an invocation (a withdrawn use reads nothing), answered from the journal only, never dispatching or reconciling; `not-found` claims nothing about execution.
 - [ ] `P093-039` Measure retry-delay distribution, result-size distribution, and
   journal growth at the target invocation rate; calibrate the start profile and record
   the evidence. Depends on: `P093-032`.

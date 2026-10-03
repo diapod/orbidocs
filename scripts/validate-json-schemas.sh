@@ -353,6 +353,21 @@ schema_for_file() {
     *.package-capability-declaration.json)
       echo "$SCHEMAS_DIR/package-capability-declaration.v1.schema.json"
       ;;
+    *.package-capability-invoke.json)
+      echo "$SCHEMAS_DIR/package-capability-invoke.v1.schema.json"
+      ;;
+    *.package-capability-invoke-result.json)
+      echo "$SCHEMAS_DIR/package-capability-invoke-result.v1.schema.json"
+      ;;
+    *.package-capability-status-request.json)
+      echo "$SCHEMAS_DIR/package-capability-status.request.v1.schema.json"
+      ;;
+    *.package-capability-status-response.json)
+      echo "$SCHEMAS_DIR/package-capability-status.response.v1.schema.json"
+      ;;
+    *.package-capability-invocation.json)
+      echo "$SCHEMAS_DIR/package-capability-invocation.v1.schema.json"
+      ;;
     *.middleware-module-http-request.json)
       echo "$SCHEMAS_DIR/middleware-module-http-request.v1.schema.json"
       ;;

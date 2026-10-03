@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-status.response:v1",
+  "title": "Package Capability Status Response v1",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "description": "The journal's record of one invocation, or `not-found`, which is no proof that nothing ran (P093 §13).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "invocation/id",
+    "state"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-status.response.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "invocation/id": {
+      "$ref": "#/$defs/invocation-id"
+    },
+    "state": {
+      "enum": [
+        "started",
+        "completed",
+        "aborted",
+        "compensated",
+        "unknown",
+        "not-found"
+      ]
+    },
+    "result/status": {
+      "enum": [
+        "retained",
+        "unavailable"
+      ]
+    },
+    "output": {},
+    "output/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "cause": {
+      "enum": [
+        "no-outcome",
+        "output-contract-violation",
+        "pending-disposal"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "state"
+        ]
+      },
+      "then": {
+        "required": [
+          "result/status"
+        ],
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "cause"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "result/status"
+                  ]
+                },
+                {
+                  "required": [
+                    "output"
+                  ]
+                },
+                {
+                  "required": [
+                    "output/digest"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result/status": {
+            "const": "retained"
+          }
+        },
+        "required": [
+          "result/status"
+        ]
+      },
+      "then": {
+        "required": [
+          "output",
+          "output/digest"
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "output"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "unknown"
+          }
+        },
+        "required": [
+          "state"
+        ]
+      },
+      "then": {
+        "required": [
+          "cause"
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "cause"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "invocation-id": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^package-invocation:[A-Za-z0-9._-]+$"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "package-capability-invoke-result.v1",
+  "schema/v": 1,
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "outcome": "unknown",
+  "request/digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA",
+  "cause": "no-outcome",
+  "output": {
+    "status": "x"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "package-capability-invoke-result.v1",
+  "schema/v": 1,
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "outcome": "completed",
+  "request/digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA",
+  "result/status": "retained",
+  "output/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI"
+}

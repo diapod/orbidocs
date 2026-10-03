@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-invoke-result:v1",
+  "title": "Package Capability Invoke Result v1",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "description": "The answer to one invocation (P093 R13). `refused` happens before the admission point and records nothing; every other outcome is the journal's record, and `started` is a read of an in-flight invocation, never permission to dispatch it again. `output/digest` is present only for output the host validated.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "invocation/id",
+    "outcome"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-invoke-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "invocation/id": {
+      "$ref": "#/$defs/invocation-id"
+    },
+    "outcome": {
+      "enum": [
+        "refused",
+        "started",
+        "completed",
+        "aborted",
+        "compensated",
+        "unknown"
+      ]
+    },
+    "refusal/code": {
+      "enum": [
+        "package-capability/stale-request",
+        "package-capability/out-of-scope",
+        "package-capability/unknown-capability",
+        "package-capability/scope-commitment-mismatch",
+        "package-capability/contract-mismatch",
+        "package-capability/caller-evidence-invalid",
+        "package-capability/grant-missing",
+        "package-capability/grant-invalid",
+        "package-capability/grant-revoked-or-expired",
+        "package-capability/grant-holder-mismatch",
+        "package-capability/grant-binding-stale",
+        "package-capability/grant-voided-by-tombstone",
+        "package-capability/invocation-id-conflict",
+        "package-capability/invalid-input",
+        "package-capability/activation-stale",
+        "package-capability/provider-unavailable",
+        "package-capability/capacity-exhausted",
+        "package-capability/deadline-exceeded"
+      ]
+    },
+    "retryable": {
+      "type": "boolean"
+    },
+    "request/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "result/status": {
+      "enum": [
+        "retained",
+        "unavailable"
+      ]
+    },
+    "output": {},
+    "output/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "cause": {
+      "enum": [
+        "no-outcome",
+        "output-contract-violation",
+        "pending-disposal"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "refused"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "refusal/code",
+          "retryable"
+        ],
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "result/status"
+                  ]
+                },
+                {
+                  "required": [
+                    "output"
+                  ]
+                },
+                {
+                  "required": [
+                    "output/digest"
+                  ]
+                },
+                {
+                  "required": [
+                    "cause"
+                  ]
+                },
+                {
+                  "required": [
+                    "request/digest"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "refusal/code"
+                  ]
+                },
+                {
+                  "required": [
+                    "retryable"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "required": [
+          "request/digest"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "result/status"
+        ],
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "cause"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "result/status"
+                  ]
+                },
+                {
+                  "required": [
+                    "output"
+                  ]
+                },
+                {
+                  "required": [
+                    "output/digest"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result/status": {
+            "const": "retained"
+          }
+        },
+        "required": [
+          "result/status"
+        ]
+      },
+      "then": {
+        "required": [
+          "output",
+          "output/digest"
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "output"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "unknown"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "cause"
+        ]
+      },
+      "else": {
+        "allOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "cause"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "invocation-id": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^package-invocation:[A-Za-z0-9._-]+$"
+    }
+  }
+}

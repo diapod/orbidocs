@@ -1,0 +1,16 @@
+{
+  "schema": "package-capability-invoke-result.v1",
+  "schema/v": 1,
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "outcome": "refused",
+  "request/digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA",
+  "result/status": "retained",
+  "output": {
+    "schema": "qmail-task-pack-step.response.v1",
+    "status": "no-step",
+    "position": {}
+  },
+  "output/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI",
+  "refusal/code": "package-capability/out-of-scope",
+  "retryable": false
+}

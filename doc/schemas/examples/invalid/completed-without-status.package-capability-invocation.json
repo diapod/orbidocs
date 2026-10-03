@@ -1,0 +1,32 @@
+{
+  "schema": "package-capability-invocation.v1",
+  "schema/v": 1,
+  "caller": {
+    "kind": "binding",
+    "ref": "package-capability-use:3cQvOCQnVLsZ1gHAMhOzOxyyGGQ28Wa_QcA5L9ADpQ8"
+  },
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "request/digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA",
+  "capability/id": "step@node-pkg:did:key:z6MkqLCddjE5YZJwa57QufUmh2op899Fr7nNeiDaDUBUCriC/qmail-task-pack",
+  "activation/generation": 1,
+  "issued-at": "2026-10-02T12:00:00Z",
+  "deadline": "2026-10-02T12:00:30Z",
+  "protected-until": "2026-10-02T13:01:00Z",
+  "recovery/context": {
+    "package/ref": "extension-package:qmail-task-pack",
+    "package/digest": "sha256:0e3c5f",
+    "provider": {
+      "component/id": "middleware.qmail-task-pack.steps",
+      "flow/ref": "qmail-task-pack-steps",
+      "flow/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI"
+    },
+    "contract/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI",
+    "effect/refs": [
+      "agent-flow-binding",
+      "inference-passage"
+    ],
+    "recovery/class": "irreversible-external"
+  },
+  "event": "completed",
+  "recorded-at": "2026-10-02T12:00:01Z"
+}

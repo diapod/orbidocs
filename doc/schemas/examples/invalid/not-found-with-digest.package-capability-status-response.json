@@ -1,0 +1,7 @@
+{
+  "schema": "package-capability-status.response.v1",
+  "schema/v": 1,
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "state": "not-found",
+  "output/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI"
+}

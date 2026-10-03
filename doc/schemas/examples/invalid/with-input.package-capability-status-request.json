@@ -1,0 +1,9 @@
+{
+  "schema": "package-capability-status.request.v1",
+  "schema/v": 1,
+  "capability/id": "step@node-pkg:did:key:z6MkqLCddjE5YZJwa57QufUmh2op899Fr7nNeiDaDUBUCriC/qmail-task-pack",
+  "contract/digest": "sha256:33ChUnmGWilVZ1cGu-dpGQPSFGsZPX87l5uk1L2qROI",
+  "invocation/id": "package-invocation:01K8STEP0001",
+  "request/digest": "sha256:oseZJio848Ge9c3Zg789ErQ6s8QmInCRuQnctwVHOMA",
+  "input": {}
+}
