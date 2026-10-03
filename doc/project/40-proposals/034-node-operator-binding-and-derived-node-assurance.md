@@ -128,6 +128,15 @@ Minimum fields:
 | `node_acceptance` | Node-side acceptance of the passport-backed operator claim. |
 | `node_acceptance.signature` | Node signature over the canonical acceptance payload. |
 
+**V1 local issuance decision (2026-10-03):** Node issues immediately usable
+consent, not scheduled consent. The default `valid/from` is `issued_at`; an
+explicit start beyond the 30-second clock-skew tolerance is refused by
+verification at issuance time. Current-use and auto-ready checks always use the
+current instant. Retained future-start evidence is not current authority and
+does not count as an existing auto-ready binding. Supporting scheduled issuance
+later requires an explicit pending-consent/readiness contract; evaluating
+issuance at a future start is not a V1 workaround.
+
 The corresponding schema seed is:
 
 - `doc/schemas/node-operator-binding.v1.schema.json`
