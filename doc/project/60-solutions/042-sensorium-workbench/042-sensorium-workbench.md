@@ -5,6 +5,7 @@ Based on:
 - `doc/project/40-proposals/071-sensorium-workbench.md`
 - `doc/project/40-proposals/082-sensorium-interfaces.md`
 - `doc/project/40-proposals/083-sensorium-interactive-interfaces.md`
+- `doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md`
 - `doc/project/40-proposals/045-sensorium-local-enaction-stratum.md`
 - `doc/project/40-proposals/048-sensorium-os-connector-action-classes.md`
 - `doc/project/40-proposals/055-bounded-deferred-operation-contract.md`
@@ -167,6 +168,42 @@ The conformance matrix proves two controllers against a real PTY while Rust prov
 queue, handoff, stale-epoch refusal, restart, saturation, and partial failure.
 P083-012 now promotes that reviewed actuation boundary into Solution 046; only the
 P083-013 relay carrier remains deferred until P070 Phase 6A.
+
+Task-pack runs allocate separate instances from operator-configured workspace
+templates. The optional `instance/source` in `sensorium-virt.host.request.v1`
+is an identity witness, not a new allocation permission: the daemon rechecks
+the configured template, backend, exact limits and operational context, while
+Sensorium Virt recomputes the derived root and fixed replay key. Workbench
+retains the portable-to-local root mapping and forwards the same witness after
+restart. A substituted template, workspace, instance key, root or replay key
+refuses. This generic boundary supports both admitted VM backends and does not
+name a task domain. Story 013's live local Room and fresh Solver/Reviewer
+passages are proven by `P094-023d3`. Its separately scoped `P094-013` native
+Linux/KVM aggregate passed on 2026-10-03: fourteen checks cover actual qmail
+repair and seven verifier checks, independent HIL denial, restart/replay,
+native timeout and bounded verifier retry, open-relay refusal and confirmed
+disposal. The current image pins the qmail-only workspace mount and guest
+receipt contract; no per-request root authority is added. The retained evidence
+is `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-03.local-acceptance.linux-x86_64.json`.
+This is deterministic evidence-reactive inference with real execution, not
+real-model, federated or whole-proposal completion.
+
+The 2026-10-04 owner-boundary review adds per-template `instances/max` to the
+configured Workbench root (default 1, integer 1–64). Both VM brokers enforce
+it under their allocation lock; replay adds no slot and uncertain instances
+retain capacity until confirmed destruction. The identity tuple has one
+256-Unicode-scalar-value bound across schema/Python/Rust and shared escaped
+JCS vectors. The daemon also compares an applied patch's exact address,
+policy, generation and ordered operation/content receipt with its admitted
+stages, refusing to call a substituted receipt completion. This is owner
+enforcement, not authority obtained from a task pack. The local pause/resume
+proof changes the binding before a run; native active-run pause remains
+`P094-013c`. A separate fresh aggregate qualifies the V2 source, unchanged
+1,000 ms admitted retry budget and four run-bound destruction confirmations;
+all fourteen checks pass in
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.local-acceptance.linux-x86_64.json`
+(`s13-1791075637-44213c`). Owned quiescence and disk disposal precede promotion.
+This adds neither an active-run pause nor a real-model/federated claim.
 
 ## Date
 

@@ -12,12 +12,13 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema", "binding/ref", "flow/ref", "flow/digest", "passages/used", "passages/max",
+    "schema", "binding/ref", "binding/digest", "flow/ref", "flow/digest", "passages/used", "passages/max",
     "parent-product/refs", "visibility/ceiling", "budget/spent"
   ],
   "properties": {
     "schema": { "const": "agent.inference-flow-inspection.v1" },
     "binding/ref": { "$ref": "#/$defs/ref" },
+    "binding/digest": { "$ref": "#/$defs/digest" },
     "flow/ref": { "$ref": "#/$defs/ref" },
     "flow/digest": { "$ref": "#/$defs/digest" },
     "package/ref": { "$ref": "#/$defs/ref" },

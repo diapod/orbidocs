@@ -1,6 +1,7 @@
 {
   "schema": "agent.inference-flow-inspection.v1",
   "binding/ref": "agent-flow-binding:invalid",
+  "binding/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
   "flow/ref": "json-e-flow:invalid",
   "flow/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
   "package/ref": "extension-package:invalid",

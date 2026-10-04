@@ -13,6 +13,7 @@
     {
       "path": "control/me",
       "action": "write",
+      "operation": "modify",
       "content/digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
     },
     {

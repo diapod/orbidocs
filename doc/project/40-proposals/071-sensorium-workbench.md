@@ -2922,8 +2922,13 @@ stay here.
   after waiting for namespace PID 1 and checking unchanged roots. Its private
   status channel, not command output or exit code, supplies the proof. This clears
   taint and permits bounded verifier retry; other timeouts still destroy the VM.
-  That newer supervisor needs Linux/VM qualification in P094-013; the preceding
-  vfkit report does not attest it.
+  The preceding vfkit report does not attest that newer supervisor. P094-013
+  qualified it on Linux/KVM on 2026-10-03: timeout kills a detached descendant,
+  exit 124 remains a non-timeout, and a later observation succeeds in the same
+  VM. The actual host verifier retry loop separately recovers and exhausts its
+  one retry, with exactly two attempts each and one allocation. The passing
+  retry document is a protocol fixture, not a domain verdict. The retained
+  aggregate is `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-03.local-acceptance.linux-x86_64.json`.
 - [x] Define and enforce `sensorium-patch-policy.v1` (P094 tracker items `P094-003b`,
   `P094-008`, `P094-021`). The contract and owner validation are done (2026-09-26): the schema
   uses a line-oriented content shape (an anchored pattern every resulting line must
@@ -2967,6 +2972,14 @@ stay here.
   restoration, as does unconfirmed scratch cleanup. Checking the parent after
   commit detects displacement still visible then, not every transient move
   away and back; guest root is outside this defense boundary.
+  Native qualification follow-up (2026-10-03) preserves that same operation
+  in `sensorium-workbench-patch-install-result.v1`: an applied write requires
+  its create/modify operation and content digest, while a deletion carries
+  neither. Workbench compares the complete ordered guest receipt to the
+  admitted entries. A missing or substituted receipt is retained as
+  `unknown` (`patch-install-receipt-mismatch`), never relabelled as refusal
+  or retried. This pre-release contract correction does not drop the guest's
+  operation evidence to fit the older incomplete result shape.
   Before this, only patch artifacts and stage/apply results existed;
   nothing stated which patch a Workbench may admit. The policy is a closed, content-addressed
   contract naming the admitted path set, maximum file size, ownership, mode, and
@@ -2989,6 +3002,26 @@ stay here.
   `sensorium-workbench-process-run-result.v1`,
   `sensorium-workbench-patch-install-result.v1` and
   `sensorium-workbench-instance.v1`.
+  Local acceptance follow-up (2026-10-03) closes a host-admission mismatch:
+  a derived VM root carries a closed `instance/source` identity witness in
+  `sensorium-virt.host.request.v1` (configured template ref and instance key).
+  Rust recomputes its content-addressed root and fixed replay key, then checks
+  the original configured template, backend, exact limits and operational
+  context. The witness is not allocation authority. Missing, foreign or
+  substituted identities refuse. The Workbench retains the witness across
+  restart; the portable profile-root mapping stays a separate local-binding
+  choice, not a rewritten command or patch profile.
+  Independent review (2026-10-04) adds an owner-enforced per-template
+  `instances/max` on the configured Workbench root (default 1, integer 1–64),
+  distinct from the consumer's concurrent-run budget and each VM's limits.
+  Both backend brokers serialize quota admission and durable allocation;
+  replay consumes no new slot and uncertain instances count until confirmed
+  destruction. Concurrent/restart/destruction tests cover both backends.
+  Identity tuple members share a 256-Unicode-scalar-value limit without NUL
+  across the schema, Workbench and Rust, with non-ASCII/control JCS vectors.
+  The daemon independently binds the exact installed patch receipt to its
+  admitted stage address, policy, generation, operation and content digest;
+  a substituted `applied` result is unknown, not completion.
 - [~] Publish `sensorium-action-semantics.v1` (P094 tracker items `P094-003b`,
   `P094-008`). The contract, the default map and owner validation are done
   (2026-09-26): `ActionSemanticsMap::validate` admits only the listed triples,

@@ -2,6 +2,38 @@
 
 Snapshot date: 2026-09-05.
 
+Incremental task-pack checkpoint — 2026-10-03: the agreed P093 local A–E
+vertical supplies the package step capability. `P094-023d3` is complete through
+ten daemon process proofs: managed evidence-reactive Inquirium, a live local
+Room, fresh Solver/Reviewer Agents, actual admitted binding digests, signed
+rejection before any run and exact publication replay without more passages or
+spending. The host instruction commitment includes the P091 locale layer;
+Corpus consumes the validated inference carrier's single JSON text document.
+`P094-013` now has fresh measured Linux/KVM evidence: all fourteen acceptance
+checks pass, including seven qmail checks, independent HIL denial, exact
+restart/replay, native observation and bounded verifier retry, open-relay
+refusal and confirmed disposal. The pinned aggregate is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-03.local-acceptance.linux-x86_64.json`.
+Inference is deterministic and execution real; the real-model and federated
+profiles remain separate. These checkpoints supersede older local-invocation
+blockers and pending local-VM qualification notes below; they do not close
+P094 as a whole or the operator-promoted hard-MVP completeness requirement.
+
+Review checkpoint — 2026-10-04: the historical local report now retains its
+tested commit/tree under a durable Git GC root, with metadata produced by the
+repository annotator. Owner-side template capacity, Unicode identity bounds,
+exact patch receipts and primary-error-preserving cleanup have reaching tests.
+Binding pause/resume before any run is not active-run pause (`P094-013c` stays
+todo), and the old retry fixture proves attempts, not its nominal timeout.
+The fresh V2 aggregate passed all fourteen checks as
+`s13-1791075637-44213c`; its report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.local-acceptance.linux-x86_64.json`.
+It retains a clean-source commit/tree/GC ref, the unchanged 1,000 ms admitted
+retry budget and four run-bound destruction confirmations. Cleanup quiesced
+owned processes, reclaimed two disk copies (6 GiB), and restored the remote
+checkout clean. No unmeasured fields are added to the old run and no alpha or
+whole-P094 readiness is claimed.
+
 Incremental Node checkpoint — 2026-09-20: Story-000's dedicated local operator
 binding revoke/supersede actions are implemented, including signed withdrawal,
 idempotent replay, restart repair and readiness withdrawal; see

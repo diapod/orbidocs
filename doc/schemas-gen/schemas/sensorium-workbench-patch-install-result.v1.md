@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-workbench-patch-install-result.v1.schema.json`](../../schemas/sensorium-workbench-patch-install-result.v1.schema.json)
 
-Outcome of installing admitted staged files and deletions in a microVM workspace under one pinned patch policy (P094-021b). `applied` lists the installed entries; `refused` proves that no file changed; `unknown`, such as `patch-apply-partial`, proves nothing and the environment must be destroyed. The result is kept under its idempotency key, so a patch is never installed twice.
+Outcome of installing admitted staged files and deletions in a microVM workspace under one pinned patch policy (P094-021b/021g). `applied` preserves the guest commit receipt: every write names its admitted create/modify operation and content digest; a delete carries neither. Missing or substituted receipts are `unknown`, not proof of application. `refused` proves that no file changed; `unknown`, such as `patch-apply-partial`, proves nothing and the environment must be destroyed. The result is kept under its idempotency key, so a patch is never installed twice.
 
 ## Governing Basis
 
@@ -61,6 +61,9 @@ When:
 
 ```json
 {
+  "required": [
+    "outcome"
+  ],
   "properties": {
     "outcome": {
       "const": "applied"

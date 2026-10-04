@@ -2391,6 +2391,15 @@ Room prose.
 
 ### Cross-Cutting Package Composition and Turn Scheduling
 
+2026-10-03 (`P085-040`, pre-release contract amendment): the accepted
+`agent.inference-flow-inspection.v1` now requires `binding/digest`, the
+digest of the exact binding admitted by the Agent owner. A bind receipt's
+request identity is not this digest. Corpus consumers read the validated
+inspection through `agent.status` and check its Flow, package and activation
+generation before admitting their own binding. This prompt-free value adds
+no authority; it exposes an existing owner fact. Canonical fixtures, Node
+mirrors and import/export Schema Gate negatives move together.
+
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
 | `P085-043` | Bind supervised experiment-package components to dependency and effect-recovery contracts | `done` | **External dependency:** completed P080 `P080-021` through `P080-023`. A supervised middleware package referenced by an experiment package may carry an exact `middleware-component-contract.v1`; installation/config preflight rejects unknown components, contract-digest mismatch, missing or ambiguous providers, cycles, and invalid effect recovery. Runtime start/stop/restart and provider-loss transitions reuse the P080 graph rather than creating a package-local lifecycle engine. |

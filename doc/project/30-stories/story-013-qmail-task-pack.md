@@ -1,6 +1,10 @@
 # Story 013: An Operator Task Pack Repairs qmail Local Delivery in a Disposable VM
 
-Status: Accepted reference story for Proposal 094; the pack is built (`P094-011`) and its Debian x86_64 image is qualified in a real guest (`P094-011e`); acceptance (`P094-013`) remains
+Status: Accepted reference story for Proposal 094. The pack (`P094-011`),
+Debian x86_64 image (`P094-011e`) and local deterministic-inference/real-VM
+mechanism checkpoint (`P094-013`) are complete. Real-model (`P094-013b`),
+active-run pause qualification and federated (`P094-016`) evidence remain
+separate; this is not whole-proposal completion.
 
 Related:
 
@@ -29,8 +33,9 @@ branch.
 
 Two execution profiles share one story:
 
-- **Local profile.** The provider's own operator is the requester. Nothing is
-  published. It runs in two inference classes (see
+- **Local profile.** The provider's own operator is the requester. No Service
+  Offer is published to the network; signed Room facts are retained locally.
+  It runs in two inference classes (see
   [Inference Classes](#inference-classes)): deterministic inference with real
   execution (`P094-013`), and a real model (`P094-013b`).
 - **Federated profile (`P094-016`).** A remote requester finds the provider's
@@ -94,13 +99,13 @@ typed by hand:
 | Patch policy | `sensorium-patch-policy.v1` admitting only `control/locals`, `control/rcpthosts`, and `control/defaultdomain`, with size, owner, mode, and line-shape constraints |
 | Verifier | observation-mode command profile plus result schema; checks listed below |
 | Rollback | `recreate-prepared-system` |
-| HIL mode | `each-mutation` |
+| HIL mode | `each-mutation` minimum; a stricter local binding wins |
 | First step class | `observation` |
 | Refusal corpus | one fixture per refusal case below |
 
 The local binding supplies only the choices without a safe default: workspace
 root, VM backend, and the model/runtime when the flow admits more than one. It
-keeps the safe defaults: runtime network `none`, HIL `each-mutation`, one
+keeps the safe defaults: runtime network `none`, HIL `each-step`, one
 concurrent run, publication disabled until the operator enables it.
 
 ## Flow
@@ -113,14 +118,16 @@ concurrent run, publication disabled until the operator enables it.
 3. The requester states the goal in prose. Corpus opens a Room under the qmail
    thematic profile with solver and reviewer.
 4. The solver's first candidate relays mail to any host. The reviewer, reading
-   the exact candidate in its own passages, rejects it; no Chair decision and no
-   run follow.
+   the exact candidate in its own passages, rejects it; no execution-admitting
+   Chair decision or run follows. The Chair may request a revision.
 5. The solver proposes an observation: `qmail-showctl`, `qmail-qread` and
    service status. The Corpus adapter of the solver's node signs the proposal
    from the committed product; the reviewer's node signs the review; the Chair
    decides. The host creates a fresh contained instance (VM₁) from the pinned
-   image and prepared system, stamps each step as `observation`, and asks no
-   HIL.
+   image and prepared system and stamps each step as `observation`. An
+   `each-mutation` binding asks no HIL for observations; the conservative
+   default `each-step` binding also asks for them. Stricter HIL never changes
+   a step's effect class.
 6. The verifier fails on VM₁, as expected, and the run concludes
    `verification-failed`. The host destroys VM₁ and publishes the signed
    execution record as a Room fact.
@@ -236,6 +243,31 @@ The retained qualification is evidence for its recorded command digest. A
 later review tightened report admission and empty-mailbox checks; the image was
 then rebuilt and the revised qualifier passed again in a real guest.
 
+Local mechanism checkpoint (2026-10-03): the fresh P094-013 aggregate passes
+all fourteen checks, including the seven qmail checks through the production
+patch/run/HIL path, an independent fresh HIL-denial passage, exact restart
+replay and confirmed destruction. Native observations qualify the later
+PID-namespace supervisor; bounded host retry and all twenty independent
+image/open-relay steps also pass. The pinned, redacted report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-03.local-acceptance.linux-x86_64.json`.
+This is deterministic evidence-reactive inference with real execution, not
+completion of the real-model or federated profiles. The stricter local
+`each-step` default follows P094's existing narrowing rule; the profile's
+per-mutation minimum and effect classes are unchanged.
+
+Review qualification (2026-10-04) distinguishes binding pause/resume before
+any run from active-run pause. The latter is not qualified by the local
+checkpoint, so the combined lifecycle checkbox below remains open. The
+historical retry result proves the loop/attempt count, not its nominal
+30-second timeout. A separate fresh V2 aggregate passes all fourteen checks
+as `s13-1791075637-44213c`, with exact clean-source commit/tree/GC-ref retention,
+an unchanged 1,000 ms admitted retry budget and four run-bound destruction
+confirmations. Its report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.local-acceptance.linux-x86_64.json`.
+Owned processes quiesced before two disk copies were reclaimed, and the remote
+checkout is clean again. Historical reports are not enriched with unmeasured
+checks; active-run pause, real-model inference and federation remain open.
+
 ## Authority Contract
 
 - Prose, the requester's goal, and model output are inert. Only a schema-valid
@@ -325,18 +357,18 @@ must say which one.
 
 ## Done When
 
-- [ ] The pack builds reproducibly: `derive_pack_facts` produces every digest and
+- [x] The pack builds reproducibly: `derive_pack_facts` produces every digest and
   capability list, and conformance recomputes them.
-- [ ] A clean install, activation, and binding from safe defaults reach `runnable`
+- [x] A clean install, activation, and binding from safe defaults reach `runnable`
   with no hand-typed digest.
-- [ ] The local profile, with deterministic inference and real execution,
+- [x] The local profile, with deterministic inference and real execution,
   repairs the fixture through observation-first deliberation in a real Corpus
   Room, one HIL approval per mutation, and a passing verifier, then destroys the
   instance with confirmation; the reviewer rejects an unsafe proposal in its own
   passages, and the report names its evidence class (`P094-013`).
 - [ ] The local profile with a real model runs the same flow against the same
   verifier and refusal boundaries (`P094-013b`).
-- [ ] An open-relay "repair" is refused by the verifier in a retained negative
+- [x] An open-relay "repair" is refused by the verifier in a retained negative
   run.
 - [ ] Every refusal case above is reached at its owning boundary.
 - [ ] Restart, pause/resume, crash with an `unknown` step, and revocation behave
@@ -344,5 +376,5 @@ must say which one.
 - [ ] The federated profile delivers the recipe to a remote requester that
   admitted the exact profile digest, and a stale offer is refused after
   revocation (`P094-016`).
-- [ ] A structural check shows that shared P094 crates contain no qmail-specific
+- [x] A structural check shows that shared P094 crates contain no qmail-specific
   branch.

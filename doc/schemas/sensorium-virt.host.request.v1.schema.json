@@ -701,6 +701,7 @@
     "vfkitAllocate": {
       "type": "object",
       "additionalProperties": false,
+      "dependentRequired": {"instance/source": ["idempotency/key"]},
       "required": [
         "workspace/ref",
         "root/ref",
@@ -709,8 +710,19 @@
         "limits"
       ],
       "properties": {
+        "instance/source": {
+          "description": "Identity derivation only. The daemon independently admits this configured template's exact backend, limits and context; this witness grants no additional authority.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["template/root-ref", "instance/key"],
+          "properties": {
+            "template/root-ref": {"$ref": "#/$defs/ref", "maxLength": 256},
+            "instance/key": {"$ref": "#/$defs/ref", "maxLength": 256, "description": "1..256 Unicode scalar values, not UTF-8 bytes; the exact tuple is canonically hashed without normalization."}
+          }
+        },
         "workspace/ref": {
-          "$ref": "#/$defs/ref"
+          "$ref": "#/$defs/ref",
+          "maxLength": 256
         },
         "root/ref": {
           "$ref": "#/$defs/ref"

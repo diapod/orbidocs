@@ -17,6 +17,7 @@ A bounded prompt-free operator projection for one Agent inference Flow.
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `agent.inference-flow-inspection.v1` |  |
 | [`binding/ref`](#field-binding-ref) | `yes` | ref: `#/$defs/ref` |  |
+| [`binding/digest`](#field-binding-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`flow/ref`](#field-flow-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`flow/digest`](#field-flow-digest) | `yes` | ref: `#/$defs/digest` |  |
 | [`package/ref`](#field-package-ref) | `no` | ref: `#/$defs/ref` |  |
@@ -92,6 +93,12 @@ Then:
 
 - Required: `yes`
 - Shape: ref: `#/$defs/ref`
+
+<a id="field-binding-digest"></a>
+## `binding/digest`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/digest`
 
 <a id="field-flow-ref"></a>
 ## `flow/ref`

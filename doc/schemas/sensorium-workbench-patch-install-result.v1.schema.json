@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:sensorium-workbench-patch-install-result:v1",
   "title": "Sensorium Workbench Patch Install Result v1",
-  "description": "Outcome of installing admitted staged files and deletions in a microVM workspace under one pinned patch policy (P094-021b). `applied` lists the installed entries; `refused` proves that no file changed; `unknown`, such as `patch-apply-partial`, proves nothing and the environment must be destroyed. The result is kept under its idempotency key, so a patch is never installed twice.",
+  "description": "Outcome of installing admitted staged files and deletions in a microVM workspace under one pinned patch policy (P094-021b/021g). `applied` preserves the guest commit receipt: every write names its admitted create/modify operation and content digest; a delete carries neither. Missing or substituted receipts are `unknown`, not proof of application. `refused` proves that no file changed; `unknown`, such as `patch-apply-partial`, proves nothing and the environment must be destroyed. The result is kept under its idempotency key, so a patch is never installed twice.",
   "type": "object",
   "additionalProperties": false,
   "x-dia-workflow": "project",
@@ -64,11 +64,53 @@
               "delete"
             ]
           },
+          "operation": {
+            "enum": [
+              "create",
+              "modify"
+            ]
+          },
           "content/digest": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "action"
+              ],
+              "properties": {
+                "action": {
+                  "const": "write"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "operation",
+                "content/digest"
+              ]
+            },
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "operation"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "content/digest"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
       }
     },
     "error/code": {
@@ -81,6 +123,9 @@
   "allOf": [
     {
       "if": {
+        "required": [
+          "outcome"
+        ],
         "properties": {
           "outcome": {
             "const": "applied"
