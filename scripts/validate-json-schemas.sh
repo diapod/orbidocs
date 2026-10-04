@@ -104,6 +104,9 @@ schema_for_file() {
     *.operator-task-experiment-candidate.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-candidate.v1.schema.json"
       ;;
+    *.operator-task-experiment-draft.json)
+      echo "$SCHEMAS_DIR/operator-task-experiment-draft.v1.schema.json"
+      ;;
     *.operator-task-experiment-plan.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-plan.v1.schema.json"
       ;;

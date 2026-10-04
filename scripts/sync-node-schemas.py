@@ -56,6 +56,7 @@ SCHEMA_WHITELIST = (
     "operator-task-readiness.v1.schema.json",
     "operator-task-offer-draft.v1.schema.json",
     "operator-task-experiment-candidate.v1.schema.json",
+    "operator-task-experiment-draft.v1.schema.json",
     "operator-task-experiment-plan.v1.schema.json",
     "operator-task-patch.v1.schema.json",
     "operator-task-hil-request.v1.schema.json",
@@ -531,6 +532,7 @@ EXAMPLE_WHITELIST = (
     "fixture.operator-task-readiness.json",
     "fixture.operator-task-offer-draft.json",
     "fixture.operator-task-experiment-candidate.json",
+    "fixture.operator-task-experiment-draft.json",
     "fixture.operator-task-experiment-plan.json",
     "fixture.operator-task-patch.json",
     "fixture.operator-task-hil-request.json",
@@ -977,6 +979,11 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-material.operator-task-experiment-draft.json",
+    "both-representations.operator-task-experiment-draft.json",
+    "text-path-traversal.operator-task-experiment-draft.json",
+    "text-delete.operator-task-experiment-draft.json",
+    "unknown-authority.operator-task-experiment-draft.json",
     "inline-input.package-capability-view.json",
     "wrong-action.package-capability-diagnostic.json",
     "absent-without-target.config-source-binding.json",

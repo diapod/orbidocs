@@ -34,6 +34,49 @@ owned processes, reclaimed two disk copies (6 GiB), and restored the remote
 checkout clean. No unmeasured fields are added to the old run and no alpha or
 whole-P094 readiness is claimed.
 
+Native task-pack checkpoint — 2026-10-04: `P094-011f` and `P094-013c`
+now have separate clean-source vfkit proofs, superseding the active-pause
+todo note above. Image run `s13-1791110299-dcd341` passes twenty qmail
+image/open-relay steps, three observation checks and the actual retry loop
+with unchanged command budgets; all three allocations are disposed. Run
+`s13-1791110411-367b28` pauses after observation before mutation, retains
+`refused/local-binding/paused` plus destruction, and resume/restart/replay
+retain one measured admission. Reports, commit/tree/immutable Git refs and
+a verified private source bundle retain the tested snapshot; the primary
+Node worktree stays uncommitted on its original branch. These mechanism
+proofs do not qualify real-model deliberation and do not enrich historical Linux runs
+with unmeasured assertions.
+
+Real-model task-pack checkpoint — 2026-10-04: `P094-013b` and `P094-013b1`
+are done in the scoped local MLX/vfkit profile. Run `s13-1791125994-b84cc3`
+retains fresh independent Solver/Reviewer Agents and sessions, an observation
+with an actual failed verifier, model-authored exact UTF-8 patch material,
+independent review and seven passing qmail checks. A fresh second passage
+refuses mutation HIL before any mutation starts. Each passage uses two cycles,
+four Agent passages and two native runs; restart/exact replay preserves
+publication and spending, and run/template destruction is confirmed. The
+redacted report pins clean source, immutable Git ref, Flow and model/image bytes:
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.real-mlx.macos-arm64.json`.
+The source bundle verifies and the primary worktree remains uncommitted.
+Federation, unknown-step crash qualification and the proposal-wide/alpha
+blocker remain open; no earlier evidence is retrospectively enriched.
+
+Task-pack review closeout — 2026-10-04: image `s13-1791134305-b2005e`, active
+pause `s13-1791134416-bac780` and complete real MLX `s13-1791134566-6ed803`
+are freshly qualified on one clean source snapshot, replacing older-source
+checkpoints without altering their report bytes. The current MLX report
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.review.real-mlx.macos-arm64.json`
+retains one exact charge and all replay/restart budget snapshots for each of
+eight fresh Agents. Publication and authored patch bytes commit atomically;
+the same read-only composition serves compilation, execution, review and HIL.
+The replay checkpoint follows durable run admission and allocation, before the
+first HIL authorizes any guest step. Missing usage is explicitly estimated,
+not free or fabricated provider telemetry. Native cleanup is confirmed and
+all three source refs survive temporary-branch removal in a verified bundle.
+The minimal pending-proposal turn witness is newly tracked as `P094-023b1`;
+unknown in-flight crash recovery, federation and proposal-wide/alpha blockers
+remain open. This closes review findings, not the whole P094 milestone.
+
 Incremental Node checkpoint — 2026-09-20: Story-000's dedicated local operator
 binding revoke/supersede actions are implemented, including signed withdrawal,
 idempotent replay, restart repair and readiness withdrawal; see

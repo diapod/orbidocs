@@ -1,0 +1,23 @@
+{
+  "schema": "operator-task-experiment-draft.v1",
+  "schema/v": 1,
+  "candidate": {
+    "schema": "operator-task-experiment-candidate.v1",
+    "schema/v": 1,
+    "steps": [
+      {"step/id": "repair-control", "kind": "patch", "profile/ref": "patch-policy:example", "patch/ref": "draft-patch:repair-control"}
+    ]
+  },
+  "patches": [
+    {
+      "step/id": "repair-control",
+      "patch": {
+        "schema": "operator-task-patch.v1", "schema/v": 1,
+        "patch-policy/ref": "patch-policy:example",
+        "files": [
+          {"root/ref": "workspace-root:example", "path": "control/me", "operation": "write", "content/base64": "ZXhhbXBsZS5pbnZhbGlkCg=="}
+        ]
+      }
+    }
+  ]
+}

@@ -40,7 +40,7 @@ A metadata-only structured intermediate or final product. Retained bytes are add
 | [`retained`](#field-retained) | `yes` | boolean |  |
 | [`output-schema/ref`](#field-output-schema-ref) | `yes` | ref: `#/$defs/ref` |  |
 | [`model/snapshot`](#field-model-snapshot) | `yes` | ref: `#/$defs/ref` |  |
-| [`budget/used`](#field-budget-used) | `yes` | ref: `#/$defs/budget` |  |
+| [`budget/used`](#field-budget-used) | `yes` | ref: `#/$defs/budget` | Incremental Agent budget booked by product commit, not total passage usage. Token/cost axes already booked through a durable producer charge are zero here and must not be charged again. The host verifies that charge for the exact Agent, request and runtime before committing the product. Original provider usage and the host accounting receipt belong to the retained inference result. Absent or malformed token usage requires an explicitly estimated producer charge under the admitted preflight policy, never silent free execution. |
 | [`visibility`](#field-visibility) | `yes` | enum: `private`, `operator`, `shared` |  |
 | [`classification`](#field-classification) | `yes` | ref: `classification.v1.schema.json` |  |
 | [`committed/at`](#field-committed-at) | `yes` | string |  |
@@ -174,6 +174,8 @@ Then:
 
 - Required: `yes`
 - Shape: ref: `#/$defs/budget`
+
+Incremental Agent budget booked by product commit, not total passage usage. Token/cost axes already booked through a durable producer charge are zero here and must not be charged again. The host verifies that charge for the exact Agent, request and runtime before committing the product. Original provider usage and the host accounting receipt belong to the retained inference result. Absent or malformed token usage requires an explicitly estimated producer charge under the admitted preflight policy, never silent free execution.
 
 <a id="field-visibility"></a>
 ## `visibility`

@@ -1,10 +1,11 @@
 # Story 013: An Operator Task Pack Repairs qmail Local Delivery in a Disposable VM
 
 Status: Accepted reference story for Proposal 094. The pack (`P094-011`),
-Debian x86_64 image (`P094-011e`) and local deterministic-inference/real-VM
-mechanism checkpoint (`P094-013`) are complete. Real-model (`P094-013b`),
-active-run pause qualification and federated (`P094-016`) evidence remain
-separate; this is not whole-proposal completion.
+Debian x86_64 image (`P094-011e`), Ubuntu arm64/vfkit image (`P094-011f`),
+local deterministic-inference/real-VM checkpoint (`P094-013`) and active-run
+pause mechanism (`P094-013c`) and local real-MLX checkpoint (`P094-013b`)
+are complete. Federated (`P094-016`) evidence remains separate; this is not
+whole-proposal completion.
 
 Related:
 
@@ -214,6 +215,34 @@ acceptance. Attribute it to model capability only after excluding runtime,
 evidence-delivery, orchestration and budget failures; otherwise retain the
 corresponding failure classification.
 
+On 2026-10-04, fresh clean-source run `s13-1791125994-b84cc3` qualified this
+class on macOS arm64/vfkit with Qwen3-Coder MLX. The observation's failed
+verifier feeds fresh Solver/Reviewer Agents; the Solver authors inert UTF-8
+patch material and an independent review precedes all effects. The positive
+repair passes all seven checks; a fresh second passage refuses mutation HIL
+without starting a mutation. Each uses two cycles, four Agent passages and
+two native runs, with separate startup accounting, exact restart/replay and
+confirmed destruction of runs and templates. The immutable source and asset
+pins are in
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.real-mlx.macos-arm64.json`.
+This is local real-model/native evidence, not a federated or alpha claim.
+
+Follow-up review qualification on 2026-10-04 repeats the entire profile as
+`s13-1791134566-6ed803` and retains actual token/cost budgets for all eight
+fresh Agents. One producer charge explains each total; exact replay, daemon
+restart, post-restart replay and completion restart leave it unchanged. The
+replay checkpoint is after durable experiment admission and allocation, with
+the first each-step HIL unanswered and no started guest steps. A stopped loop
+does not regain execution authority. The current report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.review.real-mlx.macos-arm64.json`.
+The independent image and active-pause proofs were repeated as
+`s13-1791134305-b2005e` and `s13-1791134416-bac780`, using the same clean source
+`05bd494b5521b52417da6fbec82a7eda141cb2c3` and tree
+`ef4bd36b9c6b791797654d180ae59b92f5c522e9`, with retained Git GC roots and a
+verified private bundle. Earlier reports retain only their original assertions.
+The separate pending-proposal/ephemeral-turn recovery boundary is open as
+`P094-023b1`; this is not a full crash-recovery, federation or alpha claim.
+
 ## Verifier Checks
 
 The run succeeds only if all checks pass under the exact verifier contract:
@@ -256,8 +285,9 @@ completion of the real-model or federated profiles. The stricter local
 per-mutation minimum and effect classes are unchanged.
 
 Review qualification (2026-10-04) distinguishes binding pause/resume before
-any run from active-run pause. The latter is not qualified by the local
-checkpoint, so the combined lifecycle checkbox below remains open. The
+any run from active-run pause. The Linux checkpoint does not qualify the
+latter; the separate native pause checkpoint below does. Unknown in-flight
+crash recovery remains open, so the combined lifecycle checkbox stays open. The
 historical retry result proves the loop/attempt count, not its nominal
 30-second timeout. A separate fresh V2 aggregate passes all fourteen checks
 as `s13-1791075637-44213c`, with exact clean-source commit/tree/GC-ref retention,
@@ -266,7 +296,21 @@ confirmations. Its report is
 `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.local-acceptance.linux-x86_64.json`.
 Owned processes quiesced before two disk copies were reclaimed, and the remote
 checkout is clean again. Historical reports are not enriched with unmeasured
-checks; active-run pause, real-model inference and federation remain open.
+checks. These historical runs do not qualify active-run pause or real models.
+
+Separate native checkpoints on 2026-10-04 now qualify the second image
+variant and active-run pause. Image run `s13-1791110299-dcd341` passes all
+twenty image/open-relay steps, three native timeout/exit/recovery checks
+and the real retry loop with unchanged 1,000 ms command budgets and three
+disposed allocations. Run `s13-1791110411-367b28` pauses after observation
+while mutation awaits HIL; it retains `refused/local-binding/paused`, no
+mutation and confirmed destruction, and resume/restart/replay retain one
+admission measured from the journal. The source-pinned reports are
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.image-qualification.macos-arm64.json`
+and
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.active-pause.macos-arm64.json`.
+These are mechanism proofs, not MLX deliberation. The combined lifecycle
+checkbox still includes crash/revocation boundaries beyond active pause.
 
 ## Authority Contract
 
@@ -352,8 +396,9 @@ must say which one.
 - **First acceptance architecture.** Resolved 2026-09-29: the first variant is
   Debian 13 x86_64 on Cloud Hypervisor (Linux/KVM). Debian 13 ships no qmail,
   so the image installs notqmail 1.09 as a local package built from the signed
-  release. The vfkit arm64 variant for macOS is `P094-011f`; the profile's
-  `image-variants` list carries it without changing the story contract.
+  release. The Ubuntu 24.04 arm64/vfkit variant (`P094-011f`) is qualified
+  on 2026-10-04; the profile now carries both variants with the same
+  prepared-system binding, without changing the story's verifier contract.
 
 ## Done When
 
@@ -366,7 +411,7 @@ must say which one.
   Room, one HIL approval per mutation, and a passing verifier, then destroys the
   instance with confirmation; the reviewer rejects an unsafe proposal in its own
   passages, and the report names its evidence class (`P094-013`).
-- [ ] The local profile with a real model runs the same flow against the same
+- [x] The local profile with a real model runs the same flow against the same
   verifier and refusal boundaries (`P094-013b`).
 - [x] An open-relay "repair" is refused by the verifier in a retained negative
   run.

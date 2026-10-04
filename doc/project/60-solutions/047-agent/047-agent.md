@@ -210,7 +210,15 @@ Agent-global. A host-local execution claim prevents concurrent invocation of one
 `passage/ref`, but provider-native idempotency remains required beyond the host.
 Failure after admission records a durable closed refusal trace and releases the
 ephemeral claim for exact retry. Token and provider-cost usage is normalized before
-charging the Agent budget. A newly written CAS object is committed with the product
+the producer books its single durable Agent charge. Product commit verifies that
+receipt against the exact Agent, request and runtime; its `budget/used` is only
+the incremental commit delta (time and steps, with already charged token/cost
+axes zero), not total passage usage. Missing or malformed token metering uses
+the admitted preflight estimate with `charge_kind: estimated`; provider usage
+is not fabricated. A zero cost without an admitted price is not proof of free
+execution. Original usage and the host-owned receipt remain in the retained
+inference result. Exact replay and restart preserve those bytes and all spent
+axes without another charge. A newly written CAS object is committed with the product
 fact or removed on commit refusal, with cleanup failure surfaced explicitly.
 
 Concrete passage facts carry full `classification.v1` provenance, while the binding

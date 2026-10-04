@@ -205,6 +205,33 @@ all fourteen checks pass in
 (`s13-1791075637-44213c`). Owned quiescence and disk disposal precede promotion.
 This adds neither an active-run pause nor a real-model/federated claim.
 
+The separate native 2026-10-04 checkpoints complete the arm64/vfkit image
+variant (`P094-011f`) and active-run pause (`P094-013c`). The image passes
+the same twenty qmail checks, native timeout/recovery and actual retry
+budget, with three checked native disposals. Pausing a live run while
+mutation HIL waits retains `refused/local-binding/paused` and its
+destruction confirmation; resume/restart/replay preserve one admission
+measured from the run journal. The prepared workspace's permissions are
+preserved by bootstrap, not modified to create protocol state. The pinned
+reports are
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.image-qualification.macos-arm64.json`
+and
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.active-pause.macos-arm64.json`.
+The native owner also destroys the template VM before promotion; a daemon
+stop alone is not cleanup. These mechanism reports do not qualify real-model
+deliberation or federation.
+
+A separate clean-source run `s13-1791125994-b84cc3` completes local real-MLX
+deliberation (`P094-013b`) on 2026-10-04. Separate fresh Agents/sessions
+author and independently review the repair from actual failed-verifier evidence.
+The patch owner's inert text/binary publication seam (`P094-013b1`) preserves
+exact model bytes; it grants no execution authority. All seven qmail checks pass,
+and a fresh mutation-HIL denial starts no mutation. Restart/replay preserves
+publication and spending; run and template destruction are confirmed. The
+report binds clean source, Flow, image and model/runtime assets:
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.real-mlx.macos-arm64.json`.
+Federation and proposal-wide/alpha completion remain separate, open gates.
+
 ## Date
 
 2026-07-21

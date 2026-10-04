@@ -32,7 +32,10 @@
     "retained": { "type": "boolean" },
     "output-schema/ref": { "$ref": "#/$defs/ref" },
     "model/snapshot": { "$ref": "#/$defs/ref" },
-    "budget/used": { "$ref": "#/$defs/budget" },
+    "budget/used": {
+      "$ref": "#/$defs/budget",
+      "description": "Incremental Agent budget booked by product commit, not total passage usage. Token/cost axes already booked through a durable producer charge are zero here and must not be charged again. The host verifies that charge for the exact Agent, request and runtime before committing the product. Original provider usage and the host accounting receipt belong to the retained inference result. Absent or malformed token usage requires an explicitly estimated producer charge under the admitted preflight policy, never silent free execution."
+    },
     "visibility": { "enum": ["private", "operator", "shared"] },
     "classification": { "$ref": "classification.v1.schema.json" },
     "committed/at": { "type": "string", "format": "date-time" },

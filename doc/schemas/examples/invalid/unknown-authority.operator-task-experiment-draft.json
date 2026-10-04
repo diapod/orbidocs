@@ -1,0 +1,32 @@
+{
+  "schema": "operator-task-experiment-draft.v1",
+  "schema/v": 1,
+  "candidate": {
+    "schema": "operator-task-experiment-candidate.v1",
+    "schema/v": 1,
+    "steps": [
+      {
+        "step/id": "repair",
+        "kind": "patch",
+        "profile/ref": "patch-policy:example",
+        "patch/ref": "draft-patch:repair"
+      }
+    ]
+  },
+  "patches": [
+    {
+      "step/id": "repair",
+      "patch/text": {
+        "patch-policy/ref": "patch-policy:example",
+        "files": [
+          {
+            "root/ref": "workspace-root:example",
+            "path": "control/me",
+            "content/text": "example.invalid\n"
+          }
+        ]
+      }
+    }
+  ],
+  "execution/granted": true
+}

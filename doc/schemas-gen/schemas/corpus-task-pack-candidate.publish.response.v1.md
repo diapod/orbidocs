@@ -17,6 +17,7 @@ The host's answer to a task-pack candidate publication: the publication record, 
 | Definition | Shape | Description |
 |---|---|---|
 | [`publication`](#def-publication) | object |  |
+| [`authoredPatch`](#def-authoredpatch) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -41,5 +42,10 @@ The host's answer to a task-pack candidate publication: the publication record, 
 
 <a id="def-publication"></a>
 ## `$defs.publication`
+
+- Shape: object
+
+<a id="def-authoredpatch"></a>
+## `$defs.authoredPatch`
 
 - Shape: object
