@@ -125,7 +125,8 @@ is confirmed. The new selective report is
 `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review.physical-market.real-mlx.macos-arm64.json`,
 on retained clean source `bfb23a92d7b8b1c3a4145dab058e4ffef41b186e`.
 Recipe size and witness horizon/capacity refusals are explicit; remaining
-`016a/b` fault gates, alpha-node readiness and whole P094 stay partial.
+The then-open `016a/b` fault gates are closed by the later checkpoint below;
+alpha-node readiness and whole P094 stay partial.
 
 Market revocation checkpoint — 2026-10-05: `P094-016a1/016b2` are done.
 Fresh run `s13-1791209590-7ead33` on clean retained source `ab83ad6b`
@@ -138,14 +139,40 @@ Deterministic Dator tests separately cover lost ACK and backoff; this is not a
 physical lost-ACK claim. The selective report is
 `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.revocation.physical-market.real-mlx.macos-arm64.json`.
 Story 013's federated delivery/stale-offer checkbox is now satisfied. The
-composed deterministic peer profile, unknown in-flight VM recovery, P091-backed
-bindings and operator HOWTO remain separate; whole P094 and alpha stay partial.
+then-open composed deterministic peer profile is now qualified below. Unknown
+in-flight VM recovery, P091-backed bindings and the operator HOWTO remain
+separate; whole P094 and alpha stay partial.
 
 Review follow-up (2026-10-05): `016b2` remains a dated V1 checkpoint, not proof
 of the new destination pin or normal periodic refresh. `P094-016b3` tracks the
 physical V2 rerun and periodic refresh; local regressions now distinguish retry
 classes, fence relay/topic drift and isolate/count publication faults. The V1
 report used explicit resync and did not attribute its ten connections by path.
+
+Composed peer closeout (2026-10-05): fixture `s13-1791230227-4c71e7` and real
+MLX `s13-1791230693-3915ab` pass on two physical hosts at clean retained source
+`4db6334062f712a88ca5b28be53fb3bb847b9684`. This closes `P094-016a/016b/016b3`
+and the aggregate `016`: real HTTPS/peer AD/vfkit, four passages/two native
+executions, seven qmail checks, signed recipe, cached-order refusal,
+pinned-target recovery, periodic signed-withdrawal convergence with no resync,
+unchanged charges and confirmed cleanup. Separate report-owned inference
+classes prevent fixture promotion to MLX. Both selective reports are linked
+from Story 013 and P094. Earlier firewall/cursor diagnostic runs remain failed,
+not rewritten. Unknown in-flight recovery, P091-backed bindings, HOWTO and the
+proposal acceptance decision remain; whole P094 and alpha are still partial.
+
+Peer-evidence review (2026-10-05): the retained periodic reports have a
+test-declared zero resync count, not an owner measurement, and the fixture's
+check names overstate model authorship. Review closeout on 2026-10-06:
+`P094-016b4` is done with fixture `s13-1791237370-0f1a9e` and real MLX
+`s13-1791236017-c73bf3` on retained source `210111be`: corrected labels and
+exclusions, owner-measured resync `0 -> 0`, exact withdrawal, unchanged charges
+and confirmed cleanup. Both selective exports pass V3. A post-processing-only
+cap distinguishes a 512 KiB composite report from a 256 KiB single-owner report,
+without rewriting measured bytes or claiming a new runtime source.
+`P094-007b2` separately records the missing explicit
+operator recovery after a permanent relay-destination refusal. No readiness
+upgrade for whole P094 or alpha follows from this bounded qualification.
 
 Incremental Node checkpoint — 2026-09-20: Story-000's dedicated local operator
 binding revoke/supersede actions are implemented, including signed withdrawal,

@@ -2498,7 +2498,7 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-013b1` | Admit typed Solver-authored patch material at candidate publication | `003a`, `009`, `022b`, `023b` | `done` | 2026-10-04 (Decision 30): the closed bounded draft admits exactly one binary/deletion `patch` or write-only UTF-8 `patch/text` representation per exact step-local attachment. The existing patch owner mechanically encodes exact text, preserves Unicode/line endings, validates the shared decoded byte budget and derives refs before retention. Candidate publication binds the normalized inert material to the exact retained Agent product, checks quota before storage and exposes only authored ref/size bindings; independent review receives verified contents. Regressions cover malformed/oversized and both/neither forms, shared budgets, substituted/missing refs, quota and commit failures, publication authority and exact restart/replay. Clean-source real-model run `s13-1791125994-b84cc3` independently verifies model-authored repair, not selection of an operator-prepublished expected patch. No shell, direct Workbench authority or host-authored repair is added; compilation, current authority and HIL remain mandatory. Review closeout: material now commits in the publication owner's one SQLite transaction, without filesystem writes inside it, and cascades with publication retention. Compilation, execution, review and HIL share the read-only published-patch port; the reaching HIL regression uses no manual patch copy. The UTF-8 projection is verified end to end, the draft has five canonical negative vectors, and fresh real MLX run s13-1791134566-6ed803 proves authored material under the final receipt guard. Ordered steps may revisit a target; each patch's targets remain unique. |
 | `P094-014` | Publish operator HOWTO and troubleshooting guidance | `013`, `016` | `todo` | English and Polish HOWTOs describe only implemented commands and routes, teach qmail pack preparation and use, explain refusal/recovery states through the refusal table's next actions, and distinguish package provenance, local trust, and current execution authority. |
 | `P094-015` | Review, ledger, solution, and readiness synchronization | `014` | `todo` | Code review finds no parallel authority or unbounded executor; Node implementation ledger, generated view, relevant solutions, capability/status matrices, and readiness snapshot distinguish implemented evidence from remaining proposal scope. Promotion decision is recorded explicitly. |
-| `P094-016` | Run multi-node publication acceptance | `007`, `013` | `in-progress` | Positive physical `016b1` and revocation/recovery `016b2` are measured, including cached signed-order refusal at Dator after provider revocation. The composed deterministic-inference peer profile remains in `016a`; local deterministic and physical MLX evidence are not interchangeable. The federated Story 013 delivery/stale-offer criterion is met, without claiming whole-proposal completion. |
+| `P094-016` | Run multi-node publication acceptance | `007`, `013` | `done` | Review closeout 2026-10-06: fixture `s13-1791237370-0f1a9e` and MLX `s13-1791236017-c73bf3` pass V3 on two physical hosts and the same retained source `210111be`. HTTPS/peer AD/vfkit, exact signed delivery, cached-order refusal, pinned withdrawal recovery, owner-measured zero resync and cleanup pass. `016b4` closes the evidence-label/measurement review; classes remain separate. Whole P094, unknown in-flight VM recovery and alpha remain separate. |
 | `P094-017` | Admit effects outside a contained environment | `015` | `deferred` | Uncontained steps, including Interface actuation, are mapped to P080 classes (`transactional-withheld`, `compensatable`, `irreversible-external`) through owner sources and admitted only with the P080 recovery contract, P093 outcome and reconciliation semantics, and crash tests at every admission point. |
 | `P094-019a` | Add the command-profile effect mode to the Workbench contract | `001` | `done` | 2026-09-26: `sensorium-command-profile.v1` gained an optional `effect/mode: observation \| mutation` in place (v1 was an unreleased draft), absent meaning `mutation`; `CommandProfile::declared_effect_mode` reads it, with a qmail observation vector and a negative vector. The declaration alone never makes a step an observation. Mirrored in P071 Phase 6. |
 | `P094-019b` | Enforce the Workbench command-profile effect mode | `019a` | `done` | 2026-09-28. The Workbench guest enforces a declared observation in two layers instead of trusting it. `spawn-process` carries `effect/mode: observation` with 1 to 8 workspace-relative `observation/roots` (`sensorium-virt.host.request.v1`); `orbiplex-workbench-guest` re-executes itself as a sandbox helper that enters new mount, IPC, network and UTS namespaces, remounts every mount read-only, adds private scratch and an empty read-only `/run`, sets `no_new_privs` and drops to uid and gid 65534 before `exec`, and it digests the declared roots before and after the step. A change refuses the step as `observation-effect-detected` with guest-execution evidence, taints the guest, and makes the host destroy the environment through `environment.destroy` (`P094-018`); a non-Linux guest refuses observation as `effect-mode-unenforceable` and a failed sandbox step as `observation-sandbox-failed`, both before anything runs. The refusal fixture is the real-vfkit deployment check `observation-enforced` (18 of 18 passed): on the pinned GNU/Linux guest an observation runs as uid 65534 with an empty `/run`, a write into a world-writable directory fails with `Read-only file system`, and the file never exists. Unit tests cover detection, taint, metadata and link handling, the refusal off Linux, and the host's destruction decision. `open-pty` stays a mutation, and reading this evidence into readiness belongs to `P094-008`. |
@@ -2539,15 +2539,16 @@ valid and is not silently promoted to federation.
 | `P094-007a` | Freeze and validate ordinary offer task identity | `006a` | `done` | 2026-10-05: the closed namespaced ordinary-offer task identity, canonical schemas/mirrors and positive/negative Schema Gate vectors pin exact profile and prepared-system digests. The publication owner derives the ordinary offer from the admitted profile/binding and rejects changed policy or source material; no private capability or local execution authority enters the offer. Pure publication proofs and six owner Schema Gate tests pass. |
 | `P094-007b` | Commit operator-approved publication and recover withdrawal | `007a` | `done` | 2026-10-05: exact draft approval, ordinary signer/catalog publication, immutable Dator journal, BDO/Scheduler withdrawal recovery and immediate local admission fences are implemented. Dator policy, source, retry/exhaustion and unrelated-witness negatives pass; clean-source real-MLX/vfkit local market run s13-1791156863-88b339 proves deployed signing/publication, exact replay and withdrawal after restart. Physical discovery/order/AD-result qualification is separately P094-016. |
 | `P094-007b1` | Use an explicit local Agora SQLite backend | P035-local-sqlite-service | `done` | 2026-10-05: Decision 42 is implemented using the existing signed relay/store/index/retention contracts; status distinguishes local durable admission from Matrix forwarding. Backend/configuration and restart tests pass. Real-MLX/vfkit local market run `s13-1791156863-88b339` proves deployed ordinary Dator offer signing/publication, exact replay and withdrawal after restart. It is local evidence, not the separate remote discovery/order/AD-result claim of `016`. |
+| `P094-007b2` | Explicit owner recovery after relay migration or terminal destination refusal | `007b` | `todo` | Freeze authority and an auditable transition over the retained signed revision, old/new destinations and credential scope before adding a recovery API. No automatic retarget, journal deletion, attempt reset or reactivation of a revoked binding. Current pending recovery requires the original configured destination; terminal `destination-changed` cannot be reopened by restart. Preserve old routing and coordinate withdrawal with its owner until this exists. |
 | `P094-007c` | Link an admitted remote order to the provider's local round | `007b` | `done` | Physical run `s13-1791194095-ddff55` pins the exact signed revision and task profile, enters Dator through peer AD, explicitly links a provider-owned round, and delivers the signed verified recipe under independent requester policy. Exact completion replay and accounting survive restart without re-execution. |
 | `P094-007c1` | Retain exact queued order bytes and the explicit local link | `007b` | `done` | Dator source/dispatch receipt commit in one transaction; no automatic execution; host verifies admitted bytes, signed offer, current publication/binding and one unique provider-owned round. Source/substitution/restart tests and deployed physical run `s13-1791194095-ddff55` pass. |
 | `P094-007c2` | Publish an operator-approved verified recipe through Corpus | `007c1` | `done` | Review requalification on 2026-10-05: fresh physical run `s13-1791203388-e6aa00` satisfies Decision 43 and `007c4`. Mechanically project exact verified execution/candidate/patch sources; retain Solver/Reviewer provenance; explicit local approval and signed V2 publication survive restart/replay without another inference, publication or charge. Four real passages, seven qmail checks and all four unchanged Agent charge receipts are retained. Historical observation-only repair findings are not promoted. |
 | `P094-007c4` | Bind exact patch review coverage before admission and recipe publication | `007c2` | `done` | 2026-10-05: structured signed file/content claims are compared with exact owner bytes before signing, experiment admission (including imports) and new recipe publication. Named substitution/missing/duplicate coverage tests pass. Fresh physical MLX run `s13-1791203388-e6aa00` links each of `locals`, `rcpthosts` and `defaultdomain` to its exact resulting digest and a finding naming that file and `example.test`. Host validation is mechanical; accountable reasoning remains with the operator/profile. |
 | `P094-007c3` | Recover delivery of the committed task-order product | `007c2` | `done` | Dator freezes the host-admitted dispatch product before P090 preparation/AD; bounded background recovery resumes the same bytes and the requester independently validates them. Transaction/rollback/delivery-replay unit proofs and deployed physical AD admission in `s13-1791194095-ddff55` pass. No task execution from delivery retry; zero-price completion does not qualify paid settlement. |
 | `P094-012b1` | Complete binding/profile and publication clients | `007b` | `done` | Node UI creates bindings and separately confirms each widening; API/CLI/UI inspect draft, publication, withdrawal and recovery without new authority. Client construction tests and the deployed operator API flow in `s13-1791194095-ddff55` pass; no separate manual browser proof is asserted. |
-| `P094-016a` | Prove the federated profile deterministically | `007c`, `012b1`, `023b1b` | `in-progress` | Owner-level revocation/recovery negatives are done in `016a1`, including lost ACK. The current composed peer runner uses real MLX; a deterministic-inference composed peer profile is still not retained. Do not substitute the local deterministic profile or physical MLX report for that narrower reproducibility claim. |
+| `P094-016a` | Prove the federated profile deterministically | `007c`, `012b1`, `023b1b` | `done` | 2026-10-06 review: fixture `s13-1791237370-0f1a9e`, clean retained source `210111be`, passes real Agora HTTPS, peer AD, Agent/Room/Corpus and vfkit with four template passages, two native runs and seven qmail checks. Fixture-owned check names do not claim independent model review. HIL/open-relay exclusions name local deterministic P094-013, not MLX. Exact delivery, cached-order refusal, pinned outage/restart, measured resync 0-to-0, unchanged synthetic accounting and cleanup pass. Lost ACK remains separately proved by `016a1`. |
 | `P094-016a1` | Qualify cached-order revocation and immutable withdrawal recovery | `007b`, `007c` | `done` | 2026-10-05: 94 Dator tests include revocation with an unchanged cached signed offer, no queue/worker effects, unavailable publication, lost acknowledgement, bounded backoff and exact signed replay after restart. `016b2` additionally measures the real peer AD refusal bound by exact request digest, unchanged Agent accounting and original BDO deadline. Lost ACK is a deterministic owner-port proof, not a physical-network fault injection. |
-| `P094-016b` | Qualify two physical hosts with MLX and vfkit | `016a`, `013b` | `partial` | `016b1` and fresh `016b2` retain the positive and revocation/recovery physical checkpoints: exact review, real peer delivery, cached signed-order refusal, publication outage/restart, immutable facts/deadline/accounting and cleanup. The aggregate retains its explicit dependency on the missing deterministic-inference composed peer gate in `016a`; unknown in-flight VM recovery is a separate Story criterion. |
+| `P094-016b` | Qualify two physical hosts with MLX and vfkit | `016a`, `013b` | `done` | 2026-10-06 review: `s13-1791236017-c73bf3`, retained source `210111be`, requalifies MLX/vfkit exact review and seven qmail checks, peer delivery, cached-order refusal, outage/restart, pinned target/facts/deadline/accounting, measured zero resync and cleanup. Fixture `016a` passes the same source. Earlier reports keep dated scope; unknown in-flight recovery remains separate. |
 | `P094-016b1` | Retain the positive physical market checkpoint without promoting the remaining fault matrix | `007c`, `012b1`, `023b1b`, `013b` | `done` | 2026-10-05: run `s13-1791203388-e6aa00`, clean source `bfb23a92d7b8b1c3a4145dab058e4ffef41b186e`, tree `00652989131f1a0b05329e80f77bcc1cbf12057a`, immutable `refs/acceptance/s13-1791203388-e6aa00`. Report V2 owns profile `story-013-two-host-real-mlx-vfkit-market`, scope `exact-review-coverage-v2` and the explicit local-profile HIL-negative exclusion. Two distinct physical hosts; HTTPS Agora discovery; peer AD order/result; four real MLX passages/two native executions; exact signed patch/file/domain coverage and Corpus V2 recipe; independent buyer policy; zero-price completion; restart/replay with four unchanged charges; ordinary withdrawal/no new order; confirmed native/process/lease cleanup. Selective report: `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review.physical-market.real-mlx.macos-arm64.json`, SHA-256 `b80ac47ee593fcd25ebd3b9524714f75e54ac2cbe4cfa5d255de919d010fcbd4`. Historical reports retain only their original scope. |
 | `P094-016b2` | Measure revocation and withdrawal outage/restart on two physical hosts | `016a1`, `016b1` | `done` | 2026-10-05: `s13-1791209590-7ead33`, clean source `ab83ad6b0809ce6ef8225b2a992581ef1a9e5d64`, tree `b5c6cd7a4897c18456775aff8651d016454d96fe`, immutable `refs/acceptance/s13-1791209590-7ead33`. Additional scope `market-revocation-recovery-v1`: real Dator/peer AD refuses the exact new order from an unchanged cached signed offer after provider revocation while withdrawal returns HTTP 503. One provider order remains; withdrawal retry count advances 2 to 3 after restart, retaining exact signed/requested facts, original BDO identity/24-hour expiry and all four Agent budgets. Exact replay, later catalog withdrawal, seven qmail checks and native/process/credential/lease cleanup pass. Selective report `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.revocation.physical-market.real-mlx.macos-arm64.json`, SHA-256 `1df6d2a9baba9b50bb3094f4d5ca1af5e3a73e84618007642506591c8bb36364`. |
 
@@ -2593,7 +2594,8 @@ all replay/restart snapshots. The exported selective projection binds the exact
 private report digest `ec168384b0367181099490d806cedc6e8570fce1e820af28946d9e985b420772`
 without private workflow plans, host paths or credentials. Successful promotion
 followed native destruction and process/credential/P074 lease cleanup.
-`007c` and `012b` are now done; `016a/b`, the whole P094 and alpha remain open.
+At that checkpoint `007c` and `012b` were done while `016a/b` remained open;
+the later composed closeout below supersedes that gap, not whole P094 or alpha.
 This is ordinary HTTPS access to a local SQLite Agora relay, not Matrix federation.
 The 95 Story-013 tool tests, 20 ledger tests, five domain-neutrality tests,
 canonical schema validation and freshly regenerated strict documentation build
@@ -2618,8 +2620,8 @@ the second correctly refused a premature repair after its Reviewer rejected the
 legitimate observation phase. The waiter now derives its bounded budget from
 configuration, and the profile explicitly distinguishes those phases. No gate,
 shared timeout, authority lifetime or deliberation ceiling was loosened.
-`007c2/007c4` and positive `016b1` are now done; the remaining `016a/b` fault
-matrix, whole P094 and alpha-node blocker stay open.
+That checkpoint completed `007c2/007c4` and positive `016b1`; the then-open
+`016a/b` fault matrix is closed below. Whole P094 and alpha-node stay open.
 
 ### Next Actions After the Physical Market Checkpoint
 
@@ -2637,7 +2639,106 @@ automatic relay-migration authority.
 
 | Follow-up | Scope | Status | Completion evidence |
 | --- | --- | --- | --- |
-| `P094-016b3` | Requalify pinned-target withdrawal and ordinary catalog refresh | `todo` | Run the physical `market-revocation-recovery-v2` profile with immutable initial/withdrawal destination, transient 503 classification and publication-only fault counters; separately prove normal periodic Arca refresh. Local owner/proxy regressions are implemented, but the older physical V1 report supplies neither new claim. |
+| `P094-016b4` | Distinguish fixture claims and measure manual replay at the catalog owner | `done` | 2026-10-06: fixture `s13-1791237370-0f1a9e` and MLX `s13-1791236017-c73bf3` qualify `story-013-peer-market-v3` on source `210111be`. Correct fixture labels/deterministic exclusions, owner-measured resync 0-to-0 in one durable epoch, signed withdrawal digest and cleanup pass. Launcher and exporter require the current gate; replayed-record count is diagnostic. Tests cover startup/restart, failed manual control, both catalog consumers, identity substitution, HTTP framing and export size/gate refusals. Original historical reports are unchanged. |
+| `P094-016b3` | Requalify pinned-target withdrawal and ordinary catalog refresh | `done` | 2026-10-05: real-MLX run `s13-1791230693-3915ab` passes `market-revocation-recovery-v2` plus `catalog-periodic-withdrawal-v1`. One publication POST receives 503; no other requests reach the fault seam. Restart advances attempts 1 to 2 with the same target, signed facts, original BDO deadline and four Agent charges. Ordinary two-second Arca sync observes the exact signed withdrawal, with increasing applied count/completion time and zero explicit resync. Pagination cursors are diagnostic and may remain null or unchanged. Peer delivery, seven qmail checks and cleanup pass. |
+
+Review scope decisions (2026-10-05): the peer-market fixture deliberately
+starts with observation; it does not retest pre-run rejection of an open-relay
+candidate. That negative and independent HIL denial belong to the local
+deterministic P094-013 profile, named in its exclusions. Neither is borrowed
+from MLX. Template review proves byte/contract wiring, not independent critique.
+The new V3 report gate requires owner-measured resync counts in one durable
+epoch; the old zero constant proves only the harness's intended control path.
+`records/applied` counts reapplication and is diagnostic. Exact signed
+withdrawal identity/sequence/digest and a later replay completion establish
+convergence. `publication/destination` denotes Dator's configured transport
+address, including any proxy; it is not canonical relay identity. Unknown
+5xx acknowledgements (other than explicit transient 503) may follow a commit;
+idempotent record replay remains bounded. These distinctions do not authorize
+relay migration; `007b2` separately tracks that missing operator transition.
+
+Review closeout (2026-10-06; UTC run date 2026-10-05): fresh fixture
+`s13-1791237370-0f1a9e` and MLX `s13-1791236017-c73bf3` pass on revision
+`210111be76b25be4e982ec12908e6771ca11c049`, tree
+`7ce8b5d65cb506347701198cdcbbde40396558aa`, each under its immutable
+`refs/acceptance/<run-id>`, with a verified private full-history source bundle.
+Both retain four passages/two native executions, seven qmail checks, exact
+withdrawal and zero manual resync measured by Arca in one unchanged epoch.
+Each fault seam records one publication POST returning 503 and zero other
+requests. Accounting/replay and native/process/credential/lease cleanup pass.
+The MLX token charges are 1,017, 2,227, 7,791 and 7,591; fixture usage is
+synthetic, and zero observed local cost is not paid-settlement evidence.
+
+The strict V3 selective exports are:
+
+- `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review-v3.physical-market.fixture.macos-arm64.json`,
+  SHA-256 `59b048195c15f1e4fdc649bb190de84e0c97ed24ab05278537cd5e94c6d6a421`;
+- `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review-v3.physical-market.real-mlx.macos-arm64.json`,
+  SHA-256 `d582c88ab6aba3c8f3ef5ec57fe9560b83a870eaaaa6a52786bd8a25e0ec1969`.
+
+The only post-run executable change separates the 512 KiB composite
+retention/export cap from the unchanged 256 KiB single-provider bound: the
+private MLX aggregate is 262,318 bytes. This loader/retention fix changes no
+model execution, host witness, qualification predicate or measured bytes.
+Boundary tests and current-gate reevaluation pass; it is not a new runtime
+source claim. Original report digests remain bound by the selective exports.
+
+Diagnostic attempts remain failed: `s13-1791235298-c4028d` exposed missing
+Arca replay-owner initialization at service startup, corrected before both
+final runs with a fresh-start/restart regression. `s13-1791236533-e9477e`
+lost SSH control during the market tail. Its failed report was not rewritten;
+later owner cleanup/readback confirmed both leases released as failed,
+bootstrap credentials absent and no owned processes. The fresh retry supplies
+the passing evidence, not reinterpretation of that failed attempt.
+
+Retained composed qualification (2026-10-05): fixture run
+`s13-1791230227-4c71e7` and real-MLX run `s13-1791230693-3915ab` use the same
+clean source `4db6334062f712a88ca5b28be53fb3bb847b9684`, tree
+`0c59622f3abfd1ab77f6333c8ec1396a0eb6d9ce`. Each is retained under its own
+immutable `refs/acceptance/<run-id>`; removing the LAN technical branch does
+not remove either source anchor. Both complete four passages/two cycles and
+two native executions; only the fixture substitutes inference and records
+synthetic usage. The MLX run retains four measured token charges (1,017,
+2,214, 7,772 and 7,567), unchanged through restart/replay and withdrawal
+recovery. Zero observed local cost is not a paid-settlement proof.
+
+The selective reports, qualified again after privacy projection, are:
+
+- `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.periodic.physical-market.fixture.macos-arm64.json`,
+  SHA-256 `fbc043e4a65395be2fd9dbb4b1e9f9ba2172e3149ab687fafb1a05cfe39cd043`;
+- `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.periodic.physical-market.real-mlx.macos-arm64.json`,
+  SHA-256 `141af435f9b853fca1b2f8a14a4b1fd98d16d44f285b553aaadfbdf261d1dd4a`.
+
+Review of the composed gate corrected endpoint/control-snapshot readiness and
+the pagination-cursor assumption described below. Review of the physical
+report checked both owners' withdrawal digest, per-path fault counts, exact
+charge receipts and destruction confirmations. Reports are emitted only after
+process, credential and P074 lease cleanup succeeds. No execution authority,
+model budget, TLS check or native timeout was widened.
+
+Qualification attempt (2026-10-05): `s13-1791229103-0fc771` used clean
+source `88cf7d75c39f7a88a52c2be26aad9d2170b4ff3f`, tree
+`2d33794befdce3b28cd6d6e7578b8966dc3b0899`, retained under its immutable
+`refs/acceptance/` ref. The two-host fixture profile reached HTTPS discovery,
+but the buyer's peer listener did not complete TLS, including a host-local
+probe. The macOS firewall admitted previous executable paths, not this run's
+new daemon copy. This is diagnostic evidence, not a conformance checkpoint;
+process/credential/lease cleanup reports no unconfirmed owners. Operator
+network admission and fresh fixture/MLX runs were required. No TLS bypass,
+SSH product tunnel or relaxed peer failure threshold is admitted by this work.
+Local verification: 103 harness tests and 34 non-ignored Story 013 process
+tests pass, with seven explicit native/physical tests ignored in that suite;
+the process target also passes Clippy with warnings denied. Review corrected
+a fixture race between endpoint readiness and control snapshot publication.
+
+The operator subsequently admitted incoming connections. The next run,
+`s13-1791229786-96ab34`, passed peer discovery, native observation/repair,
+delivery, stale-order refusal and withdrawal recovery but failed a new fixture
+assertion that treated Agora's pagination cursor as a monotonic replay marker.
+An exhausted page can legitimately return no cursor. Review corrected the gate
+to increasing applied count/completion time plus the exact signed withdrawal,
+with regressions for null and unchanged cursors. Neither interrupted run is
+promoted to passing evidence.
 
 The V1 report's ten fault connections have no retained path attribution. Its
 catalog convergence follows explicit resync with periodic intervals held at
@@ -2660,21 +2761,20 @@ bootstrap is now separate from listener readiness, preventing a startup race
 from temporary benchlisting (the existing `peer-runtime` quality/backoff state)
 before it can listen; no peer thresholds were relaxed. This is not denylisting.
 Review also binds refusal by the exact artifact digest, not by conflating the
-service order identity with its transport idempotency key. The remaining
-aggregate gap is explicit in `016a`, not a claim that these faults are untested.
+service order identity with its transport idempotency key. The then-remaining
+aggregate gap in `016a` is closed by the later composed qualification above.
 
-1. Finish `P094-016a`'s deterministic-inference composed peer profile before
-   closing the aggregate `016a/016b/016` gates. Cached stale-order refusal and
-   withdrawal outage/restart are now qualified by `016a1/016b2`; do not list
-   them again as missing or promote deterministic lost ACK to a physical fault.
-   Complete `016b3` for the stronger pinned-target/path-attributed gate and
-   ordinary periodic catalog refresh; do not promote the older V1 report.
-2. Finish the independently tracked unknown in-flight step/crash recovery and
+1. Finish the independently tracked unknown in-flight step/crash recovery and
    remaining refusal boundaries before claiming the full Story 013 contract.
-3. Complete P091-backed task-pack bindings (`P094-006b`) and the bilingual
+2. Complete P091-backed task-pack bindings (`P094-006b`) and the bilingual
    operator HOWTO (`P094-014`), reusing the now-qualified owner API/client paths.
+3. Keep the closed `016a/016b/016b3/016b4/016` evidence scopes distinct: fixture
+   inference is not MLX, deterministic lost ACK is not physical fault injection,
+   and exact patch/file critique does not add separate restart/probe findings.
 4. Close `P094-015` only after the remaining non-deferred work and the proposal's
    acceptance decision; retain the proposal-wide alpha-node blocker until then.
+5. Design `P094-007b2` separately before implementing any operator transition
+   that reopens or redirects a terminally refused withdrawal after relay migration.
 
 P093 C+D review (2026-10-03): the callable local vertical is implemented, so
 the earlier missing-name observation in `P094-023d3` is historical. Approval

@@ -8,8 +8,9 @@ are complete. The fresh review-qualified physical-market checkpoint retains HTTP
 peer AD order/result delivery, signed recipe, independent buyer policy and
 restart/replay evidence and exact patch/file/domain review on two hosts. A fresh
 revocation/recovery checkpoint also refuses cached signed orders after provider
-revocation. The aggregate `P094-016` still lacks its composed deterministic
-peer profile; this is not whole-proposal completion.
+revocation. Fresh composed fixture and real-MLX runs now close `P094-016`,
+including pinned-target recovery and ordinary periodic catalog refresh without
+manual resync. This is not whole-proposal completion.
 
 Review closeout (2026-10-05): the historical physical run retains its measured
 execution and transport scope, but its repair finding only discusses observation.
@@ -75,7 +76,38 @@ report is
 `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.revocation.physical-market.real-mlx.macos-arm64.json`.
 Lost acknowledgement is separately tested at the deterministic Dator port,
 not injected into this physical run. The federated Done When criterion below
-is met; the broader deterministic peer gate and other Story criteria remain.
+is met. Fresh runs `s13-1791230227-4c71e7` (fixture inference) and
+`s13-1791230693-3915ab` (real MLX) additionally close the composed peer gate and
+`P094-016b3` on one clean retained source `4db6334062f712a88ca5b28be53fb3bb847b9684`.
+Each executes four passages and two native runs, observes exact signed
+withdrawal through ordinary Arca sync, preserves charges at restart/replay and
+confirms cleanup. The fixture's synthetic usage is not real-model evidence.
+Their selective reports are
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.periodic.physical-market.fixture.macos-arm64.json`
+and
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.periodic.physical-market.real-mlx.macos-arm64.json`.
+Unknown in-flight VM recovery and the other independently tracked Story/P094
+criteria remain open; neither report proves Matrix replication or paid settlement.
+
+Evidence review (2026-10-05): those reports remain unchanged. Their zero
+resync count is a test declaration; new `P094-016b4` qualification requires
+Arca's durable before/after counter and matching observation epoch. Fixture
+check names now explicitly identify template authorship/review and cannot
+claim MLX. Its HIL and pre-run open-relay negatives point to the local
+deterministic P094-013 profile, not the local MLX profile. Peer-market starts
+with observation intentionally; it does not rerun the open-relay trap.
+
+Review closeout (2026-10-06): fixture `s13-1791237370-0f1a9e` and real MLX
+`s13-1791236017-c73bf3` qualify the V3 gate on the same retained source
+`210111be76b25be4e982ec12908e6771ca11c049`, with measured resync `0 -> 0`,
+exact signed withdrawal, unchanged accounting and confirmed cleanup.
+The selective reports are
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review-v3.physical-market.fixture.macos-arm64.json`
+and
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review-v3.physical-market.real-mlx.macos-arm64.json`.
+Dates in those filenames follow UTC run dates. `P094-016b4` is done. The
+post-run fix to the composite retention/export cap does not alter runtime
+evidence; P094 records its scope and the two failed diagnostic attempts.
 
 ## Concrete Problem
 
