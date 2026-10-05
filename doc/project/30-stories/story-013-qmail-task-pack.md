@@ -6,8 +6,10 @@ local deterministic-inference/real-VM checkpoint (`P094-013`) and active-run
 pause mechanism (`P094-013c`) and local real-MLX checkpoint (`P094-013b`)
 are complete. The fresh review-qualified physical-market checkpoint retains HTTPS discovery,
 peer AD order/result delivery, signed recipe, independent buyer policy and
-restart/replay evidence and exact patch/file/domain review on two hosts. The remaining
-federated (`P094-016`) fault gates stay open; this is not whole-proposal completion.
+restart/replay evidence and exact patch/file/domain review on two hosts. A fresh
+revocation/recovery checkpoint also refuses cached signed orders after provider
+revocation. The aggregate `P094-016` still lacks its composed deterministic
+peer profile; this is not whole-proposal completion.
 
 Review closeout (2026-10-05): the historical physical run retains its measured
 execution and transport scope, but its repair finding only discusses observation.
@@ -62,9 +64,18 @@ cleanup. It uses certificate-verified HTTPS discovery from an explicitly local
 SQLite Agora relay, not Matrix replication; product traffic uses peer AD, not
 SSH. Its selective report is
 `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review.physical-market.real-mlx.macos-arm64.json`.
-Withdrawal-based refusal of a new selection does not prove the separate cached
-stale-order-after-provider-revocation gate. The federated Done When checkbox
-below intentionally remains open.
+Withdrawal-based refusal of a new selection alone does not prove the separate
+cached stale-order-after-provider-revocation gate. Fresh run
+`s13-1791209590-7ead33` now closes that criterion: while publication transport
+returns HTTP 503, the buyer sends a real order against its unchanged signed
+offer and Dator's peer AD refusal binds the exact request digest. Restart
+recovers the same signed withdrawal, original BDO expiry and four unchanged
+Agent budgets; exact replay and native/process/lease cleanup pass. The selective
+report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.revocation.physical-market.real-mlx.macos-arm64.json`.
+Lost acknowledgement is separately tested at the deterministic Dator port,
+not injected into this physical run. The federated Done When criterion below
+is met; the broader deterministic peer gate and other Story criteria remain.
 
 ## Concrete Problem
 
@@ -441,7 +452,7 @@ must say which one.
 - [ ] Every refusal case above is reached at its owning boundary.
 - [ ] Restart, pause/resume, crash with an `unknown` step, and revocation behave
   as specified.
-- [ ] The federated profile delivers the recipe to a remote requester that
+- [x] The federated profile delivers the recipe to a remote requester that
   admitted the exact profile digest, and a stale offer is refused after
   revocation (`P094-016`).
 - [x] A structural check shows that shared P094 crates contain no qmail-specific

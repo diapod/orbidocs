@@ -127,6 +127,26 @@ on retained clean source `bfb23a92d7b8b1c3a4145dab058e4ffef41b186e`.
 Recipe size and witness horizon/capacity refusals are explicit; remaining
 `016a/b` fault gates, alpha-node readiness and whole P094 stay partial.
 
+Market revocation checkpoint — 2026-10-05: `P094-016a1/016b2` are done.
+Fresh run `s13-1791209590-7ead33` on clean retained source `ab83ad6b`
+repeats four real MLX passages, seven qmail checks and independent buyer
+delivery. During a publication outage, Dator refuses the exact new peer AD
+order from the buyer's unchanged cached signed offer after provider revocation.
+Restart recovers the same withdrawal with attempts 2 → 3, unchanged signed
+facts, original BDO expiry and all four Agent budgets. Replay and cleanup pass.
+Deterministic Dator tests separately cover lost ACK and backoff; this is not a
+physical lost-ACK claim. The selective report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.revocation.physical-market.real-mlx.macos-arm64.json`.
+Story 013's federated delivery/stale-offer checkbox is now satisfied. The
+composed deterministic peer profile, unknown in-flight VM recovery, P091-backed
+bindings and operator HOWTO remain separate; whole P094 and alpha stay partial.
+
+Review follow-up (2026-10-05): `016b2` remains a dated V1 checkpoint, not proof
+of the new destination pin or normal periodic refresh. `P094-016b3` tracks the
+physical V2 rerun and periodic refresh; local regressions now distinguish retry
+classes, fence relay/topic drift and isolate/count publication faults. The V1
+report used explicit resync and did not attribute its ten connections by path.
+
 Incremental Node checkpoint — 2026-09-20: Story-000's dedicated local operator
 binding revoke/supersede actions are implemented, including signed withdrawal,
 idempotent replay, restart repair and readiness withdrawal; see
