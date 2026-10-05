@@ -139,6 +139,8 @@ odrzucane na admission gate.
 | `sensorium.interface.manage` | `sensorium/interface.manage` | sterowanie hosta | lokalne dla źródła publikowanie obserwacji i aktuacji, lifecycle, granty, revocation, inspekcja, metryki i preempcja wynikająca z polityki | Sensorium Interfaces runtime | nie; tylko host-local | Zaimplementowana capability nie jest reklamowana i nie kwalifikuje się do Passportu. Jej polityka autoryzacji wylicza zamknięty zbiór akcji, w tym `control.preempt`; wymagane pozostają uwierzytelnione związanie callera, aktywny dokładny grant invoke dla dzierżawy operatora, niezmienne fakty zarządcze i rekonstrukcja po restarcie. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | efekt sieciowy hosta | jedno ograniczone pobranie HTTP(S) dopuszczone dla dokładnego konsumenta middleware, akcji, polityki originu i klasy celu | daemon bounded HTTP fetch host | nie; tylko host-local | Zaimplementowany reużywalny prymityw należący do daemona, którego pierwszym konsumentem jest P084. Rozwiązuje i klasyfikuje każdy adres, pinuje wybrane połączenie, ponownie waliduje redirecty w tym samym originie, egzekwuje przecięte limity bajtów, czasu i współbieżności oraz zwraca wyłącznie ograniczone bajty albo wskaźnik Artifact Delivery. Nie jest publicznym proxy i nie nadaje władzy obserwacji ani publikacji Sensorium. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | ocena danych | ograniczona ocena jawnej polityki odbiorcy względem deklaracji lub dowodu wykonania | inference provenance core przez daemon | nie; tylko host-local | Zwraca admit, warn lub deny dla dokładnych podmiotów. Nie uwierzytelnia źródeł, nie instaluje polityki, nie uruchamia inferencji i nie nadaje uprawnień do efektów. |
+| `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | admisja hosta | zatwierdza dokładny draft oferty task-pack względem bieżących bindingów i polityki należących do hosta | operator task-pack host approval and current admission | nie; tylko host-local | Uwierzytelniona zgoda lokalnego operatora jest odrębna od podpisania przez Dator i publikacji w Agorze. Nie nadaje uprawnień federacyjnego discovery ani Passportu. |
+| `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | admisja hosta | dopuszcza niezmienne zakończenie task-pack z zatrzymanej zweryfikowanej receptury i podpisanego wyniku Corpus | operator task-pack host immutable publication and completion admission | nie; tylko host-local | Ponownie sprawdza bieżące uprawnienie publikacji; replay używa zatrzymanych bajtów, nie powtarza inferencji ani publikacji i nie autoryzuje rozliczenia kupującego. |
 | `config.setting.describe` | `host/config.setting.describe` | odczyt konfiguracji | ograniczone odkrywanie deklarowanych przez właścicieli kontraktów ustawień dla dopuszczonego scope | daemonowy host konfiguracji | tylko kontrakt; route wyłączony | P091-002 rejestruje wyłącznie tożsamość i kwalifikację. Operacja pozostaje niedostępna do czasu powstania bramki admission i route lokalnego control-plane w P091-005a. |
 | `config.value.explain` | `host/config.value.explain` | odczyt konfiguracji | ograniczone wyjaśnienie values-only albo z derivation dla jednej dokładnej resolution konfiguracji | daemonowy host konfiguracji | tylko kontrakt; route wyłączony | Szczegół prezentacji nie może zmieniać resolved values ani refusals. Operacja pozostaje niedostępna do P091-005a. |
 | `service.order.result.prepare` | `host/service.order.result.prepare` | wyprowadzenie danych | przygotowanie koperty wyniku procurement z wiązaniem niezmienionego produktu źródłowego | procurement core przez daemon | nie; tylko host-local | Zachowuje granicę i czas źródła. Nie obserwuje wykonania, nie uwierzytelnia źródła, nie zapisuje commitu, nie dostarcza artefaktów i nie rozlicza płatności. |
@@ -161,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **197** host-local / **229** ogółem; grupy właścicieli: **27**.
+Wpisy: **199** host-local / **231** ogółem; grupy właścicieli: **29**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -458,6 +460,18 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>inference.policy.evaluate</code> | <code>host/inference.policy.evaluate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>operator task-pack host approval and current admission</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>operator.task-pack.offer.admit</code> | <code>host/operator.task-pack.offer.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>operator task-pack host immutable publication and completion admission</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>operator.task-pack.order.complete-admit</code> | <code>host/operator.task-pack.order.complete-admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>procurement core through daemon host boundary</code>
 

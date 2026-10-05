@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-offer-draft.request:v1",
+  "title": "Operator Task Offer Draft Request v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Prepare exact unsigned offer terms for one admitted local binding. This request is not publication approval and confers no execution authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "binding/ref"],
+  "properties": {
+    "schema": { "const": "operator-task-offer-draft.request.v1" },
+    "schema/v": { "const": 1 },
+    "binding/ref": { "$ref": "operator-task-common.v1.schema.json#/$defs/ref" }
+  }
+}

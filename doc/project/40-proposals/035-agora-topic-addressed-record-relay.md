@@ -1147,7 +1147,7 @@ fetch). Key properties:
 #### Subject index (L4.a internal)
 
 The cross-topic `record/about` index from section 5.5 is implemented as
-a `SubjectIndex` trait internal to `agora-relay-matrix`. It is populated
+a backend-neutral `SubjectIndex` trait in `agora-relay-trait`. It is populated
 as a side-effect of ingest and queried by the HTTP API for subject-based
 lookups. The MVP implementation is in-memory (`InMemorySubjectIndex`)
 and rebuildable from the local SQLite store via
@@ -1215,6 +1215,22 @@ to read snapshot files while Agora is running. Such locks MUST NOT be
 interpreted as permission to run multiple Agora service instances against
 the same Agora middleware data directory.
 
+### Explicit local service backend (`2026-10-05`)
+
+The operator accepted an explicit `local-sqlite` backend for `agora-service`
+during P094 qualification. This uses the existing SQLite store and shared
+relay contracts, not a fake Matrix sink. Signature/delegation verification,
+namespace and topic policy, duplicate admission, queries, subscriptions,
+subject indexing and retention remain unchanged. The receipt proves durable
+local admission; remote discovery and order/result delivery require their own
+network evidence. The status surface must name the selected backend and must
+not claim Matrix forwarding in this mode. The default remains Matrix, and
+missing Matrix credentials must not cause an implicit local fallback.
+
+| ID | Task | Status | Closure gate |
+| :--- | :--- | :--- | :--- |
+| `P035-local-sqlite-service` | Expose an explicit local SQLite service backend | `done` | 2026-10-05: backend-neutral subject index/retention/stamping reuse the existing core/relay/store contracts; signed local ingest/query/subscription and restart tests pass, and ambiguous Matrix/local configuration refuses. The service reports local durable admission, never Matrix distribution. Deployed Dator ordinary publication/replay/withdrawal passes in P094's clean-source local MLX/vfkit run `s13-1791156863-88b339`. P094-016 independently qualifies network discovery/order/AD-result; this item does not claim it. |
+
 ### MVP implementation status vs this proposal
 
 #### Implemented
@@ -1244,7 +1260,7 @@ the same Agora middleware data directory.
   forward-only-fresh, lazy/eager inbound bridges with cooldown,
   three relay roles (Canonical/Cache/Origin), retention sweep
   (`max_age`, `max_count`).
-- **Subject index** (`agora-relay-matrix`): in-memory `SubjectIndex`
+- **Subject index** (`agora-relay-trait`): in-memory `SubjectIndex`
   for cross-topic `record/about` queries, idempotent, rebuildable from
   local store.
 - **HTTP API surface** (`agora-http`): framework-neutral adapter for

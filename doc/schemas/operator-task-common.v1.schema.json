@@ -82,6 +82,26 @@
         }
       }
     },
+    "offerTaskProfile": {
+      "description": "Exact portable task identity covered by an ordinary Service Offer signature. Descriptive data, never a local binding, package capability or execution grant.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task-profile/ref",
+        "task-profile/digest"
+      ],
+      "properties": {
+        "task-profile/ref": {
+          "allOf": [
+            {"$ref": "#/$defs/ref"},
+            {"pattern": "^operator-task-profile:"}
+          ]
+        },
+        "task-profile/digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
     "refs": {
       "type": "array",
       "maxItems": 64,

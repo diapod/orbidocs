@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-order-inspection:v1",
+  "title": "Operator Task Order Inspection v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Local read model of one Dator-admitted order and its explicit operator-selected round. A retained link grants no current loop, execution, Chair or HIL authority. Blocked may retain a historical link; it never removes source evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "order/ref", "request/digest", "selected-offer/digest", "binding/ref", "request", "state"],
+  "properties": {
+    "schema": {"const": "operator-task-order-inspection.v1"},
+    "schema/v": {"const": 1},
+    "order/ref": {"$ref": "operator-task-order-link.request.v1.schema.json#/properties/order~1ref"},
+    "request/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+    "selected-offer/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+    "binding/ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+    "local-binding/current-digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+    "request": {"$ref": "operator-task-order-input.v1.schema.json"},
+    "state": {"enum": ["waiting-local-round", "linked", "blocked"]},
+    "query/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+    "link/ref": {"type": "string", "pattern": "^operator-task-order-link:sha256:[A-Za-z0-9_-]{43}$"},
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Read-only recovery state for an already committed result, separate from current order admissibility. Inspection does not register or retry delivery. The 24-hour BDO horizon never renews domain authority.",
+      "required": ["completion/ref", "operation/ref", "status"],
+      "properties": {
+        "completion/ref": {"type": "string", "pattern": "^operator-task-order-completion:sha256:[A-Za-z0-9_-]{43}$"},
+        "operation/ref": {"type": "string", "pattern": "^deferred:operator-task-order:[A-Za-z0-9_-]{43}$"},
+        "status": {"enum": ["not-started", "pending", "running", "completed", "failed", "timed-out", "cancelled", "expired", "unknown"]},
+        "result/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"}
+      },
+      "allOf": [{
+        "if": {"required": ["status"], "properties": {"status": {"const": "completed"}}},
+        "then": {"required": ["result/digest"]}
+      }]
+    }
+  },
+  "dependentRequired": {"query/id": ["link/ref"], "link/ref": ["query/id"], "delivery": ["query/id", "link/ref"]},
+  "allOf": [
+    {
+      "if": {"required": ["state"], "properties": {"state": {"const": "linked"}}},
+      "then": {"required": ["query/id", "link/ref", "local-binding/current-digest"]}
+    },
+    {
+      "if": {"required": ["state"], "properties": {"state": {"const": "waiting-local-round"}}},
+      "then": {"required": ["local-binding/current-digest"], "not": {"anyOf": [{"required": ["link/ref"]}, {"required": ["query/id"]}]}}
+    }
+  ]
+}

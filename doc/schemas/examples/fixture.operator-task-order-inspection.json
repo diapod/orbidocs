@@ -1,0 +1,25 @@
+{
+  "schema": "operator-task-order-inspection.v1",
+  "schema/v": 1,
+  "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "selected-offer/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBA",
+  "binding/ref": "task-binding:qmail",
+  "local-binding/current-digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCA",
+  "request": {
+    "schema": "operator-task-order-input.v1",
+    "task-profile/ref": "operator-task-profile:qmail",
+    "task-profile/digest": "sha256:DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDA",
+    "selected-offer/digest": "sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBA",
+    "question/text": "Repair mail routing without opening relay."
+  },
+  "state": "linked",
+  "query/id": "query:qmail",
+  "link/ref": "operator-task-order-link:sha256:EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+  "delivery": {
+    "completion/ref": "operator-task-order-completion:sha256:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA",
+    "operation/ref": "deferred:operator-task-order:GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGA",
+    "status": "completed",
+    "result/digest": "sha256:HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHA"
+  }
+}

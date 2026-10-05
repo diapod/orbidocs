@@ -1070,6 +1070,23 @@ Implementation evidence recorded 2026-09-03 (three-host Codex Reviewer):
 
 ## Next Actions
 
+The Story-013 market consumer now uses a checked narrowing of an operator's
+configured topology rather than a replacement host configuration. Each selected
+host reproduces the projection from its own bounded original topology bytes,
+checks the original raw digest and selected scenario slots, and still performs
+ordinary physical-host preflight. The owner pins both the original source digest
+and canonical scoped topology digest. This completes P074-041's reusable control
+boundary, not P094's separate physical product-transport acceptance or the open
+macOS firewall/signing task.
+
+The consuming Story-013 positive physical profile is now separately qualified
+by `s13-1791194095-ddff55` (2026-10-05, `P094-016b1`): two distinct hosts,
+certificate-verified HTTPS discovery, real peer AD order/result delivery and
+confirmed cleanup. SSH carries only bootstrap/control material and executables,
+not domain payloads. This proves use of the scoped topology without modifying
+its source; it does not complete P094's remaining revocation/fault matrix or
+P074's persistent macOS signing/firewall task.
+
 1. Wrap Story 010 as the first generic harness target under P074-002.
 2. Finish the trace-source inventory and disk-bundle import path under P074-004,
    then complete the remaining Story 010 adapters under P074-005.
@@ -1098,6 +1115,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 | ID | Item | Status | Notes |
 |---|---|---|---|
+| P074-041 | Narrow a configured topology to explicit scenario slots without changing host authority | done | `federation_topology_scope.py` makes one pure deep-copy projection of 2–16 unique existing slots, preserves all selected host facts and derives the declared failure-domain posture. The harness rejects a changed host/root/address before effects, pins the original raw digest once before parallel preflight, and gives each host only bounded source/projection commitments. The host agent reproduces the scoped value from its own configured topology (128 KiB maximum) and the checked scenario, refusing source drift, invented slots, malformed scope and replacement host facts. The exact unscoped path remains unchanged. Focused host-agent/harness and Story-013 runner tests cover drift, input immutability, distinct/shared hosts and failure cleanup. This is reusable topology selection; it neither rewrites operator configuration nor grants product-traffic forwarding or a new promotable profile claim. Depends on P074-007, P074-008 and P074-016. |
 | P074-035 | Materialize host-private child-process paths from checked preflight roots | done | `materialize_process_environments` now joins a closed per-slot locator to only that slot's checked `repository/root` or `roots.state/root` after preflight. It rejects absolute, non-canonical, parent-traversing, backslash-bearing, empty, or oversized relative paths; unknown roots and slots; malformed ORBIPLEX keys and shapes; duplicate literal/path keys; and missing/non-absolute preflight roots. It emits only the ordinary bounded child environment already admitted by the host agent: no general interpolation, ambient host-environment inheritance, Story vocabulary, or exported path evidence was added. Materialization failure releases the acquired run lease before runtime construction. Focused tests cover distinct macOS/Linux roots, input immutability, every refusal class, and lease release. P074-029 consumes it for the Codex Python below host-local `state/root` plus helper, schema, and workspace below the checked repository root; the daemon still verifies final files, runtime/helper digests, and canonical parents. Depends on P074-007, P074-016, P074-021, and P074-029. |
 | P074-036 | Requalify stable private model bindings for an explicitly selected acceptance profile | done | The fail-closed host-local requalifier resolves every private locator from the owner-private source inventory, reruns the existing real role qualification for the exact target profile, writes run-distinct evidence atomically, validates binding, slot, platform, descriptor, manifest, role, resources, output contract, and target-profile identity through ordinary admission, and only then atomically publishes the new run-scoped inventory. It preserves all runtime/model/package locators and rejects direct JSON rescope, partial binding sets, stale evidence, output collision, or orphaned reports after a failed multi-binding attempt. P074-029 consumed the resulting exact-profile Chair and Solver inventories on `turbo.local` and `self.local`; both the restarted and later fresh three-host passages passed admission and post-effect revalidation. Depends on P074-017 and P074-029. |
 | P074-037 | Recover an uncommitted read-only Agent observation after a typed transient Room WSS disconnect | in-progress | Preserve the concrete Room carrier failure as a typed retryable class through Sensorium projection and Agent controller boundaries. A controller caller may retry only the whole observation-only action with the same binding, request, expected step, and bounded attempt budget after the prior action claim has been released; it must not retry after inference, product persistence, or effect dispatch has begun. Cursor, Room authority, membership high-water, relay epoch, payload digest, freshness, and the second pre-use authority check remain mandatory on every attempt. Every short-lived observation client should also attempt an explicit close handshake so normal completion does not masquerade as carrier loss. Unknown I/O, timeout, protocol, TLS, authorization, cursor-expiry, epoch-change, and semantic failures stay terminal. This is resilience of a read-only transport observation, not weaker admission or an assertion that a failed mutation is idempotent. First consumed by the physical three-host P074-029 passage. Depends on P070 relay recovery semantics, P074-021, and P074-029. |

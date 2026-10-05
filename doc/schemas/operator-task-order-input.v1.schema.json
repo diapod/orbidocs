@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-order-input:v1",
+  "title": "Operator Task Order Input v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "description": "An ordinary service-order's inert input for a bounded task-pack order. Selects the exact signed offer and task profile, never local authority. Dator additionally limits question/text to 8192 UTF-8 bytes. The provider operator explicitly links the retained order to a provider-owned local round; admission grants neither a loop nor HIL.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "task-profile/ref", "task-profile/digest", "selected-offer/digest", "question/text"],
+  "properties": {
+    "schema": {"const": "operator-task-order-input.v1"},
+    "task-profile/ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/offerTaskProfile/properties/task-profile~1ref"},
+    "task-profile/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+    "selected-offer/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest", "description": "JCS v1 digest of the complete selected signed Service Offer, including its signature."},
+    "question/text": {"type": "string", "minLength": 1, "maxLength": 8192}
+  }
+}

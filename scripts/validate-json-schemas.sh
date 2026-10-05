@@ -101,6 +101,36 @@ schema_for_file() {
     *.operator-task-offer-draft.json)
       echo "$SCHEMAS_DIR/operator-task-offer-draft.v1.schema.json"
       ;;
+    *.operator-task-offer-draft.request.json)
+      echo "$SCHEMAS_DIR/operator-task-offer-draft.request.v1.schema.json"
+      ;;
+    *.operator-task-offer-publication.request.json)
+      echo "$SCHEMAS_DIR/operator-task-offer-publication.request.v1.schema.json"
+      ;;
+    *.operator-task-offer-publication.json)
+      echo "$SCHEMAS_DIR/operator-task-offer-publication.v1.schema.json"
+      ;;
+    *.operator-task-order-input.json)
+      echo "$SCHEMAS_DIR/operator-task-order-input.v1.schema.json"
+      ;;
+    *.operator-task-order-inspection.json)
+      echo "$SCHEMAS_DIR/operator-task-order-inspection.v1.schema.json"
+      ;;
+    *.operator-task-order-link.request.json)
+      echo "$SCHEMAS_DIR/operator-task-order-link.request.v1.schema.json"
+      ;;
+    *.operator-task-verified-recipe.json)
+      echo "$SCHEMAS_DIR/operator-task-verified-recipe.v1.schema.json"
+      ;;
+    *.operator-task-recipe-draft.json)
+      echo "$SCHEMAS_DIR/operator-task-recipe-draft.v1.schema.json"
+      ;;
+    *.operator-task-order-complete.request.json)
+      echo "$SCHEMAS_DIR/operator-task-order-complete.request.v1.schema.json"
+      ;;
+    *.operator-task-order-completion.json)
+      echo "$SCHEMAS_DIR/operator-task-order-completion.v1.schema.json"
+      ;;
     *.operator-task-experiment-candidate.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-candidate.v1.schema.json"
       ;;

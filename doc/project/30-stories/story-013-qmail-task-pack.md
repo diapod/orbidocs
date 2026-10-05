@@ -4,8 +4,18 @@ Status: Accepted reference story for Proposal 094. The pack (`P094-011`),
 Debian x86_64 image (`P094-011e`), Ubuntu arm64/vfkit image (`P094-011f`),
 local deterministic-inference/real-VM checkpoint (`P094-013`) and active-run
 pause mechanism (`P094-013c`) and local real-MLX checkpoint (`P094-013b`)
-are complete. Federated (`P094-016`) evidence remains separate; this is not
-whole-proposal completion.
+are complete. The fresh review-qualified physical-market checkpoint retains HTTPS discovery,
+peer AD order/result delivery, signed recipe, independent buyer policy and
+restart/replay evidence and exact patch/file/domain review on two hosts. The remaining
+federated (`P094-016`) fault gates stay open; this is not whole-proposal completion.
+
+Review closeout (2026-10-05): the historical physical run retains its measured
+execution and transport scope, but its repair finding only discusses observation.
+The current independent-review gate additionally requires signed coverage of
+every exact patch/file and target/domain-specific critique. Fresh run
+`s13-1791203388-e6aa00` on retained clean source `bfb23a92` completes
+`P094-007c2/007c4` and positive `P094-016b1`. The older report is not rewritten
+or promoted to that stronger claim.
 
 Related:
 
@@ -42,6 +52,19 @@ Two execution profiles share one story:
 - **Federated profile (`P094-016`).** A remote requester finds the provider's
   ordinary Service Offer, admits the exact task-profile digest, and receives the
   verified recipe through Corpus.
+
+The 2026-10-05 positive physical run `s13-1791203388-e6aa00` on `self.local`
+and `turbo.local` proves that path with real MLX, a disposable vfkit VM, four
+independent Agent passages, signed exact patch/file/domain review, seven qmail
+checks, exact restart/replay without
+another inference/publication/charge, zero-price buyer completion and confirmed
+cleanup. It uses certificate-verified HTTPS discovery from an explicitly local
+SQLite Agora relay, not Matrix replication; product traffic uses peer AD, not
+SSH. Its selective report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review.physical-market.real-mlx.macos-arm64.json`.
+Withdrawal-based refusal of a new selection does not prove the separate cached
+stale-order-after-provider-revocation gate. The federated Done When checkbox
+below intentionally remains open.
 
 ## Concrete Problem
 

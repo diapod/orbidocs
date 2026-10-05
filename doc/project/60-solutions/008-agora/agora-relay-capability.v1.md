@@ -16,10 +16,10 @@ process can provide the `agora.relay` capability locally.
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `endpoint` | string, URL | yes | Public HTTP API base URL for the Agora relay. |
-| `role` | enum: `canonical`, `cache`, `origin` | yes | Relay federation role. |
+| `role` | enum: `canonical`, `cache`, `origin`, `local` | yes | Relay role. `local` claims durable local admission, not Matrix distribution. |
 | `canonical_topics` | string array | when `role = canonical` | Topic keys for which the relay is authoritative. Empty for non-canonical roles. |
-| `relay_domain` | string | yes | Domain used for Matrix room alias resolution. |
-| `transport` | string array | yes | Federation transports supported by the relay. MVP value: `matrix`. Future value: `peer-message`. |
+| `relay_domain` | string | yes | Domain used for Matrix room alias resolution. Retained for shape compatibility in local mode; it does not claim a Matrix alias there. |
+| `transport` | string array | yes | Supported transport. `matrix` denotes Matrix distribution; `http` with `role = local` denotes the local relay API only. Future value: `peer-message`. |
 | `api_version` | string | yes | Agora HTTP API version. Current value: `1`. |
 
 ## Discovery
@@ -49,7 +49,12 @@ A discovering node can filter by `role`, `transport`, or specific
 
 ## Operational notes
 
+An explicitly configured `local-sqlite` service reports `role = local`,
+`transport = ["http"]` and no canonical topics. Its ingest receipt attests
+only to the local SQLite admission. Remote discovery, peer connectivity and
+delivery need their own evidence; HTTP reachability is not Matrix federation.
+Missing Matrix credentials never select this mode implicitly.
+
 If the passport is absent, Agora may still operate as a local relay. The
 absence only means it is not discoverable as an officially authorized network
 relay through the Seed Directory.
-

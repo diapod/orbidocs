@@ -10,7 +10,15 @@ What a reviewer passage produces about one task-pack candidate (P094-023b): a ve
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `corpus-task-pack-review-verdict.v1` |  |
 | [`verdict`](#field-verdict) | `yes` | enum: `accept`, `reject`, `request-regeneration` |  |
+| [`reviewed/patches`](#field-reviewed-patches) | `yes` | ref: `#/$defs/patches` |  |
 | [`findings`](#field-findings) | `yes` | array |  |
+
+## Definitions
+
+| Definition | Shape | Description |
+|---|---|---|
+| [`patches`](#def-patches) | array | Structured coverage claims, not a host verdict on reasoning quality. Acceptance must cover every exact candidate patch/file; an observation has an empty array. The owner compares identities and resulting byte digests, and binds finding indices, before signing or publication. |
+| [`file`](#def-file) | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -25,8 +33,28 @@ What a reviewer passage produces about one task-pack candidate (P094-023b): a ve
 - Required: `yes`
 - Shape: enum: `accept`, `reject`, `request-regeneration`
 
+<a id="field-reviewed-patches"></a>
+## `reviewed/patches`
+
+- Required: `yes`
+- Shape: ref: `#/$defs/patches`
+
 <a id="field-findings"></a>
 ## `findings`
 
 - Required: `yes`
 - Shape: array
+
+## Definition Semantics
+
+<a id="def-patches"></a>
+## `$defs.patches`
+
+- Shape: array
+
+Structured coverage claims, not a host verdict on reasoning quality. Acceptance must cover every exact candidate patch/file; an observation has an empty array. The owner compares identities and resulting byte digests, and binds finding indices, before signing or publication.
+
+<a id="def-file"></a>
+## `$defs.file`
+
+- Shape: object

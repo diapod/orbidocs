@@ -1,0 +1,8 @@
+{
+  "schema": "operator-task-order-link.request.v1",
+  "schema/v": 1,
+  "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "query/id": "query:provider-owned",
+  "operator/binding-ref": "node-operator-binding:local",
+  "local-binding/expected-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

@@ -33,6 +33,7 @@ A reviewer's signed verdict over exactly one typed experiment proposal: its ref 
 | [`evidence-state/digest`](#field-evidence-state-digest) | `yes` | string |  |
 | [`verdict`](#field-verdict) | `yes` | enum: `accept`, `reject`, `request-regeneration` |  |
 | [`findings`](#field-findings) | `yes` | array |  |
+| [`reviewed/patches`](#field-reviewed-patches) | `no` | ref: `corpus-task-pack-review-verdict.v1.schema.json#/$defs/patches` | Exact review claims covered by this signature. Historical reviews may omit them; new task-pack repair admission and recipe publication require complete coverage at the owning relation gate. Absence is never enriched into historical coverage. |
 | [`class/key`](#field-class-key) | `yes` | enum: `Public`, `Community`, `Personal` |  |
 | [`reviewed-at`](#field-reviewed-at) | `yes` | string |  |
 | [`expires-at`](#field-expires-at) | `yes` | string |  |
@@ -117,6 +118,14 @@ A reviewer's signed verdict over exactly one typed experiment proposal: its ref 
 
 - Required: `yes`
 - Shape: array
+
+<a id="field-reviewed-patches"></a>
+## `reviewed/patches`
+
+- Required: `no`
+- Shape: ref: `corpus-task-pack-review-verdict.v1.schema.json#/$defs/patches`
+
+Exact review claims covered by this signature. Historical reviews may omit them; new task-pack repair admission and recipe publication require complete coverage at the owning relation gate. Absence is never enriched into historical coverage.
 
 <a id="field-class-key"></a>
 ## `class/key`

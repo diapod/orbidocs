@@ -137,6 +137,8 @@ admission.
 | `sensorium.interface.manage` | `sensorium/interface.manage` | host control | source-local observation and actuation publication, lifecycle, grant, revocation, inspection, metrics, and policy-driven preemption | Sensorium Interfaces runtime | no; host-local only | The implemented capability is non-advertisable and Passport-ineligible. Its authorization policy enumerates a closed action set, including `control.preempt`; authenticated caller binding, an active exact invoke grant for an operator lease, immutable management facts, and restart reconstruction remain mandatory. |
 | `http.fetch.bounded` | `host/http.fetch.bounded` | host network effect | one bounded HTTP(S) fetch admitted for an exact middleware consumer, action, origin policy, and destination class | daemon bounded HTTP fetch host | no; host-local only | Implemented as a reusable daemon-owned primitive with P084 as its first consumer. It resolves and classifies every address, pins the selected connection, revalidates same-origin redirects, enforces intersected byte/time/concurrency limits, and returns only bounded bytes or an Artifact Delivery pointer. It is not a public proxy and grants no Sensorium observation or publication authority. |
 | `inference.policy.evaluate` | `host/inference.policy.evaluate` | data-only assessment | bounded evaluation of explicit receiving policy against declared or realized evidence | inference provenance core through daemon | no; host-local only | Returns admit, warn or deny for exact subjects. Does not authenticate source assertions, install policy, dispatch inference or authorize effects. |
+| `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | host admission | approves an exact task-pack offer draft against current host-owned bindings and policy | operator task-pack host approval and current admission | no; host-local only | Authenticated local operator approval is distinct from Dator signing and Agora publication. It grants no federated discovery or Passport authority. |
+| `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | host admission | admits immutable task-pack completion from the retained verified recipe and signed Corpus outcome | operator task-pack host immutable publication and completion admission | no; host-local only | Revalidates current publication authority; replay uses retained bytes and cannot rerun inference, publish twice, or authorize buyer settlement. |
 | `config.setting.describe` | `host/config.setting.describe` | configuration read | bounded discovery of owner-declared setting contracts for an admitted scope | daemon configuration host | contract only; route disabled | P091-002 registers identity and eligibility only. The operation remains unavailable until the P091-005a local-control admission gate and route exist. |
 | `config.value.explain` | `host/config.value.explain` | configuration read | bounded values-only or derivation-backed explanation of one exact configuration resolution | daemon configuration host | contract only; route disabled | Presentation detail cannot alter resolved values or refusals. The operation remains unavailable until P091-005a. |
 | `service.order.result.prepare` | `host/service.order.result.prepare` | data-only derivation | content-bound procurement result preparation from the unchanged source product | procurement core through daemon | no; host-local only | Preserves source boundary and time. Does not observe execution, authenticate source, persist a commit, deliver artifacts or settle payment. |
@@ -159,7 +161,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **197** host-local / **229** total; **27** owner groups.
+Entries: **199** host-local / **231** total; **29** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -456,6 +458,18 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>inference.policy.evaluate</code> | <code>host/inference.policy.evaluate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>operator task-pack host approval and current admission</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>operator.task-pack.offer.admit</code> | <code>host/operator.task-pack.offer.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>operator task-pack host immutable publication and completion admission</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>operator.task-pack.order.complete-admit</code> | <code>host/operator.task-pack.order.complete-admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>procurement core through daemon host boundary</code>
 

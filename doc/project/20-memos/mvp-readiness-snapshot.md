@@ -77,6 +77,56 @@ The minimal pending-proposal turn witness is newly tracked as `P094-023b1`;
 unknown in-flight crash recovery, federation and proposal-wide/alpha blockers
 remain open. This closes review findings, not the whole P094 milestone.
 
+Resumable market checkpoint — 2026-10-05: the minimal task-profile witness
+`P094-023b1` is done. It atomically retains exact admitted turn evidence under
+8 KiB, 256-per-Room, 4,096-per-Node and 24-hour bounds; it restores no live
+authority. Fresh local-market MLX/vfkit run `s13-1791156863-88b339` now crosses
+restart before experiment admission, preserving the signed proposal/review
+and exact budgets without another inference, publication or charge. It also
+proves deployed ordinary signed offer publication, restart recovery, withdrawal,
+seven qmail checks, independent mutation-HIL denial and native cleanup. The
+clean-source report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.local-market.real-mlx.macos-arm64.json`.
+The new explicit local Agora SQLite backend proves local durable admission,
+not Matrix federation. Provider-owned order linking, verified recipe completion,
+delivery-only recovery and thin operator clients are implemented; the separate
+two-physical-host discovery/order/result qualification is now retained below.
+The proposal-wide P094 and alpha-node blockers remain unchanged.
+
+Historical physical checkpoint — 2026-10-05: `s13-1791194095-ddff55` retains
+execution/transport evidence, subject to the stronger review requalification
+below, on distinct `self.local`
+and `turbo.local` hosts. Ordinary signed HTTPS offer discovery and peer AD
+ordering reach an explicitly linked local round; four real MLX passages and
+two native vfkit executions produce the reviewed repair with all seven qmail
+checks. Corpus signs the exact verified recipe and provenance; peer AD delivers
+it under independent buyer policy and the zero-price workflow completes.
+Pre-admission/completion restart and exact replay preserve publication and all
+four Agent charge receipts. Withdrawal blocks a fresh order; native destruction
+and owned process/credential/P074 lease cleanup are confirmed. The safe report
+is `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.physical-market.real-mlx.macos-arm64.json`,
+binding clean source `b67f1917a72b35e69346afa9f8f71c0e20df4bce` under its immutable
+acceptance ref. `P094-012b` clients are also complete with deployed API evidence,
+not a manual browser claim. Cached stale-order-after-revocation/fault gates,
+unknown in-flight recovery and proposal-wide P094/alpha completeness remain
+open. The local SQLite relay is not Matrix federation; a zero-price result is
+not paid settlement, and no older report is retrospectively enriched.
+
+Review closeout — 2026-10-05: that historical run's actual execution,
+transport, accounting and cleanup evidence remains valid. Its repair finding
+addresses only observation, however, and cannot qualify exact patch/file review
+coverage. Fresh physical run `s13-1791203388-e6aa00` now closes
+`P094-007c2/007c4` and positive `P094-016b1`: signed claims bind all three exact
+files/resulting bytes to findings naming their targets and `example.test`.
+The report owns its physical profile and explicit HIL-negative exclusion;
+restart/replay preserves all four charge receipts and publication, peer AD
+delivery and independent buyer policy pass, and native/process/lease cleanup
+is confirmed. The new selective report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-05.review.physical-market.real-mlx.macos-arm64.json`,
+on retained clean source `bfb23a92d7b8b1c3a4145dab058e4ffef41b186e`.
+Recipe size and witness horizon/capacity refusals are explicit; remaining
+`016a/b` fault gates, alpha-node readiness and whole P094 stay partial.
+
 Incremental Node checkpoint — 2026-09-20: Story-000's dedicated local operator
 binding revoke/supersede actions are implemented, including signed withdrawal,
 idempotent replay, restart repair and readiness withdrawal; see

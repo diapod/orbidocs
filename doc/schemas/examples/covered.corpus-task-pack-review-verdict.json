@@ -1,0 +1,20 @@
+{
+  "schema": "corpus-task-pack-review-verdict.v1",
+  "verdict": "accept",
+  "findings": ["locals uses the intended example.test domain."],
+  "reviewed/patches": [
+    {
+      "step/id": "patch-locals",
+      "patch/ref": "artifact:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "files": [
+        {
+          "root/ref": "guest-root:qmail",
+          "path": "etc/qmail/locals",
+          "operation": "write",
+          "content/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "finding/index": 0
+        }
+      ]
+    }
+  ]
+}

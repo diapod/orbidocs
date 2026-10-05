@@ -1,0 +1,6 @@
+{
+  "schema": "operator-task-order-input.v1",
+  "task-profile/ref": "operator-task-profile:qmail",
+  "task-profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "question/text": "Repair the mail configuration."
+}

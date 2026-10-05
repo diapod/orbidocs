@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-verified-recipe:v1",
+  "title": "Operator Task Verified Recipe v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "description": "A bounded mechanical projection of one exact locally verified execution, its candidate and patch bytes, and retained signed Solver/Reviewer/Chair history. It is not another inference, permission to run the recipe, or a universal Corpus outcome format. The owner verifies all content addresses, signatures, source relationships and confirmed disposal before publication; the complete JCS document must fit the 65536-byte answer limit, with no truncation. Inference assertions name the exact retained Agent V2 products used in the publication's provenance composition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "source", "candidate", "patches", "verified", "history", "inputs/assertions"],
+  "properties": {
+    "schema": {"const": "operator-task-verified-recipe.v1"},
+    "schema/v": {"const": 1},
+    "source": {"$ref": "#/$defs/source"},
+    "candidate": {"$ref": "operator-task-experiment-candidate.v1.schema.json"},
+    "patches": {
+      "type": "array", "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["step/id", "patch"],
+        "properties": {
+          "step/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/name"},
+          "patch": {"$ref": "operator-task-patch.v1.schema.json"}
+        }
+      }
+    },
+    "verified": {
+      "type": "object", "additionalProperties": false,
+      "required": ["execution", "verification", "result/digest", "destruction/confirmation-ref"],
+      "properties": {
+        "execution": {
+          "allOf": [
+            {"$ref": "corpus-experiment-task-pack-execution.v1.schema.json"},
+            {"properties": {"outcome": {"const": "verified"}}}
+          ]
+        },
+        "verification": {
+          "allOf": [
+            {"$ref": "operator-task-verifier-evaluation.v1.schema.json"},
+            {"properties": {"passed": {"const": true}}, "not": {"required": ["refusal/code"]}}
+          ]
+        },
+        "result/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+        "destruction/confirmation-ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"}
+      }
+    },
+    "history": {
+      "type": "array", "minItems": 3, "maxItems": 64,
+      "items": {
+        "oneOf": [
+          {"$ref": "#/$defs/proposal"},
+          {"$ref": "#/$defs/review"},
+          {"$ref": "#/$defs/decision"}
+        ]
+      }
+    },
+    "inputs/assertions": {
+      "type": "array", "minItems": 2, "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["document/ref", "agent/id", "agent/product-ref", "agent/product-digest", "execution/descriptor-digest"],
+        "properties": {
+          "document/ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+          "agent/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+          "agent/product-ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+          "agent/product-digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+          "execution/descriptor-digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["order/ref", "order/link-ref", "request/digest", "selected-offer/digest", "query/id", "query/digest", "target", "local-binding/digest", "execution/ref"],
+      "properties": {
+        "order/ref": {"$ref": "operator-task-order-link.request.v1.schema.json#/properties/order~1ref"},
+        "order/link-ref": {"$ref": "operator-task-order-inspection.v1.schema.json#/properties/link~1ref"},
+        "request/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+        "selected-offer/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+        "query/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+        "query/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+        "target": {"$ref": "corpus-reasoning-experiment-proposal.v2.schema.json#/$defs/task-pack-target"},
+        "local-binding/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+        "execution/ref": {"$ref": "corpus-experiment-task-pack-execution.v1.schema.json#/properties/execution~1ref"}
+      }
+    },
+    "proposal": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "document"],
+      "properties": {"kind": {"const": "proposal"}, "document": {"$ref": "corpus-reasoning-experiment-proposal.v2.schema.json"}}
+    },
+    "review": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "document"],
+      "properties": {"kind": {"const": "review"}, "document": {"$ref": "corpus-reasoning-experiment-review.v4.schema.json"}}
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "document"],
+      "properties": {"kind": {"const": "decision"}, "document": {"$ref": "corpus-reasoning-chair-experiment-decision.v2.schema.json"}}
+    }
+  }
+}

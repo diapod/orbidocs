@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-offer-publication:v1",
+  "title": "operator task offer publication v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Owner projection of exact draft publication and withdrawal. Current dispatch admission is separate from past publication. A BDO handle is never proof of publication or withdrawal completion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "draft",
+    "state",
+    "admissible"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-offer-publication.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "draft": {
+      "$ref": "operator-task-offer-draft.v1.schema.json"
+    },
+    "state": {
+      "enum": [
+        "unpublished",
+        "pending",
+        "published",
+        "withdrawal-pending",
+        "withdrawn",
+        "failed"
+      ]
+    },
+    "admissible": {
+      "type": "boolean"
+    },
+    "local-binding/current-digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest",
+      "description": "Current host-observed binding revision shown for an explicit action. The retained draft still binds its original revision; inspection never silently rewrites it."
+    },
+    "operation/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "operation/status": {
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    "fenced/reason": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "admissible"
+        ],
+        "properties": {
+          "admissible": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "operation/ref",
+          "operation/status",
+          "local-binding/current-digest"
+        ],
+        "properties": {
+          "state": {
+            "const": "published"
+          },
+          "operation/status": {
+            "const": "completed"
+          }
+        },
+        "not": {
+          "required": [
+            "fenced/reason"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "unpublished"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "admissible": {
+            "const": false
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "operation/ref"
+              ]
+            },
+            {
+              "required": [
+                "operation/status"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "enum": [
+              "pending",
+              "published",
+              "withdrawal-pending",
+              "withdrawn",
+              "failed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "operation/ref",
+          "operation/status"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "enum": [
+              "published",
+              "withdrawn"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "operation/status": {
+            "const": "completed"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "operation/status": {
+            "const": "failed"
+          },
+          "admissible": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "enum": [
+              "pending",
+              "withdrawal-pending"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "operation/status": {
+            "enum": [
+              "pending",
+              "running",
+              "unknown"
+            ]
+          },
+          "admissible": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "const": "withdrawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "admissible": {
+            "const": false
+          }
+        }
+      }
+    }
+  ]
+}

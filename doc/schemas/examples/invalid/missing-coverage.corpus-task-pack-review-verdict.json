@@ -1,0 +1,5 @@
+{
+  "schema": "corpus-task-pack-review-verdict.v1",
+  "verdict": "accept",
+  "findings": ["Read-only observation is safe."]
+}

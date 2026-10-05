@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-order-complete.request:v1",
+  "title": "Operator Task Order Complete Request v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "description": "Explicit local operator approval of one exact verified recipe preview for an already linked order. All source, answer and provenance bytes are resolved by their owners, never supplied by this request.",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "schema/v", "order/ref", "execution/ref", "recipe/digest", "operator/binding-ref", "local-binding/expected-digest"],
+  "properties": {
+    "schema": {"const": "operator-task-order-complete.request.v1"},
+    "schema/v": {"const": 1},
+    "order/ref": {"$ref": "operator-task-order-link.request.v1.schema.json#/properties/order~1ref"},
+    "execution/ref": {"$ref": "corpus-experiment-task-pack-execution.v1.schema.json#/properties/execution~1ref"},
+    "recipe/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+    "operator/binding-ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+    "local-binding/expected-digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"}
+  }
+}

@@ -27,6 +27,7 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | [`name`](#def-name) | string |  |
 | [`capabilityId`](#def-capabilityid) | string |  |
 | [`exactRef`](#def-exactref) | object |  |
+| [`offerTaskProfile`](#def-offertaskprofile) | object | Exact portable task identity covered by an ordinary Service Offer signature. Descriptive data, never a local binding, package capability or execution grant. |
 | [`refs`](#def-refs) | array |  |
 | [`assetRefs`](#def-assetrefs) | array |  |
 | [`hilMode`](#def-hilmode) | enum: `each-step`, `each-mutation` |  |
@@ -108,6 +109,13 @@ The exact `node-operator-binding.v1` the host verifies as current through the P0
 ## `$defs.exactRef`
 
 - Shape: object
+
+<a id="def-offertaskprofile"></a>
+## `$defs.offerTaskProfile`
+
+- Shape: object
+
+Exact portable task identity covered by an ordinary Service Offer signature. Descriptive data, never a local binding, package capability or execution grant.
 
 <a id="def-refs"></a>
 ## `$defs.refs`

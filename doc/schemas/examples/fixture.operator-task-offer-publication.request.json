@@ -1,0 +1,8 @@
+{
+  "schema": "operator-task-offer-publication.request.v1",
+  "schema/v": 1,
+  "draft/ref": "operator-task-offer-draft:qmail-on-workbench-a-1",
+  "action": "publish",
+  "operator/binding-ref": "node-operator-binding:local",
+  "local-binding/expected-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

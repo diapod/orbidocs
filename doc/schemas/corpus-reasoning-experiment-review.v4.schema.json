@@ -87,6 +87,10 @@
         "maxLength": 1024
       }
     },
+    "reviewed/patches": {
+      "$ref": "corpus-task-pack-review-verdict.v1.schema.json#/$defs/patches",
+      "description": "Exact review claims covered by this signature. Historical reviews may omit them; new task-pack repair admission and recipe publication require complete coverage at the owning relation gate. Absence is never enriched into historical coverage."
+    },
     "class/key": {
       "enum": [
         "Public",

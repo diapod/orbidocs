@@ -1,0 +1,9 @@
+{
+  "schema": "operator-task-order-link.request.v1",
+  "schema/v": 1,
+  "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "query/id": "query:qmail",
+  "operator/binding-ref": "operator:current",
+  "local-binding/expected-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "source": {"admissible": true}
+}

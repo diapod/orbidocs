@@ -7,7 +7,7 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "Unsigned, non-public draft assembled from portable profile facts and local publication choices. The ordinary catalog host validates, signs, and publishes the resulting Service Offer.",
+  "description": "Unsigned, non-public exact draft. Dator resolves named configuration policies; the host pins their values and digests together with the local binding, activation and exact unsigned ordinary Service Offer. Only explicit approval of this retained draft may request publication. Descriptive terms confer no operator, VM or HIL authority.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -23,7 +23,14 @@
     "topics",
     "provider/participant-ref",
     "price-policy/ref",
-    "availability-policy/ref"
+    "availability-policy/ref",
+    "local-binding/digest",
+    "activation/generation",
+    "price-policy/digest",
+    "availability-policy/digest",
+    "price-policy/value",
+    "availability-policy/value",
+    "offer/content"
   ],
   "properties": {
     "schema": {
@@ -74,6 +81,95 @@
     },
     "availability-policy/ref": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "local-binding/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "activation/generation": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "price-policy/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "availability-policy/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "price-policy/value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pricing/amount",
+        "pricing/currency",
+        "pricing/unit",
+        "pricing/unit-kind"
+      ],
+      "properties": {
+        "pricing/amount": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/pricing~1amount"
+        },
+        "pricing/currency": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/pricing~1currency"
+        },
+        "pricing/unit": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/pricing~1unit"
+        },
+        "pricing/unit-kind": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/pricing~1unit-kind"
+        }
+      }
+    },
+    "availability-policy/value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validity/seconds",
+        "delivery/max-duration-sec",
+        "queue/auto-accept",
+        "queue/max-depth",
+        "hybrid",
+        "model-first",
+        "confirmation/mode"
+      ],
+      "properties": {
+        "validity/seconds": {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 86400
+        },
+        "delivery/max-duration-sec": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/delivery~1max-duration-sec"
+        },
+        "queue/auto-accept": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/queue~1auto-accept"
+        },
+        "queue/max-depth": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/queue~1max-depth"
+        },
+        "hybrid": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/hybrid"
+        },
+        "model-first": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/model-first"
+        },
+        "confirmation/mode": {
+          "$ref": "service-offer-common.v1.schema.json#/properties/confirmation~1mode"
+        }
+      }
+    },
+    "offer/content": {
+      "allOf": [
+        {
+          "$ref": "service-offer-common.v1.schema.json"
+        },
+        {
+          "not": {
+            "required": [
+              "signature"
+            ]
+          }
+        }
+      ]
     }
   }
 }

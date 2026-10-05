@@ -1,0 +1,10 @@
+{
+  "schema": "operator-task-order-complete.request.v1",
+  "schema/v": 1,
+  "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "execution/ref": "corpus-task-pack-execution:sha256:PEaap8mlrUCWgXaNN_ov8LMrV0U6McBdaRiHIbFzaS0",
+  "recipe/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "operator/binding-ref": "operator:fixture",
+  "local-binding/expected-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "answer": {}
+}

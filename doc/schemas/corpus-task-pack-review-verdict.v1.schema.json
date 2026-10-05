@@ -9,7 +9,8 @@
   "required": [
     "schema",
     "verdict",
-    "findings"
+    "findings",
+    "reviewed/patches"
   ],
   "properties": {
     "schema": {
@@ -22,6 +23,9 @@
         "request-regeneration"
       ]
     },
+    "reviewed/patches": {
+      "$ref": "#/$defs/patches"
+    },
     "findings": {
       "type": "array",
       "minItems": 1,
@@ -31,6 +35,43 @@
         "minLength": 1,
         "maxLength": 1024
       }
+    }
+  },
+  "$defs": {
+    "patches": {
+      "description": "Structured coverage claims, not a host verdict on reasoning quality. Acceptance must cover every exact candidate patch/file; an observation has an empty array. The owner compares identities and resulting byte digests, and binds finding indices, before signing or publication.",
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step/id", "patch/ref", "files"],
+        "properties": {
+          "step/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/name"},
+          "patch/ref": {"type": "string", "pattern": "^artifact:sha256:[A-Za-z0-9_-]{43}$"},
+          "files": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "items": {"$ref": "#/$defs/file"}
+          }
+        }
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root/ref", "path", "operation", "finding/index"],
+      "properties": {
+        "root/ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+        "path": {"$ref": "operator-task-patch.v1.schema.json#/$defs/file/properties/path"},
+        "operation": {"enum": ["write", "delete"]},
+        "content/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+        "finding/index": {"type": "integer", "minimum": 0, "maximum": 15}
+      },
+      "if": {"required": ["operation"], "properties": {"operation": {"const": "write"}}},
+      "then": {"required": ["content/digest"]},
+      "else": {"not": {"required": ["content/digest"]}}
     }
   }
 }

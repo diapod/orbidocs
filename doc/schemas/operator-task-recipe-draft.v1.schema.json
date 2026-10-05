@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-recipe-draft:v1",
+  "title": "Operator Task Recipe Draft v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "description": "Read-only exact recipe preview. The digest is SHA-256 of recipe JCS v1 bytes, not approval, publication or execution authority.",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "schema/v", "recipe/digest", "recipe"],
+  "properties": {
+    "schema": {"const": "operator-task-recipe-draft.v1"},
+    "schema/v": {"const": 1},
+    "recipe/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+    "recipe": {"$ref": "operator-task-verified-recipe.v1.schema.json"}
+  }
+}

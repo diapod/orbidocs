@@ -1,0 +1,83 @@
+{
+  "schema": "operator-task-offer-publication.v1",
+  "schema/v": 1,
+  "draft": {
+    "schema": "operator-task-offer-draft.v1",
+    "schema/v": 1,
+    "draft/ref": "operator-task-offer-draft:qmail-on-workbench-a-1",
+    "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+    "task-profile/ref": "operator-task-profile:qmail-local-administration",
+    "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+    "service/type": "orbiplex.problem-solving",
+    "offer-template/ref": "operator-task-offer-template:qmail-v1",
+    "offer-template/digest": "sha256:wBFCu04nkhbUmske005d45F4tYDD12SoOUtSkHIgILQ",
+    "topics": [
+      "mail/qmail",
+      "mail/local-delivery",
+      "mail/relay-policy"
+    ],
+    "provider/participant-ref": "participant:local-provider",
+    "price-policy/ref": "price-policy:qmail-lab-v1",
+    "availability-policy/ref": "availability-policy:qmail-lab-v1",
+    "local-binding/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "activation/generation": 1,
+    "price-policy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "price-policy/value": {
+      "pricing/amount": 1000,
+      "pricing/currency": "ORC",
+      "pricing/unit": "1800 input characters",
+      "pricing/unit-kind": "per-character-block"
+    },
+    "availability-policy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "availability-policy/value": {
+      "validity/seconds": 3600,
+      "delivery/max-duration-sec": 3600,
+      "queue/auto-accept": false,
+      "queue/max-depth": 3,
+      "hybrid": true,
+      "model-first": true,
+      "confirmation/mode": "manual-review-only"
+    },
+    "offer/content": {
+      "schema/v": 1,
+      "offer/id": "offer:task-pack-fixture",
+      "created-at": "2026-04-01T05:30:00Z",
+      "published-at": "2026-04-01T05:30:00Z",
+      "expires-at": "2026-04-01T06:30:00Z",
+      "sequence/no": 1,
+      "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+      "provider/participant-id": "participant:local-provider",
+      "service/type": "orbiplex.problem-solving",
+      "service/description": "Solve a bounded task under its exact portable task profile.",
+      "pricing/amount": 1000,
+      "pricing/currency": "ORC",
+      "pricing/unit": "1800 input characters",
+      "pricing/unit-kind": "per-character-block",
+      "delivery/max-duration-sec": 3600,
+      "queue/auto-accept": false,
+      "queue/max-depth": 3,
+      "queue/current-depth": 1,
+      "constraints/input": {
+        "language": "pl",
+        "max_input_characters": 1800
+      },
+      "constraints/output": {
+        "language": "pl",
+        "format": "markdown"
+      },
+      "hybrid": true,
+      "model-first": true,
+      "confirmation/mode": "manual-review-only",
+      "policy_annotations": {
+        "operator-task/profile": {
+          "task-profile/ref": "operator-task-profile:qmail-local-administration",
+          "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA"
+        }
+      }
+    }
+  },
+  "state": "published",
+  "admissible": true,
+  "operation/ref": "deferred:operator-task-offer:fixture",
+  "operation/status": "pending"
+}

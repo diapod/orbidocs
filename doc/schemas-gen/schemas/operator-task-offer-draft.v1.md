@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-offer-draft.v1.schema.json`](../../schemas/operator-task-offer-draft.v1.schema.json)
 
-Unsigned, non-public draft assembled from portable profile facts and local publication choices. The ordinary catalog host validates, signs, and publishes the resulting Service Offer.
+Unsigned, non-public exact draft. Dator resolves named configuration policies; the host pins their values and digests together with the local binding, activation and exact unsigned ordinary Service Offer. Only explicit approval of this retained draft may request publication. Descriptive terms confer no operator, VM or HIL authority.
 
 ## Governing Basis
 
@@ -27,6 +27,13 @@ Unsigned, non-public draft assembled from portable profile facts and local publi
 | [`provider/participant-ref`](#field-provider-participant-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`price-policy/ref`](#field-price-policy-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`availability-policy/ref`](#field-availability-policy-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
+| [`local-binding/digest`](#field-local-binding-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
+| [`activation/generation`](#field-activation-generation) | `yes` | integer |  |
+| [`price-policy/digest`](#field-price-policy-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
+| [`availability-policy/digest`](#field-availability-policy-digest) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/digest` |  |
+| [`price-policy/value`](#field-price-policy-value) | `yes` | object |  |
+| [`availability-policy/value`](#field-availability-policy-value) | `yes` | object |  |
+| [`offer/content`](#field-offer-content) | `yes` | unspecified |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -106,3 +113,45 @@ Unsigned, non-public draft assembled from portable profile facts and local publi
 
 - Required: `yes`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/ref`
+
+<a id="field-local-binding-digest"></a>
+## `local-binding/digest`
+
+- Required: `yes`
+- Shape: ref: `operator-task-common.v1.schema.json#/$defs/digest`
+
+<a id="field-activation-generation"></a>
+## `activation/generation`
+
+- Required: `yes`
+- Shape: integer
+
+<a id="field-price-policy-digest"></a>
+## `price-policy/digest`
+
+- Required: `yes`
+- Shape: ref: `operator-task-common.v1.schema.json#/$defs/digest`
+
+<a id="field-availability-policy-digest"></a>
+## `availability-policy/digest`
+
+- Required: `yes`
+- Shape: ref: `operator-task-common.v1.schema.json#/$defs/digest`
+
+<a id="field-price-policy-value"></a>
+## `price-policy/value`
+
+- Required: `yes`
+- Shape: object
+
+<a id="field-availability-policy-value"></a>
+## `availability-policy/value`
+
+- Required: `yes`
+- Shape: object
+
+<a id="field-offer-content"></a>
+## `offer/content`
+
+- Required: `yes`
+- Shape: unspecified

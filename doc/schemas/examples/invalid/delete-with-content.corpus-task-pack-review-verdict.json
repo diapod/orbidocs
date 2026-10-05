@@ -1,0 +1,20 @@
+{
+  "schema": "corpus-task-pack-review-verdict.v1",
+  "verdict": "accept",
+  "findings": ["Removing the obsolete file is justified."],
+  "reviewed/patches": [
+    {
+      "step/id": "delete-obsolete",
+      "patch/ref": "artifact:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "files": [
+        {
+          "root/ref": "guest-root:qmail",
+          "path": "etc/qmail/obsolete",
+          "operation": "delete",
+          "content/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "finding/index": 0
+        }
+      ]
+    }
+  ]
+}

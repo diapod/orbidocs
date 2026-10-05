@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-order-link.request:v1",
+  "title": "Operator Task Order Link Request v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "description": "Current local operator's explicit selection of one provider-owned round for a retained remote order. The host checks the exact selected profile, question and current binding before recording a unique immutable link. Does not open a loop, appoint a Chair or grant HIL.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "order/ref", "query/id", "operator/binding-ref", "local-binding/expected-digest"],
+  "properties": {
+    "schema": {"const": "operator-task-order-link.request.v1"},
+    "schema/v": {"const": 1},
+    "order/ref": {"type": "string", "pattern": "^operator-task-order:sha256:[A-Za-z0-9_-]{43}$"},
+    "query/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+    "operator/binding-ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+    "local-binding/expected-digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"}
+  }
+}

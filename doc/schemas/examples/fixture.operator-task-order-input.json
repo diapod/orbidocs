@@ -1,0 +1,7 @@
+{
+  "schema": "operator-task-order-input.v1",
+  "task-profile/ref": "operator-task-profile:qmail-verify-relay-v1",
+  "task-profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "selected-offer/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "question/text": "Accept mail for example.test without opening a relay."
+}
