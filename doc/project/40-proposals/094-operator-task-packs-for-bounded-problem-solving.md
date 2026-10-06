@@ -2623,6 +2623,115 @@ shared timeout, authority lifetime or deliberation ceiling was loosened.
 That checkpoint completed `007c2/007c4` and positive `016b1`; the then-open
 `016a/b` fault matrix is closed below. Whole P094 and alpha-node stay open.
 
+### Native interrupted-step recovery checkpoint (2026-10-06)
+
+`P094-013d` qualifies the existing run, Workbench and Corpus owners, not a
+second recovery executor. A transport checkpoint withholds a real reply;
+it never fabricates a successful effect or destruction confirmation. The
+fixture stops old workers before restart and leaves the exact VM for owner
+reconciliation. Inference is deterministic: this is a native mechanism
+proof, not another real-model or federated deliberation claim.
+
+The original report's `native-interruption-owner-receipts-v1` qualification scope
+separates lifetime destruction observations from residual inventory cleanup.
+Already closed run instances are absent from the latter, not missing disposal
+evidence. Exact owner replies cover the observation, interrupted and fresh
+instances plus the remaining template; the run journal retains its destruction
+confirmation. The fresh HIL record is a historical pending checkpoint before
+cancellation, not reusable authorization. Selective export retains response
+commitments and removes helper PIDs. Historical reports without this scope are
+not implicitly upgraded to that receipt gate. The review gate
+`native-interruption-publication-fence-v2` additionally requires the exact signed
+publication lists observed during `rollback-pending` and after the real
+destruction reply was withheld. Each must equal the prior execution in the final
+list, excluding the interrupted run. Only the final list includes the new signed
+unknown execution. This is measured publication visibility at the two named
+checkpoints, not a claim to continuously sampled publication times.
+
+Replay authority decision (2026-10-06, clarification of P093 §12): replay is a
+new capability invocation, not unconditional access to a journal. Current caller,
+reach, overlay and grant checks precede retained-response lookup. After the loop
+stops and revokes its grant, even exact replay of an earlier successful request
+receives `403 grant-revoked-or-expired`. Losing that response does not confer a
+new right to retrieve it. Separately authorized local inspection may expose the
+retained run/publication; invocation status reads under P093 R8a likewise require
+current authority. Retention and execution authority remain separate.
+
+| Boundary | Required outcome | Proof owner |
+| --- | --- | --- |
+| Before step admission | No dispatch; current authority and HIL still apply | Existing driver fence and HIL negatives |
+| `step-started`, after Workbench channel delivery but before patch-owner invocation | `unknown`, not inferred non-dispatch after host interruption | Native checkpoint inside Workbench; no daemon-to-Workbench request-loss claim |
+| Real patch applied, reply lost before host outcome | Same `unknown`; never repeat patch, restart or probe | Native checkpoint after verified Workbench reply |
+| Negative outcome retained, conclusion write lost | Settle the retained outcome without executing again | `a_recorded_negative_step_is_settled_after_a_failed_conclusion_write` |
+| Conclusion retained, destruction unavailable | `rollback-pending`; no signed terminal publication yet | Native owner-transport refusal plus existing driver tests |
+| Owner destroyed exact instance, confirmation reply lost | Idempotent owner reconciliation, no repeated uncertain step | Native destruction lost-ACK checkpoint |
+| Destruction bound exceeded | `rollback/destroy-unconfirmed` blocks new admission | `an_unconfirmed_destruction_past_its_bound_admits_no_further_run` with explicit clock |
+| Terminal restart/replay | Same signed `unknown`, run facts and budgets; no new inference, publication or charge | Native Room/Agent/Corpus readback and replay |
+
+| Checkpoint | Scope | Status | Completion evidence |
+| --- | --- | --- | --- |
+| `P094-013d1` | Freeze boundaries and prove pure recovery invariants | `done` | 2026-10-06: all 18 driver tests pass, including partial conclusion writes, interrupted-step recovery, per-run isolation and destruction bounds. Terminal replay appends no facts; only owner-confirmed destruction releases the rollback gate for a distinct fresh run. Six fault-transport tests prove immutable bounded observations, real owner replies, normal release, unwind abort and bounded timeout without fabricated success. The qualifier refuses missing, early or substituted pending publications. Scoped strict Clippy passes. |
+| `P094-013d2` | Exercise deployed recovery and Corpus closure | `done` | 2026-10-06: both native cases settle the interrupted patch as `unknown`, preserve the same instance and block publication until destruction is confirmed. Destruction transport first refuses, then loses a real owner reply; restart confirms it idempotently. Eight exact run facts, two signed publications including one unknown result, six unchanged Agent budgets/charge receipts and loop spending survive terminal restart. The stopped loop refuses capability replay with 403; a separate explicit operator admission gets a fresh instance and fresh HIL, then cancels without executing a step. |
+| `P094-013d3` | Retain clean-source vfkit interruption evidence | `done` | Review run `s13-1791274752-58cf89` passes both boundaries and the publication-fence V2 gate on clean source `8b368be3bb11bb5eb07b73e46c376e7501112499`, tree `5fe20780e8f8ab5a8addd26c71c74194f2ec615b`. Its immutable acceptance ref and verified full-history private bundle retain the tested source. The repository exporter requalifies original and selectively disclosed report bytes, preserving pending publication snapshots, owner commitments, signatures and charges. Report: `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-06.review.inflight-recovery.macos-arm64.json` (UTC date). The earlier receipt-only run/report remains historical, not retroactively upgraded. |
+| `P094-013d` | Qualify native interrupted-step recovery | `done` | `013d1` through `013d3`; the native macOS arm64/vfkit interruption mechanism is qualified. This does not claim whole P094, alpha readiness, real-model fault injection or a multi-host interruption proof. |
+
+Review found a production vfkit recovery defect: a dead owned process could
+leave exact recorded sockets, causing startup reconciliation to fail before
+Workbench could dispose retained state. The owner now removes them only after
+validated record/resource/socket bindings, a dead recorded process and a
+definitive `ConnectionRefused`. A live listener, substituted inode, timeout or
+unavailable process observation is not stale-socket proof. All 24 vfkit
+lifecycle tests pass, including direct startup recovery and a substituted
+socket negative. No automatic recreation or redispatch is introduced.
+
+Diagnostic attempts `s13-1791242884-bfa75f`, `s13-1791243409-07bdf3` and
+`s13-1791245486-410da3` remain failed. They exposed fixture address/authorization
+assumptions, the dead-socket defect and the incorrect assumption that middleware
+helpers share the daemon's process group. Retained failed state was subsequently
+disposed through the owner, not relabelled as a passing report. Review aborts
+held patches during unwinding, restores teardown transport and preserves private
+conformance inputs needed to restart failed fixtures. Cleanup captures exact PID/start-marker
+identities while the daemon is live; direct parentage admits its independently
+grouped middleware helper. All ownership checks precede destructive guards.
+Foreign helpers and substituted process incarnations are negative controls.
+The report gate also requires cleanup of both interrupted and fresh instances,
+fresh pending HIL and an applied receipt bound to the exact owner address.
+Fresh run `s13-1791246760-f767f6` passes those executable review changes on
+source `2ea459ef` in 416.11 seconds. Thirty-nine non-ignored Story 013 process
+tests, the 18 driver tests, 24 vfkit lifecycle tests, 115 acceptance Python
+tests and scoped strict Clippy pass. Earlier passing source pins remain
+historical checkpoints, not final-source evidence.
+Attempt `s13-1791246065-4a2200` passed the Rust native cases but its launcher
+refused the incorrect requirement that residual inventory contain previously
+closed instances. Original report and status remain unchanged. The revised
+report retains their actual owner replies separately, with no reconstructed
+success or reclassification of the failed qualification.
+
+Record-isolation review (2026-10-06): invalid record bindings, substituted
+sockets and unavailable process observations quarantine only that record with a
+typed diagnostic, preserving unproven resources and allowing other owned VMs to
+recover. A record-only quarantine remains protected from orphan cleanup across
+restart; a valid destruction intent remains retryable. Broker-wide persistence
+failure may still refuse reconciliation. Before stale-socket unlink, the owner
+rechecks the recorded device/inode commitment using actual filesystem metadata.
+This narrows the race; it is not atomic compare-and-unlink protection against a
+hostile concurrent process running under the same UID. The private owned state
+directory and broker lock exclude supported concurrent writers, not such an
+attacker. The 25 native lifecycle regressions include an invalid binding or
+substituted socket alongside a healthy VM, then a second restart without orphan
+cleanup of the quarantine.
+
+Fresh review run `s13-1791274752-58cf89` passes the publication-fence V2 gate
+on clean retained source `8b368be3` in 417.52 seconds. Both cases retain one
+prior signed execution at each pending-publication checkpoint and two executions
+only after confirmed destruction. Six unchanged Agent budgets/charge receipts,
+eight run facts and four exact lifetime destruction replies remain bound in each
+case. The 39 ordinary Story 013 process tests, 18 driver tests, 25 vfkit lifecycle
+tests, 118 acceptance Python tests and scoped strict Clippy pass. The orphaned,
+untracked 2026-10-05 export is preserved with unchanged bytes in its private run
+archive beside its verified source bundle; it is not a repository completion
+report. The earlier public receipt-only report retains its original scope.
+
 ### Next Actions After the Physical Market Checkpoint
 
 Publication recovery decision (2026-10-05, accepted): retain the exact relay
@@ -2764,8 +2873,10 @@ Review also binds refusal by the exact artifact digest, not by conflating the
 service order identity with its transport idempotency key. The then-remaining
 aggregate gap in `016a` is closed by the later composed qualification above.
 
-1. Finish the independently tracked unknown in-flight step/crash recovery and
-   remaining refusal boundaries before claiming the full Story 013 contract.
+1. Audit the remaining Story 013 refusal-case reachability before claiming the
+   full story contract. Native interrupted-step recovery is now closed by
+   `P094-013d`; keep its deterministic mechanism proof separate from MLX and
+   physical-market evidence.
 2. Complete P091-backed task-pack bindings (`P094-006b`) and the bilingual
    operator HOWTO (`P094-014`), reusing the now-qualified owner API/client paths.
 3. Keep the closed `016a/016b/016b3/016b4/016` evidence scopes distinct: fixture

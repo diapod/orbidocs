@@ -306,8 +306,33 @@ The independent image and active-pause proofs were repeated as
 `05bd494b5521b52417da6fbec82a7eda141cb2c3` and tree
 `ef4bd36b9c6b791797654d180ae59b92f5c522e9`, with retained Git GC roots and a
 verified private bundle. Earlier reports retain only their original assertions.
-The separate pending-proposal/ephemeral-turn recovery boundary is open as
-`P094-023b1`; this is not a full crash-recovery, federation or alpha claim.
+At that checkpoint, pending-proposal/ephemeral-turn recovery remained open.
+The later `P094-023b1a/b` proofs close that pre-admission boundary: minimal
+host-owned turn witnesses survive restart without recreating live authority.
+The clean-source real-MLX/vfkit run `s13-1791156863-88b339` retains exact
+signed proposal/review replay before experiment admission, with no extra
+inference, publication or charge. This is not general durable Room history,
+full crash recovery, federation or alpha readiness.
+
+Native interruption checkpoint (2026-10-06): `P094-013d` closes the earlier
+unknown-step gap with two fresh macOS arm64/vfkit cases. The host is interrupted
+after `step-started`, either after channel delivery but before Workbench invokes
+the patch owner, or after its
+actual applied reply is withheld. Both recover `unknown` without repeating the
+patch or later restart/probe steps. Destruction first refuses and then loses
+its real reply; the exact instance is confirmed on restart before one signed
+unknown publication. Eight run facts, six Agent budgets and charge receipts,
+and loop spending remain unchanged after terminal restart. A stopped-loop
+capability replay is refused; a distinct explicit operator admission gets a
+fresh VM and fresh HIL and is cancelled without executing a step. Owner cleanup
+is confirmed in both cases. Review run `s13-1791274752-58cf89` also retains the
+exact prior publication list while destruction is unavailable and after its
+real reply is lost; the new unknown execution appears only after confirmation.
+Stopped-loop invocation replay requires a current grant, not only journal
+identity. The selective report on clean retained source `8b368be3` is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-06.review.inflight-recovery.macos-arm64.json`
+(UTC run date). This is native mechanism evidence, not real-model fault
+injection or multi-host interruption qualification.
 
 ## Verifier Checks
 
@@ -482,8 +507,9 @@ must say which one.
 - [x] An open-relay "repair" is refused by the verifier in a retained negative
   run.
 - [ ] Every refusal case above is reached at its owning boundary.
-- [ ] Restart, pause/resume, crash with an `unknown` step, and revocation behave
-  as specified.
+- [x] Restart, pause/resume, crash with an `unknown` step, and revocation behave
+  as specified in the named local/native and physical-market checkpoints
+  (`P094-013c/013d/016`); their inference and fault-evidence classes stay separate.
 - [x] The federated profile delivers the recipe to a remote requester that
   admitted the exact profile digest, and a stale offer is refused after
   revocation (`P094-016`).

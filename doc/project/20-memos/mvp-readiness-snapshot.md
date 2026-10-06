@@ -2,6 +2,26 @@
 
 Snapshot date: 2026-09-05.
 
+Native interruption checkpoint — 2026-10-06: `P094-013d1/013d2/013d3/013d`
+are complete in the scoped macOS arm64/vfkit profile. Clean-source run
+`s13-1791274752-58cf89` interrupts an admitted patch before and after the actual
+Workbench effect, refuses destruction transport and loses a real destruction
+reply. Restart preserves `unknown`, confirms the same instance, publishes once
+and changes neither six Agent charge receipts/budgets nor loop spending in
+each case. Stopped-loop replay is refused; separate operator admission creates
+a fresh VM and requires fresh HIL. Cleanup is owner-confirmed, and the private
+full-history source bundle verifies. The publication-fence V2 gate also retains
+the exact prior signed publication list while destruction is pending and after
+its real reply is lost; only confirmed destruction releases the new unknown
+publication. Record-isolated vfkit recovery preserves unproven resources across
+restart. The selective report is
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-06.review.inflight-recovery.macos-arm64.json`
+(UTC run date), pinned to revision `8b368be3` and an immutable acceptance ref.
+This supersedes earlier unknown-step mechanism blockers, not historical
+reports. P091-backed task bindings, bilingual HOWTO, remaining refusal-case
+audit, whole-P094 acceptance and its operator-promoted alpha blocker remain
+open. Deterministic inference is not real-model or federated fault evidence.
+
 Incremental task-pack checkpoint — 2026-10-03: the agreed P093 local A–E
 vertical supplies the package step capability. `P094-023d3` is complete through
 ten daemon process proofs: managed evidence-reactive Inquirium, a live local

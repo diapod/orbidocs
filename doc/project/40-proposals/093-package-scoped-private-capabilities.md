@@ -628,6 +628,15 @@ Local operator diagnostics keep the precise cause.
   operator resolution records a terminal outcome. Every replay rechecks the grant, so a
   holder whose grant was revoked cannot collect a result.
 
+Replay authority clarification (2026-10-06): loss of an earlier successful
+response does not grant a right to retrieve it by re-invoking after revocation.
+An exact replay still crosses current reach, overlay, caller and grant gates;
+`grant-revoked-or-expired` therefore precedes retained-result lookup. A status
+query is read-only but also retains the current-authority checks in R8a. An
+operator may inspect retained facts only through a separately authorized local
+observation surface, not by reusing the revoked execution grant. This is the
+intended P094 stopped-loop behavior, not loss or re-execution of the journal.
+
 **Working start profile.** The values below are a hypothesis to be calibrated by
 measurement, not a confirmed production profile. They let the mechanism be implemented
 and tested without claiming that the numbers are settled.

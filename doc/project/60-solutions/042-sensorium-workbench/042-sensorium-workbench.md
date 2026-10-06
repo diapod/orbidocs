@@ -232,6 +232,28 @@ report binds clean source, Flow, image and model/runtime assets:
 `node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-04.real-mlx.macos-arm64.json`.
 Federation and proposal-wide/alpha completion remain separate, open gates.
 
+Native interruption qualification (`P094-013d`, 2026-10-06) exercises the
+same owners after channel delivery but before patch-owner invocation, after a
+real patch, and after a real destruction reply
+is lost. A retained `step-started` becomes `unknown`, never non-dispatch or
+automatic retry. The host waits in `rollback-pending` until the exact owner
+confirms disposal; Corpus then signs one unknown execution and stops its loop.
+Restart preserves facts, six Agent budgets/charge receipts and loop spending
+per case. A separately admitted run gets a fresh instance and fresh HIL.
+The vfkit owner additionally recognizes dead exact sockets only with validated
+record/resource identities and definitive `ConnectionRefused`, quarantining
+partial state rather than recreating it. Substituted sockets remain untouched,
+and record-only quarantines remain protected across restart without blocking
+healthy VM recovery. Device/inode recheck before unlink narrows, but does not
+atomically eliminate, same-UID filesystem races. The publication-fence V2 report
+retains exact publication lists at both pending checkpoints; it does not infer
+publication ordering from the final count alone. Stopped-loop invocation replay
+still requires current authority. Review run `s13-1791274752-58cf89` on clean
+retained source `8b368be3` exports
+`node:tools/acceptance/story-013-qmail-task-pack/reports/2026-10-06.review.inflight-recovery.macos-arm64.json`
+(UTC run date). This is a local native mechanism proof, not real-model fault
+injection, multi-host interruption or whole-P094/alpha completion.
+
 ## Date
 
 2026-07-21
