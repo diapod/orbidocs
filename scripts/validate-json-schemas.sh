@@ -89,6 +89,18 @@ schema_for_file() {
     *.config-offline.response.json)
       echo "$SCHEMAS_DIR/config-offline.response.v1.schema.json"
       ;;
+    *.operator-task-binding-sources.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-sources.v1.schema.json"
+      ;;
+    *.operator-task-binding-proposal.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-proposal.v1.schema.json"
+      ;;
+    *.operator-task-binding-maintenance.request.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-maintenance.request.v1.schema.json"
+      ;;
+    *.operator-task-binding-maintenance.response.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-maintenance.response.v1.schema.json"
+      ;;
     *.operator-task-profile.json)
       echo "$SCHEMAS_DIR/operator-task-profile.v1.schema.json"
       ;;

@@ -2,6 +2,27 @@
 
 Snapshot date: 2026-09-05.
 
+Scoped binding checkpoint — 2026-10-06: `P094-006b1–006b4/006b` are complete
+over the bounded Unix P091 seam. Exact source/descriptor identities, equal-key
+contributors, explicit not-applied operator-file proposals, temporal commit
+receipts and current-operator migration/recovery now back the existing domain
+port. Eight named security fixtures, subprocess interruptions and daemon restart
+prove no read materialization, partial-byte consumption, repeated effect or
+renewed authority. Legacy adoption preserves the same bytes and mutation counter.
+The scoped EN/PL guide is `node:docs/operations/TASK-PACK-BINDINGS.md`.
+This supersedes older pending-binding notes below, not broader P091 status;
+general adapters/activation/history archival, full P094 HOWTO/refusal audit and
+acceptance still block proposal-wide and alpha completeness.
+
+Binding review closeout — 2026-10-06: attempts live only in the shared intent;
+committed history derives from verified outcomes. The production port has no
+raw binding write. Detected pre-replacement conflicts are terminal immediately,
+and writes preserve existing UID/GID/access mode. Owner diagnostics warn at 80%
+of the node-wide 1,024-event journal (at most 512 ordinary changes across all
+targets). At capacity further writes refuse; supported archival/rotation is
+still missing and remains an operational readiness limitation. Explicit no-op
+adoption approves current exact bytes, never attributes their historical editor.
+
 Native interruption checkpoint — 2026-10-06: `P094-013d1/013d2/013d3/013d`
 are complete in the scoped macOS arm64/vfkit profile. Clean-source run
 `s13-1791274752-58cf89` interrupts an admitted patch before and after the actual

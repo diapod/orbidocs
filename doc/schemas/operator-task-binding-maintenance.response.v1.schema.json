@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-maintenance.response:v1",
+  "title": "Operator Task Binding Maintenance Response v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "A bounded source maintenance observation. Preview is read-only. Recorded outcomes precede consumption, but never renew a package activation, operator binding, lease or run grant. Conflict never authorizes replacement.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "action",
+    "binding/ref",
+    "authority/renewed",
+    "disposition"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-maintenance.response.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "action": {
+      "enum": [
+        "preview-migration",
+        "adopt-migration",
+        "recover"
+      ]
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "authority/renewed": {
+      "const": false
+    },
+    "disposition": {
+      "enum": [
+        "preview",
+        "recorded",
+        "no-intent"
+      ]
+    },
+    "plan": {
+      "$ref": "config-change-plan.v1.schema.json"
+    },
+    "commit/outcome": {
+      "enum": [
+        null,
+        "committed",
+        "not-committed",
+        "recovered-committed",
+        "no-op-content",
+        "conflict"
+      ]
+    },
+    "transaction/ref": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "configuration-common.v1.schema.json#/$defs/text"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "const": "preview-migration"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "plan"
+        ],
+        "properties": {
+          "disposition": {
+            "const": "preview"
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "commit/outcome"
+              ]
+            },
+            {
+              "required": [
+                "transaction/ref"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "commit/outcome",
+          "transaction/ref"
+        ],
+        "properties": {
+          "disposition": {
+            "enum": [
+              "recorded",
+              "no-intent"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "disposition"
+        ],
+        "properties": {
+          "disposition": {
+            "const": "recorded"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "commit/outcome": {
+            "type": "string"
+          },
+          "transaction/ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "disposition"
+        ],
+        "properties": {
+          "disposition": {
+            "const": "no-intent"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "action": {
+            "const": "recover"
+          },
+          "commit/outcome": {
+            "type": "null"
+          },
+          "transaction/ref": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "const": "adopt-migration"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "plan"
+        ],
+        "properties": {
+          "disposition": {
+            "const": "recorded"
+          },
+          "commit/outcome": {
+            "const": "no-op-content"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "operator-task-binding-sources.v1",
+  "schema/v": 1,
+  "history/capacity": {
+    "state": "available",
+    "events/retained": 0,
+    "events/max": 1024,
+    "outcomes/reserved": 0,
+    "bytes/retained": 0,
+    "bytes/max": 67108864
+  },
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "owner/ref": "daemon:operator-task-packs",
+  "scope/ref": "component:operator-task-packs",
+  "source/set": {
+    "selection-profile/revision": "task-pack-selection:v1:fixture",
+    "scope/kind": "component",
+    "scope/ref": "component:operator-task-packs",
+    "owner-mapping/revision": "task-pack-source-owners:v1",
+    "source/slots": [
+      {
+        "source/ref": "source:operator-task-packs:fixture",
+        "source/class": "operator-component",
+        "order/index": 0,
+        "owner/ref": "daemon:operator-task-packs",
+        "source/presence": {
+          "presence": "present",
+          "content/revision": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "file/bytes-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "retained/value-ref": "retained:0"
+        }
+      }
+    ]
+  },
+  "source-set/revision": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "binding": {
+    "schema": "operator-task-local-binding.v1",
+    "schema/v": 1,
+    "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+    "binding/state": "enabled",
+    "package/ref": "extension-package:qmail-operator-pack",
+    "task-profile/ref": "operator-task-profile:qmail-local-administration",
+    "task-profile/digest": "sha256:GQDqtsAoSD1xJlme5vUN4NJ5B7XGX6kFJFgLSw-YUrA",
+    "workspace": {
+      "root/ref": "workspace-root:qmail-lab",
+      "backend/ref": "sensorium-virt-backend:cloud-hypervisor-system.v1"
+    },
+    "inference": {
+      "model-profile/ref": "model-profile:qwen-coder-local",
+      "runtime/ref": "model-runtime:local-openai-compatible"
+    },
+    "publication": {
+      "enabled": true,
+      "provider/participant-ref": "participant:local-provider",
+      "price-policy/ref": "price-policy:qmail-lab-v1",
+      "availability-policy/ref": "availability-policy:qmail-lab-v1"
+    },
+    "safety": {
+      "hil/mode": "each-mutation",
+      "runtime-network": "none",
+      "max/concurrent-runs": 1
+    }
+  },
+  "write/admitted": false,
+  "descriptor": {
+    "schema": "config-setting-descriptor.v1",
+    "schema/v": 1,
+    "setting/address": {
+      "scope/kind": "component",
+      "scope/ref": "component:operator-task-packs",
+      "owner/ref": "daemon:operator-task-packs",
+      "setting/pointer": "/bindings/operator-task-local-binding:qmail-on-workbench-a",
+      "contract/revision": "operator-task-local-binding:v1"
+    },
+    "value/schema-ref": "schema:operator-task-local-binding:v1",
+    "scopes/supported": [
+      "component"
+    ],
+    "composition/rule": "keyed-equal-or-conflict:v1",
+    "validator/ref": "validator:operator-task-local-binding:v1",
+    "sensitive": false,
+    "application/mode": "approval-required",
+    "targets/editable": false,
+    "manual/ref": "manual:operator-task-binding-sources:v1",
+    "provenance": "distribution-default"
+  },
+  "descriptor/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

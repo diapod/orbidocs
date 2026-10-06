@@ -1,0 +1,7 @@
+{
+  "schema": "operator-task-binding-maintenance.request.v1",
+  "schema/v": 1,
+  "action": "adopt-migration",
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "operator/binding-ref": "node-operator-binding:fixture"
+}

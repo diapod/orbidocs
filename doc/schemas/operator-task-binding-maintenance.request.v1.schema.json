@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-maintenance.request:v1",
+  "title": "Operator Task Binding Maintenance Request v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Explicit source migration or content recovery under current local operator authority. Adoption approves the complete previewed P091 plan; recovery observes bytes, never overwrites them or renews execution authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "action",
+    "binding/ref",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-maintenance.request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "action": {
+      "enum": [
+        "preview-migration",
+        "adopt-migration",
+        "recover"
+      ]
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan": {
+      "$ref": "config-change-plan.v1.schema.json"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "const": "adopt-migration"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "plan"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "plan"
+          ]
+        }
+      }
+    }
+  ]
+}

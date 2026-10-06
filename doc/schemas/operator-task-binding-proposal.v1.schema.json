@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-proposal:v1",
+  "title": "Operator Task Binding Proposal v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "An exact, non-applied document for operator-owned read-only sources. It is not a commit receipt, activation or authorization. The source owner must explicitly edit the selected source; a consumer must not install a second hidden copy.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "disposition",
+    "reason",
+    "binding/ref",
+    "proposed/binding",
+    "proposed/digest",
+    "expected/binding-digest",
+    "source/refs"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-binding-proposal.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "disposition": {
+      "const": "not-applied"
+    },
+    "reason": {
+      "const": "operator-source-edit-required"
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "proposed/binding": {
+      "$ref": "operator-task-local-binding.v1.schema.json"
+    },
+    "proposed/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "expected/binding-digest": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        }
+      ]
+    },
+    "source/refs": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "configuration-common.v1.schema.json#/$defs/text"
+      }
+    }
+  }
+}

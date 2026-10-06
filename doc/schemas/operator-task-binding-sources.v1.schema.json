@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-sources:v1",
+  "title": "Operator Task Binding Sources v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Scoped source explanation of one task-pack binding. Equal declarations preserve all contributors; unequal declarations refuse. No path or other owner's configuration is disclosed. Write admission describes the retained host target, not current operator authority or an activation claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "owner/ref",
+    "scope/ref",
+    "source/set",
+    "source-set/revision",
+    "binding",
+    "write/admitted",
+    "descriptor",
+    "descriptor/digest",
+    "history/capacity"
+  ],
+  "properties": {
+    "history/capacity": {
+      "description": "Read-only node-wide journal pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80%; archival is not implemented in this scoped vertical.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "events/retained",
+        "events/max",
+        "outcomes/reserved",
+        "bytes/retained",
+        "bytes/max"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "available",
+            "near-capacity",
+            "reconciliation-required"
+          ]
+        },
+        "events/retained": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "events/max": {
+          "const": 1024
+        },
+        "outcomes/reserved": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 512
+        },
+        "bytes/retained": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "bytes/max": {
+          "const": 67108864
+        }
+      }
+    },
+    "schema": {
+      "const": "operator-task-binding-sources.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "owner/ref": {
+      "const": "daemon:operator-task-packs"
+    },
+    "scope/ref": {
+      "const": "component:operator-task-packs"
+    },
+    "source/set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection-profile/revision",
+        "scope/kind",
+        "scope/ref",
+        "owner-mapping/revision",
+        "source/slots"
+      ],
+      "properties": {
+        "selection-profile/revision": {
+          "$ref": "configuration-common.v1.schema.json#/$defs/text"
+        },
+        "scope/kind": {
+          "const": "component"
+        },
+        "scope/ref": {
+          "const": "component:operator-task-packs"
+        },
+        "owner-mapping/revision": {
+          "const": "task-pack-source-owners:v1"
+        },
+        "source/slots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "configuration-common.v1.schema.json#/$defs/sourceSlot"
+          }
+        }
+      }
+    },
+    "source-set/revision": {
+      "$ref": "configuration-common.v1.schema.json#/$defs/digest"
+    },
+    "binding": {
+      "$ref": "operator-task-local-binding.v1.schema.json"
+    },
+    "write/admitted": {
+      "type": "boolean"
+    },
+    "descriptor": {
+      "$ref": "config-setting-descriptor.v1.schema.json"
+    },
+    "descriptor/digest": {
+      "$ref": "configuration-common.v1.schema.json#/$defs/digest"
+    }
+  }
+}

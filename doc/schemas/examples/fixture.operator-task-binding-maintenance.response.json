@@ -1,0 +1,10 @@
+{
+  "schema": "operator-task-binding-maintenance.response.v1",
+  "schema/v": 1,
+  "action": "recover",
+  "binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+  "authority/renewed": false,
+  "disposition": "no-intent",
+  "commit/outcome": null,
+  "transaction/ref": null
+}

@@ -998,15 +998,20 @@ one mutation guard shared with operator-binding revocation, supersession and del
    with `operator/binding-lost`;
 5. compare the stored revision with the expected one, else refuse with
    `local-binding/revision-stale`;
-6. advance the host mutation revision (refuse exhaustion before writing), append
-   `operator-task-binding-change.v1`, then write the binding.
+6. advance the host mutation revision (refuse exhaustion before writing), then
+   use the combined binding port: retain `operator-task-binding-change.v1` as
+   the closed redacted audit value in its P091 intent (not a separate change
+   sidecar) and commit the selected writable source through P091
+   `intent → rename + sync → outcome`. A read-only source returns an exact
+   `not-applied` proposal instead, without another binding copy.
 
 A fact whose write fails leaves the binding unchanged. A fact whose binding write then
 fails is only an authorized attempt; it does not prove a committed transition and
-never authorizes automatic replay. The binding file is the current-state commit
-point, not a historical receipt. The provisional file store cannot establish which
-older attempts committed from the latest digest alone; transactional historical
-receipts and recovery belong to `P094-006b`.
+never authorizes automatic replay. A binding file alone is not a historical
+receipt: the P094-006b adapter checks the durable P091 outcome and exact acquired
+target bytes before consumption. Explicit recovery records old/new/third/no-op
+observations without replacing bytes or renewing authority. The former
+provisional file store's attempt-only history is not retroactively promoted.
 
 The emergency pause skips steps 4 and 5 and records `actor/kind: host-local`. It is
 reached only through its own route and contract; nothing in an ordinary request selects
@@ -2176,8 +2181,8 @@ surfaces expose metadata, refs, digests, stage states, and bounded refusals only
 
 ### Configuration shape
 
-P091 should expose one explainable collection of local bindings. A candidate JSON shape
-is:
+P091 exposes the scoped collection of local bindings (`P094-006b`, 2026-10-06).
+Its Node configuration shape is:
 
 ```json
 {
@@ -2200,12 +2205,14 @@ it is stated once. The path is local configuration, not portable package data. P
 source provenance must remain visible in inspection. A duplicate binding ref with unequal
 content is `local-binding/conflict`, not last-writer-wins.
 
-Until P091 backs this collection (`P094-006b`), the daemon keeps bindings as
-host-writable canonical files behind the same store port (`P094-006a`).
-The provisional store validates schemas on read and write, rechecks existing
+With no explicit source list, the retained host-writable canonical files remain
+behind the same domain store port (`P094-006a`). The P091-backed adapter
+validates schemas on read and write, rechecks existing
 profile snapshots, and uses bounded descriptor-relative I/O below the data-dir
 without following links or opening special files. Read-only previews and
-rejected requests do not create storage. Profile-change review includes full
+pre-admission refusals do not create storage. A failure after admission may
+retain a journal intent; it does not imply rollback or a committed binding.
+Profile-change review includes full
 thematic and image identities, service type and rollback mode; acceptance
 rechecks every retained local deliberation ceiling. Readiness preserves a
 conformance failure of an existing activation as `package/conformance-missing`
@@ -2215,6 +2222,47 @@ Binding-mutating routes (`create`, `accept-profile`, `state`) write through P091
 a host-writable source. For an operator-owned read-only file they return the exact
 updated canonical binding and do not take effect until that file changes. Either way
 there is no hidden second copy.
+
+The scoped deployed API adds `GET …/extensions/task-packs/bindings/sources`
+and `POST …/extensions/task-packs/bindings/maintenance`. Maintenance requires
+current local operator authority before acquisition: preview is read-only,
+adoption approves an exact expiring P091 plan for the existing bytes, and
+recovery classifies bytes without overwrite or renewed activation/run authority.
+Ordinary writes retain the domain attempt and shared temporal intent/outcome;
+an attempt alone is not a committed revision. Pending/conflicting outcomes block
+consumption. The bounded journal protects outcome capacity and refuses pressure;
+general history archival remains P091 work. The scoped EN/PL runbook is
+`node:docs/operations/TASK-PACK-BINDINGS.md`; the full P094 HOWTO stays `014`.
+
+#### Binding review decisions — 2026-10-06
+
+Status: adopted and implemented in the scoped Unix `P094-006b` vertical.
+
+- The shared journal is the sole write-history authority. An authorized attempt
+  resides in the intent; only `committed`, `recovered-committed` or
+  `no-op-content` supports a committed-history view. Pending, not-committed and
+  conflicting attempts do not. The production binding port exposes no raw
+  `put_binding` or separate change append; historical sidecars remain attempts.
+- A known conflict after intent but before replacement has an immediate terminal
+  outcome. Unknown I/O outcomes still require explicit content recovery.
+- Source inspection exposes node-wide journal pressure and warns at 80%, counting
+  reserved pending outcomes. The 1,024-event ceiling permits at most 512 ordinary
+  changes across all targets. At capacity new mutations refuse. No supported
+  archive/rotation/reset exists yet; this known write-availability limitation
+  remains in readiness, and general P091 history remains open. Never delete the
+  journal to bypass it.
+- Replacement preserves existing UID, GID and ordinary access mode; inability
+  to preserve ownership refuses before rename. New targets use `0600`.
+  Extended ACLs, xattrs and special mode bits are outside this scoped writer;
+  an operator-managed read-only source is appropriate when they are needed.
+- `adopt-migration` is intentionally current exact-byte baseline approval, not
+  identification or retroactive authorization of an unknown historical editor.
+  Current operator authority, admitted source, raw bytes, exact plan and expiry
+  are verified; task readiness and execution authority remain separate.
+
+The trade-off is bounded, truthful history without pretending that no-op adoption
+recovers lost attribution or that a diagnostic warning supplies archival.
+The dated Node checkpoint records the tests and implementation details.
 
 ### Authoring and binding tooling
 
@@ -2262,13 +2310,15 @@ task-run-terminalized
 Readiness evaluations are not journaled: readiness is recomputed on read, and a loss of
 readiness that matters is recorded where it has a consequence, as the cause carried by
 `task-offer-withdrawal-requested` or by a run's terminal refusal. Creating, pausing,
-resuming, and accepting a changed profile are binding changes. Until `P094-006b` binds
-audit history to committed revisions transactionally, the daemon records each authorized
-attempt as `operator-task-binding-change.v1` – the change kind, the verified actor and
+resuming, and accepting a changed profile are binding changes. `P094-006b`
+binds new writable revisions to durable shared intent/outcome receipts. The
+daemon retains each authorized attempt as `operator-task-binding-change.v1` –
+the change kind, the verified actor and
 operator binding, or the host-local actor of an emergency pause, and the binding digest
 before and after – ahead of the binding write. Such a fact is not by itself
-`task-binding-accepted`: the change committed only if the stored binding reached its
-digest.
+`task-binding-accepted`: the shared outcome must also be durable and the exact
+captured target bytes must match it. Legacy attempt-only facts remain historical;
+explicit no-op adoption does not claim that older attempts committed.
 
 Each fact carries the task profile and local binding digests, activation generation,
 causation/correlation ids, and refs to owner-domain evidence. It does not duplicate
@@ -2419,8 +2469,9 @@ After implementation and acceptance, add a bilingual operator HOWTO that walks t
 9. reading verification and rollback evidence;
 10. pausing, resuming, withdrawing, and finally revoking the pack.
 
-Until those paths exist, this proposal is the canonical design record. A HOWTO must not
-document candidate commands as if they were implemented.
+The scoped binding source/maintenance EN/PL guide is now implemented; the
+complete walkthrough remains P094-014. A HOWTO must not document candidate
+commands as if they were implemented.
 
 ## Implementation Tracker
 
@@ -2468,8 +2519,12 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-005a` | Admit supplied task profiles from P085 packages | `004a` | `done` | 2026-09-26: P085 resolves asset-pinned semantic entries (`P085-045`); `admit_task_profile` in `operator-task-pack-core` admits a supplied profile only when its package is installed and currently activated at the manifest's package digest, binds the profile's ref, revision and digest, the activation's operator binding is the current authority, the caller's generation is current, and the manifest lists the profile's capabilities and binds any package-owned inference flow at the same digest (2026-10-02: the task resource envelope is no longer required in the manifest's operator-envelope list; see the manifest rule above); it refuses with `package/not-active`, `package/profile-digest-mismatch`, `operator/binding-lost`, `package/generation-stale` or `package/conformance-missing`, and inherits the package's operational class. The new `operator-task-pack-service` crate composes Schema Gate, the JCS v1 profile digest, the P085 adapter and an operator-authority port, with no store of its own. Activation, rollback, revocation and restart are exercised at the P085 owner. |
 | `P094-005b` | Recompute pack facts at package conformance | `004b`, `005a` | `done` | 2026-09-27: `run_task_pack_conformance` in `operator-task-pack-service` takes each bound profile from a supplied asset bundle, requires its JCS v1 digest to be the pinned registration digest, digests every named asset itself (Workbench command profiles as whole validated documents, the patch policy and the thematic semantic-entry header by owner rules, other slots by JCS v1; Interface descriptors refuse as unsupported), takes the map and the Workbench VM-environment capabilities from their owners, and runs `derive_pack_facts` and `PackFacts::check`. A missing or malformed asset refuses without evidence; a mismatch records failing `operator-task-pack-facts-evidence.v1`. P085 domain conformance (`P085-046`) refuses the package's conformance report and every use of its activation until that evidence passes, and admission requires it to be current under the host map. Tests cover a correct pack, declared and omitted capabilities, a swapped policy, profile and command profile, a missing source, a missing map row, an unsupported descriptor and a later failing run. The daemon requires the domain; its P085 conformance route alone still refuses such packages, and `/v1/operator/extensions/task-packs/conformance` (`P094-006a`) carries the bundle end to end. Review regression coverage also rejects invalid schema/version/network and unknown command-profile fields before derivation; the full owner Schema Gate runs before the incomplete typed view. |
 | `P094-006a` | Implement local binding, readiness, and inspection behind a store port | `004a`, `005a` | `done` | 2026-09-27: `create_binding` fills the most restrictive safety defaults, publication off and the host profile digest, names missing choices (`local-binding/incomplete` with `missing/fields`), refuses a choice wider than the profile's ceiling, and treats an unequal binding under an existing ref as `local-binding/conflict`; pause and resume change only the state; `review_profile_change` returns a per-axis diff classified as narrowing, widening or substitution and accepts it in one step only when the binding still fits the new ceilings. Readiness is computed on read from the P085 entry, current pack-facts evidence under the host map, the operator authority and the binding, with one decisive blocker per root cause; execution stages whose owner adapters do not exist yet report the tabled blocker for that missing owner fact. Bindings and the verified copy of each accepted profile live behind `BindingStorePort`, implemented by the daemon as host-writable canonical files. The daemon exposes `/v1/operator/extensions/task-packs/bindings`, `…/bindings/state`, `…/bindings/profile-change` and `…/bindings/readiness`, and `…/conformance`, which reads the asset bundle from a host-admitted P085 import root without following links and runs the P085 runner only after the pack facts pass; every request and answer passes its `operator-task-*` contract, and refusals are `operator-task-refusal.v1`.  Review regressions cover no-follow bounded storage and stored-schema checks, read-only previews, full identity/mode diffs, local deliberation ceiling acceptance, legacy-route refusal after passing conformance, and conformance-specific readiness blockers. |
-| `P094-006b` | Back local bindings with P091 | `006a`, P091 `003`/`004` | `todo` | The P091 collection of binding sources replaces the daemon file store behind the same port, with visible source provenance, `local-binding/conflict` for unequal duplicates, and writes only to host-writable sources; an operator-owned read-only source returns the canonical binding without taking effect. Preserve the host mutation revision and atomically bind audit history to committed revisions; pending/failed attempts must remain distinguishable after restart. |
-| `P094-006c` | Commit binding changes under current operator authority | `006a` | `done` | 2026-09-27, resolving review question Q-01 of `P094-006a` through Resolved Decisions 22 to 24. `operator-task-binding-create.v1`, `operator-task-binding-state.v1`, and an accepting `operator-task-profile-change.v1` name `operator/binding-ref`; the state and acceptance requests also name `local-binding/expected-digest`, and a review names neither and reports the current revision in its result. The service commits every change in one order – outcome check, P085 operator-binding verification through `ChangeAuthorityPort` (`operator/binding-lost`), revision comparison (`local-binding/revision-stale`), `operator-task-binding-change.v1` fact, binding write – and a change whose fact is not recorded does not take effect. The daemon verifies the operator binding with the same `exact_active_operator_binding_authority` check that gates P085 activation, under the process-wide mutation guard, and stores each fact as a content-addressed file beside the binding. `operator-task-binding-emergency-pause.v1` on `/v1/operator/extensions/task-packs/bindings/emergency-pause`, behind the safe-mode route capability, pauses without operator authority and is recorded with the host-local actor. Tests cover recorded actors and revision chains, a lost operator binding that refuses every ordinary change while the emergency pause still stops the binding, a stale acceptance after a concurrent pause, a successor operator who configures without taking over the predecessor's activation, and a failed fact write; a daemon test drives the routes with a real operator binding before and after its revocation. The profile-change review still shares its route, and so its lifecycle capability, with acceptance; `P094-012` owns separating it. Review closeout: Decision 25 adds a host mutation revision to fence ABA, with legacy digest preservation, no-op and exhaustion tests. The mutation guard now also serializes operator-binding revocation, supersession and deletion; a concurrent-revocation regression pins that boundary. Failed binding writes retain only an attempt, never replay authority; transactional history remains P094-006b. |
+| `P094-006b` | Back local bindings with P091 | `006a`, P091 `003`/`004` | `done` | 2026-10-06: P094-006b1–006b4 complete the scoped Unix binding vertical. The existing domain port consumes a bounded P091 source collection, exposes owner-scoped revisions/descriptors, refuses unequal duplicates, returns exact not-applied read-only proposals, and commits writable targets through the shared temporal single-file writer. Existing identities/counters are retained; migration is explicit no-op adoption. No other P091 owner/platform or whole-P094 acceptance claim. |
+| `P094-006b1` | Acquire and explain the scoped binding collection | `006a`, P091 `003`/`004` | `done` | 2026-10-06: configuration-core resolve_keyed_collection and daemon operator_task_pack_sources retain every equal contributor and exact source revision, validate LocalBinding at Schema Gate, reject unequal declarations and never materialize on reads. Eight named security fixtures cover scope, paths, sensitive losers/diffs, digest oracle and control dispatch. |
+| `P094-006b2` | Commit binding revisions through the shared P091 writer | `006b1`, P091 `006` | `done` | 2026-10-06: shared configuration_host::commit uses temporal-log intent/outcome facts, confined staging/rename/sync, a nonblocking writer lock and verified heads. Real subprocess interruption after intent, partial staging, rename and outcome plus old/new/third/no-op and quota/substitution tests pass. Outcome capacity is reserved; pending/conflicting targets are not consumed. General history archival remains P091. |
+| `P094-006b3` | Adopt P091 behind binding operations | `006b2` | `done` | 2026-10-06: BindingStorePort::commit_binding preserves current P085/revision gates and host counters. Sole exact host targets are writable; all other sources return operator-task-binding-proposal.v1 with not-applied and no second binding copy. Preview/adopt checks an exact five-minute P091 plan and current operator authority; recovery records bytes without overwrite or renewed authority. Profiles/assets/plans/patches/HIL/run stores are unchanged. |
+| `P094-006b4` | Qualify scoped exposure and binding restart | `006b3`, P091 `005a` | `done` | 2026-10-06: all eight named security fixtures pass before route/client exposure; the inventory checker requires each name and the bounded verification set requires nonzero tests. The 51 task-pack daemon tests include real P085 revocation and daemon restart; the subprocess commit suite proves partial-write/recovery without another effect. Four canonical contract families and positive/negative vectors, CLI source/maintenance commands and scoped EN/PL HOWTO are synchronized. P091 platform/general-adapter and whole-P094 scope remain open. |
+| `P094-006c` | Commit binding changes under current operator authority | `006a` | `done` | 2026-09-27, resolving review question Q-01 of `P094-006a` through Resolved Decisions 22 to 24. `operator-task-binding-create.v1`, `operator-task-binding-state.v1`, and an accepting `operator-task-profile-change.v1` name `operator/binding-ref`; the state and acceptance requests also name `local-binding/expected-digest`, and a review names neither and reports the current revision in its result. The service commits every change in one order – outcome check, P085 operator-binding verification through `ChangeAuthorityPort` (`operator/binding-lost`), revision comparison (`local-binding/revision-stale`), `operator-task-binding-change.v1` fact, binding write – and a change whose fact is not recorded does not take effect. The daemon verifies the operator binding with the same `exact_active_operator_binding_authority` check that gates P085 activation, under the process-wide mutation guard, and, at the original provisional checkpoint, stored each fact as a content-addressed file beside the binding. The 2026-10-06 P094-006b writer supersedes that duplicate store: the closed redacted attempt lives only in the shared intent and committed history derives from verified outcomes; legacy sidecars remain attempts. `operator-task-binding-emergency-pause.v1` on `/v1/operator/extensions/task-packs/bindings/emergency-pause`, behind the safe-mode route capability, pauses without operator authority and is recorded with the host-local actor. Tests cover recorded actors and revision chains, a lost operator binding that refuses every ordinary change while the emergency pause still stops the binding, a stale acceptance after a concurrent pause, a successor operator who configures without taking over the predecessor's activation, and a failed fact write; a daemon test drives the routes with a real operator binding before and after its revocation. The profile-change review still shares its route, and so its lifecycle capability, with acceptance; `P094-012` owns separating it. Review closeout: Decision 25 adds a host mutation revision to fence ABA, with legacy digest preservation, no-op and exhaustion tests. The mutation guard now also serializes operator-binding revocation, supersession and deletion; a concurrent-revocation regression pins that boundary. Failed binding writes retain only an attempt, never replay authority; transactional history remains P094-006b. |
 | `P094-007` | Implement offer draft, signing, publication, and withdrawal reconciliation | `006a` | `done` | Decisions 37–38 and checkpoints `007a/b/c` are implemented. Activation never publishes. An authenticated operator approves an exact draft; ordinary Service Offer signing/publication commits it; revocation or pause closes local admission immediately and BDO/Replay Scheduler reconcile withdrawal. Local run `s13-1791156863-88b339` and physical run `s13-1791194095-ddff55` qualify the deployed publication/order/result path. The separate cached stale-order-after-revocation and fault matrix of `016` remain open. |
 | `P094-008` | Resolve prepared systems, Workbench profiles, Interfaces, containment, and immutable assets | `003b`, `005a`, `018`, `019b` | `done` | 2026-09-28: `P094-008a` to `P094-008d` are done; readiness checks the containment predicate at admission, and the per-step recheck with the same exported predicate belongs to the step fence of `P094-012`. Split into `P094-008a` to `P094-008d`, each useful alone. Together: exact image variant/prepared system, command/patch profiles, descriptor refs, scripts, fixtures, and acquisition refs resolve without fallback; the Workbench enforces patch policies and the `observation` effect mode; the containment predicate is checked at admission and before each step; substitution, unavailable inventory, wider runtime network, lost containment, or an environment impact class above `impact-class/max` refuses. |
 | `P094-008a` | Keep verified assets and read Workbench and Sensorium Virt owner facts into readiness | `005b`, `018`, `019b` | `done` | 2026-09-28. After a profile passes pack-fact conformance, the host keeps the verified document of every asset it names behind `TaskAssetPort`, compactly and content-addressed by slot and digest, before recording the passing evidence; readiness and runs resolve an asset only by exact slot digest and re-verify it with the same owner rule (`slot_digest`) on every read, and a missing asset is never substituted. `TaskEnvironmentPort` resolves `workspace/root/ref` and `workspace/backend/ref` (`sensorium-virt-backend:<backend/id>`) to the admitted backend's capability descriptor and image manifest: exactly one Workbench microVM root with that executor, and an enabled backend profile; nothing starts. `sensorium-virt-image-manifest.v1` gains the additive `guest/effect-modes`, which the image builder writes; absent means mutation only. Readiness now reads owner facts for four stages: environment (the admitted manifest is exactly the selected variant under the slot rule, else `environment/image-mismatch`; no environment, `environment/prepared-system-unavailable`; an `isolated` binding, `environment/not-contained`), effects (every command profile kept, else `workbench/command-profile-missing`; an observation-first profile or observation command needs a hardware-VM guest that enforces observation, else `workbench/effect-mode-missing`), verification (the verifier profile kept and an enforced observation, else `verifier/unavailable` or `verifier/effect-mode-missing`), and rollback (a hardware-VM backend with the `environment.destroy` disposer, else `rollback/unavailable`). Tests cover asset keeping and re-verification, six owner-fact scenarios with contract-valid evidence, Workbench root resolution, and the manifest field. Prepared-system binding, containment, network and impact class follow in `P094-008c`. |
@@ -2877,8 +2932,9 @@ aggregate gap in `016a` is closed by the later composed qualification above.
    full story contract. Native interrupted-step recovery is now closed by
    `P094-013d`; keep its deterministic mechanism proof separate from MLX and
    physical-market evidence.
-2. Complete P091-backed task-pack bindings (`P094-006b`) and the bilingual
-   operator HOWTO (`P094-014`), reusing the now-qualified owner API/client paths.
+2. Complete the full bilingual operator HOWTO (`P094-014`), reusing the qualified
+   owner API/client paths. `P094-006b` is now closed for scoped Unix bindings;
+   preserve its explicit no-op migration and current-authority recovery boundary.
 3. Keep the closed `016a/016b/016b3/016b4/016` evidence scopes distinct: fixture
    inference is not MLX, deterministic lost ACK is not physical fault injection,
    and exact patch/file critique does not add separate restart/probe findings.
