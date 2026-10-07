@@ -15,6 +15,13 @@
       "pattern": "^[a-z][a-z0-9-]*:[^\\s/\\\\][^\\s\\\\]*$",
       "description": "Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text."
     },
+    "inferenceRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9._:@+-]+(?:/[A-Za-z0-9._:@+-]+)*$",
+      "description": "Bounded model-runtime reference, including existing slash-scoped profile/runtime aliases. Kept distinct from P094 prefix:name artifact identities. The inference owner resolves and authorizes the exact reference; this is not a filesystem path."
+    },
     "assetRef": {
       "description": "An asset's ref as its profile slot names it: a logical ref, or the Flow id of the deliberation Flow (`deliberation/inference-flow`).",
       "anyOf": [

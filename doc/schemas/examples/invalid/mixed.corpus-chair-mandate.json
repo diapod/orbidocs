@@ -1,0 +1,7 @@
+{
+  "kind": "local-operator",
+  "operator/binding-ref": "node-operator-binding:local",
+  "participant/ref": "participant:operator",
+  "node/id": "node:local",
+  "passport/ref": "capability-passport:fake"
+}

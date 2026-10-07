@@ -63,10 +63,10 @@
       "minProperties": 1,
       "properties": {
         "model-profile/ref": {
-          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          "$ref": "operator-task-common.v1.schema.json#/$defs/inferenceRef"
         },
         "runtime/ref": {
-          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          "$ref": "operator-task-common.v1.schema.json#/$defs/inferenceRef"
         }
       }
     },

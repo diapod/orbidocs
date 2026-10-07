@@ -2150,6 +2150,35 @@ runtime, no N-way settlement.
   across authority restart, and performs a
   typed controlled rejoin when only the ephemeral session was lost. Story-011 sends
   real messages and proves both authority-side and recipient-side restart recovery.
+##### Operator round preparation — contract foundation, runtime pending
+
+For the guided operator path in `P094-012c3`, the operator approved on
+2026-10-07 a Corpus-owned preparation operation starting from prose and explicit
+participant choices. Its read-only preview fixes the exact question, room
+policy, budgets and participants. A separate explicit commit uses the existing
+identity/signing owner and retains its outcome for recovery. Neither preview
+nor receipt substitutes for membership admission, role assignment, loop
+opening, inference consent or HIL authorization.
+
+`P069-PREP-001` (`in-progress`): distinguish a **local operator mandate** for the
+requester-appointed Chair from a **delegated capability mandate**. The local
+variant names a current Node operator binding and its accountable participant;
+it does not manufacture a capability passport. The delegated variant needs a
+real admitted passport. New Chair operations recheck current authority, while
+historical inspection remains readable after revocation. Keep the existing
+accepted room-policy representations historical; introduce an explicit new
+boundary rather than reinterpret their `chair/credentials` strings. Completion
+requires stale-preview, revoked-operator, substituted-mandate and restart
+tests, plus operator-path acceptance without test bootstrap identities.
+
+The initial `corpus-chair-mandate.v1` draft and pure `corpus-core` type separate
+the two declared sources with closed, disjoint shapes and bounded identifiers.
+Schema Gate and Rust agree on the syntax. This is only the contract foundation:
+the preparing host, current-authority resolver, new room-policy carrier and
+mutation/recovery checks are not implemented yet. The historical room API
+continues to accept only its existing versions; a valid mandate object by
+itself cannot open a room.
+
 #### Phase 8 — Chair, participants, and local role overlays `[x] implemented`; arbiter deferred
 
 - [x] Requester-appointed chair resolves the first node-local Agent-chair path into

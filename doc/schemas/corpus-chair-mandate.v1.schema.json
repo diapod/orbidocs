@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-chair-mandate:v1",
+  "title": "Corpus Chair Mandate v1",
+  "description": "Declared source of Chair authority for new operator preparation, not an admission receipt. The host must resolve current authority before every new Chair operation. Historical room-policy credentials are not reinterpreted.",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md", "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "operator/binding-ref", "participant/ref", "node/id"],
+      "properties": {
+        "kind": {"const": "local-operator"},
+        "operator/binding-ref": {"$ref": "#/$defs/operator-binding"},
+        "participant/ref": {"$ref": "#/$defs/participant"},
+        "node/id": {"$ref": "#/$defs/node"}
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "passport/ref"],
+      "properties": {
+        "kind": {"const": "delegated-capability"},
+        "passport/ref": {"$ref": "#/$defs/passport"}
+      }
+    }
+  ],
+  "$defs": {
+    "operator-binding": {"type": "string", "maxLength": 512, "pattern": "^node-operator-binding:[A-Za-z0-9._:/-]+$"},
+    "participant": {"type": "string", "maxLength": 512, "pattern": "^participant:[A-Za-z0-9._:/-]+$"},
+    "node": {"type": "string", "maxLength": 512, "pattern": "^node:[A-Za-z0-9._:/-]+$"},
+    "passport": {"type": "string", "maxLength": 512, "pattern": "^capability-passport:[A-Za-z0-9._:/-]+$"}
+  }
+}

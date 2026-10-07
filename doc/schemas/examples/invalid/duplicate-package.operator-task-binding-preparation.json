@@ -1,0 +1,11 @@
+{
+  "schema": "operator-task-binding-preparation.v1",
+  "schema/v": 1,
+  "packages": [
+    "extension-package:qmail",
+    "extension-package:qmail"
+  ],
+  "profiles": [],
+  "package/states": {"extension-package:qmail": "installed-inactive"},
+  "workspaces": []
+}

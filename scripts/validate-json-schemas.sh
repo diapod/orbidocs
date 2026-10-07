@@ -218,6 +218,12 @@ schema_for_file() {
     *.operator-task-refusal.json)
       echo "$SCHEMAS_DIR/operator-task-refusal.v1.schema.json"
       ;;
+    *.operator-task-binding-preparation.json)
+      echo "$SCHEMAS_DIR/operator-task-binding-preparation.v1.schema.json"
+      ;;
+    *.corpus-chair-mandate.json)
+      echo "$SCHEMAS_DIR/corpus-chair-mandate.v1.schema.json"
+      ;;
     *.operator-task-binding-create.json)
       echo "$SCHEMAS_DIR/operator-task-binding-create.v1.schema.json"
       ;;

@@ -2415,6 +2415,60 @@ reach the owning boundary and observe the admitted or refused result.
 
 ## Operator Experience
 
+### Guided operator closeout (2026-10-07)
+
+The operator-approved UX slice closes the existing no-manual-digests promise,
+not a new authority model. Node UI and the scriptable CLI remain clients of
+owner contracts. A read-only preparation inventory composes retained package
+profiles, admitted workspace/image choices and registered model/runtime refs;
+absence is an actionable blocker, not permission to invent configuration.
+Creation still uses the existing binding owner and its restrictive defaults.
+The preview pins the exact reviewed material; stale choices require review.
+
+Review closeout (2026-10-07): the guided UI retains only a request digest behind
+a bounded, five-minute opaque receipt. Commit reconstructs the request from
+choices and fresh owner inventory; substituted or expired previews refuse.
+Package lifecycle remains visible, malformed inventory is diagnostic rather
+than silently omitted, and compatible image/backend pairs come from verified
+manifest bytes. Optional inference choices are absent values, not empty-string
+sentinels. Inference aliases have matching Rust/schema printable-ASCII grammar.
+This is a draft contract addition (`operator-task-binding-preparation.v1`) and
+an explicit reference-grammar change in binding-create/local-binding, not only
+visual stabilization. The separate `corpus-chair-mandate.v1` remains a draft
+foundation without a runtime authority resolver; its shape is not frozen by
+this UI work. No additional runtime acceptance or formal V1 adoption follows.
+
+The operator explicitly approved extending this slice to preparation of a new
+local Corpus round from prose (2026-10-07), rather than requiring a pre-created
+round. Corpus owns the exact preview and explicit commit, question signing
+through the existing identity/signing owner, and the selected participants.
+Preparing a draft neither opens a loop nor appoints roles or grants Room
+membership. The client must not copy acceptance bootstrap identities,
+placeholder signatures or fabricated membership evidence. Existing rounds
+remain selectable; their authority is rechecked by the same owners.
+
+The operator also approved a distinct local Chair mandate (2026-10-07).
+Local preparation must bind the current Node operator binding, not invent a
+`capability-passport:` reference. Delegated Chair authority remains a separate
+path requiring its real capability passport. Reading an old room or draft is
+not a renewal: the owner must recheck the applicable mandate before each
+new Chair operation. The new preparation boundary must name these alternatives
+explicitly; the accepted historical room-policy wire shapes are not silently
+reinterpreted. Implementation and runtime qualification of this boundary remain
+part of `P094-012c3`, not evidence already supplied by the harness.
+
+| Task | Scope | Status | Completion evidence |
+| :--- | :--- | :--- | :--- |
+| `P094-012c1` | Inventory-backed binding preparation | `in-progress` | Choose package, operator, workspace, image and inference without copying profiles, digests or generations. Advanced JSON remains available. Changed owner facts refuse stale submission. |
+| `P094-012c2` | Guided preflight | `in-progress` | Node UI maps every current owner next-action to its responsible owner and a real link or explicit manual instruction. Rendering and exhaustive mapping tests pass; operator-path acceptance remains c5. Never claim readiness from UI state. |
+| `P094-012c3` | Guided task operation | `in-progress` | Prose-to-round preparation and local operator Chair mandate were approved; P069-PREP-001 has a disjoint mandate contract and Rust/Schema Gate parity. Owner authority resolution, round commit and guided execution remain open. The target is explicit loop opening or order linking plus progress, independent HIL, patches, verification and cleanup; no automatic approval. |
+| `P094-012c4` | Publication and maintenance review | `in-progress` | Human-readable offer terms and exact recipe patch replacement text, distinct confirmations, and P091 adoption/recovery forms are implemented. Recipe/order commitments are cross-checked. Task navigation and real operator acceptance remain open; no relay retargeting is implemented. |
+| `P094-012c5` | Operator-path acceptance | `todo` | Exercise the real clients and owners without hand-authored request JSON or using an acceptance harness as an installer. Record prerequisites, actions, outcomes and cleanup separately from scripted-port tests and historical native reports. |
+
+Formal V1 adoption and the disposition of `P094-023e`/`P094-007b2` remain
+separate decisions. These clients neither implement relay retargeting nor
+silently renew authority, grants, leases or publication consent.
+
 The primary view should answer four questions without requiring the operator to inspect
 every underlying subsystem:
 

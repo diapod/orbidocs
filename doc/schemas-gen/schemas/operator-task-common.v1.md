@@ -18,6 +18,7 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 | Definition | Shape | Description |
 |---|---|---|
 | [`ref`](#def-ref) | string | Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text. |
+| [`inferenceRef`](#def-inferenceref) | string | Bounded model-runtime reference, including existing slash-scoped profile/runtime aliases. Kept distinct from P094 prefix:name artifact identities. The inference owner resolves and authorizes the exact reference; this is not a filesystem path. |
 | [`assetRef`](#def-assetref) | unspecified | An asset's ref as its profile slot names it: a logical ref, or the Flow id of the deliberation Flow (`deliberation/inference-flow`). |
 | [`flowId`](#def-flowid) | string | Identifier of an `orbiplex.json_e_flow.v1` Flow in its owner's grammar: lowercase ASCII letters and digits, with single `.`, `_` or `-` separators between them. One identifier names the Flow document, its configuration, its P085 registration and an Agent's binding to it; an actor ref derived from it is never another Flow id. |
 | [`operatorBindingRef`](#def-operatorbindingref) | unspecified | The exact `node-operator-binding.v1` the host verifies as current through the P085 operator-authority check before it commits a binding change. |
@@ -58,6 +59,13 @@ Source schema: [`doc/schemas/operator-task-common.v1.schema.json`](../../schemas
 - Shape: string
 
 Logical `prefix:name` reference. Never a POSIX or Windows filesystem path, URL path, or shell text.
+
+<a id="def-inferenceref"></a>
+## `$defs.inferenceRef`
+
+- Shape: string
+
+Bounded model-runtime reference, including existing slash-scoped profile/runtime aliases. Kept distinct from P094 prefix:name artifact identities. The inference owner resolves and authorizes the exact reference; this is not a filesystem path.
 
 <a id="def-assetref"></a>
 ## `$defs.assetRef`

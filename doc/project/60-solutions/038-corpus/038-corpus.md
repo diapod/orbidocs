@@ -399,6 +399,17 @@ Status:
 
 ### Agent-Assisted Chairing
 
+Operator preparation follow-up (2026-10-07, **contract foundation only**):
+`P069-PREP-001` and `P094-012c3` add prose-to-round preview and explicit commit
+under the existing signing and Room owners. A local requester-appointed Chair
+uses a current Node operator-binding mandate; delegated authority is a separate
+passport-backed path. Historical evidence does not renew either authority.
+This decision does not promote the existing test-harness bootstrap to a
+production operator interface or change the completion claim above.
+The draft `corpus-chair-mandate.v1`, pure Rust type and Schema Gate distinguish
+the declared sources; their resolution against current authority and the new
+preparation/runtime carrier remain open.
+
 Based on:
 
 - `doc/project/40-proposals/069-corpus.md`

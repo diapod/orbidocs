@@ -1,0 +1,9 @@
+{
+  "schema": "operator-task-binding-preparation.v1",
+  "schema/v": 1,
+  "packages": [],
+  "package/states": {},
+  "profiles": [],
+  "workspaces": [],
+  "runnable": true
+}

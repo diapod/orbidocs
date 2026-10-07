@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-binding-preparation:v1",
+  "title": "Operator Task Binding Preparation v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Read-only bounded owner inventory for binding clients. Profiles are exact retained package material; choices confer neither activation, readiness nor execution authority. Commit still uses operator-task-binding-create.v1 and rechecks its owners.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "packages",
+    "package/states",
+    "profiles",
+    "workspaces"
+  ],
+  "properties": {
+    "package/states": {
+      "type": "object",
+      "maxProperties": 256,
+      "propertyNames": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+      "additionalProperties": {"enum": ["installed-inactive", "activation-recorded", "revoked"]},
+      "description": "Recorded lifecycle for the displayed packages. Activation-recorded does not assert current authority or readiness; expiry and use fences remain owner-checked."
+    },
+    "schema": {
+      "const": "operator-task-binding-preparation.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "packages": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "package/ref",
+          "task-profile",
+          "model-profile/refs",
+          "runtime/refs",
+          "profile/root-refs",
+          "image/backend-refs"
+        ],
+        "properties": {
+          "image/backend-refs": {
+            "type": "object",
+            "maxProperties": 64,
+            "propertyNames": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+            "additionalProperties": {
+              "type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true,
+              "items": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"}
+            },
+            "description": "Variant ref to compatible backend refs from its verified retained image manifest."
+          },
+          "package/ref": {
+            "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+          },
+          "task-profile": {
+            "$ref": "operator-task-profile.v1.schema.json"
+          },
+          "model-profile/refs": {
+            "type": "array",
+            "maxItems": 128,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/inferenceRef"
+            }
+          },
+          "runtime/refs": {
+            "type": "array",
+            "maxItems": 128,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/inferenceRef"
+            }
+          },
+          "profile/root-refs": {
+            "type": "array",
+            "maxItems": 128,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+            }
+          }
+        }
+      }
+    },
+    "workspaces": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "operator-task-binding-create.v1.schema.json#/properties/workspace"
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "kind": "local-operator",
+  "participant/ref": "participant:operator",
+  "node/id": "node:local"
+}

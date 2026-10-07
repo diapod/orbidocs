@@ -340,6 +340,14 @@ with notqmail from the signed release and qualifies it in a real guest: the
 verifier fails the baseline and both open-relay states, and passes after the
 repair with a freshly delivered probe, live qmail and a greeting listener.
 The run engine's end-to-end path remains `P094-013`.
+
+Guided operator update (2026-10-07): `P094-012c` has partial implementation of
+inventory-backed binding choices, owner-derived preflight explanations, exact
+offer/recipe review and explicit configuration maintenance. Its UI/core tests
+and schema validation are not real operator acceptance. Prose-to-round
+preparation and `P069-PREP-001` (a current local operator mandate distinct from
+delegated Chair passports) remain open; whole-P094 and alpha readiness do not
+advance to done on this checkpoint.
 Follow-up review tightened the qualifier's step binding, ordering, unique
 checks and Maildir-read failures, plus the builder's absent-path checks.
 After those fixes the image was rebuilt and the revised qualifier passed all

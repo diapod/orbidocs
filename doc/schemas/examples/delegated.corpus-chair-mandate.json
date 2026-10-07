@@ -1,0 +1,4 @@
+{
+  "kind": "delegated-capability",
+  "passport/ref": "capability-passport:delegated-chair"
+}
