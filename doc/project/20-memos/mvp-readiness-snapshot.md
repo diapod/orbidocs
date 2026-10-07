@@ -2,6 +2,24 @@
 
 Snapshot date: 2026-09-05.
 
+Task-pack closure checkpoint — 2026-10-07: `P094-014/014a/015a` complete the
+bilingual operator walkthrough and executable owner-refusal gate. All thirteen
+Story 013 cases/twenty-six variants map to exact passed tests; missing, renamed,
+ignored or zero-hit proofs and changed working-source bytes refuse qualification.
+The gate separately requalifies the original physical MLX market V3, active
+native pause and interrupted-step V2 reports, preserving their pins and scope;
+it does not claim fresh native runs on the current tree. All three reports
+predate P094-006b and do not qualify its P091 binding store in native composition.
+Post-assertion markers bind every variant to an observed closed outcome; owner
+tests with scripted ports are labelled accordingly. CLI examples preserve shell
+quoting and HTTP method/path pairs are checked against registered routes.
+Journal capacity, not-applied proposals and
+unsupported relay migration recovery stay explicit. `P094-015` is partial:
+whole-proposal adoption and the V1/follow-up boundary (`023e`, `007b2`) still
+need an operator decision. The proposal-wide alpha blocker remains unchanged.
+Evidence and procedure: `node:docs/evidence/task-packs/README.md` and
+`node:docs/operations/TASK-PACKS.en.md` / `TASK-PACKS.pl.md`.
+
 Scoped binding checkpoint — 2026-10-06: `P094-006b1–006b4/006b` are complete
 over the bounded Unix P091 seam. Exact source/descriptor identities, equal-key
 contributors, explicit not-applied operator-file proposals, temporal commit
@@ -11,7 +29,7 @@ prove no read materialization, partial-byte consumption, repeated effect or
 renewed authority. Legacy adoption preserves the same bytes and mutation counter.
 The scoped EN/PL guide is `node:docs/operations/TASK-PACK-BINDINGS.md`.
 This supersedes older pending-binding notes below, not broader P091 status;
-general adapters/activation/history archival, full P094 HOWTO/refusal audit and
+general adapters/activation/history archival, then-pending P094 HOWTO/refusal audit and
 acceptance still block proposal-wide and alpha completeness.
 
 Binding review closeout — 2026-10-06: attempts live only in the shared intent;

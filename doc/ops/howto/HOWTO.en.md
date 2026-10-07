@@ -18,4 +18,5 @@ durable state are documented in the
 - [JSON-e and JSON-e Flows HOWTO](json-e-and-json-e-flows-howto.en.md)
 - [Memarium HOWTO](memarium-howto.en.md)
 - [Middleware HOWTO](middleware-howto.en.md)
+- [Operator Task Packs HOWTO](operator-task-packs-howto.en.md)
 - [Sensorium HOWTO](sensorium-howto.en.md)

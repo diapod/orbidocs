@@ -426,21 +426,25 @@ checkbox still includes crash/revocation boundaries beyond active pause.
 Each case has a refusal-corpus fixture and must be reached at the owning
 boundary, not asserted from source markers:
 
-| Case | Expected outcome |
-| :--- | :--- |
-| The model returns a shell command or `sed -i` text | refused as not representable or `plan/outside-profile`; nothing executes |
-| The candidate claims its own effect class, digest, or HIL flag | schema refusal of the unrepresentable field |
-| The first step is a mutation | `plan/first-step-not-observation` |
-| A patch touches `/etc/tcp.smtp`, adds a wildcard, or writes outside the policy | `workbench/patch-outside-policy` |
-| The operator denies a mutation, or the HIL request expires | `hil/denied` or `hil/expired`; the run ends and the instance is destroyed |
-| The binding selects `isolated` network | `environment/not-contained`; no mutation is admitted |
-| The image or prepared system is substituted | `environment/image-mismatch` |
-| The verifier misses a check, times out repeatedly, or mutates | `verifier/check-missing`, `verifier/timeout` after bounded retries, or `verifier/mutation-not-admitted` |
-| The host crashes after a patch is admitted | the step stays `unknown`, the run is `rollback-pending` until destruction is confirmed, and the step is never repeated |
-| The operator pauses the binding mid-run | the run stops at the next step boundary and the instance is destroyed; resume needs no reactivation |
-| The package is revoked or reactivated mid-run | `package/generation-stale` for further steps; offer withdrawal is requested |
-| A package upgrade changes the profile digest | `local-binding/profile-changed` until the operator accepts the diff |
-| A remote request carries another profile digest (federated profile) | refused at offer admission before any deliberation |
+| Case ID | Case | Expected outcome |
+| :--- | :--- | :--- |
+| `candidate-shell` | The model returns a shell command or `sed -i` text | refused as not representable or `plan/outside-profile`; nothing executes |
+| `candidate-authority` | The candidate claims its own effect class, digest, or HIL flag | schema refusal of the unrepresentable field |
+| `first-step` | The first step is a mutation | `plan/first-step-not-observation` |
+| `patch-policy` | A patch touches `/etc/tcp.smtp`, adds a wildcard, or writes outside the policy | `workbench/patch-outside-policy`; an absolute target is already unrepresentable at patch ingress |
+| `hil` | The operator denies a mutation, or the HIL request expires | `hil/denied` or `hil/expired`; the run ends and the instance is destroyed |
+| `containment` | The binding selects `isolated` network | `environment/not-contained`; no mutation is admitted |
+| `environment` | The image or prepared system is substituted | `environment/image-mismatch` |
+| `verifier` | The verifier misses a check, times out repeatedly, or mutates | `verifier/check-missing`, `verifier/timeout` after bounded retries, or `verifier/mutation-not-admitted` |
+| `interruption` | The host crashes after a patch is admitted | the step stays `unknown`, the run is `rollback-pending` until destruction is confirmed, and the step is never repeated |
+| `active-pause` | The operator pauses the binding mid-run | the run stops at the next step boundary and the instance is destroyed; resume needs no reactivation |
+| `package-generation` | The package is revoked or reactivated mid-run | `package/generation-stale` for a changed generation, or the current package blocker after revocation; offer withdrawal is requested |
+| `profile-change` | A package upgrade changes the profile digest | `local-binding/profile-changed` until the operator accepts the diff |
+| `remote-profile` | A remote request carries another profile digest (federated profile) | refused at offer admission before any deliberation |
+
+Case IDs are stable traceability keys, not new runtime refusal codes. The Node
+qualification inventory maps their variants to exact executable owner tests;
+compile-only pack conformance does not execute HIL, VM or market lifecycle cases.
 
 ## Retained Evidence
 
@@ -506,7 +510,10 @@ must say which one.
   verifier and refusal boundaries (`P094-013b`).
 - [x] An open-relay "repair" is refused by the verifier in a retained negative
   run.
-- [ ] Every refusal case above is reached at its owning boundary.
+- [x] Every refusal case above is reached at its owning boundary. The
+  `P094-015a` inventory requires thirteen cases/twenty-six variants and exact
+  passed owner tests; original native/physical reports retain their separate
+  source/evidence classes. This is not a fresh hardware run for every variant.
 - [x] Restart, pause/resume, crash with an `unknown` step, and revocation behave
   as specified in the named local/native and physical-market checkpoints
   (`P094-013c/013d/016`); their inference and fault-evidence classes stay separate.

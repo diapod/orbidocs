@@ -467,6 +467,21 @@ registries. A three-daemon suite covers signed posture publication, peer-side ex
 agreement, modified-posture refusal, federation binding, restart, revocation, and
 absence of local substitution.
 
+The P094 composition's 2026-10-07 checkpoint adds a bounded owner-refusal gate
+and the complete EN/PL task-pack HOWTO, not a second lifecycle or authority.
+Thirteen Story 013 cases/twenty-six variants require exact executable proofs;
+native pause/interruption and physical MLX market reports retain their original
+source and evidence classes. All three runs predate P094-006b and do not qualify
+native pause or market readiness through the new P091 binding store; repository
+tests qualify that owner separately. Exact post-assertion variant markers and
+the closed outcome vocabulary distinguish observed cases from declared mappings.
+Working-source hashes distinguish current tests from historical acceptance.
+P094 as a whole remains partial pending its explicit
+adoption/scope decision; shared Node journal capacity and unsupported relay
+migration recovery are not hidden by this checkpoint. See
+[P094](../../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md)
+and the [operator HOWTO](../../../ops/howto/operator-task-packs-howto.en.md).
+
 ## Open Questions
 
 No V1 questions remain open. Portable WASM decision production is intentionally
