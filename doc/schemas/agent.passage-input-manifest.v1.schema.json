@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.passage-input-manifest:v1",
+  "title": "Agent Passage Input Manifest v1",
+  "description": "Host-owned exact input commitment for one inference-Flow passage. Source assertions share the controller input vocabulary without reinterpreting a passage as a controller step. Request digest and instruction hash bind the admitted request and assembly; ordered supplements bind materialized source bytes. This fact grants no source access and does not prove inference completion or model attention.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md",
+    "doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "manifest/ref", "agent/id", "binding/ref", "passage/ref", "input/digest", "instruction/hash", "context/ancestry-complete", "inputs"],
+  "properties": {
+    "schema": { "const": "agent.passage-input-manifest.v1" },
+    "manifest/ref": { "type": "string", "pattern": "^agent-passage-input-manifest:sha256:[A-Za-z0-9_-]{43}$" },
+    "agent/id": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "binding/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "passage/ref": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref" },
+    "input/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+    "instruction/hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "context/ancestry-complete": { "type": "boolean" },
+    "inputs": { "type": "array", "maxItems": 8, "items": { "$ref": "#/$defs/input" } }
+  },
+  "$defs": {
+    "input": {
+      "description": "Passage source assertion. A referenced carrier grants no resolution authority: the host must resolve and verify exact bytes through its admitted bounded resolver. Controller inputs retain their separate inline-only contract.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "content/size-bytes", "execution/provenance"],
+      "properties": {
+        "source": { "$ref": "agent.supplied-input-manifest.v1.schema.json#/$defs/source" },
+        "content/size-bytes": { "$ref": "agent.supplied-input-manifest.v1.schema.json#/$defs/input/properties/content~1size-bytes" },
+        "execution/provenance": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "inference-execution-provenance.v1.schema.json" }
+          ]
+        }
+      }
+    }
+  }
+}

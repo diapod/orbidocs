@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.prepare.request:v1",
+  "title": "corpus-task-pack-turn.prepare.request.v1",
+  "description": "Operator choices for one bounded task-pack participant turn. The owner resolves all configuration, current mandate and membership; choices convey no Agent binding or inference authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "query/id",
+    "task-binding/ref",
+    "role",
+    "participant",
+    "agent/profile-ref",
+    "idempotency/key",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.prepare.request.v1"
+    },
+    "query/id": {
+      "allOf": [
+        {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^query:"
+        }
+      ]
+    },
+    "task-binding/ref": {
+      "allOf": [
+        {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^operator-task-local-binding:"
+        }
+      ]
+    },
+    "role": {
+      "enum": [
+        "implementer",
+        "reviewer"
+      ]
+    },
+    "participant": {
+      "$ref": "#/$defs/participant"
+    },
+    "agent/profile-ref": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+\\-]*$"
+    },
+    "operator/binding-ref": {
+      "allOf": [
+        {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^node-operator-binding:"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+\\-]*$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "participant": {
+      "allOf": [
+        {
+          "$ref": "corpus-reasoning-room-policy.v3.schema.json#/$defs/room-subject"
+        },
+        {
+          "properties": {
+            "id": {
+              "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

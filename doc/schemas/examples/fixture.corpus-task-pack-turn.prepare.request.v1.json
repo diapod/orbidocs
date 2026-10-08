@@ -1,0 +1,13 @@
+{
+  "schema": "corpus-task-pack-turn.prepare.request.v1",
+  "query/id": "query:one",
+  "task-binding/ref": "operator-task-local-binding:one",
+  "role": "implementer",
+  "participant": {
+    "kind": "participant",
+    "id": "participant:one"
+  },
+  "agent/profile-ref": "agent-profile:solver",
+  "idempotency/key": "operator-turn:one",
+  "operator/binding-ref": "node-operator-binding:one"
+}

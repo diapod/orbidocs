@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.commit.response:v1",
+  "title": "corpus-task-pack-turn.commit.response.v1",
+  "description": "A bounded operation handle and owner-state projection. accepted is admission, not completion; awaiting-human and unknown never authorize model execution, effects or redispatch by themselves.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "operation/ref",
+    "preview/ref",
+    "state"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.commit.response.v1"
+    },
+    "operation/ref": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+    },
+    "preview/ref": {
+      "type": "string",
+      "pattern": "^corpus-task-pack-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "state": {
+      "enum": [
+        "accepted",
+        "awaiting-human",
+        "running",
+        "completed",
+        "refused",
+        "unknown"
+      ]
+    }
+  }
+}

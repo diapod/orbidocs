@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.status:v1",
+  "title": "corpus-task-pack-turn.status.v1",
+  "description": "Bounded owner-state projection of a retained turn operation. Stage is a recovery checkpoint, not permission to repeat inference or publish. The optional outcome is package-owned, separately validated data. Diagnostics contain no private provider error or prompt.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "operation/ref",
+    "preview/ref",
+    "state",
+    "stage",
+    "agent/id",
+    "query/id",
+    "task-binding/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.status.v1"
+    },
+    "query/id": {"$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"},
+    "task-binding/ref": {"$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"},
+    "operation/ref": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+    },
+    "preview/ref": {
+      "$ref": "corpus-task-pack-turn.preview.v1.schema.json#/properties/preview~1ref"
+    },
+    "state": {
+      "$ref": "corpus-task-pack-turn.commit.response.v1.schema.json#/properties/state"
+    },
+    "stage": {
+      "enum": [
+        "prepared",
+        "role-admitted",
+        "agent-spawned",
+        "agent-bound",
+        "turn-prepared",
+        "awaiting-human",
+        "turn-open",
+        "overlay-admitted",
+        "flow-bound",
+        "corpus-bound",
+        "inputs-prepared",
+        "published",
+        "completed",
+        "refused",
+        "unknown"
+      ]
+    },
+    "agent/id": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+    },
+    "operator-question/ref": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+    },
+    "cleanup/state": {
+      "description": "Owner cleanup is separate from the turn disposition; a refused or unknown turn can still require bounded cleanup reconciliation.",
+      "enum": ["pending", "completed"]
+    },
+    "outcome": {
+      "type": "object",
+      "maxProperties": 128
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "owner"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        "owner": {
+          "const": "corpus-task-pack-turns"
+        }
+      }
+    }
+  }
+}

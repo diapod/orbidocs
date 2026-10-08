@@ -163,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **199** host-local / **231** ogółem; grupy właścicieli: **29**.
+Wpisy: **203** host-local / **235** ogółem; grupy właścicieli: **30**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -246,6 +246,15 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>corpus.room.moderate</code> | <code>host/corpus.room.moderate</code> | <code>active</code> | <code>host-local</code> | true | false | — |
+
+### <code>daemon Corpus operator-reviewed task-pack turn coordinator</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>corpus.task-pack.turn.commit</code> | <code>host/corpus.task-pack.turn.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.turn.prepare</code> | <code>host/corpus.task-pack.turn.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.turn.profiles</code> | <code>host/corpus.task-pack.turn.profiles</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.turn.status</code> | <code>host/corpus.task-pack.turn.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Corpus task-pack steps</code>
 

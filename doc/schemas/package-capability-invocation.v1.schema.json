@@ -122,6 +122,13 @@
             "$ref": "#/$defs/ref"
           }
         },
+        "reconciliation/operations": {
+          "description": "Frozen read-only recovery operation per effect. Missing historical declarations remain unavailable; the current overlay cannot supply them retroactively.",
+          "type": "object",
+          "maxProperties": 32,
+          "propertyNames": {"$ref": "#/$defs/ref"},
+          "additionalProperties": {"$ref": "#/$defs/ref"}
+        },
         "recovery/class": {
           "enum": [
             "read-only",

@@ -1,0 +1,5 @@
+{
+  "schema": "corpus-task-pack-turn.status.request.v1",
+  "operation/ref": "operation:task-pack-turn:one",
+  "execute": true
+}

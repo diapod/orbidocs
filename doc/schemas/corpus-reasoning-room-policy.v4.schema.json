@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-reasoning-room-policy:v4",
+  "title": "Corpus Reasoning Room Policy v4",
+  "description": "Explicit current-owner Chair mandate. A declared mandate is not authority; hosts revalidate it before new Chair actions. Historical passport credentials are not accepted by this revision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema/v",
+    "query/id",
+    "room/id",
+    "exposure",
+    "answer/acceptance",
+    "chair/mode",
+    "chair/nym",
+    "chair/mandate",
+    "quorum/required",
+    "tie-break",
+    "revocation-policy",
+    "budget",
+    "access/list",
+    "created-at",
+    "expires-at"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 4
+    },
+    "query/id": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/query~1id"
+    },
+    "room/id": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/room~1id"
+    },
+    "exposure": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/exposure"
+    },
+    "answer/acceptance": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/answer~1acceptance"
+    },
+    "chair/mode": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/chair~1mode"
+    },
+    "chair/nym": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/chair~1nym"
+    },
+    "chair/agent-ref": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/chair~1agent-ref"
+    },
+    "chair-control-policy/ref": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/chair-control-policy~1ref"
+    },
+    "chair-control-policy/digest": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/chair-control-policy~1digest"
+    },
+    "extension-binding": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/extension-binding"
+    },
+    "quorum/required": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/quorum~1required"
+    },
+    "tie-break": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/tie-break"
+    },
+    "revocation-policy": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/revocation-policy"
+    },
+    "budget": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/budget"
+    },
+    "access/list": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/access~1list"
+    },
+    "created-at": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/created-at"
+    },
+    "expires-at": {
+      "$ref": "corpus-reasoning-room-policy.v3.schema.json#/properties/expires-at"
+    },
+    "chair/mandate": {
+      "$ref": "corpus-chair-mandate.v1.schema.json"
+    }
+  },
+  "dependentRequired": {
+    "chair/agent-ref": [
+      "chair-control-policy/ref",
+      "chair-control-policy/digest"
+    ],
+    "chair-control-policy/ref": [
+      "chair-control-policy/digest"
+    ],
+    "chair-control-policy/digest": [
+      "chair-control-policy/ref"
+    ]
+  },
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ]
+}

@@ -2150,7 +2150,7 @@ runtime, no N-way settlement.
   across authority restart, and performs a
   typed controlled rejoin when only the ephemeral session was lost. Story-011 sends
   real messages and proves both authority-side and recipient-side restart recovery.
-##### Operator round preparation — contract foundation, runtime pending
+##### Operator round preparation — current-owner implementation in qualification
 
 For the guided operator path in `P094-012c3`, the operator approved on
 2026-10-07 a Corpus-owned preparation operation starting from prose and explicit
@@ -2171,13 +2171,115 @@ boundary rather than reinterpret their `chair/credentials` strings. Completion
 requires stale-preview, revoked-operator, substituted-mandate and restart
 tests, plus operator-path acceptance without test bootstrap identities.
 
-The initial `corpus-chair-mandate.v1` draft and pure `corpus-core` type separate
-the two declared sources with closed, disjoint shapes and bounded identifiers.
-Schema Gate and Rust agree on the syntax. This is only the contract foundation:
-the preparing host, current-authority resolver, new room-policy carrier and
-mutation/recovery checks are not implemented yet. The historical room API
-continues to accept only its existing versions; a valid mandate object by
-itself cannot open a room.
+The draft `corpus-chair-mandate.v1` and pure `corpus-core` type separate the two
+declared sources with closed, disjoint shapes and bounded identifiers. The new
+`corpus-reasoning-room-policy.v4` carries that mandate instead of historical
+`chair/credentials`; a human Chair needs no fictional Agent control policy.
+An Agent Chair still needs its exact control-policy commitment. Versions 1–3
+retain their historical representation and semantics.
+
+The local owner exposes `corpus-local-round.prepare.request.v1` and a bounded,
+five-minute `corpus-local-round.preview.v1`. The exact preview binds choices,
+current task-binding/profile material, author, topic and Room policy. An explicit
+`corpus-local-round.commit.request.v1` rechecks the current operator mandate and
+owner inventory, signs through the existing question signer, and retains the
+signed source before registering the query and opening its Room. Replay uses
+those original signed bytes, never a new signature or renewed mandate. A missing
+delegated-authority resolver refuses that branch; syntax alone grants nothing.
+The Node implementation and operator-path qualification are in progress, not
+evidence of completed participant admission or automatic execution.
+
+Review clarification (2026-10-08): preparation pins the actual selected Node
+`federation/id`; it never substitutes `federation:local`. Operational bounds come
+from `corpus.local_round` (time_ms, steps, tokens, lifetime_sec and quorum) and
+are visible in the exact preview; a changed configuration requires fresh review.
+Defaults remain 300,000 ms / 32 steps / 16,384 tokens, 1,200 seconds and quorum 1.
+This first admitted preparation profile is deliberately zero-price ORC and
+Community collaboration. Those are profile constraints, not hidden choices or
+permission for paid procurement or wider disclosure. Participant duplicates
+refuse explicitly. The revoked-operator regression exercises independent Chair
+entrypoints, including Flow binding, Chair-control admission and loop renewal;
+history inspection remains separate. Operator-path qualification is still open.
+
+##### Bounded authority continuation — design checkpoint, 2026-10-08
+
+The guided repair reached a completed Solver result after an observed failed
+verification, but its participant invitations and original Room/question expired
+before a repair Reviewer could be admitted. The operator approved an explicit
+bounded continuation with the same participants and communication rights.
+This is not permission to edit a frozen policy, signed question or invitation.
+Decision adopted by the operator on 2026-10-08: retain one logical round with
+explicit, signed authority epochs. Each continuation uses a fresh immutable
+query/Room context; the original logical-round ID remains the budget/history
+root. This is a new context of the same logical round, not an unrelated round
+with fresh counters. The first context and every earlier signature, deadline,
+role assignment, outcome and receipt remain unchanged.
+
+The draft `corpus-authority-epoch.v1` binds the original signed query and policy
+digests, problem digest, federation, task-binding ref/digest, sorted participants,
+previous epoch ref, new signed context digests, current local Chair mandate,
+exact retained input and provenance digests, and a positive window of at most
+900 seconds. The origin also commits `origin/deadline`, resolved from the
+original owner-admitted logical-round deadline. Every epoch must finish at or
+before that immutable deadline: 64 short epochs do not imply 16 hours of new
+authority. Changing that deadline changes the origin and is refused by the
+same logical chain. Runtime admission must resolve the value from owner facts,
+not accept an arbitrary caller-authored deadline. The first epoch has no predecessor epoch; its origin commits the
+initial context. Subsequent epochs extend exactly the current head, with no
+fork, sequence gap or reused query/Room. This profile admits only
+`answer`, `observe`, `speak`; at most 64 continuation epochs, 15 participants
+and 32 historical inputs per epoch are admitted.
+
+The owner must resolve those commitments from admitted sources, not trust
+caller-provided digests. Verification of a signed epoch does not replace
+current operator-binding authority, participant admission or source access.
+Historical replay validates exact retained bytes without making an expired
+epoch current. Every new operation must fence the current chain head; earlier
+contexts cannot concurrently exercise renewed authority. New Room/query and
+invitation lifetimes must fit the approved epoch window.
+
+All epochs share cumulative passage, cycle, run and accounting history under
+the logical root, including stopped/unknown state. An expired loop deadline
+still requires its separate explicit renewal, which must itself remain within
+`origin/deadline`; renewal cannot extend the immutable logical-round ceiling.
+Historical rounds without an owner-admitted total deadline cannot use a
+caller-supplied value as a substitute for admission. Continuation must not open a
+fresh loop or infer a new wall-time budget. These are runtime-owner obligations,
+not effects of deserializing the contract.
+
+An expired proposal is historical data, never a revived experiment permit.
+Reusing the completed Solver output requires explicit owner re-admission of
+its exact candidate, attachments and producer provenance. A fresh Reviewer may
+read that historical input under current authority; any executable successor
+must retain the old producer attribution and name the new accountable adoption
+and review. No Solver rerun, impersonated signature or fabricated turn witness
+may be substituted for this transition. VM, HIL, leases, effects and publication
+require fresh independent admission. Runtime/UI and real qualification remain
+open even after the pure contract checkpoint is complete.
+
+| Task | Status | Completion evidence |
+| :--- | :--- | :--- |
+| `P069-PREP-002a` | `done` | Pure contract checkpoint, 2026-10-08: draft `corpus-authority-epoch.v1` binds immutable origin/deadline, context/scope, exact input/provenance digests, prior head and a communication-only window. Ten core tests, exact signed/negative fixtures, four Schema Gate boundary tests, strict all-target Clippy, schema validation and documentation build pass. Contract maturity remains draft. Runtime owner admission, cumulative-budget integration and historical candidate adoption are b/d, not claims of this checkpoint. |
+| `P069-PREP-002b` | `todo` | The Corpus/Room owners admit the separately approved transition under a current operator mandate; reject substitution, changed participants/rights, stale generation, revocation and concurrent transitions. Commit/recover/replay preserve the original transition bytes without repeated signing, inference, publication or charge. |
+| `P069-PREP-002c` | `todo` | A thin operator UI previews the exact epoch, rights, deadline and retained inputs, then separately confirms it. Read-only inspection never renews authority. Expired Room/invitation history remains visible with explicit blockers; no VM, HIL, lease or marketplace consent is inherited. |
+| `P069-PREP-002d` | `todo` | Qualify continuation between real Solver and Reviewer passages, followed by independent review and separately authorized experiment admission. Test old-epoch replay, expired document refusal, missing/substituted parents and restart without redispatch. Keep any historical-result reuse distinct from reauthoring a current proposal. |
+
+Implementation precursor: the participation read model reports Room expiry as
+an explicit mutation blocker while preserving the retained invitation view.
+The pure epoch contract is locally qualified; runtime admission is not. The continuation
+operation itself is not yet exposed by the runtime or UI.
+
+Built-in role and overlay policy refs resolve admission/rendering rules. They do
+not claim a separate consent decision by the Scheduler. Task-turn role/overlay
+approval intents additionally bind the operator's exact preview ref, approved
+digest, operator binding, proposal and decision request before either decision
+is executed. The decision owner verifies that immutable consent reference and
+retains `operator_approval_ref` in the decision's own commit-log metadata.
+A crash can leave an unconsumed consent intent, never a decision whose consent
+must be invented afterward. Intent is not an outcome or a replacement for the
+current mandate. The existing built-in policy refs remain actual admission and
+rendering rules, not sources of human consent. This preserves policy semantics
+without attributing operator consent to an unresolved or independent policy.
 
 #### Phase 8 — Chair, participants, and local role overlays `[x] implemented`; arbiter deferred
 

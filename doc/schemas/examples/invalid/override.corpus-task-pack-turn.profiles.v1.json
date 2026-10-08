@@ -1,0 +1,31 @@
+{
+  "schema": "corpus-task-pack-turn.profiles.v1",
+  "profiles": [
+    {
+      "profile/ref": "agent-profile:bounded",
+      "budget": {
+        "max_tokens": 4096,
+        "max_cost_micros": 1000,
+        "max_wall_time_ms": 30000,
+        "max_steps": 4
+      },
+      "controller": {
+        "max_steps": 4,
+        "max_depth": 0,
+        "max_children": 0,
+        "max_concurrent": 1,
+        "aggregate_budget": {
+          "max_tokens": 4096,
+          "max_cost_micros": 1000,
+          "max_wall_time_ms": 30000,
+          "max_steps": 4
+        },
+        "termination": {
+          "kind": "max_steps"
+        },
+        "review_policy": "every_step"
+      },
+      "override": true
+    }
+  ]
+}

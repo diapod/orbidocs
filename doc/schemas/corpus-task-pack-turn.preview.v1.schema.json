@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.preview:v1",
+  "title": "corpus-task-pack-turn.preview.v1",
+  "description": "Immutable exact review of operator choices and owner facts. preview/digest is JCS SHA-256 over this object without preview/ref and preview/digest; preview/ref is corpus-task-pack-turn:<digest>. Runtime checks equality, positive validity no longer than 300 seconds, and the Room expiry ceiling. These times bound approval, not an inference turn. Pins are observations, not authority; every mutation must resolve current owners.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "preview/ref",
+    "preview/digest",
+    "choices",
+    "pins",
+    "planned",
+    "prepared/at",
+    "valid/until"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.preview.v1"
+    },
+    "preview/ref": {
+      "type": "string",
+      "pattern": "^corpus-task-pack-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "preview/digest": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+    },
+    "choices": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json"
+    },
+    "pins": {
+      "$ref": "#/$defs/pins"
+    },
+    "planned": {
+      "$ref": "#/$defs/planned"
+    },
+    "prepared/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    }
+  },
+  "$defs": {
+    "pins": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context/digest",
+        "task-binding/digest",
+        "task-profile/ref",
+        "task-profile/digest",
+        "package/ref",
+        "package/digest",
+        "package/activation-generation",
+        "inference-flow/ref",
+        "inference-flow/digest",
+        "inference-flow/policy-digest",
+        "agent/profile-digest",
+        "agent/max-wall-time-ms",
+        "room/policy-digest",
+        "room/membership-attestation-ref",
+        "room/membership-attestation-digest",
+        "room/expires-at",
+        "task-position/digest"
+      ],
+      "properties": {
+        "context/digest": {
+          "description": "Commitment to private owner-resolved problem text, selected role overlay, evidence request template, package capability and Room context. The preview exports no prompt bytes.",
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "task-binding/digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "task-profile/ref": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        "task-profile/digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "package/ref": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        "package/digest": {
+          "$ref": "operator-extension-import-receipt.v1.schema.json#/$defs/digest"
+        },
+        "package/activation-generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 18446744073709551615
+        },
+        "inference-flow/ref": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        "inference-flow/digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "inference-flow/policy-digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "agent/profile-digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "agent/max-wall-time-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 18446744073709551615
+        },
+        "room/policy-digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "room/membership-attestation-ref": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        "room/membership-attestation-digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        },
+        "room/expires-at": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        "task-position/digest": {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+        }
+      }
+    },
+    "planned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent/id",
+        "agent/binding-ref"
+      ],
+      "properties": {
+        "agent/id": {
+          "allOf": [
+            {
+              "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+            },
+            {
+              "pattern": "^agent:"
+            }
+          ]
+        },
+        "agent/binding-ref": {
+          "allOf": [
+            {
+              "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+            },
+            {
+              "pattern": "^agent-binding:"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

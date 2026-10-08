@@ -452,9 +452,9 @@ Review clarifications on `2026-10-04`:
     counts all attachments, including repeated targets.
 
 33. **Candidate material is an owner-local evidence projection, not another
-    candidate contract.** A candidate without patch steps retains its
-    original shape. Otherwise `corpus-task-pack-candidate-material.local.v1`
-    contains `candidate`, ordered `patches` entries (`step/id`, `patch/ref`,
+    candidate contract.** Every candidate, including an observation with empty
+    `patches`, uses `corpus-task-pack-candidate-material.local.v1`. It contains
+    `candidate`, `review/phase`, ordered `patches` entries (`step/id`, `patch/ref`,
     `patch`, `review/targets`), `source/product-ref` and `source/product-digest`. The host builds
     this wrapper from the retained publication and verified patch bytes; no
     caller can submit it as trusted source material. It is not a public wire
@@ -463,6 +463,14 @@ Review clarifications on `2026-10-04`:
     without changing retained source bytes; the manifest binds the projection
     and source identities. Binary content remains base64. Inline patch text is
     data, never new authority or instructions.
+    The host derives `review/phase` from all actual steps: a nonempty set of
+    observation steps is `observation`; any process, patch, service-control or
+    actuation step is `effects`. Empty material refuses. This label is not
+    policy admission, safety, verifier success or a host-selected verdict.
+    The independent Reviewer must still inspect the exact steps and evidence.
+    The existing chain-inspection carrier validates this owner-generated shape
+    and its phase/step agreement; this adds no standalone material family or
+    caller admission. Its raw-candidate branch retains historical validation.
 
 34. **Independent review is bounded, not an unbounded history guarantee.**
     Current candidate/proposal and required prior executions with their
@@ -2434,9 +2442,11 @@ manifest bytes. Optional inference choices are absent values, not empty-string
 sentinels. Inference aliases have matching Rust/schema printable-ASCII grammar.
 This is a draft contract addition (`operator-task-binding-preparation.v1`) and
 an explicit reference-grammar change in binding-create/local-binding, not only
-visual stabilization. The separate `corpus-chair-mandate.v1` remains a draft
-foundation without a runtime authority resolver; its shape is not frozen by
-this UI work. No additional runtime acceptance or formal V1 adoption follows.
+visual stabilization. At that review checkpoint, `corpus-chair-mandate.v1` was
+a draft foundation without a runtime resolver. The continuation below adds
+the local resolver and explicit V4 Room carrier; it does not freeze delegated
+authority or supply additional runtime acceptance by itself. Formal V1
+adoption remains a separate decision.
 
 The operator explicitly approved extending this slice to preparation of a new
 local Corpus round from prose (2026-10-07), rather than requiring a pre-created
@@ -2457,15 +2467,204 @@ explicitly; the accepted historical room-policy wire shapes are not silently
 reinterpreted. Implementation and runtime qualification of this boundary remain
 part of `P094-012c3`, not evidence already supplied by the harness.
 
+Temporal clarification approved on 2026-10-08: Agent/Flow
+execution admission and signed downstream document validity are separate
+clocks. Proposal/review authoring must still validate the current producer
+binding before signing; document expiry is the earliest role, membership
+invitation/attestation, Room policy, parent document and optional requested
+expiry. It does not renew execution or extend Room authority. Chair/admission
+and replay recheck current operator, participant, package and use authority.
+Old signed bytes remain immutable. Owner chain inspection reports a decision
+window, not permission; expired chains remain inspectable without UI action
+controls. The real UI exposed this boundary: both distinct Agents completed
+their HIL-approved passages and cleanup, but a short Reviewer profile left
+only 345 ms after its signature for a Chair decision. That run qualifies no
+experiment or VM; the corrected path still needs fresh operator acceptance.
+
+Subsequent checkpoint, 2026-10-08: the fresh b48 round completed the ordinary
+UI path through separate MLX Solver/Reviewer passages and HIL, retained-chain
+Chair approval, separate admission, native read-only qmail observation,
+verifier evaluation and confirmed destruction before signed execution
+publication. Run `operator-task-run:sha256:0XHTGwaH7ZHEuc0_syaGEUranTXVysDH7qNEHVC4qJw`
+and execution `corpus-task-pack-execution:sha256:CtzXBn_w2yuBy-oDEmSx4p0MU4ZZX2zJwfLomF7PZCU`
+both retain `verification-failed`: no repair was authorized or performed.
+Node's `docs/audits/P094-2026-10-08-GUIDED-OBSERVATION.md` records exact refs,
+cleanup/publication timing and the independent isolated-profile prerequisites.
+This development-worktree evidence supersedes the older no-VM observation,
+not historical signatures or clean-source acceptance reports. `P094-012c5`
+remains in progress for full operator-path qualification; no marketplace,
+restart/replay, seven-check repair or alpha claim is added.
+
+The subsequent fresh UI round retained its Reviewer's signed observation
+rejection rather than promoting favorable prose to consent. A second Solver
+stopped before binding/HIL/inference: its ten-minute profile exceeded the
+remaining signed membership window. Node now refuses this at preparation and
+fresh admission and again before spawn/binding, without silently shortening
+the approved profile or renewing authority. A separate shorter test profile
+must be explicitly selected. The old `unknown` terminal remains immutable;
+`P094-012c5` remains in progress pending the real repair and replay proof.
+
+Two subsequent fresh rounds retained signed observation rejections without
+executing a VM. A uniform owner-local candidate-material wrapper now exposes
+the structural observation/effects phase without deciding the verdict. The
+fresh `3dea` round completed both real MLX passages and cleanup, and its
+Reviewer accepted the observation. Chair inspection then exposed an omitted
+carrier-schema update; the canonical schema, Node mirror and four-boundary
+regressions now cover that wrapper. Both compiled clients must consume the
+updated contract. This is a calibration checkpoint, not a completed repair,
+restart/replay or operator-path qualification.
+
+The subsequent `ee1507` UI round completed another actual read-only observation,
+failed verification, confirmed destruction and signed execution publication.
+Its repair Solver reached real inference and HIL, but exact product ancestry
+exceeded the unchanged 16 KiB inline descriptor limit (17,490 bytes). The turn
+remains `unknown` with completed cleanup, not a repair success or an automatic
+retry candidate. P094-023e retains exact parent descriptors and currently
+refuses unresolved external ones. Completing this richer sequence therefore
+needed a separately admitted carriage/resolution extension and replay gates.
+The operator approved the local-only P090-008d continuation on 2026-10-08;
+bounded local storage and Agent restart/replay tests now pass with exact parents
+and no repeated charge. This does not qualify all downstream consumers or the
+composed real-MLX repair. Node's dated audit retains the earlier exact refs and
+failure boundary; the old unknown turn is not automatically redispatched.
+`P094-012c5` remains in progress; no source ancestry is discarded, no limit is
+raised and no whole-P090 or full operator-path qualification is claimed.
+
+Qualification boundary approved on 2026-10-07: package installation is a
+prerequisite, not part of the guided no-manual-request-JSON claim. The current
+slice does not add a P085 installation wizard. A fresh qualification profile
+uses an isolated local test federation and fresh identities; existing model
+and image bytes may be reused through their owners, but existing profile
+authority is not copied. Package signing, host-configured conformance and
+activation must be real prerequisite operations. The scripted P085 report in
+the Story 013 process fixture and the owner-refusal inventory gate cannot
+substitute for a deployable package runner. The fresh-profile check reached
+identity creation, local operator consent and the empty binding inventory;
+the operator then approved implementing a real runner before continuing.
+`orbiplex-task-pack-conformance` now computes all 13 refusal cases and seven
+positive controls using production owner semantics with scripted port inputs.
+It binds the exact package/assets, raw corpus and executable, and refuses
+incomplete or substituted inputs. This is not evidence of live HIL or VM
+execution, and does not promote process evidence to operator-path acceptance.
+On 2026-10-07 the fresh profile passed the real task-pack conformance endpoint
+and finalized package activation generation 1; Node UI showed that active
+package. Exact package, corpus, runtime and report pins are retained in Node's
+`docs/operations/TASK-PACK-CONFORMANCE.md`. This development-worktree checkpoint
+closes the prerequisite runner, not c5's operator task/VM qualification.
+The real UI then created an inventory-backed binding and owner preflight became
+runnable after actual MLX component conformance. Review corrected optional
+inference rendering, component route escaping and the flat participant choice
+shape (259 Node UI tests and all-target Clippy pass). The first diagnostic
+identity lacked stored mnemonic recovery material and could not export the
+bundle required before creating a second nym. That profile was retained and
+stopped; a new isolated identity created through the ordinary UI preserves the
+required recovery material. The operator completed protection and consent; the
+ordinary UI created both participant nyms and exported sealed recovery material.
+Real P085 activation and MLX conformance were repeated under the new operator,
+followed by UI binding creation and signed prose-to-local-round preparation.
+Actual invitation use exposed a 20-minute Room/15-minute attestation mismatch;
+the guided suggestion now uses the membership owner's ceiling, anchored to the
+retained preparation time rather than renewed by reading a page. Existing
+invitation deadlines and current-authority checks remain unchanged.
+Deadline and signed-round restart regressions pass, along with daemon Clippy
+and documentation schema/build gates. Explicit same-node AD invitation policy
+was still an infrastructure prerequisite; the wizard did not create it.
+After that bounded configuration, both participants completed actual UI
+invitation, join and readiness. UI opened the loop and admitted one Solver BDO;
+its distinct Agent reached `awaiting-human` with an independent notification.
+The first answer was refused before consent dispatch because the action ID was
+not percent-decoded; the question then expired. Reviewed decoding, expired UI
+and owner-driven timeout cleanup fixes pass the daemon/UI regressions and both
+task-turn process tests, including restart without repeated inference or charges.
+The real profile was restarted intact; the old question is shown as expired.
+Its turn had already terminated when the Room expired under the old binary, so
+its historical `unknown` outcome is retained, with completed cleanup and zero
+Agent spend/reservation. A fresh round and an independent new HIL decision are
+required. This recovery checkpoint does not qualify the passage.
+Review clarification (2026-10-08): a reconciled package invocation may be
+`completed` while its exact output is unavailable. The task-turn coordinator
+then retains `unknown` and cleanup, rather than treating the package completion
+as a successful contribution, advancing the loop or re-running inference.
+The old owner-refusal report does not qualify the current guided implementation;
+a fresh `check-task-pack-refusals.py --verify` is required for these source bytes.
+Role/overlay audit retains exact operator-preview approval separately from the
+built-in admission/rendering policy refs. No new real turn or UX acceptance
+completion is claimed by these review repairs.
+
+The subsequent question expired under its separate five-minute HIL deadline;
+the selected ten-minute Agent lifetime did not renew it. Owner timeout retained
+`turn-human-timeout`, zero Agent spend and completed cleanup. The UI repair
+displays the exact deadline and countdown and redirects stale submissions to
+the unavailable question, including expiry racing with owner response, without
+retrying consent. These are presentation/recovery checks, not task acceptance.
+No task VM or complete Solver/Reviewer passage is qualified by these steps.
+The next human answer was retained and its Room-turn effect completed, although
+the UI returned a notification-version conflict afterwards. The reviewed
+repair separates owner consent from the inbox projection: no ambiguous POST
+retry, stale-version refusal before dispatch, and read-only recovery of the
+exact handled projection after owner success. It never reanswers the question.
+This turn separately terminated unknown while preparing inputs: the instruction
+commitment bypassed Inquirium's content resolver for a required temporal layer.
+The corrected path shares that resolver with execution; retained historical
+outcomes remain unchanged. Cleanup completed, but real passage/VM and full UX
+acceptance remain open and require a fresh authorized turn.
+
+Continuation on 2026-10-08 local time found that the shipped package Flow lacked
+the task-document grammar supplied only by real-model test calibration. The
+ordinary Flow now reuses those same Solver/Reviewer instructions; acceptance
+asserts equality rather than replacing them. Python parity regressions pass and
+the Rust standalone Solver proof passes after its fixture recognizes those full
+instructions (rather than only the old role prefix). A distinct corrected package passed actual
+P085 conformance and activation. UI created a runnable binding, signed a fresh
+round and recorded both participants' limited membership/readiness. One Solver
+retry stopped unknown at Agent binding (HTTP 422), before HIL or inference.
+Owner cleanup completed; historical results and installations remain intact.
+No automatic second retry,
+VM execution or market publication is authorized; c5 stays in progress.
+
+The next explicitly authorized UI retry admitted only `answer`, `observe` and
+`speak` for 15 minutes. It stalled before HIL in Agent creation. A process sample
+identified Memarium's post-append receipt lookup scanning roughly 756 MiB of
+unrelated Node journals. The implementation now reads the receipt's exact
+stream/sequence and checks record and domain identity before advancing; 60
+Memarium runtime tests pass, including unrelated-stream corruption and exact
+idempotent replay after a later append. The independent Agent reaper page/batch
+limit mismatch is corrected without enlarging the operator read bound. These
+are owner-path repairs, not a completed real passage or a renewal of expired
+membership; guided/native qualification remains open.
+
 | Task | Scope | Status | Completion evidence |
 | :--- | :--- | :--- | :--- |
 | `P094-012c1` | Inventory-backed binding preparation | `in-progress` | Choose package, operator, workspace, image and inference without copying profiles, digests or generations. Advanced JSON remains available. Changed owner facts refuse stale submission. |
 | `P094-012c2` | Guided preflight | `in-progress` | Node UI maps every current owner next-action to its responsible owner and a real link or explicit manual instruction. Rendering and exhaustive mapping tests pass; operator-path acceptance remains c5. Never claim readiness from UI state. |
-| `P094-012c3` | Guided task operation | `in-progress` | Prose-to-round preparation and local operator Chair mandate were approved; P069-PREP-001 has a disjoint mandate contract and Rust/Schema Gate parity. Owner authority resolution, round commit and guided execution remain open. The target is explicit loop opening or order linking plus progress, independent HIL, patches, verification and cleanup; no automatic approval. |
+| `P094-012c3` | Guided task operation | `in-progress` | Local-owner prose preview/commit, question signing, current operator Chair mandate and policy V4/invite V2 are implemented; the owner regression proves exact source replay after restart and refusal after operator revocation. The deterministic process checkpoint proves separate Solver/Reviewer Agents, independent HIL, restart and unchanged replay charges. Guided identity/invite/join/readiness, participant turns, read-only loop progress and exact Chair/admission clients are implemented. The latter bind all retained candidate/review/patch bytes and keep run admission separate from the Chair decision, HIL and publication. The Scheduler owns retained turn stages and cleanup, not the UI. Full real operator and refreshed native acceptance remain c5, not claimed here. |
 | `P094-012c4` | Publication and maintenance review | `in-progress` | Human-readable offer terms and exact recipe patch replacement text, distinct confirmations, and P091 adoption/recovery forms are implemented. Recipe/order commitments are cross-checked. Task navigation and real operator acceptance remain open; no relay retargeting is implemented. |
-| `P094-012c5` | Operator-path acceptance | `todo` | Exercise the real clients and owners without hand-authored request JSON or using an acceptance harness as an installer. Record prerequisites, actions, outcomes and cleanup separately from scripted-port tests and historical native reports. |
+| `P094-012c5` | Operator-path acceptance | `in-progress` | Installation is an explicit prerequisite (2026-10-07 decision), not a guided-installer claim. Exercise real clients and owners from an installed/conformant/active package without hand-authored request JSON or a harness installer. Real P085 activation, MLX conformance, UI identity/recovery, inventory-backed binding, problem-to-Room preparation and both participant memberships are qualified prerequisites. The 2026-10-08 b48 development-worktree checkpoint additionally completed separate Solver/Reviewer/HIL passages, Chair approval, separate admission, actual read-only VM observation, verifier evaluation, confirmed destruction and subsequent signed execution publication. Its exact outcome is `verification-failed`, not repair success. See Node `docs/audits/P094-2026-10-08-GUIDED-OBSERVATION.md`. Full operator-path report and repair/publication qualification remain open; keep these observations separate from scripted-port tests and historical native reports. |
+| `P094-012c5a` | Deployable offline P085 prerequisite runner | `done` | Approved and qualified 2026-10-07. The binary computes 13 refusal cases and seven positive controls through existing owners; five runner regressions, the full service suite (125 passes, one ignored native test), and all-target Clippy pass. Runtime input pins package/assets and executable; missing/unknown cases or changed expected outcomes cannot produce a passing report. The real profile's P085 conformance passed and activation finalized at generation 1; exact pins are in Node TASK-PACK-CONFORMANCE.md. Evidence class remains owner-semantics-with-scripted-ports, not native acceptance or c5 completion. |
+| `P094-012c6` | Bounded between-cycle authority continuation | `in-progress` | Operator adopted explicit signed epochs of the same logical round on 2026-10-08 through `P069-PREP-002a/d`. The pure draft contract/chain checkpoint is done, including immutable origin/deadline; runtime owner admission, historical candidate adoption, shared cumulative budget, UI and real continuation remain open. The e236 development round completed observation, actual destruction and a repair Solver with cleanup; its repair Reviewer was not started before expiry. Preserve that exact result as history. Do not rewrite expired signatures, reset the logical loop, widen a grant or infer renewed experiment/HIL/publication authority. c5 is not complete. |
 
-Formal V1 adoption and the disposition of `P094-023e`/`P094-007b2` remain
+Attribution clarification (2026-10-08): the deterministic process checkpoint
+uses scripted operator-question answers, and the guided development UI runs
+use confirmations delegated by the human operator in the conversation. These
+exercise separate question owners, not independent human answering. The Node
+audit records actual `answered_by` accounts and answer timestamps. Future
+human-participation qualification must identify direct human answers or a
+scoped, timestamped human authorization of delegated confirmations.
+
+Implementation continuation approved on 2026-10-07: complete c1–c5 through the
+real operator clients, with an explicit request-token CSRF checkpoint first.
+The work includes the current-owner Chair resolver and versioned Room boundary,
+exact preview/commit of a signed question and local round, `P094-023e`'s neutral
+Agent passage manifest, and scoped P091 middleware configuration application
+and P093 local uncertain-result reconciliation. Each stage requires review,
+refusal and recovery tests before composed operator-path qualification. Existing
+P090 controller manifests are reused, not counted as newly implemented work.
+Configuration source commit is distinct from instance consumption; an unknown
+effect never grants redispatch. The UI remains a client, not a second execution
+or configuration owner. Native qualification must use the new P091-backed
+binding implementation; historical runs are not upgraded by inspection.
+
+Formal V1 adoption and the disposition of `P094-007b2` remain
 separate decisions. These clients neither implement relay retargeting nor
 silently renew authority, grants, leases or publication consent.
 
@@ -2627,8 +2826,8 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-022a` | Register the Corpus contracts of task-pack experiments | `009`, P069 | `done` | 2026-09-30. Canonical `corpus-reasoning-experiment-proposal.v2`, `corpus-reasoning-experiment-review.v4`, `corpus-reasoning-chair-experiment-decision.v2` and `corpus-experiment-task-pack-execution.v1`, synced and registered in Schema Gate, with typed DTOs in `corpus-core`. The pure `resolve_corpus_typed_experiment_gate` admits exactly the reviewed candidate with its target, and `validate_task_pack_execution_relation` requires a record to execute exactly the admitted proposal, review and decision. Each negative vector goes through the gate that owns it: the schema rejects a candidate of another type, a missing target, another executor, a replacement and outcomes without their facts (16 vectors); the record's own validation rejects evidence of another instance; the relation gate blocks a review of other bytes, an approval carried over to a corrected candidate and a decision over another review, each of which is sound alone. Fixtures are signed by a generator test and verified against it. |
 | `P094-022b` | Execute admitted Corpus experiments as task-pack runs | `022a`, `010`, `021` | `done` | 2026-09-30. A candidate is published into the Room from an Agent passage of its author's retained turn (`POST /v1/corpus/task-pack-candidates`). Admission (`POST /v1/corpus/rounds/{query}/task-pack-experiments`) selects the executor by artifact type and mode through host ceilings, with no fallback to P083. It checks the proposal against a current Implementer turn and the review against a current Reviewer turn, with current membership and invite-bound origins; the Chair is the Room's. The typed gate must admit exactly the reviewed candidate, which the proposal's own turn published. The chain and the first handoff fact are stored in one transaction. The handoff (`TaskPackHandoff` in `corpus-core`) records plan, run, execution record and publication at fixed positions. A retry compiles nothing already compiled and admits nothing already admitted: one run key per proposal. A P094 refusal before the run records nothing and resumes. A running run is only awaited; an `unknown` conclusion is recorded as unknown and never run again; after the record, only the publication is retried. The run worker's observer takes a terminal run on to its record, and after recovery it resumes only handoffs whose run exists. Step evidence is the Workbench's own answer, kept by content; the result carries its `deliberation` links and is kept by content. The host-signed `corpus-experiment-task-pack-execution.v1` is a Room fact readable by current members with `observe` (`GET .../task-pack-executions`, `.../task-pack-artifacts`). The contract now requires `result/digest` for every recorded run and a code only for `refused`. Small tests cover every interruption point, the negative verdict, the preserved failure codes and a changed target. Review fixes (2026-09-30): the candidate comes from a committed Agent product verified through its Corpus inference-Flow binding; recovery reconciles a run admitted before a crash and needs no authority, while new execution steps need a current one; historical records use the admission's chain validator; candidate bytes and their publication commit together within per-turn, per-query and byte limits, with retention for unreferenced publications; the HTTP envelopes are contracts (`corpus-task-pack-*`) and appear in the API inventory. |
 | `P094-023a` | Bind explicit evidence input to passages | `022b`, P069, P071 | `done` | 2026-09-30. `POST /v1/corpus/rounds/{query}/passage-evidence` fixes a `corpus-passage-evidence-manifest.v1`: items by exact ref and digest (`latest` is refused by the contract), each published in the query or named by a published record, read as the Corpus inference-Flow binding's participant (current membership with `observe`), no wider in class than the binding allows, rendered by projection `corpus-task-pack-evidence` revision 1 (framed as untrusted data, `*/base64` output shown as text, nothing cut: a required item over the limit refuses, an optional one is named as left out), and kept by content address together with the manifest. The passage request names the manifest in `metadata["corpus/evidence-manifest"]`, which `input/digest` covers; only a manifest this host made for exactly the passage's current binding, query, Room and reader resolves. At invocation the host re-checks the reader, requires the passage input and the actual request to be at least as restrictive as the evidence (the rule layer selection uses), verifies the kept content against the manifest, and adds the content as a required prompt layer in the user role with an exact role binding, never promoted to an instruction role. Only after the actor and passage are admitted does it record `corpus-passage-evidence-binding.v1`, before the model runs; a replay must find the same binding and a second manifest for the passage is a conflict. Decoded output never replaces a field of the same name. Manifests are bounded per query and overall, and unbound ones are pruned after retention. `GET /v1/corpus/passage-evidence?passage=` shows the binding and manifest. Proposal and review history become evidence items with `023b`. |
-| `P094-023e` | Carry a neutral passage input manifest in the Agent contract | `023a` | `todo` | Later, when passages outside Corpus need evidence input: a revision of the Agent passage contract with a general input manifest, without Room or task-pack semantics. The Agent then keeps the canonical passage-to-manifest binding and Corpus keeps its domain relations and points to it; the same input is never declared twice. The passage contract owns this revision; P071 and P083 consume it. |
-| `P094-023b` | Build Corpus envelopes from committed products | `022a`, `022b`, P069 | `done` | 2026-09-30. Three host adapters build, sign and record Room facts on the participant's own node. `POST .../task-pack-proposals` builds a proposal v2 from the solver's candidate publication (this node is the author's; a current Implementer role on the retained turn; the publication's Corpus inference-Flow binding is current). `POST .../task-pack-reviews` builds a review v4 from the reviewer's committed product, whose content is a `corpus-task-pack-review-verdict.v1`: the passage belongs to the named reviewer turn, the Reviewer role is current, and the passage was bound before inference to a review target (the proposal's ref and digest and the candidate's digest, fixed in its evidence manifest, with the candidate a required item), which must be exactly the proposal under review; the manifest digest becomes `evidence-state/digest`. `POST .../task-pack-chair-decisions` builds a decision v2 from an explicit decision of a current local operator binding on the node that owns the round and holds the Room's Chair; the decision closes the chain and grants no HIL. The host derives author, reviewer, Chair, signer, candidate, class and idempotency from admitted facts, and expiry narrows to the earliest current authority (Flow binding, role, Room policy, answered document). Each fact is recorded under an identity key, and a retry answers the recorded fact only for the same query, provenance and intent, compared in the write transaction, so a racing writer with another intent gets a conflict; a Chair decides once per review, and the operator authority gate spans the check and the commit. Evidence items gain `candidate`, `proposal`, `review` and `decision`, which gives the solver the history of proposals and refusals. Adapters run on the node that holds the round; remote participants wait for the cross-node Room relay. |
+| `P094-023e` | Carry a neutral passage input manifest in the Agent contract | `023a` | `in-progress` | The approved 2026-10-07 continuation implements `agent.passage-input-manifest.v1` without Room/task-pack vocabulary, durable passage-to-manifest binding and Corpus references to that same manifest. Core, Schema Gate and restart/substitution/no-extra-charge regressions pass. Composed process and guided operator qualification remain in progress; P071 and P083 are consumers, not authority owners. |
+| `P094-023b` | Build Corpus envelopes from committed products | `022a`, `022b`, P069 | `done` | 2026-09-30. Three host adapters build, sign and record Room facts on the participant's own node. `POST .../task-pack-proposals` builds a proposal v2 from the solver's candidate publication (this node is the author's; a current Implementer role on the retained turn; the publication's Corpus inference-Flow binding is current). `POST .../task-pack-reviews` builds a review v4 from the reviewer's committed product, whose content is a `corpus-task-pack-review-verdict.v1`: the passage belongs to the named reviewer turn, the Reviewer role is current, and the passage was bound before inference to a review target (the proposal's ref and digest and the candidate's digest, fixed in its evidence manifest, with the candidate a required item), which must be exactly the proposal under review; the manifest digest becomes `evidence-state/digest`. `POST .../task-pack-chair-decisions` builds a decision v2 from an explicit decision of a current local operator binding on the node that owns the round and holds the Room's Chair; the decision closes the chain and grants no HIL. The host derives author, reviewer, Chair, signer, candidate, class and idempotency from admitted facts, and execution admission requires the current Flow binding, while the signed decision window narrows independently to role, membership, Room policy and answered document validity (2026-10-08 operator decision). Each fact is recorded under an identity key, and a retry answers the recorded fact only for the same query, provenance and intent, compared in the write transaction, so a racing writer with another intent gets a conflict; a Chair decides once per review, and the operator authority gate spans the check and the commit. Evidence items gain `candidate`, `proposal`, `review` and `decision`, which gives the solver the history of proposals and refusals. Adapters run on the node that holds the round; remote participants wait for the cross-node Room relay. |
 | `P094-023b1` | Retain the minimal admitted Room-turn witness for pending proposal admission across restart | `023b`, `023a`, P070 | `done` | 2026-10-05: `023b1a/b` close the failed pre-admission boundary exposed on 2026-10-04. The host commits a minimal exact query/Room/turn/author/class/digest witness atomically with the observation, with 8 KiB per witness, 256 per Room, 4,096 per Node and a fixed audit horizon ending 24 hours after the admitted Room deadline. Missing, substituted, conflicting, expired, capacity and partial-commit regressions pass. The deterministic Room proof and clean-source real-MLX/vfkit local market run `s13-1791156863-88b339` restart after signed proposal/review but before experiment admission, with exact replay and no additional inference, publication or charge. Current operator, participant, package and use authority recheck independently; no live session, expired lease or execution authority is recreated. This is the minimal task-profile evidence seam, not a general durable Room history. |
 | `P094-023c` | Drive the bounded experiment loop from the requester's Flow | `023a`, `023b` | `done` | 2026-09-30. The loop the requester's Flow drives is an append-only Corpus log per query on the node that owns the round (`task_pack_loop` in `corpus-core`, contract `corpus-task-pack-loop.v1`): opening, charged passages, opened cycles, admitted runs, conclusions, renewals and cancellation. The host enforces it at the natural transitions, each charge under one key so a replay spends nothing: a claimed passage, named by its Agent and passage ref, spends `max/passages` and its role's counter (implementer → solver, reviewer → reviewer; the role comes from the binding's role assignment), and a retry must be the same charge; a signed proposal is recorded together with its cycle in one transaction, so a proposal the loop refuses is never kept; admission spends the run (and a cycle signed elsewhere) and requires the loop, which must still be current even on a retry. Each new handoff step (compiling, admitting a run) checks the loop again and holds a fence against cancellation until its fact is recorded. Renewals are bounded (64), so a loop holds at most 1366 facts. Every loop transaction first concludes admitted runs whose execution is published. Limits are the meet of the profile's `deliberation.limits`, the binding's and the host caps, runs also capped by experiments per round; `deliberation.limits` is revised with optional `max/cycles`, `max/solver-passages` and `max/reviewer-passages`. The deadline is one wall time from the opening, covers human waiting, and moves only by an operator's renewal of at most one wall time. `verified`, `unknown` and the terminal safety refusals stop the loop; `verification-failed`, `cancelled`, `hil/denied` and other refusals do not; an exhausted counter or a passed deadline refuses the next step. Routes open, renew, cancel and read the loop, each as a current local operator binding under the authority guard. The executable Flow that drives it and the qmail pack's per-role limits are `023d`. |
 | `P094-023d` | Ship executable deliberation documents and the deterministic inference fixture | `011`, `020`, `023c` | `done` | 2026-10-03: `023d1` to `023d3` are complete: executable package step documents and bounded host grants, managed evidence-reactive inference, and the live local fresh-Agent Solver/Reviewer sequence. Host-normalized requests reproduce the passage and binding digests. The initial two-Agent runtime feasibility proof is superseded by the process evidence of `023d3b`; real VM, real-model and federated acceptance remain separately scoped to `013`, `013b` and `016`. |
@@ -2639,6 +2838,8 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-023d3b` | Prove the live Room step sequence | `023d3a` | `done` | 2026-10-03: ten unignored process tests are green. The full Solver/Reviewer cycle uses fresh Room-bound Agents and the actual P064 instruction commitment, including the admitted role overlay, host locale and retained evidence. Corpus signs the proposal and review; the open-relay proposal receives a signed rejection, and the typed critique gate refuses admission without creating a run. A new observation proposal needs its own new accepting review. Each Agent stops after publication, and exact package-invocation replay retains output and counters without another inference. The fixture explicitly admits the deterministic host compiler at all three operator ceilings; production defaults are unchanged. VM execution is separately proven by `P094-013` (2026-10-03). |
 | `P094-023d3b1` | Read the admitted Agent binding and complete the solver passage | `023d3a`, P093 local A–E | `done` | 2026-10-03: the unignored solver process test reads `binding/digest` from the validated `agent.status` inference-Flow inspection, checks the exact Flow, package and activation generation, then admits the Corpus binding. The passage runs through managed Inquirium and authors a signed proposal. The instruction commitment includes the host's P091 locale layer; the fixture uses the shared host transformation. Corpus consumes one JSON text document from the validated, completed retained `GenerateResponse`, not the carrier as a candidate or verdict. Missing/malformed inspection digests and bare, multiple or unsupported inference carriers refuse. The separate reviewer-sequence gate is completed by `023d3b`; VM acceptance is `013`. |
 | `P094-018` | Extend P080 with the isolated-environment resource kind | `001` | `done` | 2026-09-27. `middleware-component-contract.v1` admits `resource/kind: isolated-environment` with `dispose/operation: environment.destroy` under `ephemeral-revertible` and `host-local` scope, as a dated additive amendment (P080-046); the P080 recovery section, the schema and `middleware-runtime` validation agree and refuse a mismatched operation, kind or scope. Sensorium Virt implements the disposer as `environment.teardown` over a new `destroying` state of `sensorium-virt-recovery-record.v1`: every backend (`fixture-copy.v1`, `vfkit-system.v1`, `cloud-hypervisor-system.v1`) records it durably before the first destructive step, only `destroying` reaches `closed`, a completed destruction replays as confirmed, and start, recover, drain and allocation replay refuse a `destroying` record instead of quarantining it. Startup reconciliation completes every recorded destruction and reports `records/destroyed`; a record that can no longer prove its resource identity is quarantined, never returned to a live state. Tests cover the transition table, a removal interrupted mid-way on `fixture-copy`, and a destruction interrupted with a live VMM on the fake-vfkit and fake Cloud Hypervisor process harnesses. Real-VM deployment runs were not repeated.  Review regressions also cover destruction interrupted during unrecorded-launch cleanup, refusal of unbound resource paths before teardown, record-only quarantine of an invalid destruction, and drained VMM identity validation. |
+
+| `P094-018a` | Recover the exact prepared root across ordinary Workbench restart | `018` | `todo` | Diagnose and fix legitimate-root readiness after restart without changing the template key, clearing quarantine or bypassing process/resource identity checks. Keep genuinely substituted/unsafe roots quarantined. Qualify ready-root restart and real reuse of the same key, malformed/substituted-root refusal and owner recovery diagnostics, then repeat native acceptance. The 2026-10-08 isolated-profile fresh-key workaround is only a prerequisite change, not lifecycle evidence. |
 
 ### Resumable Federated Slice — 2026-10-04
 
@@ -3000,8 +3201,9 @@ aggregate gap in `016a` is closed by the later composed qualification above.
    and exact patch/file critique does not add separate restart/probe findings.
 4. `P094-015` is partial: the code review/evidence/document synchronization is
    delivered, but whole-proposal acceptance and the V1 versus later-extension
-   boundary are not yet adopted. Keep `P094-023e` and `P094-007b2` open and retain
-   the proposal-wide alpha-node blocker until the operator decides that boundary.
+   boundary are not yet adopted. Complete the approved `P094-023e` and guided
+   operator c1–c5 qualification; keep `P094-007b2` separate and retain the
+   proposal-wide alpha-node blocker until the operator decides that boundary.
 5. Design `P094-007b2` separately before implementing any operator transition
    that reopens or redirects a terminally refused withdrawal after relay migration.
 

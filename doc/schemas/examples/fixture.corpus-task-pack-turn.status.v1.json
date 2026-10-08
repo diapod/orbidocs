@@ -1,0 +1,11 @@
+{
+  "schema": "corpus-task-pack-turn.status.v1",
+  "query/id": "query:one",
+  "task-binding/ref": "operator-task-local-binding:one",
+  "operation/ref": "operation:task-pack-turn:one",
+  "preview/ref": "corpus-task-pack-turn:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "state": "awaiting-human",
+  "stage": "awaiting-human",
+  "agent/id": "agent:one",
+  "operator-question/ref": "question:hil-one"
+}

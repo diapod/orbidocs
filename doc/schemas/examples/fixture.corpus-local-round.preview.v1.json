@@ -1,0 +1,59 @@
+{
+  "schema": "corpus-local-round.preview.v1",
+  "federation/id": "orbiplex-main",
+  "choices": {
+    "schema": "corpus-local-round.prepare.request.v1",
+    "operator/binding-ref": "node-operator-binding:local",
+    "task-binding/ref": "operator-task-local-binding:mail",
+    "problem/text": "Investigate local mail routing without widening relay authority.",
+    "participants": [
+      {
+        "kind": "nym",
+        "id": "nym:did:key:zResponder"
+      }
+    ],
+    "topic/term": "mail/qmail"
+  },
+  "prepared/at": "2026-10-07T12:00:00Z",
+  "valid/until": "2026-10-07T12:05:00Z",
+  "task-binding/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "participant/ref": "participant:local",
+  "topic/term": "mail/qmail",
+  "taxonomy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "policy": {
+    "schema/v": 4,
+    "query/id": "query:local-prepared",
+    "room/id": "room:local-prepared",
+    "exposure": "private-to-swarm",
+    "answer/acceptance": "chair-signed",
+    "chair/mode": "requester-appointed",
+    "chair/nym": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+    "chair/mandate": {
+      "kind": "local-operator",
+      "operator/binding-ref": "node-operator-binding:local",
+      "participant/ref": "participant:local",
+      "node/id": "node:local"
+    },
+    "quorum/required": 1,
+    "tie-break": "chair",
+    "revocation-policy": "chair-or-requester",
+    "budget": {
+      "time-ms": 300000,
+      "steps": 32,
+      "tokens": 16384
+    },
+    "access/list": [
+      {
+        "kind": "nym",
+        "id": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG"
+      },
+      {
+        "kind": "nym",
+        "id": "nym:did:key:zResponder"
+      }
+    ],
+    "created-at": "2026-10-07T12:00:00Z",
+    "expires-at": "2026-10-07T12:20:00Z"
+  }
+}

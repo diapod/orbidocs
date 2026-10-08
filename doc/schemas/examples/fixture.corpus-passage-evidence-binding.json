@@ -10,5 +10,6 @@
   "evidence/manifest-ref": "corpus-evidence-manifest:sha256:aaUVQ0Ok_VleudwDnywq6cHVMTd8mU72ILGR12b8SPY",
   "evidence/manifest-digest": "sha256:aaUVQ0Ok_VleudwDnywq6cHVMTd8mU72ILGR12b8SPY",
   "materialized/digest": "sha256:AlPEkQRsp0QFG8hEa9P9VeM88SGvhbzoY9KC2148WR4",
+  "agent/input-manifest-ref": "agent-passage-input-manifest:sha256:Zxk1KMf9U_GSQDZ9tCspmvQ3vnDgIukleh_DVz4IrB0",
   "recorded-at": "2026-09-25T12:30:00Z"
 }

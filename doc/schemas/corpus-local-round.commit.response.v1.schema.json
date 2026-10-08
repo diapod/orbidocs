@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-local-round.commit.response:v1",
+  "title": "corpus-local-round.commit.response.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": [
+    "schema",
+    "replayed",
+    "preview/digest",
+    "query/id",
+    "room/id",
+    "state",
+    "participants/ready",
+    "loop/opened",
+    "effects/authorized"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-local-round.commit.response.v1"
+    },
+    "replayed": {
+      "type": "boolean"
+    },
+    "preview/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "query/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "room/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "state": {
+      "const": "prepared"
+    },
+    "participants/ready": {
+      "const": false
+    },
+    "loop/opened": {
+      "const": false
+    },
+    "effects/authorized": {
+      "const": false
+    }
+  }
+}

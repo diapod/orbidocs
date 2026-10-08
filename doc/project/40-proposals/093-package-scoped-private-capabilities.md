@@ -1794,7 +1794,14 @@ Independent of the rest; it fixes existing defects.
   effect refs retain their separate 256-byte bound. Stage B3 (2026-10-02): activation
   refuses a declaration that references a `transactional-withheld` effect without
   `reconciliation/operation`, and derives the invocation's recovery class as the most
-  restrictive referenced effect. Stage D (2026-10-02): reconciliation evidence binds only through `bind`, which requires the recorded provider and every binding field, including the exact effect set; the evidence wire contract and the worker are `P093-037`.
+  restrictive referenced effect. Stage D (2026-10-02): reconciliation evidence binds
+  only through `bind`, which requires the recorded provider and every binding field,
+  including the exact effect set. Local recovery checkpoint (2026-10-07): the
+  `package-capability-reconciliation-evidence.v1` wire contract, canonical and Node
+  fixtures, and Schema Gate admission now exist. Invocation facts freeze the exact
+  per-effect `reconciliation/operation` map; historical records without that map
+  cannot borrow current declarations. The local worker and the still-unimplemented
+  provider classes are distinguished in `P093-037`.
 
 ### Phase 2 — Activation overlay (Solution 048)
 
@@ -1866,13 +1873,42 @@ Independent of the rest; it fixes existing defects.
   approving Corpus loop, including published-run conclusions. A stopped loop
   refuses even if a crash left its use projection unwithdrawn. This is revalidation,
   not a distributed transaction between the two stores.
-- [ ] `P093-036` Interruption tests of R15 for every recovery class, including a crash
+- [~] `P093-036` Interruption tests of R15 for every recovery class, including a crash
   during reconciliation, concurrent retries, and recovery across upgrades. Depends on:
   `P093-032`, `P093-033`, `P093-035`, `P093-037`.
-- [ ] `P093-037` Evidence-bound reconciliation worker: authenticated provider and exact
+  Partial (2026-10-07): local runtime tests cover restart after whole-Flow completion,
+  restart with missing evidence, a crash after claiming a retry, bounded attempts,
+  substituted caller/provider/effect bindings, revoked current authority, a
+  concurrent operator terminal without relabelling it as provider completion, and a
+  historical invocation without frozen recovery declarations. These are owner/runtime
+  tests with scripted ports, not deployed peer or channel recovery acceptance.
+- [~] `P093-037` Evidence-bound reconciliation worker: authenticated provider and exact
   effect-coverage binding checks, resolution table,
   backoff, attempt bound, escalation to the operator resolution queue; never compensates
   and never releases unvalidated output. Depends on: `P093-013`, `P093-033`.
+  Partial (2026-10-07, local JSON-e Flow checkpoint): the exact host-owned Flow
+  executor retains a metadata-only whole-Flow completion receipt before returning.
+  The declared `package-capability.reconcile` operation reads that source-bound
+  receipt; it never dispatches the original Flow. The Scheduler rechecks the current
+  operator, approving use/Corpus loop, activation, source digest, expiry and
+  tombstones before a conditional terminal transition. A valid committed receipt
+  can resolve `unknown` to `completed` with unavailable output; it cannot invent an
+  output digest or reconstruct bytes that failed validation. Missing or partial
+  evidence stays `unknown`. At most sixteen due records are inspected per sweep;
+  each invocation has eight durable attempts, exponential 10–300 second backoff,
+  and P085-gated operator attention after exhaustion or invalid evidence. Claiming
+  an attempt precedes inspection, so a crash consumes that attempt. Status reads
+  do not reconcile. Remaining scope: supervised-channel/peer recovery providers,
+  per-effect-owner partial completion and abandonment/disposal proofs, and deployed
+  recovery acceptance. The Node proof inventory is
+  `docs/integration/middleware/PACKAGE-CAPABILITY-RECONCILIATION.md`; this checkpoint
+  does not close all of P093 or declare all recovery classes implemented.
+  Consumer clarification (2026-10-08): `completed` with
+  `result/status: unavailable` is execution evidence only. A task-pack step
+  requiring exact output remains `unknown`, with cleanup and no advancement,
+  redispatch, invented output or additional charge. The result owner's exact
+  retained bytes and current authority, not a fresh invocation, are required
+  to resolve that consumer's uncertainty.
 - [~] `P093-038` Local status query over the host journal with invocation-equivalent
   authorization and no provider or reconciliation path. Depends on: `P093-030`,
   `P093-032`. Partial (2026-10-02, local vertical C+D): `package-capability-status.request.v1` on the capability's route, authorized like an invocation (a withdrawn use reads nothing), answered from the journal only, never dispatching or reconciling; `not-found` claims nothing about execution.

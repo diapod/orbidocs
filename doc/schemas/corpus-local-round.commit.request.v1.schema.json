@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-local-round.commit.request:v1",
+  "title": "corpus-local-round.commit.request.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": [
+    "schema",
+    "preview",
+    "approved/digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-local-round.commit.request.v1"
+    },
+    "preview": {
+      "$ref": "corpus-local-round.preview.v1.schema.json"
+    },
+    "approved/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  }
+}

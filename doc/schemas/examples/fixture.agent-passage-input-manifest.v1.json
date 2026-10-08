@@ -1,0 +1,22 @@
+{
+  "schema": "agent.passage-input-manifest.v1",
+  "manifest/ref": "agent-passage-input-manifest:sha256:LjdGKo8tU28Z6k9kC68tAT-H4qGXIjtEgdNn4pRJwc0",
+  "agent/id": "agent:fixture-multipass",
+  "binding/ref": "agent-flow-binding:fixture",
+  "passage/ref": "agent-passage:fixture:1",
+  "input/digest": "sha256:CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "instruction/hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "context/ancestry-complete": false,
+  "inputs": [
+    {
+      "source": {
+        "source/kind": "scientific:dataset-summary",
+        "scope/ref": "study:one",
+        "source/ref": "observation:one",
+        "content/digest": "sha256:T_sAtMkCuFA9T-vUqs0LxyKm82k81e5UI04_D42MWfo"
+      },
+      "content/size-bytes": 14,
+      "execution/provenance": null
+    }
+  ]
+}

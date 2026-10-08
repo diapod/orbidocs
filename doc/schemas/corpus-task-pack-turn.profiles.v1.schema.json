@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.profiles:v1",
+  "title": "corpus-task-pack-turn.profiles.v1",
+  "description": "Read-only projection of admitted Agent profile choices. Presence is not current authorization or readiness. Budget/controller data is displayed, never submitted as an operator override. The owner validates controller semantics; this projection is limited to 128 rows and a 64 KiB carrier.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profiles"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.profiles.v1"
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile/ref",
+          "budget",
+          "controller"
+        ],
+        "properties": {
+          "profile/ref": {
+            "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+          },
+          "budget": {
+            "$ref": "#/$defs/budget"
+          },
+          "controller": {
+            "type": "object",
+            "maxProperties": 32
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_tokens",
+        "max_cost_micros",
+        "max_wall_time_ms",
+        "max_steps"
+      ],
+      "properties": {
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_cost_micros": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_wall_time_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_steps": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

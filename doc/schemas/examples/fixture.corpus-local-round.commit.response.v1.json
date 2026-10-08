@@ -1,0 +1,11 @@
+{
+  "schema": "corpus-local-round.commit.response.v1",
+  "query/id": "query:local-prepared",
+  "room/id": "room:local-prepared",
+  "preview/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "replayed": false,
+  "state": "prepared",
+  "participants/ready": false,
+  "loop/opened": false,
+  "effects/authorized": false
+}

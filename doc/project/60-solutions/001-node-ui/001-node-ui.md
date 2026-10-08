@@ -159,6 +159,24 @@ UI runtime: state and representation still belong to the middleware service,
 while the public route, proxy policy, navigation, and auth boundary remain owned
 by Node UI.
 
+### Scoped middleware eligibility review — partial P091 extension
+
+The 2026-10-07 middleware page is a thin client of the existing settings owner.
+It presents the selected old/new eligibility and requires approval of the exact
+owner review, bound by a short-lived UI receipt in the `middleware-enabled`
+scope. The owner keeps full source pins private; the page does not expose their
+digests, sizes or equality fingerprints. UI receipt possession neither creates
+operator authority nor survives a stale or missing owner review.
+
+A successful mutation renders its acknowledgement directly, without depending
+on a later inventory read. Refresh is an explicit read. Saved eligibility,
+supervisor readiness and complete child configuration acknowledgement remain
+separate: the latter is not implemented by this adapter. Bounded mutation
+transport does not retry an ambiguous result. Explicit recovery only classifies
+the retained source; it does not start a component. The operator can separately
+inspect the existing component lifecycle surface. This does not claim generic
+configuration editing or physical task-pack usability acceptance.
+
 ## Must Implement
 
 ### Node Control Surface

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.commit.request:v1",
+  "title": "corpus-task-pack-turn.commit.request.v1",
+  "description": "Approval of one retained exact preview. The host checks the digest, original operator identity, bounded review window and current owner facts before any new mutation. Idempotent recovery does not regain revoked authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "preview/ref",
+    "approved/digest",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.commit.request.v1"
+    },
+    "preview/ref": {
+      "type": "string",
+      "pattern": "^corpus-task-pack-turn:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "approved/digest": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/digest"
+    },
+    "operator/binding-ref": {
+      "allOf": [
+        {
+          "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+        },
+        {
+          "pattern": "^node-operator-binding:"
+        }
+      ]
+    }
+  }
+}

@@ -2016,8 +2016,8 @@ only when both explicitly delimit that narrower claim.
 | `P091-005p` | Supply confined source acquisition on non-Unix hosts | `P091-005` | `todo` | Exposure gate: implement the Windows reader using pinned handles and reparse-point protection, with tests for directory replacement, regular-file enforcement, enumeration and byte budgets, missing/unreadable sources and fail-closed errors. Other supported non-Unix platforms require equivalent evidence before enabling acquisition; the current Step 3 Unix-only reader is not platform-complete. |
 | `P091-006` | Implement shared targets, predicted-value plans and durable commit | `P091-003`, `P091-004` | `partial` | Reuse owner/stem and explicit domain targets; preserve 80/90 lexical order and legacy 90 common-file case. Sparse patch/reset retains unrelated values and empty `{}`. Plans predict every affected effective value and derive shadowing. Affected/unrelated/unclassified conflict diagnostics and bounded replan without stale authorization are tested. Source membership, bootstrap writers and separate descriptor/constraint changes conflict. Intent/rename/outcome ordering, old/new/third/no-op recovery, durable failure and no pre-outcome apply are tested behind the exposure gate. 2026-10-06 shared Unix CommitHost now supplies exact target/source/descriptor/raw-byte plans, temporal intent/rename+sync/outcome, nonblocking ownership, protected outcome capacity and old/new/third/no-op recovery for P094 bindings. Subprocess interruption, quota and projection substitution pass. General sparse/reset, other targets, full historical input retention and 90-day archival remain open. |
 | `P091-007` | Bind application identity, consumption and lifecycle recovery | `P091-006` | `partial` | Reuse supervisor/daemon control and S028 facts/projections. Per-instance `activation/generation` binds a durably admitted resolution (commit or observed-source admission); provisioned, acknowledged, pending, rejected and invalidated remain distinct. `config-time-expiry-between-phases` and controlled-clock edge cases prove fresh current-use checks before apply/retry/recovery; expiry yields `constraint-conflict` / `constraint-expired` and `application-rejected` without effects, preserving replay and save facts. Pre-channel scoped provisioning, restart fencing and idempotent retry pass without repeating effects or reviving authority. 2026-10-06 task-pack consumption requires a verified durable outcome and exact current target bytes; explicit recovery never renews operator consent, package activation or run authority. Current operator/revision fences and daemon restart pass. General component activation receipts/ACK/clock-expiry scenarios remain open. |
-| `P091-007a` | Wrap retained middleware on/off and repoint existing callers | `P091-005a`, `P091-007` | `todo` | Preserve the existing toggle/supervisor implementation and domain guards. Repoint handlers/UI/CLI to the shared contract with minimal helper extraction, no bypass writer, dual-file mirror or duplicate apply. Test eligibility, dependencies, operator-stopped, shadowing, saved-not-applied and restart; reads never materialize. Physical source migration remains P091-010. |
-| `P091-008` | Project shared contracts into Node UI | `P091-005a`, `P091-007`, `P091-007a` | `todo` | Expose keys, files, projected derivation, source and predicted-value diffs, apply modes and per-instance receipts. No private setting store or implicit pinning; file/GUI changes agree after reload/restart. |
+| `P091-007a` | Wrap retained middleware on/off and repoint existing callers | `P091-005a`, `P091-007` | `partial` | Preserve the existing toggle/supervisor implementation and domain guards. Repoint handlers/UI/CLI to the shared contract with minimal helper extraction, no bypass writer, dual-file mirror or duplicate apply. Test eligibility, dependencies, operator-stopped, shadowing, saved-not-applied and restart; reads never materialize. 2026-10-07 scoped eligibility adapter implemented: exact private source pins, bounded opaque approval, shared commit/recovery journal and existing supervisor lifecycle guards; pending/third-party source changes withhold eligibility, explicit recovery does not start components, and committed replay does not repeat apply. The executable middleware security/owner checkpoint below gates exposure. Complete per-child configuration-consumption ACK remains open; physical source migration remains P091-010. |
+| `P091-008` | Project shared contracts into Node UI | `P091-005a`, `P091-007`, `P091-007a` | `partial` | Expose keys, files, projected derivation, source and predicted-value diffs, apply modes and per-instance receipts. No private setting store or implicit pinning; file/GUI changes agree after reload/restart. 2026-10-07 scoped middleware UI now reviews the owner's exact opaque approval and separately displays saved eligibility, actual supervisor launch instances and readiness. A saved acknowledgement renders without a second inventory request; bounded mutation transport does not retry an uncertain operation. Generic derivation/diff/reset and full application identity projections remain open. |
 | `P091-009a` | Retain the early Arca non-Flow contract fixture | `P091-002`, `P091-004` | `todo` | Scope/owner/source/definition/run binding, normalization and refusal goldens work without a live UI/control stack or universal plan schema. Do not claim runtime consumption. |
 | `P091-009` | Bind workflow configuration to live domain owners | `P091-009a`, `P091-005a`, `P091-007` | `todo` | Live JSON-e Flow case plus retained Arca contract proof use existing definitions/validators and exact revisions. Wrong or ambiguous handlers and schemas refuse. No duplicate workflow store or closed thematic repertoire. |
 | `P091-010` | Migrate first-slice sources and readers explicitly | `P091-001a`, `P091-003`, `P091-005a`, `P091-007a` | `partial` | Preview/protected backup/effective-value equivalence cover seeding, toggles, first-slice Python loading, env/CLI and optional legacy 90-to-80 migration. Test restoration against pinned pre-migration effective values and independently current authority; changed descriptors report incompatibility. Preserve factory/domain targets unless separately migrated. No read-time migration/workflow trigger. 2026-10-06 task-pack legacy adoption is explicit read-only preview plus exact five-minute plan approval and synced no-op receipt. It preserves filenames, original bytes and mutation counters, refuses changed/expired plans and rechecks current authority. No source relocation occurs, hence there is no displaced document to restore; other first-slice migrations and protected backups remain open. |
@@ -2027,6 +2027,45 @@ only when both explicitly delimit that narrower claim.
 | `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. |
 | `P091-014` | Retain the four-case operator slice and synchronize evidence | `P091-011`, `P091-012`, `P091-013` | `todo` | All cases complete locate/explain/edit/apply/restart/reset through files and interfaces. Update `node:docs/implementation-ledger.toml`, regenerate via `node:tools/generate-implementation-ledger.py`, reconcile `node:docs/MVP.md` for affected scope. Record usability obstacles, not universal cognitive-load reduction. |
 | `P091-015` | Close broad coverage and enforce drift/promotion gates | `P091-001`, `P091-010a`, `P091-014` | `todo` | `check-configuration-inventory.py --verify-current` and `check-config-source-boundaries.py` run in Node `.github/workflows/docs.yml`; `--promote` rejects unfinished required settings. Every ordinary durable setting has file-backed shared control; bootstrap/non-setting exceptions stay narrow. Reconcile ledger, generated view, affected MVP/manual coverage and schema indexes; hidden ordinary stores or partial same-surface ledger rows prevent done. |
+
+#### Scoped middleware eligibility checkpoint — 2026-10-07
+
+The compatibility adapter retains the existing operator toggle and supervisor
+owners. It does not make middleware credentials configuration authority, create a
+second settings store, relocate sources or claim that children acknowledge full
+P091 configurations. `GET /v1/middleware/settings` is read-only. The existing
+toggle POST accepts an explicit preview and exact approval; old direct callers
+use the same owner commit path, not a bypass writer.
+
+Full source membership, raw-byte and descriptor commitments stay private. A
+public approval contains only the selected key, previous/proposed eligibility
+and a random `review/ref`. The owner retains at most 128 uncommitted reviews for
+300 seconds without disk writes. Expiry, substitution and daemon restart require
+a fresh preview; this cache is not durable consent. Once committed, the journal
+binds that random reference to the exact private plan. Its public acknowledgement
+does not expose a hash or size of secret-bearing source bytes. A committed replay
+rechecks current owner policy and exact saved bytes without repeating lifecycle
+work. All unrelated fields, including siblings of `enabled`, remain unchanged.
+
+The inventory's `middleware-eligibility-owner` verification set executes the
+eight named `config-security-*` fixtures, private-review refusal/restart cases,
+commit recovery and supervisor eligibility observations. This is a separate
+adapter qualification, not inherited task-pack evidence. The combined executable
+checkpoint must pass before this work is claimed as exposed runtime evidence.
+The fixture names are mechanically checked in addition to nonzero test counts.
+
+Review clarification (2026-10-08): an eligibility mutation requires either the
+exact reviewed plan or explicit `approve: direct`. An unadorned `enabled` request
+refuses before preparation/writes; direct consent cannot be combined with a
+review or recovery. Direct consent waives preview, not owner/source admission.
+The shared 1,024-event limit can deadlock corrective writes after a conflicted
+or unreviewed eligibility source withholds all middleware. The existing 80%
+warning is preventive only. Readiness records this limitation; no journal deletion,
+implicit reactivation or emergency bypass is admitted until archival/reconciliation
+has its own implemented owner and evidence.
+Remaining work includes generic transports/offline use, complete child
+consumption/application ACK, broad source migration and the four-case acceptance;
+neither P091-005a nor the whole proposal is `done`.
 
 #### P091-002 implementation evidence — 2026-09-21
 

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-local-round.preview:v1",
+  "title": "corpus-local-round.preview.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "required": [
+    "schema",
+    "federation/id",
+    "choices",
+    "prepared/at",
+    "valid/until",
+    "task-binding/digest",
+    "profile/digest",
+    "participant/ref",
+    "topic/term",
+    "taxonomy/digest",
+    "policy"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-local-round.preview.v1"
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$",
+      "description": "Actual selected Node federation, pinned by the owner in the approved preview."
+    },
+    "choices": {
+      "$ref": "corpus-local-round.prepare.request.v1.schema.json"
+    },
+    "prepared/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "task-binding/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "participant/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "topic/term": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "taxonomy/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "policy": {
+      "$ref": "corpus-reasoning-room-policy.v4.schema.json"
+    }
+  }
+}

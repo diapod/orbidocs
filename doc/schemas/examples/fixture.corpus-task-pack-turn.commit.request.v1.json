@@ -1,0 +1,6 @@
+{
+  "schema": "corpus-task-pack-turn.commit.request.v1",
+  "preview/ref": "corpus-task-pack-turn:sha256:wIgGApo6fy9Hwg1v2RklVNcMXx6rDstj51TIB47uArg",
+  "approved/digest": "sha256:wIgGApo6fy9Hwg1v2RklVNcMXx6rDstj51TIB47uArg",
+  "operator/binding-ref": "node-operator-binding:one"
+}

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-authority-epoch:v1",
+  "title": "Corpus Authority Epoch v1",
+  "description": "Node-signed, communication-only continuation of the same logical round into a new immutable query/Room context. This is not membership or execution authority. The owner must resolve the original admitted source, exact historical bytes and provenance, current local mandate, chain head and cumulative budget. JSON Schema checks shape; the pure core checks content identity, signature, time interval and chain relations. No VM, HIL, lease or publication consent is inherited.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "epoch/ref", "epoch/no", "origin", "context", "chair/mandate",
+    "grants", "retained/inputs", "created/at", "valid/until", "signature"
+  ],
+  "properties": {
+    "schema": { "const": "corpus-authority-epoch.v1" },
+    "epoch/ref": { "$ref": "#/$defs/epoch-ref" },
+    "epoch/no": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "origin": { "$ref": "#/$defs/origin" },
+    "previous/epoch-ref": { "$ref": "#/$defs/epoch-ref" },
+    "context": { "$ref": "#/$defs/context" },
+    "chair/mandate": {
+      "allOf": [
+        { "$ref": "corpus-chair-mandate.v1.schema.json" },
+        { "required": ["kind"], "properties": { "kind": { "const": "local-operator" } } }
+      ]
+    },
+    "grants": { "const": ["answer", "observe", "speak"] },
+    "retained/inputs": {
+      "type": "array", "maxItems": 32, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/input" }
+    },
+    "created/at": { "type": "string", "format": "date-time" },
+    "valid/until": { "type": "string", "format": "date-time" },
+    "signature": {
+      "type": "object", "additionalProperties": false,
+      "required": ["alg", "key/public", "value"],
+      "properties": {
+        "alg": { "const": "ed25519+domain-v1" },
+        "key/public": { "type": "string", "maxLength": 128, "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$" },
+        "value": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["epoch/no"], "properties": { "epoch/no": { "const": 1 } } },
+      "then": { "not": { "required": ["previous/epoch-ref"] } },
+      "else": { "required": ["previous/epoch-ref"] }
+    }
+  ],
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^[A-Za-z0-9._:/-]+$" },
+    "query": { "type": "string", "maxLength": 512, "pattern": "^query:[A-Za-z0-9._:/-]+$" },
+    "room": { "type": "string", "maxLength": 512, "pattern": "^room:[A-Za-z0-9._:/-]+$" },
+    "digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "epoch-ref": { "type": "string", "pattern": "^corpus-authority-epoch:sha256:[A-Za-z0-9_-]{43}$" },
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["query/id", "room/id", "query/digest", "room-policy/digest"],
+      "properties": {
+        "query/id": { "$ref": "#/$defs/query" },
+        "room/id": { "$ref": "#/$defs/room" },
+        "query/digest": { "$ref": "#/$defs/digest" },
+        "room-policy/digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "origin": {
+      "type": "object", "additionalProperties": false,
+      "required": ["logical-round/id", "owner/node-id", "federation/id", "task-binding/ref", "task-binding/digest", "problem/digest", "deadline", "participants", "context"],
+      "properties": {
+        "logical-round/id": { "$ref": "#/$defs/query" },
+        "owner/node-id": { "type": "string", "maxLength": 512, "pattern": "^node:did:key:[A-Za-z0-9._:/-]+$" },
+        "federation/id": { "$ref": "#/$defs/ref" },
+        "task-binding/ref": { "type": "string", "maxLength": 512, "pattern": "^operator-task-local-binding:[A-Za-z0-9._:/-]+$" },
+        "task-binding/digest": { "$ref": "#/$defs/digest" },
+        "problem/digest": { "$ref": "#/$defs/digest" },
+        "deadline": { "type": "string", "format": "date-time", "description": "Immutable owner-admitted deadline of the logical round, not a renewable epoch window. Every valid/until must be at or before it; the core checks this cross-field relation." },
+        "participants": {
+          "type": "array", "minItems": 1, "maxItems": 15, "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["kind", "id"],
+            "properties": {
+              "kind": { "const": "nym" },
+              "id": { "type": "string", "maxLength": 512, "pattern": "^nym:[A-Za-z0-9._:/-]+$" }
+            }
+          }
+        },
+        "context": { "$ref": "#/$defs/context" }
+      }
+    },
+    "input": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source/query-id", "source/ref", "source/digest", "source/provenance-digest"],
+      "properties": {
+        "source/query-id": { "$ref": "#/$defs/query" },
+        "source/ref": { "$ref": "#/$defs/ref" },
+        "source/digest": { "$ref": "#/$defs/digest" },
+        "source/provenance-digest": { "$ref": "#/$defs/digest" }
+      }
+    }
+  }
+}

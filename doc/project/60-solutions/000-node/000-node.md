@@ -478,6 +478,22 @@ Responsibilities:
 Status:
 - `done`
 
+#### Scoped P091 middleware eligibility extension — partial
+
+The 2026-10-07 adapter reuses the existing toggle owner, shared configuration
+commit/recovery journal and supervisor. It keeps whole-source equality evidence
+private behind bounded opaque reviews and preserves unrelated settings. Reads
+do not materialize files; an interrupted or unreviewed source change withholds
+eligibility until explicit recovery/review. Recovery and exact committed replay
+never automatically repeat a lifecycle action or revive an operator-stopped
+component. A saved acknowledgement is distinct from current launch-instance
+readiness and explicitly does not assert child configuration consumption.
+
+This is a scoped extension of the completed supervised middleware baseline, not
+completion of generic P091 application identities, migration or per-child ACK.
+Its separate security/recovery evidence is indexed by
+`node:docs/configuration-inventory.v1.json` (`middleware-eligibility-owner`).
+
 ### Local Learning and Knowledge Promotion
 
 Based on:

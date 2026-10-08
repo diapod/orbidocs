@@ -399,7 +399,7 @@ Status:
 
 ### Agent-Assisted Chairing
 
-Operator preparation follow-up (2026-10-07, **contract foundation only**):
+Operator preparation follow-up (2026-10-07, **implementation in qualification**):
 `P069-PREP-001` and `P094-012c3` add prose-to-round preview and explicit commit
 under the existing signing and Room owners. A local requester-appointed Chair
 uses a current Node operator-binding mandate; delegated authority is a separate
@@ -407,8 +407,27 @@ passport-backed path. Historical evidence does not renew either authority.
 This decision does not promote the existing test-harness bootstrap to a
 production operator interface or change the completion claim above.
 The draft `corpus-chair-mandate.v1`, pure Rust type and Schema Gate distinguish
-the declared sources; their resolution against current authority and the new
-preparation/runtime carrier remain open.
+the declared sources. `corpus-reasoning-room-policy.v4` carries this alternative
+without reinterpreting historical credentials. The local owner now implements
+exact preview/commit and retained signed-source recovery; delegated mandates
+still refuse without their resolver. Participant readiness, role admission,
+execution-loop approval and HIL remain distinct owner transitions. Real
+operator-path qualification, rather than historical harness evidence, closes
+this follow-up.
+
+Authority continuation decision (2026-10-08, **pure contract locally qualified;
+runtime pending**):
+`P069-PREP-002` retains one logical round and cumulative budget/history while
+each signed `corpus-authority-epoch.v1` names a new immutable query/Room context.
+The pure contract fixes origin, predecessor, historical input/provenance
+commitments and at most 15 minutes of `answer/observe/speak`, bounded also by
+the immutable owner-admitted `origin/deadline`. More epochs cannot extend that
+logical-round deadline. Old signatures
+and results remain history, not renewed authority. The Corpus owner must admit
+the current mandate and exact sources, fence the epoch head and preserve the
+shared accounting root; Room continues to own current membership. Historical
+candidate adoption, runtime recovery, guided UI and real continuation are still
+pending. No VM, HIL, lease or publication approval is inherited.
 
 Based on:
 

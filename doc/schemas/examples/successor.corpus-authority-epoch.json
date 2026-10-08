@@ -1,0 +1,63 @@
+{
+  "schema": "corpus-authority-epoch.v1",
+  "epoch/ref": "corpus-authority-epoch:sha256:i1B_iV04B4FKqza9S1JlyAF7NuOiO2aQ1lku433x9C8",
+  "epoch/no": 2,
+  "origin": {
+    "logical-round/id": "query:epoch-0",
+    "owner/node-id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt",
+    "federation/id": "test-federation",
+    "task-binding/ref": "operator-task-local-binding:test",
+    "task-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+    "problem/digest": "sha256:R6STVnIIMbZvOLvhLAbmz3Gmcnex9eaihZPnOv3m8iY",
+    "deadline": "2026-10-08T18:30:00Z",
+    "participants": [
+      {
+        "kind": "nym",
+        "id": "nym:reviewer"
+      },
+      {
+        "kind": "nym",
+        "id": "nym:solver"
+      }
+    ],
+    "context": {
+      "query/id": "query:epoch-0",
+      "room/id": "room:epoch-0",
+      "query/digest": "sha256:Sf5Mqt4RBwrGEZq7G8V5kD0Tb8g_ziE39ZM8GlDEmho",
+      "room-policy/digest": "sha256:c36otEBMfmXmlaCti-Jxs3NN9EMpxOxyRNvv6VqaHiM"
+    }
+  },
+  "previous/epoch-ref": "corpus-authority-epoch:sha256:JVY6hSd3KvWmkuAKqyMom2h9AlFgMX4MyEiHfvBPfD4",
+  "context": {
+    "query/id": "query:epoch-2",
+    "room/id": "room:epoch-2",
+    "query/digest": "sha256:RxkHW8XX7aHqr8jNKfj6NsO7k3G18DvBR2h0y6Kv2JI",
+    "room-policy/digest": "sha256:bQxycUddo3_jJw1LoqHiTc7LBwzKxj_Y3sYyyM2jkg8"
+  },
+  "chair/mandate": {
+    "kind": "local-operator",
+    "operator/binding-ref": "node-operator-binding:test",
+    "participant/ref": "participant:test",
+    "node/id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+  },
+  "grants": [
+    "answer",
+    "observe",
+    "speak"
+  ],
+  "retained/inputs": [
+    {
+      "source/query-id": "query:epoch-0",
+      "source/ref": "agent-product:repair",
+      "source/digest": "sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI",
+      "source/provenance-digest": "sha256:ltgVMopCy074nV4Leh32vkO0hIMsg6e0WW2EAsfAsSs"
+    }
+  ],
+  "created/at": "2026-10-08T18:00:00Z",
+  "valid/until": "2026-10-08T18:15:00Z",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "GevIy4ekbq9N-0kR9vbp3aiF-mYZWo8WIdZPFFogmjMgmz5FSf2vp1PVxIPHY1m1uPNaxupVikr5u47bRxYHAQ",
+    "key/public": "z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+  }
+}

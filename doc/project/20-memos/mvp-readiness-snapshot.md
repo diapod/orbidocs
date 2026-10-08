@@ -41,6 +41,20 @@ targets). At capacity further writes refuse; supported archival/rotation is
 still missing and remains an operational readiness limitation. Explicit no-op
 adoption approves current exact bytes, never attributes their historical editor.
 
+The shared limit also covers middleware eligibility. When that source is
+conflicted or manually changed, all its middleware is withheld; a full journal
+can additionally refuse the corrective reviewed declaration. The daemon and
+console remain available, but no supported emergency archival/reset bypass
+exists. This combined availability risk remains open pending P091 reconciliation.
+
+Guided-loop limits — 2026-10-08: an all-prior-input synthetic provenance tree
+reaches 62,161 canonical bytes after six passages and refuses the seventh at
+the ancestry budget. Local references do not remove the 64-KiB / 64-node /
+depth-eight descriptor ceilings. Eight-passage repair is not qualified;
+P090-006f1/f2/f3 and P090-012e plan the separately approved bounded DAG.
+P094-018a separately tracks prepared-root recovery after ordinary Workbench
+restart. The fresh-key isolated-test workaround is not lifecycle completion.
+
 Native interruption checkpoint — 2026-10-06: `P094-013d1/013d2/013d3/013d`
 are complete in the scoped macOS arm64/vfkit profile. Clean-source run
 `s13-1791274752-58cf89` interrupts an admitted patch before and after the actual
@@ -345,9 +359,95 @@ Guided operator update (2026-10-07): `P094-012c` has partial implementation of
 inventory-backed binding choices, owner-derived preflight explanations, exact
 offer/recipe review and explicit configuration maintenance. Its UI/core tests
 and schema validation are not real operator acceptance. Prose-to-round
-preparation and `P069-PREP-001` (a current local operator mandate distinct from
-delegated Chair passports) remain open; whole-P094 and alpha readiness do not
-advance to done on this checkpoint.
+preparation now retains the exact signed question and replays it after restart;
+`P069-PREP-001` resolves the current local operator mandate separately from
+delegated Chair passports. Policy V4/invite V2, guided participation and the
+Scheduler-owned task turn now have a deterministic process checkpoint for
+Solver/Reviewer, separate HIL, restart and unchanged replay accounting. The
+guided Chair and separate run-admission clients bind exact retained material;
+neither a page read nor Chair approval grants HIL or publication consent.
+This is not yet actual operator-path or refreshed native acceptance. Scoped P091
+eligibility commit does not claim child readiness, and scoped P093 completion
+reconciliation does not redispatch uncertain work. Whole-P094, operator-path
+acceptance and alpha readiness do not advance to done on this checkpoint.
+The isolated operator profile has reached identity creation, local operator
+consent and empty binding preparation through Node UI. Installation is an
+explicit prerequisite, outside this slice's no-manual-request-JSON claim.
+The deployable Story 013 P085 runner now computes 13 refusal cases and seven
+positive controls through production owners with scripted port inputs, binding
+the exact package, assets and executable. Five runner regressions and the full
+component suite (125 passes, one explicitly ignored native test) pass. This
+does not replace native evidence. The fresh profile passed signed import, real
+P085 conformance and generation-1 activation, and Node UI shows the active
+package. Exact pins are in Node TASK-PACK-CONFORMANCE.md; `P094-012c5a` is done.
+Real UI subsequently created an inventory-backed binding whose owner preflight
+became runnable after real MLX component conformance. Presentation fixes have
+259 passing Node UI tests and clean all-target Clippy. The original diagnostic
+identity lacked the recovery material required for multiple nyms; its profile
+was retained and stopped, and a new isolated identity was created through UI.
+The operator completed local-key protection and consent. UI-created participants
+and sealed recovery export now pass; the replacement profile repeated real
+activation, MLX conformance, runnable binding creation and signed local round
+preparation. Invitation use exposed a Room/attestation deadline mismatch; the
+guided suggestion now respects the membership owner's ceiling without implicit
+renewal on refresh. After explicit bounded same-node AD configuration, actual
+UI invitations, join and readiness passed for both participants. The UI opened
+the loop and admitted one Solver BDO; its distinct Agent reached the independent
+HIL notification. No task VM has run in this operator-path qualification yet.
+The first answer hit an encoded action-ID mismatch before consent dispatch;
+it was not retained, and the question expired. The repair closes decoding and
+expired-wait cleanup without importing that click as a fresh approval.
+Both task-turn process tests, 40 daemon notification regressions, 261 Node UI
+tests and exact timeout/decoder regressions passed, as did all-target Clippy
+with warnings denied and the schema/documentation gates. The profile restarted
+intact and UI now hides expired answer controls. The old turn retains its
+pre-restart Room-expiry `unknown` result, completed cleanup and zero Agent
+spend/reservation; no historical result or consent was rewritten.
+The guided task/VM run remains `P094-012c5`, in progress without an accepted
+operator-path report. This does not change whole-P094 or alpha readiness.
+2026-10-08: both distinct Solver/Reviewer Agents subsequently completed their
+separately questioned passages and cleanup through the real UI, with delegated
+answers rather than independent human participation. The signed
+review left only 345 ms for Chair approval because its validity inherited the
+short execution deadline. The operator accepted separate clocks: current
+execution admission remains unchanged; document validity is bounded by role,
+membership, Room and parents. Owner inspection marks expired chains and UI
+withholds actions. Fresh corrected-path experiment/VM acceptance remains open.
+The subsequent 2026-10-08 b48 UI round supersedes that no-VM checkpoint for
+bounded observation: distinct MLX Solver/Reviewer with delegated confirmations,
+retained-chain Chair signing and separate admission reached a real vfkit
+read-only observation. The verifier retained `verification-failed`; destruction
+was confirmed before signed execution publication. Run
+`operator-task-run:sha256:0XHTGwaH7ZHEuc0_syaGEUranTXVysDH7qNEHVC4qJw`
+is not a repaired qmail configuration or a full operator-path acceptance report.
+Node's `docs/audits/P094-2026-10-08-GUIDED-OBSERVATION.md` preserves the exact
+references and development-source boundary. UI shows run-level refusal and
+cleanup receipts even without steps; 269 UI tests pass. `P094-012c5`, whole
+P094 and alpha readiness remain unpromoted.
+The later `3dea` fresh round retained a real MLX acceptance of the read-only
+observation after two independent signed rejections in earlier rounds. The
+owner-local candidate wrapper now carries its structural phase; the chain
+inspection carrier and mirror admit empty observation attachments and reject
+phase/step substitution at all four schema boundaries. This does not establish
+a repaired configuration, restart/replay or completion of `P094-012c5`.
+The later `ee1507` real UI round again confirmed observation, failed
+verification, destruction and signed execution publication. Its repair Solver
+reached inference/HIL, then exact product provenance exceeded the unchanged
+16 KiB inline limit (17,490 bytes). The retained turn is `unknown` with completed
+cleanup; no repair VM was admitted. The operator approved the P090-008d
+local-only continuation: private object storage and Agent restart/replay tests
+now preserve exact referenced parents without another charge. Remote/unwired
+consumers and composed real-MLX repair remain open, not a readiness gain.
+Full repair/replay, `P094-012c5` and alpha readiness remain unpromoted.
+
+Authority continuation decision (2026-10-08): the operator adopted explicit
+signed communication-only epochs of the same logical round. P069-PREP-002a
+adds a draft contract and pure history/head checks, not a running renewal API.
+The completed repair Solver remains retained; fresh Reviewer admission still
+requires owner source resolution, historical-candidate adoption, shared
+cumulative counters and guided epoch approval (P094-012c6). Earlier signatures,
+expiry and receipts are unchanged. No renewed VM/HIL/publication consent or
+full guided repair evidence is claimed by this foundation.
 Follow-up review tightened the qualifier's step binding, ordering, unique
 checks and Maildir-read failures, plus the builder's absent-path checks.
 After those fixes the image was rebuilt and the revised qualifier passed all

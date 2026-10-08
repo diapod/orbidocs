@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-turn.status.request:v1",
+  "title": "corpus-task-pack-turn.status.request.v1",
+  "description": "Read-only inspection of one retained turn operation; no execution, authority renewal or retry is implied.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "operation/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-turn.status.request.v1"
+    },
+    "operation/ref": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+    }
+  }
+}

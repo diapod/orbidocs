@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:package-capability-reconciliation-evidence:v1",
+  "title": "Package Capability Reconciliation Evidence v1",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/093-package-scoped-private-capabilities.md"
+  ],
+  "description": "Read-only provider evidence. The host separately authenticates the recorded provider and compares every invocation binding and the exact effect set. A committed effect is not a validated output; not-found and pending never prove absence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "caller",
+    "invocation/id",
+    "request/digest",
+    "capability/id",
+    "contract/digest",
+    "activation/generation",
+    "effect/refs",
+    "state",
+    "observed-at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "package-capability-reconciliation-evidence.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "caller": {
+      "$ref": "package-capability-invocation.v1.schema.json#/properties/caller"
+    },
+    "invocation/id": {
+      "$ref": "package-capability-invocation.v1.schema.json#/$defs/invocation-id"
+    },
+    "request/digest": {
+      "$ref": "package-capability-invocation.v1.schema.json#/$defs/digest"
+    },
+    "capability/id": {
+      "$ref": "package-capability-invocation.v1.schema.json#/$defs/capability-id"
+    },
+    "contract/digest": {
+      "$ref": "package-capability-invocation.v1.schema.json#/$defs/digest"
+    },
+    "activation/generation": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "effect/refs": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "package-capability-invocation.v1.schema.json#/$defs/ref"
+      }
+    },
+    "state": {
+      "enum": [
+        "committed",
+        "abandoned",
+        "pending",
+        "not-found"
+      ]
+    },
+    "observed-at": {
+      "$ref": "package-capability-invocation.v1.schema.json#/$defs/timestamp"
+    }
+  }
+}

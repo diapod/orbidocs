@@ -440,6 +440,18 @@ not the current Room view. Private bytes remain owner-controlled; metadata
 neither grants access nor proves model attention. Multiple processing boundaries
 remain explicit rather than rebasing a contributor's locality onto the Agent.
 
+P094-023e supplies the corresponding neutral inference-Flow passage contract,
+`agent.passage-input-manifest.v1`. It reuses ordered source assertions and
+composition, but binds passage/request/instruction identity instead of inventing
+a controller step. Agent/Memarium owns the exact pre-dispatch fact; full product
+recovery requires its commitment and exact retained source composition. Corpus
+keeps its domain projection and a relation pointing to the Agent manifest,
+not another declaration of the same Agent inputs. Current source authority is
+rechecked independently of pinned bytes and ancestry. Non-Corpus passages use
+the same neutral commitment; an empty supplement list never proves complete
+provenance of caller prose. Existing inline/depth/node limits still bound this
+ancestry; excess refuses rather than dropping parents or externalizing them.
+
 The descriptor is evidence about one product, not Agent identity or authority.
 A single Agent may use different execution paths in successive passages.
 Optional provider disclosure remains policy-scoped and open-ended, while

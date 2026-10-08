@@ -250,7 +250,8 @@ stale package state, or an empty effective grant set refuses use.
 
 ### Package-Scoped Private Capabilities
 
-Status: planned by Proposal 093; not implemented.
+Status: partially implemented under Proposal 093. The local activation and invocation
+vertical exists; the peer and supervised-channel surfaces remain separate open scope.
 
 A derived capability narrows authority and creates no callable surface. A
 package-scoped private capability is the complementary case: it gives a name to
@@ -302,6 +303,23 @@ writing a tombstone whose watermark voids earlier grants.
 A package capability never carries host authority. Its implementation reaches host
 resources only through base capabilities granted at activation, so the checked-in
 registry remains the sole origin of authority.
+
+The 2026-10-07 local recovery checkpoint freezes the declared recovery operation for
+each effect in the admitted invocation. For the exact host-owned JSON-e Flow executor,
+`package-capability.reconcile` reads a metadata-only whole-Flow completion receipt
+retained before the original call returns. The Scheduler never re-executes the Flow:
+it rechecks current operator, approving use, package generation, source and expiry,
+then binds every receipt field before conditionally resolving `unknown`. Completion
+without retained validated output reports the result unavailable; missing evidence
+is not absence of effects. Eight restart-stable attempts with bounded backoff lead
+to P085-gated operator attention. Ordinary status queries remain read-only and never
+invoke recovery.
+
+This checkpoint does not recover partial effects through their individual owners,
+reconstruct output, authorize compensation, or implement channel/peer recovery.
+P093-036/037 remain partial. Canonical reconciliation evidence and Node mirror are
+schema-tested; local runtime tests use scripted ports and do not claim deployed
+provider or multi-host acceptance.
 
 ### Operator Attention
 
@@ -447,6 +465,26 @@ package activation
 
 ## Acceptance Evidence
 
+The guided P094 path separates execution admission from downstream signed
+decision validity (operator clarification, 2026-10-08). Agent/Flow deadlines
+still bound production; proposal/review validity narrows to current role,
+membership, Room and parent-document lifetimes. Expired signatures are never
+renewed in place. The owner publishes a decision-window observation for thin
+clients; admission independently rechecks authority. The actual UI completed
+two independent HIL-approved Agent passages and cleanup, but the older review
+expired before Chair approval. Corrected-path task/VM acceptance remains open;
+this is not a new native or release-qualification claim.
+
+The later 2026-10-08 b48 round completed the bounded real UI observation path:
+separate MLX participants and HIL, exact Chair approval, separate admission,
+native read-only VM observation, verification, destruction and signed execution
+publication. The result remains `verification-failed`, not a successful repair.
+The Node audit `docs/audits/P094-2026-10-08-GUIDED-OBSERVATION.md` records exact
+owner evidence and the development-worktree limit. Run-level refusal and cleanup
+are separate UI observations; neither substitutes for verification. Full
+operator-path acceptance, clean-source qualification and release promotion
+remain open.
+
 The solution is supported by unit, property, schema, dependency-direction,
 process-level, multi-daemon, and hardware-VM evidence. The principal retained
 vertical is the 2026-08-23 Story 012 macOS arm64 report. Its closed 31-check
@@ -498,9 +536,9 @@ implemented status.
    extension sources are added.
 4. Implement Proposal 087 only through the existing offer, lifecycle, conformance,
    and hook-owned admission boundaries.
-5. Implement Proposal 093 package-scoped private capabilities through the same
-   activation, fence, and conformance boundaries, landing its identifier
-   foundation phase first.
+5. Continue Proposal 093 from its implemented local activation/invocation and
+   whole-Flow recovery checkpoint through the same fences. Keep partial-effect,
+   supervised-channel and peer recovery distinct from local completion receipts.
 
 ## Must Implement
 

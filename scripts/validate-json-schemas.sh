@@ -221,6 +221,9 @@ schema_for_file() {
     *.operator-task-binding-preparation.json)
       echo "$SCHEMAS_DIR/operator-task-binding-preparation.v1.schema.json"
       ;;
+    *.corpus-authority-epoch.json)
+      echo "$SCHEMAS_DIR/corpus-authority-epoch.v1.schema.json"
+      ;;
     *.corpus-chair-mandate.json)
       echo "$SCHEMAS_DIR/corpus-chair-mandate.v1.schema.json"
       ;;
@@ -286,6 +289,9 @@ schema_for_file() {
       ;;
     *.agent-supplied-input-manifest.v1.json)
       echo "$SCHEMAS_DIR/agent.supplied-input-manifest.v1.schema.json"
+      ;;
+    *.agent-passage-input-manifest.v1.json)
+      echo "$SCHEMAS_DIR/agent.passage-input-manifest.v1.schema.json"
       ;;
     *.agent.controller-execution-provenance.v1.json)
       echo "$SCHEMAS_DIR/agent.controller-execution-provenance.v1.schema.json"
@@ -415,6 +421,9 @@ schema_for_file() {
       ;;
     *.package-capability-status-response.json)
       echo "$SCHEMAS_DIR/package-capability-status.response.v1.schema.json"
+      ;;
+    *.package-capability-reconciliation-evidence.json)
+      echo "$SCHEMAS_DIR/package-capability-reconciliation-evidence.v1.schema.json"
       ;;
     *.package-capability-invocation.json)
       echo "$SCHEMAS_DIR/package-capability-invocation.v1.schema.json"
@@ -1079,6 +1088,17 @@ schema_for_file() {
     *.corpus-reasoning-chair-control-policy.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-chair-control-policy.v1.schema.json"
       ;;
+    *.corpus-task-pack-turn.*.v1.json)
+      family=$(basename "$1" .json | sed 's/^[^.]*\.//')
+      echo "$SCHEMAS_DIR/$family.schema.json"
+      ;;
+    *.corpus-local-round.*.v1.json)
+      family=$(basename "$1" .json | sed 's/^[^.]*\.//')
+      echo "$SCHEMAS_DIR/$family.schema.json"
+      ;;
+    *.corpus-reasoning-room-policy-v4.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v4.schema.json"
+      ;;
     *.corpus-reasoning-room-policy-v3.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v3.schema.json"
       ;;
@@ -1087,6 +1107,9 @@ schema_for_file() {
       ;;
     *.corpus-reasoning-room-policy.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-policy.v1.schema.json"
+      ;;
+    *.corpus-reasoning-room-invite.v2.json)
+      echo "$SCHEMAS_DIR/corpus-reasoning-room-invite.v2.schema.json"
       ;;
     *.corpus-reasoning-room-invite.json)
       echo "$SCHEMAS_DIR/corpus-reasoning-room-invite.v1.schema.json"
@@ -1159,6 +1182,9 @@ schema_for_file() {
       ;;
     *.corpus-task-pack-executions.json)
       echo "$SCHEMAS_DIR/corpus-task-pack-executions.v1.schema.json"
+      ;;
+    *.corpus-task-pack-chain-inspection.v1.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-chain-inspection.v1.schema.json"
       ;;
     *.corpus-task-pack-artifact.json)
       echo "$SCHEMAS_DIR/corpus-task-pack-artifact.v1.schema.json"

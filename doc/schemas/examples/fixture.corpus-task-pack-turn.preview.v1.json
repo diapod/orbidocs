@@ -1,0 +1,43 @@
+{
+  "schema": "corpus-task-pack-turn.preview.v1",
+  "choices": {
+    "schema": "corpus-task-pack-turn.prepare.request.v1",
+    "query/id": "query:one",
+    "task-binding/ref": "operator-task-local-binding:one",
+    "role": "implementer",
+    "participant": {
+      "kind": "participant",
+      "id": "participant:one"
+    },
+    "agent/profile-ref": "agent-profile:solver",
+    "idempotency/key": "operator-turn:one",
+    "operator/binding-ref": "node-operator-binding:one"
+  },
+  "pins": {
+    "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "task-binding/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "task-profile/ref": "operator-task-profile:one",
+    "task-profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "package/ref": "extension-package:one",
+    "package/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "package/activation-generation": 7,
+    "inference-flow/ref": "flow:solver",
+    "inference-flow/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "inference-flow/policy-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "agent/profile-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "agent/max-wall-time-ms": 30000,
+    "room/policy-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "room/membership-attestation-ref": "room-membership:one",
+    "room/membership-attestation-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "room/expires-at": "2026-10-07T15:20:00Z",
+    "task-position/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "planned": {
+    "agent/id": "agent:one",
+    "agent/binding-ref": "agent-binding:one"
+  },
+  "prepared/at": "2026-10-07T15:00:00Z",
+  "valid/until": "2026-10-07T15:05:00Z",
+  "preview/ref": "corpus-task-pack-turn:sha256:wIgGApo6fy9Hwg1v2RklVNcMXx6rDstj51TIB47uArg",
+  "preview/digest": "sha256:wIgGApo6fy9Hwg1v2RklVNcMXx6rDstj51TIB47uArg"
+}

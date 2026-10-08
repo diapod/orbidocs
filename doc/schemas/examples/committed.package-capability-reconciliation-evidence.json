@@ -1,0 +1,18 @@
+{
+  "schema": "package-capability-reconciliation-evidence.v1",
+  "schema/v": 1,
+  "caller": {
+    "kind": "binding",
+    "ref": "package-capability-use:fixture"
+  },
+  "invocation/id": "package-invocation:completed",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "capability/id": "step@node-pkg:did:key:z6MkqLCddjE5YZJwa57QufUmh2op899Fr7nNeiDaDUBUCriC/pack",
+  "contract/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "activation/generation": 3,
+  "effect/refs": [
+    "passage"
+  ],
+  "state": "committed",
+  "observed-at": "2026-10-07T12:00:00Z"
+}

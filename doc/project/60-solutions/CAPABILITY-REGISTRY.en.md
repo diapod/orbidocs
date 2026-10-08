@@ -161,7 +161,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **199** host-local / **231** total; **29** owner groups.
+Entries: **203** host-local / **235** total; **30** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -244,6 +244,15 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>corpus.room.moderate</code> | <code>host/corpus.room.moderate</code> | <code>active</code> | <code>host-local</code> | true | false | — |
+
+### <code>daemon Corpus operator-reviewed task-pack turn coordinator</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>corpus.task-pack.turn.commit</code> | <code>host/corpus.task-pack.turn.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.turn.prepare</code> | <code>host/corpus.task-pack.turn.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.turn.profiles</code> | <code>host/corpus.task-pack.turn.profiles</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>corpus.task-pack.turn.status</code> | <code>host/corpus.task-pack.turn.status</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Corpus task-pack steps</code>
 

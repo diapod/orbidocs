@@ -1229,6 +1229,7 @@ adds recovery and deployment guarantees rather than reopening their contracts.
 | `P090-007b` | Recover Assistant post-processing and terminal-result publication. | `done` | Done for the finalized synchronous text path. Real HTTP restart tests cover trace, budget, turn/result projection and completion-reference failures, terminal transport failure and rejected controls. Committed plans retain exact source, response, HTTP class and charge; missing completion remains fenced with no blind redispatch. Session excision and original request authentication precede recovery. Recovery of uncommitted provider output is not claimed. |
 | `P090-008b` | Bind policy-aware selection and dispatch to an exact signed offer revision. | `done` | Signed admission archives, dispatch and Corpus snapshots retain exact original revisions. Paid-order tests cover catalog replacement, strict unknown refusal before reservation, independent result assessment and restart. The connected deployment uses the provider participant signer and explicit unknown/warn policy, retains its signed selection through WSS result admission, and accounts for one release independently of inference. Unsigned or unavailable declaration sources gain no fabricated signature or local posture. |
 | `P090-008c` | Admit and exercise the inline Dator role-to-AD-to-Arca result profile. | `done` | Real supervised role/P080 V2/Inquirium/Dator/WSS-AD/Arca passage passes with restart, exact bytes/digest in both result journals, one role/model invocation and one paid release. Missing/wrong runtime grants cause zero model calls. Repairs require actual AD completion rather than a deferred handle, preserve retryable admission attempts with same-key fencing, and automatically resume only committed Dator publications. This is deterministic local two-identity evidence; inbound dispatch and pending workflow are explicit fixture preconditions. External descriptor resolution and physical federation remain outside this row. |
+| `P090-008d` | Resolve retained local Agent/Corpus passage descriptors without broadening source access. | `in-progress` | Operator-approved 2026-10-08 scope: immutable canonical bytes in the existing private object store precede owner facts; inline/reference thresholds, descriptor size, depth and node limits stay unchanged. Pure composition preserves exact ordered parents. Local resolver and Agent restart/replay regressions cover missing, substituted and noncanonical bytes, exact source/manifest binding and no repeated charge. Guided repair exposed an accidental controller inline-only guard on the passage manifest and loss of the live claim on same-process reload; the passage carrier contract and exact-input claim preservation are repaired, without restoring claims after restart or enabling controller references. Composed guided real-MLX repair remains open. No network fetch, peer fallback, generic public reference endpoint or remote procurement qualification is admitted; P090-008a remains partial. |
 | `P090-012a` | Gate the scoped durable consumption/publication passage. | `done` | The executable `durable-consumption-publication` inventory claim passes the aggregate controller/Assistant failure matrices, signed selection, policy/catalog/UI, signed Corpus publication and real supervised role/Inquirium/Dator/WSS-AD/Arca restart checks. It also tests transport-independent non-local external execution, conservative absence, both receiver-policy inputs and independent Assistant behavior. Runtime calls, logical publications, admissions, inference charges and order release are checked separately. Explicit input/workflow fixture preconditions and deterministic HTTP inference bound this to local synchronous text and inline descriptors. No new Room dependency, physical passage or full-P090 completion is claimed. |
 
 Recovery means finishing an already admitted durable transition, not undoing
@@ -1349,6 +1350,28 @@ in `node:docs/evidence/inference-provenance/P090-SUPPLIED-INPUT-REVIEW.md`; broa
 
 ## Next Actions
 
+### Approved follow-up: bounded provenance DAG (2026-10-08)
+
+The operator approved planning a separate contract slice, not truncating the
+current ancestry or raising its budgets. Local object-store references solve
+the inline threshold, not the full descriptor's 64-KiB, 64-node and depth-eight
+tree ceilings. A synthetic eight-passage all-prior-input composition retains
+1,773 / 3,721 / 7,617 / 15,409 / 30,993 / 62,161 canonical bytes across its first
+six products and refuses the seventh at the ancestry budget. This is a measured
+contract limit, not a full real-model run or a worst-case admission proof.
+
+| Task | Status | Scope and completion evidence |
+| :--- | :--- | :--- |
+| `P090-006f1` | `todo` | Define a versioned, content-addressed composition DAG: unique nodes by canonical digest, explicit ordered parent edges and exact root. Freeze canonical identity, selective disclosure, cross-boundary refusal, missing/substituted parents, cycles, maximum unique nodes/edges/depth/bytes and bounded traversal before implementation. Do not flatten away source assertions or let a reference imply access authority. |
+| `P090-006f2` | `todo` | Implement the pure DAG validator/join and local owner resolution. Verify consumed bytes and the reachable closure, preserve multiplicity/order where semantically relevant while deduplicating shared nodes, and keep local resolution distinct from authenticated external acquisition (P090-008a). |
+| `P090-006f3` | `todo` | Adopt the DAG through Agent products/effects/outcomes and signed Corpus synthesis; retain exact roots across partial writes/restart/replay without re-inference, duplicate charge or publication. Current admission must preflight the exact reachable ancestry budget before dispatch; unresolved growth remains a typed blocker rather than a silently shortened lineage. |
+| `P090-012e` | `todo` | Execute the shared DAG gate: eight admitted Solver/Reviewer passages, diamond ancestry, unknown/mixed/non-local joins, redaction, duplicate/cyclic/foreign/missing/substituted nodes and terminal/restart/sink failures. Synchronize inventories, mirrors and readiness only for proven profiles. |
+
+The existing nested contract remains unchanged and fail-closed until this
+separate slice is reviewed and implemented. The current local-reference
+checkpoint and completed supplied-input gates do not qualify eight-passage
+capacity or complete P090-006/006a.
+
 1. Explicitly inventory any additional admitted batch/training profiles before
    extending execution. `P090-004b` and `P090-004c1`–`P090-004c5` are complete
    for the ten current operations; preserve their promotion gate rather than
@@ -1383,7 +1406,16 @@ in `node:docs/evidence/inference-provenance/P090-SUPPLIED-INPUT-REVIEW.md`; broa
    Node issuer signs its own Room subject; neither a declaration nor a remote
    signature grants membership or upgrades peer evidence. A guided declaration
    editor can reuse the authenticated data API without inventing runtime claims.
-4. Design and implement bounded, authenticated external descriptor resolution
+4. The operator-approved 2026-10-08 extension first implements **local-only**
+   descriptor resolution for the retained Agent/Corpus passage path: preserve
+   exact parents, store canonical bytes before committing a reference, verify
+   digest/size and source binding on replay, and recheck current source access.
+   Reuse the existing object store; no HTTP/peer acquisition, public arbitrary
+   ref lookup, implicit access grant, ancestry truncation or inline-limit increase.
+   This checkpoint remains in progress until substitution, missing-object,
+   restart and guided repair gates pass. It does not close remote procurement
+   resolution or promote the earlier unknown repair turn.
+   Design and implement bounded, authenticated external descriptor resolution
    for `P090-008a` before admitting external references. Until then reject
    them explicitly; retain the completed inline procurement path unchanged.
    Complete broader Assistant disclosure variants and guided policy UX in

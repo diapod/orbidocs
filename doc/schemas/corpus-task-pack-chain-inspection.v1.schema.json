@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-chain-inspection:v1",
+  "title": "Corpus task-pack chain inspection v1",
+  "description": "Read-only, owner-verified exact records for a human Chair. The host verifies query, proposal, review and candidate bindings and resolves retained patch bytes using the reviewer evidence resolver. This inspection grants no execution authority. The composed carrier is bounded to 4 MiB by the owner and client; it is never truncated.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "query/id", "proposal", "review", "candidate/material", "decision/window"],
+  "properties": {
+    "schema": {"const": "corpus-task-pack-chain-inspection.v1"},
+    "query/id": {"$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"},
+    "proposal": {"$ref": "corpus-reasoning-experiment-proposal.v2.schema.json"},
+    "review": {"$ref": "corpus-reasoning-experiment-review.v4.schema.json"},
+    "decision": {"$ref": "corpus-reasoning-chair-experiment-decision.v2.schema.json"},
+    "decision/window": {
+      "description": "Owner-observed lifetime of the exact signed chain. Current does not grant authority: Chair and experiment admission recheck it independently. Expired records remain inspectable, never renewed in place.",
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "valid/until"],
+      "properties": {
+        "status": {"enum": ["current", "expired"]},
+        "valid/until": {"type": "string", "format": "date-time"}
+      }
+    },
+    "candidate/material": {
+      "description": "Owner projection used for reviewer evidence. Current producers wrap every candidate with structural review/phase, verified patches (empty for observation) and exact source commitments; the raw candidate branch retains historical validation only. Phase is not safety or admission. A client may decode retained base64 bytes for UTF-8 display without changing their source commitment. Not an assertion supplied by a caller.",
+      "oneOf": [
+        {"$ref": "operator-task-experiment-candidate.v1.schema.json"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema", "review/phase", "candidate", "patches", "source/product-ref", "source/product-digest"],
+          "properties": {
+            "schema": {"const": "corpus-task-pack-candidate-material.local.v1"},
+            "review/phase": {"enum": ["observation", "effects"]},
+            "candidate": {"$ref": "operator-task-experiment-candidate.v1.schema.json"},
+            "patches": {"type": "array", "maxItems": 256, "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["step/id", "patch/ref", "patch", "review/targets"],
+              "properties": {
+                "step/id": {"type": "string", "minLength": 1, "maxLength": 256},
+                "patch/ref": {"type": "string", "minLength": 1, "maxLength": 512},
+                "patch": {"$ref": "operator-task-patch.v1.schema.json"},
+                "review/targets": {"type": "array", "maxItems": 256, "items": {"type": "object"}}
+              }
+            }},
+            "source/product-ref": {"type": "string", "minLength": 1, "maxLength": 512},
+            "source/product-digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"}
+          },
+          "allOf": [{
+            "if": {"required": ["review/phase"], "properties": {"review/phase": {"const": "observation"}}},
+            "then": {"properties": {
+              "candidate": {"properties": {"steps": {"items": {"required": ["kind"], "properties": {"kind": {"const": "observe"}}}}}},
+              "patches": {"maxItems": 0}
+            }},
+            "else": {"properties": {"candidate": {"properties": {"steps": {"contains": {"required": ["kind"], "properties": {"kind": {"enum": ["process", "patch", "service-control", "actuate"]}}}}}}}}
+          }]
+        }
+      ]
+    }
+  }
+}

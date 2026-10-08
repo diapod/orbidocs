@@ -1,0 +1,13 @@
+{
+  "schema": "corpus-local-round.prepare.request.v1",
+  "operator/binding-ref": "node-operator-binding:local",
+  "task-binding/ref": "operator-task-local-binding:mail",
+  "problem/text": "Investigate local mail routing without widening relay authority.",
+  "participants": [
+    {
+      "kind": "nym",
+      "id": "nym:did:key:zResponder"
+    }
+  ],
+  "topic/term": "mail/qmail"
+}

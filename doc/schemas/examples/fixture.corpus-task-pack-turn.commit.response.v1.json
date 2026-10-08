@@ -1,0 +1,6 @@
+{
+  "schema": "corpus-task-pack-turn.commit.response.v1",
+  "operation/ref": "operation:task-pack-turn:one",
+  "preview/ref": "corpus-task-pack-turn:sha256:wIgGApo6fy9Hwg1v2RklVNcMXx6rDstj51TIB47uArg",
+  "state": "accepted"
+}

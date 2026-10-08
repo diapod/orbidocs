@@ -8,6 +8,7 @@ Corpus lineage fact binding one Agent passage to the evidence manifest its promp
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
+| [`agent/input-manifest-ref`](#field-agent-input-manifest-ref) | `yes` | string | Canonical Agent-owned passage input commitment; this Corpus fact adds only domain relations, never a second input list. |
 | [`schema`](#field-schema) | `yes` | const: `corpus-passage-evidence-binding.v1` |  |
 | [`passage/ref`](#field-passage-ref) | `yes` | string |  |
 | [`agent/id`](#field-agent-id) | `yes` | string |  |
@@ -21,6 +22,14 @@ Corpus lineage fact binding one Agent passage to the evidence manifest its promp
 | [`materialized/digest`](#field-materialized-digest) | `yes` | string |  |
 | [`recorded-at`](#field-recorded-at) | `yes` | string |  |
 ## Field Semantics
+
+<a id="field-agent-input-manifest-ref"></a>
+## `agent/input-manifest-ref`
+
+- Required: `yes`
+- Shape: string
+
+Canonical Agent-owned passage input commitment; this Corpus fact adds only domain relations, never a second input list.
 
 <a id="field-schema"></a>
 ## `schema`

@@ -18,9 +18,15 @@
     "evidence/manifest-ref",
     "evidence/manifest-digest",
     "materialized/digest",
+    "agent/input-manifest-ref",
     "recorded-at"
   ],
   "properties": {
+    "agent/input-manifest-ref": {
+      "type": "string",
+      "pattern": "^agent-passage-input-manifest:sha256:[A-Za-z0-9_-]{43}$",
+      "description": "Canonical Agent-owned passage input commitment; this Corpus fact adds only domain relations, never a second input list."
+    },
     "schema": {
       "const": "corpus-passage-evidence-binding.v1"
     },
