@@ -1352,25 +1352,95 @@ in `node:docs/evidence/inference-provenance/P090-SUPPLIED-INPUT-REVIEW.md`; broa
 
 ### Approved follow-up: bounded provenance DAG (2026-10-08)
 
-The operator approved planning a separate contract slice, not truncating the
-current ancestry or raising its budgets. Local object-store references solve
-the inline threshold, not the full descriptor's 64-KiB, 64-node and depth-eight
-tree ceilings. A synthetic eight-passage all-prior-input composition retains
+#### DAG contract decision and scoped checkpoint (2026-10-09)
+
+`inference-provenance-dag.v1` carries one explicit `root/digest` and the
+complete reachable `nodes` map. Each key is SHA-256/base64url of the exact JCS
+node bytes, including its flat sealed source assertion, ordered parent digest
+occurrences and optional `parent-set/complete`. Shared ancestors have one node;
+repeated edges remain repeated and ordered. A source node has no composition
+edges; a composition node carries an explicit complete or incomplete parent
+set, including the empty set. Missing information is not a local assertion.
+
+Node addresses are distinct from assertion source/projection identifiers. A
+composition assertion commits its immediate source identifiers, while the node
+digest additionally commits the ordered edges. The outer provenance descriptor
+commits the entire graph and must match the root assertion in every semantic
+field. Only source/projection identities differ between this outer graph carrier
+and its flat root assertion. An authenticated outer carrier therefore binds both
+the summary and the exact ancestry, not just a detached graph root.
+
+V1 graph budgets are 64 unique nodes (root included), 512 edge occurrences,
+16 direct parents, depth 32 (root included) and 64 KiB of canonical graph bytes.
+The existing outer descriptor's 64-KiB limit also applies independently. Graph
+depth counts accountable source/product/effect composition nodes, not human
+turns; its new budget is distinct from the unchanged historical tree depth of
+eight. All records must be reachable. Missing/substituted nodes, detached nodes,
+cycles, incompatible source summaries and budget overflow refuse; no pruning,
+implicit acquisition or partial successful graph is admitted. Cross-boundary
+composition retains original frames and an unknown owner-relative summary;
+the ordinary single-boundary join still refuses foreign active sources.
+
+Projection rewrites disclosed node bytes and therefore node digests and edges,
+but preserves source identities, ordered relations, completeness limitations and
+non-local/unknown facts. It has a new graph root and carrier digest; it is not
+the source graph under an unchanged content address. Independent receiving
+policy visits all retained source assertions, so a known denial cannot disappear
+behind an unknown aggregate. A digest or local reference grants no access.
+
+The local owner stores and verifies the complete canonical graph-bearing
+descriptor as one immutable object before publishing its reference. There is no
+network resolver. Existing nested descriptors remain valid historical records;
+they are not silently converted or assigned new source identities. Joining an
+old nested composition into the new format requires a separately admitted
+migration; fresh multi-turn passages use the DAG. `historical-composition-requires-migration`
+is a typed refusal, not permission to discard ancestry or relabel it unknown.
+There is no implemented migration or opaque-history bridge. Operators must finish
+or explicitly stop active Agent chains and P094 loops using nested products
+before upgrading, then start new DAG work without those parents. Exact committed
+historical replay is unchanged; restarting does not enable a new continuation.
+This changes newly produced
+composition representation, not the semantics of an already signed carrier.
+
+Before dispatch, Agent admits the exact deduplicated known parent closure plus
+a host-owned growth allowance of three nodes, 32 edges, three levels and 8 KiB.
+Each missing source reserves another unknown node, edge and 4 KiB; the direct
+parent limit permits at most 15 inputs, reserving the sixteenth slot for the
+execution not yet observed. The resulting graph
+must fit the admitted growth as well as the global budgets. An observed overrun
+refuses publication while retaining producer evidence, never claiming that
+dispatch did not happen. This bounded profile does not promise that arbitrary
+eight-turn content fits. Inline-only convenience helpers refuse oversized
+results; owner preparation returns exact bytes for retention before any fact.
+Profile-reserve refusal carries `growth-reservation-exceeded` and its axis/size
+details, separately from a hard `dag.bytes` bound failure. The inventory binds
+the measured canonical graph and descriptor sizes for all eight fixture passages.
+This calibrates the deterministic profile only, not real MLX workloads.
+Corpus signs the carrier after final root refresh; substituting an otherwise
+valid pre-refresh carrier invalidates that signature without changing ancestors.
+
+The historical 2026-10-08 tree measurement motivated this separately approved
+contract slice, not truncation or higher historical budgets. Local object-store
+references alone solve the inline threshold, not the full tree ceilings.
+The earlier synthetic eight-passage all-prior-input tree composition retained
 1,773 / 3,721 / 7,617 / 15,409 / 30,993 / 62,161 canonical bytes across its first
 six products and refuses the seventh at the ancestry budget. This is a measured
 contract limit, not a full real-model run or a worst-case admission proof.
 
 | Task | Status | Scope and completion evidence |
 | :--- | :--- | :--- |
-| `P090-006f1` | `todo` | Define a versioned, content-addressed composition DAG: unique nodes by canonical digest, explicit ordered parent edges and exact root. Freeze canonical identity, selective disclosure, cross-boundary refusal, missing/substituted parents, cycles, maximum unique nodes/edges/depth/bytes and bounded traversal before implementation. Do not flatten away source assertions or let a reference imply access authority. |
-| `P090-006f2` | `todo` | Implement the pure DAG validator/join and local owner resolution. Verify consumed bytes and the reachable closure, preserve multiplicity/order where semantically relevant while deduplicating shared nodes, and keep local resolution distinct from authenticated external acquisition (P090-008a). |
-| `P090-006f3` | `todo` | Adopt the DAG through Agent products/effects/outcomes and signed Corpus synthesis; retain exact roots across partial writes/restart/replay without re-inference, duplicate charge or publication. Current admission must preflight the exact reachable ancestry budget before dispatch; unresolved growth remains a typed blocker rather than a silently shortened lineage. |
-| `P090-012e` | `todo` | Execute the shared DAG gate: eight admitted Solver/Reviewer passages, diamond ancestry, unknown/mixed/non-local joins, redaction, duplicate/cyclic/foreign/missing/substituted nodes and terminal/restart/sink failures. Synchronize inventories, mirrors and readiness only for proven profiles. |
+| `P090-006f1` | `done` | Draft `inference-provenance-dag.v1` freezes exact JCS node addresses, distinct source identities, ordered edge occurrences and one reachable root. Canonical and Node schemas mirror the 64-node/512-edge/16-parent/depth-32/64-KiB graph budgets; exact closure, non-strengthening selective disclosure and typed refusals are enforced by the pure core. Historical signed tree bytes are unchanged. This is implementation, not formal contract acceptance. |
+| `P090-006f2` | `done` | Pure composition deduplicates byte-identical ancestors without losing order, multiplicity or original source frames. Duplicate keys, cycles, detached/missing/substituted nodes and unjustified summaries refuse. The existing private owner object store verifies exact canonical bytes, size, digest and closure; an explicit resolver is installed before recovery and at Corpus's four Schema Gate boundaries. Default unresolved-reference refusal and no remote acquisition remain intact. |
+| `P090-006f3` | `done` | Bounded controller/Flow products, effects, AgentOutcome and signed Corpus synthesis preserve the admitted graph. Pre-dispatch capacity admits exact ancestry plus bounded growth, including missing-source unknown nodes; actual growth must fit too. Owners retain bytes before referencing facts. The eight-passage fixture proves V2-first partial-write repair, restart, exact product/outcome/effect replay and unchanged spending; signed Corpus recovery preserves publication once without reselecting an expired bid. Arbitrary producer profiles and historical tree migration are not implied. |
+| `P090-012e` | `done` | `bounded-provenance-dag` passes five commands and 251 tests, with fourteen required crate/target/module-qualified proofs. Two distinct Solver/Reviewer Agent owners execute eight deterministic passages retaining 16 nodes and 37 ordered edges; the exact inventory-bound final graph is 41,218 B and outer descriptor 44,487 B, with a largest measured passage delta of 6,358 B within the 8-KiB reserve. Pure/owner gates cover mixed/non-local/unknown, shared ancestors, redaction, substitution/missing parents, typed historical-migration and reserve refusals, the 15-input boundary, every growth axis, exact local bytes and restart without second execution, charge or publication. Signed synthesis rejects the pre-refresh root before and after restart. Agent/Corpus core suites, 31 inventory negative controls, scoped all-target Clippy, canonical schema validation and docs build pass. This is local owner/runtime evidence, not real-model, physical federation or independent HIL acceptance. |
 
-The existing nested contract remains unchanged and fail-closed until this
-separate slice is reviewed and implemented. The current local-reference
-checkpoint and completed supplied-input gates do not qualify eight-passage
-capacity or complete P090-006/006a.
+The historical nested contract remains unchanged and fail-closed. This separate
+DAG slice qualifies the bounded eight-passage owner/runtime profile, not every
+eight-turn workload, a real-model guided repair, or all of P090-006/006a.
+
+| Follow-up | Status | Required boundary |
+| :--- | :--- | :--- |
+| `P090-006f4` | `todo` | Design owner-local storage of individually addressed nodes and root-referenced closures, avoiding repeated whole-graph retention across products/effects/outcomes. Preserve exact signing, ordered multiplicity, bounded reachable closure, selective disclosure, authority and restart/GC semantics. Current carriers intentionally still contain the complete closure; this is not remote acquisition or implicit historical migration. |
 
 1. Explicitly inventory any additional admitted batch/training profiles before
    extending execution. `P090-004b` and `P090-004c1`–`P090-004c5` are complete
@@ -1406,15 +1476,16 @@ capacity or complete P090-006/006a.
    Node issuer signs its own Room subject; neither a declaration nor a remote
    signature grants membership or upgrades peer evidence. A guided declaration
    editor can reuse the authenticated data API without inventing runtime claims.
-4. The operator-approved 2026-10-08 extension first implements **local-only**
-   descriptor resolution for the retained Agent/Corpus passage path: preserve
+4. Preserve the completed **local-only** DAG descriptor resolution for the
+   retained Agent/Corpus passage path: preserve
    exact parents, store canonical bytes before committing a reference, verify
    digest/size and source binding on replay, and recheck current source access.
    Reuse the existing object store; no HTTP/peer acquisition, public arbitrary
    ref lookup, implicit access grant, ancestry truncation or inline-limit increase.
-   This checkpoint remains in progress until substitution, missing-object,
-   restart and guided repair gates pass. It does not close remote procurement
-   resolution or promote the earlier unknown repair turn.
+   Substitution, missing-object and owner/runtime restart gates are complete.
+   Separately qualify a real-model guided repair on the DAG; this checkpoint
+   does not close remote procurement resolution or promote the earlier unknown
+   repair turn.
    Design and implement bounded, authenticated external descriptor resolution
    for `P090-008a` before admitting external references. Until then reject
    them explicitly; retain the completed inline procurement path unchanged.

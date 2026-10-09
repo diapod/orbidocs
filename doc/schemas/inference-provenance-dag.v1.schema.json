@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inference-provenance-dag:v1",
+  "title": "Bounded Inference Provenance DAG v1",
+  "description": "The exact reachable graph, keyed by SHA-256 of canonical node bytes. Semantic admission verifies root, all edges, hashes, source summaries, reachability, cycles, depth, total edges and canonical byte budget; syntax is not admission or access authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "root/digest", "nodes"],
+  "properties": {
+    "schema": { "const": "inference-provenance-dag.v1" },
+    "root/digest": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+    "nodes": {
+      "type": "object", "minProperties": 1, "maxProperties": 64,
+      "propertyNames": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" },
+      "additionalProperties": { "$ref": "#/$defs/node" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assertion", "parents"],
+      "properties": {
+        "assertion": {
+          "allOf": [
+            { "$ref": "inference-execution-provenance.v1.schema.json#/$defs/descriptor" },
+            { "not": { "required": ["composition"] } }
+          ]
+        },
+        "parents": {
+          "description": "Ordered edge occurrences; duplicate digests are meaningful repeated inputs, not duplicate nodes.",
+          "type": "array", "maxItems": 16,
+          "items": { "$ref": "inference-provenance-common.v1.schema.json#/$defs/digest" }
+        },
+        "parent-set/complete": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": { "not": { "required": ["parent-set/complete"] } },
+          "then": { "properties": { "parents": { "maxItems": 0 } } }
+        }
+      ]
+    }
+  }
+}

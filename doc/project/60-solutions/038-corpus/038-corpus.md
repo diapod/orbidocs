@@ -359,6 +359,13 @@ Status:
   signed answer. Foreign boundaries remain distinct, and receiver policy also
   evaluates retained sources. Local deterministic tests cover signature tampering
   and exact receiver restart; this is not a physical deliberation result.
+  P090-006f adds digest-addressed DAG ancestry to fresh Agent drafts and signed
+  synthesis. An explicit owner-local resolver verifies exact stored bytes at
+  the four contract boundaries and before checkpoint recovery; no peer fetch
+  is implied. Shared ancestors survive without duplication, and the eight-
+  passage deterministic owner gate includes interrupted product persistence
+  and signed publication replay without another charge or publication.
+  This does not establish real-model or physical-federation acceptance.
   Generalized source/effect profiles, scoped participant declarations
   and general federated projection remain open; this is not all of P090.
 

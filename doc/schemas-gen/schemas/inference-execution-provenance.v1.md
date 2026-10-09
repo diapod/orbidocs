@@ -16,7 +16,7 @@ Source schema: [`doc/schemas/inference-execution-provenance.v1.schema.json`](../
 
 | Definition | Shape | Description |
 |---|---|---|
-| [`composition`](#def-composition) | object | Exact parent assertions in their original processing boundaries; bounded depth and total node count are also enforced by semantic validation. |
+| [`composition`](#def-composition) | object | Exact original source frames. Historical nested parents retain their tree budgets. New compositions use a versioned DAG, empty legacy parents, and an exactly matching root assertion; semantic validation enforces the reachable graph budgets. |
 | [`bindings`](#def-bindings) | object |  |
 | [`evidence`](#def-evidence) | object |  |
 | [`lineage`](#def-lineage) | object |  |
@@ -111,7 +111,7 @@ Then:
 
 - Shape: object
 
-Exact parent assertions in their original processing boundaries; bounded depth and total node count are also enforced by semantic validation.
+Exact original source frames. Historical nested parents retain their tree budgets. New compositions use a versioned DAG, empty legacy parents, and an exactly matching root assertion; semantic validation enforces the reachable graph budgets.
 
 <a id="def-bindings"></a>
 ## `$defs.bindings`

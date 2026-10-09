@@ -449,8 +449,13 @@ keeps its domain projection and a relation pointing to the Agent manifest,
 not another declaration of the same Agent inputs. Current source authority is
 rechecked independently of pinned bytes and ancestry. Non-Corpus passages use
 the same neutral commitment; an empty supplement list never proves complete
-provenance of caller prose. Existing inline/depth/node limits still bound this
-ancestry; excess refuses rather than dropping parents or externalizing them.
+provenance of caller prose. P090-006f adopts a bounded content-addressed DAG for
+fresh composition: shared ancestors are stored once, ordered edge occurrences
+remain explicit, and products/effects/outcomes preserve the same admitted
+closure. The host preflights exact ancestry plus bounded growth before dispatch
+and checks the actual growth before publication. Local references cross the
+inline threshold only; graph and descriptor limits still apply. Historical
+trees are not silently migrated. Excess refuses rather than dropping parents.
 
 The descriptor is evidence about one product, not Agent identity or authority.
 A single Agent may use different execution paths in successive passages.

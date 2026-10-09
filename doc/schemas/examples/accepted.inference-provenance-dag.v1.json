@@ -1,0 +1,123 @@
+{
+  "schema": "inference-provenance-dag.v1",
+  "root/digest": "sha256:pU3dodqb41q6343HaedHVNxfl-1kN0uHVZlFAeSrqiE",
+  "nodes": {
+    "sha256:R7tLF6goK1e_Nfl8Wx3fMCHXmOKv8AoCcnhDPilos7I": {
+      "assertion": {
+        "descriptor/id": "sha256:Cu1EZbCk2SD0RxlwU0vnSJ_RTC9VXsEzc8_pScgWmlk",
+        "projection/id": "sha256:swcniJEgufIPSOvqj5fRVc05FvhnvhydT_i3EmFXNe4",
+        "projection/kind": "full",
+        "subject/ref": "result:dag-0",
+        "asserted/by": "node:self",
+        "observed/at": "2026-09-04T10:00:00Z",
+        "sequence": 1,
+        "processing-boundary/ref": "processing-boundary:host:self",
+        "dispatch": "dispatched",
+        "dispatch/components": [
+          "dispatched"
+        ],
+        "locality": "local",
+        "locality/components": [
+          "local"
+        ],
+        "input-egress": "none",
+        "input-egress/components": [
+          "none"
+        ],
+        "provider/disclosure": "complete",
+        "provider/refs": [
+          "inference-provider:mlx"
+        ],
+        "bindings": {
+          "runtime/ref": "model-runtime:mlx",
+          "adapter-profile/ref": "adapter-profile:mlx-local",
+          "model-binding/ref": "model-binding:bielik-4.5b-v3.0-instruct"
+        },
+        "evidence": [
+          {
+            "basis": "host-enforced-no-egress",
+            "assertion/ref": "observation:fixture-no-egress",
+            "evidence/refs": [
+              "component-trace:fixture"
+            ]
+          },
+          {
+            "basis": "host-selected-profile",
+            "assertion/ref": "runtime-selection:fixture",
+            "evidence/refs": []
+          }
+        ],
+        "evidence/complete": true,
+        "lineage": {
+          "parent/descriptor-ids": [],
+          "parent/count": 0,
+          "complete": true
+        },
+        "extensions": {}
+      },
+      "parents": []
+    },
+    "sha256:pU3dodqb41q6343HaedHVNxfl-1kN0uHVZlFAeSrqiE": {
+      "assertion": {
+        "descriptor/id": "sha256:2Mm6hxBVHXks4PvFJ_JN7WHMZ0iH_VwvQ-m7Xwag-xs",
+        "projection/id": "sha256:lyhs_vtK1Mjnkt2nuBt1vP0AVRvDy364z-4fc7gN1rY",
+        "projection/kind": "full",
+        "subject/ref": "product:dag-0",
+        "asserted/by": "node:self",
+        "observed/at": "2026-09-04T10:00:00Z",
+        "processing-boundary/ref": "processing-boundary:host:self",
+        "dispatch": "dispatched",
+        "dispatch/components": [
+          "dispatched"
+        ],
+        "locality": "local",
+        "locality/components": [
+          "local"
+        ],
+        "input-egress": "none",
+        "input-egress/components": [
+          "none"
+        ],
+        "provider/disclosure": "complete",
+        "provider/refs": [
+          "inference-provider:mlx"
+        ],
+        "bindings": {},
+        "evidence": [
+          {
+            "basis": "derived",
+            "assertion/ref": "product:dag-0",
+            "evidence/refs": [],
+            "limitation": "joined from descriptor lineage"
+          },
+          {
+            "basis": "host-enforced-no-egress",
+            "assertion/ref": "observation:fixture-no-egress",
+            "evidence/refs": [
+              "component-trace:fixture"
+            ]
+          },
+          {
+            "basis": "host-selected-profile",
+            "assertion/ref": "runtime-selection:fixture",
+            "evidence/refs": []
+          }
+        ],
+        "evidence/complete": true,
+        "lineage": {
+          "parent/descriptor-ids": [
+            "sha256:Cu1EZbCk2SD0RxlwU0vnSJ_RTC9VXsEzc8_pScgWmlk"
+          ],
+          "parent/count": 1,
+          "complete": true
+        },
+        "extensions": {}
+      },
+      "parents": [
+        "sha256:R7tLF6goK1e_Nfl8Wx3fMCHXmOKv8AoCcnhDPilos7I",
+        "sha256:R7tLF6goK1e_Nfl8Wx3fMCHXmOKv8AoCcnhDPilos7I"
+      ],
+      "parent-set/complete": true
+    }
+  }
+}

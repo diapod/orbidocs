@@ -47,11 +47,25 @@ can additionally refuse the corrective reviewed declaration. The daemon and
 console remain available, but no supported emergency archival/reset bypass
 exists. This combined availability risk remains open pending P091 reconciliation.
 
-Guided-loop limits — 2026-10-08: an all-prior-input synthetic provenance tree
+Historical guided-loop limit — 2026-10-08: an all-prior-input synthetic provenance tree
 reaches 62,161 canonical bytes after six passages and refuses the seventh at
 the ancestry budget. Local references do not remove the 64-KiB / 64-node /
-depth-eight descriptor ceilings. Eight-passage repair is not qualified;
-P090-006f1/f2/f3 and P090-012e plan the separately approved bounded DAG.
+depth-eight descriptor ceilings. The separately approved P090-006f1/f2/f3 and
+P090-012e DAG checkpoint is now complete (2026-10-09): eight deterministic
+Solver/Reviewer passages across two Agent owners retain 16 unique nodes and
+37 ordered edges. The five-command owner/runtime gate passes 251 tests,
+including exact local byte resolution, capacity refusal before spending,
+V2-first partial-write repair, effect/outcome replay and signed Corpus restart
+without another execution, charge or publication. Canonical schemas, mirrors,
+core suites, scoped Clippy and docs build pass. The DAG remains a draft contract;
+real-model guided repair, independent HIL and physical acceptance are not
+qualified by this checkpoint, and hard-MVP/release status is unchanged.
+Upgrade restriction: finish or explicitly stop Agent/P094 chains whose next
+passage would import historical nested-tree products; no tree-to-DAG migration
+is implemented. Their exact committed replay remains valid, but new continuation
+refuses with `historical-composition-requires-migration`. The fixture now records
+per-passage graph/descriptor sizes and qualifies a smaller 8-KiB growth reserve;
+this does not qualify MLX growth or root-only node-store retention (P090-006f4).
 P094-018a separately tracks prepared-root recovery after ordinary Workbench
 restart. The fresh-key isolated-test workaround is not lifecycle completion.
 

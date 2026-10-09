@@ -254,6 +254,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`inference-policy.evaluate.request.v1.schema.json`](schemas-gen/schemas/inference-policy.evaluate.request.v1.md) | `4` | `0` | `no` | `yes` | `1` | `0` |
 | [`inference-policy.evaluate.response.v1.schema.json`](schemas-gen/schemas/inference-policy.evaluate.response.v1.md) | `2` | `0` | `no` | `yes` | `1` | `0` |
 | [`inference-provenance-common.v1.schema.json`](schemas-gen/schemas/inference-provenance-common.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
+| [`inference-provenance-dag.v1.schema.json`](schemas-gen/schemas/inference-provenance-dag.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
 | [`inference-provider-registry.v1.schema.json`](schemas-gen/schemas/inference-provider-registry.v1.md) | `4` | `0` | `no` | `yes` | `1` | `0` |
 | [`inquirium-federated-resource-profile.v1.schema.json`](schemas-gen/schemas/inquirium-federated-resource-profile.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `2` |
 | [`inquirium-operation-descriptor.v1.schema.json`](schemas-gen/schemas/inquirium-operation-descriptor.v1.md) | `10` | `0` | `yes` | `yes` | `5` | `1` |
@@ -863,6 +864,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`inference-policy.evaluate.request.v1.schema.json`](schemas-gen/schemas/inference-policy.evaluate.request.v1.md) |  |  |
 | [`inference-policy.evaluate.response.v1.schema.json`](schemas-gen/schemas/inference-policy.evaluate.response.v1.md) |  |  |
 | [`inference-provenance-common.v1.schema.json`](schemas-gen/schemas/inference-provenance-common.v1.md) |  |  |
+| [`inference-provenance-dag.v1.schema.json`](schemas-gen/schemas/inference-provenance-dag.v1.md) |  |  |
 | [`inference-provider-registry.v1.schema.json`](schemas-gen/schemas/inference-provider-registry.v1.md) |  |  |
 | [`inquirium-federated-resource-profile.v1.schema.json`](schemas-gen/schemas/inquirium-federated-resource-profile.v1.md) |  |  |
 | [`inquirium-operation-descriptor.v1.schema.json`](schemas-gen/schemas/inquirium-operation-descriptor.v1.md) | [`requirements-010-middleware-executor.md`](project/50-requirements/requirements-010-middleware-executor.md) | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md), [`story-006-voluntary-swarm-exchange.md`](project/30-stories/story-006-voluntary-swarm-exchange.md), [`story-009-bielik-blog-arca.md`](project/30-stories/story-009-bielik-blog-arca.md) |
@@ -1409,7 +1411,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/086-component-communication-observation-and-trace-sessions.md`](project/40-proposals/086-component-communication-observation-and-trace-sessions.md) | [`middleware-channel-accepted.v1.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v1.md), [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v1.schema.json`](schemas-gen/schemas/middleware-channel-frame.v1.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v1.schema.json`](schemas-gen/schemas/middleware-channel-hello.v1.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md) |
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 
-- Canonical schemas: `604`
-- Generated schema docs: `604`
-- Positive examples: `628`
-- Negative examples: `640`
+- Canonical schemas: `605`
+- Generated schema docs: `605`
+- Positive examples: `629`
+- Negative examples: `641`

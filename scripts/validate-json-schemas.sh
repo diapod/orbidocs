@@ -623,6 +623,9 @@ schema_for_file() {
     *.inference-execution-posture.json)
       echo "$SCHEMAS_DIR/inference-execution-posture.v1.schema.json"
       ;;
+    *.inference-provenance-dag.v1.json)
+      echo "$SCHEMAS_DIR/inference-provenance-dag.v1.schema.json"
+      ;;
     *.inference-execution-provenance.json)
       echo "$SCHEMAS_DIR/inference-execution-provenance.v1.schema.json"
       ;;
