@@ -145,6 +145,84 @@ For `node` and `org`, `resource/id` should use canonical protocol-visible
 identifiers. For `gps`, `resource/id` stays opaque in this proposal; a later kind
 contract should freeze coordinate order, precision, and privacy rules.
 
+#### 1.1. Country-scoped identifier namespaces
+
+A resource kind MAY name a country-scoped identifier namespace, using a
+lower-case ISO 3166-1 alpha-2 country code followed by an unambiguous scheme
+name, separated by hyphens: `<country>-<scheme>`. Where a scheme name alone
+is ambiguous, include the registry qualifier, for example `pl-nil-pwz` for
+PWZ numbers in the Polish Central Register of Physicians and Dentists.
+This is an Orbiplex naming convention, not a claim that the resulting slug
+is an official external identifier-system code.
+
+For example, the resource reference and its derived key are:
+
+```json
+{
+  "resource/kind": "pl-nil-pwz",
+  "resource/id": "<pwz-number>"
+}
+```
+
+```text
+pl-nil-pwz:<pwz-number>
+```
+
+`<pwz-number>` is a documentation placeholder, not an issued or
+domain-validated number. The example establishes the namespace convention;
+it does not claim an implemented registry lookup or PWZ validator.
+
+The following invariants preserve the generic resource contract:
+
+- The entire `resource/kind` is the namespace key. Generic consumers MUST NOT
+  infer authority or parse its hyphen-separated parts. Country qualifiers
+  describe the identifier system's jurisdiction, not the holder's nationality,
+  residence, or current location.
+- Kinds remain an open catalogue. Operators and communities MAY propose new
+  kind contracts; this convention neither introduces a global allow-list nor
+  requires country prefixes for existing or international kinds. Unknown kinds
+  remain opaque under the generic contract, subject to ordinary admission and
+  disclosure policy; they MUST NOT be silently mapped to a familiar namespace.
+- A kind contract MUST identify the relevant scheme/registry, what its values
+  identify (for example a person, licence, organization, or registry entry),
+  canonicalization and validation rules, and any known reassignment or alias
+  semantics. Official namespace URIs/OIDs MAY be documented for interoperability;
+  these are mappings, not additional fields required in every resource reference.
+- Values remain strings. Country- and registry-specific normalization, check
+  digits, and lookups belong to optional kind-specific validators or adapters,
+  not the generic schema, Agora index, or core. Merely adding a `country` field
+  cannot disambiguate the existing key, which uses only kind and id.
+- Identifier equality establishes a shared reference within that namespace,
+  not verified identity across namespaces, current professional entitlement,
+  reputation, or the truth of a claim. Identifying a person through a public
+  register does not itself authorize disclosure or public aggregation.
+
+The design follows the namespace/value separation of
+[FHIR Identifier](https://hl7.org/fhir/R5/datatypes.html#Identifier) and the
+jurisdiction/list-code precedent in
+[org-id.guide](https://docs.org-id.guide/en/latest/metadata.html#assigning-a-code),
+without importing their complete data models or catalogues into the core.
+
+#### 1.2. References in opinions and gossip
+
+An opinion about such a resource keeps the qualified pair in envelope
+`record/about[0]`; no country field or identity copy is added to the content.
+Public gossip (`public-gossip.v1`) MAY use the same pair in its optional
+envelope `record/about`. Neither use changes the record's epistemic status.
+
+When `opinion/see-also` or `gossip/see-also` refers directly to the same
+resource, its compact representation is `["pl-nil-pwz", "<pwz-number>"]`:
+the tuple's first element carries the full namespace and the second carries
+only its identifier, not the derived `resource/key`. Existing record/topic
+reference kinds keep their own contracts. Each surface retains its existing
+size bounds; both `see-also` fields limit an id to 512 characters, whereas
+`resource-ref.v1` allows 2048. A bridge MUST NOT truncate an identifier to fit.
+
+An opinion evaluating a rumor still references the rumor record, as specified
+by [P013](013-whisper-social-signal-exchange.md), rather than replacing that
+target with the person or resource mentioned in it. `opinion/subject-kind`
+remains an overlay-selection hint, not a substitute for the envelope reference.
+
 ### 2. `resource-opinion.v1` as the MVP Artifact
 
 The MVP artifact for a participant-authored opinion is the content body
@@ -437,8 +515,9 @@ record the approved defaults.
 
 Resolved 2026-07-05:
 
-1. `resource/kind` remains semi-open now, with reserved kinds becoming
-   schema-governed later when interoperability or safety requires it.
+1. `resource/kind` remains open. Individual kind contracts may gain dedicated
+   validation when interoperability or safety requires it; this does not close
+   the generic namespace catalogue (see §1.1).
 2. `node` and `org` resource opinions require explicit anti-harassment, appeal,
    or moderation rules before they appear in public aggregates.
 3. `gps` resources use a precision-bounded location key. Raw `lat,lon` is not
@@ -468,8 +547,8 @@ Positive:
 
 Tradeoffs:
 
-- `resource/kind` remains semi-open and may require later normalization
-  work,
+- `resource/kind` remains open and individual kind contracts may require later
+  normalization work,
 - the proposal intentionally leaves moderation and deduplication
   unresolved,
 - `resource/key` is derived rather than authoritative, so consumers
@@ -491,9 +570,9 @@ If adopted, the next artifacts should be:
    survive relay data loss and how participants place copies with other
    nodes under capability-passport-backed custody; opinion-specific
    retention or right-to-forget flows build on that substrate.
-5. Document the `resource/kind` lifecycle: kinds remain semi-open now, while a
-   reserved list may graduate to schema-governed status when interoperability or
-   safety requires it.
+5. Keep kind-specific validation and alias lifecycle rules explicit without
+   turning the open `resource/kind` catalogue into a closed core enum. Country-
+   scoped namespaces follow §1.1; validators remain outside the generic core.
 6. Add moderation prerequisites for `resource/kind = node` and
    `resource/kind = org`: explicit anti-harassment, appeal, or moderation rules
    must exist before public aggregates are exposed.

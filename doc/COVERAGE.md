@@ -63,7 +63,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`agora-authority-policy.v1.schema.json`](schemas-gen/schemas/agora-authority-policy.v1.md) | `11` | `4` | `yes` | `yes` | `1` | `1` |
 | [`agora-public-rejection.v1.schema.json`](schemas-gen/schemas/agora-public-rejection.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
 | [`agora-query-attestation.v1.schema.json`](schemas-gen/schemas/agora-query-attestation.v1.md) | `15` | `15` | `yes` | `yes` | `1` | `1` |
-| [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md) | `19` | `19` | `yes` | `yes` | `7` | `0` |
+| [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md) | `19` | `19` | `yes` | `yes` | `9` | `0` |
 | [`agora-vault-entry.v1.schema.json`](schemas-gen/schemas/agora-vault-entry.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `1` |
 | [`agora-vault-ref.v1.schema.json`](schemas-gen/schemas/agora-vault-ref.v1.md) | `9` | `1` | `no` | `yes` | `1` | `0` |
 | [`alliance-policy.v1.schema.json`](schemas-gen/schemas/alliance-policy.v1.md) | `14` | `14` | `yes` | `yes` | `1` | `5` |
@@ -479,7 +479,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`procurement-receipt.v1.schema.json`](schemas-gen/schemas/procurement-receipt.v1.md) | `20` | `19` | `yes` | `yes` | `2` | `1` |
 | [`proof-of-personhood-attestation.v1.schema.json`](schemas-gen/schemas/proof-of-personhood-attestation.v1.md) | `19` | `10` | `yes` | `yes` | `1` | `4` |
 | [`pseudonym-vault.v1.schema.json`](schemas-gen/schemas/pseudonym-vault.v1.md) | `20` | `10` | `yes` | `yes` | `4` | `2` |
-| [`public-gossip.v1.schema.json`](schemas-gen/schemas/public-gossip.v1.md) | `15` | `15` | `yes` | `yes` | `1` | `1` |
+| [`public-gossip.v1.schema.json`](schemas-gen/schemas/public-gossip.v1.md) | `15` | `15` | `yes` | `yes` | `2` | `1` |
 | [`public-log-entry.v1.schema.json`](schemas-gen/schemas/public-log-entry.v1.md) | `6` | `6` | `yes` | `yes` | `0` | `0` |
 | [`question-envelope.v1.schema.json`](schemas-gen/schemas/question-envelope.v1.md) | `30` | `30` | `yes` | `yes` | `3` | `3` |
 | [`relationship-class-changed.v1.schema.json`](schemas-gen/schemas/relationship-class-changed.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `3` |
@@ -494,8 +494,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`replication-summary.v1.schema.json`](schemas-gen/schemas/replication-summary.v1.md) | `16` | `0` | `yes` | `yes` | `1` | `1` |
 | [`reputation-signal.v1.schema.json`](schemas-gen/schemas/reputation-signal.v1.md) | `16` | `16` | `yes` | `yes` | `4` | `6` |
 | [`reputation-snapshot.v1.schema.json`](schemas-gen/schemas/reputation-snapshot.v1.md) | `9` | `1` | `yes` | `yes` | `1` | `1` |
-| [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md) | `9` | `9` | `yes` | `yes` | `1` | `1` |
-| [`resource-ref.v1.schema.json`](schemas-gen/schemas/resource-ref.v1.md) | `2` | `2` | `yes` | `yes` | `0` | `0` |
+| [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md) | `9` | `9` | `yes` | `yes` | `2` | `1` |
+| [`resource-ref.v1.schema.json`](schemas-gen/schemas/resource-ref.v1.md) | `2` | `2` | `yes` | `yes` | `2` | `1` |
 | [`response-envelope.v1.schema.json`](schemas-gen/schemas/response-envelope.v1.md) | `18` | `17` | `yes` | `yes` | `2` | `1` |
 | [`responsibility-case.v1.schema.json`](schemas-gen/schemas/responsibility-case.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`responsibility-command.v1.schema.json`](schemas-gen/schemas/responsibility-command.v1.md) | `0` | `0` | `no` | `yes` | `1` | `0` |
@@ -1376,7 +1376,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`](project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md) | [`offer-catalog-fetch-request.schema.json`](schemas-gen/schemas/offer-catalog-fetch-request.md), [`offer-catalog-fetch-response.schema.json`](schemas-gen/schemas/offer-catalog-fetch-response.md), [`service-offer-relay.v1.schema.json`](schemas-gen/schemas/service-offer-relay.v1.md) |
 | [`doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`](project/40-proposals/024-capability-passports-and-network-ledger-delegation.md) | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md), [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md), [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md), [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
 | [`doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`](project/40-proposals/025-seed-directory-as-capability-catalog.md) | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`capability-proof-presentation-batch.v1.schema.json`](schemas-gen/schemas/capability-proof-presentation-batch.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md), [`federation-service-endorsement-revocation.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement-revocation.v1.md), [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md), [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md), [`node-address-attestation.v1.schema.json`](schemas-gen/schemas/node-address-attestation.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md), [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md), [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md), [`seed-directory-trust.v1.schema.json`](schemas-gen/schemas/seed-directory-trust.v1.md) |
-| [`doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`](project/40-proposals/026-resource-opinions-and-discussion-surfaces.md) | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md), [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md), [`resource-ref.v1.schema.json`](schemas-gen/schemas/resource-ref.v1.md) |
+| [`doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`](project/40-proposals/026-resource-opinions-and-discussion-surfaces.md) | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md), [`public-gossip.v1.schema.json`](schemas-gen/schemas/public-gossip.v1.md), [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md), [`resource-ref.v1.schema.json`](schemas-gen/schemas/resource-ref.v1.md) |
 | [`doc/project/40-proposals/027-middleware-peer-message-dispatch.md`](project/40-proposals/027-middleware-peer-message-dispatch.md) | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md), [`offer-catalog-fetch-request.schema.json`](schemas-gen/schemas/offer-catalog-fetch-request.md), [`offer-catalog-fetch-response.schema.json`](schemas-gen/schemas/offer-catalog-fetch-response.md) |
 | [`doc/project/40-proposals/030-identity-recovery-service.md`](project/40-proposals/030-identity-recovery-service.md) | [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md) |
 | [`doc/project/40-proposals/031-participant-key-passphrase-lock.md`](project/40-proposals/031-participant-key-passphrase-lock.md) | [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md) |
@@ -1471,5 +1471,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `634`
 - Generated schema docs: `634`
-- Positive examples: `650`
-- Negative examples: `662`
+- Positive examples: `656`
+- Negative examples: `663`

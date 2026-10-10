@@ -1,0 +1,29 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:CountryScopedGossipExample00000001",
+  "record/kind": "gossip",
+  "topic/key": "ai.orbiplex.gossip/documentation-example",
+  "record/about": [
+    {"resource/kind": "pl-nil-pwz", "resource/id": "<pwz-number>"}
+  ],
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "authored/at": "2026-10-10T10:00:00Z",
+  "content/schema": "public-gossip.v1",
+  "content": {
+    "schema": "public-gossip.v1",
+    "gossip/text": "Documentation-only example; no claim about a real person.",
+    "epistemic/class": "rumor",
+    "topic/class": "documentation-example",
+    "confidence": 0,
+    "disclosure/scope": "public",
+    "gossip/see-also": [
+      ["pl-nil-pwz", "<pwz-number>"],
+      ["community-archive-accession", "0007:collection:item"]
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_country_scoped_gossip_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  }
+}

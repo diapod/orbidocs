@@ -14,7 +14,7 @@ Machine-readable schema for the generic resource identity model introduced in pr
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
-| [`resource/kind`](#field-resource-kind) | `yes` | string | Resource kind slug. Early kinds include `url`, `ean`, `node`, `org`, `gps`. Swarm-internal kinds include `proposal`, `workflow-run`, `artifact`, `capability`. The list of kinds is open; kind contracts are registered per subsystem, not in this schema. |
+| [`resource/kind`](#field-resource-kind) | `yes` | string | Resource kind / identifier-namespace slug. Early kinds include `url`, `ean`, `node`, `org`, `gps`. Swarm-internal kinds include `proposal`, `workflow-run`, `artifact`, `capability`. Country-scoped namespaces may use a country and unambiguous scheme/registry qualifier, e.g. `pl-nil-pwz` (proposal 026 section 1.1). The whole slug is opaque to generic consumers: no country parsing or country-specific validation belongs in this schema. The list of kinds is open; kind contracts are registered per subsystem, not in this schema. |
 | [`resource/id`](#field-resource-id) | `yes` | string | Opaque identifier within the named kind. Consumers MUST NOT assume URI, URN, or hierarchical semantics unless the kind contract explicitly says so. Canonicalization rules (Unicode NFC, no control characters, no leading or trailing whitespace) are enforced by libraries on ingest; JSON Schema expresses only the trim and non-empty constraints. |
 ## Field Semantics
 
@@ -24,7 +24,7 @@ Machine-readable schema for the generic resource identity model introduced in pr
 - Required: `yes`
 - Shape: string
 
-Resource kind slug. Early kinds include `url`, `ean`, `node`, `org`, `gps`. Swarm-internal kinds include `proposal`, `workflow-run`, `artifact`, `capability`. The list of kinds is open; kind contracts are registered per subsystem, not in this schema.
+Resource kind / identifier-namespace slug. Early kinds include `url`, `ean`, `node`, `org`, `gps`. Swarm-internal kinds include `proposal`, `workflow-run`, `artifact`, `capability`. Country-scoped namespaces may use a country and unambiguous scheme/registry qualifier, e.g. `pl-nil-pwz` (proposal 026 section 1.1). The whole slug is opaque to generic consumers: no country parsing or country-specific validation belongs in this schema. The list of kinds is open; kind contracts are registered per subsystem, not in this schema.
 
 <a id="field-resource-id"></a>
 ## `resource/id`

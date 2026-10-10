@@ -999,6 +999,9 @@ schema_for_file() {
     *.org-custody-decision.json)
       echo "$SCHEMAS_DIR/org-custody-decision.v1.schema.json"
       ;;
+    *.resource-ref.json)
+      echo "$SCHEMAS_DIR/resource-ref.v1.schema.json"
+      ;;
     *.resource-opinion.json)
       echo "$SCHEMAS_DIR/resource-opinion.v1.schema.json"
       ;;

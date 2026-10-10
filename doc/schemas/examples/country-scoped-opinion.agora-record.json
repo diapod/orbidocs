@@ -1,0 +1,25 @@
+{
+  "schema": "agora-record.v1",
+  "record/id": "sha256:CountryScopedOpinionExample00000001",
+  "record/kind": "opinion",
+  "topic/key": "ai.orbiplex.opinions/pl-nil-pwz",
+  "record/about": [
+    {"resource/kind": "pl-nil-pwz", "resource/id": "<pwz-number>"}
+  ],
+  "author/participant-id": "participant:did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "authored/at": "2026-10-10T10:00:00Z",
+  "content/schema": "resource-opinion.v1",
+  "content": {
+    "schema": "resource-opinion.v1",
+    "opinion/text": "Documentation-only example; no assessment of a real person.",
+    "opinion/see-also": [
+      ["pl-nil-pwz", "<pwz-number>"],
+      ["community-archive-accession", "0007:collection:item"]
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "sig_example_country_scoped_opinion_0001",
+    "key/public": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  }
+}

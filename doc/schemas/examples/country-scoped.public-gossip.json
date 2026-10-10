@@ -1,0 +1,12 @@
+{
+  "schema": "public-gossip.v1",
+  "gossip/text": "Documentation-only example; no claim about a real person.",
+  "epistemic/class": "rumor",
+  "topic/class": "documentation-example",
+  "confidence": 0,
+  "disclosure/scope": "public",
+  "gossip/see-also": [
+    ["pl-nil-pwz", "<pwz-number>"],
+    ["community-archive-accession", "0007:collection:item"]
+  ]
+}

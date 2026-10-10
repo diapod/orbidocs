@@ -569,6 +569,11 @@ and in Memarium. This keeps rumor curation inside the same opinion
 mechanism that the substrate already uses for resources, proposals,
 and identities; no separate "rumor review" schema is introduced.
 
+This curation target is the rumor record, not a person or other resource
+mentioned in the rumor. Country-scoped resource namespaces and compact
+related-resource references follow [P026 §1.1–1.2](026-resource-opinions-and-discussion-surfaces.md#11-country-scoped-identifier-namespaces);
+they do not change the rumor's epistemic class or disclosure policy.
+
 The concrete mapping (per `rumor-opinion.overlay.v1` defined in
 proposal 026 §2.4) is:
 

@@ -1,0 +1,8 @@
+{
+  "schema": "resource-opinion.v1",
+  "opinion/text": "Documentation-only example; no assessment of a real person.",
+  "opinion/see-also": [
+    ["pl-nil-pwz", "<pwz-number>"],
+    ["community-archive-accession", "0007:collection:item"]
+  ]
+}

@@ -95,13 +95,13 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 64,
-            "description": "Kind of the referenced opinable object (e.g. `url`, `rumor`, `resource`, `public-person`, `opinion`)."
+            "description": "Kind of the referenced opinable object (e.g. `url`, `rumor`, `resource`, `public-person`, `opinion`). A direct resource reference uses the complete resource/kind namespace from proposal 026, including qualified kinds such as `pl-nil-pwz`; the catalogue remains open."
           },
           {
             "type": "string",
             "minLength": 1,
             "maxLength": 512,
-            "description": "Identifier of the referenced object in the form canonical for its kind (e.g. a URL string for `url`, a `sha256:…` record id for `rumor` or `opinion`, a URN for a resource)."
+            "description": "Identifier of the referenced object in the form canonical for its kind (e.g. a URL string for `url`, a `sha256:…` record id for `rumor` or `opinion`, a URN for a resource). A direct resource reference carries resource/id, not the derived resource/key. Consumers MUST NOT truncate an identifier to fit this field's bound."
           }
         ],
         "items": false,

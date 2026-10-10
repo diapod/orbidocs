@@ -8,6 +8,7 @@
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md",
     "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md",
     "doc/project/60-solutions/008-agora/008-agora-dir-simplify-impl.md"
   ],
@@ -125,13 +126,13 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 64,
-            "description": "Kind of referenced object, such as `url`, `record`, `topic`, or `resource`."
+            "description": "Kind of referenced object, such as `url`, `record`, `topic`, or `resource`. A direct resource reference uses the complete resource/kind namespace from proposal 026, including qualified kinds such as `pl-nil-pwz`; the catalogue remains open."
           },
           {
             "type": "string",
             "minLength": 1,
             "maxLength": 512,
-            "description": "Identifier of the referenced object in the form canonical for its kind."
+            "description": "Identifier of the referenced object in the form canonical for its kind. A direct resource reference carries resource/id, not the derived resource/key. Consumers MUST NOT truncate an identifier to fit this field's bound."
           }
         ],
         "items": false,
