@@ -546,10 +546,10 @@ lokalitu: zkracovat smyčku odpovědnosti, zahušťovat stopu rozhodnutí a vrac
 reputaci tam, kde by přirozeně mizela.
 
 [Ringelmannův efekt](https://www.sciencedirect.com/science/article/pii/002210317490033X)
-upozorňuje na příbuzné riziko: s růstem skupiny plnící společný úkol může průměrný
-příspěvek jednotlivce klesat kvůli obtížím s koordinací a oslabení motivace.
+upozorňuje na příbuzné riziko: s růstem skupiny plnící společný úkol může průměrný
+příspěvek jednotlivce klesat kvůli obtížím s koordinací a oslabení motivace.
 Nechápeme to jako nevyhnutelný osud velkých komunit, nýbrž jako důvod navrhovat
-jasné role, zviditelňovat význam vlastního příspěvku a udržovat krátké smyčky
+jasné role, zviditelňovat význam vlastního příspěvku a udržovat krátké smyčky
 zpětné vazby.
 
 V praxi to znamená navrhovat správu jako federaci malých, auditovatelných buněk
@@ -1018,9 +1018,9 @@ to promítá do odcizení a mizení pocitu odpovědnosti za následky vlastních
 ale podmínky, za nichž k tomu dochází, jsou především procedurální a architektonické,
 nikoli ekonomické, a proto jsou popsány právě v této hodnotě.
 
-Oslabení individuálního úsilí při kolektivním úkolu a rozptýlení odpovědnosti
-za jeho důsledky jsou různá rizika: první vyžaduje péči o koordinaci a motivaci,
-druhé – jasné autorství rozhodnutí a možnost volat jejich autory k odpovědnosti
+Oslabení individuálního úsilí při kolektivním úkolu a rozptýlení odpovědnosti
+za jeho důsledky jsou různá rizika: první vyžaduje péči o koordinaci a motivaci,
+druhé – jasné autorství rozhodnutí a možnost volat jejich autory k odpovědnosti
 za následky.
 
 Roj přijímá zásadu pojmenovaných rozhodnutí: každé procedurální rozhodnutí, které
