@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-authority-epoch.commit.request:v1",
+  "title": "Explicit communication epoch approval v1",
+  "x-dia-workflow": "project", "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md"],
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "preview", "approved/digest"],
+  "properties": {
+    "schema": {"const": "corpus-authority-epoch.commit.request.v1"},
+    "preview": {"$ref": "corpus-authority-epoch.preview.v1.schema.json"},
+    "approved/digest": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"}
+  }
+}

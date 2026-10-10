@@ -13,6 +13,10 @@
     "schema": {"const": "corpus-task-pack-chain-inspection.v1"},
     "query/id": {"$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"},
     "proposal": {"$ref": "corpus-reasoning-experiment-proposal.v2.schema.json"},
+    "candidate/adoption": {
+      "description": "Separate signed owner adoption when the exact historical proposal is reviewed in a fresh authority epoch. The owner verifies the source proposal and current query/Room binding; this inspection does not renew the proposal or grant effects.",
+      "$ref": "corpus-task-pack-candidate-adoption.v1.schema.json"
+    },
     "review": {"$ref": "corpus-reasoning-experiment-review.v4.schema.json"},
     "decision": {"$ref": "corpus-reasoning-chair-experiment-decision.v2.schema.json"},
     "decision/window": {

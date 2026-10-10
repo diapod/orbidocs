@@ -1,0 +1,673 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-delegation.request:v1",
+  "title": "operator-task-delegation.request.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Local control choices or approval of a retained preview. No private key, passphrase, replacement document or widened authority is accepted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "action"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-delegation.request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "action": {
+      "enum": [
+        "prepare",
+        "commit",
+        "revoke",
+        "status",
+        "prepare-plan",
+        "approve-run",
+        "start-turn",
+        "admit-reviewed",
+        "admit-experiment"
+      ]
+    },
+    "query/id": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "operator/binding-ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+    },
+    "allowed/actions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "model-turn",
+          "communication",
+          "chair-admit-reviewed",
+          "experiment-plan",
+          "experiment-step"
+        ]
+      }
+    },
+    "agent/profile-refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref"
+      }
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "preview/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "approved/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "run/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "choices": {
+      "$ref": "corpus-task-pack-turn.prepare.request.v1.schema.json"
+    },
+    "review/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "proposal/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "decision/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "query/id",
+        "operator/binding-ref",
+        "allowed/actions",
+        "agent/profile-refs",
+        "valid/until"
+      ],
+      "properties": {
+        "action": {
+          "const": "prepare"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "preview/ref",
+        "approved/digest"
+      ],
+      "properties": {
+        "action": {
+          "const": "commit"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "query/id"
+            ]
+          },
+          {
+            "required": [
+              "operator/binding-ref"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "query/id",
+        "operator/binding-ref"
+      ],
+      "properties": {
+        "action": {
+          "const": "revoke"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "query/id"
+      ],
+      "properties": {
+        "action": {
+          "const": "status"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "operator/binding-ref"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "run/ref",
+        "operator/binding-ref",
+        "valid/until"
+      ],
+      "properties": {
+        "action": {
+          "const": "prepare-plan"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "query/id"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "run/ref"
+      ],
+      "properties": {
+        "action": {
+          "const": "approve-run"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "query/id"
+            ]
+          },
+          {
+            "required": [
+              "operator/binding-ref"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "choices"
+      ],
+      "properties": {
+        "action": {
+          "const": "start-turn"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "query/id"
+            ]
+          },
+          {
+            "required": [
+              "operator/binding-ref"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "query/id",
+        "review/ref"
+      ],
+      "properties": {
+        "action": {
+          "const": "admit-reviewed"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "operator/binding-ref"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "proposal/ref"
+            ]
+          },
+          {
+            "required": [
+              "decision/ref"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "query/id",
+        "proposal/ref",
+        "decision/ref"
+      ],
+      "properties": {
+        "action": {
+          "const": "admit-experiment"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "operator/binding-ref"
+            ]
+          },
+          {
+            "required": [
+              "allowed/actions"
+            ]
+          },
+          {
+            "required": [
+              "agent/profile-refs"
+            ]
+          },
+          {
+            "required": [
+              "valid/until"
+            ]
+          },
+          {
+            "required": [
+              "preview/ref"
+            ]
+          },
+          {
+            "required": [
+              "approved/digest"
+            ]
+          },
+          {
+            "required": [
+              "run/ref"
+            ]
+          },
+          {
+            "required": [
+              "choices"
+            ]
+          },
+          {
+            "required": [
+              "review/ref"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

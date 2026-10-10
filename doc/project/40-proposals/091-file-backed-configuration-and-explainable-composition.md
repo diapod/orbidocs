@@ -27,6 +27,10 @@ Related: [Proposal 090: Inference Execution Provenance](090-inference-execution-
 Configuration explains selected behavior; P090 describes evidence about a realized
 inference. Neither descriptor substitutes for the other.
 
+Related UI work: [P095: Node UI Interaction Layer](095-node-ui-interaction-layer.md)
+keeps transient panel/focus state in memory. Durable behavioral preferences remain
+subject to P091; P095 introduces no browser-local settings authority.
+
 ## Status
 
 Proposed. The operator requested this design direction on 2026-09-06. Existing

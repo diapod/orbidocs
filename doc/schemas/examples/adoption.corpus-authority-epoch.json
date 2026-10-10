@@ -1,0 +1,62 @@
+{
+  "schema": "corpus-authority-epoch.v1",
+  "epoch/ref": "corpus-authority-epoch:sha256:LpMUuY2hOqYXDZDPl9D8Fx1dcZ0H54i1qFEQLGNWfJg",
+  "epoch/no": 1,
+  "origin": {
+    "logical-round/id": "query:qmail-open-relay",
+    "owner/node-id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt",
+    "federation/id": "federation:test",
+    "task-binding/ref": "operator-task-local-binding:qmail-on-workbench-a",
+    "task-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+    "problem/digest": "sha256:R6STVnIIMbZvOLvhLAbmz3Gmcnex9eaihZPnOv3m8iY",
+    "deadline": "2026-10-09T18:30:00Z",
+    "participants": [
+      {
+        "kind": "nym",
+        "id": "nym:reviewer"
+      },
+      {
+        "kind": "nym",
+        "id": "nym:solver"
+      }
+    ],
+    "context": {
+      "query/id": "query:qmail-open-relay",
+      "room/id": "room:qmail-open-relay",
+      "query/digest": "sha256:YcbA6cVrrxrwYAjy4azQVqkybncpiNw8jsY2wIEi-g8",
+      "room-policy/digest": "sha256:fDWxvnz-lF2OcomtjGjs6VnO5Lz5FFcg4DgKa6jma_0"
+    }
+  },
+  "context": {
+    "query/id": "query:adoption-current",
+    "room/id": "room:adoption-current",
+    "query/digest": "sha256:gTf2Al9aOkp2OpcLTyXQA7cTouNf_AgCcNdyd1D9Hdk",
+    "room-policy/digest": "sha256:2bS6PLTUZsk0PpjkdK9uXro4DNEeojsHRtgBy28lt4I"
+  },
+  "chair/mandate": {
+    "kind": "local-operator",
+    "operator/binding-ref": "node-operator-binding:test",
+    "participant/ref": "participant:test",
+    "node/id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+  },
+  "grants": [
+    "answer",
+    "observe",
+    "speak"
+  ],
+  "retained/inputs": [
+    {
+      "source/query-id": "query:qmail-open-relay",
+      "source/ref": "corpus-task-pack-candidate-publication:sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+      "source/digest": "sha256:BzG3X8-oxiL8V0z39aorRqR3hceYZ-WK6O3w5wPTMNQ",
+      "source/provenance-digest": "sha256:6wRXmP1Tjul56w7JzPweuzbEXV0qDv98O7f_vaIFy5A"
+    }
+  ],
+  "created/at": "2026-10-09T18:00:00Z",
+  "valid/until": "2026-10-09T18:15:00Z",
+  "signature": {
+    "alg": "ed25519+domain-v1",
+    "value": "P5roO0QeMtrieyi2FA1-4gSUhHmPe3NbsCOcevDSDX0HtzHVecIaQ1ZygfSgtkb0rBK5Gp6dU0tkLCoklFGmCw",
+    "key/public": "z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-authority-epoch.preview:v1",
+  "title": "Exact owner-resolved communication epoch preview v1",
+  "description": "Separate approval binds the immutable logical origin, current predecessor, communication-only rights, fresh Room choices and exact inert historical inputs. This is not a membership receipt or experiment permit. The owner rechecks scope and current authority on commit.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md", "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "source/query-id", "origin", "epoch/no", "chair/mandate", "grants", "retained/inputs", "created/at", "valid/until", "round"],
+  "properties": {
+    "schema": {"const": "corpus-authority-epoch.preview.v1"},
+    "source/query-id": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/query"},
+    "origin": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/origin"},
+    "epoch/no": {"type": "integer", "minimum": 1, "maximum": 64},
+    "previous/epoch-ref": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/epoch-ref"},
+    "chair/mandate": {"$ref": "corpus-authority-epoch.v1.schema.json#/properties/chair~1mandate"},
+    "grants": {"const": ["answer", "observe", "speak"]},
+    "retained/inputs": {"$ref": "corpus-authority-epoch.v1.schema.json#/properties/retained~1inputs"},
+    "created/at": {"type": "string", "format": "date-time"},
+    "valid/until": {"type": "string", "format": "date-time"},
+    "round": {"$ref": "corpus-local-round.preview.v1.schema.json"}
+  },
+  "allOf": [{
+    "if": {"required": ["epoch/no"], "properties": {"epoch/no": {"const": 1}}},
+    "then": {"not": {"required": ["previous/epoch-ref"]}},
+    "else": {"required": ["previous/epoch-ref"]}
+  }]
+}

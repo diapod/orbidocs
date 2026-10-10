@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-candidate-adoption:v1",
+  "title": "Corpus Task-Pack Candidate Adoption v1",
+  "description": "Separate owner-signed adoption of an exact historical Solver source for fresh review in one communication epoch. Original proposal bytes, attribution, signature and expiry are preserved, not renewed. Owner admission resolves all commitments, the active epoch head and current mandate. Adoption grants no VM, effect, HIL or publication consent. A fresh review and separate Chair decision are required. Canonical carrier is bounded to 32 KiB by the core.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "adoption/ref",
+    "epoch/ref",
+    "context",
+    "owner/node-id",
+    "chair/mandate",
+    "source",
+    "approved/digest",
+    "adopted/at",
+    "valid/until",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-candidate-adoption.v1"
+    },
+    "adoption/ref": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^corpus-task-pack-candidate-adoption:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "epoch/ref": {
+      "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/epoch-ref"
+    },
+    "context": {
+      "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/context"
+    },
+    "owner/node-id": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^node:did:key:[A-Za-z0-9._:/-]+$"
+    },
+    "chair/mandate": {
+      "allOf": [
+        {
+          "$ref": "corpus-chair-mandate.v1.schema.json"
+        },
+        {
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "local-operator"
+            }
+          }
+        }
+      ]
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "approved/digest": {
+      "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"
+    },
+    "adopted/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid/until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "$ref": "corpus-authority-epoch.v1.schema.json#/properties/signature"
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal",
+        "input",
+        "publication/digest",
+        "agent/id",
+        "agent/product-ref",
+        "agent/product-digest",
+        "passage/ref"
+      ],
+      "properties": {
+        "proposal": {
+          "$ref": "corpus-reasoning-experiment-proposal.v2.schema.json"
+        },
+        "input": {
+          "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/input"
+        },
+        "publication/digest": {
+          "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"
+        },
+        "agent/id": {
+          "type": "string",
+          "maxLength": 512,
+          "pattern": "^agent:[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "agent/product-ref": {
+          "type": "string",
+          "maxLength": 512,
+          "pattern": "^agent-inference-product:[^\\s\\u0000-\\u001f\\u007f]+$"
+        },
+        "agent/product-digest": {
+          "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"
+        },
+        "passage/ref": {
+          "type": "string",
+          "maxLength": 512,
+          "pattern": "^agent-passage:[^\\s\\u0000-\\u001f\\u007f]+$"
+        }
+      }
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "epoch/ref",
+        "context",
+        "owner/node-id",
+        "chair/mandate",
+        "source",
+        "adopted/at",
+        "valid/until"
+      ],
+      "properties": {
+        "schema": {
+          "const": "corpus-task-pack-candidate-adoption.preview.v1"
+        },
+        "epoch/ref": {
+          "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/epoch-ref"
+        },
+        "context": {
+          "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/context"
+        },
+        "owner/node-id": {
+          "type": "string",
+          "maxLength": 512,
+          "pattern": "^node:did:key:[A-Za-z0-9._:/-]+$"
+        },
+        "chair/mandate": {
+          "allOf": [
+            {
+              "$ref": "corpus-chair-mandate.v1.schema.json"
+            },
+            {
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "local-operator"
+                }
+              }
+            }
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "adopted/at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "valid/until": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

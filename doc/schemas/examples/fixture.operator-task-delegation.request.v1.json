@@ -1,0 +1,18 @@
+{
+  "schema": "operator-task-delegation.request.v1",
+  "schema/v": 1,
+  "action": "prepare",
+  "query/id": "query:fixture",
+  "operator/binding-ref": "node-operator-binding:fixture",
+  "allowed/actions": [
+    "model-turn",
+    "communication",
+    "chair-admit-reviewed",
+    "experiment-plan",
+    "experiment-step"
+  ],
+  "agent/profile-refs": [
+    "agent-profile:bounded"
+  ],
+  "valid/until": "2026-10-10T08:30:00Z"
+}

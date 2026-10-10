@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-delegation-preview:v1",
+  "title": "operator-task-delegation-preview.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Host-retained exact approval document and its expiry. Commitment covers document and preview deadline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "preview/ref",
+    "preview/digest",
+    "expires-at",
+    "document"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-delegation-preview.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "preview/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "preview/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "document": {
+      "oneOf": [
+        {
+          "$ref": "operator-task-loop-mandate-payload.v1.schema.json"
+        },
+        {
+          "$ref": "operator-task-plan-consent.v1.schema.json"
+        }
+      ]
+    }
+  }
+}

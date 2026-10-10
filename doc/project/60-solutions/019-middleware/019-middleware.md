@@ -45,6 +45,12 @@ Related schemas:
 
 Implemented MVP, with active extension points.
 
+Related UI design (proposed):
+[P095: Node UI Interaction Layer](../../40-proposals/095-node-ui-interaction-layer.md)
+preserves module-owned HTML surfaces while keeping shared interaction controllers
+and shell targets host-owned. It grants no new executable UI or native authority
+to middleware packages.
+
 `Proposal 027: Middleware Peer-Message Dispatch` is closed in this solution.
 The implemented slice includes built-in capability schema presentation with
 middleware fallback for valid unknown schema refs, terminal

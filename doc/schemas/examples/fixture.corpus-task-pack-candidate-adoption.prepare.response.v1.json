@@ -1,0 +1,72 @@
+{
+  "schema": "corpus-task-pack-candidate-adoption.prepare.response.v1",
+  "preview": {
+    "schema": "corpus-task-pack-candidate-adoption.preview.v1",
+    "valid/until": "2026-10-09T18:15:00Z",
+    "epoch/ref": "corpus-authority-epoch:sha256:LpMUuY2hOqYXDZDPl9D8Fx1dcZ0H54i1qFEQLGNWfJg",
+    "context": {
+      "query/id": "query:adoption-current",
+      "room/id": "room:adoption-current",
+      "query/digest": "sha256:gTf2Al9aOkp2OpcLTyXQA7cTouNf_AgCcNdyd1D9Hdk",
+      "room-policy/digest": "sha256:2bS6PLTUZsk0PpjkdK9uXro4DNEeojsHRtgBy28lt4I"
+    },
+    "owner/node-id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt",
+    "chair/mandate": {
+      "kind": "local-operator",
+      "operator/binding-ref": "node-operator-binding:test",
+      "participant/ref": "participant:test",
+      "node/id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+    },
+    "source": {
+      "proposal": {
+        "schema/v": 2,
+        "proposal/ref": "corpus-experiment:sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
+        "query/id": "query:qmail-open-relay",
+        "room/id": "room:qmail-open-relay",
+        "turn/id": "corpus-turn:sha256:BCI0NvyPUOuIjIfwzb1lW37ReOe7tnsYe-Ua1bRL_rc",
+        "author": {
+          "kind": "nym",
+          "id": "did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
+        },
+        "author/node-id": "node:did:key:z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1",
+        "executor": {
+          "mode": "deterministic-host-compiler"
+        },
+        "candidate": {
+          "artifact/type": "operator-task-experiment-candidate.v1",
+          "ref": "operator-task-experiment-candidate:qmail-01",
+          "artifact-ref": "object-store:sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A",
+          "digest": "sha256:FPidKwubLf5d6OzruHL3EWrUJ9fzGOjhGJsB9p0N1-A"
+        },
+        "target": {
+          "task-profile/ref": "operator-task-profile:qmail-local-administration",
+          "task-profile/digest": "sha256:qOpwTunafl7k27Iz3HYIQMMrPniAOvCKLp48kU16a70",
+          "binding/ref": "operator-task-local-binding:qmail-on-workbench-a"
+        },
+        "class/key": "Community",
+        "human-in-loop/required": true,
+        "proposed-at": "2026-09-25T11:50:00Z",
+        "expires-at": "2026-09-25T12:50:00Z",
+        "idempotency/key": "qmail-open-relay-01",
+        "signature": {
+          "alg": "ed25519+domain-v1",
+          "value": "QrO_wnPRXjmzoBq4HNlVHd9czV9uqkL8JwOfyPOH6VoA-RPgKWm5ElZpDhXqSCb0RIgYgjrDkS7iutzZNakXCg",
+          "key/public": "z6MksPykuQeYh4zgthFRFBExrgo1dwFWWenY2TEJ9SvT9jn1"
+        }
+      },
+      "input": {
+        "source/query-id": "query:qmail-open-relay",
+        "source/ref": "corpus-task-pack-candidate-publication:sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+        "source/digest": "sha256:BzG3X8-oxiL8V0z39aorRqR3hceYZ-WK6O3w5wPTMNQ",
+        "source/provenance-digest": "sha256:6wRXmP1Tjul56w7JzPweuzbEXV0qDv98O7f_vaIFy5A"
+      },
+      "publication/digest": "sha256:P2YgBMtGdr6KqOrhpqIyiutpPfSM7ruB9JLms0hy9Oc",
+      "agent/id": "agent:solver",
+      "agent/product-ref": "agent-inference-product:original",
+      "agent/product-digest": "sha256:SLwrDNJy0tYmKZllN6eTh5bItuHVNdGKwbpk_dMx25U",
+      "passage/ref": "agent-passage:original"
+    },
+    "adopted/at": "2026-10-09T18:01:00Z"
+  },
+  "preview/digest": "sha256:Reihm-98SgN-wfnA6MwGcd9PIrrICuhGZchbho6TIVM"
+}

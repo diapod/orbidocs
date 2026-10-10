@@ -1,0 +1,50 @@
+{
+  "schema": "operator-task-loop-mandate.v1",
+  "schema/v": 1,
+  "mandate/ref": "operator-task-mandate:fixture",
+  "payload": {
+    "schema": "operator-task-loop-mandate-payload.v1",
+    "schema/v": 1,
+    "loop/query-id": "query:fixture",
+    "loop/opening-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "pins": {
+      "node/ref": "node:fixture",
+      "operator/binding-ref": "node-operator-binding:fixture",
+      "participant/ref": "participant:fixture",
+      "binding/ref": "operator-task-local-binding:fixture",
+      "binding/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "task-profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "activation/generation": 1
+    },
+    "bounds": {
+      "max/passages": 8,
+      "max/solver-passages": 4,
+      "max/reviewer-passages": 4,
+      "max/cycles": 4,
+      "max/experiments": 2,
+      "max/wall-time-ms": 1800000
+    },
+    "agent/profiles": [
+      {
+        "profile/ref": "agent-profile:bounded",
+        "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    ],
+    "delegate/ref": "local-executor:task-pack-delegate",
+    "allowed/actions": [
+      "model-turn",
+      "communication",
+      "chair-admit-reviewed",
+      "experiment-plan",
+      "experiment-step"
+    ],
+    "valid/from": "2026-10-10T08:00:00Z",
+    "valid/until": "2026-10-10T08:30:00Z",
+    "confirmation/mode": "delegated"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key/public": "zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

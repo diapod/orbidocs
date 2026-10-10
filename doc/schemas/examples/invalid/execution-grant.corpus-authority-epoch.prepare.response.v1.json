@@ -1,0 +1,123 @@
+{
+  "schema": "corpus-authority-epoch.prepare.response.v1",
+  "preview": {
+    "schema": "corpus-authority-epoch.preview.v1",
+    "source/query-id": "query:epoch-0",
+    "origin": {
+      "logical-round/id": "query:epoch-0",
+      "owner/node-id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt",
+      "federation/id": "test-federation",
+      "task-binding/ref": "operator-task-local-binding:test",
+      "task-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+      "problem/digest": "sha256:R6STVnIIMbZvOLvhLAbmz3Gmcnex9eaihZPnOv3m8iY",
+      "deadline": "2026-10-08T18:30:00Z",
+      "participants": [
+        {
+          "kind": "nym",
+          "id": "nym:reviewer"
+        },
+        {
+          "kind": "nym",
+          "id": "nym:solver"
+        }
+      ],
+      "context": {
+        "query/id": "query:epoch-0",
+        "room/id": "room:epoch-0",
+        "query/digest": "sha256:Sf5Mqt4RBwrGEZq7G8V5kD0Tb8g_ziE39ZM8GlDEmho",
+        "room-policy/digest": "sha256:c36otEBMfmXmlaCti-Jxs3NN9EMpxOxyRNvv6VqaHiM"
+      }
+    },
+    "epoch/no": 1,
+    "chair/mandate": {
+      "kind": "local-operator",
+      "operator/binding-ref": "node-operator-binding:test",
+      "participant/ref": "participant:test",
+      "node/id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+    },
+    "grants": [
+      "answer",
+      "observe",
+      "speak",
+      "vm-execute"
+    ],
+    "retained/inputs": [
+      {
+        "source/query-id": "query:epoch-0",
+        "source/ref": "agent-product:repair",
+        "source/digest": "sha256:oaFP9Kq08dPvvi8_6OMuxoYom6leWy_D4fOAUtZNpSI",
+        "source/provenance-digest": "sha256:ltgVMopCy074nV4Leh32vkO0hIMsg6e0WW2EAsfAsSs"
+      }
+    ],
+    "created/at": "2026-10-08T18:00:00Z",
+    "valid/until": "2026-10-08T18:15:00Z",
+    "round": {
+      "schema": "corpus-local-round.preview.v1",
+      "federation/id": "test-federation",
+      "choices": {
+        "schema": "corpus-local-round.prepare.request.v1",
+        "operator/binding-ref": "node-operator-binding:test",
+        "task-binding/ref": "operator-task-local-binding:test",
+        "problem/text": "Investigate local mail routing without widening relay authority.",
+        "participants": [
+          {
+            "kind": "nym",
+            "id": "nym:reviewer"
+          },
+          {
+            "kind": "nym",
+            "id": "nym:solver"
+          }
+        ],
+        "topic/term": "mail/qmail"
+      },
+      "prepared/at": "2026-10-08T18:00:00Z",
+      "valid/until": "2026-10-08T18:05:00Z",
+      "task-binding/digest": "sha256:gPcK_u88qldkb9IK-5W-nD8sA9OOCRkG3jGDiBPcwi4",
+      "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "participant/ref": "participant:test",
+      "topic/term": "mail/qmail",
+      "taxonomy/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "policy": {
+        "schema/v": 4,
+        "query/id": "query:epoch-1",
+        "room/id": "room:epoch-1",
+        "exposure": "private-to-swarm",
+        "answer/acceptance": "chair-signed",
+        "chair/mode": "requester-appointed",
+        "chair/nym": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG",
+        "chair/mandate": {
+          "kind": "local-operator",
+          "operator/binding-ref": "node-operator-binding:test",
+          "participant/ref": "participant:test",
+          "node/id": "node:did:key:z6MkrEVGLPYHhLGBQ25Bh5DXSakRiDpdoj7fdsNZSqYPcUGt"
+        },
+        "quorum/required": 1,
+        "tie-break": "chair",
+        "revocation-policy": "chair-or-requester",
+        "budget": {
+          "time-ms": 300000,
+          "steps": 32,
+          "tokens": 16384
+        },
+        "access/list": [
+          {
+            "kind": "nym",
+            "id": "nym:did:key:z6MkqgTgrmU9RmnNpKnggispapnngzYDwgscEr7MWuJnFeYG"
+          },
+          {
+            "kind": "nym",
+            "id": "nym:reviewer"
+          },
+          {
+            "kind": "nym",
+            "id": "nym:solver"
+          }
+        ],
+        "created-at": "2026-10-08T18:00:00Z",
+        "expires-at": "2026-10-08T18:15:00Z"
+      }
+    }
+  },
+  "preview/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}

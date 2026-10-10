@@ -422,8 +422,8 @@ execution-loop approval and HIL remain distinct owner transitions. Real
 operator-path qualification, rather than historical harness evidence, closes
 this follow-up.
 
-Authority continuation decision (2026-10-08, **pure contract locally qualified;
-runtime pending**):
+Authority continuation decision (2026-10-08; owner/API/UI development checkpoint
+2026-10-09, **real continuation qualification pending**):
 `P069-PREP-002` retains one logical round and cumulative budget/history while
 each signed `corpus-authority-epoch.v1` names a new immutable query/Room context.
 The pure contract fixes origin, predecessor, historical input/provenance
@@ -433,8 +433,20 @@ logical-round deadline. Old signatures
 and results remain history, not renewed authority. The Corpus owner must admit
 the current mandate and exact sources, fence the epoch head and preserve the
 shared accounting root; Room continues to own current membership. Historical
-candidate adoption, runtime recovery, guided UI and real continuation are still
-pending. No VM, HIL, lease or publication approval is inherited.
+candidate adoption is now an explicit owner-signed task-pack transition, not a
+renewed Solver signature. The runtime now
+retains the approved signed source and historical-input pins before Room
+materialization, then separately activates the live head. Exact recovery and
+replay recheck current authority, share the original accounting root and never
+re-sign or open another loop. A thin UI previews and confirms that transition;
+retained history stays readable with blockers after expiry/revocation or without
+a live listener. A separate `corpus-task-pack-candidate-adoption.v1` preview and
+approval preserves the original producer bytes; a fresh review and Chair
+decision bind the current context, and the handoff/signed execution retains the
+adoption ref. The ordinary gate stays closed for historical proposals.
+Cross-epoch coordinator and real browser/model qualification remain open before
+this is a completed Solver/Reviewer continuation.
+No VM, HIL, lease or publication approval is inherited.
 
 Based on:
 

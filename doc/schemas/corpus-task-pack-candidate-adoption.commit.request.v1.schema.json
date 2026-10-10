@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-candidate-adoption.commit.request:v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "title": "corpus-task-pack-candidate-adoption.commit.request.v1",
+  "description": "Owner-resolved choices and exact preview approval; not experiment permission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "preview",
+    "approved/digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-candidate-adoption.commit.request.v1"
+    },
+    "preview": {
+      "$ref": "corpus-task-pack-candidate-adoption.v1.schema.json#/$defs/preview"
+    },
+    "approved/digest": {
+      "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"
+    }
+  }
+}

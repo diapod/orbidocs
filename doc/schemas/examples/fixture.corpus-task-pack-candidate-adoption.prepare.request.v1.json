@@ -1,0 +1,6 @@
+{
+  "schema": "corpus-task-pack-candidate-adoption.prepare.request.v1",
+  "query/id": "query:adoption-current",
+  "proposal/ref": "corpus-experiment:sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",
+  "operator/binding-ref": "node-operator-binding:test"
+}

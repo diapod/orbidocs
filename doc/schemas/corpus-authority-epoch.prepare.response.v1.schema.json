@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-authority-epoch.prepare.response:v1",
+  "title": "Communication epoch preparation response v1",
+  "x-dia-workflow": "project", "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md"],
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "preview", "preview/digest"],
+  "properties": {
+    "schema": {"const": "corpus-authority-epoch.prepare.response.v1"},
+    "preview": {"$ref": "corpus-authority-epoch.preview.v1.schema.json"},
+    "preview/digest": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"}
+  }
+}

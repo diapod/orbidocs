@@ -152,6 +152,27 @@ schema_for_file() {
     *.operator-task-experiment-plan.json)
       echo "$SCHEMAS_DIR/operator-task-experiment-plan.v1.schema.json"
       ;;
+    *.operator-task-loop-mandate-payload.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-loop-mandate-payload.v1.schema.json"
+      ;;
+    *.operator-task-loop-mandate.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-loop-mandate.v1.schema.json"
+      ;;
+    *.operator-task-delegated-confirmation.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-delegated-confirmation.v1.schema.json"
+      ;;
+    *.operator-task-plan-consent.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-plan-consent.v1.schema.json"
+      ;;
+    *.operator-task-delegation.request.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-delegation.request.v1.schema.json"
+      ;;
+    *.operator-task-delegation-preview.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-delegation-preview.v1.schema.json"
+      ;;
+    *.operator-task-delegation-status.v1.json)
+      echo "$SCHEMAS_DIR/operator-task-delegation-status.v1.schema.json"
+      ;;
     *.operator-task-verifier.json)
       echo "$SCHEMAS_DIR/operator-task-verifier.v1.schema.json"
       ;;
@@ -223,6 +244,10 @@ schema_for_file() {
       ;;
     *.corpus-authority-epoch.json)
       echo "$SCHEMAS_DIR/corpus-authority-epoch.v1.schema.json"
+      ;;
+    *.corpus-authority-epoch.*.v1.json|*.corpus-task-pack-candidate-adoption*.v1.json)
+      family=$(basename "$1" .json | sed 's/^[^.]*\.//')
+      echo "$SCHEMAS_DIR/$family.schema.json"
       ;;
     *.corpus-chair-mandate.json)
       echo "$SCHEMAS_DIR/corpus-chair-mandate.v1.schema.json"

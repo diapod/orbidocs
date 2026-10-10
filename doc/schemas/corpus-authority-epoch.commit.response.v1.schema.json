@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-authority-epoch.commit.response:v1",
+  "title": "Retained and activated communication epoch v1",
+  "description": "The exact signed transition is retained before creating its Room. Activation does not issue invitations, open a loop, renew its deadline or authorize effects. Those remain separate owner operations.",
+  "x-dia-workflow": "project", "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md"],
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "epoch", "approved/digest", "replayed", "query/id", "room/id", "participants/ready", "loop/opened", "effects/authorized"],
+  "properties": {
+    "schema": {"const": "corpus-authority-epoch.commit.response.v1"},
+    "epoch": {"$ref": "corpus-authority-epoch.v1.schema.json"},
+    "approved/digest": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/digest"},
+    "replayed": {"type": "boolean"},
+    "query/id": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/query"},
+    "room/id": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/room"},
+    "participants/ready": {"const": false},
+    "loop/opened": {"const": false},
+    "effects/authorized": {"const": false}
+  }
+}

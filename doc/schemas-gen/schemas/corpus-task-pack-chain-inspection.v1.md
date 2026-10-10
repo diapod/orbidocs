@@ -17,6 +17,7 @@ Read-only, owner-verified exact records for a human Chair. The host verifies que
 | [`schema`](#field-schema) | `yes` | const: `corpus-task-pack-chain-inspection.v1` |  |
 | [`query/id`](#field-query-id) | `yes` | ref: `corpus-task-pack-turn.prepare.request.v1.schema.json#/$defs/ref` |  |
 | [`proposal`](#field-proposal) | `yes` | ref: `corpus-reasoning-experiment-proposal.v2.schema.json` |  |
+| [`candidate/adoption`](#field-candidate-adoption) | `no` | ref: `corpus-task-pack-candidate-adoption.v1.schema.json` | Separate signed owner adoption when the exact historical proposal is reviewed in a fresh authority epoch. The owner verifies the source proposal and current query/Room binding; this inspection does not renew the proposal or grant effects. |
 | [`review`](#field-review) | `yes` | ref: `corpus-reasoning-experiment-review.v4.schema.json` |  |
 | [`decision`](#field-decision) | `no` | ref: `corpus-reasoning-chair-experiment-decision.v2.schema.json` |  |
 | [`decision/window`](#field-decision-window) | `yes` | object | Owner-observed lifetime of the exact signed chain. Current does not grant authority: Chair and experiment admission recheck it independently. Expired records remain inspectable, never renewed in place. |
@@ -40,6 +41,14 @@ Read-only, owner-verified exact records for a human Chair. The host verifies que
 
 - Required: `yes`
 - Shape: ref: `corpus-reasoning-experiment-proposal.v2.schema.json`
+
+<a id="field-candidate-adoption"></a>
+## `candidate/adoption`
+
+- Required: `no`
+- Shape: ref: `corpus-task-pack-candidate-adoption.v1.schema.json`
+
+Separate signed owner adoption when the exact historical proposal is reviewed in a fresh authority epoch. The owner verifies the source proposal and current query/Room binding; this inspection does not renew the proposal or grant effects.
 
 <a id="field-review"></a>
 ## `review`

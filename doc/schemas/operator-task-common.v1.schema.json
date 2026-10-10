@@ -127,6 +127,7 @@
     },
     "hilMode": {
       "enum": [
+        "whole-plan",
         "each-step",
         "each-mutation"
       ]
@@ -262,6 +263,11 @@
         "interface/lease-lost",
         "hil/denied",
         "hil/expired",
+        "delegation/missing",
+        "delegation/revoked",
+        "delegation/expired",
+        "delegation/substituted",
+        "delegation/outside-scope",
         "verifier/check-missing",
         "verifier/mutation-not-admitted",
         "verifier/timeout",

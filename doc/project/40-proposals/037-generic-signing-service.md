@@ -937,6 +937,36 @@ need to apply the same wrap). Two strategies:
 Recommendation: Strategy B for MVP (zero regression for existing Orbiplex
 nodes), Strategy A scheduled as a follow-up hardening.
 
+### Scoped local operator shell checkpoint — 2026-10-10
+
+Node adds `orbiplex-node-sign`, a bounded local one-shot shell over the same
+primary-key backend, envelope unsealer and `SignerEngine`. Its reason is
+separation of ownership: signing a prepared artifact must not require successful
+Agent/Corpus projection recovery. It does not migrate or bypass those components'
+history in the full daemon, start inference, export keys, or admit an artifact.
+
+The selected profile must be stopped; quiescence is an explicit operator
+precondition, not an automatic concurrent-owner fence. The shell reconstructs
+all retained primary participants from their active/archived identity streams
+in one integrity-checked pass per stream, without reading unrelated histories.
+It requires exactly one operator, the exact expected primary public key and
+signing-payload digest, and applies the current `operator`
+domain policy before unlocking. A human supplies the existing passphrase on
+protected stdin. Single-use unlock stays in memory; raw Ed25519 and caller-owned
+canonicalization/domain wrapping retain their existing meanings. A verified
+signature is released only after durable redacted planned/outcome facts, with
+atomic create-only response publication by the CLI. Signing does not grant
+import, activation, model, Room, VM, file-mutation or publication authority.
+
+The same preparation is available as `--check-only`, with no passphrase input,
+unlock, signing audit or response publication. A successful check is not an
+unlock receipt or proof of whole-daemon recovery; signing repeats admission.
+
+See `node:docs/operations/OFFLINE-OPERATOR-SIGNING.md` for exact request bounds,
+audit, output-failure interpretation and the human unlock ceremony. This scoped
+implementation does not complete P037, change contract maturity, or promote
+hard-MVP/P094 runtime acceptance.
+
 ## Relationship to Prior Proposals
 
 ### Proposal 024 (Capability Passports)

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-loop-mandate:v1",
+  "title": "operator-task-loop-mandate.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Domain-separated operator signature over the JCS payload. The host verifies exact bytes, current authority, opening, bounds, expiry and durable revocation before every use.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "mandate/ref",
+    "payload",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-loop-mandate.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "mandate/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "payload": {
+      "$ref": "operator-task-loop-mandate-payload.v1.schema.json"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "key/public",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519+domain-v1"
+        },
+        "key/public": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}

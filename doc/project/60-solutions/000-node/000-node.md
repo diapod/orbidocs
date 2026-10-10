@@ -257,6 +257,14 @@ Responsibilities:
 - surface locked, unauthorized, bad-passphrase, and rate-limited states through
   stable local host-capability responses.
 
+Scoped Node implementation also provides `orbiplex-node-sign` for one exact
+operator payload in a stopped profile, without Agent/Corpus replay or runtime
+startup. It reuses current signer policy, primary-key storage and unsealing;
+keys and unlock tokens are not exported. Artifact admission and execution remain
+separate. See the [P037 checkpoint](../../40-proposals/037-generic-signing-service.md#scoped-local-operator-shell-checkpoint-2026-10-10)
+and `node:docs/operations/OFFLINE-OPERATOR-SIGNING.md`. This does not change the
+component's `partial` status or hard-MVP scope.
+
 TODO:
 - migrate the deployed verifier set to domain-wrapped signatures and then enable
   domain wrapping by default for signer-routed artifacts,

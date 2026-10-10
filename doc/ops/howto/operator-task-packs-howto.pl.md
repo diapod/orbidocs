@@ -12,6 +12,13 @@ zatwierdzenie dokładnej oferty, zadanie lokalne lub z kolejki zdalnej, HIL dla
 każdej mutacji, dowody weryfikacji/destrukcji, pause/resume, recovery, withdrawal
 i revokację. Używa istniejących API, bez przedstawiania planowanych komend jako gotowych.
 
+Checkpoint developerski kontynuacji komunikacji dodaje do strony uczestników
+dokładny podgląd epoki, zatwierdzenie i recovery przerwanego przygotowania Roomu.
+Zachowuje pierwotny łączny budżet i termin pętli, ale nie dziedziczy członkostwa
+ani zgód na efekty. Adopcja historycznego kandydata i routing zadania między
+epokami nie są jeszcze zaimplementowane; nie jest to pełna kwalifikacja
+prowadzonej kontynuacji. HOWTO Node opisuje wynikającą z tego odmowę pozycji.
+
 Pochodzenie pakietu, lokalne zaufanie i bieżący autorytet wykonania są odrębne.
 [Proposal 094](../../project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md)
 jest właścicielem ograniczeń i decyzji; [Story 013](../../project/30-stories/story-013-qmail-task-pack.md)

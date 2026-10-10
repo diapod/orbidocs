@@ -1,0 +1,6 @@
+{
+  "schema": "corpus-authority-epoch.prepare.request.v1",
+  "query/id": "query:epoch-0",
+  "operator/binding-ref": "node-operator-binding:test",
+  "retained/input-refs": []
+}

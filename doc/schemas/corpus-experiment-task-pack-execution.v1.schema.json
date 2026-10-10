@@ -37,6 +37,10 @@
       "type": "string",
       "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$"
     },
+    "candidate/adoption-ref": {
+      "$ref": "corpus-task-pack-candidate-adoption.v1.schema.json#/properties/adoption~1ref",
+      "description": "The exact separate owner adoption, preserved by the handoff and covered by this execution signature. Required by the relation gate for a historical proposal."
+    },
     "query/id": {
       "type": "string",
       "pattern": "^query:[^\\s]+$",

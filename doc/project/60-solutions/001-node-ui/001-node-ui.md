@@ -40,6 +40,12 @@ the solution layer focused on ownership and architecture while preserving a
 single operational source for developers changing concrete templates, handlers,
 and CSS/JS helpers.
 
+Related design (not yet implementation):
+[P095: Node UI Interaction Layer](../../40-proposals/095-node-ui-interaction-layer.md)
+plans shared panel, focus, scroll and return mechanics over existing HTMX
+representations, with a gated Stimulus compatibility spike. It preserves daemon
+authority and middleware HTML surfaces; native host integration stays in P052.
+
 ## Admitted Web Finding Review
 
 P084-012c adds an operator queue over the daemon's existing Harvester review API.

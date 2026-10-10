@@ -7,7 +7,7 @@
   "x-dia-basis": [
     "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
   ],
-  "description": "The HIL requests of one run and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.",
+  "description": "The requests of one run: pending, decided by a human, expired, or superseded by an exact delegated confirmation for an already admitted step. Supersession is not a human answer. The attention gate never approves.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -57,7 +57,8 @@
           "enum": [
             "pending",
             "decided",
-            "expired"
+            "expired",
+            "superseded"
           ]
         },
         "delivery": {
@@ -70,11 +71,15 @@
         },
         "decision": {
           "$ref": "operator-task-hil-decision.v1.schema.json"
+        },
+        "confirmation/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
         }
       },
       "allOf": [
         {
           "if": {
+            "required": ["state"],
             "properties": {
               "state": {
                 "const": "decided"
@@ -96,6 +101,7 @@
         },
         {
           "if": {
+            "required": ["state"],
             "properties": {
               "state": {
                 "const": "pending"
@@ -109,6 +115,14 @@
               ]
             }
           }
+        },
+        {
+          "if": {
+            "required": ["state"],
+            "properties": {"state": {"const": "superseded"}}
+          },
+          "then": {"required": ["confirmation/ref"]},
+          "else": {"not": {"required": ["confirmation/ref"]}}
         }
       ]
     }

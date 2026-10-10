@@ -19,6 +19,11 @@ Window observations and operational commands remain distinct from durable intent
 a native settings window is not a second hidden settings store. P091-008 covers
 the first UI slice; desktop-specific adoption belongs to the wider inventory.
 
+Related interaction work (proposed):
+[P095: Node UI Interaction Layer](095-node-ui-interaction-layer.md) preserves this
+host boundary while adding bounded panel, focus and navigation mechanics above
+HTMX. It evaluates Stimulus without replacing Tauri or the hypermedia model.
+
 ## Status
 
 Draft

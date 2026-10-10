@@ -1,0 +1,19 @@
+{
+  "schema": "operator-task-plan-consent.v1",
+  "schema/v": 1,
+  "run/ref": "operator-task-run:fixture",
+  "plan/ref": "operator-task-plan:fixture",
+  "plan/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "pins": {
+    "node/ref": "node:fixture",
+    "operator/binding-ref": "node-operator-binding:fixture",
+    "participant/ref": "participant:fixture",
+    "binding/ref": "operator-task-local-binding:fixture",
+    "binding/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "task-profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "activation/generation": 1
+  },
+  "valid/until": "2026-10-10T08:30:00Z",
+  "confirmation/mode": "delegated",
+  "confirmation/ref": "operator-task-confirmation:fixture"
+}

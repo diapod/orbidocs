@@ -16,6 +16,10 @@
     "chair-decision"
   ],
   "properties": {
+    "candidate/adoption": {
+      "$ref": "corpus-task-pack-candidate-adoption.v1.schema.json",
+      "description": "Required by host admission when the original proposal is historical. Must equal the owner's retained adoption for the current review query, not a caller declaration."
+    },
     "schema": {
       "const": "corpus-task-pack-experiment.admit.request.v1"
     },

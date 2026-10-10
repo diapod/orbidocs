@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-authority-epoch.prepare.request:v1",
+  "title": "Communication authority continuation choices v1",
+  "description": "Operator choices only. The owner resolves the admitted origin, current head, deadline, exact historical candidate material and producer evidence; no caller-authored digest establishes authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/069-corpus.md", "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "query/id", "operator/binding-ref", "retained/input-refs"],
+  "properties": {
+    "schema": {"const": "corpus-authority-epoch.prepare.request.v1"},
+    "query/id": {"$ref": "corpus-authority-epoch.v1.schema.json#/$defs/query"},
+    "operator/binding-ref": {"type": "string", "maxLength": 512, "pattern": "^node-operator-binding:[A-Za-z0-9._:/-]+$"},
+    "retained/input-refs": {
+      "type": "array", "maxItems": 32, "uniqueItems": true,
+      "items": {"type": "string", "maxLength": 512, "pattern": "^corpus-task-pack-candidate-publication:[A-Za-z0-9._:/-]+$"}
+    }
+  }
+}

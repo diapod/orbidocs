@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-plan-consent:v1",
+  "title": "operator-task-plan-consent.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Approval of the complete exact immutable plan of ONE admitted run, including patch addresses. It cannot be reused for a second run. Delegation additionally requires a live signed loop mandate; rollback never requires live consent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "run/ref",
+    "plan/ref",
+    "plan/digest",
+    "pins",
+    "valid/until",
+    "confirmation/mode"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-plan-consent.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "run/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "plan/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "pins": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node/ref",
+        "operator/binding-ref",
+        "participant/ref",
+        "binding/ref",
+        "binding/digest",
+        "task-profile/digest",
+        "activation/generation"
+      ],
+      "properties": {
+        "node/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "operator/binding-ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+        },
+        "participant/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "binding/ref": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+        },
+        "binding/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "task-profile/digest": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+        },
+        "activation/generation": {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/counter"
+        }
+      }
+    },
+    "valid/until": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "confirmation/mode": {
+      "enum": [
+        "direct",
+        "delegated"
+      ]
+    },
+    "confirmation/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "supersedes/digest": {
+      "description": "A new direct approval commits to the retained delegated consent. It preserves the same run, plan and pins, without replaying completed steps or renewing the mandate.",
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "confirmation/mode"
+        ],
+        "properties": {
+          "confirmation/mode": {
+            "const": "delegated"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "confirmation/ref"
+        ],
+        "not": { "required": ["supersedes/digest"] }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "confirmation/ref"
+          ]
+        }
+      }
+    }
+  ]
+}

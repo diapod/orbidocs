@@ -72,6 +72,13 @@ Related schemas:
 - `agent.inference-terminal-selection.v1`
 - `corpus-turn-order-offer.v1`
 - `corpus-turn-order-decision.v1`
+- `operator-task-loop-mandate-payload.v1`
+- `operator-task-loop-mandate.v1`
+- `operator-task-plan-consent.v1`
+- `operator-task-delegated-confirmation.v1`
+- `operator-task-delegation.request.v1`
+- `operator-task-delegation-preview.v1`
+- `operator-task-delegation-status.v1`
 
 ## Status
 
@@ -519,6 +526,23 @@ adoption/scope decision; shared Node journal capacity and unsupported relay
 migration recovery are not hidden by this checkpoint. See
 [P094](../../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md)
 and the [operator HOWTO](../../../ops/howto/operator-task-packs-howto.en.md).
+
+### Bounded-loop delegation checkpoint
+
+P094-012c7 adds a draft opt-in delegation boundary for one already-open bounded
+loop, including future contained plans. The existing operator locally unlocks
+the signer and approves the exact host-derived scope; unlock alone is not
+consent. Domain-separated operator signatures pin opening/binding/package and
+Agent profile commitments, bounds, expiry and explicit actions. Owners recheck
+current authority and durable revocation; each future plan and required step
+gets an exact retained receipt before its effect. Whole-plan consent cannot
+relax each-step/per-mutation profile floors or override a human denial.
+Delegated confirmations identify the actual executor and human issuer and do
+not qualify independent human HIL. No publication, configuration, identity,
+widening or Room renewal authority is conveyed. Cleanup is independent of
+continued consent. Component/owner implementation is not composed operator-path
+acceptance; bounded retention has no archival yet and c5/c7 qualification stays
+open. See P094's dated delegation decision and the Node operator guide.
 
 ## Open Questions
 

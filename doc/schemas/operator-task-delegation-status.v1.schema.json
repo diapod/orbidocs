@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-delegation-status:v1",
+  "title": "operator-task-delegation-status.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "Current use eligibility of the immutable mandate; no cached authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "loop/query-id",
+    "mandate",
+    "refusal"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-delegation-status.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "loop/query-id": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "mandate": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "operator-task-loop-mandate.v1.schema.json"
+        }
+      ]
+    },
+    "refusal": {
+      "enum": [
+        null,
+        "missing",
+        "revoked",
+        "expired",
+        "substituted",
+        "outside-scope",
+        "authority-lost"
+      ]
+    }
+  }
+}

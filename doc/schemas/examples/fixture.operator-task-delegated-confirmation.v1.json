@@ -1,0 +1,13 @@
+{
+  "schema": "operator-task-delegated-confirmation.v1",
+  "schema/v": 1,
+  "confirmation/ref": "operator-task-confirmation:fixture",
+  "mandate/ref": "operator-task-mandate:fixture",
+  "action": "experiment-plan",
+  "subject/ref": "operator-task-run:fixture",
+  "subject/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "answered/by": "local-executor:task-pack-delegate",
+  "authorized/by": "node-operator-binding:fixture",
+  "confirmed-at": "2026-10-10T08:01:00Z",
+  "confirmation/mode": "delegated"
+}

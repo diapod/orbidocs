@@ -12,6 +12,13 @@ readiness, exact offer approval, one local or queued remote task, HIL per mutati
 verification/destruction evidence, pause/resume, recovery, withdrawal and revocation.
 It reuses existing APIs rather than describing candidate commands as available.
 
+The communication-continuation development checkpoint adds an exact epoch
+preview, confirmation and interrupted Room recovery to the participant page.
+It preserves the original cumulative loop budget and deadline, but inherits no
+membership or effect approval. Historical candidate adoption and cross-epoch
+task routing remain unimplemented; this is not full guided continuation
+qualification. The Node HOWTO states the resulting task-position refusal.
+
 Package provenance, local trust and current execution authority remain separate.
 Proposal [094](../../project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md)
 owns the bounds and decisions; [Story 013](../../project/30-stories/story-013-qmail-task-pack.md)

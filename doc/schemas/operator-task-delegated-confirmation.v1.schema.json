@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-delegated-confirmation:v1",
+  "title": "operator-task-delegated-confirmation.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "description": "A delegated confirmation, not independent human HIL. Exact subject bytes and actual local executor are retained before the owner's effect; replay rechecks current authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "confirmation/ref",
+    "mandate/ref",
+    "action",
+    "subject/ref",
+    "subject/digest",
+    "answered/by",
+    "authorized/by",
+    "confirmed-at",
+    "confirmation/mode"
+  ],
+  "properties": {
+    "schema": {
+      "const": "operator-task-delegated-confirmation.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "confirmation/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "mandate/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "action": {
+      "enum": [
+        "model-turn",
+        "communication",
+        "chair-admit-reviewed",
+        "experiment-plan",
+        "experiment-step"
+      ]
+    },
+    "subject/ref": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/ref"
+    },
+    "subject/digest": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/digest"
+    },
+    "answered/by": {
+      "const": "local-executor:task-pack-delegate"
+    },
+    "authorized/by": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/operatorBindingRef"
+    },
+    "confirmed-at": {
+      "$ref": "operator-task-common.v1.schema.json#/$defs/timestamp"
+    },
+    "confirmation/mode": {
+      "const": "delegated"
+    }
+  }
+}

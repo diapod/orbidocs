@@ -53,7 +53,7 @@ the ancestry budget. Local references do not remove the 64-KiB / 64-node /
 depth-eight descriptor ceilings. The separately approved P090-006f1/f2/f3 and
 P090-012e DAG checkpoint is now complete (2026-10-09): eight deterministic
 Solver/Reviewer passages across two Agent owners retain 16 unique nodes and
-37 ordered edges. The five-command owner/runtime gate passes 251 tests,
+37 ordered edges. The six-command owner/runtime gate passes 326 tests,
 including exact local byte resolution, capacity refusal before spending,
 V2-first partial-write repair, effect/outcome replay and signed Corpus restart
 without another execution, charge or publication. Canonical schemas, mirrors,
@@ -456,12 +456,42 @@ Full repair/replay, `P094-012c5` and alpha readiness remain unpromoted.
 
 Authority continuation decision (2026-10-08): the operator adopted explicit
 signed communication-only epochs of the same logical round. P069-PREP-002a
-adds a draft contract and pure history/head checks, not a running renewal API.
-The completed repair Solver remains retained; fresh Reviewer admission still
-requires owner source resolution, historical-candidate adoption, shared
-cumulative counters and guided epoch approval (P094-012c6). Earlier signatures,
+adds a draft contract and pure history/head checks. The 2026-10-09 development
+checkpoint implements owner/API/UI epoch admission/recovery and shared counters,
+then separate signed historical-candidate adoption with exact-source gates and
+a fresh review/Chair chain. The historical repair Solver source remains retained,
+not a completed repair. A deterministic owner/coordinator process test proves
+adoption and restart/replay through a fresh Reviewer and Chair without another
+Solver charge or run. Real-model/browser and experiment qualification of that
+continuation are still required (`P094-012c6`). Earlier signatures,
 expiry and receipts are unchanged. No renewed VM/HIL/publication consent or
 full guided repair evidence is claimed by this foundation.
+
+The P094-012c7 checkpoint (2026-10-10) implements draft exact whole-plan consent
+and a signed/revocable mandate for one opened bounded loop, including future
+owner-admitted plans. Signer unlock stays local and separate; actual delegated
+answering and the human issuer remain explicit, not independent human HIL.
+Current authority, original opening deadline, partial-write/replay scope and
+cleanup independence have component/owner evidence. The separately authorized
+2026-10-10 development UI run completed four real local-MLX passages, two
+vfkit experiments, seven passing repair checks, confirmed destruction and
+signed Corpus execution before `succeeded`. Its 21 confirmations retain the
+actual delegate and human issuer; a separately approved communication epoch
+preserved the original deadline and counters. See Node's
+`docs/audits/P094-2026-10-10-DELEGATION-REVIEW.md`. This dirty-development
+checkpoint does not qualify independent human HIL, a clean release or guided
+market publication. Private delegation-history archival remains open.
+Retention exhaustion refuses new records without consuming the reserved
+revocation slot. This adds no proposal-wide completion or alpha readiness claim.
+
+Configuration, offer-publication and delegation histories share the readiness
+limitation of bounded immutable retention with no supported archival/rotation.
+Capacity withholds new writes, not cleanup; reserved revocation remains
+available. Pausing/resuming a task binding changes its revision/digest and
+permanently fences the old mandate. Revoked/expired delegation can be replaced
+only by explicit human consent to the same remaining run, without renewing
+the loop deadline, budget or completed effects. This is not runtime acceptance.
+
 Follow-up review tightened the qualifier's step binding, ordering, unique
 checks and Maildir-read failures, plus the builder's absent-path checks.
 After those fixes the image was rebuilt and the revised qualifier passed all

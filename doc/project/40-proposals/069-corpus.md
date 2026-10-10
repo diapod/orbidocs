@@ -2247,27 +2247,84 @@ caller-supplied value as a substitute for admission. Continuation must not open 
 fresh loop or infer a new wall-time budget. These are runtime-owner obligations,
 not effects of deserializing the contract.
 
+A completed, owner-published execution remains historical input of the same
+logical round, with its original signed context, artifacts and producer
+ancestry. A current passage may read that history only under current Room read
+authority and its classification ceiling. Position and evidence resolution
+must use the same verified epoch-chain scope: a completed run leads to a new
+Solver proposal, while an admitted run without published execution stays
+waiting. Reading a completed execution does not adopt or renew its old plan,
+review, HIL, lease, VM admission or publication authority. The separate adoption
+below applies to pending unexecuted candidates, not completed observations.
+
 An expired proposal is historical data, never a revived experiment permit.
-Reusing the completed Solver output requires explicit owner re-admission of
-its exact candidate, attachments and producer provenance. A fresh Reviewer may
-read that historical input under current authority; any executable successor
-must retain the old producer attribution and name the new accountable adoption
-and review. No Solver rerun, impersonated signature or fabricated turn witness
-may be substituted for this transition. VM, HIL, leases, effects and publication
-require fresh independent admission. Runtime/UI and real qualification remain
-open even after the pure contract checkpoint is complete.
+The operator selected **separate owner adoption** on 2026-10-09. In this task-pack
+profile, draft `corpus-task-pack-candidate-adoption.v1` preserves the entire
+original signed Solver proposal and binds its publication, Agent product,
+passage, exact candidate/attachment material and producer-provenance commitments
+to one current communication epoch. It is neither a new Solver turn nor a new
+signature by that Solver. The owner signs only after current mandate, epoch
+head, retained producer bytes and the latest pending unexecuted logical cycle
+have been verified. This transition creates no inference or loop charge.
+
+A fresh independent Reviewer reads the original proposal together with the
+signed adoption. Its review and the separate Chair decision name the current
+query/Room and the exact historical proposal/candidate. Their existing wire
+shapes are preserved: one immutable adoption per `(current query, original
+proposal)` resolves the relation. An adopted experiment requires this separate
+relation gate; the ordinary proposal gate still rejects the old context or
+expiry. The durable handoff and signed execution bind `candidate/adoption-ref`.
+Inspecting expired receipts validates history at the original decision, without
+granting a new execution window. VM, HIL, leases, effects and publication still
+require fresh independent admission. This is a task-pack profile transition,
+not a universal renewal rule for Corpus artifacts.
 
 | Task | Status | Completion evidence |
 | :--- | :--- | :--- |
 | `P069-PREP-002a` | `done` | Pure contract checkpoint, 2026-10-08: draft `corpus-authority-epoch.v1` binds immutable origin/deadline, context/scope, exact input/provenance digests, prior head and a communication-only window. Ten core tests, exact signed/negative fixtures, four Schema Gate boundary tests, strict all-target Clippy, schema validation and documentation build pass. Contract maturity remains draft. Runtime owner admission, cumulative-budget integration and historical candidate adoption are b/d, not claims of this checkpoint. |
-| `P069-PREP-002b` | `todo` | The Corpus/Room owners admit the separately approved transition under a current operator mandate; reject substitution, changed participants/rights, stale generation, revocation and concurrent transitions. Commit/recover/replay preserve the original transition bytes without repeated signing, inference, publication or charge. |
-| `P069-PREP-002c` | `todo` | A thin operator UI previews the exact epoch, rights, deadline and retained inputs, then separately confirms it. Read-only inspection never renews authority. Expired Room/invitation history remains visible with explicit blockers; no VM, HIL, lease or marketplace consent is inherited. |
-| `P069-PREP-002d` | `todo` | Qualify continuation between real Solver and Reviewer passages, followed by independent review and separately authorized experiment admission. Test old-epoch replay, expired document refusal, missing/substituted parents and restart without redispatch. Keep any historical-result reuse distinct from reauthoring a current proposal. |
+| `P069-PREP-002b` | `in-progress` | 2026-10-09 development checkpoint: owner preview/commit, source-before-Room recovery, active-head fences and one cumulative loop/deadline are implemented. Separate signed candidate adoption preserves the original Solver source; exact evidence, fresh review/Chair, cross-epoch position, handoff and signed execution resolve that owner fact. An approved turn projects exact single-capability P093 bind/act uses with current membership and the original stop/deadline, not wider package authority. Pure contract, Schema Gate, immutable-store regressions and a deterministic owner/coordinator process proof qualify adoption/restart/replay through a distinct Reviewer Agent and Chair without another Solver charge or run. Real-model/browser and separately admitted experiment qualification, direct live-transport coverage and the temporal-store integration checkpoint remain open; no counter or expired signature is renewed. |
+| `P069-PREP-002c` | `in-progress` | 2026-10-09: thin UI for exact epoch preview, receipt-bound confirmation and recovery, followed by a separate candidate-adoption preview/confirmation, is implemented. Owner-derived choices avoid copying proposal bytes or digests. Read-only inspection never renews authority and remains visible with explicit blockers. No VM, HIL, lease or marketplace consent is inherited. Rendering/escaping is tested; a real browser continuation between model passages remains d, not delivered UI acceptance. |
+| `P069-PREP-002d` | `in-progress` | The 2026-10-10 P094-012c7 development UI checkpoint qualifies completed native observation -> explicitly approved communication epoch -> fresh real-MLX Solver/Reviewer -> separately admitted verified repair. Four passages and two experiments preserve the original deadline/counters; confirmations are explicitly delegated. This is completed execution reuse, not adoption of an unfinished old Solver candidate. Real cross-epoch candidate adoption between Solver and Reviewer, old-epoch replay, expired document refusal, missing/substituted parents and restart without redispatch remain open. See `node:docs/audits/P094-2026-10-10-DELEGATION-REVIEW.md`; no clean-release or independent human-HIL claim. |
 
-Implementation precursor: the participation read model reports Room expiry as
-an explicit mutation blocker while preserving the retained invitation view.
-The pure epoch contract is locally qualified; runtime admission is not. The continuation
-operation itself is not yet exposed by the runtime or UI.
+Runtime development checkpoint (2026-10-09):
+`POST /v1/corpus/authority-epochs/preview` accepts choices, not caller-authored
+digests. `POST /v1/corpus/authority-epochs/commit` re-resolves the exact approved
+preview under current owner authority. The signed source and selected candidate
+pins are retained atomically before creating the fresh Room. Until the exact
+Room has been recovered and the head activated, neither context may spend.
+Replay does not re-sign, open another loop or inherit invitations. The original
+total loop deadline is not extended by this operation.
+
+The UI entry `/operator/task-packs/round/continue` presents a separate preview
+and approval, or the exact pending source for explicit recovery. A source may
+be inspected before its Room exists. Expired, superseded, revoked and unavailable
+listener states remain visible as blockers; inspection creates no authority.
+
+Selected historical inputs remain inert until a separate owner adoption is
+approved through `POST /v1/corpus/candidate-adoptions/preview` and `/commit`.
+Commit re-resolves the exact preview, source and current mandate; replay returns
+the same signed act, not another Solver product. The draft bounds the adoption
+to 32 KiB, one epoch and its narrower review/decision window. The local store
+retains at most 4096 create-only adoption facts, with a 64-KiB source-plus-preview
+bound and no silent eviction. It follows the existing task-pack immutable-fact
+store; a complete Solution 028 manifest/diagnostics/replay-check adoption is not
+claimed by this checkpoint. Real Solver/Reviewer and browser qualification
+remains open.
+
+The actual coordinator process proof uses deterministic inference and scripted
+delegated test confirmations, not independent human HIL. It creates one Solver
+proposal, separately approves an epoch and adoption, restarts the daemon,
+replays exact adoption bytes, and runs a distinct Reviewer followed by a fresh
+Chair decision. Original Solver product, signature, spending and receipts are
+unchanged; the shared loop contains two passages and zero runs.
+
+The communication epoch is not a package-use approval. Each separately
+approved turn projects only its selected capability's `bind` and `act` uses,
+committing the whole exact input, preview and activation. Invocation rechecks
+the current head, membership, operator and original logical stop/deadline;
+it cannot fall back to a wider historical use. An expired original total
+deadline requires a new logical round, not an epoch or adoption that silently
+extends authority. Existing historical evidence remains inspectable.
 
 Built-in role and overlay policy refs resolve admission/rendering rules. They do
 not claim a separate consent decision by the Scheduler. Task-turn role/overlay

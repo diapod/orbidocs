@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-candidate-adoption.prepare.request:v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/069-corpus.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "title": "corpus-task-pack-candidate-adoption.prepare.request.v1",
+  "description": "Owner-resolved choices and exact preview approval; not experiment permission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "query/id",
+    "proposal/ref",
+    "operator/binding-ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-candidate-adoption.prepare.request.v1"
+    },
+    "query/id": {
+      "$ref": "corpus-authority-epoch.v1.schema.json#/$defs/query"
+    },
+    "proposal/ref": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^corpus-experiment:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "operator/binding-ref": {
+      "type": "string",
+      "maxLength": 512,
+      "pattern": "^node-operator-binding:[A-Za-z0-9._:/-]+$"
+    }
+  }
+}

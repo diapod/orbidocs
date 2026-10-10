@@ -1500,6 +1500,11 @@ reconcile state that the operator cannot change locally), and `transient`.
 | `interface/lease-lost` | run | after-owner-reconcile | `start-new-run` |
 | `hil/denied` | run | terminal | `none` |
 | `hil/expired` | run | after-operator-action | `start-new-run` |
+| `delegation/missing` | run | terminal | `none` |
+| `delegation/revoked` | run | after-operator-action | `none` |
+| `delegation/expired` | run | after-operator-action | `none` |
+| `delegation/substituted` | run | terminal | `none` |
+| `delegation/outside-scope` | run | terminal | `none` |
 | `verifier/check-missing` | run | terminal | `inspect-verification` |
 | `verifier/mutation-not-admitted` | run | terminal | `inspect-verification` |
 | `verifier/timeout` | run | transient | `retry-verification` |
@@ -2504,6 +2509,15 @@ the approved profile or renewing authority. A separate shorter test profile
 must be explicitly selected. The old `unknown` terminal remains immutable;
 `P094-012c5` remains in progress pending the real repair and replay proof.
 
+Prerequisite checkpoint, 2026-10-10: the separately approved Reviewer-only
+package update completed signed import, owner conformance with scripted ports,
+current-operator generation-1 activation and guided UI creation of a distinct
+enabled/runnable binding. Node's
+`docs/audits/P094-2026-10-09-FRESH-PREREQUISITES.md` records the exact pins and
+authority boundaries. This neither requalifies the revised prompt on a real
+model nor renews any expired round or communication/model/VM grant.
+`P094-012c5` remains in progress for the fresh guided repair and replay proof.
+
 Two subsequent fresh rounds retained signed observation rejections without
 executing a VM. A uniform owner-local candidate-material wrapper now exposes
 the structural observation/effects phase without deciding the verdict. The
@@ -2633,15 +2647,175 @@ limit mismatch is corrected without enlarging the operator read bound. These
 are owner-path repairs, not a completed real passage or a renewal of expired
 membership; guided/native qualification remains open.
 
+On 2026-10-09 a fresh isolated profile repeated actual UI messaging onboarding,
+real MLX conformance, signed P085 activation and runnable binding preparation.
+Two explicitly approved test nyms were created without Room/VM/publication
+grants. After the local-round reply timed out, ordinary owner reads confirmed
+the original retained question and Room; no duplicate commit was sent. The
+recovery-export gate now exposes a typed public precondition and bounded fixed
+UI guidance without private owner error prose or creation retries. See Node
+`docs/audits/P094-2026-10-09-FRESH-PREREQUISITES.md`. This development checkpoint
+does not complete c5 or assert a fresh native repair or human HIL proof.
+
+The subsequent human-approved communication-only invitation attempt retained
+Solver membership but failed inbox delivery because the isolated AD/INAC
+configuration still targeted the former Node. The initial edit affected only
+the generated control snapshot and did not repair the source; Reviewer was
+not dispatched. The actual configuration source was subsequently corrected
+without changing grants or transport budgets, and the owner-published runtime
+snapshot confirmed it after reload.
+Restart of the rebuilt daemon triggered a fresh macOS removable-volume prompt
+for DEV before MLX and the control API became available. The approved grant
+window expired during that wait; it is not extended by configuration repair,
+restart or read-side refresh. Successful delivery and participant passages
+remain unqualified, and c5 remains in progress.
+The human accepted the renewed DEV prompt; MLX and the API then started and
+the real UI returned to existing-key unlock. No permission gate was bypassed.
+The subsequent exact ec8e round has separately human-approved communication
+grants through 20:12:20 UTC; neither invitation is counted as delivered here.
+Reload exposed a status-SSE shutdown hang, diagnosed from the process sample.
+Disconnecting only the isolated UI allowed reload to finish at 20:08:22 UTC;
+this mitigation and the separate cooperative-stream lifecycle fix are not
+participant passage or full operator-path acceptance. The human subsequently
+unlocked existing keys; actual UI owner reads confirmed both grants had
+expired without dispatch. A real-loopback connected-status-client shutdown
+regression and strict daemon all-target Clippy pass; deployment qualification
+is separate. The Room's immutable total deadline subsequently expired too.
+The isolated old daemon exited normally during deployment of the new binary;
+the new MLX loader again waited at DEV file open. Narrow human DEV consent
+allowed MLX and the API to start at 20:25:11 UTC. A separate deployed direct
+status-SSE reload probe passes: the server closed the still-connected stream
+after 8,812 ms, and the restarted API returned after 27,038 ms. The first probe
+hit its own byte ceiling and its failed report remains retained; the corrected
+probe uses a separate report. This is deployed transport-lifecycle evidence,
+not UI-stream or task acceptance: the welcome/unlock page has no status stream.
+Existing-key unlock, new exact communication grants and later experiment
+authority remain distinct boundaries; the expired round is not extended.
+
+After human unlock, actual UI signed the new 644b logical round. Exact human
+communication approval through 21:02:05 UTC was followed by delivered invites,
+joined and ready Solver/Reviewer, and Chair readiness. This qualifies the
+corrected AD/INAC invitation path, not participant inference or VM execution.
+The human then separately approved the five-minute Solver turn and delegated
+its exact communication HIL click. UI acknowledged the question; the retained
+operation is running / inputs-prepared, not a completed passage. The evidence
+names delegated confirmation, not independently answered human HIL. Solver
+and separately approved Reviewer subsequently completed actual MLX turns and
+owner-confirmed turn cleanup. Exact proposal and accept review bind the single
+read-only obs-1/qmail-showctl step. The human subsequently approved the exact
+Chair decision, clicked the separately approved observation-run admission and
+directly answered that step's HIL in the UI. The native run completed
+observation, concluded `verification-failed`, retained destruction confirmation
+and published the signed execution. Two passages, one cycle and one run are
+retained. Subsequent Solver preparation refused expired communication grants.
+The human separately approved epoch 1 and two fresh communication-only
+invitations; both participants joined and became ready under the unchanged
+logical-loop deadline and spending. Next-turn preparation then exposed a
+projection defect: an already completed observation incorrectly required
+adoption of its old plan, and its execution was absent from the new context's
+evidence selection. The correction preserves signed executions, artifacts and
+producer ancestry across the verified logical-round contexts without renewing
+old effect authority. A pending unexecuted candidate still requires separate
+adoption. This correction is not deployed browser qualification. See Node
+`docs/audits/P094-2026-10-09-FRESH-PREREQUISITES.md` for exact references and
+attribution. Full c5 and successful repair are not claimed.
+
+The later fresh f7b0 logical round completed a separately approved Solver
+passage. After communication expiry pressure, the human separately approved
+epoch 1, fresh invitations and exact adoption of its observation-only candidate
+into context 92ed, without repeating Solver inference or charge. A separately
+approved Reviewer passage, with explicitly delegated communication HIL,
+retained its model product and 5,448-token charge. The model invented patch
+findings for the observation-only candidate and substituted a command-profile
+ref for an artifact ref; Schema Gate refused review authoring with HTTP 422.
+The package act has `no-outcome`; the turn retains `unknown` with completed
+cleanup, not a signed review or successful experiment. Two passages and zero
+runs are retained. This proves the malformed-output refusal on the real path,
+not repair acceptance, and does not close c5. Exact references and attribution
+are in the same dated Node audit; no automatic model retry or renewed authority
+is claimed.
+
 | Task | Scope | Status | Completion evidence |
 | :--- | :--- | :--- | :--- |
 | `P094-012c1` | Inventory-backed binding preparation | `in-progress` | Choose package, operator, workspace, image and inference without copying profiles, digests or generations. Advanced JSON remains available. Changed owner facts refuse stale submission. |
 | `P094-012c2` | Guided preflight | `in-progress` | Node UI maps every current owner next-action to its responsible owner and a real link or explicit manual instruction. Rendering and exhaustive mapping tests pass; operator-path acceptance remains c5. Never claim readiness from UI state. |
 | `P094-012c3` | Guided task operation | `in-progress` | Local-owner prose preview/commit, question signing, current operator Chair mandate and policy V4/invite V2 are implemented; the owner regression proves exact source replay after restart and refusal after operator revocation. The deterministic process checkpoint proves separate Solver/Reviewer Agents, independent HIL, restart and unchanged replay charges. Guided identity/invite/join/readiness, participant turns, read-only loop progress and exact Chair/admission clients are implemented. The latter bind all retained candidate/review/patch bytes and keep run admission separate from the Chair decision, HIL and publication. The Scheduler owns retained turn stages and cleanup, not the UI. Full real operator and refreshed native acceptance remain c5, not claimed here. |
 | `P094-012c4` | Publication and maintenance review | `in-progress` | Human-readable offer terms and exact recipe patch replacement text, distinct confirmations, and P091 adoption/recovery forms are implemented. Recipe/order commitments are cross-checked. Task navigation and real operator acceptance remain open; no relay retargeting is implemented. |
-| `P094-012c5` | Operator-path acceptance | `in-progress` | Installation is an explicit prerequisite (2026-10-07 decision), not a guided-installer claim. Exercise real clients and owners from an installed/conformant/active package without hand-authored request JSON or a harness installer. Real P085 activation, MLX conformance, UI identity/recovery, inventory-backed binding, problem-to-Room preparation and both participant memberships are qualified prerequisites. The 2026-10-08 b48 development-worktree checkpoint additionally completed separate Solver/Reviewer/HIL passages, Chair approval, separate admission, actual read-only VM observation, verifier evaluation, confirmed destruction and subsequent signed execution publication. Its exact outcome is `verification-failed`, not repair success. See Node `docs/audits/P094-2026-10-08-GUIDED-OBSERVATION.md`. Full operator-path report and repair/publication qualification remain open; keep these observations separate from scripted-port tests and historical native reports. |
+| `P094-012c5` | Operator-path acceptance | `in-progress` | Installation is an explicit prerequisite (2026-10-07 decision), not a guided-installer claim. Exercise real clients and owners from an installed/conformant/active package without hand-authored request JSON or a harness installer. Real P085 activation, MLX conformance, UI identity/recovery, inventory-backed binding, problem-to-Room preparation and both participant memberships are qualified prerequisites. The 2026-10-08 b48 development-worktree checkpoint completed separate Solver/Reviewer/HIL passages, Chair approval, separate admission, native observation, verifier evaluation, confirmed destruction and signed execution publication, retaining `verification-failed`. The 2026-10-10 c7 development UI checkpoint additionally completes repair with seven passing checks, both VM destructions and signed result before `succeeded`, using explicitly delegated confirmations and one separately approved communication epoch. See Node `docs/audits/P094-2026-10-10-DELEGATION-REVIEW.md`. Full clean-source operator-path report and guided market-publication qualification remain open; keep these observations separate from scripted-port tests, independent human HIL and historical native reports. |
 | `P094-012c5a` | Deployable offline P085 prerequisite runner | `done` | Approved and qualified 2026-10-07. The binary computes 13 refusal cases and seven positive controls through existing owners; five runner regressions, the full service suite (125 passes, one ignored native test), and all-target Clippy pass. Runtime input pins package/assets and executable; missing/unknown cases or changed expected outcomes cannot produce a passing report. The real profile's P085 conformance passed and activation finalized at generation 1; exact pins are in Node TASK-PACK-CONFORMANCE.md. Evidence class remains owner-semantics-with-scripted-ports, not native acceptance or c5 completion. |
-| `P094-012c6` | Bounded between-cycle authority continuation | `in-progress` | Operator adopted explicit signed epochs of the same logical round on 2026-10-08 through `P069-PREP-002a/d`. The pure draft contract/chain checkpoint is done, including immutable origin/deadline; runtime owner admission, historical candidate adoption, shared cumulative budget, UI and real continuation remain open. The e236 development round completed observation, actual destruction and a repair Solver with cleanup; its repair Reviewer was not started before expiry. Preserve that exact result as history. Do not rewrite expired signatures, reset the logical loop, widen a grant or infer renewed experiment/HIL/publication authority. c5 is not complete. |
+| `P094-012c6` | Bounded between-cycle authority continuation | `in-progress` | Operator adopted signed communication epochs on 2026-10-08 and separate owner candidate adoption on 2026-10-09 (`P069-PREP-002`). Owner/API/UI preview, digest-bound commit/recovery and one cumulative loop/deadline are implemented. The signed adoption preserves the entire original Solver proposal/product/provenance, requires a fresh Reviewer and Chair decision, and binds the handoff and signed execution. Separately approved exact turn-scoped P093 bind/act uses cannot widen capability, input or logical deadline. No Solver turn, expired signature, budget or effect approval is fabricated or renewed. Contract/Schema Gate, immutable-store tests and a deterministic coordinator process proof qualify adoption/restart/replay through a distinct Reviewer and Chair with unchanged Solver charge and zero runs. The 2026-10-10 c7 development UI run qualifies completed observation -> approved epoch -> fresh real Solver/Reviewer -> verified repair with original counters/deadline. It does not qualify real-model adoption of an unfinished old Solver candidate or native fault/restart scenarios. The e236 repair Solver remains exact historical evidence, not a completed repair; its immutable total deadline expired on 2026-10-08. c5 is not complete. |
+
+### Bounded loop delegation decision — 2026-10-10
+
+The operator explicitly selected delegation for an entire already-open bounded
+Solver/Reviewer loop, including future owner-admitted plans, rather than only
+one precompiled experiment. The host preserves that choice in a signed
+`operator-task-loop-mandate.v1`; it is neither a blanket future consent nor a
+second execution engine. The signed payload pins the logical opening digest,
+node and operator binding, task binding/profile, package generation, exact
+admitted Agent profile digests, cumulative limits, expiry and a closed action
+set. New plans still require the existing compiler, accepted review, Chair,
+containment and current authority. The original opening deadline bounds the
+mandate even if an operator later renews the loop or its communication epoch.
+
+Accepted review decision: withdrawal/expiry stops the delegate, not a human
+takeover. Stricter step modes wait for direct HIL. Whole-plan waits for a new
+direct consent committing to the same plan and `supersedes/digest` of the
+retained delegated consent; it cannot reset completed work, budgets or the
+original opening deadline. Missing/substituted evidence still refuses.
+Delegation refusals have their own codes, never an invented human denial.
+
+`whole-plan` is an explicit new profile/binding HIL mode below
+`each-mutation` and `each-step` in the narrowing order. It requires consent
+to one exact run/plan/digest, including patch addresses, before VM allocation.
+It does not relax an existing profile's stricter floor. A loop mandate may
+derive exact plan consents; stricter modes additionally require separately
+delegated step confirmations. A recorded human denial/expiry is not overridden.
+These answers are delegated confirmations, not independent human HIL. Retained
+facts identify the actual local delegate, the human issuer, exact subject
+commitment, source mandate and original confirmation time. Qualification must
+keep direct human answering and authorized delegation distinct.
+
+The local human unlocks the existing operator key through Identity. No password
+file, recovery phrase, private key export or secret-bearing mandate request is
+introduced. Preview and digest-bound commit are separate from unlock; a locked
+signer returns an explicit local-unlock action and cannot issue an unsigned
+grant. The owner applies domain framing to JCS bytes and verifies the resulting
+signature before retention. A durable tombstone fences new delegated admissions;
+in-flight outcomes, destruction and terminal reads require no renewed consent.
+Any current local operator can revoke, even after the original binding changes.
+Publication, configuration/identity changes, widening and membership renewal
+are excluded from the closed delegated action vocabulary.
+
+Seven draft wire contracts cover payload, mandate, plan consent, confirmation,
+request, preview and status. A thin Node UI supports prepare/review/commit,
+local-unlock guidance, exact plan/patch review and revocation. Local clients
+request turns and admissions through the existing owners, not a new scheduler.
+The `experiment-plan` scope additionally permits the run driver to derive an
+exact plan consent automatically after explicit experiment admission and
+before allocation. The mandate UI discloses this; `approve-run` reuses the
+same serialized path rather than being mandatory for that derivation.
+Pending direct HIL becomes superseded only with an exact delegated receipt
+and durable step admission; it is not recorded as a human answer.
+Immutable retention is bounded (256 mandates/previews, 4,096 confirmations and
+4,096 plan/link records); unsupported archival is a readiness limit. Revocation
+has a separate reserved slot and remains possible at capacity. These component
+and owner proofs do not upgrade historical native reports or complete c5.
+
+| Task | Scope | Status | Completion evidence |
+| :--- | :--- | :--- | :--- |
+| `P094-012c7` | One-loop revocable delegation and exact plan consent | `done` | Draft contracts, pure scope checks, owner-domain signature/current-use/revocation fences, exact run/step receipts and thin local UI are implemented. Separate owner tests prove direct denial, revocation/expiry takeover, partial writes and restart; they are not native fault injection. The separately authorized 2026-10-10 development UI loop completes four real local-MLX passages, two vfkit experiments, seven passing repair checks, confirmed destruction and signed Corpus result before `succeeded`. A separately approved communication epoch preserves the original mandate, deadline and counters; 21 confirmations retain the actual delegate and human issuer. See `node:docs/audits/P094-2026-10-10-DELEGATION-REVIEW.md`. This dirty-development checkpoint is not independent human HIL, clean-release acceptance, guided market publication or formal adoption of P094. |
+
+The successful delegation checkpoint uses one unchanged signed mandate and
+two communication contexts of the same logical loop. The initial observation
+concludes `verification-failed`; the subsequent reviewed repair concludes
+`verified`. Corpus publishes each execution only after confirmed destruction,
+and the loop stops `succeeded` with four passages, two cycles and two runs.
+Communication membership for epoch 1 is a separate human act; delegation does
+not renew it. No market publication, host-file mutation or third experiment
+was requested. Post-stage UI review makes answered communication references
+and context-scoped execution history explicit without expanding read authority.
+The separate guided-publication and proposal-adoption gaps remain open.
 
 Attribution clarification (2026-10-08): the deterministic process checkpoint
 uses scripted operator-question answers, and the guided development UI runs
@@ -2839,7 +3013,7 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-023d3b1` | Read the admitted Agent binding and complete the solver passage | `023d3a`, P093 local A–E | `done` | 2026-10-03: the unignored solver process test reads `binding/digest` from the validated `agent.status` inference-Flow inspection, checks the exact Flow, package and activation generation, then admits the Corpus binding. The passage runs through managed Inquirium and authors a signed proposal. The instruction commitment includes the host's P091 locale layer; the fixture uses the shared host transformation. Corpus consumes one JSON text document from the validated, completed retained `GenerateResponse`, not the carrier as a candidate or verdict. Missing/malformed inspection digests and bare, multiple or unsupported inference carriers refuse. The separate reviewer-sequence gate is completed by `023d3b`; VM acceptance is `013`. |
 | `P094-018` | Extend P080 with the isolated-environment resource kind | `001` | `done` | 2026-09-27. `middleware-component-contract.v1` admits `resource/kind: isolated-environment` with `dispose/operation: environment.destroy` under `ephemeral-revertible` and `host-local` scope, as a dated additive amendment (P080-046); the P080 recovery section, the schema and `middleware-runtime` validation agree and refuse a mismatched operation, kind or scope. Sensorium Virt implements the disposer as `environment.teardown` over a new `destroying` state of `sensorium-virt-recovery-record.v1`: every backend (`fixture-copy.v1`, `vfkit-system.v1`, `cloud-hypervisor-system.v1`) records it durably before the first destructive step, only `destroying` reaches `closed`, a completed destruction replays as confirmed, and start, recover, drain and allocation replay refuse a `destroying` record instead of quarantining it. Startup reconciliation completes every recorded destruction and reports `records/destroyed`; a record that can no longer prove its resource identity is quarantined, never returned to a live state. Tests cover the transition table, a removal interrupted mid-way on `fixture-copy`, and a destruction interrupted with a live VMM on the fake-vfkit and fake Cloud Hypervisor process harnesses. Real-VM deployment runs were not repeated.  Review regressions also cover destruction interrupted during unrecorded-launch cleanup, refusal of unbound resource paths before teardown, record-only quarantine of an invalid destruction, and drained VMM identity validation. |
 
-| `P094-018a` | Recover the exact prepared root across ordinary Workbench restart | `018` | `todo` | Diagnose and fix legitimate-root readiness after restart without changing the template key, clearing quarantine or bypassing process/resource identity checks. Keep genuinely substituted/unsafe roots quarantined. Qualify ready-root restart and real reuse of the same key, malformed/substituted-root refusal and owner recovery diagnostics, then repeat native acceptance. The 2026-10-08 isolated-profile fresh-key workaround is only a prerequisite change, not lifecycle evidence. |
+| `P094-018a` | Recover the exact prepared root across ordinary Workbench restart | `018` | `in-progress` | 2026-10-09: vfkit and Cloud Hypervisor launches put the broker-owned VMM outside the launching owner's shutdown process group. All 36 fake-VMM lifecycle tests pass. The ignored native vfkit `owner_restart::native_prepared_root_survives_owner_shutdown_group` passes: stopping the owner group preserves the same prepared-root key, allocation plan and VMM PID; reopening recovers one VM without quarantine, exact start replay and guest inspection succeed, then teardown confirms Closed and process absence. This is a native broker/group-boundary proof, not yet full Workbench restart or guided UI qualification. It does not revive dead/historical quarantined roots; the earlier fresh-key workaround remains a prerequisite change, not lifecycle evidence. |
 
 ### Resumable Federated Slice — 2026-10-04
 
@@ -3206,6 +3380,13 @@ aggregate gap in `016a` is closed by the later composed qualification above.
    proposal-wide alpha-node blocker until the operator decides that boundary.
 5. Design `P094-007b2` separately before implementing any operator transition
    that reopens or redirects a terminally refused withdrawal after relay migration.
+6. Preserve completed `P094-012c7` development UI qualification: the exact
+   signed mandate, actual delegate/human issuer, unchanged deadline/counters,
+   seven passing repair checks, confirmed destruction and signed result before
+   success. Keep revocation/takeover/restart owner proofs distinct from the live
+   happy-path run. The dirty-development checkpoint does not qualify a clean
+   release, independent human HIL or guided market publication; private history
+   archival and finite write capacity remain explicit follow-up work.
 
 P093 C+D review (2026-10-03): the callable local vertical is implemented, so
 the earlier missing-name observation in `P094-023d3` is historical. Approval

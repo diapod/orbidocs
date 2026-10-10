@@ -22,6 +22,7 @@ Host-signed record, published to the Room, of one admitted task-pack experiment 
 |---|---|---|---|
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`execution/ref`](#field-execution-ref) | `yes` | string |  |
+| [`candidate/adoption-ref`](#field-candidate-adoption-ref) | `no` | ref: `corpus-task-pack-candidate-adoption.v1.schema.json#/properties/adoption~1ref` | The exact separate owner adoption, preserved by the handoff and covered by this execution signature. Required by the relation gate for a historical proposal. |
 | [`query/id`](#field-query-id) | `yes` | string |  |
 | [`room/id`](#field-room-id) | `yes` | string |  |
 | [`proposal/ref`](#field-proposal-ref) | `yes` | string |  |
@@ -119,6 +120,14 @@ Then:
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-candidate-adoption-ref"></a>
+## `candidate/adoption-ref`
+
+- Required: `no`
+- Shape: ref: `corpus-task-pack-candidate-adoption.v1.schema.json#/properties/adoption~1ref`
+
+The exact separate owner adoption, preserved by the handoff and covered by this execution signature. Required by the relation gate for a historical proposal.
 
 <a id="field-query-id"></a>
 ## `query/id`

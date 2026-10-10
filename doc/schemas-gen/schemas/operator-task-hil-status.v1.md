@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/operator-task-hil-status.v1.schema.json`](../../schemas/operator-task-hil-status.v1.schema.json)
 
-The HIL requests of one run and where each stands: `pending` with the delivery outcome when this call completed initial or interrupted delivery (`delivery` is absent when completion was already recorded), `decided` with the recorded decision, or `expired`. The attention gate never approves.
+The requests of one run: pending, decided by a human, expired, or superseded by an exact delegated confirmation for an already admitted step. Supersession is not a human answer. The attention gate never approves.
 
 ## Governing Basis
 

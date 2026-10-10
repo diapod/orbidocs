@@ -1,0 +1,10 @@
+{
+  "schema": "operator-task-delegation-preview.v1",
+  "schema/v": 1,
+  "preview/ref": "operator-task-delegation-preview:fixture",
+  "preview/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "expires-at": "2026-10-10T08:05:00Z",
+  "document": {
+    "schema": "invented"
+  }
+}

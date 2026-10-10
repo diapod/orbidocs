@@ -8,6 +8,7 @@ Request to admit a typed task-pack experiment (P094-022b): the signed proposal, 
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
+| [`candidate/adoption`](#field-candidate-adoption) | `no` | ref: `corpus-task-pack-candidate-adoption.v1.schema.json` | Required by host admission when the original proposal is historical. Must equal the owner's retained adoption for the current review query, not a caller declaration. |
 | [`schema`](#field-schema) | `yes` | const: `corpus-task-pack-experiment.admit.request.v1` |  |
 | [`candidate-publication/ref`](#field-candidate-publication-ref) | `yes` | string |  |
 | [`proposal/source-peer`](#field-proposal-source-peer) | `yes` | string |  |
@@ -17,6 +18,14 @@ Request to admit a typed task-pack experiment (P094-022b): the signed proposal, 
 | [`chair-decision/source-peer`](#field-chair-decision-source-peer) | `yes` | string |  |
 | [`chair-decision`](#field-chair-decision) | `yes` | ref: `corpus-reasoning-chair-experiment-decision.v2.schema.json` |  |
 ## Field Semantics
+
+<a id="field-candidate-adoption"></a>
+## `candidate/adoption`
+
+- Required: `no`
+- Shape: ref: `corpus-task-pack-candidate-adoption.v1.schema.json`
+
+Required by host admission when the original proposal is historical. Must equal the owner's retained adoption for the current review query, not a caller declaration.
 
 <a id="field-schema"></a>
 ## `schema`
