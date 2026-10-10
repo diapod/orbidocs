@@ -29,6 +29,15 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.participant-restriction-source.json|*.participant-restriction-source.*.json)
+      echo "$SCHEMAS_DIR/participant-restriction-source.v1.schema.json"
+      ;;
+    *.responsibility-signed-command.json|*.responsibility-signed-command.*.json)
+      echo "$SCHEMAS_DIR/responsibility-signed-command.v1.schema.json"
+      ;;
+    *.responsibility-command.json|*.responsibility-command.*.json)
+      echo "$SCHEMAS_DIR/responsibility-command.v1.schema.json"
+      ;;
     *.config-setting-descriptor.json)
       echo "$SCHEMAS_DIR/config-setting-descriptor.v1.schema.json"
       ;;

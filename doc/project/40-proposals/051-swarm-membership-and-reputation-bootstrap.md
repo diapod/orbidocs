@@ -1106,12 +1106,13 @@ cannot retract a publication already observed elsewhere.
 
 Inspected on 2026-10-10 against the working tree and
 `node:docs/implementation-ledger.toml`. These are implementation entry points,
-not fresh runtime acceptance results. Reverify them when starting the slice.
+not runtime acceptance results. This table records the pre-slice inspection;
+the 2026-10-10 implementation checkpoint below supersedes its restriction gaps.
 
 | Concern | Reuse | Boundary still to implement for P051 |
 | --- | --- | --- |
 | Surface policy and effective limits | `node:membership-policy-core/src/lib.rs`: `decide_surface`, `project_effective_limits`, source-tagged overlays and fixture/property tests | Ledger `membership-surface-access-policy-core` is `partial`: no complete daemon/storage/UI admission path. Admit sources, check validity and authority, then supply deterministic, case-aware composition. |
-| Restriction application | S040/P018; `node:daemon/src/execution_host.rs`, `node:daemon/src/lib.rs`, `node:daemon/src/state_checkpoint.rs`, `node:daemon/src/tests/participant_policy.rs` | One current record per participant; clear is participant-wide; one hard expiry does not cover the soft layer or several independently expiring cases. Schema validation and `decision/author` text do not authenticate a community verdict. The snapshot's `.ok()?` currently drops an unparseable hard expiry; P018-13/14 must reject ambiguous validity with diagnostics at recovery/admission, not silently remove the block. |
+| Restriction application | S040/P018; `node:daemon/src/execution_host.rs`, `node:daemon/src/lib.rs`, `node:daemon/src/state_checkpoint.rs`, `node:daemon/src/tests/participant_policy.rs` | One current record per participant; clear is participant-wide; one hard expiry does not cover the soft layer or several independently expiring cases. Schema validation and `decision/author` text do not authenticate a community verdict. The pre-slice snapshot dropped an unparseable hard expiry through `.ok()?`; P018-13/14 now replace runtime reads with source-aware composition and retain malformed sources with explicit refusal diagnostics. |
 | Identity and bounded relationships | P034 and S032; existing caller bindings and `local-relationship-core` | Reuse verified actor/owner context and private eligibility inputs. Relationship membership is not a grant; node-operator assurance is not reputation or a jury mandate. |
 | Facts and recovery | S028; `node:temporal-event-log`, `node:storage-runtime`; existing restriction commit stream and notification store | One case-domain source of truth, rebuildable projections and an idempotent effect outbox; do not invent a global transaction registry or copy the case history into S040. |
 | Attention and human action | [S039](../60-solutions/039-notifications/039-notifications.md), P057; `node:notification-core`, `node:notification-store`, `node:daemon/src/notifications_host.rs` | Recipient-bound case notices and registered actions must call the case owner, recheck revision/mandate, and report its result. Queue insertion, delivery, opening and substantive response are distinct. |
@@ -1172,7 +1173,8 @@ accountable actor, not the service process or its infrastructure operator.
 P051-002 defines the narrow command/outcome boundary jointly with P018-12. Any
 missing operation is explicitly registered and schema-gated under P072; the
 existing bridge is reused, not assumed to already provide a case-effect API.
-P051-003 settles package/crate names and runtime packaging without duplicating the
+`responsibility-core` / `responsibility-service` settle the local crate and process
+boundary under P051-003 without duplicating the
 Rust rules in a second implementation. Follow `node:DEV-GUIDELINES.md`; create
 separate crates only where the dependency boundary warrants them. Daemon routing
 stays a thin adapter, not the owner of social procedure.
@@ -1232,7 +1234,8 @@ This does not grant unlimited messaging or bypass recipient privacy.
 ## Cross-Component Acceptance: Local Accountability
 
 P051 owns the semantic acceptance scenario and aggregate closure, not a new
-protocol. Proposed Node homes, to be created with executable work under P051-008:
+protocol. Node homes exist for the bounded local profile below; the wider
+P051-008 matrix remains open:
 
 - `node:tools/acceptance/local-accountability/README.md` and its runner for
   reproducible procedures, linked from the acceptance index;
@@ -1273,8 +1276,9 @@ community policy or measured reduction of the Ringelmann effect. Denial fixtures
 must retain M11's reason, review/expiry and appeal path, without claiming the wider
 reputation-validation programme has passed.
 
-P051-008 must freeze a versioned Node-local report contract and executable qualifier
-before implementing its runner. Reuse the scope and source-retention patterns in
+The bounded local slice freezes `node:docs/contracts/local-accountability-report.v1.schema.json`
+and its qualifier before the runner. The remaining P051-008 matrix must likewise
+freeze a new explicit profile before extending runtime qualification. Reuse the scope and source-retention patterns in
 `node:tools/acceptance/story-013-qmail-task-pack/README.md` and `retain_report.py`,
 not their qmail-specific profile, run identifiers or assertions. This is an
 acceptance artifact, not another federation protocol. At minimum:
@@ -1383,10 +1387,61 @@ The preferred shape is append-only facts plus read models, not mutable
    fixtures may demonstrate the contract but cannot certify live social readiness.
    The prohibition on self-adjudication is settled; only the independent recipient
    and operational availability of that path remain open.
-7. Which source-aware restriction representation preserves per-case validity,
-   soft-factor expiry and scoped operation effects without loss in the current
-   participant-wide v1 artifact? P018-12 must decide compatibility before runtime
-   adoption; the existing single-record API is not the answer by default.
+
+
+## Local implementation checkpoint: 2026-10-10
+
+The bounded implementation decision is **local case → restriction → targeted
+correction**, for explicitly admitted test subjects on one host. P051 owns
+procedure and responsibility; P018/S040 own source composition and enforcement.
+The frozen contracts and Node ownership are recorded in
+`node:docs/development/LOCAL-ACCOUNTABILITY-CONTRACT.md`.
+
+`responsibility-core` is pure. `responsibility-service` persists append-only
+SQLite facts, rebuildable projections and atomic effect/notice outboxes through
+S019/P080 `channel_json`. The host independently verifies signed command,
+actor, mandate, policy, object and case revision, mirrors accepted procedural
+facts and applies exact P018 sources under the shared writer gate. Transport
+registration does not create a mandate. Review, appeal and effect validity are
+separate axes; an appeal or `AppealBlocked` leaves the original effect expiry
+unchanged. Acknowledgment names the exact reasons and opens at least 14 days;
+without acknowledgment filing remains open, including before notification.
+
+P018-12 settles compatibility: `participant-capability-limits.v1` remains
+operator input. New `participant-restriction-source.v1` facts preserve each
+case/decision/effect's operation scope and validity; hard blocks compose by
+union and soft factors by minimum. v1 export refuses lossy composition, and
+participant-wide DELETE refuses active or unresolved case sources. A pinned
+legacy baseline preserves operator records, tombstones and unknown authorship;
+malformed validity is retained and refuses affected privileged operations.
+
+ParticipantSession UI, direct signed APIs and registered S039 actions all call
+the same service. Inspection, exact reasons acknowledgment and appeal remain
+available without a Room or notification. Private evidence uses a separate
+sealed host table and case-bound references. Bounded history, command, source,
+evidence and outbox budgets reserve work for participant rights and correction.
+
+The retained Node runtime evidence at
+`node:docs/evidence/local-accountability/2026-10-10-qualified-local/` uses the frozen `local-accountability.test-subjects.v1` report and qualifier,
+with original tested source, policy, fixtures, receipts, refusals and pending
+outcomes. Review corrected the reporting claim to 18 runtime cases and two
+conformance bindings; the original bytes remain historical and do not qualify
+the corrected implementation. P051-002/003/005 are now done for
+`local-accountability.test-subjects.review-v2` after fresh source-bound gates:
+18 runtime cases plus two conformance bindings, 713 checks across 15 suites and
+27 qualifier tests (one positive and 26 negative). Current original report and
+qualification are
+`node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json`
+and `qualification.json`, with report digest
+`sha256:4c16aa570954c29bb2cb1c45317f837c9dad563e9d8b2871ad2dbaea96d91b72`.
+Findings and unqualified attempts remain in the parent review record.
+The scope is not the complete acceptance matrix below. Case effects remain disabled by default. Declared
+controller groups and explicit fixture mandates prove local contract behavior;
+they do not establish an independent social institution or authorize sanctions
+against real participants. Proposal status and normative adoption are unchanged. The local selector takes
+the first eligible independently declared actor; full DIA-PANEL-SEL-001 selection,
+appeal merits dispositions and procedural deadline escalation are unmodeled
+P051-006/007 work, not implied by the minimal contract.
 
 ## Implementation Direction
 
@@ -1405,13 +1460,13 @@ regenerate its view and reconcile `docs/MVP.md` when its covered scope changes.
 | ID | Work / owner | Status | Depends on | Completion gate |
 | --- | --- | --- | --- | --- |
 | P051-001 | Membership policy baseline / membership-policy-core | partial | Existing frozen family | Preserve current pure evaluator tests; add schema-gated source admission, validity and host consumption before claiming the runtime entry-policy path. Do not duplicate the kernel. |
-| P051-002 | First case/policy contract and ownership / Rust domain core boundary | todo | Existing P051/S040 contracts | Freeze transitions, actor/mandate/target bindings, independence, appeal blockage and effect-stay policy; declare light-profile competence and normative escalation, the local 14-day appeal floor and window-start/notice rule. Separate review, appeal and effect deadlines; freeze redaction/recovery classes, canonical schemas, Node mirrors and negative fixtures. Define pure Rust inputs/outputs and the middleware-to-host effect/outcome contract with P018-12; map reused primitives and any missing P072 operation explicitly. Can run alongside 001. |
-| P051-003 | Rust case core and durable middleware-hosted service / case domain | todo | 002 | Implement pure transitions/projection with supplied time/authority context and dependency-boundary tests. Reuse S019/P080 supervision, channel, reports, routes and package/data-directory conventions; S028 storage primitives for authorized facts, accepted handoff, bounded evidence, projections and atomic transition/outbox intent. Prove crash/replay, detachment/reattachment, stale owner and cross-case substitution. No private supervisor/listener, duplicate policy evaluator or social state machine in daemon routing. |
-| P051-004 | Targeted restriction and entry-policy integration / host-owned P018-S040 adapter | todo | 001, 003, P018-12, P018-13 | Consume revision-bound case-effect requests over the existing authenticated host-call bridge; schema/mandate/target/revocation/validity checks precede effects. Recompute admitted active sources, including legacy operator inputs; appeal of A cannot clear B or grant missing authority; real host application and expiry receipts. Reuse membership-policy-core and S040; no raw appeal-to-clear shortcut, operator-authority passthrough or direct module writes to enforcement storage. |
-| P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | todo | 003 | Reuse S039 queue/actions through admitted host calls and S019 routes for case inspection/appeal; actions return to the case owner for fresh validation. Prove recipient isolation, stale action refusal and direct appeal without notification or Room membership, atomic/outbox retry and non-starvation under soft limits. No second inbox, private callback transport or UI authority. |
+| P051-002 | First case/policy contract and ownership / Rust domain core boundary | done | Existing P051/S040 contracts | review-v2 freezes the scoped case/policy/mandate/command/effect contracts, three deadline axes, exact acknowledgment with 14-day floor, controller independence, retryable AppealBlocked and recipient-bound correction. New authority is domain-only; historical proof has separate host-bound narrowing/receipt transport. Canonical schemas, mirrors, Gate, negative fixtures and split P072 operations pass. Local first-eligible selection, absent merits dispositions and procedural escalation are explicitly bounded P051-006/007 work. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json. |
+| P051-003 | Rust case core and durable middleware-hosted service / case domain | done | 002 | Pure responsibility-core and channel_json service with append-only SQLite facts, rebuildable projections, accepted handoff and atomic transition/intents. Ordered outboxes retain accepted narrowing through revocation, prepared evidence is preflighted and typed mirror desync fences later work without claiming success; reasons/listing survive, blocked mutations are explicit. Historical replay/transport and bound receipts have named regressions. Actual outage/restart is qualified; automatic cross-store desync repair/portable backup remain unqualified. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/host-tests.json and report.json. |
+| P051-004 | Targeted restriction and entry-policy integration / host-owned P018-S040 adapter | partial | 001, 003, P018-12, P018-13 | Targeted P018 host application/correction and independent expiry are implemented and locally qualified. Full entry-policy admission and host consumption still require P051-001; membership-surface-access-policy-core remains a pure evaluator with no runtime entry-policy path. No complete P051-004 claim. |
+| P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | done | 003 | S039 recipient-bound subject/appeal/handoff notices, direct reasons/acknowledgment/appeal and ParticipantSession UI use the same service. Actual default host signer emits verified domain proofs; UI preserves owner refusal/unavailable status and only bound withdrawal receipts show retracted. A/B/C UI list and exact second-policy reasons remain available with profile disabled, subject removed and policy revoked. CSRF, stale actions, independent acknowledgment/handling, sealed evidence and protected reserves pass; no notification or Room prerequisite. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json. |
 | P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. |
 | P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared S020 Scheduler launches bounded case-service actions through existing dispatch, not a private timer loop; use S029 for deferred individual operations where needed. Host admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
-| P051-008 | Local-accountability acceptance / cross-component harness | todo | 004, 005, 006, 007, P018-14 | Freeze the report/qualifier contract above before the runner; pass its negative fixtures and qualify retained/redacted evidence for the exact scope. Run every local row through the real middleware-hosted service, channel host-call bridge and host enforcement adapter, including detach/restart, operator-as-party, legacy cutover, corrupted expiry and M11 denial evidence. Link harness/evidence indexes; reconcile P051/P018/S040 and Node ledger without upgrading unrelated capabilities. |
+| P051-008 | Local-accountability acceptance / cross-component harness | partial | 004, 005, 006, 007, P018-14 | Node-local v2 report/qualifier qualifies exactly P051-002/003/005 and P018-12/13/14: 18 runtime cases plus two conformance bindings, 713 checks/15 suites and 27 qualifier tests (one positive, 26 negative), source/binary-bound original bytes. Historical v1 and failed review attempts remain immutable. Full acceptance including P051-001/006/007 is open; no historical scope promotion. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/qualification.json. |
 | P051-009 | Remote correction acceptance / case Artifact Delivery acceptor | deferred | 008 | Two-host authenticated decision/correction delivery, local admission, duplicate/reorder/restart and unreachable-recipient evidence; bounded P081 causal/replication primitives only where needed, no global sanction propagation. |
 
 The detailed enforcement work belongs to P018-12 through P018-14, linked from S040;
@@ -1423,9 +1478,10 @@ reputation projections remain separate follow-ups, not hidden acceptance prerequ
 
 ### Next Actions
 
-1. Start P051-002 and P018-12 together: settle exact case scope, first policy and
-   non-lossy source-aware restriction mapping before exposing mutation routes.
-2. Build the small Rust case core and middleware-hosted service, connect the
-   host-owned P018/S040 adapter and existing notifications, and prove replay/refusal
-   plus detach/reattach behavior through the real channel boundary.
-3. Run P051-008; only then consider P051-009 and optional deliberation assistance.
+1. Complete P051-001 admission and runtime consumption without duplicating the
+   existing pure membership kernel; then close the remaining P051-004 scope.
+2. Select and implement the independent appeal process under P051-006 and
+   scheduler-owned procedural deadlines under P051-007. Local fixtures are not
+   live sanction readiness.
+3. Extend P051-008 with a new explicit qualifier/profile for the remaining
+   matrix. Preserve the historical local report and keep P051-009 deferred.

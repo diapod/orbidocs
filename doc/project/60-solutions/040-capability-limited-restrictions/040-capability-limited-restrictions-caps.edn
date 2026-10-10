@@ -75,13 +75,16 @@
    :kind :policy-enforcement
    :based-on ["doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
               "doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
-   :schemas ["participant-capability-limits.v1" "participant-effective-limits.v1"]
+   :schemas ["participant-capability-limits.v1" "participant-restriction-source.v1"
+             "participant-restriction-sources.v1" "responsibility-effect-request.v1"
+             "responsibility-effect-receipt.v1"]
    :responsibilities
    ["Compose admitted case effects without losing source operation scope or validity"
     "Reconcile independent operator imports targeted appeal corrections and expiry"
     "Preserve protected access and emit replayable application outcomes"
-    "Keep case judgment and appeal authority outside enforcement"]
-   :status :planned}]
+    "Keep case judgment and appeal authority outside enforcement"
+    "Qualify only the one-host explicit test-subject profile; retain broader P051 integration as partial"]
+   :status :done}]
 
  :out-of-scope
  ["Moral classification of participants"
@@ -93,6 +96,7 @@
  :consumes
  ["participant-capability-limits.v1"
   "clear tombstones"
+  "admitted revision-bound case effect intents"
   "operation admission context"
   "procurement ranking inputs"]
 
@@ -100,4 +104,5 @@
  ["hard-block decisions"
   "soft ranking/cooldown modifiers"
   "durable replay state"
+  "source-bound effect receipts"
   "metadata-only operator refresh events"]}

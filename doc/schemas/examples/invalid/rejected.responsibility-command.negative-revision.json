@@ -1,0 +1,34 @@
+{
+  "schema": "responsibility-command.v1",
+  "command/id": "fixture-command",
+  "host/id": "host-test",
+  "actor/id": "participant:test-reviewer",
+  "subject/id": "participant:test-subject",
+  "case/id": "case-a",
+  "case/revision": -1,
+  "object": {
+    "id": "fixture-object",
+    "kind": "test-object",
+    "digest": "sha256:fixture-object"
+  },
+  "policy": {
+    "id": "local-test",
+    "revision": 1,
+    "digest": "sha256:fixture-policy"
+  },
+  "mandate": {
+    "id": "reviewer-mandate",
+    "revision": 1,
+    "digest": "sha256:fixture-mandate"
+  },
+  "issued_at": 100,
+  "action": {
+    "kind": "open",
+    "owner": "participant:test-reviewer",
+    "object": {
+      "id": "fixture-object",
+      "kind": "test-object",
+      "digest": "sha256:fixture-object"
+    }
+  }
+}

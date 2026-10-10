@@ -1,0 +1,33 @@
+{
+  "schema": "participant-restriction-source.v1",
+  "id": "legacy-operator:participant:test-subject:hard",
+  "revision": 1,
+  "subject": "participant:test-subject",
+  "kind": "case-effect",
+  "case_id": "case-fixture",
+  "decision_id": "decision-fixture",
+  "effect_id": "effect-fixture",
+  "policy": {
+    "id": "policy-fixture",
+    "revision": 1,
+    "digest": "sha256:fixture"
+  },
+  "actor": "participant:test-reviewer",
+  "mandate": null,
+  "reason_ref": "legacy-fractional-fixture",
+  "operations": [
+    "procurement/request"
+  ],
+  "hard": true,
+  "priority_factor": 1,
+  "rate_limit_factor": 1,
+  "valid_from": 0,
+  "valid_until": 1780272060,
+  "retracted": false,
+  "recorded_at": 1780272000,
+  "diagnostic": null,
+  "legacy/timing": {
+    "recorded-at": "2026-06-01T00:00:00.123456789Z",
+    "expires-at": "2026-06-01T00:01:00.999999999Z"
+  }
+}

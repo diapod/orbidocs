@@ -163,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **203** host-local / **235** ogółem; grupy właścicieli: **30**.
+Wpisy: **209** host-local / **241** ogółem; grupy właścicieli: **32**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -204,6 +204,15 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>memarium.read</code> | <code>app/memarium.read</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>daemon</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>responsibility.authorize</code> | <code>host/responsibility.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.case.commit</code> | <code>host/responsibility.case.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.effect.apply</code> | <code>host/responsibility.effect.apply</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.sources.inspect</code> | <code>host/responsibility.sources.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Agent host runtime</code>
 
@@ -487,6 +496,13 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>service.order.result.prepare</code> | <code>host/service.order.result.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>responsibility-service</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>responsibility.case.inspect</code> | <code>host/responsibility.case.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.procedure.execute</code> | <code>host/responsibility.procedure.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>supervised JSON-e Flow acceptance capability</code>
 

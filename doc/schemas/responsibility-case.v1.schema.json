@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-case:v1",
+  "title": "responsibility-case.v1",
+  "$ref": "responsibility-common.v1.schema.json#/$defs/Case"
+}

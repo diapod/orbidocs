@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-effect-apply:v1",
+  "title": "Host effect apply with source set CAS",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-effect-apply.v1"
+    },
+    "intent": {
+      "$ref": "responsibility-common.v1.schema.json#/$defs/EffectIntent"
+    },
+    "expected_source_set": {
+      "$ref": "responsibility-common.v1.schema.json#/$defs/Binding"
+    }
+  },
+  "required": [
+    "schema",
+    "intent",
+    "expected_source_set"
+  ]
+}

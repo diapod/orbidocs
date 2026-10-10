@@ -12,6 +12,10 @@ Related schemas:
 - `participant-capability-limits.v1`
 - `participant-effective-limits.v1`
 - `surface-access-policy.v1`
+- `participant-restriction-source.v1`
+- `participant-restriction-sources.v1`
+- `responsibility-effect-request.v1`
+- `responsibility-effect-receipt.v1`
 
 ## Status
 
@@ -22,9 +26,12 @@ runtime slice. Newcomer and membership/sponsorship policies may project into
 the same effective-limits vocabulary, but their social-policy source artifacts
 remain outside this solution.
 
-The source-aware social-correction adapter described below is planned. The
-existing enforcement slice stays implemented; it does not yet prove safe
-composition or independent undo of multiple social cases.
+The source-aware social-correction adapter is implemented and requalified on
+2026-10-10 for the explicit one-host test-subject profile. The reviewed evidence
+proves targeted A correction while the profile is disabled, independent
+B/operator restrictions, protected access, replay and expiry during service outage.
+This extension is outside hard MVP and does not qualify sanctions against real
+participants, complete entry-policy integration or the full social appeal process.
 
 ## Date
 
@@ -66,8 +73,8 @@ The participant capability-limits layer is a local host enforcement read model.
 It consumes operator-imported restriction records and clear tombstones, then
 exposes deterministic decisions to operation gates. The v1 record has no signature
 field; schema validation and its `decision/author` field are not verification of a
-social verdict. A future signed-decision adapter must verify issuer, mandate,
-target, scope, validity and revocation before producing an admitted restriction.
+social verdict. The signed-decision adapter verifies issuer, mandate,
+target, scope, validity and revocation before admitting a case restriction.
 
 Rules:
 
@@ -88,8 +95,8 @@ review result is input to a separately authorized application step, not an
 automatic command. Room moderation and Corpus deliberation roles do not confer
 restriction authority.
 
-The planned adapter composes case-scoped effects into the existing enforcement
-path. It must preserve the following boundaries:
+The implemented local adapter composes case-scoped effects into the existing
+enforcement path and preserves these boundaries:
 
 1. **Targeted correction.** Retract only effects derived from the challenged
    decision. Recompute remaining sanctions and entry defaults; do not translate
@@ -103,9 +110,12 @@ path. It must preserve the following boundaries:
    evaluation time. Invalid/ambiguous sources retain evidence and a typed refusal;
    compatibility must not preserve a legacy fail-open result. Restart must resume
    this cutover before accepting case effects or corrections.
-3. **Current authority.** Pin the decision and source-set revision, then recheck
-   authority, revocation and time at application. Historical replay is evidence,
-   not permission to repeat an expired effect.
+3. **Bound authority.** Pin the decision and source-set revision, then recheck
+   current authority, revocation and time before applying a new restriction.
+   An exactly accepted narrowing withdrawal retains its admission proof after
+   mandate, policy or profile revocation; it grants no new authority. A fresh
+   correction still requires an eligible current mandate. Historical replay is
+   evidence, not permission to repeat an expired effect.
 4. **Separate validity.** Each case effect, including soft penalties, has its own
    expiry. Admission must stop expired effects even if reconciliation is down.
    Removing one source must not renew another source's lifetime.
@@ -132,32 +142,55 @@ The 2026-10-10 inspection found reusable code in
 routes). Reuse these hooks and their replay stream; do not introduce another
 restriction engine in UI, Room, Corpus or a case service.
 
-Recovery also passes through `node:daemon/src/state_checkpoint.rs`. The current
-policy snapshot uses `.ok()?` when parsing `hard.expires-at`, so malformed data
-reaching it silently loses the hard block. Import validates expiry, but replay's
-typed decode and timestamp ordering are not equivalent to that validity check.
-P018-13/P018-14 own the missing recovery/admission refusal and corrupted-expiry
-fixture; this design requirement is not a claim that the baseline already handles it.
+The adapter uses `node:daemon/src/responsibility_host.rs` for admitted policies,
+mandates, mirrored procedural facts, source-set CAS and durable receipts.
+`participant-restriction-source.v1` is the authoritative source fact; the source
+set is an independently rebuildable projection. Every operator/case/admission
+writer participates in the same host gate. Effect outboxes serialize changes per
+source and retained retraction revisions fence late original effects.
 
-There are explicit limits to v1:
+v1 remains the operator-input format. Migration pins original records and clear
+tombstones to a digest-bound baseline, preserves unknown authorship as
+`legacy-operator-source`, and separates indefinite legacy soft factors from hard
+expiry. Host replay resumes interrupted migration before case admission. Invalid
+records or tombstones retain diagnostics and refuse affected privileged admission;
+they no longer disappear through the former expiry parser's `.ok()?` path.
+Protected case inspection and appeal survive this refusal.
 
-- the current map stores one record per participant and `clear` removes that
-  participant's state, not a case contribution;
-- `recorded-at`/clear tombstones order imports but do not provide a source-set CAS;
-- one `hard.expires-at` applies to the whole hard set; soft factors persist
-  independently of that expiry;
-- the two soft factors are participant-wide, not arbitrary per-surface limits.
+| Boundary | Local behavior |
+| --- | --- |
+| Composition | Active hard blocks union; active per-operation soft factors take the minimum. Evaluation uses host observation time. |
+| Correction | Retract only named effects of the bound decision. Other cases, operator sources and independent authorization remain intact. |
+| v1 import | Write the operator source through the common gate, retaining raw evidence and timestamp conflicts. |
+| v1 export | Refuse source compositions or targeted retractions that cannot be faithfully represented. |
+| Legacy wide DELETE | Refuse active or unresolved case sources; use revision-bound operator-source retraction. |
+| Expiry / outage | Independently expired soft/hard effects cease at admission without a live case service or Scheduler. |
+| Failure | Pending, refusal and applied/retracted receipts remain distinct; timeout never means success. |
 
-P018-12 must choose and test a non-lossy mapping before enabling case effects.
-Keep per-source facts and their authoritative projection in the owning layer;
-reuse v1 only where it can represent the exact scope and lifetimes. Otherwise
-introduce a narrowly versioned contract at that boundary, or refuse the unsupported
-shape. Never broaden a case's surface or lengthen its lifetime to fit v1.
+Canonical schemas and Node mirrors are registered in Schema Gate. The contract
+and ownership guide is `node:docs/development/LOCAL-ACCOUNTABILITY-CONTRACT.md`;
+the original historical report and conformance are retained under
+`node:docs/evidence/local-accountability/2026-10-10-qualified-local/` (18 runtime
+cases and two conformance bindings). The corrected-source review-v2 execution
+passed 18 runtime cases and two conformance bindings, with 713 conformance checks
+across 15 suites and 27 qualifier tests (one positive and 26 negative).
+Its report is `node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json`,
+with SHA-256 `4c16aa570954c29bb2cb1c45317f837c9dad563e9d8b2871ad2dbaea96d91b72`.
+The qualification and review findings remain beside that report and in the
+parent review README; historical and failed-attempt bytes remain unchanged.
+
+Host observation time now governs current operation admission, including old
+envelopes whose `created_at` precedes a restriction. Envelope time remains
+historical metadata; it is not authority to bypass current restrictions. A
+checkpoint containing only legacy limits cannot restore source corrections.
+New responsibility-bearing checkpoints require the matching SQLite source store;
+consistent full data-directory backup is required, and portable backup/restore
+is not qualified by the local profile.
 
 The pure `node:membership-policy-core/src/lib.rs` projectors already retain source
 references and accept sanction/appeal overlays, but later overlays replace earlier
-values for the same operation. The adapter must resolve authority and targeted
-retractions before invoking that mechanism. P051 owns policy admission; S040's
+values for the same operation. The case adapter composes admitted source facts independently; it does not
+activate this pure entry-policy projector or make overlay order authoritative. P051 owns policy admission; S040's
 existing protected floor and independent operation authorization still apply.
 
 Use S028 temporal facts/projections for source tracking and a replayable outbox
@@ -299,7 +332,9 @@ Responsibilities:
 
 Status:
 
-- `planned`, outside the implemented slice and current hard-MVP claim.
+- `done` for the corrected-source `review-v2` local test-subject passage
+  (P018-12/13/14); outside hard MVP.
+  P051-004 and P051-008 remain partial for their broader scope.
 
 Implementation tracker ownership:
 
@@ -322,7 +357,7 @@ and [P051 acceptance](../../40-proposals/051-swarm-membership-and-reputation-boo
 
 ## Consumes
 
-- participant capability-limits records;
+- operator participant capability-limits records and admitted source facts;
 - clear tombstones;
 - operation admission context;
 - procurement ranking inputs.
@@ -331,7 +366,7 @@ and [P051 acceptance](../../40-proposals/051-swarm-membership-and-reputation-boo
 
 - hard-block decisions;
 - soft ranking/cooldown modifiers;
-- durable replay state;
+- durable replay state and exact effect receipts;
 - metadata-only operator refresh events.
 
 ## Related Capability Data

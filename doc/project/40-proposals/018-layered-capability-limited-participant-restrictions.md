@@ -4,16 +4,19 @@
 
 `promoted`
 
-The implemented baseline is promoted; the P018-12–P018-14 social-correction
-continuation remains open and is not covered by that completion claim.
+The implemented baseline is promoted. P018-12–P018-14 supplied a local
+source-aware correction continuation, repaired and requalified on 2026-10-10
+after review exposed authority, synchronization and acceptance defects. The
+three scoped rows are done for the explicit local test-subject profile.
+Corrected-source qualification is separate from baseline promotion.
 
 Promoted to: `doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md`
 
 Social-correction integration (2026-10-10):
 [P051](051-swarm-membership-and-reputation-bootstrap.md#25-close-the-correction-loop-without-creating-another-authority-plane)
 owns case procedure and appeal authority. P018 owns the additional enforcement
-adapter tracked below; the completed baseline is not a claim that multi-case
-correction is implemented.
+adapter tracked below; the completed baseline is separate from the local multi-case correction
+continuation and its corrected-source qualification.
 
 ## Context
 
@@ -265,6 +268,23 @@ Resolved 2026-07-05:
 | P018-09 | Participant-scoped lifecycle controls stay separate from operator execution actions | done | Participant accept/dispute/reject surfaces remain distinct from infrastructure-operator execution controls. |
 | P018-10 | `subject/kind = org` support using the same artifact family | deferred | Organization restrictions share evaluator and read-model semantics with participant restrictions; trigger this after P017 organization subject invariants are frozen. |
 | P018-11 | Review/case history moves to a separate artifact family | deferred | Domain artifact/service work is now owned by P051-002/P051-003. This row tracks their boundary with restrictions, not a duplicate case service. The existing imported record remains authoritative for its legacy source; procedural history must not bloat it. |
-| P018-12 | Source-aware restriction composition contract | todo | Depends on P051-002. Freeze attribution, targeted retraction, source-set fencing, all-writer serialization, per-effect expiry and exact operation mapping. Define the legacy-source cutover and malformed/indeterminate-validity refusal contract, distinct from a sanction finding. Decide v1 compatibility versus a narrow versioned extension; fixtures must reject lossy scope/lifetime broadening, last-overlay authority and correction of an unrelated source. |
-| P018-13 | Case-effect host adapter and bounded reconciliation | todo | Depends on P018-12 and P051-003. Before enabling case effects/correction, inventory existing records and clear tombstones into a revision/digest-bound baseline with explicit legacy-operator-source attribution; preserve unknown authorship, fence every writer and prove same-time effective-value equivalence for valid sources and resumable cutover. Invalid/ambiguous sources remain evidenced and explicitly refused, not imported as compatible fail-open state. Reuse admitted source facts, durable outcomes and idempotent replay. Admission expires valid soft/hard effects without Scheduler; malformed or indeterminate validity at recovery/admission refuses affected privileged operations with typed diagnostics, never silently removes a block or disables protected appeal. Recheck actor/mandate/revocation before effects; expose unresolved correction. |
-| P018-14 | Social-correction enforcement conformance | todo | Depends on P018-13. Retain two-case appeal isolation, legacy cutover/restart and unchanged-effect proof for valid sources plus typed refusal for ambiguous ones, interleaved operator write, equal-timestamp conflict, duplicate/reordered correction, revoked actor, independent expiries, soft-factor expiry, malformed recovered expires-at, restart and protected-appeal non-starvation fixtures. Test blocked appeal with explicit stay/expiry policy: missing quorum cannot clear or renew restrictions. Feed P051-008 evidence; reconcile S040 and Node ledger/MVP scopes without reopening completed baseline claims. |
+| P018-12 | Source-aware restriction composition contract | done | Qualified review-v2 local contract: attributed source-set and effect request/receipt bindings, exact operations and independent validity; hard union / soft minimum, targeted retraction and shared revision/digest CAS. Legacy-only timing preserves exact RFC3339 instants. v1 remains operator input; export refuses loss and wide DELETE refuses case/unresolved sources. New authority is domain-only; exact retained historical proof permits narrowing/receipt recovery without new coercion. Canonical schemas, mirrors and negative fixtures: node:docs/development/LOCAL-ACCOUNTABILITY-CONTRACT.md; scoped evidence below. |
+| P018-13 | Case-effect host adapter and bounded reconciliation | done | Host validates new effect authority and exact bindings; previously accepted narrowing retains its bound admission proof after revocation. Prepared evidence is checked before commit; typed mirror desync fences later effects. Ordered receipts, CAS-only inspection and retraction fences distinguish pending/refusal/application. Legacy migration preserves raw attribution and exact time, typed corrupt recovery and targeted fences; rejected operator writes cannot replay as accepted changes. Host expiry works during service outage. Automatic desync reconciliation and portable full backup remain unqualified. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json and host-tests.json. |
+| P018-14 | Social-correction enforcement conformance | done | review-v2 proves 18 actual runtime cases plus two conformance bindings, 713 checks across 15 suites and 27 qualifier tests (one positive and 26 negative). Actual daemon/channel service/ParticipantSession UI demonstrate A-only correction while profile-disabled, B/operator preservation, rejected clear and restart, independent expiry, direct/UI rights under revoked policy, prepared-evidence preflight and AppealBlocked without renewal. Named conformance covers authority loss, desync, concurrent writers, exact legacy timing, historical proof recovery and corrupted receipts. No real-participant sanction or full P051-008 qualification. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/README.md and passage-3/qualification.json. |
+
+### Source-aware checkpoint: 2026-10-10
+
+Review repaired and requalified P018-12/13/14 under
+`local-accountability.test-subjects.review-v2`. The original v1 report remains
+immutable historical evidence. Current qualification is
+`node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json`
+and `qualification.json`: 18 runtime cases plus two conformance bindings,
+713 checks across 15 suites and 27 qualifier tests (one positive, 26 negative).
+The exact original report digest is
+`sha256:4c16aa570954c29bb2cb1c45317f837c9dad563e9d8b2871ad2dbaea96d91b72`.
+Findings, failed attempts and limits remain in the parent review README.
+P051-004 remains partial because runtime entry policy is not
+connected; P051-008 remains partial because independent panel selection,
+procedural scheduling and the wider matrix are absent. Existing baseline
+completion, proposal adoption, hard-MVP membership and release readiness are
+separate claims. New case effects default to disabled.

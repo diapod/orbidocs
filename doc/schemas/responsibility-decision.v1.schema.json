@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-decision:v1",
+  "title": "responsibility-decision.v1",
+  "$ref": "responsibility-common.v1.schema.json#/$defs/Decision"
+}

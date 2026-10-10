@@ -23,6 +23,34 @@ host routes with independent operator authorization. The registry remains
 descriptive/enforcing metadata, not a source of grants. P091-002/005a own
 registration and security proof; the entries are not claimed to exist yet.
 
+## Local responsibility registration: 2026-10-10
+
+P051-002 and P018-12 register six **host-local** operations in the canonical
+Node registry. Their identity and dispatch admission are separate from actor
+mandates, case ownership and effect authority. They are neither federation
+advertisements nor capability passport grants.
+
+| Operation | Owner | Permission boundary |
+| --- | --- | --- |
+| `responsibility.case.inspect` | responsibility-service | Signed own-case inspection/listing or current inspection mandate; cannot execute procedure. |
+| `responsibility.procedure.execute` | responsibility-service | Exact signed command, actor/host/object/policy/case revision and required current procedural mandate; subject acknowledgment/appeal remain protected. |
+| `responsibility.authorize` | daemon | Authenticated responsibility module host call; independently verifies signature and current policy/mandate admission. Registration does not grant authority. |
+| `responsibility.case.commit` | daemon | Verified command and accepted prior case revision; host independently replays the pure transition before retaining a mirror. |
+| `responsibility.sources.inspect` | daemon | Verified responsibility module context; returns bounded source-set revision/digest for effect CAS. |
+| `responsibility.effect.apply` | daemon | Exact source/effect/decision bindings, current actor authority, validity, source-set CAS and durable retraction fence. |
+
+S039 separately admits the registered `responsibility.case.respond` action;
+notification answers call the same service, recheck the exact case/action/recipient
+and preserve `marks/handled=false`. UI signing uses verified caller binding and
+the narrow `orbiplex.responsibility.command.v1` domain, never a form-selected
+identity. Local admission, sealed evidence and targeted operator-source control
+routes require their existing control transport authorization plus the specified
+actor proof or operator boundary. No implicit module grant is introduced.
+
+Contract and evidence:
+`node:docs/development/LOCAL-ACCOUNTABILITY-CONTRACT.md` and
+`node:docs/evidence/local-accountability/2026-10-10-qualified-local/`.
+
 ## Status
 
 `promoted`

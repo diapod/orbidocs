@@ -13,6 +13,18 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+    "responsibility-common.v1.schema.json",
+    "responsibility-effect-apply.v1.schema.json",
+    "responsibility-policy.v1.schema.json",
+    "responsibility-mandate.v1.schema.json",
+    "responsibility-command.v1.schema.json",
+    "responsibility-signed-command.v1.schema.json",
+    "responsibility-case.v1.schema.json",
+    "responsibility-decision.v1.schema.json",
+    "responsibility-effect-request.v1.schema.json",
+    "responsibility-effect-receipt.v1.schema.json",
+    "participant-restriction-source.v1.schema.json",
+    "participant-restriction-sources.v1.schema.json",
     "capability-passport-publication-desired-state.v1.schema.json",
     "capability-passport-publication-status-list.v1.schema.json",
     "capability-passport-publication-status.v1.schema.json",
@@ -561,6 +573,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "accepted.responsibility-signed-command.json",
+    "accepted.participant-restriction-source.legacy-fractional.json",
+    "accepted.responsibility-command.json",
     "fixture.operator-task-loop-mandate-payload.v1.json",
     "fixture.operator-task-loop-mandate.v1.json",
     "fixture.operator-task-delegated-confirmation.v1.json",
@@ -1092,6 +1107,12 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "rejected.responsibility-signed-command.raw-signature.json",
+    "rejected.participant-restriction-source.case-legacy-timing.json",
+    "rejected.responsibility-command.actor-field-only.json",
+    "rejected.responsibility-command.missing-object.json",
+    "rejected.responsibility-command.negative-revision.json",
+    "rejected.responsibility-command.widened-operation.json",
     "outside-scope.operator-task-loop-mandate-payload.v1.json",
     "outside-scope.operator-task-loop-mandate.v1.json",
     "outside-scope.operator-task-delegated-confirmation.v1.json",

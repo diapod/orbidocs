@@ -1,0 +1,43 @@
+{
+  "schema": "responsibility-command.v1",
+  "command/id": "fixture-command",
+  "host/id": "host-test",
+  "actor/id": "participant:test-reviewer",
+  "subject/id": "participant:test-subject",
+  "case/id": "case-a",
+  "case/revision": 0,
+  "object": {
+    "id": "fixture-object",
+    "kind": "test-object",
+    "digest": "sha256:fixture-object"
+  },
+  "policy": {
+    "id": "local-test",
+    "revision": 1,
+    "digest": "sha256:fixture-policy"
+  },
+  "mandate": {
+    "id": "reviewer-mandate",
+    "revision": 1,
+    "digest": "sha256:fixture-mandate"
+  },
+  "issued_at": 100,
+  "action": {
+    "kind": "decide",
+    "decision_id": "a",
+    "reasons": "reason",
+    "effects": [
+      {
+        "id": "effect",
+        "operations": [
+          "all"
+        ],
+        "hard": true,
+        "priority_factor": 1,
+        "rate_limit_factor": 1,
+        "valid_from": 100,
+        "valid_until": 200
+      }
+    ]
+  }
+}

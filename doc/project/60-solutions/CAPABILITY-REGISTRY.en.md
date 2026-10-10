@@ -161,7 +161,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **203** host-local / **235** total; **30** owner groups.
+Entries: **209** host-local / **241** total; **32** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -202,6 +202,15 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>memarium.read</code> | <code>app/memarium.read</code> | <code>active</code> | <code>federated</code>, <code>host-local</code> | true | true | <code>advertisable</code>, <code>passport/eligible</code>, <code>federated-discovery</code> |
+
+### <code>daemon</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>responsibility.authorize</code> | <code>host/responsibility.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.case.commit</code> | <code>host/responsibility.case.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.effect.apply</code> | <code>host/responsibility.effect.apply</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.sources.inspect</code> | <code>host/responsibility.sources.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Agent host runtime</code>
 
@@ -485,6 +494,13 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>service.order.result.prepare</code> | <code>host/service.order.result.prepare</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>responsibility-service</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>responsibility.case.inspect</code> | <code>host/responsibility.case.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>responsibility.procedure.execute</code> | <code>host/responsibility.procedure.execute</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>supervised JSON-e Flow acceptance capability</code>
 
