@@ -22,7 +22,7 @@ adapter in daemon wiring. The adapter itself plus the Agora → Memarium couplin
 (republish queue, per-publish fact tracking) do not exist yet; this is a
 separate post-MVP task outside the scope of agora-core.
 
-**Everything else is closed at the MVP level:**
+**The original relay/signing MVP baseline is closed:**
 - ✅ Signature verification (7-step, fail-closed, VerifiedRecord newtype)
 - ✅ Matrix federation (store-and-forward, inbound sync, dedup)
 - ✅ Retention sweep (per-topic, configurable)
@@ -36,6 +36,11 @@ separate post-MVP task outside the scope of agora-core.
 - ✅ Reproducible homeserver harness (Conduit fixture in
   `node/tools/matrix-fixture/`) + server-side Matrix `/sync` filters
   in `HttpMatrixEventSink`
+
+This baseline does not claim complete domain-consumer coverage. Generic resource
+authoring and opinion-key conformance are tracked by
+[P026-001–003](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#implementation-tracker);
+public-gossip related-link navigation is the independent P17 continuation below.
 
 ---
 
@@ -58,6 +63,35 @@ separate post-MVP task outside the scope of agora-core.
 | **P13** | **`agora-verifier` signer policy when it gains contrasigning duties** | [todo] | `default_signer_policy_rules()` currently assigns `agora-verifier` → `Vec::new()` (deny-all), which is correct today because the verifier only verifies — it never signs. If `agora-verifier` ever starts contrasigning artifacts (e.g. a moderation marker tied to P3 flagging, or a capability-passport-revocation), the empty allow-list will silently block signing with `domain_not_authorized` before any feature-level test catches it. Action when it happens: extend `default_signer_policy_rules()` with the narrow domain family the verifier needs (likely `agora.moderation.v1` or similar), mirror the pattern P11 uses for `agora-service`, and add a shape test next to `default_signer_policy_includes_agora_service`. Filed here so the reminder travels with Agora's TODO rather than living only in recipe form. | Low — dormant until P3 or another verifier-signed artifact lands |
 | **P14** | **Query attestations** | [done] | Historical query responses now include `agora-query-attestation.v1` as `query_attestation`. The proof binds query mode, topic/subject scope, normalized filter, returned record ids, `next_cursor`, cursor-pruning metadata, and a deterministic JCS-NFC SHA-256 digest. The outer `RecordsPage.cursor_pruned` notice keeps Rust/JSON response field names (`requested_from`, `first_available`), while the exported attestation payload follows the schema contract under `result/cursor-pruned` with `requested-from` and `first-available`. `agora-service` re-attests subject-index pages after per-record subscribe-policy filtering so the proof describes the exact response returned. The v1 proof may be unsigned; relay signatures are a later signer/authority integration. | Low |
 | **P15** | **Operator visibility** | [done] | `agora-service` now declares its own middleware operator surface in the module report and exposes an `operator_visibility` summary in `/v1/agora/status`: public endpoint, namespace enforcement mode, strict gates, topic ACL, authority roots, client auth, Matrix posture, HTTP/SSE limits, rate-limit persistence, and retention summary. `agora-ui` owns the rendered `/middleware/agora/operator` view and shows query-attestation JSON on historical topic/subject pages. Node UI only mounts Agora's surface and no longer treats Agora as a hard-coded bundled middleware nav item. | Low |
+| **P17** | **Public-gossip resource links** | [todo] | Project `gossip/see-also` through the existing related-link machinery and expose bounded, policy-filtered lookup/navigation without conflating related resources with envelope subjects. Reuse P026 resource conversions; no country-specific core cases. See the completion gate below. | Medium — independent consumer continuation, not a blocker for P026-003 |
+
+### P17: Public-Gossip Resource Links
+
+Based on [P026 resource references](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#12-references-in-opinions-and-gossip)
+and its [implementation recommendations](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#implementation-recommendations).
+Scope is explicit `public-gossip.v1` publication, not private Whisper intake or
+automatic publication of private associations.
+
+Reuse `node:agora-projections/src/lib.rs` pair-link decoding and replacement,
+projection cursor/diagnostics, and existing API/UI read paths. The minimal local
+edge is `(source record/id, relation = see-also, target ResourceRef)`; the signed
+payload remains authoritative. Related edges must not be inserted into the
+`record/about` subject index or interpreted as endorsements, verified identity,
+or evidence. Unknown namespace values remain opaque. No additional wire schema
+or persistent source of truth is required.
+
+Completion gate: retained fixtures show exact kind/id preservation for
+`pl-nil-pwz` and an unknown kind, namespace separation, idempotent ingest and
+replay, bounded/paginated query and escaped UI navigation. Query results must
+obey source-record access/visibility and gossip expiry policy; retention/rebuild
+must not leave stale visible edges. Missing targets remain inspectable references
+without automatic external fetches. Keep the existing public-signals topic and
+epistemic/disclosure gates. Link queries and UI must not disclose a hidden source
+through counts or navigation. Reconcile Node evidence and ledger at delivery.
+
+P17 has no dependency on P026-001 or P026-002 completion: it consumes the same
+pair contract and may reuse their helpers when available. Its evidence is
+separate from P026-003 basic publication/subject-lookup acceptance.
 
 ### Priority recommendation
 

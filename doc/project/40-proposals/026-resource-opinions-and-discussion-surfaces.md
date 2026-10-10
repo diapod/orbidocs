@@ -7,8 +7,10 @@ Based on:
 
 ## Status
 
-Accepted; hard-MVP `resource-opinion.v1` content schema and Agora/node-ui
-compose path implemented. Rich discussion surfaces remain future work.
+Accepted; the `resource-opinion.v1` content schema, Agora publication substrate,
+and URL-oriented opinion authoring path are implemented. Generic resource
+authoring in UI, public projection-key conformance, and end-to-end acceptance
+remain open in P026-001–003 below. Rich discussion surfaces remain future work.
 
 ## Date
 
@@ -508,6 +510,128 @@ Hard-MVP consumers SHOULD tolerate:
 - multiple opinions over time from the same author when `supersedes` is not yet
   enforced by policy.
 
+## Implementation Recommendations
+
+Follow `node:DEV-GUIDELINES.md`: reuse the existing resource pair, signing and
+admission boundaries, and replay-fed projections. This continuation closes
+consumer gaps; it does not introduce another identifier protocol, a country
+registry in the core, or a prerequisite NIL lookup.
+
+### Reuse and Consumer Boundaries
+
+Consumer review on 2026-10-10 found these remaining seams:
+
+- `node:agora-core/src/envelope.rs` already owns `ResourceRef`;
+  `node:agora-relay-trait/src/subject_index.rs` indexes the full opaque pair.
+  Reuse these rather than adding a country-aware identity type.
+- `node:agora-ui/src/agora.rs` already has subject lookup and an opinion builder
+  with separate kind/id values, but its opinion form forces `url`; the generic
+  compose builder does not populate envelope `record/about`.
+- `node:agora-projections/src/lib.rs` currently derives the opinion
+  `resource_key` as a digest of the pair, and `node:agora-service/src/main.rs`
+  queries that stored key directly. This is a consumer mismatch with §1, not a
+  replacement for the accepted `kind:id` contract.
+- Public gossip retains `gossip/see-also` in its content, but does not project
+  those links as opinions do. The separate owner is
+  [Agora backlog P17](../60-solutions/008-agora/008-agora-backlog.md#p17-public-gossip-resource-links);
+  it is not a dependency of basic resource publication or subject lookup.
+
+These are code-level findings, not a claim of retained runtime acceptance.
+Implementation evidence and detailed migration notes belong in Node.
+
+### Small Data Shapes, Shared Conversions
+
+Keep the following shapes distinct; they are bindings of existing contracts,
+not new wire schemas:
+
+| Surface | Shape | Rule |
+|---|---|---|
+| Resource value | `{"resource/kind": "pl-nil-pwz", "resource/id": "<pwz-number>"}` | Reuse `ResourceRef`; kind remains open, id remains a string. |
+| Primary opinion subject | `record/about[0] = ResourceRef` | Required for an opinion; later entries must not reorder or replace the primary subject. |
+| Generic compose subjects | `record/about = [ResourceRef, ...]` | Optional for record families that do not require a subject, including public gossip. |
+| Related reference | `[kind, id]` in `opinion/see-also` or `gossip/see-also` | Preserve the complete namespace and id; do not substitute the derived key for the second element. |
+| Public derived key | `kind + ":" + id` | Split on the first colon only; if supplied alongside the pair, reject disagreement. |
+
+Use a shared UI resource editor with separate kind/id inputs and a convenient
+URL mode. URL mode selects `kind = url`; generic mode must not run a URL parser
+or require a registered validator. Namespace suggestions are optional, not an
+allow-list. Preserve leading zeroes, case, punctuation and embedded colons in
+opaque ids; no numeric coercion or silent trimming/normalization. Kind-specific
+normalization belongs to an explicitly selected kind contract, not the generic
+editor or relay. Escape displayed values and percent-encode each local route
+segment; an unfamiliar id is not an automatically navigable external URL.
+
+Both forms should map their local draft fields into the existing envelope
+builder before signing. Do not place `record/about` inside `content`, infer it
+from `see-also`, or replace an opinion's rumor-record target with a person
+mentioned by that rumor. Reuse the existing signer/unlock flow and admission
+policy; client validation does not replace Schema Gate at protocol boundaries.
+Apply each receiving field's limits explicitly (including the 512-character
+`see-also` id limit versus 2048 in `resource-ref.v1`); reject oversize input with
+a field diagnostic rather than truncate it or partially publish it.
+
+Implement pair-to-key, key-to-pair and pair-to-tuple conversions once as pure
+operations at the lowest existing shared owner. Do not create a new service or
+crate merely for these helpers. Test `decode(encode(pair)) = pair`, including
+ids containing colons, and keep each carrier's validation at its boundary.
+
+### Projection-Key Compatibility and Recovery
+
+The public opinion read model must expose the canonical pair and the §1
+`resource/key`. A digest may remain a private index accelerator under a distinct
+name; it must not silently retain the public name `resource/key`. Route lookup
+through the shared conversion and reuse the existing pair index where suitable.
+
+Treat the current digest-based projection as legacy derived state. Follow
+[S028 Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md):
+rebuild or migrate the projection without rewriting signed records or changing
+their ids/signatures. Inventory consumers before changing the query surface;
+if legacy digest lookup must remain temporarily available, use an explicitly
+named compatibility parameter or version, never guess which key a caller sent.
+Migration tests must cover interrupted recovery and replay equivalence. If the
+retained source cannot reconstruct a row, expose the incomplete rebuild and
+preserve recoverable state instead of reporting an empty resource as complete.
+
+### Acceptance Boundary
+
+Use synthetic fixtures for `pl-nil-pwz` and an unregistered namespace, two kinds
+sharing an identical id, an id with leading zeroes, and an id containing colons
+and URL-sensitive characters. No live professional register or real-person
+opinion is needed. A new kind must work without a code or allow-list change.
+
+Retain evidence for both UI builders and the ordinary sign → publish → subject
+query → projection query → UI read path, then repeat reads after restart/replay.
+Include public gossip on its accepted public-signals topic, keeping its
+epistemic status unchanged. Separately exercise `see-also` shape preservation;
+gossip link navigation is qualified only by Agora P17, not this basic slice.
+Negative cases include missing opinion subject, inconsistent derived key,
+malformed/oversize references, denied publication and escaped malicious display
+text. Unknown namespaces alone are not a refusal reason under generic shape
+validation; ordinary admission and disclosure policy still apply.
+
+Schema fixtures and unit tests alone do not close the UI/runtime gate. Record
+the tested revisions, commands, runtime/backend scope and retained report in
+Node; reconcile its implementation ledger and any affected MVP claims when the
+implementation lands, rather than marking them complete from this plan.
+
+## Implementation Tracker
+
+This tracker covers the consumer continuation, not a retrospective inventory of
+the already implemented substrate. Statuses are `todo`, `partial`, `done` and
+`blocked`; `done` requires the stated gate and linked Node evidence.
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P026-001 | Generic resource authoring in opinion and compose UI | todo | Existing Agora signer and subject-index baseline | Both forms reuse a kind/id editor and populate envelope `record/about`; URL convenience remains; an unknown kind works without registration; opaque ids, field limits, escaping and denied-publication tests pass. |
+| P026-002 | Canonical public opinion keys and legacy projection migration | todo | §1 identity contract; S028 | Shared conversions and public queries use `kind:id`; mismatched pair/key is rejected; digest indexes are distinct; existing consumers and any explicit compatibility route are documented; interrupted migration, replay equivalence and incomplete-source diagnostics are tested without rewriting signed records. |
+| P026-003 | Open-namespace consumer acceptance | todo | P026-001, P026-002 | Retained UI and runtime evidence covers the Acceptance Boundary matrix for opinions and public gossip, including two namespaces with the same id, restart/replay and refusal paths; report scope distinguishes basic references from Agora P17 link navigation; relevant Node ledger/MVP evidence is reconciled. |
+
+P026-001 and P026-002 may proceed independently against the existing pair
+contract; P026-003 closes their joint slice. Public-gossip related-link indexing
+and navigation remain the single-source task
+[Agora P17](../60-solutions/008-agora/008-agora-backlog.md#p17-public-gossip-resource-links),
+which can proceed independently and must not block basic open-namespace support.
+
 ## Open Questions
 
 No unresolved questions remain for this proposal slice. The decisions below
@@ -560,7 +684,9 @@ Tradeoffs:
 
 ## Follow-Up
 
-If adopted, the next artifacts should be:
+The immediate consumer slice is P026-001 and P026-002 followed by P026-003.
+The broader follow-up list below includes existing artifacts and later work;
+it is not evidence that the new consumer tasks are complete:
 
 1. one schema for `resource-opinion.v1`,
 2. one requirements note for normalization and revision policy,

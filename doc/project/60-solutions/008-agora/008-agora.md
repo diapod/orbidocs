@@ -485,6 +485,11 @@ Status:
   exposes `/v1/agora/operator/projections/replay` plus read-model query surfaces
   under `/v1/agora/projections/*`. Public moderation markers remain signals:
   M2 does not define automatic hide/delete policy from marker content.
+- The M2 baseline does not close every domain-consumer gap:
+  [P026-001–003](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#implementation-tracker)
+  track generic resource authoring, public opinion-key conformance and acceptance;
+  [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
+  tracks public-gossip related-link projection and navigation.
 
 ### Agora M4: Story-005 Public Signal Closure
 
