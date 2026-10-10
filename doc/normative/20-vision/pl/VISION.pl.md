@@ -454,6 +454,9 @@ odwołania; "algorytm tak zdecydował" ani "wszyscy tak zagłosowali" nie uniewa
 odpowiedzialności ludzi, którzy zaprojektowali, uruchomili lub zatwierdzili daną
 decyzję.
 
+Skalujemy zdolność współdziałania, zachowując czytelny związek między wkładem
+uczestnika, wspólnym rezultatem i odpowiedzialnością za podjęte decyzje.
+
 To rój odporny na kult: narzędzie, nie religia ani ideologia.
 
 ## Bezpieczeństwo i etyka jako część warstwy danych

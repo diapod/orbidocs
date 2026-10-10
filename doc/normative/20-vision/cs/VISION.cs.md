@@ -440,6 +440,9 @@ jiného účastníka, MUSÍ mít autora, stopu odůvodnění a cestu odvolání;
 algoritmus“ ani „všichni tak hlasovali“ neruší odpovědnost lidí, kteří dané
 rozhodnutí navrhli, spustili nebo schválili.
 
+Škálujeme schopnost spolupracovat a přitom zachováváme jasnou vazbu mezi příspěvkem
+účastníka, společným výsledkem a odpovědností za přijatá rozhodnutí.
+
 Je to roj odolný vůči kultu: nástroj, nikoli náboženství ani ideologie.
 
 ## Bezpečnost a etika jako součást datové vrstvy

@@ -545,6 +545,13 @@ systémy – mají-li zůstat lidské a odolné vůči patologiím – musejí e
 lokalitu: zkracovat smyčku odpovědnosti, zahušťovat stopu rozhodnutí a vracet cenu
 reputaci tam, kde by přirozeně mizela.
 
+[Ringelmannův efekt](https://www.sciencedirect.com/science/article/pii/002210317490033X)
+upozorňuje na příbuzné riziko: s růstem skupiny plnící společný úkol může průměrný
+příspěvek jednotlivce klesat kvůli obtížím s koordinací a oslabení motivace.
+Nechápeme to jako nevyhnutelný osud velkých komunit, nýbrž jako důvod navrhovat
+jasné role, zviditelňovat význam vlastního příspěvku a udržovat krátké smyčky
+zpětné vazby.
+
 V praxi to znamená navrhovat správu jako federaci malých, auditovatelných buněk
 namísto jediného „aparátu“: jasné role a rotace, „vlastník“ výjimek a rozhodnutí,
 *multisig* pro činy s vysokou sázkou, *red-team* jako trvalý protiváhový mechanismus
@@ -1010,6 +1017,11 @@ na rozhodnutích s reálnými důsledky pro lidi. Ve velkých ekonomických syst
 to promítá do odcizení a mizení pocitu odpovědnosti za následky vlastních rozhodnutí,
 ale podmínky, za nichž k tomu dochází, jsou především procedurální a architektonické,
 nikoli ekonomické, a proto jsou popsány právě v této hodnotě.
+
+Oslabení individuálního úsilí při kolektivním úkolu a rozptýlení odpovědnosti
+za jeho důsledky jsou různá rizika: první vyžaduje péči o koordinaci a motivaci,
+druhé – jasné autorství rozhodnutí a možnost volat jejich autory k odpovědnosti
+za následky.
 
 Roj přijímá zásadu pojmenovaných rozhodnutí: každé procedurální rozhodnutí, které
 mění stav jiného účastníka (sankce, odmítnutí, blokace, eskalace, arbitráž, vydání

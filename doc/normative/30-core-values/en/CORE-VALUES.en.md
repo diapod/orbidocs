@@ -559,6 +559,13 @@ large systems - if they are to remain human and resilient to pathology - must em
 locality: shorten accountability loops, densify decision traces, and restore
 reputational cost where it would naturally disappear.
 
+The [Ringelmann effect](https://www.sciencedirect.com/science/article/pii/002210317490033X)
+points to a related risk: as a group performing a shared task grows, the average
+individual contribution may decline through coordination difficulties and reduced
+motivation. We treat this not as the inevitable fate of large communities, but as
+a reason to design clear roles, make the significance of one's own contribution
+visible, and keep feedback loops short.
+
 In practice this means designing governance as a federation of small, auditable cells
 instead of a single "apparatus": clear roles and rotations, an explicit "owner" for
 exceptions and decisions, multisig for high-stakes actions, red-team as a standing
@@ -1048,6 +1055,11 @@ economic systems this translates into alienation and the disappearance of felt
 responsibility for the consequences of one's own decisions, but the conditions under
 which that happens are primarily procedural and architectural rather than economic,
 which is why they are described in this value.
+
+Reduced individual effort in a collective task and diffusion of accountability
+for its consequences are different risks: the first calls for attention to
+coordination and motivation, the second for explicit decision authorship and
+the ability to hold decision-makers accountable for the consequences.
 
 The swarm adopts the principle of named determinations: every procedural decision
 that changes another participant's state (sanction, refusal, block, escalation,

@@ -559,6 +559,13 @@ i rozmycia winy. Dlatego duże systemy – jeżeli mają pozostać ludzkie i o
 patologie – muszą emulować lokalność: skracać pętlę odpowiedzialności, zagęszczać
 ślad decyzji i przywracać koszt reputacyjny tam, gdzie naturalnie by zanikł.
 
+[Efekt Ringelmanna](https://www.sciencedirect.com/science/article/pii/002210317490033X)
+wskazuje na pokrewne ryzyko: wraz ze wzrostem grupy wykonującej wspólne zadanie
+przeciętny wkład jednostki może maleć wskutek trudności koordynacji i osłabienia
+motywacji. Nie traktujemy tego jako nieuchronnego losu dużych wspólnot, lecz jako
+przesłankę do projektowania czytelnych ról, widocznego znaczenia własnego wkładu
+i krótkich pętli informacji zwrotnej.
+
 W praktyce oznacza to projektowanie ładu organizacyjnego jako federacji małych,
 audytowalnych komórek zamiast jednego "aparatu": jasne role i rotacje, "właściciel"
 wyjątków i decyzji, *multisig* dla działań o wysokiej stawce, *red-team* jako stały
@@ -1049,6 +1056,10 @@ ekonomicznych zjawisko to przekłada się na alienację i zanik poczucia
 odpowiedzialności za skutki własnych decyzji, ale warunki, w których do tego
 dochodzi, są przede wszystkim proceduralne i architektoniczne, nie ekonomiczne,
 dlatego są opisane w tej wartości.
+
+Osłabienie indywidualnego wysiłku w zadaniu zbiorowym i rozproszenie odpowiedzialności
+za jego skutki to różne ryzyka: pierwsze wymaga troski o koordynację i motywację,
+drugie – o jawne autorstwo decyzji i możliwość rozliczenia ich następstw.
 
 Rój przyjmuje zasadę nazwanych rozstrzygnięć: każda decyzja proceduralna, która
 zmienia stan innego uczestnika (sankcja, odmowa, blokada, eskalacja, arbitraż,

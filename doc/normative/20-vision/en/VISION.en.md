@@ -448,6 +448,10 @@ and an appeal path; "the algorithm decided it" or "everyone voted for it" does n
 void the responsibility of the people who designed, triggered, or approved the
 decision.
 
+We scale the capacity to cooperate while preserving a clear connection between
+each participant's contribution, the shared outcome, and accountability for
+the decisions made.
+
 This is a swarm resistant to cult dynamics: a tool, not a religion or ideology.
 
 ## Security and Ethics as Part of the Data Layer
