@@ -11,6 +11,11 @@ Based on:
 - `doc/normative/50-constitutional-ops/en/PARTICIPANT-COVENANT.en.md`
 - `doc/normative/50-constitutional-ops/en/ADVOCACY-AND-SOLICITATION-POLICY.en.md`
 - `doc/normative/50-constitutional-ops/en/MARKETPLACE-ANTI-FRAUD-POLICY.en.md`
+- `doc/normative/50-constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md`
+- `doc/normative/50-constitutional-ops/en/ABUSE-DISCLOSURE-PROTOCOL.en.md`
+- `doc/normative/50-constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md`
+- `doc/normative/50-constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md`
+- `doc/normative/50-constitutional-ops/en/NODE-RIGHTS-CARD.en.md`
 
 ## Status
 
@@ -19,6 +24,9 @@ Draft
 ## Date
 
 2026-04-23
+
+Design/reuse review: 2026-10-10. The original date and frozen decisions remain;
+the social-correction integration below is planned, not a runtime completion claim.
 
 ## MVP Decisions Frozen on 2026-05-27
 
@@ -75,7 +83,7 @@ The decisions of this proposal are:
    reputation event before opening a formal appeal,
 8. formal appeal is handled by a randomly selected independent community group
    that did not participate in the original decision and is at least as large
-   as the decision-forming group,
+   as the decision-forming group within the applicable panel-size rules,
 9. a separate anti-collusion sweep SHOULD continuously look for correlated
    group behavior and procedural contamination across cases,
 10. concrete mechanisms MUST vary by pseudonymization class and accountability
@@ -420,8 +428,16 @@ stateDiagram-v2
     JudgedSubjective --> Appeal: formal appeal
     JudgedSubstantiated --> Appeal: formal appeal
     Appeal --> Clear: appeal succeeds
-    Appeal --> JudgedSubstantiated: appeal fails
+    Appeal --> JudgedSubjective: prior subjective judgment upheld
+    Appeal --> JudgedSubstantiated: prior substantiated judgment upheld
+    Appeal --> Contested: merits review finds sanction basis insufficient
+    Appeal --> AppealBlocked: eligible pool or quorum unavailable
+    AppealBlocked --> Appeal: independent pool restored
+    AppealBlocked --> Council: authorized escalation
     Contaminated --> Council: high-significance or repeated failure
+    Council --> Review: remit for independent reconsideration
+    Council --> Appeal: constitute independent appeal
+    Council --> AppealBlocked: no authorized quorate path available
     Clear --> Withdrawn: author withdrawal
     Contested --> Withdrawn: author withdrawal
     JudgedSubjective --> Withdrawn: author withdrawal
@@ -430,6 +446,18 @@ stateDiagram-v2
 
 Mediation and council review are branches of one state machine, not parallel
 systems of authority.
+The diagram summarizes the procedure, not effect-application state. An unsuccessful
+appeal does not upgrade a subjective dispute into substantiated misconduct;
+only a competent merits review finding the sanction's basis insufficient leads
+from appeal to `Contested`. An appellant's failure to supply new evidence does
+not itself invalidate the prior finding.
+
+`AppealBlocked` is a procedural-liveness state, neither exoneration nor confirmation
+of the prior finding. Retain that finding as history; the recorded applicable
+policy separately determines whether its effects are stayed or remain effective,
+subject to current authority and expiry. Blockage cannot renew a hold, create guilt
+or remove unrelated restrictions. The first local profile uses Council to remit
+or arrange independent review, not as an additional unqualified merits authority.
 
 ### 7. Public Adjudication Applies to Publicly Indexed User Objects
 
@@ -461,6 +489,9 @@ The minimum recommended state shape is three orthogonal axes:
 The equivalent diagnostic labels can be rendered as `judged.substantiated`,
 `under-review.contaminated`, or `withdrawn.reverted` without multiplying the
 wire enum into every possible combination.
+Case-procedure progress, including `AppealBlocked`, and effect-application status
+are separate from these public-object axes. Do not overwrite a judgment qualifier
+with a scheduling or pool-availability failure.
 These axes matter because the system must be able to say:
 
 - "this object triggered concern",
@@ -508,10 +539,16 @@ reversible provisional hold at alert time.
 
 The hold:
 
-- MUST be reversible,
+- MUST have a bounded lifetime and an explicit removal/compensation path,
 - MUST NOT be treated as final guilt,
-- and MUST automatically roll back if the later review path does not
-  substantiate the case.
+- and MUST cease to affect current admission when it expires or the later review
+  does not substantiate the case. A failed cleanup job must not prolong its authority.
+
+"Reversible" concerns the continuing restriction, not erasure of past effects:
+a missed opportunity or a disclosed allegation cannot be undone by clearing a
+record. Preserve the original facts, append the correction, and identify any
+remaining repair obligation. Soft penalties need their own validity boundary;
+expiry of a hard block does not currently expire the soft factors in S040.
 
 This keeps the safety posture responsive without letting the alert threshold
 silently become punishment.
@@ -552,6 +589,12 @@ The first review SHOULD be able to emit at least:
 - `continue-to-mediation`
 - `continue-to-substantiation`
 - `mark-review-contaminated`
+
+These baskets and temporary blindness describe lightweight anti-collusion triage,
+not a replacement for a normative panel. Where `DIA-PANEL-SEL-001` applies,
+reputation is an eligibility gate, not a draw weight; its uniform selection,
+disclosure and party-veto rules take precedence. Hiding votes must not hide the
+composition information needed to exercise those rights.
 
 ### 12. Mediation Comes Before Formal Appeal When the Participant Chooses It
 
@@ -619,6 +662,10 @@ Each juror SHOULD also choose one class such as:
 
 and provide a short justification.
 
+Larger here means relative to lightweight first triage, not an unbounded crowd.
+Where the normative panel protocol applies, its panel-size and quorum rules govern;
+additional advisory reviewers do not acquire votes or expand the adjudicating panel.
+
 If quorum is insufficient, the result SHOULD be `insufficient-quorum` and the
 protocol MAY re-open the case only through backoff windows rather than immediate
 retries.
@@ -629,8 +676,10 @@ The cautious default is:
 
 - alert stage -> at most provisional hold,
 - substantiated escalation result -> final reputation event,
-- successful challenge or contamination finding -> full rollback of the
-  reputation consequence while preserving procedural metadata.
+- successful challenge or contamination finding -> retract or supersede the
+  affected reputation consequence and recompute current projections while
+  preserving procedural metadata. Already observed external effects require
+  correction or compensation, not a claim that history was rolled back.
 
 This is the point where the proposal most clearly rejects soft tyranny by raw
 majority. The sanction should be grounded only after enough independent review
@@ -660,22 +709,27 @@ A formal appeal MUST be handled by an independent randomly selected community
 group whose members:
 
 - did not participate in the original decision,
-- do not have a declared conflict of interest in the matter,
+- have supplied an admissible COI declaration and have no disqualifying conflict
+  of interest in the matter,
 - and are numerous enough to avoid being weaker than the original decision
   surface.
 
 The bootstrap minimum is:
 
 - the appeal group is at least as large as the group whose decision or combined
-  judgments produced the original reputation event.
+  judgments produced the original reputation event, within the governing panel
+  protocol's size limits. The admitted first-instance policy must make this
+  compatible in advance; flaggers and advisory reviewers are not panel members.
 
 The purpose is procedural symmetry. A participant should not need to overturn a
 group decision before a smaller or less independent body than the one that
 produced it.
 
-The exact random-selection machinery remains open. Different communities may use
-different admissible pools, reputation gates, recusals, and quorum rules, so
-long as the resulting process stays:
+The governing rules are not a blank slate: `DIA-PANEL-SEL-001` defines eligibility,
+recusal, party veto, quorum and insufficient-pool escalation for panels in its scope.
+Its VRF mechanism remains a hypothesis. Different lightweight local profiles may
+specialize admissible pools and selection only within their declared competence
+and the normative floor described in section 25. The resulting process stays:
 
 - auditable,
 - conflict-aware,
@@ -754,6 +808,12 @@ Council decisions SHOULD permit:
 - ex post audit,
 - and doctrinal revision later without forcing retroactive erasure of every old
   case.
+
+For the first local correction profile, the Council destination must identify an
+authorized body able to arrange independent review or remit a contaminated case.
+If that route is also unavailable, retain an explicit blockage, not a synthetic
+ruling. Any later merits-adjudication role requires its own applicable mandate and
+panel safeguards; the label `Council` alone grants none.
 
 ### 20. Anti-Collusion Sweep Must Be a Separate Continuous Subsystem
 
@@ -914,6 +974,298 @@ artifacts:
 Orbiplex should freeze the shape early, but not pretend that every community
 must share identical social mechanics.
 
+### 25. Close the Correction Loop Without Creating Another Authority Plane
+
+P051 owns the social procedure; [S040](../60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md)
+owns restriction enforcement under P018. Neither a Room role, a Corpus Chair
+decision, a signed artifact nor a notification action supplies adjudication
+authority by itself. An admitted community policy must name the authorized
+decision makers, affected surface, evidence threshold, conflict exclusions and
+appeal path. Operator authority to run a host is not automatically authority to
+judge its participants.
+
+The first local profile is a bounded, non-disclosure community correction procedure,
+not an implementation claim for the full constitutional panel system. It must
+declare stakes, competence and limits. Constitutional, high-stakes or identifying
+disclosure cases cannot remain in this lighter procedure merely because it is
+locally available; route them to the applicable normative procedure or expose the
+missing route as blocked. Local autonomy does not waive the rights floor.
+
+| Upstream norm | What this slice preserves and newly determines |
+| --- | --- |
+| [Panel Selection](../../normative/50-constitutional-ops/en/PANEL-SELECTION-PROTOCOL.en.md), `DIA-PANEL-SEL-001`, sections 2–8 and 11 | Full panel rules govern constitutional/high-stakes/adversarial panels: eligibility, uniform draw, COI and prior-service exclusions, veto, quorum and tiered escalation. P051-002 names the lighter triage scope and the boundary requiring this procedure; it does not replace those rules with reputation baskets. VRF selection remains a mechanism hypothesis. |
+| [Abuse Disclosure](../../normative/50-constitutional-ops/en/ABUSE-DISCLOSURE-PROTOCOL.en.md), section 9 | Notice, appeal and a new review composition apply on its sanction/disclosure track. The first local profile adopts at least 14 days to file an appeal; urgent protective isolation is a separate decision, not automatic closure of that window. |
+| [Procedural Reputation](../../normative/50-constitutional-ops/en/PROCEDURAL-REPUTATION-SPEC.en.md), sections 2 and 8 | Procedural reputation and identity assurance remain separate eligibility gates; evidence is portable, not an automatically accepted score. Local fixtures do not validate the hypothetical scoring functions. |
+| [Reputation Validation](../../normative/50-constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md), M11 and section 5 | Reuse M11's reason, review/expiry and appeal-path evidence for denials. P051-008 qualifies a local correction mechanism, not the simulation/shadow/pilot/adversarial-review sequence for reputation leverage. |
+| [Node Rights Card](../../normative/50-constitutional-ops/en/NODE-RIGHTS-CARD.en.md), rights and graduated enforcement | Preserve inspection, appeal, subsidiarity and the rights floor against an operator. This slice binds each sanction to its author, basis, deadline and route back, without granting the operator adjudicative power. |
+
+The 14-day local floor is an explicit profile decision, not a claim that every
+normative track has the same deadline: Panel Selection section 7 lists 14 days for
+normal and 7 for critical appeals, while Abuse Disclosure section 9 requires at
+least 14 days with an earlier-isolation clause. P051-002 must pin the applicable
+track and window-start/notice rule; neither a queued notice nor a failed delivery
+alone proves that a participant had the required appeal opportunity. Longer
+applicable protections remain in force.
+
+The smallest useful implementation is one community-local public-object case:
+
+```text
+signal -> case + assigned owner -> bounded review / optional mediation
+       -> reasoned decision -> authorized effect -> observed effect receipt
+       -> notice + independent appeal -> correction -> recomputed effects + notice
+```
+
+This is a composition of existing contracts with a small case-domain state
+machine, not a new transport, global reputation service or generic workflow engine.
+No sanction, insufficient evidence, voluntary repair and contamination are legitimate
+outcomes. Insufficient quorum is an explicit procedural blockage, not a merits
+verdict. Silence, missed notification or an expired review window is not agreement,
+guilt or permission to extend a hold.
+
+Each open case must retain an accountable procedure owner, a next action, its
+deadline, and an explicit escalation destination. Ownership transfers require
+acceptance by the successor and a durable handoff. Departure, expiry or revocation
+of an owner leaves an actionable unassigned/blocked state; it neither closes the
+case nor silently delegates it to the infrastructure operator. Historical
+decisions retain their authors after handoff.
+
+The case owner persists distinct review deadlines, appeal-filing windows and
+effect-validity limits. S020 owns wake-ups and bounded reconciliation launches,
+not the meaning of those deadlines. Admission checks current mandate/effect validity
+synchronously, independently of scheduled cleanup. Read-only inspection may derive
+an overdue status but must not execute a correction. The baseline does not promise
+proactive detection while Scheduler and all declared triggers are unavailable:
+validity is enforced on use; durable reconciliation and notices resume through an
+authorized execution path or resumed scheduled work. A stronger proactive guarantee
+needs a separately declared independent monitor, outside this slice, not a private
+timer loop hidden in the case service.
+
+Record separately the signal author, subject, reviewer, decision authority,
+effect executor and appeal authority. Bind actions to the exact case revision,
+object revision/digest, policy revision, target decision and admitted mandate.
+Historical replay uses retained inputs; new effects recheck current authority,
+revocation and time validity. A policy change must not silently rewrite the
+standards used to judge the original action.
+
+Appeal can be filed without participating in the disputed Room or receiving a
+notification. Selection retains auditable eligibility, recusal and randomness
+evidence under the chosen policy; another agent or nym controlled by the original
+decision maker is not evidence of independence. If a valid appeal pool cannot be
+formed, expose that blockage and use the declared escalation path, not the
+original group relabeled as an appeal body. Do not require civil-identity
+disclosure or cross-community correlation merely to establish a review pool.
+If the case owner or host operator is a party, they cannot accept the case as its
+adjudicator, including through controlled alternate identities. Transfer requires
+an independently authorized recipient's acceptance; otherwise record the blockage
+and escalation destination. OQ6 concerns provisioning that route, not permission
+for self-adjudication. The admitted policy must also state the effect-stay rule
+during an appeal or blockage; runtime must not invent one.
+
+### 26. Correct the Targeted Consequence, Not the Whole Participant
+
+A correction targets identified decisions and their derived effects. It does not
+grant new privileges, erase unrelated sanctions, override protected floors or
+reopen revoked capability passports. Newcomer defaults remain entry policy, not
+evidence of misconduct.
+
+Maintain case/source attribution above S040 and recompute the remaining applicable
+restrictions after a retraction. The current participant-wide clear operation is
+not a case-specific undo. Likewise, `membership-policy-core`'s ordered overlays
+are a deterministic composition mechanism, not authority precedence: an
+`appeal-result` appended last must not defeat an unrelated case merely because
+its value is `allow`.
+
+The composition adapter must account for existing operator-imported restrictions
+as independent sources and serialize or fence all competing writers. Unknown
+source attribution blocks automatic relaxation and is visible for reconciliation;
+it is not permission to retain an already-expired case effect. Recompute only
+from still-applicable sources, with explicit bounds on sources and evidence.
+
+Before the adapter's first case effect or correction, P018-13 must inventory the
+existing restriction records and clear tombstones and retain a revision/digest-bound
+baseline. Represent retained operator inputs as `legacy-operator-source`, preserving
+their original evidence and unknown attribution; the label is not proof of a signed
+verdict or recovered case ownership. Fence every writer during cutover and verify
+effective restrictions at the same evaluation time for valid, unambiguous sources.
+Malformed or ambiguous inputs retain their source and a typed refusal/diagnostic;
+preserving a legacy fail-open result is not a compatibility goal. Resume a partial
+migration idempotently before enabling correction. Unresolved inputs require
+explicit reconciliation, not guessed attribution or silent removal.
+
+Keep procedural outcome and effect application status separate. A successful
+appeal can coexist with pending local recomposition or unacknowledged remote
+correction delivery. Completion requires receipts for the declared effect scope;
+unreachable consumers remain pending or explicitly unresolved. A local clear
+cannot retract a publication already observed elsewhere.
+
+## Reuse and Implementation Recommendations
+
+### Existing Seams and Their Limits
+
+Inspected on 2026-10-10 against the working tree and
+`node:docs/implementation-ledger.toml`. These are implementation entry points,
+not fresh runtime acceptance results. Reverify them when starting the slice.
+
+| Concern | Reuse | Boundary still to implement for P051 |
+| --- | --- | --- |
+| Surface policy and effective limits | `node:membership-policy-core/src/lib.rs`: `decide_surface`, `project_effective_limits`, source-tagged overlays and fixture/property tests | Ledger `membership-surface-access-policy-core` is `partial`: no complete daemon/storage/UI admission path. Admit sources, check validity and authority, then supply deterministic, case-aware composition. |
+| Restriction application | S040/P018; `node:daemon/src/execution_host.rs`, `node:daemon/src/lib.rs`, `node:daemon/src/state_checkpoint.rs`, `node:daemon/src/tests/participant_policy.rs` | One current record per participant; clear is participant-wide; one hard expiry does not cover the soft layer or several independently expiring cases. Schema validation and `decision/author` text do not authenticate a community verdict. The snapshot's `.ok()?` currently drops an unparseable hard expiry; P018-13/14 must reject ambiguous validity with diagnostics at recovery/admission, not silently remove the block. |
+| Identity and bounded relationships | P034 and S032; existing caller bindings and `local-relationship-core` | Reuse verified actor/owner context and private eligibility inputs. Relationship membership is not a grant; node-operator assurance is not reputation or a jury mandate. |
+| Facts and recovery | S028; `node:temporal-event-log`, `node:storage-runtime`; existing restriction commit stream and notification store | One case-domain source of truth, rebuildable projections and an idempotent effect outbox; do not invent a global transaction registry or copy the case history into S040. |
+| Attention and human action | [S039](../60-solutions/039-notifications/039-notifications.md), P057; `node:notification-core`, `node:notification-store`, `node:daemon/src/notifications_host.rs` | Recipient-bound case notices and registered actions must call the case owner, recheck revision/mandate, and report its result. Queue insertion, delivery, opening and substantive response are distinct. |
+| Deadlines and long work | S020 Replay Scheduler; S029/P055 Bounded Deferred Operations | Scheduler wakes bounded reconciliation jobs; deferred handles describe individual work, not the lifetime of a social case. Admission itself checks expiry even if the scheduler is down. |
+| Evidence exchange and provenance | S023 Artifact Delivery; S043/P081 causal context and execution receipts; P090/P086 evidence distinctions | Add domain acceptors and case-specific evidence references. Delivery, signature verification and host observation do not establish guilt, independent support or final adjudication. |
+| Optional deliberation and policy extension | S036 Room, S038 Corpus, S047 Agent; P085 and `node:semantic-registry-core` | Reuse conversation/review assistance and exact revision-bound policy admission patterns. No existing generic social-policy registry or autonomous adjudicator is claimed. Agent output remains advisory; private case data needs its own disclosure/egress admission. |
+
+Canonical companion contracts:
+
+- [P034 operator binding](034-node-operator-binding-and-derived-node-assurance.md)
+  and [S032 local relationships](../60-solutions/032-local-relationship-layer/032-local-relationship-layer.md);
+- [S028 temporal storage](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md),
+  [S020 Scheduler](../60-solutions/020-scheduler/020-scheduler.md) and
+  [S029 deferred operations](../60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md);
+- [S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+  and [S043 horizontal primitives](../60-solutions/043-horizontal-protocol-primitives/043-horizontal-protocol-primitives.md);
+- [S036 Room](../60-solutions/036-room/036-room.md),
+  [S038 Corpus](../60-solutions/038-corpus/038-corpus.md) and
+  [S047 Agent](../60-solutions/047-agent/047-agent.md);
+- [P085 extension admission](085-operator-sovereign-extensibility-and-experiment-packages.md),
+  [P090 inference provenance](090-inference-execution-provenance-and-non-local-disclosure.md)
+  and [P086 observation](086-component-communication-observation-and-trace-sessions.md).
+
+Follow `node:DEV-GUIDELINES.md`: pure case transitions and projection in a domain
+core; storage and bounded work behind a service; thin daemon/control adapters.
+Reuse `membership-policy-core` for its existing vocabulary rather than embedding
+social judgment in daemon routing. Do not split new crates merely to fill a
+template. The case service may be hosted through existing middleware contracts;
+enforcement authority remains host-owned.
+
+### Small Contracts Before Endpoints
+
+Specialize only the first required artifacts from the family below. Freeze a
+transition table and semantic validators before implementing UI or importing
+remote judgments. Common case bindings should include `case/id`, `case/revision`,
+`subject/ref`, `object/ref` plus digest, `surface/id`, `policy/ref` plus revision,
+actor/mandate references, validity and targeted predecessor/effect references.
+These are design requirements, not newly published schema fields.
+
+Keep community criteria and thresholds in admitted policy data; do not create a
+closed repertoire of acceptable opinions, problem topics or successful outcomes.
+Start with explicit local policy admission; portability and signed community
+packages are later adapters, not prerequisites for local correction. Where a
+semantic-registry specialization is used, preserve exact binding, expiry,
+revocation and unresolved-ceiling semantics. Package admission cannot create
+adjudicative authority by itself.
+
+Schema Gate must protect the exposed contracts, with semantic checks for current
+mandates, target identity and permitted transitions in the owning core/host.
+Register operations under P072 with their actual dispatch/host-route boundaries;
+an inspection capability must not expose operator mutation. Reuse existing
+signing, canonicalization, delivery and caller-binding facilities, not ad hoc
+signatures, HTTP callbacks or UI-supplied actor identities.
+
+### Durable Correction and Bounded Attention
+
+Persist the authorized case transition and pending effects atomically in the case
+store. Apply effects through existing owners with a case/effect-scoped idempotency
+key; append their outcome references. Retry after restart without double sanction,
+duplicate reputation events or repeated notices. Cross-store failure stays a
+reconcilable pending effect, not a fabricated atomic success.
+
+Use source-addressed retractions/supersessions for reputation projections. Keep
+sealed or access-controlled evidence separate from minimal case metadata and
+public corrections; neither notifications, SSE nor traces may export the full
+private case. Bound retention, payload size, fan-out, queue length and retry time;
+cleanup must preserve live appeal obligations and disclose evidence-retention gaps.
+
+Protected access needs a real path: an affected participant must be able to read
+the admissible reasons and file a bounded appeal despite a publication/marketplace
+restriction, Room removal or muted notifications. "Not hard-blocked" alone is
+insufficient; test soft cooldowns and ordinary anti-abuse limits for starvation.
+This does not grant unlimited messaging or bypass recipient privacy.
+
+## Cross-Component Acceptance: Local Accountability
+
+P051 owns the semantic acceptance scenario and aggregate closure, not a new
+protocol. Proposed Node homes, to be created with executable work under P051-008:
+
+- `node:tools/acceptance/local-accountability/README.md` and its runner for
+  reproducible procedures, linked from the acceptance index;
+- `node:docs/evidence/local-accountability/` for revision-bound results, linked
+  from the evidence index;
+- a short `node:docs/integration/` guide only if the implemented flow needs one,
+  linked from its index and owning service README, not another tracker.
+
+First prove one host with separately authorized participant roles and deterministic
+fixtures, not an LLM or physical multi-host dependency. Seed review-pool eligibility
+explicitly and exercise the selected selection policy; report that seeded identities
+prove separation of authority, not real-world human independence. Add a two-host
+Artifact Delivery correction profile only after local closure. Corpus/Room-assisted
+review is optional and must not become necessary to file an appeal.
+
+| Case | Required retained evidence |
+| --- | --- |
+| Signal, review, decision, notice, appeal, correction | Each transition names actor, mandate, policy, target and next owner; decision and observed enforcement are separate receipts. |
+| Two independent restrictions, appeal of one | Corrected case disappears from the current effect; unrelated case and newcomer defaults remain. Duplicate or reordered correction cannot resurrect it. |
+| Hard hold and soft penalty expire during outage | Current checks stop both expired effects; reconciliation after restart records the transition without renewal or fabricated consent. |
+| Scheduler unavailable, then resumed | Persisted review/appeal/effect deadlines remain distinct. With no access or other trigger, no proactive notice is claimed; read-only inspection exposes overdue state without mutation. Admission enforces validity; resumed reconciliation is idempotent and does not renew effects. |
+| Legacy restrictions at adapter activation | Pinned record/tombstone inventory, explicit legacy sources, all-writer fencing and same-time effective-value equivalence for valid sources; malformed/ambiguous inputs retain evidence and typed refusal, not a legacy fail-open result. Restart cannot lose a source or enable premature correction. |
+| Malformed expiry in recovered restriction data | Recovery/admission exposes a typed validity failure; affected privileged admission is refused, not silently unblocked. Protected inspection/appeal remains usable; corruption is not a new misconduct finding. |
+| Crash between decision, effect and notification | Replay converges to the same projection; retries do not duplicate effects; pending work remains inspectable. |
+| Owner revoked or leaves with an open case | Stale approval/action is refused; accepted handoff preserves the original authors and deadlines, or exposes an unassigned blockage. |
+| No independent pool or insufficient appeal quorum | `AppealBlocked` preserves prior findings as history; effects follow the explicit stay/expiry policy. Council remits/arranges independent review or records continued blockage, never automatic exoneration, guilt or renewal. |
+| Optional mediation refused | Direct formal appeal remains available; refusal is not guilt and mediation is not mandatory. |
+| Host operator or case owner is a party | Self-adjudication and controlled alternate identities are refused; an independently authorized recipient accepts durable handoff, or the case exposes blockage and escalation. Existing deadlines and effect policy are preserved. |
+| Restricted participant with Room removal and quiet notifications | Direct authorized case inspection and bounded appeal remain usable; no cross-recipient evidence disclosure. |
+| Correction crosses hosts | Recipient authenticates domain authority and target, records application or refusal, and exposes delivery/retention gaps; transport acknowledgement alone does not close the case. |
+
+The cross-host row belongs to P051-009; the other rows form the P051-008 local gate.
+The local profile must exercise actual case, enforcement and notification adapters,
+not merely unit reducers or manually imported synthetic final states. Reports name
+real/substituted boundaries, repository revisions, commands, failures and remaining
+limits. Passing it demonstrates a correction mechanism, not fairness of every
+community policy or measured reduction of the Ringelmann effect. Denial fixtures
+must retain M11's reason, review/expiry and appeal path, without claiming the wider
+reputation-validation programme has passed.
+
+P051-008 must freeze a versioned Node-local report contract and executable qualifier
+before implementing its runner. Reuse the scope and source-retention patterns in
+`node:tools/acceptance/story-013-qmail-task-pack/README.md` and `retain_report.py`,
+not their qmail-specific profile, run identifiers or assertions. This is an
+acceptance artifact, not another federation protocol. At minimum:
+
+- reports declare `profile/id`, `evidence/class`, `qualification/scope` and
+  `qualification/exclusions`; CLI arguments check these claims, not promote them;
+- each required case binds observed owner receipts, refusals and pending outcomes,
+  rather than only asserting success booleans;
+- pin the tested Node commit/tree, scenario/policy/fixture digests and qualifier
+  revision; retain exact source and original report bytes/digest immutably;
+- requalification preserves original execution scope: old, unit-only or local
+  evidence cannot become a fresh or cross-host runtime run;
+- redacted exports retain verifiable bindings for their declared scope, or state
+  which qualification they cannot preserve. Do not expose private evidence merely
+  to obtain a public passing report.
+
+Qualifier fixtures must reject missing/duplicate cases, substituted bindings,
+scope mismatches, mismatched source pins and historical-scope promotion. Its job
+is to verify the declared evidence contract, not automate the social truth of a
+judgment. Reuse existing atomic report persistence; extract genuinely shared
+retention helpers only where needed rather than cloning Story 013's runner.
+
+## Trade-offs and Failure Modes
+
+- Composition avoids parallel stores, transports and UI engines, but source-aware
+  correction is still new domain work; existing timestamps and `reason/ref` do
+  not supply it automatically.
+- Pinned case policy supports audit; fresh authority/expiry checks prevent replay
+  from granting expired power. Preserve both contexts rather than choosing one.
+- Independent review costs time and available people. Bounded holds and explicit
+  unresolved outcomes are safer than relaxing independence to force completion.
+- Multiple identities or models can share one controller. Unknown independence is
+  not plural support; scoped evidence must not become an ambient surveillance graph.
+- Provisional actions can cause irreversible external harm. State the remaining
+  repair obligation even after the current restriction has been removed.
+
 ## Suggested Future Artifact Families
 
 This proposal now freezes the first small membership and surface-policy artifact
@@ -971,26 +1323,62 @@ The preferred shape is append-only facts plus read models, not mutable
 
 1. What minimal diversity constraints should be required before artifact-level
    sentiment becomes author-level reputation?
-2. How should random selection for review and appeal groups be seeded and
-   audited without creating a manipulable lottery?
+2. Which implementation and audit profile should realize the remaining random
+   selection mechanism? `DIA-PANEL-SEL-001` already fixes in-scope eligibility,
+   recusal, uniform drawing, veto and escalation; its VRF/entropy construction
+   remains a hypothesis, not a reason to redesign those settled safeguards.
 3. Which contamination heuristics should remain only heuristic signals, and
    which are strong enough to trigger procedural rollback by default?
 4. Which parts of membership bootstrap belong to the local node wizard, and
    which should remain explicit social actions performed outside the node?
 5. Which bootstrap and dispute artifacts should be portable across communities,
    and which must remain local to the group's policy surface?
+6. Which first community policy supplies a sufficiently independent appeal pool
+   and an escalation destination when the local operator is a party? Until selected,
+   fixtures may demonstrate the contract but cannot certify live social readiness.
+   The prohibition on self-adjudication is settled; only the independent recipient
+   and operational availability of that path remain open.
+7. Which source-aware restriction representation preserves per-case validity,
+   soft-factor expiry and scoped operation effects without loss in the current
+   participant-wide v1 artifact? P018-12 must decide compatibility before runtime
+   adoption; the existing single-record API is not the answer by default.
 
 ## Implementation Direction
 
-The recommended order is:
+The earlier bootstrap-first sequence remains useful for onboarding, but the pure
+policy kernel and restriction runtime now let the correction work proceed without
+waiting for a complete wizard, reputation engine or anti-collusion service.
 
-1. freeze bootstrap invariants and terminology,
-2. define the first small artifact family,
-3. implement first-run onboarding wizard support,
-4. implement community-local read models for sponsorship, reputation events,
-   object review, mediation, appeals, and collusion-sweep signals,
-5. add stricter pseudonymization-class-specific machinery where privacy posture
-   requires it.
+### Implementation Tracker
 
-This keeps the first implementation usable without forcing the final reputation
-or privacy architecture to be completed upfront.
+Statuses: `todo`, `partial`, `done`, `deferred`. `done` requires the named evidence
+and matching Node ledger scope; contract maturity, hard-MVP inclusion and runtime
+qualification remain separate. This review does not promote P051 to accepted or
+expand the current release scope. Implementation tasks must update the Node ledger,
+regenerate its view and reconcile `docs/MVP.md` when its covered scope changes.
+
+| ID | Work / owner | Status | Depends on | Completion gate |
+| --- | --- | --- | --- | --- |
+| P051-001 | Membership policy baseline / membership-policy-core | partial | Existing frozen family | Preserve current pure evaluator tests; add schema-gated source admission, validity and host consumption before claiming the runtime entry-policy path. Do not duplicate the kernel. |
+| P051-002 | First case/policy contract and ownership / case domain | todo | Existing P051/S040 contracts | Freeze transitions, actor/mandate/target bindings, independence, appeal blockage and effect-stay policy; declare light-profile competence and normative escalation, the local 14-day appeal floor and window-start/notice rule. Separate review, appeal and effect deadlines; freeze redaction/recovery classes, canonical schemas, Node mirrors and negative fixtures. Can run alongside 001. |
+| P051-003 | Durable local case service / case domain + host adapter | todo | 002 | Authorized append-only transitions, accepted handoff, bounded evidence, reconstructable projections and idempotent effect outbox; crash/replay, stale owner and cross-case substitution fixtures. |
+| P051-004 | Targeted restriction and entry-policy integration / P018-S040 adapter | todo | 001, 003, P018-12, P018-13 | Recompute admitted active sources, including legacy operator inputs; appeal of A cannot clear B or grant missing authority; real host application and expiry receipts. No raw appeal-to-clear shortcut. |
+| P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | todo | 003 | Existing queue/actions, recipient isolation, stale action refusal and direct appeal without notification or Room membership; atomic/outbox retry proof and non-starvation under soft limits. No second inbox or UI authority. |
+| P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. |
+| P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared Scheduler launches bounded reconciliation/sweeps, admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
+| P051-008 | Local-accountability acceptance / cross-component harness | todo | 004, 005, 006, 007, P018-14 | Freeze the report/qualifier contract above before the runner; pass its negative fixtures and qualify retained/redacted evidence for the exact scope. Run every local row through real adapters, including operator-as-party, legacy cutover, corrupted expiry and M11 denial evidence. Link harness/evidence indexes; reconcile P051/P018/S040 and Node ledger without upgrading unrelated capabilities. |
+| P051-009 | Remote correction acceptance / case Artifact Delivery acceptor | deferred | 008 | Two-host authenticated decision/correction delivery, local admission, duplicate/reorder/restart and unreachable-recipient evidence; bounded P081 causal/replication primitives only where needed, no global sanction propagation. |
+
+The detailed enforcement work belongs to P018-12 through P018-14, linked from S040;
+P051 owns integration and social semantics. P057 and P081 are dependencies, not
+duplicate backlog owners: add tasks there only if implementation exposes a missing
+generic notification or causal primitive. Their existing completion claims do not
+cover this new consumer. Broader onboarding, sponsor-ring detection and public
+reputation projections remain separate follow-ups, not hidden acceptance prerequisites.
+
+### Next Actions
+
+1. Start P051-002 and P018-12 together: settle exact case scope, first policy and
+   non-lossy source-aware restriction mapping before exposing mutation routes.
+2. Build the local case/restriction/notification slice and its replay/refusal tests.
+3. Run P051-008; only then consider P051-009 and optional deliberation assistance.
