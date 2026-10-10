@@ -4,7 +4,16 @@
 
 `promoted`
 
+The implemented baseline is promoted; the P018-12–P018-14 social-correction
+continuation remains open and is not covered by that completion claim.
+
 Promoted to: `doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md`
+
+Social-correction integration (2026-10-10):
+[P051](051-swarm-membership-and-reputation-bootstrap.md#25-close-the-correction-loop-without-creating-another-authority-plane)
+owns case procedure and appeal authority. P018 owns the additional enforcement
+adapter tracked below; the completed baseline is not a claim that multi-case
+correction is implemented.
 
 ## Context
 
@@ -222,8 +231,10 @@ policies remain deferred to later work.
 
 ## Open Questions
 
-No unresolved questions remain for this proposal slice. The decisions below
-record the approved defaults.
+No unresolved questions remain for the original implemented slice. The decisions
+below record its approved defaults. P018-12 additionally must settle the non-lossy
+mapping of per-case effects, independent expiries and operator-imported sources;
+the current participant-wide record/clear API is not a case-specific undo contract.
 
 Resolved 2026-07-05:
 
@@ -253,4 +264,7 @@ Resolved 2026-07-05:
 | P018-08 | Operator control-plane surface | done | Local HTTP exposes import, schema-gated list/detail export, and clear operations; clear accepts optional bounded `reason/ref`, and import/clear emit metadata-only SSE refresh events. |
 | P018-09 | Participant-scoped lifecycle controls stay separate from operator execution actions | done | Participant accept/dispute/reject surfaces remain distinct from infrastructure-operator execution controls. |
 | P018-10 | `subject/kind = org` support using the same artifact family | deferred | Organization restrictions share evaluator and read-model semantics with participant restrictions; trigger this after P017 organization subject invariants are frozen. |
-| P018-11 | Review/case history moves to a separate artifact family | deferred | The active restriction record remains the authoritative restriction fact; procedural review history must not bloat this artifact. |
+| P018-11 | Review/case history moves to a separate artifact family | deferred | Domain artifact/service work is now owned by P051-002/P051-003. This row tracks their boundary with restrictions, not a duplicate case service. The existing imported record remains authoritative for its legacy source; procedural history must not bloat it. |
+| P018-12 | Source-aware restriction composition contract | todo | Depends on P051-002. Freeze attribution, targeted retraction, source-set fencing, all-writer serialization, per-effect expiry and exact operation mapping. Define the legacy-source cutover and malformed/indeterminate-validity refusal contract, distinct from a sanction finding. Decide v1 compatibility versus a narrow versioned extension; fixtures must reject lossy scope/lifetime broadening, last-overlay authority and correction of an unrelated source. |
+| P018-13 | Case-effect host adapter and bounded reconciliation | todo | Depends on P018-12 and P051-003. Before enabling case effects/correction, inventory existing records and clear tombstones into a revision/digest-bound baseline with explicit legacy-operator-source attribution; preserve unknown authorship, fence every writer and prove same-time effective-value equivalence for valid sources and resumable cutover. Invalid/ambiguous sources remain evidenced and explicitly refused, not imported as compatible fail-open state. Reuse admitted source facts, durable outcomes and idempotent replay. Admission expires valid soft/hard effects without Scheduler; malformed or indeterminate validity at recovery/admission refuses affected privileged operations with typed diagnostics, never silently removes a block or disables protected appeal. Recheck actor/mandate/revocation before effects; expose unresolved correction. |
+| P018-14 | Social-correction enforcement conformance | todo | Depends on P018-13. Retain two-case appeal isolation, legacy cutover/restart and unchanged-effect proof for valid sources plus typed refusal for ambiguous ones, interleaved operator write, equal-timestamp conflict, duplicate/reordered correction, revoked actor, independent expiries, soft-factor expiry, malformed recovered expires-at, restart and protected-appeal non-starvation fixtures. Test blocked appeal with explicit stay/expiry policy: missing quorum cannot clear or renew restrictions. Feed P051-008 evidence; reconcile S040 and Node ledger/MVP scopes without reopening completed baseline claims. |

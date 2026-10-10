@@ -68,7 +68,20 @@
    ["Project entry profile surface access policy sanctions and appeals into one effective-limits read model"
     "Keep social membership policy outside the enforcement primitive"
     "Allow newcomer defaults and sanctions to share operation vocabulary without sharing authority"]
-   :status :post-mvp}]
+   :status :post-mvp}
+
+  {:cap/id :source-aware-social-correction-adapter
+   :title "Source-Aware Social-Correction Adapter"
+   :kind :policy-enforcement
+   :based-on ["doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+              "doc/project/40-proposals/018-layered-capability-limited-participant-restrictions.md"]
+   :schemas ["participant-capability-limits.v1" "participant-effective-limits.v1"]
+   :responsibilities
+   ["Compose admitted case effects without losing source operation scope or validity"
+    "Reconcile independent operator imports targeted appeal corrections and expiry"
+    "Preserve protected access and emit replayable application outcomes"
+    "Keep case judgment and appeal authority outside enforcement"]
+   :status :planned}]
 
  :out-of-scope
  ["Moral classification of participants"
