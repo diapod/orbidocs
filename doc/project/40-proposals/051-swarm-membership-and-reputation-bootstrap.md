@@ -6,6 +6,8 @@ Based on:
 - `doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md`
 - `doc/project/20-memos/reputation-signal-v1-invariants.md`
 - `doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`
+- `doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`
+- `doc/project/60-solutions/019-middleware/019-middleware.md`
 - `doc/normative/50-constitutional-ops/pl/ROOT-IDENTITY-AND-NYMS.pl.md`
 - `doc/normative/50-constitutional-ops/en/MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md`
 - `doc/normative/50-constitutional-ops/en/PARTICIPANT-COVENANT.en.md`
@@ -1119,6 +1121,10 @@ not fresh runtime acceptance results. Reverify them when starting the slice.
 
 Canonical companion contracts:
 
+- [S019 Middleware](../60-solutions/019-middleware/019-middleware.md) and
+  [P080 channel executor](080-multiplexed-middleware-channel-executor.md), with
+  [S015 Module Store](../60-solutions/015-host-owned-module-store/015-host-owned-module-store.md)
+  and [S016 bounded runtime](../60-solutions/016-bounded-local-server-runtime/016-bounded-local-server-runtime.md);
 - [P034 operator binding](034-node-operator-binding-and-derived-node-assurance.md)
   and [S032 local relationships](../60-solutions/032-local-relationship-layer/032-local-relationship-layer.md);
 - [S028 temporal storage](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md),
@@ -1133,12 +1139,51 @@ Canonical companion contracts:
   [P090 inference provenance](090-inference-execution-provenance-and-non-local-disclosure.md)
   and [P086 observation](086-component-communication-observation-and-trace-sessions.md).
 
-Follow `node:DEV-GUIDELINES.md`: pure case transitions and projection in a domain
-core; storage and bounded work behind a service; thin daemon/control adapters.
-Reuse `membership-policy-core` for its existing vocabulary rather than embedding
-social judgment in daemon routing. Do not split new crates merely to fill a
-template. The case service may be hosted through existing middleware contracts;
-enforcement authority remains host-owned.
+### Case Service Hosting Decision
+
+The implementation direction is a small Rust domain core, a case service hosted
+through existing middleware, and a host-owned enforcement adapter. The service
+records and guards the procedure; it is not an autonomous judge, a generic ticket
+system or a new workflow engine. A procedural owner recorded in a case remains an
+accountable actor, not the service process or its infrastructure operator.
+
+1. **Rust core.** Keep case data, the transition table, semantic validation and
+   replay/projection pure. Supply time and verified authority context explicitly;
+   the core does not read the clock, files, network or daemon state. Reuse
+   `membership-policy-core` vocabulary and evaluators where their semantics match;
+   do not move the case lifecycle into that kernel or copy its policy composition.
+   Keep runtime dependencies above the core and enforce that direction in tests.
+2. **Middleware-hosted service.** Use S019/P080's supervised `channel_json`
+   lifecycle, authenticated session, module reports, declared routes and host-call
+   bridge. Reuse existing package admission, module data-directory and bounded
+   runtime facilities instead of adding a private supervisor, listener or IPC
+   protocol. The service owns the case fact store, rebuildable read models and
+   durable effect outbox under S028, reusing existing storage primitives. Case
+   transition and pending-effect intent share a transaction; host application is
+   a separate, recoverable step, not a cross-store atomicity claim.
+3. **Host-owned enforcement adapter.** Keep P018/S040 source composition, current
+   authorization and restriction application behind the host boundary. The service
+   requests a case-scoped effect through the existing host-call mechanism; the
+   host checks caller binding, case/decision revision, mandate, target, revocation,
+   validity and idempotency before applying it and returning an outcome. Module
+   admission is not adjudicative authority. Do not expose unrestricted operator
+   import/clear to the service or let it write the restriction store directly.
+
+P051-002 defines the narrow command/outcome boundary jointly with P018-12. Any
+missing operation is explicitly registered and schema-gated under P072; the
+existing bridge is reused, not assumed to already provide a case-effect API.
+P051-003 settles package/crate names and runtime packaging without duplicating the
+Rust rules in a second implementation. Follow `node:DEV-GUIDELINES.md`; create
+separate crates only where the dependency boundary warrants them. Daemon routing
+stays a thin adapter, not the owner of social procedure.
+
+Reuse S039 for notices and action delivery, S020 for bounded reconciliation
+launches, and S029 when one operation needs a deferred handle. None replaces the
+case's durable history. Detachment or loss of a required host capability leaves
+pending work and an explicit unavailable/blocked outcome; reattachment revalidates
+authority before retrying. It cannot transfer adjudication to the host operator,
+renew a restriction or turn an unacknowledged effect into success. Existing host
+admission continues to enforce effect validity independently of service uptime.
 
 ### Small Contracts Before Endpoints
 
@@ -1211,7 +1256,7 @@ review is optional and must not become necessary to file an appeal.
 | Scheduler unavailable, then resumed | Persisted review/appeal/effect deadlines remain distinct. With no access or other trigger, no proactive notice is claimed; read-only inspection exposes overdue state without mutation. Admission enforces validity; resumed reconciliation is idempotent and does not renew effects. |
 | Legacy restrictions at adapter activation | Pinned record/tombstone inventory, explicit legacy sources, all-writer fencing and same-time effective-value equivalence for valid sources; malformed/ambiguous inputs retain evidence and typed refusal, not a legacy fail-open result. Restart cannot lose a source or enable premature correction. |
 | Malformed expiry in recovered restriction data | Recovery/admission exposes a typed validity failure; affected privileged admission is refused, not silently unblocked. Protected inspection/appeal remains usable; corruption is not a new misconduct finding. |
-| Crash between decision, effect and notification | Replay converges to the same projection; retries do not duplicate effects; pending work remains inspectable. |
+| Crash or middleware detachment between decision, effect and notification | Real channel-hosted service replay/reattachment converges to the same projection; retries revalidate authority and do not duplicate effects; pending work remains inspectable without fallback to operator authority. |
 | Owner revoked or leaves with an open case | Stale approval/action is refused; accepted handoff preserves the original authors and deadlines, or exposes an unassigned blockage. |
 | No independent pool or insufficient appeal quorum | `AppealBlocked` preserves prior findings as history; effects follow the explicit stay/expiry policy. Council remits/arranges independent review or records continued blockage, never automatic exoneration, guilt or renewal. |
 | Optional mediation refused | Direct formal appeal remains available; refusal is not guilt and mediation is not mandatory. |
@@ -1360,13 +1405,13 @@ regenerate its view and reconcile `docs/MVP.md` when its covered scope changes.
 | ID | Work / owner | Status | Depends on | Completion gate |
 | --- | --- | --- | --- | --- |
 | P051-001 | Membership policy baseline / membership-policy-core | partial | Existing frozen family | Preserve current pure evaluator tests; add schema-gated source admission, validity and host consumption before claiming the runtime entry-policy path. Do not duplicate the kernel. |
-| P051-002 | First case/policy contract and ownership / case domain | todo | Existing P051/S040 contracts | Freeze transitions, actor/mandate/target bindings, independence, appeal blockage and effect-stay policy; declare light-profile competence and normative escalation, the local 14-day appeal floor and window-start/notice rule. Separate review, appeal and effect deadlines; freeze redaction/recovery classes, canonical schemas, Node mirrors and negative fixtures. Can run alongside 001. |
-| P051-003 | Durable local case service / case domain + host adapter | todo | 002 | Authorized append-only transitions, accepted handoff, bounded evidence, reconstructable projections and idempotent effect outbox; crash/replay, stale owner and cross-case substitution fixtures. |
-| P051-004 | Targeted restriction and entry-policy integration / P018-S040 adapter | todo | 001, 003, P018-12, P018-13 | Recompute admitted active sources, including legacy operator inputs; appeal of A cannot clear B or grant missing authority; real host application and expiry receipts. No raw appeal-to-clear shortcut. |
-| P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | todo | 003 | Existing queue/actions, recipient isolation, stale action refusal and direct appeal without notification or Room membership; atomic/outbox retry proof and non-starvation under soft limits. No second inbox or UI authority. |
+| P051-002 | First case/policy contract and ownership / Rust domain core boundary | todo | Existing P051/S040 contracts | Freeze transitions, actor/mandate/target bindings, independence, appeal blockage and effect-stay policy; declare light-profile competence and normative escalation, the local 14-day appeal floor and window-start/notice rule. Separate review, appeal and effect deadlines; freeze redaction/recovery classes, canonical schemas, Node mirrors and negative fixtures. Define pure Rust inputs/outputs and the middleware-to-host effect/outcome contract with P018-12; map reused primitives and any missing P072 operation explicitly. Can run alongside 001. |
+| P051-003 | Rust case core and durable middleware-hosted service / case domain | todo | 002 | Implement pure transitions/projection with supplied time/authority context and dependency-boundary tests. Reuse S019/P080 supervision, channel, reports, routes and package/data-directory conventions; S028 storage primitives for authorized facts, accepted handoff, bounded evidence, projections and atomic transition/outbox intent. Prove crash/replay, detachment/reattachment, stale owner and cross-case substitution. No private supervisor/listener, duplicate policy evaluator or social state machine in daemon routing. |
+| P051-004 | Targeted restriction and entry-policy integration / host-owned P018-S040 adapter | todo | 001, 003, P018-12, P018-13 | Consume revision-bound case-effect requests over the existing authenticated host-call bridge; schema/mandate/target/revocation/validity checks precede effects. Recompute admitted active sources, including legacy operator inputs; appeal of A cannot clear B or grant missing authority; real host application and expiry receipts. Reuse membership-policy-core and S040; no raw appeal-to-clear shortcut, operator-authority passthrough or direct module writes to enforcement storage. |
+| P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | todo | 003 | Reuse S039 queue/actions through admitted host calls and S019 routes for case inspection/appeal; actions return to the case owner for fresh validation. Prove recipient isolation, stale action refusal and direct appeal without notification or Room membership, atomic/outbox retry and non-starvation under soft limits. No second inbox, private callback transport or UI authority. |
 | P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. |
-| P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared Scheduler launches bounded reconciliation/sweeps, admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
-| P051-008 | Local-accountability acceptance / cross-component harness | todo | 004, 005, 006, 007, P018-14 | Freeze the report/qualifier contract above before the runner; pass its negative fixtures and qualify retained/redacted evidence for the exact scope. Run every local row through real adapters, including operator-as-party, legacy cutover, corrupted expiry and M11 denial evidence. Link harness/evidence indexes; reconcile P051/P018/S040 and Node ledger without upgrading unrelated capabilities. |
+| P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared S020 Scheduler launches bounded case-service actions through existing dispatch, not a private timer loop; use S029 for deferred individual operations where needed. Host admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
+| P051-008 | Local-accountability acceptance / cross-component harness | todo | 004, 005, 006, 007, P018-14 | Freeze the report/qualifier contract above before the runner; pass its negative fixtures and qualify retained/redacted evidence for the exact scope. Run every local row through the real middleware-hosted service, channel host-call bridge and host enforcement adapter, including detach/restart, operator-as-party, legacy cutover, corrupted expiry and M11 denial evidence. Link harness/evidence indexes; reconcile P051/P018/S040 and Node ledger without upgrading unrelated capabilities. |
 | P051-009 | Remote correction acceptance / case Artifact Delivery acceptor | deferred | 008 | Two-host authenticated decision/correction delivery, local admission, duplicate/reorder/restart and unreachable-recipient evidence; bounded P081 causal/replication primitives only where needed, no global sanction propagation. |
 
 The detailed enforcement work belongs to P018-12 through P018-14, linked from S040;
@@ -1380,5 +1425,7 @@ reputation projections remain separate follow-ups, not hidden acceptance prerequ
 
 1. Start P051-002 and P018-12 together: settle exact case scope, first policy and
    non-lossy source-aware restriction mapping before exposing mutation routes.
-2. Build the local case/restriction/notification slice and its replay/refusal tests.
+2. Build the small Rust case core and middleware-hosted service, connect the
+   host-owned P018/S040 adapter and existing notifications, and prove replay/refusal
+   plus detach/reattach behavior through the real channel boundary.
 3. Run P051-008; only then consider P051-009 and optional deliberation assistance.
