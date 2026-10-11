@@ -1438,6 +1438,17 @@ The historical nested contract remains unchanged and fail-closed. This separate
 DAG slice qualifies the bounded eight-passage owner/runtime profile, not every
 eight-turn workload, a real-model guided repair, or all of P090-006/006a.
 
+P094 integration review (2026-10-11): the deterministic adoption process proof
+compares Corpus's neutral manifest reference with the exact host-retained
+`agent.passage-input-manifest.v1` fact written before the Solver/Reviewer
+product. Restart and adoption replay preserve the original Solver manifest,
+product, graph nodes and producer charge; the fresh Reviewer's resolved graph
+retains those same source nodes. Recipe history now resolves only exact
+owner-local descriptor bytes and carries signed authority epochs and candidate
+adoptions separately from the immutable order origin. These are composed
+owner/process checks, not a clean-source real-MLX adoption or market
+qualification. P094-012c5/012c6/023e remain open until that separate proof.
+
 | Follow-up | Status | Required boundary |
 | :--- | :--- | :--- |
 | `P090-006f4` | `todo` | Design owner-local storage of individually addressed nodes and root-referenced closures, avoiding repeated whole-graph retention across products/effects/outcomes. Preserve exact signing, ordered multiplicity, bounded reachable closure, selective disclosure, authority and restart/GC semantics. Current carriers intentionally still contain the complete closure; this is not remote acquisition or implicit historical migration. |

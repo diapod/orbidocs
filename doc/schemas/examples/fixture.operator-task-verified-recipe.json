@@ -261,6 +261,8 @@
       }
     }
   ],
+  "authority/epochs": [],
+  "candidate/adoptions": [],
   "inputs/assertions": [
     {
       "document/ref": "corpus-experiment:sha256:Z9OINYzXKjCv2n467f8hCPYp0bbqrW6vf1_HGWXLVj0",

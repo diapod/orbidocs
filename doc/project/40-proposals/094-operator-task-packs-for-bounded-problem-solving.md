@@ -3223,6 +3223,42 @@ report. The earlier public receipt-only report retains its original scope.
 
 ### Next Actions After the Physical Market Checkpoint
 
+Approved recovery/adoption/publication slice, implementation checkpoint
+(2026-10-11): the Workbench now validates each retained instance's exact host
+plan before exposing its prepared root, isolating bad rows without blocking
+other instances. The new native full-process restart runner is distinct from
+the historical broker-only proof and from the final guided UI qualification.
+The deterministic adoption process proof compares the actual pre-dispatch
+neutral Agent manifest with Corpus's binding and checks unchanged Solver
+manifest and charge after restart/replay. This is not real-model adoption.
+The native full-Workbench development proof also passes: one exact instance
+and VMM survive component restart, the guest digest is unchanged, the old
+session descriptor is refused and confirmed teardown releases instance quota.
+Its final clean-source runner separately pins both repositories and retains
+the compared allocation plans and typed quota refusal. This development run
+does not substitute for that clean-source report or guided market acceptance.
+
+Dator owns a bounded order collection (32 default, 64 maximum), stable keyset
+cursor, private-payload omission and per-row diagnostics. Thin UI review binds
+fresh owner snapshots; a new order link requires an open, unspent loop. The
+immutable link remains at the logical origin. Verified recipe history now
+includes signed `authority/epochs` and `candidate/adoptions`, empty without
+continuation. Fresh publication requires the activated current epoch and Chair,
+not expired origin authority; exact retained publication replay does not infer,
+sign or charge again. The recipe's unchanged 64 KiB carrier refuses excess
+history instead of truncating it. These are current draft-contract amendments.
+
+`018a`, `012c6`, `023e` and `012c1–012c5` remain in progress until their respective
+native and clean-source operator criteria pass. The remaining composed run
+uses installed/conformant/active package prerequisites, local MLX/vfkit on
+self.local, a second isolated buyer and explicitly local SQLite relay. It
+requires a real order before passages, unfinished-candidate adoption, fresh
+Reviewer/Chair, observation then repair, distinct publication approval, measured
+periodic Arca refresh and checked cleanup. Delegated receipts are not independent
+human HIL. Source commits and acceptance refs precede qualification; report
+commits follow it. Relay migration, store rotation and formal whole-P094
+acceptance remain separate, and `P094-015` stays partial.
+
 Publication recovery decision (2026-10-05, accepted): retain the exact relay
 base URL (origin plus path prefix) and topic before the first publication
 effect; inherit that target for withdrawal, including a lost-ACK publication.

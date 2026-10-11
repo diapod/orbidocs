@@ -137,6 +137,9 @@ schema_for_file() {
     *.operator-task-order-inspection.json)
       echo "$SCHEMAS_DIR/operator-task-order-inspection.v1.schema.json"
       ;;
+    *.operator-task-order-collection.json)
+      echo "$SCHEMAS_DIR/operator-task-order-collection.v1.schema.json"
+      ;;
     *.operator-task-order-link.request.json)
       echo "$SCHEMAS_DIR/operator-task-order-link.request.v1.schema.json"
       ;;

@@ -8,11 +8,21 @@
   "description": "A bounded mechanical projection of one exact locally verified execution, its candidate and patch bytes, and retained signed Solver/Reviewer/Chair history. It is not another inference, permission to run the recipe, or a universal Corpus outcome format. The owner verifies all content addresses, signatures, source relationships and confirmed disposal before publication; the complete JCS document must fit the 65536-byte answer limit, with no truncation. Inference assertions name the exact retained Agent V2 products used in the publication's provenance composition.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "source", "candidate", "patches", "verified", "history", "inputs/assertions"],
+  "required": ["schema", "schema/v", "source", "candidate", "patches", "verified", "history", "authority/epochs", "candidate/adoptions", "inputs/assertions"],
   "properties": {
     "schema": {"const": "operator-task-verified-recipe.v1"},
     "schema/v": {"const": 1},
     "source": {"$ref": "#/$defs/source"},
+    "authority/epochs": {
+      "description": "Verified signed communication epochs of the immutable order-linked logical origin. Empty without continuation. Historical expiry is not current execution or publication authority.",
+      "type": "array", "maxItems": 64,
+      "items": {"$ref": "corpus-authority-epoch.v1.schema.json"}
+    },
+    "candidate/adoptions": {
+      "description": "Exact signed adoptions required by cross-epoch reviews in this history. Original products and signatures remain unchanged; these facts grant no execution authority.",
+      "type": "array", "maxItems": 64,
+      "items": {"$ref": "corpus-task-pack-candidate-adoption.v1.schema.json"}
+    },
     "candidate": {"$ref": "operator-task-experiment-candidate.v1.schema.json"},
     "patches": {
       "type": "array", "maxItems": 64,

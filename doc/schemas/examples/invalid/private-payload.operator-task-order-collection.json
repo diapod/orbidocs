@@ -1,0 +1,14 @@
+{
+  "schema": "operator-task-order-collection.v1",
+  "schema/v": 1,
+  "items": [{
+    "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "offer/id": "offer:qmail",
+    "offer/sequence": 1,
+    "dispatch/status": "waiting-local-round",
+    "request": {"question/text": "private"}
+  }],
+  "diagnostics": [],
+  "next/cursor": null
+}

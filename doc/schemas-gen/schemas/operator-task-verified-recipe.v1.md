@@ -17,6 +17,8 @@ A bounded mechanical projection of one exact locally verified execution, its can
 | [`schema`](#field-schema) | `yes` | const: `operator-task-verified-recipe.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`source`](#field-source) | `yes` | ref: `#/$defs/source` |  |
+| [`authority/epochs`](#field-authority-epochs) | `yes` | array | Verified signed communication epochs of the immutable order-linked logical origin. Empty without continuation. Historical expiry is not current execution or publication authority. |
+| [`candidate/adoptions`](#field-candidate-adoptions) | `yes` | array | Exact signed adoptions required by cross-epoch reviews in this history. Original products and signatures remain unchanged; these facts grant no execution authority. |
 | [`candidate`](#field-candidate) | `yes` | ref: `operator-task-experiment-candidate.v1.schema.json` |  |
 | [`patches`](#field-patches) | `yes` | array |  |
 | [`verified`](#field-verified) | `yes` | object |  |
@@ -50,6 +52,22 @@ A bounded mechanical projection of one exact locally verified execution, its can
 
 - Required: `yes`
 - Shape: ref: `#/$defs/source`
+
+<a id="field-authority-epochs"></a>
+## `authority/epochs`
+
+- Required: `yes`
+- Shape: array
+
+Verified signed communication epochs of the immutable order-linked logical origin. Empty without continuation. Historical expiry is not current execution or publication authority.
+
+<a id="field-candidate-adoptions"></a>
+## `candidate/adoptions`
+
+- Required: `yes`
+- Shape: array
+
+Exact signed adoptions required by cross-epoch reviews in this history. Original products and signatures remain unchanged; these facts grant no execution authority.
 
 <a id="field-candidate"></a>
 ## `candidate`

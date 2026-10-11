@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:operator-task-order-collection:v1",
+  "title": "Operator Task Order Collection v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": ["doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"],
+  "description": "Bounded keyset read model of Dator-owned immutable orders. It exposes references, dispatch state and retained links, not private question text, request bytes or authority to execute. Corrupt rows consume their page position and yield diagnostics; they do not block healthy orders. New admissions append after earlier cursors. Reading the collection performs no reconciliation or dispatch.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema/v", "items", "diagnostics", "next/cursor"],
+  "properties": {
+    "schema": {"const": "operator-task-order-collection.v1"},
+    "schema/v": {"const": 1},
+    "next/cursor": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/cursor"}]},
+    "items": {
+      "type": "array", "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["order/ref", "request/digest", "offer/id", "offer/sequence", "dispatch/status"],
+        "properties": {
+          "order/ref": {"$ref": "operator-task-order-link.request.v1.schema.json#/properties/order~1ref"},
+          "request/digest": {"$ref": "operator-task-common.v1.schema.json#/$defs/digest"},
+          "offer/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+          "offer/sequence": {"type": "integer", "minimum": 0},
+          "dispatch/status": {"enum": ["waiting-local-round", "product-ready", "result-ready", "delivering", "delivery-failed", "completed", "failed"]},
+          "binding/ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+          "query/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+          "link/ref": {"$ref": "operator-task-order-inspection.v1.schema.json#/properties/link~1ref"}
+        },
+        "dependentRequired": {"query/id": ["link/ref", "binding/ref"], "link/ref": ["query/id", "binding/ref"]}
+      }
+    },
+    "diagnostics": {
+      "type": "array", "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["record/ref", "code"],
+        "properties": {
+          "record/ref": {
+            "oneOf": [
+              {"type": "string", "pattern": "^task-order-row:[1-9][0-9]{0,18}$"},
+              {"$ref": "operator-task-order-link.request.v1.schema.json#/properties/order~1ref"}
+            ]
+          },
+          "code": {"enum": ["task-order/source-corrupt", "task-order/link-unavailable"]}
+        },
+        "allOf": [
+          {
+            "if": {"required": ["code"], "properties": {"code": {"const": "task-order/source-corrupt"}}},
+            "then": {"properties": {"record/ref": {"pattern": "^task-order-row:[1-9][0-9]{0,18}$"}}},
+            "else": {"properties": {"record/ref": {"$ref": "operator-task-order-link.request.v1.schema.json#/properties/order~1ref"}}}
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "cursor": {"type": "string", "maxLength": 37, "pattern": "^task-order-cursor:[1-9][0-9]{0,18}$"}
+  }
+}

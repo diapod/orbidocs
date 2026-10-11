@@ -541,8 +541,22 @@ Delegated confirmations identify the actual executor and human issuer and do
 not qualify independent human HIL. No publication, configuration, identity,
 widening or Room renewal authority is conveyed. Cleanup is independent of
 continued consent. Component/owner implementation is not composed operator-path
-acceptance; bounded retention has no archival yet and c5/c7 qualification stays
-open. See P094's dated delegation decision and the Node operator guide.
+acceptance; bounded retention has no archival yet. The 2026-10-10 c7 development
+UI checkpoint qualifies delegated observation/repair through four real passages
+and two native executions, but clean-source c5/market qualification stays open.
+See P094's dated delegation decision and the Node operator guide.
+
+The 2026-10-11 P094 recovery/adoption/publication implementation preserves owner
+boundaries: Workbench validates each retained instance and its exact host plan;
+Dator projects bounded order pages without private inputs; the UI binds reviewed
+owner snapshots before passages rather than installing its own configuration.
+The immutable order origin survives communication epochs. Signed recipe bytes
+carry their verified epoch/adoption chain and exact execution, while publication
+requires the current activated head and Chair authority. Neutral Agent manifests
+are retained before dispatch and compared with Corpus references in the adoption
+process proof. These implementation/component claims do not promote the pending
+full native restart or clean-source guided market qualification, formal P094
+adoption, relay migration, or general retention readiness.
 
 ## Open Questions
 

@@ -25,6 +25,7 @@ Local read model of one Dator-admitted order and its explicit operator-selected 
 | [`state`](#field-state) | `yes` | enum: `waiting-local-round`, `linked`, `blocked` |  |
 | [`query/id`](#field-query-id) | `no` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`link/ref`](#field-link-ref) | `no` | string |  |
+| [`executions`](#field-executions) | `no` | array | Verified owner history across communication epochs of the immutable linked logical round; historical records grant no execution authority. |
 | [`delivery`](#field-delivery) | `no` | object | Read-only recovery state for an already committed result, separate from current order admissibility. Inspection does not register or retry delivery. The 24-hour BDO horizon never renews domain authority. |
 
 ## Conditional Rules
@@ -166,6 +167,14 @@ Then:
 
 - Required: `no`
 - Shape: string
+
+<a id="field-executions"></a>
+## `executions`
+
+- Required: `no`
+- Shape: array
+
+Verified owner history across communication epochs of the immutable linked logical round; historical records grant no execution authority.
 
 <a id="field-delivery"></a>
 ## `delivery`

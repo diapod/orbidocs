@@ -23,6 +23,18 @@
     "state": {"enum": ["waiting-local-round", "linked", "blocked"]},
     "query/id": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
     "link/ref": {"type": "string", "pattern": "^operator-task-order-link:sha256:[A-Za-z0-9_-]{43}$"},
+    "executions": {
+      "type": "array", "maxItems": 64,
+      "description": "Verified owner history across communication epochs of the immutable linked logical round; historical records grant no execution authority.",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["execution/ref", "outcome"],
+        "properties": {
+          "execution/ref": {"type": "string", "pattern": "^corpus-task-pack-execution:sha256:[A-Za-z0-9_-]{43}$"},
+          "outcome": {"enum": ["verified", "verification-failed", "refused", "cancelled", "unknown"]}
+        }
+      }
+    },
     "delivery": {
       "type": "object",
       "additionalProperties": false,
@@ -40,7 +52,7 @@
       }]
     }
   },
-  "dependentRequired": {"query/id": ["link/ref"], "link/ref": ["query/id"], "delivery": ["query/id", "link/ref"]},
+  "dependentRequired": {"query/id": ["link/ref"], "link/ref": ["query/id"], "executions": ["query/id", "link/ref"], "delivery": ["query/id", "link/ref"]},
   "allOf": [
     {
       "if": {"required": ["state"], "properties": {"state": {"const": "linked"}}},

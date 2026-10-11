@@ -4,6 +4,8 @@
   "recipe": {
     "schema": "operator-task-verified-recipe.v1",
     "schema/v": 1,
+    "authority/epochs": [],
+    "candidate/adoptions": [],
     "source": {
       "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
       "order/link-ref": "operator-task-order-link:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",

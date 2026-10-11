@@ -1,0 +1,16 @@
+{
+  "schema": "operator-task-order-collection.v1",
+  "schema/v": 1,
+  "items": [{
+    "order/ref": "operator-task-order:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "offer/id": "offer:qmail",
+    "offer/sequence": 1,
+    "dispatch/status": "waiting-local-round"
+  }],
+  "diagnostics": [
+    {"record/ref": "task-order-row:2", "code": "task-order/source-corrupt"},
+    {"record/ref": "operator-task-order:sha256:BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", "code": "task-order/link-unavailable"}
+  ],
+  "next/cursor": "task-order-cursor:32"
+}
