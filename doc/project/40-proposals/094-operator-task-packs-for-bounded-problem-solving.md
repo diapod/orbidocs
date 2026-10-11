@@ -3013,7 +3013,7 @@ asynchronous reconciliation that would otherwise slow every earlier test cycle.
 | `P094-023d3b1` | Read the admitted Agent binding and complete the solver passage | `023d3a`, P093 local A–E | `done` | 2026-10-03: the unignored solver process test reads `binding/digest` from the validated `agent.status` inference-Flow inspection, checks the exact Flow, package and activation generation, then admits the Corpus binding. The passage runs through managed Inquirium and authors a signed proposal. The instruction commitment includes the host's P091 locale layer; the fixture uses the shared host transformation. Corpus consumes one JSON text document from the validated, completed retained `GenerateResponse`, not the carrier as a candidate or verdict. Missing/malformed inspection digests and bare, multiple or unsupported inference carriers refuse. The separate reviewer-sequence gate is completed by `023d3b`; VM acceptance is `013`. |
 | `P094-018` | Extend P080 with the isolated-environment resource kind | `001` | `done` | 2026-09-27. `middleware-component-contract.v1` admits `resource/kind: isolated-environment` with `dispose/operation: environment.destroy` under `ephemeral-revertible` and `host-local` scope, as a dated additive amendment (P080-046); the P080 recovery section, the schema and `middleware-runtime` validation agree and refuse a mismatched operation, kind or scope. Sensorium Virt implements the disposer as `environment.teardown` over a new `destroying` state of `sensorium-virt-recovery-record.v1`: every backend (`fixture-copy.v1`, `vfkit-system.v1`, `cloud-hypervisor-system.v1`) records it durably before the first destructive step, only `destroying` reaches `closed`, a completed destruction replays as confirmed, and start, recover, drain and allocation replay refuse a `destroying` record instead of quarantining it. Startup reconciliation completes every recorded destruction and reports `records/destroyed`; a record that can no longer prove its resource identity is quarantined, never returned to a live state. Tests cover the transition table, a removal interrupted mid-way on `fixture-copy`, and a destruction interrupted with a live VMM on the fake-vfkit and fake Cloud Hypervisor process harnesses. Real-VM deployment runs were not repeated.  Review regressions also cover destruction interrupted during unrecorded-launch cleanup, refusal of unbound resource paths before teardown, record-only quarantine of an invalid destruction, and drained VMM identity validation. |
 
-| `P094-018a` | Recover the exact prepared root across ordinary Workbench restart | `018` | `in-progress` | 2026-10-09: vfkit and Cloud Hypervisor launches put the broker-owned VMM outside the launching owner's shutdown process group. All 36 fake-VMM lifecycle tests pass. The ignored native vfkit `owner_restart::native_prepared_root_survives_owner_shutdown_group` passes: stopping the owner group preserves the same prepared-root key, allocation plan and VMM PID; reopening recovers one VM without quarantine, exact start replay and guest inspection succeed, then teardown confirms Closed and process absence. This is a native broker/group-boundary proof, not yet full Workbench restart or guided UI qualification. It does not revive dead/historical quarantined roots; the earlier fresh-key workaround remains a prerequisite change, not lifecycle evidence. |
+| `P094-018a` | Recover the exact prepared root across ordinary Workbench restart | `018` | `done` | 2026-10-11: Node's `tools/acceptance/story-013-qmail-task-pack/reports/2026-10-11.workbench-restart.macos-arm64.json` pins Node `c673942a` and Orbidocs `a16d958b` under `refs/acceptance/s13-1791682069-c0d204`. A full supervised component restart preserves the same prepared-instance key, root, allocation plan and VMM PID/start marker without extra allocation or quarantine; guest inspection retains its exact digest. The retired terminal descriptor refuses and an explicit new connection succeeds. Teardown retains the owner's destruction receipt, process absence and released quota. Bad retained records have per-row isolation evidence. This closes the approved native vfkit scope, not guided MLX/market qualification or revival of historical quarantined roots. The earlier broker/group proof and fresh-key workaround keep their narrower historical meanings. |
 
 ### Resumable Federated Slice — 2026-10-04
 
@@ -3231,12 +3231,19 @@ the historical broker-only proof and from the final guided UI qualification.
 The deterministic adoption process proof compares the actual pre-dispatch
 neutral Agent manifest with Corpus's binding and checks unchanged Solver
 manifest and charge after restart/replay. This is not real-model adoption.
-The native full-Workbench development proof also passes: one exact instance
-and VMM survive component restart, the guest digest is unchanged, the old
-session descriptor is refused and confirmed teardown releases instance quota.
-Its final clean-source runner separately pins both repositories and retains
-the compared allocation plans and typed quota refusal. This development run
-does not substitute for that clean-source report or guided market acceptance.
+The native full-Workbench clean-source report in Node,
+`tools/acceptance/story-013-qmail-task-pack/reports/2026-10-11.workbench-restart.macos-arm64.json`,
+now passes on Node `c673942a` and Orbidocs `a16d958b`, separately pinned under
+`refs/acceptance/s13-1791682069-c0d204` before allocation. One exact instance
+and VMM survive full component restart; compared plans and guest digests match,
+the old session descriptor is refused, and the destruction receipt confirms
+process absence and released quota. The report retains the typed quota refusal,
+not an inferred allocation count. P094-018a is done for this approved native
+scope. This is not real-model adoption or guided market acceptance.
+The clean-source owner gate also passes all 22 proofs and 26 variants without
+rerunning or strengthening the three older native/physical reports. Full
+workspace verification passes 6,831 tests with no failures and 30 explicit
+ignored tests, separate from the opt-in native restart proof.
 
 Dator owns a bounded order collection (32 default, 64 maximum), stable keyset
 cursor, private-payload omission and per-row diagnostics. Thin UI review binds
@@ -3248,8 +3255,8 @@ not expired origin authority; exact retained publication replay does not infer,
 sign or charge again. The recipe's unchanged 64 KiB carrier refuses excess
 history instead of truncating it. These are current draft-contract amendments.
 
-`018a`, `012c6`, `023e` and `012c1–012c5` remain in progress until their respective
-native and clean-source operator criteria pass. The remaining composed run
+`012c6`, `023e` and `012c1–012c5` remain in progress until their respective
+clean-source operator criteria pass. The remaining composed run
 uses installed/conformant/active package prerequisites, local MLX/vfkit on
 self.local, a second isolated buyer and explicitly local SQLite relay. It
 requires a real order before passages, unfinished-candidate adoption, fresh

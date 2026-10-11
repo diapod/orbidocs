@@ -554,9 +554,12 @@ The immutable order origin survives communication epochs. Signed recipe bytes
 carry their verified epoch/adoption chain and exact execution, while publication
 requires the current activated head and Chair authority. Neutral Agent manifests
 are retained before dispatch and compared with Corpus references in the adoption
-process proof. These implementation/component claims do not promote the pending
-full native restart or clean-source guided market qualification, formal P094
-adoption, relay migration, or general retention readiness.
+process proof. The separate clean-source native full Workbench restart report
+pins Node `c673942a` and Orbidocs `a16d958b`; exact instance/plan/VMM recovery,
+retired terminal authority, confirmed destruction and quota release close
+P094-018a's approved scope. This does not promote pending clean-source guided
+market qualification, formal P094 adoption, relay migration, or general
+retention readiness.
 
 ## Open Questions
 
