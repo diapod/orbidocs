@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-qualification-tuple:v1",
+  "title": "Sensorium BrainFlow Qualification Tuple v1",
+  "description": "Draft exact deployment and measurement conditions embedded under qualification/tuple in a class-specific acceptance report. This tuple is data, not a qualification verdict. Unknown fields must use tagged evidence states. Never include physical serials, advertised names, human identity or host-private paths; use evidence-local controller aliases. The qualifier binds evidence class, candidate, reports and executable digest separately.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "model",
+    "host",
+    "transport",
+    "build",
+    "acquisition/mode",
+    "streams",
+    "permissions",
+    "concurrency"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-qualification-tuple.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "hardware/revision",
+        "firmware"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "hardware/revision": {
+          "$ref": "#/$defs/evidenceValue"
+        },
+        "firmware": {
+          "$ref": "#/$defs/evidenceValue"
+        }
+      }
+    },
+    "host": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "os",
+        "os/version",
+        "cpu"
+      ],
+      "properties": {
+        "os": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "os/version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "cpu": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        }
+      }
+    },
+    "transport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "controller/evidence"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "controller/evidence": {
+          "$ref": "#/$defs/evidenceValue"
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package/ref",
+        "brainflow/binding",
+        "brainflow/native",
+        "language/runtime",
+        "numpy",
+        "dependency-manifest/digest"
+      ],
+      "properties": {
+        "package/ref": {
+          "$ref": "#/$defs/exactRef"
+        },
+        "brainflow/binding": {
+          "$ref": "#/$defs/binaryBuild"
+        },
+        "brainflow/native": {
+          "$ref": "#/$defs/binaryBuild"
+        },
+        "language/runtime": {
+          "$ref": "#/$defs/binaryBuild"
+        },
+        "numpy": {
+          "oneOf": [
+            { "$ref": "#/$defs/binaryBuild" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status"],
+              "properties": {"status": {"const": "not-applicable"}}
+            }
+          ]
+        },
+        "dependency-manifest/digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "acquisition/mode": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "streams": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "required",
+          "rate/nominal-hz",
+          "rate/observed-hz"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "rate/nominal-hz": {
+            "$ref": "#/$defs/rational"
+          },
+          "rate/observed-hz": {
+            "$ref": "#/$defs/observedRate"
+          }
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "mechanism",
+        "launch/context",
+        "signing/identity"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "allowed",
+            "denied",
+            "not-applicable",
+            "unverified"
+          ]
+        },
+        "mechanism": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "launch/context": {
+          "enum": [
+            "terminal",
+            "login-agent",
+            "system-daemon",
+            "host-app",
+            "other"
+          ]
+        },
+        "signing/identity": {
+          "$ref": "#/$defs/evidenceValue"
+        }
+      }
+    },
+    "concurrency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "device/count",
+        "controller/arrangement"
+      ],
+      "properties": {
+        "device/count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "controller/arrangement": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    }
+  },
+  "$defs": {
+    "exactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "evidenceValue": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "value"
+          ],
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason/code"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "not-applicable"
+              ]
+            },
+            "reason/code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+            }
+          }
+        }
+      ]
+    },
+    "binaryBuild": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "digest"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "rational": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numerator",
+        "denominator"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "observedRate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "numerator",
+            "denominator",
+            "window/ns"
+          ],
+          "properties": {
+            "status": {
+              "const": "measured"
+            },
+            "numerator": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "window/ns": {
+              "type": "string",
+              "pattern": "^[1-9][0-9]{0,19}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason/code"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "not-applicable"
+              ]
+            },
+            "reason/code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

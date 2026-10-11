@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:middleware-instance-plan:v1",
+  "title": "Middleware Instance Plan v1",
+  "description": "Draft adapter-neutral, single-instance registration intent. The host validates authority, exact declared/package material, allocated identities, entrypoints, dependency DAG, limits and CAS; commits and applies the complete runtime snapshot. A plan grants no authority and contains no credentials or device selectors. Semantic checks remain required.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md",
+    "doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "instance/ref",
+    "declaration/ref",
+    "package/ref",
+    "executor",
+    "module/id",
+    "component/id",
+    "home/binding",
+    "channel-auth/binding",
+    "dependencies"
+  ],
+  "properties": {
+    "schema": {
+      "const": "middleware-instance-plan.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "instance/ref": {
+      "$ref": "#/$defs/ref"
+    },
+    "declaration/ref": {
+      "$ref": "#/$defs/exactRef"
+    },
+    "package/ref": {
+      "$ref": "#/$defs/exactRef"
+    },
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "entrypoint",
+        "arguments"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "kind": {
+          "const": "channel_json"
+        },
+        "entrypoint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$",
+          "description": "Package-relative admitted entrypoint; resolution must remain inside immutable package material, including symlink checks."
+        },
+        "arguments": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": "Admitted bounded arguments; no secrets or device selectors. Host verifies values against package/declaration."
+        }
+      }
+    },
+    "module/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "component/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "home/binding": {
+      "$ref": "#/$defs/ref"
+    },
+    "channel-auth/binding": {
+      "$ref": "#/$defs/ref"
+    },
+    "dependencies": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "component/ref",
+          "readiness",
+          "loss-policy"
+        ],
+        "properties": {
+          "component/ref": {
+            "$ref": "#/$defs/ref"
+          },
+          "readiness": {
+            "const": "ready"
+          },
+          "loss-policy": {
+            "enum": [
+              "stop",
+              "degrade"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "exactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

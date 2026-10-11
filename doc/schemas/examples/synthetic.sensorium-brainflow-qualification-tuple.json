@@ -1,0 +1,79 @@
+{
+  "schema": "sensorium-brainflow-qualification-tuple.v1",
+  "schema/v": 1,
+  "model": {
+    "id": "synthetic",
+    "hardware/revision": {
+      "status": "not-applicable",
+      "reason/code": "synthetic-no-device"
+    },
+    "firmware": {
+      "status": "not-applicable",
+      "reason/code": "synthetic-no-device"
+    }
+  },
+  "host": {
+    "os": "fixture-os",
+    "os/version": "fixture",
+    "cpu": "fixture-cpu"
+  },
+  "transport": {
+    "kind": "synthetic",
+    "controller/evidence": {
+      "status": "not-applicable",
+      "reason/code": "synthetic-no-device"
+    }
+  },
+  "build": {
+    "package/ref": {
+      "id": "fixture-connector",
+      "revision": 1,
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "brainflow/binding": {
+      "version": "fixture",
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "brainflow/native": {
+      "version": "fixture",
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "language/runtime": {
+      "version": "fixture",
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "numpy": {
+      "version": "fixture",
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "dependency-manifest/digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "acquisition/mode": "synthetic",
+  "streams": [
+    {
+      "id": "eeg",
+      "required": true,
+      "rate/nominal-hz": {
+        "numerator": 250,
+        "denominator": 1
+      },
+      "rate/observed-hz": {
+        "status": "unknown",
+        "reason/code": "schema-fixture-not-runtime-evidence"
+      }
+    }
+  ],
+  "permissions": {
+    "status": "not-applicable",
+    "mechanism": "synthetic-no-device-access",
+    "launch/context": "terminal",
+    "signing/identity": {
+      "status": "unknown",
+      "reason/code": "schema-fixture"
+    }
+  },
+  "concurrency": {
+    "device/count": 0,
+    "controller/arrangement": "no-physical-controller"
+  }
+}

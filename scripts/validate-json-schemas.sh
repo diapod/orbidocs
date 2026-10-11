@@ -29,6 +29,12 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.middleware-instance-plan.json)
+      echo "$SCHEMAS_DIR/middleware-instance-plan.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-qualification-tuple.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-qualification-tuple.v1.schema.json"
+      ;;
     *.participant-restriction-source.json|*.participant-restriction-source.*.json)
       echo "$SCHEMAS_DIR/participant-restriction-source.v1.schema.json"
       ;;
