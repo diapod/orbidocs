@@ -25,6 +25,19 @@ daemon API routes that are not host-capability operations.
 
 ## Purpose
 
+The approved P094 guided purchase client (2026-10-11) prepares one free
+task-pack order from an exact admitted signed offer and a buyer-entered problem,
+with separate preview and approval. Arca supplies the ordinary single-step plan
+and an independent buyer inference policy; the host owns durable module-scoped
+request addresses, exact-plan replay, signing, settlement and transport.
+Current buyer identity and offer revision/digest are checked again before
+creation/submission. Tombstones prevent reuse of deleted execution addresses.
+A missing acknowledgement pauses the same run as unknown, without provider
+substitution or redispatch. The thin Node UI and Node-local draft channel
+contracts create neither a second executor nor provider loop/model/HIL/VM or
+publication authority. Component/disk-replay evidence is distinct from pending
+composed native operator-path qualification in P094.
+
 The component is responsible for the solution-level execution path of:
 
 - normalising a configured workflow plan into a sequential,

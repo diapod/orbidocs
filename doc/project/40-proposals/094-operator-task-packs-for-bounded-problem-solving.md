@@ -3303,6 +3303,21 @@ offer verification intact. Writes remain authenticated, and oversized response
 pages are refused rather than truncated. Component tests establish this boundary,
 not a new completed market/operator checkpoint.
 
+Approved guided buyer extension (2026-10-11): the operator selects an exact
+observed signed offer, enters problem text, reviews the buyer/terms/inference
+policy and separately approves one free task-pack recipe order. Arca prepares
+the existing normalized workflow plan; the host retains its module-scoped request
+address and exact plan, including terminal/deletion evidence across replay.
+Commit rechecks the current buyer, signed revision/digest and independent buyer
+policy. No replacement provider, client execution engine, copied provider token
+or implicit provider loop/model/HIL/VM/publication authority is introduced.
+An uncertain submitting record or missing acknowledgement pauses for inspection;
+it is neither proof of refusal nor authority for redispatch. Startup may observe
+the same admitted purchase with configured auto-start disabled, not create a new
+plan. Inline Node-local draft contracts and component/disk-replay/UI tests
+support implementation only. `P094-012c4/012c5` remain in progress until the
+composed clean-source native purchase, adoption, delivery and cleanup report.
+
 Publication recovery decision (2026-10-05, accepted): retain the exact relay
 base URL (origin plus path prefix) and topic before the first publication
 effect; inherit that target for withdrawal, including a lost-ACK publication.
