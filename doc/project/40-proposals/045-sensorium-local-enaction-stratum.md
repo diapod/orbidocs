@@ -23,6 +23,16 @@ owner-validated consumption. Observation/directive admission and signed action
 authority remain Sensorium responsibilities; an editable setting cannot replace
 them. Broader adoption is tracked by P091-001b/010a/015, not a reopened hard-MVP gate.
 
+Related connector work (proposed):
+
+[Proposal 096: Sensorium BrainFlow Connector](096-sensorium-brainflow-connector.md)
+defines one reusable acquisition package, versioned model profiles and independently
+supervised device instances. Its lifecycle, consent, independent instantiation and hardware
+qualification remain new work. Its class is `health-wearable`: non-invasive
+physiological measurement with sensitive-personal data. "Invasive" in the
+connector policy taxonomy refers to privacy/access, not an implanted EEG device;
+this proposal does not promote that connector class's implementation status.
+
 ## Status
 
 Accepted / hard-MVP implemented.

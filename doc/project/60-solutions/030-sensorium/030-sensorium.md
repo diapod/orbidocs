@@ -277,6 +277,13 @@ Responsibilities:
 Status:
 - `deferred`
 
+Proposed wearable extension:
+[P096: Sensorium BrainFlow Connector](../../40-proposals/096-sensorium-brainflow-connector.md)
+specifies `health-wearable` profiles for non-invasive physiological measurement,
+independent device instances, acquisition consent and
+bounded signal projections. Its tracker owns the new implementation and real-device
+qualification work; the status of this connector class remains `deferred`.
+
 ### Cross-Node Sensorium Read-Through
 
 Based on:
