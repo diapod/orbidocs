@@ -3263,6 +3263,14 @@ capability needs a separate widening confirmation and does not approve offer
 terms, a signature or publication. This amends the draft preparation contract,
 not the remaining clean-source operator-qualification status.
 
+The guided passage checkpoint collector now reads actual UI-created Agent IDs,
+matching the pre-product neutral manifest to the host-admitted input and the
+same Corpus link. It retains exact local provenance commitments, reachable DAG
+measurements and actual Agent spend for comparison after restart/replay. It is
+a read-only, private checkpoint tool, not a harness installer, semantic
+validator or composed operator-qualification report; these checkpoints do not
+promote the remaining tasks.
+
 `012c6`, `023e` and `012c1–012c5` remain in progress until their respective
 clean-source operator criteria pass. The remaining composed run
 uses installed/conformant/active package prerequisites, local MLX/vfkit on
