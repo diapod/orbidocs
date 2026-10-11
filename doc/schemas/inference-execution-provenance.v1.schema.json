@@ -27,6 +27,11 @@
     }
   ],
   "$defs": {
+    "resolutionObjects": {
+      "description": "Inert objects carried with a service result for bounded local resolution, not remote acquisition authority. At most three distinct external descriptors (signed answer, dispatch, terminal result), each with exact canonical bytes above 16 KiB and at most 64 KiB. Semantic gates verify canonical size, digest, DAG limits and duplicates before policy admission; the carrier's byte budget also applies.",
+      "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true,
+      "items": { "$ref": "#/$defs/descriptor" }
+    },
     "composition": {
       "description": "Exact original source frames. Historical nested parents retain their tree budgets. New compositions use a versioned DAG, empty legacy parents, and an exactly matching root assertion; semantic validation enforces the reachable graph budgets.",
       "type": "object", "additionalProperties": false,

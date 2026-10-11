@@ -624,13 +624,13 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-workbench.consent-descriptor.v1.schema.json`](schemas-gen/schemas/sensorium-workbench.consent-descriptor.v1.md) | `14` | `0` | `yes` | `yes` | `0` | `0` |
 | [`service-ca-material.v1.schema.json`](schemas-gen/schemas/service-ca-material.v1.md) | `11` | `6` | `yes` | `yes` | `1` | `1` |
 | [`service-ca-revocation.v1.schema.json`](schemas-gen/schemas/service-ca-revocation.v1.md) | `9` | `1` | `yes` | `yes` | `1` | `0` |
-| [`service-dispatch-result.v2.schema.json`](schemas-gen/schemas/service-dispatch-result.v2.md) | `3` | `1` | `yes` | `yes` | `1` | `0` |
+| [`service-dispatch-result.v2.schema.json`](schemas-gen/schemas/service-dispatch-result.v2.md) | `4` | `1` | `yes` | `yes` | `1` | `0` |
 | [`service-offer-common.v1.schema.json`](schemas-gen/schemas/service-offer-common.v1.md) | `30` | `30` | `yes` | `yes` | `0` | `0` |
 | [`service-offer-relay.v1.schema.json`](schemas-gen/schemas/service-offer-relay.v1.md) | `8` | `8` | `yes` | `yes` | `1` | `0` |
 | [`service-offer.v1.schema.json`](schemas-gen/schemas/service-offer.v1.md) | `1` | `0` | `yes` | `yes` | `3` | `6` |
 | [`service-order-dispatch-request.v1.schema.json`](schemas-gen/schemas/service-order-dispatch-request.v1.md) | `16` | `4` | `yes` | `yes` | `1` | `1` |
 | [`service-order-result.v1.schema.json`](schemas-gen/schemas/service-order-result.v1.md) | `17` | `4` | `yes` | `yes` | `1` | `1` |
-| [`service-order-result.v2.schema.json`](schemas-gen/schemas/service-order-result.v2.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
+| [`service-order-result.v2.schema.json`](schemas-gen/schemas/service-order-result.v2.md) | `4` | `0` | `yes` | `yes` | `2` | `2` |
 | [`service-order.result.prepare.request.v1.schema.json`](schemas-gen/schemas/service-order.result.prepare.request.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `0` |
 | [`service-order.v1.schema.json`](schemas-gen/schemas/service-order.v1.md) | `23` | `22` | `yes` | `yes` | `1` | `0` |
 | [`settlement-policy-disclosure.v1.schema.json`](schemas-gen/schemas/settlement-policy-disclosure.v1.md) | `21` | `20` | `yes` | `yes` | `2` | `2` |
@@ -1473,5 +1473,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `635`
 - Generated schema docs: `635`
-- Positive examples: `657`
-- Negative examples: `664`
+- Positive examples: `658`
+- Negative examples: `665`

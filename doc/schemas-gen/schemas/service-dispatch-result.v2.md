@@ -17,6 +17,36 @@ Data-only producer binding. Source authority remains independent; missing eviden
 | [`schema`](#field-schema) | `yes` | const: `service-dispatch-result.v2` |  |
 | [`result`](#field-result) | `yes` | object | Unchanged role dispatch response. Its admitted role contract is validated independently; this wrapper binds its canonical bytes. |
 | [`execution/provenance`](#field-execution-provenance) | `yes` | ref: `inference-execution-provenance.v1.schema.json` |  |
+| [`execution/provenance-objects`](#field-execution-provenance-objects) | `no` | ref: `inference-execution-provenance.v1.schema.json#/$defs/resolutionObjects` |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "execution/provenance": {
+      "required": [
+        "descriptor/ref"
+      ]
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "execution/provenance-objects"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -38,3 +68,9 @@ Unchanged role dispatch response. Its admitted role contract is validated indepe
 
 - Required: `yes`
 - Shape: ref: `inference-execution-provenance.v1.schema.json`
+
+<a id="field-execution-provenance-objects"></a>
+## `execution/provenance-objects`
+
+- Required: `no`
+- Shape: ref: `inference-execution-provenance.v1.schema.json#/$defs/resolutionObjects`

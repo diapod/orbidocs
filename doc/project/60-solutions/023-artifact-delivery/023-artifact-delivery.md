@@ -1140,6 +1140,14 @@ server and explicit input/workflow preconditions are not physical federation
 or end-to-end workflow-runner acceptance. External descriptor resolution remains
 outside that profile.
 
+The approved 2026-10-11 draft V2 portable-object extension carries up to three
+exact external provenance descriptors in `execution/provenance-objects`, within
+the same authenticated AD artifact and existing result allowance. The buyer
+resolves only those bytes and verifies canonical digest, size and DAG semantics
+before independent policy admission. It grants neither remote object fetching
+nor locality authority. Historical inline deployment evidence is not renewed
+by the component implementation; composed P094 operator qualification is open.
+
 Status: the direct node-to-node, inline-JSON thin slice is implemented in the
 Node reference Arca and Dator modules. Private-safe staged fallback
 (`matrix-mailbox` / `object-store-indirect`) and object-store-indirect result

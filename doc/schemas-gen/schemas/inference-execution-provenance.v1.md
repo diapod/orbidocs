@@ -16,6 +16,7 @@ Source schema: [`doc/schemas/inference-execution-provenance.v1.schema.json`](../
 
 | Definition | Shape | Description |
 |---|---|---|
+| [`resolutionObjects`](#def-resolutionobjects) | array | Inert objects carried with a service result for bounded local resolution, not remote acquisition authority. At most three distinct external descriptors (signed answer, dispatch, terminal result), each with exact canonical bytes above 16 KiB and at most 64 KiB. Semantic gates verify canonical size, digest, DAG limits and duplicates before policy admission; the carrier's byte budget also applies. |
 | [`composition`](#def-composition) | object | Exact original source frames. Historical nested parents retain their tree budgets. New compositions use a versioned DAG, empty legacy parents, and an exactly matching root assertion; semantic validation enforces the reachable graph budgets. |
 | [`bindings`](#def-bindings) | object |  |
 | [`evidence`](#def-evidence) | object |  |
@@ -105,6 +106,13 @@ Then:
 - Shape: ref: `inference-provenance-common.v1.schema.json#/$defs/ref`
 
 ## Definition Semantics
+
+<a id="def-resolutionobjects"></a>
+## `$defs.resolutionObjects`
+
+- Shape: array
+
+Inert objects carried with a service result for bounded local resolution, not remote acquisition authority. At most three distinct external descriptors (signed answer, dispatch, terminal result), each with exact canonical bytes above 16 KiB and at most 64 KiB. Semantic gates verify canonical size, digest, DAG limits and duplicates before policy admission; the carrier's byte budget also applies.
 
 <a id="def-composition"></a>
 ## `$defs.composition`

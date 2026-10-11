@@ -19,8 +19,15 @@
     },
     "execution/provenance": {
       "$ref": "inference-execution-provenance.v1.schema.json"
+    },
+    "execution/provenance-objects": {
+      "$ref": "inference-execution-provenance.v1.schema.json#/$defs/resolutionObjects"
     }
   },
+  "allOf": [{
+    "if": { "properties": { "execution/provenance": { "required": ["descriptor/ref"] } } },
+    "then": { "required": ["execution/provenance-objects"] }
+  }],
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [

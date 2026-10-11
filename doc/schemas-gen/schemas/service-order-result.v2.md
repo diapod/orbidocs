@@ -17,6 +17,36 @@ Compatible terminal-result envelope. The exact V1 result and provider-owned infe
 | [`schema`](#field-schema) | `yes` | const: `service-order.result.v2` |  |
 | [`result`](#field-result) | `yes` | ref: `service-order-result.v1.schema.json` |  |
 | [`execution/provenance`](#field-execution-provenance) | `yes` | ref: `inference-execution-provenance.v1.schema.json` |  |
+| [`execution/provenance-objects`](#field-execution-provenance-objects) | `no` | ref: `inference-execution-provenance.v1.schema.json#/$defs/resolutionObjects` |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "execution/provenance": {
+      "required": [
+        "descriptor/ref"
+      ]
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "execution/provenance-objects"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -36,3 +66,9 @@ Compatible terminal-result envelope. The exact V1 result and provider-owned infe
 
 - Required: `yes`
 - Shape: ref: `inference-execution-provenance.v1.schema.json`
+
+<a id="field-execution-provenance-objects"></a>
+## `execution/provenance-objects`
+
+- Required: `no`
+- Shape: ref: `inference-execution-provenance.v1.schema.json#/$defs/resolutionObjects`

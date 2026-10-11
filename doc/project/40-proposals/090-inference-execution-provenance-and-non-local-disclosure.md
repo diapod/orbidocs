@@ -1127,14 +1127,17 @@ Buyer `request/output-constraints.inference/policy` is an explicit terminal
 acceptance rule, not preflight egress authority; absence retains V1 behavior
 without claiming local execution. Warnings and exact carriers survive durable
 execution/trace replay. External refs refuse until a bounded authenticated
-resolver is available. The producer checkpoint below adds the bridge across
+resolver is available. The approved 2026-10-11 draft V2 amendment supplies a
+bounded local resolver for descriptors delivered in the same authenticated AD
+artifact; arbitrary external acquisition is still outside this profile.
+The producer checkpoint below adds the bridge across
 normalization. P090-008c closes the inline deployment role/AD admission gate;
 external descriptor resolution still keeps P090-008a partial.
 
 The producer bridge uses an explicit `service-dispatch-result.v2` wrapper for
 the unchanged role product and content-bound source descriptor. A bounded,
 data-only `service.order.result.prepare` host capability reuses the Rust JCS
-and join implementation to derive `service-order.result.v2` from the final
+and DAG composition implementation to derive `service-order.result.v2` from the final
 normalized V1 result. It does not authenticate the role, observe inference,
 persist a commit, deliver artifacts, or authorize settlement. Dator owns those
 source/commit boundaries; absent legacy evidence stays incomplete and unknown.
@@ -1143,6 +1146,22 @@ Before delivery Dator freezes the result bytes and digest in its existing
 request-keyed durable journal. Delivery retry is bounded and generation-fenced;
 it cannot invoke the role again. Interrupted execution without a result commit
 remains ambiguous and requires reconciliation, not blind execution retry.
+
+Portable-object decision (2026-10-11): optional
+`execution/provenance-objects` in the draft dispatch/result V2 contracts carries
+at most three distinct exact canonical external descriptors (signed answer,
+dispatch and terminal result), each above the 16 KiB inline threshold and at
+most 64 KiB, for at most 192 KiB total. Inline-only V2 omits the field unchanged.
+Reference-bearing result admission requires the matching object, verified by
+digest, size and full reachable-DAG semantics. The existing authenticated AD
+artifact binds all packet bytes; the signed synthesis binds its final carrier.
+Addresses grant no source-access authority and the resolver has no network or
+provider-CAS fallback. Publication selects disclosure before signing; packaging
+cannot redact, reseal or truncate it. Buyer policy assesses the resolved root,
+never treating an external carrier's absent inline value as missing evidence.
+Pure preparation and durable completion keep the source DAG and packet through
+replay. This is a bounded contract/implementation extension, not a renewed
+P090-008c native claim or completed P090-008a/009 remote-resolution scope.
 
 Ordinary-controller recovery checkpoint: an intent fences dispatch before I/O;
 one atomic Memarium completion then binds the exact Inquirium source, Step,

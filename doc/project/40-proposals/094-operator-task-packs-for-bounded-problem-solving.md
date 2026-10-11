@@ -3232,6 +3232,28 @@ report. The earlier public receipt-only report retains its original scope.
 
 ### Next Actions After the Physical Market Checkpoint
 
+Unattended development rehearsal (2026-10-11): one separately authorized,
+isolated local-MLX/vfkit order completed four passages, same-root full restart,
+exact Solver adoption and one verified repair with seven checks and confirmed
+destruction. It did not exercise observation-first failed verification, and
+result publication failed at a 35,095-byte descriptor forced into the 16 KiB
+inline carrier. The original order/loop expired without renewal; the offer was
+withdrawn, prepared root closed and test services stopped. Node records the
+scope in `docs/audits/P094-2026-10-11-UNATTENDED-RECOVERY.md`. This is not composed
+operator qualification or promotion of `012c4/012c5/012c6/023e`.
+
+The operator separately approved bounded exact provenance objects over existing
+authenticated AD. Draft `service-dispatch-result.v2` and `service-order.result.v2`
+now carry at most three external descriptor objects (64 KiB each, 192 KiB total).
+They preserve the signed answer, dispatch and terminal DAG closures with exact
+digest/size checks and a buyer-local resolver, without remote acquisition,
+truncation, locality rebasing or replay inference/signing/charging. This amends
+the earlier external-object limitation in P090's procurement slice. Component
+and process regressions cannot retroactively qualify the expired native run;
+final-source UI delivery/replay/withdrawal remains pending. The operator has
+separately authorized exactly one new isolated run after clean-source gates;
+that authorization does not qualify the expired rehearsal or renew its limits.
+
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
 plan before exposing its prepared root, isolating bad rows without blocking

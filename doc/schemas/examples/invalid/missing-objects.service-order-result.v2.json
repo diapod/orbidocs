@@ -1,0 +1,42 @@
+{
+  "schema": "service-order.result.v2",
+  "result": {
+    "schema": "service-order.result.v1",
+    "request_id": "remote-execution:arca-run-redaction:draft:a1",
+    "workflow/run-id": "arca-run:redaction",
+    "workflow/phase-id": "draft",
+    "correlation/id": "arca-run:redaction",
+    "service_type": "text/redaction",
+    "status": "completed",
+    "output": {
+      "answer/content": "Zredagowany tekst.",
+      "answer/format": "markdown",
+      "schema_version": "v1",
+      "capability_id": "service_dispatch_execute",
+      "status": "completed",
+      "completed-at": "2026-09-04T10:00:00Z",
+      "confidence/signal": 0.91,
+      "human-linked-participation": false,
+      "provenance/origin-classes": [
+        "local-module"
+      ],
+      "dispatch/id": "dispatch:source-fixture"
+    },
+    "provider/node-id": "node:did:key:z6MkOlaNode11111111111111111111111111111111111",
+    "provider/participant-id": "participant:did:key:z6MkOlaParticipant11111111111111111111111111",
+    "provider/metadata": {
+      "confidence/signal": 0.91,
+      "provenance/origin-classes": [
+        "local-module"
+      ],
+      "dispatch/id": "dispatch:source-fixture"
+    },
+    "responded_at": "2026-09-05T10:00:00Z"
+  },
+  "execution/provenance": {
+    "schema": "inference-execution-provenance.v1",
+    "descriptor/digest": "sha256:Bs1MHQCm-mw-V5gmMAaUVBGjSrRcA9trkgz18mbe-dU",
+    "descriptor/size-bytes": 19993,
+    "descriptor/ref": "inference-provenance:sha256:Bs1MHQCm-mw-V5gmMAaUVBGjSrRcA9trkgz18mbe-dU"
+  }
+}
