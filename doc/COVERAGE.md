@@ -392,7 +392,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-task-binding-list.v1.schema.json`](schemas-gen/schemas/operator-task-binding-list.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-task-binding-maintenance.request.v1.schema.json`](schemas-gen/schemas/operator-task-binding-maintenance.request.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-binding-maintenance.response.v1.schema.json`](schemas-gen/schemas/operator-task-binding-maintenance.response.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
-| [`operator-task-binding-preparation.v1.schema.json`](schemas-gen/schemas/operator-task-binding-preparation.v1.md) | `6` | `1` | `yes` | `yes` | `1` | `2` |
+| [`operator-task-binding-preparation.v1.schema.json`](schemas-gen/schemas/operator-task-binding-preparation.v1.md) | `7` | `2` | `yes` | `yes` | `1` | `2` |
 | [`operator-task-binding-proposal.v1.schema.json`](schemas-gen/schemas/operator-task-binding-proposal.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-binding-sources.v1.schema.json`](schemas-gen/schemas/operator-task-binding-sources.v1.md) | `12` | `1` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-binding-state.v1.schema.json`](schemas-gen/schemas/operator-task-binding-state.v1.md) | `6` | `1` | `yes` | `yes` | `1` | `3` |

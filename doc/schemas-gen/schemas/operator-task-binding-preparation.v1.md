@@ -14,6 +14,7 @@ Read-only bounded owner inventory for binding clients. Profiles are exact retain
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
+| [`publication`](#field-publication) | `no` | object | Optional, explicitly requested Dator-owned policy-ref inventory. No terms or publication are approved. Absence keeps guided publication off; malformed owner entries refuse rather than silently disappear. |
 | [`package/states`](#field-package-states) | `yes` | object | Recorded lifecycle for the displayed packages. Activation-recorded does not assert current authority or readiness; expiry and use fences remain owner-checked. |
 | [`schema`](#field-schema) | `yes` | const: `operator-task-binding-preparation.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
@@ -21,6 +22,14 @@ Read-only bounded owner inventory for binding clients. Profiles are exact retain
 | [`profiles`](#field-profiles) | `yes` | array |  |
 | [`workspaces`](#field-workspaces) | `yes` | array |  |
 ## Field Semantics
+
+<a id="field-publication"></a>
+## `publication`
+
+- Required: `no`
+- Shape: object
+
+Optional, explicitly requested Dator-owned policy-ref inventory. No terms or publication are approved. Absence keeps guided publication off; malformed owner entries refuse rather than silently disappear.
 
 <a id="field-package-states"></a>
 ## `package/states`

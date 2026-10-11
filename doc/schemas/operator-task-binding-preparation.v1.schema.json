@@ -19,6 +19,16 @@
     "workspaces"
   ],
   "properties": {
+    "publication": {
+      "description": "Optional, explicitly requested Dator-owned policy-ref inventory. No terms or publication are approved. Absence keeps guided publication off; malformed owner entries refuse rather than silently disappear.",
+      "type": "object", "additionalProperties": false,
+      "required": ["provider/participant-ref", "price-policy/refs", "availability-policy/refs"],
+      "properties": {
+        "provider/participant-ref": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"},
+        "price-policy/refs": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"}},
+        "availability-policy/refs": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"$ref": "operator-task-common.v1.schema.json#/$defs/ref"}}
+      }
+    },
     "package/states": {
       "type": "object",
       "maxProperties": 256,

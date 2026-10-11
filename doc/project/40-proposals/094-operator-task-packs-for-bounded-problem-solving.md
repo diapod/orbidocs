@@ -3255,6 +3255,14 @@ not expired origin authority; exact retained publication replay does not infer,
 sign or charge again. The recipe's unchanged 64 KiB carrier refuses excess
 history instead of truncating it. These are current draft-contract amendments.
 
+The guided binding continuation now reads Dator's bounded policy-ref inventory
+only on explicit request. Ordinary preparation remains publication-off and has
+no Dator dependency. The provider identity is owner-derived; fresh inventory
+resolution and the UI review receipt bind the selected refs. Enabling this
+capability needs a separate widening confirmation and does not approve offer
+terms, a signature or publication. This amends the draft preparation contract,
+not the remaining clean-source operator-qualification status.
+
 `012c6`, `023e` and `012c1–012c5` remain in progress until their respective
 clean-source operator criteria pass. The remaining composed run
 uses installed/conformant/active package prerequisites, local MLX/vfkit on
