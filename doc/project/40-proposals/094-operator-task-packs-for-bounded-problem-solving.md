@@ -3309,7 +3309,10 @@ policy and separately approves one free task-pack recipe order. Arca prepares
 the existing normalized workflow plan; the host retains its module-scoped request
 address and exact plan, including terminal/deletion evidence across replay.
 Commit rechecks the current buyer, signed revision/digest and independent buyer
-policy. No replacement provider, client execution engine, copied provider token
+policy. The host exposes only the current operator's public participant reference
+to Arca, not key, recovery or private identity metadata; this read grants no
+identity mutation, signing or purchase authority. No replacement provider, client
+execution engine, copied provider token
 or implicit provider loop/model/HIL/VM/publication authority is introduced.
 An uncertain submitting record or missing acknowledgement pauses for inspection;
 it is neither proof of refusal nor authority for redispatch. Startup may observe
