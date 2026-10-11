@@ -571,6 +571,15 @@ Implementation decisions adopted on `2026-10-04` for the resumable federated sli
     delivery; it neither replaces the round nor repeats inference. Automatic
     operation, if later admitted, requires a separate operator opt-in contract.
 
+Admission refinement for Decision 41 (`2026-10-11`): absence of current owner
+evidence is not a negative authority fact. A locked passport signer, failed host
+exchange or unavailable owner storage yields retryable Artifact Delivery admission
+without committing a queue source or dispatch receipt. Exact recovery rechecks
+current authority within the original delivery deadline; it does not republish an
+offer, execute a task or revive an already terminal delivery. Explicit policy,
+evidence and revocation refusals remain permanent. Owner/channel regressions do
+not qualify the pending composed native operator path.
+
 42. **A local Agora relay is an explicit backend, not simulated federation.**
     Adopted by the operator on `2026-10-05`: this slice may use the existing
     SQLite relay through an explicitly configured local backend. It preserves
