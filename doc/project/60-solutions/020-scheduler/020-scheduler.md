@@ -10,7 +10,7 @@
 
 **Date:** 2026-05-04
 
-**Last synchronized:** 2026-05-18
+**Last synchronized:** 2026-10-11 (due-job admission ordering)
 
 ## Executive Summary
 
@@ -122,6 +122,15 @@ conflicting runtime registration therefore cannot mutate the persisted schedule.
 Execution deadlines remain cooperative for in-process `ScheduledJob`
 implementations; preemptive termination belongs only to process-backed runners
 owned by a supervisor, not to this generic scheduler primitive.
+
+Periodic admission considers the oldest due window first, with `job_id` as a
+stable tie-breaker. Selecting a launch advances its next window; an already
+waiting eligible job therefore precedes a rapidly recurring job on subsequent
+ticks. Hash-map iteration order is not an admission policy. This preserves the
+global/per-job gates, overlap rules and independent authority checks; it does
+not promise progress while non-cooperative work occupies every launch slot.
+Node has deterministic selection tests for continuous recurrence and equal
+windows. This correction does not itself qualify a domain publication.
 
 The scheduler must not implement:
 
