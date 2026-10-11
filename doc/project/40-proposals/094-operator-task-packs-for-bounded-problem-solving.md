@@ -3295,6 +3295,14 @@ human HIL. Source commits and acceptance refs precede qualification; report
 commits follow it. Relay migration, store rotation and formal whole-P094
 acceptance remain separate, and `P094-015` stays partial.
 
+Operator qualification prerequisite clarification (2026-10-11): an isolated buyer
+may read the explicitly public offer topic without receiving the provider's relay
+publication token. Arca defaults to authenticated reads; its opt-in public mode
+is confined to the configured relay/topic and leaves record, provider and inner
+offer verification intact. Writes remain authenticated, and oversized response
+pages are refused rather than truncated. Component tests establish this boundary,
+not a new completed market/operator checkpoint.
+
 Publication recovery decision (2026-10-05, accepted): retain the exact relay
 base URL (origin plus path prefix) and topic before the first publication
 effect; inherit that target for withdrawal, including a lost-ACK publication.
