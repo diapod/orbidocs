@@ -23,10 +23,42 @@ Owner projection of exact draft publication and withdrawal. Current dispatch adm
 | [`operation/ref`](#field-operation-ref) | `no` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
 | [`operation/status`](#field-operation-status) | `no` | enum: `pending`, `running`, `completed`, `failed`, `cancelled`, `unknown` |  |
 | [`fenced/reason`](#field-fenced-reason) | `no` | ref: `operator-task-common.v1.schema.json#/$defs/refusalCode` |  |
+| [`withdrawal/reason`](#field-withdrawal-reason) | `no` | unspecified | Original host-observed fence that queued automatic withdrawal, not the current fence. Null means a historical automatic intent did not retain its trigger; inspection must not infer it from current readiness. |
 
 ## Conditional Rules
 
 ### Rule 1
+
+When:
+
+```json
+{
+  "required": [
+    "withdrawal/reason"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "state": {
+      "enum": [
+        "withdrawal-pending",
+        "withdrawn",
+        "failed"
+      ]
+    },
+    "admissible": {
+      "const": false
+    }
+  }
+}
+```
+
+### Rule 2
 
 When:
 
@@ -68,7 +100,7 @@ Then:
 }
 ```
 
-### Rule 2
+### Rule 3
 
 When:
 
@@ -111,7 +143,7 @@ Then:
 }
 ```
 
-### Rule 3
+### Rule 4
 
 When:
 
@@ -145,7 +177,7 @@ Then:
 }
 ```
 
-### Rule 4
+### Rule 5
 
 When:
 
@@ -177,7 +209,7 @@ Then:
 }
 ```
 
-### Rule 5
+### Rule 6
 
 When:
 
@@ -209,7 +241,7 @@ Then:
 }
 ```
 
-### Rule 6
+### Rule 7
 
 When:
 
@@ -248,7 +280,7 @@ Then:
 }
 ```
 
-### Rule 7
+### Rule 8
 
 When:
 
@@ -334,3 +366,11 @@ Current host-observed binding revision shown for an explicit action. The retaine
 
 - Required: `no`
 - Shape: ref: `operator-task-common.v1.schema.json#/$defs/refusalCode`
+
+<a id="field-withdrawal-reason"></a>
+## `withdrawal/reason`
+
+- Required: `no`
+- Shape: unspecified
+
+Original host-observed fence that queued automatic withdrawal, not the current fence. Null means a historical automatic intent did not retain its trigger; inspection must not infer it from current readiness.

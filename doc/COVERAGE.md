@@ -417,7 +417,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-task-offer-draft.request.v1.schema.json`](schemas-gen/schemas/operator-task-offer-draft.request.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-offer-draft.v1.schema.json`](schemas-gen/schemas/operator-task-offer-draft.v1.md) | `20` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-offer-publication.request.v1.schema.json`](schemas-gen/schemas/operator-task-offer-publication.request.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `1` |
-| [`operator-task-offer-publication.v1.schema.json`](schemas-gen/schemas/operator-task-offer-publication.v1.md) | `9` | `1` | `yes` | `yes` | `1` | `2` |
+| [`operator-task-offer-publication.v1.schema.json`](schemas-gen/schemas/operator-task-offer-publication.v1.md) | `10` | `2` | `yes` | `yes` | `1` | `2` |
 | [`operator-task-order-collection.v1.schema.json`](schemas-gen/schemas/operator-task-order-collection.v1.md) | `5` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-order-complete.request.v1.schema.json`](schemas-gen/schemas/operator-task-order-complete.request.v1.md) | `7` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-task-order-completion.v1.schema.json`](schemas-gen/schemas/operator-task-order-completion.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `1` |

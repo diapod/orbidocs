@@ -3263,6 +3263,19 @@ capability needs a separate widening confirmation and does not approve offer
 terms, a signature or publication. This amends the draft preparation contract,
 not the remaining clean-source operator-qualification status.
 
+Publication recovery clarification (2026-10-11): host/signer unavailability is
+not evidence of policy loss. Only Dator's explicit policy-refusal response
+closes that fence; other owner responses retain bounded diagnostics rather
+than being relabelled `publication/policy-missing`. Automatic withdrawal now
+retains its original host-observed trigger, separate from the current fence.
+Historical automatic intents without this field keep their exact identity and
+report an unknown trigger; current readiness cannot establish the old cause.
+Restoring availability does not cancel a retained withdrawal. Without a prior
+Dator publication/destination fact, withdrawal refuses to invent the target;
+a fresh draft requires separate approval. This draft inspection-contract
+amendment and its component regressions are not new native publication evidence
+and do not promote `012c4/012c5` or the composed qualification.
+
 The guided passage checkpoint collector now reads actual UI-created Agent IDs,
 matching the pre-product neutral manifest to the host-admitted input and the
 same Corpus link. It retains exact local provenance commitments, reachable DAG

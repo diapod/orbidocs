@@ -561,6 +561,14 @@ P094-018a's approved scope. This does not promote pending clean-source guided
 market qualification, formal P094 adoption, relay migration, or general
 retention readiness.
 
+Offer recovery separates host/signer availability from Dator's explicit policy
+refusal. The host retains the original automatic-withdrawal reason independently
+of current readiness; older intents preserve their identity and disclose that
+the trigger is unknown. Missing prior destination history refuses target
+reconstruction. Restored availability cannot erase withdrawal or substitute for
+a separately approved new draft. Component regression coverage strengthens the
+draft inspection boundary, not pending guided market acceptance.
+
 ## Open Questions
 
 No V1 questions remain open. Portable WASM decision production is intentionally

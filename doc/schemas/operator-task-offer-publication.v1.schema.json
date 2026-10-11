@@ -59,9 +59,41 @@
     },
     "fenced/reason": {
       "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+    },
+    "withdrawal/reason": {
+      "description": "Original host-observed fence that queued automatic withdrawal, not the current fence. Null means a historical automatic intent did not retain its trigger; inspection must not infer it from current readiness.",
+      "oneOf": [
+        {
+          "$ref": "operator-task-common.v1.schema.json#/$defs/refusalCode"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "allOf": [
+    {
+      "if": {
+        "required": [
+          "withdrawal/reason"
+        ]
+      },
+      "then": {
+        "properties": {
+          "state": {
+            "enum": [
+              "withdrawal-pending",
+              "withdrawn",
+              "failed"
+            ]
+          },
+          "admissible": {
+            "const": false
+          }
+        }
+      }
+    },
     {
       "if": {
         "required": [
