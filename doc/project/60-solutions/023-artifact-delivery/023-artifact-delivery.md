@@ -60,6 +60,50 @@ owner.
 
 ## Context and Problem Statement
 
+### Planned Consumer Profiles and Single-Source Trackers
+
+The following 2026-10-11 continuations reuse this plane. They are planned
+consumer bindings, not additional implemented adapters or a new universal wire
+protocol. Each owner freezes exact artifact/admission shapes before runtime
+exposure; new public contracts go through Schema Gate and normal compatibility
+review. Existing completed delivery profiles retain their status.
+
+| Consumer path | Delivery/admission composition | Authoritative plan and tracker |
+|---|---|---|
+| Node-owned Agora publishers | Sign first; AD `agora-default`; ordinary Agora admission | [P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker), consumed by P026/P067 and Seed publishers |
+| Nym issuance and renewal | Private AD/INAC with separate issuer/applicant acceptors | [P015-001–003](../../40-proposals/015-nym-certificates-and-renewal-baseline.md#delivery-integration-tracker) |
+| Memarium federation replication | P081 bounded replication, AD/INAC, Memarium policy/write port | [P036-001–003](../../40-proposals/036-memarium.md#replication-tracker) |
+| Schema/contract transfer | INAC or P088 acquisition -> AD exact descriptor acceptor | [P028-001–003](../../40-proposals/028-service-schema-catalog.md#descriptor-integration-tracker), [P024-008](../../40-proposals/024-capability-passports-and-network-ledger-delegation.md#capability-schema-acquisition) |
+| Template sharing | Private INAC or explicit public profile; inert template acceptor | [P029-001–003](../../40-proposals/029-workflow-template-catalog.md#sharing-integration-tracker) |
+| Outbound privacy provider | Privacy-aware route selection; no assumed INAC anonymity | [S010-001–003](../010-anon/010-anon.md#privacy-integration-tracker) |
+| Alliance policy distribution | Independent bootstrap grant; private INAC or admitted acquisition | [P079-005a–005c](../../40-proposals/079-cross-federation-alliance.md#implementation-tracker) |
+
+Shared implementation constraints:
+
+- Reuse `artifact-delivery-core`, `artifact-delivery`, `ad-host`, existing INAC
+  bridges, object retention and deferred-operation status. Domain adapters call
+  these ports; they do not own peer listeners or a second transport retry queue.
+- Carry exact artifact schema/version, digest/size, caller/recipient authority
+  and domain correlation using existing contracts wherever possible. Delivery ids
+  are not domain transaction ids; receipt is not publication everywhere, issuance,
+  replication apply, installation or policy activation.
+- Authorization precedes retention/enqueue and domain effects. Revalidate
+  time-dependent and revoked authority before delayed effects; neither retries
+  nor a cached positive decision can extend a grant. Policy checks at the final
+  domain acceptor remain independent of carrier admission.
+- Define recoverable domain-intent-to-AD-submission binding, bounded retention and
+  redacted status. Follow S028 and `node:DEV-GUIDELINES.md`; one authoritative
+  acceptor invokes existing domain write ports rather than a parallel importer.
+- Preserve direct relay interoperability, discovery/lookup, peer-session bootstrap
+  and live Room/Sensorium traffic. These continuations do not mandate moving them
+  into durable artifact delivery, nor permit private-to-public fallback.
+- Each tracker closes on retained producer/carrier/acceptor/restart evidence,
+  explicit real versus substituted boundaries and Node ledger reconciliation,
+  not documentation changes or adapter-only unit tests. Missing dependencies keep
+  that consumer profile incomplete without reopening unrelated completed baselines.
+
+### Existing Delivery Plane
+
 The Inter-Node Artifact Channel (INAC) solution defines a direct artifact transfer
 surface between authenticated nodes. During design review, a sharper separation
 emerged:

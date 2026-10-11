@@ -99,6 +99,16 @@ capability calls.
 
 ## Scope
 
+Planned catalog consumers:
+[P028 descriptor acquisition](../../40-proposals/028-service-schema-catalog.md#cross-node-descriptor-acquisition)
+and [P029 template sharing](../../40-proposals/029-workflow-template-catalog.md#cross-node-template-sharing)
+reuse this solution's hosted-service/catalog declarations and S023 AD
+send/acceptor seams. A module's local catalog query is not artifact delivery.
+Remote imports enter a schema-specific authoritative domain acceptor and remain
+inert until the ordinary owner explicitly validates/activates them. Do not create
+catalog-specific peer listeners, download workers or middleware-chain admission
+fan-out. P028-001–003 and P029-001–003 own the planned work and acceptance evidence.
+
 This solution defines the common middleware model used by Node-attached
 extension mechanisms.
 

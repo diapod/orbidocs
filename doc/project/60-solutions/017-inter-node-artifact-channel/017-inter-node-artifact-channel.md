@@ -165,6 +165,16 @@ is idempotent and does not issue a replacement passport.
 
 ## Related Schemas
 
+Planned additional consumers are indexed in
+[S023's profile map](../023-artifact-delivery/023-artifact-delivery.md#planned-consumer-profiles-and-single-source-trackers).
+Nym exchange, Memarium replication, descriptors/templates and alliance artifacts
+reuse INAC through AD, with their own independently authorized domain acceptors;
+they do not add INAC message families for each application or move domain policy
+into the carrier. Their tracker gates establish future integration evidence, not
+an extension of today's completion claim. Anon's privacy profile separately
+determines whether INAC is suitable for any hop; authenticated private transfer
+alone is not an anonymity guarantee.
+
 - `agora-record.v1`
 - `memarium-blob.v1`
 - `inac-control.v1`

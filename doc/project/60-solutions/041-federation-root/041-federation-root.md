@@ -255,6 +255,17 @@ Status:
 
 ## May Implement
 
+### Alliance Policy Distribution Binding
+
+Planned distribution continuation:
+[P079-005a–005c](../../40-proposals/079-cross-federation-alliance.md#distribution-implementation-recommendations)
+compose policy-half/revocation exchange with AD/INAC after local import/export.
+This does not change this solution's root authority: fetched packs are evidence
+against independently admitted roots, never permission to replace the active root.
+An independent narrow delivery grant must allow bootstrap exchange without first
+accepting the alliance being delivered. Candidate receipt and alliance activation
+remain distinct; private policies cannot fall back to public publication.
+
 ### Remote Co-Signing Protocol
 
 Based on:

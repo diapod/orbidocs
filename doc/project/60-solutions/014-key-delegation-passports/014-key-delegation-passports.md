@@ -21,6 +21,14 @@ The component is responsible for:
 
 ## Scope
 
+Planned descriptor-transfer continuation:
+[P024-008](../../40-proposals/024-capability-passports-and-network-ledger-delegation.md#capability-schema-acquisition)
+consumes [P028 acquisition/admission](../../40-proposals/028-service-schema-catalog.md#cross-node-descriptor-acquisition)
+for exact `capability-schema.v1` refs over AD/INAC or admitted P088 pull.
+This is a consumer binding, not new passport authority. Receipt, cached schema
+availability and capability verification remain separate; existing inline proof
+requirements and offline verification are not replaced with network lookups.
+
 This document defines solution-level responsibilities of the Key Delegation Passports component.
 
 It does not define:

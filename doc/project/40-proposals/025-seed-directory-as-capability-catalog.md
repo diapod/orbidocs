@@ -11,6 +11,13 @@ Based on:
 
 Accepted
 
+Planned publication-only continuation: [P035-001–003](035-agora-topic-addressed-record-relay.md#delivery-integration-tracker)
+consolidate submission of already accepted, signed Seed facts to Agora through
+AD `agora-default`. Directory admission/commit precedes publication intent;
+delivery failure must not undo that accepted fact. Reuse AD retries and expose
+pending/confirmed status without publishing raw rejected requests. Bootstrap,
+query, endpoint attestation and provider synchronization are not moved behind AD.
+
 ## Date
 
 2026-04-01

@@ -1450,6 +1450,55 @@ revocation snapshot metadata are configured.
    federation lag metric, and if so, where should it be surfaced?
    Proposed: reuse the observability pattern from proposal 023.
 
+## Producer Delivery Through Artifact Delivery
+
+Planned continuation (2026-10-11), not a reopening of the completed relay MVP.
+Node-owned producers should submit already signed `agora-record.v1` artifacts
+through [S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+and its existing `agora-default` adapter. This includes P026 authoring, P067
+offer publication and accepted Seed Directory facts. It does not replace the
+Agora ingest API, historical queries, SSE or Matrix relay replication; those
+remain independently usable protocol surfaces. Public publication does not
+require INAC, and private artifacts must never acquire a public fallback.
+
+### Implementation Recommendations
+
+- Keep `authorize -> sign -> AD submission -> Agora admission` explicit. AD
+  outbound permission does not substitute for Agora topic, author, capability,
+  attestation or fresh revocation checks, including on delayed attempts.
+  Preserve the original caller and publication authority across the host bridge;
+  the adapter must not become an ambient privileged publisher.
+- Reuse `ad-host`, the AD delivery ledger, object retention and deferred-operation
+  status. Producers retain domain intent and exact signed bytes before submission;
+  restart retries the same artifact and destination, not a newly signed record.
+  Journal the intent-to-delivery-id association so a crash between domain commit
+  and AD submission is reconcilable without a second transport retry queue.
+- Project `record/id`, target relay, AD delivery id and domain publication outcome
+  into the existing UI/status surfaces. Queued, relay-accepted and failed are
+  different observations; relay acceptance is not proof of all-peer replication
+  or permanent retention. A timeout after remote acceptance remains uncertain
+  until idempotent retry/readback reconciles it. Do not report it as unpublished.
+- Feed bounded publication outcome facts into Memarium through existing
+  observation ports and S028 temporal storage conventions. Retaining a local
+  artifact is not permission to republish after expiry, withdrawal or deletion.
+  Inventory existing publisher outboxes first; preserve domain jobs but give AD
+  sole ownership of transport retries after successful submission.
+- Keep adapters thin under `node:DEV-GUIDELINES.md`: pure mapping below host I/O,
+  schema-gated boundaries, bounded retention and redacted diagnostics. Migrate
+  producers incrementally with one selected path per publication, never dual-send.
+
+### Delivery Integration Tracker
+
+All rows are post-MVP `todo`; `done` requires retained Node runtime evidence and
+reconciliation of its implementation ledger and any affected MVP scope. S008
+links here rather than maintaining duplicate task status.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P035-001 | Freeze producer-to-AD publication binding | todo | Existing S023 `agora-default` | Inventory UI, Dator, Seed Directory and other direct publishers; classify local-only/test clients separately; pin caller/authority propagation, exact signed bytes, intent/delivery correlation, timeout semantics and ownership of every existing outbox. Contract fixtures cover policy refusal before effects and recovery after submission ambiguity. |
+| P035-002 | Migrate Node-owned publishers | todo | P035-001 | P026 compose/opinion/comment authoring, P067 Dator offer snapshots and accepted Seed facts use the same host delivery seam with explicit route configuration. UI reports pending versus confirmed publication. No duplicate sends or component-private transport retries; raw/unaccepted Seed requests are never published. Domain state survives delivery failure. |
+| P035-003 | Retain local and remote relay acceptance | todo | P035-002 | Exercise actual producer -> signer -> AD -> local/remote Agora -> query with unchanged record id/signature/about fields; outage, remote-accepted/lost-response, restart, duplicate retry, expired/revoked authority and denied topic fixtures pass. Private fallback is refused; Matrix federation and direct relay API compatibility remain intact. |
+
 ## Follow-Up
 
 If adopted, the next artifacts should be:

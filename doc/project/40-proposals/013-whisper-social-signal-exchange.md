@@ -665,6 +665,14 @@ The v1 behavior should support at least:
 
 This keeps protocol meaning separate from transport realization.
 
+The planned integration point is AD transport selection, not a Whisper-owned
+sender. [S010 Anon](../60-solutions/010-anon/010-anon.md#ad-privacy-integration-planned-direction)
+owns the implementation guidance and `S010-001`–`S010-003` tracker for privacy
+requirements, metadata limits, route refusal and acceptance. Existing AD/INAC
+Whisper delivery does not prove anonymous delivery. Required anonymity must
+remain a pre-send gate across retries and fallback, including when the requested
+provider is unavailable.
+
 Acute personal emergencies detected through local Sensorium should still prefer a
 local help-mode or emergency-assistance path. Whisper is for correlation-worthy
 distributed patterns, not as the default first response to a likely cardiac arrest

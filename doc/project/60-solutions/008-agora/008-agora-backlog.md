@@ -22,6 +22,14 @@ adapter in daemon wiring. The adapter itself plus the Agora → Memarium couplin
 (republish queue, per-publish fact tracking) do not exist yet; this is a
 separate post-MVP task outside the scope of agora-core.
 
+Planning update (2026-10-11): do not implement the transport part as a new
+Agora-specific republish queue. [P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker)
+own consolidation onto existing AD delivery/retry/status, with Memarium holding
+bounded domain observation facts and retained artifacts under its own policy.
+Preserve publication intent and reconcile its AD delivery id across crashes.
+This supersedes the private-queue direction above, not the completed relay MVP
+or P8 signing baseline. Existing P8 describes the pre-migration HTTP producer.
+
 **The original relay/signing MVP baseline is closed:**
 - ✅ Signature verification (7-step, fail-closed, VerifiedRecord newtype)
 - ✅ Matrix federation (store-and-forward, inbound sync, dedup)

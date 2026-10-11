@@ -435,6 +435,14 @@ Responsibilities:
 
 This is future work after the local organ is stable.
 
+The planned implementation and single-source tracker are
+[P036-001–003](../../40-proposals/036-memarium.md#federated-replication-through-adinac).
+Compose P081 bounded replication with AD/INAC; Memarium retains space/export
+policy, provenance, tombstone/merge rules and ordinary write admission. Delivery
+acceptance must not advance replication progress before domain commit. Reuse
+existing storage and host bridges, not a separate replication listener or retry
+queue. Existing archival handoff and custody support do not close this profile.
+
 Status:
 - `future`
 

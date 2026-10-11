@@ -223,6 +223,46 @@ Trade-off:
 - Schema drift (provider changes shape without updating schema) is invisible to
   the daemon — consumers must handle unexpected shapes defensively regardless.
 
+## Cross-Node Descriptor Acquisition
+
+Planned continuation (2026-10-11). Local `catalog_endpoints` lookup remains a
+read-only catalog operation, not an AD message. Transfer of a selected descriptor
+uses [S023 AD admission](../60-solutions/023-artifact-delivery/023-artifact-delivery.md),
+with INAC for private peer delivery or
+[P088 acquisition](088-pull-based-artifact-acquisition.md) for an operator-admitted
+URL/source. Discovery, retrieval, verification, admission and activation are
+distinct steps. A URL or a digest is neither publisher trust nor execution authority.
+
+### Implementation Recommendations
+
+Keep a small acquisition binding: expected artifact schema/version, content digest,
+size bound, source provenance, requesting consumer and disclosure policy. These
+are semantic requirements to map onto existing contracts, not a new generic wire
+envelope. If a mutable advisory URL lacks a pinned digest, retain the observed
+digest and provenance as an advisory candidate; never satisfy an exact digest-bound
+request with it. Pin explicit limits for bytes, references, nesting and retrieval
+depth; no unbounded recursive schema fetch or external-reference execution.
+
+Reuse existing schema/canonicalization and retained-object primitives. Inbound
+artifacts pass through one authoritative descriptor acceptor per exact schema;
+P024 capability schemas and advisory service descriptors retain distinct trust
+policies. Store immutable versions and explicit supersession; importing a schema
+does not register a capability, change live validators or activate a package.
+Local offline cache lookup remains useful without AD/network availability.
+Implement under `node:DEV-GUIDELINES.md`, without catalog-private download workers,
+admission bypasses or a closed service-type registry.
+
+### Descriptor Integration Tracker
+
+This tracker owns shared acquisition/admission work; P024 owns capability-specific
+consumer verification, and P029 owns template import. All rows are `todo`.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P028-001 | Freeze descriptor acquisition and trust binding | todo | S023, P088 contracts | Map existing DTOs and explicit missing/versioned fields; distinguish exact digest requests from advisory URL candidates, declare acceptor ownership and resource budgets, and retain fixtures for substitution and authority escalation. |
+| P028-002 | Compose peer/pull acquisition with descriptor storage | todo | P028-001; P088 runtime for URL profile | INAC delivery and admitted pull converge on the same verifier/acceptor; offline reads work; different bytes cannot satisfy a pinned ref. Cache/version writes do not activate schemas or fetch transitive refs implicitly. Carrier profiles are reported separately until both exist. |
+| P028-003 | Retain cross-node descriptor acceptance | todo | P028-002 | Private peer and configured pull fixtures cover wrong digest/schema/source, excessive size/depth, unavailable source, restart/replay and immutable version conflicts. A received descriptor cannot grant a capability or alter an active validator. Node ledger records only proven profiles. |
+
 ## Minimal Viable Step
 
 1. Add `catalog_endpoints: Vec<CatalogEndpointDecl>` to `MiddlewareModuleReport`

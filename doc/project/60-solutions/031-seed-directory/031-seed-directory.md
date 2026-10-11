@@ -275,6 +275,14 @@ Status:
 
 ### Trusted Agora Replay
 
+Planned publisher-side counterpart:
+[P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker)
+move delivery of accepted signed Seed facts onto AD `agora-default`, keeping
+local acceptance, publication intent and relay confirmation distinct. This does
+not change this replay contract, provider sync, root verification or discovery
+bootstrap. The common publisher tracker owns migration and runtime evidence;
+this solution does not add a separate send queue.
+
 Based on:
 
 - `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`

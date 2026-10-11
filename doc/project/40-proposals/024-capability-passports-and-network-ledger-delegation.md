@@ -165,8 +165,10 @@ may include:
 
 `schema/ref` is a content-addressed Orbiplex reference to a
 `capability-schema.v1` artifact. Receivers use it to fetch a machine-readable
-contract over the Node-to-Node peer protocol or another local cache, not as a
-trust shortcut. Trust still comes from passport verification and local policy.
+contract through the planned P028 AD/INAC acquisition profile or another local
+cache, not as a trust shortcut. Admitted external pull uses P088 and converges
+on AD inbound admission. This delivery binding is planned under P024-008;
+trust still comes from passport verification and local policy.
 
 ### 2. Signing Authority Is Profile-Scoped
 
@@ -664,8 +666,23 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P024-005 | Define the full ledger scope model | todo | Post-MVP: richer account selectors, per-operation limits, maximum hold lifetime, accepted receipt classes, and settlement policy refs. |
 | P024-006 | Define multi-sig/custody issuance bundle for infrastructure passports | deferred | Resolved direction: separate endorsement/custody bundle attached to the passport, not multiple unrelated signatures on the passport payload itself. |
 | P024-007 | Reuse Capability Passport for exact-resource Sensorium Interface peer admission | done | P082 defines and Node implements `sensorium-interface@v1` scope over exact interface ids, remote node ids, read/subscribe operation, classification ceiling, batch/lease caps, and revocation freshness. |
+| P024-008 | Bind capability-schema consumers to shared acquisition | todo | Depends on P028-001/002. Peer AD/INAC and admitted pull resolve an exact schema ref through one verifier/cache path; wrong digest/family, oversized/transitive fetch and unknown publisher policy fixtures refuse. A hostile schema cannot grant capabilities or alter active validators; offline and restart/replay fixtures pass. |
 
 ## Post-MVP Todo
+
+### Capability Schema Acquisition
+
+P024-008 consumes the shared
+[P028 descriptor acquisition profile](028-service-schema-catalog.md#cross-node-descriptor-acquisition),
+not a ledger-specific peer fetcher. Require exact `capability-schema.v1` identity,
+digest, size bounds and source provenance, then cache an immutable verified
+descriptor through its authoritative acceptor. Preserve offline cache reads.
+Neither retrieval success nor a publisher signature grants the capability or
+changes active validation policy. Keep compact delegation proofs inline where
+their existing contract requires it; this work does not replace proof verification
+with arbitrary network lookup or alter Network Ledger request/reply transport.
+
+### Other Follow-Up
 
 - Define the full `network-ledger` scope model: richer account selectors,
   per-operation limits, maximum hold lifetime, accepted receipt classes, and

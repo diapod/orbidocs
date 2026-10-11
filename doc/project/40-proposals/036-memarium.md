@@ -715,6 +715,51 @@ node/
    the neutral `MemariumObservation` value and never depends on daemon-private
    peer-message types.
 
+## Federated Replication Through AD/INAC
+
+Planned post-MVP continuation (2026-10-11), owned jointly with
+[S002 Memarium](../60-solutions/002-memarium/002-memarium.md#federated-replication).
+Compose [P081 replication contracts](081-horizontal-protocol-primitives.md)
+with [S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+and private INAC transfer. P081 owns bounded summary/delta/cursor mechanics;
+Memarium owns eligibility, merge and space policy; AD owns delivery and exact
+acceptor dispatch. Public P2P replication is an explicit alternative to Agora,
+not an automatic fallback. Existing archival handoff/retrieval submissions
+and P040 custody are antecedents, not evidence of this replication profile.
+
+### Implementation Recommendations
+
+Define a Memarium replication profile over existing entry/fact identities and
+P081 dataset/source/sequence/digest bindings. Carry bounded batches with content
+references, classification and source provenance; verify referenced payload bytes
+and authorization before materialization through ordinary Memarium writes.
+Do not replicate private local paths, host keys or raw database files.
+
+Admission requires independently authorized source, destination, operation and
+space. A community peer is not automatically entitled to every community entry;
+personal space requires explicit export, and crisis replication retains its
+separate operator policy. Re-evaluate export/declassification and revocation at
+send and receive time. Replication preserves labels and never elevates a received
+claim into locally trusted knowledge merely because its transport is valid.
+
+Reuse P081 bounded apply, tombstone/retention-gap outcomes and per-source progress;
+advance cursors only after domain commit, not AD queue acceptance. Pin the profile's
+conflict and partial-apply rules. A gap requires an explicit authorized snapshot
+recovery profile, not silent cursor advancement. Journal progress with accepted
+facts and rebuild projections using S028; duplicate/reordered batches and echo
+loops must not duplicate facts or resurrect tombstoned material. AD handles
+delivery retries; S020 may launch bounded reconciliation, not a second send loop.
+
+### Replication Tracker
+
+All rows remain `todo`; the completed local organ baseline is unchanged.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P036-001 | Freeze Memarium replication profile | todo | P081/S043, S023, S028 | Pin dataset/source identity, exact schemas, payload references, space grants, labels, merge/tombstone/partial-apply rules, cursor persistence, gap recovery and bounded retention. Include negative cross-space/export fixtures. |
+| P036-002 | Compose replication source and acceptor | todo | P036-001 | Existing Memarium source/write ports, shared bounded replication and AD/INAC are composed without a new listener, merge engine or transport queue. One authoritative acceptor validates before effects and atomically/journaledly associates applied facts and progress. |
+| P036-003 | Retain multi-node replication acceptance | todo | P036-002 | Real authorized community and explicit public-P2P exchange survives outage, restart, duplicate/reordered batches and partial apply. Personal/crisis-policy violations, stale declassification, digest mismatch, tombstone resurrection and retention gaps refuse or surface the declared recovery state. Ledger/status distinguish delivered from applied. |
+
 ## Next Actions
 
 1. Keep deployment telemetry on read-sidecar p95 and per-space row counts;

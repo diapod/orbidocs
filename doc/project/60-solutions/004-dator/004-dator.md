@@ -288,6 +288,16 @@ Status:
 
 ## May Implement
 
+### Producer Delivery Consolidation
+
+Planned publisher consolidation:
+[P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker)
+and [P067 migration guidance](../../40-proposals/067-shared-offer-catalog-over-agora.md#migration-notes)
+move standing-offer snapshot submission/retry to AD `agora-default`. Dator remains
+the offer authority and retains exact signed publication intent; Shared Offer
+Catalog remains a projection. This continuation is separate from already adopted
+AD service-order/result delivery and does not alter its completion status.
+
 ### Provider Queue and Backpressure
 
 Based on:

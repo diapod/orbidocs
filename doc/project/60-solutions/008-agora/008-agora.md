@@ -169,6 +169,16 @@ It does not define:
 
 ## Must Implement
 
+### Planned Producer Delivery Consolidation
+
+[P035 producer delivery](../../40-proposals/035-agora-topic-addressed-record-relay.md#producer-delivery-through-artifact-delivery)
+and its `P035-001`–`P035-003` tracker own the planned migration of Node UI,
+Dator and accepted Seed Directory publication to S023 AD `agora-default`.
+Signing, caller/topic authorization and Agora admission remain separate from
+delivery. Preserve direct ingest compatibility, Matrix federation and read APIs;
+only producer delivery intent/retry/status moves to the common plane. Existing
+relay completion does not establish this migration's runtime status.
+
 ### Agora Record Signing
 
 Based on:

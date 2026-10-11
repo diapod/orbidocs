@@ -222,6 +222,39 @@ like `federation-root.v1`, not to the inter-node message-envelope family.
 It therefore uses snake_case field names (`alliance_id`,
 `issuer_federation_id`, `sequence_no`) rather than namespaced slash keys.
 
+## Distribution Implementation Recommendations
+
+Planned refinement (2026-10-11) of P079-005, not a change to alliance authority.
+Keep local import/export first. Subsequent Seed Directory discovery/acquisition
+and peer delivery should converge on one policy-artifact verifier/acceptor through
+[S023 AD](../60-solutions/023-artifact-delivery/023-artifact-delivery.md).
+INAC is the private peer carrier; admitted pull may reuse P088. Neither AD nor
+Seed Directory selects active roots, accepts an alliance or widens consumer scope.
+
+Bind each transfer to the exact signed half digest, issuer, alliance id, sequence,
+validity and publication mode. Revocation evidence is a separately verified,
+issuer-scoped input with an explicit freshness contract, not a boolean attached
+by the carrier. Reuse P079-003/004 verifiers and resolver, S028 facts/projections,
+and P081 scoped verification/replication mechanics where applicable. Do not add a
+second signature format, policy merger or transport retry worker.
+
+Bootstrap authorization is independent of the alliance being delivered: an
+operator-admitted peer and narrow policy-artifact invitation/capability grant can
+permit exchange without granting any alliance-derived privilege. A fetched root
+snapshot is evidence against independently pinned authority, never authority to
+replace the local active root. No circular "accept this alliance to receive its
+policy" flow is allowed.
+
+Receipt preserves a candidate; activation still requires current independently
+trusted roots, valid matching halves and fresh revocation evidence. Retain sequence
+floors and tombstones across restart; reject rollback and same-sequence conflicts.
+Loss of freshness yields explicit inactive/unresolved state according to the
+consumer policy, never renewed authority merely because AD replay succeeded.
+Honor `local-only` by default: existing explicit out-of-band export remains valid,
+but automated publication is denied; any new private-exchange mode needs a separate
+schema decision. Public release requires explicit authorization and must never be
+a fallback from private delivery.
+
 ## Contract Shape
 
 Minimal happy-path instance:
@@ -322,7 +355,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P079-002 | Define `alliance-policy.v1` schema and fixtures | done | Minimal unilateral policy-half contract with snake_case fields, stable member subject pins, evidence-only root digest/version, closed scope registry, `sequence_no`, publication mode, and deny-overrides-allow semantics. |
 | P079-003 | Runtime verifier for one policy half | done | Node `capability-binding` now verifies one unilateral half with `alliance-policy.v1\0` domain separation, canonical payload with `signatures` omitted, deterministic `alliance_id` derivation, issuer federation/subject binding, active-root participant/org custody verification through the shared sovereign-subject verifier, `expires_at > issued_at`, skew-tolerant `issued_at`, boundary-instant expiry, local revocation hook, sequence rollback floor, duplicate-signer rejection, and no cross-pack decision cache. |
 | P079-004 | Active alliance resolver | done | Node `capability-binding` now resolves already verified halves by selecting the highest valid sequence per issuer, rejecting same-sequence semantic conflicts, requiring matching member sets, reporting missing halves or empty effective scope as explicit inactive states, and computing effective scope as intersection of allowed scopes minus denied scopes. |
-| P079-005 | Distribution and revocation profile | deferred | First runtime transport is daemon-local import/export of `alliance-policy.v1` halves plus local revocation views. Seed Directory publication/acquisition follows as the next profile; public publication remains later. |
+| P079-005 | Distribution and revocation profile | deferred | Aggregate continuation owned by P079-005a–005c below; local import/export precedes remote AD admission and Seed discovery. Public publication remains later. This row cannot be done while a required child is incomplete. |
+| P079-005a | Freeze local import/export and independent distribution authority | todo | Depends on P079-003/004. Pin candidate versus active state, revocation artifact/freshness binding, publication-mode mapping, exact acceptor, independently trusted roots and narrow bootstrap delivery grant. Local-only publication and self-authorizing root/alliance fixtures refuse. |
+| P079-005b | Compose Seed discovery and private AD distribution | todo | Depends on P079-005a. Reuse local policy storage/verifiers, configured Seed discovery, AD acceptor and INAC; P088 retrieval is an optional separately qualified profile. No new listener/retry queue; retain signed bytes, provenance and sequence floors, and never replace active roots from received data. |
+| P079-005c | Retain two-federation distribution acceptance | todo | Depends on P079-005b. Test no-preexisting-alliance bootstrap, missing/mismatched half, wrong issuer, duplicate/reordered/rollback/conflicting sequence, expiry during retry, stale/revoked evidence, restart and private-to-public leakage. Receipt cannot activate an alliance or widen Room/AD rights; update Node ledger with tested carrier scope. |
 | P079-006 | Room consumer integration | deferred | Room may consume active alliance decisions for `cross-federation` admission, while still verifying room membership/policy independently. |
 | P079-007 | Whisper, Corpus, Artifact Delivery, INAC, and Agora consumers | deferred | Each consumer must map its own operation to the closed scope registry and still verify its own artifacts/capabilities. |
 | P079-008 | MVP readiness follow-through | done | P076-008 is closed as concept plus minimal policy contract; the one-half verifier and active-alliance resolver are implemented, while distribution and consumer-specific admission enforcement remain post-MVP follow-up work and are not hard-MVP release blockers. |

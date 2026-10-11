@@ -369,6 +369,45 @@ they would become de-facto standards that disadvantage smaller providers.
 `request_input_hints` describes what buyers typically send; it says nothing
 about what a provider must charge or guarantee.
 
+## Cross-Node Template Sharing
+
+Planned continuation (2026-10-11). Keep catalog discovery/search and the local
+template store separate from delivery of a selected immutable template revision.
+Use [S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+with INAC for private sharing; public/federated publication requires its own
+explicit Agora profile and publication consent. An unavailable private recipient
+must never cause public fallback. URL acquisition may reuse P088 and the
+[P028 descriptor integration](028-service-schema-catalog.md#cross-node-descriptor-acquisition)
+seams, not an additional downloader.
+
+### Implementation Recommendations
+
+Bind template identity/revision, content digest, kind, declared schema references,
+publisher/source provenance and disclosure scope. Reuse `WorkflowTemplateRecord`
+and the generic catalog/store boundaries; freeze any missing portable contract
+before endpoints. Publication needs an allowlisted export projection: omit local
+paths, credentials, participant-private defaults and host bindings. Reference
+resolution is explicit and bounded; an imported template cannot fetch dependencies
+or invoke workflow steps as an import side effect.
+
+One template acceptor verifies and saves an inert candidate/version to the existing
+store. Operator review and ordinary workflow validation create a usable local
+instance later; receipt is not installation, activation or permission to execute.
+If the artifact is an executable extension package rather than a template, retain
+P085/P088 package admission instead of disguising it as inert catalog data.
+Keep domain import deduplication distinct from AD delivery ids, and reuse AD retry
+status plus existing UI confirmation/status surfaces instead of another outbox.
+
+### Sharing Integration Tracker
+
+These `todo` rows extend, rather than replace, the local MVP below.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P029-001 | Freeze portable template export/import profile | todo | P028-001, S023 | Pin immutable identity, safe export projection, schemas, references, publication consent, version-conflict policy and one acceptor; fixtures reject secrets/host bindings and executable-package masquerading. |
+| P029-002 | Wire private sharing and explicit public publication | todo | P029-001; P035-001 for Agora publication | Existing catalog/store/UI use AD; INAC and separately authorized public profile are configured independently. Imported versions are inert; no implicit dependency acquisition, execution, overwrite or privacy fallback. |
+| P029-003 | Retain producer-to-consumer sharing acceptance | todo | P029-002 | Two nodes share, inspect and explicitly instantiate a template; offline/restart/duplicate delivery preserves one immutable candidate. Wrong digest, conflicting revision, unauthorized public export and import-triggered execution are refused. Evidence names the tested carrier and updates Node tracking. |
+
 ## Minimal Viable Step
 
 1. `WorkflowTemplateRecord` in daemon commit log + CRUD REST endpoints.
@@ -379,6 +418,8 @@ about what a provider must charge or guarantee.
 Public catalog integration (search, publish, module declaration) can follow in a
 subsequent iteration once the local store UX is validated.
 
-When that iteration arrives, the only daemon-side addition is populating
+For local catalog routing, the daemon-side addition is populating
 `CatalogEndpointRegistry` from `catalog_endpoints` in module reports — the same
-infrastructure already needed for Proposal 028.
+infrastructure already needed for Proposal 028. Cross-node sharing additionally
+requires the explicit export/admission and AD bindings tracked above; local proxy
+registration alone does not implement federation.

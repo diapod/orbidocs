@@ -166,6 +166,16 @@ Withdrawal is modeled as a higher-`sequence/no` `service-offer.v1` snapshot with
 `offer/status = "withdrawn"` and a contract-valid `expires-at`. The projection
 retains the row for inspection but hides it from active queries.
 
+## Planned Publisher Integration
+
+Planned transport consolidation is tracked by
+[P035-001–003](../../40-proposals/035-agora-topic-addressed-record-relay.md#delivery-integration-tracker)
+and scoped for offers in [P067](../../40-proposals/067-shared-offer-catalog-over-agora.md#migration-notes).
+It moves Dator's publication submission/retry onto AD, not into this read-model
+component. Agora replay, inner/outer signature admission, offer sequence and
+withdrawal rules remain unchanged. This future work does not alter the baseline
+status below or revive the retiring peer-catalog protocol.
+
 ## Status
 
 `hard-MVP done`: the reference Node implementation has the shared Python

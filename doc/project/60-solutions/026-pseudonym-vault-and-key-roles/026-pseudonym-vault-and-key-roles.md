@@ -320,6 +320,18 @@ Status:
 
 ## May Implement
 
+### Private Council Certificate Exchange
+
+Planned under [P015-001–003](../../40-proposals/015-nym-certificates-and-renewal-baseline.md#delivery-integration-tracker).
+Local nym creation/key custody is not council certification. The host may expose
+a thin applicant adapter that submits a signed issuance/renewal request through
+AD/INAC and verifies a correlated reply before retaining it with local nym state.
+The issuer owns issuance/refusal; this vault never exports private nym keys or
+turns a delivery receipt into a certificate. Reuse existing privacy guards and
+P081 certificate verification, with explicit bootstrap authority and bounded,
+private request-to-nym metadata. P015 owns acceptor implementation and acceptance;
+the existing local-creation baseline remains unchanged.
+
 ### Participant DH Local-Only Role
 
 Based on:

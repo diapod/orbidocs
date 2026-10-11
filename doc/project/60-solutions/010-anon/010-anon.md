@@ -78,6 +78,56 @@ Responsibilities:
 Status:
 - `optional`
 
+## AD Privacy Integration: Planned Direction
+
+Planned 2026-10-11; the `todo` runtime status above is unchanged. Realize outbound
+privacy intent through the host's
+[S023 Artifact Delivery](../023-artifact-delivery/023-artifact-delivery.md)
+transport-selection boundary. Consumers such as
+[P013 Whisper](../../40-proposals/013-whisper-social-signal-exchange.md#transport-boundary-with-outbound-privacy-capabilities)
+declare requirements; they do not construct relay chains or depend on the Anon
+module name. Anon provides a narrowly admitted privacy realization behind that
+boundary, not a second component-facing delivery API or admission registry.
+
+### Implementation Recommendations
+
+Keep privacy requirements as data: required/preferred profile, allowed relay
+classes, hop/byte/time budgets, linkability scope and explicit downgrade permission.
+First map those requirements onto existing routing contracts; freeze missing
+schema extensions before exposing an adapter. A selected route must satisfy the
+required profile before enqueue/send; re-evaluate after route changes and on retry.
+If no compatible adapter exists, `hard-fail` means refusal without transmission.
+An allowed downgrade is an explicit decision visible to the authorized caller,
+not a successful anonymity claim.
+
+Use existing host sealing/key-custody and AD lifecycle primitives, but do not claim
+that `inac-direct` provides anonymous or onion routing. INAC may carry a protected
+hop only after the profile proves that its session identity, envelope and receipt
+metadata expose no more than the declared threat model permits. Each relay
+authenticates and authorizes its own hop; no hop receives ambient onward authority.
+The final domain acceptor remains the sole owner of end-artifact admission.
+
+The profile must specify what the origin, each relay, destination and operator can
+observe. Protect source/destination correlations, stable ids, timing and return
+paths across AD recipient expansion, delivery ids, ledgers, logs and retries.
+Minimize retention and bound loop/replay handling. If the existing AD metadata
+model cannot meet the requested profile, report it as unsupported and close that
+gap before claiming anonymity; do not weaken the claim or invent new cryptography.
+The first slice may prove refusal and explicit downgrade without implementing
+onion routing. Reference `node:DEV-GUIDELINES.md` for authorization-before-effects,
+bounded lifecycle and honest recovery semantics.
+
+### Privacy Integration Tracker
+
+This is the single-source tracker for the S010/P013 AD integration, not a claim
+that anonymity is implemented. All entries are `todo`.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| S010-001 | Freeze privacy profile and metadata threat model | todo | S023 routing/admission contract | Record observable data per actor, request/result shapes, hop authority, budgets, downgrade/refusal rules and metadata-retention limits; evaluate AD ledger/recipient expansion and whether INAC is suitable per hop. Unsupported guarantees remain explicit. |
+| S010-002 | Compose privacy provider with AD route selection | todo | S010-001 | Reuse declared middleware/host adapter contracts, sealer and AD lifecycle; unavailable required privacy refuses before enqueue/transmission, allowed downgrade is visible, and retry/fallback cannot weaken a hard requirement. No consumer-owned relay topology or private delivery queue. |
+| S010-003 | Retain privacy and failure-boundary acceptance | todo | S010-002 | Prove missing-provider refusal, policy changes during retry, relay failure, bounded loops, duplicate/replay handling, return-path scope and diagnostic redaction. Any implemented multi-hop profile has retained per-actor metadata evidence against S010-001; direct TLS/INAC success is not anonymity evidence. Reconcile Node ledger with only the proven profile. |
+
 ## Out of Scope
 
 - rumor semantics and threshold policy

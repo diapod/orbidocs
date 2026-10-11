@@ -428,6 +428,18 @@ not to this offer projection.
 
 ## Migration Notes
 
+Planned AD publisher consolidation (2026-10-11) is owned by
+[P035-001–003](035-agora-topic-addressed-record-relay.md#delivery-integration-tracker).
+Dator should retain its accepted standing-offer transition and exact signed
+`offer-snapshot` record, then submit through the common AD publication seam.
+Reuse the host client, `agora-default` and AD status/retry ledger; do not give
+Shared Offer Catalog publication ownership or a second outbox. Its Agora replay,
+provider admission and queries remain unchanged. Withdrawal sequence/expiry and
+P090 offer bindings survive byte-for-byte; receipt of a snapshot by one relay
+does not prove all catalog projections have applied it. The integration gate
+must cover delayed/reordered snapshots and restart without resurrecting an offer.
+This is post-MVP transport consolidation, not a reopening of the completed catalog.
+
 Current implementation evidence:
 
 - `Dator` already owns `local_offers` and `offer-snapshot` publication.

@@ -326,6 +326,47 @@ suite rejects nullifiers because this certificate profile cannot prove their dom
 separation. Stronger unlinkable suites and richer verifier-local non-revocation remain
 post-MVP work under P081 rather than hidden extensions of this certificate baseline.
 
+## Private Issuance Delivery: Implementation Recommendations
+
+Planned continuation (2026-10-11): issuance and renewal use
+[S023 Artifact Delivery](../60-solutions/023-artifact-delivery/023-artifact-delivery.md)
+with [S017 INAC](../60-solutions/017-inter-node-artifact-channel/017-inter-node-artifact-channel.md)
+as the private carrier. This refines the protected application channel above;
+it does not put nym resolution in the networking handshake or replace P081
+certificate/presentation verification.
+
+The flow is `authorized applicant -> AD/INAC -> issuer acceptor -> issuer
+decision -> AD/INAC -> applicant result acceptor`. Configure exactly one domain
+acceptor per artifact family. Reuse existing schema/signing primitives and
+hosted middleware contracts instead of adding council-specific peer listeners.
+Local key custody remains with the host/Pseudonym Vault, not the issuer transport.
+
+Freeze an exchange binding over exact request digest, applicant proof, issuer,
+permitted reply recipient, purpose and expiry. A supplied reply address is not
+authority to forward identity material. Bootstrap delivery authorization must
+work without the not-yet-issued nym certificate, through an independently admitted
+invitation/capability profile. Issuance policy remains the council's responsibility.
+
+Recheck validity before each irreversible issuer action. Persist the domain
+request/decision correlation atomically or through a replayable journal; duplicate
+delivery reuses the retained decision rather than issuing another certificate.
+AD acceptance only confirms delivery/admission, not certification. A private reset
+must not disclose predecessor linkage; public succession requires its own explicit
+publication decision, not fallback from failed private delivery. Minimize and
+bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
+
+### Delivery Integration Tracker
+
+These rows describe unimplemented delivery integration, not the existing P081
+verification adapter. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
+implementation evidence exists.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-001 | Freeze private issuance/renewal exchange binding | todo | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
+| P015-002 | Wire issuer and applicant acceptors | todo | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
+| P015-003 | Prove two-node issue/renew/reject recovery | todo | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
+
 ## Open Questions
 
 No unresolved questions remain for this proposal slice. The decisions below
