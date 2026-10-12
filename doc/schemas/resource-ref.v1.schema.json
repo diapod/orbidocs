@@ -26,11 +26,11 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 2048,
-      "pattern": "^\\S(.*\\S)?$",
+      "pattern": "^[^\\x09-\\x0D\\x20\\u00A0\\u1680\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000\\uFEFF]([^\\x0A\\x0D\\u2028\\u2029]*[^\\x09-\\x0D\\x20\\u00A0\\u1680\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000\\uFEFF])?$",
       "description": "Opaque identifier within the named kind. Consumers MUST NOT assume URI, URN, or hierarchical semantics unless the kind contract explicitly says so. Canonicalization rules (Unicode NFC, no control characters, no leading or trailing whitespace) are enforced by libraries on ingest; JSON Schema expresses only the trim and non-empty constraints."
     }
   },
-  "$comment": "The example uses a documentation placeholder, not an issued or domain-validated PWZ number. Generic shape validation does not establish registry membership, identity, or current entitlement.",
+  "$comment": "The example uses a documentation placeholder, not an issued or domain-validated PWZ number. Generic shape validation does not establish registry membership, identity, or current entitlement. The pattern expands ECMA-262 whitespace and dot explicitly so Unicode regex engines preserve the same shape semantics.",
   "examples": [
     {
       "resource/kind": "pl-nil-pwz",

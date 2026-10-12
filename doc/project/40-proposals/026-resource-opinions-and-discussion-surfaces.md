@@ -577,20 +577,70 @@ ids containing colons, and keep each carrier's validation at its boundary.
 
 ### Projection-Key Compatibility and Recovery
 
-The public opinion read model must expose the canonical pair and the §1
-`resource/key`. A digest may remain a private index accelerator under a distinct
-name; it must not silently retain the public name `resource/key`. Route lookup
-through the shared conversion and reuse the existing pair index where suitable.
+The authoritative lookup is the exact pair, with case-sensitive (`BINARY`)
+comparison. The public `agora-projections.opinions.v2` DTO exposes
+`resource_kind`, `resource_id`, and a derived `subject/key`. `subject/key`
+presents the conceptual §1 `resource/key`; it avoids confusing that identity
+with middleware `effects[].resource/key`, which has an independent contract.
+No digest or derived key is authoritative or stored for new opinion rows.
 
-Treat the current digest-based projection as legacy derived state. Follow
-[S028 Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md):
-rebuild or migrate the projection without rewriting signed records or changing
-their ids/signatures. Inventory consumers before changing the query surface;
-if legacy digest lookup must remain temporarily available, use an explicitly
-named compatibility parameter or version, never guess which key a caller sent.
-Migration tests must cover interrupted recovery and replay equivalence. If the
-retained source cannot reconstruct a row, expose the incomplete rebuild and
-preserve recoverable state instead of reporting an empty resource as complete.
+**Decision (2026-10-12):** opinion queries accept only `resource_kind` and
+`resource_id`, each exactly once. The old `resource_key` and `resource-key`
+parameter names always return HTTP 400 `legacy-digest-parameter-removed`, for
+any value and even alongside a valid pair. A legacy `sha256:<digest>` is itself
+a valid open reference; heuristic value detection or reserving `sha256` would
+break open namespaces. The inventoried in-tree consumer is Agora service; it
+changes together with the projection API. HATEOAS uses the full pair.
+
+Migration creates a `(resource_kind, resource_id, authored_at, record_id)`
+index. The obsolete `resource_key NOT NULL` column remains readable only to
+old software: existing values stay intact and new rows write an empty value.
+Current readers never consult it. Signed source records, their ids and
+signatures remain unchanged.
+
+Follow [S028 Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md)
+for the separate operator replay `rebuild` mode (default `incremental`, initially
+only the opinions domain). Stage opinions, tags and links together, persist
+source cursors, catch up concurrent ingest and swap the domain atomically.
+Network reads and verification run outside write transactions. Missing/pruned
+source or interrupted work preserves the active projection and reports
+incomplete reconstruction. Failures attributable to a pair degrade only that
+pair; unassignable failures explicitly report unknown completeness.
+
+### Authoring and Historical References
+
+Pure ResourceRef conversions preserve the pair and split a key on the first
+colon. Validation is a separate operation: new builders, signing endpoints and
+queries enforce slug kind, 1–2048 Unicode code points (at most 8192 UTF-8 bytes),
+ECMA-262 whitespace boundaries, no control characters and NFC. NFC uses the
+same definition as signature canonicalization. Do not normalize opaque ids or
+reject every format/bidi character. Display accepted format characters with
+visible code-point markers and direction isolation.
+
+The creation-only [Agora authoring profile](../../schemas/agora-record-authoring.v1.schema.json)
+limits new `record/about` arrays to eight unique references. Existing signed
+v1 envelopes do not inherit this stricter profile. Ingress, indexing and replay
+retain admitted history and record warnings in projection diagnostics. A
+historical non-NFC id retains its original pair and record-id readback; a strict
+query for that invalid pair returns 400. Carrier-specific constraints remain
+local, including `see-also`'s 512-character id limit.
+
+New publication has a shared 48 KiB JSON-envelope budget, including the
+signature and relay metadata. Check an estimate before signing and the actual
+signed envelope before publication, with field/envelope diagnostics and no
+truncation. This leaves a conservative allowance within Matrix's 64 KiB full
+PDU limit; real Matrix acceptance must confirm it. Query `+` decodes to a space,
+`%2B` to a plus; path `+` is literal. One URI encoder emits only unreserved
+characters literally. A 32 KiB request-line allowance is local to subject and
+opinion reads; other routes retain 8 KiB.
+
+The shared no-JavaScript editor keeps drafts in form fields. CSRF-protected
+preview POST intents add, remove and reorder rows without signing. Opinion row
+zero is explicitly the main subject. The preview freezes author, timestamp,
+exact document and digest; editing requires another preview, and 423/unlock
+retries preserve that document. Subject UI combines opinion projection reads
+with public gossip from the relay subject index, deduplicating record ids and
+showing source diagnostics. This does not implement P17 related-link navigation.
 
 ### Acceptance Boundary
 
@@ -633,7 +683,7 @@ the already implemented substrate. Statuses are `todo`, `partial`, `done` and
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
 | P026-001 | Generic resource authoring in opinion and compose UI | todo | Existing Agora signer and subject-index baseline | Both forms reuse a kind/id editor and populate envelope `record/about`; URL convenience remains; an unknown kind works without registration; opaque ids, field limits, escaping and denied-publication tests pass. |
-| P026-002 | Canonical public opinion keys and legacy projection migration | todo | §1 identity contract; S028 | Shared conversions and public queries use `kind:id`; mismatched pair/key is rejected; digest indexes are distinct; existing consumers and any explicit compatibility route are documented; interrupted migration, replay equivalence and incomplete-source diagnostics are tested without rewriting signed records. |
+| P026-002 | Canonical public opinion keys and legacy projection migration | todo | §1 identity contract; S028 | Shared conversions preserve `kind:id`; queries use the exact pair; removed digest parameter names are rejected; the obsolete column is never read; domain rebuild and consumer changes are documented; interrupted migration, replay equivalence and incomplete-source diagnostics are tested without rewriting signed records. |
 | P026-003 | Open-namespace consumer acceptance | todo | P026-001, P026-002 | Retained UI and runtime evidence covers the Acceptance Boundary matrix for opinions and public gossip, including two namespaces with the same id, restart/replay and refusal paths; report scope distinguishes basic references from Agora P17 link navigation; relevant Node ledger/MVP evidence is reconciled. |
 
 P026-001 and P026-002 may proceed independently against the existing pair

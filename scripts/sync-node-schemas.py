@@ -1686,6 +1686,8 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "agora-record-authoring.v1.schema.json",
+    "resource-ref.v1.schema.json",
     "seed-capability-registration.v1.schema.json",
     "service-offer.v1.schema.json",
     "topic-taxonomy.v1.schema.json",
