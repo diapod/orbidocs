@@ -941,6 +941,29 @@ jiného než použít formální model k uspořádání činnosti stroje. Tento
 ukazuje, které přechody vyžadují zdůvodnění; sám však nerozhoduje o schopnosti
 kteréhokoli systému zakoušet ani neumožňuje odhadnout její pravděpodobnost.
 
+Pomocná je zde analogie mapy a území. Při zkoumání mozku je výpočetní model mapou
+vybraných pravidelností životního procesu, s nímž se setkáváme. Při vytváření
+jazykového modelu se formální mapa stává také návrhem, podle něhož organizujeme
+činnost fyzického stroje. Neznamená to, že LLM je „jen mapa“: běžící systém má
+vlastní území – skutečný fyzický proces, uskutečňovaný v současných počítačích
+elektronickými obvody, v nichž probíhají výpočty. Otázkou je, které vlastnosti
+zkoumaného jevu tato realizace zachovává, nejen které dokáže zobrazovat.
+Podobnost map sama nerozhoduje o rovnocennosti území ve všech podstatných ohledech.
+V prvním případě abstrahujeme pravidelnosti z procesu, který jsme nevytvořili;
+ve druhém používáme kompozici abstrakcí k tomu, abychom stroji dali určitou
+organizaci. Tento rozdíl neznamená úplnou znalost vlastností stroje ani
+nerozhoduje o jeho schopnosti zakoušet. **Mapa může vést stavbu; sama však
+nedokládá, co bylo postaveno.**
+
+Neúplná znalost stroje však neznamená neurčitost formálních pravidel, podle nichž
+má provádět výpočty. Záměrně využíváme vybrané vlastnosti fyzického systému
+k realizaci určitých reprezentací a operací. Na úrovni přijaté výpočetní
+sémantiky tak ustavujeme uzavřený svět: pravidla určují přípustné transformace,
+ačkoli jejich složité důsledky mohou zůstávat obtížně předvídatelné. Toto uzavření
+se týká modelu výpočtu, nikoli celé fyzické reality stroje, který jej provádí;
+soulad provedení s modelem zůstává samostatným předmětem ověřování. **Obtížnost
+předvídání výsledku nemusí znamenat neznalost pravidel.**
+
 Navržený původ systému neomezuje jeho vlastnosti na záměry konstruktéra.
 Běžící stroj je fyzický proces, který může uskutečňovat skutečné schopnosti
 a vykazovat nepředvídané vlastnosti. Počítač výpočet nejen popisuje, ale skutečně

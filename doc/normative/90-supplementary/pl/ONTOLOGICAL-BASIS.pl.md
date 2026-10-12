@@ -973,6 +973,31 @@ ta wskazuje, jakie przejścia wymagają uzasadnienia; sama nie rozstrzyga jednak
 o zdolności któregokolwiek układu do doświadczania ani nie pozwala oszacować jej
 prawdopodobieństwa.
 
+Pomocna jest tu analogia mapy i terenu. W badaniu mózgu model obliczeniowy jest
+mapą wybranych regularności napotkanego procesu życia. W budowie modelu językowego
+formalna mapa staje się też projektem, według którego organizujemy działanie
+fizycznej maszyny. Nie oznacza to, że LLM jest "tylko mapą": uruchomiony system
+ma własny teren – rzeczywisty proces fizyczny, realizowany we współczesnych
+komputerach przez układy elektroniczne, w których wykonywane są obliczenia.
+Pytanie brzmi, które własności badanego zjawiska ta realizacja zachowuje,
+a nie jedynie które potrafi przedstawiać. Podobieństwo map nie rozstrzyga samo
+o równoważności terenów pod każdym istotnym względem. W pierwszym przypadku
+abstrahujemy regularności z procesu, którego nie zbudowaliśmy; w drugim używamy
+kompozycji abstraktów do nadania maszynie określonej organizacji. Ta różnica
+nie oznacza pełnej znajomości własności maszyny ani nie rozstrzyga jej zdolności
+do doświadczania. **Mapa może kierować budową; nie poświadcza sama, co zostało
+zbudowane.**
+
+Niepełna znajomość maszyny nie oznacza jednak nieokreśloności formalnych reguł,
+według których ma ona wykonywać obliczenia. Intencjonalnie wykorzystujemy wybrane
+własności fizycznego układu do realizacji określonych reprezentacji i operacji.
+Na poziomie przyjętej semantyki obliczeniowej ustanawiamy w ten sposób świat
+zamknięty: reguły wyznaczają dopuszczalne przekształcenia, choć ich złożone
+następstwa mogą pozostawać trudno przewidywalne. Domknięcie to dotyczy modelu
+obliczenia, nie całej fizycznej rzeczywistości wykonującej je maszyny; zgodność
+wykonania z modelem pozostaje osobnym przedmiotem weryfikacji. **Trudność
+przewidzenia wyniku nie musi oznaczać nieznajomości reguł.**
+
 Zaprojektowane pochodzenie nie ogranicza własności układu do intencji projektanta.
 Uruchomiona maszyna jest procesem fizycznym, może realizować rzeczywiste kompetencje
 i ujawniać nieprzewidziane własności. Komputer nie tylko opisuje obliczenie, lecz

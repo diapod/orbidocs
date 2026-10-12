@@ -1032,6 +1032,32 @@ This difference indicates which transitions require justification; by itself,
 it neither settles either system's capacity for experience nor allows us to
 estimate its probability.
 
+The analogy of map and territory is helpful here. In studying the brain, a
+computational model maps selected regularities of an encountered living process.
+In building a language model, the formal map also becomes a design according to
+which we organize a physical machine's operation. This does not mean that an LLM
+is "only a map": the running system has its own territory – an actual physical
+process, realized in modern computers by electronic circuits in which computations
+are performed. The question is which properties of the phenomenon under study
+this realization preserves, not merely which it can represent. Similarity between
+maps does not by itself establish equivalence between territories in every relevant
+respect. In the first case we abstract regularities from a process we did not
+build; in the second we use a composition of abstractions to give a machine a
+particular organization. This difference implies neither complete knowledge of
+the machine's properties nor a verdict on its capacity for experience. **A map
+can guide construction; it does not by itself establish what has been built.**
+
+Incomplete knowledge of a machine does not, however, mean that the formal rules
+according to which it is meant to compute are indeterminate. We intentionally use
+selected properties of a physical system to realize specified representations and
+operations. At the level of the adopted computational semantics, we thereby
+establish a closed world: the rules determine the permitted transformations,
+although their complex consequences may remain difficult to predict. This closure
+concerns the model of computation, not the entire physical reality of the machine
+performing it; the conformity of execution to the model remains a separate subject
+of verification. **Difficulty in predicting the result need not mean ignorance
+of the rules.**
+
 A system's designed origin does not limit its properties to its designer's
 intentions. A running machine is a physical process that can realize genuine
 competencies and exhibit unanticipated properties. A computer does not merely
