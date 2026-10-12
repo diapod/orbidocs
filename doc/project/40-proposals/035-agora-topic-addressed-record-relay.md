@@ -782,10 +782,21 @@ unresolved gap; unavailable history records `matrix-history-gap` and incomplete
 status. Operator replay supports `source=matrix-carriers` without forwarding.
 
 Local HTTP 201 proves local persistence. The publication read model separately
-reports `not-requested`, `pending`, `forwarded` or `rejected-permanent` through
+reports `not-requested`, `pending`, `blocked`, `forwarded` or `rejected-permanent` through
 record HATEOAS and `/v1/agora/records/{id}/publication`, under record-read ACLs.
 Prepared publications and attempt outcomes are durable S028 facts. Size refusals
 and `M_TOO_LARGE` stop retry; transient failures retain bounded retry and bytes.
+`M_FORBIDDEN` is transient: three attempts use durable exponential backoff and
+respect `retry_after_ms`; exhaustion becomes `blocked`. A HATEOAS POST retry
+requires client authentication and topic write access and reuses the same prepared
+bytes and transaction. Permanent content/size refusals cannot be requeued.
+New room registration forces an initial account sync after retained work, with
+no-anchor history backfill; a racing sync cannot discard that requirement.
+Preserve Matrix `sender` independently of self-declared relay identity. Optional
+sender expectations produce diagnostics rather than author admission authority;
+untrusted hops saturate and remain loop hints. Typed v1/v2 bridge reasons and
+strict-parser reasons must not depend on diagnostic message wording.
+
 
 Acceptance extends Story-008's existing report with `matrix-opaque-envelope`:
 gossip confidence 0.5, proof-bearing permitted Whisper signals, trace and signed
@@ -798,8 +809,14 @@ fixture SQLite export supplies full PDU hashes/signatures/auth/prev references.
 The export retains Conduit's original stored row separately. For room v10 the
 protocol PDU omits only its local `event_id` lookup field, since the identifier
 is derived from the reference hash; every remaining field is counted.
-Matrix canonicalization does not apply Agora NFC. Missing PDU, unresolved gaps,
-or fixture acceptance above the protocol bound prevent qualification. One
+Matrix canonicalization does not apply Agora NFC. Missing Node PDU evidence,
+unresolved gaps, or a Node-publication PDU above the protocol bound prevent
+carrier qualification. Cross-check every Node PDU against observed `/send`
+acknowledgements. Direct Client-Server boundary sends separately determine
+`fixture/full-pdu-enforced`; an accepted oversized direct event is an environment
+interoperability risk, not a Node publication failure or success. Preserve this
+result independently and never substitute it for the Node gate. The disclosed
+corrected fixture supplies a separate positive environment measurement. One
 homeserver proves distribution only; it does not qualify federation, production
 readiness, all Whisper surfaces or broaden historical P026 confidence=1 evidence.
 
