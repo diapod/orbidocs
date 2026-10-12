@@ -3287,6 +3287,60 @@ phase transition, re-pin and repeat affected gates, then obtain a new bounded
 authorization before another run. `012c4/012c5/012c6/023e` stay in progress,
 `015` stays partial, and `018a` retains only its separately qualified scope.
 
+Observation-to-repair follow-up (2026-10-12, development): Node's read-only
+prompt audit reconstructs the historical caller request from retained owner
+inputs and the exact Flow, compares the host's input digest and instruction
+hash, verifies CAS bytes and unchanged evidence acceptance. It does not claim
+to capture final adapter messages, which this profile did not retain. Package
+instructions require deriving phase from the full execution history across fresh
+Agents/epochs; they require Reviewer rejection of a redundant observation-only candidate
+while allowing a concrete missing-data observation. Explicit temperature `0`
+removes the discrepancy between packaged Flow and calibration. Re-authoring,
+conformance, activation and a matching binding are required for the new Flow;
+existing package pins and signed products remain immutable.
+
+A separately authorized small calibration uses a new isolated MLX-only profile:
+four cases twice (no observation, actual failed verifier, labelled incomplete
+evidence, repeated candidate), at most eight calls of 2,048 output tokens in
+ten minutes, plus at most two short startup/conformance calls. It has no VM,
+Agent admission, orders, signing or publication. Schema/normalization and
+package-local content checks do not prove native execution or independent
+human HIL. The measured run `calibration-1791794431-3c698c` is failed: eight calls
+and one 128-token probe in 45,318 ms. Initial/incomplete cases passed twice, but
+both complete failed-verifier Solvers repeated observation and both Reviewers
+accepted it despite shape validity. The metadata-only failed report and
+`node:docs/audits/P094-2026-10-12-OBSERVATION-REPAIR-CALIBRATION.md` bind the
+original private outputs and measured file/binary hashes, not clean native pins.
+That calibration omitted the Corpus developer role overlay; the Reviewer also
+copied the concrete accepting example. Post-run corrections remove that example
+and project the exact pack overlays through existing required/exact profile
+layers, with trace checks. They were not exercised by that first run and are
+not a new Corpus admission or proof of the sole failure cause. Calibration approval is
+consumed; additional calls require a new bounded approval. Neither source
+changes nor a passing model calibration close `012c4/012c5/012c6/023e` or renew
+the consumed full-run authority. A new full UI qualification needs new clean
+paired source pins, affected gates and its own bounded authorization.
+
+The separately approved second calibration attempt stopped at daemon
+configuration parsing before any startup probe or model dispatch. Its failed
+launcher report is not a model-content result. Module eligibility and complete
+daemon preflight are now regression-tested before process start; this correction
+does not qualify model behavior or authorize an automatic retry.
+
+The third separately approved attempt `calibration-1791800857-b2574a` exercised
+the corrected complete preflight and exact required role overlays with the
+neutral Reviewer template. Eight calls and one probe completed in 44,638 ms;
+all eight documents were valid, but the same four content checks failed.
+Both complete failed-verifier Solvers repeated observation; both Reviewers
+accepted it despite recognizing completed showctl. The host trace preserved
+the role layers unchanged. These corrections are measured but insufficient,
+not proof of a sole cause or a completed native passage. The separate Node
+metadata report `2026-10-12.observation-repair-calibration.role-overlays.failed.real-mlx.macos-arm64.json`
+binds this source without rewriting the first report. Supervised stop and scoped
+process inspection confirm cleanup. There were no VM/order/signing/publication
+operations; this approval is consumed too. No checkpoint or readiness promotion
+and no automatic new model attempt follows.
+
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
 plan before exposing its prepared root, isolating bad rows without blocking

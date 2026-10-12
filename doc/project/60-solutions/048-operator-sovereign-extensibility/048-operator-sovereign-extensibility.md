@@ -575,6 +575,24 @@ confirmations name their real delegate, not a human HIL respondent. See P094's
 dated follow-up and `node:docs/audits/P094-2026-10-12-GUIDED-RECOVERY-FAILURE.md`.
 Pending guided qualification and formal adoption remain unchanged.
 
+A separate bounded MLX-only calibration on 2026-10-12 also failed: eight calls
+and one short probe preserved valid document shapes, but complete failed-verifier
+inputs still produced observation-only candidates and accepting reviews. It
+invoked no Agent/Room, VM, order or signing operation. Prompt/overlay corrections
+are package-local development work, not measured native success; neither this
+consumed calibration approval nor model-content checks renew full-run authority.
+The separately approved second attempt failed at configuration parsing before
+any probe or inference. Corrected module eligibility and complete preflight
+are non-inference regression evidence, not model success or permission to retry.
+The third separately approved attempt measured those corrected configuration
+and required/exact role layers with the neutral review template. Eight calls
+and one probe in 44,638 ms still failed the same four content checks despite
+valid documents and unchanged accepted role layers. Its separate metadata
+report preserves the failure; supervised stop and scoped process inspection
+confirm cleanup. Corrections were insufficient, and that approval is consumed
+without renewing native qualification or allowing an automatic model retry.
+See `node:docs/audits/P094-2026-10-12-OBSERVATION-REPAIR-CALIBRATION.md`.
+
 Offer recovery separates host/signer availability from Dator's explicit policy
 refusal. The host retains the original automatic-withdrawal reason independently
 of current readiness; older intents preserve their identity and disclose that
