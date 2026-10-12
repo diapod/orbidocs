@@ -18,15 +18,15 @@ Generated coverage snapshot for the current `doc/` structure.
 
 | Step | Markdown Files | With `Based on:` |
 |---|---:|---:|
-| `10-challenges` (Challenges) | `6` | `2` |
+| `10-challenges` (Challenges) | `7` | `2` |
 | `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `18` | `1` |
-| `40-proposals` (Proposals) | `99` | `87` |
+| `40-proposals` (Proposals) | `100` | `88` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `66` | `46` |
 
-- Total project markdown files: `262`
-- Proposals referencing source material: `87` / `99`
+- Total project markdown files: `264`
+- Proposals referencing source material: `88` / `100`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow

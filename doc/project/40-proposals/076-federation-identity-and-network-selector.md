@@ -728,7 +728,21 @@ one artifact; that is out of scope for v1.
 
 ## Open Questions
 
-None for the current proposal revision.
+Opened 2026-10-12:
+
+1. **Limited grants for ordinary participants without sovereign admission.** How
+   should an already authorized issuer grant an ordinary participant narrowly scoped
+   capabilities (for example local Messaging send/receive preparation) without
+   admitting that participant as a sovereign subject? Freeze the issuing/delegating
+   actor, participant/node/caller scope, any org custody requirements, recipient
+   consent boundaries, and expiry/revocation/root-rotation behavior before defining
+   a new issuance path. Local identity creation, an unlocked key, an operator binding
+   or a participant-signed preparation request do not answer this policy question or
+   confer issuer authority. The current general passport-issue API must not become
+   an implicit ordinary-user privilege path through onboarding. This is an open
+   design question, not a change to adopted authority semantics or a completed
+   implementation task. Related:
+   [Proposal 097: Fresh-Identity Onboarding and Messaging Readiness](097-fresh-identity-onboarding-and-messaging-readiness.md).
 
 Resolved 2026-07-03:
 
