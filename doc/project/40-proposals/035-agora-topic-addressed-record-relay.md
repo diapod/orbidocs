@@ -756,9 +756,13 @@ exports must independently confirm the profile.
 **Fixture correction (2026-10-12):** the replacement profile is
 `conduit-v0.10.15-full-pdu-1`, upstream
 `db3776328839604e2a1b0b0bf6cd0e8e98cf5cc5` plus the disclosed
-`node:tools/matrix-fixture/opaque/full-pdu.patch`. Current Ruma's content-hash
-size check excludes hashes, signatures and unsigned fields; updating Conduit
-alone does not establish the complete-PDU bound. The patch checks complete Matrix
+`node:tools/matrix-fixture/opaque/full-pdu.patch`. The initial inspection found
+Ruma's content-hash check, which excludes hashes, signatures and unsigned fields.
+Runtime boundary testing corrected that incomplete inference: the pinned Ruma
+also checks the full signed PDU, with a conservative 65,535-byte maximum;
+Conduit maps this refusal to HTTP 400 `M_INVALID_PARAM`. Preserve that response
+and the pinned format-check source alongside actual HTTP 413 `M_TOO_LARGE`.
+The patch independently checks complete Matrix
 canonical JSON after signing and unsigned assembly before persistence and returns
 `M_TOO_LARGE`. Pin the source archive, builder and patch digests; retain them with
 new reports. Qualification applies to this corrected fixture profile and does
