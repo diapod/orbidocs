@@ -732,6 +732,12 @@ work. DTO subject fields use `subject/kind`, `subject/id`, `subject/key`. Review
 hashes use JCS without string normalization. Recent historical diagnostics link
 to record-id retrieval without relaxing strict pair queries.
 
+The retained `node:docs/evidence/open-references/2026-10-12-review/qualification.json`
+qualifies these corrections with 20 SQLite and 18 Matrix runtime cases and
+453 conformance tests per backend. Runtime source revisions are Node `9f114aae`
+and Orbidocs `308e936`; the evidence index explains rejected-history, visibility
+and materialized-block observations. General decimal gossip is still unqualified.
+
 ### Pruned-source continuation
 
 | ID | Task | Status | Dependencies | Completion gate |
