@@ -292,6 +292,13 @@
       "allOf": [
         {
           "if": {
+            "properties": { "profile": { "const": "messaging-local-send@v1" } },
+            "required": ["profile"]
+          },
+          "then": { "$ref": "#/$defs/messagingLocalSendProfileV1" }
+        },
+        {
+          "if": {
             "properties": { "profile": { "const": "sealer-access@v1" } },
             "required": ["profile"]
           },
@@ -333,6 +340,17 @@
           "then": { "$ref": "#/$defs/sensoriumInterfaceActuationProfileV1" }
         }
       ]
+    },
+    "messagingLocalSendProfileV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "participant_id", "purposes"],
+      "description": "P097 local preparation evidence, distinct from INAC push and recipient consent. Stage A does not enforce this profile at outbound execution.",
+      "properties": {
+        "profile": { "const": "messaging-local-send@v1" },
+        "participant_id": { "type": "string", "minLength": 1 },
+        "purposes": { "const": ["messaging"] }
+      }
     },
     "sealerAccessProfileV1": {
       "type": "object",

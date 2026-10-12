@@ -1,0 +1,413 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-readiness.local:v1",
+  "title": "messaging-readiness.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "subject",
+    "requirements",
+    "roles",
+    "setup/status",
+    "observed_at",
+    "federation_issuer_status",
+    "onboarding_deferred",
+    "evidence",
+    "allowed_actions"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-readiness.local.v1"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participant_id",
+        "node_id",
+        "caller_kind",
+        "caller_label",
+        "caller_subject_key"
+      ],
+      "properties": {
+        "participant_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "caller_kind": {
+          "enum": [
+            "http-module",
+            "in-process-module",
+            "operator",
+            "participant",
+            "node",
+            "org",
+            "pod-user"
+          ]
+        },
+        "caller_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "caller_subject_key": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "requirements": {
+      "const": "messaging-local-preparation@v1"
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "send",
+        "receive"
+      ],
+      "properties": {
+        "send": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reasons",
+            "participant_id",
+            "owner_ref",
+            "route_id",
+            "passports"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "blocked",
+                "unknown",
+                "not-requested"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "issuer-not-admitted",
+                  "passport-missing",
+                  "passport-ineligible",
+                  "passport-signature-invalid",
+                  "passport-expired",
+                  "passport-revoked",
+                  "revocation-state-unavailable",
+                  "binding-missing",
+                  "binding-inactive",
+                  "participant-owner-mismatch",
+                  "route-missing",
+                  "service-not-ready",
+                  "storage-not-ready",
+                  "contactability-not-ready",
+                  "key-locked",
+                  "root-unavailable",
+                  "observation-failed"
+                ]
+              }
+            },
+            "participant_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "owner_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "route_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "passports": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "passport_id",
+                  "profile"
+                ],
+                "properties": {
+                  "passport_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "profile": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "receive": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reasons",
+            "participant_id",
+            "owner_ref",
+            "route_id",
+            "passports"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "blocked",
+                "unknown",
+                "not-requested"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "issuer-not-admitted",
+                  "passport-missing",
+                  "passport-ineligible",
+                  "passport-signature-invalid",
+                  "passport-expired",
+                  "passport-revoked",
+                  "revocation-state-unavailable",
+                  "binding-missing",
+                  "binding-inactive",
+                  "participant-owner-mismatch",
+                  "route-missing",
+                  "service-not-ready",
+                  "storage-not-ready",
+                  "contactability-not-ready",
+                  "key-locked",
+                  "root-unavailable",
+                  "observation-failed"
+                ]
+              }
+            },
+            "participant_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "owner_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "route_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "passports": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "passport_id",
+                  "profile"
+                ],
+                "properties": {
+                  "passport_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "profile": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "setup/status": {
+      "enum": [
+        "ready",
+        "blocked",
+        "unknown",
+        "not-requested"
+      ]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "federation_issuer_status": {
+      "enum": [
+        "ready",
+        "blocked",
+        "unknown",
+        "not-requested"
+      ]
+    },
+    "onboarding_deferred": {
+      "type": "boolean"
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root",
+        "binding_id",
+        "binding_revision",
+        "caller_binding_id",
+        "caller_binding_revision",
+        "revocation_revision",
+        "revocation_observed_at",
+        "relationship_owner",
+        "routing_binding",
+        "service_phase",
+        "storage_phase"
+      ],
+      "properties": {
+        "root": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "federation_id",
+                "version",
+                "digest"
+              ],
+              "properties": {
+                "federation_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "version": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "digest": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        "binding_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "binding_revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caller_binding_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caller_binding_revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revocation_revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revocation_observed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relationship_owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "routing_binding": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "service_phase": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storage_phase": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rel",
+          "method",
+          "href"
+        ],
+        "properties": {
+          "rel": {
+            "enum": [
+              "defer",
+              "resume",
+              "prepare",
+              "request-admission",
+              "compose"
+            ]
+          },
+          "method": {
+            "enum": [
+              "GET",
+              "POST"
+            ]
+          },
+          "href": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

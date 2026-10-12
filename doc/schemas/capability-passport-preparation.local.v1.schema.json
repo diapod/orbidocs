@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport-preparation.local:v1",
+  "title": "capability-passport-preparation.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "participant_id",
+    "plan_revision",
+    "idempotency_key",
+    "issue"
+  ],
+  "properties": {
+    "participant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "issue": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "capability_id",
+        "requested_capability_id",
+        "scope"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "v1"
+        },
+        "capability_id": {
+          "const": "capability_passport_issue"
+        },
+        "requested_capability_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "object"
+        },
+        "capability_profile": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "expires_in_sec": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

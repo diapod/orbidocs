@@ -24,11 +24,15 @@ Related:
 
 `draft`
 
-This document records the reviewed repair direction and its proposed implementation
-contract. All `MSG-ONB-*` tasks are `todo`. New DTOs, profile discriminators, action
-names and request artifacts are proposed, not registered schemas or implemented APIs.
-Persisting this proposal does not establish Node implementation, runtime acceptance,
-hard-MVP qualification or release readiness.
+This document records the reviewed repair direction. Stage A is implemented in
+Node and qualified by separate conformance, fresh-identity runtime and strict
+Story-010 regression evidence dated `2026-10-12`. Its DTO schemas are canonical and
+mirrored in Node. The tracker below records that scoped completion; Stage B execution
+enforcement/migration remains `todo`. The proposal's `draft` status, broader component
+implementation status and release qualification are separate claims.
+
+Retained evidence: `node:docs/evidence/messaging-onboarding/README.md`.
+Implementation contract: `node:docs/development/MESSAGING-ONBOARDING.md`.
 
 ## Date
 
@@ -71,7 +75,7 @@ that the proposed repair is already implemented.
 | `first_incomplete_step` requires Messaging completion before `/app`. | `node:node-ui/src/handlers/user.rs` | Truthful readiness and explicit deferral must ship together. |
 | `auto_ready_has_current_passport` checks capability, node, selected scope, expiry and locally recorded revocation, but not signature or current-root admission. An absent expected scope matches any scope. | `node:daemon/src/identity_host.rs`; issue-scope construction in `node:daemon/src/lib.rs` | Strengthen and reuse this mechanism rather than copying its current boolean result. |
 
-The strict Story-010 control passed 30 phases, including ordinary and recorded
+The pre-repair strict Story-010 control passed 30 phases, including ordinary and recorded
 message delivery without INAC preauthorization. The fresh-identity comparison used
 Story-010 and a relocated guided-UI configuration derived from Story-013; it did not
 run full Story-013, inference or a VM. It established the issuance refusal and the
@@ -143,13 +147,24 @@ routing subject belong to that participant; node-wide presence alone is insuffic
 
 Top-level `capability_profile` and the profile discriminators in `scope.profiles`
 are distinct fields; the selector must not conflate them. A local-send discriminator
-is to be frozen in 001a, not presumed to exist today.
+is now frozen by 001a as `messaging-local-send@v1`. Its typed scope contains
+`participant_id` and purposes `["messaging"]`, with exactly one profile and an
+exact caller kind/label/subject key. Top-level `capability_profile` must be absent.
+Scope extras are limited to `capability_id`, `module_id` and `issued_by`; the last
+field is descriptive. The bounded profile-less compatibility class additionally
+requires `module_id=messaging-service` and `capability_id=messaging-send`. Every
+selected artifact still needs signature, active-root and current revocation proof.
+Peer-scoped extras invalidate both classes; ambiguous artifacts are ineligible.
+Local receive selects the owned wizard route with `messaging-receive@v1`, request
+`wizard-local-route`, wildcard senders, purpose `messaging` and the exact route/grant.
+This does not redefine pairwise recipient consent.
 
 Existing profile-less local passports need an explicit, bounded compatibility rule
 or reissuance. No rule may infer authority from an absent discriminator, a loose
 capability-id match or an `issued_by` label. The rule must specify which signed
 node/caller/scope evidence identifies an eligible legacy passport and how participant
-ownership is established. Ambiguous evidence yields `unknown`, not global permission.
+ownership is established. An ambiguous passport is ineligible for this frozen plan;
+unavailable observations yield `unknown`. Neither establishes global permission.
 Stage B must document whether each legacy class is retained, reissued or retired.
 
 ### 3. Shared evaluator and active-root evidence
@@ -172,6 +187,13 @@ issuer must still be admitted by the active root. A valid historical signature
 alone does not establish current authority. Do not generalize this rule into a
 sovereign-root requirement for every participant-issued recipient-consent artifact.
 
+Stage A uses the same composite revocation view for observation, auto-ready and
+receipt retry. Its local read budget is 300 seconds after `checked_at`; absent,
+future or older views cannot establish non-revocation. Known passport and delegated-key
+target revocations remain decisive when stale. Evidence hashes both sorted sets.
+Binding revision hashes include lifecycle withdrawal; this is a preparation read
+policy and does not introduce Stage B execution enforcement.
+
 Respect P076's typed participant/org subjects and custody rules. Org custodians
 must not become independent sovereign issuers merely because their keys signed a
 root pack. A staged replacement root has no runtime effect until verified activation
@@ -181,9 +203,14 @@ binding/revocation revisions; previous-root decisions cannot survive activation.
 At execution in Stage B, reevaluate current authority before effects. An earlier GET
 result is explanatory evidence, not a reusable authorization token.
 
-### 4. Proposed read contract: `messaging-readiness.local.v1`
+### 4. Read contract: `messaging-readiness.local.v1`
 
-This is a proposed DTO contract, not a new canonical JSON schema in this change.
+The canonical [readiness schema](../../schemas/messaging-readiness.local.v1.schema.json)
+freezes this DTO. Related contracts are
+[preparation](../../schemas/capability-passport-preparation.local.v1.schema.json),
+[disposition](../../schemas/messaging-onboarding-disposition.local.v1.schema.json),
+[request creation](../../schemas/issuer-admission-request-create.local.v1.schema.json)
+and [signed request](../../schemas/issuer-admission-request.v1.schema.json).
 
 | Field | Contract |
 |---|---|
@@ -211,7 +238,7 @@ otherwise all required predicates satisfied -> `ready`. An absent or malformed p
 is `unknown`, not an empty successful conjunction. Do not persist a redundant setup
 status that can diverge from its inputs.
 
-001a must freeze a closed reason enum and its evidence mapping. Its initial codes
+001a freezes a closed reason enum and its evidence mapping. Its codes
 cover `issuer-not-admitted`, `passport-missing`, `passport-ineligible`,
 `passport-signature-invalid`, `passport-expired`, `passport-revoked`,
 `revocation-state-unavailable`, `binding-missing`, `binding-inactive`,
@@ -221,7 +248,8 @@ and `observation-failed`. Human-readable detail does not create additional reaso
 codes. The enum must distinguish a known blocker from unavailable evidence.
 
 `allowed_actions` supplies such transitions as defer, resume, request admission or
-prepare, when currently permitted. These names are candidates for 001a. UI clients
+prepare and legacy compose, when currently permitted. The fixed relations are
+`defer`, `resume`, `request-admission`, `prepare` and `compose`. UI clients
 must not reconstruct them from status alone. Mutating endpoints independently
 revalidate their authorization; presenting an action is not an authorization grant.
 
@@ -248,7 +276,10 @@ it. Another participant cannot inherit either readiness or a deferral decision.
 
 Use a participant-signed request in the separate domain
 `orbiplex.federation.issuer-admission-request.v1`. Freeze canonical encoding and
-signature verification in 002 using existing signing primitives. The signing path
+signature verification in 002 using existing signing primitives. The implemented
+encoding is canonical JSON with `signature` omitted, preceded by the UTF-8 domain
+and one NUL byte. Request expiry is bounded to 15 minutes; review retains at most
+1024 public requests and refuses nonce replay. Review records are non-authoritative. The signing path
 for this request must be narrowly permitted without granting passport-issue authority
 or widening the general signer allowlist.
 
@@ -276,8 +307,19 @@ profile, scope digest and plan revision. A caller idempotency key is bound to th
 intent; reuse with different input is rejected. Equivalent issuance slots are
 serialized/deduplicated even when two callers supply different request keys.
 
-Persist intent/result association with passport issuance and define recovery of an
-interrupted write. Concurrent POSTs and restart/retry return the same issued passport
+Named local routing-subject selection and creation are also serialized at the daemon
+identity owner. Two fresh UI setup jobs must converge on the same owned route before
+forming the receive-passport intent. UI POST returns before background setup ends;
+acceptance waits for both terminal audit records and verifies one receive passport.
+
+The coordinator stores intent/result association in the same private atomic artifact
+as passport issuance, before installation. The intent also includes relative expiry;
+keys are participant-scoped, bounded to 128 bytes and retained up to 64 per intent.
+Wizard and equivalent local-send auto-ready preparation use a 90-day expiry. A
+prepared record cannot be deleted through the normal artifact API, but can be revoked.
+Process-crash recovery is qualified after the durable artifact appears and before
+the client consumes the response; power loss and directory fsync remain outside this
+qualification. Concurrent POSTs and restart/retry return the same issued passport
 for the same successful intent. Partial preparation resumes remaining steps without
 duplicating completed issuance or publication. This is not a distributed transaction
 across all services.
@@ -428,9 +470,10 @@ cost explicit; Stage A must not be described as full send-authority enforcement.
    policy that enables restricted capabilities without sovereign admission. See
    [P076's open question](076-federation-identity-and-network-selector.md#open-questions).
    This proposal does not resolve it through the current issue API.
-2. **Concrete local-send profile and legacy selection:** 001a must freeze the
-   discriminator, operation scope and bounded compatibility classes before evaluator
-   implementation. Ambiguous old passports are not silently global grants.
+2. **Local-send selection (resolved for Stage A):** 001a freezes
+   `messaging-local-send@v1` and the bounded legacy module class above. Stage B must
+   still inventory actual profiles and choose whether to retain, reissue or retire
+   each class. Ambiguous old passports are not silently global grants.
 3. **Enforcement migration/cutover:** 001c must choose explicit release/configuration
    scope, migration assistance and queued-message handling from a retained inventory.
    Stage A does not settle an enforcement default or release date.
@@ -439,20 +482,28 @@ cost explicit; Stage A must not be described as full send-authority enforcement.
 
 ### Implementation Tracker
 
-Stable task ids preserve the reviewed `MSG-ONB-*` workstream. All rows remain `todo`;
-this documentation change does not close implementation or acceptance tasks.
+Stable task ids preserve the reviewed `MSG-ONB-*` workstream. Stage A completion is
+bounded to the local operator preparation/read flow and the retained evidence below;
+it does not qualify all P060/P076, real federation users or release readiness.
 
 | Task | Stage | Depends on | Status | Completion gate |
 |---|---|---|---|---|
-| MSG-ONB-001a | A | – | todo | Freeze exact selector, local-send profile/legacy classes, participant/role evidence, `messaging-readiness.local.v1`, aggregation, closed reasons and allowed actions; retain selection/conformance fixtures. |
-| MSG-ONB-001b | A | MSG-ONB-001a | todo | Strengthen/refactor the existing evaluator with signature, active-root/profile authority, revocation, owner/caller and pinned evidence; reuse read-only verification; invalidate decisions across root/binding changes. |
-| MSG-ONB-002 | A | MSG-ONB-001a, MSG-ONB-001b | todo | Add separate issuer fact/step, signed request verification, explicit operator handoff and durable deferred Messaging/federation steps; retain `/app` status without automatic admission or false completion. |
-| MSG-ONB-003 | A | MSG-ONB-001a, MSG-ONB-001b | todo | Shared daemon preparation coordinator for wizard/auto-ready, durable intent/result idempotency, concurrent/crash recovery and preserved withdrawn-consent behavior. |
-| MSG-ONB-004 | A | MSG-ONB-001a, MSG-ONB-001b, MSG-ONB-002, MSG-ONB-003 | todo | Retain all Stage A conformance/negative cases, fresh-UI-identity message/content evidence and separate strict Story-010 regression; document legacy execution compatibility and the narrow-profile deferral result. |
+| MSG-ONB-001a | A | – | done | Freeze exact selector, local-send profile/legacy classes, participant/role evidence, `messaging-readiness.local.v1`, aggregation, closed reasons and allowed actions; retain selection/conformance fixtures. |
+| MSG-ONB-001b | A | MSG-ONB-001a | done | Strengthen/refactor the existing evaluator with signature, active-root/profile authority, revocation, owner/caller and pinned evidence; reuse read-only verification; invalidate decisions across root/binding changes. |
+| MSG-ONB-002 | A | MSG-ONB-001a, MSG-ONB-001b | done | Add separate issuer fact/step, signed request verification, explicit operator handoff and durable deferred Messaging/federation steps; retain `/app` status without automatic admission or false completion. |
+| MSG-ONB-003 | A | MSG-ONB-001a, MSG-ONB-001b | done | Shared daemon preparation coordinator for wizard/auto-ready, durable intent/result idempotency, concurrent/crash recovery and preserved withdrawn-consent behavior. |
+| MSG-ONB-004 | A | MSG-ONB-001a, MSG-ONB-001b, MSG-ONB-002, MSG-ONB-003 | done | Retain all Stage A conformance/negative cases, fresh-UI-identity message/content evidence and separate strict Story-010 regression; document legacy execution compatibility and the narrow-profile deferral result. |
 | MSG-ONB-001c | B | MSG-ONB-004 | todo | Separate announced enforcement change: inventory, explicit migration, observation/cutover policy, execution rechecks and queued-message disposition; retain Stage B refusal/delivery/regression evidence before release qualification. |
 
-Start with 001a. Implement 001b, then the onboarding and preparation work; qualify
-Stage A as a coherent slice so truthful reads never ship with the old mandatory
-Messaging gate. Stage B follows a separately reviewed migration/cutover plan. Resolve
+Stage A evidence includes 16 fresh-UI runtime cases, the correlated message/content
+bundle, two completed parallel fresh UI setup jobs, concurrent first issuance,
+process-crash/response-loss retry, revocation history,
+withdrawn consent, signed request tampering/replay, active-root removal, an independently
+run empty-generic-plan deferral profile, and separate strict Story-010 regression.
+Conformance and lifecycle tests are retained separately. The narrow control uses a
+Story-010 topology with Story-013-like omitted generic prerequisites; it does not run
+full Story-013. No model or VM runs in this qualification.
+
+Stage B follows a separately reviewed migration/cutover plan. Resolve
 P076's limited-grant question before claiming support for ordinary non-sovereign users
 through a new authority path.

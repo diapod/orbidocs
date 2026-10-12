@@ -79,6 +79,29 @@ messaging, CC/BCC, live multi-device mailbox-state push, and full
 multi-device vault merge. Read/unread sync is in scope as replayable
 `messaging.flag.v1` Layer 3 facts.
 
+## Local preparation and onboarding
+
+As of `2026-10-12`, [P097 Stage A](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md)
+adds a daemon-owned read of local operator preparation. It selects
+`messaging-local-send@v1` or an explicitly bounded legacy module passport, verifies
+signature/current-root/revocation and participant/caller/binding evidence, and reports
+separate send/receive readiness with owned relationship/route and service/storage
+facts. Per-peer `inac-push@v1` and signer `signing/messaging-send` do not establish
+local send preparation.
+
+The UI separates federation issuer authority from Messaging and permits durable
+explicit deferral into the app. Signed admission requests prove key possession and
+remain non-authoritative. Root admission is an explicit P076 operator procedure.
+Wizard and configured auto-ready share durable issuance coordination and preserve
+withdrawn consent. GET performs no preparation. See the canonical
+[readiness schema](../../../schemas/messaging-readiness.local.v1.schema.json).
+
+Retained Node evidence (`node:docs/evidence/messaging-onboarding/README.md`) qualifies
+fresh UI identity delivery and the local preparation/read slice, with separate
+conformance, narrow deferral and strict Story-010 regression. Stage B send execution
+enforcement/migration remains deferred; existing execution policy is retained.
+This extension does not promote broader Messaging or release qualification.
+
 ## Passport Profile
 
 `messaging-receive@v1` is the canonical receive-consent passport profile. The

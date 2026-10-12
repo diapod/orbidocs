@@ -17,7 +17,7 @@ for an unadmitted fresh identity protects this authority boundary.
 
 A separate read-model defect equates the absence of a configured readiness blocker
 with a usable local send passport. Correcting that read can expose another problem:
-the Welcome Wizard currently requires Messaging completion before entering `/app`.
+the pre-repair Welcome Wizard required Messaging completion before entering `/app`.
 Narrow profiles can consequently become trapped in a step outside their purpose.
 
 ## Proposed Direction
@@ -52,6 +52,9 @@ implicitly through onboarding.
 
 ## Next Actions
 
-Implement and qualify P097's first read/onboarding stage, including delivery between
-fresh UI identities and continued access to `/app` from a deferred narrow profile.
+P097 Stage A is implemented and locally qualified on `2026-10-12`, including delivery
+between fresh UI identities and continued access to `/app` from a deferred narrow
+profile. See `node:docs/evidence/messaging-onboarding/README.md` for the separate
+runtime, conformance and strict Story-010 evidence classes. This is not full
+Story-013 model/VM execution or a general ordinary-participant grant policy.
 Schedule execution enforcement only through its separate migration stage.

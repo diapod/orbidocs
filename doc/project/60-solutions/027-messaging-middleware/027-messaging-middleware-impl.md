@@ -28,15 +28,18 @@ The bundled messaging service remains disabled by default. Enabling it starts a
 loopback supervised HTTP service and injects the standard host capability
 environment variables into the child process.
 
-In user-mode desktop profiles, the welcome wizard has a messaging setup step
-after participant identity and operator binding. That step may enable the
-service, verify the Local Relationship owner/ref and storage readiness, check
-the local `messaging-send` readiness gate, issue a missing local
-`messaging-send` passport when it is listed by the daemon's local-readiness
-requirements, create or reuse a messaging routing-subject, and store either a
-`pseudonymous-only` contactability marker or an optional public-handle draft.
-The wizard-issued passport uses a bounded bootstrap lifetime and the wizard is
-intentionally not an attestation or Contact Catalog publication flow.
+In user-mode desktop profiles, the welcome wizard separates federation issuer
+admission from Messaging preparation. P097 Stage A reads positive participant,
+caller, active-root, passport, owned-route and service/storage evidence independently
+of the configured generic local-readiness requirements. Explicit deferral reaches
+`/app` with visible preparation status. Setup may enable the service, create or reuse
+the owned routing subject and prepare missing local send/receive passports through
+the daemon's durable coordinator. Parallel fresh setup jobs share the named route
+and issuance intent. The local-send preparation lifetime is 90 days. The wizard
+stores a `pseudonymous-only` contactability marker or optional public-handle draft;
+attestation and Contact Catalog publication remain separate flows. Stage A adds no
+send execution gate or automatic issuer admission; Stage B enforcement and migration
+remain pending.
 
 ## Local Data
 

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:issuer-admission-request-create.local:v1",
+  "title": "issuer-admission-request-create.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "participant_id",
+    "requested_role"
+  ],
+  "properties": {
+    "participant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested_role": {
+      "const": "sovereign-passport-issuer"
+    }
+  }
+}

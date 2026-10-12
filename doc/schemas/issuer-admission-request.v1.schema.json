@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:issuer-admission-request:v1",
+  "title": "issuer-admission-request.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "participant_id",
+    "key_public",
+    "node_id",
+    "federation_id",
+    "audience",
+    "root_digest",
+    "signature",
+    "schema",
+    "requested_role",
+    "purpose",
+    "root_version",
+    "issued_at",
+    "expires_at",
+    "nonce"
+  ],
+  "properties": {
+    "participant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "key_public": {
+      "type": "string",
+      "minLength": 1
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "federation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 1
+    },
+    "root_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema": {
+      "const": "orbiplex.federation.issuer-admission-request.v1"
+    },
+    "requested_role": {
+      "const": "sovereign-passport-issuer"
+    },
+    "purpose": {
+      "const": "federation-passport-issuance"
+    },
+    "root_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
