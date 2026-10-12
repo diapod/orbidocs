@@ -177,16 +177,27 @@ The slice names are topical, not a strict build order.
 ## Matrix transport continuation (P035-004)
 
 [P035-004](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-carrier-tracker)
-owns the opaque Agora carrier; Whisper consumes it. The 2026-10-12 real-process
-run observes two independent inline-proof `whisper-signal.v1` nym signals with
-confidence 0.5, a `whisper-trace.v1` regression, and host-signed
-`whisper-threshold-reached.v1`, followed by restart and carrier replay.
-`effective_weight` is a gossip projection result, not a threshold field.
-The transport qualification remains incomplete: pinned Conduit v0.7.0 admitted
-a 65,798-byte full PDU above 65,536 and the qualifier refused closure. Retained
-evidence is `node:docs/evidence/matrix-opaque-envelope/README.md`.
-These observations do not qualify all Whisper families, nym issuance, production
+owns the opaque Agora carrier; Whisper consumes it. The reviewed 2026-10-12
+`matrix-opaque-envelope` profile is qualified at clean Node `20c4c16c` and
+Orbidocs `862586f`: four SQLite and 21 Matrix cases. It qualifies two independent
+inline-proof `whisper-signal.v1` nym signals with confidence 0.5,
+`whisper-trace.v1` regression, and host-signed `whisper-threshold-reached.v1`,
+followed by restart and deterministic first-source carrier replay without
+forwarding. Exact signed author bytes remain unchanged; admission and
+proof/disclosure refusals retain their authority. `effective_weight` is a gossip
+projection result, not a threshold field.
+
+Every Node-created full PDU fits the protocol bound (maximum 50,043 bytes).
+Full-PDU enforcement is a separate environment result for the disclosed pinned
+Conduit/Ruma fixture; direct boundary events reach 65,534 bytes, with actual
+refusal codes retained. Initial v0.7.0 oversize evidence and the qualifier refusal
+remain unchanged. Retained qualified evidence is
+`node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`.
+Default writing remains v1; the operator explicitly selects v2.
+
+These qualified families do not close all Whisper, nym issuance, production
 key custody, external redaction, Anon egress or inter-homeserver federation.
+Unmodified reference-server qualification is the independent P035-005 task.
 
 ## Post-M4 productization tracker
 

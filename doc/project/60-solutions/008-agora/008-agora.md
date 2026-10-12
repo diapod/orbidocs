@@ -328,13 +328,18 @@ Status:
   Matrix event signatures and donor relay identity are diagnostics and transport
   provenance, not sufficient record validity.
 - [P035-004](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-carrier-tracker)
-  adds an implemented opaque v2 carrier with immutable author bytes, durable
-  source/checkpoint batches, bounded history recovery/replay and separate
-  forwarding outcomes. Default writes remain v1. The 2026-10-12 continuation is
-  `partial`: four SQLite and 17/18 Matrix cases pass, including confidence 0.5,
-  but the pinned fixture admitted a 65,798-byte full PDU above 65,536, so the
-  qualifier refused closure (`node:docs/evidence/matrix-opaque-envelope/README.md`).
-  This does not broaden the historical baseline or qualify federation.
+  qualifies the opaque v2 carrier with immutable author bytes, durable source/
+  checkpoint batches, bounded history recovery/replay and separate forwarding
+  outcomes. The reviewed 2026-10-12 profile passes four SQLite and 21 Matrix cases
+  at Node `20c4c16c` and Orbidocs `862586f`, including host-signed/UI confidence
+  0.5, permitted Whisper families, exact bytes, restart/replay and recovery review.
+  All 41 Node-created full PDUs fit 65,536 bytes; maximum 50,043. Direct protocol
+  boundary/enforcement observations are independent and scoped to the disclosed
+  pinned fixture (`node:docs/evidence/matrix-opaque-envelope/README.md`). Original
+  v0.7.0 oversize evidence remains unchanged. Default writes remain v1 with explicit
+  v2 selection. This completes the carrier task while global Agora stays `partial`;
+  unmodified reference-server qualification is P035-005, and federation and
+  production readiness remain separate.
 
 ### Retention Policy Sweep
 
@@ -511,11 +516,12 @@ Status:
   clients on one homeserver, including B `/sync` indexing before projection,
   no-JS forms and restart/replay. Its DTO derives `subject/key` from the BINARY
   pair lookup; signed historical facts remain unchanged. New authoring has eight
-  references and a 48 KiB publication budget for the current carrier. Matrix
+  references and the historical object-carrier 48 KiB budget. Opaque v2 Matrix
+  creation separately uses 36 KiB. Historical P026 Matrix
   gossip qualification covers integer JSON numbers only (`confidence=1`), because
   Matrix canonical JSON cannot carry ordinary fractional confidence in the
   envelope object. [P035-004](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-carrier-tracker)
-  owns the opaque carrier and recalculated full-PDU budget;
+  separately qualifies opaque v2 confidence 0.5 and its recalculated full-PDU budget;
   [P026-004](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#pruned-source-continuation)
   owns explicit carry-forward after retention. Broader discussion surfaces remain;
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately

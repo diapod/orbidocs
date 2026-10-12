@@ -824,22 +824,52 @@ corrected fixture supplies a separate positive environment measurement. One
 homeserver proves distribution only; it does not qualify federation, production
 readiness, all Whisper surfaces or broaden historical P026 confidence=1 evidence.
 
-**Measured result (2026-10-12): partial.** The implementation is present with
+**Initial measured result (2026-10-12): refused, retained unchanged.** The
+implementation is present with
 default-v1/optional-v2 writes. Frozen Node `31daa07c` and Orbidocs `5624bcb`
 runtime evidence passes four SQLite cases and 17 of 18 Matrix cases, including
 confidence 0.5, permitted Whisper signal/trace/threshold paths, exact byte variants,
 restart/crash recovery, limited backfill and deterministic carrier replay.
-The full-PDU gate fails: the pinned Conduit v0.7.0 fixture admitted a **65,798-byte**
+The original combined full-PDU gate failed: pinned Conduit v0.7.0 admitted a
+**65,798-byte**
 complete canonical PDU above 65,536. Node's 36-KiB author boundary publications
 measured 50,042/50,043 bytes; the oversized event used the separate direct
 Client-Server protocol path. The qualifier refused closure, including negative
 controls against falsified success markers and corrupted artifacts. Retained
 reports, full PDU exports and the refusal are at
 `node:docs/evidence/matrix-opaque-envelope/README.md`.
-Qualification requires a pinned fixture enforcing the full PDU bound and fresh
-clean-revision reports. This failed gate is not replaced by the successful Node
-publication measurement. No Whisper family receives complete transport
-qualification from this run.
+The reviewed decision separates Node publication proof from homeserver enforcement;
+this initial refused run is never relabelled as qualified.
+
+**Reviewed measured result (2026-10-12): qualified.** Frozen clean Node
+`20c4c16c52021582f5536b34b9c04c514f43b323` and Orbidocs
+`862586f9547d438b6b76a759505b112e214e755b` reports pass all four SQLite and
+21 Matrix cases. The qualifier returns exit 0 at
+`node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`.
+Host-signed/UI gossip confidence 0.5, permitted inline-proof Whisper signals
+from two independent nodes, trace and host-signed threshold, exact author bytes,
+restart/crash recovery, limited backfill and deterministic source replay qualify.
+Review cases additionally prove durable transient backoff, blocked membership
+refusal with explicit retry, late room binding recovery, and authenticated Matrix
+sender provenance independent of relay declarations. Record-bound nonce receipts
+already share bounded parent retention; expiry/reopen conformance preserves the
+same-fact retry rule and rejects reuse for another record.
+
+All **41 Node-created PDUs** are measured completely and matched against observed
+`/send` acknowledgements; maximum **50,043 bytes**, within 65,536. Six separate
+direct Client-Server boundary events reach **65,534 bytes**.
+`fixture/full-pdu-enforced=true` is an independent environment finding for the
+pinned, disclosed `conduit-v0.10.15-full-pdu-1` profile. Actual `M_TOO_LARGE` and
+Ruma's conservative 65,535-byte `M_INVALID_PARAM` refusals retain their codes and
+source provenance. Seven qualifier controls prevent replacing old failures with
+success markers, missing Node PDU proof, artifact tampering and path escape.
+Both backends retain 59 separate conformance tests without invented HTTP results.
+
+This closes the carrier slice, not unmodified homeserver conformance, all Whisper,
+nym issuance, Anon, federation or production readiness. Default writing remains
+v1, with explicit operator v2 selection; historical P026 confidence=1 evidence
+and the global Agora `partial` assessment remain unchanged. P035-005 separately
+owns positive interoperability qualification on an unmodified reference server.
 
 ### Matrix Carrier Tracker
 
@@ -848,7 +878,8 @@ its status here; S008 Agora P18 links to this row.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-004 | Opaque Agora envelope carrier over Matrix | partial | Existing Matrix mapping and Agora verification; S028 | Codec, durable sources/checkpoints, bounded backfill/replay, optional-v2 publication and typed outcomes are implemented. The 2026-10-12 run passes 4 SQLite and 17/18 Matrix cases, including fractional gossip, permitted Whisper families, exact bytes, restart/replay and B `/sync` indexing. Full-PDU qualification is refused: Conduit v0.7.0 admitted 65,798 bytes above 65,536. Preserve the failed proof at `node:docs/evidence/matrix-opaque-envelope/README.md`; qualify fresh reports with a conforming pinned fixture before `done`. Default writes stay v1; one homeserver does not qualify federation. |
+| P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. Default v1/explicit v2; one disclosed patched fixture does not qualify federation or production readiness. |
+| P035-005 | Unmodified reference homeserver PDU interoperability | todo | P035-004; room-version budget profile | Run the carrier/profile against a pinned unmodified reference homeserver; retain full-PDU boundary refusals and complete signed event exports, independently from the Node publication gate. Keep the v0.7.0 oversize finding and patched-fixture proof unchanged. No federation or production claim follows from one server. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
