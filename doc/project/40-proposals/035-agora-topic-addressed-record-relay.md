@@ -681,12 +681,12 @@ Mapping rules:
 
 ### Matrix carrier compatibility correction (2026-10-12)
 
-The current object mapping in rule 3 is narrower than Agora's payload contract.
+The default v1 object mapping in rule 3 is narrower than Agora's payload contract.
 [Matrix canonical JSON](https://spec.matrix.org/latest/appendices/#canonical-json)
 allows only integer JSON numbers in `[-(2^53)+1, (2^53)-1]`, without decimal or
 exponent syntax. Modern room versions enforce this restriction. A conforming
 homeserver cannot carry the ordinary `public-gossip.v1` confidence value `0.5`
-in the current event object. The observed Conduit `IntConvert` / HTTP 500 is
+in the v1 event object. The observed Conduit `IntConvert` / HTTP 500 is
 retained evidence of this mismatch, not a Conduit-specific protocol restriction.
 The same boundary affects future accepted payloads with fractional numbers,
 including applicable P096 sample content. P026-003's Matrix evidence is scoped
@@ -697,9 +697,10 @@ Matrix stores a string containing JSON or base64url of the exact serialized
 Agora envelope bytes. Decode once under a byte bound, preserve the envelope,
 then apply the existing Agora signature, schema, topic and admission gates.
 A Matrix room/event signature remains transport provenance, not Agora authority.
-Freeze the event type, discriminator, encoding and legacy-object read policy
-before changing the current rule 3 wire contract. The existing carrier remains
-the implemented, integer-only profile until that replacement is qualified.
+P035-004 below freezes the event type, discriminator, base64url encoding and
+legacy-object read policy, and qualifies optional v2 with fractional confidence.
+The default v1 carrier remains the integer-only profile; operators explicitly
+select the qualified opaque v2 profile. JSON text remains a future encoding option.
 
 The authoring budget must include carrier expansion and the rest of the PDU.
 Base64url of 48 KiB occupies 64 KiB before wrapper or PDU metadata; escaped JSON
