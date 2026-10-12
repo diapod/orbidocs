@@ -327,6 +327,14 @@ Status:
   authority/capability/revocation, and idempotency checks as local HTTP ingest;
   Matrix event signatures and donor relay identity are diagnostics and transport
   provenance, not sufficient record validity.
+- [P035-004](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-carrier-tracker)
+  adds an implemented opaque v2 carrier with immutable author bytes, durable
+  source/checkpoint batches, bounded history recovery/replay and separate
+  forwarding outcomes. Default writes remain v1. The 2026-10-12 continuation is
+  `partial`: four SQLite and 17/18 Matrix cases pass, including confidence 0.5,
+  but the pinned fixture admitted a 65,798-byte full PDU above 65,536, so the
+  qualifier refused closure (`node:docs/evidence/matrix-opaque-envelope/README.md`).
+  This does not broaden the historical baseline or qualify federation.
 
 ### Retention Policy Sweep
 
