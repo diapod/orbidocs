@@ -1163,6 +1163,15 @@ Pure preparation and durable completion keep the source DAG and packet through
 replay. This is a bounded contract/implementation extension, not a renewed
 P090-008c native claim or completed P090-008a/009 remote-resolution scope.
 
+Native follow-up (2026-10-12): clean-source P094 run `s13-1791759358-87f640`
+retained four actual passage manifests, products, DAG roots and corresponding
+charge receipts, including unchanged Solver state after restart/adoption.
+The final graph measured 15 nodes, 17 ordered edges and 29,047 canonical bytes.
+The attempt failed before repair and recipe delivery, so it adds no native
+portable-object admission or buyer replay claim. Its failed report and exact
+scope are retained in `node:docs/audits/P094-2026-10-12-GUIDED-RECOVERY-FAILURE.md`;
+P090's procurement completion boundaries remain unchanged.
+
 Ordinary-controller recovery checkpoint: an intent fences dispatch before I/O;
 one atomic Memarium completion then binds the exact Inquirium source, Step,
 trace and budget. Recovery validates and projects this committed value without

@@ -561,6 +561,20 @@ P094-018a's approved scope. This does not promote pending clean-source guided
 market qualification, formal P094 adoption, relay migration, or general
 retention readiness.
 
+The 2026-10-12 clean-source composed UI attempt passed all pre-run gates but
+failed qualification: four real MLX passages and one failed observation
+experiment preserved exact adoption, manifests, charges, DAGs and destruction;
+the intended repair repeated observation-only content despite retained failed
+execution evidence. There was no signed recipe delivery or buyer result replay.
+The loop expired, the order is blocked, and the one-run authorization is consumed.
+Post-run owner/UI regressions correct fresh generation after historical rejection
+across communication epochs and keep mandate revocation independent of task
+position. These repairs are not evidence from the pinned native run. Exact
+withdrawal and prepared-root cleanup were retained separately; automatic test
+confirmations name their real delegate, not a human HIL respondent. See P094's
+dated follow-up and `node:docs/audits/P094-2026-10-12-GUIDED-RECOVERY-FAILURE.md`.
+Pending guided qualification and formal adoption remain unchanged.
+
 Offer recovery separates host/signer availability from Dator's explicit policy
 refusal. The host retains the original automatic-withdrawal reason independently
 of current readiness; older intents preserve their identity and disclose that

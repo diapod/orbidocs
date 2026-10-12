@@ -2286,6 +2286,19 @@ not a universal renewal rule for Corpus artifacts.
 | `P069-PREP-002c` | `in-progress` | 2026-10-09: thin UI for exact epoch preview, receipt-bound confirmation and recovery, followed by a separate candidate-adoption preview/confirmation, is implemented. Owner-derived choices avoid copying proposal bytes or digests. Read-only inspection never renews authority and remains visible with explicit blockers. No VM, HIL, lease or marketplace consent is inherited. Rendering/escaping is tested; a real browser continuation between model passages remains d, not delivered UI acceptance. |
 | `P069-PREP-002d` | `in-progress` | The 2026-10-10 P094-012c7 development UI checkpoint qualifies completed native observation -> explicitly approved communication epoch -> fresh real-MLX Solver/Reviewer -> separately admitted verified repair. Four passages and two experiments preserve the original deadline/counters; confirmations are explicitly delegated. This is completed execution reuse, not adoption of an unfinished old Solver candidate. Real cross-epoch candidate adoption between Solver and Reviewer, old-epoch replay, expired document refusal, missing/substituted parents and restart without redispatch remain open. See `node:docs/audits/P094-2026-10-10-DELEGATION-REVIEW.md`; no clean-release or independent human-HIL claim. |
 
+The later 2026-10-12 clean-source P094 UI attempt exercised exact cross-epoch
+adoption of an unfinished real Solver candidate and a fresh real Reviewer after
+daemon restart, with the original manifest/product/charge unchanged. Its overall
+qualification failed later: the repair Solver repeated observation-only content,
+and unpinned continuation after Chair request-revision exposed a position defect.
+Post-run process coverage now recognizes linked rejection across verified logical
+epochs only as a route to fresh generation, not permission to reuse the rejected
+plan or old opinions. Current authority, original counters/deadline and required
+execution evidence remain independently checked; pending/accepted history still
+requires exact adoption. This partial native evidence does not close
+`P069-PREP-002b/c/d` or P094's composed gate. See
+`node:docs/audits/P094-2026-10-12-GUIDED-RECOVERY-FAILURE.md`.
+
 Runtime development checkpoint (2026-10-09):
 `POST /v1/corpus/authority-epochs/preview` accepts choices, not caller-authored
 digests. `POST /v1/corpus/authority-epochs/commit` re-resolves the exact approved

@@ -3254,6 +3254,39 @@ final-source UI delivery/replay/withdrawal remains pending. The operator has
 separately authorized exactly one new isolated run after clean-source gates;
 that authorization does not qualify the expired rehearsal or renew its limits.
 
+Clean-source UI follow-up (2026-10-12): the single newly authorized run
+`s13-1791759358-87f640` used Node `0d7d745c` and Orbidocs `8b658624`, retained
+under the same acceptance ref in each repository. All pre-run gates passed,
+including 6,861 workspace tests and clean owner refusal verification. The native
+run completed four actual MLX passages, exact Solver adoption after daemon
+restart, and one observation experiment with actual failed verification and
+confirmed destruction. Full Workbench restart preserved the same prepared root
+and VMM. The second Solver nevertheless repeated the observation-only candidate
+although its retained input contained the failed execution, result and stdout;
+the Reviewer accepted observation-only content. No verified repair or signed
+recipe delivery occurred. The loop expired with unchanged limits and its order
+is blocked. Twelve retained confirmation facts identify the test delegate and
+authorizing test operator; none is independent human HIL.
+
+The failed continuation also exposed two implementation defects: after a new
+epoch selected no historical input, position projection demanded adoption of
+the rejected candidate, and the mandate UI depended on that blocked position.
+Post-run corrections recognize linked rejection across the verified logical
+history only as a route to fresh Solver generation, preserving counters,
+deadline and required execution evidence; accepting or pending historical
+candidates still need exact adoption. Mandate inspection/revocation no longer
+depends on an actionable position or model availability. Process regressions
+prove fresh Solver preparation after adoption, rejection, another epoch and
+restart without redispatch or an extra charge; they do not retrospectively
+qualify the native run. The exact offer was withdrawn through measured periodic
+buyer refresh without explicit resync; the mandate was revoked and the prepared
+VMM closed. Cleanup using owner APIs is not a UI completion claim. See
+`node:docs/audits/P094-2026-10-12-GUIDED-RECOVERY-FAILURE.md` and its retained
+failed report. The one-run authorization is consumed. Resolve the model/profile
+phase transition, re-pin and repeat affected gates, then obtain a new bounded
+authorization before another run. `012c4/012c5/012c6/023e` stay in progress,
+`015` stays partial, and `018a` retains only its separately qualified scope.
+
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
 plan before exposing its prepared root, isolating bad rows without blocking
