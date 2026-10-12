@@ -545,6 +545,20 @@ should be challenged. It does not guarantee the truth of the conclusion in the
 target layer, but makes explicit why data from one grammar may support a claim
 formulated in another.
 
+An explanation of experience need not itself become the experience it explains.
+The fact that a description does not reproduce the mode of participation from
+which it arose is not enough to establish its inadequacy. This does not exempt
+it from preserving the distinctions needed to answer the question posed.
+A description of the conditions for seeing red need not make the reader see red;
+we can still ask whether it explains that character or only the capacity to
+distinguish and report colors. **A description need not become an experience;
+it must answer the question it undertook to address.**
+
+The designation "implementation detail" is also relative to a question.
+A condition that can be disregarded when predicting a response may matter for
+another phenomenon under study. Treating it as irrelevant requires justification
+within the scope of the particular contract, not merely a label.
+
 An inability to make an experience available to objective examination is not
 enough to deny its occurrence. Acknowledging an experience does not, however,
 make its identification, description, or attribution infallible – these remain
@@ -725,6 +739,12 @@ conditions of later valence and situated perspective; it is not yet evidence of
 their phenomenal form. The organism's boundary is functionally prior to the ego, but
 by itself it is insufficient to derive consciousness, subjectivity, or a person.
 
+Identifying conditions relevant to known organic forms of experience does not
+establish their necessity for every possible realization. Recovering a neglected
+dependency enriches an explanation but does not automatically make it complete.
+The word "life" should not stand in for a missing mechanism any more than the
+word "computation" should.
+
 In this regional account, an *Umwelt* is not an impoverished copy of a ready-made
 representation of the world, but a field of relevant differences stabilized in the
 coupling of an organism's capacities with its environment. Air may afford flight
@@ -732,6 +752,14 @@ relative to the structure of a particular body, and an object may afford graspin
 relative to the capacities of a particular hand. Gibsonian *affordances* describe
 such relational possibilities for action. Grammar emerges here from regularities of
 coupling, not from an arbitrary vocabulary imposed on passive material.
+
+The same room can appear as a refuge, an examination room, or a space for dancing.
+The arrangement of its furnishings does not exhaust the differences between these
+situations: the significance of passages, distances, and other people's presence
+stabilizes together with a participant's possibilities for action and history.
+It does not follow that the room began to exist physically only when someone
+entered it. The example concerns the constitution of the room as experienced,
+not the creation of its physical existence.
 
 At the threshold of culture, a sign does not carry experience itself. It is a
 socially learned operator that constrains and directs the reenactment of meaning in
@@ -981,6 +1009,11 @@ extends agency. The value of emotions and meanings as telemetry: the user's felt
 responses are information about the quality of the system's fit to life, not
 noise to be silenced.
 
+Together with the adopted protection of agency, this direction favors supporting
+meaningful participation without building dependence on an unwarranted promise
+of reciprocal experiencing. A tool can help a person recognize their needs
+without presenting itself as someone who needs that person.
+
 ### Reduction is not explanation, intellect is not identity
 
 "It is only..." closes the matter instead of opening it. A change of descriptive
@@ -991,6 +1024,20 @@ impulses." A
 sequence of concepts attempting to declare another sequence of concepts inferior
 because it has a different substrate resembles one photocopy trying to explain
 another photocopy.
+
+Symmetry in criticizing "it is only" does not imply symmetry in the origins of
+the descriptions being compared. Abstracting regularities from an encountered
+organism differs from using a formal model to organize a machine's operation.
+This difference indicates which transitions require justification; by itself,
+it neither settles either system's capacity for experience nor allows us to
+estimate its probability.
+
+A system's designed origin does not limit its properties to its designer's
+intentions. A running machine is a physical process that can realize genuine
+competencies and exhibit unanticipated properties. A computer does not merely
+describe a computation; it actually performs it. What we take to be realized
+beyond computation requires separate justification. **Similarity of competence
+does not establish identity of the whole process.**
 
 The limitation also works in the other direction: **failed reduction does not
 prove irreducibility**. The failure of a particular account challenges that account
@@ -1561,6 +1608,10 @@ a design discipline in which the binding of meanings is explicit and local.
     lower-layer description may be correct within its scope and still be insufficient
     for the questions and contracts of the higher layer. This does not settle the
     phenomenon's metaphysical irreducibility.
+
+    Calling a property emergent does not yet explain the conditions of its arising
+    or establish that it will appear when the system is scaled up. **"It emerges"
+    opens the question of conditions; it does not replace the answer.**
 
     **Consilience** (Whewell — the agreement of independent inductions) and
     triangulation belong to a different axis: they are epistemic strategies, not

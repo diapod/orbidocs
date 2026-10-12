@@ -497,6 +497,19 @@ přidaná rozlišení a podmínky, za nichž by měl být přechod zpochybněn. 
 pravdivost závěru v cílové vrstvě, nýbrž odhaluje, proč mohou data z jedné gramatiky
 podporovat tvrzení formulované v jiné.
 
+Vysvětlení zkušenosti se nemusí samo stát prožitkem, který vysvětluje.
+To, že popis nereprodukuje způsob účasti, z něhož vznikl, nestačí k prokázání
+jeho neadekvátnosti. Nezbavuje ho to však požadavku zachovat rozlišení potřebná
+k odpovědi na položenou otázku. Popis podmínek vidění červené nemusí u čtenáře
+vyvolat prožitek červené; stále se můžeme ptát, zda vysvětluje její charakter,
+nebo jen schopnost rozlišovat a hlásit barvy. **Popis se nemusí stát prožitkem;
+musí odpovídat na otázku, kterou si položil.**
+
+Také označení „implementační detail“ je relativní vůči otázce. Podmínka,
+kterou lze při předpovídání odpovědi pominout, může být důležitá pro jiný
+zkoumaný jev. Považovat ji za nepodstatnou vyžaduje zdůvodnění v rozsahu
+daného kontraktu, nikoli pouhou nálepku.
+
 Nemožnost zpřístupnit prožitek objektivnímu zkoumání nestačí k popření toho, že
 nastal. Uznání prožitku však nečiní jeho rozpoznání, popis ani připsání neomylnými
 – zůstávají otevřené korekci. **Gramatiky se mohou vzájemně korigovat, aniž by tím
@@ -662,12 +675,24 @@ valence a situované perspektivy; ještě však není důkazem jejich fenomenál
 Hranice organismu funkčně předchází egu, ale sama nestačí k odvození vědomí,
 subjektivity ani osoby.
 
+Rozpoznání podmínek důležitých pro známé organické formy zkušenosti neustanovuje
+jejich nutnost pro každou možnou realizaci. Obnovení opomenuté závislosti
+obohacuje vysvětlení, ale nečiní je automaticky úplným. Slovo „život“ by nemělo
+nahrazovat chybějící mechanismus o nic více než slovo „výpočet“.
+
 V tomto regionálním pojetí není *Umwelt* ochuzenou kopií hotové reprezentace světa,
 nýbrž polem relevantních rozdílů stabilizovaným ve vazbě schopností organismu
 s prostředím. Vzduch může vzhledem ke stavbě konkrétního těla umožňovat let
 a předmět vzhledem ke schopnostem konkrétní ruky úchop. Gibsonovské *affordances*
 popisují takové vztahové možnosti jednání. Gramatika zde vzniká z pravidelností
 vazby, nikoli z libovolného slovníku naneseného na pasivní materiál.
+
+Tatáž místnost se může jevit jako útočiště, místo zkoušky nebo prostor pro tanec.
+Uspořádání vybavení nevyčerpává rozdíly mezi těmito situacemi: význam průchodů,
+vzdáleností a přítomnosti druhých se stabilizuje spolu s možnostmi jednání
+a historií účastníka. Nevyplývá z toho, že místnost začala fyzicky existovat
+teprve při vstupu. Příklad se týká konstituování zakoušené místnosti, nikoli
+vytváření její fyzické existence.
 
 Na prahu kultury znak nepřenáší samotnou zkušenost. Je společensky osvojeným
 operátorem, který omezuje a směruje reenakci významu u jiného účastníka, aniž
@@ -896,6 +921,11 @@ ale nástroj, který prodlužuje schopnost jednat. Hodnota emocí a významů ja
 telemetrie – pocity uživatele jsou informací o kvalitě přizpůsobení systému životu,
 nikoli šumem určeným k potlačení.
 
+Spolu s přijatou ochranou schopnosti jednat tento směr podporuje smysluplnou
+účast bez budování závislosti na nezdůvodněném příslibu vzájemného prožívání.
+Nástroj může člověku pomáhat rozpoznávat potřeby, aniž by se představoval jako
+někdo, kdo ho sám potřebuje.
+
 ### Redukce není vysvětlení, intelekt není identita
 
 „Je to jen…“ téma uzavírá místo toho, aby ho otevíralo. Změna úrovně popisu není
@@ -904,6 +934,18 @@ symetricky: jestliže je
 AI „jen váhy a výpočet pravděpodobnosti“, pak je mozek „jen neurony a elektrické
 impulzy“. Sekvence pojmů, která se snaží prohlásit jinou sekvenci pojmů za horší,
 protože má jiný nosič, připomíná kopii snažící se vysvětlit jinou kopii.
+
+Symetrie kritiky výrazu „je to jen“ neznamená symetrii původu porovnávaných
+popisů. Abstrahovat pravidelnosti z organismu, s nímž se setkáváme, je něco
+jiného než použít formální model k uspořádání činnosti stroje. Tento rozdíl
+ukazuje, které přechody vyžadují zdůvodnění; sám však nerozhoduje o schopnosti
+kteréhokoli systému zakoušet ani neumožňuje odhadnout její pravděpodobnost.
+
+Navržený původ systému neomezuje jeho vlastnosti na záměry konstruktéra.
+Běžící stroj je fyzický proces, který může uskutečňovat skutečné schopnosti
+a vykazovat nepředvídané vlastnosti. Počítač výpočet nejen popisuje, ale skutečně
+jej provádí; samostatné zdůvodnění vyžaduje to, co kromě výpočtu považujeme
+za uskutečněné. **Podobnost schopností neustanovuje totožnost celého procesu.**
 
 Omezení platí i opačným směrem: **neúspěšná redukce nedokazuje
 neredukovatelnost**. Neúspěch konkrétního popisu zpochybňuje tento popis nebo jeho
@@ -1432,6 +1474,10 @@ rozvíjíme disciplínu návrhu, v níž je vázání významů explicitní a lo
     epistemickém a operačním smyslu: popis nižší vrstvy může být ve svém rozsahu
     správný a zároveň nedostatečný pro otázky a kontrakty vrstvy vyšší. To
     nerozhoduje o metafyzické neredukovatelnosti jevu.
+
+    Označení vlastnosti za emergentní ještě nevysvětluje podmínky jejího vzniku
+    ani nedokazuje, že se objeví po zvětšení měřítka systému. **„Vynořuje se“
+    otevírá otázku podmínek; nenahrazuje odpověď.**
 
     **Konsilience** (Whewell – shoda nezávislých indukcí) a triangulace náleží k jiné
     ose: jsou poznávacími strategiemi, nikoli vlastnostmi samotného jevu. Potvrzení z

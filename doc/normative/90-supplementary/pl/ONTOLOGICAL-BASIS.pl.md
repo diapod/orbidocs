@@ -515,6 +515,19 @@ należałoby podważyć. Nie gwarantuje prawdziwości wniosku w warstwie docelo
 ujawnia, dlaczego dane z jednej gramatyki mogą wspierać twierdzenie sformułowane
 w innej.
 
+Wyjaśnienie doświadczenia nie musi samo stawać się wyjaśnianym przeżyciem.
+To, że opis nie odtwarza sposobu uczestnictwa, z którego powstał, nie wystarcza
+do wykazania jego nieadekwatności. Nie zwalnia go jednak z zachowania rozróżnień
+potrzebnych do odpowiedzi na zadane pytanie. Opis warunków widzenia czerwieni
+nie musi wywoływać czerwieni u czytelnika; nadal można pytać, czy wyjaśnia jej
+charakter, czy jedynie zdolność odróżniania i raportowania barw. **Opis nie musi
+stać się przeżyciem; musi odpowiadać na pytanie, które podjął.**
+
+Również określenie "szczegół implementacyjny" jest względne wobec pytania.
+Warunek pomijalny przy przewidywaniu odpowiedzi może być istotny dla innego
+badanego zjawiska. Uznanie go za nieistotny wymaga uzasadnienia w zakresie danego
+kontraktu, nie samej etykiety.
+
 Brak możliwości zobiektywizowania przeżycia nie wystarcza do zanegowania jego
 zaistnienia. Uznanie przeżycia nie nadaje jednak nieomylności jego rozpoznaniu,
 opisowi ani przypisaniu – pozostają one podatne na korektę. **Gramatyki mogą się
@@ -685,12 +698,24 @@ nie jest jeszcze dowodem ich fenomenalnej postaci. Granica organizmu jest
 funkcjonalnie wcześniejsza od ego, ale sama nie wystarcza do wyprowadzenia
 świadomości, podmiotowości ani osoby.
 
+Rozpoznanie warunków istotnych dla znanych organicznych form doświadczenia nie
+ustanawia ich konieczności dla każdej możliwej realizacji. Przywrócenie pominiętej
+zależności wzbogaca wyjaśnienie, lecz nie czyni go automatycznie zupełnym. Nazwa
+"życie" nie powinna zastępować brakującego mechanizmu bardziej niż nazwa "obliczenie".
+
 W tym regionalnym ujęciu *Umwelt* nie jest zubożoną kopią gotowej reprezentacji
 świata, lecz polem relewantnych różnic stabilizowanym w sprzężeniu zdolności
 organizmu ze środowiskiem. Powietrze może umożliwiać lot ciału o określonej budowie,
 a przedmiot chwyt ręką o określonych możliwościach. Gibsonowskie *affordances*
 opisują takie relacyjne możliwości działania. Gramatyka wyłania się tu z regularności
 sprzężenia, nie z dowolnego słownika nałożonego na bierny materiał.
+
+Ten sam pokój może jawić się jako schronienie, miejsce egzaminu albo przestrzeń
+do tańca. Układ wyposażenia nie wyczerpuje różnic między tymi sytuacjami:
+znaczenie przejść, odległości i obecności innych stabilizuje się wraz
+z możliwościami działania i historią uczestnika. Nie wynika z tego, że pomieszczenie
+zaczęło fizycznie istnieć dopiero przy wejściu. Przykład dotyczy konstytuowania
+pokoju doświadczanego, nie stwarzania jego fizycznego istnienia.
 
 Na progu kultury znak nie przenosi samego doświadczenia. Jest społecznie wyuczonym
 operatorem, który ogranicza i ukierunkowuje reenakcję znaczenia u innego uczestnika,
@@ -927,6 +952,11 @@ jest autonomicznym podmiotem, lecz narzędziem, które wydłuża sprawczość. W
 emocji i znaczeń jako telemetrii — odczucia użytkownika są informacją o jakości
 dopasowania systemu do życia, a nie szumem do wyciszenia.
 
+Wraz z przyjętą ochroną sprawczości kierunek ten przemawia za wspieraniem znaczącego
+uczestnictwa bez budowania zależności na nieuzasadnionej obietnicy wzajemnego
+przeżywania. Narzędzie może pomagać człowiekowi rozpoznawać potrzeby, nie
+przedstawiając się jako ktoś, kto sam go potrzebuje.
+
 ### Redukcja nie jest wyjaśnieniem, intelekt nie jest tożsamością
 
 "To tylko…" zamyka temat zamiast go otwierać. Zmiana poziomu opisu nie jest dowodem
@@ -935,6 +965,20 @@ symetrycznie: jeżeli AI "to tylko wagi i rachunek prawdopodobieństwa", wtedy 
 "to tylko neurony i impulsy elektryczne". Sekwencja pojęć próbująca orzec, że inna
 sekwencja pojęć jest gorsza, bo ma inny nośnik, przypomina kserokopię próbującą
 wyjaśnić inną kserokopię.
+
+Symetria krytyki wyrażenia "to tylko" nie oznacza symetrii pochodzenia porównywanych
+opisów. Czym innym jest abstrahowanie regularności z napotkanego organizmu,
+a czym innym użycie formalnego modelu do organizowania działania maszyny. Różnica
+ta wskazuje, jakie przejścia wymagają uzasadnienia; sama nie rozstrzyga jednak
+o zdolności któregokolwiek układu do doświadczania ani nie pozwala oszacować jej
+prawdopodobieństwa.
+
+Zaprojektowane pochodzenie nie ogranicza własności układu do intencji projektanta.
+Uruchomiona maszyna jest procesem fizycznym, może realizować rzeczywiste kompetencje
+i ujawniać nieprzewidziane własności. Komputer nie tylko opisuje obliczenie, lecz
+rzeczywiście je wykonuje; odrębnego uzasadnienia wymaga to, co poza obliczeniem
+uznajemy za zrealizowane. **Podobieństwo kompetencji nie ustanawia tożsamości
+całego procesu.**
 
 Ograniczenie działa także w drugą stronę: **nieudana redukcja nie dowodzi
 nieredukowalności**. Niepowodzenie konkretnego opisu podważa ten opis lub jego
@@ -1481,6 +1525,10 @@ rozwijamy dyscyplinę projektowania, w której wiązanie znaczeń jest jawne i�
     w sensie epistemicznym i operacyjnym: opis niższej warstwy może być poprawny
     w swoim zakresie, a zarazem niewystarczający dla pytań i kontraktów warstwy wyższej.
     Nie przesądza to metafizycznej nieredukowalności zjawiska.
+
+    Nazwanie własności emergentną nie wyjaśnia jeszcze warunków jej powstawania
+    ani nie dowodzi, że pojawi się ona po zwiększeniu skali układu. **"Wyłania się"
+    otwiera pytanie o warunki; nie zastępuje odpowiedzi.**
 
     **Konsiliencja** (Whewell – zgodność niezależnych indukcji) i triangulacja należą
     do innej osi: są strategiami poznawczymi, a nie własnościami samego zjawiska.
