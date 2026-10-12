@@ -503,7 +503,13 @@ Status:
   clients on one homeserver, including B `/sync` indexing before projection,
   no-JS forms and restart/replay. Its DTO derives `subject/key` from the BINARY
   pair lookup; signed historical facts remain unchanged. New authoring has eight
-  references and a 48 KiB publication budget. Broader discussion surfaces remain;
+  references and a 48 KiB publication budget for the current carrier. Matrix
+  gossip qualification covers integer JSON numbers only (`confidence=1`), because
+  Matrix canonical JSON cannot carry ordinary fractional confidence in the
+  envelope object. [P035-004](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-carrier-tracker)
+  owns the opaque carrier and recalculated full-PDU budget;
+  [P026-004](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#pruned-source-continuation)
+  owns explicit carry-forward after retention. Broader discussion surfaces remain;
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
   tracks public-gossip related-link projection and navigation.
 

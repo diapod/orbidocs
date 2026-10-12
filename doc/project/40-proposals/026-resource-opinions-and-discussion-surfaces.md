@@ -580,7 +580,7 @@ ids containing colons, and keep each carrier's validation at its boundary.
 
 The authoritative lookup is the exact pair, with case-sensitive (`BINARY`)
 comparison. The public `agora-projections.opinions.v2` DTO exposes
-`resource_kind`, `resource_id`, and a derived `subject/key`. `subject/key`
+`subject/kind`, `subject/id`, and a derived `subject/key`. `subject/key`
 presents the conceptual §1 `resource/key`; it avoids confusing that identity
 with middleware `effects[].resource/key`, which has an independent contract.
 No digest or derived key is authoritative or stored for new opinion rows.
@@ -601,12 +601,22 @@ signatures remain unchanged.
 
 Follow [S028 Temporal Storage Convention](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md)
 for the separate operator replay `rebuild` mode (default `incremental`, initially
-only the opinions domain). Stage opinions, tags and links together, persist
+only the opinions domain). Stage opinions, tags, links and indexed current
+subject blocks together, persist
 source cursors, catch up concurrent ingest and swap the domain atomically.
 Network reads and verification run outside write transactions. Missing/pruned
 source or interrupted work preserves the active projection and reports
 incomplete reconstruction. Failures attributable to a pair degrade only that
-pair; unassignable failures explicitly report unknown completeness.
+pair; unassignable failures explicitly report unknown completeness. Incremental
+replay and rebuild use the same projection decision: malformed retained records
+are diagnosed as rejected and advance the source cursor. Missing source is a
+different failure and still preserves the active projection. Current subject
+blocks are indexed state; the diagnostic journal is not scanned on each read.
+
+Topic read admission precedes the visible result limit. A bounded scan returns
+`complete` and a pair-bound `next_cursor`, including a partial empty page when
+the scan budget is exhausted. UI continuation uses the full pair. Reference
+errors expose typed `field` and kebab-case `reason` values.
 
 ### Authoring and Historical References
 
@@ -698,11 +708,35 @@ publish a 49,134-byte envelope under the 48 KiB budget and refuse oversize
 creation. Node ledger and Story-008 MVP entries record this consumer scope.
 
 Matrix uses distinct clients on one homeserver; this proves distribution, not
-federation. The gossip fixture uses integer confidence. Conduit v0.7.0 rejects
-decimal confidence with HTTP 500 (`IntConvert`); that independent compatibility
-defect is retained as Agora P18 and remains outside this qualification. Closing
-these three rows does not close other P026 surfaces or promote production
-readiness.
+federation. **Matrix gossip is qualified only for integer JSON numbers**;
+the retained fixture has `confidence=1`. Ordinary fractional confidence, such
+as `0.5`, remains unqualified. This is a transport-contract mismatch: Matrix
+canonical JSON permits integers only, in `[-(2^53)+1, (2^53)-1]`. Conduit v0.7.0
+exposed it as HTTP 500 (`IntConvert`); that response is an observation, not the
+cause of the restriction. [Matrix canonical JSON](https://spec.matrix.org/latest/appendices/#canonical-json)
+
+[P035-004](035-agora-topic-addressed-record-relay.md#matrix-carrier-tracker)
+owns the opaque-carrier replacement and its encoded PDU budget. Closing these
+three rows does not qualify general decimal-valued gossip, other P026 surfaces
+or production readiness. The original process artifacts and revisions remain
+frozen; the qualification report and evidence index carry this scope correction.
+
+Review corrections (2026-10-12): live projection, incremental replay and domain
+rebuild share opinion rejection decisions and diagnostics. Content rejection
+advances the staged source cursor; source loss remains an incomplete rebuild.
+Current pair blocks live in an indexed `opinion_subject_blocks` read model,
+separate from the append-only journal, and are replaced with the staged domain.
+Read admission precedes the visible result limit through bounded page scanning;
+`complete` and a pair-bound `next_cursor` distinguish exhaustion from unfinished
+work. DTO subject fields use `subject/kind`, `subject/id`, `subject/key`. Review
+hashes use JCS without string normalization. Recent historical diagnostics link
+to record-id retrieval without relaxing strict pair queries.
+
+### Pruned-source continuation
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P026-004 | Explicit carry-forward for pruned opinion sources | todo | P026-002; S028 | Keep strict rebuild as the default. An explicit carry-forward mode retains prior opinion/tag/link/block rows only where source loss is proven; record prior projection revision, source bounds and per-record inherited provenance. Reports distinguish recomputed from inherited rows, preserve earlier blocks and unknown completeness, and never claim full-source replay equivalence. Restart, concurrent ingest, source-loss and future-format fixtures qualify the mode before status promotion. |
 
 P026-001 and P026-002 may proceed independently against the existing pair
 contract; P026-003 closes their joint slice. Public-gossip related-link indexing

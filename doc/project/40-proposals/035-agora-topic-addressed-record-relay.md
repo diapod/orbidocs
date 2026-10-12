@@ -679,6 +679,45 @@ Mapping rules:
    ingested events. Matrix itself is not asked to answer subject-based
    queries.
 
+### Matrix carrier compatibility correction (2026-10-12)
+
+The current object mapping in rule 3 is narrower than Agora's payload contract.
+[Matrix canonical JSON](https://spec.matrix.org/latest/appendices/#canonical-json)
+allows only integer JSON numbers in `[-(2^53)+1, (2^53)-1]`, without decimal or
+exponent syntax. Modern room versions enforce this restriction. A conforming
+homeserver cannot carry the ordinary `public-gossip.v1` confidence value `0.5`
+in the current event object. The observed Conduit `IntConvert` / HTTP 500 is
+retained evidence of this mismatch, not a Conduit-specific protocol restriction.
+The same boundary affects future accepted payloads with fractional numbers,
+including applicable P096 sample content. P026-003's Matrix evidence is scoped
+to integer JSON numbers (`confidence=1`).
+
+The replacement direction is an explicitly versioned opaque Agora carrier:
+Matrix stores a string containing JSON or base64url of the exact serialized
+Agora envelope bytes. Decode once under a byte bound, preserve the envelope,
+then apply the existing Agora signature, schema, topic and admission gates.
+A Matrix room/event signature remains transport provenance, not Agora authority.
+Freeze the event type, discriminator, encoding and legacy-object read policy
+before changing the current rule 3 wire contract. The existing carrier remains
+the implemented, integer-only profile until that replacement is qualified.
+
+The authoring budget must include carrier expansion and the rest of the PDU.
+Base64url of 48 KiB occupies 64 KiB before wrapper or PDU metadata; escaped JSON
+strings have content-dependent expansion. The old 48 KiB raw-envelope budget
+therefore cannot be transferred unchanged. Derive bounded encoding and metadata
+headroom and verify actual events against the [65,536-byte full-event limit](https://spec.matrix.org/latest/client-server-api/#size-limits),
+including homeserver signatures. Refuse before signing/publication, without
+truncation, when the selected backend budget cannot be met.
+
+### Matrix Carrier Tracker
+
+This transport continuation is independent of AD publisher migration and keeps
+its status here; S008 Agora P18 links to this row.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P035-004 | Opaque Agora envelope carrier over Matrix | todo | Existing Matrix mapping and Agora verification; S028 | Freeze a versioned carrier and bounded legacy reader; preserve serialized envelope bytes and decoded Agora values/signatures. Calculate pre-sign and publication limits after encoding plus PDU metadata. Retain two-client `/sync`, restart/replay and subject-index evidence for fractional gossip, accepted fractional sample fixtures, safe-range edges, quote/backslash-heavy payloads, exact decoded-byte equality, malformed/oversize carriers and near/over PDU-budget refusals. Distinguish local durable ingest from forwarding; one homeserver does not qualify federation. |
+
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
 such a transport is out of scope for this proposal.
