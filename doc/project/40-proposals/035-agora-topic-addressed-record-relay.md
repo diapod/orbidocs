@@ -783,6 +783,9 @@ malformed/proof/disclosure refusals and creation/full-PDU size boundaries.
 Runtime evidence owns process observations and actual requests; conformance and
 controlled `M_TOO_LARGE` fault injection are distinct classes. A consistent
 fixture SQLite export supplies full PDU hashes/signatures/auth/prev references.
+The export retains Conduit's original stored row separately. For room v10 the
+protocol PDU omits only its local `event_id` lookup field, since the identifier
+is derived from the reference hash; every remaining field is counted.
 Matrix canonicalization does not apply Agora NFC. Missing PDU, unresolved gaps,
 or fixture acceptance above the protocol bound prevent qualification. One
 homeserver proves distribution only; it does not qualify federation, production
