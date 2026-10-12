@@ -741,7 +741,7 @@ room: `agora.v2.<record-digest>.<room-digest>`. Device/endpoint transaction
 idempotency and domain `record/id` idempotency are distinct. Publishing v2 after
 v1 must create a new event; retries reuse the prepared carrier bytes.
 
-The first profile is room v10 with the pinned Conduit fixture: 36 KiB author
+The first profile is room v10 with the explicitly patched pinned Conduit fixture: 36 KiB author
 bytes, 48 KiB base64url, 4 KiB carrier metadata and 12 KiB remaining PDU metadata,
 within 64 KiB for the complete Matrix canonical JSON including signatures.
 The analytical profile assumes at most 10 auth references, 20 predecessor
@@ -752,6 +752,18 @@ homeserver bounds. Keep the historical ingress bound of 48 KiB separate from
 creation's 36 KiB; SQLite creation retains its 48 KiB limit. Pre-sign estimates
 and final-byte checks precede local publication admission. Actual full PDU
 exports must independently confirm the profile.
+
+**Fixture correction (2026-10-12):** the replacement profile is
+`conduit-v0.10.15-full-pdu-1`, upstream
+`db3776328839604e2a1b0b0bf6cd0e8e98cf5cc5` plus the disclosed
+`node:tools/matrix-fixture/opaque/full-pdu.patch`. Current Ruma's content-hash
+size check excludes hashes, signatures and unsigned fields; updating Conduit
+alone does not establish the complete-PDU bound. The patch checks complete Matrix
+canonical JSON after signing and unsigned assembly before persistence and returns
+`M_TOO_LARGE`. Pin the source archive, builder and patch digests; retain them with
+new reports. Qualification applies to this corrected fixture profile and does
+not assert conformance of unmodified upstream Conduit. The historical failed
+run remains evidence. See `node:tools/matrix-fixture/opaque/README.md`.
 
 Sources are additive facts keyed by `(room,event_id)`, with author bytes,
 record ID, transport context and local admission sequence. Alternative valid
