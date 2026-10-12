@@ -46,8 +46,9 @@ or P8 signing baseline. Existing P8 describes the pre-migration HTTP producer.
   in `HttpMatrixEventSink`
 
 This baseline does not claim complete domain-consumer coverage. Generic resource
-authoring and opinion-key conformance are tracked by
-[P026-001–003](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#implementation-tracker);
+authoring and pair-only opinion reads were qualified through
+[P026-001–003](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#implementation-tracker)
+on 2026-10-12 (`node:docs/evidence/open-references/README.md`);
 public-gossip related-link navigation is the independent P17 continuation below.
 
 ---
@@ -72,6 +73,7 @@ public-gossip related-link navigation is the independent P17 continuation below.
 | **P14** | **Query attestations** | [done] | Historical query responses now include `agora-query-attestation.v1` as `query_attestation`. The proof binds query mode, topic/subject scope, normalized filter, returned record ids, `next_cursor`, cursor-pruning metadata, and a deterministic JCS-NFC SHA-256 digest. The outer `RecordsPage.cursor_pruned` notice keeps Rust/JSON response field names (`requested_from`, `first_available`), while the exported attestation payload follows the schema contract under `result/cursor-pruned` with `requested-from` and `first-available`. `agora-service` re-attests subject-index pages after per-record subscribe-policy filtering so the proof describes the exact response returned. The v1 proof may be unsigned; relay signatures are a later signer/authority integration. | Low |
 | **P15** | **Operator visibility** | [done] | `agora-service` now declares its own middleware operator surface in the module report and exposes an `operator_visibility` summary in `/v1/agora/status`: public endpoint, namespace enforcement mode, strict gates, topic ACL, authority roots, client auth, Matrix posture, HTTP/SSE limits, rate-limit persistence, and retention summary. `agora-ui` owns the rendered `/middleware/agora/operator` view and shows query-attestation JSON on historical topic/subject pages. Node UI only mounts Agora's surface and no longer treats Agora as a hard-coded bundled middleware nav item. | Low |
 | **P17** | **Public-gossip resource links** | [todo] | Project `gossip/see-also` through the existing related-link machinery and expose bounded, policy-filtered lookup/navigation without conflating related resources with envelope subjects. Reuse P026 resource conversions; no country-specific core cases. See the completion gate below. | Medium — independent consumer continuation, not a blocker for P026-003 |
+| **P18** | **Matrix decimal-content compatibility** | [todo] | Conduit v0.7.0 returned HTTP 500 with `IntConvert` for a signed public gossip envelope containing decimal `confidence=0.5`. The local relay retained it, but B did not receive it. P026 open-reference qualification therefore uses integer confidence and retains the refused decimal probe separately in `node:docs/evidence/open-references/2026-10-12/matrix-decimal-limitation.json`. Decide and qualify the backend compatibility boundary without changing opaque resource identity or claiming local durability proves Matrix forwarding. | Medium — observed backend incompatibility; outside P026 consumer closure |
 
 ### P17: Public-Gossip Resource Links
 

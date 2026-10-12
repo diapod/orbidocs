@@ -7,10 +7,11 @@ Based on:
 
 ## Status
 
-Accepted; the `resource-opinion.v1` content schema, Agora publication substrate,
-and URL-oriented opinion authoring path are implemented. Generic resource
-authoring in UI, public projection-key conformance, and end-to-end acceptance
-remain open in P026-001–003 below. Rich discussion surfaces remain future work.
+Accepted. P026-001–003 are implemented and runtime-qualified as of 2026-10-12:
+shared open-reference authoring, pair-only opinion reads and recoverable domain
+rebuild, with retained SQLite and Matrix evidence. Rich discussion surfaces and
+Agora P17 navigation remain future work; this qualification does not establish
+production readiness or cross-homeserver federation.
 
 ## Date
 
@@ -664,7 +665,8 @@ query → projection query → UI read path, then repeat reads after restart/rep
 Include public gossip on its accepted public-signals topic, keeping its
 epistemic status unchanged. Separately exercise `see-also` shape preservation;
 gossip link navigation is qualified only by Agora P17, not this basic slice.
-Negative cases include missing opinion subject, inconsistent derived key,
+Negative cases include missing opinion subject, removed digest parameter names,
+missing or duplicate pair components,
 malformed/oversize references, denied publication and escaped malicious display
 text. Unknown namespaces alone are not a refusal reason under generic shape
 validation; ordinary admission and disclosure policy still apply.
@@ -682,9 +684,25 @@ the already implemented substrate. Statuses are `todo`, `partial`, `done` and
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
-| P026-001 | Generic resource authoring in opinion and compose UI | todo | Existing Agora signer and subject-index baseline | Both forms reuse a kind/id editor and populate envelope `record/about`; URL convenience remains; an unknown kind works without registration; opaque ids, field limits, escaping and denied-publication tests pass. |
-| P026-002 | Canonical public opinion keys and legacy projection migration | todo | §1 identity contract; S028 | Shared conversions preserve `kind:id`; queries use the exact pair; removed digest parameter names are rejected; the obsolete column is never read; domain rebuild and consumer changes are documented; interrupted migration, replay equivalence and incomplete-source diagnostics are tested without rewriting signed records. |
-| P026-003 | Open-namespace consumer acceptance | todo | P026-001, P026-002 | Retained UI and runtime evidence covers the Acceptance Boundary matrix for opinions and public gossip, including two namespaces with the same id, restart/replay and refusal paths; report scope distinguishes basic references from Agora P17 link navigation; relevant Node ledger/MVP evidence is reconciled. |
+| P026-001 | Generic resource authoring in opinion and compose UI | done | Existing Agora signer and subject-index baseline | Both forms reuse a kind/id editor and populate envelope `record/about`; URL convenience remains; an unknown kind works without registration; opaque ids, field limits, escaping and denied-publication tests pass. |
+| P026-002 | Canonical public opinion keys and legacy projection migration | done | §1 identity contract; S028 | Shared conversions preserve `kind:id`; queries use the exact pair; removed digest parameter names are rejected; the obsolete column is never read; domain rebuild and consumer changes are documented; interrupted rebuild, replay equivalence and incomplete-source diagnostics are tested without rewriting signed records. |
+| P026-003 | Open-namespace consumer acceptance | done | P026-001, P026-002 | Retained UI and runtime evidence covers the Acceptance Boundary matrix for opinions and public gossip, including two namespaces with the same id, restart/replay and refusal paths; report scope distinguishes basic references from Agora P17 link navigation; relevant Node ledger/MVP evidence is reconciled. |
+
+Qualified checkpoint (2026-10-12): `node:docs/evidence/open-references/README.md`
+retains the existing `story-008.smoke-result.v1` profile, its qualifier and
+per-case process/HTTP artifacts: 20 SQLite and 18 Matrix runtime cases plus
+separate conformance processes. Matrix B builds the subject index from inbound
+`/sync` before projecting opinions, then repeats UI/API reads after restart and
+replay. Signed non-NFC history is retained exactly and diagnosed. Both backends
+publish a 49,134-byte envelope under the 48 KiB budget and refuse oversize
+creation. Node ledger and Story-008 MVP entries record this consumer scope.
+
+Matrix uses distinct clients on one homeserver; this proves distribution, not
+federation. The gossip fixture uses integer confidence. Conduit v0.7.0 rejects
+decimal confidence with HTTP 500 (`IntConvert`); that independent compatibility
+defect is retained as Agora P18 and remains outside this qualification. Closing
+these three rows does not close other P026 surfaces or promote production
+readiness.
 
 P026-001 and P026-002 may proceed independently against the existing pair
 contract; P026-003 closes their joint slice. Public-gossip related-link indexing

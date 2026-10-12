@@ -497,7 +497,13 @@ Status:
   M2 does not define automatic hide/delete policy from marker content.
 - The M2 baseline does not close every domain-consumer gap:
   [P026-001–003](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#implementation-tracker)
-  track generic resource authoring, public opinion-key conformance and acceptance;
+  closed basic generic resource authoring, pair-only opinion reads and recoverable
+  full-domain rebuild on 2026-10-12. The retained Story-008 open-references proof
+  (`node:docs/evidence/open-references/README.md`) covers SQLite and two Matrix
+  clients on one homeserver, including B `/sync` indexing before projection,
+  no-JS forms and restart/replay. Its DTO derives `subject/key` from the BINARY
+  pair lookup; signed historical facts remain unchanged. New authoring has eight
+  references and a 48 KiB publication budget. Broader discussion surfaces remain;
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
   tracks public-gossip related-link projection and navigation.
 
