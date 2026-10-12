@@ -193,7 +193,11 @@ Conduit/Ruma fixture; direct boundary events reach 65,534 bytes, with actual
 refusal codes retained. Initial v0.7.0 oversize evidence and the qualifier refusal
 remain unchanged. Retained qualified evidence is
 `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`.
-Default writing remains v1; the operator explicitly selects v2.
+The frozen run selected v2 explicitly under the former default-v1 policy. The
+accepted write policy now defaults to v2 with explicit legacy v1.
+[P035-006](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-write-default-decision-2026-10-12)
+owns the pending Node-default change and omitted-config runtime qualification;
+this decision alone adds no Whisper runtime evidence.
 
 These qualified families do not close all Whisper, nym issuance, production
 key custody, external redaction, Anon egress or inter-homeserver federation.

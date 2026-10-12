@@ -663,10 +663,13 @@ Mapping rules:
 2. The relay MUST maintain a separate mapping from `topic/key` to
    human-readable Matrix room names for operator tooling. This mapping is
    advisory; it MUST NOT be used as the canonical identifier of the topic.
-3. An `agora-record.v1` MUST be serialized into a Matrix event of type
-   `org.orbiplex.agora.record.v1` whose `content` field carries the full
-   record envelope including `topic/key` and, when present,
-   `record/about`.
+3. The default writer MUST carry an `agora-record.v1` in a Matrix event of type
+   `org.orbiplex.agora.record.v2`, using the opaque carrier defined below. Its
+   base64url author bytes retain the signed envelope, including `topic/key` and,
+   when present, `record/about`, without local relay stamps. The initial default
+   publication profile uses room v10. Explicit legacy configuration MAY instead
+   write `org.orbiplex.agora.record.v1` with the envelope as a JSON object in
+   `content`, under its integer-only number restrictions. Readers support both.
 4. `record/id` is computed from the Agora canonical payload, not from the
    Matrix `event_id`. Consumers MUST index by `record/id` for citation.
 5. The Matrix homeserver's own event signature provides relay-level
@@ -681,7 +684,7 @@ Mapping rules:
 
 ### Matrix carrier compatibility correction (2026-10-12)
 
-The default v1 object mapping in rule 3 is narrower than Agora's payload contract.
+The legacy v1 object mapping in rule 3 is narrower than Agora's payload contract.
 [Matrix canonical JSON](https://spec.matrix.org/latest/appendices/#canonical-json)
 allows only integer JSON numbers in `[-(2^53)+1, (2^53)-1]`, without decimal or
 exponent syntax. Modern room versions enforce this restriction. A conforming
@@ -698,9 +701,9 @@ Agora envelope bytes. Decode once under a byte bound, preserve the envelope,
 then apply the existing Agora signature, schema, topic and admission gates.
 A Matrix room/event signature remains transport provenance, not Agora authority.
 P035-004 below freezes the event type, discriminator, base64url encoding and
-legacy-object read policy, and qualifies optional v2 with fractional confidence.
-The default v1 carrier remains the integer-only profile; operators explicitly
-select the qualified opaque v2 profile. JSON text remains a future encoding option.
+legacy-object read policy, and qualifies v2 with fractional confidence. The
+write-default decision below adopts v2 as the normal writer and v1 as an explicit
+integer-only legacy mode. JSON text remains a future encoding option.
 
 The authoring budget must include carrier expansion and the rest of the PDU.
 Base64url of 48 KiB occupies 64 KiB before wrapper or PDU metadata; escaped JSON
@@ -734,10 +737,12 @@ topic, delegated/nym proof, admission and Whisper disclosure gates still apply.
 Malformed v2 never falls back to v1. Read v1 as legacy object content without an
 original-byte claim. `json-text` remains a considered future encoding only.
 
-Writers default to v1. Operator configuration `matrix_carrier_write_version=v2`
-explicitly accepts a breaking reader upgrade: all participating readers must
-support v2. There is no room-state negotiation or automatic switch. V1 refuses
-unsupported numbers before signing. V2 transaction IDs include both version and
+The original pre-release rollout decision defaulted writers to v1 and required
+explicit `matrix_carrier_write_version=v2`. The write-default decision below
+supersedes that policy: v2 is the adopted default and v1 is explicit legacy.
+All participating readers must support v2. There is no room-state negotiation
+or automatic downgrade. V1 refuses unsupported numbers before signing.
+V2 transaction IDs include both version and
 room: `agora.v2.<record-digest>.<room-digest>`. Device/endpoint transaction
 idempotency and domain `record/id` idempotency are distinct. Publishing v2 after
 v1 must create a new event; retries reuse the prepared carrier bytes.
@@ -867,10 +872,45 @@ success markers, missing Node PDU proof, artifact tampering and path escape.
 Both backends retain 59 separate conformance tests without invented HTTP results.
 
 This closes the carrier slice, not unmodified homeserver conformance, all Whisper,
-nym issuance, Anon, federation or production readiness. Default writing remains
-v1, with explicit operator v2 selection; historical P026 confidence=1 evidence
-and the global Agora `partial` assessment remain unchanged. P035-005 separately
+nym issuance, Anon, federation or production readiness. The frozen run used
+default-v1/explicit-v2 configuration; it does not prove the subsequently adopted
+v2 default. Historical P026 confidence=1 evidence and the global Agora `partial`
+assessment remain unchanged. P035-005 separately
 owns positive interoperability qualification on an unmodified reference server.
+
+### Matrix write-default decision (2026-10-12)
+
+**Status:** accepted; implementation and default-path qualification are P035-006.
+This supersedes the pre-release default-v1/optional-v2 rollout policy, without
+changing P035-004's qualified transport contract or its frozen reports.
+
+**Context:** no release or deployed infrastructure exists. Maintaining a default
+object carrier that cannot carry ordinary fractional Agora content has no deployed
+compatibility benefit. The opaque carrier already qualifies author-byte identity,
+fractional gossip and the named Whisper families.
+
+**Decision:** omitted `matrix_carrier_write_version` and explicit `v2` select v2.
+Explicit `matrix_carrier_write_version=v1` selects legacy object writing, retaining
+its pre-sign number refusals and lack of an original-byte guarantee. Readers keep
+v1/v2 support for mixed histories, fixtures and retained evidence. No room-state
+negotiation, silent downgrade or history rewrite is introduced. Existing prepared
+publications retain their recorded carrier version, bytes and transaction ID.
+
+**Consequences:** the initial default publication profile is still room v10 with
+36 KiB author creation, 48 KiB historical Matrix ingress and the complete-PDU
+budget; SQLite creation remains 48 KiB. Require v2-capable readers for new rooms.
+Unsupported room profiles use the typed blocked-publication path. Other room
+versions need their own profile; changing the default does not qualify them,
+unmodified reference homeservers, federation or production readiness.
+
+**Implementation gate:** the inspected Node default remains `CarrierVersion::V1`.
+P035-006 changes the config/runtime defaults, fixtures and current qualifier, then
+retains a clean-revision real Matrix case with the config key absent: protected
+host signing of gossip confidence 0.5, v2 forwarding, B `/sync` read, restart and
+carrier replay. Add explicit legacy-v1 authoring/refusal and mixed-history controls;
+preserve frozen prepared publications. Use existing Story-008 report conventions,
+with source and artifact integrity. Old reports retain their recorded default v1
+and explicit v2 selection and cannot be relabelled as default-v2 evidence.
 
 ### Matrix Carrier Tracker
 
@@ -879,8 +919,9 @@ its status here; S008 Agora P18 links to this row.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. Default v1/explicit v2; one disclosed patched fixture does not qualify federation or production readiness. |
+| P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
 | P035-005 | Unmodified reference homeserver PDU interoperability | todo | P035-004; room-version budget profile | Run the carrier/profile against a pinned unmodified reference homeserver; retain full-PDU boundary refusals and complete signed event exports, independently from the Node publication gate. Keep the v0.7.0 oversize finding and patched-fixture proof unchanged. No federation or production claim follows from one server. |
+| P035-006 | Default v2 writer and explicit legacy v1 | todo | P035-004; accepted write-default decision | Change Node/config defaults to v2; select v1 only through explicit legacy configuration. Qualify the real omitted-config confidence-0.5 sign/forward/B-sync/read/restart/replay path, explicit-v1 controls and unchanged prepared publication versions. Update the current harness/qualifier under existing Story-008 contracts, retaining original default-v1 evidence. Room v10 and current byte budgets remain scoped; P035-005 is independent. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but

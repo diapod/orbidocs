@@ -336,8 +336,11 @@ Status:
   All 41 Node-created full PDUs fit 65,536 bytes; maximum 50,043. Direct protocol
   boundary/enforcement observations are independent and scoped to the disclosed
   pinned fixture (`node:docs/evidence/matrix-opaque-envelope/README.md`). Original
-  v0.7.0 oversize evidence remains unchanged. Default writes remain v1 with explicit
-  v2 selection. This completes the carrier task while global Agora stays `partial`;
+  v0.7.0 oversize evidence remains unchanged. The frozen run selected v2 explicitly.
+  The accepted write policy now defaults to v2, with explicit legacy v1;
+  [P035-006](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-write-default-decision-2026-10-12)
+  owns the pending Node-default change and omitted-config runtime proof. This
+  completes the carrier task while global Agora stays `partial`;
   unmodified reference-server qualification is P035-005, and federation and
   production readiness remain separate.
 
