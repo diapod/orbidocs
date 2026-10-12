@@ -709,6 +709,85 @@ headroom and verify actual events against the [65,536-byte full-event limit](htt
 including homeserver signatures. Refuse before signing/publication, without
 truncation, when the selected backend budget cannot be met.
 
+### P035-004 opaque carrier decision (2026-10-12)
+
+**Status:** accepted design; implementation and runtime qualification are separate gates.
+The transport preserves Agora author authority and auditability without imposing
+Matrix's integer-only JSON model on Agora content. `agora-matrix` owns encoding;
+Whisper is a consumer. The gossip and signature contracts remain unchanged.
+
+The v2 event type is `org.orbiplex.agora.record.v2`. Its content is:
+
+```json
+{"schema":"agora-matrix-carrier.v1","envelope/encoding":"base64url","envelope/bytes":"<unpadded canonical base64url>","relay/id":"<forwarding relay>","relay/hops":1}
+```
+
+The immutable buffer contains the signed author envelope without top-level
+`relay/received-at`, `relay/id` or `relay/hops`. Hop provenance is unsigned
+carrier context; each relay records its own receipt time. Forwarding and replay
+reuse this buffer. Typed adapters serialize once and cannot recover discarded
+JSON spelling. Decode rejects padding, invalid alphabet/noncanonical trailing
+bits, BOM, invalid UTF-8, trailing non-whitespace data, duplicate decoded keys
+at every object level and nesting beyond 128. Verification, content schema,
+topic, delegated/nym proof, admission and Whisper disclosure gates still apply.
+Malformed v2 never falls back to v1. Read v1 as legacy object content without an
+original-byte claim. `json-text` remains a considered future encoding only.
+
+Writers default to v1. Operator configuration `matrix_carrier_write_version=v2`
+explicitly accepts a breaking reader upgrade: all participating readers must
+support v2. There is no room-state negotiation or automatic switch. V1 refuses
+unsupported numbers before signing. V2 transaction IDs include both version and
+room: `agora.v2.<record-digest>.<room-digest>`. Device/endpoint transaction
+idempotency and domain `record/id` idempotency are distinct. Publishing v2 after
+v1 must create a new event; retries reuse the prepared carrier bytes.
+
+The first profile is room v10 with the pinned Conduit fixture: 36 KiB author
+bytes, 48 KiB base64url, 4 KiB carrier metadata and 12 KiB remaining PDU metadata,
+within 64 KiB for the complete Matrix canonical JSON including signatures.
+The analytical profile assumes at most 10 auth references, 20 predecessor
+references, 44-byte event references, 255-byte Matrix identifiers, one origin
+server, two Ed25519 signatures, 128-byte signing-key identifiers and 1 KiB of
+other metadata. Count JSON escaping. These are profile assumptions, not universal
+homeserver bounds. Keep the historical ingress bound of 48 KiB separate from
+creation's 36 KiB; SQLite creation retains its 48 KiB limit. Pre-sign estimates
+and final-byte checks precede local publication admission. Actual full PDU
+exports must independently confirm the profile.
+
+Sources are additive facts keyed by `(room,event_id)`, with author bytes,
+record ID, transport context and local admission sequence. Alternative valid
+bytes for one ID (including `0.50`/`0.5`) record `alternate-envelope-bytes` and
+retain the first admitted source. Legacy provenance never fabricates original
+bytes. Replay chooses that first retained source deterministically and reports
+missing/pruned sources as incomplete. Sources and relay retention are coordinated.
+
+One receiver owns an account checkpoint. Network, decoding and verification
+happen outside the write transaction. Sources, admission decisions, diagnostics
+and `next_batch` commit together under S028; index notifications follow commit.
+Limited timelines trigger `/messages` backfill to the retained continuity
+anchor: 64 events per page, at most eight pages per cycle, durable recovery
+progress and the existing 8 MiB HTTP response bound. Never advance beyond an
+unresolved gap; unavailable history records `matrix-history-gap` and incomplete
+status. Operator replay supports `source=matrix-carriers` without forwarding.
+
+Local HTTP 201 proves local persistence. The publication read model separately
+reports `not-requested`, `pending`, `forwarded` or `rejected-permanent` through
+record HATEOAS and `/v1/agora/records/{id}/publication`, under record-read ACLs.
+Prepared publications and attempt outcomes are durable S028 facts. Size refusals
+and `M_TOO_LARGE` stop retry; transient failures retain bounded retry and bytes.
+
+Acceptance extends Story-008's existing report with `matrix-opaque-envelope`:
+gossip confidence 0.5, proof-bearing permitted Whisper signals, trace and signed
+threshold regression, exact byte variants, two clients, new-client history,
+restart, crash boundaries, limited sync/backfill, carrier replay, mixed v1/v2,
+malformed/proof/disclosure refusals and creation/full-PDU size boundaries.
+Runtime evidence owns process observations and actual requests; conformance and
+controlled `M_TOO_LARGE` fault injection are distinct classes. A consistent
+fixture SQLite export supplies full PDU hashes/signatures/auth/prev references.
+Matrix canonicalization does not apply Agora NFC. Missing PDU, unresolved gaps,
+or fixture acceptance above the protocol bound prevent qualification. One
+homeserver proves distribution only; it does not qualify federation, production
+readiness, all Whisper surfaces or broaden historical P026 confidence=1 evidence.
+
 ### Matrix Carrier Tracker
 
 This transport continuation is independent of AD publisher migration and keeps

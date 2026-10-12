@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.orbiplex.ai/agora-matrix-carrier.v1.schema.json",
+  "title": "Opaque Matrix Agora carrier v1",
+  "description": "P035-004 event content for org.orbiplex.agora.record.v2. The decoded bytes are the immutable signed author envelope, excluding local relay observations. Strict parsing additionally rejects duplicate decoded object keys and noncanonical base64url trailing bits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "envelope/encoding",
+    "envelope/bytes",
+    "relay/id",
+    "relay/hops"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-matrix-carrier.v1"
+    },
+    "envelope/encoding": {
+      "const": "base64url"
+    },
+    "envelope/bytes": {
+      "type": "string",
+      "maxLength": 65536,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "relay/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "relay/hops": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    }
+  }
+}
