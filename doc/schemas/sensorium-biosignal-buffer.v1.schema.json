@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-biosignal-buffer:v1",
+  "title": "Sensorium Biosignal Buffer v1",
+  "description": "Draft nested tensor contract for the first P096 slice. Only f64le is implemented. JSON shape validity does not prove byte lengths, canonical base64 pad bits, finite present values, positive zero for missing values, or zero unused mask bits; the host performs those semantic checks before hashing or admission. This shape supplies no authority or source identity. Workers MUST normalize every negative zero, including present values, to positive zero. Hosts reject present negative zero. nonfinite/count is worker-declared diagnostic provenance: the host validates that it does not exceed mask missingness but cannot recover erased NaN/Inf bits. This buffer is a nested element of sensorium-biosignal-sample-block.v1, not a complete stream or sample block.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dtype",
+    "shape",
+    "layout",
+    "values/b64u",
+    "missing/b64u",
+    "nonfinite/count"
+  ],
+  "properties": {
+    "dtype": {
+      "const": "f64le"
+    },
+    "shape": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        }
+      ],
+      "items": false
+    },
+    "layout": {
+      "const": "channels-by-samples"
+    },
+    "values/b64u": {
+      "type": "string",
+      "minLength": 11,
+      "maxLength": 43691,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "missing/b64u": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 683,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "nonfinite/count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4096
+    }
+  }
+}

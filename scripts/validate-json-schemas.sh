@@ -32,6 +32,39 @@ schema_for_file() {
     *.middleware-instance-plan.json)
       echo "$SCHEMAS_DIR/middleware-instance-plan.v1.schema.json"
       ;;
+    *.sensorium-biosignal-buffer.json)
+      echo "$SCHEMAS_DIR/sensorium-biosignal-buffer.v1.schema.json"
+      ;;
+    *.sensorium-biosignal-capture.json)
+      echo "$SCHEMAS_DIR/sensorium-biosignal-capture.v1.schema.json"
+      ;;
+    *.sensorium-biosignal-sample-block.json)
+      echo "$SCHEMAS_DIR/sensorium-biosignal-sample-block.v1.schema.json"
+      ;;
+    *.sensorium-biosignal-stream-descriptor.json)
+      echo "$SCHEMAS_DIR/sensorium-biosignal-stream-descriptor.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-acquisition-scope.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-acquisition-scope.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-budget-profile.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-budget-profile.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-device-binding.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-device-binding.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-instance.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-instance.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-lab-observation.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-lab-observation.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-model-profile.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-model-profile.v1.schema.json"
+      ;;
+    *.sensorium-brainflow-status.json)
+      echo "$SCHEMAS_DIR/sensorium-brainflow-status.v1.schema.json"
+      ;;
     *.sensorium-brainflow-qualification-tuple.json)
       echo "$SCHEMAS_DIR/sensorium-brainflow-qualification-tuple.v1.schema.json"
       ;;

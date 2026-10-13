@@ -1,0 +1,11 @@
+{
+  "dtype": "f64le",
+  "shape": [
+    1,
+    3
+  ],
+  "layout": "channels-by-samples",
+  "values/b64u": "AAAAAAAA9D8AAAAAAAAEwAAAAAAAAAAA",
+  "missing/b64u": "AA",
+  "nonfinite/count": 0
+}

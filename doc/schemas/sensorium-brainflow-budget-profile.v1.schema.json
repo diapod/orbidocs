@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-budget-profile:v1",
+  "title": "sensorium-brainflow-budget-profile.v1",
+  "description": "Predeclared first-slice design budgets, not measured acceptance. Hash this whole canonical profile before execution and bind it to each report. Native buffer accounting covers every allocated preset. Queue age is monotonic. No retry after killed workers; reconnect applies only to surviving workers under current admission.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "profile/id",
+    "revision",
+    "limits"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-budget-profile.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "profile/id": {
+      "const": "sensorium.first-slice.mac-arm64.v1"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    },
+    "limits": {
+      "const": {
+        "prepare/ms": 15000,
+        "first-data/ms": 5000,
+        "drain/ms": 25,
+        "aggregation/ms": 100,
+        "block/channels": 32,
+        "block/samples": 128,
+        "native/samples-per-preset": 2048,
+        "native/bytes": 2097152,
+        "channel/bytes": 65536,
+        "worker-queue/blocks": 16,
+        "worker-queue/bytes": 524288,
+        "worker-queue/age-ms": 1000,
+        "source/blocks": 256,
+        "source/bytes": 1048576,
+        "source/age-ms": 5000,
+        "read/consumers": 4,
+        "read/batch-frames": 8,
+        "read/batch-bytes": 65536,
+        "read/in-flight": 1,
+        "worker/rss-bytes": 536870912,
+        "host/buffer-bytes": 16777216,
+        "latency/p95-ms": 250,
+        "latency/p99-ms": 500,
+        "latency/max-ms": 1000,
+        "protected-stop/receipt-ms": 250,
+        "host/fence-ms": 100,
+        "process/exit-ms": 5000,
+        "cleanup/uncertain-ms": 10000,
+        "pressure/recovery-ms": 5000,
+        "reconnect/attempts": 2,
+        "reconnect/window-ms": 45000,
+        "consent/max-s": 1800,
+        "qualification/warmup-s": 120,
+        "qualification/runs-per-mode": 3,
+        "qualification/run-s": 300,
+        "qualification/rate-tolerance-percent": 5,
+        "carrier/blocks": 8,
+        "carrier/bytes": 65536,
+        "carrier/age-ms": 1000,
+        "read/revocation-propagation-ms": 100
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-brainflow-qualification-tuple.v1.schema.json`](../../schemas/sensorium-brainflow-qualification-tuple.v1.schema.json)
 
-Draft exact deployment and measurement conditions embedded under qualification/tuple in a class-specific acceptance report. This tuple is data, not a qualification verdict. Unknown fields must use tagged evidence states. Never include physical serials, advertised names, human identity or host-private paths; use evidence-local controller aliases. The qualifier binds evidence class, candidate, reports and executable digest separately.
+Draft exact deployment and measurement conditions embedded under qualification/tuple in a class-specific acceptance report. This tuple is data, not a qualification verdict. Unknown fields must use tagged evidence states. Never include physical serials, advertised names, human identity or host-private paths; use evidence-local controller aliases. The qualifier binds evidence class, candidate, reports and executable digest separately. Real qualification requires known firmware with operator observation source and known responsible-process plus attribution source; lab observations do not establish qualified TCC access.
 
 ## Governing Basis
 

@@ -1,0 +1,77 @@
+{
+  "schema": "sensorium-brainflow-lab-observation.v1",
+  "schema/v": 1,
+  "evidence/class": "lab-observation",
+  "acquisition/mode": "p21",
+  "identity/assurance": "operator-confirmed-selector",
+  "consent": {
+    "operator-is-wearer": true,
+    "signals/acquired": [
+      "eeg",
+      "accelerometer",
+      "gyroscope"
+    ],
+    "scope": "manual-lab-only",
+    "confirmed/at-unix-s": 1,
+    "duration/max-s": 45
+  },
+  "permissions": {
+    "launch/context": "supervisor-terminal",
+    "responsible-process": "terminal-app",
+    "evidence/source": "prompt",
+    "bluetooth/decision": "allowed",
+    "responsible-identifier": "com.apple.Terminal"
+  },
+  "firmware": {
+    "state": "operator-observed",
+    "version": "fixture",
+    "source": "muse-ios"
+  },
+  "scope/exclusions": [
+    "product-acquisition",
+    "qualification",
+    "radio-concurrency",
+    "contact-quality"
+  ],
+  "observation": {
+    "outcome": "observed",
+    "cleanup": "released",
+    "observation/elapsed-ns": "10000000000",
+    "native/metadata": {
+      "0": {
+        "num_rows": 8,
+        "sampling_rate": 256
+      }
+    },
+    "streams": {
+      "0": {
+        "samples/drained": 2560,
+        "observed/rows": 8,
+        "first-data/latency-ns": "1000000",
+        "package-num/discontinuities": 0,
+        "package-num/repeats": 0,
+        "package-num/wraps": 0,
+        "rows/nonconstant": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "effective-rate/hz": {
+          "numerator": 2560000000000,
+          "denominator": 10000000000
+        }
+      }
+    }
+  },
+  "runtime": {
+    "python/version": "3.13.15",
+    "brainflow/version": "5.14.0",
+    "numpy/version": "2.2.6",
+    "pin/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  }
+}

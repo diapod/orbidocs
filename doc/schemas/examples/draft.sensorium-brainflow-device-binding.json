@@ -1,0 +1,23 @@
+{
+  "schema": "sensorium-brainflow-device-binding.v1",
+  "schema/v": 1,
+  "binding/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "instance/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "profile/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "selector/kind": "advertised-name",
+  "selector/value": "Muse-FIXTURE",
+  "identity/assurance": "operator-confirmed-selector",
+  "resolution/state": "operator-confirmed",
+  "claim/alias": "fixture-claim",
+  "expires/at-unix-s": 1800
+}

@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-biosignal-sample-block:v1",
+  "title": "sensorium-biosignal-sample-block.v1",
+  "description": "Closed sample-block contract. buffer is the nested sensorium-biosignal-buffer.v1 signal tensor; source-time and package-num are separate 1 by N tensors. All shapes and stream mappings require semantic validation. Host binds metadata to current admitted identity, epoch, generation, profile and classification before hashing; a worker metadata assertion grants no authority. Host digest is carried by the enclosing interface frame. Preimage: UTF-8 domain orbiplex.sensorium.sample-block.v1 followed by NUL; seven independently u64BE length-prefixed segments: JCS metadata with derived tensor descriptors, signal values, signal mask, source-time values, source-time mask, package-num values, package-num mask. Real and real-derived playback data enter as Personal, sensitive-personal/health-wearable.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "metadata",
+    "buffer",
+    "source-time",
+    "package-num"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-biosignal-sample-block.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance/ref",
+        "session/epoch",
+        "source/generation",
+        "profile/ref",
+        "stream/descriptor",
+        "sequence",
+        "clocks",
+        "classification",
+        "evidence/class"
+      ],
+      "properties": {
+        "instance/ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "revision"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "session/epoch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "source/generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "profile/ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "revision",
+            "digest"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "stream/descriptor": {
+          "$ref": "sensorium-biosignal-stream-descriptor.v1.schema.json"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "clocks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "epoch",
+            "source-time/origin",
+            "drain/monotonic-ns",
+            "receipt/monotonic-ns",
+            "source-time/uncertainty",
+            "drain/wall-time"
+          ],
+          "properties": {
+            "epoch": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+            },
+            "source-time/origin": {
+              "enum": [
+                "backend-host-wall",
+                "backend-interpolated-host-wall",
+                "unknown"
+              ]
+            },
+            "drain/monotonic-ns": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "receipt/monotonic-ns": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,19})$"
+            },
+            "source-time/uncertainty": {
+              "const": "unknown"
+            },
+            "drain/wall-time": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 40,
+              "format": "date-time",
+              "pattern": "Z$",
+              "description": "Corresponding observed UTC drain wall time, or null when unavailable. No physical sensing-time claim."
+            }
+          }
+        },
+        "classification": {
+          "$ref": "classification.v1.schema.json"
+        },
+        "evidence/class": {
+          "enum": [
+            "synthetic",
+            "playback",
+            "real-device"
+          ]
+        }
+      }
+    },
+    "buffer": {
+      "$ref": "sensorium-biosignal-buffer.v1.schema.json"
+    },
+    "source-time": {
+      "$ref": "sensorium-biosignal-buffer.v1.schema.json"
+    },
+    "package-num": {
+      "$ref": "sensorium-biosignal-buffer.v1.schema.json"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "metadata": {
+            "properties": {
+              "evidence/class": {
+                "enum": [
+                  "real-device",
+                  "playback"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "metadata": {
+            "properties": {
+              "classification": {
+                "properties": {
+                  "source_tier": {
+                    "const": "Personal"
+                  },
+                  "effective_tier": {
+                    "const": "Personal"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

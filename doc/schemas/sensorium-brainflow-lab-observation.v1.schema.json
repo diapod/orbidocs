@@ -1,0 +1,514 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-lab-observation:v1",
+  "title": "Sensorium BrainFlow Lab Observation v1",
+  "description": "Bounded metadata-only self-wearer laboratory evidence, never product qualification or acquisition authority. Firmware and TCC attribution are sourced operator observations, not inferred from parent PIDs. Every launch context is explicit, including SSH. Monotonic observation and first-data times measure the local native drain. Counter discontinuities ignore repeated 16-bit packets and count wraps separately; they are diagnostic and do not prove exact sample loss. Nonconstant row flags compare finite samples across the full observation, revealing activity but no values. Raw values, selectors, paths and native labels are excluded.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "evidence/class",
+    "acquisition/mode",
+    "identity/assurance",
+    "consent",
+    "permissions",
+    "firmware",
+    "scope/exclusions",
+    "observation",
+    "runtime"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-lab-observation.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "evidence/class": {
+      "const": "lab-observation"
+    },
+    "acquisition/mode": {
+      "enum": [
+        "p21",
+        "p51"
+      ]
+    },
+    "identity/assurance": {
+      "const": "operator-confirmed-selector"
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operator-is-wearer",
+        "signals/acquired",
+        "scope",
+        "confirmed/at-unix-s",
+        "duration/max-s"
+      ],
+      "properties": {
+        "operator-is-wearer": {
+          "const": true
+        },
+        "signals/acquired": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "eeg",
+              "accelerometer",
+              "gyroscope",
+              "ppg"
+            ]
+          }
+        },
+        "scope": {
+          "const": "manual-lab-only"
+        },
+        "confirmed/at-unix-s": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "duration/max-s": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 45
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "launch/context",
+        "responsible-process",
+        "evidence/source",
+        "bluetooth/decision",
+        "responsible-identifier"
+      ],
+      "properties": {
+        "launch/context": {
+          "enum": [
+            "terminal",
+            "ssh",
+            "supervisor-terminal",
+            "supervisor-launchd",
+            "supervisor-ssh"
+          ]
+        },
+        "responsible-process": {
+          "enum": [
+            "terminal-app",
+            "iterm-app",
+            "python",
+            "cargo",
+            "launchd",
+            "other",
+            "unverified"
+          ]
+        },
+        "evidence/source": {
+          "enum": [
+            "system-settings",
+            "tcc-log",
+            "prompt",
+            "unverified"
+          ]
+        },
+        "bluetooth/decision": {
+          "enum": [
+            "allowed",
+            "denied",
+            "unverified"
+          ]
+        },
+        "responsible-identifier": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9._-]+$",
+          "description": "Operator-observed TCC bundle ID or executable basename; no paths/selectors. Null only with unverified attribution."
+        }
+      }
+    },
+    "firmware": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "reason/code"
+          ],
+          "properties": {
+            "state": {
+              "const": "unknown"
+            },
+            "reason/code": {
+              "const": "operator-source-required"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "version",
+            "source"
+          ],
+          "properties": {
+            "state": {
+              "const": "operator-observed"
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._-]+$"
+            },
+            "source": {
+              "enum": [
+                "muse-ios",
+                "muse-android",
+                "operator-device-info"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "scope/exclusions": {
+      "const": [
+        "product-acquisition",
+        "qualification",
+        "radio-concurrency",
+        "contact-quality"
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "cleanup"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "observed",
+            "refused"
+          ]
+        },
+        "cleanup": {
+          "enum": [
+            "released",
+            "uncertain",
+            "unverified"
+          ]
+        },
+        "reason/code": {
+          "enum": [
+            "native-session-failure",
+            "lab-watchdog-timeout",
+            "lab-output-overflow",
+            "lab-child-failed",
+            "lab-child-output-refused"
+          ]
+        },
+        "native/metadata": {
+          "type": "object",
+          "maxProperties": 3,
+          "additionalProperties": false,
+          "properties": {
+            "0": {
+              "$ref": "#/$defs/descriptor"
+            },
+            "1": {
+              "$ref": "#/$defs/descriptor"
+            },
+            "2": {
+              "$ref": "#/$defs/descriptor"
+            }
+          }
+        },
+        "streams": {
+          "type": "object",
+          "maxProperties": 3,
+          "additionalProperties": false,
+          "properties": {
+            "0": {
+              "$ref": "#/$defs/stream"
+            },
+            "1": {
+              "$ref": "#/$defs/stream"
+            },
+            "2": {
+              "$ref": "#/$defs/stream"
+            }
+          }
+        },
+        "observation/elapsed-ns": {
+          "type": "string",
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]{0,10})$"
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "python/version",
+        "brainflow/version",
+        "numpy/version",
+        "pin/digest"
+      ],
+      "properties": {
+        "python/version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "brainflow/version": {
+          "const": "5.14.0"
+        },
+        "numpy/version": {
+          "const": "2.2.6"
+        },
+        "pin/digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "acquisition/mode": {
+            "const": "p21"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "consent": {
+            "properties": {
+              "signals/acquired": {
+                "const": [
+                  "eeg",
+                  "accelerometer",
+                  "gyroscope"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "acquisition/mode": {
+            "const": "p51"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "consent": {
+            "properties": {
+              "signals/acquired": {
+                "const": [
+                  "eeg",
+                  "accelerometer",
+                  "gyroscope",
+                  "ppg"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "num_rows": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "package_num_channel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "timestamp_channel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "marker_channel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "sampling_rate": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "eeg_channels": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 31
+          }
+        },
+        "accel_channels": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 31
+          }
+        },
+        "gyro_channels": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 31
+          }
+        },
+        "ppg_channels": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 31
+          }
+        },
+        "other_channels": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 31
+          }
+        }
+      }
+    },
+    "stream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "samples/drained",
+        "observed/rows",
+        "first-data/latency-ns",
+        "rows/nonconstant",
+        "package-num/discontinuities",
+        "package-num/repeats",
+        "package-num/wraps"
+      ],
+      "properties": {
+        "samples/drained": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "observed/rows": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 32
+            }
+          ]
+        },
+        "first-data/latency-ns": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "maxLength": 20,
+              "pattern": "^(0|[1-9][0-9]{0,10})$"
+            }
+          ]
+        },
+        "rows/nonconstant": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "boolean"
+          }
+        },
+        "package-num/discontinuities": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "package-num/repeats": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "package-num/wraps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "effective-rate/hz": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "numerator",
+            "denominator"
+          ],
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000000000000
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 45000000000
+            }
+          }
+        }
+      }
+    }
+  }
+}

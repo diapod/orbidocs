@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-status:v1",
+  "title": "sensorium-brainflow-status.v1",
+  "description": "Separate declaration/admission, process and acquisition evidence; no selectors, subject IDs, samples, exception text or inferred electrode contact quality. Cleanup uncertainty holds the claim and forbids reassignment/restart. Profile-present is not readiness or qualification. Acquisition phases match P096 section 6. Claim/fence/disposal facts are separate fields; idle, blocked and failed require proven disposal. No worker assertion establishes host authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "instance/ref",
+    "profile/ref",
+    "configuration/state",
+    "supervisor/state",
+    "acquisition/state",
+    "source/generation",
+    "quality",
+    "reason/code",
+    "claim/state",
+    "fence/state",
+    "terminal/pending",
+    "reason/retryable",
+    "session/epoch",
+    "health/aggregate",
+    "streams/health",
+    "acquisition/class",
+    "control/available"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-status.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "instance/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "profile/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "configuration/state": {
+      "enum": [
+        "declared",
+        "admitted",
+        "resolved",
+        "refused"
+      ]
+    },
+    "supervisor/state": {
+      "enum": [
+        "configured",
+        "starting",
+        "ready",
+        "stopped",
+        "failed"
+      ]
+    },
+    "acquisition/state": {
+      "enum": [
+        "idle",
+        "preparing",
+        "streaming",
+        "reconnecting",
+        "stopping",
+        "cleanup-uncertain",
+        "blocked",
+        "failed"
+      ]
+    },
+    "source/generation": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "quality": {
+      "const": "unknown"
+    },
+    "reason/code": {
+      "enum": [
+        "none",
+        "admission-required",
+        "metadata-mismatch",
+        "ambiguous-binding",
+        "device-not-advertising-or-busy",
+        "claim-conflict",
+        "consent-required",
+        "consent-expired",
+        "revoked",
+        "stopped",
+        "cleanup-unproven",
+        "runtime-mismatch",
+        "package-refused"
+      ]
+    },
+    "claim/state": {
+      "enum": [
+        "none",
+        "held",
+        "cleanup-hold",
+        "released"
+      ]
+    },
+    "fence/state": {
+      "enum": [
+        "open",
+        "closed"
+      ]
+    },
+    "terminal/pending": {
+      "enum": [
+        "none",
+        "idle",
+        "blocked",
+        "failed"
+      ]
+    },
+    "reason/retryable": {
+      "type": "boolean"
+    },
+    "session/epoch": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "health/aggregate": {
+      "enum": [
+        "healthy",
+        "degraded",
+        "unavailable"
+      ]
+    },
+    "streams/health": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stream/id",
+          "required",
+          "state"
+        ],
+        "properties": {
+          "stream/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "state": {
+            "enum": [
+              "unknown",
+              "fresh",
+              "stale",
+              "missing",
+              "invalid"
+            ]
+          }
+        }
+      }
+    },
+    "acquisition/class": {
+      "enum": [
+        "synthetic",
+        "real-device"
+      ]
+    },
+    "control/available": {
+      "type": "boolean"
+    }
+  }
+}

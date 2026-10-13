@@ -41,6 +41,19 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "sensorium-brainflow-lab-observation.v1.schema.json",
+    "sensorium-brainflow-model-profile.v1.schema.json",
+    "sensorium-brainflow-instance.v1.schema.json",
+    "sensorium-brainflow-device-binding.v1.schema.json",
+    "sensorium-brainflow-acquisition-scope.v1.schema.json",
+    "sensorium-brainflow-status.v1.schema.json",
+    "sensorium-biosignal-capture.v1.schema.json",
+    "sensorium-brainflow-budget-profile.v1.schema.json",
+    "sensorium-biosignal-buffer.v1.schema.json",
+    "sensorium-biosignal-stream-descriptor.v1.schema.json",
+    "sensorium-biosignal-sample-block.v1.schema.json",
+    "middleware-instance-plan.v1.schema.json",
+    "sensorium-brainflow-qualification-tuple.v1.schema.json",
     "corpus-task-pack-chain-inspection.v1.schema.json",
     "configuration-common.v1.schema.json",
     "config-setting-descriptor.v1.schema.json",

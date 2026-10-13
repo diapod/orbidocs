@@ -1,0 +1,28 @@
+{
+  "schema": "sensorium-brainflow-status.v1",
+  "schema/v": 1,
+  "instance/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "profile/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "configuration/state": "declared",
+  "supervisor/state": "configured",
+  "acquisition/state": "idle",
+  "source/generation": 0,
+  "quality": "unknown",
+  "reason/code": "admission-required",
+  "claim/state": "none",
+  "fence/state": "closed",
+  "terminal/pending": "none",
+  "reason/retryable": false,
+  "session/epoch": null,
+  "health/aggregate": "unavailable",
+  "streams/health": [],
+  "acquisition/class": "real-device",
+  "control/available": false
+}

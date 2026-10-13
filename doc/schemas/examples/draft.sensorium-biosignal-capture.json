@@ -1,0 +1,44 @@
+{
+  "schema": "sensorium-biosignal-capture.v1",
+  "schema/v": 1,
+  "capture/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "instance/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "profile/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "session/epoch": "fixture-session",
+  "source/generation": 1,
+  "capture/state": "partial",
+  "classification": {
+    "schema": "classification.v1",
+    "source_tier": "Personal",
+    "effective_tier": "Personal",
+    "provenance": {
+      "kind": "local-space",
+      "space": "Personal"
+    },
+    "bound_subjects": {
+      "personal_or_community": [
+        {
+          "kind": "person",
+          "id": "fixture-person"
+        }
+      ]
+    },
+    "declassify_trail": []
+  },
+  "artifacts": [],
+  "capture-authority/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "retention/expires-at-unix-s": 1800
+}

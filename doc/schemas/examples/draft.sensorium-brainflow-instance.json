@@ -1,0 +1,37 @@
+{
+  "schema": "sensorium-brainflow-instance.v1",
+  "schema/v": 1,
+  "instance/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "declaration/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "package/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "profile/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "mode/id": "p21",
+  "desired/state": "disabled",
+  "binding/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "budgets/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "restart/policy": "manual",
+  "capture/desired": "off",
+  "publication/desired": "off"
+}

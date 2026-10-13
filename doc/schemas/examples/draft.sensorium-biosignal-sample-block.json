@@ -1,0 +1,99 @@
+{
+  "schema": "sensorium-biosignal-sample-block.v1",
+  "schema/v": 1,
+  "metadata": {
+    "instance/ref": {
+      "id": "fixture-instance",
+      "revision": 1
+    },
+    "session/epoch": "fixture-session",
+    "source/generation": 1,
+    "profile/ref": {
+      "id": "fixture-profile",
+      "revision": 1,
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "stream/descriptor": {
+      "schema": "sensorium-biosignal-stream-descriptor.v1",
+      "schema/v": 1,
+      "stream/id": "preset-0",
+      "backend/preset": "0",
+      "source/rows": 4,
+      "channels": [
+        {
+          "id": "row-1",
+          "signal/kind": "eeg",
+          "unit": "unknown",
+          "source/row": 1
+        }
+      ],
+      "rate/nominal": {
+        "numerator": 256,
+        "denominator": 1
+      },
+      "source-time/row": 2,
+      "package-num/row": 0,
+      "marker/row": 3,
+      "package-num/semantics": "unknown"
+    },
+    "sequence": 1,
+    "clocks": {
+      "epoch": "fixture-clock",
+      "source-time/origin": "backend-host-wall",
+      "source-time/uncertainty": "unknown",
+      "drain/monotonic-ns": "1000000",
+      "receipt/monotonic-ns": "0",
+      "drain/wall-time": null
+    },
+    "classification": {
+      "schema": "classification.v1",
+      "source_tier": "Public",
+      "effective_tier": "Public",
+      "provenance": {
+        "kind": "local-space",
+        "space": "Public"
+      },
+      "bound_subjects": {
+        "public_projection": {
+          "subject_set_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "count": 0
+        }
+      },
+      "declassify_trail": []
+    },
+    "evidence/class": "synthetic"
+  },
+  "buffer": {
+    "dtype": "f64le",
+    "shape": [
+      1,
+      3
+    ],
+    "layout": "channels-by-samples",
+    "values/b64u": "AAAAAAAA9D8AAAAAAAAEwAAAAAAAAAAA",
+    "missing/b64u": "AA",
+    "nonfinite/count": 0
+  },
+  "source-time": {
+    "dtype": "f64le",
+    "shape": [
+      1,
+      3
+    ],
+    "layout": "channels-by-samples",
+    "values/b64u": "AAAAQPxU2UEAQABA_FTZQQCAAED8VNlB",
+    "missing/b64u": "AA",
+    "nonfinite/count": 0
+  },
+  "package-num": {
+    "dtype": "f64le",
+    "shape": [
+      1,
+      3
+    ],
+    "layout": "channels-by-samples",
+    "values/b64u": "AAAAAAAAAAAAAAAAAADwPwAAAAAAAABA",
+    "missing/b64u": "AA",
+    "nonfinite/count": 0
+  }
+}

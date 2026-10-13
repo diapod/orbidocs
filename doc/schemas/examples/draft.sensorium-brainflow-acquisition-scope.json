@@ -1,0 +1,33 @@
+{
+  "schema": "sensorium-brainflow-acquisition-scope.v1",
+  "schema/v": 1,
+  "scope/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "instance/ref": {
+    "id": "fixture-ref",
+    "revision": 1
+  },
+  "profile/ref": {
+    "id": "fixture-ref",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "mode/id": "p21",
+  "signals/acquired": [
+    "eeg",
+    "accelerometer",
+    "gyroscope"
+  ],
+  "wearer/ref": "fixture-person",
+  "operator/ref": "fixture-person",
+  "operator-is-wearer": true,
+  "confirmed/at-unix-s": 1,
+  "expires/at-unix-s": 1800,
+  "session/epoch": "fixture-session",
+  "source/generation": 1,
+  "authorities": [
+    "acquire"
+  ]
+}

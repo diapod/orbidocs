@@ -28,7 +28,9 @@ P045 supplies the Sensorium acquisition and consent problem.
 BrainFlow integration, declarative model profiles, and independently managed
 device instances are the requested architectural direction. This proposal
 defines the receiving-layer contract; it does not establish implementation or
-hardware acceptance. All P096 implementation tracker items start as `todo`.
+hardware acceptance. The first-slice scope was narrowed by the operator on
+2026-10-13 to one Muse 2 over native BLE. Implementation and measured acceptance
+remain separate tracker claims.
 
 Existing Sensorium and middleware mechanisms are antecedents. BrainFlow has
 its own instance materializer; it does not use or extend the OS/Workbench
@@ -54,7 +56,7 @@ A profile is data interpreted by the common connector implementation. A
 BrainFlow-owned instance materializer creates independent configuration and
 identity through the host's generic middleware contracts. An admitted activation
 starts one supervised acquisition worker
-for one bound device. Two Muse S devices use the same package and profile,
+for one bound device. Two devices of the same model use the same package and profile,
 with independent grants, processes, sessions, buffers, stop controls, and
 diagnostics. Other BrainFlow-supported models follow the same contract after
 their profiles and deployment combinations are qualified.
@@ -128,7 +130,7 @@ BrainFlow instance creation.
 flowchart TD
     package["Admitted sensorium-brainflow package"] --> runtime["Shared connector implementation"]
     package --> profiles["Versioned model profiles"]
-    profiles --> ms["Muse S profile"]
+    profiles -.-> ms["Additional model profiles: P096-016"]
     profiles --> m2["Muse 2 profile"]
     profiles --> other["Additional qualified profiles"]
     ms --> a["Instance A / device A"]
@@ -223,13 +225,13 @@ Illustrative profile fragment; omitted common metadata is not a complete schema:
 {
   "schema": "sensorium-brainflow-model-profile.v1",
   "schema/v": 1,
-  "profile/id": "muse-s.ble",
+  "profile/id": "muse-2.ble",
   "profile/revision": 1,
   "profile/version": "1.0.0",
-  "display/name": "Muse S",
-  "model/id": "muse-s",
+  "display/name": "Muse 2",
+  "model/id": "muse-2",
   "transport/kind": "ble",
-  "brainflow/board": "MUSE_S_BOARD",
+  "brainflow/board": "MUSE_2_BOARD",
   "connection/selector-kinds": ["advertised-name"],
   "acquisition/modes": {
     "eeg-and-motion": {
@@ -237,14 +239,17 @@ Illustrative profile fragment; omitted common metadata is not a complete schema:
       "signals/acquired": ["eeg", "accelerometer", "gyroscope"]
     },
     "eeg-motion-and-ppg": {
-      "brainflow/startup-command": "p61",
+      "brainflow/startup-command": "p51",
       "signals/acquired": ["eeg", "accelerometer", "gyroscope", "ppg"]
     }
   }
 }
 ```
 
-For Muse 2 the PPG mode maps to its supported command, for example `p51`.
+This fragment is a candidate to verify against the pinned build in P096-001,
+including incidentally acquired signals and actual active matrix rows. The
+first slice uses `p21` by default and separately consented `p51`; neither mode
+promises heart-rate inference or electrode-contact quality.
 Muse S Athena has a separate BrainFlow board definition and must have its own
 profile; marketing-family similarity is not evidence of equivalent channels.
 The generic profile namespace stays open to other boards and signal types.
@@ -263,7 +268,7 @@ contains host-owned module/component/home/auth-slot bindings):
   "instance/label": "Studio headband",
   "instance/revision": 1,
   "profile/ref": {
-    "id": "muse-s.ble",
+    "id": "muse-2.ble",
     "revision": 1,
     "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
   },
@@ -592,7 +597,8 @@ adapter. Multicast is not the Orbiplex inter-node authorization protocol.
 
 #### Biosignal sensitivity is fixed at ingress
 
-Classify real EEG/PPG, wearer-linked features and captures as `health-wearable`
+Classify real EEG, PPG, accelerometer and gyroscope signals, wearer-linked
+features and captures as `health-wearable`
 with the P045/S030 **`sensitive-personal`** baseline. Stamp
 [`classification.v1`](../../schemas/classification.v1.schema.json) with immutable
 `source_tier = Personal` and default `effective_tier = Personal`, the most
@@ -692,10 +698,11 @@ names wall-clock Unix seconds and origin. No floating-point array or Python
 When a block digest is requested, **the host computes it** after validation;
 worker ingress must omit an authoritative digest. Freeze the preimage as
 UTF-8 domain `orbiplex.sensorium.sample-block.v1` followed by a zero byte, then
-four length-prefixed segments: JCS canonical metadata, decoded sample values,
-decoded missing mask, and decoded source-time values followed by its mask.
+seven individually length-prefixed segments: JCS canonical typed metadata,
+decoded signal values and mask, decoded source-time values and mask, then
+decoded package-number values and mask.
 Each segment has an unsigned 64-bit big-endian byte-length prefix; the metadata
-includes both tensor descriptors (including the time-buffer mask length),
+includes all three tensor descriptors (including their mask lengths),
 instance/session/source bindings, clocks, sequence and interpretation, and
 excludes digest and base64 strings. Metadata contains no floats: use bounded
 integers, rational pairs or specified decimal strings. The digest is lowercase
@@ -792,8 +799,9 @@ from a profile, a detected device or component readiness. Stopping acquisition
 must remain reachable while a data view is slow or the native call is stuck.
 Show reconnecting, stale, blocked and cleanup-uncertain states explicitly.
 
-The initial catalogue includes distinct Muse S and Muse 2 profile candidates,
-plus an explicitly synthetic test profile. Additional models are additive
+The initial catalogue contains `synthetic` and `muse-2.ble` only. Muse S,
+Athena and BLED112 profiles belong to P096-016, with their own hardware evidence.
+Additional models are additive
 profile work when the common interpreter suffices. Label availability with
 separate axes: upstream-supported, profile-present, deployment-qualified and
 currently-available. No single green badge may collapse all four.
@@ -904,7 +912,8 @@ The spike has three explicit outputs:
    permission state, denial and recovery. **Hypothesis:** the responsible-process
    chain may prevent the intended Python worker from obtaining Bluetooth access.
    A bounded permission-status/prompt probe can run separately without scanning
-   or collecting; any test requiring real radio access waits for P096-005.
+   or collecting; product radio access waits for P096-005. A separately bounded,
+   operator-run laboratory observation is defined below.
    Synthetic Board success is not TCC evidence. An Apple engineering note about
    IOBluetooth/root daemons motivates checking this boundary, but does not prove
    behavior of the chosen CoreBluetooth/BrainFlow build. Never edit TCC databases
@@ -919,6 +928,71 @@ transport, playback file or device selector can escape it. Playback is separatel
 classified and is not automatically exempt from source consent/retention policy.
 P096-006b/007b add real transport behavior only after P096-005. The gate remains:
 **no real discovery/acquisition exposure before P096-005**.
+
+### First-slice laboratory observation and frozen defaults
+
+The first hardware target is one operator-owned Muse 2, with the operator also
+the wearer, on macOS arm64 with the Node launched from a terminal. Both `p21`
+and `p51` require separate, exact-mode consent. One explicit self-wearer
+confirmation creates the consent record; administration and wearer authority
+remain distinct. The initial consent lasts at most 30 minutes and renewal is
+manual. Logout does not remove the wearer's independent stop/withdraw path.
+
+P096-001-lab is an optional early **manual** experiment outside the product:
+on the pinned runtime, prepare, configure one mode, start for at most ten
+seconds, stop and release under an external watchdog. It neither creates a
+Sensorium source nor uses product acquisition authority. Record only metadata,
+counters, cleanup and permission observations as `lab-observation`, with its
+own [lab contract](../../schemas/sensorium-brainflow-lab-observation.v1.schema.json).
+That class is never admitted as qualification evidence. Compare an operator-run
+terminal observation with the ignored, terminal-guarded supervisor laboratory
+test before product activation. Both are manual lab observations. Terminal
+success does not prove Bluetooth/TCC access for the supervisor child; neither
+observation bypasses P096-005 for product acquisition. Never edit TCC databases.
+
+Record firmware as an operator-observed value with its source, for example
+the Muse application. A firmware update creates a new tuple. Obtain the private
+`Muse-XXXX` selector from device information, not the macOS pairing list;
+record `identity/assurance: operator-confirmed-selector`. A prepare timeout is
+`device-not-advertising-or-busy`, a retryable uncertainty rather than proof of
+a busy device. Recovery may require closing the phone application or disabling
+its Bluetooth connection. Never retry automatically. Ambiguous resolution and
+host claim conflicts have separate refusal reasons.
+
+Expected EEG (four named electrodes at 256 Hz), motion (about 52 Hz) and PPG
+(about 64 Hz) are hypotheses until pinned metadata and actual acquisition agree.
+Static rows and zeros do not prove an active signal. Contact quality remains
+`unknown`; heuristics are named recipes under P096-012. Include a 120-second
+warmup per hardware mode before rate thresholds, without treating it as a
+quality measurement. Real samples, even anonymized, are not synthetic fixtures:
+public vectors preserve observed layout using newly generated values and times.
+
+The following initial finite budgets are design defaults, not measurements.
+P096-002 binds their revision and digest before any acceptance run; changing
+them invalidates affected reports. Count complete messages, copies and every
+preset, including base64 expansion and metadata.
+
+| Surface | Initial bound |
+| --- | --- |
+| Prepare / required first data | 15 seconds / 5 seconds |
+| Worker drain / aggregation | 25 ms / at most 100 ms |
+| Normalized block | 32 channels × 128 samples, split before encoding |
+| Native capacity | 2,048 samples per preset; checked combined allocation at most 2 MiB |
+| Channel message / worker-host queue | 64 KiB / 16 blocks, 512 KiB or 1 second, first limit wins |
+| Transient source retention | 5 seconds, 256 blocks or 1 MiB, first limit wins |
+| Local consumers / read batch | 4 per source / 8 frames or 64 KiB; one in-flight read per reader |
+| Carrier output / read revocation visibility | 8 blocks, 64 KiB or 1 second / at most 100 ms |
+| Memory | 512 MiB worker RSS; 16 MiB host slice buffers |
+| Drain-to-local-receipt latency | p95 ≤ 250 ms, p99 ≤ 500 ms, maximum ≤ 1 second |
+| Protected stop | receipt ≤ 250 ms; output fence ≤ 100 ms from host decision; process exit ≤ 5 seconds |
+| Cleanup / recovery | after 10 seconds unproven cleanup becomes uncertain and holds the claim; recovery after pressure ≤ 5 seconds |
+| Surviving-worker reconnect | at most two attempts within 45 seconds, with current authority; killed workers require manual restart |
+| Hardware acceptance | three 300-second runs per mode; observed rates within 5% of confirmed nominal rates |
+
+Muse 2 plus a synthetic instance proves process, claim and stop isolation only.
+It reports `concurrency.device/count: 1`. P096-011b independently requires two
+physical Muse 2 devices and proves concurrent radio operation. Only P096-011a,
+including both modes and all four live-delivery cases, can feed P096-015.
 
 ### Existing host primitives before new mechanisms
 
@@ -957,9 +1031,10 @@ P096-006b/007b add real transport behavior only after P096-005. The gate remains
 
 ### Proposed contract inventory and validation
 
-The first two rows have draft schemas that freeze their proposed shapes here.
-P096-002 registers and semantically validates the remaining contracts and Node
-mirrors; presence of a schema alone does not complete that task:
+All cross-process rows now have canonical draft schemas, Node mirrors and
+semantic ingress/egress checks; report/qualification schemas remain Node-local.
+P096-002 completion includes fixtures, qualifier and finite budgets as recorded
+below. Draft registration alone establishes neither authority nor activation:
 
 | Candidate family | Owning meaning |
 | --- | --- |
@@ -970,7 +1045,10 @@ mirrors; presence of a schema alone does not complete that task:
 | `sensorium-brainflow-device-binding.v1` | Host-private endpoint resolution and assurance |
 | `sensorium-brainflow-acquisition-scope.v1` | Exact host-owned acquisition consent/grant payload, integrated with existing authority envelopes |
 | `sensorium-brainflow-status.v1` | Separate configuration, supervisor and acquisition evidence without raw data |
+| `sensorium-brainflow-lab-observation.v1` | Manual metadata-only observation, firmware and actual launch/TCC attribution; excluded from qualification |
+| `sensorium-brainflow-budget-profile.v1` | Predeclared finite numeric limits and fixed profile revision |
 | `sensorium-biosignal-stream-descriptor.v1` | Backend-neutral stream/channel/time semantics |
+| `sensorium-biosignal-buffer.v1` | Nested tensor: buffer ⊂ sample-block; shape/bytes alone do not bind source, stream or authority |
 | `sensorium-biosignal-sample-block.v1` | Typed binary values/missingness and source-time buffers, host digest, clock epochs, provenance and continuity |
 | `sensorium-biosignal-capture.v1` | Optional retained capture manifest and artifact references |
 | `sensorium-brainflow-acceptance-report.v1` / `sensorium-brainflow-qualification.v1` | Node-local evidence report and candidate/report/qualifier binding, with separate evidence classes; implementation-owned schemas follow the existing acceptance pattern |
@@ -1044,7 +1122,7 @@ The tuple uses evidence-local opaque aliases, never serials or advertised names.
 P096-002 freezes the Node-local report/qualifier contracts; P096-001 retains
 preliminary spike evidence for later normalization without claiming qualification.
 P096-010a qualifies only the synthetic path; P096-010 closes shared/refusal
-coverage and P096-011 supplies real-device reports. None can substitute for
+coverage and P096-011a supplies single-device real reports; 011b adds radio concurrency. None can substitute for
 another class, missing consent, a platform variant or a firmware tuple.
 
 #### Hard privacy canary
@@ -1078,11 +1156,14 @@ bad metadata, overflow, clock discontinuities, stale callbacks and permission
 loss. Retained fixtures require known licensing/consent and preferably contain
 synthetic data. Test refusal and recovery before operator happy paths.
 
-Real acceptance must exercise two devices of the same model simultaneously,
-plus distinct model profiles: explicit binding, acquisition, correct independent
+P096-011a first qualifies one Muse 2. P096-011b separately requires two Muse 2
+devices simultaneously; additional models belong to 016. Each scope exercises
+explicit binding, acquisition, correct independent
 stream rates, per-instance stop/restart, disconnect/reconnect, revocation during
 in-flight native I/O, duplicate-device claim refusal, host restart and bounded
-cleanup. A stopped or failing instance must not interrupt the other device.
+cleanup. A stopped or failing instance must not interrupt the other instance. One Muse 2
+plus a synthetic instance demonstrates host isolation with device/count 1; it
+does not demonstrate radio concurrency.
 Record the tested concurrency and Bluetooth-controller arrangement.
 Also cover wearer stop after operator logout, saturated read/serialization
 queues, a stuck native call, audit persistence failure, NTP steps, missing
@@ -1099,7 +1180,7 @@ this acceptance evidence.
 
 Live delivery qualifies the BrainFlow source through the existing P082 admission,
 pull-batch and carrier paths. It does not promise hard real-time scheduling.
-Run the cases below locally in P096-010a/010, for qualified hardware in P096-011,
+Run the cases below locally in P096-010a/010, for qualified hardware in P096-011a/011b,
 and over actual independently running peers in P096-014. Room cases cover only
 `latest-state`; ordered sample blocks require local/direct-peer delivery.
 Synthetic success cannot qualify BLE timing or a remote carrier.
@@ -1233,14 +1314,16 @@ Vocabulary: `todo | partial | done`. Dependencies are completion prerequisites,
 not a prohibition on preparing fixtures earlier. Every `done` claim needs
 repository-local evidence for its exact surface; proposal acceptance, upstream
 support, contract registration, runtime implementation and release qualification
-are independent axes. All tasks below are newly proposed.
+are independent axes. The 2026-10-13 foundation evidence is recorded below;
+remaining completion gates still apply.
 
 | ID | Work item | Depends on | Status | Completion gate |
 | --- | --- | --- | --- | --- |
-| `P096-001` | Run pinned synthetic deployment spike and reuse audit | — | `todo` | Actual package/supervisor/channel_json imports, metadata, samples and enforced stop; offline platform artifact selection or explicit gap; complete native dependency/license inventory; TCC attribution hypothesis/probe evidence; fit/gap evaluation of ModelRuntimeLeaseRegistry and scoped-claim-runtime for aliases/fencing/cleanup; no real-device exposure |
-| `P096-002` | Register contracts, report shapes and limits | `P096-001` | `todo` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
-| `P096-003` | Implement independent BrainFlow instance materialization | `P096-002` | `todo` | Pure declaration+package to generic plan, host-owned atomic admission/application; file/journal CAS, external-edit refusal/import and crash recovery; unique bindings and duplicate/conflict refusal; unrelated components preserved; acceptance with OS/Workbench absent; optional shared plan builder only |
-| `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `todo` | Muse S/Muse 2 BLE and synthetic profiles, separate unavailable-until-qualified BLED112 profiles; numeric revisions/digests and readable forms; empty/ambiguous/conflicting selectors refused, opaque ids separate from labels; discovery unavailable until 005 |
+| `P096-001` | Run pinned synthetic deployment spike and reuse audit | — | `done` | Actual package/supervisor/channel_json imports, metadata, samples and enforced stop; offline platform artifact selection or explicit gap; complete native dependency/license inventory; TCC attribution hypothesis/probe evidence; fit/gap evaluation of ModelRuntimeLeaseRegistry and scoped-claim-runtime for aliases/fencing/cleanup; no real-device exposure |
+| `P096-001-lab` | Retain an operator-run laboratory observation | `P096-001` (pinned runtime only) | `todo` | Manual terminal experiment on the operator's own Muse 2 with exact-mode self-consent and external watchdog; firmware/source, matrix metadata, permission responsible process and bounded cleanup; separate lab-observation contract; no product source or qualification promotion |
+| `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
+| `P096-003` | Implement independent BrainFlow instance materialization | `P096-002` | `partial` | Pure declaration+package to generic plan, host-owned atomic admission/application; file/journal CAS, external-edit refusal/import and crash recovery; unique bindings and duplicate/conflict refusal; unrelated components preserved; acceptance with OS/Workbench absent; optional shared plan builder only; supervisor must hash launcher, libpython/framework, stdlib tree, dependencies and worker material before spawning; worker self-check is diagnostic only |
+| `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `todo` | Only synthetic and Muse 2 native BLE profiles; numeric revisions/digests and readable forms; per-mode acquired signals including motion; empty/ambiguous/conflicting selectors refused, opaque ids separate from labels; discovery unavailable until 005; other models/transports under 016 |
 | `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `todo` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; revoke/expiry/provider loss and overload/hung-worker proof before real exposure |
 | `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `todo` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
@@ -1250,16 +1333,57 @@ are independent axes. All tasks below are newly proposed.
 | `P096-009` | Deliver operator/user instance management | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `todo` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required |
 | `P096-010a` | Qualify early synthetic local value path | `P096-008` | `todo` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
-| `P096-011` | Qualify initial real Muse deployment profiles | `P096-010` | `todo` | Recorded Muse S and Muse 2 tuples including two same-model devices concurrently, actual signal delivery to an authorized local consumer, modes/rates/quality, disconnect, individual stop, revoke, host restart and enforced cleanup; all four live-delivery cases on qualified hardware with per-preset timing and pressure evidence; no extrapolation to Athena/all platforms |
+| `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source and terminal-launched supervisor permission evidence; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim |
+| `P096-011b` | Qualify two simultaneous Muse 2 devices | `P096-011a` | `todo` | Requires a second physical Muse 2; exact two-device tuples, concurrent radio delivery and independent stop/revoke/cleanup; one physical device plus synthetic cannot satisfy this gate |
 | `P096-012` | Add optional named feature recipes | `P096-007a`, `P096-008`, `P096-010` | `todo` | Reuse DataFilter under versioned input/window/calibration/uncertainty and inference scope; preserve source binding and generation on recipe changes; no unvalidated mental-state claims |
 | `P096-013` | Add optional admitted raw recording/export | `P096-007a`, `P096-008`, `P096-010` | `todo` | Explicit capture scope, artifact manifest, quotas/TTL/cleanup, partial-stop and revoke behavior, open metadata-preserving replay/export through existing storage/AD authority |
 | `P096-014` | Add optional P082 remote live projections | `P096-005`, `P096-008`, `P096-010` | `todo` | Extend qualified local sources to independently admitted peer/Room publication; real peer grant/subscription/revoke/reconnect/gap tests, generation replacement, Room ordered-event refusal and read-without-acquisition proof; all four live-delivery cases over actual peers, clock uncertainty, healthy-reader isolation, per-layer overflow and in-flight revocation bounds; qualify each offered carrier separately |
-| `P096-015` | Promote only the qualified initial slice | `P096-011` | `todo` | Reconcile solution, Node ledger, operator/API docs, runbook and dated acceptance evidence for exact qualified tuples; review MVP/release trackers without implicit scope promotion; optional rows retain their own status |
+| `P096-015` | Promote only the qualified initial slice | `P096-011a` | `todo` | Reconcile solution, Node ledger, operator/API docs, runbook and dated acceptance evidence for exact single-Muse-2 tuples including both p21 and p51; no claim of 011b radio concurrency; review MVP/release trackers without implicit scope promotion; optional rows retain their own status |
 | `P096-016` | Qualify additional model/transport profiles | `P096-010` | `todo` | Each added tuple passes its transport authority, metadata, device binding, lifecycle and real acceptance gates; common interpreter reused or a bounded behavior extension justified |
+
+Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
+**002's draft contract preparation**, with no product or hardware qualification.
+The exact source-bound checkpoint and chunk reviews are retained under
+`node:docs/evidence/sensorium-brainflow/` and
+`node:docs/audits/REVIEW-SENSORIUM-BRAINFLOW-FOUNDATION-2026-10-13.md`.
+
+The chosen packaging variant is a signed **source-only worker** plus an explicitly
+operator-installed offline runtime. The worker capsule includes no native files.
+The dependency inventory lists all 69 external wheel native components, 119
+inspected host native files and 34 retained notices. Native-runtime redistribution,
+binary/source rebuild provenance, non-selected proprietary drivers and additional
+platforms remain explicit blockers for a future bundled-runtime variant. A
+source-only capsule does not approve redistribution of the external runtime.
+The spike verifies an actual Ed25519 package authorization under a host-supplied
+current key, exact OS/CPU selection, isolated native workers and bounded exit.
+Production admission policy and trusted immutable acquisition remain 003 work.
+
+001 records the TCC responsible-process hypothesis and prepares both interactive
+terminal and actual-supervisor probes; **001-lab remains todo**. Firmware 1.0.25
+from the Muse iOS application is an operator-supplied fact, to be reconfirmed.
+No Bluetooth measurement or native real-device cleanup is claimed.
+
+002 now has canonical schemas, Node mirrors, ingress/egress Schema Gate checks,
+closed typed block metadata, independent golden vectors, state/stop and ownership
+contracts, finite budget profiles and the Node-local report/qualifier. Delivery
+profiles are separately retained and digest-bound before execution; report cases
+must bind exact metadata-only evidence. Conformance fixtures are explicitly
+excluded from runtime qualification. Schemas remain draft; their registration
+and this tracker completion do not constitute adopted normative policy.
+
+003 has a pure independent plan/executor builder and a daemon owner over the
+existing single-writer CAS/journal. Preview is read-only; commit and recovery
+recheck current host admission; imports are explicit. Tests preserve unrelated
+instances, refuse stale previews/external edits/revocation and cross-instance
+cycles. Full daemon policy/API integration, atomic application of the complete
+runtime configuration and owner-level crash-boundary acceptance remain open.
+This spike is not 006a/008/010a delivery and cannot promote 005 or 011a/011b.
 
 The early value path is **001 -> 002 -> (003, 004) -> 006a -> 007a -> 008 -> 010a**.
 In parallel, **(003, 004) -> 005 -> 006b -> 007b** supplies real-device gates;
-009/010 join those tracks before **011 -> 015** promotes any hardware support.
+009/010 join those tracks before **011a -> 015** promotes single-device support.
+Former P096-011 is superseded by 011a/011b, not marked complete; Muse S coverage
+is now owned by 016. P096-001-lab is outside the product activation graph.
 Former unsplit 006/007 scope is now owned by 006a/006b and 007a/007b; those
 earlier labels are not completed rows. Optional features, captures, remote
 projections and additional hardware proceed under their separate rows. Existing
@@ -1268,13 +1392,13 @@ OS, Workbench and BrainFlow implementations do not mark any P096 row complete.
 ## Open Questions
 
 - Which exact Muse hardware/firmware and host OS/CPU combinations will supply
-  the first retained hardware evidence? P096-001/011 must record available
+  the first retained hardware evidence? P096-001/011a must record available
   devices and selector assurance rather than infer them from product names.
 - Which existing host claim primitive, if any, satisfies device alias
   resolution and cleanup-before-reassignment? P096-001 settles reuse; P096-005
   owns any minimal extension.
 - What finite buffer/latency defaults meet measured BLE behavior on the first
-  host? P096-002 defines conservative bounds; P096-011 may revise them through
+  host? P096-002 defines conservative bounds; P096-011a may revise them through
   an explicit profile/configuration revision.
 - Which discovery providers expose enough evidence to distinguish identical
   models on each platform? Manual exact binding remains the baseline when
@@ -1283,7 +1407,7 @@ OS, Workbench and BrainFlow implementations do not mark any P096 row complete.
   free-software requirements? P096-001 must pin and inspect the included
   SimpleBLE revision/license and all bundled libraries, not infer from BrainFlow MIT.
 - Which signed process/bundle is responsible for Bluetooth permission in each
-  intended macOS launch context? P096-001 records the hypothesis/probes; 005/011
+  intended macOS launch context? P096-001 records the hypothesis/probes; 005/011a
   close actual transport evidence, including denied and unavailable prompts.
 - Does package admission support deterministic platform variants under one
   logical package, or is a narrow generic manifest extension needed? 001 owns
@@ -1297,15 +1421,15 @@ separation or permit real-device exposure before the authority gate.
 
 ## Next Actions
 
-1. Execute P096-001 with pinned offline package artifacts through the actual
-   supervisor/channel, keeping synthetic and permission-probe evidence separate.
-2. Freeze the schemas, operation scopes, state tables, limits and negative
-   fixtures in P096-002, then implement independent instance materialization and
-   profile work in parallel.
+1. Finish 003 admission and whole-runtime configuration application over the
+   reviewed materialization owner; implement 004 catalogue and binding.
+2. Run the separately prepared 001-lab terminal/supervisor comparison when the
+   operator is at the nearby host, recording firmware and actual TCC attribution.
 3. Deliver the synthetic local value path through 006a/007a/008/010a; pass
    P096-005 before enabling any real discovery/acquisition route.
 4. Qualify 006b/007b, the wearer controls and class-specific reports, then retain
-   real multi-device evidence before advertising qualified Muse support.
+   single-Muse-2 evidence for both modes before advertising that exact qualified
+   scope. Two-device radio concurrency waits for P096-011b.
 
 ## External Implementation References
 
@@ -1340,3 +1464,68 @@ the exact revision/artifacts used for implementation and acceptance.
   allocation across descriptor presets and temporary read matrices.
 - [Upstream licensing](https://github.com/brainflow-dev/brainflow/blob/master/LICENSE):
   BrainFlow license; retain separate notices for packaged dependencies.
+
+
+### Reviewer follow-up checkpoint (2026-10-13)
+
+The first follow-up replaces arbitrary digest metadata with closed
+`sensorium-biosignal-sample-block.v1` and `-stream-descriptor.v1` contracts.
+The nested buffer is a tensor inside the typed sample-block contract; the
+follow-up now closes the remaining P096-002 draft shapes and qualifier. Signal rows, source-time,
+package numbers and excluded marker rows come from pinned native metadata,
+with one block per preset and no alias duplication. Units and source-clock
+uncertainty remain explicit unknowns until profile qualification.
+All value and mask segments are individually u64BE length-prefixed. Workers
+normalize every negative zero; `nonfinite/count` is worker-declared diagnostics.
+Generated fixtures contain no real wearer values; no lab-derived fixture exists
+until a real lab observation supplies verified layout.
+
+Operator-supplied hardware fact: Muse 2 firmware `1.0.25`, read from the Muse iOS
+application on 2026-10-13. Reconfirm before each observation; an update creates a
+new qualification tuple. Hardware laboratory work is assigned to the nearby
+`turbo.local` host. Terminal, SSH, supervisor-terminal and supervisor-SSH launch
+contexts remain separate TCC observations. No inter-node raw delivery is needed
+for this early probe. Neither firmware attestation nor prepared probe code is
+measured Bluetooth/runtime acceptance.
+
+
+### P096-002 ownership and executable contract checkpoint
+
+| Layer | Owns | Explicit boundary |
+| --- | --- | --- |
+| Declaration | Instance revision, profile/mode intent, desired enabled/disabled state | Saving intent grants no acquisition; exact declaration/package refs identify the reviewed input |
+| Admission | Current instance/declaration/package authority and allowed sensitive-personal scope | Signature validity and an earlier journal receipt cannot replace current permission |
+| Resolution | Exact package platform, private runtime/home/auth bindings, profile metadata and physical binding | No selector, path or secret enters the portable plan; unresolved real metadata blocks readiness |
+| Active execution | Supervisor launch/epoch, source generation, output fence and cleanup evidence | Applying a saved plan never implies Start; replay/recovery never restarts a stopped instance |
+| Sample admission | Host-replaced identity, clocks, classification and current source/read authority | Worker diagnostic metadata and content digests establish neither consent nor device identity |
+
+The frozen state/stop table in §6 owns transitions. Status separately reports
+configuration, supervisor, acquisition, claim, output fence, pending terminal
+outcome and required/optional stream health. `streaming` requires a nonempty fresh
+required set, resolved configuration and a ready supervisor. Real-device
+streaming additionally requires a held physical claim and available wearer
+control. Optional stream loss is degraded. `cleanup-uncertain` keeps the fence
+closed and claim held until disposal is proven; idle/blocked/failed release the
+claim only afterwards. Stop reasons are typed and carry explicit retryability.
+
+The sample-block metadata uses instance revision and exact profile refs to bind
+host-resolved device, package/runtime/firmware and admitted source context. The
+first slice is raw; transformed recipes are separate 012 work. Per-block tensors
+carry only selected signal rows, source time and package counters. Missing contact
+quality and unqualified continuity remain unknown; neither is inferred from
+nonzero values. `drain/wall-time` carries an observed UTC value, or explicit null
+in conformance/unavailable contexts; product admission supplies its clock mapping.
+`nonfinite/count` is worker-declared diagnostics, bounded by the missing mask.
+
+`node:tools/acceptance/sensorium-brainflow/budgets.json` fixes the numeric budget
+profile. Worker/native owners enforce allocation, drain and ingress bounds;
+the source owner enforces retained events/bytes/age; carrier/read owners enforce
+batch, queue and current read-grant bounds; the supervisor enforces exit; host
+consent/claim owners enforce TTL, fence and cleanup holds. These are declared
+requirements, not measured results. The separate live profile freezes presets,
+rates, block size, generation, consumer/device/instance counts, polling/batching,
+network/load, warmup/duration/repetitions and injected faults. The qualifier binds
+that artifact by digest, checks per-stage timing accounting, rates/startup, every
+queue owner, healthy-reader/protected-stop coverage and in-flight revocation.
+Unknown measurements cannot pass. Lab observations and conformance/playback
+reports cannot qualify a synthetic or Muse hardware execution.

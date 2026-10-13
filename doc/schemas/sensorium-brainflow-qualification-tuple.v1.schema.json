@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:sensorium-brainflow-qualification-tuple:v1",
   "title": "Sensorium BrainFlow Qualification Tuple v1",
-  "description": "Draft exact deployment and measurement conditions embedded under qualification/tuple in a class-specific acceptance report. This tuple is data, not a qualification verdict. Unknown fields must use tagged evidence states. Never include physical serials, advertised names, human identity or host-private paths; use evidence-local controller aliases. The qualifier binds evidence class, candidate, reports and executable digest separately.",
+  "description": "Draft exact deployment and measurement conditions embedded under qualification/tuple in a class-specific acceptance report. This tuple is data, not a qualification verdict. Unknown fields must use tagged evidence states. Never include physical serials, advertised names, human identity or host-private paths; use evidence-local controller aliases. The qualifier binds evidence class, candidate, reports and executable digest separately. Real qualification requires known firmware with operator observation source and known responsible-process plus attribution source; lab observations do not establish qualified TCC access.",
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
@@ -123,12 +123,20 @@
         },
         "numpy": {
           "oneOf": [
-            { "$ref": "#/$defs/binaryBuild" },
+            {
+              "$ref": "#/$defs/binaryBuild"
+            },
             {
               "type": "object",
               "additionalProperties": false,
-              "required": ["status"],
-              "properties": {"status": {"const": "not-applicable"}}
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "not-applicable"
+                }
+              }
             }
           ]
         },
@@ -205,11 +213,25 @@
             "login-agent",
             "system-daemon",
             "host-app",
-            "other"
+            "other",
+            "ssh",
+            "supervisor-terminal",
+            "supervisor-ssh"
           ]
         },
         "signing/identity": {
           "$ref": "#/$defs/evidenceValue"
+        },
+        "responsible-process": {
+          "$ref": "#/$defs/evidenceValue"
+        },
+        "attribution/source": {
+          "enum": [
+            "system-settings",
+            "tcc-log",
+            "prompt",
+            "unverified"
+          ]
         }
       }
     },
@@ -278,6 +300,12 @@
               "type": "string",
               "minLength": 1,
               "maxLength": 128
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
             }
           }
         },

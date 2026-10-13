@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-model-profile:v1",
+  "title": "sensorium-brainflow-model-profile.v1",
+  "description": "Declarative model x transport profile. Native key is selected by the exact package, never supplied as a public board-id override. Candidate profiles grant no readiness or authority; exact metadata and observed activity are independent qualification gates. No AUX modes, arbitrary config commands or streamers in this slice.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "profile/ref",
+    "model",
+    "transport",
+    "board/key",
+    "metadata/build",
+    "verification",
+    "modes",
+    "binding/assurance",
+    "quality"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-model-profile.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "profile/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "model": {
+      "enum": [
+        "synthetic",
+        "muse-2"
+      ]
+    },
+    "transport": {
+      "enum": [
+        "synthetic",
+        "ble"
+      ]
+    },
+    "board/key": {
+      "enum": [
+        "SYNTHETIC_BOARD",
+        "MUSE_2_BOARD"
+      ]
+    },
+    "metadata/build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "verification": {
+      "enum": [
+        "candidate",
+        "metadata-verified",
+        "qualified"
+      ]
+    },
+    "modes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode/id",
+          "signals/acquired",
+          "streams"
+        ],
+        "properties": {
+          "mode/id": {
+            "enum": [
+              "synthetic",
+              "p21",
+              "p51"
+            ]
+          },
+          "signals/acquired": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 16,
+            "items": {
+              "enum": [
+                "eeg",
+                "ecg",
+                "emg",
+                "eog",
+                "accelerometer",
+                "gyroscope",
+                "ppg",
+                "eda",
+                "temperature",
+                "resistance",
+                "battery",
+                "other"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "streams": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "$ref": "sensorium-biosignal-stream-descriptor.v1.schema.json"
+            }
+          }
+        }
+      }
+    },
+    "binding/assurance": {
+      "const": "operator-confirmed-selector"
+    },
+    "quality": {
+      "const": "unknown"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "sensorium-biosignal-stream-descriptor.v1",
+  "schema/v": 1,
+  "stream/id": "preset-0",
+  "backend/preset": "0",
+  "source/rows": 4,
+  "channels": [
+    {
+      "id": "row-1",
+      "signal/kind": "eeg",
+      "unit": "unknown",
+      "source/row": 1
+    }
+  ],
+  "rate/nominal": {
+    "numerator": 256,
+    "denominator": 1
+  },
+  "source-time/row": 2,
+  "package-num/row": 0,
+  "marker/row": 3,
+  "package-num/semantics": "unknown"
+}

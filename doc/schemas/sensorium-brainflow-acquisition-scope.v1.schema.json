@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-acquisition-scope:v1",
+  "title": "sensorium-brainflow-acquisition-scope.v1",
+  "description": "Payload inside existing host consent/grant authority envelopes. Only acquisition is granted here; read, capture, publish and discover require separate authority. All unavoidable incidental signals must be covered. Expiry, revoke and wearer protected stop are checked at the host, with Personal classification preserved.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "scope/ref",
+    "instance/ref",
+    "profile/ref",
+    "mode/id",
+    "signals/acquired",
+    "wearer/ref",
+    "operator/ref",
+    "operator-is-wearer",
+    "confirmed/at-unix-s",
+    "expires/at-unix-s",
+    "session/epoch",
+    "source/generation",
+    "authorities"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-acquisition-scope.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "scope/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "instance/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "profile/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "mode/id": {
+      "enum": [
+        "p21",
+        "p51"
+      ]
+    },
+    "signals/acquired": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 4,
+      "items": {
+        "enum": [
+          "eeg",
+          "accelerometer",
+          "gyroscope",
+          "ppg"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "wearer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "operator/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "operator-is-wearer": {
+      "type": "boolean"
+    },
+    "confirmed/at-unix-s": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "expires/at-unix-s": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "session/epoch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "source/generation": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "authorities": {
+      "const": [
+        "acquire"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode/id": {
+            "const": "p21"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "signals/acquired": {
+            "const": [
+              "eeg",
+              "accelerometer",
+              "gyroscope"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode/id": {
+            "const": "p51"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "signals/acquired": {
+            "const": [
+              "eeg",
+              "accelerometer",
+              "gyroscope",
+              "ppg"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

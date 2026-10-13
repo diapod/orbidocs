@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-brainflow-device-binding:v1",
+  "title": "sensorium-brainflow-device-binding.v1",
+  "description": "HOST-PRIVATE only: selector never appears in status, plan, telemetry, reports or publication descriptors. A confirmed selector does not prove serial identity. Ambiguity, absent/currently busy device and claim conflict are distinct refusals. This shape grants no discovery or acquisition authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "binding/ref",
+    "instance/ref",
+    "profile/ref",
+    "selector/kind",
+    "selector/value",
+    "identity/assurance",
+    "resolution/state",
+    "claim/alias",
+    "expires/at-unix-s"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-brainflow-device-binding.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "binding/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "instance/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "profile/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "selector/kind": {
+      "const": "advertised-name"
+    },
+    "selector/value": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 64,
+      "pattern": "^Muse-[A-Za-z0-9-]+$"
+    },
+    "identity/assurance": {
+      "const": "operator-confirmed-selector"
+    },
+    "resolution/state": {
+      "enum": [
+        "operator-confirmed",
+        "resolved",
+        "ambiguous",
+        "unavailable"
+      ]
+    },
+    "claim/alias": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "expires/at-unix-s": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}
