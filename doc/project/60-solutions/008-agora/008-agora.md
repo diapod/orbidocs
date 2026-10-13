@@ -339,7 +339,8 @@ Status:
   v0.7.0 oversize evidence remains unchanged. The frozen run selected v2 explicitly.
   The accepted write policy now defaults to v2, with explicit legacy v1;
   [P035-006](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-write-default-decision-2026-10-12)
-  owns the pending Node-default change and omitted-config runtime proof. This
+  owns the config-local v2 implementation and pending omitted-config runtime proof.
+  The enum has no default; publication intents freeze one version per account/topic/record. This
   completes the carrier task while global Agora stays `partial`;
   unmodified reference-server qualification is P035-005, and federation and
   production readiness remain separate.
@@ -363,7 +364,8 @@ Status:
   late-binding race. Focused conformance covers long history, resume, empty rooms,
   non-limited backfill and atomic rollback; P035-005 runtime evidence stays frozen.
   One room can still hold the account checkpoint/current timeline; exhausting its
-  page budget does not skip others' history work. P035-006 must exercise the new path and
+  page budget does not skip others' history work. P035-007 tracks isolation of account
+  delivery from room recovery. P035-006 must exercise the new path and
   integrate bounded public evidence archives under `node:docs/evidence/RETENTION.md`.
 
 ### Retention Policy Sweep

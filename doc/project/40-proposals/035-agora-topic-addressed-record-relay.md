@@ -909,7 +909,8 @@ Unsupported room profiles use the typed blocked-publication path. Other room
 versions need their own profile; changing the default does not qualify them,
 unmodified reference homeservers, federation or production readiness.
 
-**Implementation gate:** the inspected Node default remains `CarrierVersion::V1`.
+**Implementation gate:** Node now selects v2 in configuration when the field is absent.
+`CarrierVersion` has no domain-wide default; omitted-config runtime qualification remains pending.
 P035-006 changes the config/runtime defaults, fixtures and current qualifier, then
 retains a clean-revision real Matrix case with the config key absent: protected
 host signing of gossip confidence 0.5, v2 forwarding, B `/sync` read, restart and
@@ -1009,6 +1010,37 @@ integrated before archived output is adopted by P035-006. The existing report
 format remains unchanged. Node owns the operational convention:
 `node:docs/evidence/RETENTION.md`. Do not rewrite dated loose evidence.
 
+### Config policy, immutable publication intent and retention (2026-10-13)
+
+**Status:** accepted; implementation is P035-006, runtime qualification pending.
+
+The carrier enum denotes v1/v2 values and has no `Default`. The deployment config
+owns `default_matrix_write_version`: absence selects v2, explicit v1 selects legacy,
+and `null`/unknown versions/wrong types are errors. Relay constructors require an
+explicit account and writer. The first intent per `(account, topic_key, record_id)`
+freezes its version. Re-ingest under another config cannot create another version;
+operator retry resumes that intent. Legacy multi-version requests are preserved,
+with the earliest request selected for scheduling/status. Their prepared frames,
+transaction IDs and attempt evidence are not rewritten. The former Node v1-to-v2
+republishing case stays frozen historical evidence; new multi-carrier checks use
+the direct transport boundary instead. A last claimed attempt without its result
+becomes `blocked` with `publication-outcome-unknown` at worker startup, requiring
+operator retry; this must not become an invisible, exhausted `pending` request.
+
+History `/messages` filters v1/v2 Agora types. An empty chunk with `end` does not
+prove exhaustion: pagination continues to the anchor or absent `end`; token cycles
+are diagnosed. A legacy non-Agora anchor is reached once without the filter before
+transactional retirement. Empty bootstrap retains a start token without a fabricated
+event ID. P035-007 owns future isolation of room recovery from account delivery.
+
+Archive content identity is canonical PAX tar bytes and member hashes; gzip hash
+identifies the stored representation, with compression level and zlib versions.
+Packing sets fixed tar metadata and a filename-free zero-time gzip header. Bounded
+extraction counts actual compressed/decompressed bytes, metadata, files and ratio,
+independently of the index. New runs qualify loose files, pack/verify/extract,
+qualify again, compare results and only then remove loose payload copies. Retain
+both qualification outcomes, including refusal. Historical evidence is unchanged.
+
 ### Matrix Carrier Tracker
 
 This transport continuation is independent of AD publisher migration and keeps
@@ -1019,6 +1051,7 @@ its status here; S008 Agora P18 links to this row.
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
 | P035-005 | Unmodified reference homeserver PDU interoperability | done | P035-004; room-version budget profile | Qualified 2026-10-13 at clean Node dcc8133c / Orbidocs c84df99 on official unmodified Synapse v1.162.0, PostgreSQL 16.13 and room v10: 4 SQLite and 22 Matrix cases. Separate gates pass: all 42 Node complete PDUs fit 65,536 (maximum 49,927); direct protocol maximum 65,535 and actual HTTP 413 M_TOO_LARGE, including requests below the PDU ceiling. Confidence 0.5, permitted Whisper families, exact bytes, A/B and server/database restart, limited recovery, late binding and source replay pass. Stock serializer verifies hashes, signatures and event IDs. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`. Initial Synapse failure, v0.7.0 finding and patched proof stay frozen; explicit v2 only, no federation or production claim. |
 | P035-006 | Default v2 writer and explicit legacy v1 | todo | P035-004; accepted write-default and history-recovery decisions | Change Node/config defaults to v2; select v1 only through explicit legacy configuration. Qualify the real omitted-config confidence-0.5 sign/forward/B-sync/read/restart/replay path, explicit-v1 controls and unchanged prepared publication versions. Include page-durable long-history recovery, empty bootstrap and the non-limited late-binding path. Integrate bounded evidence archives and verify qualification equivalence after extraction. Update the current harness/qualifier under existing Story-008 contracts, retaining original default-v1 evidence. Room v10 and current byte budgets remain scoped; P035-005's original qualification remains independent and frozen. |
+| P035-007 | Isolate room history recovery from account delivery | todo | P035-006; S028 | Design and qualify durable per-room recovery/backpressure so unavailable or long history in one room cannot indefinitely stop current events in other rooms. Preserve admission, source/checkpoint atomicity, explicit gaps and restart/replay; P035-006 measures the current limitation without claiming independent room sync. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
