@@ -134,11 +134,23 @@ Canonical [readiness](../../../schemas/messaging-readiness.local.v1.schema.json)
 [authorization request](../../../schemas/messaging-send-authorize.local.v1.schema.json),
 [decision](../../../schemas/messaging-send-decision.local.v1.schema.json) and
 [audit](../../../schemas/messaging-send-audit.local.v1.schema.json) schemas define
-these local surfaces. The execution contract and
-+its separate conformance, fresh-identity runtime and strict Story-010 gates are
-+recorded in P097. Contract adoption and implementation do not establish release
-+readiness or broader ordinary-participant authority policy.
-+
+these local surfaces. Node retains the dated Stage A report separately from Stage B
+conformance, fresh-identity runtime and strict Story-010 qualification at
+`node:docs/evidence/messaging-onboarding/README.md`. Original Stage B local measurements
+dated `2026-10-13` retain 804 conformance tests plus native gates, 24 fresh-UI
+cases, seven narrow-profile cases and 31 strict Story-010 phases, pinned to
+sources, profiles and unchanged executables. Neither this extension nor local
+qualification establishes release
+readiness or broader ordinary-participant authority policy.
+
+The separate `2026-10-13` review closeout qualifies bounded provenance and completed
+retry history, unique outbox adoption, immutable host observations, actual caller
+and issuer checks, required content digests and the protected chunk/fetch boundary.
+Its pinned candidate passes 810 conformance tests with additional native gates,
+25 fresh-identity cases, seven narrow cases and 31 strict phases; delivery after
+323 seconds of directory isolation still uses local issuer authority. See
+`node:docs/evidence/messaging-onboarding/2026-10-13-review/README.md`.
+
 ## Passport Profile
 
 `messaging-receive@v1` is the canonical receive-consent passport profile. The

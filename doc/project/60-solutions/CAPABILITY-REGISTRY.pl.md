@@ -163,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **209** host-local / **241** ogółem; grupy właścicieli: **32**.
+Wpisy: **211** host-local / **243** ogółem; grupy właścicieli: **34**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -290,6 +290,18 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>inquirium.operator-question.transition</code> | <code>host/inquirium.operator-question.transition</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>inquirium.training-grant.issue</code> | <code>host/inquirium.training-grant.issue</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>inquirium.training-grant.revoke</code> | <code>host/inquirium.training-grant.revoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Messaging authority evaluator</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>messaging.send.authorize</code> | <code>host/messaging.send.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Messaging provenance lifecycle</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>messaging.send.provenance.sync</code> | <code>host/messaging.send.provenance.sync</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Sensorium Virt host broker</code>
 

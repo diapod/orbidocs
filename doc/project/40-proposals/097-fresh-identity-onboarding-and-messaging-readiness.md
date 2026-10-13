@@ -27,8 +27,9 @@ Related:
 This document records the reviewed repair direction. Stage A is implemented in
 Node and qualified by separate conformance, fresh-identity runtime and strict
 Story-010 regression evidence dated `2026-10-12`. Its DTO schemas are canonical and
-mirrored in Node. Stage B freezes the always-enforced execution contract below. Its implementation
-and three independent qualification gates are tracked separately. The proposal's `draft`
+mirrored in Node. Stage B is implemented and locally qualified by separately
+pinned conformance, fresh-identity runtime and strict Story-010 measurements dated
+`2026-10-13`. The tracker records this bounded completion. The proposal's `draft`
 status, broader component implementation and release qualification remain separate.
 
 Retained evidence: `node:docs/evidence/messaging-onboarding/README.md`.
@@ -591,10 +592,10 @@ it does not qualify all P060/P076, real federation users or release readiness.
 | MSG-ONB-002 | A | MSG-ONB-001a, MSG-ONB-001b | done | Add separate issuer fact/step, signed request verification, explicit operator handoff and durable deferred Messaging/federation steps; retain `/app` status without automatic admission or false completion. |
 | MSG-ONB-003 | A | MSG-ONB-001a, MSG-ONB-001b | done | Shared daemon preparation coordinator for wizard/auto-ready, durable intent/result idempotency, concurrent/crash recovery and preserved withdrawn-consent behavior. |
 | MSG-ONB-004 | A | MSG-ONB-001a, MSG-ONB-001b, MSG-ONB-002, MSG-ONB-003 | done | Retain all Stage A conformance/negative cases, fresh-UI-identity message/content evidence and separate strict Story-010 regression; document legacy execution compatibility and the narrow-profile deferral result. |
-| MSG-ONB-001c-01 | B | MSG-ONB-004 | todo | Evaluator, revocation/cache, shared reasons and DTOs; pinned conformance. |
-| MSG-ONB-001c-02 | B | MSG-ONB-001c-01 | todo | Host evaluator/port, admission provenance and setup renewal; refusal before effects and idempotent typed issuance. |
-| MSG-ONB-001c-03 | B | MSG-ONB-001c-02 | todo | AD/peer guards, bounded paused queue and explicit idempotent retry; queue/concurrency/restart/crash evidence. |
-| MSG-ONB-001c-04 | B | MSG-ONB-001c-01, MSG-ONB-001c-02, MSG-ONB-001c-03 | todo | Generators, read-only audit and three separate evidence classes; reconcile P097, S027, Node ledger and MVP. |
+| MSG-ONB-001c-01 | B | MSG-ONB-004 | done | Evaluator, revocation/cache, shared reasons and DTOs; pinned conformance. |
+| MSG-ONB-001c-02 | B | MSG-ONB-001c-01 | done | Host evaluator/port, admission provenance and setup renewal; refusal before effects and idempotent typed issuance. |
+| MSG-ONB-001c-03 | B | MSG-ONB-001c-02 | done | AD/peer guards, bounded paused queue and explicit idempotent retry; queue/concurrency/restart/crash evidence. |
+| MSG-ONB-001c-04 | B | MSG-ONB-001c-01, MSG-ONB-001c-02, MSG-ONB-001c-03 | done | Generators, read-only audit and three separate evidence classes; reconcile P097, S027, Node ledger and MVP. |
 
 Stage A evidence includes 16 fresh-UI runtime cases, the correlated message/content
 bundle, two completed parallel fresh UI setup jobs, concurrent first issuance,
@@ -604,6 +605,27 @@ run empty-generic-plan deferral profile, and separate strict Story-010 regressio
 Conformance and lifecycle tests are retained separately. The narrow control uses a
 Story-010 topology with Story-013-like omitted generic prerequisites; it does not run
 full Story-013. No model or VM runs in this qualification.
+
+Original Stage B evidence dated `2026-10-13` retains 804 conformance tests, separate
+daemon/host/UI gates, 24 fresh-identity runtime cases, seven narrow-profile cases
+and 31 strict Story-010 regression phases. Source files, terminal profile configs
+and unchanged executable digests are pinned in
+`node:docs/evidence/messaging-onboarding/2026-10-13/candidate-manifest.json`.
+Actual loopback WSS and indirect adapter tests cover delayed effects; explicit
+renewal/retry delivers once, and local authority delivers after directory isolation
+beyond 300 seconds. Historical Stage A evidence remains unchanged. This is local
+debug-build qualification, not release readiness.
+
+A separately pinned review closeout dated `2026-10-13` retains 810 conformance
+tests with additional native gates, 25 fresh-identity cases, seven narrow-profile
+cases and 31 strict Story-010 phases. It measures durable provenance adoption and
+terminal reconciliation, while controlled tests qualify provenance/history cleanup,
+unique enqueue, immutable observations, actual caller/issuer selection and the
+chunk/fetch boundary. Directory isolation lasts 323 seconds before actual delivery.
+The source/profile/binary manifest and four-stage commit plan are retained at
+`node:docs/evidence/messaging-onboarding/2026-10-13-review/README.md`.
+The original reports are unchanged; local qualification does not establish release
+readiness or broader participant policy.
 
 Stage B follows the always-enforce plan above. Resolve
 P076's limited-grant question before claiming support for ordinary non-sovereign users

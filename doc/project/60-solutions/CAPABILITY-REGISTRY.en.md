@@ -161,7 +161,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **209** host-local / **241** total; **32** owner groups.
+Entries: **211** host-local / **243** total; **34** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -288,6 +288,18 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>inquirium.operator-question.transition</code> | <code>host/inquirium.operator-question.transition</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>inquirium.training-grant.issue</code> | <code>host/inquirium.training-grant.issue</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>inquirium.training-grant.revoke</code> | <code>host/inquirium.training-grant.revoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Messaging authority evaluator</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>messaging.send.authorize</code> | <code>host/messaging.send.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Messaging provenance lifecycle</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>messaging.send.provenance.sync</code> | <code>host/messaging.send.provenance.sync</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Sensorium Virt host broker</code>
 
