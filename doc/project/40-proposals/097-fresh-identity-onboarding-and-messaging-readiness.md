@@ -27,9 +27,9 @@ Related:
 This document records the reviewed repair direction. Stage A is implemented in
 Node and qualified by separate conformance, fresh-identity runtime and strict
 Story-010 regression evidence dated `2026-10-12`. Its DTO schemas are canonical and
-mirrored in Node. The tracker below records that scoped completion; Stage B execution
-enforcement/migration remains `todo`. The proposal's `draft` status, broader component
-implementation status and release qualification are separate claims.
+mirrored in Node. Stage B freezes the always-enforced execution contract below. Its implementation
+and three independent qualification gates are tracked separately. The proposal's `draft`
+status, broader component implementation and release qualification remain separate.
 
 Retained evidence: `node:docs/evidence/messaging-onboarding/README.md`.
 Implementation contract: `node:docs/development/MESSAGING-ONBOARDING.md`.
@@ -50,9 +50,11 @@ free GET reads, a separate federation issuer fact, explicit operator preparation
 durable setup idempotency. Federation and Messaging steps may be deferred so that
 unrelated UI work remains accessible with visible, truthful status.
 
-The second stage introduces execution-time enforcement of local send authority with
-an explicit passport/profile migration. The first stage must not silently disable
-existing sends through either daemon changes or UI action suppression.
+The second stage always enforces typed local send authority. Generated profiles
+are corrected; existing identities use explicit preparation or renewal. There is
+no observation mode, legacy cohort, migration API or cutover. Lack of backward
+compatibility is a deliberate decision before the first release. Migration after
+release would be a new problem. Dated Stage A compatibility evidence stays historical.
 
 Acceptance keeps three evidence classes separate: contract conformance, actual
 delivery between fresh UI identities, and regression of strict Story-010. Existing
@@ -107,25 +109,25 @@ It does not rewrite normative authority, root custody, recipient consent or INAC
 |---|---|
 | Keep the current boolean or merely improve the issuance error text | Rejected: missing evidence would still appear ready and execution semantics would remain ambiguous. |
 | Automatically admit every fresh identity into the root | Rejected: onboarding would cross P076's authority boundary. |
-| Add a separate wizard evaluator or immediately enforce the new read result | Rejected: a second matcher would drift; immediate enforcement would disable unmigrated profiles. |
-| Strengthen the existing evaluator, separate authority and deferral, then migrate execution enforcement | Selected: preserve authority and current execution policy while exposing preparation gaps; accept durable coordination and a separately qualified second stage. |
+| A second wizard matcher or a permanent observation mode | Rejected: matchers drift and observation can indefinitely leave authority unenforced. |
+| Shared evaluator, explicit authority/deferral and always-enforced typed send | Selected: explicit preparation fixes generated and long-lived development profiles; qualify delayed effects separately. |
 
 ### 1. Two delivery stages
 
 | Stage | Included behavior | Explicit boundary |
 |---|---|---|
 | A: read and onboarding repair | Exact selection; shared evaluator; truthful GET; federation issuer fact; signed request; deferral; idempotent preparation; fresh-identity delivery acceptance | Existing send execution policy remains in force. Missing preparation is visible, not a new implicit send denial. |
-| B: execution enforcement and migration | Profile inventory, migration, observation period, explicit cutover, checks before outbound effects | Requires separate implementation and release qualification under `MSG-ONB-001c`. Stage A completion does not close this stage. |
+| B: execution enforcement | Typed send authorization before admission and delayed effects, durable provenance, explicit retry and bounded retention | Separate conformance, fresh-identity runtime and strict Story-010 measurements under `MSG-ONB-001c-01` through `04`; no migration/cutover mode. |
 
 An empty local-gate requirement list is not evidence of a valid local passport.
 The Messaging preparation plan owns which roles and prerequisites it requests.
 Omission from a generic gate must not accidentally mark a requested Messaging role
 ready or turn it into `not-requested`.
 
-During Stage A, `allowed_actions` follows the actual execution policy. The UI must
-distinguish incomplete preparation from a still-available legacy send action; it
-must not introduce Stage B by hiding or disabling that action. Existing execution
-checks remain effective throughout the transition.
+The dated Stage A reports retain the then-current compatibility policy. Stage B
+uses execution authority to select `compose`; legacy execution is no longer an
+allowed path. Readiness and explicit deferral remain independent of unrelated UI
+work, while existing recipient, INAC and signing checks remain in force.
 
 ### 2. Passport selection and compatibility
 
@@ -151,21 +153,13 @@ is now frozen by 001a as `messaging-local-send@v1`. Its typed scope contains
 `participant_id` and purposes `["messaging"]`, with exactly one profile and an
 exact caller kind/label/subject key. Top-level `capability_profile` must be absent.
 Scope extras are limited to `capability_id`, `module_id` and `issued_by`; the last
-field is descriptive. The bounded profile-less compatibility class additionally
-requires `module_id=messaging-service` and `capability_id=messaging-send`. Every
-selected artifact still needs signature, active-root and current revocation proof.
-Peer-scoped extras invalidate both classes; ambiguous artifacts are ineligible.
-Local receive selects the owned wizard route with `messaging-receive@v1`, request
-`wizard-local-route`, wildcard senders, purpose `messaging` and the exact route/grant.
-This does not redefine pairwise recipient consent.
-
-Existing profile-less local passports need an explicit, bounded compatibility rule
-or reissuance. No rule may infer authority from an absent discriminator, a loose
-capability-id match or an `issued_by` label. The rule must specify which signed
-node/caller/scope evidence identifies an eligible legacy passport and how participant
-ownership is established. An ambiguous passport is ineligible for this frozen plan;
-unavailable observations yield `unknown`. Neither establishes global permission.
-Stage B must document whether each legacy class is retained, reissued or retired.
+field is descriptive. Stage A's bounded profile-less class is historical. Stage B
+accepts only `messaging-local-send@v1`; profile-less or legacy artifacts produce
+`passport-profile-unsupported`, and readiness offers explicit `prepare`. INAC push
+and signer delegation never substitute for local authority. Ambiguous scopes are
+ineligible. Local receive retains `messaging-receive@v1`, `wizard-local-route`,
+wildcard senders, purpose `messaging` and the exact owned route/grant; this does not
+redefine pairwise recipient consent.
 
 ### 3. Shared evaluator and active-root evidence
 
@@ -244,11 +238,13 @@ cover `issuer-not-admitted`, `passport-missing`, `passport-ineligible`,
 `revocation-state-unavailable`, `binding-missing`, `binding-inactive`,
 `participant-owner-mismatch`, `route-missing`, `service-not-ready`,
 `storage-not-ready`, `contactability-not-ready`, `key-locked`, `root-unavailable`
-and `observation-failed`. Human-readable detail does not create additional reason
+and `observation-failed`. Stage B adds `passport-profile-unsupported`,
+`revocation-view-stale`, `guard-unavailable` and `unattributed-entry` to the same
+protocol enum used by HTTP, readiness, AD and outbox. Human-readable detail does not create additional reason
 codes. The enum must distinguish a known blocker from unavailable evidence.
 
 `allowed_actions` supplies such transitions as defer, resume, request admission or
-prepare and legacy compose, when currently permitted. The fixed relations are
+prepare and compose, when currently permitted by the execution evaluator. The fixed relations are
 `defer`, `resume`, `request-admission`, `prepare` and `compose`. UI clients
 must not reconstruct them from status alone. Mutating endpoints independently
 revalidate their authorization; presenting an action is not an authorization grant.
@@ -348,11 +344,9 @@ route to the same evaluated preparation state, not an alternative trust policy.
   one UI process does not cover another tab, auto-ready or another client.
 - Preserve the separation between local send authority, recipient receive consent,
   INAC transport permission and participant signing delegation in diagnostics.
-- For Stage B, inventory each installed profile and legacy passport class, publish
-  migration/cutover rules, and migrate through an already authorized issuer. An
-  observation period must not weaken current checks. Check authorization before
-  enqueueing and before delayed outbound effects; define the disposition of queued
-  messages when authority changes. No automatic sovereign promotion is a migration.
+- Stage B uses explicit participant/caller/route inputs and host-owned provenance.
+  Check authority before admission and every delayed protected effect; no earlier
+  read or successful attempt becomes a reusable grant. Missing guard fails closed.
 - Update contracts, schema mirrors, ledgers and capability documentation in their
   later implementation tasks. Do not mark this proposal's candidate DTO/profile as
   currently registered or qualify all of P060/P076 from one acceptance result.
@@ -364,7 +358,7 @@ route to the same evaluated preparation state, not an alternative trust policy.
 | Class | Required evidence | What it does not establish |
 |---|---|---|
 | Conformance | Deterministic selector, trust, aggregation, request and concurrency fixtures with exact assertions | Fresh UI identities actually delivering a message |
-| Runtime | Fresh UI identities, explicit authority/consent transitions, setup and delivered content correlated with UI/storage evidence | Full Story-013 model/VM qualification or Stage B enforcement |
+| Runtime | Fresh UI identities, explicit authority/consent transitions, setup and delivered content correlated with UI/storage evidence | Full Story-013 model/VM qualification; dated Stage A runs alone do not establish Stage B enforcement |
 | Regression | Separate strict Story-010 report, without INAC preauthorization | Delivery through the newly created identities |
 
 All records identify source revisions, run/profile, stage and execution policy,
@@ -425,16 +419,124 @@ storage path; this is not permission to run or qualify full Story-013.
 | Expired or replayed admission request | Refused or recognized as the same already processed request; no second admission action. |
 | Repeated readiness GET | No issuance, publication, key unlock, service start, root update or preparation-state write. |
 
-#### Stage B: separate enforcement acceptance
+#### Stage B: execution contract
 
-`MSG-ONB-001c` requires a pinned profile inventory and migration report, preserved
-recipient/INAC/signing controls, and explicit execution-policy cutover. It must
-demonstrate refusal before outbound effects for absent or ineligible local send
-authority, issuer removal, revocation and changed owner/caller. Include authority
-changes after observation and while a message waits in the queue; the GET decision
-must not authorize later dispatch. Migrated fresh and legacy profiles must still
-complete actual delivery and strict Story-010 regression. These results are separate
-from Stage A and cannot be inferred from its readiness assertions.
+The evaluator is `evaluate(participant, caller, route, now)` over immutable facts.
+The host resolves actual caller and route ownership; client declarations establish
+neither. Current policy covers the local operator, but the evaluator's input is not
+hard-coded to that role. Do not extend the accepted issuer policy.
+
+Local issuer lifecycle ownership selects the authoritative local revocation store,
+with no directory freshness budget. `issued_by` and artifact location do not prove
+locality. Remote verified observations have a 300-second budget; known revocations
+remain decisive when stale. Missing observations or a guard produce HTTP 503;
+proven refusals produce 403. AD carries the shared reason in a structured field.
+
+A bounded 1024-entry cache keys participant, node, caller, route/owner, passport and
+active-root digests and binding/revocation revisions. Passport/binding intervals,
+current key availability and remote observation age are checked on every use.
+Staged roots have no effect; verified activation by restart changes the root digest.
+`POST /v1/host/capabilities/messaging.send.authorize` returns reasons, time and
+evidence without issuance or durable authorization. Provenance observations require a
+non-null `body/digest`; the profile-only observation arm has no message content.
+Recipient `inac-push@v1` passports are excluded before local candidate diagnostics;
+only missing local authority yields `passport-missing`. Issuer admission is checked
+against the selected passport's actual issuer without expanding today's self-issued
+policy. Runtime callers are resolved from the authenticated request binding.
+
+The host publishes immutable binding/passport snapshots and their digests/revisions
+at its serialized write boundary. Draft changes atomically publish their file and
+memory snapshot. Revocation revision and facts come from one authoritative-source
+observation. Peer execution reuses these snapshots and a bounded provenance cache;
+it does not reread the whole issued-artifact directory on each frame. Out-of-band
+profile-file changes become active after restart.
+
+Explicit setup creates a new preparation generation after expiry or unsupported
+profile. An old idempotency key retains its old result; concurrent new keys share
+one current issuance slot. Wizard and auto-ready share selector/coordinator. GET,
+auto-ready, unlock and retry never renew historical intent or withdrawn consent.
+
+Admission precedes EML, outbox, signing and outgoing contact requests. Send authority
+does not depend on whole setup readiness or the sender's receive role. The daemon
+persists immutable `message/id`, participant/node, resolved caller, route/owner,
+creation time and intent/content digests. Outbox, AD and peer transport retain only
+references to that provenance. The provenance proves origin, never future authority.
+One provenance reference owns one outbox row, enforced by a unique index. A duplicate
+adoption returns its original receipt without rewriting EML or appending an enqueue
+event. A different envelope cannot claim the same provenance.
+
+The module-only `messaging.send.provenance.sync` port reconciles already-committed
+outbox adoption and terminal facts. Response loss/restart replays that reconciliation.
+Operational `intents` and their `artifacts` expire 30 days after `delivered`,
+`expired-unsent` or `discarded-unsent`; outbox audit facts and recordings remain.
+Unadopted intents expire after 60 minutes. Sweep only after pending outbox facts have
+been reconciled; unavailable reconciliation retains the proof and does not prevent
+fail-closed execution checks. Each transactional sweep removes at most 256 intents
+and their artifacts together and invalidates their cached observations.
+
+AD's daemon-independent guard statically protects `message-envelope.v1` and outbound
+`contact-request.v1`. Admission, retry and actual adapter effects validate current
+authority, class, provenance and digest, including referenced artifacts and indirect
+adapters. Each protected peer frame is checked before emission; refusal does not
+disconnect the peer. Missing guard is `guard-unavailable`.
+
+A started transfer does not grant permission for subsequent protected INAC chunks:
+the built-in adapter attaches artifact identity and provenance to every chunk, so
+revocation stops the next unsent chunk. Already emitted bytes cannot be recalled;
+partial bytes alone do not establish completed message delivery. A previously shared
+`artifact-object-pointer.v1` has a different boundary: fetching its object consumes
+the separately issued, expiring, one-use fetch grant. Revoking local send authority
+blocks new protected publication, but does not retroactively revoke that fetch grant.
+
+A refused existing intent becomes `authority-blocked` with reason/evidence. AD ends
+the attempt as `OutboundDenied`, without automatic retry. Restart, replay/reindex,
+unlock and auto-ready preserve the pause. Unattributed old entries get
+`unattributed-entry`; explicit discard or resending content as a new ID are the only
+paths forward. Never infer the historical sender from the current operator.
+
+Single retry and participant `POST /v1/messaging/outbox/retry-blocked` reevaluate each
+intent. Bulk operations durably pin their selection and operation key; each intent
+has its own persisted attempt generation/idempotency key. Concurrent requests do
+not duplicate attempts; unresolved previous AD outcomes must be resolved first.
+A completed contact-request AD without a receive passport is not completed message
+delivery; explicit retry returns to waiting for recipient consent. Completed bulk
+operation receipts expire 30 days after all selected items have durable results.
+Incomplete operations remain recoverable; the 4096-operation bound is a temporary
+capacity refusal, with completed history reclaimed transactionally before admission.
+Reusing a key after that window starts a new operation.
+Retention bounds paused entries to 256 per participant, 1024 per node, and 30 days
+from creation. Unattributed entries count at node level. Oldest entries, ordered by
+creation and then ID, terminate as `expired-unsent`. Commit terminal evidence before
+deleting transport copies; repeat cleanup after crashes. Audit metadata and separate
+recordings survive; replay and EML recovery cannot resurrect a terminal result.
+
+Operator `GET /v1/identity/messaging-send-audit` evaluates profiles and unsent intents
+with the same evaluator, pages at most 100 records, omits content and performs no
+durable write. It is a one-shot diagnostic, never an observation mode.
+
+Review regression gates also cover orphan/terminal provenance cleanup and cache
+invalidation, transactional cleanup failure/restart, a full 4096-operation history,
+concurrent 1:1 adoption, a mismatched evaluator caller, recipient-push-only readiness,
+required content digest, generated stream-chunk revocation and pointer-fetch grant
+independence. Keep these measurements source-bound and separately dated from the
+original Stage B qualification.
+
+#### Stage B: separate acceptance measurements
+
+| Class / case | Required assertion |
+|---|---|
+| Conformance | Typed selection and one reason enum; legacy, INAC and signer grants fail; invalid signature, expiry, revocation, node/caller/owner fail; cache invalidates by facts and expires without revision changes. |
+| Execution boundaries | Controlled barriers change authority after GET, admission, AD waiting and peer enqueue. No protected effect follows refusal. |
+| Missing guard / provenance | Protected AD classes fail `guard-unavailable`; missing/substituted provenance and referenced classes cannot bypass direct or indirect adapters. |
+| Seed Directory offline | Discover route and obtain ordinary consents, then disable only directory access for more than 300 seconds. Show stale remote observation and actual delivery with locally issued authority. |
+| Renewal / retry | Parallel setup after expiry or unsupported profile yields one typed passport; single and bulk explicit retries deliver without duplicates. |
+| Durability | Unattributed entries, restart/crash, unlock, replay/reindex, count/age bounds and crash between terminal commit and file deletion preserve authority and terminal outcomes. |
+| Fresh UI runtime | Separate `a.localhost` / `b.localhost` sessions; refusal before explicit issuer admission; defer into `/app`; setup, send and open. One bundle correlates message/envelope ID, sender/receiver UI, outbox, mailbox and content digest. |
+| Strict regression | Story-010 has typed send passports and ordinary recipient/INAC approvals, without preauthorization. Narrow profile still enters `/app` but cannot send without authority. No inference/model or VM execution. |
+
+Every completed tracker gate pins sources, generated profiles, binary digests and
+its own measured evidence. Local qualification is not release readiness. Stage A's
+dated records cannot establish Stage B enforcement.
 
 ## Trade-offs
 
@@ -446,8 +548,9 @@ precise selection and profile-dependent trust rather than one generic id check.
 Evidence-rich reads improve diagnosis of "ready earlier, blocked later" without
 making snapshots durable grants. Idempotency requires durable coordination and
 recovery semantics, but avoids hidden races between independent preparation clients.
-Staged enforcement preserves existing behavior temporarily and makes the migration
-cost explicit; Stage A must not be described as full send-authority enforcement.
+Always-enforced typed authority removes policy modes and transitional cohorts.
+Pre-release profiles must be prepared explicitly; that intentional compatibility
+break does not establish a post-release migration policy.
 
 ## Failure Modes and Mitigations
 
@@ -470,13 +573,8 @@ cost explicit; Stage A must not be described as full send-authority enforcement.
    policy that enables restricted capabilities without sovereign admission. See
    [P076's open question](076-federation-identity-and-network-selector.md#open-questions).
    This proposal does not resolve it through the current issue API.
-2. **Local-send selection (resolved for Stage A):** 001a freezes
-   `messaging-local-send@v1` and the bounded legacy module class above. Stage B must
-   still inventory actual profiles and choose whether to retain, reissue or retire
-   each class. Ambiguous old passports are not silently global grants.
-3. **Enforcement migration/cutover:** 001c must choose explicit release/configuration
-   scope, migration assistance and queued-message handling from a retained inventory.
-   Stage A does not settle an enforcement default or release date.
+2. **Post-release migration:** deliberately outside the pre-release Stage B scope.
+   Any later compatibility commitment requires a new proposal and evidence.
 
 ## Next Actions
 
@@ -493,7 +591,10 @@ it does not qualify all P060/P076, real federation users or release readiness.
 | MSG-ONB-002 | A | MSG-ONB-001a, MSG-ONB-001b | done | Add separate issuer fact/step, signed request verification, explicit operator handoff and durable deferred Messaging/federation steps; retain `/app` status without automatic admission or false completion. |
 | MSG-ONB-003 | A | MSG-ONB-001a, MSG-ONB-001b | done | Shared daemon preparation coordinator for wizard/auto-ready, durable intent/result idempotency, concurrent/crash recovery and preserved withdrawn-consent behavior. |
 | MSG-ONB-004 | A | MSG-ONB-001a, MSG-ONB-001b, MSG-ONB-002, MSG-ONB-003 | done | Retain all Stage A conformance/negative cases, fresh-UI-identity message/content evidence and separate strict Story-010 regression; document legacy execution compatibility and the narrow-profile deferral result. |
-| MSG-ONB-001c | B | MSG-ONB-004 | todo | Separate announced enforcement change: inventory, explicit migration, observation/cutover policy, execution rechecks and queued-message disposition; retain Stage B refusal/delivery/regression evidence before release qualification. |
+| MSG-ONB-001c-01 | B | MSG-ONB-004 | todo | Evaluator, revocation/cache, shared reasons and DTOs; pinned conformance. |
+| MSG-ONB-001c-02 | B | MSG-ONB-001c-01 | todo | Host evaluator/port, admission provenance and setup renewal; refusal before effects and idempotent typed issuance. |
+| MSG-ONB-001c-03 | B | MSG-ONB-001c-02 | todo | AD/peer guards, bounded paused queue and explicit idempotent retry; queue/concurrency/restart/crash evidence. |
+| MSG-ONB-001c-04 | B | MSG-ONB-001c-01, MSG-ONB-001c-02, MSG-ONB-001c-03 | todo | Generators, read-only audit and three separate evidence classes; reconcile P097, S027, Node ledger and MVP. |
 
 Stage A evidence includes 16 fresh-UI runtime cases, the correlated message/content
 bundle, two completed parallel fresh UI setup jobs, concurrent first issuance,
@@ -504,6 +605,6 @@ Conformance and lifecycle tests are retained separately. The narrow control uses
 Story-010 topology with Story-013-like omitted generic prerequisites; it does not run
 full Story-013. No model or VM runs in this qualification.
 
-Stage B follows a separately reviewed migration/cutover plan. Resolve
+Stage B follows the always-enforce plan above. Resolve
 P076's limited-grant question before claiming support for ordinary non-sovereign users
 through a new authority path.
