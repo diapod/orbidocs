@@ -38,6 +38,7 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 | [`artifact`](#field-artifact) | `yes` | ref: `#/$defs/artifact` |  |
 | [`classification`](#field-classification) | `no` | ref: `classification.v1.schema.json` |  |
 | [`causal/context`](#field-causal-context) | `no` | ref: `causal-context.v1.schema.json` | Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence. |
+| [`execution/provenance`](#field-execution-provenance) | `no` | object | Local host-owned sender reference; carries no authority decision. |
 | [`delivery/plan`](#field-delivery-plan) | `yes` | ref: `#/$defs/deliveryPlan` |  |
 | [`policy`](#field-policy) | `no` | ref: `#/$defs/policy` |  |
 | [`idempotency/key`](#field-idempotency-key) | `no` | string |  |
@@ -86,6 +87,14 @@ Host capability request for Artifact Delivery. The envelope carries one artifact
 - Shape: ref: `causal-context.v1.schema.json`
 
 Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence.
+
+<a id="field-execution-provenance"></a>
+## `execution/provenance`
+
+- Required: `no`
+- Shape: object
+
+Local host-owned sender reference; carries no authority decision.
 
 <a id="field-delivery-plan"></a>
 ## `delivery/plan`

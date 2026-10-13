@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-send-provenance-sync.local:v1",
+  "title": "Messaging outbox provenance lifecycle reconciliation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entries",
+    "sweep"
+  ],
+  "properties": {
+    "sweep": {
+      "type": "boolean"
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sender/provenance",
+          "envelope/id",
+          "terminal/at",
+          "terminal/state"
+        ],
+        "properties": {
+          "sender/provenance": {
+            "$ref": "messaging-send-authorize.local.v1.schema.json#/properties/sender~1provenance",
+            "type": "object"
+          },
+          "envelope/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "terminal/at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "terminal/state": {
+            "enum": [
+              null,
+              "delivered",
+              "expired-unsent",
+              "discarded-unsent"
+            ]
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "terminal/state": {
+                "type": "null"
+              },
+              "terminal/at": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "terminal/state": {
+                "type": "string"
+              },
+              "terminal/at": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ]
+}

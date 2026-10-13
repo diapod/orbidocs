@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-send-authorize.local:v1",
+  "title": "Messaging send authorization observation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "participant_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 256
+    },
+    "sender/provenance": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "message/id",
+        "provenance/ref"
+      ],
+      "properties": {
+        "message/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "provenance/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "intent/digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 128
+    },
+    "body/digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 128
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "sender/provenance"
+        ],
+        "properties": {
+          "sender/provenance": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "body/digest"
+        ],
+        "properties": {
+          "body/digest": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "sender/provenance": {
+    "message/id": "message:fixture",
+    "provenance/ref": "messaging-intent:fixture"
+  }
+}

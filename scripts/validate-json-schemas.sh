@@ -1041,6 +1041,18 @@ schema_for_file() {
     *.agora-vault-ref.json)
       echo "$SCHEMAS_DIR/agora-vault-ref.v1.schema.json"
       ;;
+    *.messaging-send-provenance-sync.local.json)
+      echo "$SCHEMAS_DIR/messaging-send-provenance-sync.local.v1.schema.json"
+      ;;
+    *.messaging-send-authorize.local.json)
+      echo "$SCHEMAS_DIR/messaging-send-authorize.local.v1.schema.json"
+      ;;
+    *.messaging-send-decision.local.json)
+      echo "$SCHEMAS_DIR/messaging-send-decision.local.v1.schema.json"
+      ;;
+    *.messaging-send-audit.local.json)
+      echo "$SCHEMAS_DIR/messaging-send-audit.local.v1.schema.json"
+      ;;
     *.messaging.passport-issued.json)
       echo "$SCHEMAS_DIR/messaging.passport-issued.v1.schema.json"
       ;;

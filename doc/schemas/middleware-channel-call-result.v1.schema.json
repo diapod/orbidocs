@@ -5,58 +5,148 @@
   "description": "Redacted host-capability result with explicit retry and policy failure semantics.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "outcome", "result/schema", "result", "failure"],
+  "required": [
+    "schema",
+    "schema/v",
+    "outcome",
+    "result/schema",
+    "result",
+    "failure"
+  ],
   "properties": {
-    "schema": {"const": "middleware-channel-call-result.v1"},
-    "schema/v": {"const": 1},
-    "outcome": {"type": "string", "enum": ["succeeded", "refused", "failed"]},
+    "schema": {
+      "const": "middleware-channel-call-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "refused",
+        "failed"
+      ]
+    },
     "result/schema": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "minLength": 1,
       "maxLength": 128,
       "pattern": "^[a-z0-9][a-z0-9._-]*$"
     },
     "result": true,
     "failure": {
-      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/failure"}]
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/failure"
+        }
+      ]
     }
   },
   "allOf": [
     {
-      "if": {"properties": {"outcome": {"const": "succeeded"}}, "required": ["outcome"]},
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "succeeded"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
       "then": {
         "properties": {
-          "result/schema": {"type": "string"},
-          "result": {"not": {"type": "null"}},
-          "failure": {"type": "null"}
+          "result/schema": {
+            "type": "string"
+          },
+          "result": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "failure": {
+            "type": "null"
+          }
         }
       }
     },
     {
-      "if": {"properties": {"outcome": {"const": "refused"}}, "required": ["outcome"]},
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "refused"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
       "then": {
         "properties": {
-          "result/schema": {"type": "null"},
-          "result": {"type": "null"},
+          "result/schema": {
+            "type": "null"
+          },
+          "result": {
+            "type": "null"
+          },
           "failure": {
             "allOf": [
-              {"$ref": "#/$defs/failure"},
-              {"properties": {"class": {"const": "policy-denied"}}}
+              {
+                "$ref": "#/$defs/failure"
+              },
+              {
+                "properties": {
+                  "class": {
+                    "const": "policy-denied"
+                  }
+                }
+              }
             ]
           }
         }
       }
     },
     {
-      "if": {"properties": {"outcome": {"const": "failed"}}, "required": ["outcome"]},
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "failed"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
       "then": {
         "properties": {
-          "result/schema": {"type": "null"},
-          "result": {"type": "null"},
+          "result/schema": {
+            "type": "null"
+          },
+          "result": {
+            "type": "null"
+          },
           "failure": {
             "allOf": [
-              {"$ref": "#/$defs/failure"},
-              {"properties": {"class": {"enum": ["retryable", "terminal"]}}}
+              {
+                "$ref": "#/$defs/failure"
+              },
+              {
+                "properties": {
+                  "class": {
+                    "enum": [
+                      "retryable",
+                      "terminal"
+                    ]
+                  }
+                }
+              }
             ]
           }
         }
@@ -67,11 +157,20 @@
     "failure": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["class", "code", "message", "tracking/id"],
+      "required": [
+        "class",
+        "code",
+        "message",
+        "tracking/id"
+      ],
       "properties": {
         "class": {
           "type": "string",
-          "enum": ["retryable", "terminal", "policy-denied"]
+          "enum": [
+            "retryable",
+            "terminal",
+            "policy-denied"
+          ]
         },
         "code": {
           "type": "string",
@@ -79,17 +178,25 @@
           "maxLength": 128,
           "pattern": "^[a-z0-9][a-z0-9._-]*$"
         },
-        "message": {"type": "string", "minLength": 1, "maxLength": 512},
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
         "tracking/id": {
           "type": "string",
           "minLength": 1,
           "maxLength": 256,
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+        },
+        "authority/failure": {
+          "$ref": "messaging-send-decision.local.v1.schema.json#/$defs/authority-failure"
         }
       }
     }
   },
   "x-dia-basis": [
-    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"
+    "orbidocs:doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md",
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
   ]
 }

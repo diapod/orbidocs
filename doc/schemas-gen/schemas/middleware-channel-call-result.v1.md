@@ -7,6 +7,7 @@ Redacted host-capability result with explicit retry and policy failure semantics
 ## Governing Basis
 
 - [`doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md`](../../project/40-proposals/080-multiplexed-middleware-channel-executor.md)
+- [`doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md`](../../project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md)
 
 ## Project Lineage
 

@@ -22,6 +22,15 @@
       "$ref": "causal-context.v1.schema.json",
       "description": "Optional upstream P081 causal context. The receiving host derives its own Artifact Delivery operation context from this evidence."
     },
+    "execution/provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["message/id", "provenance/ref"],
+      "properties": {
+        "message/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "provenance/ref": { "type": "string", "minLength": 1, "maxLength": 128 }
+      },
+      "description": "Local host-owned sender reference; carries no authority decision."
+    },
     "delivery/plan": { "$ref": "#/$defs/deliveryPlan" },
     "policy": { "$ref": "#/$defs/policy" },
     "idempotency/key": { "type": "string", "minLength": 1, "maxLength": 256 }

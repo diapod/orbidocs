@@ -1,0 +1,87 @@
+{
+  "schema": "messaging-send-audit.local.v1",
+  "profiles": [
+    {
+      "schema": "messaging-send-decision.local.v1",
+      "status": "ready",
+      "reasons": [],
+      "observed_at": "2026-10-13T00:00:00Z",
+      "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+      "passport_id": "passport:capability:fixture:typed-send",
+      "evidence": {
+        "subject": {
+          "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+          "node_id": "node:did:key:z6MkkeJ41HQUNrH9bitoucWnMbgchXmD6uijbdz1YBqSNXyb",
+          "caller_kind": "in-process-module",
+          "caller_label": "messaging-service",
+          "caller_subject_key": "module:messaging-service"
+        },
+        "root/digest": "sha256:DhiJPM7Pzz6ps-nxCLtJoCSzQEFW3oriCqqKNDB_ODg",
+        "binding/revision": "binding-revision:example",
+        "caller/revision": "caller-revision:example",
+        "revocation/revision": "revocation-revision:example",
+        "route": "routing:did:key:z6MkoVB5msB4ZKBoKqpTWSNSrWUz6CZjma8tej7BgGRX6tzZ",
+        "route/owner": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+        "revocation/authority": "local"
+      }
+    }
+  ],
+  "items": [
+    {
+      "envelope/id": "message-envelope:fixture",
+      "state": "authority-blocked",
+      "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+      "sender/provenance": {
+        "message/id": "message:fixture",
+        "provenance/ref": "messaging-intent:fixture"
+      },
+      "authority/failure": {
+        "reasons": [
+          "passport-expired"
+        ],
+        "observed_at": "2026-10-13T00:00:00Z",
+        "evidence": {
+          "subject": {
+            "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+            "node_id": "node:did:key:z6MkkeJ41HQUNrH9bitoucWnMbgchXmD6uijbdz1YBqSNXyb",
+            "caller_kind": "in-process-module",
+            "caller_label": "messaging-service",
+            "caller_subject_key": "module:messaging-service"
+          },
+          "root/digest": "sha256:DhiJPM7Pzz6ps-nxCLtJoCSzQEFW3oriCqqKNDB_ODg",
+          "binding/revision": "binding-revision:example",
+          "caller/revision": "caller-revision:example",
+          "revocation/revision": "revocation-revision:example",
+          "route": "routing:did:key:z6MkoVB5msB4ZKBoKqpTWSNSrWUz6CZjma8tej7BgGRX6tzZ",
+          "route/owner": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+          "revocation/authority": "local"
+        }
+      },
+      "assessment": {
+        "schema": "messaging-send-decision.local.v1",
+        "status": "ready",
+        "reasons": [],
+        "observed_at": "2026-10-13T00:00:00Z",
+        "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+        "passport_id": "passport:capability:fixture:typed-send",
+        "evidence": {
+          "subject": {
+            "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+            "node_id": "node:did:key:z6MkkeJ41HQUNrH9bitoucWnMbgchXmD6uijbdz1YBqSNXyb",
+            "caller_kind": "in-process-module",
+            "caller_label": "messaging-service",
+            "caller_subject_key": "module:messaging-service"
+          },
+          "root/digest": "sha256:DhiJPM7Pzz6ps-nxCLtJoCSzQEFW3oriCqqKNDB_ODg",
+          "binding/revision": "binding-revision:example",
+          "caller/revision": "caller-revision:example",
+          "revocation/revision": "revocation-revision:example",
+          "route": "routing:did:key:z6MkoVB5msB4ZKBoKqpTWSNSrWUz6CZjma8tej7BgGRX6tzZ",
+          "route/owner": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+          "revocation/authority": "local"
+        }
+      }
+    }
+  ],
+  "next_cursor": null
+}

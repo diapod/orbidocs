@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "sender/provenance": {
+        "message/id": "message:fixture",
+        "provenance/ref": "messaging-intent:fixture"
+      },
+      "envelope/id": "message-envelope:fixture",
+      "terminal/at": null,
+      "terminal/state": "delivered"
+    }
+  ],
+  "sweep": false
+}
