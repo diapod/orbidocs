@@ -755,6 +755,24 @@ Tyto režimy se neruší, ale doplňují: péče neznamená beztrestnost a sankc
 odvetou. Přechody mezi režimy musí mít jasná kritéria, stopu rozhodnutí a právo
 na odvolání.
 
+Volba reakce na porušování pravidel zohledňuje nejen jeho závažnost, ale také
+podmínky, které je udržují. Pokud jde o ojedinělé případy, mohou přiměřená omezení
+chránit fungující spolupráci. Pokud se porušování stává rozšířeným vzorcem, který
+se sám udržuje, samotné sankcionování dalších osob nestačí: je třeba také upravit
+pobídky, obnovit důvěryhodnost institucí a podporovat učení a vzorce vzájemnosti.
+Rozšířenost porušování pravidel je důvodem ke zkoumání uspořádání systému, nikoli
+důkazem morální povahy jeho účastníků.
+
+To neznamená automatické zmírňování sankcí s rostoucím počtem porušení ani
+oslabování ochrany poškozených osob. Omezení oprávnění nebo vyloučení může být
+i nadále nezbytné k zastavení újmy, nenahrazuje však nápravu podmínek, které
+napomáhají jejímu opakování. Tam, kde je možný bezpečný návrat ke spolupráci,
+mají být jeho podmínky jasné a spojené s nápravou újmy a změnou chování, nikoli
+s trvalou stigmatizací osoby.
+
+**Chráníme spolupráci před zneužíváním a měníme podmínky, které zneužívání
+reprodukují.**
+
 ### Uznání autorství jako měna důvěry
 
 DIA uznává autorství za fundamentální emblém v kultuře dobrovolné výměny – tam,

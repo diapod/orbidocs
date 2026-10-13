@@ -191,6 +191,29 @@ subscription. A cursor is change/replay state, not a bearer token. A carrier
 session is presentation state, not a grant. Every batch rechecks current caller,
 resource, lease, classification, limit, and revocation constraints.
 
+### Planned Local Device Discovery Boundary
+
+[P045 local device discovery continuation](../../40-proposals/045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+owns the planned shared discovery contract and the sole `P045-DISC-001`–`007`
+tracker. [P082](../../40-proposals/082-sensorium-interfaces.md#20-planned-local-device-discovery-is-not-interface-discovery)
+preserves the publication/read boundary. The planned local candidates are
+short-lived, caller-private scan results, not published Interface descriptors,
+source observations, artifact pointers, or catalogue entries. They must not
+enter Interface read/subscribe adapters, Room/Agora projections, or federated
+descriptor discovery.
+
+Discovery, operator-confirmed binding, source acquisition, explicit Interface
+publication, and an exact consumer read/subscription each retain separate
+authority. A successful scan or binding does not create a source or publication;
+Interface access does not authorize scanning, pairing, or acquisition. Subsequent
+publication of an admitted source reuses this solution's existing source-policy,
+classification, management and grant checks.
+
+Status: `planned` under P045. This continuation adds no implemented source
+adapter or Interface operation and does not alter this solution's implemented
+MVP. The searchable descriptor catalogue below remains deferred and concerns
+disclosure of published interfaces, independently of local device candidates.
+
 ## Must Implement
 
 ### Contract and Pure Core
@@ -512,9 +535,9 @@ Status: `deferred`.
 
 The accepted baseline has no searchable descriptor catalog. Caller inspection of
 interfaces already disclosed by current authority is not discovery and preserves
-leak-minimal lookup. A future existence-discovery catalog is a separate disclosure
-oracle and requires an explicit policy, query bounds, anti-enumeration posture,
-revocation model, and contract revision.
+leak-minimal lookup. A future existence-discovery catalog of published interfaces
+is a separate disclosure oracle and requires an explicit policy, query bounds,
+anti-enumeration posture, revocation model, and contract revision.
 
 Status: `deferred`.
 

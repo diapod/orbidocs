@@ -237,6 +237,43 @@ Status:
 
 ## May Implement
 
+### Local Device Discovery
+
+Based on:
+- [P045 local device discovery continuation](../../40-proposals/045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+- [P055 private progress continuation](../../40-proposals/055-bounded-deferred-operation-contract.md#41-planned-local-device-discovery-progress)
+- [P096 first BLE provider](../../40-proposals/096-sensorium-brainflow-connector.md#local-device-discovery-provider)
+
+Planned contracts (not registered or implemented):
+- `sensorium-device-discovery.request.v1`
+- `sensorium-device-discovery-candidate.v1`
+- `sensorium-device-discovery-result.v1`
+- `deferred-operation-status.v2`
+
+Responsibilities:
+- mediate `device.discover.ble`, `device.discover.usb-serial` and
+  `device.discover.mdns` through existing `sensorium.directive.invoke`,
+  action-scoped admission and an independently registered bounded provider;
+- distinguish external device detection from the implemented middleware
+  connector discovery/routing above;
+- keep discovery, host-approved binding and acquisition consent separate;
+- enforce admitted passive/active effects, shared transport claims and
+  same-controller scan/acquisition exclusion before I/O;
+- expose caller-private, bounded replacement candidate snapshots through
+  versioned S029 progress, with no candidate history or retained-list digest;
+- approve/consume candidates atomically only after confirmed session cleanup,
+  while preserving manual P096 binding without a scan;
+- keep Interfaces catalogue/publication and scheduler repeat policy separate.
+
+Status:
+- `planned`; no available action or capability entry is added by this design.
+
+The single common implementation tracker is **P045-DISC-001–007**. P055-10/11
+own the required S029 version/retention work; P096-017/018 own the first BLE
+provider and exact deployment qualification. USB/serial and mDNS are common
+contract fixtures with runtime explicitly deferred. Existing hard-MVP
+Sensorium capabilities and P096-002/003/004 completion remain unchanged.
+
 ### Local Agora Observation Publication
 
 Based on:

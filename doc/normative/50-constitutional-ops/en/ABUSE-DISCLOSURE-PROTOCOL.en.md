@@ -185,6 +185,20 @@ Every case MUST have a minimum record:
 3. A sanction may be imposed before external publication if protection of people or
     integrity of evidence requires it.
 
+4. If a case reveals a recurring mechanism of abuse, the decision SHOULD also
+    identify the necessary systemic correction, the party responsible for carrying
+    it out, and a deadline for reviewing its effects. If correction exceeds the
+    case team's mandate, the decision SHOULD identify the appropriate escalation
+    path rather than assign new powers to the team. Protection of those harmed
+    MUST NOT wait for systemic repair to be completed, and responsibility MUST NOT
+    be transferred to others without individual evidentiary grounds.
+
+5. The prevalence of violations is grounds for reviewing the conditions of
+    cooperation, not an independent basis for increasing or reducing sanctions
+    against a particular participant. Systemic correction does not replace an
+    evidence-based case decision, an appeal path, or the definition of conditions
+    for a safe return after repair.
+
 ---
 
 ## 8. Retention and Data

@@ -778,6 +778,25 @@ These modes are complementary, not mutually exclusive: care is not impunity, and
 sanction is not revenge. Transitions between modes must have explicit criteria,
 decision traceability, and right of appeal.
 
+The choice of response to violations takes into account not only their severity,
+but also the conditions that sustain them. When violations are isolated,
+proportionate restrictions can protect functioning cooperation. When they become
+a widespread, self-sustaining pattern, sanctioning successive individuals is not
+enough: correcting incentives, restoring institutional credibility, and supporting
+learning and patterns of reciprocity are also needed. Widespread violations are
+a reason to examine how the system is organized, not proof of its participants'
+moral nature.
+
+This does not mean automatically relaxing sanctions as violations become more
+numerous, or weakening protection for those harmed. Restricting permissions or
+exclusion may remain necessary to stop harm, but does not replace repairing the
+conditions that help reproduce it. Where a safe return to cooperation is possible,
+its conditions should be explicit and tied to repairing harm and changing
+behavior, not to permanently stigmatizing the person.
+
+**We protect cooperation from abuse and change the conditions that reproduce
+abuse.**
+
 ### Attribution as the Currency of Trust
 
 DIA recognizes authorship as a foundational emblem in a culture of voluntary exchange:
