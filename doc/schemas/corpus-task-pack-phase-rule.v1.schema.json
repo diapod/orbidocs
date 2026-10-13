@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-phase-rule:v1",
+  "title": "Corpus Task Pack Phase Rule v1",
+  "description": "Package-owned observation and verifier requirements. The host validates profile membership and exact observation effect modes. This rule grants no effects.",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "rule/ref",
+    "observation/profile-refs",
+    "verifier/ref",
+    "repair/observation-only"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-phase-rule.v1"
+    },
+    "rule/ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "observation/profile-refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+        "maxLength": 512
+      }
+    },
+    "verifier/ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "repair/observation-only": {
+      "const": "refuse",
+      "description": "Explicit policy for this bounded rule: no further observation-only candidate once repair is eligible, even after a failed repair. Additional diagnosis needs a separately designed host-gap policy, not a model exception."
+    }
+  }
+}

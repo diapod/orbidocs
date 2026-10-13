@@ -778,6 +778,24 @@ Te tryby nie znoszą się, tylko domykają: opieka nie oznacza bezkarności, a s
 nie jest odwetem. Przejścia między trybami muszą mieć jawne kryteria, ślad decyzji i
 prawo do odwołania.
 
+Dobór reakcji na naruszenia uwzględnia nie tylko ich wagę, lecz także warunki, które
+je podtrzymują. Gdy naruszenia są odosobnione, proporcjonalne ograniczenia mogą
+chronić działającą współpracę. Gdy stają się rozpowszechnionym, samopodtrzymującym
+wzorcem, samo sankcjonowanie kolejnych osób nie wystarcza: potrzebna jest również
+korekta bodźców, odbudowa wiarygodności instytucji oraz wspieranie uczenia się
+i wzorów wzajemności. Powszechność naruszeń jest powodem do zbadania organizacji
+systemu, nie dowodem moralnej natury jego uczestników.
+
+Nie oznacza to automatycznego łagodzenia sankcji wraz ze wzrostem liczby naruszeń
+ani osłabienia ochrony osób krzywdzonych. Ograniczenie uprawnień lub wykluczenie
+może pozostawać konieczne dla zatrzymania szkody, lecz nie zastępuje naprawy
+warunków, które sprzyjają jej odtwarzaniu. Tam, gdzie bezpieczny powrót do
+współpracy jest możliwy, jego warunki powinny być jawne i związane z naprawą szkody
+oraz zmianą zachowania, nie z trwałym napiętnowaniem osoby.
+
+**Chronimy współpracę przed nadużyciami i zmieniamy warunki, które nadużycia
+odtwarzają.**
+
 ### Uznanie autorstwa jako waluta zaufania
 
 DIA uznaje autorstwo za fundamentalny emblemat w kulturze dobrowolnej wymiany – tam,

@@ -167,6 +167,20 @@ The canonical intensity order is `soft < hold < hard < block`.
 Sanctions must preserve an audit trace, appeal path, and repair path unless there is an immediate safety threat.
 They should restrict influence surfaces rather than erase personhood.
 
+For recurring violations, review SHOULD also cover access rules, incentives, and
+sponsorship practices that may sustain the harmful pattern. The prevalence of
+violations is grounds for reviewing the conditions of cooperation, not an
+independent basis for increasing or reducing sanctions against a particular
+participant.
+
+Review SHOULD distinguish three tasks: containing a specific risk, defining the
+conditions for the participant's safe return, and repairing the systemic
+mechanism. None replaces the others. Return conditions SHOULD be explicit, tied
+to repairing harm and changing behavior, and subject to review rather than
+perpetuating personal stigma. Systemic repair MUST NOT delay necessary protection
+for those harmed or justify sanctions against other participants without
+individual evidentiary grounds.
+
 ## Anti-Collusion Baselines
 
 The first implementation should not try to detect every collusion form at once.

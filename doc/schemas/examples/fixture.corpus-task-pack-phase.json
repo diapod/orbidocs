@@ -1,0 +1,8 @@
+{
+  "schema": "corpus-task-pack-phase.v1",
+  "phase": "initial-observation",
+  "rule/ref": "phase-rule:fixture",
+  "rule/digest": "sha256:E59vy1yCF9GeGCanqHxfOoa3a45ZsLYTy8sJ3GD2-vs",
+  "basis": [],
+  "missing": []
+}

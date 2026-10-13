@@ -1,6 +1,7 @@
 # Proposal 051: Swarm Membership, Reputation Bootstrap, and Public Adjudication
 
 Based on:
+- `doc/normative/30-core-values/en/CORE-VALUES.en.md`
 - `doc/project/50-requirements/requirements-001-node-onboarding.md`
 - `doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md`
 - `doc/project/20-memos/nym-layer-roadmap-and-revocable-anonymity.md`
@@ -29,6 +30,10 @@ Draft
 
 Design/reuse review: 2026-10-10. The original date and frozen decisions remain;
 the social-correction integration below is planned, not a runtime completion claim.
+
+Systemic-repair follow-up: 2026-10-13. P051-010–014 translate the protection,
+reintegration and systemic-repair norms into planned contracts and runtime work;
+they do not reopen or extend the qualified local baseline.
 
 ## MVP Decisions Frozen on 2026-05-27
 
@@ -1100,6 +1105,34 @@ correction delivery. Completion requires receipts for the declared effect scope;
 unreachable consumers remain pending or explicitly unresolved. A local clear
 cannot retract a publication already observed elsewhere.
 
+### 27. Separate Protection, Reintegration and Systemic Repair
+
+This extension implements the direction in [Core Values](../../normative/30-core-values/en/CORE-VALUES.en.md),
+"Care and Justice as Two Relational Modes", [Membership and Sponsorship](../../normative/50-constitutional-ops/en/MEMBERSHIP-AND-SPONSORSHIP-POLICY.en.md),
+"Sanctions and Return Path", [Abuse Disclosure](../../normative/50-constitutional-ops/en/ABUSE-DISCLOSURE-PROTOCOL.en.md),
+section 7, and [Reputation Validation](../../normative/50-constitutional-ops/en/REPUTATION-VALIDATION-PROTOCOL.en.md),
+M8 and intervention-effectiveness review. It adds reviewable responsibility and
+evidence, not a new sanction ladder or adjudication mandate.
+
+| Concern | Responsibility | Boundary |
+| --- | --- | --- |
+| Protection | Contain a specific evidenced risk through existing P018/S040 effects, with individual grounds, current admission and independent validity. | Systemic review or repair must not delay necessary protection; aggregate prevalence is not individual evidence. |
+| Reintegration | Record explicit, reviewable return conditions tied to repair and behavior, and evidence of their assessment. Request any authorized narrowing through existing source-addressed correction. | Meeting return conditions does not clear unrelated restrictions, grant missing entry rights, rewrite historical findings or establish that return is safe without assessment. |
+| Systemic repair | Review access rules, incentives and sponsorship practices; record a proposed correction, accepted responsibility or escalation, execution evidence and outcome review. | A plan does not authorize its execution. Responsibility must use the target component's authorized interface, not mutate its configuration or policy directly. |
+
+The prevalence of violations is grounds for reviewing the conditions of
+cooperation, not an independent basis for increasing or reducing sanctions against
+a particular participant. Do not introduce a demoralization score, a universal
+percentage threshold, collective guilt or automatic sanction changes from report
+volume. Agent/Corpus analysis may support review, never supply authority.
+
+Preserve the norms' MUST/SHOULD distinction: record justified non-applicability or
+deferral where appropriate rather than making every repair field a prerequisite
+for urgent protection. An unavailable or conflicted owner requires a competent
+recipient or explicit blockage; infrastructure ownership does not authorize
+self-adjudication. Neither a missed repair deadline nor a pending outcome review
+renews a protective restriction or establishes a new violation by itself.
+
 ## Reuse and Implementation Recommendations
 
 ### Existing Seams and Their Limits
@@ -1230,6 +1263,89 @@ the admissible reasons and file a bounded appeal despite a publication/marketpla
 restriction, Room removal or muted notifications. "Not hard-blocked" alone is
 insufficient; test soft cooldowns and ordinary anti-abuse limits for starvation.
 This does not grant unlimited messaging or bypass recipient privacy.
+
+### Structured Review and Repair Without a Parallel Workflow Engine
+
+P051-010–014 extend the existing case service. The current
+`node:responsibility-core/src/contracts.rs` has `RecordReview { reason }`,
+decisions, evidence references and targeted correction; these are reuse entry
+points, not evidence that structured repair is already implemented. Inspect the
+current contracts and callers before selecting fields or new operations.
+
+1. **Small contract extension.** Extend case/review artifacts or attach a bounded,
+   case-bound artifact where that avoids coupling independent lifecycles. Freeze
+   the minimal transition table before endpoints. Represent reviewed scope and
+   observation window, evidence references and uncertainty, an alleged mechanism
+   separately from an established finding, intended correction/outcome, owner and
+   mandate bindings, accepted ownership or escalation, return conditions, review
+   deadline, execution evidence and outcome assessment. These are semantic
+   requirements, not preselected schema names or a closed catalogue of repairs.
+   Keep criteria in admitted policy data; missing legacy information is unknown
+   or not assessed, never completed, safe or harmless.
+2. **Separate claims and authority.** Proposed, authorized, accepted, executed
+   and outcome-reviewed claims require their own evidence. Reuse signed commands,
+   current host admission and the accepted-handoff pattern rather than treating
+   an owner label as acceptance. A plan's acceptance does not extend a mandate;
+   execution must pass the owning component's current authorization. Preserve
+   protected reasons/appeal access and the existing conflict/independence rules.
+   Version changed wire/replay semantics where necessary, preserving historical
+   signed bytes. Use canonical schemas, Node mirrors, Schema Gate and P072's
+   existing registration boundaries; do not make operator writes module-dispatchable.
+3. **Existing runtime and storage.** Keep transitions and validation pure in
+   `responsibility-core`, durable coordination in `responsibility-service` through
+   S019/P080 `channel_json`, and enforcement in the P018/S040 host adapter. Reuse
+   S028 facts, rebuildable projections, transactional outboxes, exact receipts and
+   idempotency. No second restriction engine, listener, supervisor or generic
+   workflow engine. Bound cross-case references, history and review work so that
+   repair analysis cannot starve protection, participant rights or correction.
+4. **Attention and deadlines.** Extend the existing signed API and ParticipantSession
+   UI; reuse S039 recipient-bound actions/notices. A queued notice does not prove
+   acceptance, execution or receipt by the participant. P051-013 integrates review
+   deadlines through P051-007/S020 bounded jobs, never a private timer. Before that
+   integration, provide authorized manual review and explicit overdue/unavailable
+   inspection without claiming proactive scheduling. Service/scheduler outages
+   neither extend effects nor turn pending work into success.
+5. **Outcome evidence, not a success score.** Build a bounded read model from
+   authorized facts, distinguishing reports from confirmed harm and repeated
+   reports of one incident from independent incidents. Preserve observation scope,
+   window, policy/measurement revision, changes in reporting practices, evidence
+   limits and participants who have not returned. Increased reporting may reflect
+   better detection or trust; fewer reports or a short return time alone do not
+   establish improvement. Missing follow-up stays unknown. Reviewer conclusions
+   carry their basis and uncertainty; the system does not infer causality from
+   these counts. Keep private cross-case evidence sealed/access-controlled and
+   redact participant projections, notifications and traces.
+
+### Systemic-Repair Slice Acceptance
+
+P051-014 qualifies a new local test-subject profile using the existing
+local-accountability runner/report/qualifier ownership below. Freeze the scope
+before execution; do not relabel historical review-v2 evidence. Exercise actual
+commands, service persistence, host enforcement, participant inspection and S039
+delivery, not injected final states. Required cases include:
+
+- aggregate prevalence alone cannot alter a participant's restriction; repeated
+  reports do not manufacture independent findings;
+- a protective action proceeds while systemic repair remains pending; a missed
+  repair deadline does not renew the protective effect;
+- absent mandate, conflicted/unavailable owner or missing escalation destination
+  produces an explicit refusal/blockage, not self-authorization;
+- plan acceptance, execution evidence and outcome review remain distinct; no
+  receipt means no confirmed external effect;
+- safe-return correction removes only named effects while preserving unrelated
+  case/operator sources and missing entry authority;
+- restart, duplicate commands, delayed receipts and unavailable dependencies
+  preserve ownership, deadlines, protected access and truthful pending states;
+- legacy cases remain readable without invented review outcomes; unauthorized
+  inspection cannot reveal private cross-case evidence;
+- rising report counts, non-returners and absent follow-up cannot manufacture an
+  effectiveness verdict.
+
+The first profile may qualify manual review with explicit overdue inspection.
+Scheduled reviews require P051-013's additional source-bound runtime evidence;
+do not claim them from the manual profile. Keep real-participant sanctions,
+independent appeal readiness and federation outside this slice. Mechanism
+acceptance does not establish that a social intervention actually reduces harm.
 
 ## Cross-Component Acceptance: Local Accountability
 
@@ -1468,6 +1584,11 @@ regenerate its view and reconcile `docs/MVP.md` when its covered scope changes.
 | P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared S020 Scheduler launches bounded case-service actions through existing dispatch, not a private timer loop; use S029 for deferred individual operations where needed. Host admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
 | P051-008 | Local-accountability acceptance / cross-component harness | partial | 004, 005, 006, 007, P018-14 | Node-local v2 report/qualifier qualifies exactly P051-002/003/005 and P018-12/13/14: 18 runtime cases plus two conformance bindings, 713 checks/15 suites and 27 qualifier tests (one positive, 26 negative), source/binary-bound original bytes. Historical v1 and failed review attempts remain immutable. Full acceptance including P051-001/006/007 is open; no historical scope promotion. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/qualification.json. |
 | P051-009 | Remote correction acceptance / case Artifact Delivery acceptor | deferred | 008 | Two-host authenticated decision/correction delivery, local admission, duplicate/reorder/restart and unreachable-recipient evidence; bounded P081 causal/replication primitives only where needed, no global sanction propagation. |
+| P051-010 | Protection, reintegration and systemic-repair contracts / case domain | todo | 002 | Map section 27's norms to existing contracts and missing behavior; freeze separate claims, transition/authority table, applicability/deferral and legacy semantics. Pin schema/versioning, signature/replay compatibility, canonical schemas, mirrors and Schema Gate negative fixtures. No aggregate-to-individual authority, fixed prevalence threshold or closed repair repertoire. |
+| P051-011 | Durable structured review and repair / responsibility-core and responsibility-service | todo | 010, 003, P018-13 | Implement the bounded local lifecycle using current signed commands, accepted ownership/handoff, S028 facts and outboxes. Preserve independent protection, return review and systemic repair; reuse exact host receipts and source-targeted narrowing. Outcome read model distinguishes reports/findings, duplicates, non-returners and unknown follow-up. Prove refusal, restart/idempotency, legacy replay and unrelated-source preservation; do not implement a second enforcement or workflow engine. |
+| P051-012 | Repair inspection and participant actions / existing API, UI and S039 | todo | 011, 005 | Existing signed API and ParticipantSession UI expose authorized plan/acceptance/execution/outcome actions, return conditions and manual review with explicit overdue/blocked status. Notices remain minimal and recipient-bound; queueing is not acceptance. Verify mandate/COI checks, stale actions, protected access and cross-case privacy. No new UI-owned state machine. |
+| P051-013 | Scheduled repair outcome reviews / existing domain jobs and S020 | todo | 007, 011, 012 | Extend the shared scheduler-owned bounded jobs, not a private timer. Freshly check action authority and separate repair review from effect expiry. Retain runtime evidence for due review, scheduler/service outage, manual fallback and idempotent resumption; overdue work cannot renew restrictions or infer guilt. A manual-only acceptance report cannot satisfy this gate. |
+| P051-014 | Systemic-repair local acceptance / existing local-accountability harness | todo | 011, 012, P018-14 | Freeze a new explicit report/qualifier profile and run every Systemic-Repair Slice Acceptance case through real service, host, inspection and notice paths, including restart. Bind sources, policy, fixtures and receipts; reject incomplete/substituted evidence and historical-scope promotion. Manual review is the first bounded scope; scheduled claims additionally require 013 evidence. No real-subject, federation or social-effectiveness qualification. |
 
 The detailed enforcement work belongs to P018-12 through P018-14, linked from S040;
 P051 owns integration and social semantics. P057 and P081 are dependencies, not
@@ -1475,6 +1596,14 @@ duplicate backlog owners: add tasks there only if implementation exposes a missi
 generic notification or causal primitive. Their existing completion claims do not
 cover this new consumer. Broader onboarding, sponsor-ring detection and public
 reputation projections remain separate follow-ups, not hidden acceptance prerequisites.
+
+P051-010–014 are additive scope, not a reopening of P051-002/003/005 or P018-12–14.
+The manual local slice can proceed without completing the whole entry-policy,
+independent-appeal or scheduler backlog. Its dependency on existing enforcement
+does not qualify missing entry-policy integration. P051-013 separately owns
+proactive review scheduling; P051-014 does not close the broader P051-008 matrix.
+Update the Node ledger and affected generated views during implementation, with
+explicit evidence scope; this proposal-only change is not an implementation claim.
 
 ### Next Actions
 
@@ -1485,3 +1614,7 @@ reputation projections remain separate follow-ups, not hidden acceptance prerequ
    live sanction readiness.
 3. Extend P051-008 with a new explicit qualifier/profile for the remaining
    matrix. Preserve the historical local report and keep P051-009 deferred.
+4. In parallel with those broader follow-ups, freeze P051-010 and implement the
+   bounded manual systemic-repair slice through P051-011/012/014. Add scheduled
+   reviews through P051-013 once P051-007 is available; do not fold the entire
+   appeal, entry-policy or federation backlog into this slice.

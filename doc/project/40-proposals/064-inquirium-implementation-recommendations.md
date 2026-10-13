@@ -2566,6 +2566,46 @@ Inquirium Core:
 5. Render the selected `llama-server` or conformant MLX candidate into the
    existing runtime catalog and profile format. Packaging does not create a
    parallel invocation protocol or supervisor.
+   For new activation/rollback, derive instruction-role support from offline
+   sentinel rendering by the manifest-pinned runtime/tokenizer, not static
+   OpenAI compatibility. Retain `inquirium.model-package.chat-template-proof.v1`
+   with exact manifest/runtime/primary-model-asset/template digests. The primary
+   asset can be `config.json`; `model/digest` is not necessarily a weight digest.
+   The manifest also binds every asset and the runtime arguments. All 20 probes
+   cover first, after-user, repeated and Corpus preamble/postamble layouts,
+   including consecutive user turns; global support is their intersection.
+   This deliberately refuses a role that works only in a subset of positions;
+   for example, first-only system support does not establish global support.
+   Position-aware capabilities are a separate contract refinement, not an
+   undocumented fallback or a claim about arbitrary message sequences.
+   Only preserved text
+   advertises a role; `Foldable` may adapt an unsupported role and `Exact`
+   refuses. Rendering does not prove trained semantic role priority.
+   Missing renderer/template or unusable proof produces the closed
+   `chat-template/renderer-unavailable`, `render-failed`, `proof-substituted` or
+   `proof-malformed` or `override-not-admitted` refusal. MLX template override
+   flags (including argparse abbreviations and template arguments) refuse;
+   the probe and server use the same host-owned OS no-egress launcher.
+   The current MLX renderer loads no weights and
+   performs no generation. GGUF/llama-server has no admitted renderer yet and
+   refuses new activation too. Existing catalogs remain explicitly
+   `operator-declared-not-template-verified` until re-admission, with conservative
+   system/user/assistant roles and no guessed developer support; no historical
+   runtime report is retroactively template-qualified.
+
+   Shared mapping now joins text parts with two LF characters instead of empty
+   concatenation. This changes multi-part prompt bytes across all adapters using
+   that mapper. Retained Story-012/013 proofs remain representative of their old
+   source/joining behavior, not acceptance evidence for the new mapping.
+
+   Deferred GGUF slice (operator decision, 2026-10-14): first verify on the pinned
+   llama.cpp revision that `vocab_only` exposes `tokenizer.chat_template` and the
+   same minja render/tokenize path without tensors. Package a sandboxed helper
+   built with the server revision and digest-pinned in the release. Require
+   `--jinja`, refuse template overrides, reuse the positional proof contract,
+   and compare helper output with `/apply-template` once in separately authorized
+   acceptance. The API feasibility is still an assumption, not implementation
+   evidence. No conservative-role fallback admits a new unproved GGUF package.
 6. Run the existing `BaselineAssistantProfile` conformance suite against the
    exact runtime/model/backend digest tuple. Installation success alone never
    makes a candidate routable.
@@ -2578,6 +2618,17 @@ Inquirium Core:
 9. Feed measured latency, memory, throughput, and context capability to status
    and NSE diagnostics. These measurements inform selection but are not v1
    correctness gates.
+
+The adapter receives one shared text-to-chat projection with explicit two-newline
+content-part boundaries. An assembly trace alone is not evidence of the final
+wire request or tokenization. Existing CommunicationTrace `Content` authority
+may retain the post-mapping request and server usage privately; metadata/digest
+or redacted authority cannot expose raw messages. Offline inspection of that
+exact capture binds the rendered template, token count and model identity;
+public exports contain only commitments/counts. Reconstructed historical
+messages must remain labelled reconstruction, never capture. The managed
+output ceiling derives from manifest context bounds, not an unrelated fixed
+cap, and context preflight still accounts for the assembled prompt.
 
 Current implementation evidence covers the effect-free plan, signed authority
 registry, bounded local/HTTPS staging, verified lifecycle journal, recovery,
@@ -2860,6 +2911,8 @@ a migration event, not a tweak:
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `inq-gguf-offline-template-renderer` | Provide exact GGUF role/render evidence without loading tensors or starting a server during admission. | `in-progress` | Accepted separate slice: verify pinned llama.cpp vocab-only/minja API, build and release-pin a sandboxed helper with the server, require --jinja and refuse overrides, then compare helper/server rendering once in separate acceptance. Renderer is currently unavailable; new GGUF activation refuses, not an operator-declared fallback. |
+| `inq-trained-role-policy-calibration` | Keep trained-role declarations and preferred Foldable targets separate from rendered-role evidence. | `in-progress` | Explicit model-card/operator declaration and source provenance, monotone restriction against render evidence, exact/fold behavior and a separately authorized calibration are still to be designed and measured. No semantic priority is inferred from the current sentinels. |
 | `inq-execution-posture-contract` | Bind runtime/profile admission and preflight disclosure to canonical `inference-execution-posture.v1`. | `done` | `inquirium-host` derives conservative posture and exposes exact runtime/profile/invocation scope through `posture_exposure`; configuration and registry fingerprints, generation and half-open validity are checked independently. P090-003a provides authenticated operator HTTP inspection; P090-004a rechecks optional invocation policy before model I/O. Core tests cover changed runtime/model/registry and mismatched generation, `process_provider_registry_and_scoped_posture_cross_real_http` proves missing/matched/wrong-generation exposure through a running daemon, and `generate_invocation_preflight_refuses_missing_disallowed_and_stale_posture` covers fail-closed invocation. Requirements reject observation-only `unknown`/`derived` bases. The declaration grants no inference, egress, context, file lease or effect authority; broader disclosure UX and producer coverage remain separate tasks. |
 | `inq-execution-provenance-contract` | Bind Inquirium to the canonical provider-neutral `inference-execution-provenance.v1` value and pure composition rules. | `done` | `inquirium-core` consumes the canonical contract and owns `inquirium.result-provenance.v1`, an immutable sidecar bound to exact canonical response bytes. Inline/ref validation, explicit unknown and pre-dispatch forms, monotone join semantics, Schema Gate stripping refusal, and separation from `classification.v1` and provider-native session data are tested. Operation coverage is tracked separately below. |
 | `inq-execution-provenance-host-derivation` | Derive realized provenance at the host boundary from selected runtime/adapter/model facts and the strongest available execution evidence. | `partial` | Daemon configuration admits explicit provider-neutral characteristics per active runtime, validates their evidence and registered provider refs at startup, and supplies exact runtime/model/model-snapshot bindings to the result descriptor. Missing characteristics remain `unknown`; transport names, endpoint placement, and catalog locality never establish realized execution. Successful direct operations and typed pre-I/O `generate` refusal use the shared constructor. P090-004a binds failed/ambiguous generate/embed outcomes without inventing successful runtime characteristics; P090-004b additionally retains classify/rerank/image HTTP terminal evidence and snapshots image execution before publication. P090-004b3 now binds training success/HTTP failure and bounded batch execution under the supervisor lock. P090-004c covers the currently admitted ten-operation refusal matrix, explicit resource-profile/lease/grant checks and HTTP response/ambiguous-dispatch evidence. Generalized producer profiles remain separate; the common producer gate does not promote the full host-derivation inventory. |

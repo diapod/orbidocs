@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/corpus-passage-evidence.prepare.request.v1.schema.json`](../../schemas/corpus-passage-evidence.prepare.request.v1.schema.json)
 
-Request to fix the evidence one Agent passage will read (P094-023a). It names the Corpus inference-Flow binding of the passage and each wanted item by exact ref and digest; `latest` is never an input. The host reads every item as the binding's Room subject and answers an immutable manifest, or refuses. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item.
+Request to fix the evidence one Agent passage will read (P094-023a). It names the Corpus inference-Flow binding of the passage and each wanted item by exact ref and digest; `latest` is never an input. The host reads every item as the binding's Room subject and answers an immutable manifest, or refuses. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item. Projection revision 1 retains its historical shape and requires an item. Revision 2 binds a package-owned, host-derived phase, permits empty initial evidence and separates current candidate from historical reviews. The host checks that every phase basis is required, included and exact; it never truncates evidence.
 
 ## Fields
 
@@ -21,6 +21,39 @@ Request to fix the evidence one Agent passage will read (P094-023a). It names th
 |---|---|---|
 | [`projection`](#def-projection) | object |  |
 | [`review-target`](#def-review-target) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "projection": {
+      "properties": {
+        "revision": {
+          "const": 1
+        }
+      }
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "items": {
+      "minItems": 1
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>

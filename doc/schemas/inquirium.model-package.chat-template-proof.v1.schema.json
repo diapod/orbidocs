@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:inquirium-model-package-chat-template-proof:v1",
+  "title": "Inquirium Model Package Chat Template Proof v1",
+  "description": "Host-produced offline rendering evidence bound to the exact package, runtime and model. Preserved sentinel text proves rendering, not trained understanding. Supplied JSON cannot grant template-verified status. Twenty ordered probes cover first, after-user, repeated, Corpus preamble and postamble layouts. Global roles require preservation of every message in order in all five layouts; this is not arbitrary-sequence or training evidence.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/064-inquirium-implementation-recommendations.md",
+    "doc/project/40-proposals/094-operator-task-packs-for-bounded-problem-solving.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "manifest/digest",
+    "runtime/digest",
+    "model/digest",
+    "chat-template/digest",
+    "roles/probes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "inquirium.model-package.chat-template-proof.v1"
+    },
+    "manifest/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "runtime/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "model/digest": {
+      "$ref": "#/$defs/digest",
+      "description": "Digest of the manifest's primary model asset, which may be config.json rather than weights. manifest/digest commits every asset and the runtime arguments."
+    },
+    "chat-template/digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "roles/probes": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "system"
+                },
+                "layout": {
+                  "const": "first"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "system"
+                },
+                "layout": {
+                  "const": "after-user"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "system"
+                },
+                "layout": {
+                  "const": "repeated"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "system"
+                },
+                "layout": {
+                  "const": "passage-preamble"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "system"
+                },
+                "layout": {
+                  "const": "passage-postamble"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "developer"
+                },
+                "layout": {
+                  "const": "first"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "developer"
+                },
+                "layout": {
+                  "const": "after-user"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "developer"
+                },
+                "layout": {
+                  "const": "repeated"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "developer"
+                },
+                "layout": {
+                  "const": "passage-preamble"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "developer"
+                },
+                "layout": {
+                  "const": "passage-postamble"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "user"
+                },
+                "layout": {
+                  "const": "first"
+                },
+                "status": {
+                  "const": "preserved"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "user"
+                },
+                "layout": {
+                  "const": "after-user"
+                },
+                "status": {
+                  "const": "preserved"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "user"
+                },
+                "layout": {
+                  "const": "repeated"
+                },
+                "status": {
+                  "const": "preserved"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "user"
+                },
+                "layout": {
+                  "const": "passage-preamble"
+                },
+                "status": {
+                  "const": "preserved"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "user"
+                },
+                "layout": {
+                  "const": "passage-postamble"
+                },
+                "status": {
+                  "const": "preserved"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "assistant"
+                },
+                "layout": {
+                  "const": "first"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "assistant"
+                },
+                "layout": {
+                  "const": "after-user"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "assistant"
+                },
+                "layout": {
+                  "const": "repeated"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "assistant"
+                },
+                "layout": {
+                  "const": "passage-preamble"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/probe"
+            },
+            {
+              "properties": {
+                "role": {
+                  "const": "assistant"
+                },
+                "layout": {
+                  "const": "passage-postamble"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "status",
+        "layout"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "system",
+            "developer",
+            "user",
+            "assistant"
+          ]
+        },
+        "status": {
+          "enum": [
+            "preserved",
+            "omitted",
+            "render-refused"
+          ]
+        },
+        "rendered/digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "tokens/count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        },
+        "layout": {
+          "enum": [
+            "first",
+            "after-user",
+            "repeated",
+            "passage-preamble",
+            "passage-postamble"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": {
+              "enum": [
+                "preserved",
+                "omitted"
+              ]
+            }
+          },
+          "required": [
+            "rendered/digest",
+            "tokens/count"
+          ]
+        },
+        {
+          "properties": {
+            "status": {
+              "const": "render-refused"
+            }
+          },
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "rendered/digest"
+                ]
+              },
+              {
+                "required": [
+                  "tokens/count"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

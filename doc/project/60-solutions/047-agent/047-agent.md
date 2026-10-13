@@ -459,6 +459,21 @@ trees are not silently migrated. Excess refuses rather than dropping parents.
 
 The descriptor is evidence about one product, not Agent identity or authority.
 A single Agent may use different execution paths in successive passages.
+
+For packaged P094 passages, revision-2 Corpus evidence may additionally bind a
+host-derived phase from a package-owned rule and verified owner history. The
+Agent's neutral manifest still commits the exact admitted request/evidence,
+not an Agent-authored eligibility decision. A new phase or communication epoch
+cannot replace the original inputs or reset spending. The host rejects
+observation-only repetition or repair before required evidence before candidate
+publication; the Reviewer keeps semantic critique, not business-rule authority.
+Shared prompt-layer construction and post-mapping private capture are adapter
+fidelity evidence, not proof of model attention or native qualification.
+The shared mapper now inserts two LF separators between content parts, rather
+than concatenating them without a boundary. This changes multi-part prompt bytes
+for every adapter using that mapper; retained Story-012/013 reports qualify their
+original joining behavior, not this new mapping. Positional render evidence and
+any future model-card/operator declaration of trained roles remain separate axes.
 Optional provider disclosure remains policy-scoped and open-ended, while
 provider-native session, account, credential, endpoint, and adapter-instance
 data remain outside Agent Core and consumer contracts. Known non-local execution

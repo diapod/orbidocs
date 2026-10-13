@@ -193,6 +193,19 @@ Każda sprawa MUSI posiadać minimalny rekord:
 3. Sankcja może zostać nałożona przed publikacją zewnętrzną, jeśli wymaga tego ochrona
     ludzi albo integralności dowodów.
 
+4. Jeżeli sprawa ujawnia powtarzalny mechanizm nadużyć, rozstrzygnięcie POWINNO
+    wskazywać także potrzebną korektę systemową, podmiot odpowiedzialny za jej
+    przeprowadzenie i termin przeglądu skutków. Jeżeli korekta wykracza poza mandat
+    zespołu sprawy, POWINNO wskazywać właściwą ścieżkę eskalacji, zamiast przypisywać
+    mu nowe uprawnienia. Ochrona poszkodowanych NIE MOŻE czekać na zakończenie
+    naprawy systemowej, a odpowiedzialność NIE MOŻE być przenoszona na inne osoby
+    bez indywidualnych podstaw dowodowych.
+
+5. Rozpowszechnienie naruszeń jest przesłanką do przeglądu warunków współpracy,
+    nie samodzielną podstawą zaostrzenia lub złagodzenia sankcji wobec konkretnego
+    uczestnika. Korekta systemowa nie zastępuje dowodowego rozstrzygnięcia sprawy,
+    ścieżki odwołania ani określenia warunków bezpiecznego powrotu po naprawie.
+
 ---
 
 ## 8. Retencja i dane

@@ -593,6 +593,24 @@ confirm cleanup. Corrections were insufficient, and that approval is consumed
 without renewing native qualification or allowing an automatic model retry.
 See `node:docs/audits/P094-2026-10-12-OBSERVATION-REPAIR-CALIBRATION.md`.
 
+The 2026-10-13 offline review rules out silent developer omission for that
+exact Qwen3-Coder template, not for all OpenAI-compatible runtimes. Historical
+usage changed with evidence/overlays; output caps were 2048 and not exhausted.
+Both retained Solver sources are input-insensitive. New managed admission
+requires an immutable, pinned offline role-render proof; historical catalogs
+remain explicitly unverified, and GGUF new activation refuses until an exact
+renderer exists. Raw post-mapping capture requires existing private Content
+authority; public summaries contain commitments/counts only.
+
+The package owns a bounded phase rule; the host verifies exact latest logical
+execution, verifier and same-instance observation facts. Revision-2 Corpus
+evidence binds that phase and required sources, with aliases/source summaries
+and current candidate separated from historical verdicts. Flow chooses phase
+templates; host shape refusals reject repeated observation or premature repair
+before publication. Corpus remains domain-neutral. These draft contracts and
+component tests do not turn failed calibration into native success, renew
+approval, or promote guided P094/readiness completion.
+
 Offer recovery separates host/signer availability from Dator's explicit policy
 refusal. The host retains the original automatic-withdrawal reason independently
 of current readiness; older intents preserve their identity and disclose that

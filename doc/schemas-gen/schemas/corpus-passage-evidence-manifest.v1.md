@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/corpus-passage-evidence-manifest.v1.schema.json`](../../schemas/corpus-passage-evidence-manifest.v1.schema.json)
 
-Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item (an execution record, an artifact a record names, a candidate publication, or a proposal, review or Chair decision of the Room) by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item.
+Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a): the query, Room and reading Room subject, the passage's Corpus inference-Flow binding, each item (an execution record, an artifact a record names, a candidate publication, or a proposal, review or Chair decision of the Room) by exact ref and digest with the execution that names it, its step and source instance, whether it was included, and the projection that rendered them. The rendered content is kept by content address. Required items are always included; an optional item left out names why; nothing is cut. The manifest carries no timestamp, so equal evidence has one address. A reviewer passage's evidence names its review target: the exact proposal and candidate under review, fixed before inference; the candidate is then a required, included item. Projection revision 1 retains its historical shape and requires an item. Revision 2 binds a package-owned, host-derived phase, permits empty initial evidence and separates current candidate from historical reviews. The host checks that every phase basis is required, included and exact; it never truncates evidence.
 
 ## Fields
 
@@ -22,12 +22,51 @@ Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a
 | [`content/digest`](#field-content-digest) | `yes` | string |  |
 | [`content/size-bytes`](#field-content-size-bytes) | `yes` | integer |  |
 | [`review/target`](#field-review-target) | `no` | ref: `#/$defs/review-target` |  |
+| [`phase`](#field-phase) | `no` | ref: `corpus-task-pack-phase.v1.schema.json` |  |
 
 ## Definitions
 
 | Definition | Shape | Description |
 |---|---|---|
 | [`review-target`](#def-review-target) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "projection": {
+      "properties": {
+        "revision": {
+          "const": 1
+        }
+      }
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "items": {
+      "minItems": 1
+    }
+  },
+  "not": {
+    "required": [
+      "phase"
+    ]
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -113,6 +152,12 @@ Immutable, host-made manifest of the evidence one Agent passage reads (P094-023a
 
 - Required: `no`
 - Shape: ref: `#/$defs/review-target`
+
+<a id="field-phase"></a>
+## `phase`
+
+- Required: `no`
+- Shape: ref: `corpus-task-pack-phase.v1.schema.json`
 
 ## Definition Semantics
 

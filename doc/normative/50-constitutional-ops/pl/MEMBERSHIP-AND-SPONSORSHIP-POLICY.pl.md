@@ -167,6 +167,20 @@ Kanoniczny porządek intensywności to `soft < hold < hard < block`.
 Sankcje muszą zachowywać ślad audytowy, ścieżkę apelacji i ścieżkę naprawy, chyba że istnieje bezpośrednie zagrożenie bezpieczeństwa.
 Powinny ograniczać powierzchnie wpływu, a nie wymazywać człowieczeństwo.
 
+Przy powtarzalnych naruszeniach przegląd POWINIEN obejmować także reguły dostępu,
+bodźce i praktyki sponsoringu, które mogą podtrzymywać szkodliwy wzorzec.
+Rozpowszechnienie naruszeń jest przesłanką do przeglądu warunków współpracy,
+nie samodzielną podstawą zaostrzenia lub złagodzenia sankcji wobec konkretnego
+uczestnika.
+
+Przegląd POWINIEN rozdzielać trzy zadania: ograniczenie konkretnego ryzyka,
+określenie warunków bezpiecznego powrotu uczestnika oraz naprawę mechanizmu
+systemowego. Jedno nie zastępuje pozostałych. Warunki powrotu POWINNY być jawne,
+powiązane z naprawą szkody i zmianą zachowania oraz podlegać przeglądowi, zamiast
+utrwalać napiętnowanie osoby. Naprawa systemowa NIE MOŻE opóźniać koniecznej
+ochrony osób krzywdzonych ani uzasadniać sankcji wobec innych uczestników bez
+indywidualnych podstaw dowodowych.
+
 ## Bazowe detektory antykoluzyjne
 
 Pierwsza implementacja nie powinna próbować wykryć wszystkich form koluzji naraz.

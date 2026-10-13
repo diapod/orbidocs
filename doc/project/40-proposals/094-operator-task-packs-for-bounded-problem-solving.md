@@ -3341,6 +3341,72 @@ process inspection confirm cleanup. There were no VM/order/signing/publication
 operations; this approval is consumed too. No checkpoint or readiness promotion
 and no automatic new model attempt follows.
 
+Adapter/phase review follow-up (2026-10-13, implementation and offline evidence):
+the exact retained Qwen3-Coder tokenizer preserves all four role sentinels,
+including `developer`. Across both repeats, first/third prompt-token counts are
+1072/1261 (initial), 6907/7096 (failed verifier), 5704/5893 (incomplete), and
+6471/6758 (Reviewer). Effective output was 2048, not truncated at the cap.
+Both Solver runs are `input-insensitive`; shape/content checks remain separate.
+The metadata-only `2026-10-13.calibration-boundary.offline.json` binds model,
+template, exact historical usage and source hashes with zero inference calls.
+It does not fabricate historical final adapter capture or prove a sole model
+failure cause. New calibration shares the native pure prompt-layer constructor;
+the native order is role overlay, exact user evidence, then caller task, not an
+independently reconstructed calibration order. P064 now requires pinned offline
+role-render evidence for new local-package admission, including typed refusal
+for currently unsupported GGUF rendering; historical catalogs remain explicitly
+unverified. Actual post-mapping capture and offline private rendering use
+existing selective-disclosure authority, with only commitments/counts exported.
+
+The accepted package-owned phase decision is carried by draft
+`corpus-task-pack-phase-rule.v1` and `corpus-task-pack-phase.v1`; Corpus knows no
+qmail names. The host resolves the rule from the exact admitted prompt-policy
+asset and task profile. Only the latest verified execution of the same logical
+round controls eligibility, across Agents and communication epochs:
+
+| Owner facts | Phase | Candidate shape admitted before publication |
+| --- | --- | --- |
+| No execution | `initial-observation` | Observation-only |
+| `verified` plus an exact linked passing verifier evaluation, without refusal and with all reported checks passing | `goal-completed` | No further candidate |
+| `verification-failed` plus an exact nonpassing verifier evaluation and every named same-instance observation completed with exit 0, nontruncated, nonempty UTF-8 output | `repair-eligible` | Contains a non-observation effect |
+| Otherwise | `evidence-missing` with named gaps | Observation-only |
+
+Missing/substituted owner objects refuse, never infer a phase from prose.
+Revision-2 evidence retains the host phase even for an empty initial history;
+every basis source is exact, required and included. It provides short aliases,
+source summaries, current candidate first and separately labelled historical
+reviews, while retaining full documents without truncation. The existing
+32 KiB projection budget remains hard. Revision 1 retains historical meaning.
+Flow selects separate phase templates. The owner checks every command's exact
+declared effect mode. Unknown/absent phases and `goal-completed` have an explicit
+`no-step` route, never the repair fallback. A missing owner rule can also refuse
+revision-2 evidence preparation before any model dispatch.
+The rule explicitly pins `repair/observation-only: refuse`: after eligibility,
+this bounded package does not allow observation-only diagnosis even after a failed
+repair. A future host-derived named-gap exception needs its own policy contract,
+not a model-authored exception. The owner checks every command's exact
+declared effect mode and refuses `phase/observation-only-repeat` or
+`phase/repair-before-evidence` before patches/publication; Reviewer critiques
+repair semantics, not eligibility. The new package and matching binding need
+re-authoring/conformance/activation before use. The deterministic fixture's
+revision-2 initial phase now proposes observation directly; historical safety
+trap qualification remains separate, not silently requalified by this change.
+
+Pure table, owner-link, message-boundary, fold/refusal, fixture and Schema Gate
+tests are development evidence only. A new bounded model calibration and final
+clean-source native UI run remain open; no consumed approval is renewed and no
+`012c4/012c5/012c6/023e`, `015` or alpha promotion follows.
+See `node:docs/audits/P094-2026-10-12-OBSERVATION-REPAIR-CALIBRATION.md`.
+
+Review follow-up, 2026-10-14: new role proofs cover five ordered layouts per role,
+including the same native Corpus preamble/postamble shape. A rendered role remains
+only a rendering fact. A separate model-card/operator trained-role declaration and
+preferred Foldable target is deferred to a separately bounded calibration and policy
+slice; no training claim or priority change is inferred from sentinel preservation.
+P064 documents the deferred GGUF helper and conservative historical roles. Shared
+two-LF content joining is a behavior change; historical reports remain tied to their
+original source and joining, not renewed evidence for these changes.
+
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
 plan before exposing its prepared root, isolating bad rows without blocking

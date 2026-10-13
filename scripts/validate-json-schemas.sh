@@ -41,6 +41,15 @@ schema_for_file() {
     *.deferred-operation-status-v2.json)
       echo "$SCHEMAS_DIR/deferred-operation-status.v2.schema.json"
       ;;
+    *.corpus-task-pack-phase-rule.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-phase-rule.v1.schema.json"
+      ;;
+    *.corpus-task-pack-phase.json)
+      echo "$SCHEMAS_DIR/corpus-task-pack-phase.v1.schema.json"
+      ;;
+    *.inquirium.model-package.chat-template-proof.json)
+      echo "$SCHEMAS_DIR/inquirium.model-package.chat-template-proof.v1.schema.json"
+      ;;
     *.middleware-instance-plan.json)
       echo "$SCHEMAS_DIR/middleware-instance-plan.v1.schema.json"
       ;;

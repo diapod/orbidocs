@@ -196,8 +196,8 @@ remain unchanged. Retained qualified evidence is
 The frozen run selected v2 explicitly under the former default-v1 policy. The
 accepted write policy now defaults to v2 with explicit legacy v1.
 [P035-006](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-write-default-decision-2026-10-12)
-owns the pending Node-default change and omitted-config runtime qualification;
-this decision alone adds no Whisper runtime evidence.
+owns the separately implemented and qualified Node-default change below;
+the policy decision alone did not add Whisper runtime evidence.
 
 These qualified families do not close all Whisper, nym issuance, production
 key custody, external redaction, Anon egress or inter-homeserver federation.
@@ -214,6 +214,16 @@ Conduit evidence stay frozen. Qualification:
 `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`.
 This remains explicit v2; P035-006 and the other Whisper exclusions above remain
 independent.
+
+P035-006 separately qualifies the omitted-config default-v2 path on 2026-10-14 at
+Node `42fde666` / Orbidocs `4ecec76`, with five SQLite and 27 Matrix cases on stock
+Synapse room v10. The same permitted signal confidence 0.5, trace and host-signed
+threshold families preserve author bytes through restart and source replay.
+All 692 Node full PDUs fit 65,536 (maximum 49,927); the independent homeserver gate
+passes. First-intent, filtered history/bootstrap and archive equivalence controls
+also pass. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-default-v2/README.md`.
+This transport default does not extend the qualified Whisper families, nym
+issuance, key custody, Anon, federation or production scope described above.
 
 ## Post-M4 productization tracker
 
