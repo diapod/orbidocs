@@ -357,6 +357,15 @@ Status:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`.
   Explicit v2 only; P035-006 and global Agora `partial` retain their scope.
 
+- Post-qualification recovery review uses page-durable admission and token progress,
+  so the 8 MiB HTTP response bound does not cap total history. Empty bootstrap
+  retains its start token; admission uses the recovery room snapshot to avoid a
+  late-binding race. Focused conformance covers long history, resume, empty rooms,
+  non-limited backfill and atomic rollback; P035-005 runtime evidence stays frozen.
+  One room can still hold the account checkpoint/current timeline; exhausting its
+  page budget does not skip others' history work. P035-006 must exercise the new path and
+  integrate bounded public evidence archives under `node:docs/evidence/RETENTION.md`.
+
 ### Retention Policy Sweep
 
 Based on:

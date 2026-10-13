@@ -786,8 +786,11 @@ One receiver owns an account checkpoint. Network, decoding and verification
 happen outside the write transaction. Sources, admission decisions, diagnostics
 and `next_batch` commit together under S028; index notifications follow commit.
 Limited timelines trigger `/messages` backfill to the retained continuity
-anchor: 64 events per page, at most eight pages per cycle, durable recovery
-progress and the existing 8 MiB HTTP response bound. Never advance beyond an
+anchor: 64 events per page, at most eight pages per room per cycle, including
+the initial current-end page. Each page commits admitted source facts, rejected
+decisions and its pagination token together; verification remains outside the
+transaction. Recovery retains constant-size progress, not accumulated events.
+The existing 8 MiB bound limits each HTTP response, not total history. Never advance beyond an
 unresolved gap; unavailable history records `matrix-history-gap` and incomplete
 status. Operator replay supports `source=matrix-carriers` without forwarding.
 
@@ -800,8 +803,11 @@ and `M_TOO_LARGE` stop retry; transient failures retain bounded retry and bytes.
 respect `retry_after_ms`; exhaustion becomes `blocked`. A HATEOAS POST retry
 requires client authentication and topic write access and reuses the same prepared
 bytes and transaction. Permanent content/size refusals cannot be requeued.
-New room registration forces an initial account sync after retained work, with
-no-anchor history backfill; a racing sync cannot discard that requirement.
+New room registration preserves the account checkpoint and triggers no-anchor
+history backfill, including a non-limited timeline or absence from incremental
+sync. Admission uses the same room snapshot as recovery, so registration racing
+network I/O cannot establish an unrecovered anchor. Completed bootstrap stores
+its start token even for an empty room; first-page facts and completion are atomic.
 Preserve Matrix `sender` independently of self-declared relay identity. Optional
 sender expectations produce diagnostics rather than author admission authority;
 untrusted hops saturate and remain loop hints. Typed v1/v2 bridge reasons and
@@ -961,6 +967,48 @@ one unmodified server does not qualify cross-homeserver federation, all Whisper
 or production readiness. Runnable fixture and exporter ownership stays in Node:
 `node:tools/matrix-fixture/synapse/README.md`.
 
+### History recovery and evidence retention decision (2026-10-13)
+
+**Status:** accepted; Node implementation and focused conformance completed after
+P035-005 qualification. This is not a new homeserver runtime qualification.
+
+**Context and options:** collecting all recovered events imposed a deterministic
+8 MiB bootstrap ceiling. An explicit operator limit would preserve that failure
+for long-lived rooms. Choose incremental page admission instead: persist each
+page's sources, admission decisions and progress in one S028 transaction. The
+account cursor and continuity anchor advance only when its pending batch finishes.
+Old buffered progress is admitted once; where it omitted the reached-anchor fact,
+continuity is rechecked from the retained batch boundary. Empty completion retains
+the `/messages` start token without fabricating an event ID.
+
+**Consequences:** total history is no longer bounded by the HTTP response cap.
+Crash recovery repeats at most an uncommitted page. Pages arrive backwards, with
+events within a page admitted oldest first; retained source sequence expresses
+local admission order, not global room chronology. First-source selection and
+replay remain deterministic. Exhausting one room's page budget does not skip
+the others' recovery work in that round, but one unfinished room still holds the account checkpoint, current timeline
+delivery and subsequent sync batches. Eight pages per room per round plus the
+five-second retry delay and request/verification time bound each round's work;
+unavailable continuity has no finite account-latency bound. A failed current-end
+bootstrap request can still stop batch preparation. Per-room independent
+sync is a separate architectural change, not implied by this correction.
+
+The direct regression is: skip events before a room binding, bind during prepared
+I/O, receive a new event in a non-limited timeline, then backfill the old events
+before establishing its anchor. Conformance also covers more than 8 MiB, resume,
+empty rooms, atomic rollback, common admission and legacy progress. P035-006 must
+exercise the new path on its real default-v2 profile; P035-005's original source
+revisions and results remain frozen.
+
+New public evidence larger than 256 KiB uses reviewable reports, qualification and
+a complete member/hash index alongside a deterministic archive. Actual bytes stay
+retained; hashes alone cannot substitute for runtime observations or PDUs. Initial
+retention is in the repository, with no unowned external blob dependency. Bounded
+extraction, member integrity and loose/archive qualifier equivalence must be
+integrated before archived output is adopted by P035-006. The existing report
+format remains unchanged. Node owns the operational convention:
+`node:docs/evidence/RETENTION.md`. Do not rewrite dated loose evidence.
+
 ### Matrix Carrier Tracker
 
 This transport continuation is independent of AD publisher migration and keeps
@@ -970,7 +1018,7 @@ its status here; S008 Agora P18 links to this row.
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
 | P035-005 | Unmodified reference homeserver PDU interoperability | done | P035-004; room-version budget profile | Qualified 2026-10-13 at clean Node dcc8133c / Orbidocs c84df99 on official unmodified Synapse v1.162.0, PostgreSQL 16.13 and room v10: 4 SQLite and 22 Matrix cases. Separate gates pass: all 42 Node complete PDUs fit 65,536 (maximum 49,927); direct protocol maximum 65,535 and actual HTTP 413 M_TOO_LARGE, including requests below the PDU ceiling. Confidence 0.5, permitted Whisper families, exact bytes, A/B and server/database restart, limited recovery, late binding and source replay pass. Stock serializer verifies hashes, signatures and event IDs. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`. Initial Synapse failure, v0.7.0 finding and patched proof stay frozen; explicit v2 only, no federation or production claim. |
-| P035-006 | Default v2 writer and explicit legacy v1 | todo | P035-004; accepted write-default decision | Change Node/config defaults to v2; select v1 only through explicit legacy configuration. Qualify the real omitted-config confidence-0.5 sign/forward/B-sync/read/restart/replay path, explicit-v1 controls and unchanged prepared publication versions. Update the current harness/qualifier under existing Story-008 contracts, retaining original default-v1 evidence. Room v10 and current byte budgets remain scoped; P035-005 is independent. |
+| P035-006 | Default v2 writer and explicit legacy v1 | todo | P035-004; accepted write-default and history-recovery decisions | Change Node/config defaults to v2; select v1 only through explicit legacy configuration. Qualify the real omitted-config confidence-0.5 sign/forward/B-sync/read/restart/replay path, explicit-v1 controls and unchanged prepared publication versions. Include page-durable long-history recovery, empty bootstrap and the non-limited late-binding path. Integrate bounded evidence archives and verify qualification equivalence after extraction. Update the current harness/qualifier under existing Story-008 contracts, retaining original default-v1 evidence. Room v10 and current byte budgets remain scoped; P035-005's original qualification remains independent and frozen. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
