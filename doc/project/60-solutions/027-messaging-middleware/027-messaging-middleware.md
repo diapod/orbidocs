@@ -81,27 +81,64 @@ multi-device vault merge. Read/unread sync is in scope as replayable
 
 ## Local preparation and onboarding
 
-As of `2026-10-12`, [P097 Stage A](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md)
-adds a daemon-owned read of local operator preparation. It selects
-`messaging-local-send@v1` or an explicitly bounded legacy module passport, verifies
-signature/current-root/revocation and participant/caller/binding evidence, and reports
-separate send/receive readiness with owned relationship/route and service/storage
-facts. Per-peer `inac-push@v1` and signer `signing/messaging-send` do not establish
-local send preparation.
+[P097](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md)
+separates issuer authority, preparation and actual send execution. Stage B accepts
+only `messaging-local-send@v1`; profile-less/legacy artifacts are unsupported.
+INAC push consent and signer delegation remain distinct. A shared evaluator checks
+current root, signature, revocation, participant/caller/bindings and owned route.
+Host-owned local issuer revocation does not depend on directory freshness; remote
+verified observations have a 300-second budget. The bounded 1024-entry proof cache
+never skips current time/key/revision checks.
 
-The UI separates federation issuer authority from Messaging and permits durable
-explicit deferral into the app. Signed admission requests prove key possession and
-remain non-authoritative. Root admission is an explicit P076 operator procedure.
-Wizard and configured auto-ready share durable issuance coordination and preserve
-withdrawn consent. GET performs no preparation. See the canonical
-[readiness schema](../../../schemas/messaging-readiness.local.v1.schema.json).
+Compose admission belongs to the daemon, before EML/outbox/signing/contact effects.
+It records immutable local sender provenance, referenced by Messaging, AD and peer
+queues. AD statically protects message envelopes and outgoing contact requests and
+fails closed without its host guard. Admission, retries, indirect adapters and each
+protected peer frame recheck current authority. Refusal ends an AD attempt as
+`OutboundDenied` and pauses the Messaging intent as `authority-blocked`; restart,
+unlock and replay do not resume it. Generated INAC chunks retain artifact identity
+and provenance, so even an already-started stream stops at the next protected emission
+after refusal. Emitted bytes cannot be recalled. Fetching an already-shared object
+pointer uses its own expiring, one-use fetch grant; send revocation does not revoke
+that independent grant or reclaim bytes the recipient already holds.
 
-Retained Node evidence (`node:docs/evidence/messaging-onboarding/README.md`) qualifies
-fresh UI identity delivery and the local preparation/read slice, with separate
-conformance, narrow deferral and strict Story-010 regression. Stage B send execution
-enforcement/migration remains deferred; existing execution policy is retained.
-This extension does not promote broader Messaging or release qualification.
+Host-owned immutable artifact snapshots publish digests and revisions at writes;
+execution reads snapshots and bounded provenance caches instead of rereading artifact
+files for every frame. The actual authenticated request binding supplies the caller.
+Recipient-push passports are excluded from local-send diagnostics; actual passport
+issuer membership determines `issuer-not-admitted` under the unchanged issuer policy.
 
+Single and participant bulk retry are explicit and generation/idempotency protected.
+Retention bounds paused intents to 256 per participant, 1024 per node and 30 days,
+terminating oldest entries as `expired-unsent` before transport-copy deletion.
+One host provenance reference owns one outbox row, protected by a unique index
+and replay receipts without EML rewrites. Module lifecycle reconciliation adopts
+committed rows and reports terminal states. Unadopted operational proofs expire
+in 60 minutes; terminal proofs and artifacts expire 30 days after delivered,
+expired or discarded outcomes. Completed bulk retry receipts retain a 30-day
+idempotency window, while incomplete operations remain recoverable.
+Audit metadata and separate recordings survive. Unattributed entries can be
+explicitly discarded or resent with new IDs, never attributed to today's operator.
+Read-only authorization and a paginated operator audit expose the same reason and
+evidence contract without granting authority.
+
+The UI permits durable explicit deferral into `/app` with truthful status. Signed
+admission requests remain non-authoritative. Root admission is an explicit P076
+operator action; setup/auto-ready/retry grant no sovereign authority or withdrawn
+binding consent. Explicit new setup keys can renew expired/unsupported preparation;
+old keys remain tied to historical results. There is one always-enforced policy,
+with no migration, observation or cutover mode. Lack of pre-release backward
+compatibility is deliberate; post-release migration needs separate design.
+
+Canonical [readiness](../../../schemas/messaging-readiness.local.v1.schema.json),
+[authorization request](../../../schemas/messaging-send-authorize.local.v1.schema.json),
+[decision](../../../schemas/messaging-send-decision.local.v1.schema.json) and
+[audit](../../../schemas/messaging-send-audit.local.v1.schema.json) schemas define
+these local surfaces. The execution contract and
++its separate conformance, fresh-identity runtime and strict Story-010 gates are
++recorded in P097. Contract adoption and implementation do not establish release
++readiness or broader ordinary-participant authority policy.
++
 ## Passport Profile
 
 `messaging-receive@v1` is the canonical receive-consent passport profile. The
