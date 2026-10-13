@@ -114,9 +114,12 @@ following metrics in cycles no longer than 30 days.
   whether recognition points come from many sources or from a few dominant ones.
   Low entropy means clique risk.
 
-- **M8: Time to recover after reputation loss** - measures whether the system
-  allows repair and reintegration (Art. XVI.4), or whether penalties are de
+- **M8: Time to recover after reputation loss** – measures whether the system
+  allows repair and reintegration (Art. XVI.2 and XVI.7), or whether penalties are de
   facto permanent.
+  Review SHOULD also account for people who have not returned to cooperation,
+  reasons for maintaining restrictions, and recurrence of confirmed harm after
+  intervention. A short recovery time alone does not establish safe reintegration.
 
 - **M9: Newcomer advancement distribution** - measures whether slow-start
   limits protect influence surfaces without becoming a caste. Track median time
@@ -136,6 +139,21 @@ following metrics in cycles no longer than 30 days.
   limits preserve appeal and repair. Track how many denied surface transitions
   include a reason code, expiry or review time, and appeal path. Alarm
   threshold: < 95% of denials carry all three.
+
+Review of intervention effectiveness SHOULD assess whether interventions reduce
+recurring harm and enable safe reintegration, not merely count sanctions. More
+reports may indicate more abuse, but also better detection or greater trust in
+the procedure; a decrease alone does not establish improvement. Interpretation
+SHOULD identify the scope and observation window, changes in reporting practices,
+and data limitations, distinguishing reports from confirmed harm.
+
+The prevalence of violations is grounds for reviewing the conditions of
+cooperation, not an independent basis for increasing or reducing sanctions against
+a particular participant. Aggregate metrics do not replace individual evidentiary
+grounds. If review indicates that incentives or procedures perpetuate abuse, it
+SHOULD identify a correction within the appropriate mandate or an escalation
+path, the responsible party, and a deadline for reassessment. This review does
+not replace necessary protection for those harmed.
 
 ---
 

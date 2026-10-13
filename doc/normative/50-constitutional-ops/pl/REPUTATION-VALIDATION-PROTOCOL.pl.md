@@ -118,8 +118,11 @@ następujące metryki w cyklach nie dłuższych niż 30 dni.
   pochodzą z wielu źródeł, czy z kilku dominujących. Niska entropia oznacza ryzyko
   kliki.
 
-- **M8: Czas powrotu po utracie reputacji** - mierzy, czy system pozwala na naprawę
-  i reintegrację (Art. XVI.4), czy kary są de facto permanentne.
+- **M8: Czas powrotu po utracie reputacji** – mierzy, czy system pozwala na naprawę
+  i reintegrację (Art. XVI.2 i XVI.7), czy kary są de facto permanentne.
+  Przegląd POWINIEN uwzględniać także osoby, które nie wróciły do współpracy,
+  przyczyny utrzymywania ograniczeń oraz powtarzanie się potwierdzonych szkód
+  po interwencji. Sam krótki czas powrotu nie dowodzi bezpiecznej reintegracji.
 
 - **M9: Rozkład awansu newcomerów** - mierzy, czy limity slow-start chronią
   powierzchnie wpływu bez tworzenia kasty. Mierz medianę czasu od
@@ -139,6 +142,21 @@ następujące metryki w cyklach nie dłuższych niż 30 dni.
   capability zachowują apelację oraz naprawę. Mierz, ile odmów przejścia na
   powierzchnię zawiera reason code, expiry albo termin przeglądu i ścieżkę
   apelacji. Próg alarmowy: < 95% odmów zawiera wszystkie trzy elementy.
+
+Przegląd skuteczności interwencji POWINIEN oceniać, czy ograniczają one powtarzanie
+szkód i umożliwiają bezpieczną reintegrację, a nie tylko zliczać sankcje. Wzrost
+liczby zgłoszeń może oznaczać większą skalę nadużyć, ale także lepszą wykrywalność
+lub większe zaufanie do procedury; spadek nie dowodzi sam w sobie poprawy.
+Interpretacja POWINNA wskazywać zakres i okno obserwacji, zmiany w sposobie
+zgłaszania oraz ograniczenia danych, odróżniając zgłoszenia od potwierdzonych szkód.
+
+Rozpowszechnienie naruszeń jest przesłanką do przeglądu warunków współpracy,
+nie samodzielną podstawą zaostrzenia lub złagodzenia sankcji wobec konkretnego
+uczestnika. Metryki zbiorowe nie zastępują indywidualnych podstaw dowodowych.
+Jeżeli przegląd wskazuje na utrwalanie nadużyć przez bodźce lub procedury,
+POWINIEN wyznaczyć korektę w granicach właściwego mandatu albo ścieżkę eskalacji,
+podmiot odpowiedzialny oraz termin ponownej oceny. Przegląd ten nie zastępuje
+koniecznej ochrony osób krzywdzonych.
 
 ---
 
