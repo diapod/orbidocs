@@ -1070,6 +1070,49 @@ Global Agora remains partial. This does not qualify federation, all Whisper, nym
 issuance, other room versions or production readiness; P026/P035-004/005 dated
 reports remain unchanged.
 
+### Evidence storage review and recovery baseline (2026-10-14)
+
+**Status:** accepted repository cost policy; budget guards implemented in Node.
+Content-addressed reconstruction and cause-capsule tooling remain P035-008 `todo`.
+
+The P035-006 positive gzip is 38,121,914 bytes and its incomplete-attempt archives
+add 62,261,130 bytes across eleven archives. Archiving reduced file count, but
+repeated full carriers in
+page observations and PDU/source dumps still dominate bytes. Existing evidence is
+frozen, with explicit historical storage exceptions; do not rewrite Git history.
+Before another long-history evidence commit, deduplicate exact author buffers by
+content hash and retain event/source references with lossless reconstruction.
+Preserve distinct alternate bytes and complete PDU metadata, including hashes and
+server signatures. Require artifact integrity and equal normal qualification
+before/after reconstruction; digest-only evidence is insufficient.
+
+New Git retention is limited to 16 MiB per qualified run, 1 MiB per refused
+attempt/probe and 4 MiB for all refusals in one profile campaign, including controls
+and review files. These are repository cost limits, independent of protocol and
+decoder limits. Failed attempts may retain reports, the actual original refusal
+and cause-related artifact dependencies instead of unrelated full passing-case
+payloads. Declare omissions; a cause capsule is incomplete evidence, not a full
+qualification archive. Oversize output stays private until reduced or retained
+under an accountable immutable external-storage contract; no automatic budget
+increase. Node owns exact checks and procedures in `node:docs/evidence/RETENTION.md`.
+
+P035-007 compares against 64 events per filtered page, eight pages per room per
+round (at most 512 events, including current-end bootstrap), five seconds between
+unfinished rounds, `/sync` timeline limit three and an 8 MiB per-response HTTP cap.
+The frozen run restored 643 records over twelve pages; 640 fixture-signed buffers
+totaled 11,008,420 author bytes, plus three UI/host-sign samples. Its 10.32 seconds
+starts at B startup and includes the deliberate crash/restart after 512 durable
+records, polling and source checks. It does not measure isolated steady-state
+throughput. Retain scale, actual pages/events per round, restart overhead and
+other-room delivery timing for comparable available/unavailable-history workloads.
+
+The unfiltered non-Agora-anchor branch preserves only earlier development state;
+it is not required by the v1/v2 wire-reader contract. There is no released/deployed
+infrastructure to migrate. P035-007 should retire it during the recovery redesign,
+specify developer-state reset/refusal and keep the direct non-limited late-binding
+regression. P097 provides a pre-release precedent in Messaging, not a blanket
+norm for transport migrations. This review does not change qualified runtime code.
+
 ### Matrix Carrier Tracker
 
 This transport continuation is independent of AD publisher migration and keeps
@@ -1080,7 +1123,8 @@ its status here; S008 Agora P18 links to this row.
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
 | P035-005 | Unmodified reference homeserver PDU interoperability | done | P035-004; room-version budget profile | Qualified 2026-10-13 at clean Node dcc8133c / Orbidocs c84df99 on official unmodified Synapse v1.162.0, PostgreSQL 16.13 and room v10: 4 SQLite and 22 Matrix cases. Separate gates pass: all 42 Node complete PDUs fit 65,536 (maximum 49,927); direct protocol maximum 65,535 and actual HTTP 413 M_TOO_LARGE, including requests below the PDU ceiling. Confidence 0.5, permitted Whisper families, exact bytes, A/B and server/database restart, limited recovery, late binding and source replay pass. Stock serializer verifies hashes, signatures and event IDs. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`. Initial Synapse failure, v0.7.0 finding and patched proof stay frozen; explicit v2 only, no federation or production claim. |
 | P035-006 | Default v2 writer and explicit legacy v1 | done | P035-004; accepted write-default and history-recovery decisions | Qualified 2026-10-14 at clean Node 42fde666 / Orbidocs 4ecec76: five SQLite and 27 Matrix cases with omitted A/B config, confidence 0.5, immutable bytes, legacy intent controls, third-claim crash/retry, restart and source replay. All 692 Node PDUs fit 65536 (maximum 49927); independent unmodified Synapse gate and direct 65535 boundary pass. Filtered history resumes 643 records over 12 pages after 512 durable before crash; empty bootstrap and non-limited late binding pass. Bounded archives qualify identically before/after extraction. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-default-v2/qualification.json`. P035-007, global Agora partial and federation/production exclusions remain open. |
-| P035-007 | Isolate room history recovery from account delivery | todo | P035-006; S028 | Design and qualify durable per-room recovery/backpressure so unavailable or long history in one room cannot indefinitely stop current events in other rooms. Preserve admission, source/checkpoint atomicity, explicit gaps and restart/replay; P035-006 measures the current limitation without claiming independent room sync. |
+| P035-007 | Isolate room history recovery from account delivery | todo | P035-006; S028; P035-008 before committing new long-history evidence | Design and qualify durable per-room recovery/backpressure so unavailable or long history in one room cannot indefinitely stop current events in other rooms. Preserve admission, source/checkpoint atomicity, explicit gaps and restart/replay. Retire development-only unfiltered-anchor compatibility with explicit reset/refusal and the direct late-binding regression. Compare against the scale/restart baseline above, recording pages/events per round and other-room timing for available/unavailable history; P035-006 proves no independent-room or latency bound. |
+| P035-008 | Deduplicate public evidence and retain cause capsules within byte budgets | todo | P035-006; accepted evidence storage review | Before another long-history evidence commit, integrate a content-addressed author/PDU pool, lossless artifact reconstruction, dependency-aware refusal capsules and 16 MiB/run, 1 MiB/refusal, 4 MiB/refusal-campaign enforcement. Preserve alternate bytes, complete PDU verification/sizing, original reports/refusals and exact qualifier equivalence. Qualify missing/corrupt objects, oversize output and cause selection. Budget guards are implemented; no compact runtime codec is yet qualified. Frozen archives remain historical exceptions. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but

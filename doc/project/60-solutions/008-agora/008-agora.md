@@ -381,6 +381,14 @@ Status:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-14-default-v2/README.md`.
   P035-007, global Agora partial and broader federation/production exclusions remain.
 
+- The 2026-10-14 evidence storage review keeps that qualification frozen. Node
+  enforces new Git budgets of 16 MiB/full run, 1 MiB/refusal and 4 MiB/refusal
+  campaign under `node:docs/evidence/RETENTION.md`. P035-008 remains `todo` for
+  content-addressed author/PDU reconstruction and cause-capsule tooling before
+  another long-history evidence commit. P035-007's comparison baseline includes
+  64 events/page, eight pages/room/round and the deliberate B crash/restart after
+  512 durable records; the observed 10.32 seconds is not a throughput/latency bound.
+
 ### Retention Policy Sweep
 
 Based on:
