@@ -339,7 +339,7 @@ Status:
   v0.7.0 oversize evidence remains unchanged. The frozen run selected v2 explicitly.
   The accepted write policy now defaults to v2, with explicit legacy v1;
   [P035-006](../../40-proposals/035-agora-topic-addressed-record-relay.md#matrix-write-default-decision-2026-10-12)
-  owns the config-local v2 implementation and pending omitted-config runtime proof.
+  owns the config-local v2 implementation and the separate qualified omitted-config proof below.
   The enum has no default; publication intents freeze one version per account/topic/record. This
   completes the carrier task while global Agora stays `partial`;
   unmodified reference-server qualification is P035-005, and federation and
@@ -365,8 +365,21 @@ Status:
   non-limited backfill and atomic rollback; P035-005 runtime evidence stays frozen.
   One room can still hold the account checkpoint/current timeline; exhausting its
   page budget does not skip others' history work. P035-007 tracks isolation of account
-  delivery from room recovery. P035-006 must exercise the new path and
-  integrate bounded public evidence archives under `node:docs/evidence/RETENTION.md`.
+  delivery from room recovery. P035-006 separately qualifies the current paths and
+  bounded public evidence archives under `node:docs/evidence/RETENTION.md`.
+
+- P035-006 qualifies default v2 with explicit legacy v1 on 2026-10-14 at clean
+  Node `42fde666` / Orbidocs `4ecec76`: five SQLite and 27 Matrix cases with the
+  writer key absent on A/B. Protected confidence-0.5 gossip, permitted Whisper
+  signal/trace/threshold, exact bytes, first-intent preservation and unknown-third-
+  claim operator retry pass across restart and replay. Independent Node and stock
+  Synapse room-v10 gates pass: 692 complete Node PDUs, maximum 49,927 within 65,536;
+  direct protocol maximum 65,535 and actual size refusals. Long history restores
+  643 records over 12 filtered pages across crash/resume, including 640 fixture-
+  signed and three UI samples. Empty bootstrap and non-limited late binding pass;
+  their bounded archive qualifies identically after extraction. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-14-default-v2/README.md`.
+  P035-007, global Agora partial and broader federation/production exclusions remain.
 
 ### Retention Policy Sweep
 
