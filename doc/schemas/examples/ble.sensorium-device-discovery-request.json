@@ -1,0 +1,26 @@
+{
+  "schema": "sensorium-device-discovery.request.v1",
+  "schema/v": 1,
+  "profile/ref": {
+    "id": "muse-2.ble",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "discovery/mode": "active",
+  "transport/kind": "ble",
+  "transport/scope": {
+    "scope/ref": "transport-scope:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "filters": {
+    "advertised-name/prefix": "Muse-"
+  },
+  "idempotency/key": "request:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "budgets": {
+    "window/ms": 10000,
+    "deadline/ms": 15000,
+    "candidate/count-max": 8,
+    "candidate/bytes-max": 16384,
+    "progress/interval-ms": 500,
+    "candidate/ttl-ms": 60000
+  }
+}

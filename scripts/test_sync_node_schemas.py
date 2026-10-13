@@ -16,6 +16,23 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_discovery_contracts_are_synced_to_both_runtime_targets(self) -> None:
+        families = (
+            "sensorium-device-discovery.request.v1.schema.json",
+            "sensorium-device-discovery-candidate.v1.schema.json",
+            "sensorium-device-discovery-result.v1.schema.json",
+            "deferred-operation-status.v2.schema.json",
+        )
+        for whitelist in (SYNC.SCHEMA_WHITELIST, SYNC.MIDDLEWARE_SCHEMA_WHITELIST):
+            with tempfile.TemporaryDirectory() as temporary:
+                target = Path(temporary)
+                for family in families:
+                    self.assertIn(family, whitelist)
+                SYNC.copy_files(families, SYNC.SCHEMAS_DIR, target)
+                for family in families:
+                    self.assertEqual((target / family).read_bytes(),
+                                     (SYNC.SCHEMAS_DIR / family).read_bytes())
+
     def test_sensorium_os_schema_is_synced_to_its_existing_node_filename(self) -> None:
         canonical = "sensorium-os-error-codes.v1.schema.json"
         self.assertIn(canonical, SYNC.SCHEMA_WHITELIST)

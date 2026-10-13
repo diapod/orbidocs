@@ -29,6 +29,18 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.sensorium-device-discovery-request.json)
+      echo "$SCHEMAS_DIR/sensorium-device-discovery.request.v1.schema.json"
+      ;;
+    *.sensorium-device-discovery-candidate.json)
+      echo "$SCHEMAS_DIR/sensorium-device-discovery-candidate.v1.schema.json"
+      ;;
+    *.sensorium-device-discovery-result.json)
+      echo "$SCHEMAS_DIR/sensorium-device-discovery-result.v1.schema.json"
+      ;;
+    *.deferred-operation-status-v2.json)
+      echo "$SCHEMAS_DIR/deferred-operation-status.v2.schema.json"
+      ;;
     *.middleware-instance-plan.json)
       echo "$SCHEMAS_DIR/middleware-instance-plan.v1.schema.json"
       ;;

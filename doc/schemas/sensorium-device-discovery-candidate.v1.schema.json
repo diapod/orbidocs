@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-device-discovery-candidate:v1",
+  "title": "sensorium-device-discovery-candidate.v1",
+  "description": "Ephemeral caller-private candidate. Label and selector are untrusted UTF-8 (256 encoded bytes enforced by host). Never put candidate or selector material or their digests into durable metadata, logs, receipts, outcomes or publications. Identity names a verification method, source and time/scope; selector kinds are not a trust ladder. Candidate validity is at most 120 seconds and cannot exceed identity validity. Restart/revoke invalidation remains host-owned.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "candidate/ref",
+    "operation/id",
+    "caller/ref",
+    "profile/ref",
+    "transport/kind",
+    "transport/scope",
+    "label",
+    "selector",
+    "identity",
+    "expires/at-unix-ms",
+    "classification"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-device-discovery-candidate.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "candidate/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 106,
+      "pattern": "^candidate:[A-Za-z0-9_-]{16,96}$"
+    },
+    "operation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 132,
+      "pattern": "^deferred:sensorium.device-discovery:[A-Za-z0-9_-]{16,96}$"
+    },
+    "caller/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 103,
+      "pattern": "^caller:[A-Za-z0-9_-]{16,96}$"
+    },
+    "profile/ref": {
+      "$ref": "sensorium-device-discovery.request.v1.schema.json#/$defs/profile"
+    },
+    "transport/kind": {
+      "enum": [
+        "ble",
+        "usb-serial",
+        "mdns"
+      ]
+    },
+    "transport/scope": {
+      "$ref": "sensorium-device-discovery.request.v1.schema.json#/$defs/scope"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "selector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "value"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "advertised-name",
+            "transport-address",
+            "verified-serial"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "source",
+        "scope/ref",
+        "observed/at-unix-ms",
+        "expires/at-unix-ms"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "advertisement",
+            "transport-observation",
+            "operator-verification"
+          ]
+        },
+        "source": {
+          "enum": [
+            "provider",
+            "operator"
+          ]
+        },
+        "scope/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 112,
+          "pattern": "^transport-scope:[A-Za-z0-9_-]{16,96}$"
+        },
+        "observed/at-unix-ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expires/at-unix-ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "expires/at-unix-ms": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data/class",
+        "sphere"
+      ],
+      "properties": {
+        "data/class": {
+          "const": "sensitive-personal"
+        },
+        "sphere": {
+          "const": "Personal"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "selector": {
+            "properties": {
+              "kind": {
+                "const": "advertised-name"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "selector"
+        ]
+      },
+      "then": {
+        "properties": {
+          "identity": {
+            "properties": {
+              "method": {
+                "const": "advertisement"
+              },
+              "source": {
+                "const": "provider"
+              }
+            }
+          },
+          "transport/kind": {
+            "const": "ble"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selector": {
+            "properties": {
+              "kind": {
+                "const": "transport-address"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "selector"
+        ]
+      },
+      "then": {
+        "properties": {
+          "identity": {
+            "properties": {
+              "method": {
+                "const": "transport-observation"
+              },
+              "source": {
+                "const": "provider"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selector": {
+            "properties": {
+              "kind": {
+                "const": "verified-serial"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "selector"
+        ]
+      },
+      "then": {
+        "properties": {
+          "identity": {
+            "properties": {
+              "method": {
+                "const": "operator-verification"
+              },
+              "source": {
+                "const": "operator"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

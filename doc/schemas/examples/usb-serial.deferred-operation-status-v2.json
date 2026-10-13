@@ -1,0 +1,52 @@
+{
+  "schema": "deferred-operation-status.v2",
+  "schema/v": 2,
+  "operation/id": "deferred:sensorium.device-discovery:dddddddddddddddddddddddddddddddd",
+  "operation/kind": "sensorium.device-discovery",
+  "status": "running",
+  "updated_at": "2026-10-13T12:00:00Z",
+  "retry_after_seconds": 1,
+  "progress": {
+    "kind": "device-discovery",
+    "data": {
+      "revision": 1,
+      "phase": "scanning",
+      "candidates": [
+        {
+          "schema": "sensorium-device-discovery-candidate.v1",
+          "schema/v": 1,
+          "candidate/ref": "candidate:cccccccccccccccccccccccccccccccc",
+          "operation/id": "deferred:sensorium.device-discovery:dddddddddddddddddddddddddddddddd",
+          "caller/ref": "caller:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "profile/ref": {
+            "id": "fixture.usb-serial",
+            "revision": 1,
+            "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "transport/kind": "usb-serial",
+          "transport/scope": {
+            "scope/ref": "transport-scope:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "label": "Test Muse fixture",
+          "selector": {
+            "kind": "verified-serial",
+            "value": "fixture-serial"
+          },
+          "identity": {
+            "method": "operator-verification",
+            "source": "operator",
+            "scope/ref": "transport-scope:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "observed/at-unix-ms": 1000000,
+            "expires/at-unix-ms": 1060000
+          },
+          "expires/at-unix-ms": 1060000,
+          "classification": {
+            "data/class": "sensitive-personal",
+            "sphere": "Personal"
+          }
+        }
+      ],
+      "candidates/disclosed": 1
+    }
+  }
+}

@@ -285,11 +285,11 @@ channel or a new deferred lifecycle. The first BLE provider is owned by
 [P096](096-sensorium-brainflow-connector.md); USB/serial and mDNS initially have
 contract fixtures rather than qualified runtime providers.
 
-The planned `deferred-operation-status.v2` adds an optional, typed `progress`
+The draft `deferred-operation-status.v2`, frozen on 2026-10-13, adds an optional, typed `progress`
 field. It preserves the v1 lifecycle vocabulary and keeps a final domain result
 separate from progress. The discovery progress variant must declare its type,
 carry a monotonically increasing revision within the operation, and contain a
-bounded snapshot validated against the planned
+bounded snapshot validated against the frozen
 `sensorium-device-discovery-candidate.v1` contract. Other domains must define
 their own typed variants; `extensions` is not a stable substitute for this field.
 Exact wire properties, schema bounds, and positive/negative vectors belong to
@@ -640,10 +640,12 @@ This proposal introduces two candidate schemas:
 - `deferred-operation.v1` — initial accepted deferred response,
 - `deferred-operation-status.v1` — status poll response.
 
-The local discovery continuation additionally plans
-`deferred-operation-status.v2` with optional typed progress. No v2 schema is
-registered by this documentation change; `P055-10` owns that future contract and
-its v1 compatibility checks.
+The local discovery continuation uses the draft canonical
+`deferred-operation-status.v2` with optional typed progress. P055-10 now has
+structural and semantic validators and positive/negative vectors, including
+revision safety, final snapshot equality and cleanup uncertainty. Existing v1
+wire semantics and durable digests remain unchanged. P055-11 still owns the
+host/provider/console integration and measured cancellation behavior.
 
 Field naming should follow existing Orbiplex JSON style. The schema should use
 explicit enums for status and should leave diagnostic objects open enough for
@@ -880,5 +882,5 @@ Resolved for MVP:
 | P055-07 | Whisper redaction provider integration | done | `whisper.redaction.prepare` is available through the Sensorium OS deferred path; completed responses return through `deferred-operation-status.v1` and then through existing redaction response validation. Full model policy belongs to future Inquirium/provider policy. |
 | P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |
 | P055-09 | P081 causal-context bridge | done | `deferred-operation.v1` and `deferred-operation-status.v1` accept optional `causal/context`; Node `deferred-operation` serializes that context through schema-gate and can build a P081 `execution-receipt.v1` from terminal status without changing the local P055 operation handle. |
-| P055-10 | Versioned typed progress and private retention contract | planned | Define `deferred-operation-status.v2`, optional typed progress, bounded replaceable snapshot/revision, v1 compatibility, and separate private-response/durable-metadata inputs before registry hashing. Evidence: schema vectors for revision/size/count bounds; state fixtures for monotonic replacement; candidate bytes, ids, and derived digests absent from every retained projection. P045-DISC-001 owns the discovery-specific request/profile/candidate contract; no P045 lifecycle or integration completion is required to define this shared contract. |
+| P055-10 | Versioned typed progress and private retention contract | done | Define `deferred-operation-status.v2`, optional typed progress, bounded replaceable snapshot/revision, v1 compatibility, and separate private-response/durable-metadata inputs before registry hashing. Evidence: schema vectors for revision/size/count bounds; state fixtures for monotonic replacement; candidate bytes, ids, and derived digests absent from every retained projection. P045-DISC-001 owns the discovery-specific request/profile/candidate contract; no P045 lifecycle or integration completion is required to define this shared contract. |
 | P055-11 | Host/provider/console progress and cancellation integration | planned | Depends on P055-10, P045-DISC-003, and P045-DISC-004. Gate discovery on complete v2 support; test current-authority read/poll/cancel, replacement snapshots, selection-before-stop/binding-after-stop, limit/deadline partial domain results, confirmed own-session cancellation, uncertain cleanup with claim retained, candidate invalidation and no automatic scan/list recovery after restart, and existing v1 regression. P045-DISC-005 consumes this integration alongside the shared contract; P055-11 does not depend on P045-DISC-005. |

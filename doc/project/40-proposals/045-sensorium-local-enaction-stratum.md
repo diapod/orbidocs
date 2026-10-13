@@ -1690,16 +1690,26 @@ admission, signatures, action-scoped grants and internal connector routing
 under [P072](072-capability-registry.md); do not create a parallel
 `sensorium.device.discover` capability or transport capability registry.
 
-The planned common contracts are:
+The common draft contracts frozen on 2026-10-13 are:
 
-| Contract | Semantics to freeze in P045-DISC-001 |
+| Contract | Semantics frozen in P045-DISC-001 |
 | --- | --- |
 | `sensorium-device-discovery.request.v1` | Exact profile revision/digest, `discovery/mode: passive | active`, typed transport scope and filters, caller-bound operation/idempotency context, finite window/deadline, candidate-count/byte and progress budgets; host-derived authority is never accepted as a caller assertion |
 | `sensorium-device-discovery-candidate.v1` | Opaque `candidate/ref`, operation/caller/profile/scope binding and expiry; bounded untrusted label; selector kind and identity evidence with method, provenance and validity scope; private provider-local selector material |
 | `sensorium-device-discovery-result.v1` | Bounded current candidate snapshot, disclosed-candidate count and domain completion reason/partiality, linked to the operation; no nonmatching identifiers/counts, automatic observation or artifact |
 
-These names are inventory plans only; Schema Gate registration, exact fields,
-limits and positive/negative fixtures belong to P045-DISC-001/002. A request
+The canonical schemas in `doc/schemas/`, synchronized Node mirrors and Schema
+Gate validators now define these fields. Portable limits are 16 KiB per request,
+64 candidates, 32 KiB per encoded candidate vector and whole progress snapshot,
+1–30,000 ms observation window, a deadline no longer than 45,000 ms and no shorter
+than the window, 100–5,000 ms progress cadence, and 1,000–120,000 ms candidate TTL.
+Host admission may narrow every bound, reserve additional cleanup time and refuse
+unsupported modes before I/O. Revisions are positive JSON-safe integers; providers
+have at most 300 cadence updates within the largest observation window. Terminal
+and expiry transitions remain bounded separately. BLE, USB/serial and mDNS profile
+fixtures freeze transport effects and identity evidence without promising a
+runtime provider. Structural and semantic negative vectors are distinct.
+A request
 can narrow an admitted profile and host policy, never widen them. Backend
 capability determines whether a mode is available: if true passive discovery
 cannot be provided and enforced, return a typed refusal before I/O rather
@@ -1911,7 +1921,7 @@ P045-DISC-005 integrate them without a circular prerequisite.
 
 | ID | Work item | Depends on | Status | Completion gate and retained evidence |
 | --- | --- | --- | --- | --- |
-| `P045-DISC-001` | Freeze common contracts and admitted profiles | — | `todo` | Request/candidate/result data, authority, finite limits, states/reasons and scoped identity evidence; BLE, USB/serial and mDNS positive/negative fixtures; distinguish passive/active, no port probing |
+| `P045-DISC-001` | Freeze common contracts and admitted profiles | — | `done` | Request/candidate/result data, authority, finite limits, states/reasons and scoped identity evidence; BLE, USB/serial and mDNS positive/negative fixtures; distinguish passive/active, no port probing |
 | `P045-DISC-002` | Admit packages and route actions | `P045-DISC-001` | `todo` | Existing signed catalogue/P072 grants and Schema Gate; typed denial before provider spawn/I/O, network-denied BLE, no passive-to-active substitution; opaque operation identity and private-response split before directive audit; no available machine entry before implementation |
 | `P045-DISC-003` | Enforce lifecycle and transport resources | `P045-DISC-001`, `P045-DISC-002`, `P096-005` | `todo` | Independent provider registration and bounded supervised sessions; atomic bidirectional scan/acquisition exclusion, unknown-sharing refusal, revocation/hang/cleanup uncertainty, claim recovery without scan resume; actual launch/access evidence |
 | `P045-DISC-004` | Own private candidates and binding consumption | `P045-DISC-001`, `P045-DISC-002` | `todo` | Source filtering and host revalidation; no foreign counts/ids or private-list/filter-derived digests in any retained sink, including handles/causal refs/receipts; TTL/caller/scope fences, atomic one-use binding/idempotent retry, no cross-provider merge/history; commit waits for confirmed cleanup |
@@ -1919,8 +1929,8 @@ P045-DISC-005 integrate them without a circular prerequisite.
 | `P045-DISC-006` | Deliver shared UI and CLI | `P045-DISC-005` | `todo` | Same contracts for incremental display, cancel and approval; bounded escaped/invisible-marked labels, stale selection refusal, selection never starts acquisition; existing directives/manual binding regression |
 | `P045-DISC-007` | Qualify cross-cutting discovery acceptance | `P045-DISC-006`, `P096-018` | `todo` | All failure-table cases and real first-provider launch/transport/stop/binding use; old S029 v1 and Sensorium directives preserved; USB/serial/mDNS contract-only evidence labelled, runtime deferred; exact tuple and scope, no capability promotion beyond tested evidence |
 
-Next actions: implement 001 contracts/fixtures and P055-10 semantics, then
-002/003/004 and P055-11/005 integration, before UI or provider exposure. P096-017
+Next actions: integrate the frozen 001/P055-10 contracts through
+002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and
 only then closes DISC-007. Existing P096-009 manual setup and P096-015 initial
 acquisition qualification do not depend on completing this optional extension.

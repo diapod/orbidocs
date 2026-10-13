@@ -13,6 +13,10 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+    "sensorium-device-discovery.request.v1.schema.json",
+    "sensorium-device-discovery-candidate.v1.schema.json",
+    "sensorium-device-discovery-result.v1.schema.json",
+    "deferred-operation-status.v2.schema.json",
     "responsibility-common.v1.schema.json",
     "responsibility-effect-apply.v1.schema.json",
     "responsibility-policy.v1.schema.json",
@@ -41,6 +45,10 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "sensorium-device-discovery.request.v1.schema.json",
+    "sensorium-device-discovery-candidate.v1.schema.json",
+    "sensorium-device-discovery-result.v1.schema.json",
+    "deferred-operation-status.v2.schema.json",
     "sensorium-brainflow-lab-observation.v1.schema.json",
     "sensorium-brainflow-model-profile.v1.schema.json",
     "sensorium-brainflow-instance.v1.schema.json",
@@ -596,6 +604,19 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "ble.deferred-operation-status-v2.json",
+    "ble.sensorium-device-discovery-candidate.json",
+    "ble.sensorium-device-discovery-request.json",
+    "completed.deferred-operation-status-v2.json",
+    "deadline-reached.sensorium-device-discovery-result.json",
+    "limit-reached.sensorium-device-discovery-result.json",
+    "mdns.deferred-operation-status-v2.json",
+    "mdns.sensorium-device-discovery-candidate.json",
+    "mdns.sensorium-device-discovery-request.json",
+    "usb-serial.deferred-operation-status-v2.json",
+    "usb-serial.sensorium-device-discovery-candidate.json",
+    "usb-serial.sensorium-device-discovery-request.json",
+    "window-completed.sensorium-device-discovery-result.json",
     "accepted.responsibility-signed-command.json",
     "accepted.participant-restriction-source.legacy-fractional.json",
     "accepted.responsibility-command.json",
@@ -1136,6 +1157,21 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "unconfirmed-completion.deferred-operation-status-v2.json",
+    "noncompleted-result.deferred-operation-status-v2.json",
+    "wrong-progress-operation-kind.deferred-operation-status-v2.json",
+    "byte-limit.sensorium-device-discovery-request.json",
+    "count-limit.sensorium-device-discovery-request.json",
+    "fake-verified-serial.sensorium-device-discovery-candidate.json",
+    "self-asserted-authority.sensorium-device-discovery-request.json",
+    "unknown-mode.sensorium-device-discovery-request.json",
+    "unknown-progress.deferred-operation-status-v2.json",
+    "unsafe-revision.deferred-operation-status-v2.json",
+    "window-limit.sensorium-device-discovery-request.json",
+    "wrong-classification.sensorium-device-discovery-candidate.json",
+    "wrong-partiality.sensorium-device-discovery-result.json",
+    "wrong-transport-filter.sensorium-device-discovery-request.json",
+    "zero-revision.deferred-operation-status-v2.json",
     "unknown-reason.messaging-send-decision.local.json",
     "declared-caller.messaging-send-authorize.local.json",
     "missing-body-digest.messaging-send-authorize.local.json",
@@ -1693,6 +1729,11 @@ INVALID_EXAMPLE_WHITELIST = (
 )
 
 SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
+    "final-snapshot-mismatch.deferred-operation-status-v2.json",
+    "count-mismatch.sensorium-device-discovery-result.json",
+    "deadline-before-window.sensorium-device-discovery-request.json",
+    "identity-expired.sensorium-device-discovery-candidate.json",
+    "scope-mismatch.sensorium-device-discovery-candidate.json",
     "substituted-input.corpus-authority-epoch.json",
     "substituted-solver.corpus-task-pack-candidate-adoption.v1.json",
     "observing-patch.sensorium-action-semantics.json",

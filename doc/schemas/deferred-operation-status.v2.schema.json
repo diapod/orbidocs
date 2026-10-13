@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:deferred-operation-status:v2",
+  "title": "Deferred Operation Status v2",
+  "description": "Versioned private status preserving v1 lifecycle and adding typed bounded replacement progress. Discovery progress and terminal results are private; remove them, diagnostics, extensions and their derived digests BEFORE durable status/event hashing. Every read requires current authority. V1 remains unchanged. Revision monotonicity and actual candidate encoded-byte budgets are host invariants.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+  ],
+  "required": [
+    "schema",
+    "schema/v",
+    "status",
+    "operation/id",
+    "operation/kind",
+    "updated_at"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "deferred-operation-status.v2",
+      "description": "Schema tag for deferred operation status payloads."
+    },
+    "schema/v": {
+      "const": 2,
+      "description": "Schema version."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "timed-out",
+        "cancelled",
+        "expired",
+        "unknown"
+      ],
+      "description": "Lifecycle status. pending/running suspend processing; completed resumes with result; failed/timed-out/cancelled/expired/unknown are terminal failures unless the parent runtime has an explicit retry policy."
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^deferred:[a-z][a-z0-9.-]*:[A-Za-z0-9_-]+$",
+      "description": "Id from the initial deferred-operation.v1 payload."
+    },
+    "operation/kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*$",
+      "description": "Operation class that owns the continuation semantics."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp at which this status was produced."
+    },
+    "retry_after_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600,
+      "description": "Host-clamped lower bound before the next poll/resume attempt. Required by convention for pending/running statuses that are not immediately resumable."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current absolute expiry deadline, if still applicable."
+    },
+    "causal/context": {
+      "$ref": "causal-context.v1.schema.json",
+      "description": "Optional canonical P081 causal context preserved on status and continuation responses."
+    },
+    "result": {
+      "description": "Domain result only for completed status. It MUST be validated by the owning operation kind before downstream use."
+    },
+    "diagnostics": {
+      "type": "array",
+      "description": "Optional diagnostics for operator and caller visibility.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Open extension map for experimental or deployment-local metadata. Stable protocol fields MUST be promoted to first-class schema properties."
+    },
+    "progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "data"
+      ],
+      "properties": {
+        "kind": {
+          "const": "device-discovery"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "revision",
+            "phase",
+            "candidates",
+            "candidates/disclosed"
+          ],
+          "properties": {
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "phase": {
+              "enum": [
+                "scanning",
+                "stopping",
+                "stopped",
+                "cleanup-uncertain"
+              ]
+            },
+            "candidates": {
+              "type": "array",
+              "maxItems": 64,
+              "items": {
+                "$ref": "sensorium-device-discovery-candidate.v1.schema.json"
+              }
+            },
+            "candidates/disclosed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "phase": {
+                    "const": "cleanup-uncertain"
+                  }
+                },
+                "required": [
+                  "phase"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "candidates": {
+                    "maxItems": 0
+                  },
+                  "candidates/disclosed": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "result"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation/kind": {
+            "const": "sensorium.device-discovery"
+          }
+        },
+        "required": [
+          "operation/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operation/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 132,
+            "pattern": "^deferred:sensorium.device-discovery:[A-Za-z0-9_-]{16,96}$"
+          },
+          "result": {
+            "$ref": "sensorium-device-discovery-result.v1.schema.json"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "progress"
+        ]
+      },
+      "then": {
+        "properties": {
+          "operation/kind": {
+            "const": "sensorium.device-discovery"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation/kind": {
+            "const": "sensorium.device-discovery"
+          },
+          "status": {
+            "not": {
+              "const": "completed"
+            }
+          }
+        },
+        "required": [
+          "operation/kind",
+          "status"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "result"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation/kind": {
+            "const": "sensorium.device-discovery"
+          },
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "operation/kind",
+          "status",
+          "progress"
+        ]
+      },
+      "then": {
+        "properties": {
+          "progress": {
+            "properties": {
+              "data": {
+                "properties": {
+                  "phase": {
+                    "const": "stopped"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "discovery-progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision",
+        "phase",
+        "candidates",
+        "candidates/disclosed"
+      ],
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "phase": {
+          "enum": [
+            "scanning",
+            "stopping",
+            "stopped",
+            "cleanup-uncertain"
+          ]
+        },
+        "candidates": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "sensorium-device-discovery-candidate.v1.schema.json"
+          }
+        },
+        "candidates/disclosed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "cleanup-uncertain"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          },
+          "then": {
+            "properties": {
+              "candidates": {
+                "maxItems": 0
+              },
+              "candidates/disclosed": {
+                "const": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

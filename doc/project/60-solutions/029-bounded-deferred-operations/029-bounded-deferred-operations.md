@@ -45,10 +45,11 @@ Sensorium, JSON-e Flow, Whisper, and future middleware may consume the same
 deferred-operation contract without turning the scheduler or daemon into a
 domain workflow engine.
 
-The local-device-discovery extension added on 2026-10-13 is **planned**, with
-work owned by [P055-10 and P055-11](../../40-proposals/055-bounded-deferred-operation-contract.md#tracking).
-It adds no current runtime capability or schema and does not change the
-implemented v1 MVP status.
+The local-device-discovery extension added on 2026-10-13 now has draft canonical
+schemas and typed private/durable projections under completed P055-10. Its
+host/provider/console integration and runtime qualification remain owned by
+[P055-11](../../40-proposals/055-bounded-deferred-operation-contract.md#tracking).
+The implemented v1 MVP status remains unchanged.
 
 ## Context and Problem Statement
 
@@ -339,7 +340,7 @@ Based on:
 - [P045 local device discovery continuation](../../40-proposals/045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation),
 - [P096 first BLE provider](../../40-proposals/096-sensorium-brainflow-connector.md).
 
-Planned contract:
+Draft contract frozen on 2026-10-13:
 
 - `deferred-operation-status.v2`, with optional typed progress; v1 consumers
   remain supported without changed meaning.
@@ -372,7 +373,7 @@ Responsibilities:
 
 Status:
 
-- `planned`; the single owning tracker is [P055 Tracking](../../40-proposals/055-bounded-deferred-operation-contract.md#tracking),
+- contract implemented, runtime integration pending; the single owning tracker is [P055 Tracking](../../40-proposals/055-bounded-deferred-operation-contract.md#tracking),
   with `P055-10` for the shared v2/retention contract and `P055-11` for
   host/provider/console integration. P045 owns the discovery-specific lifecycle
   and generic acceptance; P096 owns BLE transport qualification. This solution

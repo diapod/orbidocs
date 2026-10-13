@@ -1,0 +1,361 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-device-discovery.request:v1",
+  "title": "sensorium-device-discovery.request.v1",
+  "description": "Private bounded discovery intent. The host derives authority and resolves scope; caller parameters never grant permission. Finite limits are hard ceilings, narrowed by admitted profiles and policy. Exact deadlines require host cleanup margin. No acquisition, probing, automatic observation or retention of identifiers.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "profile/ref",
+    "discovery/mode",
+    "transport/kind",
+    "transport/scope",
+    "filters",
+    "idempotency/key",
+    "budgets"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-device-discovery.request.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "profile/ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[a-z][a-z0-9.-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "discovery/mode": {
+      "enum": [
+        "passive",
+        "active"
+      ]
+    },
+    "transport/kind": {
+      "enum": [
+        "ble",
+        "usb-serial",
+        "mdns"
+      ]
+    },
+    "transport/scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope/ref"
+      ],
+      "properties": {
+        "scope/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 112,
+          "pattern": "^transport-scope:[A-Za-z0-9_-]{16,96}$"
+        }
+      }
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "advertised-name/prefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "advertised-name/exact": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "service/uuid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "pattern": "^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$"
+        },
+        "usb/vendor-id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "usb/product-id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "mdns/service-type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^_[A-Za-z0-9_-]+\\._(tcp|udp)\\.local\\.$"
+        }
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": [
+              "advertised-name/prefix",
+              "advertised-name/exact"
+            ]
+          }
+        }
+      ]
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 104,
+      "pattern": "^request:[A-Za-z0-9_-]{16,96}$"
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window/ms",
+        "deadline/ms",
+        "candidate/count-max",
+        "candidate/bytes-max",
+        "progress/interval-ms",
+        "candidate/ttl-ms"
+      ],
+      "properties": {
+        "window/ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30000
+        },
+        "deadline/ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 45000
+        },
+        "candidate/count-max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "candidate/bytes-max": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 32768
+        },
+        "progress/interval-ms": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 5000
+        },
+        "candidate/ttl-ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 120000
+        }
+      }
+    }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[a-z][a-z0-9.-]*$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 71,
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope/ref"
+      ],
+      "properties": {
+        "scope/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 112,
+          "pattern": "^transport-scope:[A-Za-z0-9_-]{16,96}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "transport/kind": {
+            "const": "ble"
+          }
+        },
+        "required": [
+          "transport/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "filters": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "usb/vendor-id"
+                  ]
+                },
+                {
+                  "required": [
+                    "usb/product-id"
+                  ]
+                },
+                {
+                  "required": [
+                    "mdns/service-type"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transport/kind": {
+            "const": "usb-serial"
+          }
+        },
+        "required": [
+          "transport/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "filters": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "advertised-name/prefix"
+                  ]
+                },
+                {
+                  "required": [
+                    "advertised-name/exact"
+                  ]
+                },
+                {
+                  "required": [
+                    "service/uuid"
+                  ]
+                },
+                {
+                  "required": [
+                    "mdns/service-type"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transport/kind": {
+            "const": "mdns"
+          }
+        },
+        "required": [
+          "transport/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "filters": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "advertised-name/prefix"
+                  ]
+                },
+                {
+                  "required": [
+                    "advertised-name/exact"
+                  ]
+                },
+                {
+                  "required": [
+                    "service/uuid"
+                  ]
+                },
+                {
+                  "required": [
+                    "usb/vendor-id"
+                  ]
+                },
+                {
+                  "required": [
+                    "usb/product-id"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

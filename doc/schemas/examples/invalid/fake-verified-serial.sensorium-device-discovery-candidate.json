@@ -1,0 +1,33 @@
+{
+  "schema": "sensorium-device-discovery-candidate.v1",
+  "schema/v": 1,
+  "candidate/ref": "candidate:cccccccccccccccccccccccccccccccc",
+  "operation/id": "deferred:sensorium.device-discovery:dddddddddddddddddddddddddddddddd",
+  "caller/ref": "caller:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "profile/ref": {
+    "id": "muse-2.ble",
+    "revision": 1,
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "transport/kind": "ble",
+  "transport/scope": {
+    "scope/ref": "transport-scope:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "label": "Test Muse fixture",
+  "selector": {
+    "kind": "verified-serial",
+    "value": "Muse-fixture"
+  },
+  "identity": {
+    "method": "advertisement",
+    "source": "provider",
+    "scope/ref": "transport-scope:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "observed/at-unix-ms": 1000000,
+    "expires/at-unix-ms": 1060000
+  },
+  "expires/at-unix-ms": 1060000,
+  "classification": {
+    "data/class": "sensitive-personal",
+    "sphere": "Personal"
+  }
+}

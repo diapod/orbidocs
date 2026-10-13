@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:sensorium-device-discovery-result:v1",
+  "title": "sensorium-device-discovery-result.v1",
+  "description": "Caller-private final replacement snapshot after confirmed own-session cleanup. Limit/deadline completion is partial. Watchdog timeout, provider failure, refusal and uncertain cleanup are not partial success. Zero results describes only this observation scope/window. Encoded vector max32KiB; disclosed count equals vector length; all candidates share operation/caller/profile/scope. Host performs cross-field checks before disclosure.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/045-sensorium-local-enaction-stratum.md",
+    "doc/project/40-proposals/055-bounded-deferred-operation-contract.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema/v",
+    "operation/id",
+    "reason",
+    "partial",
+    "candidates",
+    "candidates/disclosed"
+  ],
+  "properties": {
+    "schema": {
+      "const": "sensorium-device-discovery-result.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "operation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 132,
+      "pattern": "^deferred:sensorium.device-discovery:[A-Za-z0-9_-]{16,96}$"
+    },
+    "reason": {
+      "enum": [
+        "window-completed",
+        "limit-reached",
+        "deadline-reached"
+      ]
+    },
+    "partial": {
+      "type": "boolean"
+    },
+    "candidates": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "sensorium-device-discovery-candidate.v1.schema.json"
+      }
+    },
+    "candidates/disclosed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 64
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "reason": {
+            "const": "window-completed"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "then": {
+        "properties": {
+          "partial": {
+            "const": false
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "partial": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
+}
