@@ -344,6 +344,19 @@ Status:
   unmodified reference-server qualification is P035-005, and federation and
   production readiness remain separate.
 
+- P035-005 separately qualifies official unmodified Synapse v1.162.0/PostgreSQL
+  16.13 with room v10 at Node `dcc8133c` / Orbidocs `c84df99` on 2026-10-13:
+  four SQLite and 22 Matrix cases. Both independent gates pass: all 42 Node
+  complete PDUs fit 65,536 (maximum 49,927); direct protocol PDUs reach 65,535,
+  with actual 413 `M_TOO_LARGE` including requests below the PDU ceiling.
+  Stock serialization verifies hashes, server signatures and event IDs. Confidence
+  0.5, exact bytes, permitted Whisper families, A/B and homeserver/database restart,
+  limited-sync backfill, late binding and source replay pass. Room registration
+  preserves the account checkpoint and bootstraps unanchored rooms independently;
+  the initial failure and earlier Conduit evidence stay retained. Qualification:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`.
+  Explicit v2 only; P035-006 and global Agora `partial` retain their scope.
+
 ### Retention Policy Sweep
 
 Based on:

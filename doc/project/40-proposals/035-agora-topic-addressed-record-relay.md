@@ -914,7 +914,8 @@ and explicit v2 selection and cannot be relabelled as default-v2 evidence.
 
 ### Unmodified reference homeserver qualification (P035-005)
 
-**Status:** accepted profile; runtime qualification pending. **Date:** 2026-10-13.
+**Status:** qualified reference profile; independent Node and homeserver gates passed.
+**Date:** 2026-10-13.
 
 The reference profile selects official, unmodified Synapse v1.162.0 at upstream
 `63dc0cbfe514f60743212566374ffeb5e9e295c2`, pinned image digest, PostgreSQL 16.13
@@ -939,8 +940,22 @@ permitted Whisper signal/trace/threshold carriage, exact author bytes and byte
 variants, A/B and homeserver/database restart, limited-sync backfill, source-based
 replay without forwarding, compatibility and typed refusal/recovery controls.
 
-P035-005 closes only after both gates and the required runtime cases qualify at
-clean frozen sibling revisions. A failed environment gate does not erase a passed
+P035-005 qualified at clean Node `dcc8133c` and Orbidocs `c84df99`: four SQLite
+and 22 Matrix cases. Every one of the 42 acknowledged Node PDUs fits 65,536 bytes
+(maximum 49,927). Seven separately attributed direct Client-Server PDUs reach
+65,535; actual HTTP 413 `M_TOO_LARGE` refusals include 64,901-byte requests, proving
+the gate is not merely a request-body ceiling. Content hashes, server signatures
+and event IDs are verified through the stock serializer and public server keys.
+Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`.
+
+The initial stock-Synapse attempt failed honestly: resetting the account cursor on
+room registration could return a cached initial sync older than the durable anchor.
+Node now preserves the checkpoint and bootstraps a room without an anchor through
+bounded `/messages`, including rooms absent from incremental sync. Restart/offline
+limited recovery and late binding both pass in the fresh qualified run. The failed
+report and qualifier refusal remain retained; no Synapse validation code was changed.
+
+P035-005 requires both gates and the runtime cases at clean frozen sibling revisions. A failed environment gate does not erase a passed
 Node budget gate. Preserve original Conduit findings and patched-fixture evidence;
 one unmodified server does not qualify cross-homeserver federation, all Whisper
 or production readiness. Runnable fixture and exporter ownership stays in Node:
@@ -954,7 +969,7 @@ its status here; S008 Agora P18 links to this row.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
-| P035-005 | Unmodified reference homeserver PDU interoperability | partial | P035-004; room-version budget profile | Accepted Synapse v1.162.0/PostgreSQL 16.13 room-v10 profile; runtime qualification pending. Require separate Node complete-PDU budget and unmodified homeserver enforcement gates, confidence 0.5, exact bytes, restart and source replay at clean frozen revisions. Retain boundary refusals and complete signed exports. Preserve the v0.7.0 finding and patched-fixture proof; no federation or production claim. |
+| P035-005 | Unmodified reference homeserver PDU interoperability | done | P035-004; room-version budget profile | Qualified 2026-10-13 at clean Node dcc8133c / Orbidocs c84df99 on official unmodified Synapse v1.162.0, PostgreSQL 16.13 and room v10: 4 SQLite and 22 Matrix cases. Separate gates pass: all 42 Node complete PDUs fit 65,536 (maximum 49,927); direct protocol maximum 65,535 and actual HTTP 413 M_TOO_LARGE, including requests below the PDU ceiling. Confidence 0.5, permitted Whisper families, exact bytes, A/B and server/database restart, limited recovery, late binding and source replay pass. Stock serializer verifies hashes, signatures and event IDs. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`. Initial Synapse failure, v0.7.0 finding and patched proof stay frozen; explicit v2 only, no federation or production claim. |
 | P035-006 | Default v2 writer and explicit legacy v1 | todo | P035-004; accepted write-default decision | Change Node/config defaults to v2; select v1 only through explicit legacy configuration. Qualify the real omitted-config confidence-0.5 sign/forward/B-sync/read/restart/replay path, explicit-v1 controls and unchanged prepared publication versions. Update the current harness/qualifier under existing Story-008 contracts, retaining original default-v1 evidence. Room v10 and current byte budgets remain scoped; P035-005 is independent. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may

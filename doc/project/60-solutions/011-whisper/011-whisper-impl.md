@@ -201,7 +201,19 @@ this decision alone adds no Whisper runtime evidence.
 
 These qualified families do not close all Whisper, nym issuance, production
 key custody, external redaction, Anon egress or inter-homeserver federation.
-Unmodified reference-server qualification is the independent P035-005 task.
+P035-005 independently qualified official unmodified Synapse v1.162.0/PostgreSQL
+16.13 room v10 on 2026-10-13 at clean Node `dcc8133c` / Orbidocs `c84df99`:
+four SQLite and 22 Matrix cases. The same permitted signal confidence 0.5,
+trace and host-signed threshold families preserve exact bytes through restart
+and first-source replay. Both gates pass: 42 Node full PDUs, maximum 49,927
+within 65,536; separate direct protocol maximum 65,535 and actual HTTP 413
+`M_TOO_LARGE` below the request-body ceiling. Full stock serialization verifies
+hashes, server signatures and event IDs. Homeserver/database restart, real
+limited-sync backfill and late room binding are covered. Original failures and
+Conduit evidence stay frozen. Qualification:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`.
+This remains explicit v2; P035-006 and the other Whisper exclusions above remain
+independent.
 
 ## Post-M4 productization tracker
 
