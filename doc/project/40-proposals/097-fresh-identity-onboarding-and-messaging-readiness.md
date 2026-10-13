@@ -392,6 +392,9 @@ must not substitute for the new runtime path.
    the same `message/id` in the sender UI, B outbox and A mailbox/UI, recipient route,
    delivered state and digest of the canonical message content. Demonstration inbox
    entries, counters or an unrelated control message do not satisfy this criterion.
+   Load `/middleware/messaging` with a fresh pseudonymous draft before attestation;
+   absent/null optional attestation objects must render `draft` and blank fields
+   without changing readiness or authority.
 7. Retain the independent strict Story-010 regression result. In Stage A, verify
    that truthful readiness did not introduce new send enforcement on legacy/narrow
    profiles. Preserve existing execution checks and classify that compatibility
@@ -402,6 +405,13 @@ use an explicit resolved per-run metadata directory without downloading weights;
 reject unresolved `{slot}` paths. Model root and VM location remain distinct
 settings even when they share a volume. A guided-UI clone must relocate every mutable
 storage path; this is not permission to run or qualify full Story-013.
+
+For a cloned guided profile, assert empty contact/relationship stores and
+accepted-request receipts as well as transport/outbox/mailbox histories. Retained
+contact/recovery state can restore an earlier consent or trigger reciprocal
+auto-accept; such a case does not prove a new explicit consent transition.
+Reusing already approved identities must be reported separately from new UI
+identity creation and issuer admission.
 
 #### Required negative and recovery cases
 
@@ -626,6 +636,17 @@ The source/profile/binary manifest and four-stage commit plan are retained at
 `node:docs/evidence/messaging-onboarding/2026-10-13-review/README.md`.
 The original reports are unchanged; local qualification does not establish release
 readiness or broader participant policy.
+
+A scoped browser follow-up dated `2026-10-13` corrects optional attestation
+rendering and adds three regressions; the full Node UI suite passes 307 tests.
+Actual browser interaction on separate localhost hosts reuses exactly the two
+previously approved UI-created identities, with clean contact/transport histories
+and guided Story-013 readiness on B. A narrow INAC invitation and a separate
+contact request are explicitly accepted before the sole message is delivered and
+opened/read. Sender UI, outbox, recipient mailbox/UI and content digest correlate.
+This is additional UI evidence, not a new fresh-creation, strict Story-010,
+model/VM or release qualification. Retained measurements and source/profile/binary
+digests are at `node:docs/evidence/messaging-onboarding/2026-10-13-browser/README.md`.
 
 Stage B follows the always-enforce plan above. Resolve
 P076's limited-grant question before claiming support for ordinary non-sovereign users

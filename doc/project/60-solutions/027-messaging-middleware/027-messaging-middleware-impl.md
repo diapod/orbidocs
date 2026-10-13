@@ -2,6 +2,8 @@
 
 Date: `2026-05-17`
 
+Updated: `2026-10-13` for P097 Stage B and the scoped browser follow-up.
+
 ## Runtime Boundaries
 
 `messaging-core` is the pure domain layer. It owns typed envelope validation,
@@ -37,9 +39,22 @@ the owned routing subject and prepare missing local send/receive passports throu
 the daemon's durable coordinator. Parallel fresh setup jobs share the named route
 and issuance intent. The local-send preparation lifetime is 90 days. The wizard
 stores a `pseudonymous-only` contactability marker or optional public-handle draft;
-attestation and Contact Catalog publication remain separate flows. Stage A adds no
-send execution gate or automatic issuer admission; Stage B enforcement and migration
-remain pending.
+attestation and Contact Catalog publication remain separate flows. Stage A added no
+send execution gate or automatic issuer admission. Stage B now always enforces
+current typed `messaging-local-send@v1` authority at admission and delayed effects.
+There is no observe mode, legacy cohort, cutover or migration API; existing
+identities use explicit preparation or renewal. Setup, auto-ready and retry grant
+no sovereign authority. See [P097](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md)
+and `node:docs/development/MESSAGING-ONBOARDING.md` for the current owner contract.
+
+The operator page `/middleware/messaging` (the target of `/admin/messaging`)
+renders a fresh pseudonymous contactability draft without requiring attestation
+objects. Absent/null parents display `draft` and blank provider/challenge fields;
+these display defaults establish neither attestation nor send readiness.
+The `2026-10-13` browser follow-up uses actual chat submission and separate
+INAC/contact approvals with previously approved test identities. Its source,
+profile and binary references are retained at
+`node:docs/evidence/messaging-onboarding/2026-10-13-browser/README.md`.
 
 ## Local Data
 
@@ -56,7 +71,15 @@ storage/messaging/
     <mailbox-id>/{tmp,new,cur}
 ```
 
-Outbound compose writes a native Orbiplex EML profile v1 file under
+The host evaluates current send authority before EML, outbox, signing or contact
+request effects, and records immutable sender provenance. One provenance reference
+owns one outbox row. AD and peer workers re-evaluate current authority at their
+effect boundaries; a stored decision is not a reusable grant. Refused accepted
+intents become `authority-blocked`; missing provenance yields `unattributed-entry`.
+Explicit single/bulk retry and bounded terminal retention preserve that boundary.
+
+After authorized admission, outbound compose writes a native Orbiplex EML profile
+v1 file under
 `maildir/outbox/body/` before queueing the Layer 2 row. SQLite stores the
 digest, size, routing metadata, state, host delivery ids, retry diagnostics,
 and EML path. The body digest and size remain computed over the EML body

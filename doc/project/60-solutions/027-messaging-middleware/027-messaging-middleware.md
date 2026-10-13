@@ -151,6 +151,13 @@ Its pinned candidate passes 810 conformance tests with additional native gates,
 323 seconds of directory isolation still uses local issuer authority. See
 `node:docs/evidence/messaging-onboarding/2026-10-13-review/README.md`.
 
+A scoped browser follow-up on the same date fixes fresh-draft Messaging rendering
+and measures actual guided-profile chat submission, explicit INAC/contact approvals
+and one correlated delivered/read message. It reuses previously approved UI-created
+identities with clean contact/transport histories; it is not a new fresh-creation
+or strict Story-010 run. See
+`node:docs/evidence/messaging-onboarding/2026-10-13-browser/README.md`.
+
 ## Passport Profile
 
 `messaging-receive@v1` is the canonical receive-consent passport profile. The
@@ -382,11 +389,16 @@ Layer 3 facts and exposes `reindexing` through service status.
 
 ## UI Boundary
 
-Node UI owns `/admin/messaging`. It renders status, contactability draft
+Node UI owns `/middleware/messaging`; `/admin/messaging` redirects there. It
+renders status, contactability draft
 settings, provider challenge/redeem controls, compose, inbox, mailbox lists,
 read/unread controls, outbox, message detail, pending-facts diagnostics, and
 recovery/reindex actions by calling `/v1/messaging/*` daemon proxies. It does
 not duplicate messaging policy logic.
+
+Fresh pseudonymous drafts may omit attestation objects. The panel renders a
+`draft` status and blank provider/challenge fields for absent/null optional
+parents; rendering does not establish attestation or change readiness.
 
 The contactability panel is draft-first. Editing public handles and route
 bindings never mutates Contact Catalog state until the user invokes `Publish`.
