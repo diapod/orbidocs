@@ -1,0 +1,9 @@
+{
+  "schema": "corpus-task-pack-phase-rule.v1",
+  "rule/ref": "phase-rule:fixture",
+  "observation/profile-refs": [
+    "command-profile:inspect"
+  ],
+  "verifier/ref": "verifier:fixture",
+  "repair/observation-only": "refuse"
+}

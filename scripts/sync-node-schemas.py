@@ -532,6 +532,9 @@ SCHEMA_WHITELIST = (
     "sensorium-interface-subscription-status.v1.schema.json",
     "vendor-media-type-registry.v1.schema.json",
     "inquirium.model-package.manifest.v1.schema.json",
+    "inquirium.model-package.chat-template-proof.v1.schema.json",
+    "corpus-task-pack-phase-rule.v1.schema.json",
+    "corpus-task-pack-phase.v1.schema.json",
     "inquirium.model-package.source-trust.v1.schema.json",
     "inquirium.model-package.operator-endorsement.v1.schema.json",
     "inquirium.model-package.provider-key-endorsement.v1.schema.json",
@@ -596,6 +599,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "fixture.corpus-task-pack-phase-rule.json",
+    "fixture.corpus-task-pack-phase.json",
+    "fixture.inquirium.model-package.chat-template-proof.json",
     "accepted.responsibility-signed-command.json",
     "accepted.participant-restriction-source.legacy-fractional.json",
     "accepted.responsibility-command.json",
@@ -1136,6 +1142,9 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "duplicate-profile.corpus-task-pack-phase-rule.json",
+    "ungrounded-repair.corpus-task-pack-phase.json",
+    "omitted-user.inquirium.model-package.chat-template-proof.json",
     "unknown-reason.messaging-send-decision.local.json",
     "declared-caller.messaging-send-authorize.local.json",
     "missing-body-digest.messaging-send-authorize.local.json",

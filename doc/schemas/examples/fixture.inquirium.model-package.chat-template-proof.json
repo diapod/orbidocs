@@ -1,0 +1,149 @@
+{
+  "schema": "inquirium.model-package.chat-template-proof.v1",
+  "manifest/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "runtime/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "model/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "chat-template/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "roles/probes": [
+    {
+      "role": "system",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "first"
+    },
+    {
+      "role": "system",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "after-user"
+    },
+    {
+      "role": "system",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "repeated"
+    },
+    {
+      "role": "system",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-preamble"
+    },
+    {
+      "role": "system",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-postamble"
+    },
+    {
+      "role": "developer",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "first"
+    },
+    {
+      "role": "developer",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "after-user"
+    },
+    {
+      "role": "developer",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "repeated"
+    },
+    {
+      "role": "developer",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-preamble"
+    },
+    {
+      "role": "developer",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-postamble"
+    },
+    {
+      "role": "user",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "first"
+    },
+    {
+      "role": "user",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "after-user"
+    },
+    {
+      "role": "user",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "repeated"
+    },
+    {
+      "role": "user",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-preamble"
+    },
+    {
+      "role": "user",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-postamble"
+    },
+    {
+      "role": "assistant",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "first"
+    },
+    {
+      "role": "assistant",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "after-user"
+    },
+    {
+      "role": "assistant",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "repeated"
+    },
+    {
+      "role": "assistant",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-preamble"
+    },
+    {
+      "role": "assistant",
+      "status": "preserved",
+      "rendered/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "tokens/count": 12,
+      "layout": "passage-postamble"
+    }
+  ]
+}

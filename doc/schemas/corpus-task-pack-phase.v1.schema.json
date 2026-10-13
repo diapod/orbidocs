@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:corpus-task-pack-phase:v1",
+  "title": "Corpus Task Pack Phase v1",
+  "description": "Host fact derived from the latest signed execution of the logical round and its exact plan, result, admitted verifier evaluation and same-instance observations. Every basis is a required included manifest item. No execution means initial-observation; exact failed verification and all required successful untruncated nonempty observations mean repair-eligible; otherwise evidence-missing. Not model prose, a verdict or an effect grant. Exact Verified execution with a linked successful verifier yields goal-completed, never a missing failed-verification gap; further candidates refuse.",
+  "x-dia-status": "draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "phase",
+    "rule/ref",
+    "rule/digest",
+    "basis",
+    "missing"
+  ],
+  "properties": {
+    "schema": {
+      "const": "corpus-task-pack-phase.v1"
+    },
+    "phase": {
+      "enum": [
+        "initial-observation",
+        "repair-eligible",
+        "evidence-missing",
+        "goal-completed"
+      ]
+    },
+    "rule/ref": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+      "maxLength": 512
+    },
+    "rule/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "basis": {
+      "type": "array",
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "digest"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*:[^\\s]+$",
+            "maxLength": 512
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          }
+        }
+      }
+    },
+    "missing": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "failed-verification",
+          "successful-observation"
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "initial-observation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "basis": {
+            "maxItems": 0
+          },
+          "missing": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "repair-eligible"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "basis": {
+            "minItems": 3
+          },
+          "missing": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "evidence-missing"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "missing": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "goal-completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "basis": {
+            "minItems": 2
+          },
+          "missing": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

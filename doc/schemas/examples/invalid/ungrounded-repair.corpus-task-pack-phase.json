@@ -1,0 +1,8 @@
+{
+  "schema": "corpus-task-pack-phase.v1",
+  "phase": "repair-eligible",
+  "rule/ref": "phase-rule:fixture",
+  "rule/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "basis": [],
+  "missing": []
+}
