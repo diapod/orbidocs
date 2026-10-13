@@ -912,6 +912,40 @@ preserve frozen prepared publications. Use existing Story-008 report conventions
 with source and artifact integrity. Old reports retain their recorded default v1
 and explicit v2 selection and cannot be relabelled as default-v2 evidence.
 
+### Unmodified reference homeserver qualification (P035-005)
+
+**Status:** accepted profile; runtime qualification pending. **Date:** 2026-10-13.
+
+The reference profile selects official, unmodified Synapse v1.162.0 at upstream
+`63dc0cbfe514f60743212566374ffeb5e9e295c2`, pinned image digest, PostgreSQL 16.13
+and room v10. Node explicitly selects v2 until P035-006 qualifies the omitted-config
+path. No homeserver patch, custom validation module or silent downgrade is allowed.
+The existing 36 KiB creation and 48 KiB historical ingress profiles remain scoped.
+
+The Story-008 `matrix-opaque-envelope` report retains two independent gates:
+every acknowledged Node publication must have a complete canonical PDU within
+65,536 bytes; the reference homeserver must separately refuse oversized direct
+Client-Server sends while retaining accepted signed PDUs near the boundary.
+Direct protocol tests do not qualify Node authoring. Actual request/response and
+process observations, the pinned upstream size-check source and complete PDU
+exports establish the environment result, rather than proxy or body-size limits.
+
+A consistent read-only PostgreSQL snapshot preserves selected public storage
+rows; the same stock Synapse version's room-v10 serializer exports protocol PDUs
+with hashes, server signatures, auth/prev references and all protocol fields.
+Matrix canonical JSON sizing does not normalize strings through Agora's NFC profile.
+The runtime matrix repeats protected host signing of gossip confidence 0.5,
+permitted Whisper signal/trace/threshold carriage, exact author bytes and byte
+variants, A/B and homeserver/database restart, limited-sync backfill, source-based
+replay without forwarding, compatibility and typed refusal/recovery controls.
+
+P035-005 closes only after both gates and the required runtime cases qualify at
+clean frozen sibling revisions. A failed environment gate does not erase a passed
+Node budget gate. Preserve original Conduit findings and patched-fixture evidence;
+one unmodified server does not qualify cross-homeserver federation, all Whisper
+or production readiness. Runnable fixture and exporter ownership stays in Node:
+`node:tools/matrix-fixture/synapse/README.md`.
+
 ### Matrix Carrier Tracker
 
 This transport continuation is independent of AD publisher migration and keeps
@@ -920,7 +954,7 @@ its status here; S008 Agora P18 links to this row.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
-| P035-005 | Unmodified reference homeserver PDU interoperability | todo | P035-004; room-version budget profile | Run the carrier/profile against a pinned unmodified reference homeserver; retain full-PDU boundary refusals and complete signed event exports, independently from the Node publication gate. Keep the v0.7.0 oversize finding and patched-fixture proof unchanged. No federation or production claim follows from one server. |
+| P035-005 | Unmodified reference homeserver PDU interoperability | partial | P035-004; room-version budget profile | Accepted Synapse v1.162.0/PostgreSQL 16.13 room-v10 profile; runtime qualification pending. Require separate Node complete-PDU budget and unmodified homeserver enforcement gates, confidence 0.5, exact bytes, restart and source replay at clean frozen revisions. Retain boundary refusals and complete signed exports. Preserve the v0.7.0 finding and patched-fixture proof; no federation or production claim. |
 | P035-006 | Default v2 writer and explicit legacy v1 | todo | P035-004; accepted write-default decision | Change Node/config defaults to v2; select v1 only through explicit legacy configuration. Qualify the real omitted-config confidence-0.5 sign/forward/B-sync/read/restart/replay path, explicit-v1 controls and unchanged prepared publication versions. Update the current harness/qualifier under existing Story-008 contracts, retaining original default-v1 evidence. Room v10 and current byte budgets remain scoped; P035-005 is independent. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
