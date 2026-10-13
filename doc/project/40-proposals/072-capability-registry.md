@@ -274,6 +274,35 @@ Reuses (gated against the registry, not changed): `capability-passport.v1`,
   contract and operator overlay; P072 remains authoritative for every base id and
   use-specific eligibility flag.
 
+### Planned Local Device Discovery Admission
+
+[P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+owns `P045-DISC-001`–`007`. Its planned `device.discover.ble`,
+`device.discover.usb-serial`, and `device.discover.mdns` actions reuse the
+existing `sensorium.directive.invoke` capability. They are action identifiers,
+not new transport capabilities: do not add `sensorium.device.discover`, a
+transport-specific capability registry, or a universal device registry.
+
+P072 continues to admit the capability identity and its permitted use. The
+Sensorium action catalog and current host policy separately admit the concrete
+`action_id`, signed provider package, profile, transport scope, mode, limits,
+caller and action-scoped grant before provider launch or I/O. A grant for the
+invoke capability alone does not admit every discovery action. Package signing,
+catalog presence, Schema Gate validity and provider registration each preserve
+their own boundary and none supplies effect authority on its own. Unknown,
+unadmitted, unavailable, or out-of-scope actions fail closed.
+
+`connector_id` remains an internal resolution detail; callers select an admitted
+action rather than an arbitrary connector. Provider registration is independent
+of a bound device instance, and neither registration nor an ephemeral candidate
+creates acquisition, pairing, publication, or Interface read authority.
+[P048's planned effect requirements](048-sensorium-os-connector-action-classes.md#planned-local-device-discovery-effect-requirements)
+remain an additional enforcement condition, not a consequence of registry
+eligibility. `P045-DISC-002` owns this admission/routing work and its refusal
+evidence. This documentation continuation changes no machine registry entries,
+authorization-policy sidecar coverage, capability availability, or completed
+P072 tracker status.
+
 ## Resolved Decisions
 
 The former Q1 (source direction) and Q2 (one registry vs two) are **decided in §1** —

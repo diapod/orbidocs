@@ -335,6 +335,43 @@ invariants are frozen now:
 - interface publication does not create Seed Directory, Agora, or federation-root
   advertisement state.
 
+### 2.0 Planned Local Device Discovery Is Not Interface Discovery
+
+[P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+owns the planned discovery contract and its `P045-DISC-001`–`007` tracker.
+Local BLE, USB/serial and mDNS candidates describe an ephemeral observation
+within one authorized local scan. They are not published Sensorium Interface
+resources, catalogue entries, admitted Sensorium observations, or new evidence
+artifacts. Candidate lists stay private to the caller and are not projected
+into Agora, Room, or a federated interface-discovery catalogue.
+
+Keep these authorities separate:
+
+```text
+authorize local discovery
+  -> obtain a short-lived candidate
+  -> confirm session termination and revalidate the selected candidate
+  -> confirm a host-owned device binding
+  -> separately authorize acquisition or another source operation
+  -> explicitly publish a Sensorium Interface projection if authorized
+  -> separately authorize the consumer's exact Interface read or subscription
+```
+
+A candidate or confirmed binding grants neither publication nor read authority.
+Selection during a scan does not permit binding commit before confirmed cleanup.
+An existing Interface grant cannot trigger a new device scan, pair a device,
+or authorize acquisition. If a source is later published, the normal source
+admission, classification, manage, read/subscribe and carrier boundaries still
+apply. No carrier, remote peer or descriptor catalogue can consume private local
+candidates by virtue of Interface access.
+
+The accepted baseline continues to expose only interfaces already disclosed by
+current resource authority. A future searchable catalogue of published Interface
+descriptors would be a separate existence-disclosure contract; it is distinct
+from P045's local device discovery. [Solution 046](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md#planned-local-device-discovery-boundary)
+records this separation without adding an Interface action, source adapter,
+capability or runtime availability claim.
+
 ### 2.1 Operational Impact Is Published Context, Not Authority
 
 A published interface may expose a representation of a disposable experiment, a

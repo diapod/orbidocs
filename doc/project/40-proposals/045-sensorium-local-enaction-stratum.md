@@ -27,8 +27,9 @@ Related connector work (proposed):
 
 [Proposal 096: Sensorium BrainFlow Connector](096-sensorium-brainflow-connector.md)
 defines one reusable acquisition package, versioned model profiles and independently
-supervised device instances. Its lifecycle, consent, independent instantiation and hardware
-qualification remain new work. Its class is `health-wearable`: non-invasive
+supervised device instances. P096-003 creation/restoration and P096-004's pinned
+catalogue/private binding path are implemented; acquisition lifecycle, consent
+and hardware qualification retain their gates. Its class is `health-wearable`: non-invasive
 physiological measurement with sensitive-personal data. "Invasive" in the
 connector policy taxonomy refers to privacy/access, not an implanted EEG device;
 this proposal does not promote that connector class's implementation status.
@@ -50,6 +51,10 @@ become a public or federated publication authority. Deliberate local and
 cross-node exposure of bounded enacted representations is implemented
 separately by Proposal 082 and Solution 046; it does not federate Sensorium's
 local observation topics.
+
+The [local device discovery continuation](#local-device-discovery-continuation)
+is a planned, post-MVP extension. It does not reopen the completed directive or
+connector-dispatch slice, register available actions, or qualify device access.
 
 ## Date
 
@@ -655,8 +660,8 @@ audit-only outcome record are defined as v1 schemas:
 - `doc/schemas/sensorium-directive-result.v1.schema.json`
 - `doc/schemas/sensorium-directive-outcome.v1.schema.json`
 
-These files carry `"x-dia-status": "draft"` because proposal 045 is still a
-draft proposal, but they are no longer candidate contracts. They are the
+These files retain `"x-dia-status": "draft"` as schema metadata independently
+of this proposal's accepted hard-MVP status. They are the
 implementation-facing v1 schemas for Sensorium directive invocation, caller
 results, and audit-only outcomes.
 
@@ -950,6 +955,11 @@ other supervised middleware flows.
 Consumers such as Monus, Arca, emergency evaluation, and UI code MUST NOT bypass
 `sensorium-core` to invoke connectors directly. Their stable dependency is the
 Sensorium capability surface, not the connector fleet.
+
+This module discovery is distinct from planned local **device discovery**:
+finding a registered connector is not scanning external devices. The latter
+uses the same mediated directive boundary and has its own bounded authority,
+private candidates and qualification gates below.
 
 #### Mediated admission and local bus distribution
 
@@ -1650,6 +1660,270 @@ contracts in the narrow local path:
   `artifact/id` and `role`, not embedded by default.
 - Delegation: if a directive carries `issuer_delegation`, validation follows
   proposal 032 with `max_chain_depth: 0`.
+
+## Local Device Discovery Continuation
+
+### Scope, provenance and status
+
+Decision recorded on 2026-10-13: extend the existing local directive boundary
+with bounded device discovery. Human agency and privacy at the upstream
+Vision/Constitution boundary become three separate decisions here:
+**detect a candidate -> approve a binding -> authorize acquisition**. Detection
+establishes a scoped observation of availability, not ownership, identity proof,
+wearer consent or permission to use a device.
+
+This section owns the common contract and continuation tracker. It is planned
+design, with no new runtime, frozen schema, machine capability entry or change
+to existing hard-MVP status. [S030](../60-solutions/030-sensorium/030-sensorium.md#local-device-discovery)
+records the planned solution responsibility. [P096](096-sensorium-brainflow-connector.md#local-device-discovery-provider)
+owns the first BLE provider and its qualification; USB/serial and mDNS have
+contract fixtures in this continuation but deferred runtime providers. There
+is no new proposal or universal device registry.
+
+### Actions, profiles and planned data contracts
+
+Consumers invoke `sensorium.directive.invoke` with the operator-admitted
+`action_id` `device.discover.ble`, `device.discover.usb-serial` or
+`device.discover.mdns`. These are planned action names, not currently available
+catalogue entries. `connector_id` stays internal. Reuse action-catalogue
+admission, signatures, action-scoped grants and internal connector routing
+under [P072](072-capability-registry.md); do not create a parallel
+`sensorium.device.discover` capability or transport capability registry.
+
+The planned common contracts are:
+
+| Contract | Semantics to freeze in P045-DISC-001 |
+| --- | --- |
+| `sensorium-device-discovery.request.v1` | Exact profile revision/digest, `discovery/mode: passive | active`, typed transport scope and filters, caller-bound operation/idempotency context, finite window/deadline, candidate-count/byte and progress budgets; host-derived authority is never accepted as a caller assertion |
+| `sensorium-device-discovery-candidate.v1` | Opaque `candidate/ref`, operation/caller/profile/scope binding and expiry; bounded untrusted label; selector kind and identity evidence with method, provenance and validity scope; private provider-local selector material |
+| `sensorium-device-discovery-result.v1` | Bounded current candidate snapshot, disclosed-candidate count and domain completion reason/partiality, linked to the operation; no nonmatching identifiers/counts, automatic observation or artifact |
+
+These names are inventory plans only; Schema Gate registration, exact fields,
+limits and positive/negative fixtures belong to P045-DISC-001/002. A request
+can narrow an admitted profile and host policy, never widen them. Backend
+capability determines whether a mode is available: if true passive discovery
+cannot be provided and enforced, return a typed refusal before I/O rather
+than run active discovery. Mode describes transport behavior; it is independent
+of the P048 execution/effect class. Port probing is excluded; a future probing
+action would need its own contract and grant.
+
+Selector kinds `advertised-name`, `transport-address` and `verified-serial`
+are evidence categories, not an ordered trust ladder. A serial field alone is
+not verification: evidence names the verification method, source and where/
+when it remains valid. A display label is never a stable device identity.
+
+### Provider registration and bounded lifecycle
+
+A discovery provider is registered independently of an acquisition instance.
+Reuse the adapter-neutral middleware instance plan, package/signature admission,
+supervisor and invocation channel. Registration may persist; a scan session
+may not. The host starts an admitted executor for one bounded S029 operation
+and ends that executor after confirmed completion or enforced cleanup. There
+is no new supervisor and no requirement to activate a BrainFlow instance in
+order to find its device. Generic instance materialization remains pure:
+it consumes an approved binding and performs no scan, pairing, permission grant
+or acquisition.
+
+Before transport I/O the host atomically obtains the relevant shared transport
+claim. Discovery and acquisition check conflicts **in both directions** under
+the same claim owner/fencing mechanism planned by P096-005. V1 refuses discovery
+while acquisition owns the same controller, and refuses acquisition while a
+scan or uncertain cleanup owns it. Different device names do not prove different
+controllers; an unknown sharing relation is a refusal. P096-005 supplies the
+reused mechanism, not a second discovery lock.
+
+Cancellation ends only this provider's discovery session. It cannot disable
+the whole Bluetooth controller or interrupt another owner. Release requires
+backend confirmation, or deployment-qualified proof that verified executor
+exit releases that backend session. Process death by itself is insufficient.
+On expiry, revocation, provider hang or uncertain cleanup, fence disclosure and
+binding consumption first, enforce the cleanup deadline, retain/quarantine the
+claim until release is proven, and report uncertainty rather than successful
+cancellation. The same rules cover normal completion with failed cleanup.
+Restart never resumes scanning or restores candidate lists; it must reconcile
+unreleased resource claims before admitting conflicting work.
+
+Execution effects and unsupported-enforcement refusal are owned by
+[P048](048-sensorium-os-connector-action-classes.md). BLE radio access, USB/serial
+enumeration and multicast are distinct effects: current C1/C4 labels do not
+automatically contain arbitrary implementations. Qualification records the
+actual host -> supervisor -> provider launch chain, OS access and attribution.
+The P096 terminal/iTerm TCC lab observations do not qualify a launchd daemon or
+another launch context.
+
+### Private candidates and atomic binding
+
+`candidate/ref` is short lived, bound to this operation, authenticated caller,
+profile and transport scope. `binding/ref` is a stable host-owned reference
+with its own current validity rules; it does not inherit acquisition authority.
+Candidates expire with their declared TTL, host restart, or relevant authority
+change. Never merge candidates from different providers; alias resolution and
+exclusive device claims remain binding/P096-005 responsibilities.
+
+A user may select a candidate from a running snapshot, but selection alone
+performs no binding write. The host waits for **confirmed scan termination**,
+then revalidates current candidate, profile, caller and binding authority.
+It creates the approved binding and consumes the candidate in one atomic
+transaction. Only successful creation consumes it; another request cannot use
+it to create a second binding. Exact retry of the already approved request
+returns the same binding, including after restart, through a minimal private
+binding receipt. It does not resurrect an unconsumed candidate or extend
+authority. Conflicting retries, stale candidates and another caller's read or
+consumption are refused. The receipt is binding-owner state, not a retained
+discovery list or discovery audit identifier.
+
+Manual, operator-confirmed selector entry remains usable without discovery.
+P096-004's completed private binding path is preserved; the new candidate
+consumption route is an additive P096-017/018 integration, not evidence that
+P096-004 has already implemented scanning.
+
+### Minimization, budgets and private progress
+
+Providers filter advertisements **before they leave their process**; the host
+validates the admitted projection again. Nonmatching advertisements, their
+identifiers and their counts leave neither boundary. All disclosed device
+results default to `sensitive-personal` / Personal, including USB/serial.
+Audit may retain admitted scope, time, outcome and disclosed-candidate count;
+it retains no device/candidate identifiers, private lists or digests derived
+from them. Scope in audit is a non-identifying profile/policy projection,
+not echoed private filter values. Native logs, directive outcomes, receipts,
+status registries and exported diagnostics must obey this projection too.
+Candidate selectors remain only in bounded private operation state and an
+explicitly approved binding's restricted owner store.
+
+The current `node:sensorium-core/src/lib.rs` outcome builder copies a compact
+`result/summary` from a connector result into its durable outcome. Discovery
+must split its private response from the metadata result **before** this
+builder too; compact summaries, result references and native diagnostic text
+are not redaction. The same file's `deferred_operation_seed` hashes all request
+parameters into a seed used for the retained operation identifier. For discovery,
+use an opaque host-allocated operation identity and caller-scoped idempotency
+mapping that are independent of private filters/candidates, rather than this
+parameter-derived seed. Handles, causal/correlation references and receipt
+material must not encode or hash private identifiers either. P045-DISC-002/004
+must qualify these identity and directive-audit paths together with the S029
+status-history hash boundary before provider exposure. Other v1 consumers keep
+their existing identity and retention semantics.
+
+There is no discovery-result history, automatic Sensorium observation, capture
+artifact, Agora/Room publication or federated export. Rate-limit admitted scans
+per caller and across the shared transport budget, persisting budget accounting
+across host restarts. Polling an existing operation spends no new scan budget.
+Periodic or autonomous retries need a separate domain policy; the
+[Scheduler boundary](../60-solutions/020-scheduler/020-scheduler.md)
+does not confer it. Enforce finite duration, count, bytes, invocation rate,
+provider concurrency and polling bounds at their owners before exposure.
+
+Labels remain untrusted. Apply byte/length bounds, escape markup and terminal
+control sequences, and visibly mark invisible characters using
+[P026's presentation rules](026-resource-opinions-and-discussion-surfaces.md).
+Do not treat escaping in the console as permission to leak labels into audit.
+
+First-stage incremental results reuse S029's existing status/poll/cancel path,
+not a new channel. [P055-10/11](055-bounded-deferred-operation-contract.md#41-planned-local-device-discovery-progress)
+and [S029](../60-solutions/029-bounded-deferred-operations/029-bounded-deferred-operations.md#local-device-discovery-private-progress)
+plan `deferred-operation-status.v2` with optional typed progress. V1 remains
+supported with unchanged meaning; its `extensions` field must not acquire
+permanent discovery semantics. Discovery is unavailable until the entire
+host/provider/console path supports v2.
+
+The caller-private progress projection contains a bounded **replacement
+snapshot** with increasing revision, not appended history. Every poll/status
+read rechecks caller identity and current disclosure authority. A selected
+candidate may disappear or expire before confirmation. Keep this private
+response separate from durable metadata status and audit: the current S029
+registry hashes the whole supplied status, so candidate identifiers/bytes and
+derived digests must be excluded **before** its event/digest path, including
+terminal results. Restart can restore metadata and rate budgets, never lists.
+
+Domain completion distinguishes `window-completed` (the planned observation
+window ended), `limit-reached` and `deadline-reached`. The latter two are
+explicit partial results. An orderly provider finish at the admitted domain
+deadline is different from a host watchdog timeout; provider failure, policy
+refusal and uncertain cleanup do not become ordinary partial success. A
+finished observation window, even with zero candidates, claims only what was
+seen in that scope/time, not that no device exists. Final results and binding
+consumption require confirmed session cleanup.
+
+Published Sensorium Interface catalogue discovery under
+[P082](082-sensorium-interfaces.md#20-planned-local-device-discovery-is-not-interface-discovery)
+and [S046](../60-solutions/046-sensorium-interfaces/046-sensorium-interfaces.md#planned-local-device-discovery-boundary)
+is a separate disclosure domain.
+An ephemeral local device candidate gives neither publication authority nor
+an Interface read grant, and an Interface catalogue cannot expose private
+physical device scans.
+
+### Scenario and failure contract
+
+```mermaid
+sequenceDiagram
+    participant U as Caller console
+    participant H as Sensorium host
+    participant P as Admitted provider
+    participant B as Private binding owner
+    U->>H: directive.invoke(action_id, admitted scope)
+    H->>H: Grant, profile, budget, effects and atomic transport claim
+    H->>P: Start bounded discovery operation
+    P-->>H: Filtered bounded replacement snapshot
+    U->>H: S029 status poll with current authority
+    H-->>U: Private status v2 progress and revision
+    U->>H: Select candidate and approve binding
+    H->>P: End own discovery session
+    P-->>H: Confirm session cleanup
+    H->>B: Revalidate and atomically bind/consume
+    B-->>U: Stable binding/ref (no acquisition)
+```
+
+| Failure or edge | Required behavior / retained evidence |
+| --- | --- |
+| Denied action/profile/mode/effect or expired authority | Refuse before executor start/I/O; include BLE allowed with network forbidden and unsupported passive mode |
+| Simultaneous scan/acquisition, either arrival order | One atomic claim winner; refuse the other, including unknown shared-controller mapping |
+| Provider hang, revoke, watchdog or uncertain cleanup | Fence all disclosure/consumption; enforce own-session cleanup, hold resource on uncertainty; no successful cancellation |
+| Unrelated advertisements | Provider filter and host validation; prove no foreign identifiers/counts or derived private-list digest in logs/audit/status events |
+| Different caller, expiry, restart or replay | Refuse read/new consumption; exact approved binding retry returns the original binding without a second allocation |
+| Snapshot overflow or deadline | Bounded replacements/revisions; distinct partial reasons, no appended history or scan resume |
+| Misleading label or cross-provider alias | Safe display, separate candidates; identity claims require scoped method/provenance, no implicit merge |
+| USB/serial or mDNS fixture | No assumed radio or serial-port probing; explicit mDNS emission effects and untrusted announcements |
+
+### Implementation recommendations and trade-offs
+
+Freeze portable data contracts and pure profile/transition validation first;
+keep BLE details in the provider. Reuse admitted middleware registration,
+supervised executor/channel, action routing, P096-005 fenced claims, the private
+binding owner and S029 operation lifecycle. Do not couple scan startup to a
+live device instance, widen C1/C4, overload status v1 or create a device registry.
+
+One replacement snapshot bounds memory and disclosure but deliberately loses
+past sightings. Conservative same-controller exclusion sacrifices concurrent
+radio availability until qualified sharing exists. No passive fallback reduces
+backend availability in exchange for an enforceable effect contract. Separate
+binding approval and acquisition preserve consent at the cost of one explicit
+transition. Open implementation choices are exact profile budgets, enforcement
+backends and qualified cleanup evidence; their defaults stay fail closed until
+the owning tracker gates provide evidence.
+
+### Continuation tracker
+
+All rows start `todo`; the document change completes design preparation only.
+Dependencies are completion prerequisites. Solutions point here rather than
+duplicating work. P055-10 freezes v2/private-retention semantics; P055-11 and
+P045-DISC-005 integrate them without a circular prerequisite.
+
+| ID | Work item | Depends on | Status | Completion gate and retained evidence |
+| --- | --- | --- | --- | --- |
+| `P045-DISC-001` | Freeze common contracts and admitted profiles | — | `todo` | Request/candidate/result data, authority, finite limits, states/reasons and scoped identity evidence; BLE, USB/serial and mDNS positive/negative fixtures; distinguish passive/active, no port probing |
+| `P045-DISC-002` | Admit packages and route actions | `P045-DISC-001` | `todo` | Existing signed catalogue/P072 grants and Schema Gate; typed denial before provider spawn/I/O, network-denied BLE, no passive-to-active substitution; opaque operation identity and private-response split before directive audit; no available machine entry before implementation |
+| `P045-DISC-003` | Enforce lifecycle and transport resources | `P045-DISC-001`, `P045-DISC-002`, `P096-005` | `todo` | Independent provider registration and bounded supervised sessions; atomic bidirectional scan/acquisition exclusion, unknown-sharing refusal, revocation/hang/cleanup uncertainty, claim recovery without scan resume; actual launch/access evidence |
+| `P045-DISC-004` | Own private candidates and binding consumption | `P045-DISC-001`, `P045-DISC-002` | `todo` | Source filtering and host revalidation; no foreign counts/ids or private-list/filter-derived digests in any retained sink, including handles/causal refs/receipts; TTL/caller/scope fences, atomic one-use binding/idempotent retry, no cross-provider merge/history; commit waits for confirmed cleanup |
+| `P045-DISC-005` | Integrate typed private S029 progress | `P045-DISC-003`, `P045-DISC-004`, `P055-10`, `P055-11` | `todo` | Coordinate P055-11 host/provider/console v2 path; bounded replacement revisions, current-authority polls, private projection excluded before durable hash, two partial reasons, no restart list/scan restoration; v1 regression |
+| `P045-DISC-006` | Deliver shared UI and CLI | `P045-DISC-005` | `todo` | Same contracts for incremental display, cancel and approval; bounded escaped/invisible-marked labels, stale selection refusal, selection never starts acquisition; existing directives/manual binding regression |
+| `P045-DISC-007` | Qualify cross-cutting discovery acceptance | `P045-DISC-006`, `P096-018` | `todo` | All failure-table cases and real first-provider launch/transport/stop/binding use; old S029 v1 and Sensorium directives preserved; USB/serial/mDNS contract-only evidence labelled, runtime deferred; exact tuple and scope, no capability promotion beyond tested evidence |
+
+Next actions: implement 001 contracts/fixtures and P055-10 semantics, then
+002/003/004 and P055-11/005 integration, before UI or provider exposure. P096-017
+depends on the common path; P096-018 supplies first-provider qualification and
+only then closes DISC-007. Existing P096-009 manual setup and P096-015 initial
+acquisition qualification do not depend on completing this optional extension.
 
 ## Implementation Sketch
 

@@ -328,6 +328,54 @@ Discovery is optional, explicitly invoked, time/result-bounded work, using a
 qualified transport provider. Listing profiles and viewing status do not scan.
 `prepare_session` is resource acquisition, not a harmless discovery substitute.
 
+#### Local device discovery provider
+
+[P045's local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+owns the common request/candidate/result semantics and action routing.
+P096-017 adds the first independently registered BLE provider behind
+`sensorium.directive.invoke` / `device.discover.ble`; it is not a scan method
+on a running BrainFlow acquisition instance. Reuse generic middleware plans,
+package admission, the supervisor and bounded S029 invocation lifecycle.
+BrainFlow's lack of universal enumeration is not permission to use
+`prepare_session` for discovery. Choose/qualify a transport backend separately
+and retain its license/effect inventory.
+
+The caller selects an ephemeral operation/caller/scope-bound `candidate/ref`,
+then separately approves a host-owned `binding/ref`. Selection during a scan
+does not commit a binding: wait for confirmed discovery-session cleanup,
+revalidate authority/evidence and atomically create the binding/consume the
+candidate. Exact approved retry returns that same binding; another request,
+caller, expired candidate, restarted operation or changed authority cannot
+allocate another. Stable binding identity does not override its current expiry
+or acquisition-consent rules. Advertised name, transport address and verified
+serial remain evidence kinds with methods/provenance, not trust ranks.
+
+Reuse P096-005 alias-aware device claims and fenced **transport/controller**
+claims for atomic scan/acquisition conflicts in both directions. V1 denies
+discovery during acquisition on the same controller; unknown shared-resource
+state is not approval. Failed or uncertain cleanup fences candidate disclosure
+and consumption and holds the claim. Cancellation stops only the provider's
+own discovery session, with qualified backend/exit release evidence. Every
+qualification records the actual launch/access context; retained iTerm lab
+TCC observations do not qualify launchd discovery.
+
+P096-017/018 require the complete typed private S029 progress path from
+[P055-10/11](055-bounded-deferred-operation-contract.md#41-planned-local-device-discovery-progress).
+Provider filtering and host revalidation disclose only profile-matching
+candidates. Results default to sensitive-personal/Personal and never enter
+observation history, artifacts, audit identifiers/derived-list digests or
+federation. Discovery grants no acquisition, recording or P082 publication/
+read authority. No profile, status read or UI visit starts a scan.
+
+Manual selector confirmation from P096-004 remains usable independently of
+this optional route. P096-009 may add discovery-assisted setup after 017/018;
+its manual create/edit/control path has no discovery prerequisite. P096-015
+continues to promote only its existing single-Muse-2 qualification scope;
+discovery is promoted separately on exact P096-018 evidence. New discovery
+contracts are **planned under P045**, outside the completed P096-002 inventory.
+No completed 002/003/004 row is reopened. USB/serial and mDNS runtime providers
+remain deferred even though P045 requires their contract fixtures.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
@@ -1336,7 +1384,7 @@ remaining completion gates still apply.
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `todo` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
 | `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `todo` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
-| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `todo` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required |
+| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `todo` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018 |
 | `P096-010a` | Qualify early synthetic local value path | `P096-008` | `todo` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
 | `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source, terminal-launched supervisor permission evidence and an explicit daemon-through-launchd case with attributable Bluetooth decision; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim |
@@ -1346,6 +1394,8 @@ remaining completion gates still apply.
 | `P096-014` | Add optional P082 remote live projections | `P096-005`, `P096-008`, `P096-010` | `todo` | Extend qualified local sources to independently admitted peer/Room publication; real peer grant/subscription/revoke/reconnect/gap tests, generation replacement, Room ordered-event refusal and read-without-acquisition proof; all four live-delivery cases over actual peers, clock uncertainty, healthy-reader isolation, per-layer overflow and in-flight revocation bounds; qualify each offered carrier separately |
 | `P096-015` | Promote only the qualified initial slice | `P096-011a` | `todo` | Reconcile solution, Node ledger, operator/API docs, runbook and dated acceptance evidence for exact single-Muse-2 tuples including both p21 and p51; no claim of 011b radio concurrency; review MVP/release trackers without implicit scope promotion; optional rows retain their own status |
 | `P096-016` | Qualify additional model/transport profiles | `P096-010` | `todo` | Each added tuple passes its transport authority, metadata, device binding, lifecycle and real acceptance gates; common interpreter reused or a bounded behavior extension justified |
+| `P096-017` | Implement the first BLE discovery provider | `P045-DISC-001`, `P045-DISC-002`, `P045-DISC-003`, `P045-DISC-004`, `P045-DISC-005`, `P096-005` | `todo` | Independently admitted/supervised bounded provider through device.discover.ble, no active acquisition instance dependency; enforce real passive/active effects and profile filtering; private typed progress, shared transport claims, own-session stop and uncertain-cleanup fencing; no prepare_session scan substitute |
+| `P096-018` | Qualify discovery -> approved binding | `P096-017`, `P045-DISC-006` | `todo` | Real BLE/OS-access and actual launch tuple, both scan/acquisition conflict directions, revocation/hang/confirmed stop and uncertain cleanup, source filtering/private retention, incremental bounds and partial results, caller/expiry/restart/replay/idempotent consumption; use the approved binding through separately authorized acquisition and preserved manual setup. Independent discovery promotion; no expansion of 015 or USB/serial/mDNS runtime qualification |
 
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
@@ -1483,6 +1533,10 @@ separation or permit real-device exposure before the authority gate.
 4. Qualify 006b/007b, the wearer controls and class-specific reports, then retain
    single-Muse-2 evidence for both modes before advertising that exact qualified
    scope. Two-device radio concurrency waits for P096-011b.
+5. Prepare optional discovery from P045-DISC-001 and P055-10 first; route the
+   first real provider through P096-017 only after the common gates and 005.
+   Retain independent 018 discovery/binding evidence before exposing assisted
+   setup. Manual setup and 015's existing scope remain separate.
 
 ## External Implementation References
 

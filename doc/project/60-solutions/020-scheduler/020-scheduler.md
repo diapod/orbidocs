@@ -294,6 +294,37 @@ A component may register or configure jobs for its own runtime API. A component 
 not register a job that invokes another component's private action unless the host
 exposes an explicit delegated capability contract for that action.
 
+### Planned Local Device Discovery Repeat Policy
+
+[P045 local device discovery continuation](../../40-proposals/045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+owns the planned `P045-DISC-001`–`007` work. No discovery job is registered by
+default: an admitted provider, package factory configuration, previous scan,
+empty result, or restart must not silently enable periodic or autonomously
+retried scanning. Repeated scans require an explicit separate repeat policy
+admitted by the Sensorium domain owner and the host authority gate.
+
+The owning domain and host enforce current caller/action/profile authority,
+per-caller frequency limits, a shared transport budget that survives restart,
+controller claims, and the V1 refusal to scan during acquisition on that
+controller. They apply the same gate to manual and any explicitly authorized
+scheduled launch. These are discovery semantics, not new responsibilities of
+the generic scheduler core. Its retry or catch-up policy cannot grant a fresh
+scan or bypass the domain's refusal.
+
+Polling an existing S029 discovery operation reads its current private status;
+it does not start another scan, renew the scan window, or replenish its budget.
+The planned P055/S029 status-v2 integration carries bounded replacement candidate
+snapshots through the existing status/poll/cancel path. Candidate lists are not
+scheduler job state, durable launch outcomes, or resumable continuation payloads;
+restart invalidates them and never resumes discovery automatically. The domain
+owner and existing supervisor own confirmed session cleanup, rather than the
+scheduler terminating a controller or implementing a second process lifecycle.
+
+These requirements are planned, under the single P045 tracker, and do not change
+the scheduler's implemented M1 status. [P048](../../40-proposals/048-sensorium-os-connector-action-classes.md#planned-local-device-discovery-effect-requirements)
+owns effect-envelope constraints; P045 owns the discovery operation and
+authorization rules.
+
 ## Local Job Sources and Merge Rules
 
 Job sources are local and host-owned. Valid sources include:

@@ -49,6 +49,10 @@ The host owns retry cadence, expiry, cancellation, and final timeout policy.
 This gives Orbiplex a microservice-style "try again later" path without
 breaking the existing sync contract.
 
+The local-device-discovery continuation described below was added on
+2026-10-13. Its versioned private progress and retention boundary are **planned**;
+the implemented v1 MVP and its existing consumers keep their current semantics.
+
 ## Context and Problem Statement
 
 Proposal 045 defines Sensorium as a local enaction stratum: actions are finite,
@@ -271,6 +275,105 @@ Completed response example:
   "diagnostics": []
 }
 ```
+
+### 4.1 Planned Local Device Discovery Progress
+
+The [P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+needs incremental caller-visible candidates during one bounded operation. This
+is a consumer of the shared status/poll/cancel mechanism, not a new streaming
+channel or a new deferred lifecycle. The first BLE provider is owned by
+[P096](096-sensorium-brainflow-connector.md); USB/serial and mDNS initially have
+contract fixtures rather than qualified runtime providers.
+
+The planned `deferred-operation-status.v2` adds an optional, typed `progress`
+field. It preserves the v1 lifecycle vocabulary and keeps a final domain result
+separate from progress. The discovery progress variant must declare its type,
+carry a monotonically increasing revision within the operation, and contain a
+bounded snapshot validated against the planned
+`sensorium-device-discovery-candidate.v1` contract. Other domains must define
+their own typed variants; `extensions` is not a stable substitute for this field.
+Exact wire properties, schema bounds, and positive/negative vectors belong to
+`P055-10` and the P045 profile contract.
+
+For discovery, each revision replaces the previous snapshot. Candidate count,
+encoded bytes, revision updates, operation lifetime, and candidate expiry are
+bounded by the admitted profile and host policy. There is no append-only result
+history. A `candidate/ref` is caller-private, bound to the operation and scope,
+and conveys neither a durable binding nor acquisition consent. Providers filter
+out-of-scope advertisements before sending data; the host revalidates the
+remaining candidates. Neither rejected identifiers nor their counts become
+progress or audit material.
+
+Before discovery is exposed, the entire host-provider-console path must support
+v2 schema validation, private progress, and the retention rules below. An
+unsupported component causes admission refusal before provider I/O; the host
+must not silently discard progress, reinterpret v2 as v1, or introduce a second
+channel. Existing v1 consumers remain supported without changed meaning. The
+initial accepted handle can remain `deferred-operation.v1`; status-version
+support must be checked through admission rather than inferred from that handle.
+
+#### Private Responses and Durable Metadata
+
+**Current implementation fact (2026-10-13):**
+`node:daemon/src/deferred_registry.rs` passes the complete status payload from
+`update_from_status_with_expected` to `append_event_locked`, which retains
+`json_digest(payload)` in the status event history. Hiding candidates in an
+operator response would therefore still retain a digest derived from the list.
+The current registry does not establish the required discovery privacy boundary.
+
+The planned host adapter must produce two explicit values before registry,
+receipt, or audit handling:
+
+| Projection | Contents and handling |
+|---|---|
+| Caller-private response | Current bounded candidate snapshot and revision, delivered only after exact caller identity and current action/scope authority are rechecked. Volatile operation-local storage; no retained snapshot history. |
+| Durable status and audit metadata | Operation lifecycle, redacted admitted scope, times, outcome, and count of candidates actually disclosed. Registry history hashes this metadata projection only. |
+
+Candidate bytes, references, transport identifiers, labels, and digests derived
+from the private snapshot must be excluded from durable status, continuation
+storage, diagnostics, status-event hashes, execution receipts, and audit records.
+A deterministic hash or digest-only event is not redaction. Operation identifiers
+and correlation metadata must not be derived from candidate identities either.
+Retained scope metadata must also exclude private identity selectors and
+transport addresses rather than copying the original request verbatim.
+This planned policy narrows retention for discovery; existing v1 consumer
+retention remains unchanged.
+
+Every read, poll, cancellation request, and candidate consumption rechecks the
+requesting principal and current authority for the operation and admitted scope.
+Possession of an operation or candidate reference does not authorize access.
+Revocation invalidates candidates immediately and triggers host-owned cleanup;
+that cleanup must remain possible after the caller loses its grant. A host or
+provider restart invalidates the candidate generation and erases its snapshot.
+Durable operation metadata may report the interrupted lifecycle, but must not
+reconstruct lists or automatically restart discovery. A new scan requires new
+admission and a new bounded operation.
+
+#### Completion and Cancellation
+
+The P045 discovery domain result distinguishes completion of the admitted
+observation window from `limit-reached` and `deadline-reached`; the latter two
+are explicitly partial results. These reasons are separate from provider
+failure, refusal, and a host `timed-out` lifecycle. A domain deadline can produce
+a completed partial result only when the provider returns a valid result and
+the host verifies discovery termination before the operation's host deadline.
+An empty result only states that no matching devices were observed within that
+scope and window.
+
+Cancellation means confirmed termination of this operation's discovery session,
+not disabling a shared controller. Confirmation requires a backend acknowledgement
+or a qualified proof that terminating the worker releases that session. Until
+then the host blocks candidate delivery and consumption and retains the transport
+claim. Uncertain cleanup must not be reported as successful `cancelled`, nor
+release the claim for acquisition or a new scan. Lifecycle termination and
+resource-release evidence are separate facts; a terminal failure does not prove
+cleanup.
+
+An operator may select a candidate from a running snapshot. Committing a binding
+waits for confirmed discovery termination and revalidates the candidate's
+generation, expiry, caller, scope, and current authority. Atomic one-time
+consumption and idempotent binding retry belong to P045/P096, not the shared
+deferred lifecycle.
 
 ### 5. Host-Owned Polling Policy
 
@@ -537,6 +640,11 @@ This proposal introduces two candidate schemas:
 - `deferred-operation.v1` — initial accepted deferred response,
 - `deferred-operation-status.v1` — status poll response.
 
+The local discovery continuation additionally plans
+`deferred-operation-status.v2` with optional typed progress. No v2 schema is
+registered by this documentation change; `P055-10` owns that future contract and
+its v1 compatibility checks.
+
 Field naming should follow existing Orbiplex JSON style. The schema should use
 explicit enums for status and should leave diagnostic objects open enough for
 connector-specific details.
@@ -636,12 +744,22 @@ Mitigation: `unknown` is terminal by default unless the caller explicitly allows
 restart recovery. Critical deferred operations should persist connector-owned
 state.
 
+The planned discovery consumer is an explicit exception to result recovery:
+restart invalidates candidates, retains only permitted operation metadata, and
+requires new admission for a new scan. It never resumes discovery from a saved
+candidate list or persisted continuation.
+
 ### Private Data Leakage
 
 Diagnostics or status payloads may expose raw private material.
 
 Mitigation: status payloads carry summaries and references by default; raw data
 stays in local/private storage with separate capability gates.
+
+For planned discovery, even a reference or digest derived from a candidate list
+is private. Split the caller response from durable metadata before persistence
+and hashing; validate that logs, receipts, diagnostic digests, and replay contain
+neither candidate material nor a digest derived from it.
 
 ### Hidden Long-Running Work in JSON-e
 
@@ -742,6 +860,12 @@ Resolved for MVP:
    `causal/context`, and the Node `deferred-operation` crate can project a
    terminal deferred status into a P081 `execution-receipt.v1` using the
    canonical causal operation id.
+9. [planned] Define and validate the typed v2 progress and metadata-retention
+   contract in `P055-10`, then integrate its host/provider/console behavior in
+   `P055-11`. [P045](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+   owns discovery lifecycle, candidate/binding semantics, and the generic
+   discovery acceptance tracker; [P096](096-sensorium-brainflow-connector.md)
+   owns qualification of the first BLE provider.
 
 ## Tracking
 
@@ -756,3 +880,5 @@ Resolved for MVP:
 | P055-07 | Whisper redaction provider integration | done | `whisper.redaction.prepare` is available through the Sensorium OS deferred path; completed responses return through `deferred-operation-status.v1` and then through existing redaction response validation. Full model policy belongs to future Inquirium/provider policy. |
 | P055-08 | Artifact Delivery deferred consumer | done | AD can persist a delivery through `submit_deferred` / `artifact.delivery.send?mode=deferred`, return canonical `deferred-operation.v1` with stable operation metadata and `audit/outcome-ref`, expose canonical `deferred-operation-status.v1`, and recover accepted/running/retryable records through its ledger-backed recovery pass. |
 | P055-09 | P081 causal-context bridge | done | `deferred-operation.v1` and `deferred-operation-status.v1` accept optional `causal/context`; Node `deferred-operation` serializes that context through schema-gate and can build a P081 `execution-receipt.v1` from terminal status without changing the local P055 operation handle. |
+| P055-10 | Versioned typed progress and private retention contract | planned | Define `deferred-operation-status.v2`, optional typed progress, bounded replaceable snapshot/revision, v1 compatibility, and separate private-response/durable-metadata inputs before registry hashing. Evidence: schema vectors for revision/size/count bounds; state fixtures for monotonic replacement; candidate bytes, ids, and derived digests absent from every retained projection. P045-DISC-001 owns the discovery-specific request/profile/candidate contract; no P045 lifecycle or integration completion is required to define this shared contract. |
+| P055-11 | Host/provider/console progress and cancellation integration | planned | Depends on P055-10, P045-DISC-003, and P045-DISC-004. Gate discovery on complete v2 support; test current-authority read/poll/cancel, replacement snapshots, selection-before-stop/binding-after-stop, limit/deadline partial domain results, confirmed own-session cancellation, uncertain cleanup with claim retained, candidate invalidation and no automatic scan/list recovery after restart, and existing v1 regression. P045-DISC-005 consumes this integration alongside the shared contract; P055-11 does not depend on P045-DISC-005. |

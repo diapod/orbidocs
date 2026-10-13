@@ -45,6 +45,11 @@ Sensorium, JSON-e Flow, Whisper, and future middleware may consume the same
 deferred-operation contract without turning the scheduler or daemon into a
 domain workflow engine.
 
+The local-device-discovery extension added on 2026-10-13 is **planned**, with
+work owned by [P055-10 and P055-11](../../40-proposals/055-bounded-deferred-operation-contract.md#tracking).
+It adds no current runtime capability or schema and does not change the
+implemented v1 MVP status.
+
 ## Context and Problem Statement
 
 Several Orbiplex paths need bounded long work:
@@ -217,6 +222,12 @@ Status:
 
 - `done`
 
+The current status-history digest covers the complete supplied status payload
+(`node:daemon/src/deferred_registry.rs`, `update_from_status_with_expected` and
+`append_event_locked`). Digest-only history therefore does not establish privacy
+for discovery candidates. The planned extension below requires a separate
+metadata projection before this persistence/hash boundary.
+
 ### Poll, Expiry, and Cancellation Runtime
 
 Based on:
@@ -319,6 +330,53 @@ Responsibilities:
 Status:
 
 - `done`
+
+### Local Device Discovery Private Progress
+
+Based on:
+
+- [P055 planned progress contract](../../40-proposals/055-bounded-deferred-operation-contract.md#41-planned-local-device-discovery-progress),
+- [P045 local device discovery continuation](../../40-proposals/045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation),
+- [P096 first BLE provider](../../40-proposals/096-sensorium-brainflow-connector.md).
+
+Planned contract:
+
+- `deferred-operation-status.v2`, with optional typed progress; v1 consumers
+  remain supported without changed meaning.
+
+Responsibilities:
+
+- carry one bounded, replaceable caller-private candidate snapshot with an
+  operation-local monotonic revision through existing status/poll/cancel,
+- gate discovery admission on v2 support across host, provider, and console;
+  refuse unsupported paths before provider I/O,
+- recheck exact caller identity and current action/scope authority on every
+  read, poll, cancellation request, and candidate consumption,
+- separate the private response from durable status/audit metadata before
+  persistence, diagnostics, receipts, or hashing; exclude candidate bytes,
+  identifiers, references, labels, and derived digests from retention,
+- retain only redacted scope, timing, lifecycle, outcome, and disclosed candidate
+  count in the metadata projection; keep rejected advertisement counts private
+  to the provider rather than exposing them,
+- invalidate candidate generations and erase snapshots after host/provider
+  restart or authority loss; never restore candidate lists or restart scans
+  automatically,
+- require confirmed termination of the operation's own discovery session for
+  successful cancellation; uncertain cleanup blocks results and preserves the
+  transport claim, and host cleanup continues after caller authority is revoked,
+- keep window completion and partial `limit-reached` / `deadline-reached` domain
+  results separate from provider failure, refusal, and host lifecycle timeout,
+- allow selection during discovery, but defer binding commit until confirmed
+  termination and current candidate validation; candidate consumption and
+  binding retry remain owned by P045/P096.
+
+Status:
+
+- `planned`; the single owning tracker is [P055 Tracking](../../40-proposals/055-bounded-deferred-operation-contract.md#tracking),
+  with `P055-10` for the shared v2/retention contract and `P055-11` for
+  host/provider/console integration. P045 owns the discovery-specific lifecycle
+  and generic acceptance; P096 owns BLE transport qualification. This solution
+  does not duplicate their task rows or promote existing capability metadata.
 
 ### Artifact Delivery Deferred Consumer
 
@@ -429,9 +487,12 @@ Status:
 |---|---|
 | Deferred handle has no cancellation semantics | Schema requires exactly one of `cancel_href` or `cancel/unavailable-reason`. |
 | Provider restart loses accepted work | Critical providers persist connector-owned state; host registry persists the shared read model. |
+| Discovery restart recovers private lists or resumes radio activity | Planned extension invalidates candidates, retains permitted metadata only, and requires new admission for every new scan. |
 | Polling loops forever on unknown operation | `unknown` is terminal and written to registry history. |
 | Deferred handle leaks into domain payload | Runtimes treat it as control-plane state and either suspend, resume, or fail the flow. |
 | Operator UI exposes sensitive continuation state | UI shows only digest and redacted read-model fields. |
+| Discovery candidate snapshot is retained through a digest | Planned extension projects durable metadata before all registry/audit/receipt hashes; candidate material and derived digests remain absent. |
+| Cancellation reports success while discovery still owns the controller | Planned extension requires own-session termination evidence; uncertain cleanup blocks results and preserves the resource claim. |
 | Scheduler becomes workflow engine | Scheduler may wake polling, but deferred-operation runtime owns status semantics and continuation ownership. |
 
 ## Tests and Evidence
@@ -447,6 +508,12 @@ Current MVP evidence includes:
 - daemon tests for registry persistence and AD deferred recovery,
 - Node UI and daemon compile checks,
 - Story-005 AD smoke using deferred/recovery-capable Artifact Delivery paths.
+
+Planned discovery evidence belongs to P055-10/11 and P045's continuation tracker,
+not the current MVP evidence above: v2 bounds and monotonic replacement,
+unauthorized/expired/revoked reads and consumption, safe metadata hashes,
+confirmed cancellation versus uncertain cleanup, both partial-result reasons,
+restart without candidate recovery or a new scan, and v1 consumer regression.
 
 ## Related Capability Data
 

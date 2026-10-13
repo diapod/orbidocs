@@ -341,6 +341,57 @@ bounded completed-effect trace and is never fabricated as a clean refusal.
 - **Program identity.** No class references any specific program family,
   protocol, file format, repository kind, or vendor.
 
+## Planned Local Device Discovery Effect Requirements
+
+[P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
+owns the planned shared discovery contract and `P045-DISC-001`–`007` tracker.
+This section records enforcement requirements for that continuation; it does not
+add an implemented action class or make a device backend available. The first
+real provider belongs to [P096](096-sensorium-brainflow-connector.md); USB/serial
+and mDNS remain contract-fixture scope until separately implemented and qualified.
+
+`discovery/mode: passive | active` describes discovery behavior, independently
+of the P048 class selected for an executor. C1's denial of network egress is not
+a BLE radio policy, and C4's current literal-IP `network.http` implementation
+does not enforce BLE, multicast, or arbitrary device enumeration. Neither class
+label proves that a backend can enforce the requested discovery envelope.
+
+| Transport and requested behavior | Effects that must be declared | Required enforcement and current class limitation |
+|---|---|---|
+| BLE passive | A bounded receive session on an identified local controller; matching advertisements may contain personal identifiers. | The backend must preserve genuine passive scanning, without active scan requests, connection, pairing, or acquisition. Refuse if it cannot do so. IP/network permission is neither required by BLE alone nor granted by radio permission. C1 does not supply this controller/radio enforcement. |
+| BLE active | Explicit bounded radio solicitation in addition to reception. | The admitted profile and host policy must permit the exact radio behavior, controller, duration, filters, and budgets. No implicit connection, pairing, or signal acquisition. Network egress can remain denied. C4 is not a radio authorization or enforcement primitive. |
+| USB/serial enumeration | Reading already exposed OS inventory and permitted descriptors. | Do not open a serial port, probe it, exchange protocol bytes, or assume a radio exists. A requested mode permits only the enumeration effects supported by the admitted profile; otherwise refuse. A serial dongle's later radio operation requires its own transport/effect authority. A generic C1 spawn does not prove these restrictions. |
+| mDNS passive | Bounded observation of existing records on an explicitly scoped network interface. | No discovery queries, announcements, or other discovery-induced network sends. Refuse a backend whose browsing API emits queries; do not silently substitute active discovery. Generic C1 socket denial does not implement a qualified receive-only mDNS backend. |
+| mDNS active | Explicit multicast discovery queries and bounded responses on named interfaces and protocol scopes. | Require separate network/emission authority, exact multicast destination and interface bounds, byte/rate/duration limits, and enforceable host policy. Current C4 HTTP endpoint mediation cannot enforce this envelope. Records remain untrusted and do not authorize following advertised endpoints. |
+
+Profiles describe supported modes, filters and effects; signed action catalog
+admission and current host policy may narrow that declaration. Request parameters
+cannot widen it. Required enforcement includes source-side filtering before
+advertisements leave the provider, bounded private candidate output, and host
+revalidation. Default classification is `sensitive-personal` / Personal for all
+transports, including USB/serial. Private selectors, candidate identifiers,
+unmatched advertisements and their counts, and digests derived from private
+lists must not enter durable outcomes or audit. Discovery requires the private
+response/status projection planned by P055/S029 and P045's metadata-only audit.
+An ordinary OS action capture route that retains those bytes cannot be reused;
+relabeling a C1/C4 action does not waive its capture or enforcement baseline.
+
+Authorization and enforcement readiness are checked before provider launch and
+transport I/O. An unavailable platform primitive, an unsupported passive mode,
+or an unknown sharing state is a typed refusal, never a weaker execution mode.
+The host must claim the scoped transport resource atomically with admission;
+discovery and acquisition on the same controller conflict in both directions
+in V1, reusing P096-005's claim boundary. Cancellation ends only this discovery
+session. Uncertain cleanup blocks result delivery and keeps the resource fenced
+until release is confirmed; it does not switch off the whole controller.
+
+Acceptance under `P045-DISC-007` and P096-018 must prove BLE with network denied,
+passive-to-active refusal, USB enumeration without port access, mDNS emission
+bounds and deceptive records, and real launch-chain permission/enforcement.
+P096 terminal-context TCC lab observations do not qualify a launchd deployment.
+[S020's discovery repeat-policy boundary](../60-solutions/020-scheduler/020-scheduler.md#planned-local-device-discovery-repeat-policy)
+keeps periodic scans under the domain and host authority rather than the scheduler.
+
 ## Action Declaration Shape (class-aware)
 
 An action declaration is authored by the operator in the OS connector's
