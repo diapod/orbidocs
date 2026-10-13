@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-brainflow-model-profile.v1.schema.json`](../../schemas/sensorium-brainflow-model-profile.v1.schema.json)
 
-Declarative model x transport profile. Native key is selected by the exact package, never supplied as a public board-id override. Candidate profiles grant no readiness or authority; exact metadata and observed activity are independent qualification gates. No AUX modes, arbitrary config commands or streamers in this slice.
+Declarative model x transport profile. Native key is selected by the exact package, never supplied as a public board-id override. Candidate profiles grant no readiness or authority; exact metadata and observed activity are independent qualification gates. No AUX modes, arbitrary config commands or streamers in this slice. P096-004 built-ins also supply a readable version/form and per-stream continuity policy. Optional lab observations are scoped activity evidence, never active-channel guarantees, heart-rate inference or qualification; units unknown until P096-007b.
 
 ## Governing Basis
 
@@ -44,6 +44,9 @@ Declarative model x transport profile. Native key is selected by the exact packa
 | [`modes`](#field-modes) | `yes` | array |  |
 | [`binding/assurance`](#field-binding-assurance) | `yes` | const: `operator-confirmed-selector` |  |
 | [`quality`](#field-quality) | `yes` | const: `unknown` |  |
+| [`profile/version`](#field-profile-version) | `no` | string |  |
+| [`display/name`](#field-display-name) | `no` | string |  |
+| [`form`](#field-form) | `no` | object |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -111,3 +114,21 @@ Declarative model x transport profile. Native key is selected by the exact packa
 
 - Required: `yes`
 - Shape: const: `unknown`
+
+<a id="field-profile-version"></a>
+## `profile/version`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-display-name"></a>
+## `display/name`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-form"></a>
+## `form`
+
+- Required: `no`
+- Shape: object

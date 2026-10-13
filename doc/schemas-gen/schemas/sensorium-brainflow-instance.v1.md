@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-brainflow-instance.v1.schema.json`](../../schemas/sensorium-brainflow-instance.v1.schema.json)
 
-Durable instance intent, separate from admitted, resolved and active views. Opaque host-private binding refs contain no selectors. Desired running state alone does not launch or authorize acquisition; every launch requires current host admission and independently allocated identity/home/auth. This admitted intent view references a separate source declaration artifact; declaration/ref is not a self-digest. Synthetic uses a null physical binding. Desired eligibility is disabled/enabled; explicit operator stop and current acquisition authority remain separate facts.
+Durable instance intent, separate from admitted, resolved and active views. Opaque host-private binding refs contain no selectors. Desired running state alone does not launch or authorize acquisition; every launch requires current host admission and independently allocated identity, home and auth bindings. This admitted intent view references a separate source declaration artifact; declaration/ref is not a self-digest. Synthetic uses a null physical binding. Desired eligibility is disabled/enabled; explicit operator stop and current acquisition authority remain separate facts.
 
 ## Governing Basis
 

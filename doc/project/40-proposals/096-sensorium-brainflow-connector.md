@@ -34,12 +34,13 @@ remain separate tracker claims.
 
 Existing Sensorium and middleware mechanisms are antecedents. BrainFlow has
 its own instance materializer; it does not use or extend the OS/Workbench
-factory. The proposed profile-to-many-device materialization and settings
-inventory are new work. New schema names, operation scopes,
-configuration shapes, and package names below are not available APIs. The
-generic instance-plan and qualification-tuple shapes have accompanying draft
-schemas; registration, semantic validation and runtime qualification remain
-P096-002 work. No release or hard-MVP scope is enlarged here.
+factory. Independent host creation/restoration is implemented under P096-003, and the
+pinned catalogue/private selector confirmations under P096-004. Acquisition,
+lifecycle mutations and delivery retain their separate tracker gates.
+The schema names and configuration shapes below have draft contracts under
+P096-002. Their registration and the operator registration API do not establish
+Sensorium source readiness or runtime qualification. No release or hard-MVP
+scope is enlarged here.
 
 ## Date
 
@@ -385,8 +386,13 @@ independent instances.
 The plan describes one instance's registration intent, not a replacement for
 the full `middleware_channel_services` map or host runtime snapshot. Only the
 generic host owner merges and atomically applies the complete snapshot under
-its lifecycle/configuration concurrency boundary. Creating, updating or deleting
-instance A must preserve instance B and unrelated components. Add a narrow
+its lifecycle/configuration concurrency boundary. The full lifecycle contract
+requires creation, update and deletion of A to preserve B and unrelated
+components. P096-003 closes creation, exact replay and stopped restoration only;
+P096-009 owns supported update/delete, explicit source/activation generations,
+old-grant invalidation, home/auth retention or replacement and tests preserving B.
+Maintenance import/apply acknowledges externally edited bytes but is not a
+qualified update/delete workflow and establishes no migration semantics. Add a narrow
 generic registration seam if it is missing; do not route around host ownership.
 
 #### Frozen generic host entry contract
@@ -1320,20 +1326,20 @@ remaining completion gates still apply.
 | ID | Work item | Depends on | Status | Completion gate |
 | --- | --- | --- | --- | --- |
 | `P096-001` | Run pinned synthetic deployment spike and reuse audit | — | `done` | Actual package/supervisor/channel_json imports, metadata, samples and enforced stop; offline platform artifact selection or explicit gap; complete native dependency/license inventory; TCC attribution hypothesis/probe evidence; fit/gap evaluation of ModelRuntimeLeaseRegistry and scoped-claim-runtime for aliases/fencing/cleanup; no real-device exposure |
-| `P096-001-lab` | Retain an operator-run laboratory observation | `P096-001` (pinned runtime only) | `todo` | Manual terminal experiment on the operator's own Muse 2 with exact-mode self-consent and external watchdog; firmware/source, matrix metadata, permission responsible process and bounded cleanup; separate lab-observation contract; no product source or qualification promotion |
+| `P096-001-lab` | Retain an operator-run laboratory observation | `P096-001` (pinned runtime only) | `done` | Scoped terminal/supervisor-terminal p21 and p51 comparisons retained on 2026-10-13: firmware 1.0.25/Muse iOS, matching matrix/activity per mode, successful stop/release, operator-reported iTerm2 prompt attribution; actual Schema Gate and distinct nearby-host runtime pin checked. p21 has matching EEG/motion counts and no PPG samples. Both p51 paths have 2520 EEG and 624 PPG samples, motion counts 513/510, two varying PPG rows and a constant PPG counter that cannot prove continuity. Initial refused p21 supervisor attempt remains historical; operator reported headband power-off and explicitly repeated. Launchd and other hosts remain untested; separate lab-observation contract; no product source or qualification promotion |
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
-| `P096-003` | Implement independent BrainFlow instance materialization | `P096-002` | `partial` | Pure declaration+package to generic plan, host-owned atomic admission/application; file/journal CAS, external-edit refusal/import and crash recovery; unique bindings and duplicate/conflict refusal; unrelated components preserved; acceptance with OS/Workbench absent; optional shared plan builder only; supervisor must hash launcher, libpython/framework, stdlib tree, dependencies and worker material before spawning; worker self-check is diagnostic only |
-| `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `todo` | Only synthetic and Muse 2 native BLE profiles; numeric revisions/digests and readable forms; per-mode acquired signals including motion; empty/ambiguous/conflicting selectors refused, opaque ids separate from labels; discovery unavailable until 005; other models/transports under 016 |
+| `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
+| `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
 | `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `todo` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; revoke/expiry/provider loss and overload/hung-worker proof before real exposure |
 | `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `todo` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `todo` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
 | `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `todo` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
-| `P096-009` | Deliver operator/user instance management | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `todo` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required |
+| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `todo` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required |
 | `P096-010a` | Qualify early synthetic local value path | `P096-008` | `todo` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
-| `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source and terminal-launched supervisor permission evidence; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim |
+| `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source, terminal-launched supervisor permission evidence and an explicit daemon-through-launchd case with attributable Bluetooth decision; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim |
 | `P096-011b` | Qualify two simultaneous Muse 2 devices | `P096-011a` | `todo` | Requires a second physical Muse 2; exact two-device tuples, concurrent radio delivery and independent stop/revoke/cleanup; one physical device plus synthetic cannot satisfy this gate |
 | `P096-012` | Add optional named feature recipes | `P096-007a`, `P096-008`, `P096-010` | `todo` | Reuse DataFilter under versioned input/window/calibration/uncertainty and inference scope; preserve source binding and generation on recipe changes; no unvalidated mental-state claims |
 | `P096-013` | Add optional admitted raw recording/export | `P096-007a`, `P096-008`, `P096-010` | `todo` | Explicit capture scope, artifact manifest, quotas/TTL/cleanup, partial-stop and revoke behavior, open metadata-preserving replay/export through existing storage/AD authority |
@@ -1356,12 +1362,23 @@ platforms remain explicit blockers for a future bundled-runtime variant. A
 source-only capsule does not approve redistribution of the external runtime.
 The spike verifies an actual Ed25519 package authorization under a host-supplied
 current key, exact OS/CPU selection, isolated native workers and bounded exit.
-Production admission policy and trusted immutable acquisition remain 003 work.
+The later 003 registration owner supplies current private host admission and
+bounded signed source acquisition into a read-only worker capsule. Runtime pins
+remain a trusted-host drift check; native redistribution remains outside scope.
 
-001 records the TCC responsible-process hypothesis and prepares both interactive
-terminal and actual-supervisor probes; **001-lab remains todo**. Firmware 1.0.25
-from the Muse iOS application is an operator-supplied fact, to be reconfirmed.
-No Bluetooth measurement or native real-device cleanup is claimed.
+At the software checkpoint, 001 recorded the TCC responsible-process hypothesis
+and prepared both interactive terminal and actual-supervisor probes; 001-lab was
+then todo, with no Bluetooth measurement or native real-device cleanup claimed.
+Subsequent retained p21 and p51 terminal/supervisor-terminal lab observations
+completed both scoped comparisons with successful native stop/release. Both p51
+paths delivered 624 PPG samples with two varying PPG rows and a constant package
+counter. The profile/readiness work must distinguish descriptors from row activity
+and cannot use this constant counter as evidence of continuity. The pinned source
+inspection is consistent with these observations but does not establish native
+binary/source equivalence. Firmware 1.0.25/Muse iOS and iTerm2 prompt attribution
+remain operator-reported facts. See
+[Node laboratory comparison](https://github.com/diapod/node/blob/main/docs/evidence/sensorium-brainflow/lab-p51-2026-10-13.md)
+for retained reports and limits. No product qualification or launchd evidence follows.
 
 002 now has canonical schemas, Node mirrors, ingress/egress Schema Gate checks,
 closed typed block metadata, independent golden vectors, state/stop and ownership
@@ -1371,13 +1388,47 @@ must bind exact metadata-only evidence. Conformance fixtures are explicitly
 excluded from runtime qualification. Schemas remain draft; their registration
 and this tracker completion do not constitute adopted normative policy.
 
-003 has a pure independent plan/executor builder and a daemon owner over the
-existing single-writer CAS/journal. Preview is read-only; commit and recovery
-recheck current host admission; imports are explicit. Tests preserve unrelated
-instances, refuse stale previews/external edits/revocation and cross-instance
-cycles. Full daemon policy/API integration, atomic application of the complete
-runtime configuration and owner-level crash-boundary acceptance remain open.
-This spike is not 006a/008/010a delivery and cannot promote 005 or 011a/011b.
+003 now closes independent registration over the existing single-writer
+CAS/journal and supervisor. The operator API provides bounded read-only preview,
+exact commit, explicit apply/import/recover and inventory inspection. Current
+host grants bind exact intent, signer, expiry, actual declaration/package bytes
+and host-selected runtime pins. Complete runtime maps preserve unrelated
+middleware and operator stops; registration and daemon reopen never start a
+worker. Actual owner subprocess interruptions cover intent, empty/written stage,
+rename and outcome boundaries. Not-committed recovery preserves the previously
+owned snapshot; replay does not repeat application or reallocate identities.
+The initial creation path has no dependencies, and nonempty imported dependency
+plans refuse application until concrete provider mappings are supplied.
+See the
+[Node registration review](https://github.com/diapod/node/blob/main/docs/audits/REVIEW-SENSORIUM-INSTANCE-MATERIALIZATION-2026-10-13.md)
+and [operator API](https://github.com/diapod/node/blob/main/daemon/docs/MIDDLEWARE-INSTANCES.md).
+This registration evidence is not 006a/008/010a delivery and cannot promote 005
+or 011a/011b. Earlier foundation/follow-up checkpoints remain historical.
+
+004 now closes the device-free catalogue and private binding layer. The pinned
+metadata artifact supplies exact descriptors for synthetic and Muse 2 BLE;
+profile hashes include readable forms, acquired modalities and continuity policy.
+Units remain unknown until 007b. The p51 lab fact describes two varying PPG rows
+out of three acquired, without an active-channel guarantee or heart-rate claim;
+its constant packet counter leaves PPG continuity unknown. Selector confirmation
+is host-private, operator-authorized and expires independently of acquisition.
+The existing instance owner rechecks profile/mode and current binding on source
+resolution. A real profile registers stopped and its actual supervisor start
+refuses until 005. Binding CAS/replay/reopen and five interrupted owner writes
+preserve the first instance. Discovery remains unavailable. See the
+[Node profile/binding API](https://github.com/diapod/node/blob/main/daemon/docs/SENSORIUM-BRAINFLOW-PROFILES.md)
+and [review](https://github.com/diapod/node/blob/main/docs/audits/REVIEW-SENSORIUM-PROFILES-2026-10-13.md).
+
+003 is explicitly limited to creation, exact replay and stopped restoration.
+Supported updates/deletions, generation changes, old-grant invalidation and
+home/auth retention/replacement belong to 009; maintenance import is not proof
+of those lifecycle semantics. A registration grant is checked before spawn,
+not a runtime lease: revoke/expiry fencing and verified stop belong to 005.
+Capsule directories/files are now 0500/0400 and standalone `.pyc` files refuse;
+new lab failures expose only the first failed closed lifecycle phase. Historical
+reports retain their original bytes and absent-stage uncertainty. Launchd is
+an explicit 011a qualification case and remains unperformed. Per-spawn hashing
+must be measured separately before automatic restart policies are enabled.
 
 The early value path is **001 -> 002 -> (003, 004) -> 006a -> 007a -> 008 -> 010a**.
 In parallel, **(003, 004) -> 005 -> 006b -> 007b** supplies real-device gates;
@@ -1409,9 +1460,9 @@ OS, Workbench and BrainFlow implementations do not mark any P096 row complete.
 - Which signed process/bundle is responsible for Bluetooth permission in each
   intended macOS launch context? P096-001 records the hypothesis/probes; 005/011a
   close actual transport evidence, including denied and unavailable prompts.
-- Does package admission support deterministic platform variants under one
-  logical package, or is a narrow generic manifest extension needed? 001 owns
-  evidence; 002/003 own the contract/implementation gap.
+- Additional platform variants require their own exact package/runtime evidence.
+  The initial host selection reuses the generic signed artifact manifest and
+  refuses absent or ambiguous OS/CPU variants without a new manifest extension.
 - Which normative owner will refine biosignal-specific inference, retention and
   secondary-use policy? The fixed sensitive-personal/Personal baseline applies
   meanwhile; the gap cannot be used to lower protection.
@@ -1421,10 +1472,12 @@ separation or permit real-device exposure before the authority gate.
 
 ## Next Actions
 
-1. Finish 003 admission and whole-runtime configuration application over the
-   reviewed materialization owner; implement 004 catalogue and binding.
-2. Run the separately prepared 001-lab terminal/supervisor comparison when the
-   operator is at the nearby host, recording firmware and actual TCC attribution.
+1. Use the completed 003 creation/restoration and 004 catalogue/private binding
+   layers to implement 006a and prepare 005; keep discovery and real acquisition
+   gated until the latter authority/stop/OS-access contract is proven.
+2. Use the retained 001-lab terminal/supervisor-terminal p21 and p51 comparisons
+   to inform profiles and product launch planning; launchd still needs a separate
+   observation when that scope is requested. Qualification remains P096-011a work.
 3. Deliver the synthetic local value path through 006a/007a/008/010a; pass
    P096-005 before enabling any real discovery/acquisition route.
 4. Qualify 006b/007b, the wearer controls and class-specific reports, then retain

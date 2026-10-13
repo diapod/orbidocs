@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:sensorium-brainflow-model-profile:v1",
   "title": "sensorium-brainflow-model-profile.v1",
-  "description": "Declarative model x transport profile. Native key is selected by the exact package, never supplied as a public board-id override. Candidate profiles grant no readiness or authority; exact metadata and observed activity are independent qualification gates. No AUX modes, arbitrary config commands or streamers in this slice.",
+  "description": "Declarative model x transport profile. Native key is selected by the exact package, never supplied as a public board-id override. Candidate profiles grant no readiness or authority; exact metadata and observed activity are independent qualification gates. No AUX modes, arbitrary config commands or streamers in this slice. P096-004 built-ins also supply a readable version/form and per-stream continuity policy. Optional lab observations are scoped activity evidence, never active-channel guarantees, heart-rate inference or qualification; units unknown until P096-007b.",
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
   "x-dia-basis": [
@@ -151,6 +151,105 @@
             "items": {
               "$ref": "sensorium-biosignal-stream-descriptor.v1.schema.json"
             }
+          },
+          "display/name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "stream/policies": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "backend/preset",
+                "continuity"
+              ],
+              "properties": {
+                "backend/preset": {
+                  "enum": [
+                    "0",
+                    "1",
+                    "2"
+                  ]
+                },
+                "continuity": {
+                  "enum": [
+                    "unknown",
+                    "packet-counter-diagnostics"
+                  ]
+                },
+                "samples/per-packet": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 128
+                }
+              }
+            }
+          },
+          "lab/observation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "evidence/class",
+              "firmware/version",
+              "firmware/source",
+              "launch/contexts",
+              "ppg/declared-channels",
+              "ppg/varying-channels",
+              "ppg/package-num",
+              "qualification"
+            ],
+            "properties": {
+              "evidence/class": {
+                "const": "lab-observation"
+              },
+              "firmware/version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "firmware/source": {
+                "enum": [
+                  "muse-ios",
+                  "muse-android",
+                  "operator-device-info"
+                ]
+              },
+              "launch/contexts": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "terminal",
+                    "supervisor-terminal"
+                  ]
+                }
+              },
+              "ppg/declared-channels": {
+                "const": 3
+              },
+              "ppg/varying-channels": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "ppg/package-num": {
+                "enum": [
+                  "constant",
+                  "varying",
+                  "unknown"
+                ]
+              },
+              "qualification": {
+                "const": false
+              }
+            }
           }
         }
       }
@@ -160,6 +259,55 @@
     },
     "quality": {
       "const": "unknown"
+    },
+    "profile/version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "maxLength": 32
+    },
+    "display/name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision",
+        "default/mode",
+        "selector/required",
+        "selector/label"
+      ],
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "default/mode": {
+          "enum": [
+            "synthetic",
+            "p21",
+            "p51"
+          ]
+        },
+        "selector/required": {
+          "type": "boolean"
+        },
+        "selector/label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
     }
   }
 }

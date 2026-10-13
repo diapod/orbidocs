@@ -565,7 +565,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`sensorium-brainflow-device-binding.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-device-binding.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-brainflow-instance.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-instance.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-brainflow-lab-observation.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-lab-observation.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `0` |
-| [`sensorium-brainflow-model-profile.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-model-profile.v1.md) | `11` | `0` | `yes` | `yes` | `1` | `0` |
+| [`sensorium-brainflow-model-profile.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-model-profile.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-brainflow-qualification-tuple.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-qualification-tuple.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
 | [`sensorium-brainflow-status.v1.schema.json`](schemas-gen/schemas/sensorium-brainflow-status.v1.md) | `19` | `0` | `yes` | `yes` | `1` | `0` |
 | [`sensorium-command-intent.v1.schema.json`](schemas-gen/schemas/sensorium-command-intent.v1.md) | `9` | `2` | `yes` | `yes` | `1` | `1` |

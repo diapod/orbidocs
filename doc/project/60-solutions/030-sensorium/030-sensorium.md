@@ -282,7 +282,11 @@ Proposed wearable extension:
 specifies `health-wearable` profiles for non-invasive physiological measurement,
 independent device instances, acquisition consent and
 bounded signal projections. Its tracker owns the new implementation and real-device
-qualification work; the status of this connector class remains `deferred`.
+qualification work. P096-003 creation/restoration and P096-004 device-free
+catalogue/private binding management are implemented in Node, with no discovery
+or acquisition authority. Lifecycle mutation, signal delivery, real OS/TCC
+access and hardware qualification retain their gates; the status of this
+connector class remains `deferred`.
 
 ### Cross-Node Sensorium Read-Through
 
