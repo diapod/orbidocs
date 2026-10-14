@@ -16,7 +16,7 @@ Related schemas:
 - `participant-restriction-sources.v1`
 - `responsibility-effect-request.v1`
 - `responsibility-effect-receipt.v1`
-- `participant-restriction-lifecycles.v2` (draft; not authoritative at V0/V1)
+- `participant-restriction-lifecycles.v2` (draft; inactive preparation at V2, not authoritative)
 - `participant-restriction-lifecycle-request.v2` (draft; owner refuses at V1)
 - `responsibility-effect-receipt.v2` (draft; no current v2 application receipt)
 - `responsibility-lifecycle-readiness.local.v1` (draft; all components false at V1)
@@ -41,8 +41,15 @@ set authoritative. Host owner gates refuse new suspend-policy activation and
 lifecycle requests before any write; membership owns the incarnation used in the
 all-false readiness declaration. An appeal under a required stay is accepted with
 explicit unavailability, not suspension. Historical runtime evidence is unchanged.
-Migration, composition, every writer, v2 receipts and atomic switch still require
-V2–V5 in `node:docs/development/RESPONSIBILITY-LIFECYCLE-V2-PLAN-2026-10-14.md`;
+V2 now prepares a separate inactive copy against pinned raw history, sequence,
+digest and host incarnation, with resumable copy/verify checkpoints and typed
+quarantine. Projection damage rebuilds from retained facts; immutable migration
+damage refuses maintenance and alerts without disabling the authoritative v1 path.
+Later v1 writes leave the pinned generation historical until an explicit new
+preparation. This owner/storage conformance switches no reader, writer, CAS,
+receipt or readiness component; it is not runtime suspension qualification.
+See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md`.
+Composition, every writer, v2 receipts and atomic switch still require V3–V5 in `node:docs/development/RESPONSIBILITY-LIFECYCLE-V2-PLAN-2026-10-14.md`;
 see `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V0-V1-REVIEW-2026-10-14.md`.
 
 This solution captures the implemented `participant-capability-limits.v1`
