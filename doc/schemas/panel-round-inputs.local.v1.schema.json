@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-round-inputs.local:v1",
+  "title": "panel-round-inputs.local.v1",
+  "description": "Draft local fixture contract. Shape validation confers no admission, mandate, application receipt or normative ELL2 qualification.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "node/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "participant/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "facts": {
+            "type": "array",
+            "items": {
+              "$ref": "panel-eligibility-fact.local.v1.schema.json"
+            },
+            "maxItems": 16
+          }
+        },
+        "required": [
+          "node/id",
+          "participant/id",
+          "facts"
+        ]
+      },
+      "maxItems": 64
+    },
+    "certificate": {
+      "$ref": "panel-vrf-certificate.local.v1.schema.json"
+    },
+    "heartbeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ]
+    },
+    "heartbeat/class": {
+      "const": "local-heartbeat"
+    },
+    "heartbeat/cutoff-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "policy": {
+      "$ref": "panel-policy.local.v1.schema.json"
+    }
+  },
+  "required": [
+    "candidates",
+    "certificate",
+    "heartbeat",
+    "heartbeat/class",
+    "heartbeat/cutoff-at",
+    "policy"
+  ]
+}

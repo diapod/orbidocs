@@ -1,0 +1,22 @@
+{
+  "command": {
+    "schema": "panel-input-command.local.v1",
+    "command/id": "submit-fixture",
+    "host/id": "node:did:key:z6MkmtWtY63GQVBrpMyRJWEzsnxfsGkemu6CtMDwGTv4RYj2",
+    "host/incarnation": "fixture-incarnation",
+    "actor/id": "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+    "panel-policy": {
+      "id": "fixture-panel-policy",
+      "revision": 1,
+      "digest": "sha256:mGMnMqjzby04KXScCy8R_IxvFrXCUVm_vUxMxuL2Vpc"
+    },
+    "expected-revision": 0,
+    "expected-digest": "sha256:dCNOmK_nSY-12vHzasLXiswzlGT5UHA7jAGYkvmCuQs",
+    "issued-at": "2026-10-15T00:00:00Z",
+    "action": {
+      "kind": "inspect"
+    }
+  },
+  "algorithm": "ed25519+domain-v1",
+  "signature": "iqCN4yynCFKgi7EeO_3fhhE77dGXLV_dVtEM_N86IvJKsiiu2OAZK5jE4jPnAnNWhJMG7yqGAmKUvz3C5ZQ0Bw"
+}

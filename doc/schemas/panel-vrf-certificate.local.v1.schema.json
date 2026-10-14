@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-vrf-certificate.local:v1",
+  "title": "panel-vrf-certificate.local.v1",
+  "description": "Draft local fixture contract. Shape validation confers no admission, mandate, application receipt or normative ELL2 qualification.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "panel-vrf-certificate.local.v1"
+    },
+    "host/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "host/incarnation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "coordinator/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "suite": {
+      "const": "ECVRF-EDWARDS25519-SHA512-TAI"
+    },
+    "public-key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "valid-from": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "valid-until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "algorithm": {
+      "const": "ed25519+domain-v1"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  },
+  "required": [
+    "schema",
+    "host/id",
+    "host/incarnation",
+    "coordinator/id",
+    "revision",
+    "suite",
+    "public-key",
+    "valid-from",
+    "valid-until",
+    "algorithm",
+    "signature"
+  ]
+}

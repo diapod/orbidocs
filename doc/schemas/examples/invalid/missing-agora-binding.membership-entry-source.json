@@ -1,0 +1,22 @@
+{
+  "schema": "membership-entry-source.v1",
+  "source/id": "membership:test-source",
+  "revision": 1,
+  "issuer/ref": "participant:did:key:z6MkContractFixtureIssuer",
+  "subject/ref": "participant:did:key:z6MkContractFixtureSubject",
+  "policy": {
+    "id": "membership:test-policy",
+    "revision": 1,
+    "digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "valid-from": "2026-10-14T00:00:00Z",
+  "valid-until": "2026-10-15T00:00:00Z",
+  "origin": {
+    "kind": "agora"
+  },
+  "fact": {
+    "kind": "member",
+    "class": "full-participant",
+    "probation-until": null
+  }
+}

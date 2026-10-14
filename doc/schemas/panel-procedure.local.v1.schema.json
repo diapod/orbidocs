@@ -1,0 +1,691 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-procedure.local:v1",
+  "title": "panel-procedure.local.v1",
+  "description": "Draft local fixture contract. Shape validation confers no admission, mandate, application receipt or normative ELL2 qualification.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "panel-procedure.local.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "host/incarnation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "case": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "required": [
+            "id",
+            "revision",
+            "digest"
+          ]
+        },
+        "subject/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "object": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "kind": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "digest"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "required": [
+            "id",
+            "revision",
+            "digest"
+          ]
+        },
+        "decision": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "required": [
+            "id",
+            "revision",
+            "digest"
+          ]
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "summary/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "parties": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 16,
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "original-panel": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "controllers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "maxProperties": 256,
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        }
+      },
+      "required": [
+        "host/id",
+        "host/incarnation",
+        "case",
+        "subject/id",
+        "object",
+        "policy",
+        "decision",
+        "effects",
+        "summary/digest",
+        "parties",
+        "original-panel",
+        "controllers"
+      ]
+    },
+    "inputs": {
+      "$ref": "panel-round-inputs.local.v1.schema.json"
+    },
+    "round": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "filed-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "opened-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "phase-until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "phase": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "phase": {
+              "type": "string",
+              "enum": [
+                "coi",
+                "commit",
+                "reveal",
+                "draw",
+                "veto",
+                "deliberation"
+              ]
+            }
+          },
+          "required": [
+            "phase"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "phase": {
+              "const": "appeal-blocked"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "phase",
+            "reason"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "phase": {
+              "const": "replacement-required"
+            },
+            "full-redraw": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "phase",
+            "full-redraw"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "phase": {
+              "const": "concluded"
+            },
+            "outcome": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "uphold"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "overturn"
+                    },
+                    "effects": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      },
+                      "maxItems": 32,
+                      "uniqueItems": true,
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "effects"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "remand"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256,
+                      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "recipient"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "phase",
+            "outcome"
+          ]
+        }
+      ]
+    },
+    "declarations": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "coi-declaration.v1.schema.json"
+      },
+      "maxProperties": 64,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    },
+    "pool": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 64,
+      "uniqueItems": true
+    },
+    "exclusions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "maxItems": 32
+      },
+      "maxProperties": 64,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    },
+    "commits": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "maxProperties": 64,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    },
+    "reveals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "maxProperties": 64,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    },
+    "transcript": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "context/digest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "seed-input": {
+              "type": "string",
+              "pattern": "^(?:[0-9a-f]{2})+$",
+              "maxLength": 8192
+            },
+            "proof": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{160}$"
+            },
+            "beta": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{128}$"
+            },
+            "selected": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+              },
+              "maxItems": 5,
+              "uniqueItems": true,
+              "minItems": 5
+            }
+          },
+          "required": [
+            "context/digest",
+            "seed-input",
+            "proof",
+            "beta",
+            "selected"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "primaries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 3,
+      "uniqueItems": true
+    },
+    "reserves": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "removed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 64,
+      "uniqueItems": true
+    },
+    "compromised": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 64,
+      "uniqueItems": true
+    },
+    "vetoes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 16,
+      "uniqueItems": true
+    },
+    "composition/revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "proposal": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "composition/revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "outcome": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "uphold"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "overturn"
+                    },
+                    "effects": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      },
+                      "maxItems": 32,
+                      "uniqueItems": true,
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "effects"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "remand"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256,
+                      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "recipient"
+                  ]
+                }
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            }
+          },
+          "required": [
+            "id",
+            "composition/revision",
+            "outcome",
+            "reason"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "votes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "maxProperties": 7,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    },
+    "commands": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      },
+      "maxProperties": 2048,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "revision",
+    "context",
+    "inputs",
+    "round",
+    "filed-at",
+    "opened-at",
+    "phase-until",
+    "phase",
+    "declarations",
+    "pool",
+    "exclusions",
+    "commits",
+    "reveals",
+    "transcript",
+    "primaries",
+    "reserves",
+    "removed",
+    "compromised",
+    "vetoes",
+    "composition/revision",
+    "proposal",
+    "votes",
+    "commands"
+  ]
+}

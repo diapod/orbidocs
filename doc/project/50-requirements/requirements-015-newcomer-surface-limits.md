@@ -13,6 +13,15 @@ Based on:
 Date: `2026-05-27`
 Status: Draft (implementation-facing policy requirements)
 
+Implementation checkpoint (2026-10-14): Node has a separately admitted local
+procurement subset with domain-signed membership sources, explicit candidate
+admission, revocation, validity checks and protected own-entry inspection. Six
+runtime cases are retained in
+`node:docs/evidence/local-accountability/2026-10-14-admitted-entry/passage-4`.
+Issuer/controller inputs and the Agora record carrier are explicit fixtures.
+The checkpoint does not qualify complete R015/P051-001/004 coverage, monetary
+caps, Agora publication/subscription or sanctions against real participants.
+
 ## Executive Summary
 
 This document defines the first implementation-facing requirements for the

@@ -163,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **211** host-local / **243** ogółem; grupy właścicieli: **34**.
+Wpisy: **215** host-local / **247** ogółem; grupy właścicieli: **34**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -209,6 +209,10 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
+| <code>membership.command.sign</code> | <code>host/membership.command.sign</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>membership.inspect</code> | <code>host/membership.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>membership.policy.admit</code> | <code>host/membership.policy.admit</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>membership.procedure.execute</code> | <code>host/membership.procedure.execute</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>responsibility.authorize</code> | <code>host/responsibility.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>responsibility.case.commit</code> | <code>host/responsibility.case.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>responsibility.effect.apply</code> | <code>host/responsibility.effect.apply</code> | <code>active</code> | <code>host-local</code> | true | true | — |

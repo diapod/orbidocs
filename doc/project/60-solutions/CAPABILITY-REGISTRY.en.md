@@ -161,7 +161,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **211** host-local / **243** total; **34** owner groups.
+Entries: **215** host-local / **247** total; **34** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -207,6 +207,10 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
+| <code>membership.command.sign</code> | <code>host/membership.command.sign</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>membership.inspect</code> | <code>host/membership.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>membership.policy.admit</code> | <code>host/membership.policy.admit</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>membership.procedure.execute</code> | <code>host/membership.procedure.execute</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>responsibility.authorize</code> | <code>host/responsibility.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>responsibility.case.commit</code> | <code>host/responsibility.case.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>responsibility.effect.apply</code> | <code>host/responsibility.effect.apply</code> | <code>active</code> | <code>host-local</code> | true | true | — |

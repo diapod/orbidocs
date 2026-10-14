@@ -35,6 +35,9 @@ Systemic-repair follow-up: 2026-10-13. P051-010–014 translate the protection,
 reintegration and systemic-repair norms into planned contracts and runtime work;
 they do not reopen or extend the qualified local baseline.
 
+Sequencing clarification: 2026-10-14. The preferred lower-rework order below is
+separate from the manual slice's necessary dependencies and qualification scope.
+
 ## MVP Decisions Frozen on 2026-05-27
 
 The following decisions are frozen for the MVP membership/sponsorship contract.
@@ -1316,6 +1319,58 @@ current contracts and callers before selecting fields or new operations.
    these counts. Keep private cross-case evidence sealed/access-controlled and
    redact participant projections, notifications and traces.
 
+### Necessary Dependencies Versus Lower-Rework Sequencing
+
+The recommended implementation order is:
+
+**A → N → B → C → D → P051-010/011/012/014 → optionally P051-013.**
+
+The stage labels group the broader Responsibility follow-up and do not imply
+completion. Normalization and recovery have separately scoped implementation
+tasks P051-015/016 under their existing owners:
+
+| Stage | Scope / existing ownership | Why prefer it before the repair slice? |
+| --- | --- | --- |
+| A | Admitted membership facts and runtime entry-policy integration under P051-001/004 | Reuse real admission and effective access composition when evaluating return, rather than rebuilding that integration later. |
+| N | Host-state normalization under S028 and the existing Responsibility/P018 host owners | Put new facts, authorization snapshots, source revisions and receipts into the target stores, instead of extending a format already scheduled for migration. N precedes B in this follow-up plan. |
+| B | Local panel procedure under P051-006 and versioned P018/S040 effect lifecycle | Reuse revisioned suspension, resumption and terminal retraction without confusing a panel disposition with applied consequences. |
+| C | Procedural deadlines under P051-007/S020 | Establish the shared bounded-job mechanism; its availability does not itself implement scheduled repair reviews under P051-013. |
+| D | Same-host backup, restore, reconciliation and compaction under S028 and the existing store owners | Reuse host-incarnation and receipt semantics, retention and recovery boundaries instead of qualifying a second interpretation later. |
+
+This is a cost-of-rework recommendation, not a new hard dependency chain for the
+manual repair slice. Its necessary task dependencies remain in the tracker:
+P051-010 → P051-011 → P051-012 → P051-014, using the qualified
+P051-002/003/005 and P018-13/14 baseline. Completion of all membership admission,
+independent panels, scheduling or restore work is not a universal prerequisite.
+N and D need separately scoped implementation/evidence work under their existing
+owners; the ordering label does not add them to a completed baseline task.
+
+Perform a short P051-010 contract-alignment pass **before N/B/D freeze their
+interfaces**, without treating that pass as completion of P051-010 or starting
+the whole repair implementation. Record the selected contract revisions,
+owners, compatibility decisions and required regressions:
+
+| Alignment point | Contract to agree | Required preservation / test |
+| --- | --- | --- |
+| N: durable review identity | Repair reviews have explicit identity, revision and their own deadline; facts refer to immutable authority snapshots and accepted ownership without granting a mandate. Map them to normalized stores, projections and outboxes using existing primitives. | Preserve signed source bytes, CAS, replay, idempotency and pending obligations across migration. Compare old/new projections at the same evaluation time; do not clone global authority state per repair command. |
+| B: decision versus effect | Bind any repair-driven correction to the exact source and revision. Agree how `applied`, `suspended` and terminal `retracted` effects are inspected and corrected, independently of panel decisions and repair-plan status. | Correcting one source cannot clear another, resume a terminally retracted source, extend original validity or turn plan acceptance into execution authority. Preserve stale-command refusal and protected access. |
+| D: execution evidence after restore | Bind new host execution receipts to the applicable incarnation. Historical evidence remains historical; current application requires explicit confirmation under the recovery contract. Include repair facts, evidence bindings, pending outboxes and live review obligations in snapshot/retention rules. | Restore preserves unfinished work without fabricating current application; compaction cannot remove live obligations, required authority evidence, idempotency or terminal fences. Extend existing D regressions rather than create a repair-only backup mechanism. |
+
+The preferred path completes A–D first, then refreshes P051-010 against the actual
+qualified baseline and implements the manual slice. An earlier insertion **after
+A and N** is reasonable if the B/D interfaces above have been agreed, unsupported
+operations remain explicitly unavailable, and later migration/regression work is
+recorded. Contract agreement is not evidence that B or D works; exclude unbuilt
+panel/restore behavior from that earlier profile. Do not run competing rewrites of
+the same signed-command, host-store and replay contracts in parallel.
+
+Reuse whichever prerequisite interfaces are actually complete. Excluding the
+broader A–D work from the repair slice means not redoing or expanding it, not
+avoiding its existing interfaces. Keep manual review independently usable even
+after C lands. Integrating repair-specific scheduled jobs still belongs to
+P051-013 and needs its own runtime evidence. This sequencing does not merge the
+workstreams or promote local mechanism tests to real-participant readiness.
+
 ### Systemic-Repair Slice Acceptance
 
 P051-014 qualifies a new local test-subject profile using the existing
@@ -1346,6 +1401,12 @@ Scheduled reviews require P051-013's additional source-bound runtime evidence;
 do not claim them from the manual profile. Keep real-participant sanctions,
 independent appeal readiness and federation outside this slice. Mechanism
 acceptance does not establish that a social intervention actually reduces harm.
+
+When the tested baseline includes N/B/D, P051-014 must additionally retain repair
+integration regressions for normalized persistence, revisioned effect lifecycle
+and restore/compaction of unfinished repair obligations. An earlier bounded
+profile must state which of these remain unimplemented; later qualification must
+use fresh evidence, not promote the earlier report to the expanded scope.
 
 ## Cross-Component Acceptance: Local Accountability
 
@@ -1573,22 +1634,29 @@ qualification remain separate. This review does not promote P051 to accepted or
 expand the current release scope. Implementation tasks must update the Node ledger,
 regenerate its view and reconcile `docs/MVP.md` when its covered scope changes.
 
+`Depends on` lists necessary task gates. The recommended A–D sequence and early
+N/B/D contract alignment are defined in
+[Necessary Dependencies Versus Lower-Rework Sequencing](#necessary-dependencies-versus-lower-rework-sequencing);
+they are not additional blanket completion prerequisites for P051-010–014.
+
 | ID | Work / owner | Status | Depends on | Completion gate |
 | --- | --- | --- | --- | --- |
-| P051-001 | Membership policy baseline / membership-policy-core | partial | Existing frozen family | Preserve current pure evaluator tests; add schema-gated source admission, validity and host consumption before claiming the runtime entry-policy path. Do not duplicate the kernel. |
+| P051-001 | Membership policy baseline / membership-policy-core | partial | Existing frozen family | The pure kernel now has a separate host-admitted procurement consumer. Six source-bound runtime cases qualify local candidacy/admission/revocation/expiry and own-entry UI; signed Agora carrier import remains a fixture, not publication/subscription proof. Monetary caps and the complete operation matrix remain open. Evidence: node:docs/evidence/local-accountability/2026-10-14-admitted-entry/passage-4/report.json. Do not duplicate the kernel or promote this subset to complete entry-policy qualification. |
 | P051-002 | First case/policy contract and ownership / Rust domain core boundary | done | Existing P051/S040 contracts | review-v2 freezes the scoped case/policy/mandate/command/effect contracts, three deadline axes, exact acknowledgment with 14-day floor, controller independence, retryable AppealBlocked and recipient-bound correction. New authority is domain-only; historical proof has separate host-bound narrowing/receipt transport. Canonical schemas, mirrors, Gate, negative fixtures and split P072 operations pass. Local first-eligible selection, absent merits dispositions and procedural escalation are explicitly bounded P051-006/007 work. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json. |
 | P051-003 | Rust case core and durable middleware-hosted service / case domain | done | 002 | Pure responsibility-core and channel_json service with append-only SQLite facts, rebuildable projections, accepted handoff and atomic transition/intents. Ordered outboxes retain accepted narrowing through revocation, prepared evidence is preflighted and typed mirror desync fences later work without claiming success; reasons/listing survive, blocked mutations are explicit. Historical replay/transport and bound receipts have named regressions. Actual outage/restart is qualified; automatic cross-store desync repair/portable backup remain unqualified. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/host-tests.json and report.json. |
-| P051-004 | Targeted restriction and entry-policy integration / host-owned P018-S040 adapter | partial | 001, 003, P018-12, P018-13 | Targeted P018 host application/correction and independent expiry are implemented and locally qualified. Full entry-policy admission and host consumption still require P051-001; membership-surface-access-policy-core remains a pure evaluator with no runtime entry-policy path. No complete P051-004 claim. |
+| P051-004 | Targeted restriction and entry-policy integration / host-owned P018-S040 adapter | partial | 001, 003, P018-12, P018-13 | Targeted P018 host application/correction and independent expiry are implemented and locally qualified. A separately qualified admitted procurement subset now consumes the pure evaluator, composing with independent P018 sources. Full entry-policy admission, Agora publication/subscription and operation/value mappings still require P051-001. Evidence: node:docs/evidence/local-accountability/2026-10-14-admitted-entry/passage-4/report.json. No complete P051-004 claim. |
 | P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | done | 003 | S039 recipient-bound subject/appeal/handoff notices, direct reasons/acknowledgment/appeal and ParticipantSession UI use the same service. Actual default host signer emits verified domain proofs; UI preserves owner refusal/unavailable status and only bound withdrawal receipts show retracted. A/B/C UI list and exact second-policy reasons remain available with profile disabled, subject removed and policy revoked. CSRF, stale actions, independent acknowledgment/handling, sealed evidence and protected reserves pass; no notification or Room prerequisite. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json. |
-| P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. |
+| P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005, 015 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. The Node checkpoint adds eleven procedure tests, three signed-input tests, a complete public draw golden and an independent framing/PRNG reference for the explicitly experimental `local-panel.tai-fixtures.v1` profile; current normative PL requires ELL2. Eleven canonical draft panel/input/lifecycle contracts and historical COI mirrors have structural Gate coverage. Five case-journal and four host-input conformance tests cover atomic facts, original bytes, independent admission, replay and corruption under the existing storage/write owners. This is conformance only: the journal and host input lane are internal, while endpoint/channel integration, supplementary orchestration, sealed VRF custody, protected UI, lifecycle application and runtime qualification remain open, so this row is not closed. |
 | P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared S020 Scheduler launches bounded case-service actions through existing dispatch, not a private timer loop; use S029 for deferred individual operations where needed. Host admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
 | P051-008 | Local-accountability acceptance / cross-component harness | partial | 004, 005, 006, 007, P018-14 | Node-local v2 report/qualifier qualifies exactly P051-002/003/005 and P018-12/13/14: 18 runtime cases plus two conformance bindings, 713 checks/15 suites and 27 qualifier tests (one positive, 26 negative), source/binary-bound original bytes. Historical v1 and failed review attempts remain immutable. Full acceptance including P051-001/006/007 is open; no historical scope promotion. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/qualification.json. |
 | P051-009 | Remote correction acceptance / case Artifact Delivery acceptor | deferred | 008 | Two-host authenticated decision/correction delivery, local admission, duplicate/reorder/restart and unreachable-recipient evidence; bounded P081 causal/replication primitives only where needed, no global sanction propagation. |
-| P051-010 | Protection, reintegration and systemic-repair contracts / case domain | todo | 002 | Map section 27's norms to existing contracts and missing behavior; freeze separate claims, transition/authority table, applicability/deferral and legacy semantics. Pin schema/versioning, signature/replay compatibility, canonical schemas, mirrors and Schema Gate negative fixtures. No aggregate-to-individual authority, fixed prevalence threshold or closed repair repertoire. |
+| P051-010 | Protection, reintegration and systemic-repair contracts / case domain | todo | 002 | Map section 27's norms to existing contracts and missing behavior; freeze separate claims, transition/authority table, applicability/deferral and legacy semantics. Record the N/B/D alignment decisions before their interface freeze, then refresh against the selected implementation baseline; this early pass alone does not complete 010. Pin schema/versioning, signature/replay compatibility, canonical schemas, mirrors and Schema Gate negative fixtures. No aggregate-to-individual authority, fixed prevalence threshold or closed repair repertoire. |
 | P051-011 | Durable structured review and repair / responsibility-core and responsibility-service | todo | 010, 003, P018-13 | Implement the bounded local lifecycle using current signed commands, accepted ownership/handoff, S028 facts and outboxes. Preserve independent protection, return review and systemic repair; reuse exact host receipts and source-targeted narrowing. Outcome read model distinguishes reports/findings, duplicates, non-returners and unknown follow-up. Prove refusal, restart/idempotency, legacy replay and unrelated-source preservation; do not implement a second enforcement or workflow engine. |
 | P051-012 | Repair inspection and participant actions / existing API, UI and S039 | todo | 011, 005 | Existing signed API and ParticipantSession UI expose authorized plan/acceptance/execution/outcome actions, return conditions and manual review with explicit overdue/blocked status. Notices remain minimal and recipient-bound; queueing is not acceptance. Verify mandate/COI checks, stale actions, protected access and cross-case privacy. No new UI-owned state machine. |
 | P051-013 | Scheduled repair outcome reviews / existing domain jobs and S020 | todo | 007, 011, 012 | Extend the shared scheduler-owned bounded jobs, not a private timer. Freshly check action authority and separate repair review from effect expiry. Retain runtime evidence for due review, scheduler/service outage, manual fallback and idempotent resumption; overdue work cannot renew restrictions or infer guilt. A manual-only acceptance report cannot satisfy this gate. |
-| P051-014 | Systemic-repair local acceptance / existing local-accountability harness | todo | 011, 012, P018-14 | Freeze a new explicit report/qualifier profile and run every Systemic-Repair Slice Acceptance case through real service, host, inspection and notice paths, including restart. Bind sources, policy, fixtures and receipts; reject incomplete/substituted evidence and historical-scope promotion. Manual review is the first bounded scope; scheduled claims additionally require 013 evidence. No real-subject, federation or social-effectiveness qualification. |
+| P051-014 | Systemic-repair local acceptance / existing local-accountability harness | todo | 011, 012, P018-14 | Freeze a new explicit report/qualifier profile and run every Systemic-Repair Slice Acceptance case through real service, host, inspection and notice paths, including restart. Bind sources, policy, fixtures and receipts; reject incomplete/substituted evidence and historical-scope promotion. Include N/B/D repair integration regressions when present in the tested baseline; otherwise declare exclusions and required later requalification. Manual review is the first bounded scope; scheduled claims additionally require 013 evidence. No real-subject, federation or social-effectiveness qualification. |
+| P051-015 | Host-state normalization / S028 and existing Responsibility-P018 owners | partial | 003, P018-13 | Normalize projections and shared immutable authority material before panel facts. Preserve exact signed facts, source CAS, receipts and pending work; replay-gate resumable migration. Prove changed-record writes and subject/operation admission costs with a new N runtime report. Three runtime cases and two conformance bindings qualify N passage 4: node:docs/evidence/local-accountability/2026-10-14-normalization/passage-4/report.json. The original N report predates the internal panel-input lane, which requires separate runtime qualification; the A report predates N and cannot close this gate. Early 010 alignment confers no mandate and does not implement repair. |
+| P051-016 | Local maintenance, restore and retention / host and case-store owners | todo | 015, 003, 007 | Separate D scope after A–N–B–C: quiescent encrypted backup, fresh-directory restore with new incarnation, exact-byte reconciliation and retention preserving live appeals, pending outboxes, unfinished reviews and terminal fences. Safe manifests only in evidence; no distributed clone fencing or real-subject qualification. |
 
 The detailed enforcement work belongs to P018-12 through P018-14, linked from S040;
 P051 owns integration and social semantics. P057 and P081 are dependencies, not
@@ -1607,14 +1675,19 @@ explicit evidence scope; this proposal-only change is not an implementation clai
 
 ### Next Actions
 
-1. Complete P051-001 admission and runtime consumption without duplicating the
-   existing pure membership kernel; then close the remaining P051-004 scope.
-2. Select and implement the independent appeal process under P051-006 and
-   scheduler-owned procedural deadlines under P051-007. Local fixtures are not
-   live sanction readiness.
-3. Extend P051-008 with a new explicit qualifier/profile for the remaining
-   matrix. Preserve the historical local report and keep P051-009 deferred.
-4. In parallel with those broader follow-ups, freeze P051-010 and implement the
-   bounded manual systemic-repair slice through P051-011/012/014. Add scheduled
-   reviews through P051-013 once P051-007 is available; do not fold the entire
-   appeal, entry-policy or federation backlog into this slice.
+1. Perform the short P051-010 alignment pass before N/B/D freeze their contracts.
+   Record shared ownership, revisions, compatibility and regression obligations;
+   do not count this pass as the completed repair contract or implementation.
+2. Prefer A → N → B → C → D for the broader follow-up: complete admission and
+   runtime consumption under P051-001/004, normalize host state before panels,
+   implement the local P051-006 procedure and P051-007 deadlines, then qualify
+   same-host recovery. Scope N/D work separately under the existing owners.
+   Local fixtures are not live sanction readiness.
+3. Refresh P051-010 against the resulting baseline, then implement and qualify
+   P051-011/012/014 as a separate manual slice. Earlier insertion after A/N is
+   allowed under the contract-alignment and explicit-exclusion conditions above;
+   it is not the default lower-rework path.
+4. Add repair-specific scheduled reviews under P051-013 only with their own
+   evidence. Extend P051-008's broader matrix through separate explicit profiles;
+   preserve historical reports and keep P051-009 deferred. Neither sequence nor
+   reuse merges these acceptance scopes.

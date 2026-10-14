@@ -1,0 +1,31 @@
+{
+  "statement": {
+    "schema": "panel-input-statement.local.v1",
+    "record/id": "fixture-record",
+    "revision": 1,
+    "host/id": "node:did:key:z6MkmtWtY63GQVBrpMyRJWEzsnxfsGkemu6CtMDwGTv4RYj2",
+    "host/incarnation": "fixture-incarnation",
+    "issuer/id": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+    "panel-policy": {
+      "id": "fixture-panel-policy",
+      "revision": 1,
+      "digest": "sha256:mGMnMqjzby04KXScCy8R_IxvFrXCUVm_vUxMxuL2Vpc"
+    },
+    "profile": "local-panel.tai-fixtures.v1",
+    "issued-at": "2026-10-15T00:00:00Z",
+    "input": {
+      "kind": "eligibility",
+      "node/id": "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+      "subject/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+      "valid-from": "2026-10-14T23:59:59Z",
+      "valid-until": "2027-01-13T00:00:00Z",
+      "method": "local-fixture.v1",
+      "value": {
+        "kind": "membership",
+        "class": "full-participant"
+      }
+    }
+  },
+  "algorithm": "ed25519+domain-v1",
+  "signature": "ReXcr3D-2mJayameRIG7nivP_IajOBsaFEN78gtyAIqFSvycIQNk5n_S61LcrrHxopJvOyCkanjOXD9zMA1sDA"
+}

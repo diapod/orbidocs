@@ -1,0 +1,1338 @@
+{
+  "schema": "panel-procedure.local.v1",
+  "id": "procedure-A",
+  "revision": 35,
+  "context": {
+    "host/id": "node:did:key:z6MkmtWtY63GQVBrpMyRJWEzsnxfsGkemu6CtMDwGTv4RYj2",
+    "host/incarnation": "fixture-incarnation",
+    "case": {
+      "id": "case-A",
+      "revision": 1,
+      "digest": "sha256:GtVscNBuOJy3LoeDI8uTr9BDA6hX9PRZw565k3ZPNKU"
+    },
+    "subject/id": "participant:did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+    "object": {
+      "id": "fixture-object",
+      "kind": "procurement",
+      "digest": "sha256:-olD8bo7TRBxvkx8DhMJ55SL26PP3gdyZqd3nFTw9ec"
+    },
+    "policy": {
+      "id": "fixture-case-policy",
+      "revision": 1,
+      "digest": "sha256:_RIBbbFS-tpjD7WMbpIGaa0SoL3qOmbM3e2l7TzLkPY"
+    },
+    "decision": {
+      "id": "decision-A",
+      "revision": 1,
+      "digest": "sha256:v26pjZn6q2MkCteqvREw71xjAiT8qAPiTCFn5KPMEa8"
+    },
+    "effects": [
+      "effect-A"
+    ],
+    "summary/digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+    "parties": [
+      "participant:did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX"
+    ],
+    "original-panel": [],
+    "controllers": {
+      "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ": "candidate-12",
+      "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX": "candidate-14",
+      "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde": "candidate-18",
+      "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3": "candidate-10",
+      "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF": "candidate-16",
+      "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX": "candidate-11",
+      "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA": "candidate-19",
+      "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH": "recipient",
+      "participant:did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX": "party",
+      "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF": "candidate-13",
+      "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S": "candidate-17",
+      "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP": "candidate-15",
+      "participant:did:key:z6MkvRXNYcE7MMduynWTgeKbDaT1iijDSC8pZqXZc8rHPrf2": "coordinator"
+    }
+  },
+  "inputs": {
+    "candidates": [
+      {
+        "node/id": "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+        "participant/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-10-0",
+              "revision": 1,
+              "digest": "sha256:HUxxTc9WDOxM066oodyuy-ADsqVPBPVJvsxTE1A2AQI"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-10-1",
+              "revision": 1,
+              "digest": "sha256:exRoXtTrEyS4l2t1Hba9b7PSx-yT9ViqJIDAqadprpo"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-10-2",
+              "revision": 1,
+              "digest": "sha256:PhteMAyh5hLmvvPnFRmgPJHuWGWnQruAUrDwYy01LTU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-10-3",
+              "revision": 1,
+              "digest": "sha256:_V2eZRTz7Jy-Fj8widRUTvXvjve8qOerVeO4a5Ne-Lw"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-10-4",
+              "revision": 1,
+              "digest": "sha256:wL69RyKkV0lslELMEj0X76PIdjcgO4OCYIPMqDhdpH4"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+        "participant/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-11-0",
+              "revision": 1,
+              "digest": "sha256:3aP6v1atURRwhHm9DV2rA6DjOlQdxeqjnDowwjd6Z0w"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-11-1",
+              "revision": 1,
+              "digest": "sha256:4ki6RpS8McE0XC_DStAwef8ctIlu8otDDFB2MMapJiI"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-11-2",
+              "revision": 1,
+              "digest": "sha256:aEkhDCkNXnEiBNW6qMsJGCtPdS2q1uEcHPsqrEnvhKY"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-11-3",
+              "revision": 1,
+              "digest": "sha256:jtDEiQcopqKbdd7aGuBGosxcW-tMhCogjPAcoTMJiwk"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-11-4",
+              "revision": 1,
+              "digest": "sha256:blYdJAbDuflKaSBGaHOkg0bKYHx7TU2nVcI7oh2pnZA"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+        "participant/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-12-0",
+              "revision": 1,
+              "digest": "sha256:-JcA5eOMekkAAOmNbPPvTcbuhd-VyxZVZmuWrFhrYRM"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-12-1",
+              "revision": 1,
+              "digest": "sha256:JAipL0QxpHJBb9ky-e2fepOi2wWiegb2SjhC33u4kGU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-12-2",
+              "revision": 1,
+              "digest": "sha256:DQP-OPwvAF6diflvllkgT-Gff0GOv-MqcMExoyhZqRQ"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-12-3",
+              "revision": 1,
+              "digest": "sha256:wHO0-A28MXnaZEaj_dMOR9nJm-uspHv--jVX1DwwSGk"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-12-4",
+              "revision": 1,
+              "digest": "sha256:CSpqTZb3VIDWoaCtRX1UChM0Q62QbUVUCF1dpYv9CFI"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+        "participant/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-13-0",
+              "revision": 1,
+              "digest": "sha256:GjeUXewy1PdG5Ic9gSuoZFk1Gui1tJRe5bU_CuFz1X0"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-13-1",
+              "revision": 1,
+              "digest": "sha256:i58hQUCWvJppvUFcxxZ4T_mIq21nHrNognvTDEOtKNA"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-13-2",
+              "revision": 1,
+              "digest": "sha256:PSlZZ5D60-AVQ6Dq2WpZAgIth1GobnWkqw8gMz6L16A"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-13-3",
+              "revision": 1,
+              "digest": "sha256:Hv1u8StsqsJWxxrm3u-CyP9ROq55PCMtoTUrGxrfoXU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-13-4",
+              "revision": 1,
+              "digest": "sha256:fahbEUzkTMPbxQT5RCPWQtwB3gc1qmCukqwp9oWYVD8"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+        "participant/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-14-0",
+              "revision": 1,
+              "digest": "sha256:56PLu3ZFUxv7YR0ez5shNkph-6-KcXDDKvrYANN83p8"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-14-1",
+              "revision": 1,
+              "digest": "sha256:DYAGM5DltO2T6_B59ubj3a2Bqtds0llTA41D9pkGWVk"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-14-2",
+              "revision": 1,
+              "digest": "sha256:DjF4OMoQGhMf8AJ3i3sd_XSKc4OCAaMNDEaaZhJ0EWI"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-14-3",
+              "revision": 1,
+              "digest": "sha256:g2ENmTe1qm3JNJcbPfOZCFI0Nh4wEylTaba81dIrdys"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-14-4",
+              "revision": 1,
+              "digest": "sha256:P0EPo6j83gJCdSq2m4QA-fdwWzq9pItB60VPySRPVSw"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+        "participant/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-15-0",
+              "revision": 1,
+              "digest": "sha256:LJ1mnsjvtNEH06iMSL_GaX59EiqbcCxgokUmexTa8_0"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-15-1",
+              "revision": 1,
+              "digest": "sha256:TMfM3tt6mBRQZ4FFuutlNr_7dYT52KbyzvnBSOleMM4"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-15-2",
+              "revision": 1,
+              "digest": "sha256:7fCF7SbD4OqRUo4nPH_Dypgqx8YT-XPQqqWxLr_PnHU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-15-3",
+              "revision": 1,
+              "digest": "sha256:2sB-NmdABI4lX13KWSx7S0Y9wIu_3zs5pEA2tFBuQgo"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-15-4",
+              "revision": 1,
+              "digest": "sha256:37ESlJJuysECgRCKFxFmQJatmb51dZdS9GMMQWVSPxI"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+        "participant/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-16-0",
+              "revision": 1,
+              "digest": "sha256:pfI9lQBHBCvY9pk2K7Lo7lTWJDSbVtvnD1kAyI86bHk"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-16-1",
+              "revision": 1,
+              "digest": "sha256:c7wo2EYko6W88544gQWuZ_ZBK4xg6Ir6uQgXu9VEXxU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-16-2",
+              "revision": 1,
+              "digest": "sha256:y74bRJRzP7IBwmqpYlj681Cih4xffp-081K6WwYJ4ys"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-16-3",
+              "revision": 1,
+              "digest": "sha256:O93VwcOJ6reF6qYbcIHLW9hADvisRfnm6wu7Rxb3c2g"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-16-4",
+              "revision": 1,
+              "digest": "sha256:b0d_DADnNeXzG7ClL4MWc7CGffOg8yCpHGdkfRDfrwU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+        "participant/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-17-0",
+              "revision": 1,
+              "digest": "sha256:1wF-13cDAYm3l_ek22E4roUQTSet7iGymQg9hMbw2qw"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-17-1",
+              "revision": 1,
+              "digest": "sha256:Nv_8p2Ozy0nOqORBZzaftM-INFUBZw8ICbR3rdplVZo"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-17-2",
+              "revision": 1,
+              "digest": "sha256:cFS1V6og_x00Ev3oxMnRuj4nH1f5kepg4hluyGZbKyI"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-17-3",
+              "revision": 1,
+              "digest": "sha256:jjItQ337kiFyWCM8odvpam0o1IB-X_CAtZ3Ym-ploSg"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-17-4",
+              "revision": 1,
+              "digest": "sha256:FJG40QekHlzVtIvJGfZ8zGXKloPSB78qAqfCZb68bzM"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+        "participant/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-18-0",
+              "revision": 1,
+              "digest": "sha256:E62Nzw2_BjQhopCCe5XqNklhFtiunsZbgNCZFpDjDJo"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-18-1",
+              "revision": 1,
+              "digest": "sha256:s-bjtkr3BlteuJ7fSfPiM4dkiFLhJZTPXBHJLEnLduk"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-18-2",
+              "revision": 1,
+              "digest": "sha256:QNlCpHUEgqTYyWodf2PZgsit9nx1Vujtp1figjf_x4Q"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-18-3",
+              "revision": 1,
+              "digest": "sha256:3fxqreXKA8Kq8Na2jZwddmtc8IppE4W28q3zS5Av4e8"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-18-4",
+              "revision": 1,
+              "digest": "sha256:zbzeoV3tGiFSdShbpjekqJriGC47ymTI2b_alMyCdqU"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      },
+      {
+        "node/id": "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+        "participant/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+        "facts": [
+          {
+            "source": {
+              "id": "synthetic-19-0",
+              "revision": 1,
+              "digest": "sha256:1ilcyOovuk_wprDLJ4WREDQ2n3GC_nLKOj7TAREFidw"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "membership",
+              "class": "full-participant"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-19-1",
+              "revision": 1,
+              "digest": "sha256:lcV9q2o3xkhwWMQk_vMiIbXdQefGZcdJB3hbmbinzHE"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "federation",
+              "federation": "fixture-federation"
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-19-2",
+              "revision": 1,
+              "digest": "sha256:-POR1SnEoWWD8bo3XaNqmuvQCw4mWHVihlh0dEVvIpw"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "identity",
+              "ial": 3,
+              "anchor": {
+                "id": "fixture-anchor",
+                "revision": 1,
+                "digest": "sha256:PJyqMpif-RjD10CtkHgXMc-3QPnu6BPH3dnPEbJuwBg"
+              }
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-19-3",
+              "revision": 1,
+              "digest": "sha256:lJUL1GkBZ5hIWj2xMmV_6-6m2gC8BbKpLdJtfwmTKWY"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "lifecycle",
+              "active": true,
+              "bootstrap-complete": true
+            }
+          },
+          {
+            "source": {
+              "id": "synthetic-19-4",
+              "revision": 1,
+              "digest": "sha256:b9OCYVP_EqQWbeomylkGwig_qGOIHlJrqxmCK9WrhcY"
+            },
+            "owner": "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+            "subject/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+            "valid-from": "2026-10-14T23:59:59Z",
+            "valid-until": "2027-01-13T00:00:00Z",
+            "synthetic": true,
+            "method": "local-fixture-admitted.v1",
+            "value": {
+              "kind": "procedural",
+              "millionths": 800000
+            }
+          }
+        ]
+      }
+    ],
+    "certificate": {
+      "schema": "panel-vrf-certificate.local.v1",
+      "host/id": "node:did:key:z6MkmtWtY63GQVBrpMyRJWEzsnxfsGkemu6CtMDwGTv4RYj2",
+      "host/incarnation": "fixture-incarnation",
+      "coordinator/id": "participant:did:key:z6MkvRXNYcE7MMduynWTgeKbDaT1iijDSC8pZqXZc8rHPrf2",
+      "revision": 1,
+      "suite": "ECVRF-EDWARDS25519-SHA512-TAI",
+      "public-key": "a7f6dfaf8f38b89ba8ce649b594f91e4d01fdc57f9c9493df43b5e50a9987367",
+      "valid-from": "2026-10-14T23:59:59Z",
+      "valid-until": "2027-01-13T00:00:00Z",
+      "algorithm": "ed25519+domain-v1",
+      "signature": "quT_Oa1ggUMVL-u9bBbpxkjaaa1LTu57YfvHZFMO-QGfK7Xrmp8Dv_fZDdu0vWDBWYjkKBmbo-v59--KZELMCA"
+    },
+    "heartbeat": {
+      "id": "fixture-heartbeat",
+      "revision": 1,
+      "digest": "sha256:K4C-StXABp47H1Q4R6YXg8m59MzV0qU-9VmnBT1r1Bs"
+    },
+    "heartbeat/class": "federation-qualified",
+    "heartbeat/cutoff-at": "2026-10-15T00:00:00Z",
+    "policy": {
+      "schema": "panel-policy.local.v1",
+      "id": "fixture-panel-policy",
+      "revision": 1,
+      "profile": "local-panel.tai-fixtures.v1",
+      "federation/id": "fixture-federation",
+      "min-entry-class": "full-participant",
+      "min-ial": 3,
+      "critical": false,
+      "recipients": [
+        "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH"
+      ],
+      "auditors": [],
+      "input-admitters": [
+        "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH"
+      ],
+      "heartbeat-owners": [
+        "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP"
+      ],
+      "coordinators": [
+        "participant:did:key:z6Mkon22vwz9JoNpGDxCrGZRgeNFTdRTwXYYN3fvAhA3K19x",
+        "participant:did:key:z6MkvRXNYcE7MMduynWTgeKbDaT1iijDSC8pZqXZc8rHPrf2"
+      ],
+      "eligibility-owners": {
+        "federation": [
+          "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP"
+        ],
+        "identity": [
+          "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP"
+        ],
+        "lifecycle": [
+          "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP"
+        ],
+        "membership": [
+          "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP"
+        ],
+        "procedural": [
+          "participant:did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP"
+        ]
+      }
+    }
+  },
+  "round": 1,
+  "filed-at": "2026-10-15T00:00:00Z",
+  "opened-at": "2026-10-15T00:00:00Z",
+  "phase-until": "2026-10-19T12:00:00Z",
+  "phase": {
+    "phase": "veto"
+  },
+  "declarations": {
+    "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "eIdvGIR4BJ5BS7NqZV8JQzIABJ0vdZJYQhwV09zXgYiEh5puM3lGRZkSMqfxc5dmhTR0CTMGGuoy123Tx1iIAw"
+      }
+    },
+    "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "S8rxhtNBjMAu_t3PU3UqjIkADEwQlEBFFlotwsWzQTjb0_NQiEwGLLqXbQ86OFNhUjqfMLCeC1HV4nOoJUC3DA"
+      }
+    },
+    "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "1212121212121212121212121212121212121212121212121212121212121212",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "i3l4D0YOrqlyRo77qfO5biRdnXKzBVGL4ltLE6Jx8-fmP2XDt_Z4qPZkVO_Itl2E859GrD6xM0KUSe733tuZBQ"
+      }
+    },
+    "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "aRwvQDUbxI5RYWLBdpe4lmvlZoPLDvEBcxr9d6uMQZWCwyy7tdvmH6mBGxMSMgq3sRdXOd3BO9Privc7d9_qDQ"
+      }
+    },
+    "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "1010101010101010101010101010101010101010101010101010101010101010",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "qZaroY7IbnKAhSSOmbYhLI9_Ob2NUDwDt5Js-hmlIhkQIi9KCEgVxv_G9ofAjU9DAaG4jVBjVkeqqXlCe2teAw"
+      }
+    },
+    "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "ZXn0U-jtvQh20DxEiXSeA_vwQ8CHNkoF7tC71OQRHPFsVvGUUaF3ITTIgBbNO9WSF1a2ebgZWBzDtP1NkWUrCw"
+      }
+    },
+    "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "1313131313131313131313131313131313131313131313131313131313131313",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "RxZ8UWJK-sT7P5n0ylO5zUHLZ4-QxMt5HetDK0Tc_T8ph9En8ux4oJ2NCOAYaburNWECbTLG-7Efc-GoMrz4Aw"
+      }
+    },
+    "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "UGKu2EY4LF86vKbFrDX61fCVAPaWM9TGM2DNckjYt6_3vQpcKD7Wd3Ar-lI4yvVaFWm46VUMQQWzcQT78SfDDA"
+      }
+    },
+    "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "1111111111111111111111111111111111111111111111111111111111111111",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "OYoKxs5BBBPCYn3AIhu0hJfeABZBCSSFB9kN-SVroJA7FphuNDcuDoveblAPSlEc35EB4tNs7m76Upsm9PBWBA"
+      }
+    },
+    "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP": {
+      "schema/v": 1,
+      "case/hash": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "case/summary-digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo",
+      "participant/id": "participant:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP",
+      "declaration": "no-conflict",
+      "ts": "2026-10-15T00:00:00Z",
+      "nonce": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+      "round": 1,
+      "signature": {
+        "alg": "ed25519",
+        "value": "uu_z7knUbVZo5id62sXbaLwifcc0qEGTNN56HwBcJpDpARIutblNBLSN_kRxM25JADNAbpJ4YRFCFu2Jeej2AQ"
+      }
+    }
+  },
+  "pool": [
+    "node:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ",
+    "node:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX",
+    "node:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+    "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+    "node:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+    "node:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX",
+    "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA",
+    "node:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+    "node:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S",
+    "node:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP"
+  ],
+  "exclusions": {},
+  "commits": {
+    "node:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ": "a24d71b83e13257ffd010b5f623096b1d1b04be17abbd0a67922ba2c8a317f28",
+    "node:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX": "648fb0891cf525d4b6835c8801021e503ee8f1fe8cf8b2690ec38fac6bf4ccdd",
+    "node:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde": "4384c169cb4c359f8806145e3202710deadac8953db3a9c9ff3648496523bb13",
+    "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3": "3f34b1aaa458d78c9aeaedd0c13a19725c768ce6f7d52520f879f356e160fc60",
+    "node:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF": "fba36a980d42abbb73f04cc2252b7a8b14de24bf5467da008eb640cd00bc50ee",
+    "node:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX": "6492fb3c1e9a3300918294029f35cf6fe819a5d5ba941fc59eaafc592ec93c53",
+    "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA": "304e1ba5791ec97f2b848014fc0e3ee2d3fbbcc215d59df00b934aa704e0fef3",
+    "node:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF": "b055f7f580f9bbab7b967b9b4180495ad83407616ed105b425efaae11f58c256",
+    "node:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S": "51b3780aa746fdbcac6ffd770b060be3b8250a76b380d6bc6adcab69f7fd8c5d",
+    "node:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP": "63e067e5d9fb660bdf1219fe05630a67b06b2a14f1089bf0eb29b0c7ee6f5152"
+  },
+  "reveals": {
+    "node:did:key:z6MkfDSNRs2i9S6LZ5vd4RbpZ6754H7R3btDqRTeHhamqvuJ": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+    "node:did:key:z6MkfFqsFhzZaoXFvWm9Uq8DbhGjLHg2EAohwBtpGuApW6eX": "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+    "node:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde": "1212121212121212121212121212121212121212121212121212121212121212",
+    "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+    "node:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF": "1010101010101010101010101010101010101010101010101010101010101010",
+    "node:did:key:z6MkmNL6xksdEJENGk9Z1qqGsY5njKQdjU1UhnUEUvWyQUVX": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+    "node:did:key:z6MkmNZGTCcVSQG2dp1cBYssQWkNEwFHBvsNmBzJs6iGY9eA": "1313131313131313131313131313131313131313131313131313131313131313",
+    "node:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF": "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d",
+    "node:did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S": "1111111111111111111111111111111111111111111111111111111111111111",
+    "node:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+  },
+  "transcript": {
+    "context/digest": "6190191e7c7514c9b54343f25cd069d33ab01e790b059a01eb58810031610c60",
+    "seed-input": "70616e656c2d736565642d763100a36772657665616c735901400a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f101010101010101010101010101010101010101010101010101010101010101011111111111111111111111111111111111111111111111111111111111111111212121212121212121212121212121212121212121212121212121212121212131313131313131313131313131313131313131313131313131313131313131369636173652f6861736858206190191e7c7514c9b54343f25cd069d33ab01e790b059a01eb58810031610c606e6865617274626561742f6861736878327368613235363a4b34432d5374584142703437483151345236595867386d35394d7a563071552d39566d6e42543172314273",
+    "proof": "84c4690838117b89ad76bc8d596183668b662c3ae597b07f927f5fb294e5292005183a14d6fe1a70409116302f4a241e7c1c1c75fdf46c0cf3c722c7dcb8b8c36f176200eac28b94a3fb2547b4e5b70d",
+    "beta": "4c513625ce884d8a26e6a004697b50c65b89b018fb5842768eb7548c69722db8c9455d189f57c97a102fe47b18cfbea2f6b2c9c9ad417deea29623293da4cd6b",
+    "selected": [
+      "node:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+      "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+      "node:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF",
+      "node:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+      "node:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP"
+    ]
+  },
+  "primaries": [
+    "node:did:key:z6Mkgd9vC5PoQn4fiePDTQAsha3eT6LgF6tUPzf28iwXLgde",
+    "node:did:key:z6Mkj1MDZKcfx9AX5CeXHdysiGkRLzBbALyFuShD6wNeY1E3",
+    "node:did:key:z6MkpFkurpyZgyna5SAfLpvdzp7W6cvdc1fn9YECrwv3AMbF"
+  ],
+  "reserves": [
+    "node:did:key:z6MkkgmuCCiYtMnMp5d9Zq7p6Bsy71Nxk4ddnfywzeGnFNeF",
+    "node:did:key:z6Mku7FYz1HuZo4Xu65omn1vL9EfyDqr7LD2d4oQ4hyHmGaP"
+  ],
+  "removed": [],
+  "compromised": [],
+  "vetoes": [],
+  "composition/revision": 1,
+  "proposal": null,
+  "votes": {},
+  "commands": {
+    "command-1": "sha256:gDWnFBQInRU8zYGNR3B508W8gKJtziSTMhZKG2jF49g",
+    "command-10": "sha256:zhopD1LZ7E8HpkbKZKxdwRQzbHY6vfGhDSSmtFXYeUU",
+    "command-11": "sha256:yHTyU_hgQwuDnyzgSS8jWbQROsXbbSl9IjX35DA53wY",
+    "command-12": "sha256:EaTArGEbCCwedCyKmw1QSWIgOOW4Gct5JA5EVq4yozM",
+    "command-13": "sha256:Db8drVadln9H7BETWKqLcZpstcHdvwtRPLaA-R_mk7I",
+    "command-14": "sha256:cSGq50KRRARgTIwZxcJUbcEBN0dIQKtBVJsZ-8B2DE4",
+    "command-15": "sha256:llV7dr4gCBH-M6WulAXAkjwYUt8wTgv4mZYxt93gq-Q",
+    "command-16": "sha256:pb-n9dnLo76dbgnJpO2lvwUZ7hmjdn-K8gZQmIR7qlI",
+    "command-17": "sha256:7PK33BmPTMJrWtH-_WwMZKgvm1aGDH8ZWJU910aAGWo",
+    "command-18": "sha256:PhBIMRMKxB8l7QQ6mSTI4QvWez76h0KXQJKswd-WAOo",
+    "command-19": "sha256:ArtOLyTrcZB-mpqvYZKmppaxRMrB_Ij6nX5WAx77Y7s",
+    "command-2": "sha256:CsOdmSAWTCcRHsA6KS6jdS39BO27q2D-mH56loFBOgE",
+    "command-20": "sha256:B1bby4twL7BwlWkVnhO91T7AHV62qP9ryFZnObvkOHU",
+    "command-21": "sha256:O0WHBdKSURJ0xBCUl9Y3XmJV2bAqhIaIRnKjmkCCfek",
+    "command-22": "sha256:NPnD0A1QE4cKfAYMBtaJN8rusfLVcKWyNOzNOQcd1Rg",
+    "command-23": "sha256:vWXPwXvxKemQkty8so7xgS_caZJ75blsrTL3i5EJcw0",
+    "command-24": "sha256:wxMl3IoK8BaZh0HHgPGHupT0a3XDyG79xJmhogAGEx0",
+    "command-25": "sha256:gPes2v-SR-Sl1zgWKZqZvup4hvDLma4Ao9bqJwwxitU",
+    "command-26": "sha256:CP_xknlE_JJKDiygCpeSh6E8nvfbLMyDjsDKMhf10Bs",
+    "command-27": "sha256:5XKnH2NhTHZgEXqTQ7rfkJyIBE3dL6SET9QqVXsPDrY",
+    "command-28": "sha256:V2_0BVR00pD7X_8SoRDTIoq0uTMHIN2kAuK6Nzovrg4",
+    "command-29": "sha256:1Zj1L7tlmXHAxBJSudb1W4WMos4v2XXPxVHKeV355vE",
+    "command-3": "sha256:8RS9uv63oJurbRMIKQBhfTXVNZiNceFkFP28CCXL2CU",
+    "command-30": "sha256:M4xMjyzbC3Wry9gIsz8S7Af5sTggFUxNHhNtgjaJJhk",
+    "command-31": "sha256:3xlgXRbUOV3lrBnzZ7St5lUss7ym07z-oTSaaiddXAU",
+    "command-32": "sha256:kL4Dh4gTdSPganW8GCOa7BhfW131HoGCj6bl8RADRWI",
+    "command-33": "sha256:yh7PRUNrUcUBFGJHL6YAQQRCiTczRbTK787-wsjTAJU",
+    "command-34": "sha256:0DapSXgKtKTEgbBSlEhlEoNL95Qw5jSWAi55u68DPRU",
+    "command-4": "sha256:VpCpAm7oWbm8OmSpxm1DO6nwzLHwcGUAYmY4NOhaaz8",
+    "command-5": "sha256:odiEPnpRSh41Z6t5gHllBrMxB7xYiX-1n77WEKDOWys",
+    "command-6": "sha256:zofq6Ozi7Tla2SXFGxq5SntF5LR_5so7NqOUDtV_ptk",
+    "command-7": "sha256:3QWBO_dNPpb02Tz9L64NmP_IithpKbb1QS0jnpV98so",
+    "command-8": "sha256:OurxSMCpiOGjl4f_rGGtaM1TSZqZBMM13TI8VZ0_ALI",
+    "command-9": "sha256:zsZx2l6elcJx54o7IxJyCUQd0xTBg6ZGJgKVguy0CfM"
+  }
+}

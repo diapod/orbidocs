@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-policy.local:v1",
+  "title": "panel-policy.local.v1",
+  "description": "Draft local fixture contract. Shape validation confers no admission, mandate, application receipt or normative ELL2 qualification.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "panel-policy.local.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "profile": {
+      "const": "local-panel.tai-fixtures.v1"
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "min-entry-class": {
+      "type": "string",
+      "enum": [
+        "full-participant",
+        "public-trust-role"
+      ]
+    },
+    "min-ial": {
+      "type": "integer",
+      "minimum": 3,
+      "maximum": 4
+    },
+    "critical": {
+      "type": "boolean"
+    },
+    "recipients": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 32,
+      "uniqueItems": true
+    },
+    "auditors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 32,
+      "uniqueItems": true
+    },
+    "input-admitters": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 32,
+      "uniqueItems": true
+    },
+    "heartbeat-owners": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 32,
+      "uniqueItems": true
+    },
+    "coordinators": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "maxItems": 32,
+      "uniqueItems": true
+    },
+    "eligibility-owners": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "membership": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 32,
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "federation": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 32,
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "identity": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 32,
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "lifecycle": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 32,
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "procedural": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "maxItems": 32,
+          "uniqueItems": true,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "membership",
+        "federation",
+        "identity",
+        "lifecycle",
+        "procedural"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "revision",
+    "profile",
+    "federation/id",
+    "min-entry-class",
+    "min-ial",
+    "critical",
+    "recipients",
+    "auditors",
+    "input-admitters",
+    "heartbeat-owners",
+    "coordinators",
+    "eligibility-owners"
+  ]
+}
