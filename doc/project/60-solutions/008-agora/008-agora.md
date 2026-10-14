@@ -394,7 +394,7 @@ Status:
   bytes including their index, each below 1 MiB. Original success/refusal outcomes
   and required dependencies remain explicit. Evidence:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsules/README.md`.
-  Parent P035-008 is done; Agora remains partial. P035-007's comparison baseline includes
+  Parent P035-008 is done; Agora remains partial. The follow-up review gives the profile cause/dependency ownership, makes origin and exact refusal paths explicit and labels retention receipts as attested measurements. Frozen sets and 136 MiB cumulative accounting bound Git cost. P035-009 must decide external retention before the next full runtime campaign, no later than 2026-11-14; current runtime evidence is not renewed. P035-007's comparison baseline includes
   64 events/page, eight pages/room/round and the deliberate B crash/restart after
   512 durable records; the observed 10.32 seconds is not a throughput/latency bound.
 
