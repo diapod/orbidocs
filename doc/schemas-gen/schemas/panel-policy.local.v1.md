@@ -37,6 +37,12 @@ Draft local fixture contract. Shape validation confers no admission, mandate, ap
 | [`heartbeat-owners`](#field-heartbeat-owners) | `yes` | array |  |
 | [`coordinators`](#field-coordinators) | `yes` | array |  |
 | [`eligibility-owners`](#field-eligibility-owners) | `yes` | object |  |
+| [`panel/size`](#field-panel-size) | `yes` | enum: `3`, `5`, `7` | Fixed odd seat count (DIA-PANEL-SEL-001 §5.1/§13). Quorum ceil(size/2)+1 is never lowered by attrition; vacancies are refilled before voting continues. |
+| [`reserve/count`](#field-reserve-count) | `yes` | integer | Reserves drawn with the panel. Round entry also requires reserve/count >= the number of veto-holding parties until §10.3 partial redraw exists. |
+| [`min-commit-participants`](#field-min-commit-participants) | `yes` | integer | May raise, never lower, the normative min_commit_participants default. |
+| [`min-pool`](#field-min-pool) | `yes` | integer | May raise, never lower, the normative min_federation_pool_size default; must also cover panel/size + reserve/count. |
+| [`proposal/limit`](#field-proposal-limit) | `yes` | integer | Rejected proposals admitted per procedure before a typed procedural block. Rejection never implies uphold. |
+| [`windows`](#field-windows) | `yes` | object | Phase windows in seconds for this policy's case class. §7 forbids shortening below the normative defaults; the critical minima apply to every policy, the normal minima additionally when critical is false. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -122,3 +128,51 @@ Draft local fixture contract. Shape validation confers no admission, mandate, ap
 
 - Required: `yes`
 - Shape: object
+
+<a id="field-panel-size"></a>
+## `panel/size`
+
+- Required: `yes`
+- Shape: enum: `3`, `5`, `7`
+
+Fixed odd seat count (DIA-PANEL-SEL-001 §5.1/§13). Quorum ceil(size/2)+1 is never lowered by attrition; vacancies are refilled before voting continues.
+
+<a id="field-reserve-count"></a>
+## `reserve/count`
+
+- Required: `yes`
+- Shape: integer
+
+Reserves drawn with the panel. Round entry also requires reserve/count >= the number of veto-holding parties until §10.3 partial redraw exists.
+
+<a id="field-min-commit-participants"></a>
+## `min-commit-participants`
+
+- Required: `yes`
+- Shape: integer
+
+May raise, never lower, the normative min_commit_participants default.
+
+<a id="field-min-pool"></a>
+## `min-pool`
+
+- Required: `yes`
+- Shape: integer
+
+May raise, never lower, the normative min_federation_pool_size default; must also cover panel/size + reserve/count.
+
+<a id="field-proposal-limit"></a>
+## `proposal/limit`
+
+- Required: `yes`
+- Shape: integer
+
+Rejected proposals admitted per procedure before a typed procedural block. Rejection never implies uphold.
+
+<a id="field-windows"></a>
+## `windows`
+
+- Required: `yes`
+- Shape: object
+
+Phase windows in seconds for this policy's case class. §7 forbids shortening below the normative defaults; the critical minima apply to every policy, the normal minima additionally when critical is false.

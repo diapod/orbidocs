@@ -464,7 +464,7 @@
                 "maxLength": 256,
                 "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
               },
-              "maxItems": 5,
+              "maxItems": 64,
               "uniqueItems": true,
               "minItems": 5
             }
@@ -490,7 +490,7 @@
         "maxLength": 256,
         "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
       },
-      "maxItems": 3,
+      "maxItems": 7,
       "uniqueItems": true
     },
     "reserves": {
@@ -501,7 +501,7 @@
         "maxLength": 256,
         "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
       },
-      "maxItems": 2,
+      "maxItems": 64,
       "uniqueItems": true
     },
     "removed": {
@@ -659,6 +659,136 @@
         "minLength": 1,
         "maxLength": 256
       }
+    },
+    "veto-history": {
+      "type": "array",
+      "maxItems": 16,
+      "description": "Durable veto history: one veto right per party for the whole selection procedure; replacement never renews it.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "party/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "node/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "composition/revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "reason/digest": {
+            "type": "string",
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          },
+          "recorded-at": {
+            "type": "string",
+            "format": "date-time",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "party/id",
+          "node/id",
+          "composition/revision",
+          "reason/digest",
+          "recorded-at"
+        ]
+      }
+    },
+    "activity": {
+      "type": "object",
+      "maxProperties": 7,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "format": "date-time",
+        "maxLength": 64
+      },
+      "description": "Last seating, deliberation start or panel action per seated node; the inactivity window is measured from it."
+    },
+    "deliberation-until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 64
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Running deliberation deadline. Replacement extends it by replacement-extension instead of restarting the window."
+    },
+    "rejected-proposals": {
+      "type": "array",
+      "maxItems": 16,
+      "description": "Durable rejections bound to proposal id, voting composition revision and digest. A rejection reopens deliberation; it never concludes uphold.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "proposal": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+              }
+            },
+            "required": [
+              "id",
+              "revision",
+              "digest"
+            ]
+          },
+          "approve": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          },
+          "reject": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "recorded-at": {
+            "type": "string",
+            "format": "date-time",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "proposal",
+          "approve",
+          "reject",
+          "recorded-at"
+        ]
+      }
     }
   },
   "required": [
@@ -686,6 +816,10 @@
     "composition/revision",
     "proposal",
     "votes",
-    "commands"
+    "commands",
+    "veto-history",
+    "activity",
+    "deliberation-until",
+    "rejected-proposals"
   ]
 }

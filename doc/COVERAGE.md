@@ -490,8 +490,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`panel-input-command.local.v1.schema.json`](schemas-gen/schemas/panel-input-command.local.v1.md) | `10` | `0` | `yes` | `yes` | `0` | `0` |
 | [`panel-input-signed-command.local.v1.schema.json`](schemas-gen/schemas/panel-input-signed-command.local.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `1` |
 | [`panel-input-statement.local.v1.schema.json`](schemas-gen/schemas/panel-input-statement.local.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `2` |
-| [`panel-policy.local.v1.schema.json`](schemas-gen/schemas/panel-policy.local.v1.md) | `14` | `0` | `yes` | `yes` | `0` | `0` |
-| [`panel-procedure.local.v1.schema.json`](schemas-gen/schemas/panel-procedure.local.v1.md) | `25` | `0` | `yes` | `yes` | `1` | `1` |
+| [`panel-policy.local.v1.schema.json`](schemas-gen/schemas/panel-policy.local.v1.md) | `20` | `6` | `yes` | `yes` | `0` | `0` |
+| [`panel-procedure.local.v1.schema.json`](schemas-gen/schemas/panel-procedure.local.v1.md) | `29` | `4` | `yes` | `yes` | `1` | `3` |
 | [`panel-round-inputs.local.v1.schema.json`](schemas-gen/schemas/panel-round-inputs.local.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`panel-signed-command.local.v1.schema.json`](schemas-gen/schemas/panel-signed-command.local.v1.md) | `3` | `0` | `yes` | `yes` | `1` | `3` |
 | [`panel-vrf-certificate.local.v1.schema.json`](schemas-gen/schemas/panel-vrf-certificate.local.v1.md) | `11` | `0` | `yes` | `yes` | `0` | `0` |

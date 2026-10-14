@@ -604,6 +604,17 @@ SCHEMA_WHITELIST = (
     "federation-scenario.v1.schema.json",
     "federation-node.v1.schema.json",
     "federation-run.v1.schema.json",
+    "panel-command.local.v1.schema.json",
+    "panel-eligibility-fact.local.v1.schema.json",
+    "panel-input-command.local.v1.schema.json",
+    "panel-input-signed-command.local.v1.schema.json",
+    "panel-input-statement.local.v1.schema.json",
+    "panel-policy.local.v1.schema.json",
+    "panel-procedure.local.v1.schema.json",
+    "panel-round-inputs.local.v1.schema.json",
+    "panel-signed-command.local.v1.schema.json",
+    "panel-vrf-certificate.local.v1.schema.json",
+    "participant-restriction-lifecycle.v2.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -1160,6 +1171,10 @@ EXAMPLE_WHITELIST = (
     "accepted.corpus-reasoning-inference-flow-binding.json",
     "passed.inquirium.local-model-acceptance-report.json",
     "bielik.inquirium.model-package.provider-key-endorsement.json",
+    "drawn.panel-procedure.local.json",
+    "identity.panel-input-statement.local.json",
+    "inspect.panel-input-signed-command.local.json",
+    "inspect.panel-signed-command.local.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -1735,6 +1750,15 @@ INVALID_EXAMPLE_WHITELIST = (
     "unknown-field.causal-context.json",
     "payload.execution-receipt.json",
     "bad-cursor.replication-summary.json",
+    "even-panel-size.panel-procedure.local.json",
+    "invented-federation.panel-procedure.local.json",
+    "membership-substitution.panel-input-statement.local.json",
+    "missing-cas.panel-input-signed-command.local.json",
+    "missing-incarnation.panel-signed-command.local.json",
+    "raw-algorithm.panel-input-statement.local.json",
+    "raw-algorithm.panel-signed-command.local.json",
+    "short-nonce.panel-signed-command.local.json",
+    "shortened-veto-window.panel-procedure.local.json",
 )
 
 SEMANTIC_INVALID_EXAMPLE_WHITELIST = (

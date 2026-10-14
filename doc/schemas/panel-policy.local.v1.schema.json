@@ -175,6 +175,90 @@
         "lifecycle",
         "procedural"
       ]
+    },
+    "panel/size": {
+      "type": "integer",
+      "enum": [
+        3,
+        5,
+        7
+      ],
+      "description": "Fixed odd seat count (DIA-PANEL-SEL-001 §5.1/§13). Quorum ceil(size/2)+1 is never lowered by attrition; vacancies are refilled before voting continues."
+    },
+    "reserve/count": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 64,
+      "description": "Reserves drawn with the panel. Round entry also requires reserve/count >= the number of veto-holding parties until §10.3 partial redraw exists."
+    },
+    "min-commit-participants": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 64,
+      "description": "May raise, never lower, the normative min_commit_participants default."
+    },
+    "min-pool": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 64,
+      "description": "May raise, never lower, the normative min_federation_pool_size default; must also cover panel/size + reserve/count."
+    },
+    "proposal/limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16,
+      "description": "Rejected proposals admitted per procedure before a typed procedural block. Rejection never implies uphold."
+    },
+    "windows": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Phase windows in seconds for this policy's case class. §7 forbids shortening below the normative defaults; the critical minima apply to every policy, the normal minima additionally when critical is false.",
+      "properties": {
+        "coi-declaration": {
+          "type": "integer",
+          "minimum": 14400,
+          "maximum": 31622400
+        },
+        "commit": {
+          "type": "integer",
+          "minimum": 14400,
+          "maximum": 31622400
+        },
+        "reveal": {
+          "type": "integer",
+          "minimum": 7200,
+          "maximum": 31622400
+        },
+        "veto": {
+          "type": "integer",
+          "minimum": 43200,
+          "maximum": 31622400
+        },
+        "deliberation": {
+          "type": "integer",
+          "minimum": 604800,
+          "maximum": 31622400
+        },
+        "inactivity": {
+          "type": "integer",
+          "minimum": 43200,
+          "maximum": 31622400
+        },
+        "replacement-extension": {
+          "type": "integer",
+          "minimum": 172800,
+          "maximum": 31622400
+        }
+      },
+      "required": [
+        "coi-declaration",
+        "commit",
+        "reveal",
+        "veto",
+        "deliberation",
+        "inactivity",
+        "replacement-extension"
+      ]
     }
   },
   "required": [
@@ -191,6 +275,51 @@
     "input-admitters",
     "heartbeat-owners",
     "coordinators",
-    "eligibility-owners"
-  ]
+    "eligibility-owners",
+    "panel/size",
+    "reserve/count",
+    "min-commit-participants",
+    "min-pool",
+    "proposal/limit",
+    "windows"
+  ],
+  "if": {
+    "properties": {
+      "critical": {
+        "const": false
+      }
+    },
+    "required": [
+      "critical"
+    ]
+  },
+  "then": {
+    "properties": {
+      "windows": {
+        "properties": {
+          "coi-declaration": {
+            "minimum": 86400
+          },
+          "commit": {
+            "minimum": 86400
+          },
+          "reveal": {
+            "minimum": 43200
+          },
+          "veto": {
+            "minimum": 172800
+          },
+          "deliberation": {
+            "minimum": 2592000
+          },
+          "inactivity": {
+            "minimum": 172800
+          },
+          "replacement-extension": {
+            "minimum": 604800
+          }
+        }
+      }
+    }
+  }
 }

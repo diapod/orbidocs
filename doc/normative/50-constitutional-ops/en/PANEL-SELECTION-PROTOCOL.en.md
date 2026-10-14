@@ -53,6 +53,16 @@ This document defines:
 5. **Proportional disclosure**. Identity exposure scales with the need: full for
     audit, pseudonymous for parties, opaque for the public.
 
+6. **One cryptographic family**. Commit-reveal, VRF and the signatures of panel
+    artifacts SHOULD use the same stack as the rest of the protocol: Ed25519 or
+    a directly compatible Edwards25519 family, domain separators
+    `"<type>-v1\\x00" || deterministic_cbor(payload)` and `did:key`-compatible
+    identifiers.
+
+7. **A panelist serves as `participant:did:key`, not as a nym**. Panel privacy
+    is provided by a per-case procedural pseudonym, not by a nym chain. The nym
+    layer does not take part in the governance pipeline.
+
 ---
 
 ## 3. Eligibility Criteria
@@ -73,6 +83,12 @@ A node is eligible for panel selection if **all** of the following hold:
 Procedural reputation is therefore necessary but not sufficient. A node with high
 reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 
+Operationally, the eligible pool may be indexed by `node-id`, because the node
+maintains activity, federation membership and communication capability. Panel
+service itself, however, is performed by the `participant:did:key` bound to that
+node. Infrastructure identity and procedural identity MUST remain semantically
+separate, even if both identifiers are based on the same key in the MVP.
+
 ### 3.1. COI Check Procedure
 
 1. Before draw, every node in the eligible pool receives a **blinded case
@@ -80,8 +96,9 @@ reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 
 2. Each node MUST declare within `coi_declaration_window` (default: 24 hours;
     4 hours for `critical` cases):
-    - "no conflict" (with cryptographic attestation), or
-    - "conflict exists" (with category but not detail), or
+    - "no conflict" (as a signed `coi-declaration.v1`), or
+    - "conflict exists" (as a signed `coi-declaration.v1` with category but not
+      detail), or
     - no response (treated as undeclared COI -- node is excluded).
 
 3. Nodes declaring conflict or failing to respond are excluded from the draw for
@@ -90,6 +107,30 @@ reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 
 4. A post-selection COI discovery triggers panel dissolution for the affected
     member (section 10).
+
+### 3.1.a. COI Declaration Artifact
+
+A COI declaration MUST be a signed protocol artifact:
+
+- `doc/schemas/coi-declaration.v1.schema.json`
+
+Its signed surface should use the same family as the rest of the protocol:
+
+```text
+sign_input = "orbiplex-coi-declaration-v1\x00" || deterministic_cbor(payload_without_signature)
+```
+
+The minimal payload should bind:
+
+- `case/hash`,
+- `participant/id`,
+- `declaration`,
+- `ts`,
+- `nonce`.
+
+No response means no artifact and remains treated as a negative
+`governance_inaction` signal. A false `no-conflict` declaration, shown post hoc,
+generates a `coi_undeclared` signal weighted more heavily than plain silence.
 
 ### 3.2. Identity-Assurance Gate
 
@@ -121,13 +162,32 @@ reputation but too low an `IAL` level does not qualify for a high-stakes panel.
 The draw uses a Verifiable Random Function (VRF) with a commit-reveal scheme to
 prevent manipulation of the selection seed.
 
+The cryptographic stack for this layer MUST remain compatible with the base
+Orbiplex protocol stack. For the VRF this means narrowing to:
+
+- `ECVRF-EDWARDS25519-SHA512-ELL2` (RFC 9381)
+
+that is, the Edwards25519 family compatible with the Ed25519 used in the rest of
+the stack.
+
 ### 4.1. Commit Phase
 
 1. After the eligible pool is established, all eligible nodes are invited to
     participate in seed generation.
 
 2. Each participating node generates a random nonce and submits a commitment:
-    `H(nonce || node_id)`.
+
+```text
+commit = H("panel-commit-v1\x00" || deterministic_cbor({
+  "nonce":   <nonce>,
+  "node/id": <node-id>
+}))
+```
+
+The nonce MUST be exactly 32 bytes from a cryptographically secure random
+generator. In the commitment and the seed it is encoded as a CBOR byte string
+(major type 2), and `node/id` as a CBOR text string (major type 3) carrying the
+exact node identifier. A reveal of any other length is refused.
 
 3. Commitment window: `commit_window` (default: 24 hours; 4 hours for `critical`
     cases).
@@ -153,10 +213,16 @@ prevent manipulation of the selection seed.
 
 The draw seed is computed as:
 
-```
-seed = VRF_prove(
+```text
+seed_input = "panel-seed-v1\x00" || deterministic_cbor({
+  "case/hash":       <challenge_hash>,
+  "heartbeat/hash":  <heartbeat_hash>,
+  "reveals":         <reveals>
+})
+
+seed = ECVRF_prove(
   sk_draw_coordinator,
-  H(challenge_hash || heartbeat_hash || sort(revealed_nonces))
+  seed_input
 )
 ```
 
@@ -165,10 +231,15 @@ Where:
 - `challenge_hash` = hash of the constitutional challenge record,
 - `heartbeat_hash` = hash of the most recent federation heartbeat (provides
   temporal anchoring),
-- `sort(revealed_nonces)` = lexicographically sorted concatenation of all
-  revealed nonces,
+- `reveals` = a single CBOR byte string (major type 2): the concatenation of all
+  revealed nonces sorted in ascending unsigned bytewise order; each revealing
+  node contributes exactly one nonce, equal values from different nodes are not
+  merged, and the string is 32 bytes times the number of reveals,
 - `sk_draw_coordinator` = signing key of the designated draw coordinator (a
   rotating role, not a permanent office).
+
+The fixed nonce length makes the concatenation unambiguous, and the time order
+of reveals does not affect the seed.
 
 The VRF proof is published alongside the seed, allowing any node to verify that
 the seed was correctly derived.
@@ -334,6 +405,10 @@ Contents:
 - COI exclusion basis (category, not detail),
 - reputation domain score range (e.g., "above threshold"), not exact score.
 
+This procedural pseudonym is NOT a nym in the sense of the communication
+pseudonymization layer. It is a local procedural alias generated per case for
+the participant serving on the panel.
+
 ### 9.3. Public Level (Opaque)
 
 Available to: any observer.
@@ -419,13 +494,13 @@ identically.
 
 | Failure mode | Mitigation |
 | :--- | :--- |
-| Entropy manipulation | Commit-reveal with VRF proof; non-reveal penalized; seed requires collective input |
+| Entropy manipulation | Commit-reveal with `ECVRF-EDWARDS25519-SHA512-ELL2` proof; non-reveal penalized; seed requires collective input |
 | Hidden COI | Post-selection COI discovery triggers replacement + severe `procedural` negative signal; Art. III.9 ensures privacy does not shield abuse |
 | Veto abuse for delay | Maximum one veto per party; replacement is immediate from alternates |
 | Small federation capture | Inter-federation pool fallback (Tier 2-3); local observer for context without vote |
 | Panelist goes silent | Inactivity timeout with automatic replacement; timeline extension for replacement review |
 | Collusion between panelists | Monitoring signals; collusion evidence triggers replacement and `procedural` sanction |
-| Draw coordinator manipulation | VRF proof is publicly verifiable; coordinator is a rotating role |
+| Draw coordinator manipulation | VRF proof is publicly verifiable; coordinator is a rotating role; VRF input uses explicit domain separators and deterministic CBOR |
 | Insufficient eligible nodes globally | Tier 4 governance escalation; recorded as governance gap |
 
 ---
@@ -459,25 +534,21 @@ identically.
 
 ## 14. Open Questions
 
-1. **VRF implementation**: Which VRF scheme? ECVRF (RFC 9381) is a candidate,
-    but the choice depends on the cryptographic stack. Currently a design
-    parameter, not specified.
-
-2. **Draw coordinator selection**: The coordinator is described as a rotating
+1. **Draw coordinator selection**: The coordinator is described as a rotating
     role. The rotation mechanism (round-robin, reputation-based, random) is not
     yet defined.
 
-3. **Inter-federation trust for panel service**: When a node serves on another
+2. **Inter-federation trust for panel service**: When a node serves on another
     federation's panel, what trust assumptions apply? The reputation export
     package (`PROCEDURAL-REPUTATION-SPEC` section 8) provides evidence, but the
     trust model for inter-federation adjudication needs further specification.
 
-4. **Deliberation protocol**: This document specifies composition but not the
+3. **Deliberation protocol**: This document specifies composition but not the
     deliberation format (synchronous / asynchronous, structured debate,
     evidence submission rules). A separate `PANEL-DELIBERATION-PROTOCOL` may
     be needed.
 
-5. **Compensation for panel service**: Should panelists receive compensation
+4. **Compensation for panel service**: Should panelists receive compensation
     (token, reputation bonus, or other)? Current design: panel completion
     generates a positive `procedural` signal (`panel_completed`), which is the
     only incentive.
@@ -501,10 +572,12 @@ identically.
   referenced there for composing ad-hoc panels.
 - **`PROCEDURAL-REPUTATION-SPEC.en.md`**: Provides the `procedural.score` and
   `panel_procedural_threshold` used for eligibility. Panel service generates
-  `procedural` domain signals.
+  `procedural` domain signals, attributed to `participant:did:key`, not to a
+  nym.
 - **`ROOT-IDENTITY-AND-NYMS.en.md`**: Provides the `IAL` levels and the rule that
   higher influence requires stronger identity anchoring; a high-stakes panel may
-  not rely on reputation alone.
+  not rely on reputation alone, and the nym layer does not enter the governance
+  pipeline.
 - **`EXCEPTION-POLICY.en.md`**: Interim measures (section 7, `critical`
   timeline) are constitutional exceptions of type `injunction`.
 - **`ABUSE-DISCLOSURE-PROTOCOL.en.md`**: Cases adjudicated under Art. X use
