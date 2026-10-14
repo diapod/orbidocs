@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-eligibility-fact.local:v1",
+  "title": "panel-eligibility-fact.local.v1",
+  "description": "Draft local fixture contract. Shape validation confers no admission, mandate, application receipt or normative ELL2 qualification.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "subject/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "valid-from": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "valid-until": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "method": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "value": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "membership"
+            },
+            "class": {
+              "type": "string",
+              "enum": [
+                "guest",
+                "contactable-participant",
+                "sponsored-candidate",
+                "probationary-member",
+                "full-participant",
+                "public-trust-role"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "class"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "federation"
+            },
+            "federation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "kind",
+            "federation"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "identity"
+            },
+            "ial": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 4
+            },
+            "anchor": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                }
+              },
+              "required": [
+                "id",
+                "revision",
+                "digest"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "ial",
+            "anchor"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "lifecycle"
+            },
+            "active": {
+              "type": "boolean"
+            },
+            "bootstrap-complete": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "active",
+            "bootstrap-complete"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "procedural"
+            },
+            "millionths": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "millionths"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "source",
+    "owner",
+    "subject/id",
+    "valid-from",
+    "valid-until",
+    "synthetic",
+    "method",
+    "value"
+  ]
+}

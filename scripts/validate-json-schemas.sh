@@ -29,6 +29,30 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.panel-input-statement.local.json)
+      echo "$SCHEMAS_DIR/panel-input-statement.local.v1.schema.json"
+      ;;
+    *.panel-input-signed-command.local.json)
+      echo "$SCHEMAS_DIR/panel-input-signed-command.local.v1.schema.json"
+      ;;
+    *.panel-signed-command.local.json)
+      echo "$SCHEMAS_DIR/panel-signed-command.local.v1.schema.json"
+      ;;
+    *.panel-procedure.local.json)
+      echo "$SCHEMAS_DIR/panel-procedure.local.v1.schema.json"
+      ;;
+    *.membership-admission-policy.json)
+      echo "$SCHEMAS_DIR/membership-admission-policy.v1.schema.json"
+      ;;
+    *.membership-entry-source.json)
+      echo "$SCHEMAS_DIR/membership-entry-source.v1.schema.json"
+      ;;
+    *.membership-command.json)
+      echo "$SCHEMAS_DIR/membership-command.v1.schema.json"
+      ;;
+    *.membership-signed-command.json)
+      echo "$SCHEMAS_DIR/membership-signed-command.v1.schema.json"
+      ;;
     *.corpus-task-pack-phase-rule.json)
       echo "$SCHEMAS_DIR/corpus-task-pack-phase-rule.v1.schema.json"
       ;;
@@ -1669,6 +1693,15 @@ validate_with_ajv() {
   data_file=$2
 
   case "$schema_file" in
+    *membership-admission-policy.v1.schema.json)
+      ajv validate \
+        --spec=draft2020 \
+        --strict=false \
+        -s "$schema_file" \
+        -r "$SCHEMAS_DIR/surface-access-policy.v1.schema.json" \
+        -r "$SCHEMAS_DIR/_shared/membership-enums.v1.schema.json" \
+        -d "$data_file" >/dev/null
+      ;;
     *membership-invitation.v1.schema.json|*membership-sponsorship.v1.schema.json|*membership-acceptance.v1.schema.json|*participant-entry-profile.v1.schema.json|*participant-effective-limits.v1.schema.json|*surface-access-policy.v1.schema.json)
       ajv validate \
         --spec=draft2020 \

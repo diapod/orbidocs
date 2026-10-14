@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-input-command.local:v1",
+  "title": "panel-input-command.local.v1",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+  ],
+  "description": "Explicit synthetic local candidate input. Signature and publication do not grant admission; host binding, input owner, test allowlist and CAS remain mandatory.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "panel-input-command.local.v1"
+    },
+    "command/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "host/incarnation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "actor/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "panel-policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ]
+    },
+    "expected-revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "expected-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "submit"
+            },
+            "record": {
+              "$ref": "panel-input-statement.local.v1.schema.json"
+            }
+          },
+          "required": [
+            "kind",
+            "record"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "admit"
+            },
+            "record": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                }
+              },
+              "required": [
+                "id",
+                "revision",
+                "digest"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "record"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "revoke"
+            },
+            "record": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                }
+              },
+              "required": [
+                "id",
+                "revision",
+                "digest"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "record"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "inspect"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "command/id",
+    "host/id",
+    "host/incarnation",
+    "actor/id",
+    "panel-policy",
+    "expected-revision",
+    "expected-digest",
+    "issued-at",
+    "action"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:participant-restriction-lifecycle:v2",
+  "title": "participant-restriction-lifecycle.v2",
+  "description": "Draft local fixture contract. Shape validation confers no admission, mandate, application receipt or normative ELL2 qualification.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/normative/50-constitutional-ops/pl/PANEL-SELECTION-PROTOCOL.pl.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "participant-restriction-lifecycle.v2"
+    },
+    "source/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "original": {
+      "$ref": "participant-restriction-source.v1.schema.json"
+    },
+    "recorded-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "lifecycle": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "applied",
+                "retracted"
+              ]
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "suspended"
+            },
+            "resume-at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "state",
+            "resume-at"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "source/id",
+    "revision",
+    "original",
+    "recorded-at",
+    "lifecycle"
+  ]
+}

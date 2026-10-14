@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:membership-command:v1",
+  "title": "membership-command.v1",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "membership-command.v1"
+    },
+    "command/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/incarnation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "actor/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^participant:did:key:"
+    },
+    "subject/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^participant:did:key:"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ]
+    },
+    "expected-revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "submit"
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "schema": {
+                  "const": "membership-entry-source.v1"
+                },
+                "source/id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "issuer/ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "^participant:did:key:"
+                },
+                "subject/ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "^participant:did:key:"
+                },
+                "policy": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256
+                    },
+                    "revision": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "digest": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256,
+                      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "revision",
+                    "digest"
+                  ]
+                },
+                "valid-from": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 64
+                },
+                "valid-until": {
+                  "type": "string",
+                  "format": "date-time",
+                  "maxLength": 64
+                },
+                "origin": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "const": "local"
+                        }
+                      },
+                      "required": [
+                        "kind"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "const": "agora"
+                        },
+                        "record/id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "record/digest": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256,
+                          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "record/id",
+                        "record/digest"
+                      ]
+                    }
+                  ]
+                },
+                "fact": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "const": "member"
+                        },
+                        "class": {
+                          "enum": [
+                            "guest",
+                            "contactable-participant",
+                            "sponsored-candidate",
+                            "probationary-member",
+                            "full-participant",
+                            "public-trust-role"
+                          ]
+                        },
+                        "probation-until": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "format": "date-time",
+                              "maxLength": 64
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "class",
+                        "probation-until"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "const": "sponsorship"
+                        },
+                        "template": {
+                          "enum": [
+                            "light-vouch",
+                            "standard-introduction",
+                            "strong-vouch",
+                            "mentor-with-liability"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "template"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "const": "attestation"
+                        },
+                        "attestation/ref": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "attestation/ref"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "const": "covenant"
+                        }
+                      },
+                      "required": [
+                        "kind"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "schema",
+                "source/id",
+                "revision",
+                "issuer/ref",
+                "subject/ref",
+                "policy",
+                "valid-from",
+                "valid-until",
+                "origin",
+                "fact"
+              ]
+            },
+            "agora-record": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "source",
+            "agora-record"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "admit"
+            },
+            "source/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "source/digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "required": [
+            "kind",
+            "source/id",
+            "source/digest"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "revoke"
+            },
+            "source/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "source/digest": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+            }
+          },
+          "required": [
+            "kind",
+            "source/id",
+            "source/digest"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "inspect"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
+      ]
+    },
+    "expected-digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "required": [
+    "schema",
+    "command/id",
+    "host/id",
+    "host/incarnation",
+    "actor/id",
+    "subject/ref",
+    "policy",
+    "expected-revision",
+    "issued-at",
+    "action",
+    "expected-digest"
+  ]
+}

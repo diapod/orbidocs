@@ -21,6 +21,17 @@ Related schemas:
 
 Implemented solution.
 
+The 2026-10-14 Responsibility extension adds a separately qualified admitted
+procurement entry-policy subset, composed with independent P018 sources. Its
+six-case report is
+`node:docs/evidence/local-accountability/2026-10-14-admitted-entry/passage-4/report.json`.
+It uses host time and fixture-bound issuer/controller inputs; a verified Agora
+record import is a candidate until local admission. This is not complete R015 or
+P051-001/004 runtime coverage. Host normalization is separately tracked in
+P051-015; historical reports do not qualify its migration, panel lifecycle or
+portable recovery. Envelope `created-at` never replaces host observation time
+when evaluating current restrictions.
+
 This solution captures the implemented `participant-capability-limits.v1`
 runtime slice. Newcomer and membership/sponsorship policies may project into
 the same effective-limits vocabulary, but their social-policy source artifacts

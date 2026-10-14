@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:panel-input-signed-command.local:v1",
+  "title": "panel-input-signed-command.local.v1",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+  ],
+  "description": "Explicit synthetic local candidate input. Signature and publication do not grant admission; host binding, input owner, test allowlist and CAS remain mandatory.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "command": {
+      "$ref": "panel-input-command.local.v1.schema.json"
+    },
+    "algorithm": {
+      "const": "ed25519+domain-v1"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  },
+  "required": [
+    "command",
+    "algorithm",
+    "signature"
+  ]
+}

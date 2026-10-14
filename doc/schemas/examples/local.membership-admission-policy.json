@@ -1,0 +1,38 @@
+{
+  "admitters": [
+    "participant:did:key:z6MknM4mXMUugyYE7p47QmxiUJcxb5K1yY1CPpvSG8dGZV4t"
+  ],
+  "controllers": {
+    "participant:did:key:z6MkvETPYa5hjrobN9DbsJ26djRRwXFshqHxAVNvWuPn9qgq": "entry-subject-controller"
+  },
+  "host/id": "node:did:key:z6Mkv2orjGDfVZoXX9pWDFQTp7J8fEWX2vYerK4U8yrUQBEQ",
+  "issuers": {
+    "participant:did:key:z6MknM4mXMUugyYE7p47QmxiUJcxb5K1yY1CPpvSG8dGZV4t": {
+      "controller": "entry-issuer-controller",
+      "kinds": [
+        "member"
+      ],
+      "maximum-class": "full-participant"
+    }
+  },
+  "policy/id": "membership:acceptance-procurement",
+  "revision": 1,
+  "schema": "membership-admission-policy.v1",
+  "surface-policy": {
+    "decision/default": "deny",
+    "issued/at": "2026-10-14T01:41:09.397294Z",
+    "matrix": [
+      {
+        "decision": "allow",
+        "entry/profile": "full-participant",
+        "surface/id": "marketplace"
+      }
+    ],
+    "policy/id": "surface-access-policy:entry-acceptance",
+    "schema/v": 1,
+    "valid/until": "2026-10-15T01:41:14.397312Z"
+  },
+  "test-subjects": [
+    "participant:did:key:z6MkvETPYa5hjrobN9DbsJ26djRRwXFshqHxAVNvWuPn9qgq"
+  ]
+}

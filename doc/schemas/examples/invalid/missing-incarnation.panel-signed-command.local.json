@@ -1,0 +1,49 @@
+{
+  "command": {
+    "schema": "panel-command.local.v1",
+    "command/id": "command-1",
+    "actor/id": "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+    "context": {
+      "host/id": "node:did:key:z6MkmtWtY63GQVBrpMyRJWEzsnxfsGkemu6CtMDwGTv4RYj2",
+      "case": {
+        "id": "case-A",
+        "revision": 1,
+        "digest": "sha256:GtVscNBuOJy3LoeDI8uTr9BDA6hX9PRZw565k3ZPNKU"
+      },
+      "subject/id": "participant:did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+      "object": {
+        "id": "fixture-object",
+        "kind": "procurement",
+        "digest": "sha256:-olD8bo7TRBxvkx8DhMJ55SL26PP3gdyZqd3nFTw9ec"
+      },
+      "policy": {
+        "id": "fixture-case-policy",
+        "revision": 1,
+        "digest": "sha256:_RIBbbFS-tpjD7WMbpIGaa0SoL3qOmbM3e2l7TzLkPY"
+      },
+      "decision": {
+        "id": "decision-A",
+        "revision": 1,
+        "digest": "sha256:v26pjZn6q2MkCteqvREw71xjAiT8qAPiTCFn5KPMEa8"
+      },
+      "summary/digest": "sha256:wOl2uB9QvzX_BRKnpIm51l1TNz97Chpt-9zwvePW_eo"
+    },
+    "procedure": {
+      "id": "procedure-A",
+      "revision": 1,
+      "digest": "sha256:2yrXsUU17MFmvGTyt1__ia-iUkXenTHsmQm7ABv8-Ck"
+    },
+    "panel-policy": {
+      "id": "fixture-panel-policy",
+      "revision": 1,
+      "digest": "sha256:mGMnMqjzby04KXScCy8R_IxvFrXCUVm_vUxMxuL2Vpc"
+    },
+    "round": 1,
+    "issued-at": "2026-10-15T00:00:00Z",
+    "action": {
+      "kind": "inspect"
+    }
+  },
+  "algorithm": "ed25519+domain-v1",
+  "signature": "fu8jufDuwBq_Xv_io6akxbFJtbkqaP5Wt-QA6u_B96iateOIb14D3MigZuFTUe76HYOOXy4i2LZwKN9kVCTqAQ"
+}

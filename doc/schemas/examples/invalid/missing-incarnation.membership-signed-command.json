@@ -1,0 +1,22 @@
+{
+  "command": {
+    "schema": "membership-command.v1",
+    "command/id": "membership:contract-inspect",
+    "host/id": "node:contract-fixture",
+    "actor/id": "participant:did:key:z6MkContractFixtureSubject",
+    "subject/ref": "participant:did:key:z6MkContractFixtureSubject",
+    "policy": {
+      "id": "membership:test-policy",
+      "revision": 1,
+      "digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "expected-revision": 1,
+    "expected-digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "issued-at": "2026-10-14T00:00:01Z",
+    "action": {
+      "kind": "inspect"
+    }
+  },
+  "algorithm": "ed25519+domain-v1",
+  "signature": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
