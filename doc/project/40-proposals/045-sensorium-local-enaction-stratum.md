@@ -1800,8 +1800,13 @@ not echoed private filter values. Native logs, directive outcomes, receipts,
 status registries and exported diagnostics must obey this projection too.
 Candidate selectors remain only in bounded private operation state and an
 explicitly approved binding's restricted owner store.
+The approved binding owner's confined, owner-only recovery journal may retain
+the exact binding-source integrity needed for atomic commit and crash recovery.
+This is part of the restricted binding store: ordinary configuration events,
+heads, audit projections and receipts must contain only closed lifecycle metadata
+and independently allocated references, never those private-derived digests.
 
-The current `node:sensorium-core/src/lib.rs` outcome builder copies a compact
+The legacy `node:sensorium-core/src/lib.rs` outcome builder copies a compact
 `result/summary` from a connector result into its durable outcome. Discovery
 must split its private response from the metadata result **before** this
 builder too; compact summaries, result references and native diagnostic text
@@ -1928,6 +1933,31 @@ P045-DISC-005 integrate them without a circular prerequisite.
 | `P045-DISC-005` | Integrate typed private S029 progress | `P045-DISC-003`, `P045-DISC-004`, `P055-10`, `P055-11` | `todo` | Coordinate P055-11 host/provider/console v2 path; bounded replacement revisions, current-authority polls, private projection excluded before durable hash, two partial reasons, no restart list/scan restoration; v1 regression |
 | `P045-DISC-006` | Deliver shared UI and CLI | `P045-DISC-005` | `todo` | Same contracts for incremental display, cancel and approval; bounded escaped/invisible-marked labels, stale selection refusal, selection never starts acquisition; existing directives/manual binding regression |
 | `P045-DISC-007` | Qualify cross-cutting discovery acceptance | `P045-DISC-006`, `P096-018` | `todo` | All failure-table cases and real first-provider launch/transport/stop/binding use; old S029 v1 and Sensorium directives preserved; USB/serial/mDNS contract-only evidence labelled, runtime deferred; exact tuple and scope, no capability promotion beyond tested evidence |
+
+Implementation checkpoint, 2026-10-14: the isolated Node branch adds current
+signed package/runtime admission, an exact host-selected deployment, private
+directive/status routing, shared controller claims, bounded independent stop,
+atomic scope-bound binding receipts and explicit UI/CLI clients. Device-free
+tests exercise current-authority loss, blocked provider lanes, candidate expiry,
+ambiguity, restart, crash recovery and private retention. A separate console
+permission preflight observed allowed Bluetooth access without scanning in the
+operator-attributed iTerm2 context. These software and laboratory observations
+do not close actual launch/access, wearer control or native disposal qualification;
+002 through 007 and P096-005/017/018 retain their full completion gates. A
+separately consented supervisor-terminal scan attempt ended failed with cleanup
+uncertain; its fenced zero disclosure count supplies neither a no-advertisement
+claim nor disposal proof. The laboratory controller remains quarantined pending
+explicit recovery; no automatic retry or native qualification follows.
+
+The same checkpoint implements a separate two-phase wearer enrollment: a
+canonical deferred operation and private loopback activation/withdrawal control
+are delivered before device effects. The dedicated bounded listener preserves
+withdrawal after operator logout and ordinary request-pool saturation. Idle
+launch of the exact known native worker grants no acquisition; full runtime
+integrity and current authority are checked again before its effect permit.
+Ongoing admission reads one coherent registered config/pin snapshot and does
+not rehash external runtime trees. These are implementation boundaries with
+device-free process evidence, not proof of native or launchd enforcement.
 
 Next actions: integrate the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017

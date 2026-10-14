@@ -314,12 +314,15 @@ support must be checked through admission rather than inferred from that handle.
 
 #### Private Responses and Durable Metadata
 
-**Current implementation fact (2026-10-13):**
+**Pre-discovery implementation fact (2026-10-13):**
 `node:daemon/src/deferred_registry.rs` passes the complete status payload from
 `update_from_status_with_expected` to `append_event_locked`, which retains
 `json_digest(payload)` in the status event history. Hiding candidates in an
 operator response would therefore still retain a digest derived from the list.
-The current registry does not establish the required discovery privacy boundary.
+That generic path does not establish the required discovery privacy boundary.
+The 2026-10-14 isolated Node implementation adds a separate typed discovery
+projection before this hash boundary; its device-free retention tests are
+software evidence. Actual provider/console cancellation remains P055-11 work.
 
 The planned host adapter must produce two explicit values before registry,
 receipt, or audit handling:

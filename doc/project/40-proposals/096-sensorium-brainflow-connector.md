@@ -376,6 +376,21 @@ contracts are **planned under P045**, outside the completed P096-002 inventory.
 No completed 002/003/004 row is reopened. USB/serial and mDNS runtime providers
 remain deferred even though P045 requires their contract fixtures.
 
+Implementation checkpoint, 2026-10-14: Node provides current host-owned discovery
+and acquisition enforcement with shared BLE claims, private progress, atomic
+binding consumption and a dedicated wearer control listener. Native enrollment
+delivers a private activation/withdrawal bearer before device effects; withdrawal
+does not require continuing operator login. The byte-exact known native worker
+may launch idle with no BrainFlow import or device open before a host-issued
+permit. Full interpreter/distribution integrity is checked before spawn and
+again before effects; live checks retain current package, declaration, grant,
+binding and registered-pin equality without repeated full runtime hashing.
+This detects drift at those boundaries and does not attest byte immutability
+throughout an already running process. Device-free proofs and terminal lab
+observations do not close 005, 006b, 017 or 018. The failed supervised scan has
+uncertain cleanup and requires separately recorded laboratory recovery and new
+consent before another attempt. Launchd and approved binding use remain unqualified.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
