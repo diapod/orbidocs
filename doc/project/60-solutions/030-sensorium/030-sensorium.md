@@ -274,6 +274,13 @@ provider and exact deployment qualification. USB/serial and mDNS are common
 contract fixtures with runtime explicitly deferred. Existing hard-MVP
 Sensorium capabilities and P096-002/003/004 completion remain unchanged.
 
+[P096's finite same-candidate qualification bootstrap](../../40-proposals/096-sensorium-brainflow-connector.md#same-candidate-finite-qualification-bootstrap)
+defines a private experiment boundary before authority-bearing implementation.
+It reuses normal signed materialization, supervision, claims and protected wearer
+control while keeping ordinary action routes closed. Immutable source facts,
+independent qualification and explicit adoption are distinct; no experiment,
+fixture or installed report alone makes this planned discovery action available.
+
 ### Local Agora Observation Publication
 
 Based on:

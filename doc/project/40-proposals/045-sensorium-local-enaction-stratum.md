@@ -1761,6 +1761,14 @@ actual host -> supervisor -> provider launch chain, OS access and attribution.
 The P096 terminal/iTerm TCC lab observations do not qualify a launchd daemon or
 another launch context.
 
+[P096's finite qualification bootstrap](096-sensorium-brainflow-connector.md#same-candidate-finite-qualification-bootstrap)
+owns the separate authority to measure an exact normal candidate before its
+native proof exists. It keeps ordinary catalogue/directive/generic-RPC effect
+routes closed and retains current OS access, consent, protected withdrawal and
+the same claim/cleanup owners. Inert signed-package registration is not a scan
+grant; a consumed case authority cannot authorize a retry or ordinary discovery.
+Source facts, independent qualification and explicit adoption remain separate.
+
 ### Private candidates and atomic binding
 
 `candidate/ref` is short lived, bound to this operation, authenticated caller,

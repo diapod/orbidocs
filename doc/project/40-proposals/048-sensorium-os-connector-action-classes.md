@@ -389,6 +389,13 @@ Acceptance under `P045-DISC-007` and P096-018 must prove BLE with network denied
 passive-to-active refusal, USB enumeration without port access, mDNS emission
 bounds and deceptive records, and real launch-chain permission/enforcement.
 P096 terminal-context TCC lab observations do not qualify a launchd deployment.
+[P096's same-candidate qualification bootstrap](096-sensorium-brainflow-connector.md#same-candidate-finite-qualification-bootstrap)
+adds no class or reusable effects permission. Its one-use private case authority
+retains the actual candidate's effective containment, OS access and finite
+transport envelope; neither an ordinary package signature nor a C1/C4 label
+can supply that authority. Terminal and launchd require distinct fresh approval
+and observed launch evidence. Software containment proof does not establish
+physical Bluetooth behavior.
 [S020's discovery repeat-policy boundary](../60-solutions/020-scheduler/020-scheduler.md#planned-local-device-discovery-repeat-policy)
 keeps periodic scans under the domain and host authority rather than the scheduler.
 

@@ -995,8 +995,11 @@ bounded buffers and independently enforced stop. The admitted execution profile
 and worker reject every non-synthetic board id; no caller-controlled board,
 transport, playback file or device selector can escape it. Playback is separately
 classified and is not automatically exempt from source consent/retention policy.
-P096-006b/007b add real transport behavior only after P096-005. The gate remains:
-**no real discovery/acquisition exposure before P096-005**.
+P096-006b/007b add product real-transport behavior only after P096-005. The gate
+remains: **no product discovery/acquisition exposure before P096-005**. The
+[finite qualification bootstrap](#same-candidate-finite-qualification-bootstrap)
+below separately defines how an exact candidate can collect that gate's native
+evidence while retaining its operational protections.
 
 ### First-slice laboratory observation and frozen defaults
 
@@ -1267,6 +1270,113 @@ an independent qualifier; laboratory observations, fixture signers, schema-valid
 JSON and an adopted discovery report cannot authorize p21. A consumer awaiting
 that producer and evidence keeps native exposure closed.
 
+#### Same-candidate finite qualification bootstrap
+
+The qualification experiment and ordinary product adoption are separate
+authorities. The initial experiment scope is one Muse 2, native BLE and p21,
+local-only, for the relevant P096-005/017/018 cases. A host-owned, explicitly
+approved experiment may collect the missing native proof before the finished
+purpose verdict and P096-005 prerequisite are adopted. It substitutes only for
+that circular demand for a finished verdict: actual OS access, effective
+containment, current operator authority, exact package/runtime admission,
+mode-scoped wearer consent, protected withdrawal, binding and shared claims
+remain mandatory before their respective effects. This design creates neither
+a public capability nor completed implementation or runtime evidence.
+
+The experiment runs in the same normal-build candidate daemon subsequently
+evaluated for adoption. Retain its actual executable, OS and launch ancestry,
+the exact worker/package/runtime/helper bytes and effective containment body.
+Author and sign ordinary packages through the current `PrimaryParticipant`
+and normal HostSigner service; a package signature and the private host grant
+are separate approvals. Normal configuration retains its admitted signed
+federation-root requirement. A fixture signer, test executable, test-only runtime
+exception, substituted worker or historical laboratory report cannot stand in
+for these identities or authorities. Inert identity/package initialization and
+materialization grant no scan, acquisition or experiment authority.
+
+Use a dedicated persistent, explicitly selected acceptance root with exclusive
+owner control. A closed qualification mode keeps ordinary catalogue exposure,
+directive starts and generic-RPC effect routes unavailable, even after proof is
+installed. The ordinary factory retains its production qualification consumer;
+do not replace it globally. A private runner binds one prepared, allowlisted
+case to the actual daemon/boot session, candidate and harness, launch context,
+current owners, finite effects allowance and opaque operation references.
+Preparation is inert. An owner transition durably consumes its one-use authority
+before effects; restart or an exact retry cannot replenish it. There is no
+caller-supplied script, method list, board id, replacement admission or global
+unqualified-enable flag. Unknown controller sharing is a refusal.
+
+The first harness authority lasts at most 120 seconds, and one case lasts at
+most 90 seconds including interaction and a reserved cleanup tail. Every
+existing tighter limit also applies: BLE observation at most 10 seconds with a
+25-second request deadline, at most 8 candidates / 16 KiB, progress no more
+frequent than 200 ms and candidate TTL at most 120 seconds; p21 acquisition at
+most 10 seconds, required-preset
+readiness within 5 seconds and its original deadline, worker RPC at most
+1 second, and a one-use START permit at most 5 seconds. Protected receipt,
+fencing and verified owned exit retain their separate 250 ms, 100 ms and
+5-second bounds. Each request is bounded by remaining case, grant and wearer
+lifetime. Polling, delayed preparation, activation, cache refresh or retry never
+renews a deadline or effects allowance. These are ceilings to enforce and
+measure, not claims that a run met them. Existing sample-queue count, byte and
+age bounds also remain unchanged.
+
+For the binding-use case, the reviewed allowance is at most one scan and one
+separately consented acquisition. The nearby operator approves that exact case
+and SCAN; BIND approves one current candidate only after confirmed scan cleanup.
+The normal binding owner then supplies the binding revision to the disabled
+p21 instance; the driver cannot substitute a selector. Install the real
+protected wearer control before a separate exact-mode self-wearer confirmation
+and activation. Current owner checks, the shared claim, normal supervisor and
+private START permit still precede native work. A refused conflicting attempt
+must open no additional native session. No automatic retry, reconnect, fallback,
+second device, p51, recording, publication or controller reset is included.
+
+Withdrawal, client EOF/error, loss of the private control provider and expiry
+fence effects. Abrupt client loss requires a bounded host-owned liveness check;
+a client destructor alone is insufficient. The durable in-progress/consumed
+record and uncertain-cleanup claim survive process failure and acceptance-root
+reopening. Process exit or removing a launch registration alone does not prove
+native release. Uncertainty blocks conflicting work until the existing owner
+reconciliation proves release; experiment authority grants no recovery/reset.
+A fresh acceptance root does not clear known quarantine of the shared controller.
+First require the responsible owner's separately authorized reconciliation or
+recovery; laboratory recovery evidence does not become production release proof.
+
+Terminal and launchd are separate experiments and adoption tuples. A launchd
+case uses the same normal candidate started by the actual intended per-user
+adapter, initially inert and without automatic start/retry. A separate nearby
+console client approves a fresh private challenge for that exact daemon session
+and launch context. Neither a terminal grant nor an environment flag authorizes
+the launchd case. Stale, consumed or wrong-session/context approval refuses.
+Retain actual OS decisions and explicitly observed responsible-process evidence
+from the prompt, settings or log; successful BLE work alone does not identify
+the TCC responsible process. Missing attribution or OS denial leaves that
+context unqualified. Do not edit TCC state or weaken platform protections.
+
+For example, an approved binding-use run scans once, confirms its own cleanup,
+consumes one candidate into a binding, materializes the stopped p21 instance,
+installs wearer control, and obtains new p21 consent before activation. It
+observes valid nonempty required EEG and motion blocks, withdraws through the
+protected lane, then records distinct ingress, decision, fence, receipt, owned
+exit and disposal facts. Early withdrawal or missing required data is an
+incomplete attempt. Fault cases use the reviewed same-candidate path and retain
+uncertainty rather than fabricate release. The preceding execution-origin table
+remains controlling: software host invariants do not establish physical cases,
+and several truthful case records from one execution do not authorize more work.
+
+Retain immutable, metadata-only source facts with the consumed authority scope,
+original budgets, observation interval and exact candidate/run/case references.
+The independent offline qualifier binds those source bytes and its own identity;
+it has no experiment or device authority. Only a separate explicit owner
+adoption installs a qualifying decision and P096-005 prerequisite in the normal
+consumer. An experiment never writes proof to admit itself. Installed proof
+does not open ordinary routes in qualification mode or start acquisition.
+Later normal-mode exposure still requires current operational authority and
+consent. None of this closes P096-005/017/018, P096-011a/015 or P082, or changes
+completed P096-002/003/004 scope. Implement and review the inert authoring and
+closed authority/route boundaries before collecting fresh physical evidence.
+
 #### Hard privacy canary
 
 Generate a unique fixture advertised name at test runtime (illustrative format
@@ -1466,7 +1576,7 @@ remaining completion gates still apply.
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
-| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `todo` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; revoke/expiry/provider loss and overload/hung-worker proof before real exposure |
+| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `todo` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure |
 | `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `todo` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `todo` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
@@ -1606,18 +1716,18 @@ OS, Workbench and BrainFlow implementations do not mark any P096 row complete.
   meanwhile; the gap cannot be used to lower protection.
 
 These engineering questions do not reopen the chosen package/profile/instance
-separation or permit real-device exposure before the authority gate.
+separation or permit product real-device exposure before the authority gate.
 
 ## Next Actions
 
 1. Use the completed 003 creation/restoration and 004 catalogue/private binding
-   layers to implement 006a and prepare 005; keep discovery and real acquisition
+   layers to implement 006a and prepare 005; keep product discovery and acquisition
    gated until the latter authority/stop/OS-access contract is proven.
 2. Use the retained 001-lab terminal/supervisor-terminal p21 and p51 comparisons
    to inform profiles and product launch planning; launchd still needs a separate
    observation when that scope is requested. Qualification remains P096-011a work.
 3. Deliver the synthetic local value path through 006a/007a/008/010a; pass
-   P096-005 before enabling any real discovery/acquisition route.
+   P096-005 before enabling any ordinary real discovery/acquisition route.
 4. Qualify 006b/007b, the wearer controls and class-specific reports, then retain
    single-Muse-2 evidence for both modes before advertising that exact qualified
    scope. Two-device radio concurrency waits for P096-011b.
