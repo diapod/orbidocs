@@ -1332,6 +1332,21 @@ private START permit still precede native work. A refused conflicting attempt
 must open no additional native session. No automatic retry, reconnect, fallback,
 second device, p51, recording, publication or controller reset is included.
 
+The implementation step promotes the same finite runner, monitor and private
+ports out of test-only compilation, behind a closed factory over the actual
+normal owners and operation-scoped `NativeAdmission`. Tests exercise that same
+code. An inert normal factory or software conformance alone is not native
+qualification. The first control transport is explicitly Unix-only; Windows
+requires a separate transport for the same `H <nonce>\n` / `S\n` semantics.
+Its first case assumes operator and wearer are the same person. Two-person
+cases require a wearer stop path independent of operator-console liveness.
+
+The retained first fence reason distinguishes protected client withdrawal from
+normal run completion; later events cannot replace its attribution or clock.
+Confirmed cleanup after early withdrawal remains an incomplete observation.
+Stalled cleanup retains the original lease and slot and is counted in private
+status as `cleanup-stalled`; that status grants no release or retry authority.
+
 Withdrawal, client EOF/error, loss of the private control provider and expiry
 fence effects. Abrupt client loss requires a bounded host-owned liveness check;
 a client destructor alone is insufficient. The durable in-progress/consumed
