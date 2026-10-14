@@ -1201,7 +1201,8 @@ the full P096-011a delivery qualification exists. Node owns the separate local
 contracts `sensorium-native-p21-admission.v1`,
 `sensorium-native-p21-exposure-qualification.v1`,
 `sensorium-native-p21-qualification-case.v1` and
-`sensorium-native-safety-prerequisite.v1`. Their scope is one Muse 2 and the
+`sensorium-native-safety-prerequisite.v1`, with immutable producer input
+`sensorium-native-p21-source-report.v1`. Their scope is one Muse 2 and the
 `muse-2-p21-acquisition` purpose; they do not promote P096-011a, P096-015 or P082.
 These additions are outside P096-002's completed contract inventory.
 
@@ -1214,13 +1215,49 @@ evidence contains neither sample buffers nor digests derived from signal values.
 Monotonic nanoseconds use exact decimal strings; source generation is a separate
 positive integer whose implementation mapping remains Node-owned.
 
+Producer observations and independent qualification remain separate immutable
+artifacts. The source report binds the exact package candidate, host executable
+through the tuple, run, harness, actual observation interval and both native and
+P096-005 proof maps. The decision binds those exact source bytes, candidate and
+qualifier identity. The private admission consumer compares the typed tuple and
+both proof maps, and freshly verifies the source reference alongside the other
+evidence. P096-005 remains a separately adopted prerequisite.
+
+For the initial Python qualifier, source and executable artifact are the same
+retained script. Interpreter and content-free schema-validator executable digests
+are separate identities. The script imports only the isolated interpreter's
+standard library. These identities are accountable observations, not proof that
+a program executed or a complete standard-library runtime pin. A changed script
+requires a newly reviewed qualifier identity and decision.
+
+Execution origin is distinct from the owner of a case record. The initial closed
+policy below determines which observed path may satisfy each case:
+
+| Origin | Narrow p21 cases | P096-005 prerequisite cases |
+| --- | --- | --- |
+| `physical-native` | `approved-binding-use`, `required-preset-readiness`, `external-busy`, `disconnect-stop`, `stop`, `revoke`, `deadline`, `scan-first-conflict`, `acquisition-first-conflict`, `private-sinks` | `current-authority-before-effects`, `mode-scoped-wearer-consent`, `wearer-stop-after-operator-logout`, `reserved-stop-under-saturation`, `live-grant-revocation`, `control-provider-loss` |
+| `controlled-native-fault` | `partial-start-cleanup`, `cleanup-uncertain` | `hung-worker-stop`, `uncertain-cleanup-retains-claim` |
+| `host-software` | `mode-incidental-scope`, `binding-refusals`, `restart-unclosed-marker`, `ip-denial` | `expired-grant-before-effects`, `restart-unclosed-marker` |
+| `synthetic-fixture` | Never qualifies native exposure | Never qualifies native exposure |
+
+Controlled native faults exercise the same candidate, known native worker and
+runtime, current owners and tuple. A fake Board, substituted worker or historical
+laboratory observation cannot satisfy that origin. Host-software cases measure
+the actual candidate owner or process-containment boundary. Each case retains
+its own typed invariant, source, origin, facts and content-addressed record.
+Several records may truthfully describe one execution; their references do not
+count as additional executions or authorize additional device effects. Incomplete
+runs and synthetic source reports cannot qualify native exposure.
+
 Firmware and TCC attribution remain explicitly operator-observed evidence for
 the exact launch context. An unreported firmware or permission change is not
 claimed automatically detectable. Reported changes require withdrawing or
 replacing adoption and collecting new evidence. Node's initial adoption is
 bounded to 24 hours from the retained observations and cannot outlive its
 prerequisite. Freshly dating a report cannot renew old case evidence or the
-operator-observed firmware/TCC facts. Terminal observations cannot qualify a
+operator-observed firmware/TCC facts. The source interval contains those facts
+and all case observations; decisions expire within 24 hours of its retained
+start. Terminal observations cannot qualify a
 daemon launched by launchd.
 
 Current operator authority, mode-scoped wearer consent, protected withdrawal,
