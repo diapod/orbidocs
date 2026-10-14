@@ -1347,6 +1347,23 @@ Confirmed cleanup after early withdrawal remains an incomplete observation.
 Stalled cleanup retains the original lease and slot and is counted in private
 status as `cleanup-stalled`; that status grants no release or retry authority.
 
+The reference implementation enables source-inventory provenance explicitly for
+candidate builds; ordinary development or archive builds stay unpinned and
+cannot enter this private native factory. The tracked inventory must invalidate
+on newly tracked runtime assets as well as changes to existing files. A partial
+runner-file digest is only an auxiliary diagnostic, never the candidate boundary.
+
+The closed console entry keeps stopped discovery registration and package
+signing as separate approvals. Its REGISTER stage obtains the exact stopped
+p21 host grant through the normal owner and materializer; a reply cannot assert
+a target or release witness. A controller ownership namespace outside experiment
+roots must already be established by the responsible owner. Reading it does not
+establish exclusivity, reconcile unknown sharing or adopt laboratory recovery.
+The case records a durable claim before native operation allocation and removes
+it only after normal-owner disposal and durable case release, within the original
+cleanup budget. Missing ownership or unresolved quarantine refuses the case.
+
+
 Withdrawal, client EOF/error, loss of the private control provider and expiry
 fence effects. Abrupt client loss requires a bounded host-owned liveness check;
 a client destructor alone is insufficient. The durable in-progress/consumed
