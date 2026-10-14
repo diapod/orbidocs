@@ -16,6 +16,10 @@ Related schemas:
 - `participant-restriction-sources.v1`
 - `responsibility-effect-request.v1`
 - `responsibility-effect-receipt.v1`
+- `participant-restriction-lifecycles.v2` (draft; not authoritative at V0/V1)
+- `participant-restriction-lifecycle-request.v2` (draft; owner refuses at V1)
+- `responsibility-effect-receipt.v2` (draft; no current v2 application receipt)
+- `responsibility-lifecycle-readiness.local.v1` (draft; all components false at V1)
 
 ## Status
 
@@ -31,6 +35,15 @@ P051-001/004 runtime coverage. Host normalization is separately tracked in
 P051-015; historical reports do not qualify its migration, panel lifecycle or
 portable recovery. Envelope `created-at` never replaces host observation time
 when evaluating current restrictions.
+
+The 2026-10-14 lifecycle V0/V1 contract/conformance checkpoint keeps the v1 source
+set authoritative. Host owner gates refuse new suspend-policy activation and
+lifecycle requests before any write; membership owns the incarnation used in the
+all-false readiness declaration. An appeal under a required stay is accepted with
+explicit unavailability, not suspension. Historical runtime evidence is unchanged.
+Migration, composition, every writer, v2 receipts and atomic switch still require
+V2–V5 in `node:docs/development/RESPONSIBILITY-LIFECYCLE-V2-PLAN-2026-10-14.md`;
+see `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V0-V1-REVIEW-2026-10-14.md`.
 
 This solution captures the implemented `participant-capability-limits.v1`
 runtime slice. Newcomer and membership/sponsorship policies may project into

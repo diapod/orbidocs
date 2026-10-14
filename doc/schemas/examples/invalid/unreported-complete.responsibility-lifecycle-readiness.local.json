@@ -1,0 +1,14 @@
+{
+  "schema": "responsibility-lifecycle-readiness.local.v1",
+  "host/id": "node:host-A",
+  "host/incarnation": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "observed-at": "2026-10-14T12:00:00Z",
+  "lifecycle/v2": false,
+  "components": {
+    "storage": true,
+    "composition": true,
+    "writers": true,
+    "replay": true,
+    "receipts": true
+  }
+}

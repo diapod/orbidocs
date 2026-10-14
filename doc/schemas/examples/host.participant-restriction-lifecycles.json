@@ -1,0 +1,98 @@
+{
+  "schema": "participant-restriction-lifecycles.v2",
+  "revision": 3,
+  "lifecycles": {
+    "case-effect:case-A:decision-A:effect-A": {
+      "schema": "participant-restriction-lifecycle.v2",
+      "source/id": "case-effect:case-A:decision-A:effect-A",
+      "revision": 2,
+      "original": {
+        "schema": "participant-restriction-source.v1",
+        "id": "case-effect:case-A:decision-A:effect-A",
+        "revision": 1,
+        "subject": "participant:test-subject",
+        "kind": "case-effect",
+        "case_id": "case-A",
+        "decision_id": "decision-A",
+        "effect_id": "effect-A",
+        "policy": {
+          "id": "policy-A",
+          "revision": 1,
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "actor": "participant:test-reviewer",
+        "mandate": {
+          "id": "mandate-A",
+          "revision": 1,
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "reason_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "operations": [
+          "procurement/request"
+        ],
+        "hard": true,
+        "priority_factor": 1,
+        "rate_limit_factor": 1,
+        "valid_from": 1792022400,
+        "valid_until": 1792627200,
+        "retracted": false,
+        "recorded_at": 1792022400,
+        "diagnostic": null
+      },
+      "lifecycle": {
+        "state": "suspended",
+        "resume-at": "2026-10-20T00:00:00Z"
+      },
+      "recorded-at": "2026-10-14T12:00:00Z"
+    },
+    "case-effect:case-B:decision-B:effect-B": {
+      "schema": "participant-restriction-lifecycle.v2",
+      "source/id": "case-effect:case-B:decision-B:effect-B",
+      "revision": 1,
+      "original": {
+        "schema": "participant-restriction-source.v1",
+        "id": "case-effect:case-B:decision-B:effect-B",
+        "revision": 1,
+        "subject": "participant:test-subject",
+        "kind": "case-effect",
+        "case_id": "case-B",
+        "decision_id": "decision-B",
+        "effect_id": "effect-B",
+        "policy": {
+          "id": "policy-A",
+          "revision": 1,
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "actor": "participant:test-reviewer",
+        "mandate": {
+          "id": "mandate-A",
+          "revision": 1,
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "reason_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "operations": [
+          "procurement/request"
+        ],
+        "hard": true,
+        "priority_factor": 1,
+        "rate_limit_factor": 1,
+        "valid_from": 1792022400,
+        "valid_until": 1792627200,
+        "retracted": false,
+        "recorded_at": 1792022400,
+        "diagnostic": null
+      },
+      "lifecycle": {
+        "state": "applied"
+      },
+      "recorded-at": "2026-10-14T00:00:00Z"
+    }
+  },
+  "quarantine": {
+    "legacy-operator:participant:damaged": {
+      "subject": "*",
+      "diagnostic": "invalid-recovered-source",
+      "retained/digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  }
+}

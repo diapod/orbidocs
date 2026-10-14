@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-effect-receipt:v2",
+  "title": "responsibility-effect-receipt.v2",
+  "description": "Draft local contract. Shape validation confers no admission, mandate, application receipt or lifecycle readiness.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-effect-receipt.v2"
+    },
+    "host/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/incarnation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "source/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "v1-effect",
+            "lifecycle-request",
+            "suspension-expiry"
+          ]
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "kind",
+        "digest",
+        "revision"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "pending",
+        "applied",
+        "suspended",
+        "resumed",
+        "retracted",
+        "refused"
+      ]
+    },
+    "lifecycle": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-common.v1.schema.json#/$defs/Binding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "lifecycles": {
+      "$ref": "responsibility-common.v1.schema.json#/$defs/Binding"
+    },
+    "effective-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "recorded-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "refusal": {
+      "anyOf": [
+        {
+          "enum": [
+            "invalid-data",
+            "limit-exceeded",
+            "actor-mismatch",
+            "binding-mismatch",
+            "no-authority",
+            "stale-revision",
+            "case-desynchronized",
+            "unsupported-operation",
+            "invalid-transition",
+            "deadline-elapsed",
+            "not-independent",
+            "source-set-conflict",
+            "source-conflict",
+            "retraction-fence",
+            "profile-disabled",
+            "lifecycle-not-integrated",
+            "lifecycle-not-representable-in-v1"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "host/id",
+    "host/incarnation",
+    "source/id",
+    "request",
+    "outcome",
+    "lifecycle",
+    "lifecycles",
+    "effective-at",
+    "recorded-at",
+    "refusal"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "refused"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "refusal": {
+            "enum": [
+              "invalid-data",
+              "limit-exceeded",
+              "actor-mismatch",
+              "binding-mismatch",
+              "no-authority",
+              "stale-revision",
+              "case-desynchronized",
+              "unsupported-operation",
+              "invalid-transition",
+              "deadline-elapsed",
+              "not-independent",
+              "source-set-conflict",
+              "source-conflict",
+              "retraction-fence",
+              "profile-disabled",
+              "lifecycle-not-integrated",
+              "lifecycle-not-representable-in-v1"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "refusal": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "applied",
+              "suspended",
+              "resumed",
+              "retracted"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "lifecycle": {
+            "$ref": "responsibility-common.v1.schema.json#/$defs/Binding"
+          }
+        }
+      }
+    }
+  ]
+}

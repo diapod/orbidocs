@@ -1,0 +1,30 @@
+{
+  "schema": "responsibility-policy.v1",
+  "policy/id": "policy-A",
+  "revision": 2,
+  "host/id": "node:host-A",
+  "operations": [
+    "procurement/request"
+  ],
+  "test_subjects": [
+    "participant:test-subject"
+  ],
+  "controllers": {
+    "participant:test-reviewer": "controller-reviewer",
+    "participant:test-appeal": "controller-appeal",
+    "participant:test-subject": "controller-subject"
+  },
+  "appeal_actors": [
+    "participant:test-appeal"
+  ],
+  "review_seconds": 86400,
+  "appeal_seconds": 1209600,
+  "max_effect_seconds": 604800,
+  "object_kinds": [
+    "procurement"
+  ],
+  "escalation_ref": "escalation:local-council",
+  "effect_stay": {
+    "kind": "none"
+  }
+}

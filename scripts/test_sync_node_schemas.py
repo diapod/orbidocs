@@ -16,6 +16,36 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_panel_and_lifecycle_contracts_and_examples_are_reproducible_mirrors(self) -> None:
+        families = tuple(sorted(
+            path.name for path in SYNC.SCHEMAS_DIR.glob("*.schema.json")
+            if (path.name.startswith("panel-") and ".local." in path.name)
+            or path.name.startswith("participant-restriction-lifecycle")
+            or path.name in {
+                "responsibility-effect-receipt.v2.schema.json",
+                "responsibility-lifecycle-readiness.local.v1.schema.json",
+            }
+        ))
+        self.assertEqual(len(families), 15)
+        for whitelist, source, names in (
+            (SYNC.SCHEMA_WHITELIST, SYNC.SCHEMAS_DIR, families),
+            (SYNC.EXAMPLE_WHITELIST, SYNC.EXAMPLES_DIR, tuple(
+                path.name for path in SYNC.EXAMPLES_DIR.glob("*.json")
+                if ".panel-" in path.name
+            )),
+            (SYNC.INVALID_EXAMPLE_WHITELIST, SYNC.INVALID_EXAMPLES_DIR, tuple(
+                path.name for path in SYNC.INVALID_EXAMPLES_DIR.glob("*.json")
+                if ".panel-" in path.name
+            )),
+        ):
+            with tempfile.TemporaryDirectory() as temporary:
+                target = Path(temporary)
+                for name in names:
+                    self.assertIn(name, whitelist)
+                SYNC.copy_files(names, source, target)
+                for name in names:
+                    self.assertEqual((target / name).read_bytes(), (source / name).read_bytes())
+
     def test_discovery_contracts_are_synced_to_both_runtime_targets(self) -> None:
         families = (
             "sensorium-device-discovery.request.v1.schema.json",

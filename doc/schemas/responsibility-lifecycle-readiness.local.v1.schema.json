@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-lifecycle-readiness.local:v1",
+  "title": "responsibility-lifecycle-readiness.local.v1",
+  "description": "Draft local contract. Shape validation confers no admission, mandate, application receipt or lifecycle readiness.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-lifecycle-readiness.local.v1"
+    },
+    "host/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/incarnation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "observed-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    },
+    "lifecycle/v2": {
+      "type": "boolean"
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "storage": {
+          "type": "boolean"
+        },
+        "composition": {
+          "type": "boolean"
+        },
+        "writers": {
+          "type": "boolean"
+        },
+        "replay": {
+          "type": "boolean"
+        },
+        "receipts": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "storage",
+        "composition",
+        "writers",
+        "replay",
+        "receipts"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "host/id",
+    "host/incarnation",
+    "observed-at",
+    "lifecycle/v2",
+    "components"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lifecycle/v2": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "storage": {
+                "const": true
+              },
+              "composition": {
+                "const": true
+              },
+              "writers": {
+                "const": true
+              },
+              "replay": {
+                "const": true
+              },
+              "receipts": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "storage": {
+                "const": true
+              },
+              "composition": {
+                "const": true
+              },
+              "writers": {
+                "const": true
+              },
+              "replay": {
+                "const": true
+              },
+              "receipts": {
+                "const": true
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "lifecycle/v2": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
+}

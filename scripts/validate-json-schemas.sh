@@ -116,6 +116,21 @@ schema_for_file() {
     *.participant-restriction-source.json|*.participant-restriction-source.*.json)
       echo "$SCHEMAS_DIR/participant-restriction-source.v1.schema.json"
       ;;
+    *.participant-restriction-lifecycles.json)
+      echo "$SCHEMAS_DIR/participant-restriction-lifecycles.v2.schema.json"
+      ;;
+    *.participant-restriction-lifecycle-request.json)
+      echo "$SCHEMAS_DIR/participant-restriction-lifecycle-request.v2.schema.json"
+      ;;
+    *.responsibility-effect-receipt-v2.json)
+      echo "$SCHEMAS_DIR/responsibility-effect-receipt.v2.schema.json"
+      ;;
+    *.responsibility-lifecycle-readiness.local.json)
+      echo "$SCHEMAS_DIR/responsibility-lifecycle-readiness.local.v1.schema.json"
+      ;;
+    *.responsibility-policy.json)
+      echo "$SCHEMAS_DIR/responsibility-policy.v1.schema.json"
+      ;;
     *.responsibility-signed-command.json|*.responsibility-signed-command.*.json)
       echo "$SCHEMAS_DIR/responsibility-signed-command.v1.schema.json"
       ;;
