@@ -1132,7 +1132,8 @@ JSON rewriting or harness changes are required. Qualify the committed tool on
 private historical copies; retain a small reproducible proof and source refs,
 not another 12 MB copy in Git. Tar/member hashes identify the preserved content.
 
-P035-008b is independent: dependency/witness indexing, cause selection, capsule
+P035-008b is independent: per-case witness indices bound by original report
+hashes, dependency closure, explicit cause selection and cause-only capsule
 verification and actual runtime/qualification/retention refusals within 1 MiB per
 capsule and 4 MiB per campaign. Success at one stage must not be relabelled when a
 later stage refuses. It requires a new full Synapse/SQLite run because the harness
@@ -1154,7 +1155,7 @@ its status here; S008 Agora P18 links to this row.
 | P035-007 | Isolate room history recovery from account delivery | todo | P035-006; S028; P035-008a before committing new long-history evidence | Design and qualify durable per-room recovery/backpressure so unavailable or long history in one room cannot indefinitely stop current events in other rooms. Preserve admission, source/checkpoint atomicity, explicit gaps and restart/replay. Retire development-only unfiltered-anchor compatibility with explicit reset/refusal and the direct late-binding regression. Compare against the scale/restart baseline above, recording pages/events per round and other-room timing for available/unavailable history; P035-006 proves no independent-room or latency bound. |
 | P035-008 | Public evidence retention within byte budgets | in progress | P035-006; measured xz decision | Parent closes only after 008a and 008b; no recipe language. Frozen evidence and global partial scope remain unchanged. |
 | P035-008a | Bounded xz archive and historical-data qualification | done | P035-006; accepted measured compression profile | Qualified at clean Node 7df7949a: identical historical tar, 1516 members, 2 reports and ordinary qualifier; temporary full set 13006802 bytes within 16 MiB. Twenty-four retention controls pass, including memory/stream faults. Small proof: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-xz-conformance/proof.json`; no duplicate payload or new runtime claim. |
-| P035-008b | Self-contained cause capsules | todo | P035-008a; S028 | Dependency/witness indexing and verified runtime/qualification/retention causes, with omissions and 1 MiB/capsule, 4 MiB/campaign. New full 27 Matrix and 5 SQLite run plus boundary-PDU and 640-fixture/3-UI long-history refusals; no full qualification claim for capsules. |
+| P035-008b | Self-contained cause capsules | in progress | P035-008a; S028 | Dependency/witness indexing and verified runtime/qualification/retention causes, with omissions and 1 MiB/capsule, 4 MiB/campaign. New full 27 Matrix and 5 SQLite run plus boundary-PDU and 640-fixture/3-UI long-history refusals; no full qualification claim for capsules. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
