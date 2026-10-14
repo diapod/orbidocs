@@ -1,0 +1,23 @@
+{
+  "schema": "participant-restriction-lifecycle-request.v2",
+  "request/id": "lifecycle:case-A:1",
+  "host/id": "node:host-A",
+  "host/incarnation": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "source/id": "case-effect:case-A:decision-A:effect-A",
+  "predecessor": {
+    "id": "case-effect:case-A:decision-A:effect-A",
+    "revision": 1,
+    "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "action": {
+    "kind": "mask-other-sources"
+  },
+  "authority": {
+    "case/id": "case-A",
+    "decision/id": "decision-A",
+    "effect/id": "effect-A",
+    "command/id": "command-appeal-A",
+    "command/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "requested-at": "2026-10-14T12:00:00Z"
+}

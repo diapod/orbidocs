@@ -194,6 +194,11 @@ commit = H("panel-commit-v1\x00" || deterministic_cbor({
 }))
 ```
 
+Nonce MUSI mieć dokładnie 32 bajty z kryptograficznie bezpiecznego generatora
+losowego. W zobowiązaniu i w ziarnie jest kodowany jako ciąg bajtów CBOR (typ
+główny 2), a `node/id` jako ciąg tekstowy CBOR (typ główny 3) z dokładnym
+identyfikatorem węzła. Ujawnienie o innej długości jest odrzucane.
+
 3. Okno commit: `commit_window` (domyślnie: 24 godziny; 4 godziny dla spraw
     `critical`).
 
@@ -224,7 +229,7 @@ Ziarno losowania wylicza się następująco:
 seed_input = "panel-seed-v1\x00" || deterministic_cbor({
   "case/hash":       <challenge_hash>,
   "heartbeat/hash":  <heartbeat_hash>,
-  "reveals":         <revealed_nonces_sorted_lexicographically>
+  "reveals":         <reveals>
 })
 
 seed = ECVRF_prove(
@@ -237,10 +242,16 @@ Gdzie:
 
 - `challenge_hash` = hash rekordu zaskarżenia konstytucyjnego,
 - `heartbeat_hash` = hash ostatniego heartbeat federacji (zakotwiczenie w czasie),
-- `sort(revealed_nonces)` = leksykograficznie posortowana konkatenacja wszystkich
-  ujawnionych nonce,
+- `reveals` = jeden ciąg bajtów CBOR (typ główny 2): konkatenacja wszystkich
+  ujawnionych nonce posortowanych rosnąco według porównania bajt po bajcie
+  (wartości bez znaku); każdy ujawniający węzeł wnosi dokładnie jeden nonce,
+  jednakowe wartości od różnych węzłów nie są scalane, a długość ciągu wynosi
+  32 bajty razy liczba ujawnień,
 - `sk_draw_coordinator` = klucz podpisujący wyznaczonego koordynatora losowania
   (rola rotacyjna, nie stały urząd).
+
+Stała długość nonce czyni konkatenację jednoznaczną, a kolejność ujawnień w
+czasie nie wpływa na ziarno.
 
 Dowód VRF jest publikowany wraz z ziarnem, tak aby każdy węzeł mógł zweryfikować
 poprawność jego wyprowadzenia.

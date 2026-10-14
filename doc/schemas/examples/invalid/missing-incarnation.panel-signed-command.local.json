@@ -31,12 +31,12 @@
     "procedure": {
       "id": "procedure-A",
       "revision": 1,
-      "digest": "sha256:2yrXsUU17MFmvGTyt1__ia-iUkXenTHsmQm7ABv8-Ck"
+      "digest": "sha256:1M0u7vc03ZbKNuxOEAWqruwgCNDu-0o6NvrwRKW8fYE"
     },
     "panel-policy": {
       "id": "fixture-panel-policy",
       "revision": 1,
-      "digest": "sha256:mGMnMqjzby04KXScCy8R_IxvFrXCUVm_vUxMxuL2Vpc"
+      "digest": "sha256:lUC5xHyIFLYT6LjHjShklavLrH-Y7PRbxIwVwQaJhDA"
     },
     "round": 1,
     "issued-at": "2026-10-15T00:00:00Z",
@@ -45,5 +45,5 @@
     }
   },
   "algorithm": "ed25519+domain-v1",
-  "signature": "fu8jufDuwBq_Xv_io6akxbFJtbkqaP5Wt-QA6u_B96iateOIb14D3MigZuFTUe76HYOOXy4i2LZwKN9kVCTqAQ"
+  "signature": "wj_eJ8ouH3C4fkQ06xtAFhbMjhk929gZpfgfJjda1tmWN-eGSTzU5XoSpVILQeryDFFgfLkntq2cPv_YRAsfAQ"
 }

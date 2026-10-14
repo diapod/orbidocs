@@ -16,6 +16,10 @@ Related schemas:
 - `participant-restriction-sources.v1`
 - `responsibility-effect-request.v1`
 - `responsibility-effect-receipt.v1`
+- `participant-restriction-lifecycles.v2` (draft; inactive preparation at V2, not authoritative)
+- `participant-restriction-lifecycle-request.v2` (draft; owner refuses at V1)
+- `responsibility-effect-receipt.v2` (draft; no current v2 application receipt)
+- `responsibility-lifecycle-readiness.local.v1` (draft; all components false at V1)
 
 ## Status
 
@@ -31,6 +35,49 @@ P051-001/004 runtime coverage. Host normalization is separately tracked in
 P051-015; historical reports do not qualify its migration, panel lifecycle or
 portable recovery. Envelope `created-at` never replaces host observation time
 when evaluating current restrictions.
+
+The 2026-10-14 lifecycle V0/V1 contract/conformance checkpoint keeps the v1 source
+set authoritative. Host owner gates refuse new suspend-policy activation and
+lifecycle requests before any write; membership owns the incarnation used in the
+all-false readiness declaration. An appeal under a required stay is accepted with
+explicit unavailability, not suspension. Historical runtime evidence is unchanged.
+V2 now prepares a separate inactive copy against pinned raw history, sequence,
+digest and host incarnation, with resumable copy/verify checkpoints and typed
+quarantine. Projection damage rebuilds from retained facts; immutable migration
+damage refuses maintenance and emits a tracing diagnostic without disabling the authoritative v1 path.
+Later v1 writes leave the pinned generation historical until an explicit new
+preparation. This owner/storage conformance switches no reader, writer, CAS,
+receipt or readiness component; it is not runtime suspension qualification.
+See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md`.
+The subsequent review withdrew its absence-of-P1/P2 claim. Integral-number JCS
+comparisons and replies checked before pin/checkpoint commit are corrected;
+F-02 global work under the admission gate, incarnation handling and bounded
+abandonment/retention recovery remain open. The owner lane has no operator route.
+See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-FINDINGS-2026-10-14.md`.
+
+The draft quarantine contract preserves the source domain composition rule:
+nonterminal quarantine blocks only its typed privileged-operation scope; null
+means unknown scope and blocks all privileged operations for its subject.
+A source that fails deserialization never recovers operations from raw fields.
+Typed tombstones stay terminal; original effective diagnostics, map keys and
+internal identifiers remain retained. Exactly authorized source-key withdrawal
+must remain available even for quarantine. The v1 host now checks the complete
+signed origin/case/independence proof and exact derived key before withdrawing a
+corrupt payload under source-set CAS; unrelated cases/operators and terminal
+fences remain intact. Its v2 writer equivalent still requires V4 qualification.
+Reconciliation creates a separate verified fact/receipt, not a heuristic repair.
+
+V4s requires exact equality outside two enumerated fail-closed classes:
+`invalid-subject` (empty/oversized retained subject becomes `*`) and
+`source-key-mismatch` (scoped quarantine under the stable key, potentially hardening
+a soft source). No general superset gate is accepted. The qualification report
+must identify every affected address/class and prove equal-or-stricter outcomes
+inside those classes; unlisted differences block the switch. Qualified operator
+alert delivery is required before applying deviations. Current tracing alone
+is not that delivery. Subject/address cross-checking is deferred as a separate
+decision; v1's raw subject selection after failed deserialization stays in place.
+Composition, every writer, v2 receipts and atomic switch still require V3–V5 in `node:docs/development/RESPONSIBILITY-LIFECYCLE-V2-PLAN-2026-10-14.md`;
+see `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V0-V1-REVIEW-2026-10-14.md`.
 
 This solution captures the implemented `participant-capability-limits.v1`
 runtime slice. Newcomer and membership/sponsorship policies may project into

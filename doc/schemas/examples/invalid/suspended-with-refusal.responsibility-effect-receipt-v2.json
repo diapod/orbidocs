@@ -1,0 +1,25 @@
+{
+  "schema": "responsibility-effect-receipt.v2",
+  "host/id": "node:host-A",
+  "host/incarnation": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "source/id": "case-effect:case-A:decision-A:effect-A",
+  "request": {
+    "kind": "lifecycle-request",
+    "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "revision": 1
+  },
+  "outcome": "suspended",
+  "lifecycle": {
+    "id": "case-effect:case-A:decision-A:effect-A",
+    "revision": 2,
+    "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "lifecycles": {
+    "id": "host-restriction-lifecycles",
+    "revision": 3,
+    "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "effective-at": "2026-10-14T12:00:00Z",
+  "recorded-at": "2026-10-14T12:00:00Z",
+  "refusal": "retraction-fence"
+}

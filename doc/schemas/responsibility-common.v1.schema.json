@@ -210,6 +210,24 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 512
+        },
+        "effect_stay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "suspend"
+            },
+            "suspend_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 31622400
+            }
+          },
+          "required": [
+            "kind",
+            "suspend_seconds"
+          ]
         }
       },
       "required": [
@@ -907,6 +925,46 @@
           "items": {
             "$ref": "#/$defs/EvidenceReference"
           }
+        },
+        "effect_stay": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "const": "unavailable"
+                },
+                "decision_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "reason": {
+                  "enum": [
+                    "lifecycle-not-integrated"
+                  ]
+                },
+                "escalation_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "recorded_at": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "status",
+                "decision_id",
+                "reason",
+                "escalation_ref",
+                "recorded_at"
+              ]
+            }
+          ]
         }
       },
       "required": [

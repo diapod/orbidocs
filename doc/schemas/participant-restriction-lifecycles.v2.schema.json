@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:participant-restriction-lifecycles:v2",
+  "title": "participant-restriction-lifecycles.v2",
+  "description": "Draft local contract. Shape validation confers no admission, mandate, application receipt or lifecycle readiness.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "participant-restriction-lifecycles.v2"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "lifecycles": {
+      "type": "object",
+      "maxProperties": 8192,
+      "propertyNames": {
+        "minLength": 1,
+        "maxLength": 512
+      },
+      "additionalProperties": {
+        "$ref": "participant-restriction-lifecycle.v2.schema.json"
+      }
+    },
+    "quarantine": {
+      "type": "object",
+      "maxProperties": 8192,
+      "propertyNames": {
+        "minLength": 1,
+        "maxLength": 512
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "diagnostic": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "enum": [
+              "invalid-source",
+              "source-key-mismatch",
+              "recovered-diagnostic",
+              "invalid-lifecycle-contract",
+              "invalid-subject"
+            ]
+          },
+          "retained/digest": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "operations": {
+            "description": "Null is unknown scope. A nonempty closed vocabulary list is recovered only from a successfully deserialized RestrictionSource; failed deserialization never uses raw operations.",
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 6,
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "procurement/request",
+                    "procurement/offer",
+                    "procurement/contract-accept",
+                    "response/deliver",
+                    "response/accept",
+                    "response/reject"
+                  ]
+                }
+              }
+            ]
+          },
+          "diagnostic/original": {
+            "description": "The v1 effective diagnostic, retained alongside the typed migration reason. Raw diagnostic bytes remain in the retained source.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "address": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "source/id": {
+                "description": "Internal id as retained, including malformed strings; never an authority or a corrected address.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "source/id"
+            ]
+          },
+          "retracted": {
+            "description": "Typed v1 tombstone is terminal; a source that fails deserialization retains v1 recovery behavior and is not assumed retracted.",
+            "type": "boolean"
+          },
+          "migration/deviations": {
+            "description": "Closed classes of permitted fail-closed differences. V4s must enumerate source addresses, prove every other outcome equal and alert before applying a changed class.",
+            "type": "array",
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "invalid-subject",
+                "source-key-mismatch"
+              ]
+            }
+          }
+        },
+        "required": [
+          "subject",
+          "diagnostic",
+          "retained/digest",
+          "operations",
+          "diagnostic/original",
+          "address",
+          "retracted",
+          "migration/deviations"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "revision",
+    "lifecycles",
+    "quarantine"
+  ]
+}

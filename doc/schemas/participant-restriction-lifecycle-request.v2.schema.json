@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:participant-restriction-lifecycle-request:v2",
+  "title": "participant-restriction-lifecycle-request.v2",
+  "description": "Draft local contract. Shape validation confers no admission, mandate, application receipt or lifecycle readiness.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/60-solutions/040-capability-limited-restrictions/040-capability-limited-restrictions.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "participant-restriction-lifecycle-request.v2"
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "host/incarnation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "source/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "predecessor": {
+      "$ref": "responsibility-common.v1.schema.json#/$defs/Binding"
+    },
+    "action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "suspend"
+            },
+            "resume-at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "kind",
+            "resume-at"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "resume",
+                "retract"
+              ]
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "decision/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "effect/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "command/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "command/digest": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "case/id",
+        "decision/id",
+        "effect/id",
+        "command/id",
+        "command/digest"
+      ]
+    },
+    "requested-at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 64
+    }
+  },
+  "required": [
+    "schema",
+    "request/id",
+    "host/id",
+    "host/incarnation",
+    "source/id",
+    "predecessor",
+    "action",
+    "authority",
+    "requested-at"
+  ]
+}

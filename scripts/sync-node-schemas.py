@@ -604,6 +604,21 @@ SCHEMA_WHITELIST = (
     "federation-scenario.v1.schema.json",
     "federation-node.v1.schema.json",
     "federation-run.v1.schema.json",
+    "panel-command.local.v1.schema.json",
+    "panel-eligibility-fact.local.v1.schema.json",
+    "panel-input-command.local.v1.schema.json",
+    "panel-input-signed-command.local.v1.schema.json",
+    "panel-input-statement.local.v1.schema.json",
+    "panel-policy.local.v1.schema.json",
+    "panel-procedure.local.v1.schema.json",
+    "panel-round-inputs.local.v1.schema.json",
+    "panel-signed-command.local.v1.schema.json",
+    "panel-vrf-certificate.local.v1.schema.json",
+    "participant-restriction-lifecycle-request.v2.schema.json",
+    "participant-restriction-lifecycle.v2.schema.json",
+    "participant-restriction-lifecycles.v2.schema.json",
+    "responsibility-effect-receipt.v2.schema.json",
+    "responsibility-lifecycle-readiness.local.v1.schema.json",
 )
 
 EXAMPLE_WHITELIST = (
@@ -625,6 +640,12 @@ EXAMPLE_WHITELIST = (
     "fixture.inquirium.model-package.chat-template-proof.json",
     "accepted.responsibility-signed-command.json",
     "accepted.participant-restriction-source.legacy-fractional.json",
+    "host.participant-restriction-lifecycles.json",
+    "suspend.participant-restriction-lifecycle-request.json",
+    "suspended.responsibility-effect-receipt-v2.json",
+    "not-integrated.responsibility-effect-receipt-v2.json",
+    "not-ready.responsibility-lifecycle-readiness.local.json",
+    "suspend-stay.responsibility-policy.json",
     "accepted.responsibility-command.json",
     "fixture.operator-task-loop-mandate-payload.v1.json",
     "fixture.operator-task-loop-mandate.v1.json",
@@ -1160,6 +1181,10 @@ EXAMPLE_WHITELIST = (
     "accepted.corpus-reasoning-inference-flow-binding.json",
     "passed.inquirium.local-model-acceptance-report.json",
     "bielik.inquirium.model-package.provider-key-endorsement.json",
+    "drawn.panel-procedure.local.json",
+    "identity.panel-input-statement.local.json",
+    "inspect.panel-input-signed-command.local.json",
+    "inspect.panel-signed-command.local.json",
 )
 
 INVALID_EXAMPLE_WHITELIST = (
@@ -1189,6 +1214,14 @@ INVALID_EXAMPLE_WHITELIST = (
 
     "rejected.responsibility-signed-command.raw-signature.json",
     "rejected.participant-restriction-source.case-legacy-timing.json",
+    "missing-predecessor.participant-restriction-lifecycle-request.json",
+    "unknown-action.participant-restriction-lifecycle-request.json",
+    "refused-without-reason.responsibility-effect-receipt-v2.json",
+    "suspended-with-refusal.responsibility-effect-receipt-v2.json",
+    "suspended-without-lifecycle.responsibility-effect-receipt-v2.json",
+    "storage-only.responsibility-lifecycle-readiness.local.json",
+    "unreported-complete.responsibility-lifecycle-readiness.local.json",
+    "explicit-none-stay.responsibility-policy.json",
     "rejected.responsibility-command.actor-field-only.json",
     "rejected.responsibility-command.missing-object.json",
     "rejected.responsibility-command.negative-revision.json",
@@ -1735,6 +1768,15 @@ INVALID_EXAMPLE_WHITELIST = (
     "unknown-field.causal-context.json",
     "payload.execution-receipt.json",
     "bad-cursor.replication-summary.json",
+    "even-panel-size.panel-procedure.local.json",
+    "invented-federation.panel-procedure.local.json",
+    "membership-substitution.panel-input-statement.local.json",
+    "missing-cas.panel-input-signed-command.local.json",
+    "missing-incarnation.panel-signed-command.local.json",
+    "raw-algorithm.panel-input-statement.local.json",
+    "raw-algorithm.panel-signed-command.local.json",
+    "short-nonce.panel-signed-command.local.json",
+    "shortened-veto-window.panel-procedure.local.json",
 )
 
 SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
