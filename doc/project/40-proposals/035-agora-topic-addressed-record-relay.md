@@ -1168,6 +1168,15 @@ their original limits and require their pinned verifier; corrective subsets are
 storage/diagnostic conformance, not new runtime. The main-tree gate formerly
 blocked by membership edits now passes.
 
+Review conformance passed at clean Node `8d46afc0` / Orbidocs `0b758ee`:
+all 32 witness indices are byte-identical and ordinary qualification is unchanged.
+Corrected v2 cause subsets occupy 1,516,502 bytes, with exact typed refusal-path
+binding and actual diagnostic qualifier source. Original plus corrected refusal
+collections total 3,025,473 bytes within 4 MiB per campaign/profile. Ten completed
+sets are frozen. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsule-review/README.md`.
+This review qualifies storage and diagnostics; the original runtime pins remain.
+
 Accepted cost boundary: 136 MiB aggregate Matrix-area bytes, separately for
 retained/staged files and distinct historical/current Git blobs. Registered
 tracker/campaign IDs bind one profile; refusals also share 4 MiB per profile.
