@@ -386,8 +386,15 @@ Status:
   campaign under `node:docs/evidence/RETENTION.md`. The recipe proposal is superseded by P035-008a [done]: bounded tar+xz at
   Node `7df7949a` reproduces historical bytes and qualification in 13,006,802
   retained bytes within 16 MiB. The small proof references existing input; no new
-  runtime is claimed. P035-008b remains open for cause capsules and harness runtime
-  qualification. P035-007's comparison baseline includes
+  runtime is claimed by 008a. P035-008b [done] separately qualifies the changed
+  harness at clean Node `bc83d310` / Orbidocs `a515a5d`: 27 Matrix and five SQLite
+  cases on stock Synapse, independent Node/homeserver gates and identical
+  loose/extracted qualification. The complete retained set is 13,245,341 bytes;
+  three runtime/qualification/retention cause-only capsules occupy 1,508,971
+  bytes including their index, each below 1 MiB. Original success/refusal outcomes
+  and required dependencies remain explicit. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsules/README.md`.
+  Parent P035-008 is done; Agora remains partial. P035-007's comparison baseline includes
   64 events/page, eight pages/room/round and the deliberate B crash/restart after
   512 durable records; the observed 10.32 seconds is not a throughput/latency bound.
 
