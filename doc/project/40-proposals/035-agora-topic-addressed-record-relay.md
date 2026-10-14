@@ -1073,7 +1073,8 @@ reports remain unchanged.
 ### Evidence storage review and recovery baseline (2026-10-14)
 
 **Status:** accepted repository cost policy; budget guards implemented in Node.
-Content-addressed reconstruction and cause-capsule tooling remain P035-008 `todo`.
+The proposed reconstruction recipes below are superseded by the measured xz
+decision; P035-008a owns compression and P035-008b owns cause capsules.
 
 The P035-006 positive gzip is 38,121,914 bytes and its incomplete-attempt archives
 add 62,261,130 bytes across eleven archives. Archiving reduced file count, but
@@ -1113,6 +1114,33 @@ specify developer-state reset/refusal and keep the direct non-limited late-bindi
 regression. P097 provides a pre-release precedent in Messaging, not a blanket
 norm for transport migrations. This review does not change qualified runtime code.
 
+### Measured xz retention and separate cause capsules (2026-10-14)
+
+**Status:** accepted; implementation and committed-tool qualification pending.
+The earlier recipe/pool decision is superseded, with the historical evidence frozen.
+
+A private conversion of the 115,261,440-byte P035-006 tar using actual liblzma
+5.8.3, LZMA2 preset 6, 128 MiB dictionary and CRC64 produces 12,212,980 bytes.
+Existing controls bring the total to 13,011,948 bytes, within 16 MiB. The original
+tar hash, 1516 members, two reports and ordinary qualification are identical.
+This measures storage on historical data, not new Matrix runtime behavior.
+
+P035-008a uses a v2 tar+xz wrapper with actual compressor parameters/version,
+a 256 MiB decoder memory limit independent of metadata, all existing streaming
+ceilings, one stream and no trailing bytes. v1 remains readable. No recipes,
+JSON rewriting or harness changes are required. Qualify the committed tool on
+private historical copies; retain a small reproducible proof and source refs,
+not another 12 MB copy in Git. Tar/member hashes identify the preserved content.
+
+P035-008b is independent: dependency/witness indexing, cause selection, capsule
+verification and actual runtime/qualification/retention refusals within 1 MiB per
+capsule and 4 MiB per campaign. Success at one stage must not be relabelled when a
+later stage refuses. It requires a new full Synapse/SQLite run because the harness
+changes, plus boundary-PDU and long-history refusal tests. Oversize necessary
+material remains private; no automatic trimming or budget increase. Parent 008
+remains incomplete until both children close; 008b does not block 008a or the next
+qualified positive evidence after 008a. Global Agora remains partial.
+
 ### Matrix Carrier Tracker
 
 This transport continuation is independent of AD publisher migration and keeps
@@ -1123,8 +1151,10 @@ its status here; S008 Agora P18 links to this row.
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
 | P035-005 | Unmodified reference homeserver PDU interoperability | done | P035-004; room-version budget profile | Qualified 2026-10-13 at clean Node dcc8133c / Orbidocs c84df99 on official unmodified Synapse v1.162.0, PostgreSQL 16.13 and room v10: 4 SQLite and 22 Matrix cases. Separate gates pass: all 42 Node complete PDUs fit 65,536 (maximum 49,927); direct protocol maximum 65,535 and actual HTTP 413 M_TOO_LARGE, including requests below the PDU ceiling. Confidence 0.5, permitted Whisper families, exact bytes, A/B and server/database restart, limited recovery, late binding and source replay pass. Stock serializer verifies hashes, signatures and event IDs. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-13-synapse/qualification.json`. Initial Synapse failure, v0.7.0 finding and patched proof stay frozen; explicit v2 only, no federation or production claim. |
 | P035-006 | Default v2 writer and explicit legacy v1 | done | P035-004; accepted write-default and history-recovery decisions | Qualified 2026-10-14 at clean Node 42fde666 / Orbidocs 4ecec76: five SQLite and 27 Matrix cases with omitted A/B config, confidence 0.5, immutable bytes, legacy intent controls, third-claim crash/retry, restart and source replay. All 692 Node PDUs fit 65536 (maximum 49927); independent unmodified Synapse gate and direct 65535 boundary pass. Filtered history resumes 643 records over 12 pages after 512 durable before crash; empty bootstrap and non-limited late binding pass. Bounded archives qualify identically before/after extraction. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-default-v2/qualification.json`. P035-007, global Agora partial and federation/production exclusions remain open. |
-| P035-007 | Isolate room history recovery from account delivery | todo | P035-006; S028; P035-008 before committing new long-history evidence | Design and qualify durable per-room recovery/backpressure so unavailable or long history in one room cannot indefinitely stop current events in other rooms. Preserve admission, source/checkpoint atomicity, explicit gaps and restart/replay. Retire development-only unfiltered-anchor compatibility with explicit reset/refusal and the direct late-binding regression. Compare against the scale/restart baseline above, recording pages/events per round and other-room timing for available/unavailable history; P035-006 proves no independent-room or latency bound. |
-| P035-008 | Deduplicate public evidence and retain cause capsules within byte budgets | todo | P035-006; accepted evidence storage review | Before another long-history evidence commit, integrate a content-addressed author/PDU pool, lossless artifact reconstruction, dependency-aware refusal capsules and 16 MiB/run, 1 MiB/refusal, 4 MiB/refusal-campaign enforcement. Preserve alternate bytes, complete PDU verification/sizing, original reports/refusals and exact qualifier equivalence. Qualify missing/corrupt objects, oversize output and cause selection. Budget guards are implemented; no compact runtime codec is yet qualified. Frozen archives remain historical exceptions. |
+| P035-007 | Isolate room history recovery from account delivery | todo | P035-006; S028; P035-008a before committing new long-history evidence | Design and qualify durable per-room recovery/backpressure so unavailable or long history in one room cannot indefinitely stop current events in other rooms. Preserve admission, source/checkpoint atomicity, explicit gaps and restart/replay. Retire development-only unfiltered-anchor compatibility with explicit reset/refusal and the direct late-binding regression. Compare against the scale/restart baseline above, recording pages/events per round and other-room timing for available/unavailable history; P035-006 proves no independent-room or latency bound. |
+| P035-008 | Public evidence retention within byte budgets | in progress | P035-006; measured xz decision | Parent closes only after 008a and 008b; no recipe language. Frozen evidence and global partial scope remain unchanged. |
+| P035-008a | Bounded xz archive and historical-data qualification | in progress | P035-006; accepted measured compression profile | Preserve tar/member/report bytes and ordinary qualification on private 2026-10-14 copies, fit the full set in 16 MiB, reject memory/stream/integrity faults and retain only a small reproducible proof. No new runtime claim. |
+| P035-008b | Self-contained cause capsules | todo | P035-008a; S028 | Dependency/witness indexing and verified runtime/qualification/retention causes, with omissions and 1 MiB/capsule, 4 MiB/campaign. New full 27 Matrix and 5 SQLite run plus boundary-PDU and 640-fixture/3-UI long-history refusals; no full qualification claim for capsules. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
