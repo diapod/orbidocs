@@ -1194,6 +1194,42 @@ P096-010a qualifies only the synthetic path; P096-010 closes shared/refusal
 coverage and P096-011a supplies single-device real reports; 011b adds radio concurrency. None can substitute for
 another class, missing consent, a platform variant or a firmware tuple.
 
+#### Narrow native-exposure adoption
+
+Discovery binding-use acceptance needs a purpose-specific host admission before
+the full P096-011a delivery qualification exists. Node owns the separate local
+contracts `sensorium-native-p21-admission.v1`,
+`sensorium-native-p21-exposure-qualification.v1`,
+`sensorium-native-p21-qualification-case.v1` and
+`sensorium-native-safety-prerequisite.v1`. Their scope is one Muse 2 and the
+`muse-2-p21-acquisition` purpose; they do not promote P096-011a, P096-015 or P082.
+These additions are outside P096-002's completed contract inventory.
+
+An independently reviewed immutable report binds the exact host, launch chain,
+package, runtime, worker, effective containment policy, profile, mode, instance
+and binding revision. A separate P096-005 prerequisite covers the same tuple
+and the entire adoption lifetime. Cases retain closed measured facts, including
+the actual trigger for authority-loss and protected-stop cases. Portable case
+evidence contains neither sample buffers nor digests derived from signal values.
+Monotonic nanoseconds use exact decimal strings; source generation is a separate
+positive integer whose implementation mapping remains Node-owned.
+
+Firmware and TCC attribution remain explicitly operator-observed evidence for
+the exact launch context. An unreported firmware or permission change is not
+claimed automatically detectable. Reported changes require withdrawing or
+replacing adoption and collecting new evidence. Node's initial adoption is
+bounded to 24 hours from the retained observations and cannot outlive its
+prerequisite. Freshly dating a report cannot renew old case evidence or the
+operator-observed firmware/TCC facts. Terminal observations cannot qualify a
+daemon launched by launchd.
+
+Current operator authority, mode-scoped wearer consent, protected withdrawal,
+owned binding, shared claim and the one-use START permit remain independently
+enforced. Qualification evidence requires a separately authorized harness and
+an independent qualifier; laboratory observations, fixture signers, schema-valid
+JSON and an adopted discovery report cannot authorize p21. A consumer awaiting
+that producer and evidence keeps native exposure closed.
+
 #### Hard privacy canary
 
 Generate a unique fixture advertised name at test runtime (illustrative format
