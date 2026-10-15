@@ -407,6 +407,14 @@ unperformed. See Node's
 and
 [software review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-CONTROLLER-RECOVERY-2026-10-15.md).
 
+The same software checkpoint gives the changed known discovery worker a distinct
+fixed verified-image package identity. Its exact stopped logical revision-2-to-3
+transition preserves both earlier signed generations and checks all historical
+consumption slots. The frozen nearby client separates recovery decisions from
+fresh SCAN/BIND/REGISTER/WEAR; neither preparation nor metadata completion grants
+native authority. These remain implementation mechanisms below the unchanged
+P096 qualification requirements.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
