@@ -1728,6 +1728,17 @@ independent source/image/signature checks and 25 passing console tests. These
 files-only/preflight checks opened no root/controller and provide no fresh
 journal/grant or quarantine-disposal evidence; no recovery or physical retry ran.
 
+The subsequent supported recovery extension uses v3 reviews for exact registered,
+enrolled or worn Case prefixes and their own acquisition claim. It preserves
+binding, registration, consent, original finite grants and uncertain Case/BDO
+history, and requires a separately observed host restart plus exact approval.
+Changed protected metadata and old pre-binding approval refuse. A detached v2
+receipt authorizes no consent reuse, native-stop claim, restart of measurement
+or ordinary exposure. Software conformance does not recover the actual
+acquisition quarantine; no recovery or hardware trial was performed. See
+`node:daemon/docs/SENSORIUM-CONTROLLER-RECOVERY.md` and
+`node:docs/audits/REVIEW-SENSORIUM-ACQUISITION-RECOVERY-2026-10-15.md`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
