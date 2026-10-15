@@ -535,7 +535,12 @@ uses normal cleanup/quarantine; the relay never creates stage approvals,
 recovery or qualification. The signed application/client closure is retained in
 the supervisor worker-denied image area. Physical readiness remains a distinct
 operator confirmation. Device-free checks do not prove GUI Bluetooth access.
-See `node:docs/audits/REVIEW-SENSORIUM-SSH-CONTROL-2026-10-15.md`.
+The frozen nearby source `4c29a072` and signed app image `ef87d290` now pass
+seven-file capsule checks, actual GUI launchd preflight and 46 console tests.
+Protected stopped state and the free controller match before/after inspection.
+This GUI-session observation does not qualify a background launchd daemon or
+Bluetooth access. See `node:docs/evidence/sensorium-device-discovery/ssh-gui-preparation.runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-SSH-CONTROL-2026-10-15.md`.
 
 ### 5. Independent instance materialization and host ownership
 
