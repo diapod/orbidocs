@@ -1784,6 +1784,14 @@ and explicit interrupted resume preserve Case, consent, old runtime allocations
 and sibling state. This is software preparation, not nearby execution or general
 update/delete completion. See `node:daemon/docs/SENSORIUM-P21-RETIREMENT.md`.
 
+The clean 5e3be8e0 candidate is now frozen nearby with independent source/image,
+strict signature/system-dependency and four-file checks plus 30 console tests.
+Read-only pre/post staging checks preserve the completed recovery, original
+journal and eleven protected sources; old p21 authority is still expired.
+No retirement review, consumption, renewal or physical action ran. Separate
+nearby PREPARE-P21/RETIRE-P21 and fresh Case stages remain pending. See
+`node:docs/evidence/sensorium-device-discovery/p21-retirement.preparation.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
