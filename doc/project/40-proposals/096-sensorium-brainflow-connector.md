@@ -1723,6 +1723,10 @@ not reinterpreted. Closed acquisition startup diagnostics, both-owner stop
 fanout and empty-candidate refusal improve diagnosis without authorizing a retry
 or clearing quarantine. See
 `node:docs/audits/REVIEW-SENSORIUM-P21-OBSERVATION-2026-10-15.md`.
+The clean 686a13d0 matching candidate is now frozen on the nearby host with
+independent source/image/signature checks and 25 passing console tests. These
+files-only/preflight checks opened no root/controller and provide no fresh
+journal/grant or quarantine-disposal evidence; no recovery or physical retry ran.
 
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
