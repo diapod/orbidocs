@@ -1817,6 +1817,24 @@ identical locked root/journal/controller state before and after preparation.
 Physical verification remains open; no new recovery is indicated by this released Case. See
 `node:docs/audits/REVIEW-SENSORIUM-SCAN-BIND-2026-10-15.md`.
 
+Subsequent physical checkpoint, 2026-10-15: revision 2 on source `07aeed39`
+passed fresh SCAN, BIND, REGISTER and WEAR p21, then failed at executor spawn
+before an acquisition permit. The original diagnostics collapse the inner
+supervisor error; retained acquisition/controller quarantine remains unresolved.
+WEAR-to-fence was 2281 ms, within the 30-second preparation budget. Source-only
+probes confirm a runtime self-check layout defect: the compiled Homebrew prefix
+can resolve to an older installation while the loaded framework and active stdlib
+match the pinned version. The corrected self-check uses the host's launcher-based
+selection with active-layout checks and passes unchanged runtime hashes.
+This is a reproduced defect consistent with the historical refusal, not a
+recovered inner error or cleanup proof. First closed supervisor diagnostics and
+a distinct source-package generation prepare the next attempt without replacing
+the stopped registration. A newly reviewed signed p21 package, supported stopped
+configuration and separately approved recovery/fresh physical stages remain
+required. P096-005/009/017/018 remain **partial**; no launchd, measurement,
+qualification or adoption status advances. See
+`node:docs/audits/REVIEW-SENSORIUM-ACQUISITION-START-2026-10-15.md`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
