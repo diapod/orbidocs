@@ -1920,6 +1920,14 @@ retirement, current custody and idle resources. Authority is still unrenewed;
 separate local approval remains next. No p21 consent or native qualification is
 created. See `node:docs/evidence/sensorium-device-discovery/authority-renewal.preparation.json`.
 
+The operator then separately approved renewal `97161220`. Independent locked
+inspection confirmed its completed marker, three exact policies, unchanged scope
+and fixed expiry 2026-10-15T23:34:23Z. Twelve protected sources, idle resources,
+revision-3 reservation and thirteen corrected signed p21 package files remain
+preserved. No p21 grant or consent was created. Fresh SCAN/BIND/REGISTER/WEAR
+remain pending; no hardware qualification or adoption status is promoted. See
+`node:docs/evidence/sensorium-device-discovery/authority-renewal.runtime.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
