@@ -1903,6 +1903,16 @@ must precede the next physical Case. Four-hour preparation was selected by the
 operator, with no renewal executed. See
 `node:docs/evidence/sensorium-device-discovery/p21-retirement-history.runtime.json`.
 
+The private Node corridor now separates finite authority renewal from recovery
+and retirement: local prepare freezes the same controller/discovery scope and an
+absolute expiry; a separate digest-bound approval publishes it. A pending fence
+blocks Case during partial writes. Explicit resume preserves the original expiry
+and requires current custody/source/process checks. It creates no p21 grant or
+wearer consent, changes no package/profile, and leaves the reserved next revision
+for fresh SCAN/BIND/REGISTER/WEAR. This is implementation scope only; no nearby
+renewal or native qualification follows. See
+`node:daemon/docs/SENSORIUM-AUTHORITY-RENEWAL.md`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
