@@ -415,6 +415,19 @@ fresh SCAN/BIND/REGISTER/WEAR; neither preparation nor metadata completion grant
 native authority. These remain implementation mechanisms below the unchanged
 P096 qualification requirements.
 
+Nearby preparation checkpoint, 2026-10-15: the clean Node candidate binds 4702
+source files and passes no-effects process/boot preflights. The normal owner
+signed the distinct verified-image package; independent 13-file and Ed25519
+checks pass on both hosts. The exact stopped transition installed logical
+revision 3 while preserving original expiry, both older migration facts,
+quarantine and Case/deferred history. The frozen nearby console and 20 client
+checks are staged and verified. No real recovery baseline, host restart,
+recovery commit, Case or device acquisition occurred. The next physical corridor
+requires fresh separate baseline/restart/recovery and SCAN/BIND/REGISTER/WEAR
+decisions; host-epoch reset remains distinct from native/radio qualification.
+P096-005/009/011a/017/018 stay partial or open as tracked. See the
+[retained preparation review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-VERIFIED-IMAGE-PREPARATION-2026-10-15.md).
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
