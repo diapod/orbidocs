@@ -1895,6 +1895,14 @@ next. This evidence does not promote P096-005/009/011a/015 to done or establish
 native-stop/measurement qualification. See
 `node:docs/evidence/sensorium-device-discovery/radio-source.runtime.json`.
 
+The separately approved subsequent stopped retirement is verified for revision
+2→3, including exact predecessor links, four after-sources, ordinary owner
+journals and preserved Case/consent history. Revision 3 is reserved without new
+p21 authority. Discovery then expired; fresh finite controller/discovery authority
+must precede the next physical Case. Four-hour preparation was selected by the
+operator, with no renewal executed. See
+`node:docs/evidence/sensorium-device-discovery/p21-retirement-history.runtime.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
