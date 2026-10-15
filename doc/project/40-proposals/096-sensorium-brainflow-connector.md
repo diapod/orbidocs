@@ -446,6 +446,18 @@ no native authority follows from preparation. This correction does not close
 P096-005/009/011a/017/018; see Node's
 [restart-custody review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-RESTART-CUSTODY-2026-10-15.md).
 
+Subsequent operator-approved checkpoint, 2026-10-15: the normal owner locally
+re-confirmed the retained baseline and separately approved exact RECOVER.
+Independent read-only inspection confirms the reviewed v2 custody/generation,
+unchanged expiry and original uncertain history, disposal of only the old BLE
+discovery row, preserved other resource state and removal of held/global fences.
+Finite discovery grants remain valid without renewal. This measures the narrow
+private pre-binding metadata corridor only; native stop/reset, radio exclusivity,
+production recovery and fresh acquisition remain separate gates. The next Case
+requires new SCAN/BIND/REGISTER/WEAR; no p21 registration or hardware effect is
+implied by recovery. P096-005/009/011a/017/018 stay partial or open. See the
+[completion checkpoint](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-RESTART-CUSTODY-2026-10-15.md#operator-approved-recovery-checkpoint).
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
