@@ -1869,6 +1869,15 @@ or hardware operation ran. Fresh local-console decisions remain required for
 baseline, Bluetooth observation/recovery, revision-2-to3 retirement and physical
 stages. See `node:docs/evidence/sensorium-device-discovery/p21-retirement-history.preparation.json`.
 
+A later operator-prepared revision-2 v3 baseline matches its held claim, journal
+and eleven protected sources. Bluetooth method selection required adding the exact
+historical Case source `07aeed39` after independently reconstructing its pin and
+reviewing unchanged supervisor/runtime private-image isolation against `e144a77d`.
+Unknown sources remain refused; the baseline is not rewritten. Live custody,
+process absence, fresh OFF/ON observation and separate recovery consent remain
+required. No radio observation, recovery or qualification is claimed. See
+`node:docs/audits/REVIEW-SENSORIUM-RADIO-SOURCE-2026-10-15.md`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
