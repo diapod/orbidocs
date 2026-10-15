@@ -1904,7 +1904,7 @@ operator, with no renewal executed. See
 `node:docs/evidence/sensorium-device-discovery/p21-retirement-history.runtime.json`.
 
 The private Node corridor now separates finite authority renewal from recovery
-and retirement: local prepare freezes the same controller/discovery scope and an
+and retirement: same-owner prepare freezes the same controller/discovery scope and an
 absolute expiry; a separate digest-bound approval publishes it. A pending fence
 blocks Case during partial writes. Explicit resume preserves the original expiry
 and requires current custody/source/process checks. It creates no p21 grant or
