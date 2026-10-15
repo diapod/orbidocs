@@ -552,7 +552,7 @@ follow-up preserves the first closed monitor observation and authenticated
 activation-guard failure without changing validation or consent clocks. No
 acquisition success, automatic retry, recovery or native qualification follows.
 See `node:docs/evidence/sensorium-device-discovery/ssh-gui-p21-r4.observation.json`.
-The released registration retains original expiry. A separate stopped corridor
+The released registration retained original expiry. A separate stopped corridor
 now accepts its exact fully reconciled released Case and existing idle resource
 state, in a v3 review whose release basis excludes recovery. It preserves legacy
 v1/v2 recovery review bytes and the normal target-only expiry/sibling/CAS
@@ -562,11 +562,20 @@ refuses. Reviewed SSH prepare/commit creates no new authority, consent or native
 effect. Device-free normal-key, legacy-history and interrupted-publication
 regressions pass; see
 `node:docs/audits/REVIEW-SENSORIUM-RELEASED-RETIREMENT-2026-10-16.md`.
-Runtime retirement and another Case remain separate observations.
-The diagnostic producer is now prepared nearby at source `d40a6d10` and app
-image `e8e9a847`; signature/GUI launch checks and 47 frozen-client tests pass.
-Nine protected source hashes and journal67/ten Cases match before/after. No
-second permission probe, Case, retirement or recovery ran. See
+The exact nearby SSH retirement 4→5 is now independently observed under v3
+review `25079a02`, after the binding's original expiry. Both ordinary journals
+and four after-sources match; 47 protected hashes and 25 retained package/capsule/
+home entries stay unchanged, including the previously uncreated home. Original
+journal67/ten Cases, consent and recovery history remain exact; controller and
+resource claims are absent. Revision 5 is reserved without registration, grant
+or reused consent. No recovery or hardware action occurred; another physical
+Case requires fresh authorization. See
+`node:docs/evidence/sensorium-device-discovery/released-p21-retirement.runtime.json`.
+At the earlier diagnostic checkpoint, source `d40a6d10` and app image
+`e8e9a847` passed nearby signature/GUI launch checks and 47 frozen-client tests.
+Nine protected source hashes and journal67/ten Cases matched before/after.
+That checkpoint performed no second permission probe, Case, retirement or
+recovery. See
 `node:docs/evidence/sensorium-device-discovery/ssh-monitor-preparation.runtime.json`.
 
 
@@ -1793,7 +1802,7 @@ remaining completion gates still apply.
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `todo` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
 | `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `todo` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
-| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `partial` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018. Private stopped p21 retirement after exact completed recovery supports expired revision N-to-N+1 through bounded predecessor-linked reviews, historical preservation, sibling checks and explicit interrupted resume; fresh SCAN/BIND/REGISTER/WEAR create new authority. Nearby revision1-to2 retirement is observed with exact source/journal, sibling and history verification. Separately approved recovery and retirements now reach revision 4. The fresh delegated GUI Case completes registration but refuses activation before native acquisition and releases all claims. A separate released-Case v3 retirement now requires a reconciled journal, matching root identities and existing idle resource state, with mutually exclusive recovery/release bases. It preserves v1/v2 bytes, original expiry, target-only source CAS and explicit interrupted resume. Runtime retirement and fresh use remain separate; no quarantine or recovery may be manufactured. General lifecycle qualification remains open |
+| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `partial` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018. Private stopped p21 retirement after exact completed recovery supports expired revision N-to-N+1 through bounded predecessor-linked reviews, historical preservation, sibling checks and explicit interrupted resume; fresh SCAN/BIND/REGISTER/WEAR create new authority. Nearby revision1-to2 retirement is observed with exact source/journal, sibling and history verification. Separately approved recovery and retirements now reach revision 4. The fresh delegated GUI Case completes registration but refuses activation before native acquisition and releases all claims. A separate released-Case v3 retirement now requires a reconciled journal, matching root identities and existing idle resource state, with mutually exclusive recovery/release bases. It preserves v1/v2 bytes, original expiry, target-only source CAS and explicit interrupted resume. Nearby SSH retirement4-to5 is independently completed under v3 review25079a02 after original binding expiry: both normal journals/four sources match,47 protected hashes and25 retained entries are unchanged, journal67/ten Cases remains exact and controller/resources are free. Revision5 is reserved without registration/grant/consent; no recovery or hardware use occurred. Fresh physical use needs new authorization; no quarantine or recovery may be manufactured. General lifecycle qualification remains open |
 | `P096-010a` | Qualify early synthetic local value path | `P096-008` | `todo` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
 | `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source, terminal-launched supervisor permission evidence and an explicit daemon-through-launchd case with attributable Bluetooth decision; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim. Observed GUI-session launchd ancestry and a state-only allowed permission probe do not qualify the background launchd daemon or this complete hardware tuple |
