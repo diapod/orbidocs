@@ -1681,7 +1681,7 @@ remaining completion gates still apply.
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `todo` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
 | `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `todo` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
-| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `partial` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018. Private stopped p21 retirement after exact completed recovery now has a separately reviewed expired revision1-to2 path with historical preservation, sibling checks and explicit interrupted resume; fresh BIND/REGISTER/WEAR mint new authority. Nearby execution and general lifecycle qualification remain open |
+| `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `partial` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018. Private stopped p21 retirement after exact completed recovery now has a separately reviewed expired revision1-to2 path with historical preservation, sibling checks and explicit interrupted resume; fresh BIND/REGISTER/WEAR mint new authority. Nearby stopped retirement is observed with exact source/journal, sibling and history verification; fresh revision-2 Case and general lifecycle qualification remain open |
 | `P096-010a` | Qualify early synthetic local value path | `P096-008` | `todo` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
 | `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source, terminal-launched supervisor permission evidence and an explicit daemon-through-launchd case with attributable Bluetooth decision; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim |
@@ -1781,16 +1781,29 @@ The subsequent private p21 lifecycle implementation archives exact before/after
 sources, removes only expired revision-1 authority after completed recovery and
 reserves revision 2 for fresh BIND/REGISTER/WEAR. Separate prepare/retire/discard
 and explicit interrupted resume preserve Case, consent, old runtime allocations
-and sibling state. This is software preparation, not nearby execution or general
-update/delete completion. See `node:daemon/docs/SENSORIUM-P21-RETIREMENT.md`.
+and sibling state. That software checkpoint alone established neither nearby
+execution nor general update/delete completion. See `node:daemon/docs/SENSORIUM-P21-RETIREMENT.md`.
 
-The clean 5e3be8e0 candidate is now frozen nearby with independent source/image,
+At the earlier preparation checkpoint, the clean 5e3be8e0 candidate was frozen nearby with independent source/image,
 strict signature/system-dependency and four-file checks plus 30 console tests.
 Read-only pre/post staging checks preserve the completed recovery, original
 journal and eleven protected sources; old p21 authority is still expired.
 No retirement review, consumption, renewal or physical action ran. Separate
 nearby PREPARE-P21/RETIRE-P21 and fresh Case stages remain pending. See
 `node:docs/evidence/sensorium-device-discovery/p21-retirement.preparation.json`.
+
+On 2026-10-15 the operator completed separate PREPARE-P21 and RETIRE-P21.
+Independent read-only verification matches the completed marker to review
+`21b6e95e`, all four exact intended sources, normal instance-import and binding
+journal outcomes, and target-only expired authority removal. Siblings and the
+original Case, consent, declaration and completed recovery remain preserved.
+Ten recovery-protected sources match their current or archived original bytes;
+the private binding journal records the authorized `retired-expired` transition.
+Controller claim/pending fences are absent. Revision 2 is reserved; fresh SCAN,
+BIND, REGISTER and WEAR p21 remain pending. No grant was created or extended and
+no old consent was reused. This is stopped lifecycle evidence, not measurement
+qualification or general P096-009 completion.
+See `node:docs/evidence/sensorium-device-discovery/p21-retirement.runtime.json`.
 
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
