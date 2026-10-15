@@ -1913,6 +1913,13 @@ for fresh SCAN/BIND/REGISTER/WEAR. This is implementation scope only; no nearby
 renewal or native qualification follows. See
 `node:daemon/docs/SENSORIUM-AUTHORITY-RENEWAL.md`.
 
+The frozen `c3361c28` candidate (`600c63e3` / `9f615892`) passed nearby
+signature/preflight and console checks. The selected four-hour review `97161220`
+is prepared and independently verified against twelve protected sources, exact
+retirement, current custody and idle resources. Authority is still unrenewed;
+separate local approval remains next. No p21 consent or native qualification is
+created. See `node:docs/evidence/sensorium-device-discovery/authority-renewal.preparation.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
