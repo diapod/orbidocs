@@ -1885,6 +1885,16 @@ package files remain exact; quarantine remains held. The v4 method choice,
 observer and recovery remain separately approved next steps. See
 `node:docs/evidence/sensorium-device-discovery/radio-source.preparation.json`.
 
+The operator subsequently completed separately approved revision-2 Bluetooth
+recovery on that candidate. Independent locked inspection verifies the v4 review,
+protected OFF/ON proof and completed receipt, exact acquisition disposal and
+controller generation rotation. The uncertain Case history, registration,
+binding and consent sources remain intact; expired authority is not renewed.
+Stopped revision-2 retirement and fresh revision-3 SCAN/BIND/REGISTER/WEAR remain
+next. This evidence does not promote P096-005/009/011a/015 to done or establish
+native-stop/measurement qualification. See
+`node:docs/evidence/sensorium-device-discovery/radio-source.runtime.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
