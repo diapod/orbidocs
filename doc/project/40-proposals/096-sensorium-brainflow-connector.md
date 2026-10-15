@@ -504,6 +504,17 @@ claim, resources and eleven protected sources. Separate recovery commit remains
 pending; this attests neither native stop nor qualification and renews no grant.
 See `node:docs/evidence/sensorium-device-discovery/p21-cleanup.observation.json`.
 
+The operator separately committed Bluetooth recovery. Read-only verification
+matches completed marker `dfb003cb` to v4 `a9d93da5`/proof `988ef272`, installs
+only the reviewed controller generation, and confirms exact acquisition
+claim/resource removal with unchanged remaining rows, journal revision 58/nine
+Cases and eleven protected sources. Original uncertain history and expiry remain.
+No native-stop or measurement qualification follows. Expired-only stopped
+retirement of revision 3 must wait for binding expiry at
+`2026-10-15T20:47:33Z`; PREPARE-P21/RETIRE-P21 and fresh revision-4 Case consents
+remain separate. See
+`node:docs/evidence/sensorium-device-discovery/p21-cleanup.completion.json`.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
