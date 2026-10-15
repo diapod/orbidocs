@@ -526,6 +526,16 @@ no-scan cleanup. SSH control therefore remains distinct from measured native
 launch/TCC access; it must never be labelled as terminal ancestry or native
 qualification. See `node:docs/evidence/sensorium-device-discovery/p21-ssh-retirement.runtime.json`
 and `node:docs/evidence/sensorium-device-discovery/ssh-permission.lab.json`.
+The private delegated path now keeps the SSH endpoint as control owner while a
+real LaunchServices application supplies independently observed `launchd`
+native ancestry. Optional `operator_control: delegated-ssh` is separate from
+launch provenance; historical omission stays valid. Fresh nonce echoes must
+traverse SSH before the host receives a heartbeat. Endpoint loss withdraws and
+uses normal cleanup/quarantine; the relay never creates stage approvals,
+recovery or qualification. The signed application/client closure is retained in
+the supervisor worker-denied image area. Physical readiness remains a distinct
+operator confirmation. Device-free checks do not prove GUI Bluetooth access.
+See `node:docs/audits/REVIEW-SENSORIUM-SSH-CONTROL-2026-10-15.md`.
 
 ### 5. Independent instance materialization and host ownership
 
