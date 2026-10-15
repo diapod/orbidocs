@@ -428,6 +428,24 @@ decisions; host-epoch reset remains distinct from native/radio qualification.
 P096-005/009/011a/017/018 stay partial or open as tracked. See the
 [retained preparation review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-VERIFIED-IMAGE-PREPARATION-2026-10-15.md).
 
+Subsequent restart observation, 2026-10-15: the operator prepared a real baseline
+and restarted the nearby host. Read-only inspection confirmed changed kernel
+boot-session and unchanged quarantine/policy/history; no recovery or hardware
+operation was performed. The restart exposed a false implementation assumption:
+boot-local device numbers are not persistent root custody. The private corridor
+now requires observed persistent volume UUID plus inode for cross-restart
+custody, while live descriptor/path checks retain device/inode guards. Existing
+version-1 baselines are historical evidence only: a fresh explicit owner review
+may preserve and re-confirm one after the already performed restart, without
+pretending it recorded a volume UUID retrospectively. Exact normal identity,
+source and sole-controller custody checks remain mandatory. Separate recovery
+approval has a **two-hour window from the actual restart**, measured by the
+continuous kernel clock including sleep. Preparing another review or adjusting
+wall time cannot renew that window. Original grants/expiry/history remain, and
+no native authority follows from preparation. This correction does not close
+P096-005/009/011a/017/018; see Node's
+[restart-custody review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-RESTART-CUSTODY-2026-10-15.md).
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
