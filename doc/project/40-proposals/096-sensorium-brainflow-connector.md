@@ -1805,6 +1805,16 @@ no old consent was reused. This is stopped lifecycle evidence, not measurement
 qualification or general P096-009 completion.
 See `node:docs/evidence/sensorium-device-discovery/p21-retirement.runtime.json`.
 
+The first fresh post-retirement Case completed its discovery window and confirmed
+native/controller release, then refused before BIND. Read-only durable inspection
+finds no target, acquisition or WEAR and unchanged retired configuration. A Node
+status-read pacing defect is consistent with the collapsed refusal: the BIND read
+can immediately follow SCAN's final read inside the host's 100 ms limit. Its fix
+retries only read-only rate refusals under the original deadline and fresh
+admission/expiry. New pinned preparation and physical verification remain open;
+no new recovery is indicated by this released Case. See
+`node:docs/audits/REVIEW-SENSORIUM-SCAN-BIND-2026-10-15.md`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
