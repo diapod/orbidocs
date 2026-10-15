@@ -488,6 +488,13 @@ and commit require their separate approvals; expiry and original uncertain
 history remain unchanged. See
 `node:docs/evidence/sensorium-device-discovery/p21-cleanup.baseline.json`.
 
+The separately approved Bluetooth method review v4 `a9d93da5` preserves exact
+v3 `38941cea` bytes and matches the original claim, journal, resources, eleven
+protected sources and pinned observer. No reset or recovery has run. Fresh
+OFF/ON observation must precede separate recovery approval; method selection
+starts no two-hour window and releases nothing. See
+`node:docs/evidence/sensorium-device-discovery/p21-cleanup.method.json`.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
