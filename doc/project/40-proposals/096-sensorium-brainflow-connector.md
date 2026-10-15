@@ -1835,6 +1835,18 @@ required. P096-005/009/017/018 remain **partial**; no launchd, measurement,
 qualification or adoption status advances. See
 `node:docs/audits/REVIEW-SENSORIUM-ACQUISITION-START-2026-10-15.md`.
 
+Later preparation checkpoint, 2026-10-15: clean `94a9f109` is frozen nearby as
+source `869293a2` / image `7fa4a467`, with matching file/signature/dependency checks,
+root-free preflights and 32 console tests. The normal owner separately reviewed
+and signed the distinct ten-file p21 runtime-layout package `4f0b5cec` under
+review `e56c5236`. Read-only comparison preserves all 47 protected old sources,
+journal revision 49 and the held revision-2 acquisition quarantine. Grants and
+registration remain unchanged. No recovery baseline, reset, recovery or hardware
+operation ran. A fresh recovery baseline, separately confirmed Bluetooth
+observation/recovery and supported stopped revision-2 lifecycle remain required;
+the new artifacts alone authorize no Case or measurement. Statuses remain partial.
+See `node:docs/evidence/sensorium-device-discovery/runtime-path.preparation.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
