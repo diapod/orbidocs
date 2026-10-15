@@ -1811,8 +1811,10 @@ finds no target, acquisition or WEAR and unchanged retired configuration. A Node
 status-read pacing defect is consistent with the collapsed refusal: the BIND read
 can immediately follow SCAN's final read inside the host's 100 ms limit. Its fix
 retries only read-only rate refusals under the original deadline and fresh
-admission/expiry. New pinned preparation and physical verification remain open;
-no new recovery is indicated by this released Case. See
+admission/expiry. Corrected clean397ad699 is now frozen nearby as source07aeed39/imageff4bef95,
+with independently checked signatures/files, 30 nearby console tests and
+identical locked root/journal/controller state before and after preparation.
+Physical verification remains open; no new recovery is indicated by this released Case. See
 `node:docs/audits/REVIEW-SENSORIUM-SCAN-BIND-2026-10-15.md`.
 
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
