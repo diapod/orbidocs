@@ -1709,6 +1709,21 @@ Actual controller recovery, fresh terminal/launchd access/cleanup cases, approve
 binding use and the remaining completion gates still apply. No native
 qualification or adoption follows from the partial implementation status.
 
+The 2026-10-15 terminal observation subsequently passed fresh SCAN, BIND,
+REGISTER and WEAR p21, then ended `uncertain` during acquisition observation.
+Discovery cleanup was confirmed; acquisition cleanup and controller release
+were not. This is failed source evidence, not completion of 005/018. The bound,
+worn Case remains outside the narrow pre-binding restart-recovery contract.
+A software follow-up replaces the premature five-second host observation
+stopwatch with explicit fresh-WEAR preparation (30 seconds) inside a 45-second
+whole-session ceiling, further bounded by original Case/grant/withdrawal clocks.
+The worker's separate five-second first-data bound after stream startup stays
+unchanged. New records identify this budget; old ten-second consent/history is
+not reinterpreted. Closed acquisition startup diagnostics, both-owner stop
+fanout and empty-candidate refusal improve diagnosis without authorizing a retry
+or clearing quarantine. See
+`node:docs/audits/REVIEW-SENSORIUM-P21-OBSERVATION-2026-10-15.md`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
