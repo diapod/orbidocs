@@ -542,6 +542,18 @@ This GUI-session observation does not qualify a background launchd daemon or
 Bluetooth access. See `node:docs/evidence/sensorium-device-discovery/ssh-gui-preparation.runtime.json`
 and `node:docs/audits/REVIEW-SENSORIUM-SSH-CONTROL-2026-10-15.md`.
 
+A fresh self-wearer-approved delegated Case subsequently observes Bluetooth
+allowed and completes SCAN/BIND/REGISTER revision 4. Activation after WEAR
+refuses before executor/permit start. Actual discovery cleanup and never-started
+acquisition cleanup are confirmed; independent journal revision 67/ten Cases
+matches released controller and zero resource claims. The refusal's precise
+pre-activation cause is not retained by that producer. A software diagnostic
+follow-up preserves the first closed monitor observation and authenticated
+activation-guard failure without changing validation or consent clocks. No
+acquisition success, automatic retry, recovery or native qualification follows.
+See `node:docs/evidence/sensorium-device-discovery/ssh-gui-p21-r4.observation.json`.
+
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
