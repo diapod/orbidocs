@@ -473,6 +473,13 @@ qualification, recovery, renewed consent or hardware retry is implied.
 P096-005/009/011a/017/018 remain open or partial. See Node's
 [native cleanup review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-NATIVE-CLEANUP-2026-10-15.md).
 
+The corrected clean code `c29e1b3f` now freezes 4720-file source `9dadd575`
+and nearby image `b2a8d2e9`. Exact pins, strict signatures, no-effect preflights
+and 35 nearby console tests pass. Read-only handoff checks preserve journal
+revision 58/nine Cases and the held revision-3 acquisition quarantine.
+No baseline, Bluetooth observation, recovery, renewal or hardware retry ran.
+See `node:docs/evidence/sensorium-device-discovery/p21-cleanup.preparation.json`.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
