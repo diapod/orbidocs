@@ -515,6 +515,18 @@ retirement of revision 3 must wait for binding expiry at
 remain separate. See
 `node:docs/evidence/sensorium-device-discovery/p21-cleanup.completion.json`.
 
+The operator explicitly delegated this bounded workflow to the agent over SSH
+without interactive local-console approvals, retaining a physical-readiness
+check before device use. After original binding expiry, reviewed `2368cc10`
+retirement completed through normal owners; exact four after-files, both
+configuration journals, preserved siblings/history/recovery and reserved
+revision 4 are verified. No grant, consent or hardware action follows.
+A state-only native SSH permission probe remains undetermined with confirmed
+no-scan cleanup. SSH control therefore remains distinct from measured native
+launch/TCC access; it must never be labelled as terminal ancestry or native
+qualification. See `node:docs/evidence/sensorium-device-discovery/p21-ssh-retirement.runtime.json`
+and `node:docs/evidence/sensorium-device-discovery/ssh-permission.lab.json`.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
