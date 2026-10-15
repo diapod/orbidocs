@@ -480,6 +480,14 @@ revision 58/nine Cases and the held revision-3 acquisition quarantine.
 No baseline, Bluetooth observation, recovery, renewal or hardware retry ran.
 See `node:docs/evidence/sensorium-device-discovery/p21-cleanup.preparation.json`.
 
+The operator subsequently prepared v3 baseline `38941cea` for revision 3.
+Read-only verification matches its exact candidate, retained journal, held
+claim, resources and eleven protected sources; the proposed policy changes only
+generation. No reset/recovery has run. Bluetooth method review, OFF/ON observation
+and commit require their separate approvals; expiry and original uncertain
+history remain unchanged. See
+`node:docs/evidence/sensorium-device-discovery/p21-cleanup.baseline.json`.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
