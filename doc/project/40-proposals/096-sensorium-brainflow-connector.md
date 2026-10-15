@@ -1859,6 +1859,16 @@ its recovery, retirement and fresh physical stages require separate decisions.
 P096-005/009/017/018 remain **partial**; this adds no hardware qualification.
 See `node:docs/audits/REVIEW-SENSORIUM-P21-RETIREMENT-2026-10-15.md`.
 
+The repeatable lifecycle handoff is now frozen from `a1e3c1fd`, with independently
+verified source `98e4cdfa` and nearby image `12ade881`. Root-free preflights and 33
+console tests pass. Locked comparison retains 47 old protected sources, 13
+prepared-package files, journal revision 49, eight Cases and the held revision-2
+acquisition quarantine. Existing owner/discovery expiry checks do not replace
+normal live admission; p21 remains expired. No new baseline, recovery, retirement
+or hardware operation ran. Fresh local-console decisions remain required for
+baseline, Bluetooth observation/recovery, revision-2-to3 retirement and physical
+stages. See `node:docs/evidence/sensorium-device-discovery/p21-retirement-history.preparation.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
