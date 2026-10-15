@@ -495,6 +495,15 @@ OFF/ON observation must precede separate recovery approval; method selection
 starts no two-hour window and releases nothing. See
 `node:docs/evidence/sensorium-device-discovery/p21-cleanup.method.json`.
 
+The operator subsequently observed OFF/ON through the pinned observer. Protected
+proof `988ef272` matches v4 `a9d93da5`, exact candidate/observer and unchanged
+boot; 3509 ms OFF and four worker-absence checks precede publication after
+successful observer exit. The approval window ends at
+`2026-10-15T22:34:23.205Z`. Read-only inspection preserves the journal, held
+claim, resources and eleven protected sources. Separate recovery commit remains
+pending; this attests neither native stop nor qualification and renews no grant.
+See `node:docs/evidence/sensorium-device-discovery/p21-cleanup.observation.json`.
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
