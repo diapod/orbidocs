@@ -1759,6 +1759,13 @@ need a supported new lifecycle before another fresh Case. Implementation and
 software tests do not complete the actual nearby reset/disposal gate. See
 `node:daemon/docs/SENSORIUM-CONTROLLER-RECOVERY.md#observed-bluetooth-power-cycle-v4`.
 
+The clean c70f1621 matching radio-recovery candidate and observer are frozen on
+the nearby host. Strict signatures/system dependencies, four-file integrity,
+29 nearby console checks and a manager-free process probe under the exact
+sandbox/empty environment pass. Preparation performed no new method review,
+radio observation, recovery or measurement; each still needs its own local
+decision. See `node:docs/evidence/sensorium-device-discovery/bluetooth-recovery.preparation.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
