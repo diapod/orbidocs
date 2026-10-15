@@ -391,6 +391,22 @@ observations do not close 005, 006b, 017 or 018. The failed supervised scan has
 uncertain cleanup and requires separately recorded laboratory recovery and new
 consent before another attempt. Launchd and approved binding use remain unqualified.
 
+Implementation checkpoint, 2026-10-15: Node adds a supported **private
+acceptance-root**, sole-owner, pre-binding controller-recovery corridor. Current
+normal identity owns cleanup custody separately from activation and old runtime
+availability. An actual kernel boot-session baseline and a separately approved
+changed-boot observation bound exact metadata reconciliation; a global durable
+fence precedes disposal, original expiry/history and sibling resources remain,
+and known consumed interruptions require explicit exact resume. A detached fact
+permits only inert history restoration. Host execution-epoch reset is not native
+stop acknowledgement, radio quiescence or production recovery qualification.
+Normal-key temporary-root and owned-process interruption evidence does not close
+P096-005/009/011a/017/018. Actual nearby recovery and device tests remain
+unperformed. See Node's
+[recovery contract](https://github.com/diapod/node/blob/master/daemon/docs/SENSORIUM-CONTROLLER-RECOVERY.md)
+and
+[software review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-SENSORIUM-CONTROLLER-RECOVERY-2026-10-15.md).
+
 ### 5. Independent instance materialization and host ownership
 
 Reuse installed package material separately from per-instance runtime homes:
