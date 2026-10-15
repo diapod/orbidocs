@@ -1738,6 +1738,11 @@ or ordinary exposure. Software conformance does not recover the actual
 acquisition quarantine; no recovery or hardware trial was performed. See
 `node:daemon/docs/SENSORIUM-CONTROLLER-RECOVERY.md` and
 `node:docs/audits/REVIEW-SENSORIUM-ACQUISITION-RECOVERY-2026-10-15.md`.
+The clean 4f82f6d9 matching candidate is frozen on the nearby host; independent
+source/image/signature and files-only checks plus 26 console tests passed without
+root/controller access. No actual baseline, recovery, restart or hardware trial
+was performed. Qualification status and the retained acquisition quarantine are
+unchanged by software preparation.
 
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
