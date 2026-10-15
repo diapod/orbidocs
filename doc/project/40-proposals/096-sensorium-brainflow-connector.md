@@ -1766,6 +1766,17 @@ sandbox/empty environment pass. Preparation performed no new method review,
 radio observation, recovery or measurement; each still needs its own local
 decision. See `node:docs/evidence/sensorium-device-discovery/bluetooth-recovery.preparation.json`.
 
+On 2026-10-15 the operator separately selected v4, performed the observed macOS
+Bluetooth OFF/ON cycle and approved exact RECOVER-BLUETOOTH. Independent read-only
+verification confirms the completed v3 receipt, exact acquisition-row disposal,
+absent controller claim/pending fence and a policy change limited to generation.
+The archived v3 baseline, Case journal and all eleven protected sources remain
+unchanged. Original Case history remains uncertain; p21 grants and binding remain
+expired. This closes the one-case Bluetooth recovery observation only, without
+native-stop, launchd, measurement, qualification or adoption claims. Supported
+stopped fresh binding/registration remains required before another physical Case.
+See `node:docs/evidence/sensorium-device-discovery/bluetooth-recovery.runtime.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
