@@ -1878,6 +1878,13 @@ process absence, fresh OFF/ON observation and separate recovery consent remain
 required. No radio observation, recovery or qualification is claimed. See
 `node:docs/audits/REVIEW-SENSORIUM-RADIO-SOURCE-2026-10-15.md`.
 
+The corrected handoff is frozen from `301c1d9f` as source `e668ed27` / image
+`6487209c`, with nearby integrity/preflight checks and 33 console tests.
+All 48 protected sources including the original v3 baseline and 13 prepared
+package files remain exact; quarantine remains held. The v4 method choice,
+observer and recovery remain separately approved next steps. See
+`node:docs/evidence/sensorium-device-discovery/radio-source.preparation.json`.
+
 Follow-up evidence on 2026-10-13 closes **001's software spike/reuse audit** and
 **002's draft contract preparation**, with no product or hardware qualification.
 The exact source-bound checkpoint and chunk reviews are retained under
