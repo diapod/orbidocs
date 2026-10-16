@@ -728,26 +728,20 @@ one artifact; that is out of scope for v1.
 
 ## Open Questions
 
-Opened 2026-10-12:
+Resolved at the design layer on 2026-10-16 (opened 2026-10-12):
 
-1. **Limited grants for ordinary participants without sovereign admission.** How
-   should an already authorized issuer grant an ordinary participant narrowly scoped
-   capabilities (for example local Messaging send/receive preparation) without
-   admitting that participant as a sovereign subject? Freeze the issuing/delegating
-   actor, participant/node/caller scope, any org custody requirements, recipient
-   consent boundaries, and expiry/revocation/root-rotation behavior before defining
-   a new issuance path. Local identity creation, an unlocked key, an operator binding
-   or a participant-signed preparation request do not answer this policy question or
-   confer issuer authority. The current general passport-issue API must not become
-   an implicit ordinary-user privilege path through onboarding. This is an open
-   design question, not a change to adopted authority semantics or a completed
-   implementation task. Related:
-   [Proposal 097: Fresh-Identity Onboarding and Messaging Readiness](097-fresh-identity-onboarding-and-messaging-readiness.md).
-   The [2026-10-16 proposed decision record](076-limited-messaging-grants-decision.md)
-   compares direct constrained issuance with one bounded delegate. Existing
-   `issuer_delegation` proves signing-key authority, not all required beneficiary,
-   node, caller and profile restrictions. Adoption and canonical signed constraints
-   precede an implementation tracker; the current evaluator remains unchanged.
+1. **Limited Messaging grants without sovereign admission.** The
+   [accepted decision record](076-limited-messaging-grants-decision.md) separates
+   beneficiary, delegate signer and active-root anchor. It adopts one signed,
+   bounded Messaging issuance edge, an explicit online status authority for
+   300-second revocation observations, request-specific receive/INAC consent and
+   separate org issuance/withdrawal custody purposes. Participant and delegate
+   remain outside the sovereign roster; identity creation, binding, setup and
+   retry grant no sovereign standing. P032 signing-key delegation is not a
+   substitute for this issuance proof. P076-028..034 track vertical implementation
+   and qualification; design adoption does not establish runtime support or
+   release readiness. General-purpose ordinary-user issuance, multi-user Nodes
+   and onward delegation remain outside the adopted scope.
 
 Resolved 2026-07-03:
 

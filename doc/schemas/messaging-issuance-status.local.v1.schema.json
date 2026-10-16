@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-issuance-status.local:v1",
+  "title": "messaging-issuance-status.local.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "messaging-issuance-status.local.v1"
+    },
+    "participant_id": {
+      "type": "string",
+      "pattern": "^participant:did:key:"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "grants": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delegation_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^delegation:issuance:[A-Za-z0-9:_-]+$"
+          },
+          "delegate_key": {
+            "type": "string",
+            "pattern": "^did:key:"
+          },
+          "key_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "blocked",
+              "unknown"
+            ]
+          },
+          "reasons": {
+            "$ref": "messaging-send-decision.local.v2.schema.json#/properties/reasons"
+          },
+          "delegate_unlocked": {
+            "type": "boolean"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "status/as_of": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status/valid_until": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "passport_ids": {
+            "type": "array",
+            "maxItems": 1024,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^passport:capability:"
+            }
+          }
+        },
+        "required": [
+          "delegation_id",
+          "delegate_key",
+          "key_id",
+          "expires_at",
+          "status",
+          "reasons",
+          "delegate_unlocked",
+          "revision",
+          "status/as_of",
+          "status/valid_until",
+          "passport_ids"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "participant_id",
+    "observed_at",
+    "grants"
+  ]
+}

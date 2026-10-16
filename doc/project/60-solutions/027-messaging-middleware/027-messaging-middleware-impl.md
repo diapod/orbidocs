@@ -4,6 +4,8 @@ Date: `2026-05-17`
 
 Updated: `2026-10-13` for P097 Stage B and the scoped browser follow-up.
 
+Updated: `2026-10-16` for the in-progress P076 limited-issuance vertical slices.
+
 ## Runtime Boundaries
 
 `messaging-core` is the pure domain layer. It owns typed envelope validation,
@@ -46,6 +48,22 @@ There is no observe mode, legacy cohort, cutover or migration API; existing
 identities use explicit preparation or renewal. Setup, auto-ready and retry grant
 no sovereign authority. See [P097](../../40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md)
 and `node:docs/development/MESSAGING-ONBOARDING.md` for the current owner contract.
+
+P076 adds a separate bounded issuance edge without admitting its beneficiary or
+delegate to the sovereign roster. The first implementation slice supports
+participant-anchored local-send passports, an encrypted delegate/request snapshot,
+explicit unlock and a signed online parent status. The status key and endpoint
+are part of the offline-signed grant; an HTTP fetch timestamp is not a negative
+revocation proof. A remote parent requires a verified observation within 300
+seconds, while known withdrawals remain effective after the lease expires.
+Refresh, import, restart and unlock never resume `authority-blocked` messages.
+
+Current read contracts are `messaging-readiness.local.v2`,
+`messaging-send-decision.local.v2` and `messaging-send-audit.local.v2`.
+Readiness separates issuer admission, usable issuance authority, receive-role
+preparation and open receive consent. The first slice does not qualify delegated
+receive/INAC issuance, bidirectional exchange or organization custody. Those are
+separate P076 gates; dated P097 evidence retains its original scope.
 
 The operator page `/middleware/messaging` (the target of `/admin/messaging`)
 renders a fresh pseudonymous contactability draft without requiring attestation

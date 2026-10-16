@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-send-decision.local:v2",
+  "title": "Current Messaging send decision v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "reasons",
+    "observed_at",
+    "participant_id",
+    "passport_id",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-send-decision.local.v2"
+    },
+    "status": {
+      "enum": [
+        "ready",
+        "blocked",
+        "unknown"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "issuer-not-admitted",
+          "passport-missing",
+          "passport-ineligible",
+          "passport-profile-unsupported",
+          "revocation-view-stale",
+          "guard-unavailable",
+          "unattributed-entry",
+          "passport-signature-invalid",
+          "passport-expired",
+          "passport-revoked",
+          "revocation-state-unavailable",
+          "binding-missing",
+          "binding-inactive",
+          "participant-owner-mismatch",
+          "route-missing",
+          "service-not-ready",
+          "storage-not-ready",
+          "contactability-not-ready",
+          "key-locked",
+          "root-unavailable",
+          "observation-failed",
+          "issuance-delegation-missing",
+          "issuance-delegation-invalid",
+          "issuance-delegation-expired",
+          "issuance-delegation-revoked",
+          "issuance-delegation-scope-mismatch",
+          "issuance-custody-not-met"
+        ]
+      }
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "participant_id": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "passport_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 256
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "subject",
+        "root/digest",
+        "binding/revision",
+        "caller/revision",
+        "revocation/revision",
+        "route",
+        "route/owner",
+        "revocation/authority"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "participant_id",
+            "node_id",
+            "caller_kind",
+            "caller_label",
+            "caller_subject_key"
+          ],
+          "properties": {
+            "participant_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "node_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "caller_kind": {
+              "enum": [
+                "http-module",
+                "in-process-module",
+                "operator",
+                "participant",
+                "node",
+                "org",
+                "pod-user"
+              ]
+            },
+            "caller_label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "caller_subject_key": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "root/digest": {
+          "type": "string"
+        },
+        "binding/revision": {
+          "type": "string"
+        },
+        "caller/revision": {
+          "type": "string"
+        },
+        "revocation/revision": {
+          "type": "string"
+        },
+        "route": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "route/owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revocation/authority": {
+          "enum": [
+            "local",
+            "remote",
+            "per-edge"
+          ]
+        },
+        "issuance/delegation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issuance/anchor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "candidates/rejected": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "passport_id",
+              "delegation_id",
+              "reason"
+            ],
+            "properties": {
+              "passport_id": {
+                "type": "string"
+              },
+              "delegation_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "$ref": "#/properties/reasons/items"
+              }
+            }
+          },
+          "description": "At most the first 32 rejected candidates in deterministic order; diagnostic sample, not a complete inventory."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "provenance-reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message/id",
+        "provenance/ref"
+      ],
+      "properties": {
+        "message/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "provenance/ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "authority-failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reasons",
+        "observed_at",
+        "evidence"
+      ],
+      "properties": {
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "issuer-not-admitted",
+              "passport-missing",
+              "passport-ineligible",
+              "passport-profile-unsupported",
+              "revocation-view-stale",
+              "guard-unavailable",
+              "unattributed-entry",
+              "passport-signature-invalid",
+              "passport-expired",
+              "passport-revoked",
+              "revocation-state-unavailable",
+              "binding-missing",
+              "binding-inactive",
+              "participant-owner-mismatch",
+              "route-missing",
+              "service-not-ready",
+              "storage-not-ready",
+              "contactability-not-ready",
+              "key-locked",
+              "root-unavailable",
+              "observation-failed",
+              "issuance-delegation-missing",
+              "issuance-delegation-invalid",
+              "issuance-delegation-expired",
+              "issuance-delegation-revoked",
+              "issuance-delegation-scope-mismatch",
+              "issuance-custody-not-met"
+            ]
+          }
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

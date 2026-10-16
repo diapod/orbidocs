@@ -1,6 +1,6 @@
 # Decision: Limited Messaging Grants under P076
 
-Status: `proposed` — no new issuance or delegation authority is adopted.
+Status: `accepted` — design adopted on 2026-10-16; runtime qualification is tracked separately.
 
 Date: `2026-10-16`
 
@@ -9,11 +9,10 @@ and [P097](097-fresh-identity-onboarding-and-messaging-readiness.md).
 
 ## Executive Summary
 
-Recommend one explicitly authorized delegation level for narrowly scoped Messaging
+Adopt one explicitly authorized delegation level for narrowly scoped Messaging
 preparation by an ordinary participant, anchored in a sovereign issuer admitted by
 the active federation root. Creating an identity, unlocking its key or completing
-onboarding never grants this authority. This decision remains proposed; the current
-runtime continues to support only the locally qualified sovereign-operator path.
+onboarding never grants this authority. Design adoption does not qualify the delegated runtime. Existing sovereign evidence retains its original scope.
 
 ## Context and Problem Statement
 
@@ -34,32 +33,97 @@ constraints needed for ordinary-participant issuance.
    reuse signature verification, active-root lookup and target revocation while
    defining the missing signed issuance constraints explicitly.
 
-## Proposed Decision
+## Decision
 
 - Separate the beneficiary participant, actual signer/delegate and root authority
   anchor. The participant is not added to sovereign subjects as a side effect.
-- Require a signed restriction to one participant, node, authenticated caller and
-  `messaging-local-send@v1` profile, with explicit expiry. No wildcard or onward
-  delegation is implied. Recipient receive consent and INAC consent remain separate.
-- Effective scope is the intersection of the delegation and passport scopes;
-  passport validity cannot exceed delegation validity. A proof of signing authority
-  alone is insufficient to authorize constrained issuance.
-- Verify every signature and constraint, delegation expiry and `revoked_targets`,
-  and resolve the authority anchor against the **active** root. Staged roots do not
-  change authority. Cache evidence must include the delegation and root revisions.
-- A later implementation must replace the relevant self-issuer selection rule with
-  this complete verifier, rather than remove equality/admission checks piecemeal.
-- Retain versioned canonical signing semantics: adding unsigned constraints to an
-  old proof is not a valid extension. Artifact/version selection requires adoption
-  of this decision and a separate schema/implementation review.
+- The beneficiary is the ordinary primary operator of one Node. A separate encrypted
+  local delegate key receives no sovereign standing and no general signing grant.
+- `capability-issuance-delegation.v1` signs federation, grant id, sovereign subject,
+  participant, node, delegate key, issuance callers, closed Messaging templates,
+  validity and per-template maximum child TTL. Wildcards and onward delegation are
+  forbidden. The templates are local send, request-specific receive consent and
+  single-use INAC consent for `contact-request.v1` or `message-envelope.v1`.
+- The issuance caller is host-authenticated and distinct from the child's allowed
+  caller. The host proves route ownership and requires a durable explicit consent
+  before issuing receive or INAC consent. Setup prepares the receiving role; it
+  does not issue an any-sender passport for this path.
+- `capability-passport.v2` carries the complete signed parent as
+  `issuance_authority.delegation`; its beneficiary is explicit, while
+  the parent explicitly names the sovereign anchor and delegate signer. V2 is a separate typed artifact with `beneficiary_participant_id`, `beneficiary_node_id`, `authority_subject_ref` and `signer_key`; the V1 struct and selectors remain V1-only. Its
+  domain-separated signature covers the entire parent and scope. V1 retains its
+  signing semantics. Unknown V2 must fail closed, with no proof stripping/downgrade.
+- The grant request proves participant, node and delegate key possession, binds `federation_id`, the active root digest/version, includes
+  a 256-bit nonce and expires within 15 minutes. Grant approval is an offline
+  signing ceremony, never an onboarding side effect. Import does not change the
+  federation root or its anti-rollback state.
+- Both participant and org sovereign subjects may approve a grant. An org must meet
+  a new explicit `capability-issuance` custody purpose with its authorized keys and threshold; withdrawal uses the separately adopted `capability-revocation` purpose with `any-authorized` policy;
+  grant signing has its own domain and does not reuse a root-pack signature.
+- Effective scope is the intersection of parent and child. Child validity cannot
+  exceed parent validity or its per-template maximum TTL. The verifier checks
+  signatures, all constraints, known revocations and the anchor/custody in the
+  active root. Staged roots have no effect. No empty-roster authority fallback.
+- **Revocation status source (F-01, adopted before runtime integration):** the
+  offline issuer explicitly binds an online status key and endpoint in each signed
+  grant. The service has authority to attest status only, never to issue grants,
+  renew them or manufacture revocations. Seed Directory hosts this bounded status
+  surface; official-service endorsement does not by itself grant status authority.
+  An offline issuer need not sign a fresh status every five minutes.
+- `issuance-revocation-status.v1` signs federation, grant id/full-artifact digest,
+  monotonic revision, `as_of`, `valid_until`, active/revoked state and revoked child
+  ids. Maximum observation validity is 300 seconds. A wall-clock fetch timestamp
+  and an absent revocation record are never proof of non-revocation. Unknown or
+  unregistered grants yield unavailable, never active. Initial registration and
+  verified withdrawals are durable and serialized before a status can be signed.
+  Re-registration cannot clear withdrawals. Clients persist revision high-water
+  marks and known withdrawals; stale status cannot erase them.
+- Status is fetched over the grant's exact endpoint and verified against its exact
+  status key. Network errors, bad signature/context and stale status fail closed.
+  Local child withdrawals remain immediate. For an honest service, already minted
+  active observations can remain usable for at most their 300-second lease after
+  a withdrawal commits. The online status key is an explicit trust assumption:
+  compromise can forge fresh negative observations until parent expiry or another
+  locally known refusal, and can deny service with false withdrawal assertions.
+  It cannot sign a new grant or a sovereign/node withdrawal artifact. Known
+  withdrawals cannot be erased by a later status. The service retains terminal
+  grant withdrawal until after grant expiry and the observation window.
+- `capability-passport-revocation.v2` supports parent/child withdrawal. Withdrawal
+  of a parent, by its sovereign authority or the bound Node, cascades to all its
+  receive passports and INAC invitations. It does not merely disable new issuance.
+  Child expiry is bounded by parent expiry and per-template TTL, independently of
+  the 300-second status observation window (Q-01).
+- Locked delegate key: acceptance remains visibly pending and offers unlock;
+  acceptance is committed only after its scoped child can be issued. No silent
+  failed acceptance or automatic later approval (Q-02).
+- Readiness V2 has the same meaning on both paths: `receive/role-prepared` is local
+  preparation; `receive/open-consent` separately reports the existing sovereign
+  wizard passport if present. The delegated path never creates open consent.
+  Send authorization does not depend on either receive facet (F-04).
+- Empty sovereign rosters confer no authority on any path. Existing fallback checks
+  are removed, and conformance/runtime fixtures use a nonempty explicit root that
+  excludes ordinary beneficiaries and delegates (F-05).
+- Parent renewal requires a new explicitly approved grant. Setup may renew children
+  within a current parent using the shared idempotent coordinator. Historical keys
+  retain historical results within the bounded receipt window (30 days after
+  proof expiry). Expired requests/proofs then release local snapshot capacity;
+  an expired parent cannot be reimported as current authority. Import, GET,
+  restart, unlock and auto-ready do not
+  resurrect authority-blocked intents or withdrawn consent.
+- Readiness/decision/audit V2 distinguish sovereign membership from usable bounded
+  issuance authority. The existing evaluator and execution guards remain the
+  enforcement boundaries. Runtime proofs and release readiness remain separate.
+
+Before the first release, read contracts and consumers switch together to V2.
+No migration, downgrade adapter or version negotiation is introduced. Separate
+passport types preserve the distinction between two authority proofs.
 
 ## Trade-offs
 
 Delegation permits bounded renewal without continuously exposing the sovereign
 signing key, but adds a revocable authority edge and additional proof validation.
 Direct issuance remains a useful alternative if that complexity is unnecessary.
-Multiple delegation levels and ordinary-participant receiver-side issuance policy
-are outside this first proposed decision.
+Multiple delegation levels, hosted multi-participant Nodes and grants for non-Messaging capabilities remain outside this decision.
 
 ## Failure Modes and Mitigations
 
@@ -73,14 +137,34 @@ are outside this first proposed decision.
 
 ## Open Questions
 
-Adoption must settle the canonical issuance-delegation artifact/version, the
-actor/custody ceremony and the ordinary-participant receive/preparation policy.
-These are design gates, not implementation defaults. P076's original question
-remains open until the policy is adopted and its intended scope is explicit.
+Multi-user Nodes, deeper delegation and longer offline revocation leases require
+separate decisions. None is a fallback
+for this bounded first implementation.
+
+## Implementation Tracker
+
+Work is vertical, with review and qualification at the end of each slice. A schema
+or unit test alone never closes a runtime gate.
+
+| Task | Slice | Scope | Status | Completion gate |
+|---|---|---|---|---|
+| P076-028 | A | Decision, status authority/channel, V2 separation | done | Adopted decisions including F-01/F-07 and Q-01..03 |
+| P076-029 | A | Participant issuer, status service, local send and ceremony | in-progress | Actual delegated send; ordinary identity absent from root |
+| P076-030 | A | Status outage/revocation, retry/restart and first qualification | todo | Signed status expiry, monotonic recovery and sovereign regression |
+| P076-031 | B | Scoped receive and explicit single-use INAC consent | todo | Bidirectional delivery with two independent consents |
+| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | todo | Two-tab recovery and parent withdrawal cascades |
+| P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
+| P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
+
+MSG-ONB-005/006 remain closed with their original sovereign scope. Their reserved
+`issuer-path` argument is reused by new MSG-ONB-007/008, not used to rewrite the
+closed evidence. The delegated INAC template requires explicit `single_use=true`,
+one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Review and adopt or revise this record first. Only then create the implementation
-tracker and delegated acceptance profile. MSG-ONB-005/006 reserve `issuer-path`
-now but do not implement this authority path. Keep the ordinary self-issued
-sovereign conformance and qualification independently reproducible.
+Implement and qualify slice A before B, and B before org custody C. Review after
+each substantial slice, including the online authority's durable negative-proof
+semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
+registry, Node ledger and MVP. No model or VM is required; historical qualifications
+and release readiness remain distinct.

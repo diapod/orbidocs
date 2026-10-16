@@ -198,9 +198,9 @@ binding/revocation revisions; previous-root decisions cannot survive activation.
 At execution in Stage B, reevaluate current authority before effects. An earlier GET
 result is explanatory evidence, not a reusable authorization token.
 
-### 4. Read contract: `messaging-readiness.local.v1`
+### 4. Current read contract: `messaging-readiness.local.v2`
 
-The canonical [readiness schema](../../schemas/messaging-readiness.local.v1.schema.json)
+The canonical [readiness schema](../../schemas/messaging-readiness.local.v2.schema.json)
 freezes this DTO. Related contracts are
 [preparation](../../schemas/capability-passport-preparation.local.v1.schema.json),
 [disposition](../../schemas/messaging-onboarding-disposition.local.v1.schema.json),
@@ -209,7 +209,10 @@ and [signed request](../../schemas/issuer-admission-request.v1.schema.json).
 
 | Field | Contract |
 |---|---|
-| `schema` | Constant `messaging-readiness.local.v1` |
+| `schema` | Constant `messaging-readiness.local.v2` |
+| `federation_issuer_status` | Sovereign membership only; a limited grant does not make this ready |
+| `issuance_authority_status`, `issuance_authority_kind` | Usable bounded or sovereign issuance, with a closed `sovereign | delegated | none` kind |
+| `roles.receive.receive/role-prepared`, `roles.receive.receive/open-consent` | Separate local role and any-sender consent facets, with identical meaning on both paths |
 | `subject` | Participant id, node id and resolved caller identity |
 | `requirements` | Selected preparation profile and plan revision |
 | `roles.send`, `roles.receive` | Separate status, reasons and evidence, with participant owner and route association where required |
@@ -619,11 +622,18 @@ do not resume `authority-blocked`. Single and bulk retry cover double clicks and
 simultaneous tabs, distinct overlapping operation keys, same-key response-loss replay
 and exactly one retry generation/delivery. Active-root removal remains conformance.
 
-The harness parameter `issuer-path=sovereign|delegated` reserves a future extension.
-`delegated` fails before creating profiles; it has no sovereign fallback. The
-[proposed P076 decision](076-limited-messaging-grants-decision.md) must be adopted and
-implemented before that path can be qualified. Existing signing-key delegation is
-not constrained ordinary-participant passport issuance authority.
+The harness parameter `issuer-path=sovereign|delegated` separates authority paths.
+The [accepted P076 decision](076-limited-messaging-grants-decision.md) owns the
+bounded issuance proof and its online signed status source. The first development
+slice is `delegated-local-send`: B remains outside root and sends to sovereign A.
+This does not qualify delegated receive/INAC, org custody or a release candidate.
+MSG-ONB-005/006 keep their completed sovereign scope; new delegated evidence uses
+separate tracker rows, never a sovereign fallback.
+
+| Task | Scope | Status | Completion gate |
+|---|---|---|---|
+| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | todo | Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
+| MSG-ONB-008 | Delegated authority loss and explicit recovery | todo | Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
 
 Candidate qualification has a closed set: conformance prerequisites, strict
 Story-010, `005 sovereign`, `006 sovereign`, and `S027-008`. One run pins clean source
@@ -665,7 +675,8 @@ overlapping retry operations and one lost response each retain measured results.
 Source/profile/binary/capsule pins, sanitized reports and milestone review are at
 `node:docs/evidence/messaging-onboarding/2026-10-16/README.md`. S027-008 additionally
 fixes logical mailbox identity during reindex and the missing discard proxy exposed
-by runtime measurement. The proposed P076 ADR does not adopt delegated issuance.
+by runtime measurement. These dated results cover sovereign issuance; the later
+P076 decision and delegated qualification are tracked separately.
 This is local qualification, not release readiness; historical measurements below
 retain their original scope and date.
 

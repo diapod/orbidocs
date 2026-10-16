@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-issuance-unlock.local:v1",
+  "title": "messaging-issuance-unlock.local.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "delegation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^delegation:issuance:[A-Za-z0-9:_-]+$"
+    },
+    "passphrase": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "writeOnly": true
+    }
+  },
+  "required": [
+    "delegation_id",
+    "passphrase"
+  ]
+}

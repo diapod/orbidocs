@@ -1,8 +1,8 @@
 {
-  "schema": "messaging-send-audit.local.v1",
+  "schema": "messaging-send-audit.local.v2",
   "profiles": [
     {
-      "schema": "messaging-send-decision.local.v1",
+      "schema": "messaging-send-decision.local.v2",
       "status": "ready",
       "reasons": [],
       "observed_at": "2026-10-13T00:00:00Z",
@@ -58,7 +58,7 @@
         }
       },
       "assessment": {
-        "schema": "messaging-send-decision.local.v1",
+        "schema": "messaging-send-decision.local.v2",
         "status": "ready",
         "reasons": [],
         "observed_at": "2026-10-13T00:00:00Z",

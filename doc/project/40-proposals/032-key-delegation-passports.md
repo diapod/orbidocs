@@ -31,6 +31,14 @@ frequently used, and rotated without touching the participant key.
 The participant key is used once to issue (and, if needed, revoke) the
 delegation.  All subsequent operational signing is performed by the proxy key.
 
+P076's [bounded Messaging issuance decision](076-limited-messaging-grants-decision.md)
+is a separate authority edge. `key-delegation.v1` proves signing on behalf of its
+principal; it does not grant an ordinary participant authority to issue passports
+for another beneficiary. The new `capability-passport.v2` signs its complete
+issuance proof, without changing or extending the unsigned V1 `issuer_delegation`
+field. The encrypted local proxy-key vault is reusable storage, not the source of
+sovereign authority.
+
 ## Problem
 
 The current architecture couples three concerns in a single key:

@@ -1,5 +1,5 @@
 {
-  "schema": "messaging-send-decision.local.v1",
+  "schema": "messaging-send-decision.local.v2",
   "status": "ready",
   "reasons": [],
   "observed_at": "2026-10-13T00:00:00Z",

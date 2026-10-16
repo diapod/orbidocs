@@ -8,6 +8,8 @@ Status: `mvp-ready`
 
 Date: `2026-05-19`
 
+Updated: `2026-10-16` for the in-progress P076 issuance-status surface.
+
 ## Executive Summary
 
 Seed Directory answers discovery questions without becoming the source of
@@ -63,6 +65,28 @@ It does not own:
 - TLS trust lifecycle beyond producing endpoint evidence consumed by TLS Trust
   Policy and peer supervision;
 - reputation algorithms for directory operators.
+
+### Limited Messaging issuance status (P076)
+
+The P076 extension registers an offline-signed
+`capability-issuance-delegation.v1` and serves
+`issuance-revocation-status.v1` from the exact online key selected by that grant.
+This status role cannot issue grants, passports or sovereign revocations. It
+provides a grant-digest-bound negative observation with a monotonic revision,
+`as_of`, a lease no longer than 300 seconds, parent status and child withdrawals.
+Unknown grants return 404 rather than an empty revocation set.
+
+Registration, verified `capability-passport-revocation.v2` withdrawal and status
+signing share serialized SQLite transactions, including across store connections.
+Registration cannot reset a known withdrawal or replace the signed grant bytes.
+Capacity is bounded at 4096 grants per service, 64 per beneficiary node and 4096
+child withdrawal ids per grant; history expires after the parent expiry plus the
+maximum status lease. Consumers independently verify active-root authority,
+signatures, time, scope, revision high-water marks and known withdrawals.
+
+The participant/local-send implementation has development runtime coverage.
+Full delegated receive/INAC and organization custody remain separate P076
+qualification gates; the solution's prior MVP status does not qualify them.
 
 ## Must Implement
 

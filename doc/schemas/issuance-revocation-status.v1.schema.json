@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:issuance-revocation-status:v1",
+  "title": "issuance-revocation-status.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "issuance-revocation-status.v1"
+    },
+    "federation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "delegation_id": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 128,
+      "pattern": "^delegation:issuance:[A-Za-z0-9:_-]+$"
+    },
+    "delegation_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "enum": [
+        "active",
+        "revoked"
+      ]
+    },
+    "revoked_passport_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 4096,
+      "items": {
+        "type": "string",
+        "minLength": 21,
+        "maxLength": 128,
+        "pattern": "^passport:capability:[A-Za-z0-9:_-]+$"
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "key_public",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "federation_id",
+    "delegation_id",
+    "delegation_digest",
+    "revision",
+    "as_of",
+    "valid_until",
+    "status",
+    "revoked_passport_ids",
+    "signature"
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-issuance-delegation:v1",
+  "title": "capability-issuance-delegation.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "capability-issuance-delegation.v1"
+    },
+    "delegation_id": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 128,
+      "pattern": "^delegation:issuance:[A-Za-z0-9:_-]+$"
+    },
+    "federation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "participant_id": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 512,
+      "pattern": "^participant:did:key:"
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 14,
+      "maxLength": 512,
+      "pattern": "^node:did:key:"
+    },
+    "delegate_key": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 512,
+      "pattern": "^did:key:"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "template": {
+            "enum": [
+              "local-send",
+              "receive-consent",
+              "inac-consent"
+            ]
+          },
+          "issuance_caller": {
+            "enum": [
+              "operator:messaging-prepare",
+              "operator:contact-request.accept",
+              "operator:inac.invitation.accept"
+            ]
+          },
+          "max_passport_ttl_seconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          }
+        },
+        "required": [
+          "template",
+          "issuance_caller",
+          "max_passport_ttl_seconds"
+        ]
+      }
+    },
+    "issuer_subject_ref": {
+      "type": "string",
+      "pattern": "^(participant|org):did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^request:issuance:[A-Za-z0-9:_-]+$"
+    },
+    "request_root_digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "request_root_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key_public": {
+          "type": "string",
+          "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        "endpoint": {
+          "type": "string",
+          "maxLength": 2048,
+          "pattern": "^(https://[^\\s@?#]+|http://127\\.0\\.0\\.1:[0-9]+[^\\s@?#]*)$"
+        }
+      },
+      "required": [
+        "key_public",
+        "endpoint"
+      ]
+    },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "alg",
+          "key_public",
+          "value"
+        ],
+        "properties": {
+          "alg": {
+            "const": "ed25519"
+          },
+          "key_public": {
+            "type": "string",
+            "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "delegation_id",
+    "federation_id",
+    "participant_id",
+    "node_id",
+    "delegate_key",
+    "issued_at",
+    "expires_at",
+    "templates",
+    "issuer_subject_ref",
+    "request_id",
+    "request_root_digest",
+    "request_root_version",
+    "status_authority",
+    "signatures"
+  ]
+}

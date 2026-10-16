@@ -1,0 +1,32 @@
+{
+  "federation_id": "test",
+  "participant_id": "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+  "node_id": "node:did:key:z6MkvRXNYcE7MMduynWTgeKbDaT1iijDSC8pZqXZc8rHPrf2",
+  "delegate_key": "did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+  "templates": [
+    {
+      "template": "local-send",
+      "issuance_caller": "operator:messaging-prepare",
+      "max_passport_ttl_seconds": 3600
+    }
+  ],
+  "schema": "capability-issuance-delegation.v1",
+  "delegation_id": "delegation:issuance:canonical",
+  "issuer_subject_ref": "participant:did:key:z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+  "issued_at": "2026-10-16T11:59:00Z",
+  "expires_at": "2026-10-16T13:00:00Z",
+  "request_id": "request:issuance:canonical",
+  "request_root_digest": "sha256:canonical-fixture",
+  "request_root_version": 1,
+  "status_authority": {
+    "key_public": "z6Mkon22vwz9JoNpGDxCrGZRgeNFTdRTwXYYN3fvAhA3K19x",
+    "endpoint": "https://directory.example.test"
+  },
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6Mkon3Necd6NkkyfoGoHxid2znGc59LU3K7mubaRcFbLfLX",
+      "value": "tCjcb_djid4mRiQqhnY9MLc3H2yQRSl_PKiu_m8LkmZPPNzTOhpwx4bWEIGpzvUyJgVHoeYgoSSeEgx91u7dAw"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/097-fresh-identity-onboarding-and-messaging-readiness.md"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-send-audit.local:v2",
+  "title": "Read-only Messaging send inventory v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "items",
+    "next_cursor",
+    "profiles"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-send-audit.local.v2"
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "messaging-send-decision.local.v2.schema.json"
+      }
+    },
+    "next_cursor": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 256
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "envelope/id",
+          "state",
+          "participant_id",
+          "sender/provenance",
+          "authority/failure"
+        ],
+        "properties": {
+          "envelope/id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "participant_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sender/provenance": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "messaging-send-decision.local.v2.schema.json#/$defs/provenance-reference"
+              }
+            ]
+          },
+          "authority/failure": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "messaging-send-decision.local.v2.schema.json#/$defs/authority-failure"
+              }
+            ]
+          },
+          "assessment": {
+            "$ref": "messaging-send-decision.local.v2.schema.json"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "issuance-revocation-status.v1",
+  "federation_id": "test",
+  "delegation_id": "delegation:issuance:canonical",
+  "delegation_digest": "jwCgz6TSVP94kl4Evxcc8UT4tTsgeEzAE8F6l1ix_JY",
+  "revision": 1,
+  "as_of": "2026-10-16T12:00:00Z",
+  "valid_until": "2026-10-16T12:05:00Z",
+  "status": "active",
+  "revoked_passport_ids": [],
+  "signature": {
+    "alg": "ed25519",
+    "key_public": "z6Mkon22vwz9JoNpGDxCrGZRgeNFTdRTwXYYN3fvAhA3K19x",
+    "value": "dxvTbxFvV5DFkVATPl5DTJHykf7an_WHRTGZNYkiqjWlMZp5vkJ_23BFjHLAxCHaWBBC0fVWDkU8fE1Wo0GZAA"
+  }
+}

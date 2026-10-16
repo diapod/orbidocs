@@ -690,6 +690,13 @@ daemon/runtime     -> composes caller-binding + capability + sealer/signer
 The verifier that authorizes a Sealer or Signer operation may compose all of
 these crates, but the artifact crate should not import the local runtime bridge.
 
+The exact `subject_key` may be a public `did:key` or a host-resolved semantic
+subject such as `module:messaging-service`, `participant:did:key:...` or
+`node:did:key:...`. The scope constrains an independently resolved binding; a
+client-provided string does not create that binding. Canonical passport caller
+shape therefore does not assume every subject is a bare DID key. P076 V2 narrows
+its closed Messaging templates further, without changing V1 key-use authority.
+
 ### Tightened `capability-passport.v1` Scope for Key-Use Authorization
 
 Key-use authorization tightens `capability-passport.v1` before external

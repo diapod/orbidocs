@@ -1,0 +1,22 @@
+{
+  "schema": "messaging-issuance-status.local.v1",
+  "participant_id": "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+  "observed_at": "2026-10-16T12:00:00Z",
+  "grants": [
+    {
+      "delegation_id": "delegation:issuance:canonical",
+      "delegate_key": "did:key:z6Mkt6316e2PN3mZdB6N9CrzomJYUd1s5yBZi1XYHmwT9TUP",
+      "key_id": "proxy-key:canonical",
+      "expires_at": "2026-10-16T13:00:00Z",
+      "status": "ready",
+      "reasons": [],
+      "delegate_unlocked": false,
+      "revision": 1,
+      "status/as_of": "2026-10-16T12:00:00Z",
+      "status/valid_until": "2026-10-16T12:05:00Z",
+      "passport_ids": [
+        "passport:capability:canonical"
+      ]
+    }
+  ]
+}

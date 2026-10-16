@@ -29,6 +29,33 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.capability-issuance-delegation.v1.json)
+      echo "$SCHEMAS_DIR/capability-issuance-delegation.v1.schema.json"
+      ;;
+    *.capability-issuance-request.v1.json)
+      echo "$SCHEMAS_DIR/capability-issuance-request.v1.schema.json"
+      ;;
+    *.capability-passport.v2.json)
+      echo "$SCHEMAS_DIR/capability-passport.v2.schema.json"
+      ;;
+    *.issuance-revocation-status.v1.json)
+      echo "$SCHEMAS_DIR/issuance-revocation-status.v1.schema.json"
+      ;;
+    *.messaging-issuance-request-create.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-request-create.local.v1.schema.json"
+      ;;
+    *.messaging-issuance-request-result.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-request-result.local.v1.schema.json"
+      ;;
+    *.messaging-issuance-status.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-status.local.v1.schema.json"
+      ;;
+    *.messaging-issuance-unlock.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-unlock.local.v1.schema.json"
+      ;;
+    *.messaging-issuance-withdraw.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-withdraw.local.v1.schema.json"
+      ;;
     *.messaging-mailbox-storage.local.json)
       echo "$SCHEMAS_DIR/messaging-mailbox-storage.local.v1.schema.json"
       ;;
@@ -1144,10 +1171,10 @@ schema_for_file() {
       echo "$SCHEMAS_DIR/messaging-send-authorize.local.v1.schema.json"
       ;;
     *.messaging-send-decision.local.json)
-      echo "$SCHEMAS_DIR/messaging-send-decision.local.v1.schema.json"
+      echo "$SCHEMAS_DIR/messaging-send-decision.local.v2.schema.json"
       ;;
     *.messaging-send-audit.local.json)
-      echo "$SCHEMAS_DIR/messaging-send-audit.local.v1.schema.json"
+      echo "$SCHEMAS_DIR/messaging-send-audit.local.v2.schema.json"
       ;;
     *.messaging.passport-issued.json)
       echo "$SCHEMAS_DIR/messaging.passport-issued.v1.schema.json"

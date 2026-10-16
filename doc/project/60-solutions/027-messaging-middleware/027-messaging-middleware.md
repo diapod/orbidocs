@@ -132,10 +132,19 @@ old keys remain tied to historical results. There is one always-enforced policy,
 with no migration, observation or cutover mode. Lack of pre-release backward
 compatibility is deliberate; post-release migration needs separate design.
 
-Canonical [readiness](../../../schemas/messaging-readiness.local.v1.schema.json),
+The accepted P076 limited-grant decision separates root membership from bounded
+issuance authority. Current V2 readiness reports `issuance_authority_status` and
+`issuance_authority_kind`; receive readiness has distinct `receive/role-prepared`
+and `receive/open-consent` facets on both paths. Setup needs the local role, not
+open contact consent. A delegated setup never creates an any-sender passport.
+The participant-issuer local-send slice is in progress; delegated receive/INAC
+and org custody remain unqualified. MSG-ONB-007/008 own new delegated runtime
+proofs; completed MSG-ONB-005/006 evidence remains sovereign-only.
+
+Canonical [readiness](../../../schemas/messaging-readiness.local.v2.schema.json),
 [authorization request](../../../schemas/messaging-send-authorize.local.v1.schema.json),
-[decision](../../../schemas/messaging-send-decision.local.v1.schema.json) and
-[audit](../../../schemas/messaging-send-audit.local.v1.schema.json) schemas define
+[decision](../../../schemas/messaging-send-decision.local.v2.schema.json) and
+[audit](../../../schemas/messaging-send-audit.local.v2.schema.json) schemas define
 these local surfaces. Node retains the dated Stage A report separately from Stage B
 conformance, fresh-identity runtime and strict Story-010 qualification at
 `node:docs/evidence/messaging-onboarding/README.md`. Original Stage B local measurements

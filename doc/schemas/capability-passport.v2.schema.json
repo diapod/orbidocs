@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport:v2",
+  "title": "capability-passport.v2",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "capability-passport.v2"
+    },
+    "passport_id": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 128,
+      "pattern": "^passport:capability:[A-Za-z0-9:_-]+$"
+    },
+    "beneficiary_participant_id": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 512,
+      "pattern": "^participant:did:key:"
+    },
+    "beneficiary_node_id": {
+      "type": "string",
+      "minLength": 14,
+      "maxLength": 512,
+      "pattern": "^node:did:key:"
+    },
+    "authority_subject_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "signer_key": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 512,
+      "pattern": "^did:key:"
+    },
+    "capability_id": {
+      "enum": [
+        "messaging-send",
+        "messaging-receive",
+        "inac.invitation"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allowed_callers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/allowedCaller"
+          },
+          "description": "Typed caller constraints used by key-use passports. A key-use verifier MUST find at least one entry whose `subject_key` overlaps the resolved `CallerBinding.subject_keys` (and whose `label`/`kind` match when present) before authorizing. Profiles MUST NOT override caller binding."
+        },
+        "profiles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/messagingLocalSendProfileV1"
+              },
+              {
+                "$ref": "#/$defs/messagingReceiveProfileV1"
+              },
+              {
+                "$ref": "#/$defs/inacInvitationProfileV1"
+              }
+            ]
+          }
+        },
+        "capability_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "module_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "issued_by": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "allowed_callers",
+        "profiles"
+      ]
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "issuance_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "delegation": {
+          "$ref": "capability-issuance-delegation.v1.schema.json"
+        },
+        "issuance_caller": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "consent_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        }
+      },
+      "required": [
+        "delegation",
+        "issuance_caller",
+        "consent_ref"
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "alg",
+        "value"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "passport_id",
+    "beneficiary_participant_id",
+    "beneficiary_node_id",
+    "authority_subject_ref",
+    "signer_key",
+    "capability_id",
+    "scope",
+    "issued_at",
+    "expires_at",
+    "issuance_authority",
+    "signature"
+  ],
+  "$defs": {
+    "allowedCaller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "label",
+        "subject_key"
+      ],
+      "description": "Exact host-resolved caller for one of the closed Messaging issuance templates. No client-selected caller or wildcard.",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "http-module",
+            "in-process-module",
+            "participant",
+            "node"
+          ],
+          "description": "Optional caller-kind discriminator matching `CallerSubjectKind`. When present, constrains the resolved binding's subject kind."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional human-readable caller label used for audit and operator diagnosis. When present, must match the resolved `CallerBinding.caller_label`."
+        },
+        "subject_key": {
+          "type": "string",
+          "pattern": "^(module:messaging-service|participant:did:key:z[1-9A-HJ-NP-Za-km-z]+|node:did:key:z[1-9A-HJ-NP-Za-km-z]+)$",
+          "description": "Exact key in the host-resolved CallerBinding.subject_keys. It may name a public key or a host-owned module, participant or node subject. Client declarations never establish that binding.",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "messagingLocalSendProfileV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "participant_id",
+        "purposes"
+      ],
+      "description": "P097 local preparation evidence, distinct from INAC push and recipient consent. Stage A does not enforce this profile at outbound execution.",
+      "properties": {
+        "profile": {
+          "const": "messaging-local-send@v1"
+        },
+        "participant_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purposes": {
+          "const": [
+            "messaging"
+          ]
+        }
+      }
+    },
+    "messagingReceiveProfileV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "grants",
+        "request/id",
+        "sender_subjects",
+        "recipient_routes",
+        "purposes",
+        "max_revocation_staleness_seconds"
+      ],
+      "properties": {
+        "profile": {
+          "const": "messaging-receive@v1"
+        },
+        "grants": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "messaging/receive"
+          ],
+          "properties": {
+            "messaging/receive": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "pattern": "^[^*]+$"
+              }
+            }
+          }
+        },
+        "request/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^[^*]+$"
+        },
+        "sender_subjects": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^[^*]+$"
+          }
+        },
+        "recipient_routes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^[^*]+$"
+          }
+        },
+        "contact_nym_id": {
+          "type": "string",
+          "pattern": "^contact-nym:"
+        },
+        "purposes": {
+          "const": [
+            "messaging"
+          ]
+        },
+        "max_revocation_staleness_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300
+        }
+      }
+    },
+    "inacInvitationProfileV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "grants",
+        "peer_node_ids",
+        "artifact_schemas",
+        "artifact_ids",
+        "content_types",
+        "single_use",
+        "max_revocation_staleness_seconds"
+      ],
+      "properties": {
+        "profile": {
+          "const": "inac-invitation@v1"
+        },
+        "grants": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "inac/push"
+          ],
+          "properties": {
+            "inac/push": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "enum": [
+                  "contact-request.v1",
+                  "message-envelope.v1"
+                ]
+              }
+            }
+          }
+        },
+        "peer_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^node:did:key:",
+            "maxLength": 512
+          }
+        },
+        "artifact_schemas": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "enum": [
+              "contact-request.v1",
+              "message-envelope.v1"
+            ]
+          }
+        },
+        "artifact_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "pattern": "^[^*]+$"
+          }
+        },
+        "content_types": {
+          "const": [
+            "application/json"
+          ]
+        },
+        "single_use": {
+          "const": true
+        },
+        "max_revocation_staleness_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300
+        }
+      }
+    }
+  }
+}

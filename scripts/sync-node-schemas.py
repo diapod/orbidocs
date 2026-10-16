@@ -45,6 +45,19 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "capability-issuance-delegation.v1.schema.json",
+    "capability-issuance-request.v1.schema.json",
+    "capability-passport.v2.schema.json",
+    "capability-passport-revocation.v2.schema.json",
+    "issuance-revocation-status.v1.schema.json",
+    "messaging-issuance-request-create.local.v1.schema.json",
+    "messaging-issuance-request-result.local.v1.schema.json",
+    "messaging-issuance-status.local.v1.schema.json",
+    "messaging-issuance-unlock.local.v1.schema.json",
+    "messaging-issuance-withdraw.local.v1.schema.json",
+    "messaging-readiness.local.v2.schema.json",
+    "messaging-send-decision.local.v2.schema.json",
+    "messaging-send-audit.local.v2.schema.json",
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
     "sensorium-device-discovery-result.v1.schema.json",
@@ -624,6 +637,16 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "fixture.capability-issuance-delegation.v1.json",
+    "fixture.capability-issuance-request.v1.json",
+    "fixture.capability-passport.v2.json",
+    "fixture.issuance-revocation-status.v1.json",
+    "fixture.messaging-issuance-request-create.local.json",
+    "fixture.messaging-readiness.local.json",
+    "fixture.messaging-issuance-request-result.local.json",
+    "fixture.messaging-issuance-status.local.json",
+    "fixture.messaging-issuance-unlock.local.json",
+    "fixture.messaging-issuance-withdraw.local.json",
     "ble.deferred-operation-status-v2.json",
     "ble.sensorium-device-discovery-candidate.json",
     "ble.sensorium-device-discovery-request.json",

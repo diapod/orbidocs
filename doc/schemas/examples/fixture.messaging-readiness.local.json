@@ -1,0 +1,81 @@
+{
+  "schema": "messaging-readiness.local.v2",
+  "subject": {
+    "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+    "node_id": "node:did:key:z6MkkeJ41HQUNrH9bitoucWnMbgchXmD6uijbdz1YBqSNXyb",
+    "caller_kind": "in-process-module",
+    "caller_label": "messaging-service",
+    "caller_subject_key": "module:messaging-service"
+  },
+  "requirements": "messaging-local-preparation@v2",
+  "roles": {
+    "send": {
+      "status": "ready",
+      "reasons": [],
+      "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+      "owner_ref": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+      "route_id": null,
+      "passports": [
+        {
+          "passport_id": "passport:capability:1791824468895703000:95184f9d06ae",
+          "profile": "messaging-local-send@v1"
+        }
+      ]
+    },
+    "receive": {
+      "status": "ready",
+      "reasons": [],
+      "participant_id": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+      "owner_ref": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+      "route_id": "routing:did:key:z6MkoVB5msB4ZKBoKqpTWSNSrWUz6CZjma8tej7BgGRX6tzZ",
+      "passports": [
+        {
+          "passport_id": "passport:capability:1791824477939184000:76af7128fd3c",
+          "profile": "messaging-receive@v1"
+        }
+      ],
+      "receive/role-prepared": "ready",
+      "receive/open-consent": "ready"
+    }
+  },
+  "setup/status": "ready",
+  "observed_at": "2026-10-12T17:01:18.24944Z",
+  "federation_issuer_status": "ready",
+  "onboarding_deferred": false,
+  "evidence": {
+    "root": {
+      "federation_id": "story-010-local",
+      "version": 2,
+      "digest": "sha256:DhiJPM7Pzz6ps-nxCLtJoCSzQEFW3oriCqqKNDB_ODg"
+    },
+    "binding_id": "node-operator-binding:1791824462326284000:5e2262867877",
+    "binding_revision": "9R_19xxCS--VGc8JPCLgniXU2Gx1OIRzV5JhpFBozxc",
+    "caller_binding_id": "binding:messaging-service",
+    "caller_binding_revision": "2026-10-12T17:01:09.08457Z",
+    "revocation_revision": "ZD1UNxBCluIdkG7LFbLJatJ48gz8SvU7Ertgab2FNyY",
+    "revocation_observed_at": "2026-10-12T17:01:18.24944Z",
+    "relationship_owner": "participant:did:key:z6Mkond2yQrZYv6GXD6E4SBCbFEW75fmcuNyVugtCTT7Lu3p",
+    "routing_binding": "routing-subject-binding:61145ab6e7b0c5727568990245a6ea3ca22dadc2648ba4f73fc63d0458c5cc33",
+    "service_phase": "ready",
+    "storage_phase": "ready"
+  },
+  "allowed_actions": [
+    {
+      "rel": "defer",
+      "method": "POST",
+      "href": "/app/welcome/messaging/defer"
+    },
+    {
+      "rel": "prepare",
+      "method": "POST",
+      "href": "/app/welcome/messaging/complete"
+    },
+    {
+      "rel": "compose",
+      "method": "POST",
+      "href": "/app/fragments/chat/send"
+    }
+  ],
+  "issuance_authority_status": "ready",
+  "issuance_authority_kind": "sovereign"
+}

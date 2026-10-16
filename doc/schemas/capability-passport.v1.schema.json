@@ -251,7 +251,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["subject_key"],
-      "description": "One caller entry recognized by a key-use passport. Verifier matches entries against a resolved `CallerBinding` produced by the `caller-binding` crate: `subject_key` MUST overlap `CallerBinding.subject_keys`; `label` MUST match `CallerBinding.caller_label` when present; `kind` MUST match `CallerBinding.subject_kind` when present. Only public-key material appears here; binding entries MUST NOT embed secrets.",
+      "description": "One caller entry recognized by a key-use passport. Verifier matches entries against a resolved `CallerBinding` produced by the `caller-binding` crate: `subject_key` MUST overlap `CallerBinding.subject_keys`; `label` MUST match `CallerBinding.caller_label` when present; `kind` MUST match `CallerBinding.subject_kind` when present. Entries are exact host-resolved subject keys and MUST NOT embed secrets.",
       "properties": {
         "kind": {
           "type": "string",
@@ -272,8 +272,10 @@
         },
         "subject_key": {
           "type": "string",
-          "pattern": "^did:key:z[1-9A-HJ-NP-Za-km-z]+$",
-          "description": "Public subject key in DID Key form. Required."
+          "pattern": "^[^*\\s]+$",
+          "minLength": 1,
+          "maxLength": 512,
+          "description": "Exact key in the host-resolved CallerBinding.subject_keys. It may name a public key or a host-owned module, participant or node subject. Client declarations never establish that binding."
         }
       }
     },

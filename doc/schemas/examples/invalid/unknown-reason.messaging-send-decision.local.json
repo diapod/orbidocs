@@ -1,5 +1,5 @@
 {
-  "schema": "messaging-send-decision.local.v1",
+  "schema": "messaging-send-decision.local.v2",
   "status": "blocked",
   "reasons": [
     "authority-maybe"
