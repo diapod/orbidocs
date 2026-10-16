@@ -398,6 +398,20 @@ Status:
   64 events/page, eight pages/room/round and the deliberate B crash/restart after
   512 durable records; the observed 10.32 seconds is not a throughput/latency bound.
 
+- P035-007 is implemented and **partial** on 2026-10-16. Account durable reception
+  proceeds independently of per-room jobs and deferred admission. Two fair history
+  workers use bounded requests and durable backoff; operator controls require
+  local authority and revision CAS. Replay uses retained local admission receipts,
+  and UI presents local sequence with recovered-history metadata. Four focused
+  cases on unmodified Synapse qualify blocked/hung/rate-limited history isolation,
+  confidence-0.5 host signing, restart and replay at clean Node `5d5392b2` /
+  Orbidocs `b3813122`. The 181979-byte archive qualifies identically before/after
+  extraction; all earlier refusals remain retained. Full 30-Matrix/five-SQLite,
+  large fairness, Whisper and separate full-PDU gates wait for P035-009, due
+  2026-11-14. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-16-room-recovery-focused/README.md`.
+  Agora remains partial; this focused proof does not close P035-007.
+
 ### Retention Policy Sweep
 
 Based on:

@@ -168,7 +168,9 @@ know about the concept of an "Agora record". All Agora-specific knowledge lives
 in `sign_adapter.rs`. We use the same pattern for passports (refactor),
 Memarium (future), and any future artifact types.
 
-P035-007 tracks isolating room recovery from account delivery. The filtered,
+P035-007 now implements independent room recovery with a focused four-case
+Synapse isolation proof at Node 5d5392b2 / Orbidocs b3813122. It remains partial:
+the full campaign waits for P035-009 external retention. The filtered,
 page-durable long-history, empty-bootstrap and late-binding paths are qualified by
 P035-006 on unmodified Synapse; token-cycle/legacy-anchor controls keep their conformance scope. Archive identity is tar/member
 content, with gzip/zlib provenance and bounded streaming extraction.
