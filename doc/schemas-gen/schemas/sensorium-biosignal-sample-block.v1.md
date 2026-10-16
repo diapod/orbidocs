@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/sensorium-biosignal-sample-block.v1.schema.json`](../../schemas/sensorium-biosignal-sample-block.v1.schema.json)
 
-Closed sample-block contract. buffer is the nested sensorium-biosignal-buffer.v1 signal tensor; source-time and package-num are separate 1 by N tensors. All shapes and stream mappings require semantic validation. Host binds metadata to current admitted identity, epoch, generation, profile and classification before hashing; a worker metadata assertion grants no authority. Host digest is carried by the enclosing interface frame. Preimage: UTF-8 domain orbiplex.sensorium.sample-block.v1 followed by NUL; seven independently u64BE length-prefixed segments: JCS metadata with derived tensor descriptors, signal values, signal mask, source-time values, source-time mask, package-num values, package-num mask. Real and real-derived playback data enter as Personal, sensitive-personal/health-wearable.
+Closed sample-block contract. buffer is the nested sensorium-biosignal-buffer.v1 signal tensor; source-time and package-num are separate 1 by N tensors. All shapes and stream mappings require semantic validation. Host binds metadata to current admitted identity, epoch, generation, profile and classification before hashing; a worker metadata assertion grants no authority. Optional host/digest is attached to this block after host validation, preserved in a P082 frame payload, and excluded from its own preimage. Worker ingress must omit the field, including null. Presence or a matching digest grants no authority. Preimage: UTF-8 domain orbiplex.sensorium.sample-block.v1 followed by NUL; seven independently u64BE length-prefixed segments: JCS metadata with derived tensor descriptors, signal values, signal mask, source-time values, source-time mask, package-num values, package-num mask. Real and real-derived playback data enter as Personal, sensitive-personal/health-wearable.
 
 ## Governing Basis
 
@@ -39,6 +39,7 @@ Closed sample-block contract. buffer is the nested sensorium-biosignal-buffer.v1
 | [`buffer`](#field-buffer) | `yes` | ref: `sensorium-biosignal-buffer.v1.schema.json` |  |
 | [`source-time`](#field-source-time) | `yes` | ref: `sensorium-biosignal-buffer.v1.schema.json` |  |
 | [`package-num`](#field-package-num) | `yes` | ref: `sensorium-biosignal-buffer.v1.schema.json` |  |
+| [`host/digest`](#field-host-digest) | `no` | string | Derived by the admitted host after normalization; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free. |
 
 ## Conditional Rules
 
@@ -123,3 +124,11 @@ Then:
 
 - Required: `yes`
 - Shape: ref: `sensorium-biosignal-buffer.v1.schema.json`
+
+<a id="field-host-digest"></a>
+## `host/digest`
+
+- Required: `no`
+- Shape: string
+
+Derived by the admitted host after normalization; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free.

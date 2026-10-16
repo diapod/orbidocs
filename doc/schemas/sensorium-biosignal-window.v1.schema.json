@@ -5,42 +5,202 @@
   "description": "Transient synthetic window, grouped by independent preset. Min/max summarize present samples in the retained monotonic window; they are neither contact quality nor a feature recipe. Evictions count source blocks, not SDK losses. No physical sensing latency or continuity is inferred.",
   "x-dia-workflow": "project",
   "x-dia-status": "draft",
-  "x-dia-basis": ["doc/project/40-proposals/096-sensorium-brainflow-connector.md"],
+  "x-dia-basis": [
+    "doc/project/40-proposals/096-sensorium-brainflow-connector.md"
+  ],
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema/v", "evidence/class", "quality", "position", "retained/bytes", "retained/high-water-bytes", "evicted/blocks", "streams"],
+  "required": [
+    "schema",
+    "schema/v",
+    "evidence/class",
+    "quality",
+    "position",
+    "retained/bytes",
+    "retained/high-water-bytes",
+    "retained/high-water-blocks",
+    "retained/oldest-age-ms",
+    "evicted/blocks",
+    "sdk/available-high-water",
+    "sdk/loss-quantity",
+    "streams",
+    "source",
+    "window/clock",
+    "window/retention-max-ms"
+  ],
   "properties": {
-    "schema": {"const": "sensorium-biosignal-window.v1"},
-    "schema/v": {"const": 1},
-    "evidence/class": {"const": "synthetic"},
-    "quality": {"const": "unknown"},
-    "position": {"type": "string", "pattern": "^[0-9]{1,20}$"},
-    "retained/bytes": {"type": "integer", "minimum": 0, "maximum": 524288},
-    "retained/high-water-bytes": {"type": "integer", "minimum": 0, "maximum": 524288},
-    "evicted/blocks": {"type": "integer", "minimum": 0, "maximum": 9007199254740991},
+    "schema": {
+      "const": "sensorium-biosignal-window.v1"
+    },
+    "schema/v": {
+      "const": 1
+    },
+    "evidence/class": {
+      "const": "synthetic"
+    },
+    "quality": {
+      "const": "unknown"
+    },
+    "position": {
+      "type": "string",
+      "pattern": "^[0-9]{1,20}$"
+    },
+    "retained/bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 524288
+    },
+    "retained/high-water-bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 524288
+    },
+    "evicted/blocks": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "sdk/available-high-water": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2048
+    },
+    "sdk/loss-quantity": {
+      "const": "unknown"
+    },
+    "retained/high-water-blocks": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 64
+    },
+    "retained/oldest-age-ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2000
+    },
+    "ingress/bytes-high-water": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65536
+    },
+    "ingress/blocks-high-water": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
     "streams": {
-      "type": "array", "maxItems": 2,
+      "type": "array",
+      "maxItems": 2,
       "items": {
-        "type": "object", "additionalProperties": false,
-        "required": ["stream/id", "samples", "channels"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stream/id",
+          "samples",
+          "first-data/ms",
+          "channels",
+          "stream/descriptor",
+          "first/receipt-monotonic-ns",
+          "last/receipt-monotonic-ns"
+        ],
         "properties": {
-          "stream/id": {"type": "string", "minLength": 1, "maxLength": 128},
-          "samples": {"type": "integer", "minimum": 1, "maximum": 4096},
+          "stream/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "samples": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4096
+          },
+          "first-data/ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45000
+          },
           "channels": {
-            "type": "array", "minItems": 1, "maxItems": 32,
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
             "items": {
-              "type": "object", "additionalProperties": false,
-              "required": ["id", "present", "min", "max"],
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "present",
+                "min",
+                "max"
+              ],
               "properties": {
-                "id": {"type": "string", "minLength": 1, "maxLength": 128},
-                "present": {"type": "integer", "minimum": 0, "maximum": 4096},
-                "min": {"type": ["number", "null"]},
-                "max": {"type": ["number", "null"]}
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "present": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4096
+                },
+                "min": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "max": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
               }
             }
+          },
+          "stream/descriptor": {
+            "$ref": "sensorium-biosignal-stream-descriptor.v1.schema.json"
+          },
+          "first/receipt-monotonic-ns": {
+            "type": "string",
+            "pattern": "^[0-9]{1,20}$"
+          },
+          "last/receipt-monotonic-ns": {
+            "type": "string",
+            "pattern": "^[0-9]{1,20}$"
           }
         }
       }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance/ref",
+        "profile/ref",
+        "session/epoch",
+        "source/generation"
+      ],
+      "properties": {
+        "instance/ref": {
+          "$ref": "sensorium-biosignal-sample-block.v1.schema.json#/properties/metadata/properties/instance~1ref"
+        },
+        "profile/ref": {
+          "$ref": "sensorium-biosignal-sample-block.v1.schema.json#/properties/metadata/properties/profile~1ref"
+        },
+        "session/epoch": {
+          "$ref": "sensorium-biosignal-sample-block.v1.schema.json#/properties/metadata/properties/session~1epoch"
+        },
+        "source/generation": {
+          "$ref": "sensorium-biosignal-sample-block.v1.schema.json#/properties/metadata/properties/source~1generation"
+        }
+      }
+    },
+    "window/clock": {
+      "const": "host-monotonic-receipt"
+    },
+    "window/retention-max-ms": {
+      "const": 2000
     }
   }
 }

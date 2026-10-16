@@ -41,7 +41,16 @@ Transient synthetic window, grouped by independent preset. Min/max summarize pre
 | [`retained/bytes`](#field-retained-bytes) | `yes` | integer |  |
 | [`retained/high-water-bytes`](#field-retained-high-water-bytes) | `yes` | integer |  |
 | [`evicted/blocks`](#field-evicted-blocks) | `yes` | integer |  |
+| [`sdk/available-high-water`](#field-sdk-available-high-water) | `yes` | integer |  |
+| [`sdk/loss-quantity`](#field-sdk-loss-quantity) | `yes` | const: `unknown` |  |
+| [`retained/high-water-blocks`](#field-retained-high-water-blocks) | `yes` | integer |  |
+| [`retained/oldest-age-ms`](#field-retained-oldest-age-ms) | `yes` | integer |  |
+| [`ingress/bytes-high-water`](#field-ingress-bytes-high-water) | `no` | integer |  |
+| [`ingress/blocks-high-water`](#field-ingress-blocks-high-water) | `no` | integer |  |
 | [`streams`](#field-streams) | `yes` | array |  |
+| [`source`](#field-source) | `yes` | object |  |
+| [`window/clock`](#field-window-clock) | `yes` | const: `host-monotonic-receipt` |  |
+| [`window/retention-max-ms`](#field-window-retention-max-ms) | `yes` | const: `2000` |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -92,8 +101,62 @@ Transient synthetic window, grouped by independent preset. Min/max summarize pre
 - Required: `yes`
 - Shape: integer
 
+<a id="field-sdk-available-high-water"></a>
+## `sdk/available-high-water`
+
+- Required: `yes`
+- Shape: integer
+
+<a id="field-sdk-loss-quantity"></a>
+## `sdk/loss-quantity`
+
+- Required: `yes`
+- Shape: const: `unknown`
+
+<a id="field-retained-high-water-blocks"></a>
+## `retained/high-water-blocks`
+
+- Required: `yes`
+- Shape: integer
+
+<a id="field-retained-oldest-age-ms"></a>
+## `retained/oldest-age-ms`
+
+- Required: `yes`
+- Shape: integer
+
+<a id="field-ingress-bytes-high-water"></a>
+## `ingress/bytes-high-water`
+
+- Required: `no`
+- Shape: integer
+
+<a id="field-ingress-blocks-high-water"></a>
+## `ingress/blocks-high-water`
+
+- Required: `no`
+- Shape: integer
+
 <a id="field-streams"></a>
 ## `streams`
 
 - Required: `yes`
 - Shape: array
+
+<a id="field-source"></a>
+## `source`
+
+- Required: `yes`
+- Shape: object
+
+<a id="field-window-clock"></a>
+## `window/clock`
+
+- Required: `yes`
+- Shape: const: `host-monotonic-receipt`
+
+<a id="field-window-retention-max-ms"></a>
+## `window/retention-max-ms`
+
+- Required: `yes`
+- Shape: const: `2000`

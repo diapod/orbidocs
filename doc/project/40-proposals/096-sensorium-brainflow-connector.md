@@ -1811,8 +1811,13 @@ is capped at 64 blocks, 512 KiB and two host-monotonic seconds; readers have
 independent cursors, explicit gaps and envelope-inclusive carrier limits. Stop
 fences and clears retained samples. The local actual-process checks and their
 qualification limits are recorded in Node's delivery contract and ledger.
-The full four-case P096-010a report is still a distinct acceptance gate; this
-checkpoint grants no native, remote-carrier or release qualification.
+The reviewed follow-up carries the host-attested digest inside the sample block
+(workers must omit it), retains window source/descriptors/monotonic intervals,
+invalidates latest cursors on age-only eviction and limits concurrent reads.
+Clock, pressure, sibling isolation and in-flight read-revocation tests use the
+actual signed Synthetic Board and normal P082 ownership. The full four-case
+P096-010a report remains a distinct acceptance gate pending its independent
+qualifier; this checkpoint grants no native, remote-carrier or release qualification.
 
 ## Trade-offs
 
