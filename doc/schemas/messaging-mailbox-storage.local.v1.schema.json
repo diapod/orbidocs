@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-mailbox-storage.local:v1",
+  "title": "messaging-mailbox-storage.local.v1",
+  "description": "Layer 1 local mailbox identity; filesystem slugs are not logical mailbox identifiers.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/60-solutions/027-messaging-middleware/027-messaging-middleware.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "mailbox/id"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-mailbox-storage.local.v1"
+    },
+    "mailbox/id": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

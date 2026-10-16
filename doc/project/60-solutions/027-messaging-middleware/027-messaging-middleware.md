@@ -467,6 +467,13 @@ EML profile v1 files and can be used for outbox recovery during `reindex`.
 
 ### Bounded Memarium Recovery (S027-008)
 
+Logical mailbox IDs are preserved by Layer 1 `mailbox.json`, using
+`messaging-mailbox-storage.local.v1`. Filesystem slugs are physical locators, not
+mailbox IDs. Reindex verifies all descriptors before clearing the index; old
+pre-release directories can acquire a descriptor from retained exact mailbox IDs
+or flag facts. Missing/ambiguous historical identity fails explicitly and never
+infers ownership from the current operator. Colliding slugs refuse admission.
+
 The service reserves each unconfirmed fact durably before publication. Read flag
 changes and receive-passport promotion commit their local projections, temporal
 events and fact in the same SQLite transaction. An immediate transaction serializes

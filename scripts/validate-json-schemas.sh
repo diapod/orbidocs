@@ -29,6 +29,9 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.messaging-mailbox-storage.local.json)
+      echo "$SCHEMAS_DIR/messaging-mailbox-storage.local.v1.schema.json"
+      ;;
     *.sensorium-device-discovery-request.json)
       echo "$SCHEMAS_DIR/sensorium-device-discovery.request.v1.schema.json"
       ;;

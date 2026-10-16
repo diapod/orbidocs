@@ -1,0 +1,4 @@
+{
+  "schema": "messaging-mailbox-storage.local.v1",
+  "mailbox/id": "participant:participant_did_key_fixture"
+}

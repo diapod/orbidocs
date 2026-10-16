@@ -1,0 +1,5 @@
+{
+  "schema": "messaging-mailbox-storage.local.v1",
+  "mailbox/id": "operator",
+  "owner": "operator"
+}
