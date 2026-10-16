@@ -60,6 +60,7 @@ SCHEMA_WHITELIST = (
     "sensorium-biosignal-buffer.v1.schema.json",
     "sensorium-biosignal-stream-descriptor.v1.schema.json",
     "sensorium-biosignal-sample-block.v1.schema.json",
+    "sensorium-biosignal-window.v1.schema.json",
     "middleware-instance-plan.v1.schema.json",
     "sensorium-brainflow-qualification-tuple.v1.schema.json",
     "corpus-task-pack-chain-inspection.v1.schema.json",
