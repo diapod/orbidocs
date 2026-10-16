@@ -1818,6 +1818,10 @@ Clock, pressure, sibling isolation and in-flight read-revocation tests use the
 actual signed Synthetic Board and normal P082 ownership. The full four-case
 P096-010a report remains a distinct acceptance gate pending its independent
 qualifier; this checkpoint grants no native, remote-carrier or release qualification.
+The device-free hang follow-up distinguishes bounded executor disposal from
+cooperative SDK release: forced exit retains quarantine and cannot authorize a
+new epoch. The normal supervisor now treats observed job-control stops as live
+children until group disposal and confirmed exit, without weakening release proof.
 
 ## Trade-offs
 
