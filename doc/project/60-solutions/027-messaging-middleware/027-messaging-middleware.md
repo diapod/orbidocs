@@ -463,7 +463,38 @@ EML profile v1 files and can be used for outbox recovery during `reindex`.
 | S027-004 | Contact attestation service dependency | done | Node adds `attestation-core`, supervised opt-in `attestation-service`, contact attestation schemas/examples, schema-gate validators, `email-attestation` / `phone-attestation` capability ids, local/dev delivery, SMTP email delivery, SMS webhook delivery, attempt limits, challenge TTL, quotas, delivery audit, and a default-disabled `always_accept` provider policy for local acceptance profiles. Daemon contactability options discover trusted/fresh `role/email-attestation` / `role/phone-attestation` providers through Seed Directory, expose provider status in Node UI, start challenges through daemon contactability endpoints, import immediate `always_accept` passport results when returned, and retain challenge redeem for non-local profiles. Story-010 now uses that runtime path for e-mail-control acquisition without manual OTP handling in local profiles. |
 | S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. User UI also renders a contact chat modal as a bounded read-model over the messaging-service mailbox/outbox stores: it hydrates text bodies through bounded body endpoints, merges inbound and outbound rows through the shared `local-relationship-core::route_key` canonicalizer, refreshes history through `messaging-mailbox-changed` SSE plus polling fallback, and marks rendered unread inbound rows through an explicit mailbox-scoped flag mutation. Relationship/conversation subject precedence is separated from delivery-route precedence so `participant/id` is not hidden by a transport route, and active local-contact route-key matching preserves schema-safe pairwise contact nyms while excluding blocked contacts. |
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: `contact-request.v1` is admitted through the schema-scoped INAC preflight/policy gate, then the receiver sees the contact-request notification and explicitly accepts the relationship before any `message-envelope.v1` delivery authority exists. It also covers local `always_accept` Attestation Service acquisition through daemon contactability endpoints, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path and explicit INAC operator-approval path are retained only as acceptance debug/policy variants. |
-| S027-007 | User-mode messaging readiness wizard | done | Node UI adds a third welcome step after participant identity and operator binding. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
+| S027-007 | User-mode messaging readiness wizard | done | Node UI has five welcome steps: participant identity, key unlock phrase, operator binding, federation issuer preparation and Messaging. The latter two can be durably deferred to enter `/app` with visible status. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
+
+### Bounded Memarium Recovery (S027-008)
+
+The service reserves each unconfirmed fact durably before publication. Read flag
+changes and receive-passport promotion commit their local projections, temporal
+events and fact in the same SQLite transaction. An immediate transaction serializes
+capacity checks across connections. The default budget is 1024 records and 16 MiB of
+serialized UTF-8 fact JSON. Full capacity refuses a new local change with HTTP 503
+`reason/code=pending-facts-capacity-exhausted`; it does not become an authority denial.
+Unconfirmed facts have no expiry/drop policy. Initial publication and replay use the
+same stable fact ID, payload and idempotency key. Only a matching semantic Memarium
+confirmation frees a slot; transport success alone does not.
+
+Explicit pending replay is bounded to 100 records. Remote reconstruction pages
+through the existing Memarium offset/upper-time query contract with a fixed snapshot
+boundary and a 100-page work budget; exhaustion reports degradation and retains known
+flags. Reindex merges read `set`/`cleared` facts without clearing known state on a
+partial/unavailable read. No starred/marked flag is introduced. Paused and terminal
+outbox states preserve their independent authority/retention semantics.
+
+The independent `S027-008` runtime fixture uses real host Memarium. It disables and
+restores `memarium.enabled` through profile configuration plus daemon reload, rather
+than killing a Memarium process. Explicit Personal-space grants, fixture budgets of
+4 records/8192 bytes, count/byte refusal before mutation, restart, repeated replay,
+read/unread flags and a fault after remote write but before pending-copy cleanup are
+separate measured gates. It must retain `authority-blocked` and terminal outbox
+results. Runtime measurements are required in addition to storage/conformance tests.
+
+| Task | Scope | Status | Completion gate |
+|---|---|---|---|
+| S027-008 | Bounded durable facts and actual Memarium outage/recovery | in-progress | Atomic capacity refusal; real component controls; stable ID/payload through unknown results, restart/replay/reindex; one remote fact per intent; read set/cleared and paused/terminal outbox preservation. |
 
 ## References
 

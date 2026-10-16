@@ -589,6 +589,48 @@ break does not establish a post-release migration policy.
 
 ## Next Actions
 
+### Repeatable Browser and Recovery Qualification (2026-10-16)
+
+The accepted follow-up separates the no-JavaScript HTML driver from a real pinned
+headless browser for HTMX/JavaScript interactions. Node's acceptance-only capsule
+uses Python Playwright `1.63.0` and Chromium Headless Shell `153.0.8010.12`, revision
+`1243`. Installation uses hash-locked offline wheels and an inventoried browser
+capsule; the run refuses changed bytes. This dependency is confined to acceptance,
+where HTML parsing cannot establish JavaScript execution or competing browser tabs.
+The harness explicitly maps `a.localhost` and `b.localhost` to loopback in both
+Python and Chromium; cookies remain isolated by host.
+
+`MSG-ONB-005` records three distinct proof classes: UI blocking and durable deferral
+before admission; a test operator's signed root ceremony with the staged digest and
+unchanged antirollback state; and ready preparation after verified activation by
+restart. Creating an identity or running the browser never authorizes the ceremony
+implicitly. An explicitly authorized synthetic federation may automate its isolated
+operator ceremony. It must not alter an existing user's profile. Deferred Messaging
+and federation steps reach `/app` with visible status, including after restart.
+INAC invitations and recipient relationship consent are separate actual UI actions.
+A delivery bundle correlates message/envelope IDs, content digest, sender UI/outbox,
+recipient mailbox/UI and the explicit read action.
+
+`MSG-ONB-006` uses the existing issue API with a short 30-second TTL and retained
+`expires_at`, without a product test clock. It covers expiry, local revocation,
+locked issuer keys, explicit unlock/setup renewal and one new typed passport from
+two competing setup tabs. Restart, observation, unlock, renewal and normal processing
+do not resume `authority-blocked`. Single and bulk retry cover double clicks and
+simultaneous tabs, distinct overlapping operation keys, same-key response-loss replay
+and exactly one retry generation/delivery. Active-root removal remains conformance.
+
+The harness parameter `issuer-path=sovereign|delegated` reserves a future extension.
+`delegated` fails before creating profiles; it has no sovereign fallback. The
+[proposed P076 decision](076-limited-messaging-grants-decision.md) must be adopted and
+implemented before that path can be qualified. Existing signing-key delegation is
+not constrained ordinary-participant passport issuance authority.
+
+Candidate qualification has a closed set: conformance prerequisites, strict
+Story-010, `005 sovereign`, `006 sovereign`, and `S027-008`. One run pins clean source
+revisions, six unchanged binaries, generated profile digests and the browser capsule.
+A local candidate qualification does not establish release readiness. Historical
+Stage A/B evidence keeps its original date and scope.
+
 ### Implementation Tracker
 
 Stable task ids preserve the reviewed `MSG-ONB-*` workstream. Stage A completion is
@@ -606,6 +648,8 @@ it does not qualify all P060/P076, real federation users or release readiness.
 | MSG-ONB-001c-02 | B | MSG-ONB-001c-01 | done | Host evaluator/port, admission provenance and setup renewal; refusal before effects and idempotent typed issuance. |
 | MSG-ONB-001c-03 | B | MSG-ONB-001c-02 | done | AD/peer guards, bounded paused queue and explicit idempotent retry; queue/concurrency/restart/crash evidence. |
 | MSG-ONB-001c-04 | B | MSG-ONB-001c-01, MSG-ONB-001c-02, MSG-ONB-001c-03 | done | Generators, read-only audit and three separate evidence classes; reconcile P097, S027, Node ledger and MVP. |
+| MSG-ONB-005 | Follow-up | MSG-ONB-001c-04 | in-progress | Pinned offline real-browser fresh identity flow; pre-ceremony blocking/deferred `/app`, separately evidenced signed operator ceremony, post-restart preparation, actual INAC/contact actions and correlated opened/read message. |
+| MSG-ONB-006 | Follow-up | MSG-ONB-005 | in-progress | Short-TTL expiry and local revocation; locked-key renewal, concurrent setup and single/bulk browser retries, response-loss replay, restart persistence and exactly-once delivery. |
 
 Stage A evidence includes 16 fresh-UI runtime cases, the correlated message/content
 bundle, two completed parallel fresh UI setup jobs, concurrent first issuance,

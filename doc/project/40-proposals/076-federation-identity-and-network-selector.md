@@ -743,6 +743,11 @@ Opened 2026-10-12:
    design question, not a change to adopted authority semantics or a completed
    implementation task. Related:
    [Proposal 097: Fresh-Identity Onboarding and Messaging Readiness](097-fresh-identity-onboarding-and-messaging-readiness.md).
+   The [2026-10-16 proposed decision record](076-limited-messaging-grants-decision.md)
+   compares direct constrained issuance with one bounded delegate. Existing
+   `issuer_delegation` proves signing-key authority, not all required beneficiary,
+   node, caller and profile restrictions. Adoption and canonical signed constraints
+   precede an implementation tracker; the current evaluator remains unchanged.
 
 Resolved 2026-07-03:
 
