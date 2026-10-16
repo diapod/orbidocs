@@ -296,8 +296,10 @@ Responsibilities:
 - revalidate current publication and source bindings after successful or failed
   provider I/O so terminal generation and supersession failures retain their
   interface type across the consumer-neutral broker boundary;
-- require all four built-in adapters at daemon startup while treating readiness
-  snapshots as advisory and each bounded source read as authoritative;
+- require the four settled adapters and the P096 synthetic-only biosignal
+  adapter at daemon startup while treating readiness snapshots as advisory and
+  each bounded source read as authoritative; the biosignal adapter resolves
+  existing acquisitions only and retains its separate qualification gates;
 - preserve source classification and apply redaction before publication.
 - validate Workbench terminal output as exact bytes with matching digest/count,
   preserve explicit retained-floor gaps, and map terminal source closure to one
@@ -321,6 +323,10 @@ Responsibilities:
   evidence;
 - serialize cursor advancement per subscription without blocking independent
   subscriptions, and admit a verified Passport in one immediate transaction;
+- freeze the exact grant selected before provider I/O and recheck it with fresh
+  subscription state in the delivery transaction serialized with local
+  revocation; a new grant cannot admit an old read, a closed subscription cannot
+  be restored by late output, and valid lease renewal remains preserved;
 - append canonical causal context and execution receipts without treating
   either as authority.
 
