@@ -163,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **215** host-local / **247** ogółem; grupy właścicieli: **34**.
+Wpisy: **218** host-local / **250** ogółem; grupy właścicieli: **35**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -377,6 +377,14 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>interaction-broker.probe</code> | <code>host/interaction-broker.probe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.wait</code> | <code>host/interaction-broker.wait</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.watch</code> | <code>host/interaction-broker.watch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon local control with Agora receiver storage</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>agora.matrix.recovery.accept-gap</code> | <code>host/agora.matrix.recovery.accept-gap</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.inspect</code> | <code>host/agora.matrix.recovery.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.retry</code> | <code>host/agora.matrix.recovery.retry</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon operator settlement control</code>
 

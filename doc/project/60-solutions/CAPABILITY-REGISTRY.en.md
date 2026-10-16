@@ -161,7 +161,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **215** host-local / **247** total; **34** owner groups.
+Entries: **218** host-local / **250** total; **35** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -375,6 +375,14 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>interaction-broker.probe</code> | <code>host/interaction-broker.probe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.wait</code> | <code>host/interaction-broker.wait</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.watch</code> | <code>host/interaction-broker.watch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon local control with Agora receiver storage</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>agora.matrix.recovery.accept-gap</code> | <code>host/agora.matrix.recovery.accept-gap</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.inspect</code> | <code>host/agora.matrix.recovery.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.retry</code> | <code>host/agora.matrix.recovery.retry</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon operator settlement control</code>
 
