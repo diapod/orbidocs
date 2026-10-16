@@ -84,7 +84,7 @@ child withdrawal ids per grant; history expires after the parent expiry plus the
 maximum status lease. Consumers independently verify active-root authority,
 signatures, time, scope, revision high-water marks and known withdrawals.
 
-The participant/local-send implementation has development runtime coverage.
+The participant/local-send implementation passed the clean-source P076-029/030 gate on 2026-10-16; see `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`.
 Full delegated receive/INAC and organization custody remain separate P076
 qualification gates; the solution's prior MVP status does not qualify them.
 
