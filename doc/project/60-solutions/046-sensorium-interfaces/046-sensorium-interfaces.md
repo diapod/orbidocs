@@ -664,3 +664,16 @@ review authority, immutable facts and the unpublished local draft. The UI grants
 no fetch, P082 read or Whisper publication authority. Broader P084/P078 integration
 remains partial. P084-012c is done for measured local operator UI acceptance; see
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`.
+
+### Synthetic delivery clarification (2026-10-16)
+
+P096's delivery review decisions scope measured latency to the host path
+(SDK drain to local receipt) and the 100 ms read-revoke bound to local grant
+revocation. Global revocations retain the separate freshness/propagation budget
+of the revocation view; stale views refuse. Content `host/digest` is unkeyed
+SHA-256 consistency, without cryptographic host authentication. The normal
+source adapter preserves existing `interface/overloaded` across Interaction
+Broker for retryable concurrent-reader exhaustion (host capability HTTP 429),
+without closing the publication or restarting acquisition. Native, remote and
+SSE biosignal qualification remain separate. See the decisions in
+[Proposal 096](../../40-proposals/096-sensorium-brainflow-connector.md#delivery-review-decisions-2026-10-16).

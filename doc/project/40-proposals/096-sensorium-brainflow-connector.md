@@ -1805,7 +1805,7 @@ P096-006a/007a/008/010a are complete for a **synthetic-only same-process local
 P082 host-API profile**: two synthetic instances in one supervisor, two
 separately authorized consumers and zero devices. A signed Synthetic Board
 feeds one serialized drain, exact independent preset metadata, typed buffers,
-host-attested sample digests and normal P082 publication/grant/read ownership.
+host-computed content digests and normal P082 publication/grant/read ownership.
 Publication and reads resolve an existing exact operation and cannot start
 acquisition or extend its authority.
 
@@ -1837,6 +1837,53 @@ and a source-checkpoint record. This scope grants no real-device, radio,
 contact-quality, heart-rate, capture, remote-carrier, HTTP/SSE, production-signing
 or background-daemon qualification. P096-005/006b/007b/009/010/011a/011b/014 and
 later opt-in features retain their own remaining criteria.
+
+### Delivery review decisions (2026-10-16)
+
+Status: accepted implementation contract; the historical qualified image and
+its original fact/qualifier digests remain unchanged.
+
+Context: the first synthetic qualification measured valid baseline and loaded
+latencies, but its loaded-reader gate checked only maximum latency and its
+zero-gap assertion was not exported as a numeric fact. Review also exposed
+partial batch application, session-baseline clock comparison and ambiguous
+source-overload reporting.
+
+Options considered: retain only max/coverage gates or gate p95/p99/max plus an
+observed gap counter; equate local/global revoke propagation or scope them
+separately; use source-unavailable or the existing P082 overload code; treat
+SHA-256 as attestation or content consistency.
+
+Decisions:
+
+- Future `live-slow-consumer` qualification enforces the same nearest-rank
+  p95/p99/max gates as `live-latency` and measured integer
+  `healthy-reader/gap-frames: 0`. No old fact is backfilled; reevaluation of the
+  historical report uses its pinned original qualifier.
+- Operator/report prose names the metric **host-path latency** (SDK drain to
+  local receipt). SDK sample-to-drain delay and source-clock uncertainty remain
+  unknown; these numbers are not sample-to-receipt latency.
+- The measured 54 ms and 100 ms limit apply to **local read-grant revocation**.
+  Global revocation also depends on its configured view freshness/propagation
+  budget. Stale views refuse; P096-014 must measure global/remote propagation
+  separately. An external revocation service is not serialized by the local
+  delivery transaction.
+- Concurrent-reader exhaustion uses existing `interface/overloaded`, retryable
+  while authority remains current, with HTTP 429 at the host adapter. Source,
+  generation and subscription remain intact. It neither starts acquisition nor
+  authorizes automatic retries. Remote/SSE biosignal behavior remains gated.
+- `host/digest` is an unkeyed **host-computed content digest** proving
+  consistency, not authenticity or cryptographic host attestation.
+- Batch append validates fully before applying any visible state. Clock-step
+  detection compares consecutive available wall/monotonic witnesses (at least
+  100 ms), without accumulating gradual drift against session start.
+
+Consequences: evidence tables distinguish predeclared source budgets
+(1 MiB/256 blocks/5000 ms) from hard caps (512 KiB/64 blocks/2000 ms).
+These corrections do not retroactively qualify a changed image, enable native
+acquisition or close additional hardware/remote gates. The four synthetic-only
+tracker completions retain their original evidence scope. Node records review
+and conformance in `docs/audits/REVIEW-SENSORIUM-SYNTHETIC-FOLLOWUPS-2026-10-16.md`.
 
 ## Trade-offs
 

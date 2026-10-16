@@ -39,7 +39,7 @@ Closed sample-block contract. buffer is the nested sensorium-biosignal-buffer.v1
 | [`buffer`](#field-buffer) | `yes` | ref: `sensorium-biosignal-buffer.v1.schema.json` |  |
 | [`source-time`](#field-source-time) | `yes` | ref: `sensorium-biosignal-buffer.v1.schema.json` |  |
 | [`package-num`](#field-package-num) | `yes` | ref: `sensorium-biosignal-buffer.v1.schema.json` |  |
-| [`host/digest`](#field-host-digest) | `no` | string | Derived by the admitted host after normalization; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free. |
+| [`host/digest`](#field-host-digest) | `no` | string | Host-computed unkeyed SHA-256 content digest after normalization: consistency, not authenticity or cryptographic host attestation; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free. |
 
 ## Conditional Rules
 
@@ -131,4 +131,4 @@ Then:
 - Required: `no`
 - Shape: string
 
-Derived by the admitted host after normalization; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free.
+Host-computed unkeyed SHA-256 content digest after normalization: consistency, not authenticity or cryptographic host attestation; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free.

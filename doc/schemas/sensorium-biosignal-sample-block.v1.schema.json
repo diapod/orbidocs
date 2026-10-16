@@ -182,7 +182,7 @@
     "host/digest": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$",
-      "description": "Derived by the admitted host after normalization; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free."
+      "description": "Host-computed unkeyed SHA-256 content digest after normalization: consistency, not authenticity or cryptographic host attestation; workers must omit. Excluded from the seven-segment preimage. Ordinary logs and control/status remain payload- and digest-free."
     }
   },
   "allOf": [
