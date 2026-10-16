@@ -415,7 +415,11 @@ Status:
 - The 2026-10-16 restart review fixes silent skipping of still-bound,
   noncanonical publication topics: durable active bindings hydrate the sink before
   first sync and remain the receiver's sole authority. Three conformance
-  regressions pass; fresh five-case focused Synapse qualification is pending.
+  regressions pass; fresh five-case focused Synapse qualification passes at clean
+  Node `b0a44ade` / Orbidocs `aee179e`: actual non-limited sync after restart,
+  unchanged binding, no topic reuse, B API/index, valid signature and replay. The
+  complete 192528-byte set has identical loose/extracted qualification. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-16-room-recovery-restart/README.md`.
   Idle worker polling is one second; the future full profile has 31 Matrix/five
   SQLite cases and stays gated by P035-009. P035-010 owns explicit excessive
   Retry-After handling. Earlier frozen qualification is unchanged.
