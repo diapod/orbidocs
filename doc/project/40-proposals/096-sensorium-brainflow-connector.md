@@ -1799,29 +1799,44 @@ delivery where offered, rather than reuse local measurements as network proof.
 Only content-free timing/counter evidence enters the report; no raw biosignals,
 private selectors or participant identities are required for these metrics.
 
-## Synthetic implementation checkpoint (2026-10-16)
+## Synthetic implementation and acceptance checkpoint (2026-10-16)
 
-Node now connects a signed Synthetic Board acquisition to one serialized drain,
-metadata-directed P096 normalization, a bounded transient fan-out and the normal
-P082 source registry. Ordered blocks retain independent preset descriptors;
-latest-state windows use the closed `sensorium-biosignal-window.v1` contract.
-Source admission resolves an existing exact instance/operation and cannot start
-acquisition. P082 grants remain independent of acquisition authority. Retention
-is capped at 64 blocks, 512 KiB and two host-monotonic seconds; readers have
-independent cursors, explicit gaps and envelope-inclusive carrier limits. Stop
-fences and clears retained samples. The local actual-process checks and their
-qualification limits are recorded in Node's delivery contract and ledger.
-The reviewed follow-up carries the host-attested digest inside the sample block
-(workers must omit it), retains window source/descriptors/monotonic intervals,
-invalidates latest cursors on age-only eviction and limits concurrent reads.
-Clock, pressure, sibling isolation and in-flight read-revocation tests use the
-actual signed Synthetic Board and normal P082 ownership. The full four-case
-P096-010a report remains a distinct acceptance gate pending its independent
-qualifier; this checkpoint grants no native, remote-carrier or release qualification.
-The device-free hang follow-up distinguishes bounded executor disposal from
-cooperative SDK release: forced exit retains quarantine and cannot authorize a
-new epoch. The normal supervisor now treats observed job-control stops as live
-children until group disposal and confirmed exit, without weakening release proof.
+P096-006a/007a/008/010a are complete for a **synthetic-only same-process local
+P082 host-API profile**: two synthetic instances in one supervisor, two
+separately authorized consumers and zero devices. A signed Synthetic Board
+feeds one serialized drain, exact independent preset metadata, typed buffers,
+host-attested sample digests and normal P082 publication/grant/read ownership.
+Publication and reads resolve an existing exact operation and cannot start
+acquisition or extend its authority.
+
+Retained data is capped at 64 blocks, 512 KiB and two monotonic seconds. Ordered
+cursors have explicit gaps; latest windows preserve source identity, descriptors,
+receipt intervals and min/max/health, including empty replacement after age-only
+eviction. Carrier caps include envelopes/cursors. Stop fences retained samples.
+Read-grant revocation does not stop independently admitted acquisition or another
+reader. Final P082 output freezes/rechecks the exact grant and current
+subscription in the delivery transaction serialized with local revocation;
+regrant cannot revive an old read, closed state cannot be restored by late output,
+and valid lease renewal remains preserved.
+
+The pinned release at Node code checkpoint `a983167d` passed the unchanged
+predeclared four-case independent P096-010a qualifier. Baseline p95/p99/max was
+93/116/129 ms, loaded healthy-reader 110/148/155 ms, and full local revoke propagation
+including a concurrent healthy read 54 ms, with zero admitted blocks after fence.
+SDK pressure recovered in 2535 ms. Protected stop disposed a deliberately blocked
+child in 1045 ms, preserving quarantine when SDK release was unacknowledged.
+Clock-witness discontinuity, oversized ingress, per-layer loss/pressure,
+shared-supervisor isolation, durable revocation/reopen and privacy boundaries
+were exercised through actual signed synthetic processes and the normal P082
+owner. The OS clock was not changed and no recovery was executed.
+
+Node retains unchanged report/facts/qualification bytes in
+`docs/evidence/sensorium-synthetic-local/`, with exact image/source/runtime/package
+and profile bindings, separately bounded metadata storage, review corrections
+and a source-checkpoint record. This scope grants no real-device, radio,
+contact-quality, heart-rate, capture, remote-carrier, HTTP/SSE, production-signing
+or background-daemon qualification. P096-005/006b/007b/009/010/011a/011b/014 and
+later opt-in features retain their own remaining criteria.
 
 ## Trade-offs
 
@@ -1877,13 +1892,13 @@ remaining completion gates still apply.
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
 | `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; distinct closed host-restart and observed-radio recovery reviews cannot substitute for native release/reset qualification; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure  Revision-3 run-completed retained cleanup uncertainty; the source-only correction freezes 10s native cleanup for new private Cases and preserves legacy 5s history, without changing qualification thresholds. Its separately approved recovery and retirement 3-to4 are complete; the fresh delegated GUI revision-4 Case releases cleanly after refusing activation before executor/permit start. Exact historical refusal cause remains unresolved; closed monitor diagnostics are a software follow-up. A later freshly approved revision-5 Case observes required EEG/motion blocks and confirmed cooperative native stop/executor exit/controller release within10s cleanup, with independent zero claims. A device-free follow-up derives late sealed-admission refusal handling after RunCompleted, without identifying predicate timing. The software producer now classifies late queued results against current local closure/phase, retains optional effects/fenced and avoids false startup failure or another stop; open-session refusals still stop with unchanged clocks. The corrected producer is prepared nearby at pinf860ff8e/GUI819d4ce0 with actual GUI launchd preflight and49 passing frozen-client tests;163 prior hashes/journal81 stay exact, no manager or native work runs. Preparation does not reuse old TCC/physical evidence or qualify the new producer; full authority/stop qualification remains open. |
-| `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `partial` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
+| `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `done` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
-| `P096-007a` | Implement common binary stream normalization | `P096-006a` | `partial` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
+| `P096-007a` | Implement common binary stream normalization | `P096-006a` | `done` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
-| `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `partial` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
+| `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `done` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
 | `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `partial` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018. Private stopped p21 retirement after exact completed recovery supports expired revision N-to-N+1 through bounded predecessor-linked reviews, historical preservation, sibling checks and explicit interrupted resume; fresh SCAN/BIND/REGISTER/WEAR create new authority. Nearby revision1-to2 retirement is observed with exact source/journal, sibling and history verification. Separately approved recovery and retirements now reach revision 4. The fresh delegated GUI Case completes registration but refuses activation before native acquisition and releases all claims. A separate released-Case v3 retirement now requires a reconciled journal, matching root identities and existing idle resource state, with mutually exclusive recovery/release bases. It preserves v1/v2 bytes, original expiry, target-only source CAS and explicit interrupted resume. Nearby SSH retirement4-to5 is independently completed under v3 review25079a02 after original binding expiry: both normal journals/four sources match,47 protected hashes and25 retained entries are unchanged, journal67/ten Cases remains exact and controller/resources are free. Revision5 is reserved without registration/grant/consent; no recovery or hardware use occurred. A separately approved fresh revision5 Case subsequently refuses during SCAN before manager creation with os-access-undetermined; released journal72/eleven Cases and44 unchanged source hashes match zero claims. No BIND/REGISTER/WEAR or new registration/grant follows. A separately approved exact-GUI permission-only preflight now observes allowed with confirmed no-scan cleanup and unchanged50 source hashes/journal72. At that checkpoint TCC attribution and full-chain access were unverified. A later freshly approved single Case on the same signed GUI completes SCAN/BIND/REGISTER5/WEAR and host-validated EEG/motion blocks with observed-released, confirmed native cleanup/exit, journal81/twelve Cases, free controller and zero claims. Revision5 remains registered at original expiry;45 prior hashes and the discovery sibling are preserved. The subsequent device-free fix distinguishes late closed-session validation observations from startup failure; source review orders wrapper handling after RunCompleted, with predicate timing still unknown. The generic pending acquisition seed has no private terminal projection by contract. No quarantine or recovery may be manufactured. General lifecycle qualification remains open |
-| `P096-010a` | Qualify early synthetic local value path | `P096-008` | `partial` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
+| `P096-010a` | Qualify early synthetic local value path | `P096-008` | `done` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
 | `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source, terminal-launched supervisor permission evidence and an explicit daemon-through-launchd case with attributable Bluetooth decision; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim. Observed GUI-session launchd ancestry and a state-only allowed permission probe do not qualify the background launchd daemon or this complete hardware tuple |
 | `P096-011b` | Qualify two simultaneous Muse 2 devices | `P096-011a` | `todo` | Requires a second physical Muse 2; exact two-device tuples, concurrent radio delivery and independent stop/revoke/cleanup; one physical device plus synthetic cannot satisfy this gate |

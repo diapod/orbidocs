@@ -307,6 +307,10 @@ Responsibilities:
 
 Status: `done`.
 
+The P096 synthetic adapter now has retained four-case same-process host-API
+acceptance (P096-010a). Its native and remote carriers remain gated separately;
+registration/readiness does not activate a source or qualify another carrier.
+
 ### Host Runtime and Authority
 
 Responsibilities:
