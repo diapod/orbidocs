@@ -648,8 +648,26 @@ it does not qualify all P060/P076, real federation users or release readiness.
 | MSG-ONB-001c-02 | B | MSG-ONB-001c-01 | done | Host evaluator/port, admission provenance and setup renewal; refusal before effects and idempotent typed issuance. |
 | MSG-ONB-001c-03 | B | MSG-ONB-001c-02 | done | AD/peer guards, bounded paused queue and explicit idempotent retry; queue/concurrency/restart/crash evidence. |
 | MSG-ONB-001c-04 | B | MSG-ONB-001c-01, MSG-ONB-001c-02, MSG-ONB-001c-03 | done | Generators, read-only audit and three separate evidence classes; reconcile P097, S027, Node ledger and MVP. |
-| MSG-ONB-005 | Follow-up | MSG-ONB-001c-04 | in-progress | Pinned offline real-browser fresh identity flow; pre-ceremony blocking/deferred `/app`, separately evidenced signed operator ceremony, post-restart preparation, actual INAC/contact actions and correlated opened/read message. |
-| MSG-ONB-006 | Follow-up | MSG-ONB-005 | in-progress | Short-TTL expiry and local revocation; locked-key renewal, concurrent setup and single/bulk browser retries, response-loss replay, restart persistence and exactly-once delivery. |
+| MSG-ONB-005 | Follow-up | MSG-ONB-001c-04 | done | Pinned offline real-browser fresh identity flow; pre-ceremony blocking/deferred `/app`, separately evidenced signed operator ceremony, post-restart preparation, actual INAC/contact actions and correlated opened/read message. |
+| MSG-ONB-006 | Follow-up | MSG-ONB-005 | done | Short-TTL expiry and local revocation; locked-key renewal, concurrent setup and single/bulk browser retries, response-loss replay, restart persistence and exactly-once delivery. |
+
+The follow-up candidate dated `2026-10-16` passes the closed gate from clean Node
+`6cb581de650c249ec24ce2abb4d4fd9f31652c7f` and Orbidocs
+`8aa917b913ec9061e45e9a160ded5e4da017b680`, with one unchanged six-binary set.
+It retains 492 conformance/capsule test executions, 18 actual-browser onboarding
+cases, 21 actual-browser authority-recovery cases, 23 independent host-Memarium
+recovery cases and 34 strict Story-010 phases. The strict profile also uses explicit
+INAC operator approval, with no contact-request auto-admit or preauthorization.
+UI blocking/deferral, signed operator root ceremony and post-restart preparation
+remain separate proof classes. Local expiry, revocation, locked-key renewal,
+overlapping retry operations and one lost response each retain measured results.
+
+Source/profile/binary/capsule pins, sanitized reports and milestone review are at
+`node:docs/evidence/messaging-onboarding/2026-10-16/README.md`. S027-008 additionally
+fixes logical mailbox identity during reindex and the missing discard proxy exposed
+by runtime measurement. The proposed P076 ADR does not adopt delegated issuance.
+This is local qualification, not release readiness; historical measurements below
+retain their original scope and date.
 
 Stage A evidence includes 16 fresh-UI runtime cases, the correlated message/content
 bundle, two completed parallel fresh UI setup jobs, concurrent first issuance,

@@ -8,6 +8,8 @@ Status: `hard-mvp-done`
 
 Date: `2026-05-17`
 
+Updated: `2026-10-16` — bounded fact recovery and scoped mailbox reconstruction.
+
 ## Executive Summary
 
 > **Cross-reference to Solution 032 (Local Relationship Layer):** With
@@ -501,7 +503,16 @@ results. Runtime measurements are required in addition to storage/conformance te
 
 | Task | Scope | Status | Completion gate |
 |---|---|---|---|
-| S027-008 | Bounded durable facts and actual Memarium outage/recovery | in-progress | Atomic capacity refusal; real component controls; stable ID/payload through unknown results, restart/replay/reindex; one remote fact per intent; read set/cleared and paused/terminal outbox preservation. |
+| S027-008 | Bounded durable facts and actual Memarium outage/recovery | done | Atomic capacity refusal; real component controls; stable ID/payload through unknown results, restart/replay/reindex; one remote fact per intent; read set/cleared and paused/terminal outbox preservation. |
+
+The `2026-10-16` clean-source candidate passes 23 independent real-Memarium cases,
+with 132 service conformance tests and the separately measured P097 browser/strict
+Story-010 gates. Runtime measurement exposed and corrected two additional defects:
+missing daemon `discard` forwarding/SSE invalidation, and lossy mailbox-directory
+names used as logical IDs during reindex. The retained manifest pins clean sources,
+profile inputs, six unchanged binaries and the offline browser. Review and reports:
+`node:docs/evidence/messaging-onboarding/2026-10-16/README.md`. This scoped local
+qualification does not establish release readiness or ordinary delegated authority.
 
 ## References
 
