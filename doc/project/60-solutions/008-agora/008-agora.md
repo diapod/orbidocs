@@ -412,6 +412,14 @@ Status:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-16-room-recovery-focused/README.md`.
   Agora remains partial; this focused proof does not close P035-007.
 
+- The 2026-10-16 restart review fixes silent skipping of still-bound,
+  noncanonical publication topics: durable active bindings hydrate the sink before
+  first sync and remain the receiver's sole authority. Three conformance
+  regressions pass; fresh five-case focused Synapse qualification is pending.
+  Idle worker polling is one second; the future full profile has 31 Matrix/five
+  SQLite cases and stays gated by P035-009. P035-010 owns explicit excessive
+  Retry-After handling. Earlier frozen qualification is unchanged.
+
 ### Retention Policy Sweep
 
 Based on:
