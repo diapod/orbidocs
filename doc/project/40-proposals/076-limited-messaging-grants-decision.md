@@ -210,7 +210,11 @@ bidirectional real-browser and recovery qualification remain open. The first bro
 passed the request/import/unlock forms and then exposed a user contact-search
 writer missing the explicit local membership basis. The repair preserves host
 authority eligibility; contact existence alone is no longer counted as successful
-rail addition.
+rail addition. The repeat at clean Node `739c32c9` / Orbidocs `93b07a9`
+passes 27 focused browser cases (forms, actual send/open and parent-status recovery).
+`node:docs/evidence/limited-messaging/2026-10-18-grant-ui-probe/README.md` preserves
+the expected full-qualifier refusal of runtime-only input. It does not close
+MSG-ONB-007/008.
 
 MSG-ONB-005/006 remain closed with their original sovereign scope. Their reserved
 `issuer-path` argument is reused by new MSG-ONB-007/008, not used to rewrite the
@@ -219,7 +223,8 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Implement and qualify slice A before B, and B before org custody C. Review after
+Complete slice B's MSG-ONB-007/008 browser gates before org custody C. Slice A
+and P076-031 retain their separate qualified scopes. Review after
 each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
 registry, Node ledger and MVP. No model or VM is required; historical qualifications

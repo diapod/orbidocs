@@ -153,7 +153,10 @@ Typed pending decisions link to delegate unlock, then require explicit retry.
 The wizard's issuance-authority step does not claim sovereign membership; the
 host keeps these facts separate. MSG-ONB-007/008 remain unqualified. User
 contact-search addition explicitly records the local membership basis before it
-reports success; this does not grant delegated receive authority.
+reports success; this does not grant delegated receive authority. The
+focused probe (`node:docs/evidence/limited-messaging/2026-10-18-grant-ui-probe/README.md`)
+at Node `739c32c9` / Orbidocs `93b07a9` passes 27 browser cases and retains its
+incomplete candidate qualification. It does not close MSG-ONB-007/008.
 
 Canonical [readiness](../../../schemas/messaging-readiness.local.v2.schema.json),
 [authorization request](../../../schemas/messaging-send-authorize.local.v1.schema.json),

@@ -637,7 +637,12 @@ separate tracker rows, never a sovereign fallback.
 
 The 2026-10-18 first P076-032 fragment provides limited-grant request/import/unlock/
 withdraw forms and typed pending-notification recovery. These local UI tests do
-not complete the real-browser MSG-ONB-007/008 gates.
+not complete the real-browser MSG-ONB-007/008 gates. The subsequent 27-case focused
+probe at Node `739c32c9` confirms grant forms, local contact-choice basis, actual
+send/open and parent-status recovery. It is a local-send regression with one
+ordinary sender and one sovereign recipient, not the two-ordinary-participant
+acceptance required here; its full-qualifier refusal remains retained at
+`node:docs/evidence/limited-messaging/2026-10-18-grant-ui-probe/README.md`.
 
 Candidate qualification has a closed set: conformance prerequisites, strict
 Story-010, `005 sovereign`, `006 sovereign`, and `S027-008`. One run pins clean source

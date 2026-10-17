@@ -69,7 +69,13 @@ in 24 HTML/API cases from clean Node `f54f884c` / Orbidocs `c6c3b0d2`, with 1285
 test executions and 34 strict sovereign phases on six unchanged binaries. Public
 proof signatures and runtime correlation requalify before/after extraction at
 `node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`.
-Delegated browser forms/cases, org custody and final mixed qualification remain open.
+The initial participant-session grant forms are implemented. A 27-case focused
+browser regression at Node `739c32c9` checks request/import/unlock, contact addition,
+actual send/open and parent-status recovery; its runtime-only report retains a
+full-candidate refusal at
+`node:docs/evidence/limited-messaging/2026-10-18-grant-ui-probe/README.md`.
+MSG-ONB-007/008 delegated browser qualification, org custody and the final mixed
+candidate remain open.
 
 The operator page `/middleware/messaging` (the target of `/admin/messaging`)
 renders a fresh pseudonymous contactability draft without requiring attestation
