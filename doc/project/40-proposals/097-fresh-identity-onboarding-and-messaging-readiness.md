@@ -632,8 +632,12 @@ separate tracker rows, never a sovereign fallback.
 
 | Task | Scope | Status | Completion gate |
 |---|---|---|---|
-| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | todo | Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
+| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | in-progress | Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
 | MSG-ONB-008 | Delegated authority loss and explicit recovery | todo | Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
+
+The 2026-10-18 first P076-032 fragment provides limited-grant request/import/unlock/
+withdraw forms and typed pending-notification recovery. These local UI tests do
+not complete the real-browser MSG-ONB-007/008 gates.
 
 Candidate qualification has a closed set: conformance prerequisites, strict
 Story-010, `005 sovereign`, `006 sovereign`, and `S027-008`. One run pins clean source

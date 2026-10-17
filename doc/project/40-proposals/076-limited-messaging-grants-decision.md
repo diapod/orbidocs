@@ -176,7 +176,7 @@ or unit test alone never closes a runtime gate.
 | P076-029 | A | Participant issuer, status service, local send and ceremony | done | Clean Node `3e9507a9` / Orbidocs `5869853`: actual delegated send; beneficiary/delegate absent from root |
 | P076-030 | A | Status outage/revocation, retry/restart and first qualification | done | Same binary set: real 300-second status outage, explicit retry, durable withdrawal and strict sovereign Story-010 |
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
-| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | todo | Two-tab recovery and parent withdrawal cascades |
+| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | in-progress | Two-tab recovery and parent withdrawal cascades |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
 
@@ -201,6 +201,12 @@ and after archive extraction. See
 `node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`.
 This does not close P076-032, org custody or the final mixed candidate. The earlier
 paused checkpoint and development measurements retain their historical scope.
+
+The first P076-032 fragment adds participant-session, CSRF-protected public
+request, grant import, delegate unlock and own-use withdrawal forms, plus a typed
+pending-notification unlock path. The wizard labels usable issuance authority
+separately from sovereign membership. Local UI tests do not close MSG-ONB-007/008;
+bidirectional real-browser and recovery qualification remain open.
 
 MSG-ONB-005/006 remain closed with their original sovereign scope. Their reserved
 `issuer-path` argument is reused by new MSG-ONB-007/008, not used to rewrite the
