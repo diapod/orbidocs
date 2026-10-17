@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "$id": "urn:orbiplex:schema:messaging-issuance-consent-withdraw.local:v1",
+  "title": "messaging-issuance-consent-withdraw.local.v1",
+  "description": "Explicit local withdrawal of one child passport issued under a bounded grant. The bound node signs a capability-passport-revocation.v2 that targets the child; withdrawal of the parent grant uses messaging-issuance-withdraw.local.v1.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "passport_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^passport:capability:[A-Za-z0-9:_-]+$"
+    }
+  },
+  "required": [
+    "passport_id"
+  ]
+}

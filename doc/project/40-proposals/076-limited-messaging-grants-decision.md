@@ -95,7 +95,17 @@ constraints needed for ordinary-participant issuance.
   the 300-second status observation window (Q-01).
 - Locked delegate key: acceptance remains visibly pending and offers unlock;
   acceptance is committed only after its scoped child can be issued. No silent
-  failed acceptance or automatic later approval (Q-02).
+  failed acceptance or automatic later approval (Q-02). Only an explicit operator
+  decision exercises a delegated consent template; reciprocal, startup or repair
+  acceptance falls back to that visible decision. One durable delegated child exists per
+  decision; a lapsed unused INAC invitation needs a new durable decision
+  generation. Its notification and issuance keys bind that generation; earlier
+  notifications cannot authorize or reject it.
+- A delegated single-use INAC invitation never becomes a standing transport
+  contact. Later pushes carry their own current consent, so a parent or child
+  withdrawal cannot be bypassed by an earlier approval. Withdrawal of a child
+  is signed by the bound Node, immediate locally and published to the status
+  authority; it does not withdraw the parent.
 - Receive consent is evaluated by the host for every message against current
   authority in the active root. A receive passport requires its complete current
   proof, including parent status. An independently authored local `contacts`
@@ -172,7 +182,12 @@ or unit test alone never closes a runtime gate.
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completes slice A only; receive/INAC, organization custody and the final mixed candidate remain open.
 
-Work is paused at the user's request on 2026-10-17 after the current receive-basis
+The 2026-10-17 continuation repaired the runtime integration found by its review
+and by a two-ordinary-participant development scenario, recorded in
+`node:docs/audits/P076-RECEIVE-INAC-RUNTIME-REVIEW-2026-10-17.md`. Development runs
+use dirty sources and do not close the clean-source gate.
+
+Work was paused at the user's request on 2026-10-17 after the receive-basis
 implementation and its local tests. P076-031 remains in progress. The locally committed implementation
 checkpoint is recorded in
 `node:docs/audits/P076-RECEIVE-AUTHORITY-CHECKPOINT-2026-10-17.md`; it does not

@@ -240,7 +240,13 @@ proof and parent status. An independent local `contacts` consent is another basi
 only while its author/receiver currently has sovereign authority. A delegated
 participant's local facts can restrict consent but cannot grant beyond its parent.
 An empty roster gives no authority. Root activation can remove independent
-membership eligibility without rewriting facts.
+membership eligibility without rewriting facts. A receiver-issued pairwise
+`contact-nym` route is local only for an active contact of the
+signature-authenticated sender, and it satisfies a consent only as that
+consent's exact `contact_nym_id`; a wildcard or route-list entry cannot replace
+that binding. Every local issuance path publishes its receipt into the current
+authority observation before handoff. Only an explicit operator decision may issue
+delegated consent; automatic reciprocity or repair falls back to that decision.
 
 Membership projected from a passport carries `basis.kind=passport` and
 `basis.passport/id`. It remains relationship/UI data; expiry or withdrawal of

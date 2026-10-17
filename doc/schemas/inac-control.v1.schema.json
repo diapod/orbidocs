@@ -324,7 +324,10 @@
           ],
           "properties": {
             "schema": {
-              "const": "capability-passport.v1"
+              "enum": [
+                "capability-passport.v1",
+                "capability-passport.v2"
+              ]
             }
           },
           "additionalProperties": true

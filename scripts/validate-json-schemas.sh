@@ -56,6 +56,9 @@ schema_for_file() {
     *.messaging-issuance-withdraw.local.json)
       echo "$SCHEMAS_DIR/messaging-issuance-withdraw.local.v1.schema.json"
       ;;
+    *.messaging-issuance-consent-withdraw.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-consent-withdraw.local.v1.schema.json"
+      ;;
     *.messaging-readiness.local.json)
       echo "$SCHEMAS_DIR/messaging-readiness.local.v2.schema.json"
       ;;

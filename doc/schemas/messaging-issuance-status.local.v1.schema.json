@@ -82,6 +82,30 @@
               "maxLength": 128,
               "pattern": "^passport:capability:"
             }
+          },
+          "withdrawn_passport_ids": {
+            "description": "Locally withdrawn children of this grant. Withdrawal is effective locally at once; publication to the status authority is reported separately.",
+            "type": "array",
+            "maxItems": 1024,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^passport:capability:"
+            }
+          },
+          "withdrawal_publication_pending": {
+            "description": "Withdrawn children whose signed withdrawal is not yet reflected by the grant's status authority.",
+            "type": "array",
+            "maxItems": 1024,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^passport:capability:"
+            }
           }
         },
         "required": [
@@ -95,7 +119,9 @@
           "revision",
           "status/as_of",
           "status/valid_until",
-          "passport_ids"
+          "passport_ids",
+          "withdrawn_passport_ids",
+          "withdrawal_publication_pending"
         ]
       }
     }

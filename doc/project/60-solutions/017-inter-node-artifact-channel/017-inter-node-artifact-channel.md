@@ -121,6 +121,19 @@ receiver has no current revocation view source; the WSS peer identity still
 authenticates the transport session, while the passport only authorizes that
 verified peer to present a specific artifact push.
 
+P076 bounded grants add `capability-passport.v2` children: a single-use
+`inac.invitation` consent for one peer, schema and artifact id, and a
+request-specific `messaging-receive` consent. Both ride as
+`invitation-passport` or `capability-passport` authorization; custody remains
+V1. The receiving host verifies the complete proof, its parent status and the
+actual signing participant at every admission. A delegated invitation never
+becomes a standing transport contact: accepting it creates no INAC contact,
+so later pushes need their own current consent and a parent or child
+withdrawal cannot be bypassed by an earlier approval. If such an invitation
+lapses unused, a re-offer returns to explicit approval as a new durable decision
+generation. Notification identity and issuance idempotency bind that generation;
+a stale notification cannot approve or reject a newer decision.
+
 Baseline Artifact Delivery acceptors are now present for the two INAC baseline
 artifact kinds. `agora-record.v1` is verified and re-ingested through the local
 Agora service when available; absence of local Agora is an explicit handler

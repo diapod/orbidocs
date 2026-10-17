@@ -16,7 +16,9 @@
       "status/valid_until": "2026-10-16T12:05:00Z",
       "passport_ids": [
         "passport:capability:canonical"
-      ]
+      ],
+      "withdrawn_passport_ids": [],
+      "withdrawal_publication_pending": []
     }
   ]
 }
