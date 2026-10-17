@@ -151,7 +151,9 @@ The first P076-032 UI fragment offers explicit limited-grant request, import,
 unlock and own-use withdrawal under the local participant session and CSRF guard.
 Typed pending decisions link to delegate unlock, then require explicit retry.
 The wizard's issuance-authority step does not claim sovereign membership; the
-host keeps these facts separate. MSG-ONB-007/008 remain unqualified.
+host keeps these facts separate. MSG-ONB-007/008 remain unqualified. User
+contact-search addition explicitly records the local membership basis before it
+reports success; this does not grant delegated receive authority.
 
 Canonical [readiness](../../../schemas/messaging-readiness.local.v2.schema.json),
 [authorization request](../../../schemas/messaging-send-authorize.local.v1.schema.json),

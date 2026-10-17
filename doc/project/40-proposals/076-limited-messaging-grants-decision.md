@@ -206,7 +206,11 @@ The first P076-032 fragment adds participant-session, CSRF-protected public
 request, grant import, delegate unlock and own-use withdrawal forms, plus a typed
 pending-notification unlock path. The wizard labels usable issuance authority
 separately from sovereign membership. Local UI tests do not close MSG-ONB-007/008;
-bidirectional real-browser and recovery qualification remain open.
+bidirectional real-browser and recovery qualification remain open. The first browser probe
+passed the request/import/unlock forms and then exposed a user contact-search
+writer missing the explicit local membership basis. The repair preserves host
+authority eligibility; contact existence alone is no longer counted as successful
+rail addition.
 
 MSG-ONB-005/006 remain closed with their original sovereign scope. Their reserved
 `issuer-path` argument is reused by new MSG-ONB-007/008, not used to rewrite the
