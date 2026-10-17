@@ -8,5 +8,8 @@
   "status": "trusted",
   "actor/ref": "operator-binding:primary",
   "event/at": "2026-05-22T10:01:00Z",
-  "tx/id": "tx:local-relationship:invalidstatus"
+  "tx/id": "tx:local-relationship:invalidstatus",
+  "basis": {
+    "kind": "local"
+  }
 }

@@ -57,6 +57,8 @@ SCHEMA_WHITELIST = (
     "messaging-issuance-withdraw.local.v1.schema.json",
     "messaging-readiness.local.v2.schema.json",
     "messaging-send-decision.local.v2.schema.json",
+    "messaging-receive-decision.local.v2.schema.json",
+    "relationship-membership-fact.v1.schema.json",
     "messaging-send-audit.local.v2.schema.json",
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
@@ -637,6 +639,7 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "sovereign.messaging-receive-decision.local.json",
     "fixture.capability-issuance-delegation.v1.json",
     "fixture.capability-issuance-request.v1.json",
     "fixture.capability-passport.v2.json",
@@ -1233,6 +1236,7 @@ INVALID_EXAMPLE_WHITELIST = (
     "ungrounded-repair.corpus-task-pack-phase.json",
     "omitted-user.inquirium.model-package.chat-template-proof.json",
     "unknown-reason.messaging-send-decision.local.json",
+    "missing-basis.messaging-receive-decision.local.json",
     "extra-owner.messaging-mailbox-storage.local.json",
     "declared-caller.messaging-send-authorize.local.json",
     "missing-body-digest.messaging-send-authorize.local.json",

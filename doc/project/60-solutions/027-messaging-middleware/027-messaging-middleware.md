@@ -16,11 +16,12 @@ Updated: `2026-10-16` — bounded fact recovery and scoped mailbox reconstructio
 > Solution 032, the **canonical owner of the `contacts` concept**
 > (relationship classes, membership facts, pairwise nym continuity)
 > moves out of this solution. Messaging becomes a *consumer* of the
-> Local Relationship Layer: it reads active `contacts` class membership
-> for receive consent, triggers membership append through the local
+> Local Relationship Layer: it asks the host to evaluate the current authority
+> of receive consent, including independent `contacts` decisions, and triggers
+> passport-derived relationship projection through the local
 > host capability `local-relationship.membership.append` on
-> `contact-request.accept`, and emits `messaging-receive@v1` based on
-> relationship state.
+> `contact-request.accept`. Explicit acceptance issues a scoped
+> `messaging-receive@v1` profile under its current sovereign or delegated proof.
 >
 > Because the system is still before first release, the Solution 032
 > compatibility bridge was removed instead of retained. Messaging no
@@ -232,6 +233,23 @@ transport fields from the passport only fill missing address fields.
 
 The passport may be presented inline or by reference, but the service never
 owns private keys and never mints the passport directly.
+
+The host evaluates receive authority for every message from the active root and
+the actual receiver/route. A passport is one basis, with its current complete
+proof and parent status. An independent local `contacts` consent is another basis
+only while its author/receiver currently has sovereign authority. A delegated
+participant's local facts can restrict consent but cannot grant beyond its parent.
+An empty roster gives no authority. Root activation can remove independent
+membership eligibility without rewriting facts.
+
+Membership projected from a passport carries `basis.kind=passport` and
+`basis.passport/id`. It remains relationship/UI data; expiry or withdrawal of
+the passport cannot be bypassed through that projection. Independent local
+decisions (`basis.kind=local`) have a separate reduction of their history, so
+projections cannot erase an explicit block or create an independent consent.
+An independent consent is changed by a separate explicit local action. Each
+accepted message retains the host decision, selected basis and eligibility
+evidence alongside the signed envelope, without changing that envelope.
 
 Verifier boundary rule: when `capability_id = "messaging-receive"`, the
 capability layer rejects passports that do not contain at least one canonical

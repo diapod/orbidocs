@@ -1,0 +1,15 @@
+{
+  "schema": "messaging-receive-decision.local.v2",
+  "authorized": true,
+  "basis": {
+    "kind": "local-membership",
+    "fact/id": "fact:relationship-membership:independent"
+  },
+  "reasons": [],
+  "observed_at": "2026-10-17T12:00:00Z",
+  "evidence": {
+    "root/digest": "sha256:active",
+    "receiver/current-sovereign": true,
+    "membership/eligible": true
+  }
+}

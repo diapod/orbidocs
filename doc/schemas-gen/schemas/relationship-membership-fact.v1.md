@@ -46,6 +46,7 @@ Append-only local fact recording a relationship membership state transition in o
 | [`reason/code`](#field-reason-code) | `no` | string |  |
 | [`reason/note`](#field-reason-note) | `no` | string |  |
 | [`context/ref`](#field-context-ref) | `no` | string |  |
+| [`basis`](#field-basis) | `yes` | unspecified | A local decision and a passport-derived UI projection are distinct. A projection cannot become independent consent. |
 
 ## Definitions
 
@@ -137,6 +138,14 @@ Append-only local fact recording a relationship membership state transition in o
 
 - Required: `no`
 - Shape: string
+
+<a id="field-basis"></a>
+## `basis`
+
+- Required: `yes`
+- Shape: unspecified
+
+A local decision and a passport-derived UI projection are distinct. A projection cannot become independent consent.
 
 ## Definition Semantics
 

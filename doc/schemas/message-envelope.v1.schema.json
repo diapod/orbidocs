@@ -50,7 +50,11 @@
     "recording": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["required", "artifact/kind", "artifact/id"],
+      "required": [
+        "required",
+        "artifact/kind",
+        "artifact/id"
+      ],
       "properties": {
         "required": {
           "type": "boolean",
@@ -107,21 +111,15 @@
           "pattern": "^passport:capability:"
         },
         "passport": {
-          "type": "object",
-          "additionalProperties": true,
-          "required": ["schema", "passport_id", "capability_id"],
-          "properties": {
-            "schema": {
-              "const": "capability-passport.v1"
+          "oneOf": [
+            {
+              "$ref": "capability-passport.v1.schema.json"
             },
-            "passport_id": {
-              "type": "string",
-              "pattern": "^passport:capability:"
-            },
-            "capability_id": {
-              "const": "messaging-receive"
+            {
+              "$ref": "capability-passport.v2.schema.json"
             }
-          }
+          ],
+          "description": "Complete signed receive-consent document; version-specific authority is verified by the host."
         },
         "delegation-proof": {
           "type": "object",
@@ -129,22 +127,42 @@
         }
       },
       "anyOf": [
-        { "required": ["passport-ref"] },
-        { "required": ["passport"] }
+        {
+          "required": [
+            "passport-ref"
+          ]
+        },
+        {
+          "required": [
+            "passport"
+          ]
+        }
       ]
     },
     "body": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["content-type", "encoding", "size/bytes", "sha256"],
+      "required": [
+        "content-type",
+        "encoding",
+        "size/bytes",
+        "sha256"
+      ],
       "properties": {
         "content-type": {
           "type": "string",
-          "enum": ["text/plain", "text/markdown", "application/json"]
+          "enum": [
+            "text/plain",
+            "text/markdown",
+            "application/json"
+          ]
         },
         "encoding": {
           "type": "string",
-          "enum": ["utf-8", "base64"]
+          "enum": [
+            "utf-8",
+            "base64"
+          ]
         },
         "size/bytes": {
           "type": "integer",
@@ -165,14 +183,25 @@
         }
       },
       "oneOf": [
-        { "required": ["inline"] },
-        { "required": ["ref"] }
+        {
+          "required": [
+            "inline"
+          ]
+        },
+        {
+          "required": [
+            "ref"
+          ]
+        }
       ]
     },
     "meta": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["sent/at", "content/digest"],
+      "required": [
+        "sent/at",
+        "content/digest"
+      ],
       "properties": {
         "sent/at": {
           "type": "string",
@@ -224,11 +253,18 @@
     "public_handle": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["kind", "value"],
+      "required": [
+        "kind",
+        "value"
+      ],
       "properties": {
         "kind": {
           "type": "string",
-          "enum": ["email", "phone", "other"]
+          "enum": [
+            "email",
+            "phone",
+            "other"
+          ]
         },
         "value": {
           "type": "string",
@@ -244,7 +280,11 @@
     "signature": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["alg", "key/public", "value"],
+      "required": [
+        "alg",
+        "key/public",
+        "value"
+      ],
       "properties": {
         "alg": {
           "const": "ed25519"

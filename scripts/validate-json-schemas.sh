@@ -1173,6 +1173,9 @@ schema_for_file() {
     *.messaging-send-authorize.local.json)
       echo "$SCHEMAS_DIR/messaging-send-authorize.local.v1.schema.json"
       ;;
+    *.messaging-receive-decision.local.json)
+      echo "$SCHEMAS_DIR/messaging-receive-decision.local.v2.schema.json"
+      ;;
     *.messaging-send-decision.local.json)
       echo "$SCHEMAS_DIR/messaging-send-decision.local.v2.schema.json"
       ;;

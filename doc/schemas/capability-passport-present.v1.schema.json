@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:capability-passport-present:v1",
   "title": "CapabilityPassportPresent v1",
-  "description": "Wire envelope used to present a capability passport during a peer protocol exchange. The `passport` field carries the full signed `capability-passport.v1` artifact; the outer `schema` field identifies this envelope format.",
+  "description": "Wire presentation retaining the complete, self-describing signed passport proof. Consumers select the version-specific verifier and never downgrade V2.",
   "type": "object",
   "additionalProperties": true,
   "x-dia-workflow": "project",
@@ -24,75 +24,14 @@
       "description": "Schema discriminator. Must equal `capability-passport-present.v1`."
     },
     "passport": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "The complete signed capability passport. Must conform to `capability-passport.v1`.",
-      "required": [
-        "schema",
-        "passport_id",
-        "node_id",
-        "capability_id",
-        "scope",
-        "issued_at",
-        "issuer/participant_id",
-        "issuer/node_id",
-        "revocation_ref",
-        "signature"
-      ],
-      "properties": {
-        "schema": {
-          "const": "capability-passport.v1"
+      "oneOf": [
+        {
+          "$ref": "capability-passport.v1.schema.json"
         },
-        "passport_id": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^passport:capability:.+$"
-        },
-        "node_id": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
-        },
-        "capability_id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "scope": {
-          "type": "object",
-          "additionalProperties": true
-        },
-        "issued_at": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "expires_at": {
-          "type": ["string", "null"],
-          "format": "date-time"
-        },
-        "issuer/participant_id": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
-        },
-        "issuer/node_id": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
-        },
-        "revocation_ref": {
-          "type": ["string", "null"],
-          "minLength": 1
-        },
-        "signature": {
-          "type": "object",
-          "additionalProperties": true,
-          "required": ["alg", "value"],
-          "properties": {
-            "alg": { "const": "ed25519" },
-            "value": { "type": "string", "minLength": 1 }
-          }
+        {
+          "$ref": "capability-passport.v2.schema.json"
         }
-      }
+      ]
     }
   }
 }

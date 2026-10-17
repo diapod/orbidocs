@@ -203,6 +203,70 @@
             }
           },
           "description": "At most the first 32 rejected candidates in deterministic order; diagnostic sample, not a complete inventory."
+        },
+        "issuance/status": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "revision",
+            "as_of",
+            "valid_until",
+            "child_revocations",
+            "child_as_of"
+          ],
+          "properties": {
+            "revision": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "as_of": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "valid_until": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "child_revocations": {
+              "enum": [
+                "authoritative-local",
+                "remote"
+              ]
+            },
+            "child_as_of": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "child_revocations": {
+                    "const": "remote"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "child_as_of": {
+                    "type": "string"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "child_as_of": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Verified parent status and the independent child-revocation edge used by this decision. Local child authority has no remote freshness clock."
         }
       }
     }

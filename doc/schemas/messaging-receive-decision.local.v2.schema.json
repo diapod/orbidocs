@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-receive-decision.local:v2",
+  "title": "Messaging current receive authority decision v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "authorized",
+    "basis",
+    "reasons",
+    "observed_at",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-receive-decision.local.v2"
+    },
+    "authorized": {
+      "type": "boolean"
+    },
+    "basis": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "passport/id"
+          ],
+          "properties": {
+            "kind": {
+              "const": "passport"
+            },
+            "passport/id": {
+              "type": "string",
+              "pattern": "^passport:capability:"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "fact/id"
+          ],
+          "properties": {
+            "kind": {
+              "const": "local-membership"
+            },
+            "fact/id": {
+              "type": "string",
+              "pattern": "^fact:relationship-membership:"
+            }
+          }
+        }
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "$ref": "messaging-send-decision.local.v2.schema.json#/properties/reasons/items"
+      },
+      "uniqueItems": true
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "authority/failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reasons",
+        "observed_at",
+        "evidence"
+      ],
+      "properties": {
+        "reasons": {
+          "type": "array",
+          "items": {
+            "$ref": "messaging-send-decision.local.v2.schema.json#/properties/reasons/items"
+          },
+          "uniqueItems": true
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "authorized": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "basis": {
+            "type": "object"
+          },
+          "reasons": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "basis": {
+            "type": "null"
+          },
+          "reasons": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

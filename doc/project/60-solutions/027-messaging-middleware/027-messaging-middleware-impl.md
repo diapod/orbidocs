@@ -213,22 +213,27 @@ schema, conflict, or scope refusal. Retryable rows keep `last_error` and
 
 ## Inbound Policy
 
-Inbound admission validates `message-envelope.v1`, validates any inline passport
-against the message, verifies `passport-ref` through `capability.passport.lookup`
-when host capabilities are configured, asks the daemon to resolve the local
-mailbox, and then applies the `contacts` policy gate. A first valid receive
-passport tied to an accepted contact request may project membership. Otherwise a
-missing active membership is refused as `contacts-policy-denied`.
+Inbound admission validates `message-envelope.v1` and asks the authenticated host
+port `messaging.receive.authorize` for a current per-message decision before
+mailbox persistence. The host verifies the sender's signature, receiver ownership
+and active-root authority, then evaluates a complete passport or an independent
+local membership whose receiver is currently sovereign. A derived membership
+never substitutes for an expired, withdrawn or stale passport. A local block
+still restricts a valid portable permission. The service retains the decision in
+`messages.receive_authority_json`; reindexing existing EML does not fabricate a
+new authorization decision.
 
 The refusal response is intentionally generic. It must not reveal whether a
 public handle exists locally or which participant owns it.
 
-Current receiver-side revocation coverage is fail-closed for `passport-ref`
-admission through `capability.passport.lookup`, which uses the daemon
-revocation view and a 300 second freshness budget. Inline presented passports
-are scope-checked at the messaging boundary; full inline revocation verification
-requires a host verifier that can evaluate the presented passport against the
-revocation view without requiring it to exist in the local passport cache.
+The host verifies inline and referenced passports with the same version-specific
+proof semantics. V1 locally issued child revocations are authoritative locally;
+V2 checks child revocations independently of its signed remote parent status.
+Lookup and peer/AD handoff retain the full V2 proof and never lower it to a V1
+directory record. A public observed proof cannot create a local issuer key or
+enter the preparation selector. These slice-B paths are committed as a paused local implementation checkpoint
+and require the new delegated runtime gates; slice-A measurements do not qualify
+them.
 
 ## Facts and Recovery
 

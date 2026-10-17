@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/capability-passport-present.v1.schema.json`](../../schemas/capability-passport-present.v1.schema.json)
 
-Wire envelope used to present a capability passport during a peer protocol exchange. The `passport` field carries the full signed `capability-passport.v1` artifact; the outer `schema` field identifies this envelope format.
+Wire presentation retaining the complete, self-describing signed passport proof. Consumers select the version-specific verifier and never downgrade V2.
 
 ## Governing Basis
 
@@ -33,7 +33,7 @@ Wire envelope used to present a capability passport during a peer protocol excha
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `capability-passport-present.v1` | Schema discriminator. Must equal `capability-passport-present.v1`. |
-| [`passport`](#field-passport) | `yes` | object | The complete signed capability passport. Must conform to `capability-passport.v1`. |
+| [`passport`](#field-passport) | `yes` | unspecified |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -48,6 +48,4 @@ Schema discriminator. Must equal `capability-passport-present.v1`.
 ## `passport`
 
 - Required: `yes`
-- Shape: object
-
-The complete signed capability passport. Must conform to `capability-passport.v1`.
+- Shape: unspecified

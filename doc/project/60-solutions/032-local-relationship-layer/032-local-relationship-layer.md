@@ -63,6 +63,13 @@ one are non-conformant.
    operator-defined policy bundle (mutable projection, every change
    emits a fact). Membership is an append-only fact.
 
+   Each membership names its basis: an independently authored local decision or
+   a passport-derived projection with the originating passport id. The host
+   reduces independent decisions separately, so a later portable projection
+   cannot grant authority or erase an independent denial. Messaging can use
+   independent receive consent only while its receiver currently has authority
+   in the active root; a delegated receiver's local facts only restrict consent.
+
 3. **Membership facts are strictly local-emitted.** No wire-shape
    inbound. Other subsystems may *trigger* local emission; the fact is
    always produced locally with `actor/ref` of a host-issued operator

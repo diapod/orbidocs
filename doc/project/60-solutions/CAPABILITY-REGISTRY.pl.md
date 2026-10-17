@@ -163,7 +163,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **218** host-local / **250** ogółem; grupy właścicieli: **35**.
+Wpisy: **219** host-local / **251** ogółem; grupy właścicieli: **36**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -306,6 +306,12 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>messaging.send.provenance.sync</code> | <code>host/messaging.send.provenance.sync</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon Messaging receive authority evaluator</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>messaging.receive.authorize</code> | <code>host/messaging.receive.authorize</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon Sensorium Virt host broker</code>
 
