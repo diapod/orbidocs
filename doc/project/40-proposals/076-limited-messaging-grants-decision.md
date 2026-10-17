@@ -175,7 +175,7 @@ or unit test alone never closes a runtime gate.
 | P076-028 | A | Decision, status authority/channel, V2 separation | done | Adopted decisions including F-01/F-07 and Q-01..03 |
 | P076-029 | A | Participant issuer, status service, local send and ceremony | done | Clean Node `3e9507a9` / Orbidocs `5869853`: actual delegated send; beneficiary/delegate absent from root |
 | P076-030 | A | Status outage/revocation, retry/restart and first qualification | done | Same binary set: real 300-second status outage, explicit retry, durable withdrawal and strict sovereign Story-010 |
-| P076-031 | B | Scoped receive and explicit single-use INAC consent | in-progress | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
+| P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | todo | Two-tab recovery and parent withdrawal cascades |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
@@ -188,10 +188,19 @@ and by a two-ordinary-participant development scenario, recorded in
 use dirty sources and do not close the clean-source gate.
 
 Work was paused at the user's request on 2026-10-17 after the receive-basis
-implementation and its local tests. P076-031 remains in progress. The locally committed implementation
+implementation and its local tests. At that checkpoint P076-031 remained in progress. The locally committed implementation
 checkpoint is recorded in
 `node:docs/audits/P076-RECEIVE-AUTHORITY-CHECKPOINT-2026-10-17.md`; it does not
 replace the clean-source slice-A evidence or close the delegated runtime gates.
+
+The subsequent 2026-10-18 clean-source gate closes P076-031 at Node `f54f884c`
+and Orbidocs `c6c3b0d2`: 1285 test executions, 34 strict sovereign Story-010 phases
+and 24 HTML/API runtime cases between two ordinary participants outside root.
+Signed public root/request/grant/child/status/withdrawal documents requalify before
+and after archive extraction. See
+`node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`.
+This does not close P076-032, org custody or the final mixed candidate. The earlier
+paused checkpoint and development measurements retain their historical scope.
 
 MSG-ONB-005/006 remain closed with their original sovereign scope. Their reserved
 `issuer-path` argument is reused by new MSG-ONB-007/008, not used to rewrite the

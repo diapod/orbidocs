@@ -138,9 +138,14 @@ issuance authority. Current V2 readiness reports `issuance_authority_status` and
 `issuance_authority_kind`; receive readiness has distinct `receive/role-prepared`
 and `receive/open-consent` facets on both paths. Setup needs the local role, not
 open contact consent. A delegated setup never creates an any-sender passport.
-The participant-issuer local-send slice is in progress; delegated receive/INAC
-and org custody remain unqualified. MSG-ONB-007/008 own new delegated runtime
-proofs; completed MSG-ONB-005/006 evidence remains sovereign-only.
+Participant-issuer local send and scoped receive/INAC have separate clean-source
+qualifications. The receive gate at Node `f54f884c` / Orbidocs `c6c3b0d2` retains
+1285 tests, 34 strict sovereign phases, 24 HTML/API runtime cases and independently
+rechecked signed public proofs at
+`node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`.
+MSG-ONB-007/008 still own unqualified delegated browser cases; org custody and the
+final mixed candidate remain open. Completed MSG-ONB-005/006 evidence remains
+sovereign-only.
 
 Canonical [readiness](../../../schemas/messaging-readiness.local.v2.schema.json),
 [authorization request](../../../schemas/messaging-send-authorize.local.v1.schema.json),

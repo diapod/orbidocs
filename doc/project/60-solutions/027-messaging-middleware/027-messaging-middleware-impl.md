@@ -64,6 +64,12 @@ Readiness separates issuer admission, usable issuance authority, receive-role
 preparation and open receive consent. The first slice does not qualify delegated
 receive/INAC issuance, bidirectional exchange or organization custody. Those are
 separate P076 gates; dated P097 evidence retains its original scope.
+The subsequent P076-031 gate qualifies scoped receive and explicit one-use INAC
+in 24 HTML/API cases from clean Node `f54f884c` / Orbidocs `c6c3b0d2`, with 1285
+test executions and 34 strict sovereign phases on six unchanged binaries. Public
+proof signatures and runtime correlation requalify before/after extraction at
+`node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`.
+Delegated browser forms/cases, org custody and final mixed qualification remain open.
 
 The operator page `/middleware/messaging` (the target of `/admin/messaging`)
 renders a fresh pseudonymous contactability draft without requiring attestation

@@ -133,6 +133,11 @@ withdrawal cannot be bypassed by an earlier approval. If such an invitation
 lapses unused, a re-offer returns to explicit approval as a new durable decision
 generation. Notification identity and issuance idempotency bind that generation;
 a stale notification cannot approve or reject a newer decision.
+The 2026-10-18 clean-source P076-031 gate records both ordinary-participant
+directions using these admission modes, independent consents, child withdrawal
+and parent cascade. Signed public evidence is retained at
+`node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`;
+this HTML/API gate does not claim MSG-ONB-007/008 browser qualification.
 
 Baseline Artifact Delivery acceptors are now present for the two INAC baseline
 artifact kinds. `agora-record.v1` is verified and re-ingested through the local
