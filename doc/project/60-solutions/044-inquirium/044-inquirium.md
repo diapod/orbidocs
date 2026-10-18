@@ -239,6 +239,10 @@ Exact manifests, transport fields, launcher arguments, platform admission,
 environment isolation, health checks, and conformance fixtures belong to
 `node:model-runtime/README.md`, the Node runtime catalog, and Node tests.
 
+Local typed-decision protocols such as Basal are an optional planned extension,
+not an implemented family in this inventory. See
+[Local Typed-decision Evaluation](#local-typed-decision-evaluation).
+
 A full external agent runtime is deliberately absent from this inventory. A
 one-shot edge bridge may reduce an external agent response to candidate evidence,
 but durable identity, controller state, tools, and Room participation belong to
@@ -417,6 +421,44 @@ the same host authority and conformance boundary.
 
 Status: `post-mvp`.
 
+### Local Typed-decision Evaluation
+
+Status: `planned post-mvp` (2026-10-18); no alpha dependency or runtime acceptance
+claim. The implementation recommendations, candidate evidence and single-source
+tracker are in
+[P064: Optional Local Typed-decision Models](../../40-proposals/064-inquirium-implementation-recommendations.md#optional-local-typed-decision-models)
+and its [four experiment tasks](../../40-proposals/064-inquirium-implementation-recommendations.md#optional-typed-decision-experiment-tracking).
+
+Models in the Jev/Basal typed-decision category may supply bounded semantic
+assessments through Inquirium, initially `classify`, and later `rerank` only when
+its relevance semantics are preserved. They are replaceable inference backends,
+not Agent controllers, policy engines or verifiers. Per-invocation alternatives
+and rubrics remain profile data, not a closed global repertoire of problems.
+Probabilities, provider confidence statistics, ordinal scores and abstention
+need explicit mappings; typed output alone establishes neither truth nor authority.
+
+Reuse operation DTOs, host admission, runtime manifests/bindings, middleware
+hosting, supervised lifecycle, Schema Gate, budgets, P090 provenance and existing
+configuration/asset machinery. Preserve the provider's decision readout instead
+of assuming that an OpenAI-compatible chat launcher implements it. No separate
+agent runtime, package registry or implicit remote fallback is introduced.
+
+The first text-only candidate is `Remek/basal-2.0-mini-MLX-8bit` (1.5B), with
+`basal-1.5-mini` as a small regression comparator and the 4.5B line as a possible
+next candidate. `Remek/basal-omni-1.0-ultra` remains a relevant but resource-heavy
+optional reference, not a required local baseline. P064 records the upstream
+sources and limitations; every exact model/backend/precision/readout profile
+requires its own local qualification.
+
+The first experiment observes Agent context selection without changing the
+baseline context, memory or control path. Conformance fixtures precede separately
+authorized bounded calibration; calibration is a hard gate before a separately
+authorized integrated shadow run. The observer has no authority to prune context,
+admit offers, change Room turns, execute tools, declassify data or certify success.
+Report quality/coverage, calibration, latency, memory and contention, including
+failure isolation and cleanup. Shadow completion is not evidence of end-task
+improvement or permission to promote the profile into production routing.
+
 ### Production Model Adaptation Backends
 
 Concrete trainers may replace the deterministic reference behavior behind the
@@ -482,6 +524,9 @@ first obtain a neutral contract and a fail-closed host path.
   egress facts that consumers need.
 - **Model proposes an effect:** keep the proposal inert and hand it to the
   owning capability boundary only after independent admission.
+- **A typed assessment is mistaken for a calibrated fact or permission:** bind
+  its statistical semantics and calibration to the exact serving profile;
+  preserve abstention and keep the optional shadow result outside control paths.
 
 ## Open Questions
 
@@ -501,6 +546,10 @@ own proposal or an explicit revision of the implementation recommendations.
 4. Implement Proposal 090 through the dependency-ordered P064 tracker: contract,
    host derivation, terminal-result carriage, persistence across
    cache/artifact/deferred/replay paths, then cross-layer acceptance.
+5. Optionally evaluate local typed-decision models through P064's
+   `inq-typed-decision-contract` → `adapter` → `calibration` → `shadow` sequence
+   (all four ids use the `inq-typed-decision-` prefix). Keep this work outside
+   the alpha dependency chain and request separate approval for real model runs.
 
 ## Out Of Scope
 

@@ -2348,6 +2348,154 @@ calling another model. Only this fixed fixture set may grant evaluator
 and with explicit `evaluator/provenance-ref` pointing at the evaluator
 conformance report.
 
+### Optional Local Typed-decision Models
+
+Direction added on 2026-10-18; implementation and measured acceptance remain
+`todo`. This is an optional post-MVP experiment, not a new prerequisite for the
+alpha or the Inquirium–Agent–Corpus–Workbench acceptance path. Its single-source
+tracker is [Optional Typed-decision Experiment Tracking](#optional-typed-decision-experiment-tracking);
+[Solution 044](../60-solutions/044-inquirium/044-inquirium.md#local-typed-decision-evaluation)
+records the component boundary.
+
+A typed-decision model evaluates bounded context against explicit alternatives
+or a rubric and returns an assessment as data, rather than a free-form answer.
+The intended benefit is cheaper semantic selection, not a new source of authority.
+This preserves local-first operation, human agency, and the separation between
+an interpretation and an established fact. Schema-valid output is not proof that
+the assessment is correct; a concentrated distribution is not permission to act.
+
+Start with `inquirium.classify`. Reuse `inquirium.rerank` only after establishing
+comparable relevance semantics across candidates. An ordinal rubric score is
+not automatically relevance, and mutually exclusive choice probabilities are
+not independent multi-label probabilities. Keep question/rubric definitions in
+versioned profile data: a closed answer set for one invocation must not become a
+global closed vocabulary of deliberation topics. Unsupported question types are
+refused, not silently coerced into the nearest numeric field.
+
+#### Implementation Recommendations and Re-use Boundaries
+
+1. **Audit before extending.** Reuse `node:inquirium-core` operation DTOs,
+   `node:inquirium-host` admission/result validation, `node:model-runtime`
+   manifests, bindings and conformance, and existing daemon invocation paths.
+   First record what the current classify/rerank contracts preserve or lose.
+   If a full distribution, rubric, calibration binding or abstention cannot be
+   represented faithfully, version the smallest neutral contract through Schema
+   Gate. Do not bypass validation through an untyped metadata tunnel or invent
+   a generic `decide` capability before demonstrating a semantic gap.
+2. **Keep runtime translation at the edge.** Prefer a thin protocol adapter
+   hosted through S019 Middleware and S016 bounded supervision/HTTP primitives.
+   Reuse the shared Python Inquirium adapter helpers where applicable; Python
+   does not duplicate Rust host policy. A Basal worker translates its typed
+   protocol; it is neither an Agent controller nor a P089 external agent runtime.
+   Keep `basal-serve` and its `/v1/systemone` mapping at this edge above the
+   selected MLX or llama.cpp backend. Existing chat-compatible launchers do not implement
+   that readout. Avoid a second package registry, private supervisor or automatic
+   installer; reuse P066 asset/provisioning primitives and existing P091-backed
+   configuration paths where implemented. Missing optional productization does
+   not require a new provisioning subsystem for the experiment.
+3. **Name the statistical contract.** Bind every evaluation to model/asset
+   digests, tokenizer and prompt/readout revision, runtime/backend, precision,
+   option order policy, question/rubric revision, locale and calibration artifact.
+   Distinguish per-option probability, provider confidence statistic, calibrated
+   estimate and ordinal score. Do not copy a provider's `confidence` into the
+   neutral field without an explicit mapping. Distribution validation covers
+   finite values, option coverage and declared normalization; refusal, missing
+   output, truncation and abstention are not low scores or negative labels.
+4. **Preserve existing authority.** Reuse inference grants, classification,
+   budgets, trace redaction and P090 execution provenance. Loopback and a model
+   name do not prove local execution or no egress; preload verified assets and
+   enforce the intended boundary without request-time downloads or remote
+   fallback. The result cannot admit Corpus offers, grant tools, change privacy
+   classification, certify task completion or impose Responsibility measures.
+   Exact arithmetic, deadlines, permissions and runtime readiness remain with
+   their deterministic owners. Do not enable provider convenience tool/action
+   execution as part of this integration.
+5. **Separate calibration from consumption.** Reuse the report-backed
+   conformance runner and retained-evidence conventions, extending their typed
+   report contract where necessary rather than building a competing harness.
+   Conformance permits only the explicitly scoped evaluation route; it does not
+   admit ordinary production routing. Require disjoint tuning/calibration and
+   held-out acceptance sets, with independently reviewed labels rather than
+   treating teacher-model agreement as ground truth. Freeze minimum coverage,
+   selective error, calibration and resource budgets before inspecting test
+   results. Bind thresholds to the exact serving configuration; a runtime,
+   quantization, question or option-order change requires requalification.
+
+#### First Acceptance Candidates
+
+Candidate order reflects local resource cost, not a claim of measured Orbiplex
+quality. Upstream documentation inspected on 2026-10-18 lists the following
+options; pin actual revisions and asset digests before any run:
+
+1. **First small text candidate:**
+   [`Remek/basal-2.0-mini-MLX-8bit`](https://huggingface.co/Remek/basal-2.0-mini-MLX-8bit),
+   the 1.5B line, served by `basal-serve --mode mlx`. Its documented 8,192-token
+   context requires explicit overflow refusal, never the engine's optional
+   middle truncation. A GGUF backend is a separately qualified profile.
+2. **Comparators:**
+   [`Remek/basal-1.5-mini-MLX-8bit`](https://huggingface.co/Remek/basal-1.5-mini-MLX-8bit)
+   as a small regression control, then
+   [`Remek/basal-2.0-4.5B-MLX-8bit`](https://huggingface.co/Remek/basal-2.0-4.5B-MLX-8bit)
+   if the smaller candidate fails the predeclared quality/coverage gate.
+   Newer or larger is not presumed better. The upstream
+   [model catalogue and limitations](https://github.com/rkinas/basal/blob/main/README.md)
+   report regressions on some tasks; the
+   [port documentation](https://github.com/rkinas/basal/blob/main/docs/QUANTIZATION.md)
+   distinguishes decision fidelity from calibration validity after quantization.
+3. **Optional larger reference:**
+   [`Remek/basal-omni-1.0-ultra`](https://huggingface.co/Remek/basal-omni-1.0-ultra)
+   is a relevant PL/EN typed-decision model, but not the default local pilot.
+   Its card reports 31B parameters, eager BF16 serving and about 62 GB of GPU
+   memory for weights alone; MLX/GGUF ports are future work for that line at
+   inspection time. The image path inherits text calibration and the model has
+   no audio encoder. Start text-only and do not claim multimodal qualification.
+
+Upstream benchmark scores, confidence thresholds and hardware measurements are
+supplier evidence, not our acceptance. A candidate that exceeds the available
+host budget is `not-run/resource-ineligible`, not a failed semantic test and not
+a reason to rent a remote accelerator automatically. The candidate list is open;
+substitution must retain the same experiment contract and require fresh evidence.
+
+#### First Experiment: Observational Context Selection
+
+Use an explicitly authorized, bounded set of text context candidates for an
+Agent inquiry. The baseline assembles its normal context unchanged. A separate
+observer classifies each already-authorized candidate against the same task and
+records a proposed selection without feeding it into Agent, Corpus or Workbench
+control decisions. `MemoryPolicy` remains deterministic: no hidden scorer call
+is added inside context assembly, and no observation writes authoritative memory.
+
+Run in this order:
+
+1. **Offline contract fixtures:** deterministic protocol stubs prove mapping,
+   authority, malformed/partial response handling, redaction and provenance.
+2. **Separately authorized bounded calibration:** compare the current method,
+   a simple deterministic or small-reranker baseline, and the selected Basal
+   profile on the same pinned PL/EN task-fragment pairs. Include relevant,
+   irrelevant, contradictory, insufficient-context and out-of-domain cases,
+   embedded hostile instructions, negation, option permutations and input limits.
+   Retain accuracy/relevance measures, Brier score or an appropriate probabilistic
+   metric, calibration error, abstention coverage and accepted-decision error
+   with sample counts and uncertainty. Abstaining on everything is not a pass.
+   Measure cold/warm p50/p95 latency, peak memory and shared-accelerator impact.
+   A failed quality, calibration, privacy or budget gate stops this candidate;
+   do not lower thresholds after seeing held-out failures.
+3. **Separately authorized integrated shadow run, only after the gate passes:**
+   use the real host/adapter path on a retained baseline scenario. Prove the
+   observer cannot drop/reorder baseline context, route an offer, change a Room
+   turn, execute a tool or affect verifier results. Observer failure leaves the
+   baseline usable, with diagnostics; reserve/cap its resources so it cannot
+   starve the primary inference. Measure overhead and candidate-selection
+   agreement without claiming improved end-task quality from an unused output.
+
+The report records scope, pinned sources, model/runtime/calibration identity,
+limits, actual hardware, substitutions, failures and retained evidence refs.
+Reuse bounded artifact storage and trace-detail authorization: raw prompts,
+fragments and labels are not ordinary metadata logs. Give retained material an
+owner, access policy and cleanup/retention bound. This experiment authorizes
+neither a full alpha campaign nor behavioral promotion. A later opt-in consuming
+slice needs its own decision and controlled end-to-end benefit/regression proof.
+
 ### Constitution and Critic as Data
 
 An evaluator needs two data shapes whose contracts are stable across
@@ -2813,6 +2961,20 @@ slices:
    text-generative operation becomes a separate tracker item only when that
    operation is introduced; speculative operation loaders do not keep the
    current task open.
+
+## Optional Typed-decision Experiment Tracking
+
+This additive post-MVP tracker is independent of the hard-MVP table below and
+of alpha qualification. No existing alpha, P094, Agent, Corpus or Workbench task
+acquires a dependency on these rows. All rows start `todo`; documenting the
+direction or citing an upstream benchmark is not implementation evidence.
+
+| ID | Task | Status | Dependencies and completion gate |
+| :--- | :--- | :--- | :--- |
+| `inq-typed-decision-contract` | Audit reuse and freeze the minimal neutral assessment contract and experiment profile. | `todo` | Inspect existing classify/rerank DTOs, manifests, conformance reports, P090 carriers and context-selection owner. Retain an explicit reuse/gap map, versioned statistical semantics, abstention/refusal mapping, backend/profile pins and predeclared calibration/coverage/resource gates. Add only necessary Schema Gate/golden extensions; no new decision authority or globally closed task taxonomy. |
+| `inq-typed-decision-adapter` | Add a bounded local Basal protocol adapter for the admitted classify subset. | `todo` | Depends on `inq-typed-decision-contract`. Reuse middleware, supervision, HTTP, assets and host admission. Stub-backed real host-path tests cover option/readout fidelity, overflow refusal, malformed/non-finite/incomplete probabilities, unavailable calibration, timeout/cancel/overload, no hidden egress, redaction and exact result provenance. Generic chat output is not a substitute for typed readout; normal production routing remains disabled. |
+| `inq-typed-decision-calibration` | Qualify a small text profile on pinned PL/EN context-selection cases. | `todo` | Depends on the contract and adapter. First candidate is Basal 2.0 mini MLX 8-bit; compare against the unchanged baseline and simple alternative, with Basal 1.5 mini as a regression control where authorized. A separately approved bounded run must meet frozen quality, coverage, calibration and resource gates on held-out data, including adversarial/order/OOD cases. Retain failed/not-run outcomes; neither upstream thresholds nor schema validity closes this row. |
+| `inq-typed-decision-shadow` | Retain an integrated observational context-selection proof and go/no-go recommendation. | `todo` | Depends on passed exact-profile calibration and separate integrated-run approval. Use the existing Agent/Inquirium scenario and report infrastructure; prove unchanged baseline context and all control/effect decisions, bounded overhead, observer-failure isolation and cleanup. Report limitations and whether a later consuming slice is justified. Completion qualifies the shadow experiment only, not production selection or alpha. Reconcile relevant Node ledger/evidence entries without promoting MVP status. |
 
 ## Implementation Tracking
 
