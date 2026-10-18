@@ -504,3 +504,12 @@ Each step leaves the tree compiling.
   intentional byte-flip in a chunk MUST trigger
   `digest-mismatch` refusal; no partial-commit residue on
   the receiver.
+
+### Delegated Messaging browser qualification (2026-10-18)
+
+P076-032 / MSG-ONB-007/008 adds clean, pinned real-browser evidence for two
+ordinary participants outside root, explicit one-use INAC/contact consent,
+bidirectional delivery and parent-withdrawal cascades. See
+`node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`.
+This supplements the scoped P076-031 core/runtime proof; it neither reopens the
+sovereign gates nor qualifies organization custody or the final mixed candidate.

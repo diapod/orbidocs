@@ -74,8 +74,8 @@ browser regression at Node `739c32c9` checks request/import/unlock, contact addi
 actual send/open and parent-status recovery; its runtime-only report retains a
 full-candidate refusal at
 `node:docs/evidence/limited-messaging/2026-10-18-grant-ui-probe/README.md`.
-MSG-ONB-007/008 delegated browser qualification, org custody and the final mixed
-candidate remain open.
+The subsequent P076-032 checkpoint below qualifies MSG-ONB-007/008 delegated
+browser cases; org custody and the final mixed candidate remain open.
 
 The operator page `/middleware/messaging` (the target of `/admin/messaging`)
 renders a fresh pseudonymous contactability draft without requiring attestation
@@ -323,3 +323,16 @@ read: an independent local choice takes precedence over a derived projection for
 display, including local blocks. The default membership list remains the raw
 projection. Withdrawing a passport cannot hide an explicit address-book choice;
 neither view grants receive authority. Per-message host evaluation is unchanged.
+
+### Qualified delegated browser checkpoint (2026-10-18)
+
+P076-032 / MSG-ONB-007/008 is locally qualified:
+`node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`
+pins clean sources/binaries, 1308 conformance executions, 34 strict Story-010
+phases and 32/41 actual browser cases. Two ordinary operators outside root use
+independent explicit INAC/receive consent and correlated send/open/read. Real
+child/parent expiry, locked delegate, restart, stale status and competing retry
+recover once only after explicit action; parent withdrawal cascades. Public
+proof qualification is identical before/after extraction. The independent
+contact-display view confers no receive authority. Org custody, the final mixed
+candidate and release readiness remain separate. Historical evidence is unchanged.

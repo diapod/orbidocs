@@ -632,8 +632,8 @@ separate tracker rows, never a sovereign fallback.
 
 | Task | Scope | Status | Completion gate |
 |---|---|---|---|
-| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | in-progress | Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
-| MSG-ONB-008 | Delegated authority loss and explicit recovery | in-progress | Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
+| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | done | 2026-10-18: 32/32 clean-source browser cases, public proof requalification.  Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
+| MSG-ONB-008 | Delegated authority loss and explicit recovery | done | 2026-10-18: 41/41 clean-source browser cases, public proof requalification.  Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
 
 The 2026-10-18 first P076-032 fragment provides limited-grant request/import/unlock/
 withdraw forms and typed pending-notification recovery. These local UI tests do
@@ -742,3 +742,15 @@ separate `p076-browser` clean-source candidate. The recovery gate uses real shor
 child/parent TTLs, a signed status lease, locked delegates and concurrent native
 setup/retry. Runtime probes do not close either gate; retained public proof
 requalification is required. Prior MSG-ONB-005/006 and P076-031 evidence is unchanged.
+
+### Qualified delegated browser gates (2026-10-18)
+
+MSG-ONB-007/008 are closed by
+`node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`:
+1308 conformance executions, 34 strict sovereign Story-010 phases and 32/41
+browser cases on clean Node `399ec846` / Orbidocs `26d5386` and six unchanged
+binaries. Both ordinary participants remain outside root; public proof
+qualification is identical before/after extraction. The verifier-only review at
+Node `92282400` fixes observed-grant catalogue resolution without altering
+runtime reports or binaries. Earlier 005/006 and P076-031 evidence keeps its scope.
+Org custody/final mixed qualification and release readiness remain separate.

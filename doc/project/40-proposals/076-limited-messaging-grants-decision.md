@@ -176,11 +176,11 @@ or unit test alone never closes a runtime gate.
 | P076-029 | A | Participant issuer, status service, local send and ceremony | done | Clean Node `3e9507a9` / Orbidocs `5869853`: actual delegated send; beneficiary/delegate absent from root |
 | P076-030 | A | Status outage/revocation, retry/restart and first qualification | done | Same binary set: real 300-second status outage, explicit retry, durable withdrawal and strict sovereign Story-010 |
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
-| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | in-progress | Two-tab recovery and parent withdrawal cascades |
+| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
 
-The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completes slice A only; receive/INAC, organization custody and the final mixed candidate remain open.
+The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
 The 2026-10-17 continuation repaired the runtime integration found by its review
 and by a two-ordinary-participant development scenario, recorded in
@@ -206,7 +206,7 @@ The first P076-032 fragment adds participant-session, CSRF-protected public
 request, grant import, delegate unlock and own-use withdrawal forms, plus a typed
 pending-notification unlock path. The wizard labels usable issuance authority
 separately from sovereign membership. Local UI tests do not close MSG-ONB-007/008;
-bidirectional real-browser and recovery qualification remain open. The first browser probe
+at that first fragment, bidirectional real-browser and recovery qualification remained open. The first browser probe
 passed the request/import/unlock forms and then exposed a user contact-search
 writer missing the explicit local membership basis. The repair preserves host
 authority eligibility; contact existence alone is no longer counted as successful
@@ -223,7 +223,8 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Complete slice B's MSG-ONB-007/008 browser gates before org custody C. Slice A
+Slice B's MSG-ONB-007/008 browser gates are qualified. Continue with P076-033
+org custody C, then P076-034 final mixed qualification. Slice A
 and P076-031 retain their separate qualified scopes. Review after
 each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
@@ -237,5 +238,21 @@ real grant forms, explicit INAC/contact consent and chat compose/open/read.
 The separate `p076-browser` candidate pins one source/binary/capsule set for
 conformance, strict sovereign Story-010 and delegated recovery. Short child and
 parent TTLs use existing APIs and an explicit new offline grant ceremony; no
-clock injection or automatic authority/resume is introduced. The gates remain
-in progress until clean-source runtime and public archive requalification pass.
+clock injection or automatic authority/resume is introduced. At this checkpoint
+the gates remained in progress pending clean-source runtime and public archive requalification.
+
+## P076-032 qualified checkpoint (2026-10-18)
+
+`node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`
+closes MSG-ONB-007/008: clean Node `399ec846` / Orbidocs `26d5386`, six unchanged
+binaries, 1308 conformance executions, 34 strict sovereign Story-010 phases and
+32/41 real-browser cases. Both ordinary participants remain outside root;
+independent explicit receive/INAC consents support correlated bidirectional
+compose/open/read. Child and parent expiry, locked delegates, restart, stale
+remote status and concurrent setup/single/bulk retry with a lost response deliver
+once without implicit resume. Parent withdrawal cascades to receive and INAC.
+Public signed proofs qualify identically before/after extraction. A verifier-only
+follow-up at Node `92282400` normalizes observed remote grants; original reports
+and its initial refusal remain intact. 53 offline tests pass. No model/VM ran.
+P076-033 organization custody and P076-034 final mixed qualification remain open;
+local qualification does not establish release readiness.

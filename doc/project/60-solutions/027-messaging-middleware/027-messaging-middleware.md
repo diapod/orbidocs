@@ -143,7 +143,7 @@ qualifications. The receive gate at Node `f54f884c` / Orbidocs `c6c3b0d2` retain
 1285 tests, 34 strict sovereign phases, 24 HTML/API runtime cases and independently
 rechecked signed public proofs at
 `node:docs/evidence/limited-messaging/2026-10-17-receive-inac/README.md`.
-MSG-ONB-007/008 still own unqualified delegated browser cases; org custody and the
+MSG-ONB-007/008 are qualified by the subsequent P076-032 checkpoint below; org custody and the
 final mixed candidate remain open. Completed MSG-ONB-005/006 evidence remains
 sovereign-only.
 
@@ -151,7 +151,7 @@ The first P076-032 UI fragment offers explicit limited-grant request, import,
 unlock and own-use withdrawal under the local participant session and CSRF guard.
 Typed pending decisions link to delegate unlock, then require explicit retry.
 The wizard's issuance-authority step does not claim sovereign membership; the
-host keeps these facts separate. MSG-ONB-007/008 remain unqualified. User
+host keeps these facts separate. At this first UI-fragment checkpoint MSG-ONB-007/008 remained unqualified. User
 contact-search addition explicitly records the local membership basis before it
 reports success; this does not grant delegated receive authority. The
 focused probe (`node:docs/evidence/limited-messaging/2026-10-18-grant-ui-probe/README.md`)
@@ -587,3 +587,16 @@ read: an independent local choice takes precedence over a derived projection for
 display, including local blocks. The default membership list remains the raw
 projection. Withdrawing a passport cannot hide an explicit address-book choice;
 neither view grants receive authority. Per-message host evaluation is unchanged.
+
+### Qualified delegated browser checkpoint (2026-10-18)
+
+P076-032 / MSG-ONB-007/008 is locally qualified:
+`node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`
+pins clean sources/binaries, 1308 conformance executions, 34 strict Story-010
+phases and 32/41 actual browser cases. Two ordinary operators outside root use
+independent explicit INAC/receive consent and correlated send/open/read. Real
+child/parent expiry, locked delegate, restart, stale status and competing retry
+recover once only after explicit action; parent withdrawal cascades. Public
+proof qualification is identical before/after extraction. The independent
+contact-display view confers no receive authority. Org custody, the final mixed
+candidate and release readiness remain separate. Historical evidence is unchanged.
