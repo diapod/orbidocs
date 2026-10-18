@@ -377,6 +377,56 @@ host controller's scope could still name its actions:
 
 ### Browser hardening that precedes the controller layer
 
+#### Sensitive-view amendment — accepted 2026-10-18
+
+JavaScript is required only for representations containing secrets or sensitive
+unredacted data, including recovery/secret-entry views, private message/personal
+data and private evidence. Operational redacted configuration (D1), component
+status and ordinary navigation retain full no-JS representations. A synthetic
+marker on an operational page proves cache restoration, not that its real data
+belongs to a sensitive class.
+
+Sensitive views close by construction, not JavaScript detection: a document
+navigation returns a data-free shell and explicit guidance that this view needs
+JavaScript to protect data, with CLI/desktop alternatives. Only a separate,
+current-authorized `no-store` request may return sensitive content. The client
+installs its lifecycle/context guard before that request, clears sensitive nodes
+on `pagehide`, and reacquires or keeps an empty shell after persisted `pageshow`.
+Do not hide already-delivered secret HTML with CSS or place it in HTML/JSON data
+islands, URL parameters, browser storage or a second settings store.
+
+Node owns a closed route/template sensitivity catalogue, documented beside its
+implementation. Adding a sensitive view requires a catalogue entry and shell,
+authorization, no-JS, restoration and late-response tests. Undeclared sensitive
+representations refuse rather than fall back to ordinary full HTML. No raw
+biosignal HTML view is admitted by the current delivery; a future such view must
+enter this catalogue before exposure. Explicit attachments/CLI exports remain
+separate authorized operations, not an erasure promise for downloaded files.
+
+Defense in depth retains private `no-store`/`Vary`, short UI sessions and cache
+clearing on logout. **Subsequent accepted clarification, 2026-10-18:** do not use
+Apple private API/SPI or weaken the Rust `unsafe` prohibition for supplementary
+cache controls. This replaces the earlier engine-opt-out recommendation. Managed
+windows require JavaScript and public nonpersistent storage; disabled-JS or
+persistent Tauri input configuration refuses startup. Qualify actual WebView
+configuration and lifecycle behavior separately. BFCache is not disabled; neither
+is HTTP cache in memory. Nonpersistent storage is not a BFCache opt-out or an OS
+forensic-erasure promise. Missing platform evidence remains explicit and cannot
+replace the data-free shell boundary. No property of an arbitrary browser is an
+authorization claim.
+
+The closed catalogue currently covers identity secrets/secret entry, participant
+readiness inside configuration (a separate fragment, never the operational
+configuration document),
+key entry, participant private Messaging/contacts/notifications/issuance/outbox,
+private case reasons, operator message content and notifications, raw contact and
+relationship data, inquiry/execution/Corpus content and exact delegation material.
+The exact route/template bindings and negative tests belong to
+`node:node-ui/src/private_views.rs`; native unlock is a separate host-owned shell.
+Redacted operational status, configuration, component metadata and private-evidence
+references alone do not silently broaden this catalogue. A declared sensitive
+template on an unbound route must refuse; secret-entry template drift is tested.
+
 These changes reduce existing exposure, need no Stimulus and can land first:
 
 - Disable HTMX history snapshot storage globally, for example with
@@ -437,26 +487,97 @@ Additional references: [HTMX history](https://htmx.org/attributes/hx-history/),
 
 ## Implementation Tracker
 
-Statuses: `todo`, `partial`, `done`, `blocked`. All rows start `todo`; upstream
+### Separate service-control deliveries — adopted 2026-10-18
+
+P091 and P095 share the
+[Node service-control delivery contract](https://github.com/diapod/node/blob/master/docs/integration/configuration-service-control.md).
+D1 qualifies full pages for Messaging `enabled` and `logging.level`: real
+browser preview, file commit, application or explicit waiting, result, refusal
+and recovery. D2 adds the component/configuration detail panel using the same
+owner contracts after P095-002 and P095-007/008, then separately qualifies the
+actual desktop WebView. Full-page D1 evidence does not complete P095-001/009.
+The first D2 pair is the component view and configuration detail; moving the
+conversation is outside this delivery. P095-001/009 retain their slot, history,
+focus and no-panel-in-modal gates for that pair. A rejected Stimulus spike uses
+the documented plain-JS fallback with unchanged owner contracts.
+
+One linked acceptance report records separate D1/D2 status and source revisions.
+Use the same operator scenario before/after; qualitative observations state
+sample size and bias. D1 pages require full navigation, CSRF, no-store and
+isolation from untrusted middleware fragments before exposure. D2 retains every
+history, CSP/IPC, response confinement and WebView proof in this tracker.
+
+Statuses: `todo`, `partial`, `done`, `blocked`. Rows initially started `todo`; upstream
 documentation compatibility is not runtime completion. P095-007 and P095-008 are
 framework-independent hardening steps. The isolated test-only spike may precede
 them; production controller adoption may not. P095-001 to P095-005 and P095-007
 to P095-011 form the first slice; P095-006 gates broader reuse rather than
 expanding it silently. Hardening is not evidence that the workspace is complete.
 
+Scoped implementation checkpoint — 2026-10-18: Node has separately passing D1
+no-JS browser/CLI/runtime and D2 component/configuration browser/native owner
+flows, including native identity-change, Back and unavailable-owner checks.
+The native compatibility spike and actual caller/argument refusals
+are distinct from owner/file/process evidence. The
+[shared report](https://github.com/diapod/node/blob/master/docs/evidence/configuration-service-control/README.md)
+records reviews/corrections, fixture and actual boundaries, restoration details,
+the original cache non-observation, missing chronological ergonomic baseline
+and platform limits. The subsequent closeout adds actual trusted restoration
+in full Chrome configuration pages and application WKWebView HTTP/custom-protocol
+top documents. The subsequent sensitive-view amendment keeps operational D1
+no-JS while preventing sensitive document navigations from acquiring secret HTML.
+Pinned native trials include a real one-time seed acknowledgement and trusted
+BFCache restoration after normal navigation, protection-context change and owner
+stop. A controlled suppressed-animation baseline reproduces a sufficient native
+bootstrap stall; navigation no longer depends on animation callbacks and reveal
+waits for iframe load. This does not reconstruct the exact OS trigger of the older
+coarse timeout. See `node:docs/evidence/configuration-service-control/RESTORATION-BOOTSTRAP-20261018.md`;
+the earlier closeout and failures remain immutable.
+Rows
+remain partial where their broader gates are not established by this first pair.
+
 | ID | Status | Depends on | Task and completion gate |
 | --- | --- | --- | --- |
-| P095-001 | todo | — | Inventory helpers; select an existing conversation/detail pair and freeze slot, history, draft lifetime and trust boundaries in the Node UI contract. Record listener/timer inventory per script, baseline measurements and rollback path. |
-| P095-002 | todo | 001 | Spike pinned Stimulus + HTMX in isolated browser/Tauri fixtures: swaps, reconnect, errors, history, SSE and exactly one request per action. Verify both library initialization orders, early XHR fencing before redirects/triggers and target confinement despite response-targets/OOB. Exercise the source-confirmed history options. Record adopt/reject, driver/platform and mock boundaries; retain plain-JS fallback if rejected. |
-| P095-003 | todo | 002, 007, 008, 009, 010, 011 | Implement the controller catalog and conversation/detail/return slice using the pure state modules; preserve composer, scroll and focus; retire duplicate legacy handlers, including separate chat-open and overlapping chat-history fetches. |
-| P095-004 | todo | 003, 007, 008 | Retain executable evidence for every failure row, including identity change, malicious fragments, stale authority and delayed responses; verify keyboard/IME, accessibility and reduced motion. |
-| P095-005 | todo | 004 | Verify browser and desktop task completion and bounded resource use against baseline; test rollback without changing domain state; synchronize Solution 001, Node UI docs, ledger and applicable MVP evidence. |
+| P095-001 | partial | — | Inventory helpers; select an existing conversation/detail pair and freeze slot, history, draft lifetime and trust boundaries in the Node UI contract. Record listener/timer inventory per script, baseline measurements and rollback path. **2026-10-18:** First pair explicitly changed to component/configuration; stable slots, lifetime/trust inventory and rollback contract are recorded in Node. Historical baseline is unavailable-closed; a pinned scripted baseline/v1 is frozen for future comparisons only. |
+| P095-002 | partial | 001 | Spike pinned Stimulus + HTMX in isolated browser/Tauri fixtures: swaps, reconnect, errors, history, SSE and exactly one request per action. Verify both library initialization orders, early XHR fencing before redirects/triggers and target confinement despite response-targets/OOB. Exercise the source-confirmed history options. Record adopt/reject, driver/platform and mock boundaries; retain plain-JS fallback if rejected. **2026-10-18:** Browser and actual WKWebView fixtures pass both orders, 20 swaps each, reconnect, SSE, early response fencing and native IPC checks; the final fixture actually loads response-targets and retains native results separately. |
+| P095-003 | partial | 002, 007, 008, 009, 010, 011 | Implement the controller catalog and conversation/detail/return slice using the pure state modules; preserve composer, scroll and focus; retire duplicate legacy handlers, including separate chat-open and overlapping chat-history fetches. **2026-10-18:** The first pair has one Stimulus application with workspace/modal owners, bounded pure href state and final DOM-commit fencing. Conversation/composer/scroll migration and retiring its independent history fetch remain out of scope. |
+| P095-004 | partial | 003, 007, 008 | Retain executable evidence for every failure row, including identity change, malicious fragments, stale authority and delayed responses; verify keyboard/IME, accessibility and reduced motion. **2026-10-18:** Real owner/browser/native primary flows and browser privacy/injection/refusal cases pass. Native identity-change, Back and unavailable-owner checks also pass; later actual BFCache admissions are retained for pinned Chrome configuration and WKWebView top documents. The later sensitive-shell amendment and controlled bootstrap fix have separate proofs; final unchanged UI/Desktop/owner binaries passed three trusted sensitive restores, policy/unlock readback, three suppressed-animation starts and seven native D2 cases with an awake display. Broader accessibility/IME and platform gates remain open. |
+| P095-005 | partial | 004 | Verify browser and desktop task completion and bounded resource use against baseline; test rollback without changing domain state; synchronize Solution 001, Node UI docs, ledger and applicable MVP evidence. **2026-10-18:** Primary full-page and panel tasks pass real owner writes and controlled restart. Historical baseline is unavailable-closed and current baseline/v1 is frozen without an improvement claim; broader platform/rollback campaign remains open. |
 | P095-006 | todo | 005 | Reuse the same mechanics on one existing configuration or Corpus inspection surface before extracting a general library; keep writes with their current owners and document remaining platform limits. |
-| P095-007 | todo | — | Disable snapshots; purge known prior history/cache keys; add no-store/Vary and desktop propagation; cover all asset includes with integrity. Gate: pre-seeded old snapshots, bfcache, offline Back and other windows after identity change cannot restore prior content; actual browser/WebView limits are recorded. |
-| P095-008 | todo | — | Implement parsed fragment/response confinement or explicitly isolate incompatible surfaces; migrate inline scripts/event attributes and eval features; enforce CSP through HTTP and desktop host pages. Inventory IPC commands and enforce caller/argument scope independently of withGlobalTauri. Gate: script, same-origin src, declarative target/action/OOB and header injections cannot cross module/shell/native boundaries; framing and legitimate settings still work. |
-| P095-009 | todo | 001 | Decide where the conversation lives: move it from `#orb-modal-slot` into `#app-main`, or record why the first slice uses another pair. Gate: opening details never stacks a panel inside a modal, and closing a modal restores focus to its opener. |
-| P095-010 | todo | 001, 009 | Implement panel representation negotiation, authorized full-page fallbacks, validated href metadata, Vary/no-store including desktop transport, and confined response effects. Gate: direct/full/fragment requests, spoofed HX headers, unwanted response headers and OOB are tested; shell IDs remain unique after navigation. |
-| P095-011 | todo | 002 | Extract pure stack/epoch/generation, tail and draft predicates. Gate: bounds, drop-oldest, failed navigation, recreated-controller stale reads, safe counter exhaustion, message-count saturation, and typing after discard consent are tested without a browser. |
+| P095-007 | partial | — | Disable snapshots; purge known prior history/cache keys; add no-store/Vary and desktop propagation; cover all asset includes with integrity. Gate: pre-seeded old snapshots, bfcache, offline Back and other windows after identity change cannot restore prior content; actual browser/WebView limits are recorded. **2026-10-18:** All owning layouts disable snapshots/eval/script tags, purge only owned prior keys and carry SRI/private headers. Real browser restoration/offline/other-window and native identity-change/Back/unavailable-owner checks pass; later trusted actual BFCache admissions remove private markers in Chrome configuration and native HTTP/custom top documents with scripts enabled. Operational no-JS DOM retention is not secret classification. Sensitive shells and three actual trusted seed-view restores pass on final unchanged UI/Desktop/owner binaries after normal navigation, context change and owner stop; effective JS/nonpersistent readback and real native unlock pass separately. BFCache/memory-cache disablement is not claimed. Broader gates remain partial. |
+| P095-008 | partial | — | Implement parsed fragment/response confinement or explicitly isolate incompatible surfaces; migrate inline scripts/event attributes and eval features; enforce CSP through HTTP and desktop host pages. Inventory IPC commands and enforce caller/argument scope independently of withGlobalTauri. Gate: script, same-origin src, declarative target/action/OOB and header injections cannot cross module/shell/native boundaries; framing and legitimate settings still work. **2026-10-18:** Parsed passive module admission, inline migration, self/nonce CSP and actual native caller/argument refusals plus legitimate Settings are implemented and reviewed. Executable modules require separate reviewed isolation; broader platform qualification remains open. |
+| P095-009 | partial | 001 | Decide where the conversation lives: move it from `#orb-modal-slot` into `#app-main`, or record why the first slice uses another pair. Gate: opening details never stacks a panel inside a modal, and closing a modal restores focus to its opener. **2026-10-18:** The accepted first pair is component/configuration, not conversation. Stable separate modal/panel slots, local modal close and independent focus/Escape are implemented; conversation remains in its current owner without broader migration claims. |
+| P095-010 | partial | 001, 009 | Implement panel representation negotiation, authorized full-page fallbacks, validated href metadata, Vary/no-store including desktop transport, and confined response effects. Gate: direct/full/fragment requests, spoofed HX headers, unwanted response headers and OOB are tested; shell IDs remain unique after navigation. **2026-10-18:** Exact dual-header negotiation, authorized full pages, closed href metadata, private headers and early/final response gates pass for the first pair. Other resource pairs/queries are not automatically admitted. |
+| P095-011 | partial | 002 | Extract pure stack/epoch/generation, tail and draft predicates. Gate: bounds, drop-oldest, failed navigation, recreated-controller stale reads, safe counter exhaustion, message-count saturation, and typing after discard consent are tested without a browser. **2026-10-18:** Pure eight-entry href/opener stack, unique epoch and non-wrapping generations have focused tests and browser bounds/refetch proof. Tail/draft predicates belong to the deferred conversation slice. |
+
+Closeout qualifier for P095-004/005/007/010 — 2026-10-18: actual BFCache
+observations supersede the earlier non-observation only for their pinned
+engines/transports. A current-build scripted full-page/panel walkthrough is
+not the missing historical ergonomic baseline. Fully disabled page JavaScript
+cannot execute the restoration guard. The later accepted sensitive-view amendment
+therefore prevents sensitive HTML from entering such a document at all, instead
+of claiming that operational no-JS DOM cannot be cached. It also supersedes the
+earlier unexplained-bootstrap implementation gap with a retained controlled
+counterexample and bounded fix, not retrospective attribution of every timeout.
+These broader rows remain partial; consult the restoration/bootstrap follow-up
+for current evidence, cache axes, historical refusal limits and platform scope.
+
+Final review amendment — accepted 2026-10-18: configuration participant readiness
+is a separate authorized no-store JS fragment. Initial full-page/panel HTML has
+only a fixed placeholder and no participant id/status/reasons; ordinary
+configuration navigation/forms remain no-JS and do not wait for readiness.
+The UI never replaces fields in the configuration owner's inspection DTO.
+Locked-key guidance uses `participant-key-locked` without private model data.
+The scoped configuration no-JS privacy gate is therefore closed by construction,
+not by browser BFCache policy. Native iframe provisional/commit/failure codes
+remain unavailable through the approved public boundary; no SPI is authorized.
+Frequency samples are independent current measurements, not historical causes.
+The lost-code historical CLI refusal is closed as `unattributable`; future CLI
+failures have closed machine codes retained by the harness. The pre-change
+ergonomic baseline is `unavailable-closed`; a frozen current `baseline/v1` is for
+future comparison only. These dispositions close bookkeeping, not broader task,
+human-usability, native instrumentation or release gates. See
+`node:docs/evidence/configuration-service-control/REVIEW-CLOSEOUT-20261018.md`.
 
 ## Open Questions
 

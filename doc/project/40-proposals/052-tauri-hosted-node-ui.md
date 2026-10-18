@@ -1110,6 +1110,41 @@ When implementation begins in `node`, update:
 The ledger row should describe the desktop shell as an edge/client capability,
 not as a new protocol layer.
 
+## Scoped Implementation Checkpoint — 2026-10-18
+
+The Node P091/P095 implementation forwards private
+cache/Vary/CSP and presentation-context headers, uses per-response nonces for
+compiled native host scripts and preserves only the app-owned bootstrap framing
+exception. Native commands independently validate caller window/document and
+bounded arguments; hiding the global Tauri wrapper is not authorization. The
+first component/configuration pair has a real bootstrap-WKWebView owner/file/
+process/restart flow, plus native identity-change, Back and unavailable-owner
+checks, separate from isolated compatibility/IPC fixtures and
+browser qualification. Test drivers require a nondefault build feature plus
+explicit local fixture admission and are absent from the default build. See
+`node:docs/evidence/configuration-service-control/README.md` for exact checks,
+restoration details and platform limits. The subsequent closeout separately
+observes actual BFCache admission on application WKWebView HTTP/custom-protocol
+top documents, including protection-context change and stopped owner; private
+markers are absent on restore. This is not bootstrap-iframe cache admission.
+The later follow-up reproduces a sufficient bootstrap stall with animation frames
+suppressed: even navigation and its timeout used to depend on a callback that
+might never run. Navigation now starts outside that callback and reveal waits for
+actual iframe load, with an independent animation deadline. Historical OS trigger
+attribution remains narrower than that controlled diagnosis. Sensitive views,
+including native unlock, now return data-free shells before guarded content reads.
+Managed windows use public incognito/nonpersistent mode and reject disabled-JS
+or persistent input configuration at startup. Public initializer readback and
+real native unlock are qualified separately. Final unchanged UI/Desktop/owner
+binaries passed three actual trusted sensitive restores, three public JS/store
+readbacks with owner-verified native unlock, three suppressed-animation bootstrap
+starts and seven native D2 cases in serial awake-display runs. BFCache and memory
+HTTP cache are not disabled; no SPI or Rust unsafe exception was added. See
+`node:docs/evidence/configuration-service-control/RESTORATION-BOOTSTRAP-20261018.md`.
+IPC identifies the containing WebView/top document, not an individual subframe;
+closed bootstrap framing and passive module admission are part of the boundary.
+This does not complete P052.
+
 ## Open Questions
 
 - Should the first app-owned scheme be `orbiplex://localhost` or should the host

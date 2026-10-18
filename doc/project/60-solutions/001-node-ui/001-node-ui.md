@@ -40,11 +40,33 @@ the solution layer focused on ownership and architecture while preserving a
 single operational source for developers changing concrete templates, handlers,
 and CSS/JS helpers.
 
-Related design (not yet implementation):
+Related bounded implementation checkpoint (2026-10-18):
 [P095: Node UI Interaction Layer](../../40-proposals/095-node-ui-interaction-layer.md)
-plans shared panel, focus, scroll and return mechanics over existing HTMX
-representations, with a gated Stimulus compatibility spike. It preserves daemon
-authority and middleware HTML surfaces; native host integration stays in P052.
+provides shared panel, focus and bounded return mechanics for the first
+component/configuration pair over existing HTMX representations. P091's full
+pages and panel share owner inspection/preview/write/result contracts. Node
+retains separate actual-browser and native WebView evidence, parsed passive
+module admission, no-store/history/CSP policy and scoped native IPC. Conversation
+migration, broader reuse and whole P095 completion remain outside this checkpoint.
+The scoped configuration view also composes P097 participant readiness only for
+a matching valid participant session and current unlocked identity, independently
+of operator admission. A session-sensitive presentation fence prevents late
+responses from retaining that context after session loss. Operational full pages,
+including D1 configuration, remain functional without JavaScript. Under the
+final review amendment, participant readiness is a separate guarded no-store JS
+fragment with its own template context; configuration-owner DTOs remain untouched.
+Without JS only a fixed readiness placeholder exists, not participant private
+data; a slow readiness owner cannot delay the operational document. A locked-key
+reason is shown without exposing the readiness model. Under the
+accepted P095 sensitive-view amendment, secret-entry and sensitive unredacted
+views return data-free shells; only separate authorized no-store requests after
+guard installation deliver their private content. A no-JS document therefore
+contains no sensitive payload to restore. Native windows enforce enabled-JS and
+nonpersistent input policy, with pinned public configuration readback and actual
+restoration/unlock evidence; BFCache and memory HTTP cache are not disabled.
+Native host ownership stays in P052; code-coupled details and evidence live in
+`node:node-ui/docs/INTERACTION-LAYER.md` and
+`node:docs/evidence/configuration-service-control/README.md`.
 
 ## Admitted Web Finding Review
 
