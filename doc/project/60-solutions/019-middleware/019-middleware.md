@@ -45,7 +45,7 @@ Related schemas:
 
 Implemented MVP, with active extension points.
 
-Related UI design (proposed):
+Related UI design with a bounded implementation checkpoint (2026-10-18):
 [P095: Node UI Interaction Layer](../../40-proposals/095-node-ui-interaction-layer.md)
 preserves module-owned HTML surfaces while keeping shared interaction controllers
 and shell targets host-owned. It grants no new executable UI or native authority
@@ -215,7 +215,7 @@ must not be treated as interchangeable.
 ```text
 <data-dir>/
   control/
-    middleware-last-settings.json
+    middleware-settings.json
   middleware/
     <module-id>/
       config/
@@ -234,11 +234,37 @@ must not be treated as interchangeable.
       .signatures/
 ```
 
-`<data-dir>/control/middleware-last-settings.json` is host-generated local
-control state, not middleware package material and not an operator-owned module
-configuration fragment. It may carry minimal UI-controlled runtime toggles such
-as `enabled`, and it may suppress runtime activation, but it must not replace or
-block materialization of package/factory `50-<module>.json` config fragments.
+`<data-dir>/control/middleware-settings.json` is the existing host-owned protected
+decision source, separate from middleware package and ordinary configuration
+fragments. P091's 2026-10-18 amendment records `operator-decision-wins`, sparse
+new decisions and protection of `legacy-unattributed` entries; implementation
+and migration evidence remain separately tracked. A seeded `enabled` value is
+an ordinary declaration and cannot establish operator consent. Suppressing
+runtime eligibility must not block preparation of package/factory
+`50-<module>.json` fragments or trigger process startup.
+
+Factory `seed_config` retains whole-object/disabled behavior when the optional
+`seed_config_pointers` is absent. With true, the list selects module-relative
+RFC 6901 values and required parent objects; an empty list creates no file.
+Reject a list with false/absent `seed_config`, malformed or missing pointers,
+duplicates, overlaps and traversal into array elements before writing. Objects
+and arrays may be selected whole. Remove materialization metadata from runtime
+and seed content. The host owns authorized create-only materialization through
+the shared writer: existing configured modules or seed files are preserved,
+deleted fields are not refilled on update, and disabled modules may be seeded
+without starting. See
+[the P091 amendment](../../40-proposals/091-file-backed-configuration-and-explainable-composition.md#adopted-service-control-delivery-amendment--2026-10-18)
+and [Node delivery contract](https://github.com/diapod/node/blob/master/docs/integration/configuration-service-control.md).
+
+Omitted values in newly published selective sources inherit factory values;
+an omitted `enabled` must not acquire historical implicit-module opt-in meaning.
+The host retains the source/address profile `explicit-enabled-inheritance:v2`
+in the publication fact, outside configuration JSON, through later ordinary
+edits. Unregistered historical declarations keep their named legacy behavior.
+This profile is neither a writer permission nor consent, and cannot regenerate
+deleted fields. An unfinished seed publication has an explicit bootstrap
+recovery operation, classified before ordinary daemon configuration is loaded;
+recovery does not start the module.
 
 `<data-dir>/middleware/<module-id>/` is the node-owned active runtime home for
 one concrete module instance. It is writable by the host and, where explicitly
@@ -653,6 +679,15 @@ The module owns:
 - labels,
 - templates/assets,
 - module-specific operator workflows.
+
+Package admission does not grant executable same-context UI or native authority.
+The host admits a passive representation or requires a separately reviewed
+isolated executable surface, as constrained by P095. Media type and HX headers
+are not trust selectors: JSON/plain bodies on a UI proxy must not become active
+markup in an HTML consumer. This presentation rule does not change the module's
+separate domain API contract. Node's current code-coupled boundary and qualified
+limits are in `node:node-ui/docs/INTERACTION-LAYER.md` and the shared P091/P095
+evidence report, not inferred from the module's signature or controller name.
 
 ## Failure Semantics
 

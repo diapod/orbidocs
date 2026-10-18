@@ -93,6 +93,13 @@ needs to be split.
 
 ## Proposed Model / Decision
 
+The P091/P095 service-control delivery adopted on 2026-10-18 reuses the existing
+configuration journal/receipts for decision provenance, observed source
+revisions, commit/recovery and active-configuration explanation. It requires
+neither a new journal protocol, mandatory JSONL nor a complete text-edit history.
+An external-edit fact records an observation, not the writer or exact edit time.
+Configuration remains text files; operation metadata stays in bounded facts.
+
 A temporal store has three conceptual parts.
 
 ### Transactions

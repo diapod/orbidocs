@@ -61,6 +61,21 @@ the Node implementation repository.
 
 ## Proposed Model / Decision
 
+P091-007b is a consumer of this existing scheduler for bounded configuration
+source reconciliation, adopted on 2026-10-18. Its default one-second interval
+is file-configured; the configuration owner supplies source selection, admission
+and lifecycle semantics. Missed/overloaded launches expose stale inspection;
+inspection never runs the job. This delivery adds no private timer/watcher.
+The consumer distinguishes a persisted observation from an attempted lifecycle
+effect: tick budget exhaustion retains still-current unattempted transitions,
+but does not authorize replay of uncertain effects. Source/application semantics
+and this distinction belong to the configuration consumer, not the scheduler.
+The 2026-10-18 closeout exercises actual one-slot saturation with a bounded
+test pressure job, the production S020 consumer and real Messaging: stale
+observation while the slot is occupied, then normal disable after release,
+without treating observation as stop acknowledgement or re-enabling a protected
+false. This is not an arbitrary-load fairness/SLA or fleet-pressure campaign.
+
 The core contract is deliberately small:
 
 ```text
