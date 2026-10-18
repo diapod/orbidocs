@@ -307,3 +307,19 @@ Additional hardening now covered by focused tests:
   and pseudonymous-only contactability marker parsing; daemon tests cover saving
   a pseudonymous-only contactability draft with no public handle and a messaging
   routing subject.
+
+### Delegated browser gate implementation (2026-10-18)
+
+P076-032 now has separate `delegated-onboarding` and
+`delegated-authority-recovery` scenarios using two ordinary participants outside
+root, real native consent/chat forms and the offline browser capsule. The
+`p076-browser` candidate and public proof qualifier preserve the historical
+HTML receive/INAC and sovereign gates. Short child/parent TTLs, signed status
+expiry and competing native retry are required before MSG-ONB-007/008 closure;
+no org custody or release readiness is inferred.
+
+The contact rail uses the explicit Local Relationship `view=contact-display`
+read: an independent local choice takes precedence over a derived projection for
+display, including local blocks. The default membership list remains the raw
+projection. Withdrawing a passport cannot hide an explicit address-book choice;
+neither view grants receive authority. Per-message host evaluation is unchanged.

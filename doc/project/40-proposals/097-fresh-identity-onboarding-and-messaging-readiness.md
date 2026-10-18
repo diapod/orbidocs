@@ -633,7 +633,7 @@ separate tracker rows, never a sovereign fallback.
 | Task | Scope | Status | Completion gate |
 |---|---|---|---|
 | MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | in-progress | Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
-| MSG-ONB-008 | Delegated authority loss and explicit recovery | todo | Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
+| MSG-ONB-008 | Delegated authority loss and explicit recovery | in-progress | Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
 
 The 2026-10-18 first P076-032 fragment provides limited-grant request/import/unlock/
 withdraw forms and typed pending-notification recovery. These local UI tests do
@@ -733,3 +733,12 @@ digests are at `node:docs/evidence/messaging-onboarding/2026-10-13-browser/READM
 Stage B follows the always-enforce plan above. Resolve
 P076's limited-grant question before claiming support for ordinary non-sovereign users
 through a new authority path.
+
+### P076-032 delegated browser continuation (2026-10-18)
+
+The new `delegated-onboarding` and `delegated-authority-recovery` scenarios use
+two ordinary participants outside root, native grant/consent/chat forms and a
+separate `p076-browser` clean-source candidate. The recovery gate uses real short
+child/parent TTLs, a signed status lease, locked delegates and concurrent native
+setup/retry. Runtime probes do not close either gate; retained public proof
+requalification is required. Prior MSG-ONB-005/006 and P076-031 evidence is unchanged.

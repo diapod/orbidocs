@@ -571,3 +571,19 @@ qualification does not establish release readiness or ordinary delegated authori
 - `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
 - `doc/project/60-solutions/025-contact-catalog/025-contact-catalog.md`
 - `doc/project/60-solutions/026-pseudonym-vault-and-key-roles/026-pseudonym-vault-and-key-roles.md`
+
+### Delegated browser gate implementation (2026-10-18)
+
+P076-032 now has separate `delegated-onboarding` and
+`delegated-authority-recovery` scenarios using two ordinary participants outside
+root, real native consent/chat forms and the offline browser capsule. The
+`p076-browser` candidate and public proof qualifier preserve the historical
+HTML receive/INAC and sovereign gates. Short child/parent TTLs, signed status
+expiry and competing native retry are required before MSG-ONB-007/008 closure;
+no org custody or release readiness is inferred.
+
+The contact rail uses the explicit Local Relationship `view=contact-display`
+read: an independent local choice takes precedence over a derived projection for
+display, including local blocks. The default membership list remains the raw
+projection. Withdrawing a passport cannot hide an explicit address-book choice;
+neither view grants receive authority. Per-message host evaluation is unchanged.

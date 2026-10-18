@@ -229,3 +229,13 @@ each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
 registry, Node ledger and MVP. No model or VM is required; historical qualifications
 and release readiness remain distinct.
+
+## P076-032 browser implementation checkpoint (2026-10-18)
+
+Dedicated MSG-ONB-007/008 scenarios now drive both ordinary participants through
+real grant forms, explicit INAC/contact consent and chat compose/open/read.
+The separate `p076-browser` candidate pins one source/binary/capsule set for
+conformance, strict sovereign Story-010 and delegated recovery. Short child and
+parent TTLs use existing APIs and an explicit new offline grant ceremony; no
+clock injection or automatic authority/resume is introduced. The gates remain
+in progress until clean-source runtime and public archive requalification pass.
