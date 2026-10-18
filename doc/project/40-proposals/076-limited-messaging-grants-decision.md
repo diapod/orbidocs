@@ -288,3 +288,14 @@ record `waiting-for-contact-permission`. Also track isolation of ambient
 `ORBIPLEX_MODEL_ROOT` in the separate `daemon_lifecycle` suite. These are observed
 boundaries, not defects or measured parts of the historical 1308 executions
 (1266 conformance plus 42 capsule). Historical evidence retains its date and scope.
+
+
+The adopted Q-01 correction has a separate focused qualification:
+`node:docs/evidence/limited-messaging/2026-10-18-contact-history/README.md`.
+Clean Node `0af46d86` / Orbidocs `f4f57d4`, six unchanged binaries and 34/34 browser
+cases cover accepted-only receiver history without fixture memberships and history
+after parent withdrawal followed by explicit deferral. Signed public receive
+proofs and message/digest/consent correlation requalify before/after extraction.
+Historical reports and failed attempts remain unchanged. This focused gate does
+not qualify the full P076-034 candidate, org custody or release readiness.
+P076-035 remains the separate child-inventory/individual-withdrawal UI follow-up.
