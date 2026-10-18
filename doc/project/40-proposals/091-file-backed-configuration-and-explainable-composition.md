@@ -1014,6 +1014,14 @@ Persisting an observation does not mean that its lifecycle transition was
 attempted. Budget exhaustion must retain still-current unattempted work for a
 later tick, while uncertain attempted effects must not be automatically retried.
 
+A disable must also compare current admission with the last lifecycle request:
+an approved remove, explicit start and external false may fit between two ticks
+that both observe false. Equality of observations is not equality of application
+history. Do not lose that first disabling request or reinterpret a reserved
+uncertain disable as unattempted. Unchanged true remains insufficient to start a
+module or undo an operator stop. The Node consumer, not S020's timing primitive,
+owns this distinction and scoped reservation diagnostics are not acknowledgements.
+
 Inspection projects only the admitted setting and its source locators, with no
 neighbor values or whole-file digest. It exposes `module/origin`, explicit
 unique/missing/ambiguous binding, declared/resolved/admitted/active distinctions,
@@ -2175,6 +2183,12 @@ only when both explicitly delimit that narrower claim.
 
 Closeout qualifier for P091-007b/008/013/014 — 2026-10-18: the bounded
 one-slot S020 pressure test uses the real consumer and Messaging process.
+The later causal follow-up reproduces a lost disable across equal false ticks
+when remove/start/external-false occur between them. Request selection now also
+compares the application fence, without repeating uncertain effects or treating
+unchanged true as start permission. The original snapshot-less D1 attempt is
+not retrospectively attributed. See
+[`node:docs/evidence/configuration-service-control/S020-TIMEOUT-20261018.md`](https://github.com/diapod/node/blob/master/docs/evidence/configuration-service-control/S020-TIMEOUT-20261018.md).
 The configuration UI composes existing P097 readiness only for the current
 authorized participant context, through full pages and the panel. Completed
 logging receipt replay no longer acquires writer ownership; an exact pre-fix

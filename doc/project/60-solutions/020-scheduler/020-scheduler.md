@@ -76,6 +76,14 @@ observation while the slot is occupied, then normal disable after release,
 without treating observation as stop acknowledgement or re-enabling a protected
 false. This is not an arbitrary-load fairness/SLA or fleet-pressure campaign.
 
+The same consumer owns the distinction between observed equality and application
+history: remove/start/external-false between equal false observations must not
+lose the first disable. This is a consumer request-selection correction, not a
+scheduler deadline or fairness change; a reserved uncertain effect is still not
+automatically retried. See the Node
+[causal follow-up](https://github.com/diapod/node/blob/master/docs/evidence/configuration-service-control/S020-TIMEOUT-20261018.md)
+for the controlled counterexample and exact qualification boundary.
+
 The core contract is deliberately small:
 
 ```text

@@ -579,6 +579,15 @@ future comparison only. These dispositions close bookkeeping, not broader task,
 human-usability, native instrumentation or release gates. See
 `node:docs/evidence/configuration-service-control/REVIEW-CLOSEOUT-20261018.md`.
 
+S020 reliability follow-up — 2026-10-18: the configuration consumer's lost
+disable after remove/start/false between equal false observations is reproduced
+through normal local HTTP and corrected against its application fence. This is
+not a UI retry, a longer timeout, a changed enable/stop contract or proof of the
+snapshot-less historical attempt's exact cause. D1 regression and the
+differential control are retained in
+`node:docs/evidence/configuration-service-control/S020-TIMEOUT-20261018.md`;
+whole P095/platform/release status remains unchanged.
+
 ## Open Questions
 
 - Which existing conversation/detail pair avoids introducing new domain endpoints?
