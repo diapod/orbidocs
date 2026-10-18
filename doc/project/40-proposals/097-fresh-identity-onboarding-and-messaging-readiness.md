@@ -759,18 +759,19 @@ Org custody/final mixed qualification and release readiness remain separate.
 ## Post-qualification review boundaries (2026-10-18)
 
 P076-032's measured UI supports whole-grant withdrawal; listing children and
-withdrawing one child are API-only. Q-02 remains the explicit scope decision
-between documenting this boundary with a follow-up and extending UI acceptance.
+withdrawing one child are API-only. Q-02 was adopted on 2026-10-18: preserve this measured P076-032 scope;
+P076-035 separately tracks child inventory and individual withdrawal in UI.
 The original 007 unlock identifier came from the harness's issuance-status read;
 it was not an independent observation from rendered HTML. A follow-up renders
 the typed host response identifier and retains other pending notifications, but
 requires a new runtime measurement beyond the historical source/binary pins.
 
 The existing 007 fixture authors local address-book choices. Accepted-only contact
-history after withdrawal is not measured there. Q-01 must settle S032 display
-precedence and visibility before the no-address-book-fixture browser case; none
-of these display choices grants receive authority. The current contract remains
-unchanged pending that decision.
+history after withdrawal is not measured there. Q-01 was adopted on 2026-10-18 in S032: retain withdrawn passport history;
+only the latest independent local block overrides canonical fact order. The
+follow-up browser case removes the receiver address-book membership fixture.
+These display choices grant no receive authority; the historical 007 evidence
+retains its original scope.
 
 For P076-034, a separate sovereign attestation provider with ordinary participant
 nodes is the recommended, still proposed contactability case (Q-03). Messaging

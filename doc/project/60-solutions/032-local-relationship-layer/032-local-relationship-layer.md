@@ -754,10 +754,19 @@ Decisions inherited from Proposal 065:
 ## Contact display read and independent choices (P076-032, 2026-10-18)
 
 The membership list defaults to the raw latest projection. Its explicit
-`view=contact-display` variant preserves each owner/contact/class independent
-local choice before falling back to a passport projection, using the same
-filters, deterministic order and limits. A derived withdrawal cannot erase a
-local address-book choice or revive a locally blocked contact. This view owns
-presentation only; it neither establishes consent nor substitutes for the
-current-root/per-message authority evaluator. The user contact rail requests
-this view explicitly. Unknown view names are refused.
+`view=contact-display` variant uses the same owner/class filters, deterministic
+order and limits. Unknown view names are refused.
+
+Decision Q-01 adopted on 2026-10-18: only the latest independent local `blocked`
+fact overrides the latest projection. Otherwise display follows the canonical
+fact order: parsed `event/at`, then `tx/id`, then `fact/id`. An older independent
+`revoked` therefore yields to a newer explicitly accepted passport projection;
+a later independent removal remains effective for display. A superseded local
+block does not remain latched.
+
+A revoked passport-derived row stays visible as **consent withdrawn**, with access
+to conversation history. A local `revoked` removal and a current independent
+`blocked` remain hidden from the ordinary rail. Acceptance never silently writes
+an independent address-book choice. A visible history row grants no authority:
+all per-message checks and the separate independent-consent reduction remain
+unchanged. The user contact rail requests this display view explicitly.
