@@ -632,8 +632,8 @@ separate tracker rows, never a sovereign fallback.
 
 | Task | Scope | Status | Completion gate |
 |---|---|---|---|
-| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | done | 2026-10-18: 32/32 clean-source browser cases, public proof requalification.  Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
-| MSG-ONB-008 | Delegated authority loss and explicit recovery | done | 2026-10-18: 41/41 clean-source browser cases, public proof requalification.  Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
+| MSG-ONB-007 | Fresh delegated onboarding and bidirectional Messaging | done | 2026-10-18: 32/32 clean-source browser cases, public proof requalification. Two ordinary identities absent from root; separate UI block, grant ceremony and unlock evidence; explicit contact/INAC consent; correlated delivery/open in both directions |
+| MSG-ONB-008 | Delegated authority loss and explicit recovery | done | 2026-10-18: 41/41 clean-source browser cases, public proof requalification. Short child/parent TTL, stale remote status, parent withdrawal cascading to receive and INAC, locked delegate, restart and competing setup/retry from two tabs without duplicate or implicit resume |
 
 The 2026-10-18 first P076-032 fragment provides limited-grant request/import/unlock/
 withdraw forms and typed pending-notification recovery. These local UI tests do
@@ -747,10 +747,40 @@ requalification is required. Prior MSG-ONB-005/006 and P076-031 evidence is unch
 
 MSG-ONB-007/008 are closed by
 `node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`:
-1308 conformance executions, 34 strict sovereign Story-010 phases and 32/41
+1308 conformance/capsule executions (1266 conformance + 42 capsule), 34 strict sovereign Story-010 phases and 32/41
 browser cases on clean Node `399ec846` / Orbidocs `26d5386` and six unchanged
 binaries. Both ordinary participants remain outside root; public proof
 qualification is identical before/after extraction. The verifier-only review at
 Node `92282400` fixes observed-grant catalogue resolution without altering
 runtime reports or binaries. Earlier 005/006 and P076-031 evidence keeps its scope.
 Org custody/final mixed qualification and release readiness remain separate.
+
+
+## Post-qualification review boundaries (2026-10-18)
+
+P076-032's measured UI supports whole-grant withdrawal; listing children and
+withdrawing one child are API-only. Q-02 remains the explicit scope decision
+between documenting this boundary with a follow-up and extending UI acceptance.
+The original 007 unlock identifier came from the harness's issuance-status read;
+it was not an independent observation from rendered HTML. A follow-up renders
+the typed host response identifier and retains other pending notifications, but
+requires a new runtime measurement beyond the historical source/binary pins.
+
+The existing 007 fixture authors local address-book choices. Accepted-only contact
+history after withdrawal is not measured there. Q-01 must settle S032 display
+precedence and visibility before the no-address-book-fixture browser case; none
+of these display choices grants receive authority. The current contract remains
+unchanged pending that decision.
+
+For P076-034, a separate sovereign attestation provider with ordinary participant
+nodes is the recommended, still proposed contactability case (Q-03). Messaging
+grants do not confer attestation-provider authority. 008 currently measures sender
+issuance-authority recovery on new routes, with new explicit receiver consents;
+it does not measure reuse of an expired receive consent (Q-04).
+
+Next steps also track remote-withdrawal propagation and sender retries: the older
+P076-031 child-withdrawal report records `ready-for-delivery`, whereas 007/008
+record `waiting-for-contact-permission`. Also track isolation of ambient
+`ORBIPLEX_MODEL_ROOT` in the separate `daemon_lifecycle` suite. These are observed
+boundaries, not defects or measured parts of the historical 1308 executions
+(1266 conformance plus 42 capsule). Historical evidence retains its date and scope.

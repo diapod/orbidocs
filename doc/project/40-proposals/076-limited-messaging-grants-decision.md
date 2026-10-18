@@ -176,7 +176,7 @@ or unit test alone never closes a runtime gate.
 | P076-029 | A | Participant issuer, status service, local send and ceremony | done | Clean Node `3e9507a9` / Orbidocs `5869853`: actual delegated send; beneficiary/delegate absent from root |
 | P076-030 | A | Status outage/revocation, retry/restart and first qualification | done | Same binary set: real 300-second status outage, explicit retry, durable withdrawal and strict sovereign Story-010 |
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
-| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
+| P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
 
@@ -245,7 +245,7 @@ the gates remained in progress pending clean-source runtime and public archive r
 
 `node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`
 closes MSG-ONB-007/008: clean Node `399ec846` / Orbidocs `26d5386`, six unchanged
-binaries, 1308 conformance executions, 34 strict sovereign Story-010 phases and
+binaries, 1308 conformance/capsule executions (1266 conformance + 42 capsule), 34 strict sovereign Story-010 phases and
 32/41 real-browser cases. Both ordinary participants remain outside root;
 independent explicit receive/INAC consents support correlated bidirectional
 compose/open/read. Child and parent expiry, locked delegates, restart, stale
@@ -256,3 +256,33 @@ follow-up at Node `92282400` normalizes observed remote grants; original reports
 and its initial refusal remain intact. 53 offline tests pass. No model/VM ran.
 P076-033 organization custody and P076-034 final mixed qualification remain open;
 local qualification does not establish release readiness.
+
+
+## Post-qualification review boundaries (2026-10-18)
+
+P076-032's measured UI supports whole-grant withdrawal; listing children and
+withdrawing one child are API-only. Q-02 remains the explicit scope decision
+between documenting this boundary with a follow-up and extending UI acceptance.
+The original 007 unlock identifier came from the harness's issuance-status read;
+it was not an independent observation from rendered HTML. A follow-up renders
+the typed host response identifier and retains other pending notifications, but
+requires a new runtime measurement beyond the historical source/binary pins.
+
+The existing 007 fixture authors local address-book choices. Accepted-only contact
+history after withdrawal is not measured there. Q-01 must settle S032 display
+precedence and visibility before the no-address-book-fixture browser case; none
+of these display choices grants receive authority. The current contract remains
+unchanged pending that decision.
+
+For P076-034, a separate sovereign attestation provider with ordinary participant
+nodes is the recommended, still proposed contactability case (Q-03). Messaging
+grants do not confer attestation-provider authority. 008 currently measures sender
+issuance-authority recovery on new routes, with new explicit receiver consents;
+it does not measure reuse of an expired receive consent (Q-04).
+
+Next steps also track remote-withdrawal propagation and sender retries: the older
+P076-031 child-withdrawal report records `ready-for-delivery`, whereas 007/008
+record `waiting-for-contact-permission`. Also track isolation of ambient
+`ORBIPLEX_MODEL_ROOT` in the separate `daemon_lifecycle` suite. These are observed
+boundaries, not defects or measured parts of the historical 1308 executions
+(1266 conformance plus 42 capsule). Historical evidence retains its date and scope.
