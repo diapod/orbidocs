@@ -750,3 +750,14 @@ Decisions inherited from Proposal 065:
   single biggest implementation invariant. Any future capability that
   would let middleware see membership directly must be rejected at design
   review.
+
+## Contact display read and independent choices (P076-032, 2026-10-18)
+
+The membership list defaults to the raw latest projection. Its explicit
+`view=contact-display` variant preserves each owner/contact/class independent
+local choice before falling back to a passport projection, using the same
+filters, deterministic order and limits. A derived withdrawal cannot erase a
+local address-book choice or revive a locally blocked contact. This view owns
+presentation only; it neither establishes consent nor substitutes for the
+current-root/per-message authority evaluator. The user contact rail requests
+this view explicitly. Unknown view names are refused.
