@@ -1765,6 +1765,26 @@ No unresolved questions remain for this proposal's current contract.
    timeout surfacing, a shared-scheduler sweep. Cancel/supersede and paired
    notification closure are already implemented.
 
+## Planned Assistant Catalog Consumption
+
+Follow-up to [P072 local guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery),
+not a prerequisite for its first Agent slice. Reuse P064-GUIDE-001's orientation
+and P073-GUIDE-001's bounded continuation semantics rather than writing a second
+tool dispatcher in the chat handler.
+
+### Implementation Recommendations
+
+Preserve host-authenticated principal/session binding, context grants,
+classification, turn idempotency and local-only baseline policy. Catalog context
+does not imply a grant to call its listed operations. If the Assistant delegates
+to Agent, retain the existing explicit escalation/approval boundary; do not
+silently create an Agent merely because a model asked for documentation.
+Return typed unavailability or refusal when no authorized continuation is bound.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P066-GUIDE-001 | Bind Assistant catalog use to the shared controller contract. | todo | After P072-GUIDE-003; prove same-session isolation, no implicit Agent escalation, no repeated turn effects and no ambient tool execution; report Assistant-specific evidence separately from the first Agent slice. |
+
 ## Implementation Tracking
 
 Status values:

@@ -303,6 +303,141 @@ evidence. This documentation continuation changes no machine registry entries,
 authorization-policy sidecar coverage, capability availability, or completed
 P072 tracker status.
 
+## Planned Local Capability Guidance and Controller Discovery
+
+Design continuation (2026-10-18), not an implementation claim. The promoted
+registry baseline remains unchanged. This continuation supports knowledge
+symmetry and human agency by making existing contracts understandable without
+turning documentation into authority.
+
+A capability is the unit of description; middleware is a provider, not the unit
+of tool identity. The host owns the caller-scoped read projection. Inquirium
+performs inference; the consuming controller owns continuation and dispatch.
+A skill may later compose several capabilities, but no skill registry is needed
+for this slice.
+
+### Minimal Contract and Authority Boundaries
+
+Plan two registered host operations: `capability.catalog.list` and
+`capability.catalog.describe`. These names and the shapes below are design
+targets, not currently registered operations or shipped schemas. Registration
+must precede runtime dispatch: `host-local`, `dispatchable: true`,
+`host-route: true`, `docs.human-registry: true`; advertisement, Passport,
+signing-domain and federated-discovery flags remain false. Neither operation
+grants access to the capabilities it describes.
+
+| Contract element | Required meaning |
+| --- | --- |
+| Optional `capability-guidance.v1` | Exact `capability/id`, pinned `contract/ref` and `contract/digest`, `description` and `lang` (English by default). Optional `usage/when`, `usage/avoid`, bounded `instructions/text` or pinned `instructions/ref`, and schema-checked examples. Reuse S007 profile vocabulary rather than inventing a second description taxonomy. |
+| List request/result | Optional simple filters, bounded `limit` and opaque `cursor`; stable ordering, authorized summaries, `catalog/revision` and explicit continuation. No embedding search or total count of hidden entries. |
+| Describe request/result | Exact capability id and, where necessary, an explicit operation selector. Return canonical request/response schema bindings, optional guidance and its digest, source provenance, classification, and separately observed provider availability and authorization requirements. |
+| Honest states | Distinguish visible-but-unavailable, unknown availability, missing guidance, unresolved/ambiguous contract and stale revision. Unknown and unauthorized ids share an externally non-disclosing response where existence is private. No single `available` boolean implies execution permission. |
+
+Guidance is optional: its absence does not make a valid capability unusable.
+Missing or ambiguous machine contracts must not be reconstructed from prose.
+Provider-specific instructions stay bound to their exact admitted provider and
+contract; several providers must not yield an arbitrary winning description.
+
+Admission derives the principal, scope and disclosure policy from authenticated
+host context, never from model-selected identity fields. Apply disclosure before
+enumeration, dereferencing or counting; exclude endpoint URLs, credentials,
+private paths and unrelated configuration. Use existing classification and
+inference-egress gates before any returned material enters model context.
+
+Instruction text is lower-trust documentation, never host-root policy or a grant.
+Source attribution is host-derived. Bind the effective guidance to its own
+canonical digest: `schema/ref` alone does not identify changing descriptions.
+Cache keys include authorized scope and contract/guidance revisions; recheck
+revocation and disclosure on reuse. Cursors are scope/revision-bound and expire.
+A later invocation always rechecks current authority and provider binding.
+
+### Implementation Recommendations and Re-use
+
+- Reuse `node:capability` registry/admission and its authorization-policy sidecar;
+  do not equate `dispatchable` or a missing sidecar entry with caller permission.
+- Reuse `node:host-capabilities` provider projections and host readiness sources.
+  Keep the catalog as a derived view, not a new registry or provider supervisor.
+- Reuse [P068](068-api-surface-projection.md#planned-capability-contract-projection)
+  descriptor-to-capability/schema bindings. Select explicit operations; do not
+  scrape a whole OpenAPI document into a model prompt or assume one endpoint per id.
+- [P080](080-multiplexed-middleware-channel-executor.md#planned-local-capability-guidance-contributions)
+  and [S019](../60-solutions/019-middleware/019-middleware.md#planned-local-capability-guidance)
+  own optional local provider contributions over existing reports/channel calls.
+  Catalog reads use ordinary host invocation, not a new channel frame or changed
+  meaning of the existing routing `lookup`.
+- Keep deterministic validation/projection in existing lower-level owners; host
+  adapters acquire sources and enforce authority. Reuse canonical JSON/digest,
+  bounded artifact resolution, schema-gate and Rust/Python host clients. No new
+  crate, database, transport or recursive generic tool executor is presumed.
+- [P064](064-inquirium-implementation-recommendations.md#planned-progressive-capability-guidance)
+  / [S044](../60-solutions/044-inquirium/044-inquirium.md#planned-progressive-capability-guidance)
+  own prompt assembly; [P073](073-agent-orchestration-organ.md#planned-bounded-local-catalog-continuation)
+  / [S047](../60-solutions/047-agent/047-agent.md#planned-local-catalog-continuation)
+  own the first controller loop.
+- Follow `node:DEV-GUIDELINES.md`: contracts before endpoints, validation at
+  boundaries, authority before effects, bounded caches and calls, no upward
+  dependencies. Future implementation updates Node's ledger/MVP only for proven
+  scope, regenerates registry docs and retains refusal evidence.
+
+### First Slice and Acceptance Ownership
+
+The first slice is **local list/describe plus one bounded Agent controller
+continuation**: inference proposes a catalog read; the controller validates and
+executes it; a classified result enters the next inference; the controller stops
+or returns a normal answer. Reuse `propose_tool_call` as inert data, with an
+explicit allowlist of only the two catalog operations. Other proposed tools do
+not execute through this loop.
+
+Use two registered local fixture capabilities, including one with no optional
+guidance. A mutation-capable capability may be described, but must never be
+invoked by this slice. Retain real local host/controller evidence; a projection
+unit test or model-output fixture alone does not prove the continuation.
+
+Acceptance must cover: list → describe → next inference; missing guidance;
+provider loss and ambiguity; hidden/private ids; schema/guidance mismatch;
+revocation between reads; stale cursors; hostile instruction text; classification
+or egress refusal; bounded rounds/pages/bytes/time; cancellation and duplicate
+results without duplicate continuation. A fixture must prove that neither a
+catalog miss nor a supplied `doc/url` triggers network acquisition. Freeze numeric
+limits and failure/retry semantics in the contract task before coding.
+
+P072-GUIDE-003 owns one retained report referenced by all participating trackers.
+Record tested source and contract revisions, controller/model identity, limits
+and separate contract, host-path and model-conformance results. This is focused
+local evidence, not federation, general tool execution or release qualification.
+
+No Seed query, peer advertisement, Passport publication, remote document/schema
+fetch, device scan, model startup/shutdown hook, or general skill runner belongs
+to this slice. Guidance visibility also does not opt a caller into nonlocal
+inference. [P024](024-capability-passports-and-network-ledger-delegation.md),
+[P025](025-seed-directory-as-capability-catalog.md) and
+[S007](../60-solutions/007-capability-advertisement/007-capability-advertisement.md#local-guidance-is-not-federated-discovery)
+remain separate federation owners.
+
+### Continuation Tracker
+
+Statuses below are `todo`; historical completed registry phases are not reopened.
+P072-GUIDE-001 precedes P068-GUIDE-001, P080-GUIDE-001 and P064-GUIDE-001.
+P068/P080 feed P072-GUIDE-002; prompt assembly (P064) can proceed in parallel.
+P073-GUIDE-001 joins the ready projection and prompt assembly; P072-GUIDE-003
+qualifies that combined path. These are necessary dependencies, not a requirement
+to finish unrelated work in any of those proposals.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | todo | Audit existing registry/provider/descriptor/channel seams; schema-gated DTOs and negative fixtures; exact flag matrix, disclosure, states, cursor/cache scope, retry and cancellation rules; no machine registration claimed by this document. |
+| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | todo | P072-GUIDE-001, P068-GUIDE-001, P080-GUIDE-001; register the two operations, reuse current host gates/readiness, resolve only admitted local artifacts, prove privacy and no-network fallback. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | todo | P072-GUIDE-002, P064-GUIDE-001, P073-GUIDE-001; every acceptance case above has retained evidence in one report; update S037/S044/S047 and Node ledger without promoting deferred scope. |
+
+[P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
+owns a subsequent Assistant Channel consumer.
+[P091](091-file-backed-configuration-and-explainable-composition.md#planned-capability-guidance-overlays)
+owns operator overlays; [P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
+and [P085](085-operator-sovereign-extensibility-and-experiment-packages.md#capability-guidance-package-boundary)
+own private-package admission constraints. These follow-ups are not prerequisites
+for the first slice: initially exclude private package ids and accept only
+validated local guidance with an unambiguous binding.
+
 ## Resolved Decisions
 
 The former Q1 (source direction) and Q2 (one registry vs two) are **decided in §1** —

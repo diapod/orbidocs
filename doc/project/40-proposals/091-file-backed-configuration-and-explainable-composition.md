@@ -1978,6 +1978,31 @@ claims respectively.
 | Excessive derivation silently omits a denying constraint | Bound exceeded requires admitted aggregate or refusal; summary cannot become more permissive |
 | Registered operator route becomes module-dispatchable | All five operations are discoverable within scope; only describe/explain permit module dispatch, with independent read admission |
 
+## Planned Capability Guidance Overlays
+
+[P072 local guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+defines optional model-facing documentation, not a configuration-based authority
+source. Operator overlays are a follow-up, not a dependency of the first local
+list/describe/controller slice.
+
+### Implementation Recommendations
+
+Declare only guidance fields as editable settings and reuse P091's descriptors,
+ordered resolver, source provenance and explain/plan/commit boundaries. Bind the
+effective guidance digest to the resolved content and exact capability contract.
+Provider defaults and optional seeds are not operator approval. No local deep
+merge, separate prompt loader or mandatory history store is introduced.
+
+An overlay may specialize description, usage advice or examples. It cannot
+replace capability identity, request/response schemas, effect classes, provider
+admission, grants or fixed host instructions. Reject disallowed fields and stale
+contract bindings explicitly. Source provenance remains host-derived; do not
+export private source paths to models. P064 alone owns prompt assembly.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P091-GUIDE-001 | Expose guidance-only overlays through existing configuration contracts. | todo | P072-GUIDE-001 and the owning P091 resolver/write surfaces; prove default → operator overlay, explainable provenance, digest/cache invalidation, forbidden-field refusal and seed ≠ approval; no change to first-slice prerequisites. |
+
 ## Implementation Tracker
 
 Scoped Unix binding review (2026-10-06): P094-006b uses one intent/outcome

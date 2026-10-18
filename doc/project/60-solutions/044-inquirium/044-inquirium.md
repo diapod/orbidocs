@@ -583,6 +583,25 @@ own proposal or an explicit revision of the implementation recommendations.
 
 - `044-inquirium-caps.edn`
 
+## Planned Progressive Capability Guidance
+
+[P064-GUIDE-001](../../40-proposals/064-inquirium-implementation-recommendations.md#planned-progressive-capability-guidance)
+extends existing prompt assembly for
+[P072's local catalog](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
+Status: planned; current structured controls are not proof of a catalog loop.
+
+A short host-owned orientation explains the two catalog reads; detailed
+capability guidance is acquired on demand and enters classified, lower-trust
+context with its contract/guidance refs. Reuse `PromptAssemblyPolicy`, role and
+policy-digest handling, context budgets and existing egress checks. Never load
+all middleware instructions or let their prose override fixed host policy.
+
+Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
+execution and continuation remain outside Inquirium under P073-GUIDE-001.
+P066-GUIDE-001 is a later Assistant consumer, not a second dispatcher.
+P072-GUIDE-003 owns focused local acceptance; no federation or general
+tool-execution completion is implied.
+
 ## Implementation Recommendations
 
 The implementation-specific contract, invariants, tracker, and extension rules

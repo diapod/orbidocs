@@ -863,6 +863,39 @@ No open questions remain for the current node-local durable runtime scope. New
 questions should be opened only when a later federated or cross-node slice requires
 policy that cannot be derived from the frozen decisions above.
 
+## Planned Bounded Local Catalog Continuation
+
+[P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+owns catalog semantics and the shared acceptance report;
+[S047](../60-solutions/047-agent/047-agent.md#planned-local-catalog-continuation)
+records the planned controller responsibility. The first consumer is one bounded
+Agent, not a new autonomous Inquirium mode.
+
+### Implementation Recommendations
+
+Compose the existing typed controller actions, inference controls, host ports,
+budget/lifecycle and result correlation. Interpret `propose_tool_call` only
+through a narrow adapter allowing the two catalog reads. It must not recursively
+dispatch arbitrary capability ids or treat a described mutation as consent.
+Resolve the principal from the Agent's admitted binding; model arguments cannot
+select another principal or broaden grants.
+
+The sequence is inference → validated read proposal → authorized local host
+read → classified context result → next inference. Freeze a small transition
+table for proposal, pending read, accepted result, continuation and terminal
+refusal/cancellation. Bound rounds, calls, bytes and time before dispatch;
+reject late/duplicate results and avoid duplicate continuation. Recheck scope
+and revocation when consuming cached descriptions. Reuse existing trace fields,
+with refs/reasons rather than prompt or private catalog dumps.
+
+An effect proposal outside this allowlist still belongs to its existing owner
+and consent path; this slice never executes it. No federation, generic tool
+runner, new supervisor or controller authority inferred from documentation.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | todo | P072-GUIDE-002, P064-GUIDE-001; real host/controller list → describe → next inference; cancellation, stale/duplicate result, scope change, hostile guidance and exhausted-budget fixtures; retain evidence under P072-GUIDE-003. |
+
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.

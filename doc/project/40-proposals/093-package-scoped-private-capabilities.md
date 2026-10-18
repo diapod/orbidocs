@@ -1581,6 +1581,28 @@ evidence without inventing an output digest; fail disposal without recording `ab
 and increase the replay window or roll back the clock after cleanup without readmitting
 a purged request. Race terminal resolutions and prove they cannot overwrite each other.
 
+## Planned Scoped Capability Guidance
+
+[P072 local guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+initially excludes private package ids. This follow-up must preserve P093's
+existing namespace, scope and admission model, not copy private capabilities
+into the base registry.
+
+### Implementation Recommendations
+
+Bind optional guidance to the admitted declaration, pinned package contract and
+provider. Reuse `package-capability-contract.v1` input/output schemas, activation
+identity, scope checks and bounded offline package resolution. Pass exact
+package context through authenticated host binding, not a model-selected scope.
+Package unload/revocation invalidates visibility and cached guidance; no public
+advertisement, Passport or Seed registration follows from a local description.
+[P085](085-operator-sovereign-extensibility-and-experiment-packages.md#capability-guidance-package-boundary)
+owns the package-authority boundary; S019/P080 own contribution transport.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P093-GUIDE-001 | Extend the local catalog to admitted private-package scope. | todo | After P072-GUIDE-003; exact activation/contract binding, cross-package denial, unload/revocation, stale cache and no federation fixtures; separate qualification, not required for first-slice completion. |
+
 ## Implementation Tracker
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done (with code evidence)

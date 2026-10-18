@@ -480,6 +480,20 @@ hard-MVP `done` status:
 - `capability-schema.v1`
 - `capability-schema-present.v1`
 
+## Local Guidance Is Not Federated Discovery
+
+[P072's planned local catalog](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+reuses this solution's `description`, `lang`, `doc/ref` and schema-reference
+vocabulary, not its federation acquisition path. Effective guidance needs its
+own digest: `schema/ref` binds schema content, not every changing profile field.
+
+The first slice is local list/describe and one controller continuation.
+It neither advertises capabilities nor fetches remote schemas/documents,
+publishes Passports or queries Seed Directory. `doc/url` is not an automatic
+fetch instruction. P072-GUIDE-003 owns the no-network-fallback proof.
+Federated extension remains separately designed and qualified under P024/P025;
+this note does not promote their unfinished schema-acquisition work.
+
 ## Notes
 
 This solution keeps the core small:

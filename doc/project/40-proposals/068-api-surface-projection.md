@@ -684,6 +684,32 @@ Tracking. The remaining, forward-looking work:
    projection coverage as additional daemon dispatch layers stabilize; keep new
    surfaces registry-derived and schema-bound.
 
+## Planned Capability Contract Projection
+
+Planned continuation, not a change to completed API projection coverage.
+[P072 local guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+owns the caller-scoped catalog; [S034](../60-solutions/034-api-surface-projection/034-api-surface-projection.md#planned-model-facing-contract-projection)
+owns its reusable API-description input.
+
+### Implementation Recommendations
+
+Reuse admitted `orbiplex.api-descriptor.v1`, `x-orbiplex-capability`,
+request/response schema bindings, effect and idempotency metadata. Resolve exact
+operation/contract identity, not a guessed one-to-one capability/endpoint mapping.
+An unresolved or conflicting binding remains explicit and is not advertised as
+an executable contract. Optional effect metadata must not default to read-only.
+Do not give the model internal routes, auth material, an entire OpenAPI export,
+or authority inferred from `x-orbiplex-authority: descriptive-only`.
+
+Use the existing schema registry and descriptor validators; validate the new
+catalog DTOs through Schema Gate. Follow only pinned, admitted local schema refs
+within explicit bounds; an unresolved transitive ref is not permission to fetch
+the network or silently invent a schema.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | todo | P072-GUIDE-001; fixtures cover unique/multiple/conflicting bindings, missing schema/effect metadata and local ref closure; no private endpoint disclosure; feed P072-GUIDE-003's report. |
+
 ## Implementation Tracking
 
 Status values: `pending`, `partial`, `done`, `deferred`.

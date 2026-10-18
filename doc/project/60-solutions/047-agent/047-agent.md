@@ -767,6 +767,25 @@ Machine-readable capability data for this solution lives in:
 
 - `doc/project/60-solutions/047-agent/047-agent-caps.edn`
 
+## Planned Local Catalog Continuation
+
+[P073-GUIDE-001](../../40-proposals/073-agent-orchestration-organ.md#planned-bounded-local-catalog-continuation)
+owns the first consumer of
+[P072 list/describe](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
+Status: planned, separate from completed controller/effect baselines.
+
+Reuse typed controller actions, host ports, admitted Agent binding, budgets,
+trace and result correlation. A narrow adapter consumes only the two allowlisted
+catalog-read proposals, feeds a classified result into the next inference and
+stops on refusal, cancellation or exhausted budget. It does not interpret
+documentation as authority or recursively invoke arbitrary tools. Describing a
+mutation-capable capability never invokes it.
+
+Retain real host/controller evidence under P072-GUIDE-003, including duplicates,
+late results, revocation, hostile guidance, provider loss and no network fallback.
+The initial delivery excludes federation and private package ids; Assistant
+Channel consumption follows under P066-GUIDE-001 with existing escalation gates.
+
 ## Implementation Recommendations
 
 Proposal 073 remains the implementation-recommendation and evidence document

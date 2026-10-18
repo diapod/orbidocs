@@ -79,6 +79,25 @@ caller posture, approval mode, autonomy floor, and COI policy for selected
 capability families. It is validated against registered capability refs, but its
 runtime enforcement belongs to host-policy consumers.
 
+## Planned Local Capability Guidance
+
+[P072's local guidance continuation](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+owns the proposed `capability.catalog.list` / `capability.catalog.describe`
+contract, optional pinned guidance and shared acceptance report. Status: planned;
+the implemented registry baseline and machine entries are unchanged.
+
+The host projects existing registry, authorization metadata, admitted
+provider/readiness and API-contract sources for the authenticated caller.
+Capabilities are description atoms; middleware remains a provider. Visibility,
+provider availability and execution authority are separate. Documentation never
+grants access, and catalog reads never dispatch the described capability.
+
+Implementation recommendations: reuse registry/admission, authorization sidecar,
+host provider projections and S034 schema bindings; keep pure projection separate
+from acquisition and authorization. P072-GUIDE-001/002/003 are the single-source
+tracker. First delivery is local list/describe plus a bounded S047 controller
+continuation, without federation, a second registry or new transport.
+
 ## Must Implement
 
 ### Machine Capability Registry

@@ -1266,6 +1266,32 @@ are frozen above. Phase 8 freezes `local-only` as the publication default and Ph
 freezes per-outage reconnect without transparent request replay, including the
 5-second generated default and 60-second operator ceiling.
 
+## Planned Local Capability Guidance Contributions
+
+[P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+owns the catalog contract; [S019](../60-solutions/019-middleware/019-middleware.md#planned-local-capability-guidance)
+owns provider participation. This is planned work, not a new transport or a
+reopening of completed channel migration.
+
+### Implementation Recommendations
+
+Reuse optional capability descriptions and `api/surface` in module reports.
+Add only an optional validated binding to `capability-guidance.v1` for a
+capability the provider already legitimately declares. Absence remains valid.
+Bind content to the admitted package/provider and exact contract revision.
+Use bounded local artifact resolution, never an arbitrary file path or remote
+`doc/url`. Reject malformed or foreign bindings with a diagnostic; do not
+promote a declaration to registration or grant.
+
+Carry catalog requests through existing authenticated host-capability invocation
+and Rust/Python clients, preserving correlation, deadlines, cancellation and
+revocation. Existing `lookup` remains provider routing, not list/describe.
+No new listener, frame family, recurring discovery or startup inference is needed.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | todo | P072-GUIDE-001; report compatibility and contract/provider binding fixtures; HTTP/control and channel converge on one host owner; channel refusal/cancellation and no-network evidence feed P072-GUIDE-003. |
+
 ## Implementation Tracker
 
 | ID | Deliverable | Status | Notes |

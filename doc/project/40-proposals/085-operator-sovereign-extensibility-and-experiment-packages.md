@@ -2010,6 +2010,19 @@ No V1 questions remain open as of 2026-08-01. New implementation discoveries mus
 be added here rather than silently weakening a resolved invariant or changing an
 accepted contract.
 
+## Capability Guidance Package Boundary
+
+Planned [P072 capability guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+is package documentation, not a new extension kind, authority envelope or skill
+executor. Reuse admitted package content, pinned contract refs and existing
+resource limits. Guidance cannot mint base capability ids, turn config defaults
+into approval, alter grants or insert host-root instructions.
+
+Implementation ownership stays with P080-GUIDE-001 for local provider
+contributions and P093-GUIDE-001 for private-package visibility and revocation.
+Do not duplicate these tasks here. The first local list/describe/controller
+slice excludes private package ids; package-scope support is a later delivery.
+
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.

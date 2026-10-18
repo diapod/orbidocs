@@ -653,6 +653,15 @@ Resolved 2026-07-01:
    The schema requires it for `network-ledger` and rejects it for all other
    capability ids to avoid scope confusion.
 
+## Local Catalog Boundary
+
+[P072's planned local list/describe](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
+is a caller-scoped projection, not federated discovery or delegation. Its first
+slice must not issue or publish Passports, query Seed Directory, advertise
+capabilities, or fetch remote documentation/schemas on a miss. A local guidance
+artifact conveys no remote authority. Existing federation work remains separate;
+P072-GUIDE-003 owns the no-network-fallback proof, with no new federation task here.
+
 ## Implementation Tracker
 
 Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.

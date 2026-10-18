@@ -2962,6 +2962,35 @@ slices:
    operation is introduced; speculative operation loaders do not keep the
    current task open.
 
+## Planned Progressive Capability Guidance
+
+Planned continuation of [P072's local catalog](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery),
+reflected in [S044](../60-solutions/044-inquirium/044-inquirium.md#planned-progressive-capability-guidance).
+The existing prompt-assembly implementation is the reusable baseline; this
+continuation does not add a second assembly path or a tool executor to Inquirium.
+
+### Implementation Recommendations
+
+Provide a short host-owned orientation layer explaining how to propose
+`capability.catalog.list` and `capability.catalog.describe` and how to interpret
+unavailable, withheld and unresolved results. Reuse `PromptAssemblyPolicy`,
+existing config composition, explicit message roles and retained policy digests.
+Load detailed guidance only when requested and within the caller's context
+budget; do not prepend every installed middleware's instructions.
+
+Catalog results are classified, lower-trust context, not host-root instructions.
+Their provenance and contract/guidance digests accompany the context binding.
+Existing P090 egress checks apply before a later inference, including on cache
+hits. Instruction text cannot weaken fixed policy or authorize a tool.
+Reuse typed `propose_tool_call` controls and structured output validation.
+[P073](073-agent-orchestration-organ.md#planned-bounded-local-catalog-continuation)
+owns execution of the two allowlisted reads and continuation; Inquirium returns
+inert proposals. No provider-specific function-calling API is required.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | todo | P072-GUIDE-001; reuse current prompt assembly; prove missing guidance, fixed-policy preservation, role separation, classification/egress refusal and budget exhaustion; feed P072-GUIDE-003 without claiming arbitrary tool execution. |
+
 ## Optional Typed-decision Experiment Tracking
 
 This additive post-MVP tracker is independent of the hard-MVP table below and

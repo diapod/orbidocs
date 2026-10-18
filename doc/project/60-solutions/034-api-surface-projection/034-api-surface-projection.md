@@ -177,6 +177,21 @@ Reference implementation lives in the Node repository:
 - Which remaining inline middleware response shapes deserve promotion into
   canonical schemas.
 
+## Planned Model-facing Contract Projection
+
+Planned [P068-GUIDE-001](../../40-proposals/068-api-surface-projection.md#planned-capability-contract-projection)
+supplies exact operation/schema bindings to
+[P072 list/describe](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
+This is not part of the completed OpenAPI baseline.
+
+Reuse normalized `orbiplex.api-descriptor.v1` contributors, capability refs,
+schema registry, effect and idempotency fields. Keep missing/ambiguous bindings
+explicit; neither prose nor an endpoint name determines the executable contract.
+A missing effect declaration is not evidence of read-only behavior. The model
+projection omits internal endpoints and auth material, resolves only admitted
+local refs within bounds, and remains descriptive rather than authoritative.
+P072-GUIDE-003 retains the shared first-slice evidence.
+
 ## Next Actions
 
 1. Vendor the pinned Swagger UI bundle if offline-first deployment becomes a
