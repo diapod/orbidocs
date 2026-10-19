@@ -13,6 +13,17 @@ the durable public/federated record substrate. Agora carries accepted
 `agora-record.v1` envelopes and feeds projections; Whisper still owns the
 social-signal semantics, threshold lifecycle, and consent boundary.
 
+Transport qualification on 2026-10-19 is owned by P035-007/009/010, not Whisper:
+34 Matrix/five SQLite cases at clean Node `1bc523a6` / Orbidocs `5993f7d0` qualify
+confidence-0.5 gossip and the permitted `whisper-signal.v1`, `whisper-trace.v1`
+and `whisper-threshold-reached.v1` families, exact author bytes, independent room
+history, local-time admission, restart and carrier replay. Both Node and unmodified
+Synapse full-PDU gates pass; fresh retrieval from the adopted local retained store
+requalifies identically. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
+This does not qualify all Whisper/issuance flows, elevate signal epistemic status,
+prove homeserver federation or imply independent backups/production readiness.
+
 Threshold and association artifacts are public meta-signals, not public gossip.
 `whisper-threshold-reached.v1` states that an issuer or projection observed a
 policy-defined correlation. `association-room-proposal.v1` states that there is a

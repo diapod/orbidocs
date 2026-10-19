@@ -168,7 +168,7 @@ know about the concept of an "Agora record". All Agora-specific knowledge lives
 in `sign_adapter.rs`. We use the same pattern for passports (refactor),
 Memarium (future), and any future artifact types.
 
-P035-007 now implements independent room recovery with a focused four-case
+The earlier 2026-10-16 P035-007 checkpoint implemented independent recovery with a focused four-case
 Synapse isolation proof at Node 5d5392b2 / Orbidocs b3813122. The restart correction
 is separately qualified by five focused cases at Node b0a44ade / Orbidocs aee179e,
 including a publication-bound noncanonical room. It remains partial:
@@ -176,3 +176,16 @@ the full campaign waits for P035-009 external retention. The filtered,
 page-durable long-history, empty-bootstrap and late-binding paths are qualified by
 P035-006 on unmodified Synapse; token-cycle/legacy-anchor controls keep their conformance scope. Archive identity is tar/member
 content, with gzip/zlib provenance and bounded streaming extraction.
+
+The full 2026-10-19 continuation closes P035-007/009/010 for per-room-recovery-v2:
+34 Matrix/five SQLite cases, continuing live delivery during two 640-record history
+workloads, complete admission matrix, restart/replay and both independent PDU gates.
+All 2041 Node PDUs fit 65536 bytes (maximum 49927); confidence-0.5 gossip and permitted
+Whisper retain exact bytes. The complete 16511847-byte set has identical original,
+extracted and fresh-retrieved qualification, with payload outside Git and 2282442
+bytes of controls. The original 128 MiB retention refusal remains an attested
+measurement receipt; explicit 192 MiB compression changes no tar/member bytes or
+decoder/budget ceiling. Earlier P18/P20/P21 and focused results keep their scopes.
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
+Global Agora partial, one-volume retention limitations, federation, all Whisper,
+P095 inline-unlock and release/production gates remain separate.

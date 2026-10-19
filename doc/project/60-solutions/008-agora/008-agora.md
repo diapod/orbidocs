@@ -424,6 +424,22 @@ Status:
   SQLite cases and stays gated by P035-009. P035-010 owns explicit excessive
   Retry-After handling. Earlier frozen qualification is unchanged.
 
+- Full continuation on 2026-10-19 closes P035-007/009/010 for
+  `per-room-recovery-v2`: 34 Matrix and five SQLite cases at clean Node `1bc523a6`
+  / Orbidocs `5993f7d0`. Independent room recovery, two 640-record held histories,
+  deferred and late-local-expiry admission, excessive 429 blocking/CAS, restart
+  and source replay qualify with continuing sync/publication. Both Node and stock
+  Synapse room-v10 PDU gates pass: 2041 Node full PDUs, maximum 49927 bytes.
+  Confidence-0.5 gossip and permitted Whisper families retain exact author bytes.
+  The complete 16511847-byte retained set and fresh external retrieval qualify
+  identically; Git holds 2282442 bytes of controls with payload external. Explicit
+  192 MiB compression preserves the same tar under the unchanged 256 MiB decoder
+  ceiling and 16 MiB cap; default remains 128 MiB. The original default-profile
+  retention refusal preserves its successful runtime result. Earlier dated scope
+  stays frozen. One local store is not independent backup; Agora remains partial,
+  with federation, nym issuance, all Whisper and release/production gates separate.
+  Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
+
 ### Retention Policy Sweep
 
 Based on:
