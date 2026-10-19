@@ -1371,6 +1371,19 @@ after C lands. Integrating repair-specific scheduled jobs still belongs to
 P051-013 and needs its own runtime evidence. This sequencing does not merge the
 workstreams or promote local mechanism tests to real-participant readiness.
 
+The next bounded Node plan is
+`node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`.
+It addresses pinned-generation progress under continuous v1 writes, F-04
+foreign-incarnation history and F-05 reserved abandonment/verified capacity
+recovery, then separate P072 operator authority, S039 alert delivery and exact
+shadow comparison. Every stage is planned, not implemented by publication.
+Shadow results compare the same pinned boundary and instant; stale preparation
+cannot claim live parity. Only the two adopted quarantine identity classes may
+differ, each with per-address proof and a qualified alert. v1 remains authoritative,
+all D7 components remain false and no wider P051-006/007/008/015/016 scope closes.
+The current F-02 conservative CAS can still starve under continuous writes;
+its cost evidence does not prove progress or operator readiness.
+
 ### Systemic-Repair Slice Acceptance
 
 P051-014 qualifies a new local test-subject profile using the existing

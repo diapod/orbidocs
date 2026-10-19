@@ -19,6 +19,13 @@ Related schemas:
 
 Implemented solution.
 
+The 2026-10-19 Responsibility maintenance/shadow-V3 plan names a future consumer:
+separate host-local inspect/prepare/abandon/verify/reconcile/compact permissions.
+They are unregistered proposals under P072, not additional implemented entries.
+Current operator approval remains independent of registry eligibility; case
+mandates, module registration and notification acknowledgment cannot grant it.
+See `node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`.
+
 ## Date
 
 2026-06-25

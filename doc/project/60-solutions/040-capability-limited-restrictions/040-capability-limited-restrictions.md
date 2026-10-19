@@ -60,6 +60,15 @@ checks, with unchanged v1 authority and closed D7; see
 and bounded abandonment/retention recovery remain open. The owner lane has no operator route.
 See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-FINDINGS-2026-10-14.md`.
 
+The planned follow-up is
+`node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`:
+prove progress on pinned historical input despite ordinary v1 appends, recover
+foreign incarnations and configured maintenance capacity, qualify separate
+operator permissions/alerts, then compare pure v2 composition in a read-only
+shadow lane. Current conservative CAS may still starve. This is no new runtime
+qualification; v1 admission/scoring/diagnostics/CAS/writers/receipts remain
+authoritative and every D7 component remains false. V4/V4s/V5 stay separate.
+
 The draft quarantine contract preserves the source domain composition rule:
 nonterminal quarantine blocks only its typed privileged-operation scope; null
 means unknown scope and blocks all privileged operations for its subject.
