@@ -2423,6 +2423,10 @@ refused, not silently coerced into the nearest numeric field.
 
 #### First Acceptance Candidates
 
+Local calibration on explicit user corrections is an optional extension of this
+experiment, specified below. It does not replace the baseline calibration gate
+or require collection of personal feedback before the original pilot can run.
+
 Candidate order reflects local resource cost, not a claim of measured Orbiplex
 quality. Upstream documentation inspected on 2026-10-18 lists the following
 options; pin actual revisions and asset digests before any run:
@@ -2495,6 +2499,85 @@ fragments and labels are not ordinary metadata logs. Give retained material an
 owner, access policy and cleanup/retention bound. This experiment authorizes
 neither a full alpha campaign nor behavioral promotion. A later opt-in consuming
 slice needs its own decision and controlled end-to-end benefit/regression proof.
+
+#### Local Calibration from Explicit User Corrections
+
+Direction added on 2026-10-19; `planned post-mvp`, with no alpha dependency.
+Keep three mechanisms and their artifacts separate:
+
+| Mechanism | What changes | What it does not establish |
+| :--- | :--- | :--- |
+| User memory | Authorized facts/preferences supplied as context through existing memory and prompt-assembly owners. | No weight update, calibrated confidence or new permission. |
+| Local calibration | A versioned artifact mapping the fixed model's scores to estimates and acceptance/abstention thresholds for a declared task and user scope. | No new factual knowledge, general preference learning or model-weight update. |
+| Fine-tuning | Model parameters or trained adapters, through separately granted `inquirium.train.adapt` and its evaluation/publication path. | Neither authorized merely by giving feedback nor included in this experiment. |
+
+The assistant may adapt both what context it receives and when its assessments
+are reliable enough to propose, but these are distinct operations. Basal's
+[calibration procedure](https://github.com/rkinas/basal/blob/main/docs/CALIBRATION.md)
+is a provider example of fitting temperatures and thresholds on labeled requests,
+not evidence that the model learns a user's facts or conversational style. Keep
+that procedure at the adapter/tooling edge, not as a provider-specific core
+contract. The first experiment updates neither model weights nor live memory.
+
+**Correction admission and re-use.** Extend the existing Protocol Gate feedback
+recorder, participant-bound grant checks, reproducible dataset manifests,
+artifact storage and report-backed conformance machinery where their semantics
+fit. Do not introduce a second feedback store, training pipeline or model
+registry. Reuse S028 temporal facts for correction/supersession history and
+rebuildable dataset views; keep protected sample content in bounded, leased
+artifacts rather than metadata traces. P091-backed configuration controls the
+opt-in scope and budgets; it does not contain raw corrections or user labels.
+
+Freeze a minimal neutral extension through Schema Gate only where the audit
+finds a gap. Each admitted example must bind the original inquiry/candidate and
+prediction refs, task/rubric revision, exact serving profile, explicit corrected
+label, participant scope, correction revision/time, authorized use, retention
+and any superseded correction. Missing or ambiguous labels are unresolved, not
+negative labels. Silence, continued conversation, an ordinary click, task
+success or model-generated agreement is not an explicit correction. A user's
+relevance preference is evidence for that user's task, not universal factual
+ground truth; factual labels retain independent review requirements.
+
+Permission to record feedback is not permission to fit a calibration artifact,
+train weights or activate a profile. Reuse existing grant lifecycle primitives,
+but make the calibration purpose explicit; a legacy training-only grant must
+not silently authorize it. Recheck current authorization and source leases at
+dataset assembly, fitting and artifact admission. Keep users' datasets and
+artifacts isolated unless a separate pooling decision authorizes otherwise.
+Support correction replacement and withdrawal: exclude revoked material from
+future datasets and make derived profiles ineligible pending a clean refit when
+their use basis is withdrawn. Preserve only permitted audit metadata under the
+declared retention policy; an append-only trace is not a license to retain raw
+personal content indefinitely.
+
+**First extension of the observational experiment.** On a bounded, explicitly
+authorized sample of the existing context-selection scenario, let the user mark
+which already-authorized fragments were relevant. Freeze the rubric and sample
+selection protocol before collecting labels; include baseline-selected and
+unselected candidates rather than only the observer's confident suggestions.
+Do not ingest whole conversations or infer preferences from behavior. Group
+related episodes and duplicates before splitting fitting and held-out sets;
+record sample counts, selection bias and the limits of a single-user result.
+
+Compare the unchanged baseline, the exact model with its shipped calibration,
+and the same model with local calibration on identical held-out cases. Keep
+weights, prompts and candidate inputs fixed to isolate calibration effects.
+Report error versus coverage, calibration metrics, uncertainty and resource
+costs; neither a lower calibration error alone nor zero observed errors proves
+a general error bound. Sparse, conflicting or shifted data yields an explicit
+`insufficient-evidence` or failed result, not relaxed thresholds. Reuse the
+existing separately authorized calibration and integrated shadow-run gates.
+The baseline answer, context, memory and effect decisions remain unchanged;
+failure leaves the baseline usable. No fit runs automatically at startup or
+after each correction, and no successful fit self-activates.
+
+Bind the immutable calibration artifact to the dataset revision, user/task scope,
+serving identity, fitting-tool revision and retained report. Reject stale,
+revoked or mismatched bindings. For Basal, inspect the run outcome and held-out
+gates, not just artifact existence: its documented `--strict` failure can still
+leave an output file. Retain rollback/disable behavior and test restart without
+implicit activation. A later consuming slice requires separate authorization
+and end-to-end benefit/regression evidence; confidence never grants authority.
 
 ### Constitution and Critic as Data
 
@@ -3061,6 +3144,9 @@ direction or citing an upstream benchmark is not implementation evidence.
 | `inq-typed-decision-adapter` | Add a bounded local Basal protocol adapter for the admitted classify subset. | `todo` | Depends on `inq-typed-decision-contract`. Reuse middleware, supervision, HTTP, assets and host admission. Stub-backed real host-path tests cover option/readout fidelity, overflow refusal, malformed/non-finite/incomplete probabilities, unavailable calibration, timeout/cancel/overload, no hidden egress, redaction and exact result provenance. Generic chat output is not a substitute for typed readout; normal production routing remains disabled. |
 | `inq-typed-decision-calibration` | Qualify a small text profile on pinned PL/EN context-selection cases. | `todo` | Depends on the contract and adapter. First candidate is Basal 2.0 mini MLX 8-bit; compare against the unchanged baseline and simple alternative, with Basal 1.5 mini as a regression control where authorized. A separately approved bounded run must meet frozen quality, coverage, calibration and resource gates on held-out data, including adversarial/order/OOD cases. Retain failed/not-run outcomes; neither upstream thresholds nor schema validity closes this row. |
 | `inq-typed-decision-shadow` | Retain an integrated observational context-selection proof and go/no-go recommendation. | `todo` | Depends on passed exact-profile calibration and separate integrated-run approval. Use the existing Agent/Inquirium scenario and report infrastructure; prove unchanged baseline context and all control/effect decisions, bounded overhead, observer-failure isolation and cleanup. Report limitations and whether a later consuming slice is justified. Completion qualifies the shadow experiment only, not production selection or alpha. Reconcile relevant Node ledger/evidence entries without promoting MVP status. |
+| `inq-user-calibration-contract` | Define explicit-correction and purpose-scoped local calibration contracts. | `todo` | Depends on `inq-typed-decision-contract`; not a prerequisite for its original adapter/calibration/shadow sequence. Audit and reuse feedback DTOs, grants, dataset manifests, S028 facts, leases and artifact/report identities. Freeze memory/calibration/fine-tuning separation, correction supersession/withdrawal, participant isolation and minimal Schema Gate extensions. Negative fixtures cover silence, ambiguous labels, duplicate feedback, unauthorized pooling and training-only grants used for calibration. |
+| `inq-user-calibration-fit` | Build a bounded, separately authorized local fit and held-out comparison. | `todo` | Depends on `inq-user-calibration-contract` and `inq-typed-decision-adapter`; reuse the typed-decision calibration harness. Admit explicit labels under current grants/leases; freeze episode-grouped splits and gates before fitting. Compare shipped versus local calibration with identical model weights and inputs; retain counts, uncertainty, sampling bias, failures and insufficient evidence. Prove revocation checks, protected artifacts, profile mismatch refusal and that a written artifact after a failed run cannot become eligible. No automatic fitting or activation. |
+| `inq-user-calibration-shadow` | Qualify user-calibrated estimates in the existing observational scenario. | `todo` | Depends on passed exact-profile `inq-user-calibration-fit`, baseline `inq-typed-decision-shadow` evidence and separate integrated-run approval. Reuse the same host/adapter/report path; prove unchanged baseline context, answers, memory and effects, user isolation, resource/failure isolation, withdrawal invalidation, restart and disable/rollback. Report error/coverage trade-offs, not an unmeasured end-task gain. Reconcile Node ledger/evidence only for the tested scope; no alpha, full-run or production-promotion claim. |
 
 ## Implementation Tracking
 

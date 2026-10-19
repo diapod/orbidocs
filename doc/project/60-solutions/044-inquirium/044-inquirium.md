@@ -444,7 +444,7 @@ Status: `planned post-mvp` (2026-10-18); no alpha dependency or runtime acceptan
 claim. The implementation recommendations, candidate evidence and single-source
 tracker are in
 [P064: Optional Local Typed-decision Models](../../40-proposals/064-inquirium-implementation-recommendations.md#optional-local-typed-decision-models)
-and its [four experiment tasks](../../40-proposals/064-inquirium-implementation-recommendations.md#optional-typed-decision-experiment-tracking).
+and its [experiment tracker](../../40-proposals/064-inquirium-implementation-recommendations.md#optional-typed-decision-experiment-tracking).
 
 Models in the Jev/Basal typed-decision category may supply bounded semantic
 assessments through Inquirium, initially `classify`, and later `rerank` only when
@@ -475,6 +475,36 @@ admit offers, change Room turns, execute tools, declassify data or certify succe
 Report quality/coverage, calibration, latency, memory and contention, including
 failure isolation and cleanup. Shadow completion is not evidence of end-task
 improvement or permission to promote the profile into production routing.
+
+**Optional local calibration from explicit user corrections** (planned
+2026-10-19) extends that observational scenario, not the alpha dependency chain.
+Keep user memory (authorized facts/preferences supplied as context), calibration
+(score interpretation and acceptance/abstention thresholds for a fixed model),
+and fine-tuning (weight/adapter updates via separately granted `train.adapt`)
+distinct. Calibration does not teach new facts or conversational behavior; no
+correction grants execution authority or implicitly authorizes fitting,
+fine-tuning or activation.
+
+Reuse Protocol Gate feedback, purpose-scoped grant checks, dataset manifests,
+S028 correction history, protected leased artifacts, conformance reports and
+P091-backed opt-in configuration. Inquirium owns bounded evaluation and profile
+validation, not user-memory truth or an autonomous learning loop. Only explicit,
+task-bound corrections become eligible labels; silence, ordinary clicks and
+model agreement are not labels. Isolate users, preserve supersession/withdrawal,
+recheck current authority and invalidate affected derived profiles when their
+use basis is withdrawn. Retention covers raw labels and source fragments, not
+only the calibration file.
+
+The first extension compares shipped and locally fitted calibration on identical
+held-out context candidates with unchanged weights, prompts and inputs. Reuse
+the existing shadow harness and separate run approvals; do not change live
+context, answers, memory or control decisions. Sparse or conflicting labels,
+profile mismatch and failed gates cannot produce an eligible calibration merely
+because an output file exists. Report error/coverage, uncertainty, selection bias
+and cost; no automatic fitting or activation follows a correction. P064 owns
+the detailed [contract and experiment](../../40-proposals/064-inquirium-implementation-recommendations.md#local-calibration-from-explicit-user-corrections)
+and `inq-user-calibration-contract`, `inq-user-calibration-fit`,
+`inq-user-calibration-shadow` tasks. They do not block the original pilot or alpha.
 
 ### Production Model Adaptation Backends
 
@@ -544,6 +574,9 @@ first obtain a neutral contract and a fail-closed host path.
 - **A typed assessment is mistaken for a calibrated fact or permission:** bind
   its statistical semantics and calibration to the exact serving profile;
   preserve abstention and keep the optional shadow result outside control paths.
+- **Personal feedback silently becomes training data or live policy:** require
+  explicit labels and purpose-scoped grants, isolate user profiles, enforce
+  withdrawal and retention, and keep fitting separate from activation.
 
 ## Open Questions
 
@@ -567,6 +600,10 @@ own proposal or an explicit revision of the implementation recommendations.
    `inq-typed-decision-contract` → `adapter` → `calibration` → `shadow` sequence
    (all four ids use the `inq-typed-decision-` prefix). Keep this work outside
    the alpha dependency chain and request separate approval for real model runs.
+   Its optional explicit-user-correction extension is tracked by
+   `inq-user-calibration-contract` → `inq-user-calibration-fit` →
+   `inq-user-calibration-shadow`, reusing the same harness without blocking the
+   original experiment or introducing an automatic learning loop.
 
 ## Out Of Scope
 
