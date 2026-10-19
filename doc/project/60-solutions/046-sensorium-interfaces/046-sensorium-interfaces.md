@@ -788,3 +788,18 @@ Acceptance source commits are kept reachable in both repositories under
 `refs/acceptance/sensorium-p096-20261019/`; a later merge commit will preserve
 master's current-source fixture and regenerate the combined ledger. The branches
 remain separate in this checkpoint.
+
+
+### Corrected nearby preparation (2026-10-19)
+
+Node clean `3775bf56` freezes the reviewed source `cbb85050` as production release
+`dfcf60f5` and a separate signed GUI `d153b457`/handoff `5205c163` on turbo.local.
+Exact closure/signature checks, 52 frozen-client tests and rootless actual
+`launchd` preflight pass. All 248 previous root files, controller namespace,
+journal 81/twelve Cases and zero claims are preserved; only the new capsule's
+eight files are added. No new consent fields or root migration, grant renewal,
+manager, hardware or recovery runs. New ad-hoc TCC remains unobserved. Preparation
+does not reuse earlier native evidence or close P096-005's origin matrix. Both
+branches remain separate. See
+`node:docs/audits/REVIEW-SENSORIUM-CORRECTED-CANDIDATE-2026-10-19.md` and
+`node:docs/evidence/sensorium-host-control-20261019/corrected-candidate-preparation.json`.
