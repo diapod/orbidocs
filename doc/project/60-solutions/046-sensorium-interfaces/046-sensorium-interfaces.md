@@ -677,3 +677,129 @@ Broker for retryable concurrent-reader exhaustion (host capability HTTP 429),
 without closing the publication or restarting acquisition. Native, remote and
 SSE biosignal qualification remain separate. See the decisions in
 [Proposal 096](../../40-proposals/096-sensorium-brainflow-connector.md#delivery-review-decisions-2026-10-16).
+
+
+### Synthetic requalification checkpoint (2026-10-19)
+
+The optional P096 local synthetic path passed a new pinned release (`45454121`,
+source `ecbaf810`, image `532d20ed`) with a predeclared fifteen-second profile.
+Identical baseline/loaded p95/p99/max gates (250/500/1000 ms) now accompany a
+measured integer zero healthy-reader gap count. Measured triples were
+138/167/197 ms and 120/157/164 ms; local read-grant revoke was 61 ms. Every preset
+exceeded 100 block observations. Refused earlier runs remain unqualified and
+preserved. This confirms only P096-010a's same-process synthetic host-API scope;
+P096-005, physical/TCC, native overflow, remote/HTTP/SSE and release qualification
+remain separate. Exact artifacts and review are in
+`node:docs/evidence/sensorium-synthetic-local-20261019/`.
+
+
+### Protected acquisition ownership checkpoint (2026-10-19)
+
+The private acquisition owner records bounded pre-effect and terminal lifecycle
+facts alongside its existing consent confirmations. It fences before storage,
+verifies supervisor disposal before terminal audit I/O, and requires the current
+intent revision to be durable at release authorization before exact claim release.
+Late terminal withdrawal has separate audit status and cannot reopen collection or reuse consent. Neither a publication
+nor a reader gains acquisition authority from those facts; the generic pending
+operation seed keeps its existing role. Historical custody remains unchanged.
+
+The final pinned `753911aa` software checkpoint passes 462 standard cases and
+four explicitly selected owned-synthetic control cases. An explicit-unlock writer
+guard prevents duplicated descriptors from retaining completed ownership; success
+and error-return regressions preserve exclusion of an independent successor.
+This is separate from the exact `578abe5d` P096-010a performance report.
+
+This is a device-free implementation/conformance checkpoint on the separate
+Sensorium branch. P096-005 remains partial under its existing six physical-native,
+two controlled-native-fault and two exact-candidate host-software prerequisites.
+No native/TCC adoption, recovery, headband test or broader carrier promotion follows.
+See `node:daemon/docs/SENSORIUM-ACQUISITION-CONTROL.md` and the dated Node review.
+
+
+### Native safety candidate preparation (2026-10-19)
+
+Clean `af692fed` production source `4fc1405e` and release image `56fa8251` are
+frozen on turbo.local. The create-only ad-hoc GUI capsule has distinct signed
+image `e8989103` and handoff `8c00d7d4`; exact closure/signature checks and actual
+rootless LaunchServices `launchd` preflight pass. All 51 frozen-client tests pass
+on target Python 3.13.15, including closed optional audit diagnostics that never
+supply cleanup or authority. Preparation preserves 238 prior protected files
+(non-key hashes and metadata; signing-key files metadata only),
+journal revision 81/twelve Cases, controller namespace and zero claims; only
+eight files of one new capsule were added. Owner authority was expired at that
+preparation checkpoint and Bluetooth permission remained unobserved. No manager,
+permission probe, scan, acquisition, recovery, Case or grant renewal ran. P096-005 remains partial under the unchanged
+six physical-native/two controlled-native-fault/two exact-candidate host-software
+matrix; the older synthetic performance report retains its own exact candidate.
+See `node:docs/evidence/sensorium-host-control-20261019/` and the dated candidate
+preparation review.
+
+
+### Delegated metadata authority checkpoint (2026-10-19)
+
+The private acceptance owner supports explicit review-bound delegated SSH control
+for metadata renewal, retaining default local-TTY behavior. Disabled same-owner
+registered siblings require matching plans/declarations and remain unchanged;
+occupied p21 renewal matches the complete retirement-history head while fresh
+Case keeps its separate occupancy guard. The control declaration is no SSH
+authentication or OS/TCC attestation. Current custody, exact source/image/boot,
+worker absence, idle resources and partial-publication fencing remain mandatory.
+
+Pinned admin `ba73dc1d`/source `b7553f0f`/image `171b658b` and its exact manager-free
+process observer completed review `4cdd860b` on turbo.local. Same-scope controller/
+discovery expiry is **2026-10-20 00:59:45 CEST**. Independent before/after checks
+preserve twelve protected sources, journal 81/twelve Cases, expired registered
+p21 revision 5, zero claims and no pending transition. Two pure and three normal-
+owner/fault cases pass. Separately approved SIGTERM of twelve identity-checked
+orphaned host helpers permitted a fresh ordinary absence check; it is no native
+stop or recovery evidence. No manager, permission probe, scan, acquisition, Case,
+recovery or native qualification ran. The older frozen GUI remains exact and TCC
+unobserved. P096-005 and its native-origin matrix remain partial. See
+`node:docs/evidence/sensorium-host-control-20261019/authority-renewal-runtime.json`
+and the dated authority renewal review.
+
+
+### Bounded private consent history and delegated control (2026-10-19)
+
+Native enrollment reserves maximum confirmation and terminal audit room before
+its transport claim and wearer-control publication, including never-WEAR. Typed
+capacity/busy refusals precede acquisition effects; lock contention alone may
+wait 250 ms within the original cleanup deadline after disposal. Durable closed
+entries with verified released-claim eligibility may move to create-only 64-KiB
+digest-linked segments (128 files maximum), with an atomic active-head pointer,
+verified history and additive late withdrawal. Unknown/quarantined history stays
+active; no old consent is reissued or silently pruned. Post-release eligibility
+bookkeeping cannot downgrade confirmed cleanup or recreate its claim.
+
+New persisted fields form a one-way strict-reader boundary. Preserve frozen
+images as history and require actual format compatibility before use; existing
+source `4fc1405e` knows base lifecycle but not the new fields. No target migration,
+image replacement or hardware work is performed by this source checkpoint.
+
+Delegated metadata renewal is limited to four hours per review; the default
+nearby-terminal route retains its TTY and 24-hour bound. Explicit idle-root status
+reports verified completed-review metadata with `authority/granted:false`, not
+current permission or human presence. Public `operator/control` spelling is
+separate from the retained private/historical bytes. Node checkpoints `c6a24619` and `55dc91eb` pass 475 standard/52 console checks,
+three normal-owner/fault cases and one real-owned-synthetic disposal case. This
+software conformance keeps P096-005 partial and the native origin matrix open.
+See the dated Node review.
+Acceptance source commits are kept reachable in both repositories under
+`refs/acceptance/sensorium-p096-20261019/`; a later merge commit will preserve
+master's current-source fixture and regenerate the combined ledger. The branches
+remain separate in this checkpoint.
+
+
+### Corrected nearby preparation (2026-10-19)
+
+Node clean `3775bf56` freezes the reviewed source `cbb85050` as production release
+`dfcf60f5` and a separate signed GUI `d153b457`/handoff `5205c163` on turbo.local.
+Exact closure/signature checks, 52 frozen-client tests and rootless actual
+`launchd` preflight pass. All 248 previous root files, controller namespace,
+journal 81/twelve Cases and zero claims are preserved; only the new capsule's
+eight files are added. No new consent fields or root migration, grant renewal,
+manager, hardware or recovery runs. New ad-hoc TCC remains unobserved. Preparation
+does not reuse earlier native evidence or close P096-005's origin matrix. Both
+branches remain separate. See
+`node:docs/audits/REVIEW-SENSORIUM-CORRECTED-CANDIDATE-2026-10-19.md` and
+`node:docs/evidence/sensorium-host-control-20261019/corrected-candidate-preparation.json`.
