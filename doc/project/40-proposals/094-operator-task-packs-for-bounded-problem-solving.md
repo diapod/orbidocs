@@ -3502,6 +3502,27 @@ input construction only, not model dispatch, semantic calibration, live authorit
 or a UI run. Unsigned model admission/activation, clean paired source and final
 adapter capture remain separate prerequisites. No tracker is promoted from this
 development bundle; P094-012c5/012c6/023e remain in progress.
+The next model-free development checkpoint implements passage/HTTP execution
+and a closed result qualifier with explicit scripted-transport attribution.
+Ordinary Agent products, neutral manifests, exact provenance, receipts and replay
+are checked without asserting model semantics or current operator authority.
+Missing provider usage may use the owner's estimate, but cannot qualify the
+exact render/token comparison. The current pex.3 ABI cannot inspect arbitrary
+captured messages; only code and tests for a narrow pex.4 offline inspection
+command were approved. No new runtime artifact, activation, conformance or model
+run occurred; the old package/plan/input bundle stays immutable and unready for
+execution. Prepared managed-runtime lifecycle integration, new artifact/input
+pinning and separate preparation/calibration/full-run approvals remain open.
+See the same Node checkpoint for tests, limits and exclusions. These rows and
+alpha readiness are not promoted by scripted transport or checker tests.
+The operator accepted preparation and calibration as separately approved phases
+in one test process: normal restore must not hide repeated conformance inside
+the zero-startup-generation calibration. Node's model-free controller now freezes
+eight distinct owner contexts and exact retained ready bytes, then gates each
+case on separate approval, continuity, expiry and cancellation. This is still
+partial Stage A: operational model preparation/report integration, actual new
+runtime/input pins and separate execution approvals remain open. Local test
+acknowledgements are neither operator mandates nor independent human HIL.
 
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
