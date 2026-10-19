@@ -3168,7 +3168,7 @@ inert proposals. No provider-specific function-calling API is required.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | The supervised H run passes guided and unguided observations through PromptAssemblyPolicy; a Public-ceiling Agent and a Public-egress candidate each refuse the Personal catalog result before a second adapter call. Four happy-path Inquirium trace payloads and metadata omit the hostile notes and named private data. Native tool-result semantics, concrete-model resistance and total-budget runtime evidence remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | The supervised H run passes guided and unguided observations through PromptAssemblyPolicy; a Public-ceiling Agent and a Public-egress candidate each refuse the Personal catalog result before a second adapter call. A test-specific larger prompt profile isolates the 64 KiB controller byte guard, while the default happy path retains its 2,048-token cap. Four happy-path Inquirium trace payloads and metadata omit the hostile notes and named private data. Native tool-result semantics and concrete-model resistance/context behavior remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Optional Typed-decision Experiment Tracking
 

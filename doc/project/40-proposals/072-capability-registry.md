@@ -403,7 +403,10 @@ confidentiality envelope for its filter, position or expiry fields.
 metadata. Missing effect metadata is `unknown`, never `read-only`. Multiple
 operations require an explicit selector; conflicting descriptors remain
 `ambiguous-contract`. Provider readiness is `ready`, `unavailable`, or
-`unknown`, independent of visibility and authorization requirements. Guidance
+`unknown`, independent of visibility and authorization requirements. Each
+described operation carries its own provider availability. The top-level
+availability summarizes all providers when the contract is ambiguous, and
+reflects the selected provider after an explicit operation selection. Guidance
 is absent unless its provider and contract ref/digest match exactly. Multiple
 eligible provider contributions do not select a winner. The first slice admits
 request examples only, validated against the exact request contract. Invalid
@@ -639,8 +642,8 @@ to finish unrelated work in any of those proposals.
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
 | P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | done | Four schema-gated DTOs, registry flag matrix, numeric limits, disclosure and transition rules; contract evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Supervised list/describe and a foreign-cursor refusal pass host HTTP; process-observed provider loss changes availability while retaining the contract revision. Injected host fetch resolver and artifact sink record zero attempts across miss and rejected `doc/url`; describe-only visibility grants and live provider conflicts remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path now includes Public-ceiling and P090 candidate-egress refusals before context reuse, lifecycle withdrawal between inference calls, provider loss, cursor refusal, fetch-boundary counters and durable Inquirium trace inspection. Full adversarial cancellation/budget/grant-withdrawal cases, signed-source provenance and real-model behavior remain open in the shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Supervised host HTTP now covers two conflicting providers, explicit operation selection, per-operation readiness through loss and restart, describe-only visibility, identical hidden/unknown/private refusals and a stale-revision refusal. The earlier injected host fetch resolver and artifact sink record zero attempts across misses and rejected `doc/url`. Grant-list mutation and signed-source provenance remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. Earlier DNS/artifact and trace observers retain their focused scope. Grant-list mutation, in-flight call preemption, separately delivered late results, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.

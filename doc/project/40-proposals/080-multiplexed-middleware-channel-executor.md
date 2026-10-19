@@ -1297,7 +1297,7 @@ No new listener, frame family, recurring discovery or startup inference is neede
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | A supervised Python channel report contributes guided and unguided capabilities to actual host list/describe; a separate direct invocation proves handler carriage. Terminating the supervised provider changes projected availability without changing its contract revision. Signed-source provenance and channel cancellation remain open; the injected host fetch boundary records no calls on catalog misses. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | Two supervised Python channel reports now claim one capability: host describe requires an operation selector and never chooses guidance arbitrarily. Loss of one provider changes only its operation availability; `OnFailure` restart restores it without revising the contract. A separate direct invocation proves handler carriage, while catalog reads leave both handler journals empty. Signed-source provenance and in-flight channel cancellation remain open; the earlier injected fetch boundary records no calls on misses. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

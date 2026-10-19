@@ -54,10 +54,11 @@
     },
     "operation": {
       "type": "object", "additionalProperties": false,
-      "required": ["operation/id", "provider/id", "request", "responses", "effect"],
+      "required": ["operation/id", "provider/id", "availability", "request", "responses", "effect"],
       "properties": {
         "operation/id": { "type": "string", "pattern": "^op:[A-Za-z0-9_-]{43}$" },
         "provider/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "availability": { "enum": ["ready", "unavailable", "unknown"] },
         "request": { "$ref": "#/$defs/binding" },
         "responses": { "type": "object", "maxProperties": 8, "additionalProperties": { "$ref": "#/$defs/binding" } },
         "effect": { "enum": ["read-only", "mutates-state", "unknown"] },

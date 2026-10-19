@@ -792,8 +792,15 @@ separate request tied to the retained model proposal and receives a deferred
 human-review outcome. An independent direct host invocation proves channel
 dispatch; the Agent effect itself is not automatically dispatched.
 
-Retain real host/controller evidence under P072-GUIDE-003, including duplicates,
-late results, revocation, hostile guidance, provider loss and no network fallback.
+The supervised resilience checkpoint observes page, read, byte and Agent
+wall-time exhaustion, replay of a completed controller request, refusal of a
+concurrent duplicate, and no further inference after lifecycle stop and a late
+repeat. The synchronous controller still cannot preempt an already blocked
+provider or inference call; separately delivered late results and individual
+grant-list revocation remain unqualified.
+
+Retain real host/controller evidence under P072-GUIDE-003 for the remaining
+boundaries; the shared report separates the observed cases from open ones.
 The initial delivery excludes federation and private package ids; Assistant
 Channel consumption follows under P066-GUIDE-001 with existing escalation gates.
 
