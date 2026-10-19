@@ -726,10 +726,34 @@ on target Python 3.13.15, including closed optional audit diagnostics that never
 supply cleanup or authority. Preparation preserves 238 prior protected files
 (non-key hashes and metadata; signing-key files metadata only),
 journal revision 81/twelve Cases, controller namespace and zero claims; only
-eight files of one new capsule were added. Owner authority remains expired and
-Bluetooth permission unobserved. No manager, permission probe, scan, acquisition,
-recovery, Case or grant renewal ran. P096-005 remains partial under the unchanged
+eight files of one new capsule were added. Owner authority was expired at that
+preparation checkpoint and Bluetooth permission remained unobserved. No manager,
+permission probe, scan, acquisition, recovery, Case or grant renewal ran. P096-005 remains partial under the unchanged
 six physical-native/two controlled-native-fault/two exact-candidate host-software
 matrix; the older synthetic performance report retains its own exact candidate.
 See `node:docs/evidence/sensorium-host-control-20261019/` and the dated candidate
 preparation review.
+
+
+### Delegated metadata authority checkpoint (2026-10-19)
+
+The private acceptance owner supports explicit review-bound delegated SSH control
+for metadata renewal, retaining default local-TTY behavior. Disabled same-owner
+registered siblings require matching plans/declarations and remain unchanged;
+occupied p21 renewal matches the complete retirement-history head while fresh
+Case keeps its separate occupancy guard. The control declaration is no SSH
+authentication or OS/TCC attestation. Current custody, exact source/image/boot,
+worker absence, idle resources and partial-publication fencing remain mandatory.
+
+Pinned admin `ba73dc1d`/source `b7553f0f`/image `171b658b` and its exact manager-free
+process observer completed review `4cdd860b` on turbo.local. Same-scope controller/
+discovery expiry is **2026-10-20 00:59:45 CEST**. Independent before/after checks
+preserve twelve protected sources, journal 81/twelve Cases, expired registered
+p21 revision 5, zero claims and no pending transition. Two pure and three normal-
+owner/fault cases pass. Separately approved SIGTERM of twelve identity-checked
+orphaned host helpers permitted a fresh ordinary absence check; it is no native
+stop or recovery evidence. No manager, permission probe, scan, acquisition, Case,
+recovery or native qualification ran. The older frozen GUI remains exact and TCC
+unobserved. P096-005 and its native-origin matrix remain partial. See
+`node:docs/evidence/sensorium-host-control-20261019/authority-renewal-runtime.json`
+and the dated authority renewal review.
