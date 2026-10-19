@@ -1290,6 +1290,74 @@ artifact retention/failure replay, and Solution promotion.
   tree, schema link, JSON Pointer, and tooltips.
 - Start in Node UI. Keep the data/read-model boundary reusable by Tauri.
 
+### P086-027: Operator Live JSON Inspection Slice
+
+Planned on 2026-10-19. Close one node-local operator journey: start a bounded
+session in Node UI, follow real `channel_json` request/response observations,
+inspect admitted JSON, stop the session, and reopen the same recording offline.
+This extends the implemented minimal viewer rather than reopening P086-013 or
+creating a second observation system. Reuse P086-007/008/010/011/012/013/018;
+contribute scoped browser and whole-path secret evidence to P086-020. Neither
+P086-016's remaining network adapters, Tauri, multi-node presentation, a real
+model run nor completion of all P095 work is a prerequisite.
+
+#### Implementation Recommendations and Re-use
+
+1. **Thin operator controls.** Extend `/operator/communication-traces` using
+   existing operator authentication, CSRF protection, daemon session APIs and
+   HATEOAS links. Offer explicit start scope, TTL and requested capture posture,
+   then show the host-admitted effective posture, status, stop and revoke.
+   Starting a session requires an explicit operator submission, never merely
+   opening or restoring the page. The host still owns admission, one-session
+   limits, expiry and final-cursor semantics; UI controls cannot override them.
+2. **One record inspector.** Extract reusable bounded presentation functions
+   from `node:node-ui/src/handlers/operator.rs` and the existing offline template;
+   reuse `communication-trace-read-model` and P068 exact-schema resolution.
+   Share JSON Pointer, payload-tree limits, schema help, endpoint focus and
+   evidence/disposition rendering between live and offline views. Do not add a
+   second browser-side schema interpreter or fetch remote schemas. Show absent,
+   redacted, unresolved or externalized content explicitly; never reconstruct
+   omitted content. Artifact reads, if exposed, stay host-authorized and bounded.
+3. **Reuse the transport chain.** Keep the daemon WebSocket and Node UI's
+   authenticated server-side proxy/SSE browser stream. Operator credentials
+   remain server-side. Carry the existing opaque host-issued resume token through
+   reconnect without replacing it with a browser counter or treating it as
+   authority. Define duplicate suppression by generation-bound observation id;
+   an expired session or old-generation token must end that resume attempt with
+   a visible reason, not silently start a new capture or retry indefinitely.
+4. **Honest bounded presentation.** Reuse the current pause/follow and page
+   lifecycle mechanisms, but make paused-queue loss and edge/timeline truncation
+   explicit. Distinguish a host-stream gap, a presentation-only omission and a
+   connection failure; a later ordinary event must not erase the session's loss
+   indication. Keep queue, DOM and projection bounds. Unmounting the view closes
+   subscriptions and releases listeners without implicitly stopping the
+   host-owned recording; stop/revoke remain explicit operator actions.
+5. **Two content postures, not a debug bypass.** The positive JSON demonstration
+   uses an isolated acceptance profile with reviewed fixture schemas, synthetic
+   values and a fixture-safe registry. Reuse the pattern in
+   `node:middleware-supervisor/tests/story005_communication_trace.rs` through
+   the real supervised channel and browser path. This registry must never be
+   selected by a production UI toggle or replace the distribution registry.
+   The production-style negative run retains the ordinary hard-secret floor,
+   classification and capture-policy intersection. Operator authority alone
+   cannot make a hard-secret-capable boundary disclose content. New production
+   payload visibility requires a separately reviewed schema-specific projection,
+   not a global change to `hard-secret-capable` or a generic field-name filter.
+6. **Reuse acceptance infrastructure.** Reuse Story 005 fixture/evidence helpers,
+   `node:tools/acceptance/communication_trace.py`, recorder verification and the
+   pinned browser-runtime/driver mechanisms already used by
+   `node:tools/acceptance/messaging-browser/`. Do not import Messaging semantics
+   into P086 or create another browser installer. Keep the P086 scenario and its
+   runbook under `node:tools/acceptance/communication-trace/`; retain bounded,
+   redacted reports under `node:docs/evidence/communication-trace/`. Extend an
+   existing report contract where adequate; record exact source/browser pins,
+   scope, real/substituted boundaries, assertions, failures and cleanup. A
+   screenshot or template unit test alone does not establish browser acceptance.
+
+The browser gate is specified in
+[P086-027 Browser Acceptance](#p086-027-browser-acceptance). These are planned
+implementation requirements, not a new claim about the current viewer's evidence.
+
 ### Phase 6: Additional Adapters
 
 - Normalize the existing Inquirium, Agent, and Sensorium host-capability dispatch
@@ -1371,6 +1439,55 @@ otherwise unrelated scenario. A story that explicitly declares P086 evidence as
 required should additionally assert that missing or incomplete evidence fails the
 test after the scenario, not by changing the story's runtime result.
 
+### P086-027 Browser Acceptance
+
+Use a real daemon, supervised fixture middleware, Node UI and a pinned browser.
+No LLM or federation is needed. Retain separate positive fixture-content and
+negative production-style runs; neither may substitute for the other.
+
+1. Start capture through the authenticated UI with an explicit bounded policy;
+   verify effective scope, expiry and capture posture. Unauthorized or CSRF-invalid
+   mutations fail before capture. An existing-session conflict is shown rather
+   than resolved by silently replacing the session.
+2. Send synthetic request/response JSON through the real `channel_json` path,
+   not by injecting trace events into the DOM. The live view updates without
+   reload and shows correct endpoints, direction, operation, correlation,
+   generation-bound ids and host-observed versus component-reported evidence.
+3. Open a live record and inspect the admitted fixture JSON tree, exact schema
+   digest and field help. Hostile strings render as text, not executable markup;
+   large/deep values respect limits and visibly identify omitted presentation.
+   Unavailable payload/schema data has an explicit reason, not an empty value
+   that could be mistaken for the original message.
+4. In the production-style run, request broader capture and verify that the
+   ordinary registry/policy floor still withholds protected content and forbidden
+   portable digests. Inject a synthetic secret sentinel through the application
+   path and scan diagnostic broker/subscriber output, browser-bound responses,
+   DOM/browser storage, daemon/UI logs, recording/artifact files and retained
+   test output for leaks. Do not use real credentials or personal data as probes.
+5. Pause and overflow the bounded viewer queue; show presentation loss without
+   falsely marking the recorder incomplete. Separately force a host gap and
+   preserve its visible evidence after subsequent normal traffic. Verify that
+   observer pressure does not change the application request's result.
+6. Disconnect/reconnect within the same generation and verify bounded resumption
+   and duplicate handling. Restart the daemon and demonstrate explicit refusal
+   of the old token with no hidden replacement capture. Navigate away/back and
+   verify subscription/listener cleanup without duplicate consumers.
+7. Exercise TTL expiry and revoke through the real host path: new capture stops,
+   the browser shows the terminal state, and ordinary application traffic
+   continues. Separately stop a healthy session through UI, drain to its final
+   cursor and verify the recording with the existing reader/evidence evaluator.
+8. Reopen that recording through the offline UI and compare the same observation
+   ids, correlations, dispositions, admitted payload and exact schema help with
+   the live view. Preserve real host gaps; distinguish them from browser-only
+   display loss. Confirm bounded retention and cleanup of all test-owned resources.
+
+Completion qualifies this node-local browser journey and its selected content
+boundary only. It does not qualify arbitrary production JSON capture, all
+P086-020 paths, missing P086-016 adapters, Tauri, or multi-node live inspection.
+Reconcile the operator runbook, Node implementation ledger and generated view,
+and link the retained report from P086-027 and the relevant P086-020 subclaim.
+Do not mark P086-020 or P086-022 complete merely because this slice passes.
+
 ## Trade-offs
 
 | Choice | Benefit | Cost |
@@ -1427,6 +1544,11 @@ load evidence.
 
 ## Next Actions
 
+Prioritize [P086-027](#p086-027-operator-live-json-inspection-slice) for the next
+node-local UI delivery: compose existing capture, read-model and viewer mechanisms
+and prove the browser journey under both fixture-safe and production-style
+content policies. The broader follow-ups remain independent:
+
 1. Add selected peer-session, INAC, Artifact Delivery, Messaging, and other live
    protocol adapters only at audited owning seams; keep absent coverage explicit.
 2. Add whole-path daemon-log and rendered-UI secret scans without weakening the
@@ -1470,3 +1592,4 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | `P086-024` | Normalize host-capability dispatch observation seams | `done` | Inquirium, Agent, and Sensorium reach one neutral metadata-only observation input through normalized dispatch completion/refusal events; the adapter reuses the read-only `DispatchTraceContext.component_path` projection and remains bounded by dispatch shape rather than capability count. |
 | `P086-025` | Define asynchronous-handoff observation lifecycle | `deferred` | A later contract models enqueue, durable acceptance, resume, expiry, and completion without forcing them into the V1 live boundary-stage vocabulary. It is not required for the first viewer or recorder. |
 | `P086-026` | Integrate advisory recording and replay with acceptance harnesses | `done` | Shared Python helpers create metadata-only operator-debug policies, locate the exact retained recording, and run `communication-trace-evidence` only after domain assertions. Full supervised Story 005 and independent-node Story 012 modes use checked requirements and preserve ordinary advisory semantics. Generic CI artifact retention and automated failure replay remain operations work, not a missing harness contract. |
+| `P086-027` | Complete the node-local operator live JSON inspection journey and browser qualification | `todo` | Reuse P086-007/008/010/011/012/013/018; implement the [operator slice](#p086-027-operator-live-json-inspection-slice) and pass all [browser acceptance criteria](#p086-027-browser-acceptance): explicit session controls, shared bounded live/offline inspector, exact schema help, opaque-token resume, honest gaps/presentation loss, cleanup and offline identity continuity. Retain separate real-browser fixture-safe JSON and production-style secret-floor evidence with pinned sources and explicit scope. Feed the selected whole-path secret-scan evidence into P086-020 without claiming its full closure or P086-022 promotion. No production capture bypass, new transport/recorder, LLM, Tauri, remaining network-adapter or full-P095 dependency. Update the runbook and Node ledger/generated view when implemented. |
