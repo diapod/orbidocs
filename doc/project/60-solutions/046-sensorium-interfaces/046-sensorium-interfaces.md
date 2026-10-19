@@ -803,3 +803,20 @@ does not reuse earlier native evidence or close P096-005's origin matrix. Both
 branches remain separate. See
 `node:docs/audits/REVIEW-SENSORIUM-CORRECTED-CANDIDATE-2026-10-19.md` and
 `node:docs/evidence/sensorium-host-control-20261019/corrected-candidate-preparation.json`.
+
+
+### Merged-source preparation (2026-10-20)
+
+Node clean merged `a176fdd2` freezes source `7a500816` as final signed deployment
+`92f7ba9b` and GUI `0baa4846`/handoff `83f75e0d` on turbo.local. The oversized
+compiler image was refused; explicit signing-container normalization preserves
+the original and independently verifies payload equivalence within the unchanged
+128-MiB deployment bound. All 52 frozen-client checks, signatures and rootless
+actual GUI `launchd` preflight pass. All 256 previous root files, directory and
+controller state, journal 81/twelve Cases and zero claims remain exact; eight new
+capsule files are added. Expired authority and unobserved TCC are preserved.
+No manager, hardware, root migration, renewal or further merge occurs. This
+preparation leaves P096-005 and its native-origin matrix partial. Both temporary
+branches continue separately after the earlier merge. See
+`node:docs/audits/REVIEW-SENSORIUM-MERGED-CANDIDATE-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/merged-candidate-preparation.json`.
