@@ -489,6 +489,24 @@ Additional references: [HTMX history](https://htmx.org/attributes/hx-history/),
 
 ### Separate service-control deliveries — adopted 2026-10-18
 
+Presentation review amendment — adopted 2026-10-19: refused startup sources
+preserve diagnostic `full-page`, including explicit CLI full-page, with a visible
+source refusal and separate conservative launch fact, not a resolved default.
+Explicit panel still requires admitted sources. Repair without UI restart leaves
+the fallback launch unconfirmed; valid/current-refused sources respectively
+offer `edit-source`/`repair-source`. Neither fallback nor repair changes authority,
+service configuration, receipts or lifecycle state.
+This bounded repair is **done** on a separate frozen candidate: actual browser
+no-JS and application WKWebView exercise refusal/repair/confirmed restart;
+pair profiles pass 15/14 assertions, D1 21, hardening 10 and private browser 6/native
+trusted restores 3. Pins and review evidence belong in
+`node:docs/evidence/configuration-service-control/PRESENTATION-REFUSAL-REVIEW-20261019.md`.
+This does not implement the next lookup row or promote broader task/platform status.
+
+| Next bounded follow-up | Status | Completion gate |
+| --- | --- | --- |
+| Operation-result lookup by approval reference | todo; next before broader panel reuse | P095-004/005 client delivery and P091 owner adapters: after an uncertain POST or reopened/restarted UI, current authorized operator can read the exact existing result for both settings. Qualify concurrent tabs, lost response, restart, unknown/expired references and retention limits; no repeated mutation, replanning, implicit recovery or renewed consent. |
+
 Durable rollback amendment — adopted 2026-10-19: the first-pair Node UI
 presentation is ordinary `node_ui.operator_presentation`, with bundled
 `full-page` default, lexical file overrides and a final explicit CLI override.

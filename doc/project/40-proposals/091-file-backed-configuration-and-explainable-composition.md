@@ -2127,6 +2127,30 @@ export private source paths to models. P064 alone owns prompt assembly.
 
 ## Implementation Tracker
 
+Presentation availability review — adopted 2026-10-19: source refusal must not
+remove the diagnostic UI. Startup may select conservative `full-page`, including
+explicit CLI full-page, while retaining `presentation-source-refused` and no
+resolved value/admitted declarations. This is an owner-defined degraded
+presentation, not successful substitution of an earlier layer. Explicit `panel`
+requires admitted resolution. Source repair does not retroactively admit the
+fallback launch: restart only UI. Current valid sources offer `edit-source`;
+current refusal offers `repair-source`. Existing bind/authentication, selection,
+redaction, writer and service-lifecycle boundaries are unchanged.
+
+| Next bounded follow-up | Status | Owner / completion gate |
+| --- | --- | --- |
+| Read-only operation-result lookup by exact approval reference | todo; next before broader panel reuse | P091 operator adapters and P095 client delivery: offer lookup after uncertain POST and reopening/UI restart for both first-pair settings. Prove current operator authority, concurrent tabs, lost response, restart, unknown/expired references and explicit retention limits. Unknown never means not executed; no repeated mutation, replanning, implicit recovery or renewed consent. |
+
+The lookup is tracked work, not an implementation claim or a requirement to
+repeat an operation of unknown outcome. The availability repair is qualified
+separately from the earlier durable-rollback candidate.
+The bounded availability repair is **done** on one frozen repair candidate:
+pair browser 15/native profile 14, D1 21, hardening 10 and private browser 6/native
+trusted restores 3 pass. See
+`node:docs/evidence/configuration-service-control/PRESENTATION-REFUSAL-REVIEW-20261019.md`
+for pins, review corrections and the per-file historical candidate map. The next
+lookup row and broader proposal statuses remain todo/partial.
+
 Durable first-pair rollback amendment — adopted 2026-10-19:
 
 - Node UI owns ordinary `node_ui.operator_presentation`, defaulting to

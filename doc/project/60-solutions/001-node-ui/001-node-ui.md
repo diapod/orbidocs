@@ -78,6 +78,16 @@ override. Its P091 read adapter reports selected declarations and the independen
 active UI launch value; only manual file editing is supported in this slice.
 The shared confined source reader is an I/O mechanism, not the semantic owner.
 The desktop proxies the already running UI and owns no alternate setting store.
+Refused startup sources preserve conservative full-page diagnostic access,
+including explicit CLI full-page, without claiming a resolved value or admitted
+earlier layer. Explicit panel must resolve. Inspection retains startup refusal
+until UI restart even after source repair; manual operations distinguish
+`edit-source` from current-refusal `repair-source`. Bind/operator authentication
+and owner authority do not degrade with presentation. Read-only result lookup by
+approval reference remains the next tracked, unimplemented follow-up.
+The bounded startup-availability repair has its own browser no-JS/application
+WKWebView qualification, not reassigned historical images; see
+`node:docs/evidence/configuration-service-control/PRESENTATION-REFUSAL-REVIEW-20261019.md`.
 Full-page presentation suppresses
 panel wiring/negotiation while preserving independent privacy, CSRF, CSP/SRI and
 history defenses; it neither restores configuration files nor undoes decisions,
