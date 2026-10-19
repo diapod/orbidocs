@@ -1330,6 +1330,62 @@ The retained store is one local volume with reviewed retirement, not independent
 backup/public hosting. Agora stays partial; no federation, all-Whisper/issuance,
 production or automatic release-readiness claim follows.
 
+### Review correction: credible delays and retained refusals (2026-10-19)
+
+History Retry-After has a fixed local credibility ceiling of 86400000 ms (24 h),
+separate from the deployment automatic-wait threshold. A value at or below that
+ceiling keeps its conservative checked not-before deadline. A larger value or an
+unrepresentable deadline is `matrix-history-retry-after-implausible`, with no
+trusted not-before. Preserve the exact original delay as a decimal string.
+The account's history remains explicitly blocked until operator action; live
+sync, publication and local deferred admission remain independent.
+
+`agora.matrix.recovery.ignore-implausible-retry-after` is a new host-local,
+LocalControlOnly P072 operation. It requires active local operator authority,
+task id, inspected revision and a nonempty bounded reason. In one transaction it
+revalidates the active binding and implausible state, records actor/reason/original
+delay, clears only that task's limit and rearms it. It cannot clear a credible
+server floor or any other task's block. Ordinary retry cannot bypass implausible
+state. Previously retained oversized development limits must expose the same
+escape without editing carrier/source bytes. Public views hide room ids/tokens.
+
+Observed incomplete attempts must be retained as cause-only capsules in the
+adopted append-only store, with small Git references and fresh cause verification.
+The generic store supports full qualifications and cause-only capsules without
+Story-008 predicates. Preserve original reports, actual qualifier refusal and
+minimal bound observations. Predicates describe what the original evidence
+proves (authoring HTTP 423, admission nonconvergence, receiver exit during restart),
+not an unretained root-cause analysis. Origin and evidence strength remain explicit;
+cause verification never means full qualification. Complete capsule bytes,
+including external controls, count toward 1 MiB/capsule and 4 MiB/campaign/profile.
+Historical successful/failing evidence is immutable.
+
+Next large or expanded campaign is gated by P035-011, not a larger dictionary or
+budget. P035-012 owns an independently qualified second copy; until then one-volume
+scope stays explicit. Fresh verification of every release-relevant bundle is a
+mandatory manual pre-release step under S020; missing/corrupt material blocks that
+step. P035-013 owns proactive S039 notification and bounded batch CAS, using the
+existing local operator boundary rather than granting authority through a button.
+
+Fairness comparison baseline (single run, not an SLO):
+
+| Parameter / observation | Qualified 2026-10-19 value |
+|---|---:|
+| History workers per account | 2 |
+| Records in each of two large held-worker rooms | 640 fixture-signed |
+| Separate long-history room | 640 fixture-signed + 3 UI/host signed |
+| Filtered page / room round | 64 events / 8 pages, then 5 s room pause |
+| History HTTP timeout / internal retry | 35 s / 0 |
+| Sync timeout / timeline limit | 1000 ms / 3 |
+| Debug fixture attachment budget | 60000 ms |
+| Other-room delivery before 643-record recovery completed | 6.215358 s |
+| Third history start after both workers were held | 35.004563 s |
+
+Baseline source: clean Node `1bc523a6` / Orbidocs `5993f7d0`, unmodified Synapse
+1.162.0/PostgreSQL 16.13, room v10, retained full recovery report. Later scheduler
+changes must record the same scale parameters and distinguish startup/polling from
+request latency; these observations do not establish a bound.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
@@ -1340,7 +1396,10 @@ production or automatic release-readiness claim follows.
 | P035-008a | Bounded xz archive and historical-data qualification | done | P035-006; accepted measured compression profile | Qualified at clean Node 7df7949a: identical historical tar, 1516 members, 2 reports and ordinary qualifier; temporary full set 13006802 bytes within 16 MiB. Twenty-four retention controls pass, including memory/stream faults. Small proof: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-xz-conformance/proof.json`; no duplicate payload or new runtime claim. |
 | P035-008b | Self-contained cause capsules | done | P035-008a; S028 | Qualified clean Node bc83d310 / Orbidocs a515a5d: all 27 Matrix and 5 SQLite cases; independent stock Synapse and Node gates; full 13245341-byte set and identical loose/extracted results. Runtime history HTTP 403 after 512 durable of 640 fixture plus 3 UI records, changed 65535/65534-byte PDU integrity refusal, and actual 31062930-byte storage refusal retain original results. Verified cause-only capsules total 1508971 bytes including collection index; each fits 1 MiB. Missing dependencies/substituted witnesses refuse. `node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsules/retention-result.json`. |
 | P035-009 | Decide accountable external evidence retention | done | P035-008; repository retention owner | Adopted local profile `orbiplex-dev-whisper-v1`, owner Node public-evidence retention maintainer, no automatic deletion until explicit reviewed retirement or verified migration. Inventory-addressed append-only sets, bounded fresh copy/extraction and identical ordinary qualification pass at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-external-store/README.md`; unavailable/corrupt stores refuse. Policy binds the proof and profile; original budgets/history remain. Local single-volume scope is external to Git, without independent-backup or public-hosting claims. |
-| P035-010 | Bound excessive history Retry-After through explicit operator policy | done | P035-007; Matrix rate-limit semantics | Default policy 300000 ms, valid range 1000..3600000, with an explicit durable account-history block above policy. Full 2026-10-19 per-room-recovery-v2 qualifies actual 15000-ms injected 429 against a 5000-ms fixture policy: exact delay/floor and UI survive restart, early CAS retry is typed HTTP 409 without effects, later audited retry completes, sync/publication continue. Local admission bypasses network cooldowns; gap acknowledgement cannot erase the server floor. See the shared full recovery evidence; production default attachment timeout is unchanged. |
+| P035-010 | Bound excessive history Retry-After through explicit operator policy | partial | P035-007; Matrix rate-limit semantics | Initial 15000-ms profile remains qualified; review now requires a checked 24 h credibility ceiling and audited implausible-only CAS escape before renewed closure. Default policy 300000 ms, valid range 1000..3600000, with an explicit durable account-history block above policy. Full 2026-10-19 per-room-recovery-v2 qualifies actual 15000-ms injected 429 against a 5000-ms fixture policy: exact delay/floor and UI survive restart, early CAS retry is typed HTTP 409 without effects, later audited retry completes, sync/publication continue. Local admission bypasses network cooldowns; gap acknowledgement cannot erase the server floor. See the shared full recovery evidence; production default attachment timeout is unchanged. |
+| P035-011 | Deduplicate observations at the evidence source before larger campaigns | todo | P035-008; P035-009 | Harness emits event-id/digest observations and one content-addressed copy of author/PDU bytes, with explicit original-HTTP-byte scope, independent source provenance and bounded resolver. Measure on the frozen 343388160-byte full tar; preserve exact claimed byte identities and equivalent ordinary qualification. No larger campaign, dictionary or budget before measured conformance and fresh runtime for a changed harness. |
+| P035-012 | Qualify an independent retained-evidence copy and verification procedure | todo | P035-009; independent operator destination | Select a different volume or host with owner and retirement policy, copy exact bundle identities, freshly extract/qualify or verify causes at the destination, and retain both until reviewed retirement. Preserve truthful single-volume scope until measured. Mandatory manual fresh verify before each release under S020; automation is a later explicit operator choice. |
+| P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | todo | P035-010; S039; S020; P072 | Host-owned source adapter emits idempotent lifecycle updates for blocked/awaiting-operator state after commit, without tokens. Notification action resolves fresh authority/task CAS and is enabled only at the credible not-before; implausible override remains a distinct reasoned action. Batches are bounded, retain a CAS per item and report partial results without erasing other limits; notification delivery failure cannot change recovery state. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
