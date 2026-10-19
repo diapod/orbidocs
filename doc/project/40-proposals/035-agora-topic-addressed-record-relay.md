@@ -1347,7 +1347,9 @@ revalidates the active binding and implausible state, records actor/reason/origi
 delay, clears only that task's limit and rearms it. It cannot clear a credible
 server floor or any other task's block. Ordinary retry cannot bypass implausible
 state. Previously retained oversized development limits must expose the same
-escape without editing carrier/source bytes. Public views hide room ids/tokens.
+escape without editing carrier/source bytes. A detached room cannot clear a limit;
+a parked task exposes the escape after an active rebind and fresh inspected CAS.
+Public views hide room ids/tokens.
 
 Observed incomplete attempts must be retained as cause-only capsules in the
 adopted append-only store, with small Git references and fresh cause verification.
@@ -1380,6 +1382,10 @@ Fairness comparison baseline (single run, not an SLO):
 | Debug fixture attachment budget | 60000 ms |
 | Other-room delivery before 643-record recovery completed | 6.215358 s |
 | Third history start after both workers were held | 35.004563 s |
+
+The five-second room pause is a retry lower bound, conservatively rounded to a
+whole-second deadline; queueing and polling may add delay. It is not an exact
+five-second scheduling period.
 
 Baseline source: clean Node `1bc523a6` / Orbidocs `5993f7d0`, unmodified Synapse
 1.162.0/PostgreSQL 16.13, room v10, retained full recovery report. Later scheduler
