@@ -154,6 +154,13 @@ odrzucane na admission gate.
 | `escrow` | `role/escrow` | attached supervisory role | nadzorca hold, release, refund, freeze i dispute path dla settlement kontraktów | escrow supervisor node lub attached service | tak | Capability oznacza nadzór nad losem środków zarezerwowanych dla kontraktu, nie pełny autorytet całej księgi. |
 | `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification lub adjudication surface | przyszły oracle service | planowane | Status maszynowy: `reserved`. Na obecnym etapie to rezerwacja namespace i kierunek rozszerzenia, nie dopuszczalna capability runtime ani pełny hard-MVP runtime slice. |
 
+Inspect/retry/accept-gap odzyskiwania pokojów Matrix pozostają operacjami lokalnego
+operatora. Inspect pokazuje metadane nadmiernego limitu historii bez tokenów
+paginacji; retry wymaga obejrzanej rewizji zadania i nie może wyprzedzić zachowanego
+terminu serwera. Accept-gap zapisuje niepełność i nie skraca tego terminu.
+Właścicielem polityki transportowej jest [P035](../40-proposals/035-agora-topic-addressed-record-relay.md);
+uprawnienie publikacji nie przyznaje prawa do sterowania odzyskiwaniem.
+
 <!-- BEGIN GENERATED HOST CAPABILITIES -->
 
 <a id="host-local-capabilities"></a>

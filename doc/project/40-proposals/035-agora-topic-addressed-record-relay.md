@@ -2055,6 +2055,26 @@ revocation snapshot metadata are configured.
    federation lag metric, and if so, where should it be surfaced?
    Proposed: reuse the observability pattern from proposal 023.
 
+
+### Full closure qualification profile (2026-10-19)
+
+`per-room-recovery-v2` keeps the 31 Matrix/five SQLite cases of the previous
+full profile and adds three observed process paths: excessive history Retry-After,
+deferred scoped admission across restart, and a claim published while valid but
+expired at local historical admission. The first two use labelled fault injection;
+the third uses a fixture-signed claim and the actual receiver clock. The full
+profile therefore requires 34 Matrix and five SQLite cases. Existing reports keep
+their original variant and meaning.
+
+Full canonical PDU export occurs after all publication/recovery probes, so its
+Node gate covers every acknowledged Node-created event in the campaign. The
+homeserver gate remains separate. Qualification rejects early retry, a final
+source created while admission is deferred, current-time re-admission during
+replay, and historical expiry hidden under a generic rejection. Fixture signing
+and host/UI authoring remain separately labelled. This accepted test contract
+alone does not mark P035-007 or P035-010 done.
+
+
 ## Producer Delivery Through Artifact Delivery
 
 Planned continuation (2026-10-11), not a reopening of the completed relay MVP.

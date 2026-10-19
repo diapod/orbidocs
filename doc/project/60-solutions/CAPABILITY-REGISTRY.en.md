@@ -152,6 +152,13 @@ admission.
 | `escrow` | `role/escrow` | attached supervisory role | supervisor of hold, release, refund, freeze, and dispute paths for settlement contracts | escrow supervisor node or attached service | yes | This capability governs the lifecycle of reserved funds for a contract, not full ledger authority. |
 | `oracle` | `plugin/oracle` | attached role / plugin | bounded external judgment, verification, or adjudication surface | future oracle service | planned | Machine status: `reserved`. At this stage it is a namespace reservation and extension direction rather than an admissible runtime capability or full hard-MVP runtime slice. |
 
+Matrix room-recovery inspect/retry/accept-gap remain local-operator controls.
+Inspect exposes excessive history rate-limit metadata without pagination tokens;
+retry requires the inspected task revision and cannot precede the retained server
+not-before time. Accept-gap records incompleteness and never shortens that bound.
+See [P035](../40-proposals/035-agora-topic-addressed-record-relay.md) for the
+transport-owned policy; publication permission grants no recovery authority.
+
 <!-- BEGIN GENERATED HOST CAPABILITIES -->
 
 <a id="host-local-capabilities"></a>
