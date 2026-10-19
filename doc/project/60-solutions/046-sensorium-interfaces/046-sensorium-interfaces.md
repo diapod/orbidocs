@@ -677,3 +677,17 @@ Broker for retryable concurrent-reader exhaustion (host capability HTTP 429),
 without closing the publication or restarting acquisition. Native, remote and
 SSE biosignal qualification remain separate. See the decisions in
 [Proposal 096](../../40-proposals/096-sensorium-brainflow-connector.md#delivery-review-decisions-2026-10-16).
+
+
+### Synthetic requalification checkpoint (2026-10-19)
+
+The optional P096 local synthetic path passed a new pinned release (`45454121`,
+source `ecbaf810`, image `532d20ed`) with a predeclared fifteen-second profile.
+Identical baseline/loaded p95/p99/max gates (250/500/1000 ms) now accompany a
+measured integer zero healthy-reader gap count. Measured triples were
+138/167/197 ms and 120/157/164 ms; local read-grant revoke was 61 ms. Every preset
+exceeded 100 block observations. Refused earlier runs remain unqualified and
+preserved. This confirms only P096-010a's same-process synthetic host-API scope;
+P096-005, physical/TCC, native overflow, remote/HTTP/SSE and release qualification
+remain separate. Exact artifacts and review are in
+`node:docs/evidence/sensorium-synthetic-local-20261019/`.

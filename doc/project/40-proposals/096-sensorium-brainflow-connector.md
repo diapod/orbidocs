@@ -1885,6 +1885,35 @@ acquisition or close additional hardware/remote gates. The four synthetic-only
 tracker completions retain their original evidence scope. Node records review
 and conformance in `docs/audits/REVIEW-SENSORIUM-SYNTHETIC-FOLLOWUPS-2026-10-16.md`.
 
+
+### Stronger-gate synthetic requalification (2026-10-19)
+
+Node's separate Sensorium branch retained a new release at code checkpoint
+`45454121`, independently matched source `ecbaf810` and image `532d20ed`.
+The unchanged-budget independent qualifier accepted P096-010a for profile
+revision 3, two synthetic instances and zero physical devices. Baseline
+host-path p95/p99/max measured 138/167/197 ms; the healthy reader under pressure
+measured 120/157/164 ms. Both enforce 250/500/1000 ms and measured integer zero
+healthy-reader gap frames. Local read-grant revoke measured 61 ms; no global
+revocation, native exposure or additional carrier qualification follows.
+
+The profile predeclared fixed fifteen-second windows, at least 100 observed
+blocks per preset and a test-only enclosing session of 45 seconds. Preset counts
+were 136, 150 and 193 across the cases. Earlier runtime/schema/count refusals and
+separate diagnostics remain explicit; unresolved original runtime causes were
+not inferred from later passing runs. A correctly refused 99-observation result
+led to the longer predeclared window without relaxing any performance gate.
+The controlled paused-child fault is named `worker-rpc-stall`; native acquisition
+queue overflow remains separate.
+
+The immutable first report remains in Node's original metadata area. The new
+report, independent decision, build/source observations, profile and all attempt
+history are retained in `node:docs/evidence/sensorium-synthetic-local-20261019/`,
+under the unchanged 1 MiB per-area/64 KiB per-file storage contract. Independent
+source/evidence review found no remaining issue in this run. This report binds
+its exact checkpoint; later P096-005 lifecycle code has separate evidence.
+P096-005/006b/007b/010/011a/011b/014 remain unpromoted.
+
 ## Trade-offs
 
 - Declarative profiles reduce repeated integration code and operator vocabulary;
@@ -1945,7 +1974,7 @@ remaining completion gates still apply.
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
 | `P096-008` | Deliver bounded local samples, windows and health | `P096-007a` | `done` | Authorized local consumer receives actual synthetic values via transient P082 source adapter, current classification and fences, no implicit capture; preserve instance isolation; instrument live-latency and expose bounded per-layer pressure/loss diagnostics for live-slow-consumer/live-overflow; real sources remain gated by 005/006b/007b and cannot be activated through this early path |
 | `P096-009` | Deliver operator/user instance management and lifecycle mutations | `P096-003`, `P096-004`, `P096-005`, `P096-008` | `partial` | Device-oriented create/edit/enable/stop/delete and state views over common APIs; update/delete preserve B, its stops and unrelated components; explicit source/activation generations, old-grant invalidation and home/auth retention or replacement before mutation exposure; instance-scoped visibility, explicit consent and ongoing acquisition indicator; no raw BrainFlow knowledge required. Manual setup stays independent of discovery; optional assisted setup follows 017/018. Private stopped p21 retirement after exact completed recovery supports expired revision N-to-N+1 through bounded predecessor-linked reviews, historical preservation, sibling checks and explicit interrupted resume; fresh SCAN/BIND/REGISTER/WEAR create new authority. Nearby revision1-to2 retirement is observed with exact source/journal, sibling and history verification. Separately approved recovery and retirements now reach revision 4. The fresh delegated GUI Case completes registration but refuses activation before native acquisition and releases all claims. A separate released-Case v3 retirement now requires a reconciled journal, matching root identities and existing idle resource state, with mutually exclusive recovery/release bases. It preserves v1/v2 bytes, original expiry, target-only source CAS and explicit interrupted resume. Nearby SSH retirement4-to5 is independently completed under v3 review25079a02 after original binding expiry: both normal journals/four sources match,47 protected hashes and25 retained entries are unchanged, journal67/ten Cases remains exact and controller/resources are free. Revision5 is reserved without registration/grant/consent; no recovery or hardware use occurred. A separately approved fresh revision5 Case subsequently refuses during SCAN before manager creation with os-access-undetermined; released journal72/eleven Cases and44 unchanged source hashes match zero claims. No BIND/REGISTER/WEAR or new registration/grant follows. A separately approved exact-GUI permission-only preflight now observes allowed with confirmed no-scan cleanup and unchanged50 source hashes/journal72. At that checkpoint TCC attribution and full-chain access were unverified. A later freshly approved single Case on the same signed GUI completes SCAN/BIND/REGISTER5/WEAR and host-validated EEG/motion blocks with observed-released, confirmed native cleanup/exit, journal81/twelve Cases, free controller and zero claims. Revision5 remains registered at original expiry;45 prior hashes and the discovery sibling are preserved. The subsequent device-free fix distinguishes late closed-session validation observations from startup failure; source review orders wrapper handling after RunCompleted, with predicate timing still unknown. The generic pending acquisition seed has no private terminal projection by contract. No quarantine or recovery may be manufactured. General lifecycle qualification remains open |
-| `P096-010a` | Qualify early synthetic local value path | `P096-008` | `done` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim |
+| `P096-010a` | Qualify early synthetic local value path | `P096-008` | `done` | Schema-bound synthetic report/tuple and executable qualifier; actual host/channel/local consumer and all four live-delivery cases (latency, slow consumer, overflow, local read-grant revocation), predeclared budgets, independent stop and privacy canary; no dependence on rich UI or real-device consent work and no hardware qualification claim New pinned profile revision 3 requalification on 2026-10-19 passes identical baseline/loaded p95/p99/max plus measured integer zero healthy-reader gaps; fixed 15-second windows and minimum 100 observations per preset, with all refusal history retained. |
 | `P096-010` | Close shared, playback and authority refusal acceptance | `P096-009`, `P096-010a`, `P096-007b` | `todo` | Separate synthetic/playback/conformance-ref reports; real host/consent/configuration paths, source policy, signal values/metadata, cursors/gaps, revocation, host-enforced protected stop under saturation/hang, CAS/restart, all four live-delivery cases with in-flight revoke barriers and stale-authority refusal, privacy canary across every named sink; no substitution for real-device reports |
 | `P096-011a` | Qualify one Muse 2 over native BLE | `P096-010` | `todo` | Exact single-device tuple with firmware/source, terminal-launched supervisor permission evidence and an explicit daemon-through-launchd case with attributable Bluetooth decision; both p21 and p51, actual local signal delivery, refusals, disconnect, stop, revoke, host restart and cleanup; all four live-delivery cases; Muse 2 + synthetic isolation reports device/count 1, with no radio concurrency claim. Observed GUI-session launchd ancestry and a state-only allowed permission probe do not qualify the background launchd daemon or this complete hardware tuple |
 | `P096-011b` | Qualify two simultaneous Muse 2 devices | `P096-011a` | `todo` | Requires a second physical Muse 2; exact two-device tuples, concurrent radio delivery and independent stop/revoke/cleanup; one physical device plus synthetic cannot satisfy this gate |
