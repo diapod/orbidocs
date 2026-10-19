@@ -152,7 +152,8 @@ remain unresolved. Operation ambiguity needs explicit selection,
 default describe presents required/type/enum summaries and explicit
 `include: "schema"` presents the complete trusted local contract,
 and endpoint paths are not part of catalog results. Deeper closure
-and live provider-conflict acceptance remain open in
+and live provider-conflict acceptance remain open. One supervised Python
+provider's two exact role operations now pass the host describe path; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 ## Implementation References
@@ -200,6 +201,8 @@ explicit; neither prose nor an endpoint name determines the executable contract.
 A missing effect declaration is not evidence of read-only behavior. The model
 projection omits internal endpoints and auth material, resolves only admitted
 local refs within bounds, and remains descriptive rather than authoritative.
+The supervised local fixture proves projection of two exact provider operations
+through the host route; conflicting live providers remain unqualified.
 P072-GUIDE-003 retains the shared first-slice evidence.
 
 ## Next Actions

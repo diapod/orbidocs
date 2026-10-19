@@ -868,8 +868,9 @@ policy that cannot be derived from the frozen decisions above.
 [P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns catalog semantics and the shared acceptance report;
 [S047](../60-solutions/047-agent/047-agent.md#planned-local-catalog-continuation)
-records the partially implemented controller responsibility. The first consumer is one bounded
-Agent, not a new autonomous Inquirium mode.
+records the partially implemented controller responsibility. A supervised
+provider now participates in one scripted local H run. The first consumer is
+one bounded Agent, not a new autonomous Inquirium mode.
 
 ### Implementation Recommendations
 
@@ -899,7 +900,7 @@ budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | Closed allowlist and correlation state machine are wired into `CallInquirium`; a daemon-process run with a scripted local HTTP adapter passes list → describe → next inference, then passes one ordinary effect proposal through unchanged and rejects a mixed proposal. Ordinary `agent.effect.propose` still performs separate admission. Mid-read cancellation/revocation, supervised middleware contribution and adversarial acceptance remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; the effect proposal stays inert until a separate ordinary `agent.effect.propose` request is deferred for human review. Mid-read cancellation/revocation, automatic effect dispatch and remaining adversarial acceptance are open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

@@ -701,6 +701,11 @@ An unresolved or conflicting binding remains explicit and is not advertised as
 an executable contract. Optional effect metadata must not default to read-only.
 Do not give the model internal routes, auth material, an entire OpenAPI export,
 or authority inferred from `x-orbiplex-authority: descriptive-only`.
+When several admitted bindings need selection, project an opaque `operation/id`
+from a host-keyed, domain-separated HMAC over the current catalog revision and
+the selected provider's routing, contract and effect fields. It is a selector
+within that revision, not an unkeyed digest, endpoint disclosure or execution
+grant.
 
 Use the existing schema registry and descriptor validators; validate the new
 catalog DTOs through Schema Gate. Follow only pinned, admitted local schema refs
@@ -711,10 +716,15 @@ with its exact local ref and digest. An explicit `include: "schema"` retrieves
 the complete trusted local schema under the existing byte and prompt-token
 limits. Provider availability remains informational and does not change the
 catalog consistency revision.
+The projected `schema/digest` commits to canonical bytes after bounded local
+`$ref` closure. Optional provider guidance pins the original admitted source
+snapshot through `contract/digest`; the values may differ after closure. Keep
+both meanings explicit rather than treating the projection digest as authority
+for the provider contribution.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | partial | Unique/ambiguous bindings, missing effect, one-level trusted local ref closure and endpoint redaction pass focused tests; deeper closure and live provider conflict remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | partial | The supervised report's two provider-owned operations expose exact trusted local schema and effect metadata through host describe without endpoint paths; ambiguous bindings, missing effects and local ref closure pass focused projection tests. Deeper closure and live provider conflict remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracking
 

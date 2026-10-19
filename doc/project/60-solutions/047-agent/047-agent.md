@@ -775,9 +775,10 @@ owns the first consumer of
 Status: partial local implementation, separate from completed controller/effect
 baselines. A closed two-operation continuation and correlated transition state
 are wired into `CallInquirium`; the built-in host/controller loop passes a
-deterministic process test, while supervised middleware and model behavior
-remain unqualified. A single non-catalog proposal passes through as inert
-output; mixed catalog/effect proposals are rejected. See
+deterministic process test. A second process test includes a supervised Python
+module, two provider-owned capabilities and four scripted inference calls;
+real-model behavior remains unqualified. A single non-catalog proposal passes
+through as inert output; mixed catalog/effect proposals are rejected. See
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse typed controller actions, host ports, admitted Agent binding, budgets,
@@ -786,6 +787,10 @@ catalog-read proposals, feeds a classified result into the next inference and
 stops on refusal, cancellation or exhausted budget. It does not interpret
 documentation as authority or recursively invoke arbitrary tools. Describing a
 mutation-capable capability never invokes it.
+The supervised run reaches ordinary `agent.effect.propose` admission through a
+separate request tied to the retained model proposal and receives a deferred
+human-review outcome. An independent direct host invocation proves channel
+dispatch; the Agent effect itself is not automatically dispatched.
 
 Retain real host/controller evidence under P072-GUIDE-003, including duplicates,
 late results, revocation, hostile guidance, provider loss and no network fallback.

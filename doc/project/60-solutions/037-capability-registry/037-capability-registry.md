@@ -95,6 +95,12 @@ provider/readiness and API-contract sources for the authenticated caller.
 Transient readiness changes availability without invalidating the catalog
 consistency revision. Default describe returns a bounded schema summary; full
 trusted local schemas require an explicit request.
+The revision and ambiguous-operation selector use separate host-keyed HMAC
+domains over canonical visible sources and the exact operation respectively;
+their wire prefixes are opaque labels, not unkeyed source digests or grants.
+The signed, decodable cursor carries a third domain-separated host-keyed HMAC
+for the authenticated actor, Agent, binding and visible-capability scope rather
+than those raw identifiers; its payload is not encrypted.
 Capabilities are description atoms; middleware remains a provider. Visibility,
 provider availability and execution authority are separate. Documentation never
 grants access, and catalog reads never dispatch the described capability.
@@ -103,7 +109,13 @@ Implementation recommendations: reuse registry/admission, authorization sidecar,
 host provider projections and S034 schema bindings; keep pure projection separate
 from acquisition and authorization. P072-GUIDE-001/002/003 are the single-source
 tracker. First delivery is local list/describe plus a bounded S047 controller
-continuation, without federation, a second registry or new transport.
+continuation, without federation, a second registry or new transport. A
+supervised local channel report supplies two provider-owned entries in one
+focused daemon-process H run; provider loss and real-model behavior remain
+outside that measured path. Current visibility uses the Agent spec/binding
+grant intersection; a separate describe-only permission has not been
+implemented, so this run grants both visible provider capabilities while
+proposing only the guided mutating effect.
 
 ## Must Implement
 

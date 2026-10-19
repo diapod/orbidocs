@@ -1270,8 +1270,9 @@ freezes per-outage reconnect without transparent request replay, including the
 
 [P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns the catalog contract; [S019](../60-solutions/019-middleware/019-middleware.md#planned-local-capability-guidance)
-owns provider participation. Optional report admission is implemented; channel
-carriage and combined acceptance remain open. This adds no transport and does
+owns provider participation. Optional report admission and a supervised Python
+channel path with two local capability contributions now have focused H evidence;
+the remaining acceptance matrix is partial. This adds no transport and does
 not reopen completed channel migration.
 
 ### Implementation Recommendations
@@ -1281,8 +1282,10 @@ Add only an optional validated binding to `capability-guidance.v1` for a
 capability the provider already legitimately declares. Absence remains valid.
 Bind content to the admitted package/provider and exact contract revision.
 `usage/notes` and optional `usage/ref` describe use and are not host commands;
-signed package and operator admission establish provenance, not semantic review
-of that prose.
+a verified signed package plus operator admission would establish source
+provenance, not semantic review of that prose.
+The supervised test fixture is operator-configured; it has no verified package
+signature or launch-integrity evidence and does not qualify that provenance.
 Use bounded local artifact resolution, never an arbitrary file path or remote
 `doc/url`. Reject malformed or foreign bindings with a diagnostic; do not
 promote a declaration to registration or grant.
@@ -1294,7 +1297,7 @@ No new listener, frame family, recurring discovery or startup inference is neede
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | Optional report field and exact provider/contract/example admission pass focused tests; channel carriage, refusal/cancellation and no-network boundary observations remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | A supervised Python channel report contributes guided and unguided capabilities to actual host list/describe; a separate direct invocation proves handler carriage. Signed-source provenance, channel refusal/cancellation and no-network boundary observations remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 
