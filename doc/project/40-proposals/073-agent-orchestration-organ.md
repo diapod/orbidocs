@@ -898,9 +898,33 @@ diagnostic and no effect. The subsequent effect proposal must pass ordinary
 Agent admission independently. Continuation time follows the remaining Agent wall-time
 budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
+### Durable single-grant withdrawal (follow-up contract)
+
+`agent.grant.revoke` is a host-local, non-advertised Agent-owner operation. Its
+authenticated caller must be local control or a module with the explicit Agent
+operation grant and ownership of the selected Agent. The request carries
+`agent/id`, exact `capability/id`, `idempotency/key` and `reason/code`; neither
+the model nor a catalog result may invoke it. The host records one
+`agent.grant-revocation.v1` fact with the canonical request digest, actor, time,
+resulting Agent state and `changed` bit. Replay of the same operation/key/body
+returns the retained decision; reuse of the key for a different body conflicts.
+The fact is monotonic for that Agent: no regrant operation exists in this slice.
+
+Withdrawal is allowed while Running or Suspended and leaves lifecycle state
+unchanged. An absent grant returns `changed=false` without disclosing whether
+that capability exists elsewhere. A terminal Agent refuses a new withdrawal;
+an exact replay remains valid. The original session and binding facts remain
+immutable. The current effective Agent spec and binding projection omit the
+withdrawn grant after replay and restart. Every catalog read/continuation and
+effect dispatch checks this projection at its current admission boundary;
+already admitted proposals confer no lasting dispatch authority. A dispatch
+that crossed the admission boundary before withdrawal is an in-flight action,
+not preempted by this operation. No automatic effect execution or wider tool
+allowlist follows from withdrawal.
+
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409, and lifecycle stop prevents a late repeat from inferring again. Grant-list withdrawal, in-flight call preemption, separately delivered late results and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409. Lifecycle stop and durable withdrawal of one grant prevent a pending continuation from inferring again, with no effect dispatch. In-flight call preemption, separately delivered late results and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

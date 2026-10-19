@@ -163,7 +163,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **221** host-local / **253** total; **37** owner groups.
+Entries: **222** host-local / **254** total; **37** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -229,6 +229,7 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>agent.effect.dispatch</code> | <code>host/agent.effect.dispatch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.effect.propose</code> | <code>host/agent.effect.propose</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.fork</code> | <code>host/agent.fork</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.grant.revoke</code> | <code>host/agent.grant.revoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.inference-flow.bind</code> | <code>host/agent.inference-flow.bind</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.inference-passage.admit</code> | <code>host/agent.inference-passage.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.inference-passage.commit</code> | <code>host/agent.inference-passage.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |

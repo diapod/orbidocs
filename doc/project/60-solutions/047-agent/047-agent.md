@@ -795,9 +795,13 @@ dispatch; the Agent effect itself is not automatically dispatched.
 The supervised resilience checkpoint observes page, read, byte and Agent
 wall-time exhaustion, replay of a completed controller request, refusal of a
 concurrent duplicate, and no further inference after lifecycle stop and a late
-repeat. The synchronous controller still cannot preempt an already blocked
-provider or inference call; separately delivered late results and individual
-grant-list revocation remain unqualified.
+repeat. The Agent owner now also records an immutable single-grant revocation
+fact; the current Agent spec and binding projections narrow on replay. A
+supervised process test withdraws one provider capability grant between catalog
+reads, refuses the pending continuation without effect dispatch, and observes
+the reduced scope after daemon restart. The synchronous controller still
+cannot preempt an already blocked provider or inference call; separately
+delivered late results remain unqualified.
 
 Retain real host/controller evidence under P072-GUIDE-003 for the remaining
 boundaries; the shared report separates the observed cases from open ones.
