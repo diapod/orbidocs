@@ -406,8 +406,17 @@ operations require an explicit selector; conflicting descriptors remain
 `unknown`, independent of visibility and authorization requirements. Each
 described operation carries its own provider availability. The top-level
 availability summarizes all providers when the contract is ambiguous, and
-reflects the selected provider after an explicit operation selection. Guidance
-is absent unless its provider and contract ref/digest match exactly. Multiple
+reflects the selected provider after an explicit operation selection.
+In `capability-catalog-result.v1`, per-operation `availability` remains optional
+to accept the first published v1 producer shape; the current host always
+emits it. An absent field means availability is unknown to an older producer,
+never ready or permission to execute. This accepts older producers under the
+current schema; it does not establish compatibility with a consumer still
+validating the original closed v1 schema, which may reject the added field.
+No consumer outside the checked Node/Orbidocs repositories has been verified.
+If such a consumer exists, version negotiation or a v2 result is required
+before claiming wire compatibility. Guidance is absent unless its provider
+and contract ref/digest match exactly. Multiple
 eligible provider contributions do not select a winner. The first slice admits
 request examples only, validated against the exact request contract. Invalid
 examples or an unresolved local instruction ref exclude that guidance without

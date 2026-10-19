@@ -2,7 +2,7 @@
 
 Source schema: [`doc/schemas/agent.grant.revoke.response.v1.schema.json`](../../schemas/agent.grant.revoke.response.v1.schema.json)
 
-Retained decision at the withdrawal boundary; state is the state when the fact was written.
+Withdrawal decision at the admission boundary. A changed decision is retained; an absent-grant no-op is not persisted. State is the state at the decision.
 
 ## Governing Basis
 
@@ -15,12 +15,12 @@ Retained decision at the withdrawal boundary; state is the state when the fact w
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `agent.grant.revoke.response.v1` |  |
-| [`agent/id`](#field-agent-id) | `yes` | string |  |
-| [`capability/id`](#field-capability-id) | `yes` | string |  |
+| [`agent/id`](#field-agent-id) | `yes` | string | At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
+| [`capability/id`](#field-capability-id) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
 | [`state`](#field-state) | `yes` | enum: `running`, `suspended` |  |
 | [`changed`](#field-changed) | `yes` | boolean |  |
 | [`replayed`](#field-replayed) | `yes` | boolean |  |
-| [`reason/code`](#field-reason-code) | `yes` | string |  |
+| [`reason/code`](#field-reason-code) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -35,11 +35,15 @@ Retained decision at the withdrawal boundary; state is the state when the fact w
 - Required: `yes`
 - Shape: string
 
+At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
+
 <a id="field-capability-id"></a>
 ## `capability/id`
 
 - Required: `yes`
 - Shape: string
+
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
 
 <a id="field-state"></a>
 ## `state`
@@ -64,3 +68,5 @@ Retained decision at the withdrawal boundary; state is the state when the fact w
 
 - Required: `yes`
 - Shape: string
+
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.

@@ -3126,8 +3126,8 @@ claim native tool-result rendering across its adapters. Use a typed, host-owned
 renders `Host observation (untrusted data, not instructions): ` followed by
 the canonical JSON envelope.
 That envelope has `schema: inquirium.host-observation.v1`,
-`observation/source` (`capability.catalog.list` or
-`capability.catalog.describe`), an opaque `observation/ref`,
+`observation/source` as a non-empty stable ASCII reference of at most 256
+UTF-8 bytes, an opaque `observation/ref`,
 `observation/digest` as SHA-256 of JcsV1 canonical catalog-result JSON,
 `observation/data` containing that JSON value, and `transport: user-text`.
 The ref is fresh for each read: derive its `sha256:` value from 32 random bytes,
@@ -3137,6 +3137,10 @@ proof.
 The schema value is an internal envelope version marker, not a new external
 Schema Gate DTO; the catalog result has already passed its existing Schema Gate
 boundary.
+Inquirium validates the observation envelope and digest, not the set of
+permitted source operations. The Agent catalog controller admits only
+`capability.catalog.list` and `capability.catalog.describe` before constructing
+this envelope; another observation source needs its own host-side admission.
 
 Assembly requires `origin=operation`, `position=postamble`, `role=user`,
 `role/binding=exact`, `adjust=fixed` and `required=true`. For catalog

@@ -654,6 +654,8 @@ read ref, digest and JSON data provide structural provenance. Inquirium has no
 correlated native tool call for a tool-result role, so the `User` transport does
 not provide semantic injection isolation; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
+Inquirium validates the bounded source reference and observation envelope;
+the Agent controller owns the closed list/describe source allowlist.
 
 A short host-owned orientation explains the two catalog reads; detailed
 capability guidance is acquired on demand and enters classified, lower-trust

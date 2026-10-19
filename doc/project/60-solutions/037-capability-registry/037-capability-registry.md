@@ -98,6 +98,9 @@ trusted local schemas require an explicit request.
 An ambiguous describe reports readiness for each provider operation. Selecting
 an operation makes top-level availability describe that provider; no provider's
 guidance is selected by an aggregate readiness value.
+Per-operation availability is optional in the current v1 schema and absent
+means unknown. The current host emits it; consumers pinned to the original
+closed v1 shape have not been qualified against that additive field.
 The revision and ambiguous-operation selector use separate host-keyed HMAC
 domains over canonical visible sources and the exact operation respectively;
 their wire prefixes are opaque labels, not unkeyed source digests or grants.

@@ -15,15 +15,15 @@ Single durable authority-reduction fact; the prior session and binding facts rem
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `agent.grant-revocation.v1` |  |
-| [`agent/id`](#field-agent-id) | `yes` | string |  |
-| [`capability/id`](#field-capability-id) | `yes` | string |  |
-| [`idempotency/key`](#field-idempotency-key) | `yes` | string |  |
+| [`agent/id`](#field-agent-id) | `yes` | string | At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
+| [`capability/id`](#field-capability-id) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
+| [`idempotency/key`](#field-idempotency-key) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
 | [`request/digest`](#field-request-digest) | `yes` | string |  |
 | [`result/state`](#field-result-state) | `yes` | enum: `running`, `suspended` |  |
 | [`changed`](#field-changed) | `yes` | boolean |  |
-| [`reason/code`](#field-reason-code) | `yes` | string |  |
+| [`reason/code`](#field-reason-code) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
 | [`at`](#field-at) | `yes` | string |  |
-| [`by`](#field-by) | `yes` | string |  |
+| [`by`](#field-by) | `yes` | string | Authenticated local-control or module id, at most 256 UTF-8 bytes; the host enforces the byte bound. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -38,17 +38,23 @@ Single durable authority-reduction fact; the prior session and binding facts rem
 - Required: `yes`
 - Shape: string
 
+At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
+
 <a id="field-capability-id"></a>
 ## `capability/id`
 
 - Required: `yes`
 - Shape: string
 
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
+
 <a id="field-idempotency-key"></a>
 ## `idempotency/key`
 
 - Required: `yes`
 - Shape: string
+
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
 
 <a id="field-request-digest"></a>
 ## `request/digest`
@@ -74,6 +80,8 @@ Single durable authority-reduction fact; the prior session and binding facts rem
 - Required: `yes`
 - Shape: string
 
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
+
 <a id="field-at"></a>
 ## `at`
 
@@ -85,3 +93,5 @@ Single durable authority-reduction fact; the prior session and binding facts rem
 
 - Required: `yes`
 - Shape: string
+
+Authenticated local-control or module id, at most 256 UTF-8 bytes; the host enforces the byte bound.

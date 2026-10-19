@@ -802,6 +802,11 @@ reads, refuses the pending continuation without effect dispatch, and observes
 the reduced scope after daemon restart. The synchronous controller still
 cannot preempt an already blocked provider or inference call; separately
 delivered late results remain unqualified.
+The revised replay key is scoped to the Agent. A request for an absent grant is
+an unpersisted no-op, so repeated arbitrary keys cannot consume a global
+revocation projection. Current Agent grants still gate dispatch after a proposal
+was admitted. Middleware admission reserves `local-control` for the authenticated
+host principal; a module cannot claim that id.
 
 Retain real host/controller evidence under P072-GUIDE-003 for the remaining
 boundaries; the shared report separates the observed cases from open ones.

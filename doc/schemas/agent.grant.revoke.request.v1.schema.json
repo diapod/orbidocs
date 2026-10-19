@@ -11,9 +11,9 @@
   "required": ["schema", "agent/id", "capability/id", "idempotency/key", "reason/code"],
   "properties": {
     "schema": {"const": "agent.grant.revoke.request.v1"},
-    "agent/id": {"type": "string", "minLength": 1, "maxLength": 1024},
-    "capability/id": {"type": "string", "minLength": 1, "maxLength": 256},
-    "idempotency/key": {"type": "string", "minLength": 1, "maxLength": 256},
-    "reason/code": {"type": "string", "minLength": 1, "maxLength": 256}
+    "agent/id": {"type": "string", "minLength": 1, "maxLength": 1024, "description": "At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "capability/id": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "idempotency/key": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "reason/code": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."}
   }
 }

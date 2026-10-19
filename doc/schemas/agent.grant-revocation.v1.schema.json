@@ -11,14 +11,14 @@
   "required": ["schema", "agent/id", "capability/id", "idempotency/key", "request/digest", "result/state", "changed", "reason/code", "at", "by"],
   "properties": {
     "schema": {"const": "agent.grant-revocation.v1"},
-    "agent/id": {"type": "string", "minLength": 1, "maxLength": 1024},
-    "capability/id": {"type": "string", "minLength": 1, "maxLength": 256},
-    "idempotency/key": {"type": "string", "minLength": 1, "maxLength": 256},
+    "agent/id": {"type": "string", "minLength": 1, "maxLength": 1024, "description": "At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "capability/id": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "idempotency/key": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
     "request/digest": {"type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$"},
     "result/state": {"enum": ["running", "suspended"]},
     "changed": {"type": "boolean"},
-    "reason/code": {"type": "string", "minLength": 1, "maxLength": 256},
+    "reason/code": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
     "at": {"type": "string", "format": "date-time"},
-    "by": {"type": "string", "minLength": 1}
+    "by": {"type": "string", "minLength": 1, "maxLength": 256, "description": "Authenticated local-control or module id, at most 256 UTF-8 bytes; the host enforces the byte bound."}
   }
 }

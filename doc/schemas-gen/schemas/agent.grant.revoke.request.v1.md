@@ -15,10 +15,10 @@ Owner-authorized, monotone withdrawal of one exact Agent capability grant.
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `agent.grant.revoke.request.v1` |  |
-| [`agent/id`](#field-agent-id) | `yes` | string |  |
-| [`capability/id`](#field-capability-id) | `yes` | string |  |
-| [`idempotency/key`](#field-idempotency-key) | `yes` | string |  |
-| [`reason/code`](#field-reason-code) | `yes` | string |  |
+| [`agent/id`](#field-agent-id) | `yes` | string | At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
+| [`capability/id`](#field-capability-id) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
+| [`idempotency/key`](#field-idempotency-key) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
+| [`reason/code`](#field-reason-code) | `yes` | string | At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -33,11 +33,15 @@ Owner-authorized, monotone withdrawal of one exact Agent capability grant.
 - Required: `yes`
 - Shape: string
 
+At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
+
 <a id="field-capability-id"></a>
 ## `capability/id`
 
 - Required: `yes`
 - Shape: string
+
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
 
 <a id="field-idempotency-key"></a>
 ## `idempotency/key`
@@ -45,8 +49,12 @@ Owner-authorized, monotone withdrawal of one exact Agent capability grant.
 - Required: `yes`
 - Shape: string
 
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
+
 <a id="field-reason-code"></a>
 ## `reason/code`
 
 - Required: `yes`
 - Shape: string
+
+At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound.
