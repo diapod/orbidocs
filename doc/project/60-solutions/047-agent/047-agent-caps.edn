@@ -167,7 +167,18 @@
    :status :partial}]
 
  :may-implement
- [{:cap/id :agent-assistant-channel-integration
+ [{:cap/id :agent-local-catalog-continuation
+   :title "Bounded Local Catalog Continuation"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"]
+   :schemas ["capability-catalog-request.v1" "capability-catalog-result.v1"]
+   :responsibilities
+   ["Admit only list and describe proposals from the current Agent binding"
+    "Correlate read results and prevent late or duplicate continuation"
+    "Stop on current policy refusal, cancellation or budget exhaustion"]
+   :status :partial}
+
+  {:cap/id :agent-assistant-channel-integration
    :title "Assistant Channel Integration"
    :kind :integration
    :based-on ["doc/project/40-proposals/073-agent-orchestration-organ.md"

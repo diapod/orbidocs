@@ -82,12 +82,19 @@ runtime enforcement belongs to host-policy consumers.
 ## Planned Local Capability Guidance
 
 [P072's local guidance continuation](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
-owns the proposed `capability.catalog.list` / `capability.catalog.describe`
-contract, optional pinned guidance and shared acceptance report. Status: planned;
-the implemented registry baseline and machine entries are unchanged.
+owns the `capability.catalog.list` / `capability.catalog.describe`
+contract, optional pinned guidance and shared acceptance report. Status:
+partial local implementation. Both operations are registered as host-local,
+dispatchable host routes without advertisement or Passport semantics. Caller
+scope, stable paging and redacted describe have focused host tests; combined
+controller and supervised-provider acceptance remains open. See
+`node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 The host projects existing registry, authorization metadata, admitted
 provider/readiness and API-contract sources for the authenticated caller.
+Transient readiness changes availability without invalidating the catalog
+consistency revision. Default describe returns a bounded schema summary; full
+trusted local schemas require an explicit request.
 Capabilities are description atoms; middleware remains a provider. Visibility,
 provider availability and execution authority are separate. Documentation never
 grants access, and catalog reads never dispatch the described capability.

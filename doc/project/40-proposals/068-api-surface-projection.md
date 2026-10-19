@@ -686,7 +686,8 @@ Tracking. The remaining, forward-looking work:
 
 ## Planned Capability Contract Projection
 
-Planned continuation, not a change to completed API projection coverage.
+Partially implemented local continuation; completed general API projection
+coverage is unchanged.
 [P072 local guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns the caller-scoped catalog; [S034](../60-solutions/034-api-surface-projection/034-api-surface-projection.md#planned-model-facing-contract-projection)
 owns its reusable API-description input.
@@ -705,10 +706,15 @@ Use the existing schema registry and descriptor validators; validate the new
 catalog DTOs through Schema Gate. Follow only pinned, admitted local schema refs
 within explicit bounds; an unresolved transitive ref is not permission to fetch
 the network or silently invent a schema.
+The default model-facing binding projects a compact required/type/enum summary
+with its exact local ref and digest. An explicit `include: "schema"` retrieves
+the complete trusted local schema under the existing byte and prompt-token
+limits. Provider availability remains informational and does not change the
+catalog consistency revision.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | todo | P072-GUIDE-001; fixtures cover unique/multiple/conflicting bindings, missing schema/effect metadata and local ref closure; no private endpoint disclosure; feed P072-GUIDE-003's report. |
+| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | partial | Unique/ambiguous bindings, missing effect, one-level trusted local ref closure and endpoint redaction pass focused tests; deeper closure and live provider conflict remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracking
 

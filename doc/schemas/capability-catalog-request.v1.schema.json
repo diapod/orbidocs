@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-catalog-request:v1",
+  "title": "Local Capability Catalog Request v1",
+  "description": "Agent and binding references are untrusted locators. Caller identity and effective scope are derived from authenticated host state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "operation", "agent/id", "binding/ref"],
+  "properties": {
+    "schema": { "const": "capability-catalog-request.v1" },
+    "operation": { "enum": ["list", "describe"] },
+    "agent/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "binding/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "limit": { "type": "integer", "minimum": 1, "maximum": 16 },
+    "id/prefix": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "cursor": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "capability/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "operation/id": { "type": "string", "pattern": "^op:[A-Za-z0-9_-]{43}$" },
+    "catalog/revision": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "include": { "enum": ["summary", "schema"] }
+  },
+  "oneOf": [
+    {
+      "properties": { "operation": { "const": "list" } },
+      "not": { "anyOf": [
+        { "required": ["capability/id"] },
+        { "required": ["operation/id"] },
+        { "required": ["catalog/revision"] },
+        { "required": ["include"] }
+      ] }
+    },
+    {
+      "required": ["capability/id"],
+      "properties": { "operation": { "const": "describe" } },
+      "not": { "anyOf": [
+        { "required": ["limit"] },
+        { "required": ["id/prefix"] },
+        { "required": ["cursor"] }
+      ] }
+    }
+  ],
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/072-capability-registry.md"]
+}

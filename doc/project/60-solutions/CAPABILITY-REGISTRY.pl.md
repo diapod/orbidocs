@@ -142,6 +142,8 @@ odrzucane na admission gate.
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | admisja hosta | zatwierdza dokładny draft oferty task-pack względem bieżących bindingów i polityki należących do hosta | operator task-pack host approval and current admission | nie; tylko host-local | Uwierzytelniona zgoda lokalnego operatora jest odrębna od podpisania przez Dator i publikacji w Agorze. Nie nadaje uprawnień federacyjnego discovery ani Passportu. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | admisja hosta | dopuszcza niezmienne zakończenie task-pack z zatrzymanej zweryfikowanej receptury i podpisanego wyniku Corpus | operator task-pack host immutable publication and completion admission | nie; tylko host-local | Ponownie sprawdza bieżące uprawnienie publikacji; replay używa zatrzymanych bajtów, nie powtarza inferencji ani publikacji i nie autoryzuje rozliczenia kupującego. |
 | `config.setting.describe` | `host/config.setting.describe` | odczyt konfiguracji | ograniczone odkrywanie deklarowanych przez właścicieli kontraktów ustawień dla dopuszczonego scope | daemonowy host konfiguracji | tylko kontrakt; route wyłączony | P091-002 rejestruje wyłącznie tożsamość i kwalifikację. Operacja pozostaje niedostępna do czasu powstania bramki admission i route lokalnego control-plane w P091-005a. |
+| `capability.catalog.list` | `host/capability.catalog.list` | lokalny odczyt katalogu hosta | ograniczone, zależne od uprawnień wyliczenie widocznych zarejestrowanych capabilities | lokalna projekcja katalogu daemona | nie; tylko host-local | Zwraca stabilne strony i cursor związany z zakresem oraz rewizją. Widoczność nie nadaje prawa wykonania ani discovery federacyjnego. Kwalifikację prowadzi P072-GUIDE-003. |
+| `capability.catalog.describe` | `host/capability.catalog.describe` | lokalny odczyt katalogu hosta | projekcja dokładnej operacji, schematu, efektu i opcjonalnych wskazówek | lokalna projekcja katalogu daemona | nie; tylko host-local | Oddziela gotowość dostawcy od uprawnienia do wykonania; nierozwiązane i niejednoznaczne kontrakty pozostają jawne. Nie wywołuje opisywanej capability. Kwalifikację prowadzi P072-GUIDE-003. |
 | `config.value.explain` | `host/config.value.explain` | odczyt konfiguracji | ograniczone wyjaśnienie values-only albo z derivation dla jednej dokładnej resolution konfiguracji | daemonowy host konfiguracji | tylko kontrakt; route wyłączony | Szczegół prezentacji nie może zmieniać resolved values ani refusals. Operacja pozostaje niedostępna do P091-005a. |
 | `service.order.result.prepare` | `host/service.order.result.prepare` | wyprowadzenie danych | przygotowanie koperty wyniku procurement z wiązaniem niezmienionego produktu źródłowego | procurement core przez daemon | nie; tylko host-local | Zachowuje granicę i czas źródła. Nie obserwuje wykonania, nie uwierzytelnia źródła, nie zapisuje commitu, nie dostarcza artefaktów i nie rozlicza płatności. |
 | `artifact.delivery.retain` | `host/artifact.delivery.retain` | efekt składowania hosta | zachowanie jednego uwierzytelnionego, należącego do callera i content-bound obiektu w Artifact Delivery | daemonowy object store Artifact Delivery | nie; tylko host-local | Zaimplementowany dla retencji reprezentacji P084. Host przed zapisem sprawdza dokładne powiązanie caller/owner, digest, rozmiar, klasyfikację, kontekst przyczynowy i idempotency związane z digestem, po czym zwraca niezmienny ref oraz receipt P081. Nie nadaje władzy odczytu, dostarczania, publikacji ani wyboru odbiorcy. |
@@ -163,7 +165,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **219** host-local / **251** ogółem; grupy właścicieli: **36**.
+Wpisy: **221** host-local / **253** ogółem; grupy właścicieli: **37**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -383,6 +385,13 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>interaction-broker.probe</code> | <code>host/interaction-broker.probe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.wait</code> | <code>host/interaction-broker.wait</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.watch</code> | <code>host/interaction-broker.watch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon local capability catalog projection</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>capability.catalog.describe</code> | <code>host/capability.catalog.describe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.catalog.list</code> | <code>host/capability.catalog.list</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon local control with Agora receiver storage</code>
 

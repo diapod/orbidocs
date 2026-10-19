@@ -78,7 +78,19 @@
    :status :planned}]
 
  :may-implement
- [{:cap/id :federation-capability-namespace-governance
+ [{:cap/id :local-capability-catalog-projection
+   :title "Local Capability Catalog Projection"
+   :kind :host-projection
+   :based-on ["doc/project/40-proposals/072-capability-registry.md"]
+   :schemas ["capability-catalog-request.v1" "capability-catalog-result.v1"
+             "capability-catalog-refusal.v1" "capability-guidance.v1"]
+   :responsibilities
+   ["List and describe only currently visible host-local capabilities"
+    "Bind cursors to authenticated scope and visible revision"
+    "Keep provider readiness and execution authorization separate"]
+   :status :partial}
+
+  {:cap/id :federation-capability-namespace-governance
    :title "Federation Namespace Governance"
    :kind :future-governance
    :based-on ["doc/project/40-proposals/072-capability-registry.md"]

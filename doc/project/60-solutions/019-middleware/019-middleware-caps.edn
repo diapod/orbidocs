@@ -109,7 +109,18 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :middleware-phase-observers
+ [{:cap/id :middleware-local-capability-guidance
+   :title "Optional Local Capability Guidance"
+   :kind :host-contribution
+   :based-on ["doc/project/40-proposals/080-multiplexed-middleware-channel-executor.md"]
+   :schemas ["capability-guidance.v1" "middleware-module-report.schema.json"]
+   :responsibilities
+   ["Admit optional provider and exact contract bound guidance in module reports"
+    "Validate request examples before projection"
+    "Carry catalog reads through the existing authenticated host invocation"]
+   :status :partial}
+
+  {:cap/id :middleware-phase-observers
    :title "Phase And Post-Chain Observers"
    :kind :observability-contract
    :based-on ["node/middleware/README.md"

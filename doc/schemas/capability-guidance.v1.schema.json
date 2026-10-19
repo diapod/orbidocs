@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-guidance:v1",
+  "title": "Local Capability Guidance v1",
+  "description": "Optional lower-trust documentation from an operator-admitted signed local provider, bound to one exact capability contract. Notes describe use, not executable instructions. The host validates structure and provenance, not semantic intent; schema, grants and host policy retain authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "capability/id", "provider/id", "contract/ref", "contract/digest", "description", "lang"],
+  "properties": {
+    "schema": { "const": "capability-guidance.v1" },
+    "capability/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "provider/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "contract/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "contract/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "description": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "lang": { "type": "string", "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$", "maxLength": 35 },
+    "usage/when": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "usage/avoid": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "usage/notes": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "usage/ref": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "examples": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["request"],
+        "properties": {
+          "request": { "type": "object" }
+        }
+      }
+    }
+  },
+  "not": { "required": ["usage/notes", "usage/ref"] },
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/072-capability-registry.md"]
+}

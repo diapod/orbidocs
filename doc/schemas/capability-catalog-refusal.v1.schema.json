@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-catalog-refusal:v1",
+  "title": "Local Capability Catalog Refusal v1",
+  "description": "Non-disclosing local catalog refusal; carries no resource identifier or caller-supplied text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "state"],
+  "properties": {
+    "schema": { "const": "capability-catalog-refusal.v1" },
+    "state": { "enum": ["denied", "invalid-request", "not-found", "stale-cursor", "stale-revision", "limit-exceeded", "source-unavailable", "projection-unavailable"] }
+  },
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/072-capability-registry.md"]
+}

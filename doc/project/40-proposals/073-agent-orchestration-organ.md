@@ -868,7 +868,7 @@ policy that cannot be derived from the frozen decisions above.
 [P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns catalog semantics and the shared acceptance report;
 [S047](../60-solutions/047-agent/047-agent.md#planned-local-catalog-continuation)
-records the planned controller responsibility. The first consumer is one bounded
+records the partially implemented controller responsibility. The first consumer is one bounded
 Agent, not a new autonomous Inquirium mode.
 
 ### Implementation Recommendations
@@ -891,10 +891,15 @@ with refs/reasons rather than prompt or private catalog dumps.
 An effect proposal outside this allowlist still belongs to its existing owner
 and consent path; this slice never executes it. No federation, generic tool
 runner, new supervisor or controller authority inferred from documentation.
+A single non-catalog proposal passes through unchanged as an inert Inquirium
+product. Mixed catalog and effect proposals are rejected with a model-proposal
+diagnostic and no effect. The subsequent effect proposal must pass ordinary
+Agent admission independently. Continuation time follows the remaining Agent wall-time
+budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | todo | P072-GUIDE-002, P064-GUIDE-001; real host/controller list → describe → next inference; cancellation, stale/duplicate result, scope change, hostile guidance and exhausted-budget fixtures; retain evidence under P072-GUIDE-003. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | Closed allowlist and correlation state machine are wired into `CallInquirium`; a daemon-process run with a scripted local HTTP adapter passes list → describe → next inference, then passes one ordinary effect proposal through unchanged and rejects a mixed proposal. Ordinary `agent.effect.propose` still performs separate admission. Mid-read cancellation/revocation, supervised middleware contribution and adversarial acceptance remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

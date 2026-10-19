@@ -3104,7 +3104,7 @@ slices:
 
 ## Planned Progressive Capability Guidance
 
-Planned continuation of [P072's local catalog](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery),
+Partially implemented continuation of [P072's local catalog](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery),
 reflected in [S044](../60-solutions/044-inquirium/044-inquirium.md#planned-progressive-capability-guidance).
 The existing prompt-assembly implementation is the reusable baseline; this
 continuation does not add a second assembly path or a tool executor to Inquirium.
@@ -3120,6 +3120,14 @@ budget; do not prepend every installed middleware's instructions.
 
 Catalog results are classified, lower-trust context, not host-root instructions.
 Their provenance and contract/guidance digests accompany the context binding.
+The current Inquirium role set has no tool-result role; the first slice uses an
+exact `User` postamble labelled as untrusted data. This preserves host policy
+enforcement but does not semantically isolate hostile provider text from model
+behavior. A future role extension requires a separate contract and adapter
+qualification. Default `describe` returns a compact schema summary; full
+trusted local schemas require explicit `include: "schema"`. The existing
+PromptAssemblyPolicy token cap is enforced for each continuation; the process
+fixture does not raise it globally.
 Existing P090 egress checks apply before a later inference, including on cache
 hits. Instruction text cannot weaken fixed policy or authorize a tool.
 Reuse typed `propose_tool_call` controls and structured output validation.
@@ -3129,7 +3137,7 @@ inert proposals. No provider-specific function-calling API is required.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | todo | P072-GUIDE-001; reuse current prompt assembly; prove missing guidance, fixed-policy preservation, role separation, classification/egress refusal and budget exhaustion; feed P072-GUIDE-003 without claiming arbitrary tool execution. |
+| P064-GUIDE-001 | Add bounded catalog orientation and context assembly. | partial | PromptAssemblyPolicy layer and classified continuation are wired; a scripted local process run passes two compact results into successive inference contexts under the default 2,048-token instruction cap. Tool-result role, fixed-policy, hostile-guidance, explicit egress refusal and total-budget runtime evidence remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Optional Typed-decision Experiment Tracking
 

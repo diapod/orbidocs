@@ -772,7 +772,13 @@ Machine-readable capability data for this solution lives in:
 [P073-GUIDE-001](../../40-proposals/073-agent-orchestration-organ.md#planned-bounded-local-catalog-continuation)
 owns the first consumer of
 [P072 list/describe](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
-Status: planned, separate from completed controller/effect baselines.
+Status: partial local implementation, separate from completed controller/effect
+baselines. A closed two-operation continuation and correlated transition state
+are wired into `CallInquirium`; the built-in host/controller loop passes a
+deterministic process test, while supervised middleware and model behavior
+remain unqualified. A single non-catalog proposal passes through as inert
+output; mixed catalog/effect proposals are rejected. See
+`node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse typed controller actions, host ports, admitted Agent binding, budgets,
 trace and result correlation. A narrow adapter consumes only the two allowlisted

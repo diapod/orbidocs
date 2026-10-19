@@ -89,7 +89,18 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :offline-swagger-assets
+ [{:cap/id :local-capability-operation-contracts
+   :title "Local Capability Operation Contracts"
+   :kind :host-projection
+   :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]
+   :schemas ["orbiplex.api-descriptor.v1" "capability-catalog-result.v1"]
+   :responsibilities
+   ["Project exact capability, operation and local schema bindings"
+    "Expose unknown effects and ambiguous contracts without guessing"
+    "Omit endpoint routes and private transport configuration"]
+   :status :partial}
+
+  {:cap/id :offline-swagger-assets
    :title "Offline Swagger UI Assets"
    :kind :hardening
    :based-on ["doc/project/40-proposals/068-api-surface-projection.md"]

@@ -328,15 +328,118 @@ grants access to the capabilities it describes.
 
 | Contract element | Required meaning |
 | --- | --- |
-| Optional `capability-guidance.v1` | Exact `capability/id`, pinned `contract/ref` and `contract/digest`, `description` and `lang` (English by default). Optional `usage/when`, `usage/avoid`, bounded `instructions/text` or pinned `instructions/ref`, and schema-checked examples. Reuse S007 profile vocabulary rather than inventing a second description taxonomy. |
+| Optional `capability-guidance.v1` | Exact `capability/id`, pinned `contract/ref` and `contract/digest`, `description` and `lang` (English by default). Optional `usage/when`, `usage/avoid`, bounded `usage/notes` or pinned `usage/ref`, and schema-checked examples. Reuse S007 profile vocabulary rather than inventing a second description taxonomy. |
 | List request/result | Optional simple filters, bounded `limit` and opaque `cursor`; stable ordering, authorized summaries, `catalog/revision` and explicit continuation. No embedding search or total count of hidden entries. |
 | Describe request/result | Exact capability id and, where necessary, an explicit operation selector. Return canonical request/response schema bindings, optional guidance and its digest, source provenance, classification, and separately observed provider availability and authorization requirements. |
 | Honest states | Distinguish visible-but-unavailable, unknown availability, missing guidance, unresolved/ambiguous contract and stale revision. Unknown and unauthorized ids share an externally non-disclosing response where existence is private. No single `available` boolean implies execution permission. |
 
 Guidance is optional: its absence does not make a valid capability unusable.
 Missing or ambiguous machine contracts must not be reconstructed from prose.
-Provider-specific instructions stay bound to their exact admitted provider and
-contract; several providers must not yield an arbitrary winning description.
+Provider usage notes stay bound to their exact admitted provider and contract;
+several providers must not yield an arbitrary winning description. A signed
+package and current operator admission establish source provenance, not semantic
+review of the notes. The host never treats their text as authority.
+
+### Local Contract Freeze (2026-10-19)
+
+The first local slice uses `capability-catalog-request.v1`,
+`capability-catalog-result.v1`, and optional `capability-guidance.v1`.
+`list` accepts an optional exact capability-id prefix, a page limit, and an
+opaque continuation cursor. `describe` requires an exact registered capability
+id and accepts an operation selector only when the admitted descriptor binds
+several operations. `include: "summary"` (the default) projects bounded
+required fields, types and enum/const values; `include: "schema"` requests the
+complete trusted local schema. `agent/id` and `binding/ref` are untrusted lookup locators
+inserted by the host controller, not model arguments. The host derives principal,
+scope, grants, and source revisions from the currently authenticated actor and
+binding; a mismatched or absent binding receives a refusal.
+
+| Limit | First-slice maximum |
+| --- | ---: |
+| List page (default) | 8 entries |
+| List page (maximum) | 16 entries |
+| List result | 16 KiB canonical JSON |
+| Describe result | 32 KiB canonical JSON |
+| Default schema summary | At most 32 top-level properties; `truncated: true` signals omission and full schema requires `include: "schema"` |
+| Guidance inline text (`description` and usage combined) | 2 KiB UTF-8 |
+| Guidance examples | 2, each at most 4 KiB canonical JSON |
+| Local instruction/schema reference depth | 1, with at most 16 KiB resolved bytes |
+| Controller catalog reads / inference rounds | 3 / 4 |
+| Controller catalog pages / total catalog context | 2 / 64 KiB |
+| Controller wall time | Current remaining Agent wall-time budget; no separate 30-second cutoff |
+
+The PromptAssemblyPolicy instruction-token cap remains authoritative for
+continuation layers. The controller also limits result bytes; bytes are only a
+resource ceiling and do not substitute for the runtime token budget. A required
+result that exceeds the selected prompt cap refuses continuation. No global cap
+is raised to make catalog reads fit.
+
+The list order is ascending canonical `capability/id`, after current caller
+visibility is evaluated. It returns no total count. Its revision is a digest of
+the visible, sanitized projection; hidden changes do not alter the caller's
+revision. Transient provider readiness changes `availability` but do not change
+the consistency revision. A cursor binds the authenticated Agent/actor scope, filter, limit,
+visible revision, next position, and an expiry no later than five minutes. Each page
+rechecks current authority. A foreign, expired, malformed, or stale cursor is a
+non-retryable `stale-cursor` refusal; a new list call without cursor begins a
+fresh traversal. No cache of catalog results is required.
+
+`describe` projects only exact admitted operation bindings and known effect
+metadata. Missing effect metadata is `unknown`, never `read-only`. Multiple
+operations require an explicit selector; conflicting descriptors remain
+`ambiguous-contract`. Provider readiness is `ready`, `unavailable`, or
+`unknown`, independent of visibility and authorization requirements. Guidance
+is absent unless its provider and contract ref/digest match exactly. Multiple
+eligible provider contributions do not select a winner. The first slice admits
+request examples only, validated against the exact request contract. Invalid
+examples or an unresolved local instruction ref exclude that guidance without
+disclosing provider diagnostics;
+they never trigger network retrieval. `doc/url` is never dereferenced.
+
+An unknown id, a hidden id, and a private package id share the same externally
+observable `not-found` result. Authorization and disclosure precede descriptor
+or guidance dereference. Results are lower-trust data with classification and
+source digests; current P090 inference-egress admission runs before each model
+continuation, including reuse. Cancellation prevents continuation at the next
+synchronous boundary; this slice does not preempt an already blocked read or
+inference call. Timeouts, exhausted
+budgets, stale scope/revision, and invalid guidance are terminal for this
+continuation. No automatic retry or fallback to remote lookup occurs.
+
+Inquirium's current role vocabulary has no tool-result role. The host therefore
+renders the classified catalog result as an exact `User` postamble marked as
+untrusted data. That role marker is not an injection defense: guidance can still
+influence a model within otherwise permitted behavior. Host policy, grants and
+effect admission remain the enforcement boundary; model-level resistance to
+hostile notes is not qualified by the deterministic controller test.
+
+An invalid model proposal terminates the current controller action with a
+non-retryable `agent_model_proposal_rejected` diagnostic (HTTP 422); it does not
+stop the Agent or commit an effect. The operator may submit another action at
+the unchanged step. A catalog read refusal, stale authority or classification
+gate also aborts this action; a budget limit returns HTTP 429. No automatic
+retry follows any of these outcomes. A single proposal outside the two catalog
+operations is returned unchanged as an inert Inquirium product for the existing
+Agent effect admission. A mixed catalog and effect proposal is rejected as
+ambiguous; the model must propose the effect again after a catalog result.
+
+The controller transition table is intentionally closed:
+
+| State | Accepted event | Next state |
+| --- | --- | --- |
+| awaiting-inference | one valid allowlisted proposal | pending-read |
+| pending-read | one matching, currently admitted result | pending-egress |
+| pending-egress | classification and egress admitted | awaiting-inference |
+| awaiting-inference | ordinary answer | completed |
+| awaiting-inference | one non-catalog proposal | completed with unchanged inert product |
+| awaiting-inference | mixed catalog and effect proposals | stopped with model-proposal diagnostic |
+| any nonterminal state | refusal, cancellation, deadline, or budget exhaustion | stopped |
+| completed or stopped | late or duplicate result | same terminal state |
+
+Correlation binds Agent, binding, proposal ref, capability id, request digest,
+and controller step. A result for another correlation or a repeated completion
+does not start inference. The allowlist is exactly `capability.catalog.list` and
+`capability.catalog.describe`; a capability named by a result is never added.
 
 Admission derives the principal, scope and disclosure policy from authenticated
 host context, never from model-selected identity fields. Apply disclosure before
@@ -416,7 +519,9 @@ remain separate federation owners.
 
 ### Continuation Tracker
 
-Statuses below are `todo`; historical completed registry phases are not reopened.
+Statuses below follow the focused implementation checkpoint; historical
+completed registry phases are not reopened. The shared evidence report is
+`node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 P072-GUIDE-001 precedes P068-GUIDE-001, P080-GUIDE-001 and P064-GUIDE-001.
 P068/P080 feed P072-GUIDE-002; prompt assembly (P064) can proceed in parallel.
 P073-GUIDE-001 joins the ready projection and prompt assembly; P072-GUIDE-003
@@ -425,9 +530,9 @@ to finish unrelated work in any of those proposals.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | todo | Audit existing registry/provider/descriptor/channel seams; schema-gated DTOs and negative fixtures; exact flag matrix, disclosure, states, cursor/cache scope, retry and cancellation rules; no machine registration claimed by this document. |
-| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | todo | P072-GUIDE-001, P068-GUIDE-001, P080-GUIDE-001; register the two operations, reuse current host gates/readiness, resolve only admitted local artifacts, prove privacy and no-network fallback. |
-| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | todo | P072-GUIDE-002, P064-GUIDE-001, P073-GUIDE-001; every acceptance case above has retained evidence in one report; update S037/S044/S047 and Node ledger without promoting deferred scope. |
+| P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | done | Four schema-gated DTOs, registry flag matrix, numeric limits, disclosure and transition rules; contract evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Registered projection and host route pass focused tests; supervised provider loss and separately observed no-network fallback remain open: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | A daemon-process test passes local list → describe → next inference with a scripted adapter. Combined supervised middleware/host/controller acceptance, adversarial boundary observations and real-model behavior remain open in the shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.

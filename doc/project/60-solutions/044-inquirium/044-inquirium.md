@@ -642,7 +642,13 @@ own proposal or an explicit revision of the implementation recommendations.
 [P064-GUIDE-001](../../40-proposals/064-inquirium-implementation-recommendations.md#planned-progressive-capability-guidance)
 extends existing prompt assembly for
 [P072's local catalog](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
-Status: planned; current structured controls are not proof of a catalog loop.
+Status: partial local implementation. The Agent controller adds short orientation
+through `PromptAssemblyPolicy` and returns classified results as lower-trust
+context. A deterministic daemon-process loop passes list, describe and the next
+inference under the default prompt cap; supervised provider guidance and a
+concrete model remain unqualified. Inquirium has no tool-result role, so the
+labelled `User` result layer is not semantic injection isolation; see
+`node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 A short host-owned orientation explains the two catalog reads; detailed
 capability guidance is acquired on demand and enters classified, lower-trust

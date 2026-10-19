@@ -140,6 +140,8 @@ admission.
 | `operator.task-pack.offer.admit` | `host/operator.task-pack.offer.admit` | host admission | approves an exact task-pack offer draft against current host-owned bindings and policy | operator task-pack host approval and current admission | no; host-local only | Authenticated local operator approval is distinct from Dator signing and Agora publication. It grants no federated discovery or Passport authority. |
 | `operator.task-pack.order.complete-admit` | `host/operator.task-pack.order.complete-admit` | host admission | admits immutable task-pack completion from the retained verified recipe and signed Corpus outcome | operator task-pack host immutable publication and completion admission | no; host-local only | Revalidates current publication authority; replay uses retained bytes and cannot rerun inference, publish twice, or authorize buyer settlement. |
 | `config.setting.describe` | `host/config.setting.describe` | configuration read | bounded discovery of owner-declared setting contracts for an admitted scope | daemon configuration host | contract only; route disabled | P091-002 registers identity and eligibility only. The operation remains unavailable until the P091-005a local-control admission gate and route exist. |
+| `capability.catalog.list` | `host/capability.catalog.list` | host-local catalog read | bounded, caller-scoped enumeration of visible registered capabilities | daemon local capability catalog projection | no; host-local only | Returns stable pages with a scope- and revision-bound cursor. Visibility grants no execution authority or federated discovery. Focused qualification is tracked by P072-GUIDE-003. |
+| `capability.catalog.describe` | `host/capability.catalog.describe` | host-local catalog read | exact local operation, schema, effect and optional guidance projection | daemon local capability catalog projection | no; host-local only | Separates provider readiness from execution authorization; unresolved and ambiguous contracts remain explicit. It never invokes the described capability. Focused qualification is tracked by P072-GUIDE-003. |
 | `config.value.explain` | `host/config.value.explain` | configuration read | bounded values-only or derivation-backed explanation of one exact configuration resolution | daemon configuration host | contract only; route disabled | Presentation detail cannot alter resolved values or refusals. The operation remains unavailable until P091-005a. |
 | `service.order.result.prepare` | `host/service.order.result.prepare` | data-only derivation | content-bound procurement result preparation from the unchanged source product | procurement core through daemon | no; host-local only | Preserves source boundary and time. Does not observe execution, authenticate source, persist a commit, deliver artifacts or settle payment. |
 | `artifact.delivery.retain` | `host/artifact.delivery.retain` | host storage effect | retain one authenticated caller-owned, content-bound object in Artifact Delivery | daemon Artifact Delivery object store | no; host-local only | Implemented for P084 representation retention. The host verifies exact caller/owner, digest, size, classification, causal context, and digest-bound idempotency before storage, then returns an immutable ref and P081 receipt. It grants no read, delivery, publication, or recipient authority. |
@@ -161,7 +163,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **219** host-local / **251** total; **36** owner groups.
+Entries: **221** host-local / **253** total; **37** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -381,6 +383,13 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>interaction-broker.probe</code> | <code>host/interaction-broker.probe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.wait</code> | <code>host/interaction-broker.wait</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>interaction-broker.watch</code> | <code>host/interaction-broker.watch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon local capability catalog projection</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>capability.catalog.describe</code> | <code>host/capability.catalog.describe</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>capability.catalog.list</code> | <code>host/capability.catalog.list</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon local control with Agora receiver storage</code>
 

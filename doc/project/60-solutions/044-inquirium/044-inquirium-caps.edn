@@ -152,7 +152,18 @@
    :status :done}]
 
  :may-implement
- [{:cap/id :inquirium-additional-runtime-profiles
+ [{:cap/id :inquirium-local-catalog-orientation
+   :title "Local Catalog Orientation and Context"
+   :kind :post-mvp
+   :based-on ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]
+   :schemas ["capability-catalog-result.v1"]
+   :responsibilities
+   ["Assemble short host-owned orientation through PromptAssemblyPolicy"
+    "Carry requested catalog results as classified lower-trust context"
+    "Leave proposal execution and authority to the Agent controller"]
+   :status :partial}
+
+  {:cap/id :inquirium-additional-runtime-profiles
    :title "Additional Runtime and Evaluator Profiles"
    :kind :post-mvp
    :based-on ["doc/project/40-proposals/064-inquirium-implementation-recommendations.md"]

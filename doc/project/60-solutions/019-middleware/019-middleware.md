@@ -591,15 +591,19 @@ module's domain-specific routes.
 [P072](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns local catalog semantics;
 [P080-GUIDE-001](../../40-proposals/080-multiplexed-middleware-channel-executor.md#planned-local-capability-guidance-contributions)
-owns optional provider contributions and transport conformance. Status: planned,
-not a new implemented middleware capability.
+owns optional provider contributions and transport conformance. Status: partial
+local implementation. Module reports accept optional `capability/guidance`,
+and attach admission checks provider, exact request schema and examples. Live
+channel carriage and cancellation acceptance remain open; see
+`node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse existing report descriptions and `api/surface`; an optional pinned guidance
 artifact belongs to an already admitted capability/provider/contract binding.
 Missing guidance is valid. Admission rejects foreign or malformed bindings and
 resolves content only through bounded local artifact/package access, never
 arbitrary paths or URLs. The package does not acquire registration or execution
-authority by supplying instructions.
+authority by supplying usage notes. The signed, operator-admitted source proves
+provenance, not a semantic review of the notes.
 
 Use existing host-capability invocation over P080 and the common Rust/Python
 clients. Routing `lookup` keeps its current meaning. No per-module prompt
