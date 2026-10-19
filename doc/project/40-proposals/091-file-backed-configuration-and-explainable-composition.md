@@ -2127,6 +2127,23 @@ export private source paths to models. P064 alone owns prompt assembly.
 
 ## Implementation Tracker
 
+First-pair delivery closeout — 2026-10-19: D1 full pages and D2
+component/configuration browser/application-WebView delivery gates are **done in
+that scope**, not the general P091-009/013/014 rows. The
+[common final report](https://github.com/diapod/node/blob/master/docs/evidence/configuration-service-control/FIRST-PAIR-CLOSEOUT-20261019.md)
+pins one daemon/UI/Desktop/Messaging set, actual remove → explicit Start → external
+false without an intermediate S020 tick, and UI-only full-page rollback/re-enable
+with unchanged owner files, completed relations, receipt and process facts.
+Controlled logging restart remains separate. Current no-JS, readiness, refusal,
+intent/rename recovery, privacy and native compatibility/IPC regressions have
+their own exact boundaries. The UI selector is an ephemeral invocation input,
+not a new durable setting or configuration writer. A captured pre-effect busy
+refusal corrected fixture scheduling/diagnostics; it did not change production
+policy, retry uncertain effects or explain a prior lost commit response.
+The current audit has 124 entries and 121 unfinished adoption claims. Existing
+broader task/platform statuses remain unchanged; historical ergonomics stays
+unavailable-closed and retained baseline/v1 is for future comparisons only.
+
 Scoped Unix binding review (2026-10-06): P094-006b uses one intent/outcome
 journal, with no production raw binding-write bypass. Source diagnostics warn
 at 80% of the node-wide 1,024-event budget, including pending-outcome

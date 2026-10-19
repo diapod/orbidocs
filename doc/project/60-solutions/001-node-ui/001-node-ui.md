@@ -68,6 +68,19 @@ Native host ownership stays in P052; code-coupled details and evidence live in
 `node:node-ui/docs/INTERACTION-LAYER.md` and
 `node:docs/evidence/configuration-service-control/README.md`.
 
+First-pair closeout (2026-10-19) completes only the agreed D1/D2 delivery gates
+on one frozen daemon/UI/Desktop/Messaging set, including actual browser and
+application WKWebView S020 remove/start/external-false and presentation rollback.
+The Node UI owns the invocation-only `panel|full-page` selector. It suppresses
+panel wiring/negotiation while preserving independent privacy, CSRF, CSP/SRI and
+history defenses; it neither restores configuration files nor undoes decisions,
+receipts or lifecycle facts. A UI-only restart and fresh client document are
+required in either direction. Full-page operational forms remain no-JS and an
+intentional new change still needs exact owner approval/application. Current
+privacy/IPC evidence and retained failure attribution are in
+`node:docs/evidence/configuration-service-control/FIRST-PAIR-CLOSEOUT-20261019.md`.
+Broader proposal/platform/conversation and release readiness remain partial.
+
 ## Admitted Web Finding Review
 
 P084-012c adds an operator queue over the daemon's existing Harvester review API.

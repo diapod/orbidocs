@@ -536,6 +536,30 @@ the earlier closeout and failures remain immutable.
 Rows
 remain partial where their broader gates are not established by this first pair.
 
+First-pair final closeout — 2026-10-19:
+
+| Delivery gate | Status | Exact scope |
+| --- | --- | --- |
+| D1 full pages/CLI | done | Messaging enabled and daemon logging.level: 21 actual no-JS browser/owner/file/process-or-pending/restart/recovery cases on the final common images |
+| D2 component/configuration pair | done | Same owner contracts in browser and actual application WKWebView, forced S020 interleaving and UI-only full-page rollback/re-enable; independent current privacy/IPC regressions |
+
+The [final Node report](https://github.com/diapod/node/blob/master/docs/evidence/configuration-service-control/FIRST-PAIR-CLOSEOUT-20261019.md)
+records the common four-image set, all failure/development capsules and scoped
+review corrections. Rollback retains independent P095-007/008 hardening and
+preserves owner files, completed commit relations, receipt and application facts;
+it does not undo a write. The current native panel Back did not observe BFCache
+admission; three separate sensitive-view trials observed trusted persisted
+restores with the seed absent. The initial asleep-display attempt is blocked,
+not a bootstrap failure; fresh actual qualification follows user unlock.
+Closed commit diagnostics, crash-fixture preflight and public fixture
+pause/idle/resume do not change production policy or repeat uncertain effects.
+An earlier missing commit response is not explained by the later pass.
+This closes the agreed first-pair delivery gates for P095-001/004/005/007/009/010,
+not every task row below. Conversation/drafts/scroll, broader accessibility/IME,
+other-platform and release campaigns remain partial. Historical baseline is
+unavailable-closed and existing baseline/v1 is retained without an improvement
+claim or a new bootstrap population sample.
+
 | ID | Status | Depends on | Task and completion gate |
 | --- | --- | --- | --- |
 | P095-001 | partial | — | Inventory helpers; select an existing conversation/detail pair and freeze slot, history, draft lifetime and trust boundaries in the Node UI contract. Record listener/timer inventory per script, baseline measurements and rollback path. **2026-10-18:** First pair explicitly changed to component/configuration; stable slots, lifetime/trust inventory and rollback contract are recorded in Node. Historical baseline is unavailable-closed; a pinned scripted baseline/v1 is frozen for future comparisons only. |
