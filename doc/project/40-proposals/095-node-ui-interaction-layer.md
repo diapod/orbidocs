@@ -502,6 +502,42 @@ do not establish non-execution; a historical committed result does not establish
 current application/readiness. Retention uses P091's existing bounded journal,
 not a UI history store. Owner unavailability stays a separate read failure.
 
+History-pressure/result-recovery amendment — adopted 2026-10-19: configuration
+details and the uncertain/error path link to the owner's recent retained results
+for that setting. A lost browser response or UI restart must not require copying
+the reference from the preview; exact-reference GET remains a second path.
+Full pages remain no-JS, the panel retains only bounded read hrefs, and neither
+client resubmits a mutation, renews an approval or treats an empty/unknown result
+as non-execution. Result support is presentation-catalogue data, not a repeated
+template allowlist or an authority grant.
+
+Setting details show owner history pressure. A disabling preview explicitly
+discloses any export/checkpoint/prune summary before its single approval; it must
+not hide archival behind a direct or ordinary write. P091 owns reservation,
+durability, pending/head protection and quarantine. UI rendering neither changes
+owner evidence nor performs maintenance on GET.
+
+Each first-pair preview has an inert bounded correlation id and closed owner phase
+timings, including an explicit refusal. Only that projection, never source values
+or arbitrary owner prose, reaches diagnostics. Client/harness observation treats
+an admitted approval and a terminal refusal/unavailable response as different
+terminal states; waiting only for an Approve button cannot turn a known refusal
+into an unexplained timeout. A preview refusal is not an uncertain mutation.
+Controlled contention and a separately counted normal cohort are causal/frequency
+evidence for their conditions only. Without the older response/trace, the original
+Logging outlier remains unattributed; later successes do not explain it.
+
+The managed WebView must not execute slow preview I/O on its custom-protocol
+callback. A narrow public asynchronous responder serves only strict, unapproved
+first-pair preview forms through one worker with at most eight queued jobs.
+Saturation refuses before UI contact. The preview freezes its cookie context,
+cannot publish cookies or follow an identity redirect, and is discarded if that
+context changes. Recovery, approval/commit and identity transport retain their
+existing ordering. This is transport responsiveness, not a new authority, retry
+policy or permission to move arbitrary mutations onto background workers. Real
+WebView qualification must retain both refusal traces and responsiveness under
+the same controlled owner delay, without merely extending observation deadlines.
+
 Presentation review amendment — adopted 2026-10-19: refused startup sources
 preserve diagnostic `full-page`, including explicit CLI full-page, with a visible
 source refusal and separate conservative launch fact, not a resolved default.

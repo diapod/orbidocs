@@ -2149,6 +2149,53 @@ exclude application when explicitly adopting a withheld value. Exact
 same-approval replay is unchanged. This is
 write-path correlation bookkeeping, never an effect of a result read.
 
+History-pressure amendment — adopted 2026-10-19: bookkeeping capacity must not
+gate the safe direction. S020 reserves and attempts an admitted disable before
+persisting its observation. Failed persistence is visible as
+`observation-unpersisted`; subsequent ticks retry the fact, not an uncertain
+lifecycle effect. The running owner retains that observation as its admission
+baseline, so a later enabling edit cannot inherit consent from the older durable
+true. New automatic enabling application waits for a persisted observation.
+This exception is a safe lifecycle restriction, not a successful file commit or
+a claim of durable audit. A process restart cannot reconstruct an unpersisted
+intermediate edit that the external editor has already erased.
+
+Of the shared 1,024-event / 64-MiB value budget, 64 events / 1 MiB are reserved
+for owner-classified disabling writes and observations; previously promised
+outcomes retain their reservation. Ordinary writers, including safe binding
+metadata, cannot spend this reserve. Inspection exposes capacity and a warning
+before exhaustion. A finite reserve is not an unlimited-write guarantee.
+
+The operator explicitly previews/approves private text export → durable
+checkpoint → pruning. A `false` preview at pressure may include this operation;
+the visible approval binds its summary and the private exact history revision.
+Unattended direct approval cannot silently add archival. A separate authorized
+maintenance operation is also available; no periodic eviction is introduced.
+Export and sync precede the checkpoint/prune transaction, with a second exact
+revision check; export I/O is outside the SQLite write transaction. Active heads,
+pending intents and their recovery inputs, latest source observations and the
+restricted owner's safe current metadata remain live. The restricted integrity
+journal is not exported. Interrupted attempts can leave an additional immutable
+export, never deletion without an export. Unarchivable active data, unavailable
+storage or a corrupt active head can still refuse maintenance; explicit Stop or
+an admitted external false remains the safe direction, not permission to delete
+the journal. This is domain-approved bounded retention, not completion of the
+general 90-day retention/profile or multi-target P091 campaign.
+
+Malformed retained intent history deliberately refuses the whole selected-target
+lookup, rather than pretending the row was absent. Explicit archival preserves
+old unadmitted raw rows in the private export/quarantine; corrupt active evidence
+still refuses. Older pruned references are unknown in the live journal, not
+proof of non-execution; the text export preserves their evidence. Export files
+are private operator-maintained data, with no automatic deletion/import.
+
+The owner also provides a single-snapshot read of at most ten recent retained
+results **per setting**, newest transaction first. It needs current authority but
+no remembered reference, plan, old UI token, writer lock, recovery or application.
+Filtering the setting precedes the limit. The live 1,024-event bound is unchanged;
+a new reference index is not required for this bounded scan and remains a
+separate measured scaling decision if the live bound is increased.
+
 Presentation availability review — adopted 2026-10-19: source refusal must not
 remove the diagnostic UI. Startup may select conservative `full-page`, including
 explicit CLI full-page, while retaining `presentation-source-refused` and no
