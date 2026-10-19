@@ -714,3 +714,22 @@ Sensorium branch. P096-005 remains partial under its existing six physical-nativ
 two controlled-native-fault and two exact-candidate host-software prerequisites.
 No native/TCC adoption, recovery, headband test or broader carrier promotion follows.
 See `node:daemon/docs/SENSORIUM-ACQUISITION-CONTROL.md` and the dated Node review.
+
+
+### Native safety candidate preparation (2026-10-19)
+
+Clean `af692fed` production source `4fc1405e` and release image `56fa8251` are
+frozen on turbo.local. The create-only ad-hoc GUI capsule has distinct signed
+image `e8989103` and handoff `8c00d7d4`; exact closure/signature checks and actual
+rootless LaunchServices `launchd` preflight pass. All 51 frozen-client tests pass
+on target Python 3.13.15, including closed optional audit diagnostics that never
+supply cleanup or authority. Preparation preserves 238 prior protected files
+(non-key hashes and metadata; signing-key files metadata only),
+journal revision 81/twelve Cases, controller namespace and zero claims; only
+eight files of one new capsule were added. Owner authority remains expired and
+Bluetooth permission unobserved. No manager, permission probe, scan, acquisition,
+recovery, Case or grant renewal ran. P096-005 remains partial under the unchanged
+six physical-native/two controlled-native-fault/two exact-candidate host-software
+matrix; the older synthetic performance report retains its own exact candidate.
+See `node:docs/evidence/sensorium-host-control-20261019/` and the dated candidate
+preparation review.
