@@ -196,18 +196,28 @@ four focused Synapse cases at Node ac386090 / Orbidocs fbba8e73 qualify the chec
 24 h boundary, reasoned local operator CAS escape, restart, live confidence-0.5
 and exact-source replay. The 142758-byte complete proof is externally retrieved;
 full gates remain the original campaign. Original failed attempts are retained as
-cause-only capsules with preserved qualifier refusals. Source deduplication before
-larger campaigns (P035-011), qualified independent copy and manual release verify
-(P035-012), and S039/batch CAS (P035-013) remain open, with unchanged budgets.
+cause-only capsules with preserved qualifier refusals. At that prior review,
+source deduplication before larger campaigns (P035-011), qualified independent
+copy/manual release verify (P035-012), and S039/batch CAS (P035-013) remained open.
+The following dated closure supersedes that P035-011 status; budgets are unchanged.
 
 
-P035-011 implementation has started under the accepted
-[source-observation decision](../../40-proposals/035-agora-topic-addressed-record-relay.md#p035-011-source-observation-decision-2026-10-19)
-and `node:docs/evidence/SOURCE-OBSERVATIONS.md`. The historical byte/value and
-ordinary-qualification gate passed at clean Node 3b06e1b4 / Orbidocs 51de82e9:
-identical original/source 34-Matrix/five-SQLite results after extraction and fresh
-retrieval, complete 15201407 bytes at the default 128 MiB dictionary and 5878 bytes
-of Git controls. Source journal/capsule integration and review are in progress;
-exact author/indivisible PDU coverage and current budgets remain. Fresh full
-34-Matrix/five-SQLite runtime is pending; historical conformance does not renew it.
-P035-012/013 remain todo and global Agora remains partial.
+P035-011 is done under the accepted
+[source-observation decision](../../40-proposals/035-agora-topic-addressed-record-relay.md#p035-011-source-observation-decision-2026-10-19).
+The historical gate at clean Node 3b06e1b4 / Orbidocs 51de82e9 is private-candidate
+conformance retained as a small report referencing the frozen original input,
+separate from fresh qualification at clean Node ee64042f / Orbidocs a2addea1 on
+2026-10-20 and its adopted external runtime proof.
+All 34 Matrix/five SQLite cases and source/legacy/extracted/fresh-retrieved ordinary
+results agree on stock Synapse 1.162.0, room v10. Exact author bytes and all 2048
+PDUs/2048 stored-row artifacts remain; all 2041 Node PDUs fit 65536 (max 49927).
+Complete retention is 15220597 bytes at the default 128 MiB dictionary, with 5878
+runtime compact-control bytes versus the prior 2282442. Aggregate new public
+proof metadata is 49484 Git bytes, including the 5878 runtime controls. All
+existing budgets remain unchanged. Conservatively charging the whole collection,
+including historical reports and README, totals 15264203 bytes within 16 MiB.
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`.
+The dual-view comparison tests coding/references, not independent capture; its
+fairness timings include dual-write I/O. P035-012/013 remain todo, global Agora
+stays partial, and independent backup, federation, all Whisper and release/
+production qualification remain separate.

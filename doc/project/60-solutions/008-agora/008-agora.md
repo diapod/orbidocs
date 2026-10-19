@@ -452,6 +452,28 @@ Status:
   copy/manual pre-release fresh verify, P035-013 owns S039/bulk actions. Evidence:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`.
 
+- P035-011 closes on 2026-10-20 at clean Node `ee64042f` / Orbidocs `a2addea1`:
+  all 34 Matrix/five SQLite cases on unmodified Synapse 1.162.0, room v10, preserve
+  exact author bytes, full PDU coverage, confidence 0.5 and the existing Whisper
+  signal/trace/threshold families through restart and replay. Same-capture
+  legacy/source values and non-representation facts agree; ordinary qualification
+  is identical before/after archive extraction and fresh external retrieval.
+  The set retains 2048 indivisible PDUs and 2048 independent stored-row artifacts;
+  all 2041 Node PDUs fit 65536 bytes, maximum 49927. Complete retention is 15220597
+  bytes with the default 128 MiB XZ dictionary and unchanged 256 MiB decoder bound;
+  compact Git controls are 5878 bytes versus the earlier 2282442. Detailed indexes
+  and exact reports remain in the complete store, with explicit digest pins in Git.
+  Aggregate new public proof metadata is 49484 Git bytes, including the runtime
+  controls; conservative whole-collection charging is 15264203 bytes within 16 MiB.
+  The prior historical gate is private-candidate storage conformance at
+  `3b06e1b4` / `51de82e9`, retained as a small report referencing the original frozen
+  input rather than another full archive. It does not renew this runtime.
+  Dual-write timing observations (7.211888 s / 35.0048 s) do not replace
+  the historical fairness baseline or establish bounds. P035-012/013 remain open;
+  Agora remains partial and one local store is not an independent backup. No
+  federation, nym issuance, all-Whisper or release/production claim follows.
+  Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`.
+
 ### Retention Policy Sweep
 
 Based on:
