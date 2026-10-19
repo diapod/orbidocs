@@ -1259,7 +1259,12 @@ retirement or verified migration. Store immutable inventory-addressed complete
 sets, reject replacement, and prove fresh empty-directory retrieval plus ordinary
 qualification. Committed metadata uses a store id/digest rather than private
 paths. This local profile does not claim an independent backup or public hosting.
-P035-009 remains in progress until actual retrieval/integrity gates pass; original
+P035-009 is complete for this local filesystem profile: committed tool revisions
+published the unchanged historical focused proof under its inventory identity,
+freshly retrieved it, checked all bytes and re-ran ordinary qualification with
+an identical result. Unavailable/corrupt-store controls refuse. The small receipt
+is `node:docs/evidence/matrix-opaque-envelope/2026-10-19-external-store/README.md`.
+This is retention conformance, not new runtime qualification. Original
 Git/retained-set budgets and frozen history remain unchanged.
 
 P035-010 uses deployment `matrix_history_max_retry_after_ms` (default300000,
@@ -1281,7 +1286,7 @@ the fresh qualified Synapse/SQLite campaign, not these design decisions.
 | P035-008 | Public evidence retention within byte budgets | done | P035-006; measured xz decision | Both 008a and 008b qualified: bounded xz with historical-byte equivalence, new full runtime within 16 MiB, and independent verified cause capsules within 1/4 MiB. No recipe language. Frozen evidence and global partial scope remain unchanged. |
 | P035-008a | Bounded xz archive and historical-data qualification | done | P035-006; accepted measured compression profile | Qualified at clean Node 7df7949a: identical historical tar, 1516 members, 2 reports and ordinary qualifier; temporary full set 13006802 bytes within 16 MiB. Twenty-four retention controls pass, including memory/stream faults. Small proof: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-xz-conformance/proof.json`; no duplicate payload or new runtime claim. |
 | P035-008b | Self-contained cause capsules | done | P035-008a; S028 | Qualified clean Node bc83d310 / Orbidocs a515a5d: all 27 Matrix and 5 SQLite cases; independent stock Synapse and Node gates; full 13245341-byte set and identical loose/extracted results. Runtime history HTTP 403 after 512 durable of 640 fixture plus 3 UI records, changed 65535/65534-byte PDU integrity refusal, and actual 31062930-byte storage refusal retain original results. Verified cause-only capsules total 1508971 bytes including collection index; each fits 1 MiB. Missing dependencies/substituted witnesses refuse. `node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsules/retention-result.json`. |
-| P035-009 | Decide accountable external evidence retention | in-progress | P035-008; repository retention owner | Before the next full runtime campaign and no later than 2026-11-14, adopt an owner, immutable addresses, retrieval/integrity proof and retention commitment with an explicit policy update. Respect the 136 MiB aggregate floor/history accounting and existing local/profile budgets. Until then, new full qualified sets above 256 KiB are refused. No unavailable URL or digest-only substitution qualifies evidence. |
+| P035-009 | Decide accountable external evidence retention | done | P035-008; repository retention owner | Adopted local profile `orbiplex-dev-whisper-v1`, owner Node public-evidence retention maintainer, no automatic deletion until explicit reviewed retirement or verified migration. Inventory-addressed append-only sets, bounded fresh copy/extraction and identical ordinary qualification pass at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-external-store/README.md`; unavailable/corrupt stores refuse. Policy binds the proof and profile; original budgets/history remain. Local single-volume scope is external to Git, without independent-backup or public-hosting claims. |
 | P035-010 | Bound excessive history Retry-After through explicit operator policy | in-progress | P035-007; Matrix rate-limit semantics | Define a visible blocked/refusal state and audited operator transition for a server delay outside the accepted client policy. Preserve the server lower bound; no silent early retry or arbitrary multi-year account cooldown. Sync/publication remain independent. Pin threshold and accepted override semantics before implementation. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
