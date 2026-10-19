@@ -820,3 +820,27 @@ preparation leaves P096-005 and its native-origin matrix partial. Both temporary
 branches continue separately after the earlier merge. See
 `node:docs/audits/REVIEW-SENSORIUM-MERGED-CANDIDATE-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/merged-candidate-preparation.json`.
+
+
+### Merged-source authority renewal (2026-10-20)
+
+Exact delegated review `60ea3f0d` completed on turbo.local using merged commit
+`a176fdd2`, source `7a500816` and deployment image `92f7ba9b`. The declared
+`operator/control` is `delegated-ssh`; its 14400-second TTL was fixed at prepare,
+with absolute controller/discovery expiry **2026-10-20 05:27:23 CEST**
+(`1792466843000` Unix ms). The authority projection changes only the same-scope
+discovery expiry fields and controller expiry/generation. Twelve protected sources, journal revision
+81/twelve Cases and expired registered p21 revision 5 remain exact, with zero
+claims and no pending transition.
+
+Of 264 previous root files, two reviewed policies change content; the remaining
+262 file observations preserve non-key content hashes and signing-key metadata.
+`read-store.sqlite` changes only ctime through a `0600` permission refresh, with
+unchanged content, inode, mode and mtime. Two create-only review/consumption files
+are added. The explicit status projection records this completed review with
+`authority/granted:false`; historical completion does not authorize a new action.
+No Bluetooth manager, hardware, root migration, recovery, new consent, consent
+reuse or merge ran. P096-005 stays **partial** under the unchanged six `physical-native`, two
+`controlled-native-fault` and two exact-candidate `host-software` prerequisites.
+See `node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-renewal-20261020-runtime.json`.
