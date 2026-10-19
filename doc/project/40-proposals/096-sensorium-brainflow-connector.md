@@ -2035,6 +2035,20 @@ No manager, Case, recovery, headband test or native qualification ran. Frozen GU
 closure and unobserved TCC remain separate. See
 `node:docs/evidence/sensorium-host-control-20261019/authority-renewal-runtime.json`.
 
+### Consent capacity follow-up (2026-10-19)
+
+The private owner reserves maximum confirmation and terminal audit capacity for
+all native enrollment before its transport claim and wearer-control publication,
+including never-WEAR. Capacity is distinct from consent; exhaustion refuses with
+a typed code before effects. Audit writer contention may wait at most 250 ms,
+capped by the original cleanup deadline, after fencing and disposal. Late terminal
+withdrawal has its own bounded audit wait without reopening cleanup. The source
+checkpoint passes 55 acquisition tests; closed-session digest-linked compaction
+remains the following checkpoint. Strict older readers may refuse new lifecycle
+fields: selecting a binary for an updated root requires actual format compatibility.
+No nearby root, frozen GUI image, hardware evidence or P096-005 status changes.
+See `node:docs/audits/REVIEW-SENSORIUM-RETENTION-CAPACITY-2026-10-19.md`.
+
 ## Trade-offs
 
 - Declarative profiles reduce repeated integration code and operator vocabulary;
