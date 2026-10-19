@@ -71,7 +71,14 @@ Native host ownership stays in P052; code-coupled details and evidence live in
 First-pair closeout (2026-10-19) completes only the agreed D1/D2 delivery gates
 on one frozen daemon/UI/Desktop/Messaging set, including actual browser and
 application WKWebView S020 remove/start/external-false and presentation rollback.
-The Node UI owns the invocation-only `panel|full-page` selector. It suppresses
+The following durable-rollback amendment supersedes that candidate's
+invocation-only selector. Node UI owns ordinary `node_ui.operator_presentation`
+with bundled `full-page` default, lexical file layers and a final explicit CLI
+override. Its P091 read adapter reports selected declarations and the independent
+active UI launch value; only manual file editing is supported in this slice.
+The shared confined source reader is an I/O mechanism, not the semantic owner.
+The desktop proxies the already running UI and owns no alternate setting store.
+Full-page presentation suppresses
 panel wiring/negotiation while preserving independent privacy, CSRF, CSP/SRI and
 history defenses; it neither restores configuration files nor undoes decisions,
 receipts or lifecycle facts. A UI-only restart and fresh client document are

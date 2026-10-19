@@ -489,6 +489,26 @@ Additional references: [HTMX history](https://htmx.org/attributes/hx-history/),
 
 ### Separate service-control deliveries — adopted 2026-10-18
 
+Durable rollback amendment — adopted 2026-10-19: the first-pair Node UI
+presentation is ordinary `node_ui.operator_presentation`, with bundled
+`full-page` default, lexical file overrides and a final explicit CLI override.
+Only UI restart/fresh client navigation applies a new value; the setting owner
+reports current resolution independently from its active launch presentation.
+Desktop proxies that UI rather than owning another store or launcher flag.
+Rollback/re-enable retains P095-007/008 and never undoes service decisions,
+receipts or lifecycle facts. Manual file editing and read-only inspection are
+the bounded adapter scope. Qualification includes repeated flag-free starts and
+browser/actual WebView previews during active S020, separate from the paused
+exact-interleaving scenario. The old invocation-only checkpoint below remains
+historical evidence, not current operator guidance. See
+`node:docs/evidence/configuration-service-control/DURABLE-ROLLBACK-20261019.md`.
+This follow-up slice is done on the reviewed common images: actual browser and
+application WKWebView pass durable rollback/re-enable, source/current-active
+inspection and twelve previews each while periodic S020 remains enabled.
+Independent D1, hardening and three trusted native private-view restores pass.
+The deterministic busy-guard regression, not a green rerun, establishes lock
+independence. Whole task/platform/conversation statuses below remain partial.
+
 P091 and P095 share the
 [Node service-control delivery contract](https://github.com/diapod/node/blob/master/docs/integration/configuration-service-control.md).
 D1 qualifies full pages for Messaging `enabled` and `logging.level`: real

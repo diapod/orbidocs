@@ -2127,6 +2127,36 @@ export private source paths to models. P064 alone owns prompt assembly.
 
 ## Implementation Tracker
 
+Durable first-pair rollback amendment — adopted 2026-10-19:
+
+- Node UI owns ordinary `node_ui.operator_presentation`, defaulting to
+  `full-page` in its bundled factory document. The shared confined reader selects
+  lexical ordinary node files; P091's pure resolver composes them, followed by
+  an explicit CLI override. No seed or protected service decision is synthesized.
+- The operator read adapter shows only the selected setting declarations and
+  separately the active UI launch value. New invalid sources do not replace the
+  running presentation. Application restarts only UI; desktop proxies that same
+  server rather than launching it or owning another setting store. Manual file
+  editing is supported; a generic mutation adapter is outside this slice.
+- Read-only middleware preview never owns the S020/lifecycle transition lock.
+  Its bounded opaque review registry has separate short synchronization. Commit
+  and recovery retain transition ownership; exact source/descriptor validation
+  under writer ownership still refuses stale approval and never replans consent.
+- Qualification requires file rollback across repeated flag-free UI starts,
+  visible CLI precedence, unchanged service decisions/receipts/application, and
+  real browser/application-WebView previews while periodic S020 remains active.
+  The existing paused exact-interleaving proof remains a separate scenario.
+
+This supersedes only the invocation-only rollback choice below, not historical
+candidate evidence or broader partial statuses. Current implementation/evidence
+belongs in `node:docs/evidence/configuration-service-control/DURABLE-ROLLBACK-20261019.md`.
+The reviewed four-image set passes D1 21, rollback browser 12/native profile 11,
+hardening 10 and private browser 6/native trusted restores 3. Both actual clients
+perform twelve previews with periodic S020 active; the deterministic handler
+regression separately holds transition ownership. Durable rollback/source
+inspection and current-versus-active remain bounded manual-edit/read capabilities,
+not general editor/adoption or platform completion. This follow-up slice is done.
+
 First-pair delivery closeout — 2026-10-19: D1 full pages and D2
 component/configuration browser/application-WebView delivery gates are **done in
 that scope**, not the general P091-009/013/014 rows. The
