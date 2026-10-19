@@ -51,6 +51,19 @@ Contract and evidence:
 `node:docs/development/LOCAL-ACCOUNTABILITY-CONTRACT.md` and
 `node:docs/evidence/local-accountability/2026-10-10-qualified-local/`.
 
+### Planned maintenance permissions (2026-10-19)
+
+The safe-maintenance/shadow-V3 plan proposes separate host-local
+`responsibility.maintenance.inspect`, `.prepare`, `.abandon`, `.verify`,
+`.reconcile` and `.compact` permissions. These are **unregistered design names**,
+not new callable capabilities. Final registry/policy/route bindings and current
+operator authorization must pass their own negative tests before exposure.
+Inspection, case mandates, module registration and passports confer no mutation
+authority. Exact approved plans, host/incarnation, revocation and idempotency are
+independent gates; maintenance can neither alter participant effects nor open D7.
+S037 owns eligibility metadata; the host operator boundary owns approval.
+See `node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`.
+
 ## Status
 
 `promoted`

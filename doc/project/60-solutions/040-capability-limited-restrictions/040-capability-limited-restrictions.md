@@ -50,10 +50,24 @@ preparation. This owner/storage conformance switches no reader, writer, CAS,
 receipt or readiness component; it is not runtime suspension qualification.
 See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md`.
 The subsequent review withdrew its absence-of-P1/P2 claim. Integral-number JCS
-comparisons and replies checked before pin/checkpoint commit are corrected;
-F-02 global work under the admission gate, incarnation handling and bounded
-abandonment/retention recovery remain open. The owner lane has no operator route.
+comparisons and replies checked before pin/checkpoint commit are corrected.
+The 2026-10-19 F-02 follow-up moves replay, indexing and conversion to an owner-local
+WAL worker outside admission, with rolling roots, cached immutable source binding
+and at most 100 clear/copy/verify rows per generation/step CAS commit. Pinning
+retains the existing bounded baseline blob. These are local conformance/performance
+checks, with unchanged v1 authority and closed D7; see
+`node:docs/audits/RESPONSIBILITY-LIFECYCLE-F02-2026-10-19.md`. Incarnation handling
+and bounded abandonment/retention recovery remain open. The owner lane has no operator route.
 See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-FINDINGS-2026-10-14.md`.
+
+The planned follow-up is
+`node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`:
+prove progress on pinned historical input despite ordinary v1 appends, recover
+foreign incarnations and configured maintenance capacity, qualify separate
+operator permissions/alerts, then compare pure v2 composition in a read-only
+shadow lane. Current conservative CAS may still starve. This is no new runtime
+qualification; v1 admission/scoring/diagnostics/CAS/writers/receipts remain
+authoritative and every D7 component remains false. V4/V4s/V5 stay separate.
 
 The draft quarantine contract preserves the source domain composition rule:
 nonterminal quarantine blocks only its typed privileged-operation scope; null

@@ -28,6 +28,14 @@ and user/pod-user recipient boundaries are implemented for the MVP slice.
 Native desktop OS notification adapters and richer pod-user product UX remain
 post-MVP presentation layers.
 
+Responsibility maintenance operator alerts are a planned additional consumer,
+not qualified delivery in the current lifecycle checkpoint. Its current tracing
+diagnostic does not prove that an operator received an alert. The next slice must
+reuse this queue with verified recipient binding, bounded durable domain outbox,
+deduplication, privacy-minimal events and separate queued/delivered/opened/ack states.
+Acknowledgment grants no repair or participant authority. See
+`node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`.
+
 ## Date
 
 2026-07-03
