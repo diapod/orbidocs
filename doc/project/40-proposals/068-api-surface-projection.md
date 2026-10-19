@@ -724,7 +724,7 @@ for the provider contribution.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | partial | The supervised report's two provider-owned operations expose exact trusted local schema and effect metadata through host describe without endpoint paths; ambiguous bindings, missing effects and local ref closure pass focused projection tests. Deeper closure and live provider conflict remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | partial | The supervised report's two provider-owned operations expose exact trusted local schema and effect metadata through host describe without endpoint paths. Process-observed provider loss retains the contract and revision while availability changes; ambiguous bindings, missing effects and local ref closure pass focused projection tests. Deeper closure and live provider conflict remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracking
 

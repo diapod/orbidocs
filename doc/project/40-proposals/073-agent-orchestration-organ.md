@@ -900,7 +900,7 @@ budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; the effect proposal stays inert until a separate ordinary `agent.effect.propose` request is deferred for human review. Mid-read cancellation/revocation, automatic effect dispatch and remaining adversarial acceptance are open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. A lifecycle stop while the second inference is paused prevents a further read or inference. Grant-list withdrawal, in-flight cancellation/late delivery, budget exhaustion and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

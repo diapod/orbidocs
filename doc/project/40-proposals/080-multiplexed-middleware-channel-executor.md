@@ -1297,7 +1297,7 @@ No new listener, frame family, recurring discovery or startup inference is neede
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | A supervised Python channel report contributes guided and unguided capabilities to actual host list/describe; a separate direct invocation proves handler carriage. Signed-source provenance, channel refusal/cancellation and no-network boundary observations remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | A supervised Python channel report contributes guided and unguided capabilities to actual host list/describe; a separate direct invocation proves handler carriage. Terminating the supervised provider changes projected availability without changing its contract revision. Signed-source provenance and channel cancellation remain open; the injected host fetch boundary records no calls on catalog misses. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 
