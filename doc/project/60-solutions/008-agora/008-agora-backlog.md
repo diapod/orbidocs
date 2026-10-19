@@ -199,3 +199,13 @@ full gates remain the original campaign. Original failed attempts are retained a
 cause-only capsules with preserved qualifier refusals. Source deduplication before
 larger campaigns (P035-011), qualified independent copy and manual release verify
 (P035-012), and S039/batch CAS (P035-013) remain open, with unchanged budgets.
+
+
+P035-011 implementation has started under the accepted
+[source-observation decision](../../40-proposals/035-agora-topic-addressed-record-relay.md#p035-011-source-observation-decision-2026-10-19)
+and `node:docs/evidence/SOURCE-OBSERVATIONS.md`. The historical byte/value and
+ordinary-qualification gate must pass within 16 MiB at a 128 MiB dictionary before
+runtime harness edits. New Git controls are bounded to 256 KiB. Exact author and
+indivisible PDU coverage, self-contained capsules and current budgets remain; fresh
+34-Matrix/five-SQLite qualification is pending. No runtime claim is renewed by
+this contract. P035-012/013 remain todo and global Agora remains partial.

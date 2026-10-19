@@ -1416,6 +1416,41 @@ Two fresh reads verify each original cause; current-store availability must stil
 be freshly verified before release. No frozen history, full-PDU/runtime scope,
 retention budget, dictionary default or global Agora assessment changes.
 
+### P035-011 source-observation decision (2026-10-19)
+
+Accepted design, implementation in progress; no new runtime qualification yet.
+The Node-local contract is `node:docs/evidence/SOURCE-OBSERVATIONS.md`. It preserves
+traceability and evidence boundaries while reducing repeated capture buffers,
+without changing signed bytes, transport or recovery scheduling. Reports select
+`public-evidence-observations.v2` only through `evidence_observation_format`;
+unknown or mismatched versions refuse without shape inference or fallback.
+
+Each run owns self-contained SHA-256 raw-object packs up to 32 MiB and an index
+bounded to 8 MiB. Each observation retains its ordinal, process/time, case, source
+and fault-injection context. A/B/source/replay first observe their own bytes. Full
+PDUs and homeserver source-row artifacts stay indivisible with distinct provenance.
+Only an appropriate valid v2 carrier whose decoded author bytes re-encode to the
+exact observed canonical base64url string may use that transform; all other
+representations remain literal. No recipes, hex or JSON rewrite is introduced.
+Readers are lazy and bounded; cross-run lookup and incomplete capsule dependencies
+refuse. Archive safety limits and all retention budgets stay unchanged.
+
+Before runtime harness edits, convert a private copy of the frozen 343388160-byte,
+4315-member full proof and require identical retained values, author/PDU bytes and
+ordinary qualification. Measure XZ categories, whole and leave-one-out variants
+(non-additive), member counts, memory, 16 MiB full-set fit at 128 MiB dictionary
+and new Git evidence controls <=256 KiB. Compact external references pin manifest,
+member-index and object-index digests; fresh retrieval validates actual material.
+A failed historical gate leaves partial status without a larger dictionary,
+budget, campaign alias or automatic PDU sampling.
+
+Only then integrate source capture and qualify fresh 34 Matrix/five SQLite cases
+on pinned unmodified Synapse, including full PDU, confidence 0.5, existing Whisper
+families, history, restart and replay. Dual inline/reference views prove coding
+and reference equivalence, not independent capture; timings disclose dual-write
+I/O. Closure requires identical loose/extracted/fresh-retrieved qualification and
+all budgets. Agora remains partial; P035-012 and P035-013 remain todo.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
@@ -1427,7 +1462,7 @@ retention budget, dictionary default or global Agora assessment changes.
 | P035-008b | Self-contained cause capsules | done | P035-008a; S028 | Qualified clean Node bc83d310 / Orbidocs a515a5d: all 27 Matrix and 5 SQLite cases; independent stock Synapse and Node gates; full 13245341-byte set and identical loose/extracted results. Runtime history HTTP 403 after 512 durable of 640 fixture plus 3 UI records, changed 65535/65534-byte PDU integrity refusal, and actual 31062930-byte storage refusal retain original results. Verified cause-only capsules total 1508971 bytes including collection index; each fits 1 MiB. Missing dependencies/substituted witnesses refuse. `node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsules/retention-result.json`. |
 | P035-009 | Decide accountable external evidence retention | done | P035-008; repository retention owner | Adopted local profile `orbiplex-dev-whisper-v1`, owner Node public-evidence retention maintainer, no automatic deletion until explicit reviewed retirement or verified migration. Inventory-addressed append-only sets, bounded fresh copy/extraction and identical ordinary qualification pass at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-external-store/README.md`; unavailable/corrupt stores refuse. Policy binds the proof and profile; original budgets/history remain. Local single-volume scope is external to Git, without independent-backup or public-hosting claims. |
 | P035-010 | Bound excessive history Retry-After through explicit operator policy | done | P035-007; Matrix rate-limit semantics; P072 local operator authority | Historical 15000-ms out-of-policy floor remains qualified in the frozen full profile. Reviewed focused proof at clean Node ac386090 / Orbidocs fbba8e73 qualifies four cases on stock Synapse: checked 24 h credibility, exact u64/ten-year delay, durable implausible account block and reasoned per-task CAS escape, with unchanged credible floor, continuing live confidence-0.5 publication, restart and source replay. Active binding/current revision required, including after rebind; other tasks remain held. Qualified/retrieved 142758-byte proof at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`; full PDU gates not rerun. |
-| P035-011 | Deduplicate observations at the evidence source before larger campaigns | todo | P035-008; P035-009 | Harness emits event-id/digest observations and one content-addressed copy of author/PDU bytes, with explicit original-HTTP-byte scope, independent source provenance and bounded resolver. Measure on the frozen 343388160-byte full tar; preserve exact claimed byte identities and equivalent ordinary qualification. No larger campaign, dictionary or budget before measured conformance and fresh runtime for a changed harness. |
+| P035-011 | Deduplicate observations at the evidence source before larger campaigns | in progress | P035-008; P035-009 | Accepted source-observation contract above and `node:docs/evidence/SOURCE-OBSERVATIONS.md`: explicit format, raw run-local packs, exact author/indivisible PDU and occurrence provenance, canonical-base64url-only roundtrip. Hard historical gate before harness edits: 343388160-byte/4315-member proof, identical values/bytes/qualification, complete set <=16 MiB at 128 MiB dictionary and new Git controls <=256 KiB. Then fresh 34 Matrix/five SQLite plus loose/extracted/fresh-retrieved equivalence within unchanged budgets. No sampling or expanded limits; qualification pending. |
 | P035-012 | Qualify an independent retained-evidence copy and verification procedure | todo | P035-009; independent operator destination | Select a different volume or host with owner and retirement policy, copy exact bundle identities, freshly extract/qualify or verify causes at the destination, and retain both until reviewed retirement. Preserve truthful single-volume scope until measured. Mandatory manual fresh verify before each release under S020; automation is a later explicit operator choice. |
 | P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | todo | P035-010; S039; S020; P072 | Host-owned source adapter emits idempotent lifecycle updates for blocked/awaiting-operator state after commit, without tokens. Notification action resolves fresh authority/task CAS and is enabled only at the credible not-before; implausible override remains a distinct reasoned action. Batches are bounded, retain a CAS per item and report partial results without erasing other limits; notification delivery failure cannot change recovery state. |
 
