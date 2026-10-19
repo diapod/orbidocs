@@ -723,7 +723,11 @@ its evidence claim. The domain procedure belongs to Node's `docs/evidence/EXTERN
 
 P035-012 separately requires a different volume or host, explicit retention owner
 and fresh qualification at the destination before reviewed retirement of any old
-copy. A future periodic verification job can use S020's existing host-owned job
+copy. Independent custody is a relation between two observed physical failure
+domains; another directory, APFS sibling volume or overlapping RAID is insufficient.
+The release owner binds both fresh reads to a clean candidate, selected evidence
+inventory and current trusted tools. S020 does not interpret release evidence or
+store layout. A future periodic verification job can use S020's existing host-owned job
 contract, with bounded execution and visible failure; the scheduler must not learn
 store layout or scenario predicates. No job or independent backup is claimed
 configured by this documentation.
