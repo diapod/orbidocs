@@ -2734,8 +2734,65 @@ Inquirium Core:
    `proof-malformed` or `override-not-admitted` refusal. MLX template override
    flags (including argparse abbreviations and template arguments) refuse;
    the probe and server use the same host-owned OS no-egress launcher.
-   The current MLX renderer loads no weights and
-   performs no generation. GGUF/llama-server has no admitted renderer yet and
+   The current Python-entrypoint MLX renderer loads no weights and
+   performs no generation. A native SCIE file named `.pex` does not imply a
+   `PEX_INTERPRETER` entrypoint: the pinned Story-013 artifact's sole boot command
+   enters the server and refuses interpreter arguments. New admission of that
+   format now refuses `renderer-unavailable` before spawning it; an exact offline
+   entrypoint/helper needs a separate design decision. Do not execute an
+   unverified extracted-cache Python or silently replace the runtime digest.
+   The 2026-10-18 preparation verified fifteen assets but produced no new role
+   proof; see `node:docs/evidence/task-packs/2026-10-18-calibration-gate/README.md`.
+   The stdio probe consumes the actual request envelope and shares a combined
+   30-second startup/invoke budget, not two additive 30-second allowances.
+   The subsequently approved SCIE slice implements ABI `0.30.2+pex.2`: an exact
+   offline dispatcher command bundles the same repository-owned proof builder
+   without importing MLX/server code or accepting arbitrary Python. Two independent
+   builds produced the same new executable digest; all fifteen destination assets
+   verified in 9,266 ms and all twenty role/layout probes preserved their sentinels
+   in 7,396 ms through the daemon owner and no-egress wrapper. The original native
+   artifact remains unchanged and refused for fresh role admission. This closes
+   the then-current bounded renderer gap, not activation, conformance, trained-role semantics
+   or model calibration. Development source/binary/proof evidence is indexed in
+   `node:docs/evidence/task-packs/2026-10-18-calibration-gate/scie-offline-preparation.json`;
+   durable private originals are retained on the operator-selected evidence volume,
+   not a temporary directory. Historical failed attempts remain historical.
+   Review hardening on 2026-10-19 separates the closed
+   `orbiplex-offline-chat-template-v1` protocol from release labels. Native
+   `--orbiplex-runtime-info-v1` returns the exact two shared renderer source
+   digests; the host compares its compiled primitives before accepting a proof,
+   including a retained proof on recovery. Missing/incompatible identity gives
+   `renderer-unavailable`. This detects stale reviewed artifacts, not malicious
+   code lying about its own identity; executable trust remains separate.
+   Identity and rendering share one 30-second deadline and a fresh private
+   disposable cache with checked cleanup. Build verification separately checks
+   identity and actual server `--help` within 180 seconds, without weights or
+   listening port. Future measurement output commits to its emitting executable,
+   matched by the selective exporter. These changes have component evidence only:
+   the source label `0.30.2+pex.3` has no new native artifact/proof yet. Historical
+   `pex.2` lacks this handshake and cannot satisfy fresh proof admission/recovery;
+   no-proof catalogs remain explicitly unverified. Preserve the old report,
+   rather than retroactively qualifying the added checks.
+   The subsequent approved pex.3 attempt completed two reproducible builds and
+   actual server-import preflights plus fifteen-asset verification in 87.321s
+   overall, but the owner test panicked during executable self-hashing before
+   any role probe: the middleware helper's 128 MiB ceiling does not fit the
+   304,857,608-byte test image. The correction stays in cfg(test), using bounded
+   streaming without widening middleware admission. Zero probes completed; no
+   role proof, activation or calibration is promoted. Keep the failed attempt
+   immutable; a new approved probe measurement is required. See
+   `node:docs/evidence/task-packs/2026-10-18-calibration-gate/pex3-offline-attempt.json`.
+   A separately approved corrected-vehicle attempt then passed in 36,608ms
+   aggregate (120s ceiling): fifteen assets in 7,165ms and all twenty preserved
+   probes in 8,085ms (shared 30s owner deadline). It reused the exact pex.3 build
+   bytes/provenance without builds or repeated server preflight, and matched the
+   emitted executable digest with its retained file. Fresh private cache cleanup
+   and absence of owned renderer processes are retained. This closes the scoped
+   offline row on development sources, not activation, conformance, trained-role
+   semantics, model calibration or full UI/release qualification. Preserve the
+   failed attempt and its different vehicle. See
+   `node:docs/evidence/task-packs/2026-10-18-calibration-gate/pex3-offline-preparation.json`.
+   GGUF/llama-server has no admitted renderer yet and
    refuses new activation too. Existing catalogs remain explicitly
    `operator-declared-not-template-verified` until re-admission, with conservative
    system/user/assistant roles and no guessed developer support; no historical
@@ -3102,6 +3159,7 @@ a migration event, not a tweak:
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `inq-scie-offline-template-renderer` | Resolve exact offline rendering for native SCIE-packaged MLX without starting a server or loading weights. | `done` | Review-hardened pex.3 reproducible builds/import preflight plus separately approved corrected-vehicle proof: 15 assets verified (7165ms), 20 preserved positional probes (8085ms), 36608ms aggregate within 120s. Exact source/protocol and emitter/retained-binary matching, fresh private checked-cleanup cache, no remaining owned renderer. Existing launcher sha256:9oCiM66hhbKirfj_uq4IxlCw6PiGWYUu4vx6vGPoo3A reused without builds/retry; prior failed vehicle stays immutable. Bounded development-source offline evidence only; no activation/conformance/generation, semantic calibration, current authority or full-run promotion. See the successful pex.3 index in the Node checkpoint. |
 | `inq-gguf-offline-template-renderer` | Provide exact GGUF role/render evidence without loading tensors or starting a server during admission. | `in-progress` | Accepted separate slice: verify pinned llama.cpp vocab-only/minja API, build and release-pin a sandboxed helper with the server, require --jinja and refuse overrides, then compare helper/server rendering once in separate acceptance. Renderer is currently unavailable; new GGUF activation refuses, not an operator-declared fallback. |
 | `inq-trained-role-policy-calibration` | Keep trained-role declarations and preferred Foldable targets separate from rendered-role evidence. | `in-progress` | Explicit model-card/operator declaration and source provenance, monotone restriction against render evidence, exact/fold behavior and a separately authorized calibration are still to be designed and measured. No semantic priority is inferred from the current sentinels. |
 | `inq-execution-posture-contract` | Bind runtime/profile admission and preflight disclosure to canonical `inference-execution-posture.v1`. | `done` | `inquirium-host` derives conservative posture and exposes exact runtime/profile/invocation scope through `posture_exposure`; configuration and registry fingerprints, generation and half-open validity are checked independently. P090-003a provides authenticated operator HTTP inspection; P090-004a rechecks optional invocation policy before model I/O. Core tests cover changed runtime/model/registry and mismatched generation, `process_provider_registry_and_scoped_posture_cross_real_http` proves missing/matched/wrong-generation exposure through a running daemon, and `generate_invocation_preflight_refuses_missing_disallowed_and_stale_posture` covers fail-closed invocation. Requirements reject observation-only `unknown`/`derived` bases. The declaration grants no inference, egress, context, file lease or effect authority; broader disclosure UX and producer coverage remain separate tasks. |

@@ -288,6 +288,23 @@ Responsibilities:
 
 Status: `done`.
 
+Managed-package template proofing is a separate scoped P064 gate, not an
+extension of this general assembly completion claim. The local host admits
+rendered-role facts only through its pinned offline renderer and compares the
+native renderer's closed protocol/source identity with its compiled primitives;
+a build version is not protocol authority. Cached proof recovery repeats the
+offline check before applying role capabilities. Incompatible identity refuses
+without granting runtime use; historical no-proof catalogs remain explicitly
+unverified. Self-reported hashes establish reviewed-build compatibility, not
+trust in malicious code. Package/executable trust stays with its existing owner.
+Status: P064's bounded offline row is complete on retained development sources:
+pex.3 reproducible builds/server-import preflight plus separately approved
+fifteen-asset/twenty-probe measurement, exact source and emitting-binary matching,
+and checked private-cache cleanup. This is not semantic calibration, activation,
+live authority or clean-source/full UI qualification. Dated attempts, including
+the preserved failed test vehicle, remain in Node's calibration-gate evidence
+index; production middleware file limits were not changed.
+
 ### Conformance And Operator Visibility
 
 Responsibilities:

@@ -3407,6 +3407,102 @@ P064 documents the deferred GGUF helper and conservative historical roles. Share
 two-LF content joining is a behavior change; historical reports remain tied to their
 original source and joining, not renewed evidence for these changes.
 
+Gated continuation decision, 2026-10-18: real model calibration and the full
+ordinary operator run require separate fresh approvals. To exercise repair
+inputs without a VM during calibration, the operator accepted exact retained
+evidence as labelled test data with scripted Corpus-history reads; the delivered
+Flow, actual Agent passage/neutral manifest/receipt and model adapter must remain
+real. This does not qualify current Room authority or another Workbench execution.
+The legacy direct-generate runner shares layers but bypasses Agent admission and
+cannot qualify this new gate. New full-Flow tests pin phase-specific requests,
+their input commitments and no-step before withheld dispatch; current owner
+tests and deterministic coordinator adoption/restart passed separately. Review
+removed an overly broad resolved-input seam: only primitive binding reads are
+replaceable under cfg(test); owner authority, role assembly and manifest creation
+are not injected. Generic FlowNode refusal/reopen tests are not collaborative
+calibration evidence. One input binding feeds evidence/charging, while product
+commit rechecks current authority; Corpus records only exact retained manifests.
+The operator accepted vehicle `daemon-lib-test-harness` for calibration only:
+clean paired source pins, test-binary digest/build profile/features snapshot and
+the delivered-daemon digest as reference are required. Private final adapter
+messages/rendered prompt and template commitments must bridge to the later
+delivered-binary UI run. Test-vehicle reports cannot qualify full-run authority,
+alpha readiness or performance. No production feature flag or history-import
+writer is added. The original profile's Corpus database is absent and the operator
+reports no known archive of its binding/accepted overlay; the suspected temporary
+file cleaner is not a verified cause. Do not reconstruct or re-sign those facts.
+Calibration must retain CollaborativeParticipant semantics.
+These are preparation evidence only: the historical-read connector and exact
+private capture still need preparation. Only fifteen-asset verification and
+twenty offline role probes (30-second renderer deadline) are newly authorized,
+without weights, generation, activation or conformance. No new model run,
+VM, publication, consumed-consent renewal or tracker promotion is implied. See
+`node:docs/evidence/task-packs/2026-10-18-calibration-gate/README.md` for the
+initial revisions, commands, substituted boundaries and remaining gates.
+The separately approved SCIE offline slice now provides a new digest-bound
+dispatcher ABI, fifteen verified assets and twenty preserved role/layout probes
+under the 30-second owner deadline. It closes only the P064 renderer gap, not this
+proposal's calibration/UI conditions. Private originals, exact test binary and
+development source snapshots are retained on the operator-selected durable volume;
+temporary scratch is not an archive. The historical missing-source boundary and
+separate calibration/full-run approvals remain unchanged.
+The 2026-10-19 review adds renderer protocol/source compatibility, actual server
+import preflight without weights, emitting-executable commitments and disposable
+private cache cleanup. These are component-tested corrections, not a new native
+measurement: pex.3 is a source candidate only and the immutable pex.2 result does
+not qualify the added checks. P064's renderer row is in progress pending a fresh
+bounded native preparation. Resolve compatibility before preparing collaborative
+inputs. The unsigned offline manifest still needs a separately approved
+signer/import/trust path; the lost historical issuer must not be reconstructed.
+The separately approved pex.3 attempt then passed reproducible builds, real
+server-import preflight and fifteen-asset verification, but failed in test-vehicle
+self-hashing before any role probe (the borrowed middleware helper's 128 MiB
+ceiling is smaller than the test executable). The cfg(test)-only correction leaves
+production policy unchanged. Zero probes completed and no retry, calibration,
+activation or full run is inferred. Preserve the failed attempt and obtain a
+fresh probe approval using the unchanged artifact and corrected test vehicle.
+That separately approved probe attempt passed: 15 assets, 20 preserved positional
+probes in 8085ms and 36608ms aggregate within 120s, with current renderer-source
+commitments and exact emitting/retained test-binary matching. Existing pex.3 build
+bytes/provenance were reused; no builds, model effects or retry occurred. Private
+originals/cleanup are on DEV; the failed attempt remains unchanged. This closes
+only the bounded P064 offline gate on retained development sources, not faithful
+collaborative inputs, semantic calibration, live authority, activation or this
+proposal's UI/market acceptance. Separate later approvals remain mandatory.
+P094-012c5/012c6/023e remain in progress; c5's guided market-publication condition
+is not removed by narrowing the next runtime run. P094-012c4, P094-007b2,
+whole-proposal adoption and alpha readiness remain separate.
+The 2026-10-19 preparation follow-up records a read-only eight-case calibration
+proposal with frozen limits and required fidelity/semantic/cleanup gates. Its
+checker cannot authorize execution or report readiness or qualification. The
+original GWuw6g binding/accepted overlay was not recovered. The operator approved
+new explicitly synthetic Corpus/Room facts and test participants, with retained
+observations labelled test data, not current or reconstructed operator authority.
+The cfg(test)-only fixture uses ordinary owner stores and current role/overlay
+validation; it cannot invent package-owned phase authority. The complete
+CollaborativeParticipant connector and private input bundle remain unqualified,
+so Stage A is partial.
+No generation, activation or conformance was performed. Do not promote these rows
+from a planning check or substitute the historical direct-generate runner.
+The inert eight-case source material is now fixed and digest-pinned, normalized
+through existing candidate/patch constructors and retained create-only with its
+emitting test executable commitment. It is not a final prompt, owner phase
+manifest or completed connector. P085 phase prerequisites still refuse; adding
+synthetic installed/active-package facts and a scripted conformance report to the
+cfg(test) fixture was proposed as a separate input-basis decision, not silently
+included in the Corpus/Room approval. Neither that seeding nor real activation,
+conformance or generation occurred at that checkpoint. The operator then
+separately approved only cfg(test) synthetic P085 prerequisites. The eight-case
+input connector now retains owner-derived phases, rev2 projections, neutral
+Agent manifests and the shared chat mapping on DEV, with explicit scripted-port
+attribution. Fresh fixture authority preserves the same message/manifest bytes;
+missing/substituted history, goal-completed and lost-session restart are checked
+without a model, and refused replay spends no second passage. This qualifies
+input construction only, not model dispatch, semantic calibration, live authority
+or a UI run. Unsigned model admission/activation, clean paired source and final
+adapter capture remain separate prerequisites. No tracker is promoted from this
+development bundle; P094-012c5/012c6/023e remain in progress.
+
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
 plan before exposing its prepared root, isolating bad rows without blocking
