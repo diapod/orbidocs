@@ -1250,6 +1250,28 @@ no sleep under the relay lock. A binding revision race still retries the account
 transaction without advancing its checkpoint. P035-010 owns excessive Retry-After
 policy; this fix does not silently shorten the homeserver's lower bound.
 
+### Retention and excessive-delay closure contract (2026-10-19)
+
+The operator selected a dedicated retained-evidence subtree of the DEV acceptance
+volume as the first external-to-Git filesystem store. Owner: Node public-evidence
+retention maintainer. No automatic deletion; keep bundles until explicit reviewed
+retirement or verified migration. Store immutable inventory-addressed complete
+sets, reject replacement, and prove fresh empty-directory retrieval plus ordinary
+qualification. Committed metadata uses a store id/digest rather than private
+paths. This local profile does not claim an independent backup or public hosting.
+P035-009 remains in progress until actual retrieval/integrity gates pass; original
+Git/retained-set budgets and frozen history remain unchanged.
+
+P035-010 uses deployment `matrix_history_max_retry_after_ms` (default300000,
+range1000..3600000). Larger server delays create an explicit durable history
+block with original delay/not-before metadata. Sync/publication and deferred
+admission continue. No new account history request starts before the server
+lower bound. Existing local-operator retry requires task CAS and refuses before
+not-before; later retry is audited. Gap acknowledgement never clears the bound.
+The exact Node contracts are `node:docs/evidence/EXTERNAL-RETENTION.md` and
+`node:agora-relay-matrix/docs/ROOM-RECOVERY.md`. Full P035-007 closure still requires
+the fresh qualified Synapse/SQLite campaign, not these design decisions.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |
@@ -1259,8 +1281,8 @@ policy; this fix does not silently shorten the homeserver's lower bound.
 | P035-008 | Public evidence retention within byte budgets | done | P035-006; measured xz decision | Both 008a and 008b qualified: bounded xz with historical-byte equivalence, new full runtime within 16 MiB, and independent verified cause capsules within 1/4 MiB. No recipe language. Frozen evidence and global partial scope remain unchanged. |
 | P035-008a | Bounded xz archive and historical-data qualification | done | P035-006; accepted measured compression profile | Qualified at clean Node 7df7949a: identical historical tar, 1516 members, 2 reports and ordinary qualifier; temporary full set 13006802 bytes within 16 MiB. Twenty-four retention controls pass, including memory/stream faults. Small proof: `node:docs/evidence/matrix-opaque-envelope/2026-10-14-xz-conformance/proof.json`; no duplicate payload or new runtime claim. |
 | P035-008b | Self-contained cause capsules | done | P035-008a; S028 | Qualified clean Node bc83d310 / Orbidocs a515a5d: all 27 Matrix and 5 SQLite cases; independent stock Synapse and Node gates; full 13245341-byte set and identical loose/extracted results. Runtime history HTTP 403 after 512 durable of 640 fixture plus 3 UI records, changed 65535/65534-byte PDU integrity refusal, and actual 31062930-byte storage refusal retain original results. Verified cause-only capsules total 1508971 bytes including collection index; each fits 1 MiB. Missing dependencies/substituted witnesses refuse. `node:docs/evidence/matrix-opaque-envelope/2026-10-14-capsules/retention-result.json`. |
-| P035-009 | Decide accountable external evidence retention | todo | P035-008; repository retention owner | Before the next full runtime campaign and no later than 2026-11-14, adopt an owner, immutable addresses, retrieval/integrity proof and retention commitment with an explicit policy update. Respect the 136 MiB aggregate floor/history accounting and existing local/profile budgets. Until then, new full qualified sets above 256 KiB are refused. No unavailable URL or digest-only substitution qualifies evidence. |
-| P035-010 | Bound excessive history Retry-After through explicit operator policy | todo | P035-007; Matrix rate-limit semantics | Define a visible blocked/refusal state and audited operator transition for a server delay outside the accepted client policy. Preserve the server lower bound; no silent early retry or arbitrary multi-year account cooldown. Sync/publication remain independent. Pin threshold and accepted override semantics before implementation. |
+| P035-009 | Decide accountable external evidence retention | in-progress | P035-008; repository retention owner | Before the next full runtime campaign and no later than 2026-11-14, adopt an owner, immutable addresses, retrieval/integrity proof and retention commitment with an explicit policy update. Respect the 136 MiB aggregate floor/history accounting and existing local/profile budgets. Until then, new full qualified sets above 256 KiB are refused. No unavailable URL or digest-only substitution qualifies evidence. |
+| P035-010 | Bound excessive history Retry-After through explicit operator policy | in-progress | P035-007; Matrix rate-limit semantics | Define a visible blocked/refusal state and audited operator transition for a server delay outside the accepted client policy. Preserve the server lower bound; no silent early retry or arbitrary multi-year account cooldown. Sync/publication remain independent. Pin threshold and accepted override semantics before implementation. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
