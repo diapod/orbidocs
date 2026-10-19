@@ -813,6 +813,22 @@ participant quotas. Stop is idempotent and coalesces duplicates; it must not
 wait behind sample reads, serialization, inference or a native call. The host
 marks consent withdrawn and closes the output fence through that reserved path;
 durable audit failure must not defer stopping and is recovered explicitly.
+Confirmation, pre-effect activation, stop, withdrawal and disposal remain distinct
+facts. Never-WEAR withdrawal creates no acquisition consent. Before effects the
+host reserves bounded durable capacity for the terminal facts; later admissions
+cannot consume that reservation. The first accepted stop and withdrawal retain
+their original clocks, and duplicate requests neither renew the cleanup deadline
+nor retry a failed audit. Receipts project fencing/cleanup and audit durability
+separately; an unconfirmed write cannot be treated as durable success.
+
+Cooperative stop and verified executor disposal precede fallible terminal audit
+I/O. A final control-only release-authorization point requires the current stop
+and every earlier accepted withdrawal fact to be durable within the original
+cleanup deadline. A first withdrawal accepted after that point is a separate
+terminal fact: it cannot reopen effects, reuse consent or retroactively invalidate
+verified disposal. Failed or stale terminal audit before authorization leaves
+the claim/start fence for explicit reconciliation; late acknowledgements cannot
+release quarantined cleanup automatically.
 Before opening a real device, the host durably records an acquisition-start
 marker. Only durable stop/consent state plus verified disposal can close it.
 An unclosed marker after host restart prohibits automatic resume until cleanup
@@ -1914,6 +1930,55 @@ source/evidence review found no remaining issue in this run. This report binds
 its exact checkpoint; later P096-005 lifecycle code has separate evidence.
 P096-005/006b/007b/010/011a/011b/014 remain unpromoted.
 
+
+A second exact release `578abe5d` includes the protected-control implementation
+and repeats the unchanged profile3 qualification: baseline p95/p99/max
+100/126/141 ms, loaded 112/153/156 ms, measured healthy-reader gaps zero and local
+read-grant revocation 58 ms. The report binds source `ec5ab693` and image
+`f2482e5a`; subsequent protected-writer and test changes have their own
+conformance checkpoint.
+`node:docs/evidence/sensorium-host-control-20261019/` retains the independent
+rerun and an explicit compiler-log-reference correction for the earlier release
+metadata. Original report, source/image binding and historical bytes are preserved.
+This remains P096-010a host-path qualification only.
+
+### Device-free protected-control checkpoint (2026-10-19)
+
+P096-005 remains **partial**. The separate Sensorium implementation now closes
+the missing durable stop/withdrawal state: a pre-effect marker and bounded,
+write-once lifecycle facts accompany the existing private confirmation envelope.
+All writers share nonblocking cross-process coordination and reserve terminal
+capacity before effects. The protected lane fences immediately, disposal precedes
+audit I/O, current durable revisions authorize release, and late terminal
+withdrawal has separate audit status. Normal release additionally requires the
+exact still-held resource/owner row. Duplicate completed cleanup is idempotent.
+
+Final separate release `753911aa` (source `b6d2dbfb`, image `26605f62`) passes
+462 standard Sensorium cases and four explicitly selected actual-owned-synthetic
+control cases. The latter exercise bearer HTTP withdrawal after policy revoke
+with an occupied independent ordinary server fixture, actual control-listener
+loss, injected retained-monotonic expiry/reopen, and disposal despite unavailable
+audit storage. Explicit-unlock writer ownership also has two deterministic
+surviving-descriptor regressions, including error return. The independent pool
+is not a full management-graph qualification and injected expiry is not a clock-
+mutation measurement. These software facts do not create native consent.
+
+These are host implementation and device-free conformance claims, not adoption
+or physical qualification. Existing native source observations, expired grants,
+registration history and recovery decisions are not rewritten or renewed. The
+generic Deferred Registry remains a pending seed, not a consent/terminal ledger.
+Node records the contract and execution in
+`daemon/docs/SENSORIUM-ACQUISITION-CONTROL.md` and
+`docs/audits/REVIEW-SENSORIUM-DURABLE-CONTROL-2026-10-19.md`.
+
+The accepted prerequisite matrix is unchanged: six `physical-native`, two
+`controlled-native-fault` and two exact-candidate `host-software` cases.
+Synthetic fixture/software tests cannot substitute for that matrix. Current
+OS/TCC, mode consent, protected wearer stop after operator logout and saturation,
+live authority loss, control-provider loss, hung native cleanup and the complete
+launch context still require separately approved native evidence. The normal
+native gate stays closed until its prerequisite is actually qualified.
+
 ## Trade-offs
 
 - Declarative profiles reduce repeated integration code and operator vocabulary;
@@ -1967,7 +2032,7 @@ remaining completion gates still apply.
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
-| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; distinct closed host-restart and observed-radio recovery reviews cannot substitute for native release/reset qualification; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure  Revision-3 run-completed retained cleanup uncertainty; the source-only correction freezes 10s native cleanup for new private Cases and preserves legacy 5s history, without changing qualification thresholds. Its separately approved recovery and retirement 3-to4 are complete; the fresh delegated GUI revision-4 Case releases cleanly after refusing activation before executor/permit start. Exact historical refusal cause remains unresolved; closed monitor diagnostics are a software follow-up. A later freshly approved revision-5 Case observes required EEG/motion blocks and confirmed cooperative native stop/executor exit/controller release within10s cleanup, with independent zero claims. A device-free follow-up derives late sealed-admission refusal handling after RunCompleted, without identifying predicate timing. The software producer now classifies late queued results against current local closure/phase, retains optional effects/fenced and avoids false startup failure or another stop; open-session refusals still stop with unchanged clocks. The corrected producer is prepared nearby at pinf860ff8e/GUI819d4ce0 with actual GUI launchd preflight and49 passing frozen-client tests;163 prior hashes/journal81 stay exact, no manager or native work runs. Preparation does not reuse old TCC/physical evidence or qualify the new producer; full authority/stop qualification remains open. |
+| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; distinct closed host-restart and observed-radio recovery reviews cannot substitute for native release/reset qualification; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure  Revision-3 run-completed retained cleanup uncertainty; the source-only correction freezes 10s native cleanup for new private Cases and preserves legacy 5s history, without changing qualification thresholds. Its separately approved recovery and retirement 3-to4 are complete; the fresh delegated GUI revision-4 Case releases cleanly after refusing activation before executor/permit start. Exact historical refusal cause remains unresolved; closed monitor diagnostics are a software follow-up. A later freshly approved revision-5 Case observes required EEG/motion blocks and confirmed cooperative native stop/executor exit/controller release within10s cleanup, with independent zero claims. A device-free follow-up derives late sealed-admission refusal handling after RunCompleted, without identifying predicate timing. The software producer now classifies late queued results against current local closure/phase, retains optional effects/fenced and avoids false startup failure or another stop; open-session refusals still stop with unchanged clocks. The corrected producer is prepared nearby at pinf860ff8e/GUI819d4ce0 with actual GUI launchd preflight and49 passing frozen-client tests;163 prior hashes/journal81 stay exact, no manager or native work runs. Preparation does not reuse old TCC/physical evidence or qualify the new producer; full authority/stop qualification remains open. Device-free 2026-10-19 work adds bounded durable lifecycle facts, disposal-before-audit, current-revision release authorization, separate terminal withdrawal and exact held-claim CAS; the prescribed native-origin matrix remains open. |
 | `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `done` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `done` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |

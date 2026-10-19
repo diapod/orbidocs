@@ -691,3 +691,26 @@ preserved. This confirms only P096-010a's same-process synthetic host-API scope;
 P096-005, physical/TCC, native overflow, remote/HTTP/SSE and release qualification
 remain separate. Exact artifacts and review are in
 `node:docs/evidence/sensorium-synthetic-local-20261019/`.
+
+
+### Protected acquisition ownership checkpoint (2026-10-19)
+
+The private acquisition owner records bounded pre-effect and terminal lifecycle
+facts alongside its existing consent confirmations. It fences before storage,
+verifies supervisor disposal before terminal audit I/O, and requires the current
+intent revision to be durable at release authorization before exact claim release.
+Late terminal withdrawal has separate audit status and cannot reopen collection or reuse consent. Neither a publication
+nor a reader gains acquisition authority from those facts; the generic pending
+operation seed keeps its existing role. Historical custody remains unchanged.
+
+The final pinned `753911aa` software checkpoint passes 462 standard cases and
+four explicitly selected owned-synthetic control cases. An explicit-unlock writer
+guard prevents duplicated descriptors from retaining completed ownership; success
+and error-return regressions preserve exclusion of an independent successor.
+This is separate from the exact `578abe5d` P096-010a performance report.
+
+This is a device-free implementation/conformance checkpoint on the separate
+Sensorium branch. P096-005 remains partial under its existing six physical-native,
+two controlled-native-fault and two exact-candidate host-software prerequisites.
+No native/TCC adoption, recovery, headband test or broader carrier promotion follows.
+See `node:daemon/docs/SENSORIUM-ACQUISITION-CONTROL.md` and the dated Node review.
