@@ -489,6 +489,19 @@ Additional references: [HTMX history](https://htmx.org/attributes/hx-history/),
 
 ### Separate service-control deliveries — adopted 2026-10-18
 
+Operation-result lookup amendment — adopted 2026-10-19: first-pair previews
+display the opaque owner approval reference before submission. After a lost
+response or reopened/restarted UI, current authorized operators use a separate
+GET lookup form/link, without resubmitting the plan or renewing old UI review
+tokens. Full pages remain no-JS. The panel admits only the closed two-setting
+result resource with one canonical bounded reference; GET read forms and POST
+mutation routes remain disjoint. Its existing eight-entry volatile breadcrumb
+stack may retain an opaque result-read href, never plan/receipt/declaration or
+authority; close/context invalidation clears it. Unknown, pending and terminal
+do not establish non-execution; a historical committed result does not establish
+current application/readiness. Retention uses P091's existing bounded journal,
+not a UI history store. Owner unavailability stays a separate read failure.
+
 Presentation review amendment — adopted 2026-10-19: refused startup sources
 preserve diagnostic `full-page`, including explicit CLI full-page, with a visible
 source refusal and separate conservative launch fact, not a resolved default.
@@ -501,11 +514,11 @@ no-JS and application WKWebView exercise refusal/repair/confirmed restart;
 pair profiles pass 15/14 assertions, D1 21, hardening 10 and private browser 6/native
 trusted restores 3. Pins and review evidence belong in
 `node:docs/evidence/configuration-service-control/PRESENTATION-REFUSAL-REVIEW-20261019.md`.
-This does not implement the next lookup row or promote broader task/platform status.
+That checkpoint did not implement the next lookup row or promote broader task/platform status.
 
 | Next bounded follow-up | Status | Completion gate |
 | --- | --- | --- |
-| Operation-result lookup by approval reference | todo; next before broader panel reuse | P095-004/005 client delivery and P091 owner adapters: after an uncertain POST or reopened/restarted UI, current authorized operator can read the exact existing result for both settings. Qualify concurrent tabs, lost response, restart, unknown/expired references and retention limits; no repeated mutation, replanning, implicit recovery or renewed consent. |
+| Operation-result lookup by approval reference | partial; implemented, qualification pending | P095-004/005 client delivery and P091 owner adapters: after an uncertain POST or reopened/restarted UI, current authorized operator can read the exact existing result for both settings. Qualify concurrent tabs, lost response, restart, unknown/expired references and retention limits; no repeated mutation, replanning, implicit recovery or renewed consent. |
 
 Durable rollback amendment — adopted 2026-10-19: the first-pair Node UI
 presentation is ordinary `node_ui.operator_presentation`, with bundled

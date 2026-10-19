@@ -2127,6 +2127,28 @@ export private source paths to models. P064 alone owns prompt assembly.
 
 ## Implementation Tracker
 
+Operation-result lookup amendment — adopted 2026-10-19: for the first two
+settings, historical read-by-reference is a separate GET, not a replay of the
+approved mutation. Current operator authority gates every read. An opaque
+reference never renews an old UI review or grants authority. The owner reads
+one bounded snapshot of the existing intent/outcome journal, independently of
+current target bytes, writer ownership and application; later writes do not
+erase earlier recorded results. UI full pages/panel and CLI remain thin clients.
+Retained committed, pending, terminal and unknown states are distinct from owner
+unavailability and from current application/readiness. Neither unknown nor a
+terminal conflict proves non-execution or authorizes resubmission. Intent-record
+time is not completion time. No lookup performs recovery or writes a projection.
+
+The shared journal retains 1,024 events / 64 MiB, including source observations,
+and refuses new writes at capacity without automatic eviction. Five-minute
+volatile review expiry does not expire committed history. A distinct fresh
+approval of an already admitted unchanged state records its own intent/outcome
+pair with exact fresh pin checks, without a second file publication/application;
+this costs two events in that same bounded journal. Equal bytes alone do not
+exclude application when explicitly adopting a withheld value. Exact
+same-approval replay is unchanged. This is
+write-path correlation bookkeeping, never an effect of a result read.
+
 Presentation availability review — adopted 2026-10-19: source refusal must not
 remove the diagnostic UI. Startup may select conservative `full-page`, including
 explicit CLI full-page, while retaining `presentation-source-refused` and no
@@ -2139,17 +2161,18 @@ redaction, writer and service-lifecycle boundaries are unchanged.
 
 | Next bounded follow-up | Status | Owner / completion gate |
 | --- | --- | --- |
-| Read-only operation-result lookup by exact approval reference | todo; next before broader panel reuse | P091 operator adapters and P095 client delivery: offer lookup after uncertain POST and reopening/UI restart for both first-pair settings. Prove current operator authority, concurrent tabs, lost response, restart, unknown/expired references and explicit retention limits. Unknown never means not executed; no repeated mutation, replanning, implicit recovery or renewed consent. |
+| Read-only operation-result lookup by exact approval reference | partial; implemented, qualification pending | P091 operator adapters and P095 client delivery: offer lookup after uncertain POST and reopening/UI restart for both first-pair settings. Prove current operator authority, concurrent tabs, lost response, restart, unknown/expired references and explicit retention limits. Unknown never means not executed; no repeated mutation, replanning, implicit recovery or renewed consent. |
 
-The lookup is tracked work, not an implementation claim or a requirement to
-repeat an operation of unknown outcome. The availability repair is qualified
+The lookup was selected at the presentation-review checkpoint and is now being
+qualified separately; it never requires repeating an operation of unknown
+outcome. The preceding availability repair is qualified
 separately from the earlier durable-rollback candidate.
 The bounded availability repair is **done** on one frozen repair candidate:
 pair browser 15/native profile 14, D1 21, hardening 10 and private browser 6/native
 trusted restores 3 pass. See
 `node:docs/evidence/configuration-service-control/PRESENTATION-REFUSAL-REVIEW-20261019.md`
 for pins, review corrections and the per-file historical candidate map. The next
-lookup row and broader proposal statuses remain todo/partial.
+lookup row has its own evidence gate; broader proposal statuses remain partial.
 
 Durable first-pair rollback amendment — adopted 2026-10-19:
 
