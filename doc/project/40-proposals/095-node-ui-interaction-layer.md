@@ -518,7 +518,15 @@ That checkpoint did not implement the next lookup row or promote broader task/pl
 
 | Next bounded follow-up | Status | Completion gate |
 | --- | --- | --- |
-| Operation-result lookup by approval reference | partial; implemented, qualification pending | P095-004/005 client delivery and P091 owner adapters: after an uncertain POST or reopened/restarted UI, current authorized operator can read the exact existing result for both settings. Qualify concurrent tabs, lost response, restart, unknown/expired references and retention limits; no repeated mutation, replanning, implicit recovery or renewed consent. |
+| Operation-result lookup by approval reference | done; first-pair scope only | P095-004/005 clients and P091 owner adapters pass no-JS full-page 14, browser panel 14 and actual WebView profile 13, native exit 0. Exactly four approved POSTs/two completed-response losses per profile; GET after UI restart/later writes and held-writer CLI reads do not repeat effects. Concurrent-tab proof is browser-only; forced review expiry is an owner-unit case. Unknown never proves non-execution or renews consent. Shared bounded retention is explicit. |
+| Attribute the intermediate no-JS Logging preview wait | todo; qualification follow-up | One pre-final wait lacks its exact response/timing/DOM snapshot. It stays unattributed despite later 200s. New closed diagnostics support any future reproduction; no claim that a rerun explains it. |
+
+The result-lookup candidate also passes common-image D1 21, pair browser 15/native
+profile 14, hardening 10 and private browser 6/native trusted restores 3. See
+`node:docs/evidence/configuration-service-control/OPERATOR-RESULT-LOOKUP-20261019.md`
+for source/image pins, real downstream-response-loss injection, review corrections
+and the per-file candidate map. These are focused local delivery proofs, not
+conversation/accessibility/platform, historical ergonomics or release closure.
 
 Durable rollback amendment — adopted 2026-10-19: the first-pair Node UI
 presentation is ordinary `node_ui.operator_presentation`, with bundled

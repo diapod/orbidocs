@@ -2161,11 +2161,18 @@ redaction, writer and service-lifecycle boundaries are unchanged.
 
 | Next bounded follow-up | Status | Owner / completion gate |
 | --- | --- | --- |
-| Read-only operation-result lookup by exact approval reference | partial; implemented, qualification pending | P091 operator adapters and P095 client delivery: offer lookup after uncertain POST and reopening/UI restart for both first-pair settings. Prove current operator authority, concurrent tabs, lost response, restart, unknown/expired references and explicit retention limits. Unknown never means not executed; no repeated mutation, replanning, implicit recovery or renewed consent. |
+| Read-only operation-result lookup by exact approval reference | done; first-pair scope only | No-JS full-page/browser-panel profiles pass 14 each; actual application WebView profile passes 13, exit 0. Each uses exactly four approved POSTs with two completed-response losses; repeated GET/CLI reads, UI restart, later history and unknown/unsubmitted refs preserve authoritative facts. Current operator access is required. Browser covers concurrent tabs; native later writes are sequential. Forced review expiry is owner-unit evidence, not elapsed runtime qualification. Shared retention is 1,024 events / 64 MiB, no automatic eviction; no repeated mutation, recovery or renewed consent. |
+| Attribute the intermediate no-JS Logging preview wait | todo; qualification follow-up | The pre-final timeout lacks its own response/timing/DOM snapshot and remains unattributed. Later 200s are not its explanation. Closed pending/completed HTTP, elapsed-time and DOM diagnostics now accompany future reproductions; no speculative product fix or general reliability claim. |
 
-The lookup was selected at the presentation-review checkpoint and is now being
+The lookup was selected at the presentation-review checkpoint and is now
 qualified separately; it never requires repeating an operation of unknown
-outcome. The preceding availability repair is qualified
+outcome. Common-image regressions pass D1 21, pair browser 15/native profile 14,
+hardening 10 and private browser 6/native trusted restores 3. See
+`node:docs/evidence/configuration-service-control/OPERATOR-RESULT-LOOKUP-20261019.md`
+for exact candidate/fixture distinctions, reviewed cross-capsule verification and
+the immutable failed/intermediate capsule map. The separate preview timeout stays
+open; this does not promote whole P091/P095 or release status.
+The preceding availability repair is qualified
 separately from the earlier durable-rollback candidate.
 The bounded availability repair is **done** on one frozen repair candidate:
 pair browser 15/native profile 14, D1 21, hardening 10 and private browser 6/native

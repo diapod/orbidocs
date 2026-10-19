@@ -84,13 +84,20 @@ earlier layer. Explicit panel must resolve. Inspection retains startup refusal
 until UI restart even after source repair; manual operations distinguish
 `edit-source` from current-refusal `repair-source`. Bind/operator authentication
 and owner authority do not degrade with presentation. Read-only result lookup by
-approval reference is implemented for the two owner settings; its separate
-qualification gate is tracked in P091/P095. Preview displays the opaque reference
+approval reference is implemented and qualified for the two owner settings.
+Preview displays the opaque reference
 before submission; fresh full-page/panel GET forms and CLI read existing journal
 facts under current authority, never the old UI token or another approved POST.
 Historical result, current application/readiness and owner outage are separate.
 Unknown/pending/terminal never authorize resubmission. The owner's bounded
 journal, not UI state, retains results across UI restart and later writes.
+Its focused qualification passes no-JS full-page 14, browser panel 14 and actual
+application WebView profile 13, with real completed-response loss and no repeated
+mutation. Common-image D1/rollback/hardening/private regressions pass separately;
+an intermediate Logging preview timeout remains unattributed, not explained by
+later success. See
+`node:docs/evidence/configuration-service-control/OPERATOR-RESULT-LOOKUP-20261019.md`.
+Broader P091/P095 and release readiness remain partial.
 The bounded startup-availability repair has its own browser no-JS/application
 WKWebView qualification, not reassigned historical images; see
 `node:docs/evidence/configuration-service-control/PRESENTATION-REFUSAL-REVIEW-20261019.md`.
