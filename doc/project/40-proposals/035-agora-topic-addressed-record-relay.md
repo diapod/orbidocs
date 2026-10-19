@@ -2071,6 +2071,15 @@ the third uses a fixture-signed claim and the actual receiver clock. The full
 profile therefore requires 34 Matrix and five SQLite cases. Existing reports keep
 their original variant and meaning.
 
+Scoped-claim context binding uses JCS over the author candidate, excluding
+`record/id`, `signature`, all three unsigned relay fields, and the two circular
+scoped-claim request/presentation fields inside the nym proof. Nested author
+content remains bound. A transport's local stamping cannot change claim context
+or grant admission. Node's shared Agora core derivation is used by the API,
+Matrix receiver and fixture; actual admission still uses each receiver's local
+time and retained decisions. The development deferred-admission probe exposed
+and corrected the earlier stamp-dependent context.
+
 Full canonical PDU export occurs after all publication/recovery probes, so its
 Node gate covers every acknowledged Node-created event in the campaign. The
 homeserver gate remains separate. Qualification rejects early retry, a final
