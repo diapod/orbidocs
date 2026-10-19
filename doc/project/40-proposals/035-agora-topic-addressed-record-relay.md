@@ -1267,6 +1267,16 @@ is `node:docs/evidence/matrix-opaque-envelope/2026-10-19-external-store/README.m
 This is retention conformance, not new runtime qualification. Original
 Git/retained-set budgets and frozen history remain unchanged.
 
+The first full 34-Matrix/five-SQLite recovery campaign now qualifies runtime at
+Node `1bc523a6` / Orbidocs `5993f7d0`, but its original 128 MiB dictionary archive
+refuses retention at 19,058,130 bytes. The successful runtime outcome stays
+unchanged. A measured explicit 192 MiB writer profile compresses the same
+343,388,160-byte deterministic tar to 14,233,148 bytes and preserves its exact
+hash under the existing 256 MiB decoder bound. Node may expose this as an explicit
+bounded writer choice; default 128 MiB, format v2, tar/member identity and all
+retention/decoder budgets stay unchanged. Full closure still requires the actual
+complete-set measurement and fresh retrieval/ordinary qualification.
+
 P035-010 uses deployment `matrix_history_max_retry_after_ms` (default300000,
 range1000..3600000). Larger server delays create an explicit durable history
 block with original delay/not-before metadata. Sync/publication and deferred
