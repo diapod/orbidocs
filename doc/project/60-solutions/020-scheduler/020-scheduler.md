@@ -724,7 +724,10 @@ its evidence claim. The domain procedure belongs to Node's `docs/evidence/EXTERN
 P035-012 separately requires a different volume or host, explicit retention owner
 and fresh qualification at the destination before reviewed retirement of any old
 copy. Independent custody is a relation between two observed physical failure
-domains; another directory, APFS sibling volume or overlapping RAID is insufficient.
+domains; another directory or APFS sibling volume is insufficient. The operator
+accepted an overlapping mirror with an online member on a different physical
+device: this qualifies primary-media-loss protection, with shared first member,
+host and mirror-management risks explicitly retained, rather than disjoint media.
 The release owner binds both fresh reads to a clean candidate, selected evidence
 inventory and current trusted tools. S020 does not interpret release evidence or
 store layout. A future periodic verification job can use S020's existing host-owned job
