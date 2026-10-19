@@ -712,6 +712,22 @@ follow-ups rather than protocol blockers:
 3. Keep scheduler documentation synchronized with Rust data shapes as post-M1
    consumers land.
 
+## Evidence maintenance follow-up (P035-012)
+
+The adopted local evidence store has one failure domain. Before every release,
+manual release preparation must freshly retrieve and verify each bundle supporting
+that release: ordinary qualification for complete runs, cause verification for
+refusal capsules. Record exact bundle/tool identities and results. An old successful
+receipt does not establish current availability; a missing or corrupt bundle blocks
+its evidence claim. The domain procedure belongs to Node's `docs/evidence/EXTERNAL-RETENTION.md`.
+
+P035-012 separately requires a different volume or host, explicit retention owner
+and fresh qualification at the destination before reviewed retirement of any old
+copy. A future periodic verification job can use S020's existing host-owned job
+contract, with bounded execution and visible failure; the scheduler must not learn
+store layout or scenario predicates. No job or independent backup is claimed
+configured by this documentation.
+
 ## Related Capability Data
 
 - `020-scheduler-caps.edn`
