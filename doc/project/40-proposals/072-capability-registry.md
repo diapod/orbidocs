@@ -345,6 +345,10 @@ as authority.
 
 The first local slice uses `capability-catalog-request.v1`,
 `capability-catalog-result.v1`, and optional `capability-guidance.v1`.
+The v1 request continues to receive the original closed v1 result. An explicit
+`capability-catalog-request.v2` selects `capability-catalog-result.v2` for
+per-operation readiness. The controller uses v2; both versions keep the same
+caller-scoped host admission and the same two catalog operations.
 `list` accepts an optional exact capability-id prefix, a page limit, and an
 opaque continuation cursor. `describe` requires an exact registered capability
 id and accepts an operation selector only when the admitted descriptor binds
@@ -407,15 +411,12 @@ operations require an explicit selector; conflicting descriptors remain
 described operation carries its own provider availability. The top-level
 availability summarizes all providers when the contract is ambiguous, and
 reflects the selected provider after an explicit operation selection.
-In `capability-catalog-result.v1`, per-operation `availability` remains optional
-to accept the first published v1 producer shape; the current host always
-emits it. An absent field means availability is unknown to an older producer,
-never ready or permission to execute. This accepts older producers under the
-current schema; it does not establish compatibility with a consumer still
-validating the original closed v1 schema, which may reject the added field.
-No consumer outside the checked Node/Orbidocs repositories has been verified.
-If such a consumer exists, version negotiation or a v2 result is required
-before claiming wire compatibility. Guidance is absent unless its provider
+The original closed `capability-catalog-result.v1` operation shape has no
+per-operation `availability`; request v1 still emits that exact shape.
+`capability-catalog-result.v2` requires the field for every described operation.
+An absent field in v1 gives no basis to infer readiness or execution permission.
+No consumer outside the checked Node/Orbidocs repositories has been verified;
+explicit version selection preserves the old v1 wire shape. Guidance is absent unless its provider
 and contract ref/digest match exactly. Multiple
 eligible provider contributions do not select a winner. The first slice admits
 request examples only, validated against the exact request contract. Invalid

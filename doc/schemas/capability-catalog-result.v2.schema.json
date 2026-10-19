@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-catalog-result:v2",
+  "title": "Local Capability Catalog Result v2",
+  "description": "Caller-scoped, lower-trust catalog data. Presence and readiness do not authorize execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "operation", "state", "catalog/revision", "classification/tier"],
+  "properties": {
+    "schema": { "const": "capability-catalog-result.v2" },
+    "operation": { "enum": ["list", "describe"] },
+    "state": { "enum": ["ok", "described", "ambiguous-contract", "unresolved-contract", "not-found", "stale-cursor", "denied"] },
+    "catalog/revision": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "classification/tier": { "enum": ["Public", "Community", "Personal"] },
+    "items": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/item" } },
+    "next/cursor": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "capability/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "availability": { "enum": ["ready", "unavailable", "unknown"] },
+    "authorization": { "$ref": "#/$defs/authorization" },
+    "operations": { "type": "array", "maxItems": 16, "items": { "$ref": "#/$defs/operation" } },
+    "guidance": { "$ref": "capability-guidance.v1.schema.json" },
+    "guidance/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+    "source/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" }
+  },
+  "$defs": {
+    "item": {
+      "type": "object", "additionalProperties": false,
+      "required": ["capability/id", "availability"],
+      "properties": {
+        "capability/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "availability": { "enum": ["ready", "unavailable", "unknown"] }
+      }
+    },
+    "authorization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required/grants"],
+      "properties": {
+        "required/grants": { "type": "array", "maxItems": 16, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 256 } },
+        "caller/posture": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "approval/mode": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": { "enum": ["resolved", "unresolved"] },
+        "schema/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "schema/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
+        "schema/value": { "type": "object" },
+        "schema/summary": { "type": "object" }
+      }
+    },
+    "operation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["operation/id", "provider/id", "availability", "request", "responses", "effect"],
+      "properties": {
+        "operation/id": { "type": "string", "pattern": "^op:[A-Za-z0-9_-]{43}$" },
+        "provider/id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "availability": { "enum": ["ready", "unavailable", "unknown"], "description": "Informational readiness of this exact provider operation; it does not grant execution." },
+        "request": { "$ref": "#/$defs/binding" },
+        "responses": { "type": "object", "maxProperties": 8, "additionalProperties": { "$ref": "#/$defs/binding" } },
+        "effect": { "enum": ["read-only", "mutates-state", "unknown"] },
+        "idempotency": { "enum": ["required", "optional", "not-applicable", "unknown"] }
+      }
+    }
+  },
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/072-capability-registry.md"]
+}
