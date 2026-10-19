@@ -189,3 +189,13 @@ decoder/budget ceiling. Earlier P18/P20/P21 and focused results keep their scope
 Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
 Global Agora partial, one-volume retention limitations, federation, all Whisper,
 P095 inline-unlock and release/production gates remain separate.
+
+
+The separate 2026-10-19 review closes P035-010's implausible-delay correction:
+four focused Synapse cases at Node ac386090 / Orbidocs fbba8e73 qualify the checked
+24 h boundary, reasoned local operator CAS escape, restart, live confidence-0.5
+and exact-source replay. The 142758-byte complete proof is externally retrieved;
+full gates remain the original campaign. Original failed attempts are retained as
+cause-only capsules with preserved qualifier refusals. Source deduplication before
+larger campaigns (P035-011), qualified independent copy and manual release verify
+(P035-012), and S039/batch CAS (P035-013) remain open, with unchanged budgets.

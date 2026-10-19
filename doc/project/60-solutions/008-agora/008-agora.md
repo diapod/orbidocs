@@ -440,6 +440,18 @@ Status:
   with federation, nym issuance, all Whisper and release/production gates separate.
   Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
 
+- Review closure (2026-10-19) separately qualifies four focused delay cases at
+  clean Node `ac386090` / Orbidocs `fbba8e73`, reviewed qualifier `121c19fb`.
+  The 24 h credibility ceiling preserves credible floors; exact u64 maximum and
+  ten-year limits have an audited, reasoned, host-local task/binding CAS escape.
+  Restarts, continued confidence-0.5 live delivery and exact-source replay pass.
+  Complete retained/retrieved proof is 142758 bytes; it renews neither full PDU
+  gates nor the frozen 34/five campaign. Original unsuccessful attempts now have
+  externally retrieved cause-only capsules, never full qualification. P035-011
+  gates larger campaigns on source deduplication; P035-012 owns an independent
+  copy/manual pre-release fresh verify, P035-013 owns S039/bulk actions. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`.
+
 ### Retention Policy Sweep
 
 Based on:
