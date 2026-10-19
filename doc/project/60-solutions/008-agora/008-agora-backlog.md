@@ -204,8 +204,10 @@ larger campaigns (P035-011), qualified independent copy and manual release verif
 P035-011 implementation has started under the accepted
 [source-observation decision](../../40-proposals/035-agora-topic-addressed-record-relay.md#p035-011-source-observation-decision-2026-10-19)
 and `node:docs/evidence/SOURCE-OBSERVATIONS.md`. The historical byte/value and
-ordinary-qualification gate must pass within 16 MiB at a 128 MiB dictionary before
-runtime harness edits. New Git controls are bounded to 256 KiB. Exact author and
-indivisible PDU coverage, self-contained capsules and current budgets remain; fresh
-34-Matrix/five-SQLite qualification is pending. No runtime claim is renewed by
-this contract. P035-012/013 remain todo and global Agora remains partial.
+ordinary-qualification gate passed at clean Node 3b06e1b4 / Orbidocs 51de82e9:
+identical original/source 34-Matrix/five-SQLite results after extraction and fresh
+retrieval, complete 15201407 bytes at the default 128 MiB dictionary and 5878 bytes
+of Git controls. Source journal/capsule integration and review are in progress;
+exact author/indivisible PDU coverage and current budgets remain. Fresh full
+34-Matrix/five-SQLite runtime is pending; historical conformance does not renew it.
+P035-012/013 remain todo and global Agora remains partial.
