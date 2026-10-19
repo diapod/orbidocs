@@ -26,7 +26,7 @@
   ],
   "properties": {
     "history/capacity": {
-      "description": "Read-only node-wide journal pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80%; archival is not implemented in this scoped vertical.",
+      "description": "Read-only node-wide journal usage and ordinary binding-writer pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80% of the ordinary budget; node-wide maxima include a safety reserve unavailable to binding writes. Shared reserve-only pressure is projected as reconciliation-required in this closed six-field v1 view. Explicit owner-approved archival is separate; general retention/reset qualification remains partial.",
       "type": "object",
       "additionalProperties": false,
       "required": [

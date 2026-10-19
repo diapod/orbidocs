@@ -14,7 +14,7 @@ Scoped source explanation of one task-pack binding. Equal declarations preserve 
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
-| [`history/capacity`](#field-history-capacity) | `yes` | object | Read-only node-wide journal pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80%; archival is not implemented in this scoped vertical. |
+| [`history/capacity`](#field-history-capacity) | `yes` | object | Read-only node-wide journal usage and ordinary binding-writer pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80% of the ordinary budget; node-wide maxima include a safety reserve unavailable to binding writes. Shared reserve-only pressure is projected as reconciliation-required in this closed six-field v1 view. Explicit owner-approved archival is separate; general retention/reset qualification remains partial. |
 | [`schema`](#field-schema) | `yes` | const: `operator-task-binding-sources.v1` |  |
 | [`schema/v`](#field-schema-v) | `yes` | const: `1` |  |
 | [`binding/ref`](#field-binding-ref) | `yes` | ref: `operator-task-common.v1.schema.json#/$defs/ref` |  |
@@ -34,7 +34,7 @@ Scoped source explanation of one task-pack binding. Equal declarations preserve 
 - Required: `yes`
 - Shape: object
 
-Read-only node-wide journal pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80%; archival is not implemented in this scoped vertical.
+Read-only node-wide journal usage and ordinary binding-writer pressure, including pending outcome reservations. Not a write-success or task-run authority claim. Near-capacity begins at 80% of the ordinary budget; node-wide maxima include a safety reserve unavailable to binding writes. Shared reserve-only pressure is projected as reconciliation-required in this closed six-field v1 view. Explicit owner-approved archival is separate; general retention/reset qualification remains partial.
 
 <a id="field-schema"></a>
 ## `schema`
