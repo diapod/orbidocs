@@ -757,3 +757,34 @@ recovery or native qualification ran. The older frozen GUI remains exact and TCC
 unobserved. P096-005 and its native-origin matrix remain partial. See
 `node:docs/evidence/sensorium-host-control-20261019/authority-renewal-runtime.json`
 and the dated authority renewal review.
+
+
+### Bounded private consent history and delegated control (2026-10-19)
+
+Native enrollment reserves maximum confirmation and terminal audit room before
+its transport claim and wearer-control publication, including never-WEAR. Typed
+capacity/busy refusals precede acquisition effects; lock contention alone may
+wait 250 ms within the original cleanup deadline after disposal. Durable closed
+entries with verified released-claim eligibility may move to create-only 64-KiB
+digest-linked segments (128 files maximum), with an atomic active-head pointer,
+verified history and additive late withdrawal. Unknown/quarantined history stays
+active; no old consent is reissued or silently pruned. Post-release eligibility
+bookkeeping cannot downgrade confirmed cleanup or recreate its claim.
+
+New persisted fields form a one-way strict-reader boundary. Preserve frozen
+images as history and require actual format compatibility before use; existing
+source `4fc1405e` knows base lifecycle but not the new fields. No target migration,
+image replacement or hardware work is performed by this source checkpoint.
+
+Delegated metadata renewal is limited to four hours per review; the default
+nearby-terminal route retains its TTY and 24-hour bound. Explicit idle-root status
+reports verified completed-review metadata with `authority/granted:false`, not
+current permission or human presence. Public `operator/control` spelling is
+separate from the retained private/historical bytes. Node checkpoints `c6a24619` and `55dc91eb` pass 475 standard/52 console checks,
+three normal-owner/fault cases and one real-owned-synthetic disposal case. This
+software conformance keeps P096-005 partial and the native origin matrix open.
+See the dated Node review.
+Acceptance source commits are kept reachable in both repositories under
+`refs/acceptance/sensorium-p096-20261019/`; a later merge commit will preserve
+master's current-source fixture and regenerate the combined ledger. The branches
+remain separate in this checkpoint.
