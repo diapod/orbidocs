@@ -1,6 +1,6 @@
 # S040: inactive maintenance and shadow composition contracts
 
-Status: accepted local design, draft contracts; M0 offline and M1 internal-owner
+Status: accepted local design, draft contracts; M0 offline and M1/M2 internal-owner
 conformance only, without operator/runtime qualification.
 Date: 2026-10-20.
 Based on: P051 sections 25–27 and its early P051-010 alignment, P018, P072/S037,
@@ -12,14 +12,16 @@ Freeze a bounded maintenance protocol before implementing abandonment, archival
 recovery, operator APIs or shadow composition. v1 remains authoritative for
 admission, scoring, diagnostics, writers, CAS and receipts. D7 stays closed in
 every component. M0 provides contracts and offline validation, no new runtime
-qualification. P051-010, F-04/F-05 and the wider P051-015/016 work remain open.
+qualification. M2 covers the internal F-04 boundary only; P051-010, F-04 operator
+qualification, F-05 and the wider P051-015/016 work remain open.
 
 ## Context and problem statement
 
 At the planning baseline, the F-02 worker removed replay/conversion from admission
 but continuous v1 writes could invalidate its coarse CAS. The M1 checkpoint below
-addresses that internal progress defect. Foreign incarnations and exhausted
-budgets lack safe maintenance escape paths. A maintenance protocol must preserve
+addresses that internal progress defect. M2 separates foreign generations from
+current-incarnation preparation; exhausted budgets still lack capacity escape
+paths. A maintenance protocol must preserve
 source-local consequences and participant rights while leaving room for later
 repair reviews. Incidental SQLite/storage behavior must not become procedural
 authority or a finding of participant guilt.
@@ -135,6 +137,33 @@ authority/cleanup deadlines. It preserves M1's original failed measurements and
 historical reports. This is not progress on M2–M5/V3/Q, maintenance authorization
 or D7; v1 remains the sole enforcement authority.
 
+## M2 internal incarnation checkpoint (2026-10-20)
+
+The Node owner now treats foreign-incarnation generations as immutable history.
+A fresh internal prepare can pin the next current-incarnation generation even
+when the previous one was unfinished. Membership supplies identity; callers
+cannot assert it. The original baseline/history binding still verifies. Old
+baseline and checkpoint bytes are never repaired or rewritten, and the single
+disposable prepared table is reused only through bounded clear/copy/verify.
+
+Addressed internal inspection distinguishes current, stale, historical and
+corrupt generations. Historical inspection checks original history/checkpoints,
+not today's prepared rows, and cannot replace the current worker cache. An
+in-flight old-incarnation attempt refuses before any write to either generation.
+A corrupt foreign checkpoint chain is isolated to that address; an untrusted
+baseline identity/digest or changed retained v1 history still refuses new pinning.
+M2 does not infer a trusted identity, abandon current work or bypass the 16-generation
+and byte budgets. No observation is an execution receipt; existing receipt,
+signature and source bytes are unchanged.
+
+This is synthetic owner conformance with restart/interruption and concurrency
+checks, not a restore producer, operator grant or runtime qualification. All
+existing v1 consumers and D7 remain unchanged. Legacy-v3 durable row shapes are
+preserved; the acknowledged future new-protocol v4 fence remains pending.
+M3 capacity recovery, M4 P072 admission, M5 S039 delivery, V3/Q and P051-016 remain
+open. See `node:docs/development/RESPONSIBILITY-MIGRATION-INCARNATION-M2.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M2-2026-10-20.md`.
+
 ## Trade-offs
 
 Bounded closed contracts make ownership and refusal auditable but do not prove
@@ -159,8 +188,9 @@ No generic superset relation can replace exact v1/v2 composition comparison.
 ## Open questions
 
 M0 design choices are frozen as draft. M1's internal owner mechanics have scoped
-conformance/performance; M2–M5, V3 and Q implementation/runtime qualification
-remain open. General repair contracts under P051-010 and portable
+conformance/performance, and M2 has internal incarnation/history conformance.
+M3–M5, V3 and Q implementation/runtime qualification remain open. General repair
+contracts under P051-010 and portable
 backup/restore remain separate. A private `PRIMARY_EVIDENCE_STORE` configuration
 may select future capture storage but is neither a public path nor accountable
 external retention without the owner/retrieval/commitment policy in
@@ -168,8 +198,8 @@ external retention without the owner/retrieval/commitment policy in
 
 ## Next actions
 
-Implement and review M2 next. Register no maintenance capability or route before
-M2/M3 recovery and M4 authorization gates; qualify delivery under M5 and shadow
+Implement and review M3 next. Register no maintenance capability or route before
+capacity recovery and M4 authorization gates; qualify delivery under M5 and shadow
 composition under V3/Q. The Node report profile freezes 37 **future** cases in
 six evidence classes; fixtures and offline checks are not completed runtime cases.
 Keep P051-006/007/008/015/016 incomplete, P051-009 deferred and hard-MVP unchanged.
