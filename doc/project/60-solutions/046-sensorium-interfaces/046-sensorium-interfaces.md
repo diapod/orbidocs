@@ -994,3 +994,26 @@ separate; new-image TCC and physical evidence are unobserved. P096-005 remains
 [P096's preparation checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#campaign-target-preparation-checkpoint-2026-10-20),
 `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-PREPARATION-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/campaign-preparation-20261020-runtime.json`.
+
+
+### Revision-6 controller/discovery renewal (2026-10-20)
+
+The paired temporary branches fast-forward to Node `82f9c535` / Orbidocs
+`7044cbe2`, leaving the primary branches unchanged. Metadata administration uses
+the retained signed candidate `64e92854` / source `2694f0aa` / image `cce00f57`;
+no newly synchronized source or startup qualification is assigned to that image.
+
+Separately reviewed delegated SSH renewal `5e89ee68` fixes a 14400-second lifetime
+at prepare, expiring **2026-10-21 00:19:27 CEST** (`1792534767000` Unix ms).
+Only controller-policy expiry/generation and the existing stopped discovery
+revision 3's exact host/caller grant expiries change. Twelve protected digests,
+journal 93/fourteen Cases and zero claims remain exact. Immutable SDK-health and
+campaign packages, stopped p21 revision 6, its expired grant, binding, consent and
+history remain preserved.
+
+No manager, permission probe, SCAN, measurement, recovery, root migration or new
+wearer consent occurs. P096-005 remains **partial**. Retirement **6 → 7 remains
+next and separately reviewed**, not completed by renewal. See
+[P096's renewal checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-6-authority-renewal-checkpoint-2026-10-20),
+`node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-r6-20261020-runtime.json`.
