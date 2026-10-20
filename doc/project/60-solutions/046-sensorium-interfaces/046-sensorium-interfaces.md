@@ -1140,3 +1140,31 @@ question and an explicit operator answer. See
 `node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-FOLLOWUPS-2026-10-20.md`
 and
 `node:docs/evidence/sensorium-host-control-20261019/client-release-followups-20261020.json`.
+
+
+### Client-release target preparation checkpoint (2026-10-21)
+
+Clean Node `c06d256a` prepares source pin `d5e12c64`, deployment image
+`e6f1a78a` and ad-hoc signed GUI `8e5358d0`/handoff `536181a4`. The exact nine-file
+closure and actual rootless `launchd` preflight pass without opening authority,
+creating a Bluetooth manager or observing permission. The corrected 66-input
+validation kit passes 201 target program tests with no skips or errors. Its
+original two errors/one skip from omitted C and Rust fixtures remain retained;
+no product or candidate change follows that kit correction. The inert C-library
+probe observes no blocking-body entry, and fake-board software tests establish
+no native SDK or device behavior.
+
+Final strict comparison preserves all 348 old file records (346 non-key hashes,
+two signing-key metadata records), every recorded metadata field, 112 directory
+identities, both parents and the two-file controller namespace. Only the new GUI
+capsule adds ten files/six directories. Journal 98/fifteen Cases, zero claims,
+existing grants, packages and registrations remain unchanged. No Case, permission
+probe, hardware, renewal, recovery, root migration or branch integration runs.
+
+P096-005 stays **partial** under the unchanged qualifier and full-tuple/origin
+rules. Any later physical attempt requires fresh interactive readiness
+confirmation and current authority checks; new-image permission and physical
+qualification remain unobserved. See
+[P096's prepared client checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-target-preparation-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-PREPARATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/client-release-preparation-20261021.json`.
