@@ -1168,3 +1168,32 @@ qualification remain unobserved. See
 [P096's prepared client checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-target-preparation-checkpoint-2026-10-21),
 `node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-PREPARATION-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/client-release-preparation-20261021.json`.
+
+
+### Client-release authority renewal checkpoint (2026-10-21)
+
+Separately authorized delegated SSH review `e2111556` completes on Node
+`c06d256a`/source `d5e12c64`/admin `e6f1a78a`. The existing controller-owner and
+discovery-revision-3 scopes expire at **2026-10-21 04:19:06 CEST**
+(`1792549146000` ms), fixed at prepare plus 14,400 seconds. Commit does not reset
+the TTL or widen scope. No p21 grant, consent or registration follows; revision 7
+remains reserved and unregistered.
+
+All twelve protected source slots (eight hashes/four WAL/SHM absences), journal
+98/fifteen Cases, zero claims and no pending controller transition are preserved.
+The two root policy files and controller expiry/generation match the exact
+review. Among 358 prior root files, 354 other non-key hashes and two signing-key
+metadata records remain exact; 355 retain all metadata. Only read-store SQLite
+ctime refreshes outside the reviewed policy changes, consistently with normal
+mode-0600 permission handling; its content and remaining metadata are unchanged.
+All 118 old directory identities, both parents and the controller lock remain
+exact; two canonical review/completion files are added, without new directories.
+
+Historical status records this review with `authority/granted:false`; reading it
+does not authorize an action. No manager, permission/TCC probe, hardware, root
+migration, recovery or branch integration runs. P096-005 remains **partial** under
+the unchanged qualifier and native-origin matrix. Fresh readiness, stage consent
+and current p21 admission remain required before acquisition. See
+[P096's authority checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-authority-renewal-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-renewal-20261021-runtime.json`.
