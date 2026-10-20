@@ -917,3 +917,16 @@ siblings. Missing exact-launch/native-call observations remain missing. This is
 implementation/conformance evidence only, with no new qualification, adoption,
 remote migration, hardware run or change to historical observations. P096-005
 remains partial.
+
+### Finite private campaign runner (2026-10-20)
+
+The private Node runner prepares four operational episodes over the same owners:
+baseline, authenticated wearer HTTP stop, Case deadline and actual provider loss.
+It reuses only an exact still-current released registration and requires fresh
+current admission, enrollment and consent per acquisition. A fixed campaign
+budget, independent control lane and create-only partial reporting do not renew
+authority, retry or recover. Seven missing scenario hooks remain explicit blocked
+rows. The offline collector validates original v1 case records and groups entire
+qualification tuples; registration reuse never merges changed launch-chain facts.
+No new native qualification, target migration, hardware trial or branch integration
+is claimed. P096-005 remains partial.
