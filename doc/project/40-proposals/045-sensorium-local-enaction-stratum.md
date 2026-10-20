@@ -2088,8 +2088,29 @@ in 421.17 seconds; strict workspace/all-target Clippy, 54 supervisor tests and
 248 Python tests (19 skipped) pass. These regressions do not explain the red
 cohorts or close startup, physical/native or release qualification.
 
-Next actions: retain the startup limitation and distinguish the actual failed
-child's OS wait without weakening security or timers; independently integrate
+##### Exact failed-child OS follow-up (partial)
+
+A subsequent fixed twelve-process device-free campaign on the same frozen image
+retains 39 focused cases: 36 pass and three fail. Two actively sampled failures
+are now exactly joined through case/instance, validated owned helper and tool
+header to the final deadline SIGKILL, with no entry witness, phase file or
+drained frame. Their 189 and 15 positive samples resolve only `_dyld_start + 0`;
+neither identifies a deeper OS wait or notification recipient. The second uses
+coarser sampling without immediate symbol capture. Passing-neighbour Mach
+stacks remain separate, and active sampling/survivor bias remains explicit.
+
+Public `spindump -onlyTarget` on an owned non-Sensorium process refuses root
+permission. No security setting, sandbox, timer or authority changed. No
+production defect or justified startup repair was confirmed; root permission is
+a missing diagnostic prerequisite, not a timeout explanation. Checked private
+collector corrections and tests establish diagnostic hygiene only. All prior
+failures and DISC/P096/native gates remain unchanged. Source, raw evidence,
+review and regressions are owned by
+`node:docs/audits/SENSORIUM-FAILED-HELPER-OS-WAIT-2026-10-20.md`.
+
+Next actions: retain the startup limitation and exact failed-child samples;
+resolve the deeper OS wait only through a separately authorized scoped tool or
+a new non-privileged discriminator, without weakening security or timers; independently integrate
 the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and

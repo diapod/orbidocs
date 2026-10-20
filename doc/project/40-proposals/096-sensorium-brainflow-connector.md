@@ -2521,6 +2521,19 @@ without security changes, hidden retries or a moved watchdog origin. Evidence:
 The same source-pinned diagnostic image's full daemon library passes 2548/0/71
 in 421.17 seconds, with strict Clippy and shared/tool regressions passing. This
 does not explain the failed cohorts or promote P096/native/release readiness.
+
+The subsequent exact failed-child follow-up retains twelve fixed processes and
+39 focused cases (36 passed, three failed). Two sampled deadline failures are
+joined to the same owned helper/instance; 189 and 15 positive `_dyld_start + 0`
+samples still do not resolve their deeper OS wait. The latter also fails with
+coarser sampling without immediate symbol capture. Passing-neighbour Mach waits
+cannot fill that gap. Scoped public spindump inspection refuses root permission,
+without any security change. Private diagnostic lifecycle corrections and
+regressions add no production startup repair, clock change or qualification.
+Further diagnosis needs a separately authorized scoped capability or a new
+non-privileged discriminator. Evidence and unchanged limits:
+`node:docs/audits/SENSORIUM-FAILED-HELPER-OS-WAIT-2026-10-20.md`.
+
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.
