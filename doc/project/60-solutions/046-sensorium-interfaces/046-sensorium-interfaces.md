@@ -1225,3 +1225,31 @@ rules. Recovery or physical continuation requires a separate decision. See
 [P096's finite campaign checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-finite-campaign-checkpoint-2026-10-21),
 `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261021-runtime.json`.
+
+
+### Validation-timeout software checkpoint (2026-10-21)
+
+The device-free source follow-up composes duplicated private registration/plan
+owner walks within one fresh validation call. Each later job still rechecks its
+current owners; no cross-job cache, weaker predicate or extension of the 250-ms
+budget follows. Historical attribution of the 256-ms preparing observation
+remains unknown.
+
+Source review separately confirms a publication gap: successful owner reads
+could wait for session state beyond the original queue-time budget and then
+clear its timer unchecked. Completion now rechecks that budget under the same
+session-state lock before clearing it. Queued/between-stage guards skip further
+owner reads for already observed expired/fenced work. Optional bounded
+queued/authority/configuration/publication cost diagnostics identify the timer
+or job observer without carrying configuration contents. Missing observations
+remain unknown; diagnostics authorize nothing and do not cancel blocked reads,
+renew clocks or attest native cleanup.
+
+No SSH action, target build/signing, hardware trial, recovery, root migration or
+branch integration runs. The prepared candidate, protected root and quarantine
+remain unchanged, and old evidence is preserved. P096-005 stays **partial** under
+the unchanged qualifier and full-tuple rules. Target preparation and separately
+approved recovery or physical work remain distinct. See
+[P096's software checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#validation-timeout-software-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-VALIDATION-TIMEOUT-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/validation-timeout-20261021.json`.
