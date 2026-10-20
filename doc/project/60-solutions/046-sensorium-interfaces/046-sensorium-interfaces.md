@@ -867,3 +867,43 @@ P096-005 remains partial under its unchanged six/two/two origin matrix. A privat
 policy. See
 `node:docs/audits/REVIEW-SENSORIUM-NATIVE-PREFLIGHT-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/native-preflight-20261020-runtime.json`.
+
+### Corrected native package preparation (2026-10-20)
+
+Node `88542281`/source `280b188c` freezes admin image `51deff86` and signed GUI
+`2b19ea81`/handoff `eeec3bc9`. The exact seven-file closure, code signatures,
+rootless actual `launchd` metadata and 58 frozen-client checks pass. Normal
+Author/Sign produces the distinct sdk-health package `47dccc41`, review
+`ba9db538` and sidecar `d37dfb8d`; independent OpenSSL verification passes and
+refuses a modified payload, preserving legacy packages.
+
+Signing preserves hashes and metadata for 274 previous non-key files except the
+ordinary read-store ctime refresh; two signing-key files are checked by metadata
+only, without reading their contents. Exactly thirteen files are added, while the
+controller, zero claims and journal 81/twelve Cases stay unchanged. A separate
+no-SCAN diagnostic reaches one SCAN prompt and sends only STOP, without stage approvals. Case
+`67c78496` records released client withdrawal with no target; only journal content
+changes to 84/thirteen Cases. Consent, control and grants are preserved and
+revision 6 remains unregistered. No scan, acquisition, recovery or merge occurs.
+New-GUI TCC is unobserved, independent of the older image's allowed observation;
+fresh physical readiness remains required. P096-005 stays partial under its
+unchanged six/two/two matrix, without a qualifier decision or adoption. Private
+`PRIMARY_EVIDENCE_STORE` copies remain separate from public retention policy. See
+`node:docs/audits/REVIEW-SENSORIUM-NATIVE-PREFLIGHT-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/native-corrected-20261020-runtime.json`.
+
+**Later fresh native observation (2026-10-20).** The same `88542281`/source
+`280b188c`, GUI `2b19ea81` and package `47dccc41` complete one freshly approved
+SCAN/BIND/REGISTER revision 6/WEAR p21 sequence. A separate new-GUI permission
+probe observes allowed with confirmed state-only manager cleanup; TCC attribution
+remains unverified. The source observation reports `observed-released`,
+`run-completed`, cooperative native cleanup, executor exit, durable audit revision
+2 and controller release. Host snapshots show journal 93/fourteen Cases, zero
+claims and unchanged controller namespace. Revision 6 stays stopped and
+registered with its fresh binding and original five-minute p21 grant. Persisted
+lifecycle fields make the root incompatible with older strict readers. This
+retains `qualification:false` and `adoption:false`, without closing a formal
+six/two/two prerequisite case or freshly observing firmware. No additional
+hardware trial, reset, retry or merge follows. See
+`node:docs/evidence/sensorium-host-control-20261019/native-p21-r6-20261020-runtime.json`
+and the existing native-preflight review.
