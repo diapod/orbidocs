@@ -328,11 +328,50 @@ neither view grants receive authority. Per-message host evaluation is unchanged.
 
 P076-032 / MSG-ONB-007/008 is locally qualified:
 `node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`
-pins clean sources/binaries, 1308 conformance executions, 34 strict Story-010
-phases and 32/41 actual browser cases. Two ordinary operators outside root use
+pins clean sources/binaries, 1308 conformance/capsule executions
+(1266 conformance + 42 capsule), 34 strict Story-010 phases and 32/41 actual browser cases. Two ordinary operators outside root use
 independent explicit INAC/receive consent and correlated send/open/read. Real
 child/parent expiry, locked delegate, restart, stale status and competing retry
 recover once only after explicit action; parent withdrawal cascades. Public
 proof qualification is identical before/after extraction. The independent
 contact-display view confers no receive authority. Org custody, the final mixed
 candidate and release readiness remain separate. Historical evidence is unchanged.
+
+### Child-consent inventory and explicit withdrawal (P076-035, 2026-10-21)
+
+Implementation/review checkpoint: `in-progress`; focused browser qualification is
+pending at `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`.
+The [P076 decision](../../40-proposals/076-limited-messaging-grants-decision.md#p076-035-child-consent-ui-implementation-checkpoint-2026-10-21)
+owns the contract. The 2026-10-18 P076-032 measurement keeps its API-only scope
+for individual withdrawal and does not establish this new UI gate.
+
+The existing `GET /v1/identity/messaging-issuance/grants` status DTO adds
+`grants[].passports[]`: immutable passport id, capability/profile, exact public
+scope and validity, typed authority status/reasons, local withdrawal/id, separate
+publication and `allowed_actions`. The daemon selects only locally issued exact
+children of the owned, Node-bound imported grant; observations received from
+peers are excluded. It reads one immutable state with the active root and fixed
+time and performs no refresh, renewal, withdrawal or retry. Persistence remains
+bounded to 1024 issued children; UI pagination is 25 rows with a bounded 32 MiB
+status response. The page never treats an observed `ready` as execution authority.
+
+The native form at `/app/welcome/messaging/issuance/consents/withdraw` requires
+participant-session CSRF and `confirm=withdraw`, preflights the exact grant/child
+association and forwards the immutable id to the existing
+`/v1/identity/messaging-issuance/consents/revoke` host API. The host remains the
+authority owner. Expired or stale readiness and delegate lock do not alone
+disable withdrawal. Concurrent or repeated known-id operations reuse one durable
+withdrawal; the active parent and siblings are preserved. Local refusal commits
+before publication, with no automatic resend or restoration.
+
+The publication enum is `not-requested | pending | confirmed | covered-by-parent`.
+The last two require status origin, exact grant binding and monotonic revision
+verification. An authentic expired lease can retain known revocation; explicit
+child acknowledgement takes precedence over parent coverage. A revoked parent
+stops separate child publication, so parent coverage is a distinct terminal
+observation rather than permanent `pending`. This was repaired during review.
+GET, navigation, import, restart and unlock neither retry pending decisions nor
+create sovereign authority. Focused browser evidence must measure selection,
+confirmation/CSRF refusal, concurrency/lost response, unchanged siblings and
+refused delivery on a synthetic federation without model/VM; no completion or
+release claim is made at this checkpoint.

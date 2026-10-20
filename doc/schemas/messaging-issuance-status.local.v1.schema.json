@@ -106,6 +106,92 @@
               "maxLength": 128,
               "pattern": "^passport:capability:"
             }
+          },
+          "passports": {
+            "description": "Public child inventory of this exact locally imported grant and bound owner/node. Peer observations are excluded. Authority observation, local withdrawal and publication are separate facts; GET performs no refresh, issuance or retry.",
+            "type": "array",
+            "maxItems": 1024,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "passport_id": {
+                  "$ref": "capability-passport.v2.schema.json#/properties/passport_id"
+                },
+                "capability_id": {
+                  "$ref": "capability-passport.v2.schema.json#/properties/capability_id"
+                },
+                "profile": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "issued_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "expires_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "scope": {
+                  "$ref": "capability-passport.v2.schema.json#/properties/scope"
+                },
+                "status": {
+                  "enum": [
+                    "ready",
+                    "blocked",
+                    "unknown"
+                  ]
+                },
+                "reasons": {
+                  "$ref": "messaging-send-decision.local.v2.schema.json#/properties/reasons"
+                },
+                "locally_withdrawn": {
+                  "type": "boolean"
+                },
+                "withdrawal_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "^passport-revocation:"
+                },
+                "withdrawal_publication": {
+                  "enum": [
+                    "not-requested",
+                    "pending",
+                    "confirmed",
+                    "covered-by-parent"
+                  ],
+                  "description": "An authenticated explicit child acknowledgement confirms publication. An authenticated revoked parent covers an unpublished child withdrawal separately; an expired status lease does not erase either fact."
+                },
+                "allowed_actions": {
+                  "type": "array",
+                  "maxItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "const": "withdraw"
+                  }
+                }
+              },
+              "required": [
+                "passport_id",
+                "capability_id",
+                "profile",
+                "issued_at",
+                "expires_at",
+                "scope",
+                "status",
+                "reasons",
+                "locally_withdrawn",
+                "withdrawal_id",
+                "withdrawal_publication",
+                "allowed_actions"
+              ]
+            }
           }
         },
         "required": [
@@ -121,7 +207,8 @@
           "status/valid_until",
           "passport_ids",
           "withdrawn_passport_ids",
-          "withdrawal_publication_pending"
+          "withdrawal_publication_pending",
+          "passports"
         ]
       }
     }

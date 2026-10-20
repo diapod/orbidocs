@@ -179,7 +179,7 @@ or unit test alone never closes a runtime gate.
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
-| P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | todo | Owner-bound child list and explicit CSRF-protected withdrawal; idempotent retry, preserved sibling consents and actual-browser evidence; no automatic authority |
+| P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | in-progress | 2026-10-21: implementation and reviewed contract accepted; focused browser gate pending. Owner-bound exact child inventory, explicit CSRF-protected withdrawal, idempotent retry and preserved siblings; no automatic authority |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -224,8 +224,9 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Slice B's MSG-ONB-007/008 browser gates are qualified. Continue with P076-033
-org custody C, then P076-034 final mixed qualification. Slice A
+Slice B's MSG-ONB-007/008 browser gates are qualified. Complete the separate
+P076-035 focused browser gate, then continue with P076-033 org custody C and
+P076-034 final mixed qualification. Slice A
 and P076-031 retain their separate qualified scopes. Review after
 each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
@@ -299,3 +300,59 @@ proofs and message/digest/consent correlation requalify before/after extraction.
 Historical reports and failed attempts remain unchanged. This focused gate does
 not qualify the full P076-034 candidate, org custody or release readiness.
 P076-035 remains the separate child-inventory/individual-withdrawal UI follow-up.
+
+## P076-035 child-consent UI implementation checkpoint (2026-10-21)
+
+Status: `in-progress`. The implementation and reviewed contract below are
+accepted; this checkpoint does not establish measured browser qualification. The
+planned focused evidence location is
+`node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`. P076-032's
+2026-10-18 API-only individual-consent scope remains a historical measurement;
+P076-035 supplies a new UI gate without rewriting it.
+
+`GET /v1/identity/messaging-issuance/grants` extends
+`messaging-issuance-status.local.v1` with `grants[].passports[]`. Each row is an
+exact locally issued child of the imported grant, bound to the current participant
+and Node. Peer-observed grants and children are excluded. A row includes public
+capability/profile, exact signed scope, validity, typed current-authority reasons,
+local withdrawal, its stable public identifier and host-owned `allowed_actions`.
+The existing 1024-child persistence bound is unchanged. GET uses one immutable
+state/root/time observation; it does not refresh remote status, issue, withdraw or
+retry anything. UI pages show at most 25 child rows.
+
+Current authority and publication remain different facts. Displayed `ready` is
+an observation, not reusable execution permission. Expiry, stale parent status or
+a locked delegate do not by themselves prohibit withdrawal; the host controls
+action eligibility, and the existing mutation endpoint checks authority again.
+The publication vocabulary is closed:
+
+| Publication | Meaning |
+|---|---|
+| `not-requested` | No durable local child withdrawal exists. |
+| `pending` | Local refusal is effective, without an authenticated publication acknowledgement. |
+| `confirmed` | An authenticated signed status explicitly lists this child as revoked. |
+| `covered-by-parent` | An authenticated signed status revokes the parent and covers the local child withdrawal without a separate child acknowledgement. |
+
+Status origin, grant binding and monotonic revision are verified before either
+acknowledgement is reported. A correctly signed expired lease can still establish
+known revocation; it cannot restore current authority. Explicit child
+acknowledgement takes precedence over parent coverage. This distinction repairs
+the review case where parent revocation stops separate child publication and an
+already withdrawn child would otherwise appear permanently pending.
+
+The native participant-session form posts to
+`/app/welcome/messaging/issuance/consents/withdraw`, requires CSRF and explicit
+confirmation, and binds the exact grant/child selection before forwarding the
+immutable passport id to the existing host endpoint. Repeating a known withdrawal
+reuses its stored signed artifact and id. It neither renews a child nor changes
+the parent or siblings. Local refusal is durable before publication; unavailable
+publication is visible and can be retried explicitly. GET, navigation, import,
+unlock and restart do not approve pending requests, resume blocked messages or
+grant sovereign authority.
+
+The pending browser gate must correlate the rendered child scope and selected id
+with the exact signed public proof; exercise confirmation/CSRF refusal, concurrent
+submissions, lost response and known-withdrawal replay; preserve the active parent
+and sibling consents; and show refused delivery for the withdrawn child. It uses
+a synthetic federation without model/VM. P076-033, P076-034 and release readiness
+remain separate.

@@ -796,3 +796,36 @@ proofs and message/digest/consent correlation requalify before/after extraction.
 Historical reports and failed attempts remain unchanged. This focused gate does
 not qualify the full P076-034 candidate, org custody or release readiness.
 P076-035 remains the separate child-inventory/individual-withdrawal UI follow-up.
+
+### P076-035 child-consent UI implementation checkpoint (2026-10-21)
+
+P076-035 is `in-progress`: implementation and its reviewed contract are accepted,
+while the focused browser measurement is pending at
+`node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`. The
+[accepted P076 decision](076-limited-messaging-grants-decision.md#p076-035-child-consent-ui-implementation-checkpoint-2026-10-21)
+owns the authority semantics. Historical P076-032 individual withdrawal remains
+API-only in its original measured source/binary scope; this is a separate gate.
+
+The limited-grant page now reads the exact locally issued children of its owned,
+Node-bound imported grants, showing public capability/profile, signed scope,
+validity and typed reasons. `grants[].passports[]` excludes peer observations.
+Host-owned `allowed_actions` governs each form; displayed readiness is an
+observation, not a stored grant for execution. Read-only GET uses an immutable
+state/root/time observation and never refreshes, renews or retries. The inventory
+retains the existing 1024-child bound and pages 25 rows in UI.
+
+Single-child withdrawal requires the participant session, CSRF and explicit native
+form confirmation, with an exact grant/child preflight. Existing host authority
+checks remain authoritative. A durable local withdrawal applies immediately and
+known-id repetition reuses one signed artifact without changing the parent or
+siblings. Publication is separately `not-requested`, `pending`, `confirmed` or
+`covered-by-parent`: the latter two require authenticated signed status, and an
+expired authentic observation can still prove known revocation. Parent coverage
+does not falsely claim an explicit child acknowledgement.
+
+The pending browser gate covers actual rendered scope/selection, failed
+confirmation/CSRF, concurrent submission, lost response/repetition, sibling
+preservation and refused delivery. Import, unlock, restart, status reads and
+navigation never resume blocked work or create sovereign authority. Qualification
+uses a synthetic federation without model/VM; P076-034 and release readiness are
+not implied.

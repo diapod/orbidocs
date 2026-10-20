@@ -592,11 +592,39 @@ neither view grants receive authority. Per-message host evaluation is unchanged.
 
 P076-032 / MSG-ONB-007/008 is locally qualified:
 `node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`
-pins clean sources/binaries, 1308 conformance executions, 34 strict Story-010
-phases and 32/41 actual browser cases. Two ordinary operators outside root use
+pins clean sources/binaries, 1308 conformance/capsule executions
+(1266 conformance + 42 capsule), 34 strict Story-010 phases and 32/41 actual browser cases. Two ordinary operators outside root use
 independent explicit INAC/receive consent and correlated send/open/read. Real
 child/parent expiry, locked delegate, restart, stale status and competing retry
 recover once only after explicit action; parent withdrawal cascades. Public
 proof qualification is identical before/after extraction. The independent
 contact-display view confers no receive authority. Org custody, the final mixed
 candidate and release readiness remain separate. Historical evidence is unchanged.
+
+### Child-consent UI implementation checkpoint (P076-035, 2026-10-21)
+
+The [P076 child-consent contract](../../40-proposals/076-limited-messaging-grants-decision.md#p076-035-child-consent-ui-implementation-checkpoint-2026-10-21)
+is implemented and reviewed; P076-035 remains `in-progress` pending its focused
+actual-browser gate at
+`node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`. The historical
+P076-032 evidence measured whole-grant UI withdrawal and API-only individual
+withdrawal. Its date, sources, binaries and scope are preserved.
+
+The UI lists exact locally issued child passports of the participant's own
+Node-bound imported grants, with signed public scope and current typed authority
+observation. Peer observations are not actionable inventory. The read-only status
+projection and host-owned `allowed_actions` do not grant authority; execution
+continues to evaluate the current proof. Expiry or a locked delegate does not by
+itself prevent an explicit withdrawal.
+
+A participant-session, CSRF-protected confirmed form withdraws only the selected
+immutable child. Known withdrawal repetition reuses its durable signed artifact
+and identifier, preserving the active parent and siblings. Local refusal applies
+before publication. `confirmed` requires an authenticated child acknowledgement;
+`covered-by-parent` separately reports an authenticated revoked parent covering
+that child. `pending` is not silently converted to success, and an authentic
+expired observation can retain a known acknowledgement. The pending browser gate
+must measure exact scope/selection, concurrency and lost-response repetition,
+sibling preservation and delivery refusal. GET, navigation, import, unlock and
+restart cause no implicit retry or sovereign admission. This synthetic-federation
+gate requires no model/VM and does not qualify the final mixed candidate or release.

@@ -18,7 +18,42 @@
         "passport:capability:canonical"
       ],
       "withdrawn_passport_ids": [],
-      "withdrawal_publication_pending": []
+      "withdrawal_publication_pending": [],
+      "passports": [
+        {
+          "passport_id": "passport:capability:canonical",
+          "capability_id": "messaging-send",
+          "profile": "messaging-local-send@v1",
+          "issued_at": "2026-10-16T12:00:00Z",
+          "expires_at": "2026-10-16T12:30:00Z",
+          "scope": {
+            "allowed_callers": [
+              {
+                "kind": "http-module",
+                "label": "messaging-service",
+                "subject_key": "module:messaging-service"
+              }
+            ],
+            "profiles": [
+              {
+                "profile": "messaging-local-send@v1",
+                "participant_id": "participant:did:key:z6Mko9hTggMwjSTEaJaPUfE6tqcy2xvU6BnNq3e3o8qVBiyH",
+                "purposes": [
+                  "messaging"
+                ]
+              }
+            ]
+          },
+          "status": "ready",
+          "reasons": [],
+          "locally_withdrawn": false,
+          "withdrawal_id": null,
+          "withdrawal_publication": "not-requested",
+          "allowed_actions": [
+            "withdraw"
+          ]
+        }
+      ]
     }
   ]
 }
