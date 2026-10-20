@@ -1075,3 +1075,38 @@ attempt; P096-005 remains **partial** without formal prerequisite closure. See
 [P096's campaign interruption](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-campaign-interruption-checkpoint-2026-10-20),
 `node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261020-runtime.json`
 and `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-20.md`.
+
+
+### Client-control diagnosis and software repair (2026-10-20)
+
+Device-free reproduction of the frozen client exposes two defects: blocked
+ordinary SSH output can stall its shared heartbeat relay, and internal remote
+EOF/challenge/echo failures can send the explicit `S` withdrawal frame. A
+blocked real-pipe output control times out near 605 ms while endpoint input
+remains open. This proves a reachable software failure path, not the unique
+cause of revision-7 Case `7aef6c89`. Its signed image, report and unresolved
+historical attribution remain preserved.
+
+The source repair sends `S` only for explicit STOP/Ctrl-C and closes the socket
+for internal loss, preserving the host monitor's `ControlLost` classification.
+The first closed client reason and monotonic timestamp use a lock independent
+of socket writes. A bounded ordinary-output queue and nonblocking pipe/TTY
+writes keep heartbeat echoes independent, with bounded drain/final publication
+and a first closed relay reason. Review identifies another fairness gap: many
+individually bounded decision writes can monopolize one turn and delay EOF.
+Queued decisions are bounded, and each turn prioritizes input EOF/STOP before
+another decision write. Existing echo/socket/host-control/campaign
+bounds remain 600 ms/250 ms/one second/900 seconds. The closed confirmation-error
+allowlist also covers LOGOUT/SATURATE/REVOKE/FAULT; that correction is not a cause
+claim for the earlier SCAN.
+
+Create-only `client-control-<scenario>.json` is a strict client diagnostic in the
+protected campaign namespace, separate from host observations. It confers no
+authority, native cleanup attestation, claim-release proof or prerequisite
+closure. This device-free checkpoint performs no SSH action, target build or
+signing, root migration, native attempt or integration. Another physical attempt
+requires a new exact pinned build and signed client plus fresh operator
+approval. P096-005 remains **partial**. See
+[P096's client-control diagnosis](../../40-proposals/096-sensorium-brainflow-connector.md#client-control-diagnosis-and-software-repair-checkpoint-2026-10-20),
+`node:docs/evidence/sensorium-host-control-20261019/client-control-diagnosis-20261020.json`
+and `node:docs/audits/REVIEW-SENSORIUM-CLIENT-CONTROL-2026-10-20.md`.
