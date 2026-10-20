@@ -2108,6 +2108,31 @@ failures and DISC/P096/native gates remain unchanged. Source, raw evidence,
 review and regressions are owned by
 `node:docs/audits/SENSORIUM-FAILED-HELPER-OS-WAIT-2026-10-20.md`.
 
+##### Durable-sync and capture discriminator (partial)
+
+The 2026-10-20 follow-up distinguishes the installed Rust Apple full-sync
+barriers from Python's ordinary fsync. An explicit full-sync pressure arm
+reproduces new 4.108/5.149-second F02 qualification refusals without changing
+SQLite durability or deterministic owner-work guards. That is not attribution
+of a Sensorium OS wait. Test-only one-child controls measure actual retained
+capture's file and directory syncs separately; the signed domain fixture
+measures its whole verification span before the unchanged helper clock.
+
+Sixteen immediate/prepared primitive launches and twelve single-fixture signed
+launches pass, including same-device full-sync, ordinary-fsync and CPU pressure.
+Two primitive observations lose diagnostic metrics and remain unqualified for
+phase coverage; another capture window has no measured worker progress. Passing
+controls do not repair or explain the retained four-fixture failures. The first
+two requested sampler arms actually start no sampler and are not a sampler
+comparison. Direct bash changes invocation mode as well as bypassing the sh
+selector, so no shim-only causal claim follows. Exact observations and subsequent
+explicit observer controls belong to
+`node:docs/audits/DURABLE-SYNC-AND-HELPER-CAPTURE-2026-10-20.md`.
+The separately frozen first-validation observer ABBA control really starts both
+selected samplers. All four helpers pass; same-instance positive dyld/Mach graphs
+belong to the passing children, not a failed wait or an identified recipient.
+No production sync, sandbox, freshness, timeout or native gate is changed.
+
 Next actions: retain the startup limitation and exact failed-child samples;
 resolve the deeper OS wait only through a separately authorized scoped tool or
 a new non-privileged discriminator, without weakening security or timers; independently integrate

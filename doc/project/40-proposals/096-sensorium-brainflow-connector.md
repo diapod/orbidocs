@@ -2534,6 +2534,16 @@ Further diagnosis needs a separately authorized scoped capability or a new
 non-privileged discriminator. Evidence and unchanged limits:
 `node:docs/audits/SENSORIUM-FAILED-HELPER-OS-WAIT-2026-10-20.md`.
 
+The separate durable-sync/capture follow-up adds test-only timing and explicit
+full-sync, prepared-image, interpreter and observer discriminators. It confirms
+that installed Rust Apple sync calls and the old Python fsync pressure are not
+the same operation. New controlled F02 full-sync tails refuse the unchanged
+one-second qualifier; 28 passing single-child/single-fixture launch controls do
+not attribute the retained four-fixture failures or establish a production fix.
+Metric losses, unqualified phase windows and requested-but-unstarted sampler
+jobs remain explicit rather than becoming positive evidence. The detailed owner
+is `node:docs/audits/DURABLE-SYNC-AND-HELPER-CAPTURE-2026-10-20.md`.
+
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.

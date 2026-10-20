@@ -1476,6 +1476,19 @@ run under uncontrolled host conditions is not another paired I/O matrix and
 must not be pooled with the twelve above. Raw snapshots remain retained and
 the unique causes are unassigned.
 
+The separate 2026-10-20 durable-sync follow-up corrects an experimental coverage
+gap, not the owner-work contract. Installed Rust 1.98 Apple sources use
+`fcntl(F_FULLFSYNC)` for both file sync methods; the preceding Python arm used
+`os.fsync`. A new explicit, no-fallback full-sync arm keeps the same four-worker,
+4 KiB, 2 GiB/180-second limits. Twelve further counterbalanced cost matrices
+retain unchanged WAL/FULL, `fullfsync=0`, CAS and work bounds. Both full-sync
+matrices refuse the unchanged one-second qualifier: the 8,192-source maxima are
+4.108046291 and 5.148815791 seconds. The ordinary-fsync maximum is 452.494125 ms;
+all baseline/CPU matrices pass. This establishes a new controlled long-tail
+counterexample, not the unique cause of historical tails or a Sensorium OS wait.
+The current audit, exact pins and private retained observations are owned by
+`node:docs/audits/DURABLE-SYNC-AND-HELPER-CAPTURE-2026-10-20.md`.
+
 P051-006 stays `todo`; lifecycle F-04/F-05 maintenance, operator
 authorization, shadow parity and every D7 component remain open or false as
 already recorded.
