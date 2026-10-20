@@ -650,6 +650,16 @@ revision safety, final snapshot equality and cleanup uncertainty. Existing v1
 wire semantics and durable digests remain unchanged. P055-11 still owns the
 host/provider/console integration and measured cancellation behavior.
 
+The 2026-10-20 Node protected-cancellation investigation adds device-free
+same-image differential controls and phase/clock/worker diagnostics, not new
+S029 wire semantics. An already-returned refusal and terminal session cannot be
+treated as work still approaching a guard; the test observer must retain those
+facts instead of reporting a generic timeout. The original missing historical
+phase is not inferred from later passing runs. See
+`node:docs/audits/REVIEW-SENSORIUM-CANCELLATION-TIMEOUT-2026-10-20.md`.
+P055-11's real provider/console and confirmed own-session cleanup gates remain
+open; neither mock acknowledgements nor a local evidence-store copy close them.
+
 Field naming should follow existing Orbiplex JSON style. The schema should use
 explicit enums for status and should leave diagnostic objects open enough for
 connector-specific details.

@@ -1967,6 +1967,20 @@ Ongoing admission reads one coherent registered config/pin snapshot and does
 not rehash external runtime trees. These are implementation boundaries with
 device-free process evidence, not proof of native or launchd enforcement.
 
+Device-free maintenance checkpoint, 2026-10-20: Node source `3e514138`
+reconstructs three different misleading fixture waits over the actual
+DiscoveryHost/SQLite owners: a returned expired-candidate refusal, a missed
+counter observation during a concurrent approval, and terminal authority failure
+before publication. Same-image original/corrected controls retain all 18 actual
+outcomes, including intentional negative exits; 35 discovery checks, 36 core
+checks and eight collector checks pass. The original unphased historical timeout
+is not uniquely attributable, and an unrelated full-load Responsibility timing
+outlier remains separately disclosed. This is diagnostic/test maintenance, not
+a change to authority, production TTL/deadlines or disposal semantics. See
+`node:docs/audits/REVIEW-SENSORIUM-CANCELLATION-TIMEOUT-2026-10-20.md` and its
+bounded metadata/private cross-run inventory. No native work, grant renewal,
+recovery, acquisition or acceptance promotion follows; tracker gates stay unchanged.
+
 Next actions: integrate the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and
