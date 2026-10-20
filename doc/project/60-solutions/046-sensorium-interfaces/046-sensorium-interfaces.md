@@ -1253,3 +1253,20 @@ approved recovery or physical work remain distinct. See
 [P096's software checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#validation-timeout-software-checkpoint-2026-10-21),
 `node:docs/audits/REVIEW-SENSORIUM-VALIDATION-TIMEOUT-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/validation-timeout-20261021.json`.
+
+### Validation-client target preparation checkpoint (2026-10-21)
+
+The reviewed software correction is now prepared at clean Node source
+`a7266693`, source pin `035c76a7`, deployment `12e0879b` and signed GUI
+`b2c83e3e`. Exact transfer/signature checks, rootless GUI launchd preflight and
+202 frozen client checks pass. The gate remains 250 ms; this is software
+preparation, not new native timing, TCC access or historical attribution.
+
+All 412 prior files, 123 directory identities, three controller files, journal
+135 and the quarantined claim are preserved. Only the new GUI capsule is added.
+No physical trial, renewal, recovery, root migration or integration runs.
+P096-005 stays **partial**; separately scoped root/authority/recovery work and a
+fresh interactive readiness question precede any later physical trial. See
+[P096's preparation checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#validation-client-target-preparation-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-VALIDATION-CLIENT-PREPARATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/validation-client-preparation-20261021.json`.
