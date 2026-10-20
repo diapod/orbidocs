@@ -339,8 +339,9 @@ candidate and release readiness remain separate. Historical evidence is unchange
 
 ### Child-consent inventory and explicit withdrawal (P076-035, 2026-10-21)
 
-Implementation/review checkpoint: `in-progress`; focused browser qualification is
-pending at `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`.
+Historical implementation/review checkpoint: `in-progress` before measurement.
+The subsequent qualified checkpoint below closes P076-035; retained evidence is
+at `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`.
 The [P076 decision](../../40-proposals/076-limited-messaging-grants-decision.md#p076-035-child-consent-ui-implementation-checkpoint-2026-10-21)
 owns the contract. The 2026-10-18 P076-032 measurement keeps its API-only scope
 for individual withdrawal and does not establish this new UI gate.
@@ -375,3 +376,28 @@ create sovereign authority. Focused browser evidence must measure selection,
 confirmation/CSRF refusal, concurrency/lost response, unchanged siblings and
 refused delivery on a synthetic federation without model/VM; no completion or
 release claim is made at this checkpoint.
+
+### Qualified child-consent inventory and withdrawal (2026-10-21)
+
+The normal `delegated-consent-ui` attempt 09 closes P076-035 with 38/38 actual
+browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`. Six binary pins
+remain unchanged; the exact browser pin and source/profile identities are retained
+at `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/README.md`.
+Signed public proofs produce identical `qualified` results before/after extraction.
+The Python pack passes 119/119 tests, including 17 actual-proof cases; prior
+unchanged-product daemon/UI/protocol/CSRF/ledger checks retain their separate scope.
+
+The run binds the rendered exact scope and selected IDs to signed children. Native
+foreign-target, confirmation and CSRF refusals leave inventory unchanged. Two
+concurrent tabs, response loss and later explicit replay retain one node-signed
+withdrawal matching the first signed directory event. Its parent stays active and
+sibling public facts stay unchanged. Actual reverse delivery succeeds and subsequent
+delivery under the withdrawn receive child is refused. Accepted-only history
+remains visible. The two ordinary participants are outside the synthetic root;
+no automatic sovereign admission, model or VM is introduced.
+
+The retained failed attempts remain diagnostic history. The dated P076-032/007/008
+API-only individual-withdrawal evidence is unchanged. P076-035 is `done` as this
+focused gate; P076-033 organization custody and P076-034 final mixed qualification
+remain open. `full_candidate_qualified=false` and `release_ready=false` remain
+explicit.

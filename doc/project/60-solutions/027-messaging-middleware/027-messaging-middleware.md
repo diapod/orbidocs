@@ -604,8 +604,9 @@ candidate and release readiness remain separate. Historical evidence is unchange
 ### Child-consent UI implementation checkpoint (P076-035, 2026-10-21)
 
 The [P076 child-consent contract](../../40-proposals/076-limited-messaging-grants-decision.md#p076-035-child-consent-ui-implementation-checkpoint-2026-10-21)
-is implemented and reviewed; P076-035 remains `in-progress` pending its focused
-actual-browser gate at
+was implemented and reviewed before the focused actual-browser measurement.
+This historical checkpoint was `in-progress`; the subsequent qualified checkpoint
+below closes P076-035 with retained evidence at
 `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`. The historical
 P076-032 evidence measured whole-grant UI withdrawal and API-only individual
 withdrawal. Its date, sources, binaries and scope are preserved.
@@ -628,3 +629,23 @@ must measure exact scope/selection, concurrency and lost-response repetition,
 sibling preservation and delivery refusal. GET, navigation, import, unlock and
 restart cause no implicit retry or sovereign admission. This synthetic-federation
 gate requires no model/VM and does not qualify the final mixed candidate or release.
+
+### Qualified child-consent UI checkpoint (P076-035, 2026-10-21)
+
+P076-035 is `done` in its focused scope: normal attempt 09 passes 38/38
+actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged
+binaries and the pinned browser.
+`node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/README.md`
+retains the signed public proof set and identical loose/extracted `qualified`
+results. The Python pack passes 119/119 tests, including 17 actual-proof cases.
+
+Two ordinary participants outside the synthetic root exercise exact rendered
+child selection and foreign-target/confirmation/CSRF refusal. Concurrent tabs,
+response loss and later explicit replay preserve one immutable signed withdrawal
+matching the first accepted directory event. The parent stays active and sibling
+public facts stay unchanged. Reverse-direction delivery succeeds; the withdrawn child's later delivery is
+refused and accepted-only history remains visible. No model or VM ran.
+
+This is a separate measurement from historical P076-032/007/008, whose individual
+withdrawal was API-only. P076-033 and P076-034 remain open; the focused result
+reports `full_candidate_qualified=false` and `release_ready=false`.

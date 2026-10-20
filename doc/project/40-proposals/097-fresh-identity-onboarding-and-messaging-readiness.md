@@ -799,8 +799,9 @@ P076-035 remains the separate child-inventory/individual-withdrawal UI follow-up
 
 ### P076-035 child-consent UI implementation checkpoint (2026-10-21)
 
-P076-035 is `in-progress`: implementation and its reviewed contract are accepted,
-while the focused browser measurement is pending at
+At this historical implementation checkpoint P076-035 was `in-progress`, with
+the focused browser measurement still pending. The subsequent qualified
+checkpoint below closes that gate; retained evidence is at
 `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`. The
 [accepted P076 decision](076-limited-messaging-grants-decision.md#p076-035-child-consent-ui-implementation-checkpoint-2026-10-21)
 owns the authority semantics. Historical P076-032 individual withdrawal remains
@@ -829,3 +830,25 @@ preservation and refused delivery. Import, unlock, restart, status reads and
 navigation never resume blocked work or create sovereign authority. Qualification
 uses a synthetic federation without model/VM; P076-034 and release readiness are
 not implied.
+
+### Qualified individual child decisions (P076-035, 2026-10-21)
+
+The separate P076-035 gate is `done`: normal attempt 09 passes 38/38 actual-browser
+cases on clean Node `baaef9d8` / Orbidocs `a889d11c` with six unchanged binaries
+and the pinned browser.
+`node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/README.md`
+retains signed public proofs and identical `qualified` results before/after
+archive extraction, together with the failed attempt history. The browser pack
+passes 119/119 tests, including 17 actual-proof cases.
+
+The synthetic ordinary participants remain outside root. Exact rendered child
+selection, foreign-target/confirmation/CSRF refusals, concurrent tabs, one lost
+response and explicit replay correlate with a single signed directory withdrawal
+and immutable local receipt. The parent stays active and sibling public facts stay
+unchanged. Actual reverse delivery succeeds; subsequent delivery under the withdrawn child is refused, while
+accepted-only contact history remains accessible. No model or VM ran.
+
+This closes P076-035 only. P076-033 custody and P076-034 final mixed qualification
+remain open, with `full_candidate_qualified=false` and `release_ready=false`.
+Historical P076-032/MSG-ONB-007/008 measurements retain their original API-only
+individual-withdrawal scope.

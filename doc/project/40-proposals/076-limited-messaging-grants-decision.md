@@ -179,7 +179,7 @@ or unit test alone never closes a runtime gate.
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
-| P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | in-progress | 2026-10-21: implementation and reviewed contract accepted; focused browser gate pending. Owner-bound exact child inventory, explicit CSRF-protected withdrawal, idempotent retry and preserved siblings; no automatic authority |
+| P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -224,10 +224,10 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Slice B's MSG-ONB-007/008 browser gates are qualified. Complete the separate
-P076-035 focused browser gate, then continue with P076-033 org custody C and
-P076-034 final mixed qualification. Slice A
-and P076-031 retain their separate qualified scopes. Review after
+Slice B's MSG-ONB-007/008 browser gates and the separate P076-035 focused gate
+are qualified. Continue with P076-033 org custody C and carry the focused P076-035
+regression into P076-034 final mixed qualification. Slice A and P076-031 retain
+their separate qualified scopes. Review after
 each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
 registry, Node ledger and MVP. No model or VM is required; historical qualifications
@@ -303,9 +303,9 @@ P076-035 remains the separate child-inventory/individual-withdrawal UI follow-up
 
 ## P076-035 child-consent UI implementation checkpoint (2026-10-21)
 
-Status: `in-progress`. The implementation and reviewed contract below are
-accepted; this checkpoint does not establish measured browser qualification. The
-planned focused evidence location is
+Historical implementation status: `in-progress`, before the subsequent qualified
+checkpoint below. The implementation and reviewed contract were accepted before
+the focused browser gate was measured. Its retained evidence is now at
 `node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/`. P076-032's
 2026-10-18 API-only individual-consent scope remains a historical measurement;
 P076-035 supplies a new UI gate without rewriting it.
@@ -356,3 +356,31 @@ submissions, lost response and known-withdrawal replay; preserve the active pare
 and sibling consents; and show refused delivery for the withdrawn child. It uses
 a synthetic federation without model/VM. P076-033, P076-034 and release readiness
 remain separate.
+
+## P076-035 qualified checkpoint (2026-10-21)
+
+P076-035 is `done` within its focused UI scope. The normal `delegated-consent-ui`
+attempt 09 passes **38/38 actual-browser cases** on clean Node `baaef9d8` /
+Orbidocs `a889d11c`, with six unchanged binary digests and browser pin
+`cfb30057edabf240d33882d1300390489804912fc8e57f7ba1e069e39a7b636f`.
+`node:docs/evidence/limited-messaging/2026-10-21-child-consent-ui/README.md`
+retains the report, signed public proofs, source/profile/binary pins, failed
+attempt history and identical `qualified` results before/after archive extraction.
+
+Two synthetic ordinary participants remain outside the sovereign root. The run
+correlates the rendered exact child scope and native selection with signed proofs;
+measures foreign-target, confirmation and CSRF refusals; and proves one durable
+withdrawal across concurrent tabs, response loss and later explicit replay. The
+first signed directory event, local receipt and public withdrawal agree. The
+parent stays active and sibling public facts are unchanged. Reverse-direction
+delivery still works, and the withdrawn receive permission refuses subsequent delivery while
+contact history remains accessible without a receiver address-book fixture.
+
+The Python browser pack passes 119/119 tests, including 17 actual-proof cases.
+Previously passed unchanged-product checks remain separate: 7 daemon regressions,
+368 UI unit plus 2 UI integration tests, 27 protocol, 6 CSRF-client and 22 ledger
+tests. These counts do not represent a new full conformance/sovereign campaign.
+No model or VM ran. Historical P076-032/007/008 evidence retains its API-only
+individual-withdrawal scope. P076-033 and P076-034 remain `todo`; the retained
+qualification explicitly reports `full_candidate_qualified=false` and
+`release_ready=false`.
