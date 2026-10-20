@@ -3541,6 +3541,18 @@ and full-run approvals remain gates. These implementation tests do not promote
 P094-012c5/012c6/023e, market-publication acceptance or alpha readiness; see the
 same Node checkpoint for current tests and remaining limits.
 
+The subsequent operational-vehicle continuation supplies one opt-in test-binary
+entrypoint and a thin source/binary-pin-checking client for those same owners.
+Preparation and calibration acknowledgements remain distinct; EOF, cancellation,
+early/extra approvals and uncertain cleanup cannot authorize continuation. Exact
+owner byte witnesses preserve fractional provider metadata without inventing a
+Python canonicalizer or changing the model input. Dedicated ordinary installed,
+inactive model prerequisites and a built/verified pex.4 remain missing gates,
+followed by new separately approved preparation, calibration and full UI/market
+runs. Model-free integration tests do not qualify model semantics, current
+operator authority or human HIL and do not promote c5/c6/023e, P094-015 or alpha.
+The Node procedure is `docs/operations/TASK-PACK-CALIBRATION.md`.
+
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
 plan before exposing its prepared root, isolating bad rows without blocking
