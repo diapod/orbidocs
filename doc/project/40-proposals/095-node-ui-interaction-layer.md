@@ -752,3 +752,21 @@ Land P095-007 first: it removes an existing history exposure and does not depend
 on the framework decision. Start P095-001 in parallel, then the compatibility
 spike. Do not add docking, persistent draft storage or arbitrary native windows
 until the first slice passes its gates.
+
+
+### Agora inline-unlock acknowledgement follow-up (2026-10-19)
+
+P095-004 retains an unqualified integration boundary: the initial P035 full
+collector observed HTTP 423 from the presentation-context fence after the Agora
+compose handler unlocked a protected participant key during submission. The
+context fence must continue rejecting stale/foreign context; investigate a
+trusted owner acknowledgement for this explicit transition without granting
+module-controlled authority. Determine whether the publication already happened
+before its acknowledgement was discarded, and pin retry/idempotency behavior.
+The original incomplete P035 collector remains private retained evidence.
+
+P035's three UI history-authoring samples explicitly unlock through the host
+before preview. Their eventual transport/recovery qualification does not close
+this inline-unlock acknowledgement gate. The owning implementation contract is
+`node:node-ui/src/presentation_context.rs`; Node's
+`agora-relay-matrix/docs/ROOM-RECOVERY.md` records the observed boundary and scope.

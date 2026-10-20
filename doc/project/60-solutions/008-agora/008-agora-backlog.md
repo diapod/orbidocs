@@ -168,7 +168,7 @@ know about the concept of an "Agora record". All Agora-specific knowledge lives
 in `sign_adapter.rs`. We use the same pattern for passports (refactor),
 Memarium (future), and any future artifact types.
 
-P035-007 now implements independent room recovery with a focused four-case
+The earlier 2026-10-16 P035-007 checkpoint implemented independent recovery with a focused four-case
 Synapse isolation proof at Node 5d5392b2 / Orbidocs b3813122. The restart correction
 is separately qualified by five focused cases at Node b0a44ade / Orbidocs aee179e,
 including a publication-bound noncanonical room. It remains partial:
@@ -176,3 +176,68 @@ the full campaign waits for P035-009 external retention. The filtered,
 page-durable long-history, empty-bootstrap and late-binding paths are qualified by
 P035-006 on unmodified Synapse; token-cycle/legacy-anchor controls keep their conformance scope. Archive identity is tar/member
 content, with gzip/zlib provenance and bounded streaming extraction.
+
+The full 2026-10-19 continuation closes P035-007/009/010 for per-room-recovery-v2:
+34 Matrix/five SQLite cases, continuing live delivery during two 640-record history
+workloads, complete admission matrix, restart/replay and both independent PDU gates.
+All 2041 Node PDUs fit 65536 bytes (maximum 49927); confidence-0.5 gossip and permitted
+Whisper retain exact bytes. The complete 16511847-byte set has identical original,
+extracted and fresh-retrieved qualification, with payload outside Git and 2282442
+bytes of controls. The original 128 MiB retention refusal remains an attested
+measurement receipt; explicit 192 MiB compression changes no tar/member bytes or
+decoder/budget ceiling. Earlier P18/P20/P21 and focused results keep their scopes.
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
+Global Agora partial, one-volume retention limitations, federation, all Whisper,
+P095 inline-unlock and release/production gates remain separate.
+
+
+The separate 2026-10-19 review closes P035-010's implausible-delay correction:
+four focused Synapse cases at Node ac386090 / Orbidocs fbba8e73 qualify the checked
+24 h boundary, reasoned local operator CAS escape, restart, live confidence-0.5
+and exact-source replay. The 142758-byte complete proof is externally retrieved;
+full gates remain the original campaign. Original failed attempts are retained as
+cause-only capsules with preserved qualifier refusals. At that prior review,
+source deduplication before larger campaigns (P035-011), qualified independent
+copy/manual release verify (P035-012), and S039/batch CAS (P035-013) remained open.
+The following dated closure supersedes that P035-011 status; budgets are unchanged.
+
+
+P035-011 is done under the accepted
+[source-observation decision](../../40-proposals/035-agora-topic-addressed-record-relay.md#p035-011-source-observation-decision-2026-10-19).
+The historical gate at clean Node 3b06e1b4 / Orbidocs 51de82e9 is private-candidate
+conformance retained as a small report referencing the frozen original input,
+separate from fresh qualification at clean Node ee64042f / Orbidocs a2addea1 on
+2026-10-20 and its adopted external runtime proof.
+All 34 Matrix/five SQLite cases and source/legacy/extracted/fresh-retrieved ordinary
+results agree on stock Synapse 1.162.0, room v10. Exact author bytes and all 2048
+PDUs/2048 stored-row artifacts remain; all 2041 Node PDUs fit 65536 (max 49927).
+Complete retention is 15220597 bytes at the default 128 MiB dictionary, with 5878
+runtime compact-control bytes versus the prior 2282442. Aggregate new public
+proof metadata is 49484 Git bytes, including the 5878 runtime controls. All
+existing budgets remain unchanged. Conservatively charging the whole collection,
+including historical reports and README, totals 15264203 bytes within 16 MiB.
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`.
+The dual-view comparison tests coding/references, not independent capture; its
+fairness timings include dual-write I/O. P035-012/013 remain todo, global Agora
+stays partial, and independent backup, federation, all Whisper and release/
+production qualification remain separate.
+
+The following 2026-10-20 P035-012 closure supersedes that pending-copy status:
+the operator-adopted secondary mirror shares the primary device but has a complete
+online copy on another physical member. Eight exact bundles / 32517795 original
+file bytes per logical store freshly qualify with enforced primary/capture denial
+at Node dc996b24 / Orbidocs 83c77609. The separate clean 70d507cb release rehearsal
+freshly checks both locations and the candidate-bound v2 outer gate accepts only
+the named attempt; other release checks stay unqualified. Source outcomes,
+original per-location store facts and all budgets are preserved. No source is
+retired; private auxiliary originals, including a retention refusal, are separately
+held. P035-012 is done for this accepted protection level, P035-013 remains todo,
+and global Agora, independent-host, broader Whisper and production scope remain
+unchanged. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
+
+The subsequent 2026-10-20 review clarifies point-in-time mirror health and
+temporary-source durability without changing frozen evidence. P035-014 tracks
+periodic topology and fresh sample supervision with S039 degradation/recovery
+delivery; it remains todo. Integrate and baseline-test the diverged recovery/
+retention branch before P035-013 under the operator's separate merge decision.
