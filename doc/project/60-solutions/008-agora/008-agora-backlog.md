@@ -239,5 +239,9 @@ unchanged. Evidence:
 The subsequent 2026-10-20 review clarifies point-in-time mirror health and
 temporary-source durability without changing frozen evidence. P035-014 tracks
 periodic topology and fresh sample supervision with S039 degradation/recovery
-delivery; it remains todo. Integrate and baseline-test the diverged recovery/
-retention branch before P035-013 under the operator's separate merge decision.
+delivery; it remains todo. The separately authorized recovery/retention integration
+prerequisite is now validated against the actual primary baselines, preserving
+frozen evidence, budgets and unrelated capability work. See
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md` for full/scoped repository checks
+and fresh evidence reads. P035-013 remains a separate task; this renews no Matrix
+runtime or release qualification.

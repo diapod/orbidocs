@@ -1569,11 +1569,15 @@ S039 notification owners rather than a new storage-owned scheduler:
   retire evidence or repair storage automatically, and do not block emergency
   retrieval of intact bytes on healthy-topology checks.
 
-Before P035-013, reconcile the diverged Node/Orbidocs branches using baseline
-gates and semantic review of ledger/MVP, frozen evidence, policy budgets, P095
-and S039. The implementation-side plan is
-`node:docs/development/WHISPER-BRANCH-INTEGRATION.md`. This records required work;
-the operator has not authorized merging the currently isolated branch.
+The operator-authorized local integration prerequisite for P035-013 is validated
+on 2026-10-20. The review reconciles ledger/MVP, all frozen evidence and policy
+budgets, P095 and S039 against the actual primary baselines. The full workspace,
+affected fixture follow-up, documentation gates and fresh pre-closure reads pass;
+the exact candidates and original baseline failures are recorded in
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. Retained worktrees support
+future isolated changes under `node:docs/development/WHISPER-BRANCH-INTEGRATION.md`.
+P035-013/014 stay todo, Agora stays partial, and no historical Matrix/runtime or
+release qualification is renewed by this integration. Git push is a separate action.
 
 The review now retains a fresh-checkout manual rehearsal at clean Node `16f20d0e`
 / Orbidocs `c02653b2`: sixteen new per-location retrievals, actual outer retention
