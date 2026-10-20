@@ -2062,7 +2062,35 @@ P045-DISC-002 through P045-DISC-007 retain their existing completion gates;
 device-free diagnostics do not qualify a BLE/native launch tuple, protected-stop
 matrix or product exposure.
 
-Next actions: integrate the frozen 001/P055-10 contracts through
+##### Four-thread preflight follow-up (partial)
+
+The separate `ca894112` diagnostic image reproduces the mature four-thread
+retained-image timeout without increasing its one-second lifetime or three-second
+observer guard. A test-only witness is written after exact stdin validation and
+before phase-file I/O on the actual verified launch path. Four ps-only cohorts
+retain 14/16 failures before that witness. Counterbalanced live-ps off/on controls
+retain 10/16 versus 12/16 failures; polling is not necessary. A separate no-live-ps
+count-one/count-four comparison retains 0/4 versus 5/16, with successful first
+frames as late as 994.161 ms. Concurrent setup/worker/helper work changes together;
+the specific shared resource is not isolated.
+
+The sampled dyld/Mach wait belongs to an exactly correlated but passing child.
+It neither assigns the failed children's OS waits nor identifies the notification
+recipient. Diagnostic blind spots and private collector cleanup have checked
+software corrections; no production startup repair, serialization, retry,
+deadline-origin shift or native qualification is claimed. Historical failures
+stay unassigned and DISC-002 through DISC-007 retain their gates. Detailed cohort,
+review, regression and private-retention evidence is owned by
+`node:docs/audits/SENSORIUM-NATIVE-PREFLIGHT-FOUR-THREADS-2026-10-20.md`.
+
+The same frozen image's full daemon library passes 2,548 tests with 71 ignored
+in 421.17 seconds; strict workspace/all-target Clippy, 54 supervisor tests and
+248 Python tests (19 skipped) pass. These regressions do not explain the red
+cohorts or close startup, physical/native or release qualification.
+
+Next actions: retain the startup limitation and distinguish the actual failed
+child's OS wait without weakening security or timers; independently integrate
+the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and
 only then closes DISC-007. Existing P096-009 manual setup and P096-015 initial

@@ -2503,6 +2503,24 @@ the detailed evidence status and unchanged discovery gates in
 and the Node
 owner report
 `node:docs/audits/REVIEW-SENSORIUM-NATIVE-HELPER-FAILURES-2026-10-20.md`.
+
+The subsequent four-thread preflight follow-up remains partial. The unchanged
+ordinary test fails again on `ca894112`; an explicitly selected actual retained
+launch now observes entry before phase-file I/O. The no-live-ps concurrency
+contrast retains 0/4 timeouts at count one and 5/16 at count four; a separate
+ps-off/on contrast retains 10/16 and 12/16, so polling is not required. These
+controls narrow the failed interval, not its unique OS cause. A sampled dyld/Mach
+wait belongs to a passing child, and unprivileged port inspection refuses.
+Test-only observation and private collector lifecycle corrections do not create
+a production startup fix, a count-one gate or a native qualification. Original
+timers, disposal, authority, draft/partial status and all P096 gates remain exact.
+The next causal step must distinguish the failed child's OS wait and recipient
+without security changes, hidden retries or a moved watchdog origin. Evidence:
+`node:docs/audits/SENSORIUM-NATIVE-PREFLIGHT-FOUR-THREADS-2026-10-20.md`.
+
+The same source-pinned diagnostic image's full daemon library passes 2548/0/71
+in 421.17 seconds, with strict Clippy and shared/tool regressions passing. This
+does not explain the failed cohorts or promote P096/native/release readiness.
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.
