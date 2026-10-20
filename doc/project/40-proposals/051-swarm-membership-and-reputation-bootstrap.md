@@ -1365,6 +1365,13 @@ The future first new-protocol write requires an explicitly acknowledged storage-
 fence; M0 changes no store, source authority or D7 component. This early pass does
 not complete P051-010 or F-04/F-05 and cannot change the wider tracker status.
 
+The 2026-10-20 M1 [internal progress checkpoint](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md#m1-internal-progress-checkpoint-2026-10-20)
+adds scoped epochs, exact CAS, finite retry and outside-admission WAL cleanup.
+Pinned preparation finishes under v1 appends, with scoped owner/performance
+conformance only. It neither opens D7 nor implements public operator authority,
+durable alerts, F-04/F-05 or V3. Historical reports and tracker statuses retain
+their scope; no broader task is closed by these component tests.
+
 The preferred path completes A–D first, then refreshes P051-010 against the actual
 qualified baseline and implements the manual slice. An earlier insertion **after
 A and N** is reasonable if the B/D interfaces above have been agreed, unsupported

@@ -1,6 +1,7 @@
 # S040: inactive maintenance and shadow composition contracts
 
-Status: accepted local design, draft contracts; M0 offline conformance only.
+Status: accepted local design, draft contracts; M0 offline and M1 internal-owner
+conformance only, without operator/runtime qualification.
 Date: 2026-10-20.
 Based on: P051 sections 25–27 and its early P051-010 alignment, P018, P072/S037,
 S028 and S039. This page does not amend normative rights or grant operator power.
@@ -15,8 +16,9 @@ qualification. P051-010, F-04/F-05 and the wider P051-015/016 work remain open.
 
 ## Context and problem statement
 
-The F-02 worker removes replay/conversion from admission, but continuous v1
-writes can still invalidate its coarse CAS. Foreign incarnations and exhausted
+At the planning baseline, the F-02 worker removed replay/conversion from admission
+but continuous v1 writes could invalidate its coarse CAS. The M1 checkpoint below
+addresses that internal progress defect. Foreign incarnations and exhausted
 budgets lack safe maintenance escape paths. A maintenance protocol must preserve
 source-local consequences and participant rights while leaving room for later
 repair reviews. Incidental SQLite/storage behavior must not become procedural
@@ -107,6 +109,25 @@ S039 cannot infer a recipient from a raw name. Pending/queued/delivered/opened/
 acknowledged states differ. Notices/actions expose minimal digest references and
 authenticated inspection; acknowledgment grants no authority or corruption repair.
 
+### M1 internal progress checkpoint (2026-10-20)
+
+Node's existing inactive worker now separates ordinary v1 appends from scoped
+history, migration-lane and prepared-input epochs. SQL bookkeeping observes
+legacy v3 writers without changing retained JSON bytes or executing the M0
+request protocol. Exact epoch deltas and generation/head CAS precede commit;
+the host/incarnation of a request cannot be rebound by retry. The current hint
+binds the observed Responsibility history sequence; it is not composition parity.
+Automatic checkpoints are disabled on the private writer and passive WAL cleanup
+runs outside admission, preserving v1's connection and enforcement policy.
+
+Owner tests exercise every-plan v1 writes, 0/1/500/1000/8192 sources, recovery,
+bounded conflicts/busy and the unchanged D7 floor. This is internal conformance
+and performance, not Q runtime qualification, M4 grant admission or M5 delivery.
+Three conflicts expose a process-local deduplicated signal; no durable operator
+notification is claimed. F-04/F-05, V3 and wider P051 remain open. See
+`node:docs/development/RESPONSIBILITY-MIGRATION-PROGRESS-M1.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M1-2026-10-20.md`.
+
 ## Trade-offs
 
 Bounded closed contracts make ownership and refusal auditable but do not prove
@@ -130,8 +151,9 @@ No generic superset relation can replace exact v1/v2 composition comparison.
 
 ## Open questions
 
-M0 design choices are frozen as draft. M1–M5, V3 and Q implementation and measured
-qualification remain open. General repair contracts under P051-010 and portable
+M0 design choices are frozen as draft. M1's internal owner mechanics have scoped
+conformance/performance; M2–M5, V3 and Q implementation/runtime qualification
+remain open. General repair contracts under P051-010 and portable
 backup/restore remain separate. A private `PRIMARY_EVIDENCE_STORE` configuration
 may select future capture storage but is neither a public path nor accountable
 external retention without the owner/retrieval/commitment policy in
@@ -139,7 +161,7 @@ external retention without the owner/retrieval/commitment policy in
 
 ## Next actions
 
-Implement and review M1 first. Register no maintenance capability or route before
+Implement and review M2 next. Register no maintenance capability or route before
 M2/M3 recovery and M4 authorization gates; qualify delivery under M5 and shadow
 composition under V3/Q. The Node report profile freezes 37 **future** cases in
 six evidence classes; fixtures and offline checks are not completed runtime cases.
