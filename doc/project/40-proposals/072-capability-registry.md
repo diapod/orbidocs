@@ -414,6 +414,14 @@ reflects the selected provider after an explicit operation selection.
 The original closed `capability-catalog-result.v1` operation shape has no
 per-operation `availability`; request v1 still emits that exact shape.
 `capability-catalog-result.v2` requires the field for every described operation.
+It also requires `unresolved/reason` on an unresolved operation binding:
+`missing`, `untrusted`, `unknown`, `remote`, `cycle`, `constraint`, `limit`, or
+`budget`. `budget` means that this describe exhausted its 16 distinct trusted
+local source snapshots; `limit` means its depth or byte bounds prevented
+closure. The reason is intentionally closed and omits private refs and paths.
+The result v1 binding remains unchanged. A repeated source uses the same
+temporary resolution result, and source order rather than the keyed operation
+selector decides which distinct source receives a finite slot.
 An absent field in v1 gives no basis to infer readiness or execution permission.
 No consumer outside the checked Node/Orbidocs repositories has been verified;
 explicit version selection preserves the old v1 wire shape. Guidance is absent unless its provider

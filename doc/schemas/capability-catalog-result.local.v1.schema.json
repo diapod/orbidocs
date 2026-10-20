@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:orbiplex:schema:capability-catalog-result-local:v1",
+  "$id": "urn:orbiplex:schema:capability-catalog-result.local:v1",
   "title": "Local Capability Catalog Result Versions",
   "description": "Exact local result variants. A request v1 receives result v1; a request v2 receives result v2. Both remain caller-scoped descriptive data.",
   "oneOf": [

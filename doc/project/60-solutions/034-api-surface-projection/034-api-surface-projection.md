@@ -147,10 +147,13 @@ contracts become stable enough to promote into canonical schemas.
 
 P068-GUIDE-001 contributes the completed operator-admitted local catalog
 projection of exact capability–operation–schema bindings. Trusted local schema
-snapshots close up to three transitive levels and a shared 16-resolution budget
-per describe, under 16 KiB
-source/final bounds; cyclic, unknown, remote or provider-inline schemas
-remain unresolved. Operation ambiguity needs explicit selection,
+snapshots close up to three transitive levels and a shared 16-distinct-snapshot
+budget per describe, under 16 KiB source, cumulative per-root expansion and
+final bounds. The temporary resolver memoizes source/closure outcomes, and
+stable provider/route order allocates the budget independently of the opaque
+operation selector. Cyclic, unknown, remote or provider-inline schemas remain
+unresolved, with a closed reason in result v2. Operation ambiguity needs
+explicit selection,
 default describe presents required/type/enum summaries and explicit
 `include: "schema"` presents the complete trusted local contract,
 and endpoint paths are not part of catalog results. The original closed v1

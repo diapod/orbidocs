@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:orbiplex:schema:capability-catalog-request-local:v1",
+  "$id": "urn:orbiplex:schema:capability-catalog-request.local:v1",
   "title": "Local Capability Catalog Request Versions",
   "description": "Exact admitted request variants for one local catalog operation; the schema discriminator selects the matching result version.",
   "oneOf": [

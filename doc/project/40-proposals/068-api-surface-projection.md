@@ -724,19 +724,32 @@ for the provider contribution.
 
 The original closed `capability-catalog-result.v1` operation shape has no
 per-operation readiness. Request v1 continues to receive that exact result v1.
-Explicit request v2 receives result v2, which requires `operations[].availability`.
+Explicit request v2 receives result v2, which requires `operations[].availability`
+and a closed `unresolved/reason` on every unresolved binding. The reason is
+`missing`, `untrusted`, `unknown`, `remote`, `cycle`, `constraint`, `limit`, or
+`budget`; none carries a schema path or provider diagnostic. v1 keeps its
+original unresolved binding shape.
 The controller uses v2. A local union binding in the catalog's own admitted
-API descriptor documents both request/result variants without guessing a
-provider route. The catalog remains the same two host-local operations; the
-version discriminator does not grant an effect or alter routing lookup.
+API descriptor documents both request/result variants through canonical
+`urn:orbiplex:schema:<name>.local:v1` IDs. All bindings in that descriptor use
+URNs, including the refusal schema, without guessing a provider route. The
+catalog remains the same two host-local operations; the version discriminator
+does not grant an effect or alter routing lookup.
 Transitive local schema refs close with a maximum depth of three and a shared
-budget of 16 snapshot resolutions per describe, with 16 KiB for each source
-and the final closed schema. A cycle, unknown or
-remote ref stays unresolved; no network fetch is attempted.
+budget of 16 **distinct trusted source snapshots** per describe, with 16 KiB
+for each source, each root's cumulative expansion and final closed schema.
+One temporary resolver memoizes trusted sources by ref and completed closure
+by source digest and remaining depth; unsuccessful closures are retained for
+that describe, so repeated bindings produce the same outcome without repeated
+quota consumption. Resolution order is stable by provider ID, method and path,
+using admitted descriptor order for an exact tie, never by the host-keyed
+operation selector. Untrusted, unknown and remote refs do not consume snapshot
+slots. A cycle, unknown or remote ref stays unresolved; no network fetch is
+attempted.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | done | Operator-admitted local providers expose exact trusted request/response bindings, effect, idempotency and distinct opaque operation selectors; ambiguous bindings require selection. The default summary marks omitted constraints and full schema needs explicit request. Bounded transitive local refs close; unresolved/remote refs and missing effects remain explicit. v1 wire shape is preserved and v2 explicitly carries per-operation readiness. C and supervised H evidence, including loss/restart and no endpoint disclosure, is in `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. Signed package provenance, federation and general execution are outside this local projection. |
+| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | done | Operator-admitted local providers expose exact trusted request/response bindings, effect, idempotency and distinct opaque operation selectors; ambiguous bindings require selection. The default summary marks omitted constraints and full schema needs explicit request. Bounded transitive local refs close with a memoized, distinct-snapshot budget and stable source order; unresolved/remote refs and missing effects remain explicit. v1 wire shape is preserved and v2 carries per-operation readiness and closed unresolved reasons. C and supervised H evidence, including loss/restart and no endpoint disclosure, is in `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. Signed package provenance, federation and general execution are outside this local projection. |
 
 ## Implementation Tracking
 

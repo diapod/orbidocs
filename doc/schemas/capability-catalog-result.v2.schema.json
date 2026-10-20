@@ -44,8 +44,19 @@
     "binding": {
       "type": "object", "additionalProperties": false,
       "required": ["state"],
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "unresolved" } } },
+          "then": { "required": ["unresolved/reason"] },
+          "else": { "not": { "required": ["unresolved/reason"] } }
+        }
+      ],
       "properties": {
         "state": { "enum": ["resolved", "unresolved"] },
+        "unresolved/reason": {
+          "enum": ["missing", "untrusted", "unknown", "remote", "cycle", "constraint", "limit", "budget"],
+          "description": "Closed, non-disclosing reason for an unresolved v2 binding. Budget counts distinct trusted local schema snapshots within one describe. Limit covers depth or byte bounds."
+        },
         "schema/ref": { "type": "string", "minLength": 1, "maxLength": 256 },
         "schema/digest": { "type": "string", "pattern": "^sha256:[A-Za-z0-9_-]{43}$" },
         "schema/value": { "type": "object" },
