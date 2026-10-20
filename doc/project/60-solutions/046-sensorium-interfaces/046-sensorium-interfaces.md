@@ -844,3 +844,26 @@ reuse or merge ran. P096-005 stays **partial** under the unchanged six `physical
 `controlled-native-fault` and two exact-candidate `host-software` prerequisites.
 See `node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/authority-renewal-20261020-runtime.json`.
+
+### Native qualification preflight and package identity (2026-10-20)
+
+A freshly authorized SSH attempt with Muse 2 reaches only preflight. Exact GUI
+`0baa4846`/source `7a500816` observes Bluetooth allowed and confirmed no-scan
+cleanup; TCC attribution remains unverified. Released retirement `02af8be7`
+completes 5-to-6 while preserving history, consent, sibling and journal 81/twelve
+Cases. Revision 6 remains unregistered, claims remain zero, and the intended Case
+refuses before SCAN or any stage approval.
+
+Offline comparison proves that immutable acquisition worker `616fd76e` differs
+from the compiled `1fa413b5`; this correctly blocks exact-asset admission without
+identifying the original first failing guard. A distinct revision-1 package
+`sensorium.acceptance.muse-2-p21.sdk-health` requires fresh normal Author/Sign,
+preserving old identities. Sixteen closed preflight stages and bounded closed
+stderr relay diagnostics preserve the guards. Four focused Rust tests and one
+normal-key coexistence test pass; no corrected candidate is frozen yet. Neither
+new consent/lifecycle format nor a completed native prerequisite follows.
+P096-005 remains partial under its unchanged six/two/two origin matrix. A private
+`PRIMARY_EVIDENCE_STORE` durability mirror is separate from public retention
+policy. See
+`node:docs/audits/REVIEW-SENSORIUM-NATIVE-PREFLIGHT-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/native-preflight-20261020-runtime.json`.
