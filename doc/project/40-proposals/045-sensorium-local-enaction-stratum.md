@@ -2010,7 +2010,8 @@ partial counts without raw stderr, sample data, paths or process identifiers.
 
 The purpose-specific fixture candidate has built successfully in 118.625864708
 seconds. It separates retained-image identity using shell builtins and stop/ack
-using minimal Python from the full-containment test. The same purpose image,
+using minimal Python from the full-containment test. That pre-integration
+purpose image,
 using the repository's existing four-thread gate and pinned Messaging
 prerequisite, passes the daemon library with 2,434 passed, zero failed and 65
 ignored in 441.37 seconds. The focused purpose-native suite passes ten tests
@@ -2029,11 +2030,32 @@ receiver, and observer perturbation remains unresolved. The final four-thread
 gate was already repository policy, not a new lock or timeout fix. Neither its
 success nor these stress observations uniquely explains the historical failures.
 
+Integration checkpoint: Node `caa616f9` and Orbidocs `3514802a` retain the combined
+history. The first integrated frozen image's four-thread native-prefix run has eight
+passed, two failed and one ignored: the retained-image case at watchdog expiry and a new
+OS-backed preflight-code-23 assumption. The full library on that exact same image
+then has 2,539 passed, zero failed and 71 ignored in 387.55 seconds. That green
+run does not explain the earlier refusal, and four-thread execution is not a
+startup guarantee either.
+
+The new ordinary code-23 test had a confirmed test-layer error. The correction
+tests the raw `State::apply` port with seven passing pure cases and replaces only
+that new ordinary OS-dependent case with deterministic EOF without an
+acknowledgment. The explicitly ignored OS code-23 control remains available;
+neither the mature retained-image guard nor the revocation guard is ignored or
+increased. On the corrected `f33bff8` image the four-thread native-prefix run
+still has eight passed, one failed and one ignored in 12.19 seconds, failing the
+mature retained-image case at watchdog expiry. Strict workspace/all-target Clippy passes; the
+final full-library run on this corrected image has 2,545 passed, zero failed and
+71 ignored in 454.54 seconds. This does not explain the retained prefix refusal.
+No four- or sixteen-thread startup guarantee follows, and the unique historical
+causes remain unassigned.
+
 The retained-image helper's original 1,000 ms watchdog and the protected-stop
 fixture's three-second readiness guard within its six-second request remain
 unchanged. No lifetime, admission, sandbox or disclosure rule is relaxed, and no
 timeout increase or harness lock is part of this follow-up. Native/hardware and
-product-exposure qualification remain open; integration is pending. The evidence
+product-exposure qualification remain open. The evidence
 owner is
 `node:docs/audits/REVIEW-SENSORIUM-NATIVE-HELPER-FAILURES-2026-10-20.md`.
 P045-DISC-002 through P045-DISC-007 retain their existing completion gates;

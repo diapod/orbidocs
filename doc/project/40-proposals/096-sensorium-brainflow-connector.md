@@ -2463,7 +2463,8 @@ retained and explained separately, not relabelled as a product failure or succes
 Closed exit states, milestones and partial counts exclude raw stderr, sample
 data, paths and process identifiers.
 
-The same purpose image passes the existing four-thread daemon-library gate with
+The pre-integration purpose image passes the existing four-thread daemon-library
+gate with
 pinned Messaging: 2,434 passed, zero failed and 65 ignored in 441.37 seconds.
 Its focused purpose-native suite passes ten with one ignored in 16.71 seconds;
 strict workspace/all-target Clippy passes in 44.86 seconds. The retained
@@ -2473,12 +2474,30 @@ watchdog failure. This does not qualify arbitrary loaded startup or identify the
 historical cause; an absent phase record does not prove pre-script failure.
 The four-thread gate is existing repository policy, not a new timeout or lock.
 
+The integrated Node `caa616f9` / Orbidocs `3514802a` checkpoint preserves those
+observations. Its first integrated frozen image has a four-thread native-prefix refusal (eight
+passed, two failed, one ignored), followed by a full-library result of 2,539
+passed, zero failed and 71 ignored in 387.55 seconds on the same image. The
+refusal combines the mature retained-image watchdog and a new OS-preflight-23
+test assumption; the green full run is not their explanation. The new test-layer
+error is corrected through seven passing pure `State::apply` cases and a
+deterministic EOF-without-acknowledgment ordinary test. The explicitly ignored
+OS code-23 control remains; neither mature retained-image nor revocation guards
+are ignored or increased. The corrected `f33bff8` image still has eight passed,
+one retained-image test failure at watchdog expiry and one ignored in a
+four-thread prefix run (12.19 seconds).
+Its final full-library run has 2,545 passed, zero failed and 71 ignored in 454.54
+seconds; strict workspace/all-target Clippy passes. This does not explain the
+retained prefix refusal.
+Neither four- nor sixteen-thread startup is guaranteed, and the unique historical
+causes remain unassigned.
+
 The retained-image helper's original 1,000 ms watchdog and the protected-stop
 fixture's three-second readiness guard within its six-second request are
 retained; no lifetime, admission, sandbox, disclosure or timeout limit is
 widened. These scoped software checks and fixture changes establish neither
-all-workspace test completion nor native/hardware qualification. Integration is
-pending. See
+all-workspace test completion nor native/hardware qualification. Integration and
+the scoped corrected-image full regression are recorded above. See
 the detailed evidence status and unchanged discovery gates in
 [P045](045-sensorium-local-enaction-stratum.md#native-helper-diagnostic-follow-up-2026-10-20)
 and the Node
