@@ -204,10 +204,61 @@ charge, while changed-body replay, an unoffered profile, a mismatched runtime,
 or publication authority fails closed. JSON-e Flow controls only the bounded
 ordering, branch, and repetition of those already admitted passages.
 
+### Exact Readback Versus Write Admission
+
+Reading an owner's exact complete committed result is not admission to execute
+the operation again. The read appends no facts, invokes no provider or driver,
+repeats no effect and adds no charge. Applicable current authenticated actor,
+policy, classification and disclosure checks still apply. This shared distinction
+does not supply a generic bypass: each owner determines which current lifecycle
+and session checks also protect its read surface, separately from new-write gates.
+
+For Agent inference passages, retained product and required trace/provenance
+facts, plus an identical already committed terminal selection when requested,
+form that complete result. Expiry of the inference-Flow binding alone does not
+require reinference or prevent exact readback. A running Agent and a valid
+current Agent session remain required; stopping the Agent or expiring its
+session does not acquire an exception. Host and Corpus authority, package and
+Room checks remain in force.
+
+The per-operation contrast is `agent.grant.revoke`: its exact retained withdrawal
+decision may be read back after `Stop`, following current actor-ownership and
+canonical request-digest checks. A new withdrawal still requires a `Running` or
+`Suspended` Agent. This is that operation's historical-read policy, not permission
+to replay inference after Stop, renew authority or bypass lifecycle gates
+generically. At this 2026-10-20 checkpoint, this contrast is implemented on the
+unmerged parallel Node commit
+`c57c6b1e8673d04b9debdc1bd36d6f2cd1a42170`, in
+`node:daemon/src/agent_runtime.rs::AgentRuntimeRegistry::revoke_grant`, with the
+named regression
+`node:daemon/src/agent_runtime/tests.rs::single_grant_withdrawal_is_durable_monotone_and_owner_bound`.
+That parallel implementation is not merged into or qualified by this candidate's
+evidence. Returning retained evidence does not renew expired authority, and one
+operation's readback policy cannot replace another's gates.
+
+New Agent passages, missing requested selections and incomplete-bundle repairs
+remain subject to normal live-Flow write admission; changed-body reuse of an
+existing request still refuses. The bounded local software-conformance record is
+`node:docs/audits/AGENT-FLOW-EXPIRY-REPLAY-2026-10-20.md`; it is not full-runtime,
+real-model, federation or release qualification.
+
 The passage ceiling and sequence are scoped to the exact inference-flow binding;
-the initial daemon admits one binding per Agent without redefining that contract as
-Agent-global. A host-local execution claim prevents concurrent invocation of one
-`passage/ref`, but provider-native idempotency remains required beyond the host.
+the initial daemon retains one binding per Agent, including an expired binding,
+without redefining that contract as Agent-global. Expiry does not free the slot
+or permit replacement by another binding. This retained singleton is a current
+implementation constraint, not a general ban on future multi-binding Agents.
+Such an extension must select an exact binding ref rather than infer the latest
+binding or count only currently live bindings. The current candidate's retained
+singleton/recovery negatives and deterministic DAG test clock are tracked in
+`node:docs/audits/F01-F05-OWNER-WORK-AND-REPLAY-2026-10-20.md`. Focused
+Agent/lifecycle checks and all F-01–F-05 Rust tests in the final ordinary frozen-image
+library pass. The full run is not green: 2,430 passed, two native Sensorium
+failures of unassigned cause and 64 ignored in 747.64 seconds. It is not a clean
+pinned OS-profile qualification. The fixture's 45-second Flow TTL and production
+time gates are unchanged.
+A host-local execution claim
+prevents concurrent invocation of one `passage/ref`, but provider-native
+idempotency remains required beyond the host.
 Failure after admission records a durable closed refusal trace and releases the
 ephemeral claim for exact retry. Token and provider-cost usage is normalized before
 the producer books its single durable Agent charge. Product commit verifies that

@@ -1967,6 +1967,79 @@ Ongoing admission reads one coherent registered config/pin snapshot and does
 not rehash external runtime trees. These are implementation boundaries with
 device-free process evidence, not proof of native or launchd enforcement.
 
+Device-free maintenance checkpoint, 2026-10-20: Node source `3e514138`
+reconstructs three different misleading fixture waits over the actual
+DiscoveryHost/SQLite owners: a returned expired-candidate refusal, a missed
+counter observation during a concurrent approval, and terminal authority failure
+before publication. Same-image original/corrected controls retain all 18 actual
+outcomes, including intentional negative exits; 35 discovery checks, 36 core
+checks and eight collector checks pass. The original unphased historical timeout
+is not uniquely attributable, and an unrelated full-load Responsibility timing
+outlier remains separately disclosed. This is diagnostic/test maintenance, not
+a change to authority, production TTL/deadlines or disposal semantics. See
+`node:docs/audits/REVIEW-SENSORIUM-CANCELLATION-TIMEOUT-2026-10-20.md` and its
+bounded metadata/private cross-run inventory. No native work, grant renewal,
+recovery, acquisition or acceptance promotion follows; tracker gates stay unchanged.
+
+#### Native-Helper Diagnostic Follow-Up, 2026-10-20
+
+The ordinary frozen-image library run (`4635d23a`) retains 2,430 passed, two
+failed and 64 ignored. The two device-free native-helper cases observed zero
+frames despite EOF and confirmed exit, and a readiness deadline before
+revocation, respectively. Their historical causes remain unassigned.
+
+Instrumented original behavior (`e0a0ea1b`) produced twelve complete controlled
+negative cases, each exiting 101 as expected: three watchdog-before-frame cases
+ended with SIGKILL 9 and an expired deadline, while three preflight failures
+ended with code 23, no deadline expiry and no signal. Both yield the same
+zero-frame/EOF shape, proving that shape does not identify one cause. Three
+`cancel` and three `hang` cases with a 3.5-second readiness delay reached the
+original three-second guard while the helper remained alive, with no signal or
+deadline expiry and approximately 2.87–2.90 seconds of the six-second request
+remaining.
+They reached neither revocation nor protected stop. All twelve collections have
+valid phase records, no event/metric drops and confirmed teardown. Three
+unforced original controls pass; they do not explain the historical failures.
+
+Original-behavior native instrumentation passes eight tests with one ignored.
+The corrected shared supervisor suite passes 54 tests. Its retained intermediate
+53-pass/one-failure run exposed an incorrect requirement that an initial optional
+snapshot be present; an explicit contention control confirms that `None` is
+legitimate. The new implementation records closed exit states, milestones and
+partial counts without raw stderr, sample data, paths or process identifiers.
+
+The purpose-specific fixture candidate has built successfully in 118.625864708
+seconds. It separates retained-image identity using shell builtins and stop/ack
+using minimal Python from the full-containment test. The same purpose image,
+using the repository's existing four-thread gate and pinned Messaging
+prerequisite, passes the daemon library with 2,434 passed, zero failed and 65
+ignored in 441.37 seconds. The focused purpose-native suite passes ten tests
+with one ignored in 16.71 seconds; strict workspace/all-target Clippy passes in
+44.86 seconds. This is scoped software evidence, not a claim that every
+workspace test passed or that arbitrary loaded startup is bounded.
+
+Contrary observations remain retained: an initial 16-thread library run without
+the Messaging prerequisite has 2,429 passed, five failed and 65 ignored in
+223.42 seconds, comprising two explicit prerequisite refusals and three native
+failures. Two isolated native 16-thread runs each have nine passed, one failed
+and one ignored: 12.33 seconds without an OS sampler and 9.96 seconds with one.
+Both fail the retained-image watchdog. An absent phase file does not prove
+failure before script entry; sampled dyld waits do not identify the causal
+receiver, and observer perturbation remains unresolved. The final four-thread
+gate was already repository policy, not a new lock or timeout fix. Neither its
+success nor these stress observations uniquely explains the historical failures.
+
+The retained-image helper's original 1,000 ms watchdog and the protected-stop
+fixture's three-second readiness guard within its six-second request remain
+unchanged. No lifetime, admission, sandbox or disclosure rule is relaxed, and no
+timeout increase or harness lock is part of this follow-up. Native/hardware and
+product-exposure qualification remain open; integration is pending. The evidence
+owner is
+`node:docs/audits/REVIEW-SENSORIUM-NATIVE-HELPER-FAILURES-2026-10-20.md`.
+P045-DISC-002 through P045-DISC-007 retain their existing completion gates;
+device-free diagnostics do not qualify a BLE/native launch tuple, protected-stop
+matrix or product exposure.
+
 Next actions: integrate the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and

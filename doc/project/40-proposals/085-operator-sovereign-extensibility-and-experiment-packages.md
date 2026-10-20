@@ -2314,10 +2314,14 @@ role/turn/overlay binding, package activation and revocation, prompt-free
 inspection, component recovery, and pre-HIL turn scheduling. Acceptance does not
 supply local substitutes for any missing prerequisite.
 
-The V1 Agent runtime admits exactly one current inference Flow binding per Agent.
+The V1 Agent runtime retains exactly one inference Flow binding per Agent,
+including after expiry; expiry does not release that slot for replacement.
 Consequently, `AgentStatusResponse` exposes one singular `inference-flow` projection;
 the package-level bound of 32 `inference-flows` is a catalog bound across reusable
-registrations, not permission to attach several current bindings to one Agent.
+registrations, not permission to attach several bindings to one Agent. This is
+an implementation constraint, not a general multi-binding prohibition; any
+future extension must select the exact binding ref, never infer the latest or
+only live binding.
 
 The operator-installed reference package realizes the admitted
 `solver -> reviewer -> chair` sequence through an activated
@@ -2401,6 +2405,42 @@ Room prose.
 | `P085-040` | Expose prompt-free inference-flow inspection, audit, and closed refusals | `done` | `agent.inference-flow-inspection.v1` is an accepted, Schema-Gated, bounded prompt-free read model exposed through `agent.status`; it reports exact package/activation, Flow, Agent-policy, current passage, admitted profile refs, product lineage and visibility, explicit terminal selection, spent budget, omitted advisory producer refs, and the decisive restriction for a refused passage. Package inspection separately exposes registered Flow ceilings while retaining activation state as an adjacent authority fact. Positive and incomplete-package fixtures bind schema and Rust semantics. The closed five-code Flow refusal vocabulary has one reaching, restart-durable fixture per code; unknown decision codes, duplicate or oversized omitted-producer projections, and restrictions on non-refused passages fail closed. |
 | `P085-041` | Prove local and Story 012 Room-bound multi-pass acceptance and synchronize documentation | `done` | **Dependency:** completed `P085-034` through `P085-040`, package-component prerequisite `P085-043`, and turn-order integration `P085-044`; this item uses their production paths rather than acceptance substitutes. The retained `2026-08-23.story-012-powerdns-discovery-full-system.macos-arm64.json` report passes the closed 31-check validator through real `vfkit-system.v1` and two separately supervised Qwen2.5-Coder 7B runtimes. It activates the operator package before deliberation, consumes its four-passage Flow and package-owned turn-order producer, records exact package manifest/activation and offer/policy/producer/decision lineage, preserves prompt-free product and authority evidence, reaches the DNS goal after one rejected experiment and one correction from fresh terminal evidence, and proves HIL plus P083 `claim -> invoke -> release`. The flow evidence records both the package ceiling of eight passages and the binding's monotone four-passage narrowing. After node-A restart it proves stale Flow and turn-order replay refusal under retired process authority, then terminal package revocation and a second stale-authority refusal without local semantic fallback. Room prose remains inert and terminal publication authority remains absent. The report digest is `sha256:c54df2a6c9a9198ea589714381219e511b64ca0eb676bd87c686aea7fa62b3eb`. |
 | `P085-042` | Add interactive attention and peer/refusal drill-down UI | `done` | The render-only Node UI consumes the accepted effective-policy projection, separates populated from explicitly unavailable sources, shows material differences, domain registries, peer posture, and the decisive refusal, and follows only bounded projection-owned artifact refs with explicit back-links. The production host composes all 38 effective Inquirium axes plus current Agent, Corpus, and Inquirium semantic registries from their owning strata, and marks Arca, Dator, and federation honestly unavailable when no current source is present. Dedicated peer-mismatch and refusal-provenance views link back to the same accepted projection and the existing operator-notification surface; no view fetches protected artifact bytes. Schema Gate, lifecycle process tests, Node UI tests, and strict Clippy cover the resulting boundary. |
+
+2026-10-20 (`P085-036`/`P085-037`, bounded replay follow-up): exact readback of a
+complete durable passage, including an identical already retained terminal
+selection when requested, is not a new Flow execution. Inference-Flow binding
+expiry alone does not turn that read into fresh admission: no facts, inference,
+effect or charge are added. Current actor, policy, running-Agent and session gates
+remain, as do host/Corpus authority, classification and disclosure checks;
+`P085-038`/`P085-039` are not bypassed and no expired authority is renewed. New
+passages, missing requested selections and incomplete-bundle repairs still require
+ordinary live-Flow write admission; changed-body reuse of an existing request
+still refuses. See
+`node:docs/audits/AGENT-FLOW-EXPIRY-REPLAY-2026-10-20.md` for the bounded local
+software-conformance record. Existing tracker statuses and historical reports
+remain unchanged; this is not new full-runtime, real-model, federation or release
+qualification.
+
+The earlier 2026-10-20 full-library checkpoint was not green: 2,419 passed, one
+unchanged Responsibility F02 gate-tail test failed, and 64 were ignored. The
+original Agent DAG and seven focused replay regressions passed. The Node report
+retains that refusal without claiming F02 closure or changed readiness.
+
+2026-10-20 accepted follow-up: the owner-specific readback/write distinction is
+defined once in
+[S047](../60-solutions/047-agent/047-agent.md#exact-readback-versus-write-admission).
+The current candidate adds recovery conformance refusing a second retained
+binding even after the first expires. The original DAG fixture now uses an
+explicit deterministic test clock across its time gates and session generations,
+not longer grants. The fixture's 45-second Flow TTL and production time-gate
+semantics remain unchanged. Initial focused checks pass 134 Agent and 47
+lifecycle tests, plus the existing real daemon HTTP/restart case. The final
+ordinary frozen-image library run has 2,430 passed, two failed and 64 ignored in
+747.64 seconds; all F-01–F-05 Rust tests pass. The two native Sensorium failures have
+unassigned causes, and unchanged source blobs do not prove they are pre-existing.
+The run is not a clean pinned OS-profile qualification. The scoped follow-up record is
+`node:docs/audits/F01-F05-OWNER-WORK-AND-REPLAY-2026-10-20.md`; it does not
+promote the earlier failed checkpoint or any broader tracker status.
 
 ### Cross-Cutting Package Composition and Turn Scheduling
 

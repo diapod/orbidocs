@@ -2450,6 +2450,44 @@ Actual controller recovery, fresh terminal/launchd access/cleanup cases, approve
 binding use and the remaining completion gates still apply. No native
 qualification or adoption follows from the partial implementation status.
 
+Device-free native-helper diagnostic follow-up, 2026-10-20: two failures from the
+ordinary frozen-image `4635d23a` library run (2,430 passed / two failed / 64
+ignored) remain retained and causally unexplained. New shared-code/API and native
+instrumentation now have measured software controls: twelve complete expected
+negative cases distinguish watchdog-before-frame, preflight code 23 and delayed
+readiness before revocation/stop, without uniquely attributing either historical
+failure. Three unforced original controls pass; original-behavior instrumentation
+passes eight tests with one ignored, and the corrected shared supervisor suite
+passes 54 tests. The intermediate 53-pass/one-failure snapshot-test result is
+retained and explained separately, not relabelled as a product failure or success.
+Closed exit states, milestones and partial counts exclude raw stderr, sample
+data, paths and process identifiers.
+
+The same purpose image passes the existing four-thread daemon-library gate with
+pinned Messaging: 2,434 passed, zero failed and 65 ignored in 441.37 seconds.
+Its focused purpose-native suite passes ten with one ignored in 16.71 seconds;
+strict workspace/all-target Clippy passes in 44.86 seconds. The retained
+16-thread library run has five failures (two missing-prerequisite refusals and
+three native failures), and two isolated native 16-thread runs each retain one
+watchdog failure. This does not qualify arbitrary loaded startup or identify the
+historical cause; an absent phase record does not prove pre-script failure.
+The four-thread gate is existing repository policy, not a new timeout or lock.
+
+The retained-image helper's original 1,000 ms watchdog and the protected-stop
+fixture's three-second readiness guard within its six-second request are
+retained; no lifetime, admission, sandbox, disclosure or timeout limit is
+widened. These scoped software checks and fixture changes establish neither
+all-workspace test completion nor native/hardware qualification. Integration is
+pending. See
+the detailed evidence status and unchanged discovery gates in
+[P045](045-sensorium-local-enaction-stratum.md#native-helper-diagnostic-follow-up-2026-10-20)
+and the Node
+owner report
+`node:docs/audits/REVIEW-SENSORIUM-NATIVE-HELPER-FAILURES-2026-10-20.md`.
+P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
+qualification gates remain open. No physical Case, recovery or ordinary product
+exposure follows from this diagnostic work.
+
 The 2026-10-15 terminal observation subsequently passed fresh SCAN, BIND,
 REGISTER and WEAR p21, then ended `uncertain` during acquisition observation.
 Discovery cleanup was confirmed; acquisition cleanup and controller release

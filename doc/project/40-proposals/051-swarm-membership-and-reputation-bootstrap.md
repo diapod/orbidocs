@@ -1384,6 +1384,102 @@ all D7 components remain false and no wider P051-006/007/008/015/016 scope close
 The current F-02 conservative CAS can still starve under continuous writes;
 its cost evidence does not prove progress or operator readiness.
 
+The 2026-10-20 F-02 timing investigation is separately scoped to the internal
+owner fixture. Node's
+`docs/audits/RESPONSIBILITY-F02-GATE-DIAGNOSIS-2026-10-20.md` records the original
+3.141-second batch-gate outlier and a new 2.135-second threshold failure, of which
+2.134 seconds were measured in the interval surrounding COMMIT. Bounded
+wall/thread-CPU diagnostics, controlled gate-wait/delayed-COMMIT checks and the actual owner stack distinguish
+limited row work from synchronous WAL I/O. They do not identify the unique kernel,
+storage or scheduling cause of the historical outlier; later passes cannot supply
+that missing evidence. The coarse wall-time tail remains an open qualification
+question, not a real-time guarantee. At that checkpoint, test instrumentation did
+not change the existing one-second coarse regression guard, production SQLite
+policy or lifecycle authority. This evidence checkpoint closes neither
+pinned-generation progress, F-04/F-05 recovery, operator authorization, shadow
+parity nor D7.
+
+#### F-02 Ordinary Regression and Pinned Latency Qualification
+
+Accepted follow-up decision, 2026-10-20: separate the ordinary bounded-work
+regression from qualification of the complete admission-gate latency. This
+amends the test contract, not the historical observations above.
+
+- The ordinary owner regression requires one source-history replay, `2 * N`
+  conversions for `N` sources, and at most 100 clear/copy/verify rows per batch
+  gate. Capture and application acquire two separate admission-gate holds; meter
+  each complete hold and report their individual maxima, not a sum or a CAS-only
+  subphase. The coarse guards require less than one second of thread CPU and
+  less than one second of wall time excluding only the exact COMMIT interval
+  from that same hold. Do not subtract independently selected maxima or remove
+  other I/O, locking or scheduling time.
+- A separate pinned qualification probe retains the less-than-one-second
+  **full wall-time** gate, including COMMIT. Its manifest must identify the
+  source/image, fixture and volume/filesystem, SQLite durability/checkpoint
+  policy, and competing workload. The threshold qualifies that declared I/O
+  profile only; it is not a global library-test requirement or a portable
+  real-time guarantee. Retain full wall, exact COMMIT wall and whole-gate CPU
+  observations even when the ordinary regression passes.
+- Keep SQL durability, the authoritative v1 path and atomic source-set CAS
+  unchanged. A slow COMMIT still delays real admission: subtracting its interval
+  for an algorithmic regression does not repair that latency or qualify the
+  pinned profile.
+- Controlled baseline, filesystem-synchronization and CPU-pressure experiments
+  must use the same fixture and volume, retain their actual outcomes and state
+  their changed conditions. Such comparisons can distinguish new observations;
+  they cannot retrospectively establish the unique cause of the historical
+  3.141-second outlier or relabel any retained failed run.
+
+The amendment is implemented in the current Node candidate. Twelve valid
+counterbalanced cost matrices, each covering 500, 1,000 and 8,192 sources on the
+same verified fixture volume, preserve the work bounds in all 36 cases. With
+four workers and paced 4 KiB writes at intervals of at least 100 microseconds,
+all six matrices meet the pinned full-wall guard: the no-owned-load baseline
+maximum is 14.0595 ms, the CPU-control maximum is 15.276917 ms, and the two
+filesystem-synchronization maxima are 446.586 ms and 212.271791 ms. The initial
+unpaced 64 KiB/four-worker collection reached each writer's configured 2 GiB byte
+budget without an I/O error. It is retained as incomplete, not counted among
+those valid matrices or described as disk exhaustion.
+
+A separate eight-worker sensitivity cohort preserves the work bounds but refuses
+the full-wall qualification in one of its six matrices. Its filesystem-sync
+maxima are 559.688125 ms and 661.97975 ms, its CPU-control maximum is 22.469917 ms,
+and its pre-load baseline maximum is 13.381042 ms. The post-load baseline with
+no owned writer active reaches **1.040366792 seconds** for 1,000 sources at
+request 14. Its exact COMMIT interval is 1.039272917 seconds with 0.541166 ms
+thread CPU; the complete application hold uses 1.633292 ms CPU. COMMIT begins
+1.088387 seconds after the last preceding owned writer ends. Active owned
+writers therefore do not uniquely explain this observed tail; carryover and
+uncontrolled host conditions remain undistinguished. No kernel or filesystem
+cause is assigned, nor are the historical 3.141/2.135/2.074-second tails explained.
+
+The balance is **11 of 12 full-wall matrices passing, one qualification refusal**,
+despite the refusing Rust cost process exiting zero and all deterministic work
+bounds passing. The pinned I/O profile is not fully qualified. The audit and retained
+cohort inventory are owned by
+`node:docs/audits/F01-F05-OWNER-WORK-AND-REPLAY-2026-10-20.md` and
+`node:docs/evidence/local-accountability/2026-10-20-owner-work-io/README.md`.
+The final ordinary frozen-image library run is not green: **2,430 passed, two
+failed and 64 ignored in 747.64 seconds**, with process exit 101. All F-01–F-05
+Rust tests pass. The two failures are native Sensorium cases: retained helper execution
+observes zero frames instead of two, and a readiness deadline expires before
+revocation. Their unique causes remain unassigned. The relevant Sensorium and
+supervisor source blobs are unchanged by this slice; that does not prove the
+failures predate it. This ordinary run is not a clean pinned OS-profile
+qualification. Its separately evaluated F-02 trace also refuses full-wall
+qualification despite the passing Rust owner-work test: full-hold maxima for
+500/1,000/8,192 sources are 0.115421875/2.030558125/4.253287458 seconds. The
+corresponding non-COMMIT wall maxima are 18.732041/329.495959/166.931084 ms,
+and whole-hold CPU maxima are 3.022167/5.802541/15.319 ms. The latter guards
+pass; the 1,000- and 8,192-source full-wall observations refuse. This ordinary
+run under uncontrolled host conditions is not another paired I/O matrix and
+must not be pooled with the twelve above. Raw snapshots remain retained and
+the unique causes are unassigned.
+
+P051-006 stays `todo`; lifecycle F-04/F-05 maintenance, operator
+authorization, shadow parity and every D7 component remain open or false as
+already recorded.
+
 ### Systemic-Repair Slice Acceptance
 
 P051-014 qualifies a new local test-subject profile using the existing
@@ -1670,6 +1766,15 @@ they are not additional blanket completion prerequisites for P051-010–014.
 | P051-014 | Systemic-repair local acceptance / existing local-accountability harness | todo | 011, 012, P018-14 | Freeze a new explicit report/qualifier profile and run every Systemic-Repair Slice Acceptance case through real service, host, inspection and notice paths, including restart. Bind sources, policy, fixtures and receipts; reject incomplete/substituted evidence and historical-scope promotion. Include N/B/D repair integration regressions when present in the tested baseline; otherwise declare exclusions and required later requalification. Manual review is the first bounded scope; scheduled claims additionally require 013 evidence. No real-subject, federation or social-effectiveness qualification. |
 | P051-015 | Host-state normalization / S028 and existing Responsibility-P018 owners | partial | 003, P018-13 | Normalize projections and shared immutable authority material before panel facts. Preserve exact signed facts, source CAS, receipts and pending work; replay-gate resumable migration. Prove changed-record writes and subject/operation admission costs with a new N runtime report. Three runtime cases and two conformance bindings qualify N passage 4: node:docs/evidence/local-accountability/2026-10-14-normalization/passage-4/report.json. The original N report predates the internal panel-input lane and V2 inactive lifecycle preparation, which require separate qualification; V2 only adds storage-owner conformance with unchanged v1 enforcement (node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md); the A report predates N and cannot close this gate. Early 010 alignment confers no mandate and does not implement repair. |
 | P051-016 | Local maintenance, restore and retention / host and case-store owners | todo | 015, 003, 007 | Separate D scope after A–N–B–C: quiescent encrypted backup, fresh-directory restore with new incarnation, exact-byte reconciliation and retention preserving live appeals, pending outboxes, unfinished reviews and terminal fences. Safe manifests only in evidence; no distributed clone fencing or real-subject qualification. |
+
+2026-10-20 (`P051-006`, F-02 follow-up): the
+[ordinary-regression/pinned-qualification contract](#f-02-ordinary-regression-and-pinned-latency-qualification)
+is implemented with 36 bounded-work cases. One of twelve valid cost matrices
+refuses the pinned full-wall qualification. The ordinary frozen-image library
+ends with 2,430 passed, two native Sensorium failures of unassigned cause and 64
+ignored; the F-01–F-05 Rust tests pass, but its separate latency qualifier also
+refuses. This does not change this tracker's statuses,
+lifecycle authority or D7 readiness.
 
 The detailed enforcement work belongs to P018-12 through P018-14, linked from S040;
 P051 owns integration and social semantics. P057 and P081 are dependencies, not
