@@ -627,6 +627,17 @@ effective signed middleware package fragments, validates ownership, rejects unkn
 runtime APIs, rejects cross-owner overrides, and normalizes accepted specs before the
 scheduler sees them.
 
+The 2026-10-20 consumer regression follow-up exercises the configuration
+reconciler with actual Messaging processes and explicit executable prerequisites,
+including slot pressure and `remove -> explicit start -> external false`. Cold
+SQLite initialization belongs to Messaging (S027): its schema/bootstrap now
+commit atomically before channel attach. Scheduler budgets, launch admission,
+current configuration authority and uncertain-effect fencing are unchanged.
+The retained software review is
+`node:docs/audits/DAEMON-SENSORIUM-S020-REGRESSION-2026-10-20.md`; passing a consumer
+regression does not qualify the whole P091/P095 UI/runtime matrix or explain a
+historical timeout whose internal startup snapshot was not retained.
+
 ### Phase 3 — Agora adapter
 
 - Register Agora M2 projection jobs from Agora-owned configuration.

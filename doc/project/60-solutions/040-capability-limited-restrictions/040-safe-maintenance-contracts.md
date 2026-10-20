@@ -128,6 +128,13 @@ notification is claimed. F-04/F-05, V3 and wider P051 remain open. See
 `node:docs/development/RESPONSIBILITY-MIGRATION-PROGRESS-M1.md` and
 `node:docs/audits/RESPONSIBILITY-MAINTENANCE-M1-2026-10-20.md`.
 
+The separate daemon regression follow-up,
+`node:docs/audits/DAEMON-SENSORIUM-S020-REGRESSION-2026-10-20.md`, records Messaging
+startup atomicity and Sensorium fixture clock separation, with unchanged live
+authority/cleanup deadlines. It preserves M1's original failed measurements and
+historical reports. This is not progress on M2–M5/V3/Q, maintenance authorization
+or D7; v1 remains the sole enforcement authority.
+
 ## Trade-offs
 
 Bounded closed contracts make ownership and refusal auditable but do not prove
