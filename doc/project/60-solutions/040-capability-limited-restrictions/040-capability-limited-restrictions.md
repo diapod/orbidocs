@@ -60,6 +60,31 @@ checks, with unchanged v1 authority and closed D7; see
 and bounded abandonment/retention recovery remain open. The owner lane has no operator route.
 See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-FINDINGS-2026-10-14.md`.
 
+The accepted 2026-10-20
+[F-02 test-contract amendment](../../40-proposals/051-swarm-membership-and-reputation-bootstrap.md#f-02-ordinary-regression-and-pinned-latency-qualification)
+separates ordinary deterministic work and coarse timing guards from a pinned
+full-wall-time latency qualification. Capture and application have two separately
+measured gate holds; ordinary guards cover each complete hold's thread CPU and
+wall time excluding only its own exact COMMIT interval. The pinned profile still
+includes COMMIT. Neither subtraction nor a passing ordinary regression fixes
+real admission latency. The amendment is implemented and all 36 controlled cost
+cases preserve the work bounds, but one of twelve valid matrices refuses the
+full-wall qualification: a post-load baseline without an active owned writer
+reaches 1.040366792 seconds, almost entirely around COMMIT. The other eleven
+matrices pass; this does not establish the unique cause of the tail or explain
+historical failures. See
+`node:docs/audits/F01-F05-OWNER-WORK-AND-REPLAY-2026-10-20.md` and the retained
+`node:docs/evidence/local-accountability/2026-10-20-owner-work-io/README.md`.
+The final ordinary frozen-image library run has 2,430 passed, two native
+Sensorium failures of unassigned cause and 64 ignored in 747.64 seconds; the
+F-01–F-05 Rust tests pass. Its independent latency qualifier nevertheless refuses
+full holds of 2.030558125 and 4.253287458 seconds, despite passing non-COMMIT
+wall/CPU guards. These separate uncontrolled-host observations are not pooled
+with the twelve paired I/O matrices, and their unique causes remain unassigned.
+This is neither a green whole-library regression nor clean pinned OS-profile
+qualification. SQLite durability, source-set CAS, v1 authority and all-false D7
+readiness remain unchanged.
+
 The planned follow-up is
 `node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`:
 prove progress on pinned historical input despite ordinary v1 appends, recover

@@ -2314,10 +2314,14 @@ role/turn/overlay binding, package activation and revocation, prompt-free
 inspection, component recovery, and pre-HIL turn scheduling. Acceptance does not
 supply local substitutes for any missing prerequisite.
 
-The V1 Agent runtime admits exactly one current inference Flow binding per Agent.
+The V1 Agent runtime retains exactly one inference Flow binding per Agent,
+including after expiry; expiry does not release that slot for replacement.
 Consequently, `AgentStatusResponse` exposes one singular `inference-flow` projection;
 the package-level bound of 32 `inference-flows` is a catalog bound across reusable
-registrations, not permission to attach several current bindings to one Agent.
+registrations, not permission to attach several bindings to one Agent. This is
+an implementation constraint, not a general multi-binding prohibition; any
+future extension must select the exact binding ref, never infer the latest or
+only live binding.
 
 The operator-installed reference package realizes the admitted
 `solver -> reviewer -> chair` sequence through an activated
@@ -2417,10 +2421,26 @@ software-conformance record. Existing tracker statuses and historical reports
 remain unchanged; this is not new full-runtime, real-model, federation or release
 qualification.
 
-The final 2026-10-20 full-library regression is not green: 2,419 passed, one
+The earlier 2026-10-20 full-library checkpoint was not green: 2,419 passed, one
 unchanged Responsibility F02 gate-tail test failed, and 64 were ignored. The
 original Agent DAG and seven focused replay regressions passed. The Node report
 retains that refusal without claiming F02 closure or changed readiness.
+
+2026-10-20 accepted follow-up: the owner-specific readback/write distinction is
+defined once in
+[S047](../60-solutions/047-agent/047-agent.md#exact-readback-versus-write-admission).
+The current candidate adds recovery conformance refusing a second retained
+binding even after the first expires. The original DAG fixture now uses an
+explicit deterministic test clock across its time gates and session generations,
+not longer grants. The fixture's 45-second Flow TTL and production time-gate
+semantics remain unchanged. Initial focused checks pass 134 Agent and 47
+lifecycle tests, plus the existing real daemon HTTP/restart case. The final
+ordinary frozen-image library run has 2,430 passed, two failed and 64 ignored in
+747.64 seconds; all F-01–F-05 Rust tests pass. The two native Sensorium failures have
+unassigned causes, and unchanged source blobs do not prove they are pre-existing.
+The run is not a clean pinned OS-profile qualification. The scoped follow-up record is
+`node:docs/audits/F01-F05-OWNER-WORK-AND-REPLAY-2026-10-20.md`; it does not
+promote the earlier failed checkpoint or any broader tracker status.
 
 ### Cross-Cutting Package Composition and Turn Scheduling
 
