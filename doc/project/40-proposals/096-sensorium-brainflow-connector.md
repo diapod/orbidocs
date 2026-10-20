@@ -2544,6 +2544,21 @@ Metric losses, unqualified phase windows and requested-but-unstarted sampler
 jobs remain explicit rather than becoming positive evidence. The detailed owner
 is `node:docs/audits/DURABLE-SYNC-AND-HELPER-CAPTURE-2026-10-20.md`.
 
+The subsequent four-fixture full-sync investigation reproduces new deadline
+failures before entry and after two frames, without completing the terminal
+response. Its primary comparison stops at cell seven on pressure cleanup refusal;
+six complete clusters retain 18 passes/six panics and five cells remain unrun.
+A separately frozen four-cluster observer ABBA completes without replacing that
+interrupted comparison. An exactly matched failed full-sync helper has 690
+positive `_dyld_start + 0` samples and confirmed deadline SIGKILL, not a deeper
+resolved kernel wait or identified recipient. Seven sampled passing neighbours'
+Mach graphs remain separate; one passing case's optional diagnostic loss keeps
+its phase coverage unqualified. Private producer/proof and cleanup observations
+are corrected, not production startup, permissions, timers, TTL or durability.
+Original refusals remain retained; no historical attribution or readiness
+promotion follows. Review, regression and retained-byte evidence are owned by
+`node:docs/audits/SENSORIUM-FOUR-FIXTURE-FULLFLUSH-2026-10-20.md`.
+
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.

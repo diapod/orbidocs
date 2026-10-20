@@ -2133,6 +2133,28 @@ selected samplers. All four helpers pass; same-instance positive dyld/Mach graph
 belong to the passing children, not a failed wait or an identified recipient.
 No production sync, sandbox, freshness, timeout or native gate is changed.
 
+##### Four-fixture full-sync follow-up (partial)
+
+Four actual fixture threads under four full-sync writers reproduce both
+zero-entry deadline failures and post-entry failures with two frames but no
+terminal response. The frozen primary comparison stops at its seventh cell on
+pressure cleanup refusal: six admitted process clusters retain 18 passes and
+six panics; five declared cells remain unexecuted. This is not a complete
+comparative incidence campaign. Final absent groups cannot erase an earlier
+PermissionError whose old trace lacks the actual syscall/errno.
+
+A separately frozen observer off/on/on/off supplement completes four clusters,
+without replacing the stopped comparison. Its sampled failed instance has 690
+positive `_dyld_start + 0` observations, no entry/frame and confirmed deadline
+SIGKILL; deeper Mach graphs belong to seven passing neighbours. All four writers
+actually advance in the failed instance's admitted windows. One passing case
+loses optional metrics and does not qualify its phase coverage. The exact deeper
+OS wait and notification recipient remain unassigned. Private outcome/proof and
+cleanup call-site diagnostics are corrected, not the production startup path.
+No timeout, sandbox, proof freshness, TTL or durability change follows; DISC and
+P096/native gates stay partial/open. Review, regressions and private retention:
+`node:docs/audits/SENSORIUM-FOUR-FIXTURE-FULLFLUSH-2026-10-20.md`.
+
 Next actions: retain the startup limitation and exact failed-child samples;
 resolve the deeper OS wait only through a separately authorized scoped tool or
 a new non-privileged discriminator, without weakening security or timers; independently integrate
