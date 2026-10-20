@@ -4,6 +4,13 @@ Based on: `doc/project/30-stories/story-001-swarm-node-onboarding.md`, `doc/proj
 Date: `2026-02-22`  
 Status: Draft
 
+Historical analysis note (2026-10-20): the adoption-first recommendations below
+record the original option study. The revised direction is in
+[Proposal 001](../40-proposals/001-licensing-proposal.md): AGPL for the reference
+Node implementation, an explicitly bounded Apache integration surface, and
+separate documentation/asset licenses. That revision does not itself change
+licenses in source code.
+
 ## Executive Summary
 
 Orbiplex Swarm needs a licensing strategy that supports federation, interoperability, and long-term governance while reducing legal friction for adopters.
