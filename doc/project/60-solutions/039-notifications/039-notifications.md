@@ -248,6 +248,19 @@ Status:
 - `notification-state-changed.v1` SSE payloads;
 - action result records.
 
+## Planned Matrix recovery source (P035-013)
+
+Durable account-history `blocked` and `awaiting-operator-retry` facts are a planned
+host-owned notification source. Emit idempotent lifecycle updates after the recovery
+transaction commits; do not expose pagination tokens or treat notification delivery
+as recovery success. A button resolves current local operator authority and a fresh
+inspected task revision. Credible Retry-After keeps its not-before; the implausible
+escape remains a separate action requiring a reason. A bounded bulk operation uses
+a CAS and result per task, including partial failures, and cannot clear other limits.
+
+P035-013 owns implementation and runtime evidence. This planned adapter does not
+claim active alerts, batch retry or authority granted by a notification.
+
 ## Related Capability Data
 
 - `039-notifications-caps.edn`

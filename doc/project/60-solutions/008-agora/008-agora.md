@@ -424,6 +424,85 @@ Status:
   SQLite cases and stays gated by P035-009. P035-010 owns explicit excessive
   Retry-After handling. Earlier frozen qualification is unchanged.
 
+- Full continuation on 2026-10-19 closes P035-007/009/010 for
+  `per-room-recovery-v2`: 34 Matrix and five SQLite cases at clean Node `1bc523a6`
+  / Orbidocs `5993f7d0`. Independent room recovery, two 640-record held histories,
+  deferred and late-local-expiry admission, excessive 429 blocking/CAS, restart
+  and source replay qualify with continuing sync/publication. Both Node and stock
+  Synapse room-v10 PDU gates pass: 2041 Node full PDUs, maximum 49927 bytes.
+  Confidence-0.5 gossip and permitted Whisper families retain exact author bytes.
+  The complete 16511847-byte retained set and fresh external retrieval qualify
+  identically; Git holds 2282442 bytes of controls with payload external. Explicit
+  192 MiB compression preserves the same tar under the unchanged 256 MiB decoder
+  ceiling and 16 MiB cap; default remains 128 MiB. The original default-profile
+  retention refusal preserves its successful runtime result. Earlier dated scope
+  stays frozen. One local store is not independent backup; Agora remains partial,
+  with federation, nym issuance, all Whisper and release/production gates separate.
+  Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-19-room-recovery-full/README.md`.
+
+- Review closure (2026-10-19) separately qualifies four focused delay cases at
+  clean Node `ac386090` / Orbidocs `fbba8e73`, reviewed qualifier `121c19fb`.
+  The 24 h credibility ceiling preserves credible floors; exact u64 maximum and
+  ten-year limits have an audited, reasoned, host-local task/binding CAS escape.
+  Restarts, continued confidence-0.5 live delivery and exact-source replay pass.
+  Complete retained/retrieved proof is 142758 bytes; it renews neither full PDU
+  gates nor the frozen 34/five campaign. Original unsuccessful attempts now have
+  externally retrieved cause-only capsules, never full qualification. P035-011
+  gates larger campaigns on source deduplication; P035-012 owns an independent
+  copy/manual pre-release fresh verify, P035-013 owns S039/bulk actions. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`.
+
+- P035-011 closes on 2026-10-20 at clean Node `ee64042f` / Orbidocs `a2addea1`:
+  all 34 Matrix/five SQLite cases on unmodified Synapse 1.162.0, room v10, preserve
+  exact author bytes, full PDU coverage, confidence 0.5 and the existing Whisper
+  signal/trace/threshold families through restart and replay. Same-capture
+  legacy/source values and non-representation facts agree; ordinary qualification
+  is identical before/after archive extraction and fresh external retrieval.
+  The set retains 2048 indivisible PDUs and 2048 independent stored-row artifacts;
+  all 2041 Node PDUs fit 65536 bytes, maximum 49927. Complete retention is 15220597
+  bytes with the default 128 MiB XZ dictionary and unchanged 256 MiB decoder bound;
+  compact Git controls are 5878 bytes versus the earlier 2282442. Detailed indexes
+  and exact reports remain in the complete store, with explicit digest pins in Git.
+  Aggregate new public proof metadata is 49484 Git bytes, including the runtime
+  controls; conservative whole-collection charging is 15264203 bytes within 16 MiB.
+  The prior historical gate is private-candidate storage conformance at
+  `3b06e1b4` / `51de82e9`, retained as a small report referencing the original frozen
+  input rather than another full archive. It does not renew this runtime.
+  Dual-write timing observations (7.211888 s / 35.0048 s) do not replace
+  the historical fairness baseline or establish bounds. At that checkpoint P035-012/013 remained open;
+  Agora remains partial and one local store is not an independent backup. No
+  federation, nym issuance, all-Whisper or release/production claim follows.
+  Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`.
+
+- P035-012 closes on 2026-10-20 for operator-adopted mirrored primary-media-loss
+  protection. Clean Node `dc996b24` / Orbidocs `83c77609` freshly recovers eight
+  exact bundles (32517795 original file bytes per logical store) while the OS denies
+  primary/previous-capture access. Four full/focused qualifications and four
+  cause-only results remain exact. A separate clean Node `70d507cb` release
+  rehearsal verifies both locations and the v2 outer gate binds candidate, attempt,
+  inventory, policy and trusted tools; changing the attempt refuses. Other release
+  checks remain unqualified. The mirror shares one primary medium and has another
+  separate online member, as explicitly accepted by the operator; shared host/site
+  and mirror-management risks remain. Auxiliary originals retain their original
+  results without deletion, and no new Matrix runtime is claimed. P035-013 stays
+  open and Agora stays partial. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
+
+The 2026-10-20 custody review explicitly limits P035-012 to observed mirror health
+and manual verification. P035-014 remains todo for periodic topology/sample checks,
+stale supervision and S039 notifications. Temporary originals are not durable
+second copies. The operator-authorized branch integration prerequisite is now
+validated against current primary baselines, with preserved frozen evidence,
+ledger/MVP ownership and budgets. Full workspace and affected fixture checks,
+documentation gates and fresh pre-closure evidence reads are recorded at
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. P035-013/014 remain open;
+repository integration does not renew runtime or release qualification.
+The dated review supplement at
+`node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-review/README.md`
+records a new clean-checkout sixteen-read rehearsal and a 336181-byte observed
+retention-refusal capsule, also freshly verified at both stores. The original
+successful runtime result and initial capsule publication refusal remain unchanged.
+
 ### Retention Policy Sweep
 
 Based on:
