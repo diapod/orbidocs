@@ -963,3 +963,34 @@ unchanged qualifier, origin matrix and full-tuple rules; fresh process ancestry
 can still split qualification groups despite exact registration reuse. See
 [P096's owner checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#campaign-owner-integration-checkpoint-2026-10-20)
 and `node:daemon/docs/SENSORIUM-P096-CAMPAIGN.md`.
+
+
+### Private campaign target preparation (2026-10-20)
+
+Merged workstream Node `64e92854` prepares source pin `2694f0aa`, admin image
+`cce00f57` and ad-hoc GUI `e8ce6d5f`/handoff `6821f1d4` on the nearby host.
+Normal Author/Sign publishes distinct campaign package `98dda828`, review
+`6bd78dd6` and sidecar `ffea479f`, with thirteen exact package files and nine
+frozen GUI closure files. A separately reviewed local-symbol removal preserves
+all eighteen loaded sections, globals, imports and fixups within the existing
+image cap; debug symbolization differs. This adds no native qualification.
+
+The target passes 156 program checks after validation-kit input omissions are
+corrected; the original failed attempt remains retained and product code is
+unchanged. Inert C-library loading observes no native-body entry or SDK import.
+Root preservation covers 299 old non-key hashes, two signing-key metadata records,
+103 directory identities, both parents and the controller namespace. All metadata
+is exact for 300 of 301 old files; only read-store SQLite ctime changes, consistent
+with the normal mode-0600 permission refresh. The strict refusal and separate
+closed exception review are preserved. Exactly 26 files/eight directories are
+added; journal 93/fourteen Cases, zero claims, expired ownership and stopped
+registered p21 revision 6 remain unchanged.
+
+No Case, permission probe, Bluetooth manager, renewal, root migration, recovery or
+hardware trial runs. This preparation does not claim final primary-branch
+integration. Fresh authority handling and any revision-6 retirement remain
+separate; new-image TCC and physical evidence are unobserved. P096-005 remains
+**partial** under the unchanged qualifier and origin matrix. See
+[P096's preparation checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#campaign-target-preparation-checkpoint-2026-10-20),
+`node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-PREPARATION-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/campaign-preparation-20261020-runtime.json`.
