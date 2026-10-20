@@ -1110,3 +1110,33 @@ approval. P096-005 remains **partial**. See
 [P096's client-control diagnosis](../../40-proposals/096-sensorium-brainflow-connector.md#client-control-diagnosis-and-software-repair-checkpoint-2026-10-20),
 `node:docs/evidence/sensorium-host-control-20261019/client-control-diagnosis-20261020.json`
 and `node:docs/audits/REVIEW-SENSORIUM-CLIENT-CONTROL-2026-10-20.md`.
+
+
+### Client-release follow-up source checkpoint (2026-10-20)
+
+The source follow-up moves potentially blocking output into a disposable owned
+copier, with a lifetime EOF watcher and cancellable teardown. It preserves the
+caller's stdout/stderr OFD flags. Nonce echoes have priority over ordinary
+decisions; a shared lock covers only an immediate write attempt and its wait
+consumes the existing 250-ms write budget. The 600-ms remote echo window stays
+unchanged and supplies no guarantee about SSH network delay. Finite queues,
+EOF/STOP priority, first closed diagnostics and the existing reason-set equality
+regression remain separate from authority or native cleanup proof.
+
+Ordinary acquisition now refuses the fault-capable package before enrollment
+effects. Only the closed campaign factory opts into that package family, for
+both fresh and reused targets; request fields cannot select it. Inert structural
+verification/registration still grants no execution authority, and fault arming
+retains its separate session, phase, permit and current-authority checks. Existing
+campaign expectations already distinguish provider loss (`ControlLost`) from
+explicit protected stop (`ClientWithdrawal`). Historical reports and the unknown
+revision-7 SCAN origin remain unchanged.
+
+This source checkpoint claims no target preparation, measured runtime pass,
+permission observation, hardware, migration or integration. P096-005 stays
+**partial**; a future physical attempt requires a fresh interactive readiness
+question and an explicit operator answer. See
+[P096's source follow-up](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-follow-up-source-checkpoint-2026-10-20),
+`node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-FOLLOWUPS-2026-10-20.md`
+and
+`node:docs/evidence/sensorium-host-control-20261019/client-release-followups-20261020.json`.
