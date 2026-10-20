@@ -3523,6 +3523,23 @@ case on separate approval, continuity, expiry and cancellation. This is still
 partial Stage A: operational model preparation/report integration, actual new
 runtime/input pins and separate execution approvals remain open. Local test
 acknowledgements are neither operator mandates nor independent human HIL.
+The 2026-10-20 model-free implementation joins ordinary installed-model
+preparation, measured receipts, exact derived runtime–Flow bindings and closed
+session reporting. Ready validation precedes dispatch; the checker runs its
+binary-pinned private source closure and records failed setup/cleanup explicitly.
+The separate calibration acknowledgement precedes even that read-only checker.
+Late ready-construction failures retain their own cleanup fact without rewriting
+the preparation receipt. Fractional runtime defaults are preserved as exact
+owner-JCS bytes with a digest; the server cache's initially-empty fact and the
+offline-renderer-only cleanup scope are explicit, not a general cache-GC claim.
+The operator separately approved the managed default output ceiling of 2048
+(default request 512), with canonical profile-local narrowing. Preparation uses
+bounded owner suboperations and an explicit elapsed-time postcheck, not a hard
+global deadline over asset I/O. No real model, activation or conformance was run.
+The new artifact/manifest/input proposal and separate preparation, calibration
+and full-run approvals remain gates. These implementation tests do not promote
+P094-012c5/012c6/023e, market-publication acceptance or alpha readiness; see the
+same Node checkpoint for current tests and remaining limits.
 
 Approved recovery/adoption/publication slice, implementation checkpoint
 (2026-10-11): the Workbench now validates each retained instance's exact host
