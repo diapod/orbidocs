@@ -1575,6 +1575,16 @@ and S039. The implementation-side plan is
 `node:docs/development/WHISPER-BRANCH-INTEGRATION.md`. This records required work;
 the operator has not authorized merging the currently isolated branch.
 
+The review now retains a fresh-checkout manual rehearsal at clean Node `16f20d0e`
+/ Orbidocs `c02653b2`: sixteen new per-location retrievals, actual outer retention
+acceptance for the exact attempt, and validation refusal for another. It is a
+same-agent clean-checkout exercise, not independent-person review; the other three
+checks remain unqualified. Clean `8a27e826` / `8c4514de` separately produces the
+336181-byte observed retention capsule, freshly verified at both stores. Initial
+capsule publication refused the 4 MiB profile cap and remains recorded; no budget
+or required dependency was relaxed. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-review/README.md`.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P035-004 | Opaque Agora envelope carrier over Matrix | done | Existing Matrix mapping and Agora verification; S028 | Qualified 2026-10-12 at clean Node 20c4c16c and Orbidocs 862586f: 4 SQLite and 21 Matrix cases, confidence 0.5, permitted Whisper families, exact bytes, B `/sync` index, crash/restart/replay and review corrections. All 41 Node PDUs fit 65,536 (maximum 50,043); direct-protocol maximum 65,534 and fixture enforcement are separate observations. Retained qualification: `node:docs/evidence/matrix-opaque-envelope/2026-10-12-review/qualification.json`. That frozen run selected v2 explicitly; the adopted default-v2 policy is implemented/qualified separately in P035-006. One disclosed patched fixture does not qualify federation or production readiness. |

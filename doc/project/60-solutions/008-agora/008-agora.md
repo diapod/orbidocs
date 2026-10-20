@@ -493,6 +493,11 @@ and manual verification. P035-014 remains todo for periodic topology/sample chec
 stale supervision and S039 notifications. Temporary originals are not durable
 second copies. Branch integration and baseline gates are required before P035-013;
 this follow-up does not renew runtime or release qualification.
+The dated review supplement at
+`node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-review/README.md`
+records a new clean-checkout sixteen-read rehearsal and a 336181-byte observed
+retention-refusal capsule, also freshly verified at both stores. The original
+successful runtime result and initial capsule publication refusal remain unchanged.
 
 ### Retention Policy Sweep
 
