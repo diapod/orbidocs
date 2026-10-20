@@ -930,3 +930,36 @@ rows. The offline collector validates original v1 case records and groups entire
 qualification tuples; registration reuse never merges changed launch-chain facts.
 No new native qualification, target migration, hardware trial or branch integration
 is claimed. P096-005 remains partial.
+
+
+### Private campaign owner integrations (2026-10-20)
+
+A subsequent device-free checkpoint connects the seven previously blocked
+operational hooks. Six common episodes cover baseline, protected HTTP stop, Case
+deadline, provider loss, private application operator-session logout and that
+application's ordinary-control pool saturation. These last two scopes are not
+Node UI/OS logout or whole-Node management saturation. Current admission, fresh
+enrollment, WEAR, consent and permits remain required for every acquisition.
+
+One terminal branch explicitly reduces only the current acquisition grant's
+expiry, waits for actual monitor refusal and, after confirmed disposal, checks
+ordinary enrollment against the same retained expired grant. It restores no
+authority. The alternative branch injects a fixed signed nonreturning C call,
+observes native-body entry, requests protected stop and retains uncertain claims;
+a real conflicting enrollment probe and create-only restart checkpoint preserve
+that uncertainty. The five-second fault-cleanup cap is an implementation bound,
+not measured shutdown qualification or an SDK-deadlock observation. A separately
+approved external restart can later be observed read-only against exact
+source/image, OS/launch, changed boot and unchanged protected state. The observer
+performs no reset, recovery, grant change or middleware start.
+
+The two terminal branches cannot run consecutively by silently renewing a grant
+or releasing quarantine. Derived observations share the exact parent episode;
+missing evidence remains missing. The distinct immutable campaign package needs
+normal Author/Sign, a new pinned build and a newly frozen signed client before
+target use. This checkpoint performs no SSH, hardware trial, root migration or
+merge and rewrites no historical evidence. P096-005 remains **partial** under the
+unchanged qualifier, origin matrix and full-tuple rules; fresh process ancestry
+can still split qualification groups despite exact registration reuse. See
+[P096's owner checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#campaign-owner-integration-checkpoint-2026-10-20)
+and `node:daemon/docs/SENSORIUM-P096-CAMPAIGN.md`.
