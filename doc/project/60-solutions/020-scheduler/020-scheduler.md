@@ -738,6 +738,14 @@ and the separate release-gate rehearsal are retained at
 `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`;
 independent-host and disjoint-media protection are not claimed.
 
+P035-014 now tracks the separate periodic supervision gap: bounded topology/member
+checks, rotating fresh verification at both locations and explicit stale-job state,
+with S039 operator degradation/recovery notifications. Current P035-012 receipts
+are point-in-time observations only. Scheduling owns cadence and bounded execution;
+storage owns topology/integrity and the release owner still requires a complete
+fresh candidate-bound read. An absent or overdue job cannot report protection as
+healthy. No job or notification delivery is installed or qualified by this entry.
+
 ## Related Capability Data
 
 - `020-scheduler-caps.edn`

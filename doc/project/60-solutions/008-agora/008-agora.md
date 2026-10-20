@@ -488,6 +488,12 @@ Status:
   open and Agora stays partial. Evidence:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
 
+The 2026-10-20 custody review explicitly limits P035-012 to observed mirror health
+and manual verification. P035-014 remains todo for periodic topology/sample checks,
+stale supervision and S039 notifications. Temporary originals are not durable
+second copies. Branch integration and baseline gates are required before P035-013;
+this follow-up does not renew runtime or release qualification.
+
 ### Retention Policy Sweep
 
 Based on:

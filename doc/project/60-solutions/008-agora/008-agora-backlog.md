@@ -235,3 +235,9 @@ held. P035-012 is done for this accepted protection level, P035-013 remains todo
 and global Agora, independent-host, broader Whisper and production scope remain
 unchanged. Evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
+
+The subsequent 2026-10-20 review clarifies point-in-time mirror health and
+temporary-source durability without changing frozen evidence. P035-014 tracks
+periodic topology and fresh sample supervision with S039 degradation/recovery
+delivery; it remains todo. Integrate and baseline-test the diverged recovery/
+retention branch before P035-013 under the operator's separate merge decision.
