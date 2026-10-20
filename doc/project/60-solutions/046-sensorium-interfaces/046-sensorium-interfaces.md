@@ -1197,3 +1197,31 @@ and current p21 admission remain required before acquisition. See
 [P096's authority checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-authority-renewal-checkpoint-2026-10-21),
 `node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/authority-renewal-20261021-runtime.json`.
+
+
+### Revision-7 finite campaign checkpoint (2026-10-21)
+
+One freshly approved eight-scenario `authority-loss` campaign on source
+`d5e12c64`/signed GUI `8e5358d0` records fourteen delegated decisions and five
+fresh WEAR confirmations. Baseline, protected stop, runner Case deadline and
+control-provider loss report `observed-released`, cooperative cleanup, executor
+exit and release. The Case clock remains distinct from the qualifier's native
+activation-deadline requirement.
+
+The fifth episode stops while preparing, before its LOGOUT action. A pending
+current-authority validation is observed at 256 ms against the unchanged 250-ms
+budget, producing `validation-timeout` without identifying a failing authority
+predicate. Required presets are unvalidated. Native release remains unconfirmed
+despite executor exit, controller release is not attempted and the uncertain
+claim stays quarantined. The runner halts; saturation, live revocation and the
+derived expired-grant observation remain blocked. No logout, saturation,
+revocation, retry or recovery occurs.
+
+The offline collector preserves five unbound episodes and zero qualification
+tuple groups. Exact native launch/exit, preparation and execution-origin witnesses
+remain missing; no formal prerequisite closes and qualification/adoption stay
+false. P096-005 remains **partial** under the unchanged qualifier and full-tuple
+rules. Recovery or physical continuation requires a separate decision. See
+[P096's finite campaign checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-finite-campaign-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261021-runtime.json`.
