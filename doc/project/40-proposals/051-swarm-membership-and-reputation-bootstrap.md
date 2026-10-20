@@ -1384,6 +1384,20 @@ all D7 components remain false and no wider P051-006/007/008/015/016 scope close
 The current F-02 conservative CAS can still starve under continuous writes;
 its cost evidence does not prove progress or operator readiness.
 
+The 2026-10-20 F-02 timing investigation is separately scoped to the internal
+owner fixture. Node's
+`docs/audits/RESPONSIBILITY-F02-GATE-DIAGNOSIS-2026-10-20.md` records the original
+3.141-second batch-gate outlier and a new 2.135-second threshold failure, of which
+2.134 seconds were measured in the interval surrounding COMMIT. Bounded
+wall/thread-CPU diagnostics, controlled gate-wait/delayed-COMMIT checks and the actual owner stack distinguish
+limited row work from synchronous WAL I/O. They do not identify the unique kernel,
+storage or scheduling cause of the historical outlier; later passes cannot supply
+that missing evidence. The coarse wall-time tail remains an open qualification
+question, not a real-time guarantee. Test instrumentation does not change the
+existing one-second coarse regression guard, production SQLite policy or lifecycle
+authority. This evidence checkpoint closes neither pinned-generation progress,
+F-04/F-05 recovery, operator authorization, shadow parity nor D7.
+
 ### Systemic-Repair Slice Acceptance
 
 P051-014 qualifies a new local test-subject profile using the existing
