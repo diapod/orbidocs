@@ -1042,3 +1042,36 @@ no primary integration or native qualification follows. P096-005 remains
 [P096's completed retirement](../../40-proposals/096-sensorium-brainflow-connector.md#released-revision-6-retirement-checkpoint-2026-10-20),
 `node:docs/evidence/sensorium-host-control-20261019/retirement-r6-r7-20261020-runtime.json`
 and `node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md`.
+
+
+### Revision-7 campaign interruption (2026-10-20)
+
+The separately authorized SSH campaign uses exact signed GUI `e8ce6d5f`, source
+`2694f0aa` and verified nine-file handoff `6821f1d4`. The actual GUI launchd
+preflight and same-image Bluetooth permission-only observation pass; cleanup and
+observer exit are confirmed, while responsible-process attribution remains
+unverified. Controller/discovery authority is current until
+**2026-10-21 00:19:27 CEST** (`1792534767000` Unix ms), and revision 7 begins as
+reserved, with a free controller and zero resource claims.
+
+Only CAMPAIGN and SCAN are approved. Baseline Case `7aef6c89` stops during scan
+with `incomplete-released`, `case-authority-fenced` and `client-withdrawal`.
+The backend reports cancelled with confirmed no-scan cleanup and worker exit;
+controller release is confirmed and acquisition is absent. The endpoint records
+no STOP decision and `withdrawn: false`. Internal client transport/nonce/timeout
+paths can send the same withdrawal frame, so its actual origin remains
+unresolved. Deliberate wearer withdrawal, absent hardware, denied Bluetooth or
+expired grants are not inferred.
+
+The automatic report is partial with `campaign-episode-not-released`; its
+baseline-completion condition does not negate confirmed actual release. Later
+selected rows are blocked and the alternative fault branch remains unselected.
+Fresh reads show journal 98/fifteen Cases, released Case state, zero claims, no
+pending fence and only discovery revision 3 in inventory. Revision 7 remains
+reserved/unregistered; no BIND, REGISTER, WEAR, new p21 grant or consent occurs.
+No automatic retry, reset, recovery, renewal or integration follows. Diagnose
+the first closed client-control termination reason before a fresh approved
+attempt; P096-005 remains **partial** without formal prerequisite closure. See
+[P096's campaign interruption](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-campaign-interruption-checkpoint-2026-10-20),
+`node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261020-runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-20.md`.
