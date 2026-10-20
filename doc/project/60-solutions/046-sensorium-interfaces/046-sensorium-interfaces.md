@@ -907,3 +907,13 @@ six/two/two prerequisite case or freshly observing firmware. No additional
 hardware trial, reset, retry or merge follows. See
 `node:docs/evidence/sensorium-host-control-20261019/native-p21-r6-20261020-runtime.json`
 and the existing native-preflight review.
+
+### Device-free protected-control observations (2026-10-20)
+
+P096's private acquisition owner records bounded monotonic facts and explicit
+counters without authorizing work or blocking protected stop. Authenticated HTTP
+ingress includes session-lock waiting; shared provider removal refuses unfinished
+siblings. Missing exact-launch/native-call observations remain missing. This is
+implementation/conformance evidence only, with no new qualification, adoption,
+remote migration, hardware run or change to historical observations. P096-005
+remains partial.
