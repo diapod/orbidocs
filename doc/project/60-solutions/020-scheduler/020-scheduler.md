@@ -714,16 +714,17 @@ follow-ups rather than protocol blockers:
 
 ## Evidence maintenance follow-up (P035-012)
 
-The adopted local evidence store has one failure domain. Before every release,
-manual release preparation must freshly retrieve and verify each bundle supporting
-that release: ordinary qualification for complete runs, cause verification for
+The primary local evidence store alone has one failure domain. P035-012 now
+qualifies the operator-adopted mirrored secondary and a manual candidate-bound
+verification procedure. Before every release, preparation must freshly retrieve
+and verify each selected externally retained bundle from both adopted locations:
+ordinary qualification for complete runs, cause verification for
 refusal capsules. Record exact bundle/tool identities and results. An old successful
 receipt does not establish current availability; a missing or corrupt bundle blocks
 its evidence claim. The domain procedure belongs to Node's `docs/evidence/EXTERNAL-RETENTION.md`.
 
-P035-012 separately requires a different volume or host, explicit retention owner
-and fresh qualification at the destination before reviewed retirement of any old
-copy. Independent custody is a relation between two observed physical failure
+P035-012 records the explicit retention owner and fresh destination qualification
+before any reviewed retirement. Replica protection is a relation between two observed physical failure
 domains; another directory or APFS sibling volume is insufficient. The operator
 accepted an overlapping mirror with an online member on a different physical
 device: this qualifies primary-media-loss protection, with shared first member,
@@ -732,8 +733,10 @@ The release owner binds both fresh reads to a clean candidate, selected evidence
 inventory and current trusted tools. S020 does not interpret release evidence or
 store layout. A future periodic verification job can use S020's existing host-owned job
 contract, with bounded execution and visible failure; the scheduler must not learn
-store layout or scenario predicates. No job or independent backup is claimed
-configured by this documentation.
+store layout or scenario predicates. No periodic job is configured. Actual recovery
+and the separate release-gate rehearsal are retained at
+`node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`;
+independent-host and disjoint-media protection are not claimed.
 
 ## Related Capability Data
 

@@ -221,3 +221,17 @@ The dual-view comparison tests coding/references, not independent capture; its
 fairness timings include dual-write I/O. P035-012/013 remain todo, global Agora
 stays partial, and independent backup, federation, all Whisper and release/
 production qualification remain separate.
+
+The following 2026-10-20 P035-012 closure supersedes that pending-copy status:
+the operator-adopted secondary mirror shares the primary device but has a complete
+online copy on another physical member. Eight exact bundles / 32517795 original
+file bytes per logical store freshly qualify with enforced primary/capture denial
+at Node dc996b24 / Orbidocs 83c77609. The separate clean 70d507cb release rehearsal
+freshly checks both locations and the candidate-bound v2 outer gate accepts only
+the named attempt; other release checks stay unqualified. Source outcomes,
+original per-location store facts and all budgets are preserved. No source is
+retired; private auxiliary originals, including a retention refusal, are separately
+held. P035-012 is done for this accepted protection level, P035-013 remains todo,
+and global Agora, independent-host, broader Whisper and production scope remain
+unchanged. Evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.

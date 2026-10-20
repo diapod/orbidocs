@@ -469,10 +469,24 @@ Status:
   `3b06e1b4` / `51de82e9`, retained as a small report referencing the original frozen
   input rather than another full archive. It does not renew this runtime.
   Dual-write timing observations (7.211888 s / 35.0048 s) do not replace
-  the historical fairness baseline or establish bounds. P035-012/013 remain open;
+  the historical fairness baseline or establish bounds. At that checkpoint P035-012/013 remained open;
   Agora remains partial and one local store is not an independent backup. No
   federation, nym issuance, all-Whisper or release/production claim follows.
   Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`.
+
+- P035-012 closes on 2026-10-20 for operator-adopted mirrored primary-media-loss
+  protection. Clean Node `dc996b24` / Orbidocs `83c77609` freshly recovers eight
+  exact bundles (32517795 original file bytes per logical store) while the OS denies
+  primary/previous-capture access. Four full/focused qualifications and four
+  cause-only results remain exact. A separate clean Node `70d507cb` release
+  rehearsal verifies both locations and the v2 outer gate binds candidate, attempt,
+  inventory, policy and trusted tools; changing the attempt refuses. Other release
+  checks remain unqualified. The mirror shares one primary medium and has another
+  separate online member, as explicitly accepted by the operator; shared host/site
+  and mirror-management risks remain. Auxiliary originals retain their original
+  results without deletion, and no new Matrix runtime is claimed. P035-013 stays
+  open and Agora stays partial. Evidence:
+  `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
 
 ### Retention Policy Sweep
 

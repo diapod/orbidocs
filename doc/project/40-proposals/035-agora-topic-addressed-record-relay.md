@@ -1490,9 +1490,44 @@ PDU coverage or historical archive was weakened. Same-capture dual-write timings
 (7.211888 s other-room delivery; 35.0048 s third-history start) include extra I/O
 and do not replace the 6.2 s / 35 s baseline or establish bounds. Evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`.
-P035-011 is done; P035-012/013 remain todo, and Agora remains partial. This one
+At that P035-011 checkpoint, P035-012/013 remained todo and Agora partial. This one
 homeserver/local-volume profile does not qualify federation, independent backup,
 nym issuance, all Whisper or release/production readiness.
+
+### P035-012: adopted mirrored evidence protection (2026-10-20)
+
+The operator selected a secondary mirror whose first physical member overlaps
+the primary store and whose second online member is a separate device. This
+explicitly adopts `primary-media-loss-with-overlapping-mirror` protection instead
+of disjoint media. Both owner/retirement profiles remain unchanged, and original
+per-location `independent_backup: false` facts are preserved. Host, power,
+administration, site, the shared member and mirror-management risks remain.
+
+Clean Node `dc996b24` / Orbidocs `83c77609` qualifies actual secondary-only
+recovery of eight exact bundle identities and 32517795 original file bytes per
+logical store. Four full/focused sets and four cause capsules return their exact
+original qualification or cause-verification results. A real OS sandbox denies
+the primary and previous capture/temporary roots before and after fresh bounded
+extraction. Full-PDU and author-byte predicates remain those of the original
+profiles; no new Matrix runtime is claimed. Mounted mirror reads and online
+member observations do not prove an actual detached-member recovery exercise.
+
+A separate clean Node `70d507cb` / Orbidocs `83c77609` release rehearsal performs
+sixteen fresh retrievals, covering both locations and every selected bundle.
+The v2 release attestation binds the attempt, candidate, ledger/profile hashes,
+trusted tools, policy and evidence inventory. The actual outer gate accepts this
+retention check and rejects another attempt id; other release checks are
+explicitly unqualified. Historical receipts cannot authorize a new candidate.
+Small custody/procedure archives qualify identically before and after extraction.
+Additional original results from temporary locations are deduplicated and held
+without changing their old outcomes or deleting sources. A private oversized
+retention-refused original is not admitted as a public qualified bundle.
+
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
+This closes P035-012 for the operator-adopted protection level and manual
+procedure. Automatic maintenance, independent-host recovery, federation, all
+Whisper and release/production readiness remain outside this result. P035-013
+stays todo and global Agora stays partial. Existing retention budgets remain.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
@@ -1506,7 +1541,7 @@ nym issuance, all Whisper or release/production readiness.
 | P035-009 | Decide accountable external evidence retention | done | P035-008; repository retention owner | Adopted local profile `orbiplex-dev-whisper-v1`, owner Node public-evidence retention maintainer, no automatic deletion until explicit reviewed retirement or verified migration. Inventory-addressed append-only sets, bounded fresh copy/extraction and identical ordinary qualification pass at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-external-store/README.md`; unavailable/corrupt stores refuse. Policy binds the proof and profile; original budgets/history remain. Local single-volume scope is external to Git, without independent-backup or public-hosting claims. |
 | P035-010 | Bound excessive history Retry-After through explicit operator policy | done | P035-007; Matrix rate-limit semantics; P072 local operator authority | Historical 15000-ms out-of-policy floor remains qualified in the frozen full profile. Reviewed focused proof at clean Node ac386090 / Orbidocs fbba8e73 qualifies four cases on stock Synapse: checked 24 h credibility, exact u64/ten-year delay, durable implausible account block and reasoned per-task CAS escape, with unchanged credible floor, continuing live confidence-0.5 publication, restart and source replay. Active binding/current revision required, including after rebind; other tasks remain held. Qualified/retrieved 142758-byte proof at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`; full PDU gates not rerun. |
 | P035-011 | Deduplicate observations at the evidence source before larger campaigns | done | P035-008; P035-009 | Qualified 2026-10-20 at clean Node ee64042f / Orbidocs a2addea1: 34 Matrix/five SQLite, same-capture legacy/source facts and exact author/PDU bytes, identical ordinary loose/extracted/fresh-retrieved results. Retains all 2048 PDUs plus 2048 stored-row artifacts; 2041 Node PDUs, maximum 49927 within 65536. Runtime tool total 15220597 bytes at the default 128 MiB dictionary; conservative whole collection 15264203 within 16 MiB. Tar 164802560 bytes/289 members, compact Git controls 5878 bytes versus prior 2282442. Historical gate and supplemental category facts remain separate. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`. Existing budgets, one-homeserver/volume scope, Agora partial and P035-012/013 remain unchanged. |
-| P035-012 | Qualify a retained-evidence replica and verification procedure | partial | P035-009; P035-011; operator-adopted protection profile | Execution contract accepted 2026-10-20: relation between two accountable locations, exact inventory-addressed bundles and frozen original store facts. Operator selected a secondary mirror sharing the primary medium but containing an online copy on another physical device: primary-media-loss protection, not disjoint media. Complete secondary-only fresh retrieval/qualification and cause-only verification remain required. Release-owned receipt binds both fresh reads to the clean candidate, ledger/profile, trusted tools, policy and evidence set. Copies remain until reviewed retirement; shared host/power/site/mirror-management limits stay explicit. Implementation and measured destination proof remain required. |
+| P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
 | P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | todo | P035-010; S039; S020; P072 | Host-owned source adapter emits idempotent lifecycle updates for blocked/awaiting-operator state after commit, without tokens. Notification action resolves fresh authority/task CAS and is enabled only at the credible not-before; implausible override remains a distinct reasoned action. Batches are bounded, retain a CAS per item and report partial results without erasing other limits; notification delivery failure cannot change recovery state. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
