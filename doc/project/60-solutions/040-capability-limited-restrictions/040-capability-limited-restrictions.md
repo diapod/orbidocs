@@ -21,6 +21,16 @@ Related schemas:
 - `responsibility-effect-receipt.v2` (draft; no current v2 application receipt)
 - `responsibility-lifecycle-readiness.local.v1` (draft; all components false at V1)
 
+## M0 inactive maintenance contract freeze (2026-10-20)
+
+The [maintenance/alignment contract](040-safe-maintenance-contracts.md) freezes
+ten canonical draft schemas, separate future P072 grants, exact reserves, private
+archive/index and missing-recipient behavior. Offline Gate/report conformance
+does not implement maintenance or shadow runtime. Future new-protocol writes
+require explicit first-write storage-v4 acknowledgment; M0 upgrades no database.
+v1 remains authoritative and every D7 component remains false. Early P051-010
+alignment does not complete repair; F-04/F-05, M1–M5/V3/Q and wider recovery remain open.
+
 ## Status
 
 Implemented solution.

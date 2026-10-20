@@ -1,0 +1,37 @@
+{
+  "schema": "responsibility-maintenance-request.local.v1",
+  "command/id": "fixture:command",
+  "kind": "inspect",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "authentication": "local-control",
+  "operator/binding": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "grant": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "generation": null,
+  "expected/head": null,
+  "source/boundary": null,
+  "plan/digest": null,
+  "approval": null,
+  "storage/transition": "none",
+  "compatibility": null
+}

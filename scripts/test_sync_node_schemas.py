@@ -16,6 +16,23 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
+    def test_maintenance_m0_mirrors_are_explicit_complete_and_byte_identical(self) -> None:
+        groups = (
+            (SYNC.SCHEMA_WHITELIST, SYNC.SCHEMAS_DIR, "responsibility-maintenance-*.schema.json", 10),
+            (SYNC.EXAMPLE_WHITELIST, SYNC.EXAMPLES_DIR, "*.responsibility-maintenance-*.json", 10),
+            (SYNC.INVALID_EXAMPLE_WHITELIST, SYNC.INVALID_EXAMPLES_DIR, "*.responsibility-maintenance-*.json", 13),
+        )
+        for whitelist, source, pattern, count in groups:
+            names = tuple(sorted(path.name for path in source.glob(pattern)))
+            self.assertEqual(len(names), count)
+            with tempfile.TemporaryDirectory() as temporary:
+                target = Path(temporary)
+                for name in names:
+                    self.assertIn(name, whitelist)
+                SYNC.copy_files(names, source, target)
+                for name in names:
+                    self.assertEqual((target / name).read_bytes(), (source / name).read_bytes())
+
     def test_panel_and_lifecycle_contracts_and_examples_are_reproducible_mirrors(self) -> None:
         families = tuple(sorted(
             path.name for path in SYNC.SCHEMAS_DIR.glob("*.schema.json")

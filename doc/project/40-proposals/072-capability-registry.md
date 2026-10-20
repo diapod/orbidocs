@@ -53,10 +53,17 @@ Contract and evidence:
 
 ### Planned maintenance permissions (2026-10-19)
 
-The safe-maintenance/shadow-V3 plan proposes separate host-local
+M0 (2026-10-20) freezes the following draft names and one separate
+`grant/responsibility.maintenance.<suffix>` per operation, while keeping both
+the live registry and authorization policy unchanged. Current grant production
+and admission belong to the authenticated host operator owner and remain M4
+work; selector fields in a request are not proof. There is no detached signed
+command family at M0. See [the S040 contract](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md).
+
+The safe-maintenance/shadow-V3 plan reserves separate host-local
 `responsibility.maintenance.inspect`, `.prepare`, `.abandon`, `.verify`,
 `.reconcile` and `.compact` permissions. These are **unregistered design names**,
-not new callable capabilities. Final registry/policy/route bindings and current
+not new callable capabilities. M4 registry/policy/route bindings and current
 operator authorization must pass their own negative tests before exposure.
 Inspection, case mandates, module registration and passports confer no mutation
 authority. Exact approved plans, host/incarnation, revocation and idempotency are

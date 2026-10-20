@@ -1,0 +1,866 @@
+{
+  "schema": "responsibility-maintenance-index.local.v1",
+  "host/id": "fixture:host",
+  "revision": 1,
+  "previous/root": null,
+  "entries": [
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    },
+    {
+      "host/incarnation": "fixture:incarnation",
+      "generation": 1,
+      "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+      "manifest/digest": "sha256:cf251a18263a4b5be647d54e1f4b4cffc247c696bfd02050eb9dac9bc72c20b5",
+      "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "terminal/head": {
+        "generation": 1,
+        "step": 1024,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "terminal/kind": "abandoned"
+    }
+  ],
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "root/digest": "sha256:a86b8f1fec6773232b35cf9d6b7851c65786d8346aec7c0a0ea1ba2749c16a25"
+}

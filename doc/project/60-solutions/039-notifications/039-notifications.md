@@ -19,6 +19,15 @@ Related schemas:
 - `notification-allow.v1`
 - `notification-delivery-policy.v1`
 
+## Responsibility maintenance M0 (2026-10-20)
+
+The [S040 contract](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md)
+freezes separate future maintenance grants and recipient-bound alert references.
+No live registry/policy entry or notification action/delivery is added at M0.
+The host operator owner must admit current grants and resolve the actual S039
+recipient; absent recipient stays pending. Acknowledgment supplies no authority.
+M4/M5/Q qualification and full P051-010 alignment remain open.
+
 ## Status
 
 Implemented MVP solution.

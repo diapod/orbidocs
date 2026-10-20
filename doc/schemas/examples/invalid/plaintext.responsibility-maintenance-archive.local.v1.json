@@ -1,0 +1,52 @@
+{
+  "schema": "responsibility-maintenance-archive.local.v1",
+  "context": {
+    "host/id": "fixture:host",
+    "host/incarnation": "fixture:incarnation",
+    "generation": 1,
+    "source/boundary": {
+      "sequence": 44,
+      "history/epoch": 1,
+      "history/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sources/revision": 2,
+      "sources/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "terminal/head": {
+      "generation": 1,
+      "step": 1024,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "terminal/kind": "abandoned",
+    "projector/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "previous/index-root": null,
+    "key/ref": "fixture:host-sealer-key",
+    "plaintext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "members": [
+      {
+        "name": "baseline",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    ]
+  },
+  "context/digest": "sha256:ca921ebb3a4a79ff20f13dc986b76b2d952e6092db7d901b0a30b152eff49bbd",
+  "cipher": "none",
+  "aad/domain": "orbiplex/responsibility/maintenance-archive/v1",
+  "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "ciphertext/bytes": 140,
+  "publication": "verified",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "private-key": "fixture-secret"
+}

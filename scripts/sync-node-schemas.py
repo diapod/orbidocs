@@ -45,6 +45,16 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "responsibility-maintenance-index.local.v1.schema.json",
+    'responsibility-maintenance-abandoned.local.v1.schema.json',
+    'responsibility-maintenance-alert.local.v1.schema.json',
+    'responsibility-maintenance-archive.local.v1.schema.json',
+    'responsibility-maintenance-bindings.local.v1.schema.json',
+    'responsibility-maintenance-common.local.v1.schema.json',
+    'responsibility-maintenance-generation.local.v1.schema.json',
+    'responsibility-maintenance-report.local.v1.schema.json',
+    'responsibility-maintenance-request.local.v1.schema.json',
+    'responsibility-maintenance-result.local.v1.schema.json',
     "capability-issuance-delegation.v1.schema.json",
     "capability-issuance-request.v1.schema.json",
     "capability-passport.v2.schema.json",
@@ -640,6 +650,16 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "bounded.responsibility-maintenance-index.local.v1.json",
+    'busy.responsibility-maintenance-result.local.v1.json',
+    'fixture.responsibility-maintenance-bindings.local.v1.json',
+    'fixture.responsibility-maintenance-report.local.v1.json',
+    'inspect.responsibility-maintenance-request.local.v1.json',
+    'prepare.responsibility-maintenance-request.local.v1.json',
+    'reserved.responsibility-maintenance-abandoned.local.v1.json',
+    'sealed.responsibility-maintenance-archive.local.v1.json',
+    'unrouted.responsibility-maintenance-alert.local.v1.json',
+    'verified.responsibility-maintenance-generation.local.v1.json',
     "sovereign.messaging-receive-decision.local.json",
     "fixture.capability-issuance-delegation.v1.json",
     "fixture.capability-issuance-request.v1.json",
@@ -1219,6 +1239,19 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "unbounded.responsibility-maintenance-index.local.v1.json",
+    'actor-field.responsibility-maintenance-request.local.v1.json',
+    'inspection-approval.responsibility-maintenance-request.local.v1.json',
+    'plaintext.responsibility-maintenance-archive.local.v1.json',
+    'raw-signature.responsibility-maintenance-request.local.v1.json',
+    'readiness-open.responsibility-maintenance-request.local.v1.json',
+    'reasonless.responsibility-maintenance-result.local.v1.json',
+    'recipientless-delivery.responsibility-maintenance-alert.local.v1.json',
+    'scope-promotion.responsibility-maintenance-report.local.v1.json',
+    'source-retraction.responsibility-maintenance-abandoned.local.v1.json',
+    'timeout-success.responsibility-maintenance-result.local.v1.json',
+    'unacknowledged.responsibility-maintenance-request.local.v1.json',
+    'unbounded.responsibility-maintenance-generation.local.v1.json',
     "unconfirmed-completion.deferred-operation-status-v2.json",
     "noncompleted-result.deferred-operation-status-v2.json",
     "wrong-progress-operation-kind.deferred-operation-status-v2.json",
