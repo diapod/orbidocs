@@ -2402,6 +2402,26 @@ Room prose.
 | `P085-041` | Prove local and Story 012 Room-bound multi-pass acceptance and synchronize documentation | `done` | **Dependency:** completed `P085-034` through `P085-040`, package-component prerequisite `P085-043`, and turn-order integration `P085-044`; this item uses their production paths rather than acceptance substitutes. The retained `2026-08-23.story-012-powerdns-discovery-full-system.macos-arm64.json` report passes the closed 31-check validator through real `vfkit-system.v1` and two separately supervised Qwen2.5-Coder 7B runtimes. It activates the operator package before deliberation, consumes its four-passage Flow and package-owned turn-order producer, records exact package manifest/activation and offer/policy/producer/decision lineage, preserves prompt-free product and authority evidence, reaches the DNS goal after one rejected experiment and one correction from fresh terminal evidence, and proves HIL plus P083 `claim -> invoke -> release`. The flow evidence records both the package ceiling of eight passages and the binding's monotone four-passage narrowing. After node-A restart it proves stale Flow and turn-order replay refusal under retired process authority, then terminal package revocation and a second stale-authority refusal without local semantic fallback. Room prose remains inert and terminal publication authority remains absent. The report digest is `sha256:c54df2a6c9a9198ea589714381219e511b64ca0eb676bd87c686aea7fa62b3eb`. |
 | `P085-042` | Add interactive attention and peer/refusal drill-down UI | `done` | The render-only Node UI consumes the accepted effective-policy projection, separates populated from explicitly unavailable sources, shows material differences, domain registries, peer posture, and the decisive refusal, and follows only bounded projection-owned artifact refs with explicit back-links. The production host composes all 38 effective Inquirium axes plus current Agent, Corpus, and Inquirium semantic registries from their owning strata, and marks Arca, Dator, and federation honestly unavailable when no current source is present. Dedicated peer-mismatch and refusal-provenance views link back to the same accepted projection and the existing operator-notification surface; no view fetches protected artifact bytes. Schema Gate, lifecycle process tests, Node UI tests, and strict Clippy cover the resulting boundary. |
 
+2026-10-20 (`P085-036`/`P085-037`, bounded replay follow-up): exact readback of a
+complete durable passage, including an identical already retained terminal
+selection when requested, is not a new Flow execution. Inference-Flow binding
+expiry alone does not turn that read into fresh admission: no facts, inference,
+effect or charge are added. Current actor, policy, running-Agent and session gates
+remain, as do host/Corpus authority, classification and disclosure checks;
+`P085-038`/`P085-039` are not bypassed and no expired authority is renewed. New
+passages, missing requested selections and incomplete-bundle repairs still require
+ordinary live-Flow write admission; changed-body reuse of an existing request
+still refuses. See
+`node:docs/audits/AGENT-FLOW-EXPIRY-REPLAY-2026-10-20.md` for the bounded local
+software-conformance record. Existing tracker statuses and historical reports
+remain unchanged; this is not new full-runtime, real-model, federation or release
+qualification.
+
+The final 2026-10-20 full-library regression is not green: 2,419 passed, one
+unchanged Responsibility F02 gate-tail test failed, and 64 were ignored. The
+original Agent DAG and seven focused replay regressions passed. The Node report
+retains that refusal without claiming F02 closure or changed readiness.
+
 ### Cross-Cutting Package Composition and Turn Scheduling
 
 2026-10-03 (`P085-040`, pre-release contract amendment): the accepted

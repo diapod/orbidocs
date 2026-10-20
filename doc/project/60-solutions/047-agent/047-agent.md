@@ -204,6 +204,21 @@ charge, while changed-body replay, an unoffered profile, a mismatched runtime,
 or publication authority fails closed. JSON-e Flow controls only the bounded
 ordering, branch, and repetition of those already admitted passages.
 
+Complete durable replay is readback, not renewed Flow admission. For the exact
+request, retained product and required trace/provenance facts, plus an identical
+already committed terminal selection when requested, expiry of the inference-Flow
+binding alone does not require reinference or prevent readback. The existing
+current actor, policy, running-Agent and session gates still apply; host and
+Corpus authority, classification and disclosure checks are not bypassed. This
+does not renew an expired Agent, grant, package or Room authority. The read appends
+no facts, makes no inference or driver call, repeats no effect and adds no charge.
+New passages, missing requested selections and incomplete-bundle repairs remain
+subject to normal live-Flow write admission; changed-body reuse of an existing
+request still refuses. The bounded local
+software-conformance record is
+`node:docs/audits/AGENT-FLOW-EXPIRY-REPLAY-2026-10-20.md`; it is not full-runtime,
+real-model, federation or release qualification.
+
 The passage ceiling and sequence are scoped to the exact inference-flow binding;
 the initial daemon admits one binding per Agent without redefining that contract as
 Agent-global. A host-local execution claim prevents concurrent invocation of one
