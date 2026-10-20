@@ -1017,3 +1017,28 @@ next and separately reviewed**, not completed by renewal. See
 [P096's renewal checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-6-authority-renewal-checkpoint-2026-10-20),
 `node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/authority-r6-20261020-runtime.json`.
+
+
+### Released revision-6 retirement (2026-10-20)
+
+Separate review `fe930943` on retained administrator `64e92854` / source
+`2694f0aa` completes metadata retirement **6 → 7**, using Case `487b1e94` and
+its exact `confirmed-case-release` basis. Four reviewed metadata sources remove
+only the expired revision-6 host grant/plan, acquisition grant, discovered
+binding and active candidate receipt. Revision 7 is reserved by completed
+history; it is neither registered nor granted authority.
+
+Journal 93/fourteen Cases, consent and logical resource state remain unchanged, the controller
+is free, and both immutable SDK-health and campaign packages remain exact. The
+campaign package stays unregistered. Controller/discovery authority keeps its
+**2026-10-21 00:19:27 CEST** expiry (`1792534767000` Unix ms). The local comparison
+accounts for serde's omitted empty `discovery/receipts`; no product fix is claimed.
+
+No recovery, hardware, manager, permission probe, new consent or registration
+occurs. Fresh SCAN/BIND/REGISTER revision 7/WEAR p21 remain separate future
+steps. The synchronized workspace is not a rebuild of the retained target, and
+no primary integration or native qualification follows. P096-005 remains
+**partial**. See
+[P096's completed retirement](../../40-proposals/096-sensorium-brainflow-connector.md#released-revision-6-retirement-checkpoint-2026-10-20),
+`node:docs/evidence/sensorium-host-control-20261019/retirement-r6-r7-20261020-runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md`.
