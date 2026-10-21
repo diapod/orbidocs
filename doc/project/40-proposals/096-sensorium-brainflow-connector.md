@@ -3545,3 +3545,8 @@ Merged source 351861c9/pin e55f71a9 now has a verified nearby budget-v2 release 
 ### Released revision-8 retirement (2026-10-21)
 
 Released revision 8 retired through exact review 728de054 and unchanged journal 158, reserving revision 9. All old Cases, consent, packages, owner/discovery expiry and custody remain; no grant, recovery or hardware effect was created. P096-005 stays partial; fresh SCAN/BIND/REGISTER/WEAR are required. See node:docs/audits/REVIEW-SENSORIUM-R8-RETIREMENT-2026-10-21.md.
+
+
+### Deadline consumer source correction (2026-10-21)
+
+The deadline campaign branch now continues ordinary authorized draining after readiness, preserving all queue and clock limits and propagating failures without relabelling them as expected deadline evidence. Four bounded-producer regressions cover draining, overflow, pre-existing fence and failure precedence. This is source conformance only; P096-005 remains partial pending a fresh pinned client and native evidence. See node:docs/audits/REVIEW-SENSORIUM-DEADLINE-CONSUMER-2026-10-21.md.
