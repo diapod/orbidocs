@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-report.local:v1",
+  "title": "responsibility-maintenance-report.local.v1",
+  "description": "Draft inactive local contract. Validation grants no authority, runtime qualification or lifecycle readiness.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Report"
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "responsibility-maintenance-request.local.v1",
+  "command/id": "fixture:command",
+  "kind": "prepare",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "authentication": "local-control",
+  "operator/binding": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "grant": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "generation": null,
+  "expected/head": null,
+  "source/boundary": {
+    "sequence": 44,
+    "history/epoch": 1,
+    "history/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sources/revision": 2,
+    "sources/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "plan/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "approval": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "storage/transition": "3-to-4",
+  "compatibility": {
+    "from/storage-version": 3,
+    "to/storage-version": 4,
+    "one-way": true,
+    "supported-binary/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "recovery-procedure": {
+      "id": "fixture:binding",
+      "revision": 1,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "acknowledgment": {
+      "id": "fixture:binding",
+      "revision": 1,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "actor/id": "fixture:forged"
+}

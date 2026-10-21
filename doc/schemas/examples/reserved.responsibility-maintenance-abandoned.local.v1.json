@@ -1,0 +1,52 @@
+{
+  "schema": "responsibility-maintenance-abandoned.local.v1",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "command/id": "fixture:command",
+  "request/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "generation": 1,
+  "predecessor": {
+    "generation": 1,
+    "step": 1024,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "source/boundary": {
+    "sequence": 44,
+    "history/epoch": 1,
+    "history/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sources/revision": 2,
+    "sources/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "operator/binding": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "grant": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "approval": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "plan/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "reason/ref": "reason:ordinary-limit",
+  "abandoned-at": "2026-10-20T12:00:00Z",
+  "terminal/slot": 1,
+  "terminal": true
+}

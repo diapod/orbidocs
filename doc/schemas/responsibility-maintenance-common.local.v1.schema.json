@@ -1,0 +1,1676 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-common.local:v1",
+  "title": "responsibility-maintenance-common.local.v1",
+  "description": "Draft M0 definitions only. None of these values is authenticated by shape validation.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md"
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9:._/@+-]*$"
+    },
+    "Digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "Time": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40,
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+    },
+    "Path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 192,
+      "pattern": "^[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$"
+    },
+    "Git": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}([a-f0-9]{24})?$"
+    },
+    "Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "digest"
+      ]
+    },
+    "Head": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      },
+      "required": [
+        "generation",
+        "step",
+        "digest"
+      ]
+    },
+    "Boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "history/epoch": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "history/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "sources/revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sources/digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      },
+      "required": [
+        "sequence",
+        "history/epoch",
+        "history/digest",
+        "sources/revision",
+        "sources/digest"
+      ]
+    },
+    "Safety": {
+      "const": {
+        "authority": "v1",
+        "d7": {
+          "storage": false,
+          "composition": false,
+          "writers": false,
+          "replay": false,
+          "receipts": false
+        },
+        "participant-effects": false,
+        "cutover": false
+      }
+    },
+    "Budget": {
+      "const": {
+        "batch/rows": 100,
+        "sources/generation": 8192,
+        "ordinary-steps/generation": 1024,
+        "resident/generations": 16,
+        "resident/baseline-bytes": 33554432,
+        "resident/prepared-bytes": 33554432,
+        "request/bytes": 16384,
+        "result/bytes": 65536,
+        "terminal/slots-per-generation": 1,
+        "terminal/record-bytes": 8192,
+        "terminal/reserved-bytes": 131072,
+        "pending/commands": 64,
+        "receipt/resident-records": 1024,
+        "receipt/record-bytes": 8192,
+        "alert/pending-records": 256,
+        "alert/record-bytes": 4096,
+        "archive/index-records": 64,
+        "archive/manifest-bytes": 16384,
+        "archive/plaintext-bytes": 100663296,
+        "archive/resident-bytes": 268435456,
+        "conflict/alert-after": 3,
+        "retry/attempts": 8,
+        "retry/backoff-ms": [
+          25,
+          50,
+          100,
+          200,
+          400,
+          800,
+          1000
+        ],
+        "report/bytes": 262144,
+        "observation/bytes": 65536,
+        "evidence/run-bytes": 4194304,
+        "evidence/refused-bytes": 262144,
+        "writer/storage-version": 4,
+        "archive/index-bytes": 65536
+      }
+    },
+    "Compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "from/storage-version": {
+          "enum": [
+            2,
+            3
+          ]
+        },
+        "to/storage-version": {
+          "const": 4
+        },
+        "one-way": {
+          "const": true
+        },
+        "supported-binary/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "recovery-procedure": {
+          "$ref": "#/$defs/Binding"
+        },
+        "acknowledgment": {
+          "$ref": "#/$defs/Binding"
+        }
+      },
+      "required": [
+        "from/storage-version",
+        "to/storage-version",
+        "one-way",
+        "supported-binary/digest",
+        "recovery-procedure",
+        "acknowledgment"
+      ]
+    },
+    "Artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/Path"
+        },
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        }
+      },
+      "required": [
+        "path",
+        "digest",
+        "bytes"
+      ]
+    },
+    "Request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-request.local.v1"
+        },
+        "command/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "kind": {
+          "enum": [
+            "inspect",
+            "prepare",
+            "abandon",
+            "verify",
+            "reconcile",
+            "compact"
+          ]
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "authentication": {
+          "const": "local-control"
+        },
+        "operator/binding": {
+          "$ref": "#/$defs/Binding"
+        },
+        "grant": {
+          "$ref": "#/$defs/Binding"
+        },
+        "generation": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expected/head": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Head"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source/boundary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Boundary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plan/digest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "storage/transition": {
+          "enum": [
+            "none",
+            "2-to-4",
+            "3-to-4"
+          ]
+        },
+        "compatibility": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Compatibility"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "command/id",
+        "kind",
+        "host/id",
+        "host/incarnation",
+        "authentication",
+        "operator/binding",
+        "grant",
+        "generation",
+        "expected/head",
+        "source/boundary",
+        "plan/digest",
+        "approval",
+        "storage/transition",
+        "compatibility",
+        "safety"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "inspect"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "plan/digest": {
+                "const": null
+              },
+              "approval": {
+                "const": null
+              },
+              "source/boundary": {
+                "const": null
+              },
+              "compatibility": {
+                "const": null
+              },
+              "storage/transition": {
+                "const": "none"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "plan/digest": {
+                "$ref": "#/$defs/Digest"
+              },
+              "approval": {
+                "$ref": "#/$defs/Binding"
+              },
+              "source/boundary": {
+                "$ref": "#/$defs/Boundary"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "storage/transition": {
+                "enum": [
+                  "2-to-4",
+                  "3-to-4"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "prepare",
+                  "abandon",
+                  "verify",
+                  "reconcile",
+                  "compact"
+                ]
+              },
+              "compatibility": {
+                "$ref": "#/$defs/Compatibility"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "compatibility": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "abandon",
+                  "verify",
+                  "reconcile",
+                  "compact"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "generation": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "expected/head": {
+                "$ref": "#/$defs/Head"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "storage/transition": {
+                "const": "2-to-4"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "compatibility": {
+                "properties": {
+                  "from/storage-version": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "storage/transition": {
+                "const": "3-to-4"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "compatibility": {
+                "properties": {
+                  "from/storage-version": {
+                    "const": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-result.local.v1"
+        },
+        "command/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "attempt/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "request/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "recorded-at": {
+          "$ref": "#/$defs/Time"
+        },
+        "outcome": {
+          "enum": [
+            "observed",
+            "committed",
+            "pending",
+            "refused",
+            "conflict",
+            "unavailable"
+          ]
+        },
+        "head": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Head"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "receipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "refusal": {
+          "anyOf": [
+            {
+              "enum": [
+                "invalid-data",
+                "no-authority",
+                "stale-approval",
+                "wrong-host-incarnation",
+                "migration-conflict",
+                "migration-busy",
+                "migration-integrity",
+                "capacity-exhausted",
+                "archive-unavailable",
+                "archive-integrity",
+                "profile-disabled",
+                "maintenance-not-integrated",
+                "unsupported-storage-version",
+                "retention-unavailable"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "command/id",
+        "attempt/id",
+        "request/digest",
+        "host/id",
+        "host/incarnation",
+        "recorded-at",
+        "outcome",
+        "head",
+        "receipt",
+        "refusal",
+        "retryable",
+        "safety"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "committed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "head": {
+                "$ref": "#/$defs/Head"
+              },
+              "receipt": {
+                "$ref": "#/$defs/Binding"
+              },
+              "refusal": {
+                "const": null
+              },
+              "retryable": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "enum": [
+                  "refused",
+                  "conflict",
+                  "unavailable"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "refusal": {
+                "enum": [
+                  "invalid-data",
+                  "no-authority",
+                  "stale-approval",
+                  "wrong-host-incarnation",
+                  "migration-conflict",
+                  "migration-busy",
+                  "migration-integrity",
+                  "capacity-exhausted",
+                  "archive-unavailable",
+                  "archive-integrity",
+                  "profile-disabled",
+                  "maintenance-not-integrated",
+                  "unsupported-storage-version",
+                  "retention-unavailable"
+                ]
+              },
+              "receipt": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "refusal": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "enum": [
+                  "observed",
+                  "pending"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "receipt": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "enum": [
+                  "observed",
+                  "refused"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "retryable": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-generation.local.v1"
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "baseline": {
+          "$ref": "#/$defs/Binding"
+        },
+        "source/boundary": {
+          "$ref": "#/$defs/Boundary"
+        },
+        "head": {
+          "$ref": "#/$defs/Head"
+        },
+        "phase": {
+          "enum": [
+            "clear",
+            "copy",
+            "verify",
+            "verified",
+            "abandoned"
+          ]
+        },
+        "projector/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "sources/count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "copied": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 8192
+            },
+            "verified": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 8192
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 33554432
+            },
+            "digest": {
+              "$ref": "#/$defs/Digest"
+            },
+            "verified/digest": {
+              "$ref": "#/$defs/Digest"
+            }
+          },
+          "required": [
+            "copied",
+            "verified",
+            "bytes",
+            "digest",
+            "verified/digest"
+          ]
+        },
+        "observation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "observed-at": {
+              "$ref": "#/$defs/Time"
+            },
+            "current": {
+              "type": "boolean"
+            },
+            "incarnation/current": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "observed-at",
+            "current",
+            "incarnation/current"
+          ]
+        },
+        "budget": {
+          "$ref": "#/$defs/Budget"
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "host/id",
+        "host/incarnation",
+        "generation",
+        "baseline",
+        "source/boundary",
+        "head",
+        "phase",
+        "projector/digest",
+        "sources/count",
+        "rows",
+        "observation",
+        "budget",
+        "safety"
+      ]
+    },
+    "Abandoned": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-abandoned.local.v1"
+        },
+        "command/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "request/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "predecessor": {
+          "$ref": "#/$defs/Head"
+        },
+        "source/boundary": {
+          "$ref": "#/$defs/Boundary"
+        },
+        "operator/binding": {
+          "$ref": "#/$defs/Binding"
+        },
+        "grant": {
+          "$ref": "#/$defs/Binding"
+        },
+        "approval": {
+          "$ref": "#/$defs/Binding"
+        },
+        "plan/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "reason/ref": {
+          "$ref": "#/$defs/Id"
+        },
+        "abandoned-at": {
+          "$ref": "#/$defs/Time"
+        },
+        "terminal/slot": {
+          "const": 1
+        },
+        "terminal": {
+          "const": true
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "command/id",
+        "request/digest",
+        "host/id",
+        "host/incarnation",
+        "generation",
+        "predecessor",
+        "source/boundary",
+        "operator/binding",
+        "grant",
+        "approval",
+        "plan/digest",
+        "reason/ref",
+        "abandoned-at",
+        "terminal/slot",
+        "terminal",
+        "safety"
+      ]
+    },
+    "Alert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-alert.local.v1"
+        },
+        "alert/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "episode/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "kind": {
+          "enum": [
+            "invalid-subject",
+            "source-key-mismatch",
+            "migration-integrity",
+            "progress-blocked",
+            "capacity-exhausted",
+            "foreign-incarnation",
+            "archive-reconciliation-failed"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Digest"
+          },
+          "minItems": 0,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "cause/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "recipient/binding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Binding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "intent/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "state": {
+          "enum": [
+            "pending-recipient",
+            "queued",
+            "delivered",
+            "opened",
+            "acknowledged",
+            "unavailable"
+          ]
+        },
+        "notification/ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed-at": {
+          "$ref": "#/$defs/Time"
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "alert/id",
+        "episode/id",
+        "host/id",
+        "host/incarnation",
+        "generation",
+        "kind",
+        "sources",
+        "cause/digest",
+        "recipient/binding",
+        "intent/id",
+        "state",
+        "notification/ref",
+        "observed-at",
+        "safety"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "pending-recipient"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "recipient/binding": {
+                "const": null
+              },
+              "notification/ref": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "queued",
+                  "delivered",
+                  "opened",
+                  "acknowledged"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "recipient/binding": {
+                "$ref": "#/$defs/Binding"
+              },
+              "notification/ref": {
+                "$ref": "#/$defs/Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ArchiveContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "source/boundary": {
+          "$ref": "#/$defs/Boundary"
+        },
+        "terminal/head": {
+          "$ref": "#/$defs/Head"
+        },
+        "terminal/kind": {
+          "enum": [
+            "verified",
+            "abandoned"
+          ]
+        },
+        "projector/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "previous/index-root": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "key/ref": {
+          "$ref": "#/$defs/Id"
+        },
+        "plaintext/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "enum": [
+                  "baseline",
+                  "checkpoints",
+                  "prepared",
+                  "terminal",
+                  "index"
+                ]
+              },
+              "digest": {
+                "$ref": "#/$defs/Digest"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 33554432
+              }
+            },
+            "required": [
+              "name",
+              "digest",
+              "bytes"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "name": {
+                      "const": "index"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "bytes": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 65536
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 5,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "host/id",
+        "host/incarnation",
+        "generation",
+        "source/boundary",
+        "terminal/head",
+        "terminal/kind",
+        "projector/digest",
+        "previous/index-root",
+        "key/ref",
+        "plaintext/digest",
+        "members"
+      ]
+    },
+    "Archive": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-archive.local.v1"
+        },
+        "context": {
+          "$ref": "#/$defs/ArchiveContext"
+        },
+        "context/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "cipher": {
+          "const": "XChaCha20-Poly1305"
+        },
+        "aad/domain": {
+          "const": "orbiplex/responsibility/maintenance-archive/v1"
+        },
+        "nonce": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{32}$"
+        },
+        "ciphertext/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "ciphertext/bytes": {
+          "type": "integer",
+          "minimum": 17,
+          "maximum": 100663312
+        },
+        "publication": {
+          "enum": [
+            "pending",
+            "published",
+            "verified"
+          ]
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "context",
+        "context/digest",
+        "cipher",
+        "aad/domain",
+        "nonce",
+        "ciphertext/digest",
+        "ciphertext/bytes",
+        "publication",
+        "safety"
+      ]
+    },
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "$ref": "#/$defs/Git"
+        },
+        "tree": {
+          "$ref": "#/$defs/Git"
+        },
+        "dirty/baseline-digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "files": {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 512,
+          "propertyNames": {
+            "$ref": "#/$defs/Path"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/Digest"
+          }
+        }
+      },
+      "required": [
+        "commit",
+        "tree",
+        "dirty/baseline-digest",
+        "files"
+      ]
+    },
+    "Binary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "minItems": 0,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "clock": {
+          "enum": [
+            "production",
+            "controlled"
+          ]
+        }
+      },
+      "required": [
+        "digest",
+        "features",
+        "clock"
+      ]
+    },
+    "Bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-bindings.local.v1"
+        },
+        "profile": {
+          "const": "responsibility.maintenance-shadow.v1"
+        },
+        "run/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "node": {
+          "$ref": "#/$defs/Source"
+        },
+        "orbidocs": {
+          "$ref": "#/$defs/Source"
+        },
+        "binaries": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "daemon": {
+              "$ref": "#/$defs/Binary"
+            },
+            "responsibility-service": {
+              "$ref": "#/$defs/Binary"
+            },
+            "node-ui": {
+              "$ref": "#/$defs/Binary"
+            },
+            "daemon-controlled-clock": {
+              "$ref": "#/$defs/Binary"
+            }
+          },
+          "required": [
+            "daemon",
+            "responsibility-service",
+            "node-ui",
+            "daemon-controlled-clock"
+          ]
+        },
+        "policy": {
+          "$ref": "#/$defs/Binding"
+        },
+        "grants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Binding"
+          },
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true
+        },
+        "fixtures/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "configuration/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "toolchain/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "qualifier/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "profile/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "schemas/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "scenarios": {
+          "type": "object",
+          "minProperties": 37,
+          "maxProperties": 37,
+          "propertyNames": {
+            "enum": [
+              "prepare-progress-interleaved",
+              "incarnation-new-generation",
+              "incarnation-inflight-refusal",
+              "capacity-step-abandon",
+              "capacity-generation-archive",
+              "archive-crash-resume",
+              "authority-inspect-only",
+              "authority-revoked",
+              "authority-case-module-passport",
+              "authority-csrf-and-stale",
+              "alerts-recipient-isolation",
+              "alerts-restart-and-queue",
+              "alerts-identity-deviations",
+              "shadow-stale-boundary",
+              "shadow-fresh-boundary",
+              "shadow-unlisted-difference",
+              "v1-a-b-operator",
+              "v1-protected-access",
+              "lost-reply-recovery",
+              "restart-progress",
+              "composition-exact-oracle",
+              "quarantine-exception-oracle",
+              "terminal-corrupt-source-retract",
+              "compatibility-one-way",
+              "archive-integrity-negative",
+              "idempotency-conflict",
+              "budget-boundaries",
+              "cost-0",
+              "cost-1",
+              "cost-500",
+              "cost-1000",
+              "cost-8192",
+              "composition-time-boundaries",
+              "suspension-expiry-while-unavailable",
+              "production-clock-smoke",
+              "synthetic-incarnation",
+              "synthetic-suspension"
+            ]
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/Digest"
+          }
+        },
+        "budget": {
+          "$ref": "#/$defs/Budget"
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        },
+        "validator/digest": {
+          "$ref": "#/$defs/Digest"
+        }
+      },
+      "required": [
+        "schema",
+        "profile",
+        "run/id",
+        "host/id",
+        "host/incarnation",
+        "node",
+        "orbidocs",
+        "binaries",
+        "policy",
+        "grants",
+        "fixtures/digest",
+        "configuration/digest",
+        "toolchain/digest",
+        "qualifier/digest",
+        "profile/digest",
+        "schemas/digest",
+        "scenarios",
+        "budget",
+        "safety",
+        "validator/digest"
+      ]
+    },
+    "Case": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "enum": [
+            "prepare-progress-interleaved",
+            "incarnation-new-generation",
+            "incarnation-inflight-refusal",
+            "capacity-step-abandon",
+            "capacity-generation-archive",
+            "archive-crash-resume",
+            "authority-inspect-only",
+            "authority-revoked",
+            "authority-case-module-passport",
+            "authority-csrf-and-stale",
+            "alerts-recipient-isolation",
+            "alerts-restart-and-queue",
+            "alerts-identity-deviations",
+            "shadow-stale-boundary",
+            "shadow-fresh-boundary",
+            "shadow-unlisted-difference",
+            "v1-a-b-operator",
+            "v1-protected-access",
+            "lost-reply-recovery",
+            "restart-progress",
+            "composition-exact-oracle",
+            "quarantine-exception-oracle",
+            "terminal-corrupt-source-retract",
+            "compatibility-one-way",
+            "archive-integrity-negative",
+            "idempotency-conflict",
+            "budget-boundaries",
+            "cost-0",
+            "cost-1",
+            "cost-500",
+            "cost-1000",
+            "cost-8192",
+            "composition-time-boundaries",
+            "suspension-expiry-while-unavailable",
+            "production-clock-smoke",
+            "synthetic-incarnation",
+            "synthetic-suspension"
+          ]
+        },
+        "evidence/class": {
+          "enum": [
+            "runtime",
+            "conformance",
+            "performance",
+            "controlled-clock",
+            "production-wall-clock-smoke",
+            "fixture-bound-input"
+          ]
+        },
+        "outcome": {
+          "const": "passed"
+        },
+        "observation": {
+          "$ref": "#/$defs/Artifact"
+        }
+      },
+      "required": [
+        "id",
+        "evidence/class",
+        "outcome",
+        "observation"
+      ]
+    },
+    "Report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-report.local.v1"
+        },
+        "profile": {
+          "const": "responsibility.maintenance-shadow.v1"
+        },
+        "scope": {
+          "const": "inactive-maintenance-and-shadow-only"
+        },
+        "run/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "bindings": {
+          "$ref": "#/$defs/Bindings"
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Case"
+          },
+          "minItems": 37,
+          "maxItems": 37
+        },
+        "exclusions": {
+          "const": [
+            "v2-authoritative-reads",
+            "v2-participant-writers",
+            "lifecycle-suspension-runtime",
+            "D7-opening",
+            "encrypted-backup-restore",
+            "distributed-clone-fencing",
+            "general-case-retention",
+            "full-P051-010",
+            "full-P051-006-007-008-015-016",
+            "federation",
+            "real-participant-sanctions",
+            "release-readiness"
+          ]
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "profile",
+        "scope",
+        "run/id",
+        "bindings",
+        "cases",
+        "exclusions",
+        "safety"
+      ]
+    },
+    "ArchiveIndexEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "context/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "manifest/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "ciphertext/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "terminal/head": {
+          "$ref": "#/$defs/Head"
+        },
+        "terminal/kind": {
+          "enum": [
+            "verified",
+            "abandoned"
+          ]
+        }
+      },
+      "required": [
+        "host/incarnation",
+        "generation",
+        "context/digest",
+        "manifest/digest",
+        "ciphertext/digest",
+        "terminal/head",
+        "terminal/kind"
+      ]
+    },
+    "ArchiveIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "responsibility-maintenance-index.local.v1"
+        },
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "previous/root": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/ArchiveIndexEntry"
+          }
+        },
+        "root/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "safety": {
+          "$ref": "#/$defs/Safety"
+        }
+      },
+      "required": [
+        "schema",
+        "host/id",
+        "revision",
+        "previous/root",
+        "entries",
+        "root/digest",
+        "safety"
+      ]
+    }
+  }
+}

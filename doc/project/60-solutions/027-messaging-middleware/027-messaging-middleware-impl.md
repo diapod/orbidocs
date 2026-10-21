@@ -6,6 +6,9 @@ Updated: `2026-10-13` for P097 Stage B and the scoped browser follow-up.
 
 Updated: `2026-10-16` for the in-progress P076 limited-issuance vertical slices.
 
+Updated: `2026-10-20` for atomic pre-channel store initialization and its scoped
+software regression evidence.
+
 ## Runtime Boundaries
 
 `messaging-core` is the pure domain layer. It owns typed envelope validation,
@@ -85,6 +88,20 @@ The `2026-10-13` browser follow-up uses actual chat submission and separate
 INAC/contact approvals with previously approved test identities. Its source,
 profile and binary references are retained at
 `node:docs/evidence/messaging-onboarding/2026-10-13-browser/README.md`.
+
+## Startup transaction
+
+The service initializes its SQLite store before spawning its authenticated
+`channel_json` client. Schema DDL, migrations, temporal bootstrap, conversation
+projection reconstruction and `user_version` share one immediate transaction.
+A failure within that transaction rolls back those changes together; repairing
+retained input and reopening cannot duplicate bootstrap facts. WAL, FULL
+synchronization, foreign keys and the existing supervisor startup timeout remain
+unchanged. This reduces
+a fresh schema from 33 committed WAL transactions to one without weakening
+host send/receive authority. See
+`node:docs/audits/DAEMON-SENSORIUM-S020-REGRESSION-2026-10-20.md` for the pre-fix
+controls and the limits of attribution to historical startup timeouts.
 
 ## Local Data
 

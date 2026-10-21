@@ -1,0 +1,89 @@
+{
+  "schema": "responsibility-maintenance-generation.local.v1",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "generation": 1,
+  "baseline": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "source/boundary": {
+    "sequence": 44,
+    "history/epoch": 1,
+    "history/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sources/revision": 2,
+    "sources/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "head": {
+    "generation": 1,
+    "step": 1024,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "phase": "verified",
+  "projector/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "sources/count": 1,
+  "rows": {
+    "copied": 1,
+    "verified": 1,
+    "bytes": 100,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "verified/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "observation": {
+    "observed-at": "2026-10-20T12:00:00Z",
+    "current": false,
+    "incarnation/current": true
+  },
+  "budget": {
+    "batch/rows": 100,
+    "sources/generation": 8192,
+    "ordinary-steps/generation": 1024,
+    "resident/generations": 16,
+    "resident/baseline-bytes": 33554432,
+    "resident/prepared-bytes": 33554432,
+    "request/bytes": 16384,
+    "result/bytes": 65536,
+    "terminal/slots-per-generation": 1,
+    "terminal/record-bytes": 8192,
+    "terminal/reserved-bytes": 131072,
+    "pending/commands": 64,
+    "receipt/resident-records": 1024,
+    "receipt/record-bytes": 8192,
+    "alert/pending-records": 256,
+    "alert/record-bytes": 4096,
+    "archive/index-records": 64,
+    "archive/manifest-bytes": 16384,
+    "archive/plaintext-bytes": 100663296,
+    "archive/resident-bytes": 268435456,
+    "conflict/alert-after": 3,
+    "retry/attempts": 8,
+    "retry/backoff-ms": [
+      25,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000
+    ],
+    "report/bytes": 262144,
+    "observation/bytes": 65536,
+    "evidence/run-bytes": 4194304,
+    "evidence/refused-bytes": 262144,
+    "writer/storage-version": 4,
+    "archive/index-bytes": 65536
+  }
+}

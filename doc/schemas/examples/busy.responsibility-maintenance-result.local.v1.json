@@ -1,0 +1,30 @@
+{
+  "schema": "responsibility-maintenance-result.local.v1",
+  "command/id": "fixture:command",
+  "attempt/id": "fixture:attempt",
+  "request/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "recorded-at": "2026-10-20T12:00:00Z",
+  "outcome": "conflict",
+  "head": {
+    "generation": 1,
+    "step": 1024,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "receipt": null,
+  "refusal": "migration-busy",
+  "retryable": true
+}

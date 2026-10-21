@@ -10,6 +10,29 @@ Date: `2026-05-18`
 
 Based on: `doc/project/40-proposals/062-temporal-storage-convention.md`
 
+## Responsibility M1 invalidation metadata (2026-10-20)
+
+The existing Responsibility SQLite owner uses one bounded auxiliary epoch row
+and fixed SQL triggers to invalidate its inactive migration cache independently
+of ordinary append-only v1 work. The retained history/baseline/checkpoint bytes
+remain the recovery authority; counters confer no participant or operator power.
+Mutation CAS checks the exact scoped epochs/head and its own transaction deltas.
+Private WAL checkpoint work runs after releasing admission, without changing
+v1 durability/connection policy. This is internal owner conformance, not a new
+general retention service, restore protocol or authority switch. See the
+[S040 checkpoint](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md#m1-internal-progress-checkpoint-2026-10-20).
+
+## Responsibility M3 archive boundary (2026-10-21)
+
+The [S040 internal capacity owner](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md#m3-internal-capacity-checkpoint-2026-10-21)
+retains exact migration member bytes in a verified host-sealed archive before
+reclaiming resident copies. Its terminal reserve is outside ordinary steps;
+archive publication and verification happen outside admission, with a bounded
+CAS/deletion transaction afterward. The explicit first new-protocol write fences
+storage to v4. Current v1 source facts, receipts, live appeals and outboxes remain
+outside that deletion set. This is a local storage-owner implementation, not a
+general retention API, authenticated operator surface, backup or D7 cutover.
+
 ## Executive Summary
 
 Use temporal storage when a local store represents durable state transitions,

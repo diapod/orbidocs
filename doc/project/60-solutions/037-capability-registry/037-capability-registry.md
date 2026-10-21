@@ -86,6 +86,15 @@ caller posture, approval mode, autonomy floor, and COI policy for selected
 capability families. It is validated against registered capability refs, but its
 runtime enforcement belongs to host-policy consumers.
 
+## Responsibility maintenance M0 (2026-10-20)
+
+The [S040 contract](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md)
+freezes separate future maintenance grants and recipient-bound alert references.
+No live registry/policy entry or notification action/delivery is added at M0.
+The host operator owner must admit current grants and resolve the actual S039
+recipient; absent recipient stays pending. Acknowledgment supplies no authority.
+M4/M5/Q qualification and full P051-010 alignment remain open.
+
 ## Planned Local Capability Guidance
 
 [P072's local guidance continuation](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)

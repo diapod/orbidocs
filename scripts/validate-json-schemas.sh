@@ -29,6 +29,33 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.responsibility-maintenance-request.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-request.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-result.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-result.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-generation.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-generation.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-abandoned.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-abandoned.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-alert.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-alert.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-index.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-index.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-archive.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-archive.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-bindings.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-bindings.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-report.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-report.local.v1.schema.json"
+      ;;
     *.capability-issuance-delegation.v1.json)
       echo "$SCHEMAS_DIR/capability-issuance-delegation.v1.schema.json"
       ;;
