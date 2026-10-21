@@ -1270,3 +1270,20 @@ fresh interactive readiness question precede any later physical trial. See
 [P096's preparation checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#validation-client-target-preparation-checkpoint-2026-10-21),
 `node:docs/audits/REVIEW-SENSORIUM-VALIDATION-CLIENT-PREPARATION-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/validation-client-preparation-20261021.json`.
+
+### Revision-7 recovery baseline checkpoint (2026-10-21)
+
+A separately delegated SSH baseline on exact image `b2c83e3e` / source
+`035c76a7` prepares unconsumed v3 review `c5f0a9e2` for uncertain revision-7
+Case `5e94e1f8`. Actual kernel-epoch and exact Case/journal/controller/resource
+bindings are checked. The original source and consent history remain preserved.
+
+All old content and custody match, with a disclosed read-store ctime refresh
+and only the exact new review file added. Journal 135, twenty Cases and the
+sole quarantined claim are unchanged; no next generation is installed. No
+reset, consumption, renewal, manager, hardware or integration runs. P096-005
+stays **partial**. Method compatibility/selection and recovery consumption are
+separate steps; physical continuation additionally needs interactive readiness.
+See [P096's baseline checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-recovery-baseline-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-R7-RECOVERY-BASELINE-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-baseline-20261021.json`.
