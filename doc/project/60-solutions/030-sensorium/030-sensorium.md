@@ -692,3 +692,8 @@ Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed basel
 ### Prospective control-budget revision 2 (2026-10-21)
 
 Operator-approved future budget revision 2 sets live validation/receipt/fence to 313/313/125 ms (ceil 312.5), retaining 5000-ms exit and all other clocks/origin/tuple gates. Purpose and safety qualifier identities are v2; current purpose admission rejects the historical identity even with a substituted current artifact hash. Frozen r8 observations retain 250/100/5000 ms and remain partial. No target deployment, root/grant change, retry or merge follows. See node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md.
+
+
+### Merged budget-v2 client preparation (2026-10-21)
+
+Merged source 351861c9/pin e55f71a9 now has a verified nearby budget-v2 release b8bf7e8f, signed GUI 3be08e12 and handoff 59362613. Validation/receipt/fence/exit ceilings are 313/313/125/5000 ms. Merged checks pass 148 Rust, 6 Gate, 245 local and 245 nearby frozen-client cases; 22 ledger checks also pass. Exact old root/custody, journal 158 and zero claims remain unchanged; only the new capsule is added. Both temporary worktrees are retained after the approved initial merges; preparation records remain unmerged. No Bluetooth, grant renewal, recovery, migration or native qualification follows. P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-MERGED-BUDGET-CLIENT-2026-10-21.md. Historical campaign results retain their original gates; future hardware evidence must bind this exact candidate and current v2 qualifier.
