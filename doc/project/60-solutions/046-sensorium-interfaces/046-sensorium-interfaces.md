@@ -1364,3 +1364,28 @@ stop remains unattested and P096-005 stays **partial**. A separate decision must
 authorize exact RECOVER-BLUETOOTH after custody, source, absence and window checks.
 See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-OBSERVATION-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-observation-20261021.json`.
+
+### Revision-7 Bluetooth recovery completion checkpoint (2026-10-21)
+
+The operator separately approves initial RECOVER-BLUETOOTH for revision 7 and
+exact v4 `ffe6987a`. Through SSH, administrator `4eb902ec` / source `a68c227c`
+rechecks strict pins/signatures, proof `68cd3d30`, same boot, protected sources
+and normal cleanup custody. The native owner checks current worker absence and
+the continuous-clock window again before effects. One attempt exits zero with
+receipt v3; durable phase is completed and pending recovery is absent.
+
+Only the selected acquisition row and old controller claim are removed; the
+approved generation is installed with original expiry. Other resource tables,
+434 other non-key hashes, two key metadata records, 135 directory identities,
+eleven protected slots, journal 135/twenty Cases and bound registration/consent
+remain exact. The original Case stays uncertain and native stop remains
+unattested. Expected marker, resource-store and policy changes are accounted;
+only the ordinary read-store ctime refresh differs otherwise. The prior reset
+proof and all review history stay immutable.
+
+No new manager, scan, acquisition, renewal, stopped retirement, root migration or
+branch integration runs. P096-005 remains **partial**. Any subsequent retirement,
+finite authority renewal and physical campaign need their own approved scope;
+this recovery creates no grant or reusable acquisition consent. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-RECOVERY-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-commit-20261021.json`.
