@@ -1302,3 +1302,24 @@ process-absence, protected-source and separate-consumption requirements. It is
 not reset observation, native cleanup or physical qualification. P096-005 stays
 **partial**. See
 `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md`.
+
+### Revision-7 Bluetooth method review checkpoint (2026-10-21)
+
+Clean Node `bcdb7094` pins source `a68c227c`, deployment `4eb902ec` and signed GUI
+`d56b6c02`. Exact signatures/pins, manager-free preflights and 202 frozen client
+checks on each host pass. One separately delegated native PREPARE creates v4
+`18f2b21a` for uncertain Case `5e94e1f8`; the exact original v3 `c5f0a9e2` is
+archived byte for byte. Only schema, method scope, actor and review time change.
+
+All eleven protected slots, journal 135/twenty Cases, policy, sole claim and
+resource inventory remain exact. Raw/conditioned comparisons disclose the
+intentional canonical replacement and ordinary read-store ctime refresh.
+The current kernel boot and custody are preserved. There is no reset, manager,
+observer, consumption, generation installation, release, renewal, hardware,
+migration or integration. The two-hour window has not started: it begins only
+at separately authorized observed ON. P096-005 remains **partial**, with native
+cleanup uncertain; a physical continuation still requires interactive readiness.
+Broader release Clippy retains an unchanged pre-existing audit-sink dead-code
+warning; that check is not reported as passing.
+See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-review-20261021.json`.
