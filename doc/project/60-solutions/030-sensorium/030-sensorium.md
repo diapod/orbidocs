@@ -606,3 +606,15 @@ native transport qualification, adoption, P096-011a or release readiness.
 The protected stop receipt/fence/exact-exit limits remain 250/100/5000 ms.
 This is implemented software conformance; device qualification remains partial.
 See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-EXPORT-2026-10-21.md`.
+
+### Accountable call and exact child witnesses (2026-10-21)
+
+Node's normal acquisition worker now observes SDK boundary entries and successful
+returns with bounded raw clocks; its source class is still separate from
+qualification origin. The normal supervisor supplies a retained exact owned
+launch/generation, and the acquisition owner records a conservative exit
+observation only after reaping that same launch. Unknown or existing process
+groups are not replaced with zero descendants. Exit never attests native release.
+The device-free tests establish software conformance, not fresh firmware/TCC,
+physical native qualification or adoption. Existing target packages/clients are
+not upgraded in place. P096-005 remains partial.
