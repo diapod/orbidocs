@@ -1431,3 +1431,25 @@ six Schema Gate cases and 165 Python cases. Historical r9 cause and full
 qualification remain open;
 P096-005 is partial, with no device work, target/root change or merge. See
 node:docs/audits/REVIEW-SENSORIUM-R9-SAMPLE-DRAIN-2026-10-21.md.
+
+
+### SDK-batch target preparation (2026-10-21)
+
+The device-free correction now has a new pinned nearby release and signed frozen
+client from clean Node source `393688e6`/pin `7d5aa913`, image `8d123d82`, GUI
+`bd0afa36` and handoff `dfde3be8`. Two distinct ordinary/campaign SDK-batch
+packages (`37f55642`/`90238894`) are normally authored, signed and independently
+verified; both remain inactive and do not replace the stopped revision-9
+registration. All 253 frozen target software tests pass against 69 exact inputs
+with zero skips. Initial freeze/test-kit defects remain retained and corrected;
+no native result or threshold is reinterpreted.
+
+All earlier root content hashes, key metadata, controller, directory custody,
+registration, consent and journal remain preserved, apart from an explicitly
+reviewed read-store ctime refresh. No manager, permission probe, scan,
+acquisition, renewal, registration transition, root-format migration or merge
+runs. The unchanged finite controller authority is expired. P096-005 stays
+partial; future hardware work needs current authority, supported registration
+handling and fresh interactive wearer readiness. Private preparation manifest:
+`sha256:60264ebd6b895d816e42a1d35d5b1e69bb8e4b4027290d47776fddd1e9336b5c`. See
+node:docs/audits/REVIEW-SENSORIUM-SDK-BATCH-PREPARATION-2026-10-21.md.
