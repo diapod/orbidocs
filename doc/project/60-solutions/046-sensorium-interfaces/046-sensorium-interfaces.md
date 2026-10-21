@@ -1323,3 +1323,23 @@ Broader release Clippy retains an unchanged pre-existing audit-sink dead-code
 warning; that check is not reported as passing.
 See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-review-20261021.json`.
+
+### Observer closure and review refresh checkpoint (2026-10-21)
+
+A rootless metadata preflight does not prove the adjacent reset-observer asset.
+The existing Case/campaign GUI capsule stays sealed; its bare copy and added-
+resource clone fail signature checks. The complete administrator `4eb902ec` /
+source `a68c227c` and pinned observer `4b4d0579` pass strict signature/pin checks.
+
+After explicit operator approval, native Discard archives unused v4 `18f2b21a`,
+and supported preparation produces same-case v3 `c2465e4e` / v4 `ffe6987a` for
+that administrator. Original and new history bytes, eleven protected slots,
+journal 135/twenty Cases, policy, sole claim and resources are preserved.
+Expired finite runtime grants remain unchanged: cleanup custody requires current
+normal identity and exact enrolled-root ownership, and grants no NativeAdmission.
+A real iTerm preflight driven by SSH confirms terminal context. No synthetic TTY,
+manager, observer, reset, recovery, release, renewal or integration occurs in this
+checkpoint. Fresh interactive OFF/ON readiness remains pending; P096-005 stays
+**partial**. See
+`node:docs/audits/REVIEW-SENSORIUM-OBSERVER-REVIEW-REFRESH-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/observer-review-refresh-20261021.json`.
