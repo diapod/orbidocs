@@ -1413,3 +1413,21 @@ The deadline-consumer correction is prepared nearby from clean source 8cfd21e6/p
 ### Revision-9 campaign checkpoint (2026-10-21)
 
 Revision-9 campaign on corrected source 8cfd21e6/pin 2c4f9669 completed baseline and protected stop (receipt/fence/exact-exit 1/1/4940 ms), then halted during deadline on sample/discovery-provider-output-refused. All three sessions released with durable audit and zero claims; journal is 181 with 26 Cases. Five later rows are blocked, and P096-005 remains partial. After the initial blocked transfer and the operator's direct plain-text confirmation, all 28 reports (27534 bytes), 19 continuous events and three client-control sidecars are now retained privately and independently verified against the frozen parsers and original local stream; remote originals remain unchanged. Private manifest sha256:68378b0389467d85d926b0b6f36b8ca529ed70a5f2ad73d2378115c5f6ef384a binds the 54-member verified archive. Full tuple and formal qualification remain open. No retry, recovery or merge followed. See node:docs/audits/REVIEW-SENSORIUM-R9-CAMPAIGN-2026-10-21.md.
+
+
+### Revision-9 sample software correction (2026-10-21)
+
+Device-free reproduction confirms that one queued producer batch per admitted
+sample RPC cannot keep up with nominal 100-ms production and a 300-ms consumer:
+the real worker loop over a synthetic Board fails at tick 13, after four reads
+and 26 simulated SDK drains. The repair returns a FIFO prefix of unchanged
+blocks, at most sixteen per RPC within existing byte, queue and age bounds. The
+host validates consecutive per-stream sequences before committing progress.
+Closed first-worker-failure diagnostics survive cleanup; review also closes a
+failure-between-selection-and-response race without blocking pending cleanup.
+Distinct SDK-batch package identities require new normal author/sign and a new
+pinned daemon/client. Software checks pass 220 daemon cases (11 opt-in ignored),
+six Schema Gate cases and 165 Python cases. Historical r9 cause and full
+qualification remain open;
+P096-005 is partial, with no device work, target/root change or merge. See
+node:docs/audits/REVIEW-SENSORIUM-R9-SAMPLE-DRAIN-2026-10-21.md.
