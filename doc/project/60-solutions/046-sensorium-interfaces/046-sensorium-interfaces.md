@@ -994,3 +994,398 @@ separate; new-image TCC and physical evidence are unobserved. P096-005 remains
 [P096's preparation checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#campaign-target-preparation-checkpoint-2026-10-20),
 `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-PREPARATION-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/campaign-preparation-20261020-runtime.json`.
+
+
+### Revision-6 controller/discovery renewal (2026-10-20)
+
+The paired temporary branches fast-forward to Node `82f9c535` / Orbidocs
+`7044cbe2`, leaving the primary branches unchanged. Metadata administration uses
+the retained signed candidate `64e92854` / source `2694f0aa` / image `cce00f57`;
+no newly synchronized source or startup qualification is assigned to that image.
+
+Separately reviewed delegated SSH renewal `5e89ee68` fixes a 14400-second lifetime
+at prepare, expiring **2026-10-21 00:19:27 CEST** (`1792534767000` Unix ms).
+Only controller-policy expiry/generation and the existing stopped discovery
+revision 3's exact host/caller grant expiries change. Twelve protected digests,
+journal 93/fourteen Cases and zero claims remain exact. Immutable SDK-health and
+campaign packages, stopped p21 revision 6, its expired grant, binding, consent and
+history remain preserved.
+
+No manager, permission probe, SCAN, measurement, recovery, root migration or new
+wearer consent occurs. P096-005 remains **partial**. Retirement **6 → 7 remains
+next and separately reviewed**, not completed by renewal. See
+[P096's renewal checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-6-authority-renewal-checkpoint-2026-10-20),
+`node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-r6-20261020-runtime.json`.
+
+
+### Released revision-6 retirement (2026-10-20)
+
+Separate review `fe930943` on retained administrator `64e92854` / source
+`2694f0aa` completes metadata retirement **6 → 7**, using Case `487b1e94` and
+its exact `confirmed-case-release` basis. Four reviewed metadata sources remove
+only the expired revision-6 host grant/plan, acquisition grant, discovered
+binding and active candidate receipt. Revision 7 is reserved by completed
+history; it is neither registered nor granted authority.
+
+Journal 93/fourteen Cases, consent and logical resource state remain unchanged, the controller
+is free, and both immutable SDK-health and campaign packages remain exact. The
+campaign package stays unregistered. Controller/discovery authority keeps its
+**2026-10-21 00:19:27 CEST** expiry (`1792534767000` Unix ms). The local comparison
+accounts for serde's omitted empty `discovery/receipts`; no product fix is claimed.
+
+No recovery, hardware, manager, permission probe, new consent or registration
+occurs. Fresh SCAN/BIND/REGISTER revision 7/WEAR p21 remain separate future
+steps. The synchronized workspace is not a rebuild of the retained target, and
+no primary integration or native qualification follows. P096-005 remains
+**partial**. See
+[P096's completed retirement](../../40-proposals/096-sensorium-brainflow-connector.md#released-revision-6-retirement-checkpoint-2026-10-20),
+`node:docs/evidence/sensorium-host-control-20261019/retirement-r6-r7-20261020-runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md`.
+
+
+### Revision-7 campaign interruption (2026-10-20)
+
+The separately authorized SSH campaign uses exact signed GUI `e8ce6d5f`, source
+`2694f0aa` and verified nine-file handoff `6821f1d4`. The actual GUI launchd
+preflight and same-image Bluetooth permission-only observation pass; cleanup and
+observer exit are confirmed, while responsible-process attribution remains
+unverified. Controller/discovery authority is current until
+**2026-10-21 00:19:27 CEST** (`1792534767000` Unix ms), and revision 7 begins as
+reserved, with a free controller and zero resource claims.
+
+Only CAMPAIGN and SCAN are approved. Baseline Case `7aef6c89` stops during scan
+with `incomplete-released`, `case-authority-fenced` and `client-withdrawal`.
+The backend reports cancelled with confirmed no-scan cleanup and worker exit;
+controller release is confirmed and acquisition is absent. The endpoint records
+no STOP decision and `withdrawn: false`. Internal client transport/nonce/timeout
+paths can send the same withdrawal frame, so its actual origin remains
+unresolved. Deliberate wearer withdrawal, absent hardware, denied Bluetooth or
+expired grants are not inferred.
+
+The automatic report is partial with `campaign-episode-not-released`; its
+baseline-completion condition does not negate confirmed actual release. Later
+selected rows are blocked and the alternative fault branch remains unselected.
+Fresh reads show journal 98/fifteen Cases, released Case state, zero claims, no
+pending fence and only discovery revision 3 in inventory. Revision 7 remains
+reserved/unregistered; no BIND, REGISTER, WEAR, new p21 grant or consent occurs.
+No automatic retry, reset, recovery, renewal or integration follows. Diagnose
+the first closed client-control termination reason before a fresh approved
+attempt; P096-005 remains **partial** without formal prerequisite closure. See
+[P096's campaign interruption](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-campaign-interruption-checkpoint-2026-10-20),
+`node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261020-runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-20.md`.
+
+
+### Client-control diagnosis and software repair (2026-10-20)
+
+Device-free reproduction of the frozen client exposes two defects: blocked
+ordinary SSH output can stall its shared heartbeat relay, and internal remote
+EOF/challenge/echo failures can send the explicit `S` withdrawal frame. A
+blocked real-pipe output control times out near 605 ms while endpoint input
+remains open. This proves a reachable software failure path, not the unique
+cause of revision-7 Case `7aef6c89`. Its signed image, report and unresolved
+historical attribution remain preserved.
+
+The source repair sends `S` only for explicit STOP/Ctrl-C and closes the socket
+for internal loss, preserving the host monitor's `ControlLost` classification.
+The first closed client reason and monotonic timestamp use a lock independent
+of socket writes. A bounded ordinary-output queue and nonblocking pipe/TTY
+writes keep heartbeat echoes independent, with bounded drain/final publication
+and a first closed relay reason. Review identifies another fairness gap: many
+individually bounded decision writes can monopolize one turn and delay EOF.
+Queued decisions are bounded, and each turn prioritizes input EOF/STOP before
+another decision write. Existing echo/socket/host-control/campaign
+bounds remain 600 ms/250 ms/one second/900 seconds. The closed confirmation-error
+allowlist also covers LOGOUT/SATURATE/REVOKE/FAULT; that correction is not a cause
+claim for the earlier SCAN.
+
+Create-only `client-control-<scenario>.json` is a strict client diagnostic in the
+protected campaign namespace, separate from host observations. It confers no
+authority, native cleanup attestation, claim-release proof or prerequisite
+closure. This device-free checkpoint performs no SSH action, target build or
+signing, root migration, native attempt or integration. Another physical attempt
+requires a new exact pinned build and signed client plus fresh operator
+approval. P096-005 remains **partial**. See
+[P096's client-control diagnosis](../../40-proposals/096-sensorium-brainflow-connector.md#client-control-diagnosis-and-software-repair-checkpoint-2026-10-20),
+`node:docs/evidence/sensorium-host-control-20261019/client-control-diagnosis-20261020.json`
+and `node:docs/audits/REVIEW-SENSORIUM-CLIENT-CONTROL-2026-10-20.md`.
+
+
+### Client-release follow-up source checkpoint (2026-10-20)
+
+The source follow-up moves potentially blocking output into a disposable owned
+copier, with a lifetime EOF watcher and cancellable teardown. It preserves the
+caller's stdout/stderr OFD flags. Nonce echoes have priority over ordinary
+decisions; a shared lock covers only an immediate write attempt and its wait
+consumes the existing 250-ms write budget. The 600-ms remote echo window stays
+unchanged and supplies no guarantee about SSH network delay. Finite queues,
+EOF/STOP priority, first closed diagnostics and the existing reason-set equality
+regression remain separate from authority or native cleanup proof.
+
+Ordinary acquisition now refuses the fault-capable package before enrollment
+effects. Only the closed campaign factory opts into that package family, for
+both fresh and reused targets; request fields cannot select it. Inert structural
+verification/registration still grants no execution authority, and fault arming
+retains its separate session, phase, permit and current-authority checks. Existing
+campaign expectations already distinguish provider loss (`ControlLost`) from
+explicit protected stop (`ClientWithdrawal`). Historical reports and the unknown
+revision-7 SCAN origin remain unchanged.
+
+This source checkpoint claims no target preparation, measured runtime pass,
+permission observation, hardware, migration or integration. P096-005 stays
+**partial**; a future physical attempt requires a fresh interactive readiness
+question and an explicit operator answer. See
+[P096's source follow-up](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-follow-up-source-checkpoint-2026-10-20),
+`node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-FOLLOWUPS-2026-10-20.md`
+and
+`node:docs/evidence/sensorium-host-control-20261019/client-release-followups-20261020.json`.
+
+
+### Client-release target preparation checkpoint (2026-10-21)
+
+Clean Node `c06d256a` prepares source pin `d5e12c64`, deployment image
+`e6f1a78a` and ad-hoc signed GUI `8e5358d0`/handoff `536181a4`. The exact nine-file
+closure and actual rootless `launchd` preflight pass without opening authority,
+creating a Bluetooth manager or observing permission. The corrected 66-input
+validation kit passes 201 target program tests with no skips or errors. Its
+original two errors/one skip from omitted C and Rust fixtures remain retained;
+no product or candidate change follows that kit correction. The inert C-library
+probe observes no blocking-body entry, and fake-board software tests establish
+no native SDK or device behavior.
+
+Final strict comparison preserves all 348 old file records (346 non-key hashes,
+two signing-key metadata records), every recorded metadata field, 112 directory
+identities, both parents and the two-file controller namespace. Only the new GUI
+capsule adds ten files/six directories. Journal 98/fifteen Cases, zero claims,
+existing grants, packages and registrations remain unchanged. No Case, permission
+probe, hardware, renewal, recovery, root migration or branch integration runs.
+
+P096-005 stays **partial** under the unchanged qualifier and full-tuple/origin
+rules. Any later physical attempt requires fresh interactive readiness
+confirmation and current authority checks; new-image permission and physical
+qualification remain unobserved. See
+[P096's prepared client checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-target-preparation-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-PREPARATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/client-release-preparation-20261021.json`.
+
+
+### Client-release authority renewal checkpoint (2026-10-21)
+
+Separately authorized delegated SSH review `e2111556` completes on Node
+`c06d256a`/source `d5e12c64`/admin `e6f1a78a`. The existing controller-owner and
+discovery-revision-3 scopes expire at **2026-10-21 04:19:06 CEST**
+(`1792549146000` ms), fixed at prepare plus 14,400 seconds. Commit does not reset
+the TTL or widen scope. No p21 grant, consent or registration follows; revision 7
+remains reserved and unregistered.
+
+All twelve protected source slots (eight hashes/four WAL/SHM absences), journal
+98/fifteen Cases, zero claims and no pending controller transition are preserved.
+The two root policy files and controller expiry/generation match the exact
+review. Among 358 prior root files, 354 other non-key hashes and two signing-key
+metadata records remain exact; 355 retain all metadata. Only read-store SQLite
+ctime refreshes outside the reviewed policy changes, consistently with normal
+mode-0600 permission handling; its content and remaining metadata are unchanged.
+All 118 old directory identities, both parents and the controller lock remain
+exact; two canonical review/completion files are added, without new directories.
+
+Historical status records this review with `authority/granted:false`; reading it
+does not authorize an action. No manager, permission/TCC probe, hardware, root
+migration, recovery or branch integration runs. P096-005 remains **partial** under
+the unchanged qualifier and native-origin matrix. Fresh readiness, stage consent
+and current p21 admission remain required before acquisition. See
+[P096's authority checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#client-release-authority-renewal-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-renewal-20261021-runtime.json`.
+
+
+### Revision-7 finite campaign checkpoint (2026-10-21)
+
+One freshly approved eight-scenario `authority-loss` campaign on source
+`d5e12c64`/signed GUI `8e5358d0` records fourteen delegated decisions and five
+fresh WEAR confirmations. Baseline, protected stop, runner Case deadline and
+control-provider loss report `observed-released`, cooperative cleanup, executor
+exit and release. The Case clock remains distinct from the qualifier's native
+activation-deadline requirement.
+
+The fifth episode stops while preparing, before its LOGOUT action. A pending
+current-authority validation is observed at 256 ms against the unchanged 250-ms
+budget, producing `validation-timeout` without identifying a failing authority
+predicate. Required presets are unvalidated. Native release remains unconfirmed
+despite executor exit, controller release is not attempted and the uncertain
+claim stays quarantined. The runner halts; saturation, live revocation and the
+derived expired-grant observation remain blocked. No logout, saturation,
+revocation, retry or recovery occurs.
+
+The offline collector preserves five unbound episodes and zero qualification
+tuple groups. Exact native launch/exit, preparation and execution-origin witnesses
+remain missing; no formal prerequisite closes and qualification/adoption stay
+false. P096-005 remains **partial** under the unchanged qualifier and full-tuple
+rules. Recovery or physical continuation requires a separate decision. See
+[P096's finite campaign checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-finite-campaign-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261021-runtime.json`.
+
+
+### Validation-timeout software checkpoint (2026-10-21)
+
+The device-free source follow-up composes duplicated private registration/plan
+owner walks within one fresh validation call. Each later job still rechecks its
+current owners; no cross-job cache, weaker predicate or extension of the 250-ms
+budget follows. Historical attribution of the 256-ms preparing observation
+remains unknown.
+
+Source review separately confirms a publication gap: successful owner reads
+could wait for session state beyond the original queue-time budget and then
+clear its timer unchecked. Completion now rechecks that budget under the same
+session-state lock before clearing it. Queued/between-stage guards skip further
+owner reads for already observed expired/fenced work. Optional bounded
+queued/authority/configuration/publication cost diagnostics identify the timer
+or job observer without carrying configuration contents. Missing observations
+remain unknown; diagnostics authorize nothing and do not cancel blocked reads,
+renew clocks or attest native cleanup.
+
+No SSH action, target build/signing, hardware trial, recovery, root migration or
+branch integration runs. The prepared candidate, protected root and quarantine
+remain unchanged, and old evidence is preserved. P096-005 stays **partial** under
+the unchanged qualifier and full-tuple rules. Target preparation and separately
+approved recovery or physical work remain distinct. See
+[P096's software checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#validation-timeout-software-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-VALIDATION-TIMEOUT-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/validation-timeout-20261021.json`.
+
+### Validation-client target preparation checkpoint (2026-10-21)
+
+The reviewed software correction is now prepared at clean Node source
+`a7266693`, source pin `035c76a7`, deployment `12e0879b` and signed GUI
+`b2c83e3e`. Exact transfer/signature checks, rootless GUI launchd preflight and
+202 frozen client checks pass. The gate remains 250 ms; this is software
+preparation, not new native timing, TCC access or historical attribution.
+
+All 412 prior files, 123 directory identities, three controller files, journal
+135 and the quarantined claim are preserved. Only the new GUI capsule is added.
+No physical trial, renewal, recovery, root migration or integration runs.
+P096-005 stays **partial**; separately scoped root/authority/recovery work and a
+fresh interactive readiness question precede any later physical trial. See
+[P096's preparation checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#validation-client-target-preparation-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-VALIDATION-CLIENT-PREPARATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/validation-client-preparation-20261021.json`.
+
+### Revision-7 recovery baseline checkpoint (2026-10-21)
+
+A separately delegated SSH baseline on exact image `b2c83e3e` / source
+`035c76a7` prepares unconsumed v3 review `c5f0a9e2` for uncertain revision-7
+Case `5e94e1f8`. Actual kernel-epoch and exact Case/journal/controller/resource
+bindings are checked. The original source and consent history remain preserved.
+
+All old content and custody match, with a disclosed read-store ctime refresh
+and only the exact new review file added. Journal 135, twenty Cases and the
+sole quarantined claim are unchanged; no next generation is installed. No
+reset, consumption, renewal, manager, hardware or integration runs. P096-005
+stays **partial**. Method compatibility/selection and recovery consumption are
+separate steps; physical continuation additionally needs interactive readiness.
+See [P096's baseline checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-recovery-baseline-checkpoint-2026-10-21),
+`node:docs/audits/REVIEW-SENSORIUM-R7-RECOVERY-BASELINE-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-baseline-20261021.json`.
+
+### Revision-7 Bluetooth-method compatibility checkpoint (2026-10-21)
+
+The original uncertain Case source `c06d256a` / `d5e12c64` was absent from the
+closed historical source set despite a valid newer-actor v3 baseline. Independent
+Git-blob inventory reproduces 5075 retained files and the exact pin. Review of
+the actual supervisor launch, captured-image execution and read-only subtree/
+ancestor rules establishes compatibility before adding that single exact pin.
+Unknown source epochs now refuse before even archiving the predecessor.
+
+This software correction preserves the original Case, v3 baseline and all reset,
+process-absence, protected-source and separate-consumption requirements. It is
+not reset observation, native cleanup or physical qualification. P096-005 stays
+**partial**. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md`.
+
+### Revision-7 Bluetooth method review checkpoint (2026-10-21)
+
+Clean Node `bcdb7094` pins source `a68c227c`, deployment `4eb902ec` and signed GUI
+`d56b6c02`. Exact signatures/pins, manager-free preflights and 202 frozen client
+checks on each host pass. One separately delegated native PREPARE creates v4
+`18f2b21a` for uncertain Case `5e94e1f8`; the exact original v3 `c5f0a9e2` is
+archived byte for byte. Only schema, method scope, actor and review time change.
+
+All eleven protected slots, journal 135/twenty Cases, policy, sole claim and
+resource inventory remain exact. Raw/conditioned comparisons disclose the
+intentional canonical replacement and ordinary read-store ctime refresh.
+The current kernel boot and custody are preserved. There is no reset, manager,
+observer, consumption, generation installation, release, renewal, hardware,
+migration or integration. The two-hour window has not started: it begins only
+at separately authorized observed ON. P096-005 remains **partial**, with native
+cleanup uncertain; a physical continuation still requires interactive readiness.
+Broader release Clippy retains an unchanged pre-existing audit-sink dead-code
+warning; that check is not reported as passing.
+See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-review-20261021.json`.
+
+### Observer closure and review refresh checkpoint (2026-10-21)
+
+A rootless metadata preflight does not prove the adjacent reset-observer asset.
+The existing Case/campaign GUI capsule stays sealed; its bare copy and added-
+resource clone fail signature checks. The complete administrator `4eb902ec` /
+source `a68c227c` and pinned observer `4b4d0579` pass strict signature/pin checks.
+
+After explicit operator approval, native Discard archives unused v4 `18f2b21a`,
+and supported preparation produces same-case v3 `c2465e4e` / v4 `ffe6987a` for
+that administrator. Original and new history bytes, eleven protected slots,
+journal 135/twenty Cases, policy, sole claim and resources are preserved.
+Expired finite runtime grants remain unchanged: cleanup custody requires current
+normal identity and exact enrolled-root ownership, and grants no NativeAdmission.
+A real iTerm preflight driven by SSH confirms terminal context. No synthetic TTY,
+manager, observer, reset, recovery, release, renewal or integration occurs in this
+checkpoint. Fresh interactive OFF/ON readiness remains pending; P096-005 stays
+**partial**. See
+`node:docs/audits/REVIEW-SENSORIUM-OBSERVER-REVIEW-REFRESH-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/observer-review-refresh-20261021.json`.
+
+### Revision-7 Bluetooth OFF/ON observation checkpoint (2026-10-21)
+
+One fresh interactive approval authorizes a single state-only OFF/ON for v4
+`ffe6987a`. Delegated SSH opens a real local iTerm for administrator `4eb902ec` /
+source `a68c227c` and observer `4b4d0579`. Native ready/OFF/ON completes with exit
+zero, no retry and no synthetic TTY. The durable proof records 3321 ms observed
+OFF-to-ON and four worker-absence checkpoints. The two-hour window ends at
+13:19:13.104 CEST on 2026-10-21; initial consumption still rechecks same-boot
+continuous uptime rather than trusting the displayed wall deadline.
+
+All 434 prior non-key hashes, two key metadata records, 135 directory identities,
+eleven protected slots, review/archive bytes, journal 135/twenty Cases, sole
+held claim and resource rows remain exact. Only the create-only proof and
+ordinary read-store ctime refresh differ; the temporary observer image is removed.
+Expired runtime grants are preserved. No recovery consumption, generation
+installation, release, scan, acquisition, renewal or integration occurs. Native
+stop remains unattested and P096-005 stays **partial**. A separate decision must
+authorize exact RECOVER-BLUETOOTH after custody, source, absence and window checks.
+See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-OBSERVATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-observation-20261021.json`.
+
+### Revision-7 Bluetooth recovery completion checkpoint (2026-10-21)
+
+The operator separately approves initial RECOVER-BLUETOOTH for revision 7 and
+exact v4 `ffe6987a`. Through SSH, administrator `4eb902ec` / source `a68c227c`
+rechecks strict pins/signatures, proof `68cd3d30`, same boot, protected sources
+and normal cleanup custody. The native owner checks current worker absence and
+the continuous-clock window again before effects. One attempt exits zero with
+receipt v3; durable phase is completed and pending recovery is absent.
+
+Only the selected acquisition row and old controller claim are removed; the
+approved generation is installed with original expiry. Other resource tables,
+434 other non-key hashes, two key metadata records, 135 directory identities,
+eleven protected slots, journal 135/twenty Cases and bound registration/consent
+remain exact. The original Case stays uncertain and native stop remains
+unattested. Expected marker, resource-store and policy changes are accounted;
+only the ordinary read-store ctime refresh differs otherwise. The prior reset
+proof and all review history stay immutable.
+
+No new manager, scan, acquisition, renewal, stopped retirement, root migration or
+branch integration runs. P096-005 remains **partial**. Any subsequent retirement,
+finite authority renewal and physical campaign need their own approved scope;
+this recovery creates no grant or reusable acquisition consent. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-RECOVERY-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-commit-20261021.json`.

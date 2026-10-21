@@ -594,3 +594,101 @@ review authority, immutable facts and the unpublished local draft. The UI grants
 no fetch, P082 read or Whisper publication authority. Broader P084/P078 integration
 remains partial. P084-012c is done for measured local operator UI acceptance; see
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`.
+
+### Independent safety evidence scope (2026-10-21)
+
+The Node-local exporter and independent qualifier now have a separate P096-005
+scope. It requires all ten unchanged host-boundary cases in one exact full
+deployment tuple, including native origin and current firmware/TCC observations.
+The full p21 exposure scope continues to require sixteen native plus ten safety
+cases. Neither a partial campaign nor the new safety-only decision supplies
+native transport qualification, adoption, P096-011a or release readiness.
+The protected stop receipt/fence/exact-exit limits remain 250/100/5000 ms.
+This is implemented software conformance; device qualification remains partial.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-EXPORT-2026-10-21.md`.
+
+### Accountable call and exact child witnesses (2026-10-21)
+
+Node's normal acquisition worker now observes SDK boundary entries and successful
+returns with bounded raw clocks; its source class is still separate from
+qualification origin. The normal supervisor supplies a retained exact owned
+launch/generation, and the acquisition owner records a conservative exit
+observation only after reaping that same launch. Unknown or existing process
+groups are not replaced with zero descendants. Exit never attests native release.
+The device-free tests establish software conformance, not fresh firmware/TCC,
+physical native qualification or adoption. Existing target packages/clients are
+not upgraded in place. P096-005 remains partial.
+
+### Completed owner-fact exporter (2026-10-21)
+
+The offline Node exporter now projects retained owner measurements into the ten
+existing P096-005 case types. It derives result/budget/control summaries, checks
+exact source/run/harness/tuple/Case bindings and corroborates actual native,
+private-control, fault and host-software witnesses before the unchanged Schema
+Gate and semantic gates permit publication. Raw restart observation stays separate
+from the original Case. Missing observations yield explicit partial coverage;
+no source label, readiness, bool or historical firmware/TCC note fills a gap.
+Its own source closure and consumed evidence refs are retained independently of
+the standard-library-only qualifier. Full p21 still requires sixteen additional
+native transport cases; software exporter completion does not complete P096-005,
+native exposure, launchd scope, P096-011a or release acceptance. No hardware,
+reset, recovery, target mutation or branch integration occurred.
+
+Final containment review requires the captured actually enforced no-fork adapter
+before group absence can supply a zero-descendant observation. A declarative
+flag without that adapter, EPERM or an existing group keeps the fact unknown.
+This restriction preserves the original qualification requirements.
+
+
+### Frozen safety-export client preparation (2026-10-21)
+
+A new Node client handoff freezes the complete offline exporter/qualifier sibling
+closure and a separately pinned content-only Schema Gate alongside its signed
+application. The offline projection consumes retained owner facts and does not
+start a scan or acquisition. Old handoffs keep their original readers; existing
+registered workers are never substituted by client preparation. Separate reviewed
+package transition, current authority and fresh applicable operator decisions
+remain prerequisites to native observation. The device-free checks and prepared
+client do not complete P096-005 or native transport/launchd qualification.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-CLIENT-PREPARATION-2026-10-21.md`.
+
+
+The target preparation now binds corrected Node source `065bd6fb`, source pin
+`1713fa35`, release `f734f50a`, signed GUI `bdd1016a` and handoff `68d332ae`.
+All 244 frozen software checks pass locally and on target Python 3.13.15, with
+exact file/signature/Gate and rootless GUI launchd verification. All 438 prior
+root files, journal/history, expired authority and controller custody remain
+unchanged; only the new capsule is added. The existing worker remains unchanged
+and differs from the new SDK-observation source. A separate reviewed package
+transition is required before later native measurement. No Bluetooth, grant
+renewal, recovery, root migration, hardware qualification or merge occurred.
+
+
+### Immutable SDK-observation package transition (2026-10-21)
+
+The normal Node package owner now publishes separately signed ordinary/campaign
+SDK-observation generations, preserving earlier package/review/sidecar/capsule
+bytes. Exact retirement of the recovered expired revision 7 reserves revision 8
+without reusing consent or creating an acquisition grant. Independent signature
+and preimage checks, current compiled package selection, the frozen exporter/Gate
+client and 244 device-free target checks pass. Prepared source `b4bc9862` / pin
+`1cda5c5f`, release `c33ac91d`, GUI `d21848bb` and handoff `0b768e43` are distinct
+from all historical native observations.
+
+A separately reviewed delegated controller/discovery renewal has the unchanged
+same scope and four-hour ceiling, ending 2026-10-21 18:06:05 CEST. Package approval,
+retirement and finite authority remain separate from fresh SCAN/BIND/REGISTER/WEAR,
+actual TCC access and measured qualification. No hardware, reset/recovery, root
+format migration, merge or P096-005 completion follows. See
+`node:docs/audits/REVIEW-SENSORIUM-WORKER-TRANSITION-2026-10-21.md` for exact
+publication, ordinary journals and retained custody differences.
+
+
+### Revision-8 measured campaign (2026-10-21)
+
+Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed baseline and protected stop, then stopped during the deadline episode on timer-lane validation 273 ms against the original 250 ms gate. Protected receipt/fence/exact-exit measured 1/0/4717 ms; all three sessions released with current durable audit and zero claims. SDK entry/return and exact exit witnesses are now present. Three unbound collector episodes supply no formal cases; TCC attribution/full tuple and remaining safety witnesses are still missing. No retry/recovery/merge followed; P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-R8-CAMPAIGN-2026-10-21.md.
+
+
+### Prospective control-budget revision 2 (2026-10-21)
+
+Operator-approved future budget revision 2 sets live validation/receipt/fence to 313/313/125 ms (ceil 312.5), retaining 5000-ms exit and all other clocks/origin/tuple gates. Purpose and safety qualifier identities are v2; current purpose admission rejects the historical identity even with a substituted current artifact hash. Frozen r8 observations retain 250/100/5000 ms and remain partial. No target deployment, root/grant change, retry or merge follows. See node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md.

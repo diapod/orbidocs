@@ -1315,7 +1315,7 @@ preset, including base64 expansion and metadata.
 | Carrier output / read revocation visibility | 8 blocks, 64 KiB or 1 second / at most 100 ms |
 | Memory | 512 MiB worker RSS; 16 MiB host slice buffers |
 | Drain-to-local-receipt latency | p95 ≤ 250 ms, p99 ≤ 500 ms, maximum ≤ 1 second |
-| Protected stop | receipt ≤ 250 ms; output fence ≤ 100 ms from host decision; process exit ≤ 5 seconds |
+| Protected stop (budget revision 2, adopted 2026-10-21) | receipt ≤ 313 ms; output fence ≤ 125 ms from host decision; process exit ≤ 5 seconds |
 | Cleanup / recovery | after 10 seconds unproven cleanup becomes uncertain and holds the claim; recovery after pressure ≤ 5 seconds |
 | Surviving-worker reconnect | at most two attempts within 45 seconds, with current authority; killed workers require manual restart |
 | Hardware acceptance | three 300-second runs per mode; observed rates within 5% of confirmed nominal rates |
@@ -1574,8 +1574,8 @@ frequent than 200 ms and candidate TTL at most 120 seconds; p21 acquisition at
 most 10 seconds, required-preset
 readiness within 5 seconds and its original deadline, worker RPC at most
 1 second, and a one-use START permit at most 5 seconds. Protected receipt,
-fencing and verified owned exit retain their separate 250 ms, 100 ms and
-5-second bounds. Each request is bounded by remaining case, grant and wearer
+fencing and verified owned exit use revision-2 limits of 313 ms, 125 ms and
+5 seconds for newly built candidates. Earlier frozen runs retain 250/100/5000 ms. Each request is bounded by remaining case, grant and wearer
 lifetime. Polling, delayed preparation, activation, cache refresh or retry never
 renews a deadline or effects allowance. These are ceilings to enforce and
 measure, not claims that a run met them. Existing sample-queue count, byte and
@@ -2363,6 +2363,453 @@ does not claim final integration into the primary branches. See
 `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-PREPARATION-2026-10-20.md` and
 `node:docs/evidence/sensorium-host-control-20261019/campaign-preparation-20261020-runtime.json`.
 
+### Revision-6 authority renewal checkpoint (2026-10-20)
+
+The paired workstream fast-forwards to Node `82f9c535` and Orbidocs `7044cbe2`,
+without a merge commit or changes to the primary branches. The existing immutable
+administrator remains Node `64e92854` / source `2694f0aa` / signed image `cce00f57`;
+this operation neither rebuilds it from the synchronized source nor transfers
+new source/header or native-startup claims to that image.
+
+Explicit delegated SSH prepare and commit approve review `5e89ee68`. The
+14400-second lifetime is fixed at preparation, ending at **2026-10-21 00:19:27
+CEST** (`1792534767000` Unix ms). Only the sole-owner controller policy's finite
+expiry/generation and the existing stopped discovery revision 3's matching
+host/caller grant expiries change. Twelve protected source digests, journal
+revision 93/fourteen Cases and zero claims remain exact. Both immutable
+SDK-health and campaign packages are preserved; the stopped registered p21
+revision 6 retains its original expired grant, binding, consent and history.
+
+This is metadata authority renewal, with no Bluetooth manager, permission probe,
+SCAN, acquisition, recovery, root migration or new wearer consent. P096-005
+remains **partial** under the unchanged native-origin and exact-tuple gates.
+Separately reviewed retirement **6 → 7 is the next step**, not a result of this
+renewal; no retirement completion is claimed here. See
+`node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-r6-20261020-runtime.json`.
+
+### Released revision-6 retirement checkpoint (2026-10-20)
+
+The separately reviewed metadata retirement now completes **6 → 7** on the
+retained administrator `64e92854` / source `2694f0aa`. Review `fe930943` binds
+Case `487b1e94` and its `confirmed-case-release` basis; no recovery fact is
+substituted. Its four reviewed metadata sources remove only the expired revision-6
+host grant/plan, acquisition grant, discovered binding and active candidate
+receipt. The completed contiguous history reserves revision 7; it does not
+register that revision or create/extend a grant.
+
+Journal revision 93/fourteen Cases, consent and logical resource state remain unchanged;
+the controller is free. Both immutable SDK-health and campaign packages remain
+exact, and the prepared campaign package is still unregistered. Controller and
+discovery authority retain their reviewed **2026-10-21 00:19:27 CEST** expiry
+(`1792534767000` Unix ms). A local verifier correction accounts for typed serde's
+omission of an empty `discovery/receipts` field; it changes no product contract
+or protected source.
+
+No hardware, manager, permission probe, recovery, new consent or new registration
+occurs. Fresh SCAN, BIND, REGISTER revision 7 and WEAR p21 remain required for
+later use. Synchronization to Node `82f9c535` is separate from the retained target
+image; no current-source rebuild, primary-branch integration or native
+qualification is claimed. P096-005 stays **partial**. See
+`node:docs/evidence/sensorium-host-control-20261019/retirement-r6-r7-20261020-runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-R6-AUTHORITY-RETIREMENT-2026-10-20.md`.
+
+### Revision-7 campaign interruption checkpoint (2026-10-20)
+
+A freshly authorized delegated SSH campaign selects revision 7 and the prepared
+`authority-loss` branch. Before effects, the exact nine-file GUI handoff
+`6821f1d4`, source `2694f0aa` and signed image `e8ce6d5f` pass verification and an
+actual `launchd` preflight. The same image's permission-only observation reports
+Bluetooth allowed, confirmed no-scan cleanup and observer exit; the responsible
+TCC process remains unverified. Controller and discovery authority are current
+until **2026-10-21 00:19:27 CEST** (`1792534767000` Unix ms), with no controller
+or resource claim and revision 7 reserved.
+
+Only `CAMPAIGN p21` and `SCAN` are approved. Baseline Case `7aef6c89` returns
+`incomplete-released` during scan, with `case-authority-fenced` and
+`client-withdrawal`. Discovery reports a cancelled backend terminal, confirmed
+`corebluetooth-not-scanning` cleanup, verified worker exit and confirmed
+controller release; acquisition is absent. No BIND, REGISTER or WEAR occurs,
+and no p21 grant, registration or wearer consent is created.
+
+The operator-side endpoint records no STOP decision and `withdrawn: false`.
+Client control code can also emit the withdrawal frame after internal
+transport, nonce or timeout failures; the retained observations do not identify
+which path fired. This result does not establish deliberate wearer withdrawal,
+a missing device, denied Bluetooth access or expired authority. The automatic
+report remains partial with `campaign-episode-not-released`: that campaign code
+rejects an incomplete baseline and does not contradict confirmed actual release.
+All remaining selected operational rows are blocked; the fault branch remains
+unselected. No automatic retry, reset, recovery or renewal follows.
+
+Fresh metadata reads confirm journal revision 98/fifteen Cases, a released new
+Case, zero controller/resource claims, no pending fence and only discovery
+revision 3 in current registered inventory. Revision 7 remains reserved and unregistered.
+Diagnose the first closed client-control termination reason before another
+freshly approved attempt. P096-005 stays **partial**, with no formal prerequisite
+case closed and no branch integration. See
+`node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261020-runtime.json`
+and `node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-20.md`.
+
+
+### Client-control diagnosis and software repair checkpoint (2026-10-20)
+
+Device-free reproduction against the frozen revision-7 client identifies two
+control-path defects without identifying the unique cause of historical Case
+`7aef6c89`. Ordinary SSH output shares the heartbeat relay thread; a deliberately
+blocked real-pipe output writer produces a remote-echo timeout at
+approximately 605 ms while endpoint input remains open. Independently, remote
+EOF, malformed host challenges and failed relay echoes can emit the same `S`
+frame as an explicit STOP. Those internal failures therefore carry false explicit-withdrawal
+attribution. The earlier report and its unresolved historical cause remain
+unchanged.
+
+The software repair reserves `S` for deliberate STOP/Ctrl-C. Internal failures
+close the control socket, allowing the existing host monitor to classify
+`ControlLost`; an independent small lock captures the first closed client
+reason and monotonic timestamp without waiting for a socket write. SSH output
+uses a bounded queue and nonblocking pipe/TTY writes, with heartbeat echoes
+independent of ordinary output, bounded drain/final publication and a first
+closed relay reason. Review also finds that repeated individually bounded
+decision writes can monopolize a relay turn and delay input EOF. Bounded queued
+decisions with per-turn EOF/STOP priority prevent that starvation. The existing
+600 ms echo, 250 ms socket, one-second host control and 900-second campaign
+bounds remain unchanged. Closed confirmation
+error handling also accepts the declared LOGOUT/SATURATE/REVOKE/FAULT stages;
+that defect is separate from the historical SCAN interruption.
+
+A strict client diagnostic is published separately from host-authored results as
+create-only `client-control-<scenario>.json` within the protected campaign
+namespace. It contains closed reasons and timing, grants no authority and
+attests neither native cleanup nor claim release. It cannot replace the host
+observation or promote a campaign prerequisite.
+
+This checkpoint concerns source review and device-free regressions only. No
+SSH action, target build/signing, root migration, native attempt or branch
+integration occurs. The retained signed client and historical reports are
+unchanged. A new exact pinned build and signed client, followed by fresh
+operator approval, are required before another physical attempt. P096-005
+remains **partial**. See
+`node:docs/evidence/sensorium-host-control-20261019/client-control-diagnosis-20261020.json`
+and `node:docs/audits/REVIEW-SENSORIUM-CLIENT-CONTROL-2026-10-20.md`.
+
+### Client-release follow-up source checkpoint (2026-10-20)
+
+Follow-up source review separates output ownership, nonce scheduling and package
+scope from the unresolved historical SCAN cause. The relay now assigns potentially
+blocking display writes to a disposable owned copier instead of changing the
+caller's stdout/stderr open-file-description flags. Its lifetime EOF watcher and
+cancellable teardown bound the owned output path, including when its destination
+stops accepting bytes. This replaces the earlier OFD-mutating output mechanism;
+the earlier checkpoint and its measurements remain historical.
+
+Nonce echoes have priority over ordinary decisions. Their shared lock protects
+only an immediate write attempt; the original 250-ms write budget includes lock
+waiting instead of granting another 250 ms after acquisition. The remote echo
+window remains 600 ms. These local scheduling constraints do not guarantee an
+SSH round-trip time or turn loss of the endpoint into liveness. EOF/STOP priority,
+finite queues, first closed reason and separate client diagnostics remain.
+An existing equality regression guards the two closed client-reason sets; source
+review does not treat that guard as a new runtime qualification result.
+
+The acquisition owner now distinguishes ordinary and campaign package scope.
+The ordinary default refuses the fault-capable package before enrollment effects;
+only the closed campaign factory selects that package family for both fresh and
+reused targets. Acquisition request fields cannot opt into it. Structural package
+verification and inert registration remain separate from execution admission:
+a valid signed closure does not authorize acquisition. Fault arming still requires
+its separate campaign/session/phase checks and does not follow asset presence
+alone. These source changes do not bypass wearer confirmation, current authority,
+configuration checks, permits or cleanup fences.
+
+Campaign expectations already map provider loss to `ControlLost` and deliberate
+protected stop to `ClientWithdrawal`. The added mapping regression preserves that
+meaning; old reports are not rewritten to match the corrected client behavior.
+In particular, baseline revision-7 attribution remains unobserved. No native or
+full-tuple prerequisite is promoted from these source checks.
+
+At this source checkpoint no target build/signing, permission observation,
+hardware trial, root migration or branch integration has been performed. Target
+preparation and measured checks require a separate checkpoint. P096-005 remains
+**partial**. Before any later physical attempt, ask an interactive readiness
+question and wait for explicit operator confirmation. See
+`node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-FOLLOWUPS-2026-10-20.md`
+and
+`node:docs/evidence/sensorium-host-control-20261019/client-release-followups-20261020.json`.
+
+### Client-release target preparation checkpoint (2026-10-21)
+
+Clean Node `c06d256a` now freezes the client-release repairs as source pin
+`d5e12c64`, deployment image `e6f1a78a` and ad-hoc signed GUI
+`8e5358d0`/handoff `536181a4`. Exact nine-file GUI closure verification and an
+actual rootless `launchd` preflight pass. Neither preflight opens root/controller
+authority or creates a Bluetooth manager; new-image permission remains unobserved.
+Existing signed packages and acquisition registrations are unchanged.
+
+The corrected target validation kit passes **201 program tests**, with no skips
+or errors, against 66 exact inputs. Its first attempt remains retained: omission
+of `native_fault.c` and the Rust `acquisition/evidence.rs` fixture caused two errors
+and one skip. Restoring those validation inputs changes neither the frozen
+candidate nor product code. The inert probe of the existing signed C library
+observes no blocking-body entry; software fault tests use a fake board and do not
+establish device or native SDK behavior.
+
+The final strict preservation check passes for all 348 old file records: 346
+non-key content hashes and two signing-key metadata observations, with every
+recorded old metadata field exact. All 112 old directory identities, both parent
+directories and the two-file controller namespace also remain exact. Only ten
+files and six directories for the new immutable GUI capsule are added. Journal
+98/fifteen Cases, zero claims and existing grant bytes remain unchanged; this
+preparation issues no new authority or consent.
+
+No Case, permission probe, Bluetooth manager, hardware trial, renewal, recovery,
+root migration or branch integration runs at this checkpoint. P096-005 remains
+**partial** under the unchanged qualifier, origin matrix and full-tuple rules.
+Any later physical attempt requires fresh interactive readiness confirmation and
+current authority checks; these device-free results do not reuse older TCC or
+physical observations. See
+`node:docs/audits/REVIEW-SENSORIUM-CLIENT-RELEASE-PREPARATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/client-release-preparation-20261021.json`.
+
+### Client-release authority renewal checkpoint (2026-10-21)
+
+A separately authorized four-hour delegated SSH renewal completes under review
+`e2111556`, using Node `c06d256a`, source pin `d5e12c64` and admin image
+`e6f1a78a`. The unchanged controller-owner and discovery-revision-3 scopes expire
+at **2026-10-21 04:19:06 CEST** (`1792549146000` ms). That deadline is fixed at
+prepare plus 14,400 seconds; commit neither restarts the TTL nor expands scope.
+Only the selected discovery host/caller expiry fields and controller-owner
+expiry/generation change. No p21 grant, consent or registration is created;
+revision 7 remains reserved and unregistered.
+
+Independent review matches all twelve protected source slots: eight present
+content hashes and four explicit WAL/SHM absences. Of 358 prior root files, 354
+other non-key content hashes and two signing-key metadata observations remain
+exact; 355 retain every metadata field. Two policy files have the exact reviewed
+changes. The remaining exception is read-store SQLite ctime alone, consistent
+with normal opening's mode-0600 refresh; its content and other metadata remain
+exact. All 118 old directory identities and both parent directories are preserved.
+The controller policy has only its reviewed update, its lock remains exact, and
+exactly two canonical review/completion files are added without new directories.
+
+Journal 98/fifteen Cases, zero resource/controller claims, absence of a pending
+controller transition and the revision-7 reservation are unchanged. Historical
+status identifies the completed delegated review with `authority/granted:false`;
+that projection grants no new action. No Bluetooth manager, permission/TCC
+probe, hardware trial, root migration, recovery or branch integration runs.
+P096-005 remains **partial** under the unchanged qualifier and native-origin
+matrix. Future acquisition still requires fresh readiness, stage approvals,
+current admission and p21 authority. See
+`node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/authority-renewal-20261021-runtime.json`.
+
+### Revision-7 finite campaign checkpoint (2026-10-21)
+
+One freshly approved delegated SSH campaign selects the finite eight-scenario
+`authority-loss` plan on source `d5e12c64` and signed GUI `8e5358d0`. Fourteen
+operator decisions include five fresh WEAR confirmations. Baseline, protected
+stop, runner Case deadline and control-provider loss each report
+`observed-released`, confirmed cooperative cleanup, executor exit and release.
+These are operational source observations; the Case-deadline episode does not
+establish the qualifier's separate native activation-deadline prerequisite.
+
+The fifth episode, `wearer-stop-after-operator-logout`, stops during preparation
+before LOGOUT is requested or approved. Its monitor reports `validation-timeout`:
+a pending current-authority validation reaches an observed 256 ms against the
+unchanged 250-ms budget. The underlying authority predicate is not identified.
+Required presets never become validated. Cleanup reports native release
+unconfirmed despite executor exit; the controller release is not attempted, and
+the exact uncertain claim remains quarantined. The runner halts with a partial
+report. Saturation, live revocation and the derived expired-grant probe remain
+blocked; no logout, saturation, revocation, retry or recovery occurs.
+
+The offline formal collector retains all five episodes as unbound and creates
+zero qualification tuple groups. Exact native launch/exit, native preparation
+and execution-origin witnesses remain absent; exit booleans do not replace them.
+`qualification:false` and `adoption:false` are preserved, with no formal
+prerequisite closure. P096-005 remains **partial** under its unchanged qualifier,
+origin matrix and full-tuple requirements. Any subsequent claim recovery or
+physical continuation remains a separate decision. See
+`node:docs/audits/REVIEW-SENSORIUM-CAMPAIGN-R7-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/campaign-r7-20261021-runtime.json`.
+
+### Validation-timeout software checkpoint (2026-10-21)
+
+The device-free follow-up keeps the historical 256-ms observation unattributed.
+Source review finds duplicate private current-owner registration/plan walks and
+composes their validated plan within one fresh call. Later validation jobs still
+read their current owners independently: no cross-job cache, authority predicate
+removal or relaxed 250-ms budget follows.
+
+A separate confirmed publication gap could let successful owner reads wait for
+session state beyond that original budget, then clear the validation timer
+without checking again. Completion now checks the original queue-time budget
+under the same session-state lock before clearing that timer. Queued and
+between-stage guards avoid further owner reads when their observed work is
+already expired or fenced; late results cannot authorize closed effects. This
+repairs an independently identified source defect without attributing the earlier
+preparing failure to that path.
+
+Optional bounded diagnostics identify the observer (timer lane or validation
+job), current queued/authority/configuration/publication stage and independently
+observed segment costs. Unobserved costs remain unknown. These observations carry
+no configuration contents, extend no deadline, cancel no blocked owner read and
+supply no authority, native-origin or cleanup proof.
+
+This source checkpoint performs no SSH action, target build/signing, hardware
+trial, recovery, root migration or branch integration. The prepared candidate,
+protected root and existing quarantine remain unchanged; historical records are
+not rewritten. P096-005 stays **partial** under its unchanged qualifier and
+full-tuple rules. Fresh target preparation and separately approved recovery or
+physical work remain distinct. See
+`node:docs/audits/REVIEW-SENSORIUM-VALIDATION-TIMEOUT-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/validation-timeout-20261021.json`.
+
+### Validation-client target preparation checkpoint (2026-10-21)
+
+The reviewed validation correction now has a separately pinned release and
+signed client on the nearby host: clean Node source `a7266693`, source pin
+`035c76a7`, deployment `12e0879b` and GUI `b2c83e3e`. Exact signatures, payload
+and sidecar pins, rootless GUI launchd preflight and 202 frozen software checks
+pass. The 250-ms gate is unchanged; no new native timing observation or
+historical attribution follows from preparation.
+
+Strict custody comparison preserves all 412 prior files, 123 directory
+identities, three controller files, journal revision 135 and the quarantined
+claim. Only the new GUI capsule is added. No permission probe, manager, physical
+trial, authority renewal, recovery, root migration or branch integration runs.
+P096-005 remains **partial**. New ad-hoc identity and launch-context evidence do
+not reuse TCC or physical qualification. Further root/authority/recovery work
+requires its own scope; physical work additionally requires a fresh interactive
+readiness question. See
+`node:docs/audits/REVIEW-SENSORIUM-VALIDATION-CLIENT-PREPARATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/validation-client-preparation-20261021.json`.
+
+### Revision-7 recovery baseline checkpoint (2026-10-21)
+
+One explicitly delegated SSH PREPARE on the verified new image `b2c83e3e` /
+source pin `035c76a7` creates unconsumed v3 review `c5f0a9e2` for quarantined
+revision-7 Case `5e94e1f8`. Its original source/image and uncertain history are
+preserved. The review binds current normal owner/custody, actual kernel epoch,
+original Case/journal/controller/resource state and eleven protected presence/
+digest slots. No acquisition authority or consent is reused.
+
+All old content hashes and custody match. Only the exact review file and a
+disclosed storage-owner read-store ctime refresh appear; raw and conditioned
+comparisons remain separate. Journal revision 135, twenty Cases, the sole
+transport claim and controller marker are unchanged. The next generation is
+proposal data only. There is no reset, consumption, renewal, manager, physical
+trial, root migration or branch integration. P096-005 stays **partial**.
+
+This is host-restart-only baseline preparation. Method compatibility/selection,
+actual reset observation and recovery consumption remain separately authorized
+steps; the baseline does not choose the Bluetooth method or authorize a retry.
+Any physical continuation also requires fresh interactive readiness. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-RECOVERY-BASELINE-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-baseline-20261021.json`.
+
+### Revision-7 Bluetooth-method compatibility checkpoint (2026-10-21)
+
+The original uncertain Case source `c06d256a` / `d5e12c64` was absent from the
+closed historical source set despite a valid newer-actor v3 baseline. Independent
+Git-blob inventory reproduces 5075 retained files and the exact pin. Review of
+the actual supervisor launch, captured-image execution and read-only subtree/
+ancestor rules establishes compatibility before adding that single exact pin.
+Unknown source epochs now refuse before even archiving the predecessor.
+
+This software correction preserves the original Case, v3 baseline and all reset,
+process-absence, protected-source and separate-consumption requirements. It is
+not reset observation, native cleanup or physical qualification. P096-005 stays
+**partial**. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md`.
+
+### Revision-7 Bluetooth method review checkpoint (2026-10-21)
+
+Clean Node `bcdb7094` pins source `a68c227c`, deployment `4eb902ec` and signed GUI
+`d56b6c02`. Exact signatures/pins, manager-free preflights and 202 frozen client
+checks on each host pass. One separately delegated native PREPARE creates v4
+`18f2b21a` for uncertain Case `5e94e1f8`; the exact original v3 `c5f0a9e2` is
+archived byte for byte. Only schema, method scope, actor and review time change.
+
+All eleven protected slots, journal 135/twenty Cases, policy, sole claim and
+resource inventory remain exact. Raw/conditioned comparisons disclose the
+intentional canonical replacement and ordinary read-store ctime refresh.
+The current kernel boot and custody are preserved. There is no reset, manager,
+observer, consumption, generation installation, release, renewal, hardware,
+migration or integration. The two-hour window has not started: it begins only
+at separately authorized observed ON. P096-005 remains **partial**, with native
+cleanup uncertain; a physical continuation still requires interactive readiness.
+Broader release Clippy retains an unchanged pre-existing audit-sink dead-code
+warning; that check is not reported as passing.
+See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-review-20261021.json`.
+
+### Observer closure and review refresh checkpoint (2026-10-21)
+
+A rootless metadata preflight does not prove the adjacent reset-observer asset.
+The existing Case/campaign GUI capsule stays sealed; its bare copy and added-
+resource clone fail signature checks. The complete administrator `4eb902ec` /
+source `a68c227c` and pinned observer `4b4d0579` pass strict signature/pin checks.
+
+After explicit operator approval, native Discard archives unused v4 `18f2b21a`,
+and supported preparation produces same-case v3 `c2465e4e` / v4 `ffe6987a` for
+that administrator. Original and new history bytes, eleven protected slots,
+journal 135/twenty Cases, policy, sole claim and resources are preserved.
+Expired finite runtime grants remain unchanged: cleanup custody requires current
+normal identity and exact enrolled-root ownership, and grants no NativeAdmission.
+A real iTerm preflight driven by SSH confirms terminal context. No synthetic TTY,
+manager, observer, reset, recovery, release, renewal or integration occurs in this
+checkpoint. Fresh interactive OFF/ON readiness remains pending; P096-005 stays
+**partial**. See
+`node:docs/audits/REVIEW-SENSORIUM-OBSERVER-REVIEW-REFRESH-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/observer-review-refresh-20261021.json`.
+
+### Revision-7 Bluetooth OFF/ON observation checkpoint (2026-10-21)
+
+One fresh interactive approval authorizes a single state-only OFF/ON for v4
+`ffe6987a`. Delegated SSH opens a real local iTerm for administrator `4eb902ec` /
+source `a68c227c` and observer `4b4d0579`. Native ready/OFF/ON completes with exit
+zero, no retry and no synthetic TTY. The durable proof records 3321 ms observed
+OFF-to-ON and four worker-absence checkpoints. The two-hour window ends at
+13:19:13.104 CEST on 2026-10-21; initial consumption still rechecks same-boot
+continuous uptime rather than trusting the displayed wall deadline.
+
+All 434 prior non-key hashes, two key metadata records, 135 directory identities,
+eleven protected slots, review/archive bytes, journal 135/twenty Cases, sole
+held claim and resource rows remain exact. Only the create-only proof and
+ordinary read-store ctime refresh differ; the temporary observer image is removed.
+Expired runtime grants are preserved. No recovery consumption, generation
+installation, release, scan, acquisition, renewal or integration occurs. Native
+stop remains unattested and P096-005 stays **partial**. A separate decision must
+authorize exact RECOVER-BLUETOOTH after custody, source, absence and window checks.
+See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-OBSERVATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-observation-20261021.json`.
+
+### Revision-7 Bluetooth recovery completion checkpoint (2026-10-21)
+
+The operator separately approves initial RECOVER-BLUETOOTH for revision 7 and
+exact v4 `ffe6987a`. Through SSH, administrator `4eb902ec` / source `a68c227c`
+rechecks strict pins/signatures, proof `68cd3d30`, same boot, protected sources
+and normal cleanup custody. The native owner checks current worker absence and
+the continuous-clock window again before effects. One attempt exits zero with
+receipt v3; durable phase is completed and pending recovery is absent.
+
+Only the selected acquisition row and old controller claim are removed; the
+approved generation is installed with original expiry. Other resource tables,
+434 other non-key hashes, two key metadata records, 135 directory identities,
+eleven protected slots, journal 135/twenty Cases and bound registration/consent
+remain exact. The original Case stays uncertain and native stop remains
+unattested. Expected marker, resource-store and policy changes are accounted;
+only the ordinary read-store ctime refresh differs otherwise. The prior reset
+proof and all review history stay immutable.
+
+No new manager, scan, acquisition, renewal, stopped retirement, root migration or
+branch integration runs. P096-005 remains **partial**. Any subsequent retirement,
+finite authority renewal and physical campaign need their own approved scope;
+this recovery creates no grant or reusable acquisition consent. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-RECOVERY-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-commit-20261021.json`.
+
 ## Trade-offs
 
 - Declarative profiles reduce repeated integration code and operator vocabulary;
@@ -2416,7 +2863,7 @@ remaining completion gates still apply.
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
-| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; distinct closed host-restart and observed-radio recovery reviews cannot substitute for native release/reset qualification; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure  Revision-3 run-completed retained cleanup uncertainty; the source-only correction freezes 10s native cleanup for new private Cases and preserves legacy 5s history, without changing qualification thresholds. Its separately approved recovery and retirement 3-to4 are complete; the fresh delegated GUI revision-4 Case releases cleanly after refusing activation before executor/permit start. Exact historical refusal cause remains unresolved; closed monitor diagnostics are a software follow-up. A later freshly approved revision-5 Case observes required EEG/motion blocks and confirmed cooperative native stop/executor exit/controller release within10s cleanup, with independent zero claims. A device-free follow-up derives late sealed-admission refusal handling after RunCompleted, without identifying predicate timing. The software producer now classifies late queued results against current local closure/phase, retains optional effects/fenced and avoids false startup failure or another stop; open-session refusals still stop with unchanged clocks. The corrected producer is prepared nearby at pinf860ff8e/GUI819d4ce0 with actual GUI launchd preflight and49 passing frozen-client tests;163 prior hashes/journal81 stay exact, no manager or native work runs. Preparation does not reuse old TCC/physical evidence or qualify the new producer; full authority/stop qualification remains open. Device-free 2026-10-19 work adds bounded durable lifecycle facts, disposal-before-audit, current-revision release authorization, separate terminal withdrawal and exact held-claim CAS; the prescribed native-origin matrix remains open. New clean `af692fed` candidate preparation binds source `4fc1405e`/release `56fa8251`/ad-hoc GUI `e8989103`, passes 51 frozen-client checks and rootless GUI launchd preflight, and preserves 238 prior files/journal 81/zero claims (signing-key files metadata only). Owner expiry and unobserved TCC remain unchanged at that preparation checkpoint. Subsequent metadata review4cdd860b renews only same-scope controller/discovery until 2026-10-20 00:59:45 CEST, preserving expired registered p21 revision5, twelve protected sources, journal81 and zero claims/pending transition. A subsequent software follow-up adds pre-claim capacity reservation for never-WEAR, digest-linked bounded closed/released history and a four-hour delegated TTL ceiling with canonical completed-review status. Compatibility requires a matching strict reader; no nearby migration or native qualification follows. New clean 3775bf56 corrected preparation freezes source cbb85050/release dfcf60f5/GUI d153b457, passes 52 target-frozen checks and rootless GUI launchd preflight while preserving 248 prior files/journal81/zero claims. It migrates no root and establishes no TCC or native qualification. Merged-source a176fdd2 preparation now pins source 7a500816/deployment 92f7ba9b/GUI 0baa4846 after verified signing-container-only normalization within the unchanged image cap. All 52 frozen-client checks and rootless GUI launchd preflight pass; 256 prior files/journal 81/zero claims and expired authority remain exact, with no root migration or native qualification. Metadata-only review `60ea3f0d` subsequently renews the same controller/discovery scope to 2026-10-20 05:27:23 CEST; p21 revision 5 and the native-origin matrix stay unchanged (see the [2026-10-20 renewal checkpoint](#merged-source-authority-renewal-2026-10-20)). The [2026-10-20 native preflight](#native-qualification-preflight-and-immutable-package-correction-2026-10-20) preserves partial status: retirement 5-to-6 completes, but Case refuses before SCAN and an immutable/compiled worker mismatch requires a fresh package; no prerequisite case is completed. The [corrected preparation](#corrected-native-package-preparation-2026-10-20) signs the distinct package and reaches only a SCAN prompt followed by withdrawal; new-image TCC and physical cases remain unqualified. Its later fresh revision-6 source observation reports `observed-released`, journal 93/fourteen Cases and zero claims; P096-005 remains partial with no formal prerequisite case closed. Device-free 2026-10-20 owner traces add bounded monotonic observations and explicit missing native/launch witnesses; actual HTTP ingress and sibling protection have software regressions, not new native qualification. The finite campaign prepares four operational paths, seven explicit blocked hooks, exact registration reuse with fresh consent, and automatic partial reporting; full-tuple/native case gates remain unchanged. The later [campaign owner integration checkpoint](#campaign-owner-integration-checkpoint-2026-10-20) connects the seven operational hooks through six common episodes and alternative terminal authority-loss or native-fault/restart branches; these device-free implementation facts leave formal native qualification partial. The subsequent [target preparation](#campaign-target-preparation-checkpoint-2026-10-20) freezes the signed campaign and client without hardware, authority renewal or native qualification. |
+| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Prospective operator-approved budget revision 2 now uses validation/receipt/fence 313/313/125 ms and unchanged 5000-ms exit, with distinct v2 qualifier identities and strict current-artifact admission. Software checks pass 147 Rust, 6 Schema Gate and 198 Python cases; 9 opt-in Rust cases remain ignored. The frozen r8 campaign remains bound to 250/100/5000 ms, with no target deployment or new native attempt. See node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md. Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed baseline and protected stop, then stopped during the deadline episode on timer-lane validation 273 ms against the original 250 ms gate. Protected receipt/fence/exact-exit measured 1/0/4717 ms; all three sessions released with current durable audit and zero claims. SDK entry/return and exact exit witnesses are now present. Three unbound collector episodes supply no formal cases; TCC attribution/full tuple and remaining safety witnesses are still missing. No retry/recovery/merge followed; P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-R8-CAMPAIGN-2026-10-21.md.  2026-10-21 SSH configuration checkpoint: distinct SDK-observation ordinary/campaign packages are normally signed, exact recovered r7 retirement reserves r8 without a runtime grant/consent, and a separate 14400-second controller/discovery renewal expires at 18:06:05 CEST. Source b4bc9862, pin 1cda5c5f, signed GUI d21848bb and handoff 0b768e43 pass 244 target software checks; native timing/TCC and remaining safety witnesses stay open. See node:docs/audits/REVIEW-SENSORIUM-WORKER-TRANSITION-2026-10-21.md. Manage/discover/acquire separation, wearer consent/control independent of operator login, reserved control lane and real OS/TCC access; alias-aware fenced claims; output fence -> deadline stop -> supervisor termination -> verified exit -> release; cleanup-uncertain holds claim; distinct closed host-restart and observed-radio recovery reviews cannot substitute for native release/reset qualification; revoke/expiry/provider loss and overload/hung-worker proof before product real-device exposure  Revision-3 run-completed retained cleanup uncertainty; the source-only correction freezes 10s native cleanup for new private Cases and preserves legacy 5s history, without changing qualification thresholds. Its separately approved recovery and retirement 3-to4 are complete; the fresh delegated GUI revision-4 Case releases cleanly after refusing activation before executor/permit start. Exact historical refusal cause remains unresolved; closed monitor diagnostics are a software follow-up. A later freshly approved revision-5 Case observes required EEG/motion blocks and confirmed cooperative native stop/executor exit/controller release within10s cleanup, with independent zero claims. A device-free follow-up derives late sealed-admission refusal handling after RunCompleted, without identifying predicate timing. The software producer now classifies late queued results against current local closure/phase, retains optional effects/fenced and avoids false startup failure or another stop; open-session refusals still stop with unchanged clocks. The corrected producer is prepared nearby at pinf860ff8e/GUI819d4ce0 with actual GUI launchd preflight and49 passing frozen-client tests;163 prior hashes/journal81 stay exact, no manager or native work runs. Preparation does not reuse old TCC/physical evidence or qualify the new producer; full authority/stop qualification remains open. Device-free 2026-10-19 work adds bounded durable lifecycle facts, disposal-before-audit, current-revision release authorization, separate terminal withdrawal and exact held-claim CAS; the prescribed native-origin matrix remains open. New clean `af692fed` candidate preparation binds source `4fc1405e`/release `56fa8251`/ad-hoc GUI `e8989103`, passes 51 frozen-client checks and rootless GUI launchd preflight, and preserves 238 prior files/journal 81/zero claims (signing-key files metadata only). Owner expiry and unobserved TCC remain unchanged at that preparation checkpoint. Subsequent metadata review4cdd860b renews only same-scope controller/discovery until 2026-10-20 00:59:45 CEST, preserving expired registered p21 revision5, twelve protected sources, journal81 and zero claims/pending transition. A subsequent software follow-up adds pre-claim capacity reservation for never-WEAR, digest-linked bounded closed/released history and a four-hour delegated TTL ceiling with canonical completed-review status. Compatibility requires a matching strict reader; no nearby migration or native qualification follows. New clean 3775bf56 corrected preparation freezes source cbb85050/release dfcf60f5/GUI d153b457, passes 52 target-frozen checks and rootless GUI launchd preflight while preserving 248 prior files/journal81/zero claims. It migrates no root and establishes no TCC or native qualification. Merged-source a176fdd2 preparation now pins source 7a500816/deployment 92f7ba9b/GUI 0baa4846 after verified signing-container-only normalization within the unchanged image cap. All 52 frozen-client checks and rootless GUI launchd preflight pass; 256 prior files/journal 81/zero claims and expired authority remain exact, with no root migration or native qualification. Metadata-only review `60ea3f0d` subsequently renews the same controller/discovery scope to 2026-10-20 05:27:23 CEST; p21 revision 5 and the native-origin matrix stay unchanged (see the [2026-10-20 renewal checkpoint](#merged-source-authority-renewal-2026-10-20)). The [2026-10-20 native preflight](#native-qualification-preflight-and-immutable-package-correction-2026-10-20) preserves partial status: retirement 5-to-6 completes, but Case refuses before SCAN and an immutable/compiled worker mismatch requires a fresh package; no prerequisite case is completed. The [corrected preparation](#corrected-native-package-preparation-2026-10-20) signs the distinct package and reaches only a SCAN prompt followed by withdrawal; new-image TCC and physical cases remain unqualified. Its later fresh revision-6 source observation reports `observed-released`, journal 93/fourteen Cases and zero claims; P096-005 remains partial with no formal prerequisite case closed. Device-free 2026-10-20 owner traces add bounded monotonic observations and explicit missing native/launch witnesses; actual HTTP ingress and sibling protection have software regressions, not new native qualification. The finite campaign prepares four operational paths, seven explicit blocked hooks, exact registration reuse with fresh consent, and automatic partial reporting; full-tuple/native case gates remain unchanged. The later [campaign owner integration checkpoint](#campaign-owner-integration-checkpoint-2026-10-20) connects the seven operational hooks through six common episodes and alternative terminal authority-loss or native-fault/restart branches; these device-free implementation facts leave formal native qualification partial. The subsequent [target preparation](#campaign-target-preparation-checkpoint-2026-10-20) freezes the signed campaign and client without hardware, authority renewal or native qualification. The later [revision-6 authority renewal](#revision-6-authority-renewal-checkpoint-2026-10-20) extends only controller/discovery authority for four hours; stopped p21 revision 6 and its expired grant remain preserved, with retirement 6-to-7 still pending at that renewal checkpoint. A later separately reviewed [released retirement](#released-revision-6-retirement-checkpoint-2026-10-20) completes 6-to-7 metadata cleanup and reserves revision 7 without registration, grant creation or native work. The later [revision-7 campaign attempt](#revision-7-campaign-interruption-checkpoint-2026-10-20) stops during SCAN with incomplete-released/client-withdrawal and confirmed discovery/controller cleanup; only CAMPAIGN and SCAN were approved. The client-control termination origin remains unresolved, later rows are blocked, and no BIND/REGISTER/WEAR, new p21 authority or formal prerequisite closure follows. The subsequent [device-free client-control diagnosis](#client-control-diagnosis-and-software-repair-checkpoint-2026-10-20) separates explicit withdrawal from internal control loss and bounds ordinary SSH output; it establishes software repairs, without identifying that historical cause or closing native qualification. The later [client-release source follow-up](#client-release-follow-up-source-checkpoint-2026-10-20) bounds copier ownership and nonce scheduling and makes acquisition package scope explicit; target preparation and native qualification remain separate. The subsequent [2026-10-21 client preparation](#client-release-target-preparation-checkpoint-2026-10-21) freezes those repairs, passes 201 target program checks and preserves the root strictly; permission, physical trials and formal qualification remain separate. A separately reviewed [2026-10-21 authority renewal](#client-release-authority-renewal-checkpoint-2026-10-21) renews only the existing controller/discovery scope until 04:19:06 CEST, preserving unregistered reserved revision 7 and creating no p21 authority or qualification. The later [finite revision-7 campaign](#revision-7-finite-campaign-checkpoint-2026-10-21) records four released operational episodes, then a preparing validation timeout with unconfirmed native cleanup and retained quarantine; its five unbound episodes produce no formal qualification tuple or prerequisite closure. The subsequent [validation-timeout source checkpoint](#validation-timeout-software-checkpoint-2026-10-21) removes same-call duplicate owner walks, adds bounded job diagnostics and closes the successful-publication budget gap while retaining the 250-ms gate, historical attribution uncertainty and quarantine. The subsequent [validation-client preparation](#validation-client-target-preparation-checkpoint-2026-10-21) freezes the corrected exact release/client and passes software checks while preserving quarantine and partial native status. The later [revision-7 baseline](#revision-7-recovery-baseline-checkpoint-2026-10-21) records unconsumed v3 preparation only, preserving the uncertain Case and exact claim without reset or qualification promotion. The [revision-7 Bluetooth method review](#revision-7-bluetooth-method-review-checkpoint-2026-10-21) archives exact v3 and selects v4 without reset, disposal or qualification promotion. The [observer closure refresh](#observer-closure-and-review-refresh-checkpoint-2026-10-21) archives the unused GUI-actor review and binds a complete administrator before any separately approved OFF/ON. The separately approved [revision-7 OFF/ON observation](#revision-7-bluetooth-offon-observation-checkpoint-2026-10-21) creates an exact reset proof while preserving quarantine; recovery consumption and native-stop qualification remain separate. The separately approved [revision-7 Bluetooth recovery](#revision-7-bluetooth-recovery-completion-checkpoint-2026-10-21) completes exact disposal with preserved history and expiry; native-stop and general qualification remain open. Device-free owner-fact export and independent ten-case safety qualification are implemented; all original thresholds and full-tuple/origin checks remain, with runtime facts still required. |
 | `P096-006a` | Connect synthetic-only supervised worker | `P096-003`, `P096-004` | `done` | Only pinned Synthetic Board admitted; simulation claim, channel auth, buffer caps and enforced stop; no wearer or radio, no board/transport override escape; no unmanaged streamers |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `done` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
@@ -2965,3 +3412,126 @@ that artifact by digest, checks per-stage timing accounting, rates/startup, ever
 queue owner, healthy-reader/protected-stop coverage and in-flight revocation.
 Unknown measurements cannot pass. Lab observations and conformance/playback
 reports cannot qualify a synthetic or Muse hardware execution.
+
+### Independent safety evidence scope (2026-10-21)
+
+The Node-local exporter and independent qualifier now have a separate P096-005
+scope. It requires all ten unchanged host-boundary cases in one exact full
+deployment tuple, including native origin and current firmware/TCC observations.
+The full p21 exposure scope continues to require sixteen native plus ten safety
+cases. Neither a partial campaign nor the new safety-only decision supplies
+native transport qualification, adoption, P096-011a or release readiness.
+At this checkpoint the protected receipt/fence/exact-exit limits remained
+250/100/5000 ms. The separately adopted prospective revision 2 below changes
+only future validation/receipt/fence budgets, without rewriting this evidence.
+This is implemented software conformance; device qualification remains partial.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-EXPORT-2026-10-21.md`.
+
+### Accountable call and exact child witnesses (2026-10-21)
+
+Node's normal acquisition worker now observes SDK boundary entries and successful
+returns with bounded raw clocks; its source class is still separate from
+qualification origin. The normal supervisor supplies a retained exact owned
+launch/generation, and the acquisition owner records a conservative exit
+observation only after reaping that same launch. Unknown or existing process
+groups are not replaced with zero descendants. Exit never attests native release.
+The device-free tests establish software conformance, not fresh firmware/TCC,
+physical native qualification or adoption. Existing target packages/clients are
+not upgraded in place. P096-005 remains partial.
+
+### Completed owner-fact exporter (2026-10-21)
+
+The offline Node exporter now projects retained owner measurements into the ten
+existing P096-005 case types. It derives result/budget/control summaries, checks
+exact source/run/harness/tuple/Case bindings and corroborates actual native,
+private-control, fault and host-software witnesses before the unchanged Schema
+Gate and semantic gates permit publication. Raw restart observation stays separate
+from the original Case. Missing observations yield explicit partial coverage;
+no source label, readiness, bool or historical firmware/TCC note fills a gap.
+Its own source closure and consumed evidence refs are retained independently of
+the standard-library-only qualifier. Full p21 still requires sixteen additional
+native transport cases; software exporter completion does not complete P096-005,
+native exposure, launchd scope, P096-011a or release acceptance. No hardware,
+reset, recovery, target mutation or branch integration occurred.
+
+Final containment review requires the captured actually enforced no-fork adapter
+before group absence can supply a zero-descendant observation. A declarative
+flag without that adapter, EPERM or an existing group keeps the fact unknown.
+This restriction preserves the original qualification requirements.
+
+
+### Frozen safety-export client preparation (2026-10-21)
+
+Node now freezes the offline exporter, its report and qualifier siblings and a
+separately pinned content-only Schema Gate in each new signed-client handoff.
+The exporter still records its five-file source closure separately from the
+qualifier/interpreter/Gate identities. New capsule readers reject absent,
+changed or extra files; historical readers and handoffs remain immutable.
+Device-free client conformance does not supply native case measurements, refresh
+firmware/TCC evidence or complete P096-005. Installing a client does not replace
+an existing registered worker; changed worker bytes need their own reviewed
+package transition before a later authorized measurement. The ten-case safety
+scope, full sixteen-plus-ten native scope and all numeric gates stay unchanged.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-CLIENT-PREPARATION-2026-10-21.md`.
+
+
+The target preparation now binds corrected Node source `065bd6fb`, source pin
+`1713fa35`, release `f734f50a`, signed GUI `bdd1016a` and handoff `68d332ae`.
+All 244 frozen software checks pass locally and on target Python 3.13.15, with
+exact file/signature/Gate and rootless GUI launchd verification. All 438 prior
+root files, journal/history, expired authority and controller custody remain
+unchanged; only the new capsule is added. The existing worker remains unchanged
+and differs from the new SDK-observation source. A separate reviewed package
+transition is required before later native measurement. No Bluetooth, grant
+renewal, recovery, root migration, hardware qualification or merge occurred.
+
+
+### Immutable SDK-observation package transition (2026-10-21)
+
+The separately authorized SSH transition signs distinct ordinary and campaign
+SDK-observation packages through the normal initialized PrimaryParticipant.
+Both exact source inventories and Ed25519 sidecars pass independent verification,
+including changed-preimage refusal. Earlier packages, approvals, runtime capsules
+and historical Case/consent/recovery bytes remain unchanged. The recovered,
+expired revision 7 retires through its exact reviewed normal-owner corridor,
+reserving revision 8 for fresh SCAN/BIND/REGISTER/WEAR. No p21 grant or consent is
+created or transferred by package approval or retirement.
+
+A separate exact delegated renewal grants the same controller/discovery scope
+for 14400 seconds, fixed at prepare and expiring 2026-10-21 18:06:05 CEST. This
+is bounded metadata authority, not a native permit, human-presence attestation
+or fresh TCC/firmware observation. Corrected clean Node source `b4bc9862` / pin
+`1cda5c5f`, release `c33ac91d`, signed GUI `d21848bb` and handoff `0b768e43` select
+the new immutable packages. All 244 frozen software checks pass on target
+Python 3.13.15, plus isolated normal-key author/sign conformance for all four
+package kinds. Rootless GUI launchd observation supplies no Bluetooth permission.
+No hardware, reset/recovery, format migration, merge or adoption occurs.
+P096-005 and the full native matrix remain partial; later physical work needs
+fresh interactive readiness confirmation and actual permission checks for the
+new ad-hoc GUI identity. See
+`node:docs/audits/REVIEW-SENSORIUM-WORKER-TRANSITION-2026-10-21.md`.
+
+
+### Revision-8 finite campaign checkpoint (2026-10-21)
+
+Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed baseline and protected stop, then stopped during the deadline episode on timer-lane validation 273 ms against the original 250 ms gate. Protected receipt/fence/exact-exit measured 1/0/4717 ms; all three sessions released with current durable audit and zero claims. SDK entry/return and exact exit witnesses are now present. Three unbound collector episodes supply no formal cases; TCC attribution/full tuple and remaining safety witnesses are still missing. No retry/recovery/merge followed; P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-R8-CAMPAIGN-2026-10-21.md. The unchanged origin matrix, exact tuple and independent qualification remain required.
+
+
+### Prospective control budget revision 2 (2026-10-21)
+
+After the immutable revision-8 campaign, the operator explicitly approved a 25%
+increase for live validation and protected receipt/fence. Validation and receipt
+use integer ceilings of 313 ms (312.5 rounded upward); fence is 125 ms. Process
+exit remains 5000 ms. All case, consent, grant, cleanup, origin, full-tuple and
+per-case proof requirements remain unchanged. The 250-ms retained-state monitor
+cadence remains separate from its 313-ms pending-job budget, with scheduling
+uncertainty explicitly disclosed. Protected stop remains independently served.
+
+New independent qualifier identities are `sensorium-native-p21-qualifier.v2` and
+`sensorium-native-safety-qualifier.v2`. The v1 report shape preserves the historical
+identity structurally; current admission still requires the exact newly known
+v2 purpose-qualifier artifact. No old report is re-qualified or rewritten. Old
+source/GUI/worker pins and nearby roots are unchanged until separate artifact
+preparation. P096-005 remains partial; this policy change proves no native
+latency improvement and authorizes no retry. See
+`node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md`.
