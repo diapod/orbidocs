@@ -2155,9 +2155,36 @@ No timeout, sandbox, proof freshness, TTL or durability change follows; DISC and
 P096/native gates stay partial/open. Review, regressions and private retention:
 `node:docs/audits/SENSORIUM-FOUR-FIXTURE-FULLFLUSH-2026-10-20.md`.
 
-Next actions: retain the startup limitation and exact failed-child samples;
-resolve the deeper OS wait only through a separately authorized scoped tool or
-a new non-privileged discriminator, without weakening security or timers; independently integrate
+##### Retained-byte fixture budget decision (2026-10-21)
+
+A fixed 2x2 contrast separates the original shell from a variant adding only two
+stdout markers, and a 1 s lifetime from 5 s. Four actual fixtures run under four
+bounded same-device `F_FULLFSYNC` writers in each of sixteen fixed cohorts. Both
+1 s variants refuse full code-zero completion in 10/16 cases; both 5 s variants
+complete 16/16. Marker-only instrumentation neither creates nor removes this
+observed budget sensitivity. The latest original first snapshot is observed at
+4.648 s; 5 s is a pragmatic fixture default, not a universal platform guarantee.
+
+The ordinary retained-byte fixture now uses 5 s, with a separate unchanged 1 s
+watchdog refusal test. Historical diagnostic selectors retain their original
+timing. Two predeclared four-fixture cohorts on the adopted default pass 8/8;
+one optional metric loss leaves only 7/8 full pressure-window qualifications.
+These are software observations, not native BLE or release qualification.
+
+The operator accepts sub-5-second startup as exposed to macOS block-device sync,
+sandbox and loader delays. This is an accepted engineering risk model, **not**
+an attribution of a particular historical failure to one of those mechanisms.
+Further historical syscall/wait attribution is closed as outside the practical
+project scope; retained failures and diagnostic gaps remain immutable. No new
+trace, reset, security change or production deadline change is required for this
+closure. A typed early-entry signal remains a separate protocol/design change:
+it must not renew total time, authority, consent or TTL, or imply readiness or
+release. Production startup headroom must remain distinct from the observation
+window and bounded cleanup. See
+`node:docs/audits/SENSORIUM-RETAINED-BYTES-BUDGET-2026-10-21.md`.
+
+Next actions: retain the startup limitation and exact failed-child samples as
+historical evidence, not a blocking OS-research task; independently integrate
 the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and

@@ -2559,6 +2559,24 @@ Original refusals remain retained; no historical attribution or readiness
 promotion follows. Review, regression and retained-byte evidence are owned by
 `node:docs/audits/SENSORIUM-FOUR-FIXTURE-FULLFLUSH-2026-10-20.md`.
 
+On 2026-10-21, a fixed sixteen-cohort, four-fixture 2x2 contrast separates
+marker-only instrumentation from the 1 s/5 s lifetime. Both short arms retain
+10/16 refused full completions, while both long arms complete 16/16. The ordinary
+retained-byte fixture adopts 5 s, separately preserving the 1 s watchdog test and
+historical diagnostic selectors. Its two fixed four-fixture regression cohorts
+pass 8/8; only 7/8 complete metric/pressure windows qualify. No production timer,
+authority, TTL, sandbox or durability changes follow.
+
+The operator accepts sub-5-second macOS startup exposure to block-device sync,
+sandbox and loader delays as a practical risk model. Historical OS-call/wait
+attribution is closed as outside project scope, **not** declared proven or
+replaced by a green rerun. Retained failures and gaps remain. Any future startup
+allowance or typed early-entry frame must fit the original total deadline and
+cannot grant readiness/release or extend authority/TTL. See the
+[P045 decision](045-sensorium-local-enaction-stratum.md#retained-byte-fixture-budget-decision-2026-10-21)
+and `node:docs/audits/SENSORIUM-RETAINED-BYTES-BUDGET-2026-10-21.md` for the
+production-budget review and measured limits.
+
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.
