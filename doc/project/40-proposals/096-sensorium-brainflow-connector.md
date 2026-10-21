@@ -2577,6 +2577,19 @@ cannot grant readiness/release or extend authority/TTL. See the
 and `node:docs/audits/SENSORIUM-RETAINED-BYTES-BUDGET-2026-10-21.md` for the
 production-budget review and measured limits.
 
+The subsequent separately approved initial-budget slice changes only Node UI's
+new discovery requests: 10/30 s observation windows now request 20/40 s total,
+including 5 s startup headroom and the unchanged 5 s cleanup allowance. Existing
+operation handles/expiry/monotonic deadlines, candidate TTL and protected stop
+are not renewed or widened. Explicit legacy requests remain admissible; a
+changed total under an existing idempotency key refuses. The 2 s worker session
+wait remains unchanged after review of its distinct clock origin and 72 retained
+successful 349–442 ms whole executor starts. This is software evidence, not a
+universal startup guarantee, new native adoption or qualification. The private
+same-candidate harness's independently tighter limits remain unchanged. See
+[the initial-budget decision](045-sensorium-local-enaction-stratum.md#initial-discovery-startup-headroom-2026-10-21)
+and `node:docs/audits/SENSORIUM-DISCOVERY-STARTUP-BUDGET-2026-10-21.md`.
+
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.

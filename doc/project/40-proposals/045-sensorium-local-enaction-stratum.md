@@ -2183,6 +2183,33 @@ release. Production startup headroom must remain distinct from the observation
 window and bounded cleanup. See
 `node:docs/audits/SENSORIUM-RETAINED-BYTES-BUDGET-2026-10-21.md`.
 
+##### Initial discovery startup headroom (2026-10-21)
+
+The separately approved Node UI policy now constructs a new discovery request
+with its observation window plus **5 s startup headroom and the existing 5 s
+cleanup allowance**. The 10/30 s UI choices therefore request 20/40 s totals,
+inside the unchanged 45 s portable ceiling. This is one initial total, not a
+renewable startup phase or a new native readiness signal. Current grant, consent
+and profile restrictions still apply independently.
+
+The new operation's requested deferred TTL follows that initial total. Existing
+operations keep their original handle, expiry and monotonic deadline; an exact
+retry cannot add headroom, and a changed total under the same idempotency key
+refuses. Explicit legacy 15/35 s requests remain valid; the host does not silently
+rewrite caller budgets. Candidate TTL, acquisition first-data/permit limits,
+protected stop and cleanup capped by the original operation deadline do not
+change. Repeated cancellation cannot replenish its 5 s cleanup lane.
+
+The worker's 2 s authenticated-session wait remains unchanged. It starts after
+spawn and PID-file publication, whereas the helper's watchdog starts before
+spawn. A read-only reduction of 72 retained null-helper fixture observations
+finds whole executor-start spans of 349–442 ms, all successful; these spans also
+include work outside that wait. This supports retaining the present ceiling in
+this slice, not a cross-host 2 s guarantee or native qualification. No new OS
+trace or historical-cause investigation is required. Review and candidate-bound
+software regressions:
+`node:docs/audits/SENSORIUM-DISCOVERY-STARTUP-BUDGET-2026-10-21.md`.
+
 Next actions: retain the startup limitation and exact failed-child samples as
 historical evidence, not a blocking OS-research task; independently integrate
 the frozen 001/P055-10 contracts through

@@ -281,6 +281,15 @@ control while keeping ordinary action routes closed. Immutable source facts,
 independent qualification and explicit adoption are distinct; no experiment,
 fixture or installed report alone makes this planned discovery action available.
 
+Node private-implementation checkpoint (2026-10-21): its UI chooses finite
+initial discovery totals with separate startup headroom, not a new execution
+clock or owner. Existing operation/authority/candidate lifetimes and protected
+stop remain with their current owners; replay does not renew them. The worker
+attachment limit is a separate, unchanged gate. This caller-policy improvement
+does not expose or qualify the planned product action. See the
+[P045 initial-budget decision](../../40-proposals/045-sensorium-local-enaction-stratum.md#initial-discovery-startup-headroom-2026-10-21)
+and the implementation-side `node:daemon/docs/SENSORIUM-DISCOVERY.md`.
+
 ### Local Agora Observation Publication
 
 Based on:
