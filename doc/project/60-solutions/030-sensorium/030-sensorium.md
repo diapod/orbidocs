@@ -777,3 +777,22 @@ physical use needs current authority and fresh interactive wearer readiness,
 then separate SCAN/BIND/REGISTER/WEAR decisions. The private manifest is
 `sha256:5fdca8b91c37f7741c7d7da589b623bff4bcc92c4c4112e8136a76e77f76a48b`; see
 node:docs/audits/REVIEW-SENSORIUM-R9-AUTHORITY-RETIREMENT-2026-10-21.md.
+
+### Prospective operation retries — 2026-10-21
+
+The operator approved doubled operation waiting timeouts and two additional serial
+attempts of each timed-out operation, rather than replay of a complete sequence.
+A step that succeeds on attempt 1, 2 or 3 succeeds; retain the attempt ordinal and
+prior timeouts. This changes prospective implementation/qualification policy, not
+historical evidence. Current authority, consent scope, parent deadlines and
+confirmed disposal before repetition remain mandatory. Unknown cleanup retains
+quarantine and requires its separately authorized recovery corridor. No retry can
+renew consent or mint an additional registration after an uncertain commit.
+
+Revision-10 baseline released, but protected-stop preparation stopped on 359946 us
+against the original 313-ms validation gate; native release was not confirmed and
+six later rows were blocked. The private 23-file report set is pinned by manifest
+sha256:75691f4e1959626f5035f637a4e33d9cd34504f44cf65e13fda6a3f4f1a4f302.
+P096-005 remains partial. The code-coupled contract, current limits and review
+status are owned by node:docs/operations/SENSORIUM-OPERATION-RETRIES.md; review of
+the old run is node:docs/audits/REVIEW-SENSORIUM-R10-CAMPAIGN-2026-10-21.md.
