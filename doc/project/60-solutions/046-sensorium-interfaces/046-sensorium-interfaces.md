@@ -1287,3 +1287,18 @@ separate steps; physical continuation additionally needs interactive readiness.
 See [P096's baseline checkpoint](../../40-proposals/096-sensorium-brainflow-connector.md#revision-7-recovery-baseline-checkpoint-2026-10-21),
 `node:docs/audits/REVIEW-SENSORIUM-R7-RECOVERY-BASELINE-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/recovery-r7-baseline-20261021.json`.
+
+### Revision-7 Bluetooth-method compatibility checkpoint (2026-10-21)
+
+The original uncertain Case source `c06d256a` / `d5e12c64` was absent from the
+closed historical source set despite a valid newer-actor v3 baseline. Independent
+Git-blob inventory reproduces 5075 retained files and the exact pin. Review of
+the actual supervisor launch, captured-image execution and read-only subtree/
+ancestor rules establishes compatibility before adding that single exact pin.
+Unknown source epochs now refuse before even archiving the predecessor.
+
+This software correction preserves the original Case, v3 baseline and all reset,
+process-absence, protected-source and separate-consumption requirements. It is
+not reset observation, native cleanup or physical qualification. P096-005 stays
+**partial**. See
+`node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-REVIEW-2026-10-21.md`.
