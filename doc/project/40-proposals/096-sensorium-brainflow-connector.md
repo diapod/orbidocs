@@ -3657,3 +3657,14 @@ claim remains quarantined; no new hardware, reset, recovery, renewal, migration
 or merge occurred. Preparation manifest
 sha256:93a87ec5420aebcee4648d5ca952755d8a4a7e23fe8e8518382344fd26bc6063.
 P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-OPERATION-RETRIES-2026-10-21.md.
+
+
+Revision-10 v3 baseline 1a0d0370 / v4 1f055b3e now preserve the exact predecessor
+and one separately approved Bluetooth OFF/ON proof f90a4aa2. Real-iTerm observation
+on pinned release 56b0de73 completed with native exit zero, 2492 ms OFF-to-ON and
+four worker-absence checks. All 761 prior file records, 205 directory identities,
+parent custody, journal 197/28 Cases, eleven source slots and held claims remain
+preserved; only the normal read-store ctime refresh differs. Nine reviewed files
+and two directories are added. No consumption, recovery, release, renewal, scan,
+acquisition, migration or merge occurred. P096-005 stays partial; separate exact
+RECOVER approval remains required. See node:docs/audits/REVIEW-SENSORIUM-R10-BLUETOOTH-OBSERVATION-2026-10-21.md.
