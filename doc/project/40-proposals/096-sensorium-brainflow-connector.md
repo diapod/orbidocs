@@ -3550,3 +3550,8 @@ Released revision 8 retired through exact review 728de054 and unchanged journal 
 ### Deadline consumer source correction (2026-10-21)
 
 The deadline campaign branch now continues ordinary authorized draining after readiness, preserving all queue and clock limits and propagating failures without relabelling them as expected deadline evidence. Four bounded-producer regressions cover draining, overflow, pre-existing fence and failure precedence. This is source conformance only; P096-005 remains partial pending a fresh pinned client and native evidence. See node:docs/audits/REVIEW-SENSORIUM-DEADLINE-CONSUMER-2026-10-21.md.
+
+
+### Deadline consumer client preparation (2026-10-21)
+
+The deadline-consumer correction is prepared nearby from clean source 8cfd21e6/pin 2c4f9669, release 0a85fca5, signed GUI b1f287a3 and handoff 7ba30f4d. All 245 frozen target checks pass against 68 independently matched immutable inputs; all 557 prior root files/custody remain exact, with only the new capsule added. Signature and rootless launchd preflights pass; preparation creates no Bluetooth manager or qualification. Review and originals are pinned by private manifest sha256:0451b14a4e46acd45ab8884815688f1020ef77962f9092559c6588c3b5f2a446. Native permission and the separately approved campaign remain distinct stages. P096-005 stays partial.
