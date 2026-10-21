@@ -593,8 +593,11 @@ owns local catalog semantics;
 [P080-GUIDE-001](../../40-proposals/080-multiplexed-middleware-channel-executor.md#planned-local-capability-guidance-contributions)
 owns optional provider contributions and transport conformance. Status: partial
 local implementation. Module reports accept optional `capability/guidance`,
-and attach admission checks provider, exact request schema and examples. Live
-channel carriage and cancellation acceptance remain open; see
+and attach admission checks provider, exact request schema and examples. A
+supervised Python module's channel report now contributes one guided and one
+unguided capability to actual host list/describe; a separate direct host call
+confirms handler carriage. Cancellation and signed-source provenance remain
+open; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse existing report descriptions and `api/surface`; an optional pinned guidance
@@ -602,8 +605,9 @@ artifact belongs to an already admitted capability/provider/contract binding.
 Missing guidance is valid. Admission rejects foreign or malformed bindings and
 resolves content only through bounded local artifact/package access, never
 arbitrary paths or URLs. The package does not acquire registration or execution
-authority by supplying usage notes. The signed, operator-admitted source proves
-provenance, not a semantic review of the notes.
+authority by supplying usage notes. A signed, operator-admitted source would
+establish provenance, not a semantic review of the notes. The operator-configured
+test fixture does not prove a signed source or verified launch integrity.
 
 Use existing host-capability invocation over P080 and the common Rust/Python
 clients. Routing `lookup` keeps its current meaning. No per-module prompt

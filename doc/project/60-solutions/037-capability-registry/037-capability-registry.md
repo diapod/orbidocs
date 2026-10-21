@@ -102,8 +102,9 @@ owns the `capability.catalog.list` / `capability.catalog.describe`
 contract, optional pinned guidance and shared acceptance report. Status:
 partial local implementation. Both operations are registered as host-local,
 dispatchable host routes without advertisement or Passport semantics. Caller
-scope, stable paging and redacted describe have focused host tests; combined
-controller and supervised-provider acceptance remains open. See
+scope, stable paging and redacted describe have focused host tests. A
+scripted local inference adapter also exercises the controller with a supervised
+provider; concrete-model behavior remains open. See
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 The host projects existing registry, authorization metadata, admitted
@@ -111,6 +112,19 @@ provider/readiness and API-contract sources for the authenticated caller.
 Transient readiness changes availability without invalidating the catalog
 consistency revision. Default describe returns a bounded schema summary; full
 trusted local schemas require an explicit request.
+An ambiguous describe reports readiness for each provider operation. Selecting
+an operation makes top-level availability describe that provider; no provider's
+guidance is selected by an aggregate readiness value.
+The original closed result v1 has no per-operation availability field. An
+explicit request v2 selects result v2, which requires that field and a closed
+reason for unresolved bindings. The controller uses v2; neither version turns
+readiness into execution authority.
+The revision and ambiguous-operation selector use separate host-keyed HMAC
+domains over canonical visible sources and the exact operation respectively;
+their wire prefixes are opaque labels, not unkeyed source digests or grants.
+The signed, decodable cursor carries a third domain-separated host-keyed HMAC
+for the authenticated actor, Agent, binding and visible-capability scope rather
+than those raw identifiers; its payload is not encrypted.
 Capabilities are description atoms; middleware remains a provider. Visibility,
 provider availability and execution authority are separate. Documentation never
 grants access, and catalog reads never dispatch the described capability.
@@ -119,7 +133,13 @@ Implementation recommendations: reuse registry/admission, authorization sidecar,
 host provider projections and S034 schema bindings; keep pure projection separate
 from acquisition and authorization. P072-GUIDE-001/002/003 are the single-source
 tracker. First delivery is local list/describe plus a bounded S047 controller
-continuation, without federation, a second registry or new transport.
+continuation, without federation, a second registry or new transport. A
+supervised local channel report supplies two provider-owned entries in one
+focused daemon-process H run. Separate supervised cases observe provider loss
+and restart; concrete-model behavior remains open. Current visibility uses the
+Agent spec/binding grant intersection, without a distinct provider-visibility
+grant. A describe-only catalog grant refuses list and exposes only the provider
+capabilities still visible through that intersection.
 
 ## Must Implement
 

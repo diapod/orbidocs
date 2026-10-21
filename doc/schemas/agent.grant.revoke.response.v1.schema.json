@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.grant.revoke.response:v1",
+  "title": "Agent Single Grant Revoke Response v1",
+  "description": "Withdrawal decision at the admission boundary. A changed decision is retained; an absent-grant no-op is not persisted. State is the state at the decision.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/073-agent-orchestration-organ.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "agent/id", "capability/id", "state", "changed", "replayed", "reason/code"],
+  "properties": {
+    "schema": {"const": "agent.grant.revoke.response.v1"},
+    "agent/id": {"type": "string", "minLength": 1, "maxLength": 1024, "description": "At most 1024 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "capability/id": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."},
+    "state": {"enum": ["running", "suspended"]},
+    "changed": {"type": "boolean"},
+    "replayed": {"type": "boolean"},
+    "reason/code": {"type": "string", "minLength": 1, "maxLength": 256, "description": "At most 256 UTF-8 bytes; JSON Schema maxLength counts code points and the host enforces the byte bound."}
+  }
+}

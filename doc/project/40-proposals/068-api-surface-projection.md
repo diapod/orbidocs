@@ -686,7 +686,7 @@ Tracking. The remaining, forward-looking work:
 
 ## Planned Capability Contract Projection
 
-Partially implemented local continuation; completed general API projection
+Implemented for operator-admitted local sources; completed general API projection
 coverage is unchanged.
 [P072 local guidance](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns the caller-scoped catalog; [S034](../60-solutions/034-api-surface-projection/034-api-surface-projection.md#planned-model-facing-contract-projection)
@@ -701,6 +701,11 @@ An unresolved or conflicting binding remains explicit and is not advertised as
 an executable contract. Optional effect metadata must not default to read-only.
 Do not give the model internal routes, auth material, an entire OpenAPI export,
 or authority inferred from `x-orbiplex-authority: descriptive-only`.
+When several admitted bindings need selection, project an opaque `operation/id`
+from a host-keyed, domain-separated HMAC over the current catalog revision and
+the selected provider's routing, contract and effect fields. It is a selector
+within that revision, not an unkeyed digest, endpoint disclosure or execution
+grant.
 
 Use the existing schema registry and descriptor validators; validate the new
 catalog DTOs through Schema Gate. Follow only pinned, admitted local schema refs
@@ -711,10 +716,40 @@ with its exact local ref and digest. An explicit `include: "schema"` retrieves
 the complete trusted local schema under the existing byte and prompt-token
 limits. Provider availability remains informational and does not change the
 catalog consistency revision.
+The projected `schema/digest` commits to canonical bytes after bounded local
+`$ref` closure. Optional provider guidance pins the original admitted source
+snapshot through `contract/digest`; the values may differ after closure. Keep
+both meanings explicit rather than treating the projection digest as authority
+for the provider contribution.
+
+The original closed `capability-catalog-result.v1` operation shape has no
+per-operation readiness. Request v1 continues to receive that exact result v1.
+Explicit request v2 receives result v2, which requires `operations[].availability`
+and a closed `unresolved/reason` on every unresolved binding. The reason is
+`missing`, `untrusted`, `unknown`, `remote`, `cycle`, `constraint`, `limit`, or
+`budget`; none carries a schema path or provider diagnostic. v1 keeps its
+original unresolved binding shape.
+The controller uses v2. A local union binding in the catalog's own admitted
+API descriptor documents both request/result variants through canonical
+`urn:orbiplex:schema:<name>.local:v1` IDs. All bindings in that descriptor use
+URNs, including the refusal schema, without guessing a provider route. The
+catalog remains the same two host-local operations; the version discriminator
+does not grant an effect or alter routing lookup.
+Transitive local schema refs close with a maximum depth of three and a shared
+budget of 16 **distinct trusted source snapshots** per describe, with 16 KiB
+for each source, each root's cumulative expansion and final closed schema.
+One temporary resolver memoizes trusted sources by ref and completed closure
+by source digest and remaining depth; unsuccessful closures are retained for
+that describe, so repeated bindings produce the same outcome without repeated
+quota consumption. Resolution order is stable by provider ID, method and path,
+using admitted descriptor order for an exact tie, never by the host-keyed
+operation selector. Untrusted, unknown and remote refs do not consume snapshot
+slots. A cycle, unknown or remote ref stays unresolved; no network fetch is
+attempted.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | partial | Unique/ambiguous bindings, missing effect, one-level trusted local ref closure and endpoint redaction pass focused tests; deeper closure and live provider conflict remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P068-GUIDE-001 | Project exact local operation contracts into P072 describe. | done | Operator-admitted local providers expose exact trusted request/response bindings, effect, idempotency and distinct opaque operation selectors; ambiguous bindings require selection. The default summary marks omitted constraints and full schema needs explicit request. Bounded transitive local refs close with a memoized, distinct-snapshot budget and stable source order; unresolved/remote refs and missing effects remain explicit. v1 wire shape is preserved and v2 carries per-operation readiness and closed unresolved reasons. C and supervised H evidence, including loss/restart and no endpoint disclosure, is in `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. Signed package provenance, federation and general execution are outside this local projection. |
 
 ## Implementation Tracking
 
