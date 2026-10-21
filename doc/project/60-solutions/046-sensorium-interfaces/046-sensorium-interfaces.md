@@ -1453,3 +1453,24 @@ partial; future hardware work needs current authority, supported registration
 handling and fresh interactive wearer readiness. Private preparation manifest:
 `sha256:60264ebd6b895d816e42a1d35d5b1e69bb8e4b4027290d47776fddd1e9336b5c`. See
 node:docs/audits/REVIEW-SENSORIUM-SDK-BATCH-PREPARATION-2026-10-21.md.
+
+
+### Revision-9 authority renewal and retirement (2026-10-21)
+
+The existing exact SDK-batch candidate (`393688e6`/source `7d5aa913`, release
+`8d123d82`) now completed separately reviewed delegated SSH metadata operations:
+renewal `ad0e8c03` extends the same controller/discovery scope for four hours to
+**2026-10-22 00:53:26 CEST**; released-case retirement `cab3fb4c` then removes
+only expired stopped revision 9 and its binding, reserving unregistered revision
+10. The p21 grant is not renewed or replaced. Both reviews and completed live
+projections are independently verified before and after their respective commits.
+
+Controller/resources have no claims or pending recovery. Journal 181/twenty-six
+Cases, consent, old signed packages/capsules and directory custody remain exact;
+the review accounts for seven intended owner/source content changes and a
+read-store ctime refresh. No new consent, grant p21, native manager, hardware,
+recovery, root-format migration or merge runs. P096-005 remains partial. Future
+physical use needs current authority and fresh interactive wearer readiness,
+then separate SCAN/BIND/REGISTER/WEAR decisions. The private manifest is
+`sha256:5fdca8b91c37f7741c7d7da589b623bff4bcc92c4c4112e8136a76e77f76a48b`; see
+node:docs/audits/REVIEW-SENSORIUM-R9-AUTHORITY-RETIREMENT-2026-10-21.md.
