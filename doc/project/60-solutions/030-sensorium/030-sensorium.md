@@ -594,3 +594,15 @@ review authority, immutable facts and the unpublished local draft. The UI grants
 no fetch, P082 read or Whisper publication authority. Broader P084/P078 integration
 remains partial. P084-012c is done for measured local operator UI acceptance; see
 `node:docs/evidence/sensorium-web/SENSORIUM-WEB-REVIEW-UI-EVIDENCE.md`.
+
+### Independent safety evidence scope (2026-10-21)
+
+The Node-local exporter and independent qualifier now have a separate P096-005
+scope. It requires all ten unchanged host-boundary cases in one exact full
+deployment tuple, including native origin and current firmware/TCC observations.
+The full p21 exposure scope continues to require sixteen native plus ten safety
+cases. Neither a partial campaign nor the new safety-only decision supplies
+native transport qualification, adoption, P096-011a or release readiness.
+The protected stop receipt/fence/exact-exit limits remain 250/100/5000 ms.
+This is implemented software conformance; device qualification remains partial.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-EXPORT-2026-10-21.md`.

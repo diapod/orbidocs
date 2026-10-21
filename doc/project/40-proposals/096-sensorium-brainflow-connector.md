@@ -3412,3 +3412,15 @@ that artifact by digest, checks per-stage timing accounting, rates/startup, ever
 queue owner, healthy-reader/protected-stop coverage and in-flight revocation.
 Unknown measurements cannot pass. Lab observations and conformance/playback
 reports cannot qualify a synthetic or Muse hardware execution.
+
+### Independent safety evidence scope (2026-10-21)
+
+The Node-local exporter and independent qualifier now have a separate P096-005
+scope. It requires all ten unchanged host-boundary cases in one exact full
+deployment tuple, including native origin and current firmware/TCC observations.
+The full p21 exposure scope continues to require sixteen native plus ten safety
+cases. Neither a partial campaign nor the new safety-only decision supplies
+native transport qualification, adoption, P096-011a or release readiness.
+The protected stop receipt/fence/exact-exit limits remain 250/100/5000 ms.
+This is implemented software conformance; device qualification remains partial.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-EXPORT-2026-10-21.md`.
