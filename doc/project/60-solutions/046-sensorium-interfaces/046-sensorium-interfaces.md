@@ -1493,3 +1493,15 @@ sha256:75691f4e1959626f5035f637a4e33d9cd34504f44cf65e13fda6a3f4f1a4f302.
 P096-005 remains partial. The code-coupled contract, current limits and review
 status are owned by node:docs/operations/SENSORIUM-OPERATION-RETRIES.md; review of
 the old run is node:docs/audits/REVIEW-SENSORIUM-R10-CAMPAIGN-2026-10-21.md.
+
+
+Pinned operation-retry preparation is verified on source c834ad91/pin be42586a:
+release 56b0de73, signed GUI ce1e450e/handoff b2cf05e1 and three new inactive signed
+packages. All 265 nearby frozen checks pass after retaining/correcting an omitted
+test-input dependency; local checks pass 323 Python and 261 discovery/acquisition
+cases. Existing root contents, controller state and journal 197/28 Cases remain
+preserved with the explicit normal read-store ctime exception. The one revision-10
+claim remains quarantined; no new hardware, reset, recovery, renewal, migration
+or merge occurred. Preparation manifest
+sha256:93a87ec5420aebcee4648d5ca952755d8a4a7e23fe8e8518382344fd26bc6063.
+P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-OPERATION-RETRIES-2026-10-21.md.
