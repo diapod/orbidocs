@@ -3668,3 +3668,16 @@ preserved; only the normal read-store ctime refresh differs. Nine reviewed files
 and two directories are added. No consumption, recovery, release, renewal, scan,
 acquisition, migration or merge occurred. P096-005 stays partial; separate exact
 RECOVER approval remains required. See node:docs/audits/REVIEW-SENSORIUM-R10-BLUETOOTH-OBSERVATION-2026-10-21.md.
+
+
+Separately approved revision-10 RECOVER-BLUETOOTH for v4 1f055b3e / proof
+f90a4aa2 now completes once through SSH on pinned release 56b0de73. Independent
+readback confirms the completed marker, exact reviewed generation, free
+controller and removal of only the selected acquisition claim. Journal 197 /
+28 Cases, the uncertain historical Case, eleven source slots, binding,
+registration, consent, expiry and parent custody remain preserved. All 770 old
+file records and 207 directories are reconciled; only the reviewed resource
+update and ordinary read-store ctime refresh differ. Private manifest fcd00510
+binds verified recovery evidence. No new manager, scan, acquisition, renewal,
+retirement, transition, migration or merge occurred. P096-005 stays partial.
+See node:docs/audits/REVIEW-SENSORIUM-R10-BLUETOOTH-RECOVERY-2026-10-21.md.
