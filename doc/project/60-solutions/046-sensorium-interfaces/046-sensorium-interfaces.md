@@ -1343,3 +1343,24 @@ checkpoint. Fresh interactive OFF/ON readiness remains pending; P096-005 stays
 **partial**. See
 `node:docs/audits/REVIEW-SENSORIUM-OBSERVER-REVIEW-REFRESH-2026-10-21.md` and
 `node:docs/evidence/sensorium-host-control-20261019/observer-review-refresh-20261021.json`.
+
+### Revision-7 Bluetooth OFF/ON observation checkpoint (2026-10-21)
+
+One fresh interactive approval authorizes a single state-only OFF/ON for v4
+`ffe6987a`. Delegated SSH opens a real local iTerm for administrator `4eb902ec` /
+source `a68c227c` and observer `4b4d0579`. Native ready/OFF/ON completes with exit
+zero, no retry and no synthetic TTY. The durable proof records 3321 ms observed
+OFF-to-ON and four worker-absence checkpoints. The two-hour window ends at
+13:19:13.104 CEST on 2026-10-21; initial consumption still rechecks same-boot
+continuous uptime rather than trusting the displayed wall deadline.
+
+All 434 prior non-key hashes, two key metadata records, 135 directory identities,
+eleven protected slots, review/archive bytes, journal 135/twenty Cases, sole
+held claim and resource rows remain exact. Only the create-only proof and
+ordinary read-store ctime refresh differ; the temporary observer image is removed.
+Expired runtime grants are preserved. No recovery consumption, generation
+installation, release, scan, acquisition, renewal or integration occurs. Native
+stop remains unattested and P096-005 stays **partial**. A separate decision must
+authorize exact RECOVER-BLUETOOTH after custody, source, absence and window checks.
+See `node:docs/audits/REVIEW-SENSORIUM-R7-BLUETOOTH-OBSERVATION-2026-10-21.md` and
+`node:docs/evidence/sensorium-host-control-20261019/recovery-r7-bluetooth-observation-20261021.json`.
