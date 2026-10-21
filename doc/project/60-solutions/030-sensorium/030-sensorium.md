@@ -618,3 +618,23 @@ groups are not replaced with zero descendants. Exit never attests native release
 The device-free tests establish software conformance, not fresh firmware/TCC,
 physical native qualification or adoption. Existing target packages/clients are
 not upgraded in place. P096-005 remains partial.
+
+### Completed owner-fact exporter (2026-10-21)
+
+The offline Node exporter now projects retained owner measurements into the ten
+existing P096-005 case types. It derives result/budget/control summaries, checks
+exact source/run/harness/tuple/Case bindings and corroborates actual native,
+private-control, fault and host-software witnesses before the unchanged Schema
+Gate and semantic gates permit publication. Raw restart observation stays separate
+from the original Case. Missing observations yield explicit partial coverage;
+no source label, readiness, bool or historical firmware/TCC note fills a gap.
+Its own source closure and consumed evidence refs are retained independently of
+the standard-library-only qualifier. Full p21 still requires sixteen additional
+native transport cases; software exporter completion does not complete P096-005,
+native exposure, launchd scope, P096-011a or release acceptance. No hardware,
+reset, recovery, target mutation or branch integration occurred.
+
+Final containment review requires the captured actually enforced no-fork adapter
+before group absence can supply a zero-descendant observation. A declarative
+flag without that adapter, EPERM or an existing group keeps the fact unknown.
+This restriction preserves the original qualification requirements.
