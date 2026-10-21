@@ -3456,3 +3456,29 @@ Final containment review requires the captured actually enforced no-fork adapter
 before group absence can supply a zero-descendant observation. A declarative
 flag without that adapter, EPERM or an existing group keeps the fact unknown.
 This restriction preserves the original qualification requirements.
+
+
+### Frozen safety-export client preparation (2026-10-21)
+
+Node now freezes the offline exporter, its report and qualifier siblings and a
+separately pinned content-only Schema Gate in each new signed-client handoff.
+The exporter still records its five-file source closure separately from the
+qualifier/interpreter/Gate identities. New capsule readers reject absent,
+changed or extra files; historical readers and handoffs remain immutable.
+Device-free client conformance does not supply native case measurements, refresh
+firmware/TCC evidence or complete P096-005. Installing a client does not replace
+an existing registered worker; changed worker bytes need their own reviewed
+package transition before a later authorized measurement. The ten-case safety
+scope, full sixteen-plus-ten native scope and all numeric gates stay unchanged.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-CLIENT-PREPARATION-2026-10-21.md`.
+
+
+The target preparation now binds corrected Node source `065bd6fb`, source pin
+`1713fa35`, release `f734f50a`, signed GUI `bdd1016a` and handoff `68d332ae`.
+All 244 frozen software checks pass locally and on target Python 3.13.15, with
+exact file/signature/Gate and rootless GUI launchd verification. All 438 prior
+root files, journal/history, expired authority and controller custody remain
+unchanged; only the new capsule is added. The existing worker remains unchanged
+and differs from the new SDK-observation source. A separate reviewed package
+transition is required before later native measurement. No Bluetooth, grant
+renewal, recovery, root migration, hardware qualification or merge occurred.

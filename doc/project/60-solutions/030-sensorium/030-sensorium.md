@@ -638,3 +638,27 @@ Final containment review requires the captured actually enforced no-fork adapter
 before group absence can supply a zero-descendant observation. A declarative
 flag without that adapter, EPERM or an existing group keeps the fact unknown.
 This restriction preserves the original qualification requirements.
+
+
+### Frozen safety-export client preparation (2026-10-21)
+
+A new Node client handoff freezes the complete offline exporter/qualifier sibling
+closure and a separately pinned content-only Schema Gate alongside its signed
+application. The offline projection consumes retained owner facts and does not
+start a scan or acquisition. Old handoffs keep their original readers; existing
+registered workers are never substituted by client preparation. Separate reviewed
+package transition, current authority and fresh applicable operator decisions
+remain prerequisites to native observation. The device-free checks and prepared
+client do not complete P096-005 or native transport/launchd qualification.
+See `node:docs/audits/REVIEW-SENSORIUM-SAFETY-CLIENT-PREPARATION-2026-10-21.md`.
+
+
+The target preparation now binds corrected Node source `065bd6fb`, source pin
+`1713fa35`, release `f734f50a`, signed GUI `bdd1016a` and handoff `68d332ae`.
+All 244 frozen software checks pass locally and on target Python 3.13.15, with
+exact file/signature/Gate and rootless GUI launchd verification. All 438 prior
+root files, journal/history, expired authority and controller custody remain
+unchanged; only the new capsule is added. The existing worker remains unchanged
+and differs from the new SDK-observation source. A separate reviewed package
+transition is required before later native measurement. No Bluetooth, grant
+renewal, recovery, root migration, hardware qualification or merge occurred.
