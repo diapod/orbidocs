@@ -1,19 +1,19 @@
 # S040: inactive maintenance and shadow composition contracts
 
-Status: accepted local design, draft contracts; M0 offline and M1/M2 internal-owner
+Status: accepted local design, draft contracts; M0 offline and M1/M2/M3 internal-owner
 conformance only, without operator/runtime qualification.
-Date: 2026-10-20.
+Date: 2026-10-21.
 Based on: P051 sections 25–27 and its early P051-010 alignment, P018, P072/S037,
 S028 and S039. This page does not amend normative rights or grant operator power.
 
 ## Executive summary
 
-Freeze a bounded maintenance protocol before implementing abandonment, archival
-recovery, operator APIs or shadow composition. v1 remains authoritative for
+The bounded maintenance protocol now has M3 internal abandonment and archival
+recovery mechanics; operator APIs and shadow composition remain later stages. v1 remains authoritative for
 admission, scoring, diagnostics, writers, CAS and receipts. D7 stays closed in
 every component. M0 provides contracts and offline validation, no new runtime
-qualification. M2 covers the internal F-04 boundary only; P051-010, F-04 operator
-qualification, F-05 and the wider P051-015/016 work remain open.
+qualification. M2/M3 cover internal incarnation/capacity boundaries only;
+P051-010, F-04/F-05 operator qualification and the wider P051-015/016 remain open.
 
 ## Context and problem statement
 
@@ -164,6 +164,53 @@ M3 capacity recovery, M4 P072 admission, M5 S039 delivery, V3/Q and P051-016 rem
 open. See `node:docs/development/RESPONSIBILITY-MIGRATION-INCARNATION-M2.md` and
 `node:docs/audits/RESPONSIBILITY-MAINTENANCE-M2-2026-10-20.md`.
 
+## M3 internal capacity checkpoint (2026-10-21)
+
+The internal storage owner now separates monotonic generation identifiers from
+sixteen resident baselines. One 8 KiB append-only abandonment slot per resident
+generation remains available beyond the 1024-step and ordinary-receipt budgets.
+A terminal enables an explicit successor; it never retracts a participant source.
+The first approved new-protocol write atomically installs the acknowledged v4
+fence. Startup and inspection do not install it, and v1 remains authoritative.
+
+The private archive uses existing host sealer custody, exact M0 context/AAD,
+0700/0600 modes, durable publication, decryption/member verification and manifest
+commit before bounded deletion. A resident 64-entry/64-KiB index rotates only after
+its old page has been sealed and verified. The manifest binds the original
+projector fingerprint; historical absence is explicitly unbound and cannot
+qualify a projector for V3. Archives keep consuming the 256 MiB
+area; encoding, metadata links and crash stages count too. Crash-left compact
+work resumes under current authority. A fresh exact plan can explicitly supersede
+an old pending compact command without reviving its grant or reporting it as
+completed. Raw v1 facts, sources, receipts and live case obligations are outside
+the deletion set. General backup/restore remains P051-016/D.
+
+M3's additional internal command-address profile is
+`maintenance:g<generation>:<opaque-suffix>`, within the existing Id limit. This
+binds a request to its never-reused generation and keeps a resident terminal
+escape independent of archived key availability. Canonical M0 fixtures still
+prove shape only. The admitted exact plan includes the optional superseded
+command/digest binding; raw actor strings still confer no authority.
+
+The M1 review also shares refusal decoding, reports nonauthoritative remaining
+resident capacity and pairs gate/checkpoint timings. Manually dropping the epoch
+table while leaving v1-fact triggers can stop v1 writes until startup recreation;
+that is an unsupported live schema edit, not a claimed isolation guarantee.
+Loss/change of history invalidation metadata fences further preparation after
+archival rather than laundering a rewritten prefix. Tracing is not operator
+delivery, and timing correlation is not proof of a syscall cause.
+
+The Node Schema Gate corrects object-constant key-order comparison for the M0
+family in its private compiled schemas. Canonical schemas, original command bytes,
+digest preimages and all-false-D7 constraints remain unchanged.
+
+See `node:docs/development/RESPONSIBILITY-MIGRATION-CAPACITY-M3.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M3-2026-10-21.md`. These are internal-owner
+conformance/performance results with synthetic authority, not current P072 grant
+admission, durable S039 alerts or Q runtime qualification. F-04/F-05 operator
+exposure, M4/M5/V3/Q and the wider P051-015/016 remain open. No live capability,
+source writer, suspension protection or D7 state is promoted.
+
 ## Trade-offs
 
 Bounded closed contracts make ownership and refusal auditable but do not prove
@@ -189,7 +236,7 @@ No generic superset relation can replace exact v1/v2 composition comparison.
 
 M0 design choices are frozen as draft. M1's internal owner mechanics have scoped
 conformance/performance, and M2 has internal incarnation/history conformance.
-M3–M5, V3 and Q implementation/runtime qualification remain open. General repair
+M3 has internal capacity-owner conformance; M4/M5, V3 and Q implementation/runtime qualification remain open. General repair
 contracts under P051-010 and portable
 backup/restore remain separate. A private `PRIMARY_EVIDENCE_STORE` configuration
 may select future capture storage but is neither a public path nor accountable
@@ -198,7 +245,7 @@ external retention without the owner/retrieval/commitment policy in
 
 ## Next actions
 
-Implement and review M3 next. Register no maintenance capability or route before
+Implement M4 next. Register no maintenance capability or route before
 capacity recovery and M4 authorization gates; qualify delivery under M5 and shadow
 composition under V3/Q. The Node report profile freezes 37 **future** cases in
 six evidence classes; fixtures and offline checks are not completed runtime cases.

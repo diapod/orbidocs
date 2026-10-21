@@ -1380,6 +1380,16 @@ boundary only. The old immutable facts and v1 authority remain unchanged; D7 is
 closed. M3 capacity recovery, M4 operator admission, M5 delivery, V3/Q and restore
 remain unqualified. This does not close P051-015/016 or extend historical reports.
 
+The 2026-10-21 M3 [internal capacity checkpoint](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md#m3-internal-capacity-checkpoint-2026-10-21)
+adds reserved terminal abandonment, monotonic generation addresses, explicit
+first-write storage-v4 fencing, host-sealed verified archive/index rotation and
+bounded crash-resumable reclamation. Fresh compaction takeover preserves the
+old pending command without reviving its authority. Synthetic authority and
+incarnation fixtures establish internal conformance only. v1 is authoritative,
+D7 stays closed, and public P072 admission, S039 delivery, V3/Q and the wider
+F-04/F-05/P051-015/016 runtime/recovery gates remain open. Historical reports and
+existing tracker statuses are unchanged.
+
 The preferred path completes A–D first, then refreshes P051-010 against the actual
 qualified baseline and implements the manual slice. An earlier insertion **after
 A and N** is reasonable if the B/D interfaces above have been agreed, unsupported
