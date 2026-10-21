@@ -2218,6 +2218,28 @@ depends on the common path; P096-018 supplies first-provider qualification and
 only then closes DISC-007. Existing P096-009 manual setup and P096-015 initial
 acquisition qualification do not depend on completing this optional extension.
 
+##### Scoped browser and actual-WebView budget qualification (2026-10-21)
+
+Clean Node `38dfa2a2` passes both 20/40 s initial totals in pinned Chromium and
+actual Tauri WKWebView, one fresh root per client/choice. Real rendered start,
+poll and repeated-stop actions reach the production `DiscoveryHost`/SQLite in
+an explicitly ignored test binary. Provider effects/disposal, identity absence
+and HTTP/file transport are fixtures, not ordinary deployment/native admission.
+Exact original handle/deadline, grant/candidate expiry, one provider start and
+the nonrenewable 5 s cleanup lane remain unchanged. Separate owner replay probes
+are not counted as UI actions; final simulated cleanup is observed by both
+the owner and rendered client.
+
+The actual browser finds a UI defect: Poll/Stop nested the complete returned
+document inside the current main element. Explicit main-fragment selection and
+outer replacement repair that representation boundary without changing stop,
+TTL, authority, CSP or protocol. Original failed reports, source/binary pins,
+negative tests and final four-case evidence are retained in
+`node:docs/audits/SENSORIUM-DISCOVERY-CLIENT-BUDGETS-2026-10-21.md`.
+These early-stop cases close only the scoped client-budget gate. They are not a
+full-window timing distribution, universal startup bound, BLE or physical
+controller-release qualification, and do not promote DISC-007/P096 native gates.
+
 ## Implementation Sketch
 
 Phase 0:

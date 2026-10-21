@@ -2594,6 +2594,16 @@ P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.
 
+The subsequent scoped discovery-client qualification at Node `38dfa2a2` passes
+all four 20/40 s Chromium/actual-Tauri-WebView cases over the production
+test-binary lifecycle owner. Rendered polls/repeated Stop and separate exact
+replay probes preserve live clocks and bounded cleanup. The real Poll/Stop DOM
+nesting defect is repaired and its original failed attempt retained. Provider
+effects, disposal and HTTP/file transport remain explicit fixtures; no native
+provider, BLE or physical release gate above is closed by this result. See
+[the P045 client-budget checkpoint](045-sensorium-local-enaction-stratum.md#scoped-browser-and-actual-webview-budget-qualification-2026-10-21)
+and `node:docs/audits/SENSORIUM-DISCOVERY-CLIENT-BUDGETS-2026-10-21.md`.
+
 The 2026-10-15 terminal observation subsequently passed fresh SCAN, BIND,
 REGISTER and WEAR p21, then ended `uncertain` during acquisition observation.
 Discovery cleanup was confirmed; acquisition cleanup and controller release
