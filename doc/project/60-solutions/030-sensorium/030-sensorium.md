@@ -687,3 +687,8 @@ publication, ordinary journals and retained custody differences.
 ### Revision-8 measured campaign (2026-10-21)
 
 Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed baseline and protected stop, then stopped during the deadline episode on timer-lane validation 273 ms against the original 250 ms gate. Protected receipt/fence/exact-exit measured 1/0/4717 ms; all three sessions released with current durable audit and zero claims. SDK entry/return and exact exit witnesses are now present. Three unbound collector episodes supply no formal cases; TCC attribution/full tuple and remaining safety witnesses are still missing. No retry/recovery/merge followed; P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-R8-CAMPAIGN-2026-10-21.md.
+
+
+### Prospective control-budget revision 2 (2026-10-21)
+
+Operator-approved future budget revision 2 sets live validation/receipt/fence to 313/313/125 ms (ceil 312.5), retaining 5000-ms exit and all other clocks/origin/tuple gates. Purpose and safety qualifier identities are v2; current purpose admission rejects the historical identity even with a substituted current artifact hash. Frozen r8 observations retain 250/100/5000 ms and remain partial. No target deployment, root/grant change, retry or merge follows. See node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md.
