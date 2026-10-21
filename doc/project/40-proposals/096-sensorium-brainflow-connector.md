@@ -2950,9 +2950,106 @@ the detailed evidence status and unchanged discovery gates in
 and the Node
 owner report
 `node:docs/audits/REVIEW-SENSORIUM-NATIVE-HELPER-FAILURES-2026-10-20.md`.
+
+The subsequent four-thread preflight follow-up remains partial. The unchanged
+ordinary test fails again on `ca894112`; an explicitly selected actual retained
+launch now observes entry before phase-file I/O. The no-live-ps concurrency
+contrast retains 0/4 timeouts at count one and 5/16 at count four; a separate
+ps-off/on contrast retains 10/16 and 12/16, so polling is not required. These
+controls narrow the failed interval, not its unique OS cause. A sampled dyld/Mach
+wait belongs to a passing child, and unprivileged port inspection refuses.
+Test-only observation and private collector lifecycle corrections do not create
+a production startup fix, a count-one gate or a native qualification. Original
+timers, disposal, authority, draft/partial status and all P096 gates remain exact.
+The next causal step must distinguish the failed child's OS wait and recipient
+without security changes, hidden retries or a moved watchdog origin. Evidence:
+`node:docs/audits/SENSORIUM-NATIVE-PREFLIGHT-FOUR-THREADS-2026-10-20.md`.
+
+The same source-pinned diagnostic image's full daemon library passes 2548/0/71
+in 421.17 seconds, with strict Clippy and shared/tool regressions passing. This
+does not explain the failed cohorts or promote P096/native/release readiness.
+
+The subsequent exact failed-child follow-up retains twelve fixed processes and
+39 focused cases (36 passed, three failed). Two sampled deadline failures are
+joined to the same owned helper/instance; 189 and 15 positive `_dyld_start + 0`
+samples still do not resolve their deeper OS wait. The latter also fails with
+coarser sampling without immediate symbol capture. Passing-neighbour Mach waits
+cannot fill that gap. Scoped public spindump inspection refuses root permission,
+without any security change. Private diagnostic lifecycle corrections and
+regressions add no production startup repair, clock change or qualification.
+Further diagnosis needs a separately authorized scoped capability or a new
+non-privileged discriminator. Evidence and unchanged limits:
+`node:docs/audits/SENSORIUM-FAILED-HELPER-OS-WAIT-2026-10-20.md`.
+
+The separate durable-sync/capture follow-up adds test-only timing and explicit
+full-sync, prepared-image, interpreter and observer discriminators. It confirms
+that installed Rust Apple sync calls and the old Python fsync pressure are not
+the same operation. New controlled F02 full-sync tails refuse the unchanged
+one-second qualifier; 28 passing single-child/single-fixture launch controls do
+not attribute the retained four-fixture failures or establish a production fix.
+Metric losses, unqualified phase windows and requested-but-unstarted sampler
+jobs remain explicit rather than becoming positive evidence. The detailed owner
+is `node:docs/audits/DURABLE-SYNC-AND-HELPER-CAPTURE-2026-10-20.md`.
+
+The subsequent four-fixture full-sync investigation reproduces new deadline
+failures before entry and after two frames, without completing the terminal
+response. Its primary comparison stops at cell seven on pressure cleanup refusal;
+six complete clusters retain 18 passes/six panics and five cells remain unrun.
+A separately frozen four-cluster observer ABBA completes without replacing that
+interrupted comparison. An exactly matched failed full-sync helper has 690
+positive `_dyld_start + 0` samples and confirmed deadline SIGKILL, not a deeper
+resolved kernel wait or identified recipient. Seven sampled passing neighbours'
+Mach graphs remain separate; one passing case's optional diagnostic loss keeps
+its phase coverage unqualified. Private producer/proof and cleanup observations
+are corrected, not production startup, permissions, timers, TTL or durability.
+Original refusals remain retained; no historical attribution or readiness
+promotion follows. Review, regression and retained-byte evidence are owned by
+`node:docs/audits/SENSORIUM-FOUR-FIXTURE-FULLFLUSH-2026-10-20.md`.
+
+On 2026-10-21, a fixed sixteen-cohort, four-fixture 2x2 contrast separates
+marker-only instrumentation from the 1 s/5 s lifetime. Both short arms retain
+10/16 refused full completions, while both long arms complete 16/16. The ordinary
+retained-byte fixture adopts 5 s, separately preserving the 1 s watchdog test and
+historical diagnostic selectors. Its two fixed four-fixture regression cohorts
+pass 8/8; only 7/8 complete metric/pressure windows qualify. No production timer,
+authority, TTL, sandbox or durability changes follow.
+
+The operator accepts sub-5-second macOS startup exposure to block-device sync,
+sandbox and loader delays as a practical risk model. Historical OS-call/wait
+attribution is closed as outside project scope, **not** declared proven or
+replaced by a green rerun. Retained failures and gaps remain. Any future startup
+allowance or typed early-entry frame must fit the original total deadline and
+cannot grant readiness/release or extend authority/TTL. See the
+[P045 decision](045-sensorium-local-enaction-stratum.md#retained-byte-fixture-budget-decision-2026-10-21)
+and `node:docs/audits/SENSORIUM-RETAINED-BYTES-BUDGET-2026-10-21.md` for the
+production-budget review and measured limits.
+
+The subsequent separately approved initial-budget slice changes only Node UI's
+new discovery requests: 10/30 s observation windows now request 20/40 s total,
+including 5 s startup headroom and the unchanged 5 s cleanup allowance. Existing
+operation handles/expiry/monotonic deadlines, candidate TTL and protected stop
+are not renewed or widened. Explicit legacy requests remain admissible; a
+changed total under an existing idempotency key refuses. The 2 s worker session
+wait remains unchanged after review of its distinct clock origin and 72 retained
+successful 349–442 ms whole executor starts. This is software evidence, not a
+universal startup guarantee, new native adoption or qualification. The private
+same-candidate harness's independently tighter limits remain unchanged. See
+[the initial-budget decision](045-sensorium-local-enaction-stratum.md#initial-discovery-startup-headroom-2026-10-21)
+and `node:docs/audits/SENSORIUM-DISCOVERY-STARTUP-BUDGET-2026-10-21.md`.
+
 P096-005/009/017 stay `partial`; P096-010/011a/015/018 and their native/hardware
 qualification gates remain open. No physical Case, recovery or ordinary product
 exposure follows from this diagnostic work.
+
+The subsequent scoped discovery-client qualification at Node `38dfa2a2` passes
+all four 20/40 s Chromium/actual-Tauri-WebView cases over the production
+test-binary lifecycle owner. Rendered polls/repeated Stop and separate exact
+replay probes preserve live clocks and bounded cleanup. The real Poll/Stop DOM
+nesting defect is repaired and its original failed attempt retained. Provider
+effects, disposal and HTTP/file transport remain explicit fixtures; no native
+provider, BLE or physical release gate above is closed by this result. See
+[the P045 client-budget checkpoint](045-sensorium-local-enaction-stratum.md#scoped-browser-and-actual-webview-budget-qualification-2026-10-21)
+and `node:docs/audits/SENSORIUM-DISCOVERY-CLIENT-BUDGETS-2026-10-21.md`.
 
 The 2026-10-15 terminal observation subsequently passed fresh SCAN, BIND,
 REGISTER and WEAR p21, then ended `uncertain` during acquisition observation.
