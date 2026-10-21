@@ -662,3 +662,23 @@ unchanged; only the new capsule is added. The existing worker remains unchanged
 and differs from the new SDK-observation source. A separate reviewed package
 transition is required before later native measurement. No Bluetooth, grant
 renewal, recovery, root migration, hardware qualification or merge occurred.
+
+
+### Immutable SDK-observation package transition (2026-10-21)
+
+The normal Node package owner now publishes separately signed ordinary/campaign
+SDK-observation generations, preserving earlier package/review/sidecar/capsule
+bytes. Exact retirement of the recovered expired revision 7 reserves revision 8
+without reusing consent or creating an acquisition grant. Independent signature
+and preimage checks, current compiled package selection, the frozen exporter/Gate
+client and 244 device-free target checks pass. Prepared source `b4bc9862` / pin
+`1cda5c5f`, release `c33ac91d`, GUI `d21848bb` and handoff `0b768e43` are distinct
+from all historical native observations.
+
+A separately reviewed delegated controller/discovery renewal has the unchanged
+same scope and four-hour ceiling, ending 2026-10-21 18:06:05 CEST. Package approval,
+retirement and finite authority remain separate from fresh SCAN/BIND/REGISTER/WEAR,
+actual TCC access and measured qualification. No hardware, reset/recovery, root
+format migration, merge or P096-005 completion follows. See
+`node:docs/audits/REVIEW-SENSORIUM-WORKER-TRANSITION-2026-10-21.md` for exact
+publication, ordinary journals and retained custody differences.
