@@ -3711,3 +3711,11 @@ parent custody, journal 197/28 Cases and idle resources are preserved; the full
 normal-key matrix passes 12 of 12. No SCAN, BIND, REGISTER, WEAR, measurement,
 root migration or merge occurred, and P096-005 remains partial. See
 node:docs/audits/REVIEW-SENSORIUM-R10-RETIREMENT-CORRIDOR-2026-10-22.md.
+
+Session renewal 9ee35c69 then extends the same controller and revision-4
+discovery scope to 2026-10-22 22:02:32 CEST, again changing only expiry and
+generation. Because the current release differs from the earlier operation-retry
+release only in its daemon image, the campaign GUI handoff is rebuilt as
+cfdc433f around that daemon; strict signature, GUI launchd preflight and all 265
+frozen target checks pass. No headband work occurred; a session still needs its
+interactive readiness question and fresh scoped approval. P096-005 stays partial.
