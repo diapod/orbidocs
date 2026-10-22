@@ -3766,3 +3766,13 @@ are unchanged. No observer/reset proof or consumption is created. The two-hour
 window awaits a future observed powered-on event, with expiry still null.
 This is configuration evidence only; no reset, release, acquisition or merge
 occurred and P096-005 remains partial.
+
+The subsequently authorized real-terminal SSH OFF/ON observation for e79bd11c
+refused before ready at the process-absence guard. Two own-UID orphaned crashpad
+helpers have unavailable executable paths (ENOENT); no admitted executable was
+found by read-only diagnosis. No signal, repeat or state-manager construction
+occurred. Review/predecessor, both quarantined claims, journal 202/29 Cases,
+sources and expired authority remain preserved; no reset proof or consumption
+was created. Helper termination and a fresh observation require a separate
+operator decision. P096-005 remains partial. See
+node:docs/audits/REVIEW-SENSORIUM-R11-BLUETOOTH-OBSERVATION-2026-10-23.md.
