@@ -3734,3 +3734,14 @@ permission probe, manager, hardware, recovery, renewal, migration or merge runs;
 P096-005 remains partial. Private proof manifest
 sha256:8f593bef88f6bf21673c8b7f0e04e6e167dadb990eae68ea867eecbfbf4b4b03.
 See node:docs/audits/REVIEW-SENSORIUM-CLIENT-PREPARATION-2026-10-23.md.
+
+### Revision-11 recovery baseline — 2026-10-23
+
+Pinned release 540f1198/source 28efc4c6 prepared fresh v2 baseline 36f45aea for
+the revision-11 pre-binding Case through delegated SSH. The supported exact
+discard archived old review 566f70a2 byte for byte before preparation; both
+quarantined claims, journal 202/29 Cases, configuration, consent and expired
+authority remain preserved. Independent review passes. No reset method,
+observation, recovery, release, hardware work or merge occurs; P096-005 stays
+partial. Reset-method selection and eventual RECOVER remain separate decisions.
+See node:docs/audits/REVIEW-SENSORIUM-R11-RECOVERY-BASELINE-2026-10-23.md.
