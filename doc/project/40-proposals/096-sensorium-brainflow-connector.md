@@ -3719,3 +3719,18 @@ release only in its daemon image, the campaign GUI handoff is rebuilt as
 cfdc433f around that daemon; strict signature, GUI launchd preflight and all 265
 frozen target checks pass. No headband work occurred; a session still needs its
 interactive readiness question and fresh scoped approval. P096-005 stays partial.
+
+
+### Current pinned-client preparation — 2026-10-23
+
+Clean source 48bab564/pin 28efc4c6 now has a newly transferred release 540f1198
+and sealed signed client 4364b1a6/handoff 15c50611. Offline locked Cargo validates
+exact cached artifacts; no new compiler execution is claimed. Independent
+source/postlink/signature checks and 265 frozen target tests pass with no skips.
+All 843 prior root file records, 225 directory identities, parent custody,
+journal 202/29 Cases and the held revision-11 claims remain exact; only the new
+fifteen-file client capsule is added. Expired authority stays expired. No
+permission probe, manager, hardware, recovery, renewal, migration or merge runs;
+P096-005 remains partial. Private proof manifest
+sha256:8f593bef88f6bf21673c8b7f0e04e6e167dadb990eae68ea867eecbfbf4b4b03.
+See node:docs/audits/REVIEW-SENSORIUM-CLIENT-PREPARATION-2026-10-23.md.
