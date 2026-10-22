@@ -3745,3 +3745,24 @@ authority remain preserved. Independent review passes. No reset method,
 observation, recovery, release, hardware work or merge occurs; P096-005 stays
 partial. Reset-method selection and eventual RECOVER remain separate decisions.
 See node:docs/audits/REVIEW-SENSORIUM-R11-RECOVERY-BASELINE-2026-10-23.md.
+
+### Pre-binding Bluetooth recovery method — 2026-10-23
+
+The Node correction extends exact v4 method selection to an original v2
+pre-binding baseline, preserving that scope and its byte-exact predecessor.
+The original journal's discovery-plan/package anchors selection of current
+normal host-grant and protected-source custody; this is newly observed cleanup
+custody, not retrospective grant attestation or runtime authority. Changes to
+that custody refuse later observation/consumption. Bound acquisition scope and
+existing bound-v4 preimages retain their meaning. Method selection, OFF/ON
+observation and RECOVER remain separate decisions; P096-005 remains partial.
+See node:docs/audits/REVIEW-SENSORIUM-PRE-BINDING-BLUETOOTH-2026-10-23.md.
+
+On pinned administrator 8ff445ae (source 9a14cd46/pin 4db636c8), one delegated-SSH
+selection prepared pre-binding v4 review e79bd11c and archived predecessor
+36f45aea byte for byte. Root/custody checks reconcile 859 old files and 231
+directories; journal 202/29 Cases, both quarantined claims and expired authority
+are unchanged. No observer/reset proof or consumption is created. The two-hour
+window awaits a future observed powered-on event, with expiry still null.
+This is configuration evidence only; no reset, release, acquisition or merge
+occurred and P096-005 remains partial.
