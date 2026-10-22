@@ -124,6 +124,24 @@ Responsibilities:
   host-owned module output roots,
 - resume a previously persisted workflow run on module restart.
 
+#### P091-009a Configuration Contract Checkpoint — 2026-10-23
+
+Arca remains the non-Flow owner of `service-order-orchestration` plan semantics.
+The retained P091-009a fixture binds `/arca/workflow` to exact workflow scope,
+owner/handler, source, definition and optional run context, then exercises the
+existing registration report and `normalize_plan_from_trigger`. Native checks
+preserve current workflow record shapes and common P091 DTOs; the valid Arca
+result is deliberately not admitted under the Flow executor schema.
+
+This is contract conformance without a live stack, not a new configuration route,
+writer, workflow store, runtime admission or consumption proof. The test-local
+binding relation does not replace the host's handler selector. Existing Arca
+acquisition and record-backed controls remain unchanged; live integration and
+migration belong to P091-009 and P091-010/010a, with separate process evidence in
+P091-011. See the [P091 checkpoint](../../40-proposals/091-file-backed-configuration-and-explainable-composition.md#p091-009a-arca-non-flow-contract-checkpoint--2026-10-23)
+and `node:middleware-modules/arca/docs/configuration-contract.md`; measured
+results are in `node:docs/audits/P091-009A-ARCA-NON-FLOW-2026-10-23.md`.
+
 #### Execution Completion vs. Task Fulfillment
 
 Arca distinguishes transport-level execution completion from domain-level task

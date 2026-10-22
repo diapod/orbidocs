@@ -2331,7 +2331,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-007a` | Wrap retained middleware on/off and repoint existing callers | `P091-005a`, `P091-007` | `partial` | Preserve the existing toggle/supervisor implementation and domain guards. Repoint handlers/UI/CLI to the shared contract with minimal helper extraction, no bypass writer, dual-file mirror or duplicate apply. Test eligibility, dependencies, operator-stopped, shadowing, saved-not-applied and restart; reads never materialize. 2026-10-07 scoped eligibility adapter implemented: exact private source pins, bounded opaque approval, shared commit/recovery journal and existing supervisor lifecycle guards; pending/third-party source changes withhold eligibility, explicit recovery does not start components, and committed replay does not repeat apply. The executable middleware security/owner checkpoint below gates exposure. Complete per-child configuration-consumption ACK remains open; physical source migration remains P091-010. **2026-10-18 delivery checkpoint:** Retained callers now use shared resolution, asymmetric observed admission, sparse exact set/remove/adopt and explicit recovery without implicit start; real browser/CLI/runtime regressions pass. |
 | `P091-007b` | Reconcile external sources and asymmetric decision admission | `P091-006`, `P091-007`, `P091-007a` | `partial` | Adopted 2026-10-18: reuse S020 for bounded file-configured one-second source observation; external false disables, true/enabling deletion requires exact-revision approval, unchanged keys remain eligible and malformed documents withhold their unit. Retain last valid ordinary application, expose stale/unavailable observation and record minimal temporal facts. Runtime tests cover edits, removal, restart, scheduler overload and recovery. **2026-10-18 delivery checkpoint:** S020 default-one-second bounded reconciliation and per-key false/true/enabling-removal rules are implemented. Actual edits, malformed sources, restart and scheduler-disabled staleness pass; wider scheduler-pressure qualification remains open.  **2026-10-19 scoped pressure checkpoint:** Admitted false is attempted before observation persistence; an unpersisted process-local baseline prevents later true from reviving old durable consent. Positive work waits for persistence. Explicit archive/reserve/recent-result flows pass real daemon/no-JS/browser-panel/WKWebView tests at 1,024 injected events. This is not general retention completion; one hardening JS error and historical attribution gaps remain open.  **Private-loader follow-up (2026-10-19):** The scoped undefined-rejection mechanism is now reproduced/fixed with pinned old/current assets and final browser/native regressions; unique attribution of the original missing trace remains unavailable. See the Node PRIVATE-LOADER-JS-20261019 report. Earlier campaign failures and broader partial gates are unchanged. |
 | `P091-008` | Project shared contracts into Node UI | `P091-005a`, `P091-007`, `P091-007a` | `partial` | Expose keys, files, projected derivation, source and predicted-value diffs, apply modes and per-instance receipts. No private setting store or implicit pinning; file/GUI changes agree after reload/restart. 2026-10-07 scoped middleware UI now reviews the owner's exact opaque approval and separately displays saved eligibility, actual supervisor launch instances and readiness. A saved acknowledgement renders without a second inventory request; bounded mutation transport does not retry an uncertain operation. Generic derivation/diff/reset and full application identity projections remain open. **2026-10-18 delivery checkpoint:** Full-page no-JS and first-pair panel clients expose owner inspection/preview/result, bindings, shadowing, observation freshness and separate lifecycle/readiness. Actual browser and native owner flows have distinct reports. |
-| `P091-009a` | Retain the early Arca non-Flow contract fixture | `P091-002`, `P091-004` | `todo` | Scope/owner/source/definition/run binding, normalization and refusal goldens work without a live UI/control stack or universal plan schema. Do not claim runtime consumption. |
+| `P091-009a` | Retain the early Arca non-Flow contract fixture | `P091-002`, `P091-004` | `done` | 2026-10-23 contract-only checkpoint: retained scope/owner/handler/source/definition/run pins, real Arca normalization, 30 refusal goldens and native P091/record/JCS/Flow-rejection checks work without a live stack. See the checkpoint below. P091-004 runtime/registry ports and P091-009 consumption remain open. |
 | `P091-009` | Bind workflow configuration to live domain owners | `P091-009a`, `P091-005a`, `P091-007` | `todo` | Live JSON-e Flow case plus retained Arca contract proof use existing definitions/validators and exact revisions. Wrong or ambiguous handlers and schemas refuse. No duplicate workflow store or closed thematic repertoire. |
 | `P091-010` | Migrate first-slice sources and readers explicitly | `P091-001a`, `P091-003`, `P091-005a`, `P091-007a` | `partial` | Preview/protected backup/effective-value equivalence cover seeding, toggles, first-slice Python loading, env/CLI and optional legacy 90-to-80 migration. Test restoration against pinned pre-migration effective values and independently current authority; changed descriptors report incompatibility. Preserve factory/domain targets unless separately migrated. No read-time migration/workflow trigger. 2026-10-06 task-pack legacy adoption is explicit read-only preview plus exact five-minute plan approval and synced no-op receipt. It preserves filenames, original bytes and mutation counters, refuses changed/expired plans and rechecks current authority. No source relocation occurs, hence there is no displaced document to restore; other first-slice migrations and protected backups remain open. **2026-10-18 delivery checkpoint:** The selective-source v2 inheritance profile preserves edited seeds and does not synthesize consent. This does not perform general legacy source relocation/backups. |
 | `P091-010a` | Consolidate remaining configuration loaders and register legacy profiles | `P091-001b`, `P091-003`, `P091-005` | `todo` | Each configuration deep-merge/acquisition copy migrates to shared primitives/contracts or has a named legacy profile with owner/retirement evidence. Include Agora selection/skip-malformed semantics and listed Python copies. No unregistered local configuration merge outside approved seams; unrelated domain JSON patching is not banned. Remaining ordinary-setting gaps block P091-015 promotion. |
@@ -2582,6 +2582,38 @@ root still refuses; unrelated product HTTP configuration does not.
 `reject_in_package_manifest` stays at its separate package-admission boundary. No
 production resolution path calls the policy yet: binding it together with host
 acquisition belongs to the remaining P091-003/004 seams.
+
+#### P091-009a Arca non-Flow contract checkpoint — 2026-10-23
+
+Node retains `protocol/contracts/golden/arca-non-flow-configuration.v1.golden.json`
+as an early owner-bound control. Its existing P091 descriptor/source DTOs and
+native definition/run/handler shapes bind workflow scope, owner, selected source
+declaration, definition, normalizer revision and run plan. The private test
+relation refuses missing, ambiguous or stale context before calling Arca's
+existing `normalize_plan_from_trigger`; it is not a production handler-selection
+or configuration adapter. A run view cannot fall back to definition-only context.
+
+The Python checks compare the real configured Arca registration report and
+array/map normalization, with 30 retained refusal goldens. Native checks admit
+the common contracts at Schema Gate, parse existing workflow records, verify
+all four content pins with production JCS and require the actual compiled Flow
+schema to reject the valid Arca plan. A payload marker cannot change the owner
+or choose Flow. Setup uses private temporary data and bundled factory config;
+no live UI/daemon, workflow creation or source writer is involved.
+
+P091-009a is complete only at this contract boundary. The fixture reads one
+explicitly selected declaration rather than defining a layered-source merge.
+It neither changes Arca's acquisition/storage nor proves current authority,
+provisioning, application, historical-store retention or actual separate-process
+consumption. P091-004 remains partial, P091-009 remains todo, and migration,
+P091-011 evidence and broader P091-014/015 completion remain separate.
+
+Review, source pins, measured regression results and development-fixture
+corrections are recorded in
+`node:docs/audits/P091-009A-ARCA-NON-FLOW-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/arca-non-flow-20261023.json`.
+The implementation guide stays with Arca at
+`node:middleware-modules/arca/docs/configuration-contract.md`.
 
 ### Dependency-ordered slices
 
