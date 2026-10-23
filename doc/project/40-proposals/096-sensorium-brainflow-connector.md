@@ -4195,3 +4195,27 @@ a6fbe97a / archive dd229681 has fresh independent readback 5805957d. There is no
 SSH, target mutation, hardware, migration or merge. P096-005 remains partial;
 no historical qualification is promoted. See
 node:docs/audits/REVIEW-SENSORIUM-DEADLINE-BOUNDARY-2026-10-23.md.
+
+
+### Prepared typed-deadline client — 2026-10-23
+
+Clean source 6b9e3c94 / pin 93b575e8 (5149 inputs) is prepared as standalone
+9acd625a and signed GUI f69d117c / handoff bf037f36. Twenty release files, two
+sidecars, eighteen loaded sections and an 84-input frozen kit match. Target
+Python 3.13.15 passes runtime 249 plus exporter 42 tests, without skips or errors.
+Rootless launchd preflight creates no Bluetooth manager; permission for the new
+ad-hoc identity remains unobserved. Validation/protected-control gates and all
+enclosing clocks remain unchanged. Existing ordinary/campaign packages and
+runtime pin pass independent checks; no worker transition is needed.
+
+All 1082 previous byte hashes, two key-metadata observations, 283 directories,
+parent/controller, finite grants, stopped r13 and journal 258/37 are preserved.
+Only fifteen GUI-capsule files in six new directories appear; claims/workers stay
+zero. Authority expiry remains 2026-10-23 22:26:40 Europe/Warsaw. Private final
+manifest 14465d2a / archive 7f949997 and fresh readback c4dd4341 cover 193 controls
+and exact retained payloads; the initial stdout-summary retention error and first
+bundle remain explicitly preserved. Review finds no blocking artifact defect.
+No Bluetooth, headband, renewal, retirement, recovery, root migration or merge
+runs; P096-005 remains partial. Current authority, the stopped-registration
+lifecycle and fresh interactive readiness/permission precede another physical
+attempt. See node:docs/audits/REVIEW-SENSORIUM-DEADLINE-CLIENT-2026-10-23.md.
