@@ -3883,3 +3883,18 @@ recovery from prior source 4db636c8 remains separately reviewed; the older
 administrator is retained. No permission probe, headband, recovery, renewal,
 transition, migration or merge runs. P096-005 stays partial. See
 node:docs/audits/REVIEW-SENSORIUM-HELPER-CLIENT-PREPARATION-2026-10-23.md.
+
+### Current revision-11 quarantine baseline — 2026-10-23
+
+Verified standalone d11afcd7 / source d0d3b335 prepares exact v2 review 0a5cfa9c
+through one SSH PREPARE for current uncertain Case 4e6f2774 from source 4db636c8 /
+GUI c9200220. The no-radio baseline path is compatible without extending the
+prior-source allowlist; future Bluetooth/v4 admission remains separate. Review,
+journal/record hashes, controller snapshots and all resource tables match. Only
+the proposed generation changes; it is not installed. All 909 old observations
+preserve 907 non-key hashes and two key-metadata records; the only metadata
+exception is read-store ctime. All 244 directories, controller/parent, journal
+207/30, held claims, expired finite authority and history remain unchanged.
+One new review appears, with no discarded predecessor, reset/proof/consumption,
+recovery, renewal, hardware, migration or merge. P096-005 stays partial. See
+node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BASELINE-2026-10-23.md.
