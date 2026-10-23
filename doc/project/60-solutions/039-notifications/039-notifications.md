@@ -287,7 +287,10 @@ and separate store/bundle integrity threads, stable incidents/generations and a
 transactional outbox. Reading or handling an item never repairs or retires evidence.
 S039 acceptance precedes outbox confirmation. Missing daemon/package availability
 means no off-session alert; status/restart expose stale observations. This accepted
-consumer is not yet runtime-qualified and does not install an OS watchdog.
+consumer is focused-runtime-qualified on 2026-10-23 through eleven real background/
+S020/S039/UI cases, crash-after-acceptance idempotency and projection replay. See
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`. It
+installs no permanent OS watchdog and does not change generic S039 readiness.
 
 
 Independent signed instances need no legacy module HTTP credential to consume

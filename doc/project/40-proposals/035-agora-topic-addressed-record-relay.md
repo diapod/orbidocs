@@ -1607,19 +1607,31 @@ coverage and successful rechecks of failed samples. Acknowledgment grants no
 repair authority. A monthly operator maintenance record describes method/scope;
 filesystem verification is not called a mirror-member scrub.
 
-Implementation and real daemon/S020/S039, background-context, sandbox, fault,
-restart/replay and dual-store retained qualification remain required. The class
-budgets are measurement results, not new universal hardware limits. Existing
-16/1/4 MiB and cumulative limits stay unchanged; no transport, release-readiness or
-continuous-monitoring qualification follows. P035-014 remains in progress.
+Known preparation failures after an attempt is acquired, OS failures and malformed
+worker results become durable `unknown` observations, release completed sample
+leases and preserve finite backoff. They cannot reuse an earlier healthy result.
+Native probes reserve cleanup/output time inside their outer worker deadline.
+Measured class budgets and the existing 16/1/4 MiB and cumulative limits stay unchanged.
 
-Implementation review on 2026-10-23 corrected atomic read views for status/replay,
-compaction, worker output/write limits, passive fragment admission and qualifier
-binding. Thirty-two package and four harness controls pass. A real foreground
-host/S020/S039/UI diagnostic passes, but launchd startup receives OS filesystem
-access refusal; this is not the focused periodic/restart/dual-store qualification.
-The pending runtime gate is not replaced by conformance. Node review:
-`node:docs/audits/P035-014-REVIEW-2026-10-23.md`.
+Focused qualification completed on 2026-10-23 at clean Node `62bea078` and
+Orbidocs `c43352b6`: eleven launchd/daemon/S020/S039/Node-UI cases and all eighteen
+store/identity pairs (ten ordinary qualifications, eight cause-only checks).
+Actual 15-minute topology, stale heartbeat, injected raw-plist/media access and
+byte failures, worker/daemon interruption, idempotent S039 redelivery and both
+projection replays pass. All thirty-six package and nine harness controls pass.
+The 84137-byte original retained set and 96361-byte public archive/review directory
+stay within unchanged budgets; new Git metadata is 23709 bytes. Loose/extracted
+and fresh primary/mirrored-store qualifications are identical. The proof uses
+an allowed small self-contained archive, preserving the existing nine-identity
+adoption without a supervisor-proof self-reference. Earlier failures keep their
+original reports and refusals, not a new passing classification.
+
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`.
+Review: `node:docs/audits/P035-014-REVIEW-2026-10-23.md`.
+P035-014 is done for this optional session-bound profile. No permanent watchdog,
+off-session coverage, physical-member scrub, transport/federation renewal or
+release readiness follows; full manual candidate-bound verification remains
+mandatory and global Agora/S039 remain partial.
 
 ### P035-012 review boundaries and P035-014 follow-up (2026-10-20)
 
@@ -1695,7 +1707,7 @@ or required dependency was relaxed. Evidence:
 | P035-011 | Deduplicate observations at the evidence source before larger campaigns | done | P035-008; P035-009 | Qualified 2026-10-20 at clean Node ee64042f / Orbidocs a2addea1: 34 Matrix/five SQLite, same-capture legacy/source facts and exact author/PDU bytes, identical ordinary loose/extracted/fresh-retrieved results. Retains all 2048 PDUs plus 2048 stored-row artifacts; 2041 Node PDUs, maximum 49927 within 65536. Runtime tool total 15220597 bytes at the default 128 MiB dictionary; conservative whole collection 15264203 within 16 MiB. Tar 164802560 bytes/289 members, compact Git controls 5878 bytes versus prior 2282442. Historical gate and supplemental category facts remain separate. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`. Existing budgets, one-homeserver/volume scope, Agora partial and P035-012/013 remain unchanged. |
 | P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
 | P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | done | P035-010; S039; S020; P072 | Qualified 2026-10-23 at 885a78fd/b16312f6: 12 focused Synapse cases, four SQLite runtime and one conformance; real S039/API/private UI, no-JS redacted controls, original CAS/current authority, durable receipts, crash/restart/replay and dual-store retention. Full historical transport, OS notifications and global readiness are unchanged; see the focused qualification above. |
-| P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | in-progress | P035-012; S020; S039; reviewed operator job policy | Periodic topology/member and stale-job checks plus rotating fresh verification at both stores deliver real idempotent degradation/recovery notifications. Qualify loss/rebuild, corruption, unavailability, missed checks and notification failure. Preserve full manual pre-release verification, private locators, emergency recovery and explicit retirement; a past receipt cannot establish continuous protection. |
+| P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | done | P035-012; S020; S039; reviewed operator job policy | Qualified 2026-10-23 at clean Node 62bea078 / Orbidocs c43352b6: eleven real background/S020/S039/UI cases, eighteen fresh pairs, periodic topology, stale checks, failures, restart/replay and exact dual-store retained qualification. See node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md. Opt-in session-bound scope; mandatory manual release verification, private locators and accepted overlapping-mirror limits remain unchanged. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but

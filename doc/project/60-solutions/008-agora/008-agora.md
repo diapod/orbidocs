@@ -484,19 +484,20 @@ Status:
   checks remain unqualified. The mirror shares one primary medium and has another
   separate online member, as explicitly accepted by the operator; shared host/site
   and mirror-management risks remain. Auxiliary originals retain their original
-  results without deletion, and no new Matrix runtime is claimed. P035-013 stays
-  open and Agora stays partial. Evidence:
+  results without deletion, and no new Matrix runtime is claimed. P035-013 was open
+  at that checkpoint; Agora remains partial. Evidence:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
 
 The 2026-10-20 custody review explicitly limits P035-012 to observed mirror health
-and manual verification. P035-014 remains todo for periodic topology/sample checks,
-stale supervision and S039 notifications. Temporary originals are not durable
+and manual verification. P035-014 subsequently qualified optional session-bound topology/sample checks,
+stale supervision and S039 notifications on 2026-10-23; see
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`. Temporary originals are not durable
 second copies. The operator-authorized branch integration prerequisite is now
 validated against current primary baselines, with preserved frozen evidence,
 ledger/MVP ownership and budgets. Full workspace and affected fixture checks,
 documentation gates and fresh pre-closure evidence reads are recorded at
-`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. P035-013/014 remain open;
-repository integration does not renew runtime or release qualification.
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. P035-013/014 were open at that integration checkpoint; their later focused
+qualifications remain separate from repository integration and release readiness.
 The dated review supplement at
 `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-review/README.md`
 records a new clean-checkout sixteen-read rehearsal and a 336181-byte observed

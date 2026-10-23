@@ -783,9 +783,11 @@ supervisor lock over I/O. Package fragments cannot claim another module's jobs.
 Module revocation stops new launches; ordinary node profiles are unchanged.
 `scheduled-module-job-request.v1` and `scheduled-module-job-result.v1` bind job,
 launch and budget. S020 knows no evidence-store paths, Python or qualifier logic.
-The generic adapter is implemented and conformance-tested. Focused background,
-periodic and restart qualification remains pending under P035-014; an isolated
-foreground diagnostic does not replace it.
+The generic adapter is implemented, conformance-tested and qualified through the
+focused P035-014 real background, periodic, restart and S039 consumer path. The
+2026-10-23 proof at `node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md` covers
+eleven cases and eighteen fresh store/identity pairs. This optional session-bound
+consumer does not enable jobs in normal node profiles or qualify release readiness.
 
 
 The accepted module-job channel uses host-only `scheduled-job.invoke` frames,
