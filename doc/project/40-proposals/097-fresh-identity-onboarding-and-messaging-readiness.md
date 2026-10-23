@@ -887,5 +887,13 @@ The P076-034 review also coalesces each UI client's component preparation. Two
 wizard jobs observe eligibility inside a shared slot before one explicit enable,
 so the next job sees the committed choice instead of racing the supervisor's
 nonblocking configuration guard. Independent operator changes retain 409 refusal;
-unknown or rejected POSTs are never automatically repeated. This is preparation
+conflicted or unknown writes are never automatically repeated. This is preparation
 coordination, not authority, runtime readiness or global configuration locking.
+
+Periodic source reconciliation shares that owner guard. Its exact pre-effect busy
+refusal has a typed UI audit reason; stale/unknown conflicts retain refusal.
+Acceptance preserves both competing results and accepts preparation only after
+an independent successful submission, or one newly measured explicit UI action
+when both original attempts were provably busy. This is bounded refusal handling,
+not automatic mutation retry or a relaxed authority decision. P076-034 remains
+in progress pending the complete retained candidate.
