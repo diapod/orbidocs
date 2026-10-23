@@ -271,3 +271,12 @@ seconds within the existing fifteen-second route. CPU/non-COMMIT guards stay bel
 one second. These are new qualification gates, not passing measurements.
 Historical one-second reports are immutable. v1 remains authoritative and all D7
 components stay false; wider P051 and operator/runtime/release gates remain open.
+
+### Pure V3a checkpoint — 2026-10-23
+
+Node now provides read-only exact-instant lifecycle/quarantine composition, after
+a separate semantics-preserving v1 kernel extraction. Frozen-v1 differential and
+independent lifecycle arithmetic tests cover suspension, original expiry,
+terminal withdrawal and scoped quarantine. This is core conformance: daemon
+admission, scoring, writers and receipts still use v1. D7 remains closed; host
+shadow reads, operator delivery and Q qualification are not complete.
