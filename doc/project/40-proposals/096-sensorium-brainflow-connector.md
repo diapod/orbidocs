@@ -3867,3 +3867,19 @@ Permission-only allowed and remembered firmware provide no new qualification.
 The fix is local; no new target build, replay, recovery, reset, renewal, further
 headband action or merge occurs. P096-005 remains partial. See
 node:docs/audits/REVIEW-SENSORIUM-HELPER-RUNTIME-BOUND-2026-10-23.md.
+
+### Corrected final-helper client preparation — 2026-10-23
+
+Clean Node 08cf7c20 now builds source d0d3b335 over 5146 entries into standalone
+release d11afcd7 and a new target GUI 3370c13a / handoff 657a0c68. Daemon Cargo
+fresh=false records actual new compilation; the validator is verified from cache.
+Reviewed postlink/signature equivalence, exact closures, external runtime checks,
+rootless launchd preflight and 265 target software tests pass. The final shared
+helper ceiling is 108 s; the actual Case SCAN remains 50 s, without broader
+runtime authority. All 894 old file records, 238 directories, controller/parent,
+journal 207/30, quarantine, packages, grant expiry and history stay exact; only
+fifteen capsule files in six directories appear. New TCC is unobserved. Future
+recovery from prior source 4db636c8 remains separately reviewed; the older
+administrator is retained. No permission probe, headband, recovery, renewal,
+transition, migration or merge runs. P096-005 stays partial. See
+node:docs/audits/REVIEW-SENSORIUM-HELPER-CLIENT-PREPARATION-2026-10-23.md.
