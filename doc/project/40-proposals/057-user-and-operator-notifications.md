@@ -470,6 +470,29 @@ an `install-now` action may expire after 5 minutes and require a refreshed
 evaluation. Form submissions should carry an `action/submission-id` with a short
 TTL to prevent replay across browser tabs.
 
+### Assessment Exposure at Rendering Boundaries
+
+**Planned continuation, 2026-10-23, P057-014.** Notifications about opinions,
+rumor assessments, panel judgments and Corpus rounds consume the recipient-bound
+[P026 exposure view](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection).
+Reuse caller binding, registered rendering, sealed storage and existing action
+dispatch. A sender's title/body, urgency or rendering hint cannot bypass exposure.
+Resolve the current admitted recipient view before producing display content and
+again at deferred delivery/read; unavailability cannot fall back to raw content.
+Do not persist peer text in a rendered notification that remains readable during
+withholding. Prefer a bounded subject/profile reference and registered rendering;
+apply the same boundary to list previews, detail, exports and later OS adapters.
+
+Suppress or policy-coalesce hidden peer-assessment events before queue and unread
+count changes, not merely before displaying their body. Otherwise one empty
+notification or SSE ping per judgment still leaks activity. A generic notice is
+allowed only when its trigger is independent of hidden peer activity (for example
+the viewer's requested window expiry). Privacy-minimal SSE payloads alone are not
+enough: event frequency, inbox counts, version changes and digests also matter.
+Ordinary rumor delivery and necessary protective notices remain distinct lanes.
+Validate protective exceptions by admitted kind contract/authority; never infer
+one from arbitrary sender text. S039 owns this binding, not the sender or UI.
+
 ### Event Stream
 
 The event stream is a transport for local observation. It may carry notification
@@ -880,3 +903,4 @@ The first implementation should include tests for:
 | P057-011 | Cross-recipient user inboxes | partial | Recipient class/id are first-class in model and store; daemon exposes user and pod-user scoped read/action routes; Node UI has user and pod-user inbox list surfaces; Store v3 seals notification payload per recipient; daemon read/action routes now require a matching authenticated caller binding and fail closed without one. First-run operator bindings created after daemon startup can be refreshed from the durable participant/operator store into the shared in-memory caller-binding resolver, so notification reads/actions do not require a restart after wizard setup; missing durable bindings still fail closed. Remaining work: first-class pod-user session/auth UX. |
 | P057-012 | OS notifications | deferred | Explicitly post-MVP; no desktop-shell adapter is implemented. |
 | P057-013 | Registered Inquirium operator-question widgets | done | Notification detail rehydrates the validated operator-question request from the dedicated registry instead of persisting raw `body/input`. Node UI renders confirm, single-choice, multi-choice, and allowlisted-text controls only for the registered `inquirium.operator-question.respond` target, sends typed answers through the existing notification action API, and daemon validation rejects answers outside the stored widget contract. |
+| P057-014 | Assessment-exposure-aware rendering and attention | todo | Depends on P026-005/006/007. Reuse recipient resolution, kind renderers, sealed store and event bus; enforce the current host projection at enqueue/delivery/read without sender-controlled bypass. Retain negative fixtures for body/title/action previews, unread counts, SSE frequency, stale queued content, exports and unavailable policy; authorized protective notices remain reachable. Feed scoped runtime evidence into P026-008; existing minimal-SSE evidence does not close this gate. |
