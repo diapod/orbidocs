@@ -4169,3 +4169,29 @@ readback 5d6b7df6. Owner snapshots retain null formal execution origin; firmware
 1.0.25 stays historical and TCC responsibility unverified. P096-005 remains
 partial. No retry campaign, recovery, reset, retirement, renewal, migration or
 merge follows. See node:docs/audits/REVIEW-SENSORIUM-R13-CAMPAIGN-2026-10-23.md.
+
+
+### Typed original-deadline source correction — 2026-10-23
+
+Device-free review confirms a boundary race: the Case precheck may pass before
+an ordinary owner read reaches the original deadline, where a generic refusal
+loses the expected terminal distinction. The exact inner r13 gate remains
+unknown; its immutable result and five blocked later scenarios are preserved.
+
+The private acquisition observation now requires the exact operation, actual
+shared fence, original admitted cutoff and first Case Deadline. The winning
+clock observation is published before the fence. A valid read spanning that
+boundary is discarded without disclosure or sequence advancement; earlier
+SDK, decoding, normalization, sequence, owner and validation-budget failures
+stay refusals. The first local closure precedes diagnostic publication.
+A deadline result authorizes neither effects nor release: the normal stop-only
+bearer, cleanup, durable audit and claim-release owners remain mandatory.
+
+Public codes and persistent formats are unchanged, as are the 2048-ms
+validation, 626/250/10000-ms protected-control gates and enclosing clocks.
+Source conformance passes 235 distinct Rust tests (35 opt-in ignored), 148
+client/contract/exporter tests and 22 ledger checks. Private source/log manifest
+a6fbe97a / archive dd229681 has fresh independent readback 5805957d. There is no
+SSH, target mutation, hardware, migration or merge. P096-005 remains partial;
+no historical qualification is promoted. See
+node:docs/audits/REVIEW-SENSORIUM-DEADLINE-BOUNDARY-2026-10-23.md.
