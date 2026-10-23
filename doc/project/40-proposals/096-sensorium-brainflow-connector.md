@@ -4363,3 +4363,21 @@ The branch succeeds operationally; formal report/qualification remain partial:
 origins null, historical firmware, unverified TCC attribution, alternative fault/restart and
 full-tuple evidence remain open. No repeat campaign, reset, recovery, authority
 renewal, migration or merge follows. See node:docs/audits/REVIEW-SENSORIUM-R14-CAMPAIGN-2026-10-23.md.
+
+
+### Device-free formal-evidence inventory — 2026-10-24
+
+The initial integration preserves both histories on primary Node `6fc7b24a` and
+Orbidocs `1bbae5ff`; temporary branches and trees remain for new unmerged work.
+The read-only inventory checks exact r14 support bytes against retained hashes
+and maps seven reports to ten P096-005 case types. It reports selected observed,
+missing and failed facts, never a formal case verdict or established tuple.
+
+Clarification: raw native origin null is intentional; the existing exporter can
+corroborate a separately supplied policy origin against actual native witnesses.
+The missing pieces are digest-bound owner measurements/full context, actual
+post-return/reconnect/foreign-stop observations, consent demonstration and the
+alternative fault/quarantine/restart branch. Historical firmware and unverified
+TCC remain explicit. No old report is relabelled, no threshold changes and no
+hardware, target-root mutation or further integration occurs. P096-005 remains
+partial. See node:docs/audits/REVIEW-SENSORIUM-P005-OFFLINE-EVIDENCE-2026-10-24.md.
