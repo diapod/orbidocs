@@ -918,6 +918,39 @@ diagnostic and no effect. The subsequent effect proposal must pass ordinary
 Agent admission independently. Continuation time follows the remaining Agent wall-time
 budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
+The first catalog read remains synchronous and host-local. Its result is
+handled as a separate, internally correlated delivery, with these controller
+transitions:
+
+| State | Event and current admission | Next state | Consequence |
+| --- | --- | --- | --- |
+| Awaiting inference | One valid list/describe proposal | Pending read | Invoke only the selected local catalog operation. |
+| Pending read | First matching result; lifecycle, binding, grants and deadline current | Pending egress | Validate the result and disclosed scope before creating a classified observation. |
+| Pending read, admission seam | Foreign correlation | Pending read | Ignore the body; do not infer. This is a unit-level property of the result admission function. |
+| Pending read, synchronous controller handoff | Nonmatching result from its own dispatch | Stopped | Treat this as a host invariant failure; return an action error without retry or another inference. |
+| Pending read | Stop, suspension, required-grant withdrawal, expiry, refusal or deadline at delivery | Stopped | Do not parse or reuse the result body. Agent wall-time expiry is a limit response; other scope changes stop the action. |
+| Pending read or egress | Suspend and resume between checks changes the captured lifecycle epoch | Stopped | Reject the old passage even though the Agent is Running again; a fresh action starts from durable state. |
+| Pending read | Invalid JSON or schema, wrong operation, inadmissible classification, changed revision or disclosed grant withdrawn after parsing | Stopped | Refuse the result before adding it to context or starting another inference. |
+| Pending egress | Current scope and P090 admission; next inference completes | Awaiting inference | Accept that one continuation, then inspect its proposal. |
+| Pending egress | Stop, suspension, required-grant withdrawal or deadline before another read | Stopped | Discard a late inference result; start no further read or inference. |
+| Pending egress, awaiting inference or terminal, admission seam | Repeated or late result | Unchanged | Ignore it; never continue twice. The synchronous controller has no second result producer. |
+
+The admission immediately before each inference is the boundary for logical
+cancellation. Already admitted inference or host work may finish, but its
+late result cannot authorize another passage. This rule does not add a
+middleware channel call, detached controller worker or physical preemption.
+The currently synchronous handoff owns its correlation locally. Its unit-level
+inertness rule does not qualify an independently delivered result transport.
+The controller captures a process-local projection of durable lifecycle
+transitions. Every actual state transition advances the epoch once; paired
+`LifecycleCommand` and `State` facts reconstruct the same epoch on replay.
+Suspend/resume therefore invalidates a previously admitted passage. The Agent
+action commit checks this epoch and absolute expiry for every `CallInquirium`
+action, irrespective of catalog grants; the catalog controller adds checks
+between reads. No in-flight passage survives daemon restart. Wall-time expiry
+retains HTTP 429 and exposes the machine-readable `agent-wall-time-expired`
+reason; a transient store failure retains its retryable service failure class.
+
 ### Durable single-grant withdrawal (follow-up contract)
 
 `agent.grant.revoke` is a host-local, non-advertised Agent-owner operation. Its
@@ -960,7 +993,7 @@ never gain local-control authority through string equality.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409. Lifecycle stop and durable withdrawal of one grant prevent a pending continuation from inferring again, with no effect dispatch. In-flight call preemption, separately delivered late results and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409. Lifecycle stop and durable withdrawal of one grant prevent a pending continuation from inferring again. A focused host-route result-delivery test additionally holds a real list result until stop, withdrawal or expiry; current admission refuses it, while the admission unit ignores foreign and duplicate correlations; an impossible mismatch at the synchronous handoff stops the action without retry. Absolute Agent expiry is classified as a 429 limit even when accounting time remains. Two supervised process cases show that suspend/resume during the initial or second inference invalidates the captured lifecycle epoch without committing a new step or dispatching a role. Physical preemption, independently asynchronous delivery and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

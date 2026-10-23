@@ -149,14 +149,18 @@ P068-GUIDE-001 contributes the completed operator-admitted local catalog
 projection of exact capability–operation–schema bindings. Trusted local schema
 snapshots close up to three transitive levels and a shared 16-distinct-snapshot
 budget per describe, under 16 KiB source, cumulative per-root expansion and
-final bounds. The temporary resolver memoizes source/closure outcomes, and
-stable provider/route order allocates the budget independently of the opaque
+final bounds. The temporary resolver memoizes sources and context-independent
+closure outcomes; ancestor-dependent cycle failures are recomputed. Stable
+provider/route order allocates the budget independently of the opaque
 operation selector. Cyclic, unknown, remote or provider-inline schemas remain
 unresolved, with a closed reason in result v2. Operation ambiguity needs
-explicit selection,
-default describe presents required/type/enum summaries and explicit
-`include: "schema"` presents the complete trusted local contract,
-and endpoint paths are not part of catalog results. The original closed v1
+explicit selection. Default describe presents required/type/enum summaries;
+explicit `include: "schema"` presents the complete trusted local contract.
+The bounded catalog closure accepts nested references only as simple local
+`*.schema.json` filenames; a nested URN or URL is reported as a constraint or
+remote reference, respectively, without network access. This limit belongs to
+the local catalog projection, not to the general descriptor `schema_ref` rule.
+Endpoint paths are not part of catalog results. The original closed v1
 operation shape remains the v1 response; explicit request/result v2 carries
 per-operation readiness. One supervised Python provider's two exact role
 operations and two conflicting live provider reports pass the host describe

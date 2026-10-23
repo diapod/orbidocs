@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-guidance-overlays.local:v1",
+  "title": "Local Capability Guidance Operator Source v1",
+  "description": "One bounded host-local operator source. Entries are keyed by the canonical digest of capability, provider and exact contract binding. The host checks that key, current provider report, local schema digest and examples before use. No entry grants execution authority.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "entries"],
+  "properties": {
+    "schema": {"const": "capability-guidance-overlays.local.v1"},
+    "entries": {
+      "type": "object",
+      "maxProperties": 16,
+      "propertyNames": {"pattern": "^sha256:[A-Za-z0-9_-]{43}$"},
+      "additionalProperties": {
+        "allOf": [
+          {"$ref": "capability-guidance.v1.schema.json"},
+          {"not": {"required": ["usage/ref"]}}
+        ]
+      }
+    }
+  }
+}
