@@ -3810,3 +3810,23 @@ unregistered, with no invented BIND/REGISTER/WEAR. No new state manager, headban
 trial, authority renewal, retirement, package transition, migration or merge runs.
 This is disposal evidence; P096-005 stays partial. See
 node:docs/audits/REVIEW-SENSORIUM-R11-BLUETOOTH-RECOVERY-2026-10-23.md.
+
+### Four-hour controller/discovery renewal — 2026-10-23
+
+The operator separately authorizes same-scope delegated-SSH renewal after
+revision-11 recovery. Review e8aada04 completes once on administrator 8ff445ae
+(source 9a14cd46/pin 4db636c8), anchored on completed retirement 67864dff for
+10→11. TTL 14400 starts at preparation and expires 2026-10-23 06:59:02 CEST.
+Only controller expiry/generation and the selected revision-4 host/caller
+discovery expiries change. No p21 grant or wearer consent is created.
+
+Independent checks reconcile 862 old file records, 231 directories and custody;
+twelve protected sources, journal 202/29 Cases, idle resources, retirement history
+and revision-11 recovery/review/proof remain exact. Additions are the exact review
+and completed marker; ordinary read-store ctime is the other metadata exception.
+Status records the last delegated renewal without granting authority or observing
+live ownership. Revision 11 remains unregistered and P096-005 partial. No native
+manager, headband trial, package transition, root migration or merge occurs;
+future physical work still requires an interactive readiness question and fresh
+scoped approval. See
+node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-23.md.
