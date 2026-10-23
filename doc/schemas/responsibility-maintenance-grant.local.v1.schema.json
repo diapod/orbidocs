@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-grant.local:v1",
+  "title": "responsibility-maintenance-grant.local.v1",
+  "description": "Draft local maintenance contract. Shape validation grants no authority and does not open D7.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-maintenance-grant.local.v1"
+    },
+    "host/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/incarnation": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "operator/binding": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+    },
+    "capability/id": {
+      "enum": [
+        "responsibility.maintenance.inspect",
+        "responsibility.maintenance.prepare",
+        "responsibility.maintenance.abandon",
+        "responsibility.maintenance.verify",
+        "responsibility.maintenance.reconcile",
+        "responsibility.maintenance.compact"
+      ]
+    },
+    "grant/id": {
+      "enum": [
+        "grant/responsibility.maintenance.inspect",
+        "grant/responsibility.maintenance.prepare",
+        "grant/responsibility.maintenance.abandon",
+        "grant/responsibility.maintenance.verify",
+        "grant/responsibility.maintenance.reconcile",
+        "grant/responsibility.maintenance.compact"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "issued-at": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Time"
+    },
+    "expires-at": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Time"
+    },
+    "safety": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    }
+  },
+  "required": [
+    "schema",
+    "host/id",
+    "host/incarnation",
+    "operator/binding",
+    "capability/id",
+    "grant/id",
+    "revision",
+    "issued-at",
+    "expires-at",
+    "safety"
+  ]
+}

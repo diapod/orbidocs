@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-bindings.local:v2",
+  "title": "responsibility-maintenance-bindings.local.v2",
+  "description": "Draft local maintenance contract. Shape validation grants no authority and does not open D7.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-maintenance-bindings.local.v2"
+    },
+    "profile": {
+      "const": "responsibility.maintenance-shadow.v2"
+    },
+    "run/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/incarnation": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "node": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Source"
+    },
+    "orbidocs": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Source"
+    },
+    "binaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "daemon": {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binary"
+        },
+        "responsibility-service": {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binary"
+        },
+        "node-ui": {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binary"
+        },
+        "daemon-controlled-clock": {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binary"
+        }
+      },
+      "required": [
+        "daemon",
+        "responsibility-service",
+        "node-ui",
+        "daemon-controlled-clock"
+      ]
+    },
+    "policy": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+    },
+    "grants": {
+      "type": "array",
+      "items": {
+        "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+      },
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true
+    },
+    "fixtures/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "configuration/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "toolchain/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "qualifier/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "profile/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "schemas/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "scenarios": {
+      "type": "object",
+      "minProperties": 50,
+      "maxProperties": 50,
+      "propertyNames": {
+        "enum": [
+          "prepare-progress-interleaved",
+          "incarnation-new-generation",
+          "incarnation-inflight-refusal",
+          "capacity-step-abandon",
+          "capacity-generation-archive",
+          "archive-crash-resume",
+          "authority-inspect-only",
+          "authority-revoked",
+          "authority-case-module-passport",
+          "authority-csrf-and-stale",
+          "alerts-recipient-isolation",
+          "alerts-restart-and-queue",
+          "alerts-identity-deviations",
+          "shadow-stale-boundary",
+          "shadow-fresh-boundary",
+          "shadow-unlisted-difference",
+          "v1-a-b-operator",
+          "v1-protected-access",
+          "lost-reply-recovery",
+          "restart-progress",
+          "v1-command-deadline-under-maintenance",
+          "v1-appeal-deadline-under-maintenance",
+          "v1-pool-isolation-and-fairness",
+          "authority-agent-denied",
+          "consent-consumption-crash-recovery",
+          "operation-projection-rebuild",
+          "retention-alert-capacity-escape",
+          "alerts-bound-default-inbox",
+          "progress-blocked-control-reserve",
+          "consent-review-summary",
+          "composition-exact-oracle",
+          "quarantine-exception-oracle",
+          "terminal-corrupt-source-retract",
+          "compatibility-one-way",
+          "archive-integrity-negative",
+          "idempotency-conflict",
+          "budget-boundaries",
+          "authority-epoch-interleavings",
+          "operation-deadline-cause-table",
+          "v1-kernel-differential",
+          "cost-0",
+          "cost-1",
+          "cost-500",
+          "cost-1000",
+          "cost-8192",
+          "composition-time-boundaries",
+          "suspension-expiry-while-unavailable",
+          "production-clock-smoke",
+          "synthetic-incarnation",
+          "synthetic-suspension"
+        ]
+      },
+      "additionalProperties": {
+        "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+      }
+    },
+    "budget": {
+      "const": {
+        "batch/rows": 100,
+        "sources/generation": 8192,
+        "ordinary-steps/generation": 1024,
+        "resident/generations": 16,
+        "resident/baseline-bytes": 33554432,
+        "resident/prepared-bytes": 33554432,
+        "request/bytes": 16384,
+        "result/bytes": 65536,
+        "terminal/slots-per-generation": 1,
+        "terminal/record-bytes": 8192,
+        "terminal/reserved-bytes": 131072,
+        "pending/commands": 64,
+        "receipt/resident-records": 1024,
+        "receipt/record-bytes": 8192,
+        "alert/pending-records": 256,
+        "alert/record-bytes": 4096,
+        "archive/index-records": 64,
+        "archive/manifest-bytes": 16384,
+        "archive/plaintext-bytes": 100663296,
+        "archive/resident-bytes": 268435456,
+        "conflict/alert-after": 3,
+        "retry/attempts": 8,
+        "retry/backoff-ms": [
+          25,
+          50,
+          100,
+          200,
+          400,
+          800,
+          1000
+        ],
+        "report/bytes": 262144,
+        "observation/bytes": 65536,
+        "evidence/run-bytes": 4194304,
+        "evidence/refused-bytes": 262144,
+        "writer/storage-version": 4,
+        "archive/index-bytes": 65536,
+        "gate/full-wall-ns": 10000000000,
+        "gate/cpu-ns": 1000000000,
+        "gate/non-commit-wall-ns": 1000000000,
+        "v1/authority-timeout-ms": 12000,
+        "v1/e2e-max-ms": 14000,
+        "v1/route-timeout-ms": 15000,
+        "pending/ordinary-commands": 48,
+        "pending/control-commands": 16,
+        "hold/active-records": 336,
+        "hold/record-bytes": 4096,
+        "hold/resident-records": 1024,
+        "hold/resident-bytes": 4194304,
+        "control/episode-records": 16,
+        "control/episode-bytes": 65536,
+        "operation/event-records": 8192,
+        "operation/event-bytes": 33554432
+      }
+    },
+    "safety": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    },
+    "validator/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    }
+  },
+  "required": [
+    "schema",
+    "profile",
+    "run/id",
+    "host/id",
+    "host/incarnation",
+    "node",
+    "orbidocs",
+    "binaries",
+    "policy",
+    "grants",
+    "fixtures/digest",
+    "configuration/digest",
+    "toolchain/digest",
+    "qualifier/digest",
+    "profile/digest",
+    "schemas/digest",
+    "scenarios",
+    "budget",
+    "safety",
+    "validator/digest"
+  ]
+}

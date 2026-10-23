@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-report.local:v2",
+  "title": "responsibility-maintenance-report.local.v2",
+  "description": "Draft local maintenance contract. Shape validation grants no authority and does not open D7.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-maintenance-report.local.v2"
+    },
+    "profile": {
+      "const": "responsibility.maintenance-shadow.v2"
+    },
+    "scope": {
+      "const": "inactive-maintenance-and-shadow-only"
+    },
+    "run/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "bindings": {
+      "$ref": "responsibility-maintenance-bindings.local.v2.schema.json"
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "enum": [
+              "prepare-progress-interleaved",
+              "incarnation-new-generation",
+              "incarnation-inflight-refusal",
+              "capacity-step-abandon",
+              "capacity-generation-archive",
+              "archive-crash-resume",
+              "authority-inspect-only",
+              "authority-revoked",
+              "authority-case-module-passport",
+              "authority-csrf-and-stale",
+              "alerts-recipient-isolation",
+              "alerts-restart-and-queue",
+              "alerts-identity-deviations",
+              "shadow-stale-boundary",
+              "shadow-fresh-boundary",
+              "shadow-unlisted-difference",
+              "v1-a-b-operator",
+              "v1-protected-access",
+              "lost-reply-recovery",
+              "restart-progress",
+              "v1-command-deadline-under-maintenance",
+              "v1-appeal-deadline-under-maintenance",
+              "v1-pool-isolation-and-fairness",
+              "authority-agent-denied",
+              "consent-consumption-crash-recovery",
+              "operation-projection-rebuild",
+              "retention-alert-capacity-escape",
+              "alerts-bound-default-inbox",
+              "progress-blocked-control-reserve",
+              "consent-review-summary",
+              "composition-exact-oracle",
+              "quarantine-exception-oracle",
+              "terminal-corrupt-source-retract",
+              "compatibility-one-way",
+              "archive-integrity-negative",
+              "idempotency-conflict",
+              "budget-boundaries",
+              "authority-epoch-interleavings",
+              "operation-deadline-cause-table",
+              "v1-kernel-differential",
+              "cost-0",
+              "cost-1",
+              "cost-500",
+              "cost-1000",
+              "cost-8192",
+              "composition-time-boundaries",
+              "suspension-expiry-while-unavailable",
+              "production-clock-smoke",
+              "synthetic-incarnation",
+              "synthetic-suspension"
+            ]
+          },
+          "evidence/class": {
+            "enum": [
+              "runtime",
+              "conformance",
+              "performance",
+              "controlled-clock",
+              "production-wall-clock-smoke",
+              "fixture-bound-input"
+            ]
+          },
+          "outcome": {
+            "const": "passed"
+          },
+          "observation": {
+            "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Artifact"
+          }
+        },
+        "required": [
+          "id",
+          "evidence/class",
+          "outcome",
+          "observation"
+        ],
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "prepare-progress-interleaved",
+                      "incarnation-new-generation",
+                      "incarnation-inflight-refusal",
+                      "capacity-step-abandon",
+                      "capacity-generation-archive",
+                      "archive-crash-resume",
+                      "authority-inspect-only",
+                      "authority-revoked",
+                      "authority-case-module-passport",
+                      "authority-csrf-and-stale",
+                      "alerts-recipient-isolation",
+                      "alerts-restart-and-queue",
+                      "alerts-identity-deviations",
+                      "shadow-stale-boundary",
+                      "shadow-fresh-boundary",
+                      "shadow-unlisted-difference",
+                      "v1-a-b-operator",
+                      "v1-protected-access",
+                      "lost-reply-recovery",
+                      "restart-progress",
+                      "v1-command-deadline-under-maintenance",
+                      "v1-appeal-deadline-under-maintenance",
+                      "v1-pool-isolation-and-fairness",
+                      "authority-agent-denied",
+                      "consent-consumption-crash-recovery",
+                      "operation-projection-rebuild",
+                      "retention-alert-capacity-escape",
+                      "alerts-bound-default-inbox",
+                      "progress-blocked-control-reserve",
+                      "consent-review-summary"
+                    ]
+                  },
+                  "evidence/class": {
+                    "const": "runtime"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "composition-exact-oracle",
+                      "quarantine-exception-oracle",
+                      "terminal-corrupt-source-retract",
+                      "compatibility-one-way",
+                      "archive-integrity-negative",
+                      "idempotency-conflict",
+                      "budget-boundaries",
+                      "authority-epoch-interleavings",
+                      "operation-deadline-cause-table",
+                      "v1-kernel-differential"
+                    ]
+                  },
+                  "evidence/class": {
+                    "const": "conformance"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "cost-0",
+                      "cost-1",
+                      "cost-500",
+                      "cost-1000",
+                      "cost-8192"
+                    ]
+                  },
+                  "evidence/class": {
+                    "const": "performance"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "composition-time-boundaries",
+                      "suspension-expiry-while-unavailable"
+                    ]
+                  },
+                  "evidence/class": {
+                    "const": "controlled-clock"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "production-clock-smoke"
+                    ]
+                  },
+                  "evidence/class": {
+                    "const": "production-wall-clock-smoke"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "synthetic-incarnation",
+                      "synthetic-suspension"
+                    ]
+                  },
+                  "evidence/class": {
+                    "const": "fixture-bound-input"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "minItems": 50,
+      "maxItems": 50
+    },
+    "exclusions": {
+      "const": [
+        "v2-authoritative-reads",
+        "v2-participant-writers",
+        "lifecycle-suspension-runtime",
+        "D7-opening",
+        "encrypted-backup-restore",
+        "distributed-clone-fencing",
+        "general-case-retention",
+        "full-P051-010",
+        "full-P051-006-007-008-015-016",
+        "federation",
+        "real-participant-sanctions",
+        "release-readiness"
+      ]
+    },
+    "safety": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    }
+  },
+  "required": [
+    "schema",
+    "profile",
+    "scope",
+    "run/id",
+    "bindings",
+    "cases",
+    "exclusions",
+    "safety"
+  ]
+}

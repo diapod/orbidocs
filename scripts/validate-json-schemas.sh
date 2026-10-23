@@ -29,6 +29,21 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.responsibility-maintenance-grant.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-grant.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-plan.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-plan.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-retention-hold.local.v1.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-retention-hold.local.v1.schema.json"
+      ;;
+    *.responsibility-maintenance-bindings.local.v2.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-bindings.local.v2.schema.json"
+      ;;
+    *.responsibility-maintenance-report.local.v2.json)
+      echo "$SCHEMAS_DIR/responsibility-maintenance-report.local.v2.schema.json"
+      ;;
     *.responsibility-maintenance-request.local.v1.json)
       echo "$SCHEMAS_DIR/responsibility-maintenance-request.local.v1.schema.json"
       ;;
@@ -1880,6 +1895,9 @@ validate_contract_semantics() {
   data_file=$2
 
   case "$schema_file" in
+    *responsibility-maintenance-grant.local.v1.schema.json|*responsibility-maintenance-plan.local.v1.schema.json|*responsibility-maintenance-retention-hold.local.v1.schema.json|*responsibility-maintenance-report.local.v2.schema.json)
+      python3 "$ROOT/scripts/validate-maintenance-relations.py" "$data_file"
+      ;;
     *component-trace-gap.v1.schema.json)
       # Draft 2020-12 cannot compare sibling numeric fields. Keep the portable
       # shape in JSON Schema and enforce the cursor-order invariant here and in

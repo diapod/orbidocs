@@ -250,3 +250,24 @@ capacity recovery and M4 authorization gates; qualify delivery under M5 and shad
 composition under V3/Q. The Node report profile freezes 37 **future** cases in
 six evidence classes; fixtures and offline checks are not completed runtime cases.
 Keep P051-006/007/008/015/016 incomplete, P051-009 deferred and hard-MVP unchanged.
+
+## M4/M5/V3/Q contract checkpoint — 2026-10-23
+
+The accepted Node execution revision 2 is
+node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md.
+CP0 reserves six host-local capability identifiers; it adds no active policy,
+route, operator authority or runtime qualification. P066 owns exact-descriptor
+grants and recoverable allow-once plan reservations; the maintenance ledger
+owns work and S029 projects it. Scoped memory epochs replace registry I/O under
+admission. Shared operator:default inbox delivery/access binds a verified operator,
+not a guessed default identity. Maintenance-only retention holds can be satisfied
+by verified archives without notification acknowledgment.
+
+Five draft canonical/mirrored contracts add grant, closed-run plan, hold and v2
+bindings/report shapes. The new fifty-case profile preserves historical M0's
+37-case conformance scope. A new full-wall limit of less than ten seconds is
+conditional on host authorization below twelve and full v1 commands below fourteen
+seconds within the existing fifteen-second route. CPU/non-COMMIT guards stay below
+one second. These are new qualification gates, not passing measurements.
+Historical one-second reports are immutable. v1 remains authoritative and all D7
+components stay false; wider P051 and operator/runtime/release gates remain open.

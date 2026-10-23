@@ -1,0 +1,744 @@
+{
+  "schema": "responsibility-maintenance-report.local.v2",
+  "profile": "responsibility.maintenance-shadow.v2",
+  "scope": "inactive-maintenance-and-shadow-only",
+  "run/id": "fixture:run",
+  "bindings": {
+    "schema": "responsibility-maintenance-bindings.local.v2",
+    "profile": "responsibility.maintenance-shadow.v2",
+    "run/id": "fixture:run",
+    "host/id": "fixture:host",
+    "host/incarnation": "fixture:incarnation",
+    "node": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "dirty/baseline-digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "files": {
+        "fixture.rs": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "orbidocs": {
+      "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "tree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "dirty/baseline-digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "files": {
+        "fixture.rs": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "binaries": {
+      "daemon": {
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "features": [],
+        "clock": "production"
+      },
+      "responsibility-service": {
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "features": [],
+        "clock": "production"
+      },
+      "node-ui": {
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "features": [],
+        "clock": "production"
+      },
+      "daemon-controlled-clock": {
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "features": [
+          "responsibility-test-clock"
+        ],
+        "clock": "controlled"
+      }
+    },
+    "policy": {
+      "id": "fixture:binding",
+      "revision": 1,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "grants": [
+      {
+        "id": "fixture:grant:inspect",
+        "revision": 1,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "id": "fixture:grant:prepare",
+        "revision": 1,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "id": "fixture:grant:abandon",
+        "revision": 1,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "id": "fixture:grant:verify",
+        "revision": 1,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "id": "fixture:grant:reconcile",
+        "revision": 1,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "id": "fixture:grant:compact",
+        "revision": 1,
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ],
+    "fixtures/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "configuration/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "toolchain/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "qualifier/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "schemas/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "scenarios": {
+      "prepare-progress-interleaved": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "incarnation-new-generation": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "incarnation-inflight-refusal": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "capacity-step-abandon": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "capacity-generation-archive": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "archive-crash-resume": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority-inspect-only": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority-revoked": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority-case-module-passport": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority-csrf-and-stale": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "alerts-recipient-isolation": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "alerts-restart-and-queue": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "alerts-identity-deviations": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "shadow-stale-boundary": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "shadow-fresh-boundary": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "shadow-unlisted-difference": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "v1-a-b-operator": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "v1-protected-access": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lost-reply-recovery": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "restart-progress": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "v1-command-deadline-under-maintenance": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "v1-appeal-deadline-under-maintenance": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "v1-pool-isolation-and-fairness": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority-agent-denied": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "consent-consumption-crash-recovery": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operation-projection-rebuild": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "retention-alert-capacity-escape": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "alerts-bound-default-inbox": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "progress-blocked-control-reserve": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "consent-review-summary": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "composition-exact-oracle": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "quarantine-exception-oracle": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "terminal-corrupt-source-retract": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "compatibility-one-way": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "archive-integrity-negative": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "idempotency-conflict": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "budget-boundaries": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authority-epoch-interleavings": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operation-deadline-cause-table": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "v1-kernel-differential": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "cost-0": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "cost-1": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "cost-500": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "cost-1000": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "cost-8192": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "composition-time-boundaries": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suspension-expiry-while-unavailable": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "production-clock-smoke": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "synthetic-incarnation": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "synthetic-suspension": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "budget": {
+      "batch/rows": 100,
+      "sources/generation": 8192,
+      "ordinary-steps/generation": 1024,
+      "resident/generations": 16,
+      "resident/baseline-bytes": 33554432,
+      "resident/prepared-bytes": 33554432,
+      "request/bytes": 16384,
+      "result/bytes": 65536,
+      "terminal/slots-per-generation": 1,
+      "terminal/record-bytes": 8192,
+      "terminal/reserved-bytes": 131072,
+      "pending/commands": 64,
+      "receipt/resident-records": 1024,
+      "receipt/record-bytes": 8192,
+      "alert/pending-records": 256,
+      "alert/record-bytes": 4096,
+      "archive/index-records": 64,
+      "archive/manifest-bytes": 16384,
+      "archive/plaintext-bytes": 100663296,
+      "archive/resident-bytes": 268435456,
+      "conflict/alert-after": 3,
+      "retry/attempts": 8,
+      "retry/backoff-ms": [
+        25,
+        50,
+        100,
+        200,
+        400,
+        800,
+        1000
+      ],
+      "report/bytes": 262144,
+      "observation/bytes": 65536,
+      "evidence/run-bytes": 4194304,
+      "evidence/refused-bytes": 262144,
+      "writer/storage-version": 4,
+      "archive/index-bytes": 65536,
+      "gate/full-wall-ns": 10000000000,
+      "gate/cpu-ns": 1000000000,
+      "gate/non-commit-wall-ns": 1000000000,
+      "v1/authority-timeout-ms": 12000,
+      "v1/e2e-max-ms": 14000,
+      "v1/route-timeout-ms": 15000,
+      "pending/ordinary-commands": 48,
+      "pending/control-commands": 16,
+      "hold/active-records": 336,
+      "hold/record-bytes": 4096,
+      "hold/resident-records": 1024,
+      "hold/resident-bytes": 4194304,
+      "control/episode-records": 16,
+      "control/episode-bytes": 65536,
+      "operation/event-records": 8192,
+      "operation/event-bytes": 33554432
+    },
+    "safety": {
+      "authority": "v1",
+      "d7": {
+        "storage": false,
+        "composition": false,
+        "writers": false,
+        "replay": false,
+        "receipts": false
+      },
+      "participant-effects": false,
+      "cutover": false
+    },
+    "validator/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "cases": [
+    {
+      "id": "prepare-progress-interleaved",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "incarnation-new-generation",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/incarnation-new-generation.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "incarnation-inflight-refusal",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/incarnation-inflight-refusal.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "capacity-step-abandon",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/capacity-step-abandon.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "capacity-generation-archive",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/capacity-generation-archive.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "archive-crash-resume",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/archive-crash-resume.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "authority-inspect-only",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/authority-inspect-only.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "authority-revoked",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/authority-revoked.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "authority-case-module-passport",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/authority-case-module-passport.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "authority-csrf-and-stale",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/authority-csrf-and-stale.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "alerts-recipient-isolation",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/alerts-recipient-isolation.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "alerts-restart-and-queue",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/alerts-restart-and-queue.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "alerts-identity-deviations",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/alerts-identity-deviations.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "shadow-stale-boundary",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/shadow-stale-boundary.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "shadow-fresh-boundary",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/shadow-fresh-boundary.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "shadow-unlisted-difference",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/shadow-unlisted-difference.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "v1-a-b-operator",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/v1-a-b-operator.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "v1-protected-access",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/v1-protected-access.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "lost-reply-recovery",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/lost-reply-recovery.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "restart-progress",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/restart-progress.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "v1-command-deadline-under-maintenance",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "v1-appeal-deadline-under-maintenance",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "v1-pool-isolation-and-fairness",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "authority-agent-denied",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "consent-consumption-crash-recovery",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "operation-projection-rebuild",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "retention-alert-capacity-escape",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "alerts-bound-default-inbox",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "progress-blocked-control-reserve",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "consent-review-summary",
+      "evidence/class": "runtime",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "composition-exact-oracle",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/composition-exact-oracle.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "quarantine-exception-oracle",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/quarantine-exception-oracle.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "terminal-corrupt-source-retract",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/terminal-corrupt-source-retract.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "compatibility-one-way",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/compatibility-one-way.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "archive-integrity-negative",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/archive-integrity-negative.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "idempotency-conflict",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/idempotency-conflict.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "budget-boundaries",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/budget-boundaries.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "authority-epoch-interleavings",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "operation-deadline-cause-table",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "v1-kernel-differential",
+      "evidence/class": "conformance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/prepare-progress-interleaved.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "cost-0",
+      "evidence/class": "performance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/cost-0.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "cost-1",
+      "evidence/class": "performance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/cost-1.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "cost-500",
+      "evidence/class": "performance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/cost-500.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "cost-1000",
+      "evidence/class": "performance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/cost-1000.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "cost-8192",
+      "evidence/class": "performance",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/cost-8192.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "composition-time-boundaries",
+      "evidence/class": "controlled-clock",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/composition-time-boundaries.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "suspension-expiry-while-unavailable",
+      "evidence/class": "controlled-clock",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/suspension-expiry-while-unavailable.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "production-clock-smoke",
+      "evidence/class": "production-wall-clock-smoke",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/production-clock-smoke.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "synthetic-incarnation",
+      "evidence/class": "fixture-bound-input",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/synthetic-incarnation.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    },
+    {
+      "id": "synthetic-suspension",
+      "evidence/class": "fixture-bound-input",
+      "outcome": "passed",
+      "observation": {
+        "path": "observations/synthetic-suspension.json",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "bytes": 100
+      }
+    }
+  ],
+  "exclusions": [
+    "v2-authoritative-reads",
+    "v2-participant-writers",
+    "lifecycle-suspension-runtime",
+    "D7-opening",
+    "encrypted-backup-restore",
+    "distributed-clone-fencing",
+    "general-case-retention",
+    "full-P051-010",
+    "full-P051-006-007-008-015-016",
+    "federation",
+    "real-participant-sanctions",
+    "release-readiness"
+  ],
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  }
+}

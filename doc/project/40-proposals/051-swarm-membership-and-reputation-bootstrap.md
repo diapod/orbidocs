@@ -1782,6 +1782,17 @@ The earlier bootstrap-first sequence remains useful for onboarding, but the pure
 policy kernel and restriction runtime now let the correction work proceed without
 waiting for a complete wizard, reputation engine or anti-collusion service.
 
+### M4/M5/V3/Q contract checkpoint — 2026-10-23
+
+Node CP0 reserves six maintenance capability names and adds draft grant, closed-run
+plan, retention-hold and v2 report/binding contracts. P066 owns future grants;
+S029 projects ledger-owned work. A separate fifty-case Q profile includes v1
+end-to-end availability and a ten-second full-wall gate, with unchanged CPU/work
+limits. No measured passage, active operator route, authority, S039 delivery or
+shadow runtime is claimed. v1 remains authoritative and all D7 components stay
+false. Historical acceptance and tracker scopes below remain unchanged. See
+node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md.
+
 ### Implementation Tracker
 
 Statuses: `todo`, `partial`, `done`, `deferred`. `done` requires the named evidence

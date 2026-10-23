@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-plan.local:v1",
+  "title": "responsibility-maintenance-plan.local.v1",
+  "description": "Draft local maintenance contract. Shape validation grants no authority and does not open D7.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-maintenance-plan.local.v1"
+    },
+    "command/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "kind": {
+      "enum": [
+        "prepare",
+        "abandon",
+        "verify",
+        "reconcile",
+        "compact"
+      ]
+    },
+    "host/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/incarnation": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "operator/binding": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+    },
+    "grant": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+    },
+    "generation": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "initial/head": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Head"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source/boundary": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Boundary"
+    },
+    "projector/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "verify/mode": {
+      "enum": [
+        null,
+        "integrity",
+        "archive-publication",
+        "shadow"
+      ]
+    },
+    "target": {
+      "enum": [
+        "verified",
+        "abandoned",
+        "archive-verified",
+        "compacted",
+        "reconciled",
+        "shadow-compared"
+      ]
+    },
+    "deadline/at": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Time"
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rows": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "attempts-per-step": {
+          "const": 8
+        },
+        "batch-rows": {
+          "const": 100
+        }
+      },
+      "required": [
+        "rows",
+        "steps",
+        "attempts-per-step",
+        "batch-rows"
+      ]
+    },
+    "storage/transition": {
+      "enum": [
+        "none",
+        "2-to-4",
+        "3-to-4"
+      ]
+    },
+    "compatibility": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Compatibility"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "safety": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    }
+  },
+  "required": [
+    "schema",
+    "command/id",
+    "kind",
+    "host/id",
+    "host/incarnation",
+    "operator/binding",
+    "grant",
+    "generation",
+    "initial/head",
+    "source/boundary",
+    "projector/digest",
+    "verify/mode",
+    "target",
+    "deadline/at",
+    "budget",
+    "storage/transition",
+    "compatibility",
+    "safety"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "verify"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verify/mode": {
+            "enum": [
+              "integrity",
+              "archive-publication",
+              "shadow"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "verify/mode": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}
