@@ -539,6 +539,31 @@ Memarium remains replayable for the custodial redelivery flow
 policy; the author's consent and the receiving relay's current
 ingest policy both remain authoritative at each reship.
 
+### Assessment Exposure Profile
+
+**Planned continuation, 2026-10-23; not covered by the existing M4 qualification.**
+Rumor credibility/rejection judgments already use `resource-opinion.v1` with
+rumor-specific fields. They therefore select the shared
+[P026 exposure contract](026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds),
+not a second Whisper voting or privacy engine. The existing rumor subject key and
+`opinion/subject-kind = rumor` identify the binding; canonical kind/id validation
+and the admitted rumor overlay must agree with the opinion body contract.
+
+The local profile withholds other people's credibility ratings, rationales,
+counts and popularity ordering at the host read boundary until the viewer's
+accepted judgment, explicit skip or local encounter window. Curation UI, Agent,
+search, notifications and SSE consume that viewer-bound projection; ordinary
+rumor arrival and peer-assessment arrival are distinct events. An inbox may
+count admissible rumors, but must not disguise hidden assessment activity as
+new rumor activity. Raw public relay access remains outside this local guarantee.
+
+Whisper's spread thresholds, anti-spam suppression, budgets and source-diversity
+rules continue operating independently. Hiding ratings neither delays urgent
+protection nor turns missing ratings into zero credibility. Protective notices
+use admitted exception contracts, never a sender's self-assigned safety flag.
+An optional sealed assessment round uses P026's signed barrier and outcomes;
+it does not hold rumor transmission pending quorum or certify social independence.
+
 ### Operator-mediated rumor curation
 
 A node that subscribes to public whispers (Agora) or accepts private
@@ -817,6 +842,13 @@ that should remain visible as well.
 None for the v1/M4 hard-MVP slice. Future production deployments may reopen
 threshold weighting, source diversity, witness-reference disclosure, and richer
 association-room lifecycle policy as post-MVP questions.
+
+## Assessment Exposure Tracker
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P013-AE-001 | Bind rumor curation to the common local gate | todo | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. |
+| P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
 
 ## Next Actions
 
