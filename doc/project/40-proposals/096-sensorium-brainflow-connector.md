@@ -4074,3 +4074,19 @@ are preserved; only fifteen new capsule files appear. Original attempt proof
 c3891217 / a3eef59f is retained privately. No native retry, permission probe,
 reset/recovery, renewal, migration or merge follows preparation. New readiness
 and permission precede another ordinary pass; P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-ENTRY-2026-10-23.md.
+
+### Successful ordinary diagnostic pass for revision 11 — 2026-10-23
+
+One freshly approved ordinary p21 pass on source 89da8e9e / GUI 2ef5a4fc and
+ordinary package de4f8cae completes SCAN, SELECT, BIND, REGISTER and WEAR p21.
+The adapter reports observed-released / success true in 71292 ms overall;
+scan succeeds on attempt 1, SDK operations have no timeouts or retries, and all
+thirty drain calls succeed. Cooperative cleanup, executor exit, durable audit
+2/2 with release authorized, and controller release are confirmed. Journal is
+226/33, claims/workers zero; revision 11 is now registered with capture/publication
+off and manual restart. Controller authority is unchanged. The terminal retains
+configuration-refused at running / 48 ms with effects fenced. Its exact cause and
+ordering remain unestablished; two existing source-bound deterministic tests pass
+without proving that history or establishing a new production defect. No campaign,
+retry, recovery or qualification follows. P096-005 remains partial; a later pass
+requires the stopped-registration lifecycle and fresh authorization. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-R11-RUN02-2026-10-23.md.
