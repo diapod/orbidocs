@@ -783,7 +783,9 @@ supervisor lock over I/O. Package fragments cannot claim another module's jobs.
 Module revocation stops new launches; ordinary node profiles are unchanged.
 `scheduled-module-job-request.v1` and `scheduled-module-job-result.v1` bind job,
 launch and budget. S020 knows no evidence-store paths, Python or qualifier logic.
-Implementation and runtime qualification are pending under P035-014.
+The generic adapter is implemented and conformance-tested. Focused background,
+periodic and restart qualification remains pending under P035-014; an isolated
+foreground diagnostic does not replace it.
 
 
 The accepted module-job channel uses host-only `scheduled-job.invoke` frames,

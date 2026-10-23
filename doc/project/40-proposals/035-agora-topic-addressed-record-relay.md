@@ -1613,6 +1613,14 @@ budgets are measurement results, not new universal hardware limits. Existing
 16/1/4 MiB and cumulative limits stay unchanged; no transport, release-readiness or
 continuous-monitoring qualification follows. P035-014 remains in progress.
 
+Implementation review on 2026-10-23 corrected atomic read views for status/replay,
+compaction, worker output/write limits, passive fragment admission and qualifier
+binding. Thirty-two package and four harness controls pass. A real foreground
+host/S020/S039/UI diagnostic passes, but launchd startup receives OS filesystem
+access refusal; this is not the focused periodic/restart/dual-store qualification.
+The pending runtime gate is not replaced by conformance. Node review:
+`node:docs/audits/P035-014-REVIEW-2026-10-23.md`.
+
 ### P035-012 review boundaries and P035-014 follow-up (2026-10-20)
 
 The adopted mirror protection is a point-in-time observation. There is no
