@@ -3960,3 +3960,25 @@ Independent review passes; private manifest b45d7b2e and archive 13b5074d pass
 scan/acquisition, retirement, transition, migration or merge runs. P096-005 stays
 partial; future runtime authority and fresh headband approvals remain separate. See
 node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BLUETOOTH-COMPLETION-2026-10-23.md.
+
+### Four-hour authority renewal after current revision-11 recovery — 2026-10-23
+
+After exact recovery marker 8baaaf7c and idle-state checks, one explicitly
+delegated SSH PREPARE/COMMIT on retained 4db636c8 / 8ff445ae completes review
+2314cc5b. The latest completed retirement 10→11 remains anchor 67864dff; current
+recovered Case 4e6f2774 and reservation 11 are preserved. Controller owner and
+existing discovery host/caller grants expire at 1792769759000, 2026-10-23
+17:35:59 CEST, four hours from prepare. Only two discovery expiry projections
+and controller expiry/generation change; no p21 grant, registration or consent
+appears. Root 913 to 915 adds only review and completed marker 97ff1ee6. Of 913
+prior observations, 910 are fully exact; all 909 other non-key hashes, two
+key-metadata records, 244 directories, parent custody, idle resources, twelve
+protected-source slots, journal 207/30 and all recovery/history remain exact.
+Ordinary read-store ctime is the sole other metadata difference. Status records
+last renewal 2314cc5b, active 0 / stalled 0, without granting authority itself.
+Independent review and private manifest 2feb3c1a / archive f6567319 pass
+64-member and PRIMARY_EVIDENCE_STORE readback. Manager-free helper process
+probes run; no Bluetooth manager, headband, reset/recovery, transition, migration
+or merge occurs. P096-005 stays partial; new physical work requires fresh
+interactive readiness and SCAN/BIND/REGISTER/WEAR. See
+node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-AFTER-R11-RECOVERY-2026-10-23.md.
