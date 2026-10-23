@@ -280,3 +280,15 @@ independent lifecycle arithmetic tests cover suspension, original expiry,
 terminal withdrawal and scoped quarantine. This is core conformance: daemon
 admission, scoring, writers and receipts still use v1. D7 remains closed; host
 shadow reads, operator delivery and Q qualification are not complete.
+
+### Preliminary I/O preparation — 2026-10-23
+
+Node adds FIFO admission around the existing host mutex, preserving queued v1
+service and maintenance progress. Live authority/governor time is read after the
+wait; explicit as-of diagnostics remain separate. The existing channel deadline
+reaches the Responsibility handler and clamps its authorization call to twelve
+seconds with a three-second route reserve. SQLite durability and v1 writers are
+unchanged. The new preliminary profile passes twelve fixed internal-owner cost
+matrices (fsync/F_FULLFSYNC); historical one-second results remain immutable.
+Actual end-to-end v1 availability, M4/M5 delivery and final Q remain unqualified.
+See `node:docs/evidence/local-accountability/2026-10-23-maintenance-io-pre/README.md`.
