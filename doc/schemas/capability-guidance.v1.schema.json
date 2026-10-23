@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orbiplex:schema:capability-guidance:v1",
   "title": "Local Capability Guidance v1",
-  "description": "Optional lower-trust documentation from an operator-admitted signed local provider, bound to one exact capability contract. Notes describe use, not executable instructions. The host validates structure and provenance, not semantic intent; schema, grants and host policy retain authority.",
+  "description": "Optional lower-trust documentation from an admitted local provider or a host-owned operator overlay, bound to one exact capability contract. Notes describe use, not executable instructions. The host validates structure and provenance, not semantic intent; schema, grants and host policy retain authority. Signed-package provenance is a separate qualification.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema", "capability/id", "provider/id", "contract/ref", "contract/digest", "description", "lang"],
@@ -32,5 +32,5 @@
     }
   },
   "not": { "required": ["usage/notes", "usage/ref"] },
-  "x-dia-basis": ["orbidocs:doc/project/40-proposals/072-capability-registry.md"]
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/072-capability-registry.md", "orbidocs:doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"]
 }

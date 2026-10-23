@@ -612,8 +612,13 @@ test fixture does not prove a signed source or verified launch integrity.
 Use existing host-capability invocation over P080 and the common Rust/Python
 clients. Routing `lookup` keeps its current meaning. No per-module prompt
 executor, startup/shutdown inference hook or extra channel is introduced.
-P091-GUIDE-001 later adds guidance-only operator overlays; P093-GUIDE-001 later
-adds private-package visibility. Neither follow-up blocks the first local slice.
+P091-GUIDE-001 now adds a host-owned, guidance-only operator overlay through the
+P091 resolver and explicit plan/commit boundary. Middleware still supplies its
+own optional default and never acquires operator authority from that overlay.
+Focused C/H evidence is in
+`node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
+P093-GUIDE-001 later adds private-package visibility; neither follow-up blocks
+the first local catalog slice.
 
 ## Host Capabilities
 

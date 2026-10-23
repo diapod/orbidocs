@@ -38,6 +38,9 @@ class ResolveNodeRootTests(unittest.TestCase):
             "capability-catalog-request.v1.schema.json",
             "capability-catalog-result.v1.schema.json",
             "capability-catalog-refusal.v1.schema.json",
+            "capability-guidance-overlays.local.v1.schema.json",
+            "capability-guidance-overlay-inspection.local.v1.schema.json",
+            "capability-guidance-overlay-recovery.local.v1.schema.json",
             "capability-guidance.v1.schema.json",
         )
         with tempfile.TemporaryDirectory() as temporary:

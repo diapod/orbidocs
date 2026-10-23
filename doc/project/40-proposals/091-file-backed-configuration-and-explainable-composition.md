@@ -2123,7 +2123,30 @@ export private source paths to models. P064 alone owns prompt assembly.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P091-GUIDE-001 | Expose guidance-only overlays through existing configuration contracts. | todo | P072-GUIDE-001 and the owning P091 resolver/write surfaces; prove default → operator overlay, explainable provenance, digest/cache invalidation, forbidden-field refusal and seed ≠ approval; no change to first-slice prerequisites. |
+| P091-GUIDE-001 | Expose guidance-only overlays through existing configuration contracts. | done (local C/H) | The bounded local source, Schema Gate, P091 preview/commit/recovery, exact provider-contract check and catalog projection pass focused owner and supervised daemon tests. Provenance and digest revisions change on commit, while an inert preview does not. Forbidden fields and stale pins refuse. Evidence: `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`. No concrete-model or signed-package qualification is inferred. |
+
+The implemented source is `capability-guidance-overlays.local.v1` at the
+host-confined `control/capability-guidance-overlays.json` path. It contains at
+most 16 entries and 64 KiB; each entry is at most 4 KiB, with at most 2 KiB
+of combined description and usage text. Its key is the canonical digest of
+capability id, provider id, local request-contract ref and exact schema digest.
+An operator can preview one set or reset through `config-change.plan.request.v1`,
+commit an unexpired plan through `config-change.commit.request.v1`, and inspect
+the current value through an operator-only explain response. Preview is inert;
+commit rechecks the provider report, source bytes and resolved plan under the
+shared P091 writer. An explicit, targetless local recovery request classifies
+only this source's retained intent without supplying bytes or starting a
+provider. A stale pin or invalid selected source refuses until an operator
+repairs the confined file; it is not silently made authoritative.
+
+Provider defaults remain module declarations; the operator source is a distinct
+`operator-component` contribution in the ordered resolver. The host validates
+the exact binding, schema and examples but does not judge the semantic intent
+of notes. The effective guidance and its digest enter only an already visible
+local catalog operation; source paths remain operator-only. Changes to
+documentation do not alter grants, effect metadata, provider readiness or
+prompt policy. The operator source is neither package provenance nor approval
+of a provider's original notes.
 
 ## Implementation Tracker
 

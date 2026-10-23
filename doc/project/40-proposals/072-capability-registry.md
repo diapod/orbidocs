@@ -699,7 +699,11 @@ to finish unrelated work in any of those proposals.
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.
 [P091](091-file-backed-configuration-and-explainable-composition.md#planned-capability-guidance-overlays)
-owns operator overlays; [P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
+owns the now implemented local guidance-only operator overlay, with focused
+C/H evidence in `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
+It changes effective documentation only after a reviewed P091 commit; it does
+not close this catalog's separate model or signed-source qualification.
+[P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
 and [P085](085-operator-sovereign-extensibility-and-experiment-packages.md#capability-guidance-package-boundary)
 own private-package admission constraints. These follow-ups are not prerequisites
 for the first slice: initially exclude private package ids and accept only

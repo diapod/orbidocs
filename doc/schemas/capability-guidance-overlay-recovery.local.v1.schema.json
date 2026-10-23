@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-guidance-overlay-recovery.local:v1",
+  "title": "Local Capability Guidance Source Recovery v1",
+  "description": "Operator-only explicit classification of the one retained guidance file intent. Recovery never supplies or replaces source bytes, approves guidance, or invokes a provider.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"],
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["schema", "schema/v"], "properties": {"schema": {"const": "capability-guidance-overlay.recover.local.v1"}, "schema/v": {"const": 1}}},
+    {"type": "object", "additionalProperties": false, "required": ["schema", "schema/v", "outcome"], "properties": {"schema": {"const": "capability-guidance-overlay.recovery.local.v1"}, "schema/v": {"const": 1}, "outcome": {"enum": ["absent", "committed", "not-committed", "recovered-committed", "no-op-content", "conflict"]}}}
+  ]
+}

@@ -109,6 +109,13 @@ provider; concrete-model behavior remains open. See
 
 The host projects existing registry, authorization metadata, admitted
 provider/readiness and API-contract sources for the authenticated caller.
+For an exact visible provider contract, a bounded P091 operator guidance source
+can contribute documentation over the provider default. The host composes it
+through the ordered configuration resolver and exposes only effective guidance
+and its digest. Operator provenance and the relative source locator remain on
+the authenticated configuration inspection route; the catalog remains local
+and does not dispatch the described operation. This scoped overlay has focused
+C/H evidence in `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
 Transient readiness changes availability without invalidating the catalog
 consistency revision. Default describe returns a bounded schema summary; full
 trusted local schemas require an explicit request.
