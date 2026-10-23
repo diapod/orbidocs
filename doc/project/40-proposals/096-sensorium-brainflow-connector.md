@@ -3791,3 +3791,22 @@ pre-binding/unregistered, and recovery has not executed. No scan, acquisition,
 release, renewal, migration or merge occurred. P096-005 stays partial; a separate
 RECOVER approval and fresh validation are still required. See
 node:docs/audits/REVIEW-SENSORIUM-R11-BLUETOOTH-OBSERVATION-RUN02-2026-10-23.md.
+
+### Revision-11 separately approved Bluetooth recovery — 2026-10-23
+
+The operator subsequently approved exact RECOVER-BLUETOOTH for v4 e79bd11c and
+proof 3a57b87b. Fresh actor/signature/boot/proof-window/source/custody and process
+checks passed before one direct SSH commit on administrator 8ff445ae. Durable
+marker 6b87244b is completed, the reviewed policy is exact, the old controller
+claim and selected discovery resource are removed, and no pending recovery
+remains. Cleanup custody preserves expired runtime authority; policy changes
+only generation, leaving expiry unchanged.
+
+Comparison reconciles 861 old file records and 231 directories: journal 202/29
+Cases, exact review/v2 predecessor/proof, eleven sources, configuration, consent,
+grants and history remain preserved. Only reviewed disposal writes, the completed
+marker and ordinary read-store ctime differ. Revision 11 remains pre-binding and
+unregistered, with no invented BIND/REGISTER/WEAR. No new state manager, headband
+trial, authority renewal, retirement, package transition, migration or merge runs.
+This is disposal evidence; P096-005 stays partial. See
+node:docs/audits/REVIEW-SENSORIUM-R11-BLUETOOTH-RECOVERY-2026-10-23.md.
