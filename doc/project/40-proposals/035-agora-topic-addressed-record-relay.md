@@ -1733,6 +1733,13 @@ media and retention budgets remain unchanged. See
 `node:docs/audits/WHISPER-INTEGRATION-2026-10-23.md` for conflict resolutions,
 baseline comparison and focused merged-tree verification.
 
+The complete workspace attempt retains the primary's reproduced Story-009 Arca
+completion-order refusal. Setup-specific fixture failures are separated, and the
+pre-existing HostObservation enum-inventory omission is corrected after explicit
+review. The original failed gate is not relabelled as passed. Focused owner,
+corrective and light gates plus fresh selected-evidence reads are recorded in the
+integration audit; full workspace/release readiness is not promoted.
+
 P035-013/014 remain done for their recorded focused and optional session-bound
 profiles. This integration does not renew their historical runtime evidence,
 transport/federation scope or release readiness. Agora and S039 remain partial;
