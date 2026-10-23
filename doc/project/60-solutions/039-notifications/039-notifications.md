@@ -46,13 +46,16 @@ aliases, counts and SSE do not disclose them. Separate queued, delivered, opened
 and acknowledged states remain distinct. Verified archive-backed retrieval permits
 closed resident-metadata recovery without waiting for acknowledgment.
 
-This is owner/routing conformance; final Q must still qualify the actual API/UI
-and retention paths on its clean candidate. Earlier tracing alone proves no
-operator delivery. Acknowledgment grants no maintenance, repair or participant
-authority. v1 remains authoritative, all D7 components remain false and maintenance
-is disabled by default. See
+The separate final Q passage qualifies the named local API/UI and archive-backed
+inspection paths, including recipient binding and canonical-surface isolation.
+Earlier owner fixtures and tracing alone do not inherit delivery qualification.
+Acknowledgment grants no maintenance, repair or participant authority. v1 remains
+authoritative, all D7 components remain false and maintenance is disabled by
+default. See
 `node:docs/development/RESPONSIBILITY-MAINTENANCE-ALERTS-CONTRACT.md` and
-`node:docs/audits/RESPONSIBILITY-MAINTENANCE-Q-REVIEW-2026-10-23.md`.
+`node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+This fixture qualification adds no independent replica, backup, federation or
+release-readiness claim.
 
 ## Date
 

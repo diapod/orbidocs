@@ -291,8 +291,11 @@ completion, proposal adoption, hard-MVP membership and release readiness are
 separate claims. New case effects default to disabled.
 
 Maintenance/shadow checkpoint (2026-10-23): M4/P066 operator ownership, CP-R
-retention, M5/S039 alerts and V3a/V3b comparison have scoped owner conformance.
-Final Q runtime/I/O qualification remains open. These additions do not expand the
-historical P018-12/13/14 qualification: v1 remains authoritative, every D7 field
-is false, and lifecycle writers, cutover and suspension runtime remain separate.
+retention, M5/S039 alerts and V3a/V3b comparison have scoped owner conformance and
+a separate final Q qualification for the named local fixture maintenance/shadow
+matrix. Evidence: `node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+These additions do not expand the historical P018-12/13/14 qualification: v1
+remains authoritative, every D7 field is false, and lifecycle writers, cutover
+and suspension runtime remain separate. Draft maturity, default-off rollout and
+hard-MVP/release status are unchanged.
 See the [current S040 maintenance status](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md).

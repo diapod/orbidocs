@@ -765,12 +765,14 @@ original deadlines, attempts, budgets, stop requests and outcomes; S029 is its
 rebuildable deferred read model. The scheduler launches bounded owner work and
 does not become a maintenance authority, retention owner or case-procedure timer.
 
-These adapters have scoped owner conformance. Final Q must qualify actual
-continuation, outage/restart, delivery and v1 availability on its clean candidate;
-this entry does not close P051-007 case deadlines or P051-013 repair reviews.
+These adapters have scoped owner conformance; a separate final Q passage now
+qualifies its named local continuation, outage/restart, delivery and v1-availability
+cases. This entry does not close P051-007 case deadlines or P051-013 repair reviews.
 Maintenance remains disabled by default, v1 remains authoritative and all D7
 components remain false. See
-`node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md`.
+`node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+Synthetic clock/incarnation inputs and the maintenance consumer do not qualify
+case-procedure scheduling, portable restore or release readiness.
 
 ## Related Capability Data
 

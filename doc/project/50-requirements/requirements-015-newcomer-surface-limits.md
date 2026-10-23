@@ -25,10 +25,12 @@ caps, Agora publication/subscription or sanctions against real participants.
 Maintenance/shadow checkpoint (2026-10-23): the M4/M5/V3 owners add separately
 controlled local maintenance and observational comparison only. They do not admit
 membership facts, alter effective newcomer limits or widen the qualified A
-operation matrix. v1 composition remains authoritative, all D7 components remain
-false and final maintenance Q runtime/I/O qualification is still open. No R015
-requirement or P051-001/004 completion is implied; see
-`node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md`.
+operation matrix. The final Q passage qualifies only its named local fixture
+maintenance/shadow matrix; v1 composition remains authoritative and all D7
+components remain false. No R015 requirement or P051-001/004 completion is implied;
+see `node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+Contract maturity, default-off rollout and broader lifecycle/restore/federation
+exclusions are unchanged.
 
 ## Executive Summary
 
