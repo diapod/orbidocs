@@ -1740,6 +1740,14 @@ review. The original failed gate is not relabelled as passed. Focused owner,
 corrective and light gates plus fresh selected-evidence reads are recorded in the
 integration audit; full workspace/release readiness is not promoted.
 
+Follow-up Arca repair (2026-10-23): Node `4852af43` / Orbidocs `4f370aef`
+derives step order from the dependency graph, without changing the original
+Story-009 assertions. A separate full workspace command passes: 8309 passing test
+executions, zero failures and 108 existing ignored entries. All six Story-009
+scenarios pass without ignored cases. The prior failed command remains unchanged historical
+evidence. See `node:docs/audits/ARCA-COMPLETION-ORDER-2026-10-23.md`. This does not
+renew P035 runtime profiles, release qualification or overall Agora readiness.
+
 P035-013/014 remain done for their recorded focused and optional session-bound
 profiles. This integration does not renew their historical runtime evidence,
 transport/federation scope or release readiness. Agora and S039 remain partial;
