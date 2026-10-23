@@ -1912,3 +1912,14 @@ metadata format 2 preserves historical hold projections. See
 This is local owner conformance, not Q runtime or operator/release readiness.
 v1 remains authoritative, all five D7 fields false and rollout disabled by default.
 Broader P051-010/015/016 and the independent social/federated scopes remain partial.
+
+### V3b shadow owner checkpoint — 2026-10-23
+
+Node's closed host bridge performs incremental exact-byte observational comparison
+using the existing history/lane/prepared epoch guard and immutable audit. Warm
+corruption invalidates it; sequence and incarnation jointly determine freshness.
+The candidate measurement port includes actual P066 grants, holds and M5 rather
+than promoting the earlier internal-only F02 results. See
+`node:docs/audits/RESPONSIBILITY-SHADOW-V3B-2026-10-23.md`.
+Owner conformance is not final Q. v1 remains authoritative, all D7 fields false,
+rollout disabled by default and wider P051/P018/recovery/federation scopes open.
