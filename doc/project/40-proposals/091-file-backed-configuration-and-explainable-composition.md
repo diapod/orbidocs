@@ -2762,6 +2762,46 @@ P091-010a/015, other Python owners, general registry/history, non-Unix and broad
 operator/release gates are not closed by this bounded pilot. The work remains
 on isolated branches without merge.
 
+#### Consumption availability review checkpoint — 2026-10-23
+
+The follow-up to the three consumption pilots confirms and repairs known
+Inquirium refusal-after-pending leakage, overbroad envelope acquisition, repeated
+warm composition, runtime contention on the nonblocking operator writer, the
+network-allow carrier request and conflated launch/consumption/restart projections.
+Known pre-consumption refusal closes exactly that attempt while preserving its
+allocation high-water; crash/unknown outcome is not automatically retried.
+The scoped envelope acquisition selects live `classify/production` facts before
+its bounded adapter limit. A private one-entry composition memo is invalidated
+by local/external registry writes and expiry; fresh P085 checks still own use.
+Runtime writer acquisition alone may wait for one second before any journal
+effect. Existing authority/TTL, stop and sandbox contracts are unchanged.
+
+`restart/required` compares current and launch resolution identities; separate
+launch value/identity and `consumption/state` distinguish missing ACK from changed
+configuration. Inquirium composes immutable launch file selection and current
+files under the same current P085 constraints. Arca still requires the connected
+exact instance for current Active, independently of historical consumption.
+Private context rotation with unchanged public resolution requires revalidation,
+not a new authority-bearing consumption record. ACK failure still fails attach
+closed; finite relaunch history is not an unbounded lifecycle guarantee.
+
+The bounded review and candidate-specific results are recorded in
+`node:docs/audits/P091-CONSUMPTION-AVAILABILITY-REVIEW-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/availability-review-20261023.json`.
+Earlier frozen qualification remains attached to its earlier candidate.
+The final focused checks pass 615 tests across owner, P085, channel, UI, Python
+client and tool suites, plus strict Clippy. The same daemon/UI/desktop images pass
+Arca and Inquirium in Chromium JS/no-JS and actual application WKWebView (six
+profiles). Source was frozen before documentation-only closeout; the private
+manifest and fresh retained-member readback do not claim independent backup.
+P091-009/011/012/014 remain partial. Explicit follow-ups are pending-application
+completion capacity/reconciliation, crash-safe private-carrier reclamation,
+Arca alias/multiplicity policy, cold I/O outside model-supervisor ownership,
+descriptor/range-derived choices and shared single-leaf/read/route adapters.
+The accepted closed v1 descriptor still justifies strict Python field admission.
+A dedicated P091 integration branch with fresh P072 dispatch comparison remains
+separate work; no primary-branch merge or rewrite is performed by this checkpoint.
+
 ### Dependency-ordered slices
 
 Start P091-001a and P091-001b concurrently as audit work; only the bounded foundation
