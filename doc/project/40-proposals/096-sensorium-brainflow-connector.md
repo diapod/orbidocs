@@ -4381,3 +4381,17 @@ alternative fault/quarantine/restart branch. Historical firmware and unverified
 TCC remain explicit. No old report is relabelled, no threshold changes and no
 hardware, target-root mutation or further integration occurs. P096-005 remains
 partial. See node:docs/audits/REVIEW-SENSORIUM-P005-OFFLINE-EVIDENCE-2026-10-24.md.
+
+The subsequent negative-authority helper derives one existing
+`expired-grant-before-effects` measurement from the actual probe clocks and
+normal-begin first-refusal branch. Separate complete context is bound to exact
+support, Case, target, tuple, run and harness, with unchanged Schema Gate/exporter
+checks. Seven helper and twelve exporter regressions pass. This establishes
+software conformance only: r14 still lacks full formal context, and positive
+counter timing remains unobserved. No historical time, null SDK witness or TCC
+identifier is upgraded. P096-005 stays partial.
+
+The device-free proof retains 33 controls under manifest `e281b221`, archive
+`b384d31e` and fresh primary readback `a92fb9b1`, with originals preserved and no
+archived producer execution. This is evidence-processing conformance/custody,
+not renewed native qualification.
