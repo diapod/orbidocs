@@ -2664,6 +2664,53 @@ generic controls, other Flow keys, source migrations, installed/supervised
 cross-process consumers, live Arca, P085 and full four-case operator/release
 qualification remain open; P091-009/011/012 are partial, not complete.
 
+#### Scoped Inquirium/P085 labels checkpoint — 2026-10-23
+
+Implemented and qualified by Node commit `236eb9db0dc7ba81ee35c29590797fd440a3e3fd`
+on the isolated operator branch, without merging to the primary worktree.
+
+The isolated Node implementation adds the component scope
+`inquirium-profile:local:classify:production`, owner `inquirium`, pointer
+`/inquirium/resource_profile/limits/classify~1labels-max`, contract
+`inquirium-p085-labels:v1`. The existing P085 resource owner determines values:
+defaults, unsigned local narrowing, signed widening within distributor safety
+ranges, applicable envelope intersection and final task narrowing remain
+distinct. A pure shared domain-composition port delegates to that algebra;
+constraints do not pass through ordinary last-writer-wins JSON merge.
+
+Shared acquisition and whole native-unit validation precede the public numeric
+facet. Adjacent values and full-source equality hashes stay private; exact
+private source/descriptor/constraint pins still invalidate stale approvals.
+The sparse `config/80-operator.json` writer, exact review, durable outcome,
+result/recent reads and explicit recovery reuse the existing host. Creating a
+first local profile is explicit; editing an inherited profile does not pin its
+metadata. File application is `node-restart`, separate from P085 per-use admission.
+
+Only the actual native permit can confirm launch consumption. The durable
+instance/resolution/generation sequence survives restart without inheriting Active
+or reusing allocation. Inspection, approval, recovery, restart and consumption
+never renew envelope TTL, operator binding or inference authority. Fresh expiry
+and revocation checks remain mandatory, including after receipt persistence.
+Trusted loader origin selects adoption before acquisition; programmatic profiles
+retain their owner without a P091 file claim, not as fallback after refusal.
+
+Common describe/explain use the exact one-address operator adapter, actual token
+verification at both boundaries and module-credential denial before parse/I/O.
+The generic module dispatcher is not widened. Full-page UI and bounded CLI share
+owner results. Eight named security fixtures, native algebra/current-use tests,
+and browser/no-JS/actual WebView qualification are recorded with candidate pins
+in `node:docs/audits/P091-INQUIRIUM-P085-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/inquirium-labels-20261023.json`.
+The manual is `node:daemon/docs/INQUIRIUM-CONFIGURATION.md`.
+
+Tracker reconciliation: this scoped delivery extends P091-003/004, 005/005a,
+006/007/008 and 013/014; their whole-task statuses remain `partial`. It does not
+close general dependency evaluation/descriptor administration, generic control
+DTO adoption, installed/supervised P091-011 consumers, other resource axes,
+non-Unix acquisition, live Arca or the complete four-case/operator/release gates.
+P091-012 remains partial with this additional owner manual. The prior Arca and
+Flow evidence is unchanged; no merge to the primary branches is performed.
+
 ### Dependency-ordered slices
 
 Start P091-001a and P091-001b concurrently as audit work; only the bounded foundation
