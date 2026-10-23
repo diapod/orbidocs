@@ -177,7 +177,7 @@ or unit test alone never closes a runtime gate.
 | P076-030 | A | Status outage/revocation, retry/restart and first qualification | done | Same binary set: real 300-second status outage, explicit retry, durable withdrawal and strict sovereign Story-010 |
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
-| P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
+| P076-033 | C | Explicit org issuance/revocation custody purposes | in-progress | 2026-10-23: explicit purpose schema, active-root snapshot and offline tooling implemented with conformance; organization runtime qualification pending |
 | P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 
@@ -401,3 +401,22 @@ mutation fields are refused. Human labels explain authority and publication,
 while technical details retain exact codes. No execution authority or historical
 qualification changes; Node records this local regression checkpoint separately
 from the 2026-10-21 browser measurement.
+
+## P076-033 implementation checkpoint (2026-10-23)
+
+The active signed root carries one `federation-root` rule and an optional paired
+`capability-issuance` threshold / `capability-revocation` any-authorized policy.
+Purposes are unique and closed; pack signatures bind every rule. The root rule's
+mode/quorum is independent of the other purposes. Missing, duplicate, unpaired,
+wrong-mode and unachievable policies are refused. Key aliases count once.
+
+Node composes these exact policies into its existing issuance-proof verifier.
+Custodian refs authorize signatures for the org; they do not admit those
+participants, beneficiaries or delegates to sovereign authority. Grant templates,
+expiry, signed revocation status and current-root execution guards are unchanged.
+Root-draft tooling adds the pair only when explicitly requested, without signing
+or activating the result. Local conformance and review are recorded at
+`node:docs/audits/P076-ORG-CUSTODY-REVIEW-2026-10-23.md`.
+
+This is implementation/conformance, not the organization runtime gate. P076-033
+remains `in-progress`; P076-034 and release readiness remain separate.

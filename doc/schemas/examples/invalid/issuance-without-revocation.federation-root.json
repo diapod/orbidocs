@@ -1,0 +1,57 @@
+{
+  "schema": "federation-root.v1",
+  "federation_id": "test-limited-messaging-org",
+  "pack_version": 1,
+  "issued_at": "2026-10-23T00:00:00Z",
+  "attestation_roots": [
+    {
+      "id": "org:did:key:z6MkpAokiovFyvCrX9yy832S5fmTXhAvtYqpbd6gYpk9bj1m",
+      "kind": "org",
+      "custody_mode": "threshold",
+      "custody_policy_ref": "org-custody:limited-messaging:v1"
+    }
+  ],
+  "bootstrap_seed_peers": [],
+  "seed_directory_bootstrap": [],
+  "custody_policies": [
+    {
+      "policy/ref": "org-custody:limited-messaging:v1",
+      "org/id": "org:did:key:z6MkpAokiovFyvCrX9yy832S5fmTXhAvtYqpbd6gYpk9bj1m",
+      "rules": [
+        {
+          "purpose": "federation-root",
+          "mode": "threshold",
+          "threshold/min_signers": 2,
+          "authorized/key_publics": [
+            "z6MksnpqqPBiQDo7d9WTMER1cD37v6kn4yEb6VP9P27MZRob",
+            "z6MkiUAWDcapovymwqyHPMZc7VvVhoDbNpKBWxbaPga1rUpk",
+            "z6MkhiRRiBTS8G5HwnFgYTdd4zYziMLpTj8sPn31Nwhc9y2C"
+          ]
+        },
+        {
+          "purpose": "capability-issuance",
+          "mode": "threshold",
+          "threshold/min_signers": 2,
+          "authorized/key_publics": [
+            "z6MksnpqqPBiQDo7d9WTMER1cD37v6kn4yEb6VP9P27MZRob",
+            "z6MkiUAWDcapovymwqyHPMZc7VvVhoDbNpKBWxbaPga1rUpk",
+            "z6MkhiRRiBTS8G5HwnFgYTdd4zYziMLpTj8sPn31Nwhc9y2C"
+          ]
+        }
+      ]
+    }
+  ],
+  "policy_ref": "governance:test-limited-messaging",
+  "signatures": [
+    {
+      "alg": "ed25519",
+      "key_public": "z6MksnpqqPBiQDo7d9WTMER1cD37v6kn4yEb6VP9P27MZRob",
+      "value": "oKH_rpVRw7j-yCaFKEfaP6-eh1OPMnDGXgXSLJeeRVU02ufNrScTgDLLZ411FYkW4rpqaHXWY7mZyfOx0KrfAQ"
+    },
+    {
+      "alg": "ed25519",
+      "key_public": "z6MkiUAWDcapovymwqyHPMZc7VvVhoDbNpKBWxbaPga1rUpk",
+      "value": "UuXVhfz1M64lN8PFXxfOjBbfRtoXKuZdYtHeFtp6GkIDi2UKcKn42ZFeAauW3qcFRhg8VIK3OriydtV543QBAQ"
+    }
+  ]
+}
