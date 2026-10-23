@@ -178,7 +178,7 @@ or unit test alone never closes a runtime gate.
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
-| P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate; investigate the extra A2 renewed-sender cohort retained in failed P076-033 attempts |
+| P076-034 | final | Mixed/sovereign regressions and documentation | in-progress | Closed ten-scenario source/binary-pinned candidate; A2 wrong-offer correlation diagnosed, new qualification pending |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
@@ -468,3 +468,50 @@ attempts remain failed. Their extra A2 cohort is not qualified by this gate;
 P076-034 carries diagnosis and the full mixed/provider candidate. Historical
 007/008/035 scopes are unchanged. No model or VM ran; full-candidate and release
 readiness remain false.
+
+
+## P076-034 candidate contract and A2 diagnosis (2026-10-23)
+
+A2's additional diagnostic reproduced selection of an older A1 INAC notification
+by peer/schema while the new request's offer remained pending. The acceptance
+repair matches the current outbox request and generation to the exact locally
+observed offer, and chooses a UI local-contact projection rather than its
+participant alias. This corrects evidence collection, not runtime authority.
+Earlier failed P076-033 attempts retain their original result and scope.
+
+The final gate freezes one clean Node/Orbidocs source set and six binaries after
+conformance, then runs strict sovereign Story-010 and ten focused scenarios:
+sovereign onboarding/recovery, S027-008 fact recovery, HTML delegated receive,
+MSG-ONB-007/008, organization custody/child UI, explicit A2 renewal, mixed exchange
+and two ordinary participants using a third sovereign contact provider. Each
+scenario pins its profiles and public transport certificates. Signed public facts
+are requalified identically before/after archive extraction. A focused success or
+a development probe cannot substitute for this complete sequence.
+
+Q-03's separate-provider acceptance is included in this gate. Its synthetic
+provider has its own daemon, participant, node and leaf keys. The common transport
+CA only permits TLS verification of node-address advertisements; it is not a
+sovereign grant. Both Messaging beneficiaries stay outside root. OTP delivery uses
+the existing dev mailbox with `always-accepted` disabled. Grants still confer no
+contact-control attestation or Contact Catalog provider authority.
+
+The gate remains in progress until retained clean-source measurements exist.
+Local final-candidate qualification and release readiness remain distinct.
+Implementation review: `node:docs/audits/P076-A2-AND-FINAL-CANDIDATE-REVIEW-2026-10-23.md`.
+
+The separate-provider diagnostic reached verified host discovery but challenge
+creation returned 401 because the service expected its local client token. The
+operator adopted P061's explicit public challenge/redeem opt-in on 2026-10-23;
+status/debug and lifecycle remain protected, default access remains closed, and
+public replies carry no dev code. The provider token stays local. Synthetic
+acceptance substitutes only OTP delivery through protected operator status.
+P076-034 remains in progress until this complete path is measured.
+
+The Q-03 topology also distinguishes local publication from provider admission.
+The ordinary node signs and publishes its contact claim locally. The separate
+catalog operator admits that exact claim and the provider-issued control passport
+through its existing authenticated API. Public lookup and native contact addition
+then use that admitted route. This gate does not claim remote self-service claim
+publication; neither token distribution nor ordinary catalog-provider authority
+is introduced. The retained proof binds claim and control signatures to the
+operator admission.

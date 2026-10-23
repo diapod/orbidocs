@@ -456,3 +456,28 @@ is retained without inventing a node-authored withdrawal. Fourteen signed-public
 proof files requalify identically before/after extraction; the final offline pack
 is 131/131. P076-034, its extra A2 cohort diagnosis, and release readiness remain
 open. Historical participant-issuer and individual-withdrawal gates keep scope.
+
+### Final limited-grant gate in progress (2026-10-23)
+
+P076-034 adds a closed, one-source/six-binary mixed regression candidate, including
+A2 renewal and a separate sovereign contact provider for ordinary Messaging
+operators. The A2 diagnostic identified an acceptance observer selecting an old
+same-peer/schema INAC offer; matching the current request/artifact generation
+changes no receive authority. Public transport certificates and profiles are
+pinned with the new candidate. Completion requires new retained measurements,
+not reuse of historical focused gates; release readiness remains separate.
+See [the owning decision](../../40-proposals/076-limited-messaging-grants-decision.md#p076-034-candidate-contract-and-a2-diagnosis-2026-10-23).
+
+The separate-provider diagnostic now reaches trusted host discovery, then receives
+401 from the token-protected challenge API. P061 now adopts explicit operator
+opt-in for public challenge/redeem; default closure and protected status/debug
+and lifecycle remain required. Public replies carry no code-bearing dev link,
+and public mode refuses `always_accept`. P076-034 measures this path without
+sharing provider tokens or exposing the OTP debug view. Qualification and release
+readiness remain separate.
+
+The separate contact provider admits the exact participant-signed claim through
+its existing operator API before public lookup. P076-034 records this as explicit
+provider admission, not remote self-service publication; the Messaging grant adds
+no catalog or attestation authority. Control and claim signatures remain in the
+public proof.
