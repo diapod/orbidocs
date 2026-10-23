@@ -4051,3 +4051,15 @@ No Bluetooth manager, permission probe, hardware, migration or merge runs.
 Fresh interactive readiness and this new image's permission observation precede
 the one-pass diagnosis; a formal campaign remains separate. P096-005 stays
 partial. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-LOOP-2026-10-23.md.
+
+### Ordinary diagnostic entry correction — 2026-10-23
+
+One approved ordinary diagnostic attempt on source 1e593950 / GUI 8536aeff
+ends before SCAN with local relay exit 2 / SSH exit 1 and zero decisions. Exact
+root readback preserves all 974 observations, journal 217/32 and zero claims.
+Isolated `case_console.py --help` reproduces a missing sibling import before
+main on both hosts. The corrected entry admits only its own resolved sibling
+directory under unchanged isolation; client diagnostics now name a failed relay
+process. Two red regressions and 114 green console/relay/adapter tests establish
+software correction, without hardware retry or a campaign. P096-005 stays
+partial. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-ENTRY-2026-10-23.md.
