@@ -3982,3 +3982,24 @@ probes run; no Bluetooth manager, headband, reset/recovery, transition, migratio
 or merge occurs. P096-005 stays partial; new physical work requires fresh
 interactive readiness and SCAN/BIND/REGISTER/WEAR. See
 node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-AFTER-R11-RECOVERY-2026-10-23.md.
+
+### Revision-11 campaign run02 and reporting repairs — 2026-10-23
+
+One freshly approved SSH campaign on frozen source d0d3b335 / GUI 3370c13a
+passes exact-client Bluetooth permission preflight, then stops at SCAN with
+`campaign-episode-interrupted`. Fourteen original files / 5476 bytes are retained.
+Only CAMPAIGN and SCAN decisions are sent; no BIND, REGISTER or WEAR. Exact host
+Case e7f947bb is released/abandoned, journal 212/31, with no controller/resource
+claim or surviving worker. Revision 11 remains unregistered. Native start,
+native cleanup and the primary scan cause are unestablished without the missing
+terminal. Firmware 1.0.25 remains historical. Controller files, all 244 prior
+directories, grants, consent, completed recovery and history are preserved.
+Independent review repairs closed typed-discovery terminal coverage, stale
+completion timestamps and exporter/collector budgets against unchanged qualifier
+v3. Device-free checks pass 152 + 42 tests; the failed combined-interpreter
+invocation remains retained and documented. Frozen reports are unchanged;
+P096-005 remains partial. Private manifest baefff7f / archive 3eeb65d6 pass
+115-member retrieval and PRIMARY_EVIDENCE_STORE readback. No physical retry,
+reset/recovery, renewal, migration or merge occurs. The deployed client still
+requires a new immutable build before another freshly approved physical trial.
+See node:docs/audits/REVIEW-SENSORIUM-R11-CAMPAIGN-RUN02-2026-10-23.md.
