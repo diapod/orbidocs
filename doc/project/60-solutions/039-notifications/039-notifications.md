@@ -273,3 +273,14 @@ claim active alerts, batch retry or authority granted by a notification.
 ## Related Capability Data
 
 - `039-notifications-caps.edn`
+
+## Matrix recovery attention (P035-013, 2026-10-23)
+
+The accepted additional consumer projects committed Agora recovery attention into
+this queue through a host-owned, durable, idempotent source adapter. It preserves
+recipient policy, metadata-only SSE, current authority and notification/task CAS.
+Acknowledgment does not retry history. Only ordinary retry is batchable; explicit
+gap acceptance and implausible-delay override remain single reasoned actions.
+Implementation and focused Synapse qualification are in progress, not established
+by the existing S039 MVP. See the P035 carrier tracker and Node recovery-attention
+contract for command receipts and fault/restart/replay acceptance.

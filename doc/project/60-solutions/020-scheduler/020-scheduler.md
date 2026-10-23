@@ -760,3 +760,12 @@ healthy. No job or notification delivery is installed or qualified by this entry
 ## Related Capability Data
 
 - `020-scheduler-caps.edn`
+
+## Recovery attention source job (P035-013, 2026-10-23)
+
+The accepted job is daemon-owned, nonoverlapping and bounded to one 64-fact source
+page per five-second launch. Agora owns facts and recovery; S039 owns queue policy
+and attention state. The adapter advances its durable cursor only after durable
+S039 acceptance and schedules fresh deadline inspection without executing retry.
+Delivery failure does not hold Matrix sync or publication. Registration and runtime
+qualification remain P035-013 work; this entry installs no job by itself.
