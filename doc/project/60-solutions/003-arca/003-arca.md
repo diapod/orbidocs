@@ -124,6 +124,21 @@ Responsibilities:
   host-owned module output roots,
 - resume a previously persisted workflow run on module restart.
 
+#### Stable Dependency Order
+
+JSON object member order and persisted step-map order carry no workflow order.
+Arca derives one stable order from the dependency graph: visit terminal step IDs
+lexically, traverse each step's `depends_on` array in declared order, and emit the
+step after its dependencies, once. Disconnected terminal components use the same
+lexical tie-break. Invalid dependency declarations, missing references and cycles
+refuse order derivation.
+
+Sequential step selection, the `workflow.completed` step links and final-artifact
+recovery from a completed snapshot use this same order. The recovered final
+pointer selects the last completed step in graph order; it does not identify the
+latest wall-clock completion. This defines neither a new parallel scheduling
+guarantee nor a new record schema, and does not change Arca's readiness status.
+
 #### P091-009a Configuration Contract Checkpoint — 2026-10-23
 
 Arca remains the non-Flow owner of `service-order-orchestration` plan semantics.
