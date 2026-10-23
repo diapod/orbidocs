@@ -82,7 +82,8 @@
         "archive-verified",
         "compacted",
         "reconciled",
-        "shadow-compared"
+        "shadow-compared",
+        "metadata-compacted"
       ]
     },
     "deadline/at": {
@@ -205,6 +206,54 @@
         }
       },
       "description": "One bounded observational query; the run pins one host evaluation instant."
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "closed-maintenance-metadata"
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+              },
+              "digest": {
+                "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "digest",
+              "revision"
+            ]
+          }
+        },
+        "self/retire": {
+          "const": true
+        }
+      },
+      "required": [
+        "kind",
+        "commands",
+        "self/retire"
+      ]
+    },
+    "maintenance/scope": {
+      "const": "closed-metadata"
     }
   },
   "required": [
@@ -274,6 +323,61 @@
             "shadow/query"
           ]
         }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "retention"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "compact"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "maintenance/scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "retention"
+        ],
+        "properties": {
+          "kind": {
+            "const": "compact"
+          },
+          "target": {
+            "const": "metadata-compacted"
+          },
+          "generation": {
+            "type": "null"
+          },
+          "initial/head": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "const": "metadata-compacted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "maintenance/scope",
+          "retention"
+        ]
       }
     }
   ]

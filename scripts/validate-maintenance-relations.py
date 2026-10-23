@@ -22,9 +22,14 @@ def validate(value):
         generation, head = value["generation"], value["initial/head"]
         if (generation is None) != (head is None) or (head is not None and generation != head["generation"]):
             return False
-        if generation is None and value["kind"] != "prepare":
+        if generation is None and value["kind"] != "prepare" and value.get("maintenance/scope") != "closed-metadata":
             return False
         target = {"prepare":"verified", "abandon":"abandoned", "compact":"compacted", "reconcile":"reconciled"}.get(value["kind"])
+        if value.get("maintenance/scope") == "closed-metadata":
+            target = "metadata-compacted"
+        commands = value.get("retention", {}).get("commands", [])
+        if len({c["id"] for c in commands}) != len(commands) or any(c["id"] == value["command/id"] for c in commands):
+            return False
         if value["kind"] == "verify":
             target = {"integrity":"verified", "archive-publication":"archive-verified", "shadow":"shadow-compared"}.get(value["verify/mode"])
         transition, compatibility = value["storage/transition"], value["compatibility"]

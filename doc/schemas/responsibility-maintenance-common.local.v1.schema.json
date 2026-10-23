@@ -333,6 +333,9 @@
         },
         "safety": {
           "$ref": "#/$defs/Safety"
+        },
+        "maintenance/scope": {
+          "const": "closed-metadata"
         }
       },
       "required": [
@@ -432,16 +435,27 @@
         },
         {
           "if": {
-            "properties": {
-              "kind": {
-                "enum": [
-                  "abandon",
-                  "verify",
-                  "reconcile",
-                  "compact"
-                ]
+            "allOf": [
+              {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "abandon",
+                      "verify",
+                      "reconcile",
+                      "compact"
+                    ]
+                  }
+                }
+              },
+              {
+                "not": {
+                  "required": [
+                    "maintenance/scope"
+                  ]
+                }
               }
-            }
+            ]
           },
           "then": {
             "properties": {
@@ -492,6 +506,26 @@
                     "const": 3
                   }
                 }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "maintenance/scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "compact"
+              },
+              "generation": {
+                "type": "null"
+              },
+              "expected/head": {
+                "type": "null"
               }
             }
           }
@@ -1184,7 +1218,14 @@
           "const": "responsibility-maintenance-archive.local.v1"
         },
         "context": {
-          "$ref": "#/$defs/ArchiveContext"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArchiveContext"
+            },
+            {
+              "$ref": "#/$defs/MaintenanceArchiveContext"
+            }
+          ]
         },
         "context/digest": {
           "$ref": "#/$defs/Digest"
@@ -1670,6 +1711,78 @@
         "entries",
         "root/digest",
         "safety"
+      ]
+    },
+    "MaintenanceArchiveContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "host/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "host/incarnation": {
+          "$ref": "#/$defs/Id"
+        },
+        "source/boundary": {
+          "$ref": "#/$defs/Boundary"
+        },
+        "key/ref": {
+          "$ref": "#/$defs/Id"
+        },
+        "plaintext/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "kind": {
+          "const": "maintenance-metadata"
+        },
+        "command/id": {
+          "$ref": "#/$defs/Id"
+        },
+        "command/digest": {
+          "$ref": "#/$defs/Digest"
+        },
+        "members": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "enum": [
+                  "maintenance-ledger",
+                  "maintenance-host"
+                ]
+              },
+              "digest": {
+                "$ref": "#/$defs/Digest"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 33554432
+              }
+            },
+            "required": [
+              "name",
+              "digest",
+              "bytes"
+            ]
+          }
+        }
+      },
+      "required": [
+        "host/id",
+        "host/incarnation",
+        "source/boundary",
+        "key/ref",
+        "plaintext/digest",
+        "kind",
+        "command/id",
+        "command/digest",
+        "members"
       ]
     }
   }

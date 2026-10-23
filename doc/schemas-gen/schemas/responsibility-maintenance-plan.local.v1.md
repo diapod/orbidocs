@@ -35,7 +35,7 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`source/boundary`](#field-source-boundary) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Boundary` |  |
 | [`projector/digest`](#field-projector-digest) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest` |  |
 | [`verify/mode`](#field-verify-mode) | `yes` | enum: `None`, `integrity`, `archive-publication`, `shadow` |  |
-| [`target`](#field-target) | `yes` | enum: `verified`, `abandoned`, `archive-verified`, `compacted`, `reconciled`, `shadow-compared` |  |
+| [`target`](#field-target) | `yes` | enum: `verified`, `abandoned`, `archive-verified`, `compacted`, `reconciled`, `shadow-compared`, `metadata-compacted` |  |
 | [`deadline/at`](#field-deadline-at) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Time` |  |
 | [`budget`](#field-budget) | `yes` | object |  |
 | [`storage/transition`](#field-storage-transition) | `yes` | enum: `none`, `2-to-4`, `3-to-4` |  |
@@ -44,6 +44,8 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`archive/index-root`](#field-archive-index-root) | `no` | unspecified | Exact archive index root for publication; absence means none. |
 | [`supersedes`](#field-supersedes) | `no` | unspecified | Explicit prior compaction command for authorized takeover; absence means none. |
 | [`shadow/query`](#field-shadow-query) | `no` | object | One bounded observational query; the run pins one host evaluation instant. |
+| [`retention`](#field-retention) | `no` | object |  |
+| [`maintenance/scope`](#field-maintenance-scope) | `no` | const: `closed-metadata` |  |
 
 ## Conditional Rules
 
@@ -97,6 +99,91 @@ Then:
 {
   "required": [
     "shadow/query"
+  ]
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "required": [
+    "retention"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "kind": {
+      "const": "compact"
+    }
+  }
+}
+```
+
+### Rule 4
+
+When:
+
+```json
+{
+  "required": [
+    "maintenance/scope"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "retention"
+  ],
+  "properties": {
+    "kind": {
+      "const": "compact"
+    },
+    "target": {
+      "const": "metadata-compacted"
+    },
+    "generation": {
+      "type": "null"
+    },
+    "initial/head": {
+      "type": "null"
+    }
+  }
+}
+```
+
+### Rule 5
+
+When:
+
+```json
+{
+  "properties": {
+    "target": {
+      "const": "metadata-compacted"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "maintenance/scope",
+    "retention"
   ]
 }
 ```
@@ -179,7 +266,7 @@ Then:
 ## `target`
 
 - Required: `yes`
-- Shape: enum: `verified`, `abandoned`, `archive-verified`, `compacted`, `reconciled`, `shadow-compared`
+- Shape: enum: `verified`, `abandoned`, `archive-verified`, `compacted`, `reconciled`, `shadow-compared`, `metadata-compacted`
 
 <a id="field-deadline-at"></a>
 ## `deadline/at`
@@ -234,3 +321,15 @@ Explicit prior compaction command for authorized takeover; absence means none.
 - Shape: object
 
 One bounded observational query; the run pins one host evaluation instant.
+
+<a id="field-retention"></a>
+## `retention`
+
+- Required: `no`
+- Shape: object
+
+<a id="field-maintenance-scope"></a>
+## `maintenance/scope`
+
+- Required: `no`
+- Shape: const: `closed-metadata`

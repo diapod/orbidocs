@@ -667,6 +667,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    'cpr-metadata.responsibility-maintenance-archive.local.v1.json',
+    'cpr-metadata-only.responsibility-maintenance-plan.local.v1.json',
+
     "bounded.responsibility-maintenance-index.local.v1.json",
     "maintenance-grant.operator-consent.request.v1.json",
     "closed.responsibility-maintenance-grant.local.v1.json",
@@ -1265,6 +1268,10 @@ EXAMPLE_WHITELIST = (
 INVALID_EXAMPLE_WHITELIST = (
     "unbounded.responsibility-maintenance-index.local.v1.json",
     "descriptor-scope.operator-consent.request.v1.json",
+    'cpr-self-target.responsibility-maintenance-plan.local.v1.json',
+    'cpr-duplicate-address.responsibility-maintenance-plan.local.v1.json',
+    'cpr-wrong-member.responsibility-maintenance-archive.local.v1.json',
+    'cpr-no-retention.responsibility-maintenance-plan.local.v1.json',
     "unknown-scope.responsibility-maintenance-grant.local.v1.json",
     "wrong-grant.responsibility-maintenance-grant.local.v1.json",
     "expired.responsibility-maintenance-grant.local.v1.json",

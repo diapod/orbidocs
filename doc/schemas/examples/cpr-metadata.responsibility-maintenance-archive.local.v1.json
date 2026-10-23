@@ -1,0 +1,50 @@
+{
+  "schema": "responsibility-maintenance-archive.local.v1",
+  "context": {
+    "host/id": "fixture:host",
+    "host/incarnation": "fixture:incarnation",
+    "source/boundary": {
+      "sequence": 44,
+      "history/epoch": 1,
+      "history/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sources/revision": 2,
+      "sources/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "key/ref": "fixture:host-sealer-key",
+    "plaintext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "kind": "maintenance-metadata",
+    "command/id": "fixture:metadata-retirement",
+    "command/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "members": [
+      {
+        "name": "maintenance-ledger",
+        "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "bytes": 8
+      },
+      {
+        "name": "maintenance-host",
+        "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "bytes": 8
+      }
+    ]
+  },
+  "context/digest": "sha256:c98cab3c7d36545cdcb4fcc95314070042560540e499e0e65a47b52b377f4d95",
+  "cipher": "XChaCha20-Poly1305",
+  "aad/domain": "orbiplex/responsibility/maintenance-archive/v1",
+  "nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "ciphertext/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "ciphertext/bytes": 140,
+  "publication": "verified",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  }
+}

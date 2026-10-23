@@ -1886,3 +1886,16 @@ runtime. The first acknowledged host write uses storage v4. v1 remains authorita
 and every D7 field remains false. CP-R retention, M5 delivery and final Q remain
 open; no wider tracker closure changes. See
 node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4B-2026-10-23.md.
+
+
+### CP-R retention owner checkpoint — 2026-10-23
+
+Node adds explicit residency/retrievability facts, finite shadow/child-receipt
+counters and exact verified closed metadata retirement. Approved compact plans
+include specific command tuples and their own closed control history; a narrowly
+approved metadata-only escape handles unallocated work without a source baseline.
+Draft schemas distinguish metadata archives from source-generation indexes.
+Owner conformance preserves original bytes, v1 authority and closed D7. M5 alert
+integration and Q runtime remain open; no wider tracker closure changes. See
+node:docs/development/RESPONSIBILITY-MAINTENANCE-RETENTION-CONTRACT.md and
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-RETENTION-2026-10-23.md.
