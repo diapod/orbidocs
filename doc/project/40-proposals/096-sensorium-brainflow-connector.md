@@ -3921,3 +3921,23 @@ with no proof or approval-window expiry yet. No observer, reset, recovery,
 claim release, grant renewal, hardware, migration or merge runs. P096-005 stays
 partial. See
 node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BLUETOOTH-REVIEW-2026-10-23.md.
+
+### Current revision-11 Bluetooth OFF/ON observation — 2026-10-23
+
+One explicitly approved state-only observation runs through SSH in a real iTerm
+on retained source 4db636c8 / administrator 8ff445ae for v4 ea635e8c. Fresh
+closure/signature, review/predecessor, boot, protected-source and process checks
+pass. The operator toggles Bluetooth; protected proof 24831c70 records OFF for
+3002 ms, four worker checks and native exit 0. Captured observer image is
+removed; no scan or headband acquisition starts. Approval window ends at
+1792749389394 (2026-10-23 11:56:29.394 CEST). All 909 old non-key hashes and
+two key-metadata records are exact; 910 of 911 full observations are unchanged,
+with read-store ctime the only exception. Exactly one protected proof appears;
+244 directories, parent/controller, journal 207/30, held claims, resource tables,
+expired finite authority and byte-exact v4/v2 archive remain unchanged.
+Independent review passes; private manifest 17428fc9 and archive 9954535a pass
+166-member retrieval and PRIMARY_EVIDENCE_STORE copy readback. No retry, recovery,
+claim release, consumption, generation installation, renewal, migration or merge
+occurs. P096-005 stays partial. RECOVER remains a separate approval with fresh
+proof/custody/window checks; no new runtime authority or consent is implied. See
+node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BLUETOOTH-OBSERVATION-2026-10-23.md.
