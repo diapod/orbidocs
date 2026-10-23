@@ -1633,6 +1633,31 @@ off-session coverage, physical-member scrub, transport/federation renewal or
 release readiness follows; full manual candidate-bound verification remains
 mandatory and global Agora/S039 remain partial.
 
+### P035-014 post-qualification identity correction (2026-10-23)
+
+Keep the completed session-bound proof immutable. New supervision provisioning
+uses an explicitly adopted `public-evidence-media.v2` binding: IORegistry hardware
+serial/product identity for physical distinctness, and AppleRAID set/member UUIDs
+for mirror membership. Attachment path, port/hub and BSD names are observation
+locators, not identity. Missing/ambiguous serials refuse; replacement requires
+reviewed adoption. The original path-based adoption is retained as history.
+
+The exact daemon executable is a separate OS-access qualification baseline.
+Compare the actual launching parent at startup and topology refresh; a changed
+binary produces `os-access-qualified-binary-changed`, with unknown protection and
+instructions to repeat background qualification. A pre-launch check remains
+available when OS denial prevents loading the module. Ad-hoc signatures may need
+a renewed OS grant after rebuild; no EPERM-to-TCC inference or automatic grant
+is permitted. Stable signing can preserve a requirement but is not provisioned by
+this developer package.
+
+Calendar overdue pairs after downtime share one freshness incident, including the
+count. Per-pair integrity incidents require an actual failed verification. Manual
+maintenance age becomes informational at 35 days and does not alter protection.
+The generic module-job deadline/failure contract is owned by S020 and referenced
+by P072. See `node:docs/audits/P035-014-IDENTITY-REVIEW-2026-10-23.md` for distinct
+conformance, fresh retrieval and runtime-delta evidence.
+
 ### P035-012 review boundaries and P035-014 follow-up (2026-10-20)
 
 The adopted mirror protection is a point-in-time observation. There is no

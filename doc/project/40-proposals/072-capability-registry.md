@@ -861,3 +861,16 @@ Those are intentionally separate proposal tracks, as decided in §2.
 - [d] Operator-local derived capability sets and experiment-package composition belong
   to P085. They must not become an alternate path for adding base capability ids or
   bypassing registry admission.
+
+
+## Generic scheduled module jobs (S020)
+
+The host-only `scheduled-job.invoke` operation and the schema-gated
+`scheduled-module-job-request.v1` / `scheduled-module-job-result.v1` contracts are
+a separate execution surface. Operator-approved S020 configuration binds component,
+executor, operation and bounded launch budget. Every dispatch rechecks current
+admission and activation; a read capability or a package fragment cannot invoke
+or authorize this surface. No evidence-specific host capability is registered.
+The [S020 contract](../60-solutions/020-scheduler/020-scheduler.md#generic-module-job-authority-deadline-and-failure-contract)
+owns deadlines, `Transient`/`AuthorizationDenied` meanings, unknown outcomes and
+consumer recovery duties. The evidence-supervision module is an opt-in consumer.

@@ -41,7 +41,8 @@
     "budget/remaining-ms": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 3600000
+      "maximum": 3600000,
+      "description": "Upper bound in milliseconds for the module response and all launch-owned work. The module MUST finish before this budget expires, including child cleanup. A host timeout does not establish cancellation or absence of effects."
     }
   },
   "required": [

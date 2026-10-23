@@ -13,7 +13,7 @@ Source schema: [`doc/schemas/scheduled-module-job-request.v1.schema.json`](../..
 | [`operation`](#field-operation) | `yes` | string |  |
 | [`scheduled/for-ms`](#field-scheduled-for-ms) | `yes` | integer |  |
 | [`started/at-ms`](#field-started-at-ms) | `yes` | integer |  |
-| [`budget/remaining-ms`](#field-budget-remaining-ms) | `yes` | integer |  |
+| [`budget/remaining-ms`](#field-budget-remaining-ms) | `yes` | integer | Upper bound in milliseconds for the module response and all launch-owned work. The module MUST finish before this budget expires, including child cleanup. A host timeout does not establish cancellation or absence of effects. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -63,3 +63,5 @@ Source schema: [`doc/schemas/scheduled-module-job-request.v1.schema.json`](../..
 
 - Required: `yes`
 - Shape: integer
+
+Upper bound in milliseconds for the module response and all launch-owned work. The module MUST finish before this budget expires, including child cleanup. A host timeout does not establish cancellation or absence of effects.

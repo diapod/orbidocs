@@ -610,7 +610,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`room-relay-sender-key-distribution.v1.schema.json`](schemas-gen/schemas/room-relay-sender-key-distribution.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `0` |
 | [`room.v1.schema.json`](schemas-gen/schemas/room.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |
 | [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md) | `17` | `1` | `yes` | `yes` | `1` | `0` |
-| [`scheduled-module-job-request.v1.schema.json`](schemas-gen/schemas/scheduled-module-job-request.v1.md) | `8` | `0` | `no` | `yes` | `1` | `1` |
+| [`scheduled-module-job-request.v1.schema.json`](schemas-gen/schemas/scheduled-module-job-request.v1.md) | `8` | `1` | `no` | `yes` | `1` | `1` |
 | [`scheduled-module-job-result.v1.schema.json`](schemas-gen/schemas/scheduled-module-job-result.v1.md) | `6` | `0` | `no` | `yes` | `1` | `1` |
 | [`scoped-claim-presentation.v1.schema.json`](schemas-gen/schemas/scoped-claim-presentation.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `0` |
 | [`scoped-claim-request.v1.schema.json`](schemas-gen/schemas/scoped-claim-request.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `0` |

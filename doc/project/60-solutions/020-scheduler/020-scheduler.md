@@ -796,3 +796,34 @@ with the scheduled request/result contracts. It is distinct from ordinary
 status capability into a probe by supplying a scheduler-shaped body. The job
 owner is the admitted component ID; the authenticated target determines its
 separate module ID. Existing v1 frames are unchanged; v2 declares the new operation.
+
+
+### Generic module-job authority, deadline and failure contract
+
+The local operator configures/adopts jobs and their execution budgets. Admission
+binds the component, its current executor and exact operation; a module report or
+package fragment cannot grant itself another component's job. The host checks
+current activation and readiness for every launch, including run-once. Execution
+budgets are 1 ms–1 hour; the channel timeout is capped by the remaining launch
+budget. Normal scheduler concurrency, overlap and missed-window policies apply.
+
+A receiver of `scheduled-module-job-request.v1` **must** finish its response before
+`budget/remaining-ms` expires and settle launch-owned work, including child cleanup,
+within that bound. The host's deadline is authoritative. The field is an upper
+bound, not an extension of time spent in transport or a queue. A module must reserve
+response/cleanup time and use its own monotonic clock; it must not launch work it
+cannot safely contain. A timeout ends the host call; it does not prove the module
+stopped or that no effect occurred. Effectful consumers therefore own idempotency,
+recovery and fencing rather than relying on scheduler cancellation.
+
+`AuthorizationDenied` means current admission/activation or the configured target
+binding refused before dispatch. `Transient` means the channel call was unavailable
+or timed out, with outcome potentially unknown; it is not a domain refusal or a
+proof of no work. Invalid request/result or mismatched job/launch identity is
+`InvalidConfig`; interrupted/deadline-expired launches retain their distinct
+scheduler errors. The durable execution ledger/status exposes those failures.
+The host may count deadline overruns but cannot preempt arbitrary in-module work.
+
+This is a generic host-to-module execution surface, not a host capability granted
+to ordinary middleware. See Proposal 072's scheduler/channel boundary; evidence
+supervision is one optional consumer, not its contract owner.
