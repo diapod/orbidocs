@@ -13,6 +13,10 @@ rebuild, with retained SQLite and Matrix evidence. Rich discussion surfaces and
 Agora P17 navigation remain future work; this qualification does not establish
 production readiness or cross-homeserver federation.
 
+The assessment-exposure and sealed-round continuation added on 2026-10-23 is
+**planned**, not covered by that qualification. Its prospective contracts and
+tasks below do not change existing schema or runtime status.
+
 ## Date
 
 2026-04-10
@@ -430,6 +434,267 @@ Those are placeholders only. This proposal freezes only the layering rule:
 3. richer discussion media may attach later without replacing the opinion
    artifact.
 
+### 6. Assessment Exposure and Sealed Rounds
+
+**Design decision, 2026-10-23.** Reduce social anchoring without confusing
+popularity with value, delaying urgent protection, or claiming to prove an
+individual's psychological independence. This section owns the shared contract;
+[S008](../60-solutions/008-agora/008-agora.md#planned-assessment-exposure-and-round-projections)
+owns Agora's service boundaries. [P013](013-whisper-social-signal-exchange.md#assessment-exposure-profile)
+binds rumor opinions, [P051](051-swarm-membership-and-reputation-bootstrap.md#11-first-review-must-be-anti-collusive-and-temporarily-blind)
+binds panel judgments, and [P069](069-corpus.md#shared-sealed-round-binding)
+binds Corpus first judgments. These profiles reuse mechanics, not each other's
+authority or payload semantics.
+
+Two independently deliverable levels are required:
+
+| Level | Guarantee | Boundary |
+|---|---|---|
+| Local exposure gate | `local-display-only`: the host shapes the authorized viewer's assessment read model | Does not stop publication, replication, another client/relay, or off-protocol disclosure; UI hiding alone does not satisfy it. |
+| Sealed round | An admitted commitment belongs to a signed closed set and its later reveal verifies against it | Prevents counting an uncommitted adaptive answer in that round under the declared barrier authority; not global secrecy, trusted timestamping, Sybil resistance or psychological independence. |
+
+Exposure is scoped to **(viewer, subject)** or a named round, not to the age of
+each opinion. A late visitor should not inherit everybody else's expired window.
+The local gate must not be marketed as anonymous voting or moderation. Existing
+`hide-local`, topic ACLs and the right to appeal retain their separate meanings.
+
+#### Host Read Policy and Local Facts
+
+The service pipeline is `admit -> expose -> render`. Admission retains existing
+authorization semantics, including omission of inaccessible topics in a paged
+query; an operation-level refusal is not converted into `withheld`. Only after
+admission does the pure exposure policy shape a view. It neither grants access
+nor discloses the existence of unauthorized records.
+
+Prospective `assessment-exposure-profile.v1` contains:
+
+| Field | Contract |
+|---|---|
+| `profile/id`, canonical digest | Exact admitted profile identity; operator configuration through P091, with explicitly bounded user choices. |
+| `applies-to` | Record and subject selectors; resource namespaces remain open. |
+| `mode` | Closed enum: `open`, `blind-until-own-judgment`, `sealed-round`; the latter delegates to the round owner. |
+| `withheld` | Closed item enum: `peer-ratings`, `peer-rationales`, `aggregates`, `counts`, `rating-order`, `popularity-badges`, `peer-discussion`. |
+| `unlock` | Closed item enum for local mode: `own-first-judgment`, `explicit-skip`, `subject-window-elapsed`. A round requires its validated barrier instead, not a personal skip. |
+| `subject-window/seconds` | Bounded local duration from a durably recorded first encounter, not opinion publication or an arbitrary UI clock. |
+| `exempt/record-kinds` | Closed, versioned set of registered protective kind contracts admitted for this profile; not arbitrary sender strings. |
+| `guarantee` | `local-display-only` for local mode; never an independence credential. |
+
+The policy objects are closed (`additionalProperties: false` at their object
+boundaries; `enum` on array items), unlike the open opinion body. Unknown policy
+fields or modes fail validation, never fall back to `open`. Conditional schema
+branches carry explicit `required` lists; cross-field invariants also live in
+the pure core. There is no worldwide default duration: `172800` seconds is an
+example, not a measured optimum. Prefer hiding ratings, aggregates and popularity
+badges in the first pilot. Rationales capable of revealing ratings are covered
+by the same pilot profile. `peer-discussion` is an explicit profile choice, not
+a silent global suppression of conversation.
+
+Prospective `assessment-exposure-fact.v1` binds `viewer/ref`, `subject/key`
+(the existing `ResourceRef::to_key()`), optional `round/ref`, `event`, optional
+`cause/record-id`, `profile/digest`, `recorded/at`, and an idempotency key. In
+addition to `own-first-judgment`, `explicit-skip`, `subject-window-elapsed` and
+`barrier-released`, the closed event vocabulary needs `subject-first-seen` and
+`view-released`: a timer needs a durable origin and an open-mode disclosure must
+not later be mistaken for an unseen subject. These are host-accepted local facts,
+not client assertions about what a human actually saw. The read evaluator receives
+explicit `now`; an authenticated encounter/unlock command records transitions.
+No hidden database mutation in a nominally pure query. Persist a release before
+returning peer content; retry is idempotent and a failed fact write cannot grant
+a new release. Request cancellation after recording release may conservatively
+overstate exposure, never certify an unseen judgment.
+
+Store these private facts under the service's S028 temporal owner, **not** in
+Agora's relay-rebuildable `ProjectionStore`. Reuse temporal event/log/profile
+mechanics and private storage controls, with a manifest, bounded subject count,
+retention and replay. Full events may compact to a sufficient exposure summary.
+If that summary is also erased, return unknown history: conservative re-hiding
+is permitted, but it does not restore an independence claim. Profile tightening
+does not undo a recorded release for that scope; authorization revocation still
+denies access. New rounds have distinct scopes. Do not silently merge resource
+aliases or viewers; account switching and delegated reads preserve the binding.
+
+An `own-first-judgment` unlock requires an accepted, viewer-authored opinion for
+that subject, not a draft or publication attempt. Existing supersession links
+classify known revisions, but absence of `record/supersedes` in a partial replica
+does not prove a globally first opinion. Multiple roots, unknown ancestry and
+agent-authored contributions require explicit handling; none earns independence
+from local exposure history. V1 adds no self-declared `assessment/exposure`
+overlay to the public opinion.
+
+#### Viewer-Bound API Projection
+
+The proposed `resource-assessment-view.v1` has this illustrative withheld shape
+(placeholder refs are not executable schema fixtures):
+
+```json
+{
+  "schema": "resource-assessment-view.v1",
+  "subject/key": "url:https://example.org/article",
+  "exposure": {
+    "state": "withheld",
+    "profile/digest": "sha256:…",
+    "withheld": ["peer-ratings", "peer-rationales", "aggregates", "counts", "rating-order", "popularity-badges"],
+    "unlock/options": ["own-first-judgment", "explicit-skip"],
+    "guarantee": "local-display-only"
+  },
+  "own": [],
+  "exempt": [],
+  "peers": null
+}
+```
+
+Withheld is not zero: omit peer totals, completeness, cursors, projection
+versions, `as-of`, ETags and hidden-data-dependent freshness markers. Own and
+protective lanes have independent bounded pagination if needed; they cannot
+carry peer-page metadata. With own/exempt/public-policy inputs fixed, varying
+hidden peer data must not change the serialized response shape or length,
+ranking, page boundaries or event emission. Use neutral ordering before ranking
+or limiting a cross-subject result; filtering after popularity sorting leaks.
+Avoid scanning hidden peers merely to produce the withheld response. Scope or
+disable caches; never share a viewer projection across callers or profiles.
+This is a testable application-channel boundary, not a claim of eliminating
+every network timing or external correlation side channel.
+
+HTTP, UI (including no-JS pages), CLI, [Agent observations](073-agent-orchestration-organ.md#assessment-observations)
+and [S039 notifications](../60-solutions/039-notifications/039-notifications.md#planned-assessment-exposure-rendering)
+must consume this same projection. Direct detail/by-id queries, searches,
+exports, counts and streams in the viewer surface cannot bypass it. Raw relay
+replication and explicitly privileged inspection remain outside the local-display
+guarantee and must be identified as such, not silently used by a viewer's Agent.
+An Agent inherits the represented viewer's scope; it cannot synthesize a skip
+from tool availability. A skip requires that viewer's authorized, explicit choice.
+
+#### Shared Commitment and Barrier Contract
+
+The shared primitive is `salted-sha256-jcs-v1`: SHA-256 of an exact JCS preimage
+with a domain discriminator and fresh 32-byte cryptographically random salt;
+encode digests using existing `sha256:` plus unpadded base64url conventions.
+Reuse canonical-json and crypto utilities. Extract a small pure `commitment-core`
+only for shared mechanics, with bounded inputs and no I/O, clocks, randomness
+acquisition or domain admission inside it. The host supplies the salt securely.
+
+For Agora the preimage binds `domain = orbiplex.agora.assessment-commitment.v1`,
+`round/ref`, `author/participant-id`, `subject/key`, `opinion` (a validated
+`resource-opinion.v1` value) and `salt`. Corpus keeps
+`orbiplex.corpus.first-judgment-commitment.v1` and its Room/round/participant/judgment
+binding. Responsibility freezes its own domain and review payload. Reuse never
+coerces a panel verdict or free-form deliberation into a resource rating.
+
+Canonicalization must not change the committed value in transit. Agora's
+envelope normalization and JCS are not interchangeable. Freeze a transport-safe
+binding before coding: carry bounded canonical JCS bytes opaquely where needed,
+or validate and declare normalization before commitment, never after it.
+Include non-NFC, Unicode, numeric and cross-language golden fixtures and the
+Matrix carrier budget/encoding from P035. A parsed reveal must validate against
+its domain schema as well as match the digest.
+
+Agora's prospective kind contracts are separate from `opinion`:
+
+Before closure, the round publication path emits commitments only; bodies and
+salts remain in the participant's protected local pending store. This is the
+publication barrier, unlike local hiding of already published opinions. It
+neither retroactively makes public data secret nor prohibits an ordinary opinion
+outside the round. Such outside publication is not proof of a qualified reveal
+and remains an explicitly excluded leakage channel.
+
+| `record/kind` | Required binding | Signer |
+|---|---|---|
+| `assessment-round` | Subject; profile revision/digest; eligibility (`open` or `enumerated`, exact set ref/digest); barrier rule; authority ref; commit/reveal/max close times; limits; scheme | Authorized opener |
+| `assessment-commitment` | Round, authenticated author, fixed-size commitment digest and scheme; no body, salt or content-dependent hints | Participant |
+| `assessment-barrier` | Round, release time/reason, exact bounded sorted distinct commitment-id list, count and domain-separated JCS set digest | Authority designated by the admitted round |
+| `assessment-reveal` | Round, **barrier ref**, commitment ref, salt and exact committed typed body in the frozen transport encoding | Same participant |
+
+Unknown kinds must not be indexed as ordinary opinions by legacy consumers.
+Only the round-aware projection emits eligible revealed opinion views, with
+round and outcome provenance retained. `OpinionView` need not become the owner
+of round state. Corpus/Responsibility use equivalent signed domain facts through
+their existing owner, not a mandatory public Agora publication of private votes.
+
+The authority serializes commitment admission and barrier closure using its
+existing durable owner/CAS and outbox patterns. It freezes one accepted set,
+persists the closure before publishing its signed barrier, and refuses later
+commitments for that phase. A participant needs an authenticated admission receipt
+if it relies on inclusion before the cutoff; the freeze must define receipt/set
+reconciliation and admission-time evidence. `authored/at` and unsigned, prunable
+`relay/received-at` are not that evidence. Deadline evaluation belongs to the
+admitted authority with a declared clock/uncertainty policy; uncertain cutoff
+must not silently count a judgment.
+
+**A barrier reference proves binding, not publication time.** A digest can be
+precomputed, an authority can backdate, omit or fork, and collaborators can leak
+bodies. Verification therefore depends on the declared authority and retained
+closure/admission evidence, not a claim of global chronology. Conflicting signed
+barriers or a receipted commitment missing from the closed set invalidate counting
+pending resolution; do not select the first relay's version. Replicas must fetch
+and validate the referenced set before qualification. Partial history or an
+unavailable authority yields unresolved evidence, not an invented empty set.
+
+| State | Event | Result |
+|---|---|---|
+| `committing` | Eligible commitment admitted before cutoff | Remain `committing`; exact replay is idempotent. |
+| `committing` | Valid signed barrier closing the accepted set | `revealing`; subsequent reveals must bind this barrier. |
+| `committing` | No closure by mandatory `round/max-closes-at` at the owner | `void`; no independent-judgment result. A replica missing evidence cannot infer global void from local absence alone. |
+| `revealing` | Valid bounded reveal from the committed author before reveal cutoff | Remain `revealing`; verify body, membership, authority and domain. |
+| `revealing` | `reveal/closes-at` | `closed`; report missing and invalid reveals explicitly. |
+| `closed` | Later opinion/revision/rebuttal | Separate post-barrier lane; cannot enter the first-judgment set. |
+
+Freeze valid deadline ordering (`commit < reveal <= max`) and fail-closed late
+barrier behavior; no adaptive extension after seeing judgments. Open eligibility
+permits only a deadline barrier. Quorum or all-eligible release requires a pinned,
+finite eligibility set and a declared COI/recusal policy. All policies bound
+participants, records, bytes, verification work, retries and round lifetime.
+Scheduler S020 may wake work; it does not own deadline truth or barrier authority.
+
+Per-commitment outcomes are closed: `counted`, `missing-reveal`, `invalid-reveal`,
+`outside-barrier`, `equivocation`, `round-void`. Distinct commitments by one author
+in one round cause equivocation; exact retransmission does not. The projection
+must diagnose conflicting commitments even if only one was placed in the barrier;
+an incomplete input set cannot certify their absence. Scope outcomes to an
+evidence snapshot, retaining correction provenance when later admissible evidence
+changes a result. A missing reveal is not zero or disagreement. Short reveal
+windows limit but do not eliminate selective-abort bias.
+
+Only a verified `counted` result can carry `independent-first-judgment = true`,
+explicitly meaning **protocol-qualified commitment**, not psychological or social
+independence. Local hiding, a client claim, hidden panel names or parallel model
+calls never suffice. P051 may use only such results for a round-derived
+independent-assessment input; this does not prohibit separately substantiated
+procedural reputation or immediate evidence-based protective action.
+
+#### Protection, Defaults and Remaining Choices
+
+Urgent protection, harm evidence and appeal access must not wait for either gate.
+Freeze a closed mapping of admitted protective **kind contracts**, authority and
+minimum necessary fields; the names `safety-warning`, `harm-evidence` and
+`appeal-notice` are proposed roles, not a claim that those schemas already exist.
+Their contracts reject `opinion/rating` and equivalent aggregate/badge fields;
+sender labels or prose claiming urgency cannot grant an exception. Reuse existing
+protective paths without forcing sensitive evidence into a public opinion lane.
+Safety narratives may still influence a reviewer: do not claim cognitive blindness
+after necessary disclosure, and never conceal evidence or panel composition needed
+for defense, recusal or appeal. Whisper propagation budgets/thresholds remain
+independent of presentation. Protection is not a popularity vote.
+
+V1 choices and freeze questions:
+
+1. **Q-01 resolved:** no client exposure overlay or reputation weight for it.
+2. **Q-02 proposed safe default:** round creation requires an admitted opener
+   policy, quotas and consumer selection by explicitly trusted authority and
+   round ref. Multiple rounds remain distinct; do not auto-select the largest,
+   latest or most favorable. Exact open-resource opener policy remains to freeze
+   in P026-005 before enabling rounds.
+3. **Q-03 proposed default:** `peer-discussion` is profile opt-in; ratings and
+   aggregates remain separately controlled. A discussion preview may itself
+   disclose judgments, so narrower profiles must state this limitation.
+4. Freeze barrier authority/receipt recovery, private-salt retention, clock
+   uncertainty and exception-kind bindings before the sealed-round slice.
+
+Trade-offs include slower feedback, withholding useful rationales, local-state
+privacy cost, a trusted closure owner and selective non-revelation. There is no
+global secrecy guarantee for already public opinions. The social-effectiveness
+hypothesis requires its own evaluation, separate from implementation acceptance;
+neither a successful UI fixture nor a chosen window proves reduced herding.
+
 ## Recommended Example
 
 A resource opinion as it travels through the Agora substrate — one
@@ -686,6 +951,64 @@ the tested revisions, commands, runtime/backend scope and retained report in
 Node; reconcile its implementation ledger and any affected MVP claims when the
 implementation lands, rather than marking them complete from this plan.
 
+### Assessment Exposure: Reuse and Acceptance
+
+Inspect and reuse these seams before adding endpoints (inspection: 2026-10-23):
+
+| Layer | Existing seam / planned addition | Boundary |
+|---|---|---|
+| Primitive | Existing canonical-json and crypto helpers; small shared commitment module/crate if justified by both bindings | JCS hashing/verification only; domain, typed payload, salt generation and admission remain explicit inputs/owners. Panel-draw entropy commitments are not assessment voting. |
+| Policy | Planned pure `assessment-exposure-core` | Validated profile + scoped facts + explicit time -> typed `ExposureDecision`; closed enums, no host dependencies. |
+| Contracts | Existing Schema Gate and Agora kind-contract dispatch | Add/version profile, fact, view and four round-kind contracts with `x-dia-basis`; preserve the open resource namespace and signed legacy bytes. |
+| Projection | `node:agora-projections/src/lib.rs` | Reuse opinion parsing/revision rules; separate round projection and outcome provenance. `OpinionView` is not the policy or private exposure store. |
+| Service | `node:agora-service/src/opinion_query.rs` | Existing `admit` callback remains authorization. Add `expose` after admission, before peer scanning/ranking/pagination; raw `OpinionPage` is not a client DTO. |
+| Local persistence | [S028](../60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md) temporal event log/profile/manifest | Private exposure facts are a separate recovery domain; relay projection rebuild cannot delete them. Persist only bounded necessary facts, never unrelated browsing history. |
+| Effects and surfaces | Existing Agora signer/relay, domain outboxes, P072 registry, P073 observations, P057/S039 rendering | No second signing, scheduler, notification or capability system. UI/CLI render the same host-projected data. |
+
+The first deliverable is the local gate for opinions and rumor curation, including
+every admitted viewer surface. It can close without sealed rounds. The second
+deliverable adds commitments/barriers and explicit profile bindings; it must not
+retroactively label the first as protocol-independent. Do not block the alpha
+path or reopen qualified baseline rows merely by adding this continuation.
+
+Acceptance starts with refusal, restart and replay, using synthetic participants
+and fixtures rather than real people's ratings:
+
+- With identical own/exempt/public-policy inputs, vary hidden peer values, count,
+  order and arrival: API bytes, cursors, ETags, rankings, page membership, rendered
+  output and notification/SSE activity must not reveal the variation. Check list,
+  detail, search, by-id, export, CLI and Agent paths, not only browser CSS.
+- No-JS and JS browser clients show `withheld`, not zero, expose an explicit skip
+  and preserve it across restart. Verify separate viewers, profile tightening,
+  denied reads, accepted own judgment, local-window expiry and concurrent unlock.
+- Rebuild opinions from the relay without losing private exposure facts. Test
+  compaction, missing history, storage failure, clock rollback and no synthetic
+  independence after retention. Scheduler outage cannot extend a true deadline.
+- Different salts for equal low-entropy bodies produce different commitments;
+  wrong body/salt/domain/author/round and noncanonical encodings fail. Replayed
+  records are idempotent, distinct duplicate commitments equivocate, absent reveal
+  is reported, out-of-set commitment is `outside-barrier`, and missing/invalid
+  barrier refs cannot count. Verify bounded verifier work and restart recovery.
+- Test closure racing admission, missing receipted commitment, barrier forks,
+  withheld barrier, partial relay history, reveal cutoff and transport round trips.
+  A late submission cannot enter the first set; corrections retain prior provenance.
+- A forged safety label or rating smuggled into a protective kind is rejected.
+  Genuine urgent protection, defense/recusal and appeal remain reachable while
+  ordinary peer judgments are withheld; no exposure result grants enforcement.
+
+Retain one source-pinned report with separate local/round/profile qualifications,
+negative fixtures, declared exclusions and recovery evidence in Node. Reuse the
+open-reference/Agora harness and local-accountability/Corpus fixtures for their
+respective bindings. Update Node ledger/MVP claims only with matching evidence;
+social-effectiveness and federation claims need separate qualification.
+
+Research motivation, not a window-setting rule: Muchnik, Aral and Taylor's
+[randomized experiment](https://pubmed.ncbi.nlm.nih.gov/23929980/) found asymmetric
+effects of prior ratings, including accumulating positive herding. This supports
+testing concealment of aggregates/popularity cues first; it does not establish
+an Orbiplex-specific duration or guarantee that delayed disclosure improves every
+community's judgments.
+
 ## Implementation Tracker
 
 This tracker covers the consumer continuation, not a retrospective inventory of
@@ -750,10 +1073,23 @@ and navigation remain the single-source task
 [Agora P17](../60-solutions/008-agora/008-agora-backlog.md#p17-public-gossip-resource-links),
 which can proceed independently and must not block basic open-namespace support.
 
+### Assessment-exposure continuation (planned)
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P026-005 | Freeze shared exposure and round contracts | todo | Existing P026 identity and admission contracts; P091; S028 | Audit all read/notification/ranking/raw-access paths; freeze closed policy/fact/view shapes, authenticated viewer and encounter/release semantics, limits, protected-kind bindings and Q-02/Q-03. Freeze typed domain bindings, exact commitment bytes, authority/receipt/clock/fork rules and secret retention for rounds separately. Add Schema Gate positive/negative fixtures; no new runtime capability claim from schema presence. |
+| P026-006 | Local exposure policy and private temporal facts | todo | 005 local contracts | Pure policy with explicit time, durable encounter/unlock/release facts and replayable bounded summaries; use S028 mechanics outside ProjectionStore. Prove restart, idempotency, authorization revocation, profile change, retention gaps, clock uncertainty and failed-write behavior. |
+| P026-007 | Viewer projection across Agora consumers | todo | 006 | Compose admit/expose in the service; gate every audited list/detail/search/export/ranking/stream/CLI/Agent surface without changing authorization. No peer-derived cursors, ETags, counts or zero placeholders while withheld; own/protective lanes remain bounded. Register only actual new operations through P072 if existing operations cannot carry the contract. |
+| P026-008 | Local exposure acceptance | todo | 007; P013-AE-001; P057-014; P073 assessment-exposure-observations | Source-pinned host/API/no-JS and JS browser evidence passes the local cases above, including notifications, Agent identity, leak matrix, rebuild and retention. Local-display-only scope remains explicit; no sealed-round or social-effectiveness claim. |
+| P026-009 | Shared commitment and barrier mechanics | todo | 005 round contracts | Reuse canonical JSON/crypto, signer and durable owner primitives. Prove salt/domain isolation, exact transport bytes, bounded accepted-set closure, admission receipts, forks/equivocation, explicit deadlines and replay. Library mechanics do not count as an implemented domain publication barrier. |
+| P026-010 | Agora sealed-round owner and projections | todo | 009; 007 | Implement four admitted record kinds, owner/CAS/outbox, protected local body/salt retention and round-aware projection with per-commitment outcomes. Unknown kinds remain unindexed by legacy opinion consumers; no private governance/Room payload is forced into public Agora. |
+| P026-011 | Sealed-round adversarial acceptance | todo | 010 | Retain round cases above through real signer, relay, owner and viewer APIs; test cutoff races, omitted receipted entries, forked authority, abort, missing history, restart and bounds. Public transport qualification remains scoped; P051/P069 bindings require their own evidence and are not prerequisites for local-gate delivery. |
+
 ## Open Questions
 
-No unresolved questions remain for this proposal slice. The decisions below
-record the approved defaults.
+No unresolved questions remain for the original opinion slice. The decisions
+below record its approved defaults; the planned exposure continuation has its
+own freeze questions in section 6, without reopening those baseline decisions.
 
 Resolved 2026-07-05:
 

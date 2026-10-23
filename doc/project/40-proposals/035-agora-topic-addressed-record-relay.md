@@ -1721,6 +1721,25 @@ S039 notification owners rather than a new storage-owned scheduler:
   retire evidence or repair storage automatically, and do not block emergency
   retrieval of intact bytes on healthy-topology checks.
 
+### Current-primary integration checkpoint (2026-10-23)
+
+The next operator-authorized integration joins Node primary `606800b7` and
+Orbidocs primary `9bd95e6e` with the reviewed recovery/supervision branches.
+P091 configuration ownership, planned P026 assessment-exposure bindings and
+P076's current readiness/refusal state are preserved alongside P035-013/014.
+The dispatcher retains current local-operator authority for recovery mutations;
+notifications grant no authority. All frozen evidence identities, adopted stable
+media and retention budgets remain unchanged. See
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-23.md` for conflict resolutions,
+baseline comparison and focused merged-tree verification.
+
+P035-013/014 remain done for their recorded focused and optional session-bound
+profiles. This integration does not renew their historical runtime evidence,
+transport/federation scope or release readiness. Agora and S039 remain partial;
+source worktrees are retained and push remains a separate action.
+
+### Historical integration checkpoint (2026-10-20)
+
 The operator-authorized local integration prerequisite for P035-013 is validated
 on 2026-10-20. The review reconciles ledger/MVP, all frozen evidence and policy
 budgets, P095 and S039 against the actual primary baselines. The full workspace,
@@ -1728,8 +1747,8 @@ affected fixture follow-up, documentation gates and fresh pre-closure reads pass
 the exact candidates and original baseline failures are recorded in
 `node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. Retained worktrees support
 future isolated changes under `node:docs/development/WHISPER-BRANCH-INTEGRATION.md`.
-P035-013/014 stay todo, Agora stays partial, and no historical Matrix/runtime or
-release qualification is renewed by this integration. Git push is a separate action.
+At that checkpoint P035-013/014 remained todo and Agora remained partial; no
+historical Matrix/runtime or release qualification was renewed by that integration. Git push is a separate action.
 
 The review now retains a fresh-checkout manual rehearsal at clean Node `16f20d0e`
 / Orbidocs `c02653b2`: sixteen new per-location retrievals, actual outer retention

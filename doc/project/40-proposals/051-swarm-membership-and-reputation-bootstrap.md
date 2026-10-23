@@ -574,7 +574,10 @@ The reviewing group SHOULD therefore be:
 
 - smaller than the later escalation jury,
 - selected with anti-collusion filters,
-- and hidden until the voting window closes.
+- and protected against premature exposure to each other's judgments until the
+  declared voting barrier closes. The subject receives panel composition in time
+  to exercise conflict-of-interest and veto rights; blindness concerns judgments,
+  not concealment of that procedural information.
 
 Selection SHOULD be drawn from several baskets at once, for example:
 
@@ -605,6 +608,33 @@ not a replacement for a normative panel. Where `DIA-PANEL-SEL-001` applies,
 reputation is an eligibility gate, not a draw weight; its uniform selection,
 disclosure and party-veto rules take precedence. Hiding votes must not hide the
 composition information needed to exercise those rights.
+
+**Planned assessment-round binding (2026-10-23).** Reuse the shared
+[P026 commitment/barrier contract](026-resource-opinions-and-discussion-surfaces.md#shared-commitment-and-barrier-contract)
+with `eligibility = enumerated` over the admitted panel snapshot. Responsibility
+owns the case, review payload, signing domain, recusal transitions and authority;
+the common primitive does not turn a procedural disposition into a resource
+opinion or publish private votes in Agora. Bind case, review round, reviewer,
+policy and eligibility revision; changing the panel invalidates or explicitly
+restarts the affected round instead of silently changing its quorum denominator.
+
+Use one signed barrier closing the exact admitted commitment set. The existing
+case-service owner and durable outbox serialize closure, reveal verification and
+outcome projection. A digest reference does not prove publication time: verify
+authority, admission/closure evidence, deadlines and conflicts as specified by
+P026. Keep `missing-reveal`, equivocation, invalid reveal and unavailable evidence
+visible; none means guilt, agreement or a zero-valued vote. Failure to obtain a
+valid closure or quorum follows the existing `AppealBlocked`/escalation policy, not an automatic
+sanction removal, sanction renewal or substantive disposition.
+
+Local `local-display-only` hiding is insufficient evidence of an independent
+panel judgment. Only `counted` commitments can enter a round-derived independent
+assessment input, still subject to §9's independence/collusion checks and the
+normative procedural-reputation rules. This does not replace those rules with a
+universal voting score. Emergency protection, access to evidence, recusal and
+appeal must remain available; required safety disclosure limits any claim of
+cognitive blindness. Enforcement still uses S040's source-bound adapter and D7,
+never the exposure core or an unqualified aggregate.
 
 ### 12. Mediation Comes Before Formal Appeal When the Participant Chooses It
 
@@ -1837,6 +1867,18 @@ does not qualify missing entry-policy integration. P051-013 separately owns
 proactive review scheduling; P051-014 does not close the broader P051-008 matrix.
 Update the Node ledger and affected generated views during implementation, with
 explicit evidence scope; this proposal-only change is not an implementation claim.
+
+### Assessment-Round Continuation
+
+This additive continuation does not reopen qualified case, panel-draw or
+maintenance baselines and is not a prerequisite for their existing A–N–B–C–D
+sequence. Panel selection entropy commitments and sealed review judgments are
+different contracts.
+
+| ID | Task | Status | Dependencies | Completion gate |
+|---|---|---|---|---|
+| P051-017 | Freeze the enumerated blind-review profile | todo | P026-005 round contract; P051-002/006 interfaces | Bind current case/panel authority, payload/signing domain, eligibility revision, COI/recusal, deadlines, typed outcomes and evidence disclosure to the common barrier. Specify private body/salt retention, admission receipts and AppealBlocked/fork recovery. Preserve normative panel visibility, defense and appeal rights; do not redefine selection or substantive reputation. |
+| P051-018 | Host and qualify sealed review judgments | todo | 017; P026-009; existing case/panel runtime | Reuse responsibility-core/service, signed commands, S028 facts and outboxes; qualify commitment admission/closure race, replay, recusal, missing/invalid reveal, equivocation, barrier conflict, unauthorized opener, protection exception and Agent/notice exposure. Feed a separate source-pinned profile into the local-accountability harness. No effect reaches S040 without existing mandate and D7; docs or panel-draw evidence alone cannot close this row. |
 
 ### Next Actions
 

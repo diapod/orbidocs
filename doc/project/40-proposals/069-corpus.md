@@ -461,7 +461,8 @@ judgment uses a dedicated commit/reveal value, not a reusable content digest. It
 judgment body, and a fresh per-judgment 32-byte cryptographically random salt. Before
 the barrier,
 other participants and the chair/arbiter receive the digest and bounded commitment
-metadata, but neither the judgment body nor the salt. Barrier release reveals both;
+metadata, but neither the judgment body nor the salt. Barrier release permits
+participants to reveal both, explicitly binding the signed barrier reference;
 the host verifies the commitment before counting the judgment, and a missing or
 invalid reveal never counts as an independent first judgment. Distinct salts prevent
 equal low-entropy judgments from exposing agreement through equal commitments.
@@ -473,6 +474,42 @@ provenance records `independent-first-judgment = false`, and that contribution d
 not enter the initial quorum or independent-judgment set. Raw judgments remain
 subject to their own classification and retention policy rather than becoming
 durable Room chat facts.
+
+#### Shared Sealed-Round Binding
+
+**Planned, 2026-10-23.** The
+[P026 shared commitment/barrier contract](026-resource-opinions-and-discussion-surfaces.md#shared-commitment-and-barrier-contract)
+owns the reusable mechanics and failure vocabulary. Corpus keeps its distinct
+domain above, typed judgment body, exact Room/round/participant identity and
+current Room admission. It does not publish private judgments as Agora opinions
+or reduce general deliberation to ratings. Reuse existing Corpus owner/CAS,
+signed facts, outbox, Room policy and S020 scheduling; no second round engine.
+
+Pin the eligible participant set and policy revision; all-eligible and
+quorum-or-deadline operate only on that finite set. A signed barrier closes the
+exact accepted commitment set and identifies its admitted authority. Every reveal
+binds `barrier/ref` and `commitment/ref`; the host verifies authority, membership,
+body/salt/domain, deadline and admission/closure evidence. A ref alone proves no
+global publication time. Missing history, conflicting barriers, a receipted but
+omitted commitment or unknown cutoff cannot yield independent-judgment credit.
+
+Reuse P026's outcomes (`counted`, `missing-reveal`, `invalid-reveal`,
+`outside-barrier`, `equivocation`, `round-void`), bounded lifetime and explicit
+post-barrier lane. Multiple distinct commitments by one participant invalidate
+that participant's first-judgment result; retransmission remains idempotent.
+Missing reveals remain visible rather than being counted as dissent or agreement.
+`independent-first-judgment` denotes protocol qualification only, not independence
+of models, training data, prompts, operators or prior conversations.
+
+Local exposure hiding cannot satisfy this contract. During a sealed phase the
+chair, Agents, summaries, Room chat, observations and S039 notices must not receive
+peer bodies, salts or derived scores through another route. Required protective
+evidence and procedural notices remain available under an admitted minimal
+exception, with the limitation on cognitive blindness explicit. This continuation
+does not change the implemented requester-appointed or turn-order profiles and
+is not an alpha gate.
+
+#### Disagreement and Chair Delegation
 
 **Disagreement is data, not failure.** Conflicting admitted judgments constitute a
 successful deliberation state. Synthesis may resolve, supersede, or preserve each
@@ -2443,6 +2480,17 @@ without attributing operator consent to an unresolved or independent policy.
   host-enforced salted first-judgment commit/reveal, auditable barrier closure,
   refused or explicitly non-independent late contributions, and bounded
   disagreement-preserving answer provenance.
+
+- [ ] **`P069-AE-001` — Bind sealed first judgments to the shared primitive.**
+  Dependencies: P026-005 round-contract freeze and P026-009 mechanics, plus current
+  Room admission/round ownership. Freeze Corpus's exact transport-safe preimage,
+  policy/eligibility revisions, barrier authority, admission receipts, retention,
+  deadline and outcome mapping; reuse current signer, CAS, outbox and scheduler.
+  Qualify cutoff races, replay, missing/invalid/duplicate reveals, barrier forks,
+  partial histories, chair/Agent/notification leaks and urgent protection with a
+  separate source-pinned Corpus profile. No models or full campaign are required
+  for initial contract tests; synthetic evidence does not qualify concrete-model
+  deliberation. Existing arbiter-election work remains separately open.
 
 #### Phase 8A — Operator-bounded Agent-chair moderation `[x] P070 Phase 7 implemented`
 

@@ -690,6 +690,39 @@ Status:
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
   tracks public-gossip related-link projection and navigation.
 
+### Planned Assessment Exposure and Round Projections
+
+Status: `planned`, owned by
+[P026 section 6 and P026-005–011](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
+The existing opinion runtime checkpoint does not implement this continuation.
+
+Keep `agora-service` read admission and exposure as separate steps:
+`admit -> expose -> render`. `node:agora-service/src/opinion_query.rs` already
+accepts a per-topic admission callback and consumes raw `OpinionPage` values;
+reuse this seam without encoding `withheld` as authorization refusal or leaking
+inaccessible record existence. Decide exposure before peer pagination, ranking
+and metadata construction. UI, CLI, Agent observations, details/by-id, search,
+exports and streams use the same viewer projection. Hidden peer data must not
+alter counts, cursors, ETags, ordering or notification activity. This remains a
+local-display guarantee, not confidentiality from other public relays.
+
+`agora-projections` remains rebuildable from admitted relay records. Private
+viewer encounter/unlock/release facts belong to a separate S028 service-owned
+temporal recovery domain, never to `ProjectionStore` or its rebuild/swap.
+Replay and retention must not manufacture an unseen/independent viewer.
+
+The later round projection verifies four dedicated assessment kinds, the signed
+barrier's exact set and per-commitment outcomes before emitting opinion views.
+Do not mutate `OpinionView` into a lifecycle engine or index unknown reveals as
+ordinary opinions. Reuse canonical-json/crypto, existing signer, kind contracts,
+admission, CAS/outbox and P035 transport binding; do not create another relay.
+Barrier references bind evidence but do not prove global publication time.
+Private panel/Corpus bindings need not publish their payloads into Agora.
+
+Track implementation and evidence only in P026-005–011; S008 retains this owner
+mapping, not a duplicate tracker. Urgent protection and appeal remain available
+through P026's admitted, rating-free exception paths.
+
 ### Agora M4: Story-005 Public Signal Closure
 
 Based on:

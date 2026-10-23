@@ -294,6 +294,21 @@ Reuses (gated against the registry, not changed): `capability-passport.v1`,
   contract and operator overlay; P072 remains authoritative for every base id and
   use-specific eligibility flag.
 
+### Assessment Exposure Is Not Capability Admission
+
+The planned [P026 host projection](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection)
+reuses caller-scoped identity/authority resolution rather than adding a parallel
+capability registry. `admit` answers whether a read is authorized; `expose`
+determines its current viewer-safe representation. Catalog availability or a read
+grant cannot reveal hidden assessments or authorize an explicit skip.
+
+P026-005/007 audit existing read, detail, export and observation capabilities.
+Reuse them where their contracts can carry the projection; register and schema-gate
+only genuinely new operations. An Agent acting for a viewer cannot select a raw
+relay/operator path as an implicit fallback. Privileged replication/inspection
+remains explicitly outside `local-display-only`, not an invisible second read
+path. This is a planned consumer binding, not a new implemented registry entry.
+
 ### Planned Local Device Discovery Admission
 
 [P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
