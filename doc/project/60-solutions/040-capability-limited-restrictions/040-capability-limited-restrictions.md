@@ -42,7 +42,16 @@ alignment does not complete repair; F-04/F-05, M1–M5/V3/Q and wider recovery r
 
 ## Status
 
-Implemented solution.
+Implemented baseline solution, with separate draft lifecycle/maintenance extensions.
+
+Current maintenance checkpoint (2026-10-23): M4/P066 operator ownership, CP-R
+retention, M5/S039 bound alerts and V3a/V3b observational comparison are
+implemented with scoped owner conformance. The local API/CLI remains disabled by
+default. Final Q runtime/I/O qualification, full local regressions and independent
+retrieval remain open. v1 still owns enforcement and all five D7 fields remain
+false; no suspension writer, lifecycle cutover or portable restore is qualified.
+See [the current maintenance status](040-safe-maintenance-contracts.md) and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-Q-REVIEW-2026-10-23.md`.
 
 The 2026-10-14 Responsibility extension adds a separately qualified admitted
 procurement entry-policy subset, composed with independent P018 sources. Its
@@ -75,8 +84,9 @@ WAL worker outside admission, with rolling roots, cached immutable source bindin
 and at most 100 clear/copy/verify rows per generation/step CAS commit. Pinning
 retains the existing bounded baseline blob. These are local conformance/performance
 checks, with unchanged v1 authority and closed D7; see
-`node:docs/audits/RESPONSIBILITY-LIFECYCLE-F02-2026-10-19.md`. Incarnation handling
-and bounded abandonment/retention recovery remain open. The owner lane has no operator route.
+`node:docs/audits/RESPONSIBILITY-LIFECYCLE-F02-2026-10-19.md`. At that F-02 checkpoint, incarnation handling and bounded abandonment/retention
+recovery remained open and the owner lane had no operator route. The subsequent
+M2–M5 checkpoints are summarized above; their runtime qualification remains Q work.
 See `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-FINDINGS-2026-10-14.md`.
 
 The accepted 2026-10-20
@@ -104,14 +114,15 @@ This is neither a green whole-library regression nor clean pinned OS-profile
 qualification. SQLite durability, source-set CAS, v1 authority and all-false D7
 readiness remain unchanged.
 
-The planned follow-up is
+The follow-up began with
 `node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`:
-prove progress on pinned historical input despite ordinary v1 appends, recover
-foreign incarnations and configured maintenance capacity, qualify separate
-operator permissions/alerts, then compare pure v2 composition in a read-only
-shadow lane. Current conservative CAS may still starve. This is no new runtime
-qualification; v1 admission/scoring/diagnostics/CAS/writers/receipts remain
-authoritative and every D7 component remains false. V4/V4s/V5 stay separate.
+M1 subsequently addresses pinned progress under ordinary v1 appends; M2/M3 add
+foreign-generation history and capacity recovery; M4/M5 and V3 add the operator,
+alert and shadow owners. The current execution plan is
+`node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md`.
+Owner conformance does not close final Q runtime/I/O qualification. v1
+admission/scoring/diagnostics/CAS/writers/receipts remain authoritative and every
+D7 component remains false. V4/V4s/V5 stay separate.
 
 The draft quarantine contract preserves the source domain composition rule:
 nonterminal quarantine blocks only its typed privileged-operation scope; null
@@ -131,8 +142,9 @@ V4s requires exact equality outside two enumerated fail-closed classes:
 a soft source). No general superset gate is accepted. The qualification report
 must identify every affected address/class and prove equal-or-stricter outcomes
 inside those classes; unlisted differences block the switch. Qualified operator
-alert delivery is required before applying deviations. Current tracing alone
-is not that delivery. Subject/address cross-checking is deferred as a separate
+alert delivery is required before applying deviations. M5 now has a recipient-bound
+S039 owner; its conformance and the earlier tracing diagnostics do not establish
+final Q delivery qualification. Subject/address cross-checking is deferred as a separate
 decision; v1's raw subject selection after failed deserialization stays in place.
 Composition, every writer, v2 receipts and atomic switch still require V3–V5 in `node:docs/development/RESPONSIBILITY-LIFECYCLE-V2-PLAN-2026-10-14.md`;
 see `node:docs/audits/RESPONSIBILITY-LIFECYCLE-V0-V1-REVIEW-2026-10-14.md`.

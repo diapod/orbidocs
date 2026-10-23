@@ -283,8 +283,16 @@ and `qualification.json`: 18 runtime cases plus two conformance bindings,
 The exact original report digest is
 `sha256:4c16aa570954c29bb2cb1c45317f837c9dad563e9d8b2871ad2dbaea96d91b72`.
 Findings, failed attempts and limits remain in the parent review README.
-P051-004 remains partial because runtime entry policy is not
-connected; P051-008 remains partial because independent panel selection,
+P051-004 remains partial because complete entry-policy admission and operation
+mapping remain open; the separately qualified procurement subset is connected.
+P051-008 remains partial because independent panel selection,
 procedural scheduling and the wider matrix are absent. Existing baseline
 completion, proposal adoption, hard-MVP membership and release readiness are
 separate claims. New case effects default to disabled.
+
+Maintenance/shadow checkpoint (2026-10-23): M4/P066 operator ownership, CP-R
+retention, M5/S039 alerts and V3a/V3b comparison have scoped owner conformance.
+Final Q runtime/I/O qualification remains open. These additions do not expand the
+historical P018-12/13/14 qualification: v1 remains authoritative, every D7 field
+is false, and lifecycle writers, cutover and suspension runtime remain separate.
+See the [current S040 maintenance status](../60-solutions/040-capability-limited-restrictions/040-safe-maintenance-contracts.md).

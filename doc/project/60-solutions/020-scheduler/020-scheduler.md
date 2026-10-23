@@ -757,6 +757,21 @@ storage owns topology/integrity and the release owner still requires a complete
 fresh candidate-bound read. An absent or overdue job cannot report protection as
 healthy. No job or notification delivery is installed or qualified by this entry.
 
+## Responsibility maintenance consumer — 2026-10-23
+
+M4/M5 now reuse the host-owned S020 action path for bounded maintenance continuation
+and recipient-bound alert delivery. The maintenance ledger owns admitted commands,
+original deadlines, attempts, budgets, stop requests and outcomes; S029 is its
+rebuildable deferred read model. The scheduler launches bounded owner work and
+does not become a maintenance authority, retention owner or case-procedure timer.
+
+These adapters have scoped owner conformance. Final Q must qualify actual
+continuation, outage/restart, delivery and v1 availability on its clean candidate;
+this entry does not close P051-007 case deadlines or P051-013 repair reviews.
+Maintenance remains disabled by default, v1 remains authoritative and all D7
+components remain false. See
+`node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md`.
+
 ## Related Capability Data
 
 - `020-scheduler-caps.edn`

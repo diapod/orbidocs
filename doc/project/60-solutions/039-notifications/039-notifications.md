@@ -37,13 +37,22 @@ and user/pod-user recipient boundaries are implemented for the MVP slice.
 Native desktop OS notification adapters and richer pod-user product UX remain
 post-MVP presentation layers.
 
-Responsibility maintenance operator alerts are a planned additional consumer,
-not qualified delivery in the current lifecycle checkpoint. Its current tracing
-diagnostic does not prove that an operator received an alert. The next slice must
-reuse this queue with verified recipient binding, bounded durable domain outbox,
-deduplication, privacy-minimal events and separate queued/delivered/opened/ack states.
-Acknowledgment grants no repair or participant authority. See
-`node:docs/development/RESPONSIBILITY-SAFE-MAINTENANCE-SHADOW-V3-PLAN-2026-10-19.md`.
+Responsibility maintenance is an implemented additional consumer at the
+2026-10-23 M5 owner checkpoint. Its bounded domain intents and independent control
+reserve feed this queue through S020. `operator:default` is the shared mailbox;
+access and delivery additionally require the actual current signed operator
+binding. Only the canonical operator inbox exposes these notices; general/admin
+aliases, counts and SSE do not disclose them. Separate queued, delivered, opened
+and acknowledged states remain distinct. Verified archive-backed retrieval permits
+closed resident-metadata recovery without waiting for acknowledgment.
+
+This is owner/routing conformance; final Q must still qualify the actual API/UI
+and retention paths on its clean candidate. Earlier tracing alone proves no
+operator delivery. Acknowledgment grants no maintenance, repair or participant
+authority. v1 remains authoritative, all D7 components remain false and maintenance
+is disabled by default. See
+`node:docs/development/RESPONSIBILITY-MAINTENANCE-ALERTS-CONTRACT.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-Q-REVIEW-2026-10-23.md`.
 
 ## Date
 

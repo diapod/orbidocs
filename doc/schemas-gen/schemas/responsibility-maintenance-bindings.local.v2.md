@@ -43,6 +43,7 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`budget`](#field-budget) | `yes` | const: `{'batch/rows': 100, 'sources/generation': 8192, 'ordinary-steps/generation': 1024, 'resident/generations': 16, 'resident/baseline-bytes': 33554432, 'resident/prepared-bytes': 33554432, 'request/bytes': 16384, 'result/bytes': 65536, 'terminal/slots-per-generation': 1, 'terminal/record-bytes': 8192, 'terminal/reserved-bytes': 131072, 'pending/commands': 64, 'receipt/resident-records': 1024, 'receipt/record-bytes': 8192, 'alert/pending-records': 256, 'alert/record-bytes': 4096, 'archive/index-records': 64, 'archive/manifest-bytes': 16384, 'archive/plaintext-bytes': 100663296, 'archive/resident-bytes': 268435456, 'conflict/alert-after': 3, 'retry/attempts': 8, 'retry/backoff-ms': [25, 50, 100, 200, 400, 800, 1000], 'report/bytes': 262144, 'observation/bytes': 65536, 'evidence/run-bytes': 4194304, 'evidence/refused-bytes': 262144, 'writer/storage-version': 4, 'archive/index-bytes': 65536, 'gate/full-wall-ns': 10000000000, 'gate/cpu-ns': 1000000000, 'gate/non-commit-wall-ns': 1000000000, 'v1/authority-timeout-ms': 12000, 'v1/e2e-max-ms': 14000, 'v1/route-timeout-ms': 15000, 'pending/ordinary-commands': 48, 'pending/control-commands': 16, 'hold/active-records': 336, 'hold/record-bytes': 4096, 'hold/resident-records': 1024, 'hold/resident-bytes': 4194304, 'control/episode-records': 16, 'control/episode-bytes': 65536, 'operation/event-records': 8192, 'operation/event-bytes': 33554432}` |  |
 | [`safety`](#field-safety) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety` |  |
 | [`validator/digest`](#field-validator-digest) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest` |  |
+| [`candidate/digest`](#field-candidate-digest) | `no` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest` | Exact independently frozen candidate controls, including every executable, test inventory and source archive. Required for Q runtime qualification; optional for historical shape fixtures. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -164,3 +165,11 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 
 - Required: `yes`
 - Shape: ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest`
+
+<a id="field-candidate-digest"></a>
+## `candidate/digest`
+
+- Required: `no`
+- Shape: ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest`
+
+Exact independently frozen candidate controls, including every executable, test inventory and source archive. Required for Q runtime qualification; optional for historical shape fixtures.

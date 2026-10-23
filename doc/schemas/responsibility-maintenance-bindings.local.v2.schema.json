@@ -211,6 +211,10 @@
     },
     "validator/digest": {
       "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "candidate/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest",
+      "description": "Exact independently frozen candidate controls, including every executable, test inventory and source archive. Required for Q runtime qualification; optional for historical shape fixtures."
     }
   },
   "required": [
