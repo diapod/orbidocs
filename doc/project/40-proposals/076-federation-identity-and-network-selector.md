@@ -237,8 +237,8 @@ federation-root.v1 {
                           #   any relay's Agora authority_roots[].
   custody_policies[]      # optional, self-contained org custody rules referenced
                           #   by attestation_roots[].custody_policy_ref. MVP
-                          #   runtime evaluates only purpose=federation-root,
-                          #   exactly one rule per policy,
+                          #   exactly one federation-root rule; P076-033 adds
+                          #   explicit paired capability-issuance/revocation rules,
                           #   mode=any-authorized|threshold, and authorized
                           #   participant/key signer sets.
   bootstrap_seed_peers[]  # this federation's static WSS seed peers (Proposal 014's
@@ -821,7 +821,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 
 | ID | Item | Status | Notes |
 |---|---|---|---|
-| P076-001 | Define `federation-root.v1` schema | done | `doc/schemas/federation-root.v1.schema.json` is accepted; covers exactly `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, `identity.sovereign_subject_refs[]`, the participant-only compatibility projection `identity.sovereign_participant_ids[]`, plus `federation_id`, `pack_version`, attestation-root/custody refs, self-contained `custody_policies[]`, explicit `seed_directory_bootstrap[].enabled`, optional inline `seed_directory_bootstrap[].endorsement` as the bootstrap official-status proof, and optional `seed_directory_bootstrap[].tls_certificate_sha256` for transport pinning; `additionalProperties: false` at every level; `kind` constrains attestation-root id prefixes; custody policy v1 allows exactly one `federation-root` rule; `tls_certificate_sha256` and `key_public` patterns matched to the real runtime formats (base64url digest, bare multibase fingerprint); wired into `scripts/validate-json-schemas.sh` (`*.federation-root.json` mapping, next to `*.seed-directory-trust.json`); `make validate-schemas` passes. Positive examples now cover participant-root, org-threshold, and inline bootstrap endorsement shapes; negative schema-shape fixtures cover missing custody, unsigned/unknown fields, bad inline endorsement shape, forbidden redundant `official`, missing `enabled`, and malformed Seed Directory TLS pins; signature-validity, referenced-policy mode parity, endorsement verification, custody-threshold failures, including threshold-not-met, and TLS pin transport enforcement are covered by node runtime tests because JSON Schema cannot express cryptographic truth, clean cross-array references, or live transport evidence. The org-threshold example is mirrored into `node/protocol/contracts` and exercised by `schema-gate/tests/federation_root_contracts.rs`. |
+| P076-001 | Define `federation-root.v1` schema | done | `doc/schemas/federation-root.v1.schema.json` is accepted; covers exactly `peer_discovery.seeds[]`, `network.seed_directory[]`, `network.seed_directory_trust[]`, `identity.sovereign_subject_refs[]`, the participant-only compatibility projection `identity.sovereign_participant_ids[]`, plus `federation_id`, `pack_version`, attestation-root/custody refs, self-contained `custody_policies[]`, explicit `seed_directory_bootstrap[].enabled`, optional inline `seed_directory_bootstrap[].endorsement` as the bootstrap official-status proof, and optional `seed_directory_bootstrap[].tls_certificate_sha256` for transport pinning; `additionalProperties: false` at every level; `kind` constrains attestation-root id prefixes; custody policy v1 requires one `federation-root` rule and P076-033 adds an explicit paired issuance/revocation policy; `tls_certificate_sha256` and `key_public` patterns matched to the real runtime formats (base64url digest, bare multibase fingerprint); wired into `scripts/validate-json-schemas.sh` (`*.federation-root.json` mapping, next to `*.seed-directory-trust.json`); `make validate-schemas` passes. Positive examples now cover participant-root, org-threshold, and inline bootstrap endorsement shapes; negative schema-shape fixtures cover missing custody, unsigned/unknown fields, bad inline endorsement shape, forbidden redundant `official`, missing `enabled`, and malformed Seed Directory TLS pins; signature-validity, referenced-policy mode parity, endorsement verification, custody-threshold failures, including threshold-not-met, and TLS pin transport enforcement are covered by node runtime tests because JSON Schema cannot express cryptographic truth, clean cross-array references, or live transport evidence. The org-threshold example is mirrored into `node/protocol/contracts` and exercised by `schema-gate/tests/federation_root_contracts.rs`. |
 | P076-002 | Promote `federation_id` from per-entry tag to node-wide config | done | Node runtime now has a node-wide `federation.federation_id` config surface and includes it in the daemon config snapshot. Config-selected non-default federation ids must match the loaded `federation-root.v1`, so `federation_id` is no longer only an attribute of individual Seed Directory trust entries. |
 | P076-003 | Load `federation-root.v1` from `data-dir` at daemon startup | done | Node startup now schema-gates and loads `<data-dir>/federation-root.v1.json` when present. If no explicit file exists, startup fails closed unless the local operator explicitly enables the bundled `orbiplex-main` dev fixture. Accepted packs project seed peers, Seed Directory bootstrap/trust, and sovereign identity roots into daemon config. Explicit data-dir packs require real Ed25519 signatures over canonical payloads, participant roots must be self-signed, org roots are evaluated against self-contained `custody_policies[]`, inline bootstrap endorsements are verified against the active root before a Seed Directory is projected as `federation-endorsed`, invalid inline endorsements fail closed for the whole root pack, and the loader fails closed on schema/semantic/signature/custody errors plus state downgrade/mismatch. Bootstrap entries without inline endorsement remain advisory/community, never official. |
 | P076-004 | Ship a signed `orbiplex-main` default federation pack | partial | Node ships a bundled `orbiplex-main` federation-root fixture that exercises the runtime path and populates the four surfaces, but it is not trusted by default. Treat it as a development/demo bootstrap fixture, not production root authority, until the adopted root charter is activated through concrete custodians, concrete keys, final signer roster, and a signed production pack. The charter is now an adopted initial implementing act: `doc/normative/50-constitutional-ops/en/ORBIPLEX-MAIN-ROOT-CHARTER.en.md` (`DIA-ROOT-001`, 0.1.0, with a PL twin); roster/keys remain deliberately unfilled until the activation ceremony. The threshold-root ceremony shape is frozen in this proposal, but the production roster and signed pack remain governance-authored activation work. |
@@ -1144,3 +1144,28 @@ the channel carries signatures — never authority.
 3. Continue the remaining P076 post-MVP protocol track: **P076-019**
    (remote co-signing) as deferred post-MVP work. Alliance runtime enforcement
    now belongs to Proposal 079.
+
+## Limited Messaging custody extension (2026-10-23)
+
+P076-033 in the [limited-grant decision](076-limited-messaging-grants-decision.md)
+extends the signed policy with two independent purposes: threshold
+`capability-issuance` and any-authorized `capability-revocation`. The original
+root-signature purpose and production root quorum remain unchanged; neither new
+purpose can activate a pack. The daemon verifies all policy shapes and projects
+only explicit grant purposes into issuance authority. Custodian participant refs
+remain signing identities, not additional sovereign subjects. The local Node
+implementation and focused organization custody gate are now locally qualified
+(1423 conformance plus 123 capsule executions, 34 strict sovereign phases and
+42 browser cases); see `node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`.
+P076-034, its extra A2 cohort diagnosis, and release readiness remain separate.
+
+## Bounded offline Messaging proof follow-up
+
+[P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
+plans a bounded attachment of the existing signed issuance status to the Messaging
+V2 passport presentation. Reuse the current grant verifier and durable observation
+owner; require zero status fetches in the offline acceptance gate. The receiver
+still needs an independently admitted current root and fresh status. No new
+trust anchor, longer lease or general offline-delivery guarantee is introduced.
+Its task and acceptance are owned by the limited-grant decision, independently
+of P076-034; this is planned work, not an extension of existing qualification.

@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **222** host-local / **254** ogółem; grupy właścicieli: **37**.
+Wpisy: **223** host-local / **255** ogółem; grupy właścicieli: **37**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -238,6 +238,7 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>agent.effect.dispatch</code> | <code>host/agent.effect.dispatch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.effect.propose</code> | <code>host/agent.effect.propose</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.fork</code> | <code>host/agent.fork</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agent.grant.revoke</code> | <code>host/agent.grant.revoke</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.inference-flow.bind</code> | <code>host/agent.inference-flow.bind</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.inference-passage.admit</code> | <code>host/agent.inference-passage.admit</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agent.inference-passage.commit</code> | <code>host/agent.inference-passage.commit</code> | <code>active</code> | <code>host-local</code> | true | true | — |

@@ -660,17 +660,28 @@ extends existing prompt assembly for
 [P072's local catalog](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
 Status: partial local implementation. The Agent controller adds short orientation
 through `PromptAssemblyPolicy` and returns classified results as lower-trust
-context. A deterministic daemon-process loop passes list, describe and the next
-inference under the default prompt cap; supervised provider guidance and a
-concrete model remain unqualified. Inquirium has no tool-result role, so the
-labelled `User` result layer is not semantic injection isolation; see
+context. A supervised Python provider participates in a deterministic
+daemon-process loop: list, guided describe, unguided describe and four scripted
+inference calls pass under the selected prompt cap. A concrete model remains
+unqualified. The checkpoint adds a host-owned,
+canonical `inquirium.host-observation.v1` envelope through a required, fixed
+operation postamble and an adapter-declared `user` transport. Its source, opaque
+read ref, digest and JSON data provide structural provenance. Inquirium has no
+correlated native tool call for a tool-result role, so the `User` transport does
+not provide semantic injection isolation; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
+Inquirium validates the bounded source reference and observation envelope;
+the Agent controller owns the closed list/describe source allowlist.
 
 A short host-owned orientation explains the two catalog reads; detailed
 capability guidance is acquired on demand and enters classified, lower-trust
 context with its contract/guidance refs. Reuse `PromptAssemblyPolicy`, role and
 policy-digest handling, context budgets and existing egress checks. Never load
 all middleware instructions or let their prose override fixed host policy.
+Reject adapters without declared `user` support before this continuation's
+inference; retain the selected prompt-token cap and 64 KiB envelope bound.
+The process test confirms User transport, fresh observation refs and canonical
+result digests; it does not establish resistance to hostile usage notes.
 
 Inquirium emits inert `propose_tool_call` data. Agent/controller admission,
 execution and continuation remain outside Inquirium under P073-GUIDE-001.

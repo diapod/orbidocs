@@ -4,6 +4,16 @@
 
 The component uses an **inline proof model**: proxy-signed artifacts carry a self-contained `DelegationProof` embedding the delegation passport in compact form. Verifiers validate the proof inline without fetching the full delegation passport from a remote source. The full `key-delegation.v1` passport remains the canonical artifact for registration, operator management, local signing selection, publication, and revocation feeds.
 
+The cross-artifact guidance is
+[P032: Bounded Verification Material Across Artifact Families](../../40-proposals/032-key-delegation-passports.md#bounded-verification-material-across-artifact-families).
+Reuse the current compact proof rather than adding a parallel evidence format.
+Self-contained signature/delegation verification is relative to the receiver's
+local trust and time context; it does not establish current non-revocation or
+operation admission. Profiles bound size/work, document reference/cache
+dependencies, preserve pseudonym privacy and qualify their network-disabled
+verification separately. Current `done` rows below do not establish every
+consumer's offline readiness, and the single-hop guard remains unchanged.
+
 ## Purpose
 
 The component is responsible for:

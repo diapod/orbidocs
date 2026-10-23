@@ -418,3 +418,75 @@ API-only individual-withdrawal evidence is unchanged. P076-035 is `done` as this
 focused gate; P076-033 organization custody and P076-034 final mixed qualification
 remain open. `full_candidate_qualified=false` and `release_ready=false` remain
 explicit.
+
+### Bounded inventory reads (2026-10-23)
+
+The P076-035 follow-up moves the 25-child window into the host, before proof
+assessment and scope serialization. The grant GET accepts either `consent_page`
+or an exact `delegation_id`/`passport_id` selection for withdrawal preflight.
+Window metadata reports full totals; returned child/withdrawal lists describe
+only the selection. UI caps are 1 MiB for a page and 128 KiB for a point read.
+Forms and refresh preserve page position, human labels retain technical codes,
+and unrelated GET navigation parameters are ignored. Known-selector validation,
+closed POST/CSRF/confirmation checks and independent execution authorization stay
+in force. The existing pinned browser evidence remains historical; this follow-up
+has its own local regressions in Node.
+
+### Organization custody implementation checkpoint (2026-10-23)
+
+P076-033 now supplies explicit `capability-issuance` threshold and
+`capability-revocation` any-authorized policies from the active signed root.
+The separate `federation-root` rule alone controls pack signing. Custodians do
+not become sovereign participants; beneficiary/delegate scope, explicit contact
+and INAC decisions, remote-parent status budgets and execution guards retain
+the P076/P097 contract. The organization browser candidate and offline public
+proof verifier are implemented; runtime qualification is pending at this
+checkpoint. Historical participant-issuer and P076-035 evidence is unchanged.
+
+### Qualified organization custody gate (2026-10-23)
+
+P076-033 now has focused clean-source qualification at
+`node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`: 1423
+conformance plus 123 capsule executions, 34 strict sovereign phases and 42 real
+browser cases on six unchanged binaries. Org threshold issuance and separate
+any-authorized issuer withdrawal retain ordinary/custodian non-admission. The
+active reverse receive consent delivers before its parent is withdrawn, then
+current host assessment refuses all children and further delivery. Local history
+is retained without inventing a node-authored withdrawal. Fourteen signed-public
+proof files requalify identically before/after extraction; the final offline pack
+is 131/131. P076-034, its extra A2 cohort diagnosis, and release readiness remain
+open. Historical participant-issuer and individual-withdrawal gates keep scope.
+
+### Final limited-grant gate in progress (2026-10-23)
+
+P076-034 adds a closed, one-source/six-binary mixed regression candidate, including
+A2 renewal and a separate sovereign contact provider for ordinary Messaging
+operators. The A2 diagnostic identified an acceptance observer selecting an old
+same-peer/schema INAC offer; matching the current request/artifact generation
+changes no receive authority. Public transport certificates and profiles are
+pinned with the new candidate. Completion requires new retained measurements,
+not reuse of historical focused gates; release readiness remains separate.
+See [the owning decision](../../40-proposals/076-limited-messaging-grants-decision.md#p076-034-candidate-contract-and-a2-diagnosis-2026-10-23).
+
+The separate-provider diagnostic now reaches trusted host discovery, then receives
+401 from the token-protected challenge API. P061 now adopts explicit operator
+opt-in for public challenge/redeem; default closure and protected status/debug
+and lifecycle remain required. Public replies carry no code-bearing dev link,
+and public mode refuses `always_accept`. P076-034 measures this path without
+sharing provider tokens or exposing the OTP debug view. Qualification and release
+readiness remain separate.
+
+The separate contact provider admits the exact participant-signed claim through
+its existing operator API before public lookup. P076-034 records this as explicit
+provider admission, not remote self-service publication; the Messaging grant adds
+no catalog or attestation authority. Control and claim signatures remain in the
+public proof.
+
+P076-034 is paused for operator branch integration (2026-10-23). Reviewed channel
+and report-contract repairs are committed at Node `f84a3ef7` / `22b428f8` and
+Orbidocs `e38c581e`. Candidate12 completed 1537 conformance and 188 capsule
+executions (20 final-proof tests pending), then strict Story-010 was deliberately
+interrupted; none of the ten final scenarios started. No full-candidate or release
+qualification is claimed. Resume after explicit continuation with a fresh whole
+candidate from clean integrated sources. Historical qualified/refused scopes
+remain unchanged.

@@ -868,8 +868,9 @@ policy that cannot be derived from the frozen decisions above.
 [P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns catalog semantics and the shared acceptance report;
 [S047](../60-solutions/047-agent/047-agent.md#planned-local-catalog-continuation)
-records the partially implemented controller responsibility. The first consumer is one bounded
-Agent, not a new autonomous Inquirium mode.
+records the partially implemented controller responsibility. A supervised
+provider now participates in one scripted local H run. The first consumer is
+one bounded Agent, not a new autonomous Inquirium mode.
 
 ### Implementation Recommendations
 
@@ -897,9 +898,49 @@ diagnostic and no effect. The subsequent effect proposal must pass ordinary
 Agent admission independently. Continuation time follows the remaining Agent wall-time
 budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
+### Durable single-grant withdrawal (follow-up contract)
+
+`agent.grant.revoke` is a host-local, non-advertised Agent-owner operation. Its
+authenticated caller must be local control or a module with the explicit Agent
+operation grant and ownership of the selected Agent. The request carries
+`agent/id`, exact `capability/id`, `idempotency/key` and `reason/code`; neither
+the model nor a catalog result may invoke it. The host records one
+`agent.grant-revocation.v1` fact with the canonical request digest, actor, time,
+resulting Agent state and `changed` bit only when the exact grant was present.
+The replay identity is `(agent/id, idempotency/key)`: replay of the same
+operation/key/body returns the retained decision, while reuse for another body
+of that Agent conflicts. The same key on another Agent is independent. An
+absent grant returns `changed=false`, `replayed=false` without writing a fact
+or reserving the key. Repeating that no-op while the Agent is active remains
+idempotent because this slice has no regrant operation. A no-op does not acquire
+a durable replay right after the Agent becomes terminal. The fact is monotonic
+for that Agent: no regrant operation exists in this slice.
+
+Withdrawal is allowed while Running or Suspended and leaves lifecycle state
+unchanged. An absent grant does not disclose whether that capability exists
+elsewhere. A terminal Agent refuses a new withdrawal; an exact replay of a
+recorded withdrawal remains valid. The original session and binding facts remain
+immutable. The current effective Agent spec and binding projection omit the
+withdrawn grant after replay and restart. Every catalog read/continuation and
+effect dispatch checks this projection at its current admission boundary;
+already admitted proposals confer no lasting dispatch authority. A dispatch
+that crossed the admission boundary before withdrawal is an in-flight action,
+not preempted by this operation. No automatic effect execution or wider tool
+allowlist follows from withdrawal.
+
+The revocation projection has no separate global idempotency capacity that can
+refuse an authority-reducing write. New durable facts are bounded by the
+original grants of their respective Agents: each exact grant can be removed
+once, and no-op requests write nothing. Historical `changed=false` facts from
+the earlier development implementation remain importable for replay. At host
+admission, `local-control` is reserved for authenticated local control and
+cannot be a middleware module id. Admitted channel module ids are at most 256
+UTF-8 bytes, matching the revocation fact's actor bound. A raw module id must
+never gain local-control authority through string equality.
+
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | Closed allowlist and correlation state machine are wired into `CallInquirium`; a daemon-process run with a scripted local HTTP adapter passes list → describe → next inference, then passes one ordinary effect proposal through unchanged and rejects a mixed proposal. Ordinary `agent.effect.propose` still performs separate admission. Mid-read cancellation/revocation, supervised middleware contribution and adversarial acceptance remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409. Lifecycle stop and durable withdrawal of one grant prevent a pending continuation from inferring again, with no effect dispatch. In-flight call preemption, separately delivered late results and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 

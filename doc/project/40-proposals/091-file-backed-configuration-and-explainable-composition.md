@@ -2802,6 +2802,27 @@ The accepted closed v1 descriptor still justifies strict Python field admission.
 A dedicated P091 integration branch with fresh P072 dispatch comparison remains
 separate work; no primary-branch merge or rewrite is performed by this checkpoint.
 
+#### Primary-branch integration checkpoint — 2026-10-23
+
+The separately authorized integration joins the four scoped pilots and their
+consumption-availability review with current Node `master` and Orbidocs `main`.
+The retained source branch is integrated without rewriting history or deleting
+its isolated worktrees. This supersedes the earlier recommendation to prepare
+a dedicated integration branch; it does not close the remaining P091 tasks.
+
+The P072 comparison preserves local-control catalog dispatch as an absent module
+caller, not configuration-read authority. A merged-tree regression checks that
+the exact Flow owner/address cannot make that caller, a foreign module or the
+reserved `local-control` module identity pass the configuration boundary, while
+the authenticated owning module still succeeds. The bounded catalog continuation
+keeps its two-operation allowlist. Current channel cancellation semantics remain
+unchanged. Ledger and coverage projections are regenerated from merged sources.
+
+The integration record is
+`node:docs/audits/P091-BRANCH-INTEGRATION-2026-10-23.md`. Its focused checks do not
+renew the earlier pinned browser/WebView receipts or qualify a release. Unrelated
+local documentation edits in the primary worktree are outside this integration.
+
 ### Dependency-ordered slices
 
 Start P091-001a and P091-001b concurrently as audit work; only the bounded foundation

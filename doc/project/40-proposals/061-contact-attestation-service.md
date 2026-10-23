@@ -66,6 +66,41 @@ passports to be issued.
 Challenge redemption is single-use. Expired, already redeemed, or attempt-limit
 exhausted challenges fail terminally.
 
+A valid redemption durably consumes its challenge before host passport issuance.
+Concurrent requests cannot start another issuance. If a crash or failed/lost host
+reply leaves its outcome unresolved, restart and repeated redemption MUST NOT
+retry that issuance. The caller explicitly creates a fresh challenge and proves
+control again. Consumed unresolved attempts do not occupy pending-challenge
+quota; protected operator status reports them separately. This conservative
+failure contract avoids issuing twice after an unknown effect.
+
+### Separate-provider access
+
+The provider operator MAY explicitly enable unauthenticated challenge creation
+and redemption. This opt-in is disabled by default. It opens only
+`POST /v1/attestation/challenges` and
+`POST /v1/attestation/challenges/{challenge_id}/redeem`; the existing OTP, expiry,
+attempt limits and pending-challenge quotas still apply. Discovery and provider
+selection remain verified host operations. Public access grants neither passport
+issuance authority nor a bypass of contact-control proof.
+
+Status/debug and middleware lifecycle endpoints MUST always require their
+respective operator tokens, including when no token is configured. An absent
+authentication configuration fails closed. Health/readiness probes remain public.
+Public challenge responses MUST NOT contain the delivered code or a debug link
+carrying it. The local dev adapter may retain that information only behind the
+authenticated operator status surface; reading it is a substituted delivery
+boundary in synthetic acceptance, not real email/SMS delivery.
+
+Node implements this explicit opt-in as
+`ORBIPLEX_ATTESTATION_PUBLIC_CHALLENGES=true` in the service launch environment.
+Only an explicit positive value (`1`, `true`, `yes`, `on`, case insensitive)
+enables it. It MUST NOT be combined with the acceptance-only `always_accept`
+policy: the service refuses that configuration before creating challenge state.
+No provider token is distributed to participant nodes. This access decision was
+adopted for P076-034 on 2026-10-23; the proposal's remaining production delivery
+and federation qualification scope is unchanged.
+
 ### Local acceptance mode
 
 Implementations MAY expose an operator/test-only `always_accept` provider policy,

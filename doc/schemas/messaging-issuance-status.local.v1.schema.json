@@ -192,6 +192,12 @@
                 "allowed_actions"
               ]
             }
+          },
+          "passport_total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1024,
+            "description": "Total locally issued children of this exact grant before window/point selection."
           }
         },
         "required": [
@@ -211,6 +217,49 @@
           "passports"
         ]
       }
+    },
+    "consent_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional host-selected global window. Child IDs and withdrawal lists in each grant refer only to the selected window; passport_total counts all local children. No off-window scopes are serialized.",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 40
+        },
+        "page_size": {
+          "const": 25
+        },
+        "previous_page": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 40
+        },
+        "next_page": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 40
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1024
+        }
+      },
+      "required": [
+        "page",
+        "page_size",
+        "previous_page",
+        "next_page",
+        "total"
+      ]
     }
   },
   "required": [
@@ -218,5 +267,39 @@
     "participant_id",
     "observed_at",
     "grants"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "consent_window"
+        ]
+      },
+      "then": {
+        "properties": {
+          "grants": {
+            "items": {
+              "required": [
+                "passport_total"
+              ],
+              "properties": {
+                "passports": {
+                  "maxItems": 25
+                },
+                "passport_ids": {
+                  "maxItems": 25
+                },
+                "withdrawn_passport_ids": {
+                  "maxItems": 25
+                },
+                "withdrawal_publication_pending": {
+                  "maxItems": 25
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   ]
 }

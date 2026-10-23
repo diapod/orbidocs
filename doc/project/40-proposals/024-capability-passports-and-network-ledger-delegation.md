@@ -572,6 +572,15 @@ Receivers MAY additionally reject passports by local policy, such as:
 
 ## Implementation Notes
 
+- **Planned V2 Messaging presentation follow-up:**
+  [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
+  owns the bounded optional attachment of `issuance-revocation-status.v1` to the
+  existing passport presentation. Reuse the V2 grant/status verifier and durable
+  observation owner; do not change the V1 verification rules above, the child's
+  signed preimage or local root admission. The offline gate requires an
+  independently admitted root, usable fresh evidence and zero status fetches,
+  including refusal and restart cases. This is not a new credential format or
+  a completion claim for P024's already qualified foundation.
 - A host capability such as `capability.passport.sign` is a suitable operator
   interface for passport issuance.
 - A host capability such as `capability.passport.verify` is a suitable
