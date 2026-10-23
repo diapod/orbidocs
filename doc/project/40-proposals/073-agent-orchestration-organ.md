@@ -922,9 +922,14 @@ middleware channel call, detached controller worker or physical preemption.
 The currently synchronous handoff owns its correlation locally. Its unit-level
 inertness rule does not qualify an independently delivered result transport.
 The controller captures a process-local projection of durable lifecycle
-transitions. Suspend/resume increments that epoch and invalidates a previously
-admitted passage; replay of the exact suspend/resume facts reconstructs the
-projection, while no in-flight passage survives daemon restart.
+transitions. Every actual state transition advances the epoch once; paired
+`LifecycleCommand` and `State` facts reconstruct the same epoch on replay.
+Suspend/resume therefore invalidates a previously admitted passage. The Agent
+action commit checks this epoch and absolute expiry for every `CallInquirium`
+action, irrespective of catalog grants; the catalog controller adds checks
+between reads. No in-flight passage survives daemon restart. Wall-time expiry
+retains HTTP 429 and exposes the machine-readable `agent-wall-time-expired`
+reason; a transient store failure retains its retryable service failure class.
 
 ### Durable single-grant withdrawal (follow-up contract)
 

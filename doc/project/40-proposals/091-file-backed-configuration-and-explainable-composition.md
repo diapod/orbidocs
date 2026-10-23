@@ -2136,8 +2136,22 @@ the current value through an operator-only explain response. Preview is inert;
 commit rechecks the provider report, source bytes and resolved plan under the
 shared P091 writer. An explicit, targetless local recovery request classifies
 only this source's retained intent without supplying bytes or starting a
-provider. A stale pin or invalid selected source refuses until an operator
-repairs the confined file; it is not silently made authoritative.
+provider. The current file bytes must match the completed owner fact (or the
+expected prior bytes after a not-committed attempt). A manual edit or unowned
+file is refused as operator provenance; restoring the exact approved bytes is
+required before another preview. A pending intent needs explicit recovery.
+An old schema pin or an uninstalled provider does not make the whole document
+uneditable: the operator can reset that exact stored entry through the normal
+preview/commit path without treating its former pin as current authority.
+An older committed `plan/ref` returns its retained receipt without replaying
+the write or claiming that its bytes are current.
+
+An unavailable operator source does not disable capability discovery. The host
+omits optional guidance if source ownership, recovery or byte integrity fails,
+and omits only an affected binding when its contract or resolution fails. It
+retains a bounded refusal code and reason in the operator log; the exact
+operator inspection route returns a refusal for a stale selected binding.
+Provider default failures are likewise diagnostic, never catalog admission.
 
 Provider defaults remain module declarations; the operator source is a distinct
 `operator-component` contribution in the ordered resolver. The host validates

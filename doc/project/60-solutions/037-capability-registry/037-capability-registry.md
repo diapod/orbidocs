@@ -116,6 +116,11 @@ and its digest. Operator provenance and the relative source locator remain on
 the authenticated configuration inspection route; the catalog remains local
 and does not dispatch the described operation. This scoped overlay has focused
 C/H evidence in `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
+An unavailable operator source removes optional guidance from a catalog read,
+not the visible capability. A stale exact binding removes that binding's
+guidance; operator inspection exposes the reason. Source bytes need a matching
+completed P091 owner fact, and an old or orphaned entry can be reset through
+the reviewed operator API.
 Transient readiness changes availability without invalidating the catalog
 consistency revision. Default describe returns a bounded schema summary; full
 trusted local schemas require an explicit request.
