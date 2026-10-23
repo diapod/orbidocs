@@ -4003,3 +4003,21 @@ P096-005 remains partial. Private manifest baefff7f / archive 3eeb65d6 pass
 reset/recovery, renewal, migration or merge occurs. The deployed client still
 requires a new immutable build before another freshly approved physical trial.
 See node:docs/audits/REVIEW-SENSORIUM-R11-CAMPAIGN-RUN02-2026-10-23.md.
+
+### Reporting-client preparation after revision-11 run02 — 2026-10-23
+
+Clean Node e4e13b72 builds source 5f2aeda0 over 5146 entries into signed
+standalone 2eda2db5 and a fresh target GUI 47a5cf76 / handoff 1036b698.
+Nineteen release files, sidecars and eighteen loaded sections are independently
+verified. The 73-input frozen kit includes both Rust owners; isolated runtime
+231 and exporter 42 tests pass, zero skips/failures/errors. Worker, native assets,
+qualifier and retry limits remain unchanged. Rootless LaunchServices preflight
+passes as launchd; new ad-hoc identity Bluetooth permission remains unobserved.
+All 929 old files, 245 directories, parent/controller, finite grants and journal
+212/31 remain exact. Only fifteen client files in six directories appear;
+revision 11 remains unregistered, claims zero. Independent review repairs
+retention copies to compare against frozen pins. Private manifest 5af546a0 /
+archive 37fb5ba0 pass 170-member retrieval and seven-file primary-copy readback.
+Historical run02 and its unknown scan cause remain unchanged. No permission
+probe, Bluetooth manager, headband work, renewal, recovery, transition, migration
+or merge runs. P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-REPORTING-CLIENT-PREPARATION-2026-10-23.md.
