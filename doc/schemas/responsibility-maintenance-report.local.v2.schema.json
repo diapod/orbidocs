@@ -254,6 +254,10 @@
     },
     "safety": {
       "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    },
+    "capture": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Artifact",
+      "description": "Required by the Q qualifier. Optional only for historical pre-run draft conformance examples."
     }
   },
   "required": [

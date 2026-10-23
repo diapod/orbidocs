@@ -16,11 +16,11 @@ SPEC.loader.exec_module(SYNC)
 
 
 class ResolveNodeRootTests(unittest.TestCase):
-    def test_maintenance_m0_mirrors_are_explicit_complete_and_byte_identical(self) -> None:
+    def test_maintenance_m0_through_q_mirrors_are_explicit_complete_and_byte_identical(self) -> None:
         groups = (
-            (SYNC.SCHEMA_WHITELIST, SYNC.SCHEMAS_DIR, "responsibility-maintenance-*.schema.json", 10),
-            (SYNC.EXAMPLE_WHITELIST, SYNC.EXAMPLES_DIR, "*.responsibility-maintenance-*.json", 10),
-            (SYNC.INVALID_EXAMPLE_WHITELIST, SYNC.INVALID_EXAMPLES_DIR, "*.responsibility-maintenance-*.json", 13),
+            (SYNC.SCHEMA_WHITELIST, SYNC.SCHEMAS_DIR, "responsibility-maintenance-*.schema.json", 15),
+            (SYNC.EXAMPLE_WHITELIST, SYNC.EXAMPLES_DIR, "*.responsibility-maintenance-*.json", 19),
+            (SYNC.INVALID_EXAMPLE_WHITELIST, SYNC.INVALID_EXAMPLES_DIR, "*.responsibility-maintenance-*.json", 27),
         )
         for whitelist, source, pattern, count in groups:
             names = tuple(sorted(path.name for path in source.glob(pattern)))

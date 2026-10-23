@@ -31,6 +31,7 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`cases`](#field-cases) | `yes` | array |  |
 | [`exclusions`](#field-exclusions) | `yes` | const: `['v2-authoritative-reads', 'v2-participant-writers', 'lifecycle-suspension-runtime', 'D7-opening', 'encrypted-backup-restore', 'distributed-clone-fencing', 'general-case-retention', 'full-P051-010', 'full-P051-006-007-008-015-016', 'federation', 'real-participant-sanctions', 'release-readiness']` |  |
 | [`safety`](#field-safety) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety` |  |
+| [`capture`](#field-capture) | `no` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Artifact` | Required by the Q qualifier. Optional only for historical pre-run draft conformance examples. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -80,3 +81,11 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 
 - Required: `yes`
 - Shape: ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety`
+
+<a id="field-capture"></a>
+## `capture`
+
+- Required: `no`
+- Shape: ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Artifact`
+
+Required by the Q qualifier. Optional only for historical pre-run draft conformance examples.

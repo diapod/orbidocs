@@ -29,6 +29,9 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.operator-consent.request.v1.json)
+      echo "$SCHEMAS_DIR/operator-consent.request.v1.schema.json"
+      ;;
     *.responsibility-maintenance-grant.local.v1.json)
       echo "$SCHEMAS_DIR/responsibility-maintenance-grant.local.v1.schema.json"
       ;;
