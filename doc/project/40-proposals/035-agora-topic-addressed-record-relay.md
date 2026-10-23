@@ -1582,7 +1582,7 @@ AppleRAID plist and check the adopted separate member as well as aggregate statu
 and rebuilding. OS access denial is distinct from absence; TCC attribution needs
 additional evidence. Online is not a physical-member scrub.
 
-Sample at least max(2, ceil(N/7)) identities per store/day with rolling deadlines,
+Sample at least min(N, max(2, ceil(N/7))) identities per store/day with rolling deadlines,
 six-day refresh eligibility and seven-day coverage, conditional on availability
 and a feasible budget. Permanent denial is an explicit overdue result. Preserve
 per-store progress and backoff without starvation. One sample lease and OS lock
