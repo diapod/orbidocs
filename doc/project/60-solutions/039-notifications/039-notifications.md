@@ -257,19 +257,6 @@ Status:
 - `notification-state-changed.v1` SSE payloads;
 - action result records.
 
-## Planned Matrix recovery source (P035-013)
-
-Durable account-history `blocked` and `awaiting-operator-retry` facts are a planned
-host-owned notification source. Emit idempotent lifecycle updates after the recovery
-transaction commits; do not expose pagination tokens or treat notification delivery
-as recovery success. A button resolves current local operator authority and a fresh
-inspected task revision. Credible Retry-After keeps its not-before; the implausible
-escape remains a separate action requiring a reason. A bounded bulk operation uses
-a CAS and result per task, including partial failures, and cannot clear other limits.
-
-P035-013 owns implementation and runtime evidence. This planned adapter does not
-claim active alerts, batch retry or authority granted by a notification.
-
 ## Related Capability Data
 
 - `039-notifications-caps.edn`
@@ -281,6 +268,13 @@ this queue through a host-owned, durable, idempotent source adapter. It preserve
 recipient policy, metadata-only SSE, current authority and notification/task CAS.
 Acknowledgment does not retry history. Only ordinary retry is batchable; explicit
 gap acceptance and implausible-delay override remain single reasoned actions.
-Implementation and focused Synapse qualification are in progress, not established
-by the existing S039 MVP. See the P035 carrier tracker and Node recovery-attention
-contract for command receipts and fault/restart/replay acceptance.
+Focused qualification passed on 2026-10-23 at clean Node `885a78fd` / Orbidocs
+`b16312f6`: 12 Synapse cases and five SQLite controls (four runtime, one separate
+conformance), with actual queue/API/private UI, reply-loss/crash, restart and
+carrier/S039 replay. The S039 guarded representation remains private; the new
+redacted recovery control page separately supports no-JS preview/confirmation.
+Actions preserve the originally inspected task CAS and notification version and
+recheck current authority; they never replace stale revisions with fresh ones.
+Identical source/legacy, extracted and fresh dual-store qualification is recorded
+in `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+This closes P035-013, not OS delivery, generic notification readiness or P035-014.

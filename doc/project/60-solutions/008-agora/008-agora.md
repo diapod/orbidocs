@@ -978,3 +978,20 @@ Federated deployment layers on top without replacing the envelope or the
 signer contract: the same `agora-record.v1`, the same `agora.record.v1`
 signing domain, the same `record/id` formula. The only thing that grows is
 the number of relays and the topology that capability-routing resolves to.
+
+## Recovery attention focused qualification (2026-10-23)
+
+P035-013 is qualified at clean Node `885a78fd` / Orbidocs `b16312f6`: 12 focused
+stock Synapse room-10 cases and five SQLite controls (four runtime, one conformance).
+Agora owns transactional redacted attention facts and receipt-backed commands;
+the host S020 adapter projects them into S039 without granting authority. Current
+operator checks, original CAS, bounded partial batch results, credible floors,
+labelled crash/reply loss, restart and carrier/S039 replay pass. Exact author bytes
+and all 35 complete new PDUs retain separate Node/homeserver gates.
+
+The 357,068-byte XZ-128-MiB set has identical source/legacy, extracted and fresh
+qualification at both adopted stores; the original observed journal-lineage defect
+remains a cause-only refusal. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+This focused profile does not renew the historical 34-case Matrix transport
+qualification, qualify federation or OS notifications, close P035-014, or change
+Agora's global partial status or release readiness.

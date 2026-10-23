@@ -767,5 +767,9 @@ The accepted job is daemon-owned, nonoverlapping and bounded to one 64-fact sour
 page per five-second launch. Agora owns facts and recovery; S039 owns queue policy
 and attention state. The adapter advances its durable cursor only after durable
 S039 acceptance and schedules fresh deadline inspection without executing retry.
-Delivery failure does not hold Matrix sync or publication. Registration and runtime
-qualification remain P035-013 work; this entry installs no job by itself.
+Delivery failure does not hold Matrix sync or publication. The daemon registers
+this source job, and focused qualification at clean Node `885a78fd` / Orbidocs
+`b16312f6` on 2026-10-23 proves durable delivery before cursor advancement,
+crash/restart idempotency and deadline inspection without automatic retry.
+See `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+This consumer does not qualify the separate P035-014 mirror-supervision job.

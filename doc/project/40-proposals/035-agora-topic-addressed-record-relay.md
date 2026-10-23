@@ -1547,11 +1547,22 @@ request replay returns prior outcomes; changed content refuses. Remaining work
 needs fresh authority and the original CAS. Accept-gap and implausible-delay
 exceptions remain reasoned single actions. Notifications never grant authority.
 
-Focused unmodified Synapse and five SQLite runtime cases must prove actual
-S039/API/UI delivery, floors, stale controls, mixed results, crash/reply-loss,
-restart and replay. Historical full campaigns keep their scope. Existing evidence
-budgets and fresh qualifications at both adopted stores apply; P035-013 is not
-runtime-qualified yet. Node contract: `node:agora-relay-matrix/docs/RECOVERY-ATTENTION.md`.
+Focused qualification passed on 2026-10-23 at clean Node `885a78fd` / Orbidocs
+`b16312f6`: 12 stock Synapse v1.162.0 room-10 cases and five SQLite cases (four
+runtime, one separate conformance). Actual S039 queue/API/private UI, no-JS
+redacted controls, current authority/original CAS, mixed-batch receipts, credible
+floors, labelled crash/reply-loss, restart and carrier/S039 replay pass. The 35
+complete PDUs retain separate Node and homeserver gates; 28 Node-created PDUs
+have maximum 1,880 bytes. Exact author bytes and ordinary source/legacy,
+loose/extracted and fresh dual-store qualification agree.
+
+The complete proof is 357,068 bytes at XZ 128 MiB. An actual journal-lineage defect
+was fixed and its original observed refusal remains a 22,098-byte cause-only
+capsule. The nine-set replica inventory was separately qualified under primary
+and previous-scratch read denial. Historical full campaigns retain their scope;
+Agora stays partial, and P035-014, OS notifications, federation and release
+readiness remain outside this result. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+Node contract: `node:agora-relay-matrix/docs/RECOVERY-ATTENTION.md`.
 
 ### P035-012 review boundaries and P035-014 follow-up (2026-10-20)
 
@@ -1626,7 +1637,7 @@ or required dependency was relaxed. Evidence:
 | P035-010 | Bound excessive history Retry-After through explicit operator policy | done | P035-007; Matrix rate-limit semantics; P072 local operator authority | Historical 15000-ms out-of-policy floor remains qualified in the frozen full profile. Reviewed focused proof at clean Node ac386090 / Orbidocs fbba8e73 qualifies four cases on stock Synapse: checked 24 h credibility, exact u64/ten-year delay, durable implausible account block and reasoned per-task CAS escape, with unchanged credible floor, continuing live confidence-0.5 publication, restart and source replay. Active binding/current revision required, including after rebind; other tasks remain held. Qualified/retrieved 142758-byte proof at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`; full PDU gates not rerun. |
 | P035-011 | Deduplicate observations at the evidence source before larger campaigns | done | P035-008; P035-009 | Qualified 2026-10-20 at clean Node ee64042f / Orbidocs a2addea1: 34 Matrix/five SQLite, same-capture legacy/source facts and exact author/PDU bytes, identical ordinary loose/extracted/fresh-retrieved results. Retains all 2048 PDUs plus 2048 stored-row artifacts; 2041 Node PDUs, maximum 49927 within 65536. Runtime tool total 15220597 bytes at the default 128 MiB dictionary; conservative whole collection 15264203 within 16 MiB. Tar 164802560 bytes/289 members, compact Git controls 5878 bytes versus prior 2282442. Historical gate and supplemental category facts remain separate. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`. Existing budgets, one-homeserver/volume scope, Agora partial and P035-012/013 remain unchanged. |
 | P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
-| P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | in-progress | P035-010; S039; S020; P072 | Host-owned source adapter emits idempotent lifecycle updates for blocked/awaiting-operator state after commit, without tokens. Notification action resolves fresh authority/task CAS and is enabled only at the credible not-before; implausible override remains a distinct reasoned action. Batches are bounded, retain a CAS per item and report partial results without erasing other limits; notification delivery failure cannot change recovery state. |
+| P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | done | P035-010; S039; S020; P072 | Qualified 2026-10-23 at 885a78fd/b16312f6: 12 focused Synapse cases, four SQLite runtime and one conformance; real S039/API/private UI, no-JS redacted controls, original CAS/current authority, durable receipts, crash/restart/replay and dual-store retention. Full historical transport, OS notifications and global readiness are unchanged; see the focused qualification above. |
 | P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | todo | P035-012; S020; S039; reviewed operator job policy | Periodic topology/member and stale-job checks plus rotating fresh verification at both stores deliver real idempotent degradation/recovery notifications. Qualify loss/rebuild, corruption, unavailability, missed checks and notification failure. Preserve full manual pre-release verification, private locators, emergency recovery and explicit retirement; a past receipt cannot establish continuous protection. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
