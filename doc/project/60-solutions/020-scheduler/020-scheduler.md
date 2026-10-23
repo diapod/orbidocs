@@ -851,3 +851,27 @@ host adapter with portable native media, OS-access baseline mismatch/S039 and
 restart. It does not renew the full periodic/rotation profile; the original
 proof remains historical. Review evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-identity-review/README.md`.
+
+### Local deadline and channel-containment follow-up — 2026-10-24
+
+The generic adapter refuses a remaining interval below one representable wire
+millisecond as `DeadlineExceeded` before schema admission or dispatch; it does
+not round up time or classify this as invalid operator configuration. The
+Python channel SDK has an explicit optional deadline-aware handler port. It
+converts the original frame deadline once before worker queueing, preserves the
+original payload and rechecks that same monotonic cut before invocation. Legacy
+handler signatures and normal scheduler budgets remain unchanged.
+
+The evidence-supervision consumer bounds its immutable launch deadline by both
+that ingress cut and the request's remaining budget. Validation, queueing,
+preparation, child startup, native work and cleanup spend that interval; another
+worker cannot receive a renewed slot. A store not observed within the slot stays
+unknown. The Rust channel's full response queue retires the existing session
+instead of blocking teardown; a lost response is an unknown outcome, never an
+automatic replay or evidence that a domain effect was rolled back.
+
+Regression results belong to
+`node:docs/audits/RESPONSIBILITY-PRIMARY-INTEGRATION-2026-10-24.md`.
+These are implementation/integration checks, not renewal of P035-014's historical
+session-bound runtime proof or Responsibility Q, and they do not qualify release
+readiness, native OS preemption or off-session supervision.
