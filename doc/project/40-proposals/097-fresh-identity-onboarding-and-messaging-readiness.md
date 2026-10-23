@@ -882,3 +882,10 @@ participant's signed public contact claim through the existing catalog API.
 Ordinary publication remains local; remote self-service publication is not
 claimed. Control proof, admission, public lookup and native contact addition are
 separate observations; no provider token is distributed to participants.
+
+The P076-034 review also coalesces each UI client's component preparation. Two
+wizard jobs observe eligibility inside a shared slot before one explicit enable,
+so the next job sees the committed choice instead of racing the supervisor's
+nonblocking configuration guard. Independent operator changes retain 409 refusal;
+unknown or rejected POSTs are never automatically repeated. This is preparation
+coordination, not authority, runtime readiness or global configuration locking.
