@@ -827,3 +827,10 @@ The host may count deadline overruns but cannot preempt arbitrary in-module work
 This is a generic host-to-module execution surface, not a host capability granted
 to ordinary middleware. See Proposal 072's scheduler/channel boundary; evidence
 supervision is one optional consumer, not its contract owner.
+
+
+The post-qualification P035-014 identity delta separately checks the unchanged
+host adapter with portable native media, OS-access baseline mismatch/S039 and
+restart. It does not renew the full periodic/rotation profile; the original
+proof remains historical. Review evidence:
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-identity-review/README.md`.
