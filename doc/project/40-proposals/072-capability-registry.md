@@ -465,10 +465,23 @@ An unknown id, a hidden id, and a private package id share the same externally
 observable `not-found` result. Authorization and disclosure precede descriptor
 or guidance dereference. Results are lower-trust data with classification and
 source digests; current P090 inference-egress admission runs before each model
-continuation, including reuse. Cancellation prevents continuation at the next
-synchronous boundary; this slice does not preempt an already blocked read or
-inference call. Timeouts, exhausted
-budgets, stale scope/revision, and invalid guidance are terminal for this
+continuation, including reuse. A catalog read projects locally retained,
+admitted provider reports; it does not invoke the provider over the middleware
+channel. The controller attaches an internal read correlation to the host
+result and consumes only its first matching delivery. At delivery it checks
+current Agent lifecycle, binding, grants and deadline before parsing the
+result body, then rechecks disclosed scope before adding an observation and
+again before the next inference. The result-admission unit ignores foreign and
+repeated deliveries without parsing them. A mismatch at the synchronous
+controller's own handoff violates its host invariant and stops the action
+without retry. A matching result after stop, withdrawal of a required grant or
+deadline terminates this passage without exposing its body. Suspend and resume
+invalidate the old passage through its captured lifecycle epoch, even if the
+Agent is Running again. Cancellation is logical at the next
+synchronous boundary: this slice does not preempt an already blocked read or
+inference call, and an inference already admitted before withdrawal remains
+in flight. No new channel frame or result transport follows from this rule.
+Timeouts, exhausted budgets, stale scope/revision, and invalid guidance are terminal for this
 continuation. No automatic retry or fallback to remote lookup occurs.
 
 Inquirium's current role vocabulary has no correlated native tool call for a
@@ -681,7 +694,7 @@ to finish unrelated work in any of those proposals.
 | --- | --- | --- | --- |
 | P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | done | Four schema-gated DTOs, registry flag matrix, numeric limits, disclosure and transition rules; contract evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 | P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Supervised host HTTP covers two conflicting providers, explicit operation selection, per-operation readiness through loss and restart, describe-only visibility, identical hidden/unknown/private refusals and stale revision. A later supervised run withdraws a single Agent grant and observes reduced visibility before and after daemon restart. Earlier injected host fetch resolver and artifact sink record zero attempts across misses and rejected `doc/url`. Signed-source provenance remains open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. Earlier DNS/artifact and trace observers retain their focused scope. In-flight call preemption, separately delivered late results, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. A focused host-route test holds an actual catalog result for admission after stop, grant withdrawal or deadline; its admission unit ignores foreign/duplicate correlations, while a mismatch in the synchronous controller stops the action. Two supervised suspend/resume cases invalidate old initial and continued passages through the lifecycle epoch. Earlier DNS/artifact and trace observers retain their focused scope. Physical preemption, independently asynchronous delivery, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.
