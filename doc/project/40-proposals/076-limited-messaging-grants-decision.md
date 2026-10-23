@@ -621,3 +621,12 @@ HTML representation, retaining session, CSRF, Origin and presentation-context
 checks. This is a server-side contract measurement, not JavaScript execution or
 browser-restoration evidence. Only the separately pinned Chromium scenarios
 establish the browser claims; no representation header grants authority.
+
+The retained final attempt10 measured A2 renewal54 on clean sources after the
+wrong-offer observer repair. It then refused mixed setup at component enabling,
+so this is an A2 runtime result inside an unsuccessful complete candidate, not
+P076-034 completion. The original first-ten attempt capsules preserve their
+results. The offline final gate is being strengthened to require the same closed
+case inventory as the runner and bind receive decisions to exact typed child
+consents and message/INAC observations; signatures alone do not establish the
+purpose of a child passport.
