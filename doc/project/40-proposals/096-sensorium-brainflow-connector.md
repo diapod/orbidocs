@@ -3830,3 +3830,24 @@ manager, headband trial, package transition, root migration or merge occurs;
 future physical work still requires an interactive readiness question and fresh
 scoped approval. See
 node:docs/audits/REVIEW-SENSORIUM-AUTHORITY-RENEWAL-2026-10-23.md.
+
+### Revision-11 campaign compatibility preflight — 2026-10-23
+
+Before physical work, review finds that the earlier pinned GUI cannot recognize
+the newly completed pre-binding recovery review. Full historical parsing, rather
+than byte integrity alone, determines compatibility. Retained review fields and
+predecessor are preserved; the client is updated instead. Fresh signed GUI
+c9200220 / handoff 64e3798e uses the already pinned compatible 9a14cd46 image
+8ff445ae / source pin 4db636c8 and unchanged client/helper assets, without a new
+compiler execution or package transition. Strict signatures, rootless launchd
+preflight and 265 software checks pass.
+
+All 864 previous file records, 231 directories, custody/controller, journal
+202/29 Cases, revision-11 recovery/history and finite authority remain exact;
+only fifteen new capsule files in six directories appear. Fresh readiness is
+still required, using actual SCAN/preparation/session/cleanup/Case/campaign
+limits of 20/60/90/20/180/1800 s. Native operation timeout retries do not replay
+BIND/REGISTER/WEAR decisions or renew authority. No permission probe, native
+manager, scan, acquisition, recovery, renewal, migration or merge occurs;
+revision 11 remains unregistered and P096-005 partial. See
+node:docs/audits/REVIEW-SENSORIUM-R11-COMPATIBLE-CLIENT-2026-10-23.md.
