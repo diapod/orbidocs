@@ -4063,3 +4063,14 @@ directory under unchanged isolation; client diagnostics now name a failed relay
 process. Two red regressions and 114 green console/relay/adapter tests establish
 software correction, without hardware retry or a campaign. P096-005 stays
 partial. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-ENTRY-2026-10-23.md.
+
+### Corrected isolated diagnostic client — 2026-10-23
+
+Clean db62e2aa / source 89da8e9e is prepared as standalone 672140a9 and signed
+GUI 2ef5a4fc / handoff c6dc78d9. Twenty release files and 75 inputs match;
+290 target tests and the exact isolated frozen CLI entry pass. All 974 prior
+root observations, 258 directories, grant/controller state and journal 217/32
+are preserved; only fifteen new capsule files appear. Original attempt proof
+c3891217 / a3eef59f is retained privately. No native retry, permission probe,
+reset/recovery, renewal, migration or merge follows preparation. New readiness
+and permission precede another ordinary pass; P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-ENTRY-2026-10-23.md.
