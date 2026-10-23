@@ -481,3 +481,12 @@ its existing operator API before public lookup. P076-034 records this as explici
 provider admission, not remote self-service publication; the Messaging grant adds
 no catalog or attestation authority. Control and claim signatures remain in the
 public proof.
+
+P076-034 is paused for operator branch integration (2026-10-23). Reviewed channel
+and report-contract repairs are committed at Node `f84a3ef7` / `22b428f8` and
+Orbidocs `e38c581e`. Candidate12 completed 1537 conformance and 188 capsule
+executions (20 final-proof tests pending), then strict Story-010 was deliberately
+interrupted; none of the ten final scenarios started. No full-candidate or release
+qualification is claimed. Resume after explicit continuation with a fresh whole
+candidate from clean integrated sources. Historical qualified/refused scopes
+remain unchanged.

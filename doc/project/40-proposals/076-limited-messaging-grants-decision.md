@@ -277,7 +277,7 @@ or unit test alone never closes a runtime gate.
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
-| P076-034 | final | Mixed/sovereign regressions and documentation | in-progress | Closed ten-scenario source/binary-pinned candidate; A2 wrong-offer correlation diagnosed, new qualification pending |
+| P076-034 | final | Mixed/sovereign regressions and documentation | in-progress | Operator pause for branch integration (2026-10-23): reviewed A2/channel/report repairs committed; candidate12 conformance completed, strict interrupted, whole ten-scenario qualification still pending |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | todo | Freeze carrier/version, size/disclosure bounds and acquisition policy; reuse the issuance verifier, observation owner and consent handoff; retain the [offline acceptance gate](#offline-acceptance-gate), including cold-cache real host consumption with zero status fetches, refusal/restart/rollback cases and unchanged V1/online behavior; synchronize P024/S007, P060/S027 and the scoped Node ledger/MVP evidence |
 
@@ -324,10 +324,16 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
+Work is paused at the operator's request for branch integration. Resume only after
+an explicit continuation, with a fresh complete candidate on clean integrated
+sources and one pinned binary set. The partial candidate12 is not a passing
+strict/runtime qualification and must not be combined with earlier runs.
+
 Slice B's MSG-ONB-007/008 browser gates, P076-035 individual withdrawal and
 P076-033 organization custody are locally qualified. Continue with P076-034's
-full mixed/provider candidate, including diagnosis of the extra A2 renewed-sender
-cohort, and carry the focused regressions forward. Slice A and P076-031 retain
+full mixed/provider candidate, carrying the reviewed A2, channel and report-contract
+repairs and their regressions forward. The earlier 54-action focused report stays
+refused for its metadata collision. Slice A and P076-031 retain
 their separate qualified scopes. Review after
 each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API

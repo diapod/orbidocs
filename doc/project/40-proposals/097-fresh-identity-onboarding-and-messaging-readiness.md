@@ -897,3 +897,10 @@ an independent successful submission, or one newly measured explicit UI action
 when both original attempts were provably busy. This is bounded refusal handling,
 not automatic mutation retry or a relaxed authority decision. P076-034 remains
 in progress pending the complete retained candidate.
+
+P076-034 is paused at the operator's request for branch integration. Reviewed
+channel/report repairs are committed at Node `f84a3ef7` / `22b428f8` and Orbidocs
+`e38c581e`. Candidate12 completed conformance; strict Story-010 was deliberately
+interrupted before the ten final scenarios. Its original incomplete output is
+retained separately, with no full-candidate or release claim. Resume only after
+explicit continuation, with a fresh complete gate on clean integrated sources.
