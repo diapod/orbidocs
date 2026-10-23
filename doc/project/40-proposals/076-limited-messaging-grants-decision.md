@@ -420,3 +420,14 @@ or activating the result. Local conformance and review are recorded at
 
 This is implementation/conformance, not the organization runtime gate. P076-033
 remains `in-progress`; P076-034 and release readiness remain separate.
+
+The P076-033 runtime gate is now defined as `candidate.py --scope p076-org`:
+closed conformance, strict sovereign Story-010, and the pinned-browser
+`delegated-org-custody` scenario from one clean source/binary set. It measures
+partial/duplicate/wrong-purpose signatures and custodian self-issuance refusals,
+full exchange with separate contact/INAC decisions, and one authorized custodian's
+parent withdrawal while fresh child consents are active. Bound-node self-withdrawal
+is a separate earlier phase. The offline qualifier rechecks public signed
+artifacts and the measured custody roles; it cannot claim the final mixed gate.
+The grant helper adds explicit offline authority-withdrawal draft/sign/verify
+commands. Publication is a separate operator action, never an implicit UI GET.

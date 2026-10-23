@@ -513,3 +513,12 @@ bidirectional delivery and parent-withdrawal cascades. See
 `node:docs/evidence/limited-messaging/2026-10-18-delegated-browser/README.md`.
 This supplements the scoped P076-031 core/runtime proof; it neither reopens the
 sovereign gates nor qualifies organization custody or the final mixed candidate.
+
+### Organization Messaging issuer checkpoint (2026-10-23)
+
+P076-033 composes organization threshold issuance and any-authorized withdrawal
+from separate active-root custody purposes. INAC keeps verifying the complete
+V2 proof and current signed parent status; an org anchor adds no peer allowlist
+and does not admit its custodians or ordinary beneficiaries. The new focused
+organization browser gate measures this policy; qualification remains pending
+at this checkpoint, independently of the earlier participant-issuer evidence.

@@ -431,3 +431,14 @@ and unrelated GET navigation parameters are ignored. Known-selector validation,
 closed POST/CSRF/confirmation checks and independent execution authorization stay
 in force. The existing pinned browser evidence remains historical; this follow-up
 has its own local regressions in Node.
+
+### Organization custody implementation checkpoint (2026-10-23)
+
+P076-033 now supplies explicit `capability-issuance` threshold and
+`capability-revocation` any-authorized policies from the active signed root.
+The separate `federation-root` rule alone controls pack signing. Custodians do
+not become sovereign participants; beneficiary/delegate scope, explicit contact
+and INAC decisions, remote-parent status budgets and execution guards retain
+the P076/P097 contract. The organization browser candidate and offline public
+proof verifier are implemented; runtime qualification is pending at this
+checkpoint. Historical participant-issuer and P076-035 evidence is unchanged.
