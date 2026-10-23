@@ -155,6 +155,12 @@ schema_for_file() {
     *.inquirium.model-package.chat-template-proof.json)
       echo "$SCHEMAS_DIR/inquirium.model-package.chat-template-proof.v1.schema.json"
       ;;
+    *.scheduled-module-job-request.v1.json)
+      echo "$SCHEMAS_DIR/scheduled-module-job-request.v1.schema.json"
+      ;;
+    *.scheduled-module-job-result.v1.json)
+      echo "$SCHEMAS_DIR/scheduled-module-job-result.v1.schema.json"
+      ;;
     *.middleware-instance-plan.json)
       echo "$SCHEMAS_DIR/middleware-instance-plan.v1.schema.json"
       ;;

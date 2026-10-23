@@ -708,3 +708,119 @@ Revision-8 physical SSH campaign on source b4bc9862/pin 1cda5c5f completed basel
 ### Prospective control-budget revision 2 (2026-10-21)
 
 Operator-approved future budget revision 2 sets live validation/receipt/fence to 313/313/125 ms (ceil 312.5), retaining 5000-ms exit and all other clocks/origin/tuple gates. Purpose and safety qualifier identities are v2; current purpose admission rejects the historical identity even with a substituted current artifact hash. Frozen r8 observations retain 250/100/5000 ms and remain partial. No target deployment, root/grant change, retry or merge follows. See node:docs/audits/REVIEW-SENSORIUM-CONTROL-BUDGET-V2-2026-10-21.md.
+
+
+### Merged budget-v2 client preparation (2026-10-21)
+
+Merged source 351861c9/pin e55f71a9 now has a verified nearby budget-v2 release b8bf7e8f, signed GUI 3be08e12 and handoff 59362613. Validation/receipt/fence/exit ceilings are 313/313/125/5000 ms. Merged checks pass 148 Rust, 6 Gate, 245 local and 245 nearby frozen-client cases; 22 ledger checks also pass. Exact old root/custody, journal 158 and zero claims remain unchanged; only the new capsule is added. Both temporary worktrees are retained after the approved initial merges; preparation records remain unmerged. No Bluetooth, grant renewal, recovery, migration or native qualification follows. P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-MERGED-BUDGET-CLIENT-2026-10-21.md. Historical campaign results retain their original gates; future hardware evidence must bind this exact candidate and current v2 qualifier.
+
+
+### Released revision-8 retirement (2026-10-21)
+
+Released revision 8 retired through exact review 728de054 and unchanged journal 158, reserving revision 9. All old Cases, consent, packages, owner/discovery expiry and custody remain; no grant, recovery or hardware effect was created. P096-005 stays partial; fresh SCAN/BIND/REGISTER/WEAR are required. See node:docs/audits/REVIEW-SENSORIUM-R8-RETIREMENT-2026-10-21.md.
+
+
+### Deadline consumer source correction (2026-10-21)
+
+The deadline campaign branch now continues ordinary authorized draining after readiness, preserving all queue and clock limits and propagating failures without relabelling them as expected deadline evidence. Four bounded-producer regressions cover draining, overflow, pre-existing fence and failure precedence. This is source conformance only; P096-005 remains partial pending a fresh pinned client and native evidence. See node:docs/audits/REVIEW-SENSORIUM-DEADLINE-CONSUMER-2026-10-21.md.
+
+
+### Deadline consumer client preparation (2026-10-21)
+
+The deadline-consumer correction is prepared nearby from clean source 8cfd21e6/pin 2c4f9669, release 0a85fca5, signed GUI b1f287a3 and handoff 7ba30f4d. All 245 frozen target checks pass against 68 independently matched immutable inputs; all 557 prior root files/custody remain exact, with only the new capsule added. Signature and rootless launchd preflights pass; preparation creates no Bluetooth manager or qualification. Review and originals are pinned by private manifest sha256:0451b14a4e46acd45ab8884815688f1020ef77962f9092559c6588c3b5f2a446. Native permission and the separately approved campaign remain distinct stages. P096-005 stays partial.
+
+### Revision-9 campaign checkpoint (2026-10-21)
+
+Revision-9 campaign on corrected source 8cfd21e6/pin 2c4f9669 completed baseline and protected stop (receipt/fence/exact-exit 1/1/4940 ms), then halted during deadline on sample/discovery-provider-output-refused. All three sessions released with durable audit and zero claims; journal is 181 with 26 Cases. Five later rows are blocked, and P096-005 remains partial. After the initial blocked transfer and the operator's direct plain-text confirmation, all 28 reports (27534 bytes), 19 continuous events and three client-control sidecars are now retained privately and independently verified against the frozen parsers and original local stream; remote originals remain unchanged. Private manifest sha256:68378b0389467d85d926b0b6f36b8ca529ed70a5f2ad73d2378115c5f6ef384a binds the 54-member verified archive. Full tuple and formal qualification remain open. No retry, recovery or merge followed. See node:docs/audits/REVIEW-SENSORIUM-R9-CAMPAIGN-2026-10-21.md.
+
+
+### Revision-9 sample software correction (2026-10-21)
+
+Device-free reproduction confirms that one queued producer batch per admitted
+sample RPC cannot keep up with nominal 100-ms production and a 300-ms consumer:
+the real worker loop over a synthetic Board fails at tick 13, after four reads
+and 26 simulated SDK drains. The repair returns a FIFO prefix of unchanged
+blocks, at most sixteen per RPC within existing byte, queue and age bounds. The
+host validates consecutive per-stream sequences before committing progress.
+Closed first-worker-failure diagnostics survive cleanup; review also closes a
+failure-between-selection-and-response race without blocking pending cleanup.
+Distinct SDK-batch package identities require new normal author/sign and a new
+pinned daemon/client. Software checks pass 220 daemon cases (11 opt-in ignored),
+six Schema Gate cases and 165 Python cases. Historical r9 cause and full
+qualification remain open;
+P096-005 is partial, with no device work, target/root change or merge. See
+node:docs/audits/REVIEW-SENSORIUM-R9-SAMPLE-DRAIN-2026-10-21.md.
+
+
+### SDK-batch target preparation (2026-10-21)
+
+The device-free correction now has a new pinned nearby release and signed frozen
+client from clean Node source `393688e6`/pin `7d5aa913`, image `8d123d82`, GUI
+`bd0afa36` and handoff `dfde3be8`. Two distinct ordinary/campaign SDK-batch
+packages (`37f55642`/`90238894`) are normally authored, signed and independently
+verified; both remain inactive and do not replace the stopped revision-9
+registration. All 253 frozen target software tests pass against 69 exact inputs
+with zero skips. Initial freeze/test-kit defects remain retained and corrected;
+no native result or threshold is reinterpreted.
+
+All earlier root content hashes, key metadata, controller, directory custody,
+registration, consent and journal remain preserved, apart from an explicitly
+reviewed read-store ctime refresh. No manager, permission probe, scan,
+acquisition, renewal, registration transition, root-format migration or merge
+runs. The unchanged finite controller authority is expired. P096-005 stays
+partial; future hardware work needs current authority, supported registration
+handling and fresh interactive wearer readiness. Private preparation manifest:
+`sha256:60264ebd6b895d816e42a1d35d5b1e69bb8e4b4027290d47776fddd1e9336b5c`. See
+node:docs/audits/REVIEW-SENSORIUM-SDK-BATCH-PREPARATION-2026-10-21.md.
+
+
+### Revision-9 authority renewal and retirement (2026-10-21)
+
+The existing exact SDK-batch candidate (`393688e6`/source `7d5aa913`, release
+`8d123d82`) now completed separately reviewed delegated SSH metadata operations:
+renewal `ad0e8c03` extends the same controller/discovery scope for four hours to
+**2026-10-22 00:53:26 CEST**; released-case retirement `cab3fb4c` then removes
+only expired stopped revision 9 and its binding, reserving unregistered revision
+10. The p21 grant is not renewed or replaced. Both reviews and completed live
+projections are independently verified before and after their respective commits.
+
+Controller/resources have no claims or pending recovery. Journal 181/twenty-six
+Cases, consent, old signed packages/capsules and directory custody remain exact;
+the review accounts for seven intended owner/source content changes and a
+read-store ctime refresh. No new consent, grant p21, native manager, hardware,
+recovery, root-format migration or merge runs. P096-005 remains partial. Future
+physical use needs current authority and fresh interactive wearer readiness,
+then separate SCAN/BIND/REGISTER/WEAR decisions. The private manifest is
+`sha256:5fdca8b91c37f7741c7d7da589b623bff4bcc92c4c4112e8136a76e77f76a48b`; see
+node:docs/audits/REVIEW-SENSORIUM-R9-AUTHORITY-RETIREMENT-2026-10-21.md.
+
+### Prospective operation retries — 2026-10-21
+
+The operator approved doubled operation waiting timeouts and two additional serial
+attempts of each timed-out operation, rather than replay of a complete sequence.
+A step that succeeds on attempt 1, 2 or 3 succeeds; retain the attempt ordinal and
+prior timeouts. This changes prospective implementation/qualification policy, not
+historical evidence. Current authority, consent scope, parent deadlines and
+confirmed disposal before repetition remain mandatory. Unknown cleanup retains
+quarantine and requires its separately authorized recovery corridor. No retry can
+renew consent or mint an additional registration after an uncertain commit.
+
+Revision-10 baseline released, but protected-stop preparation stopped on 359946 us
+against the original 313-ms validation gate; native release was not confirmed and
+six later rows were blocked. The private 23-file report set is pinned by manifest
+sha256:75691f4e1959626f5035f637a4e33d9cd34504f44cf65e13fda6a3f4f1a4f302.
+P096-005 remains partial. The code-coupled contract, current limits and review
+status are owned by node:docs/operations/SENSORIUM-OPERATION-RETRIES.md; review of
+the old run is node:docs/audits/REVIEW-SENSORIUM-R10-CAMPAIGN-2026-10-21.md.
+
+
+Pinned operation-retry preparation is verified on source c834ad91/pin be42586a:
+release 56b0de73, signed GUI ce1e450e/handoff b2cf05e1 and three new inactive signed
+packages. All 265 nearby frozen checks pass after retaining/correcting an omitted
+test-input dependency; local checks pass 323 Python and 261 discovery/acquisition
+cases. Existing root contents, controller state and journal 197/28 Cases remain
+preserved with the explicit normal read-store ctime exception. The one revision-10
+claim remains quarantined; no new hardware, reset, recovery, renewal, migration
+or merge occurred. Preparation manifest
+sha256:93a87ec5420aebcee4648d5ca952755d8a4a7e23fe8e8518382344fd26bc6063.
+P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-OPERATION-RETRIES-2026-10-21.md.

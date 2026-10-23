@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-guidance-overlay-inspection.local:v1",
+  "title": "Local Capability Guidance Operator Inspection v1",
+  "description": "Operator-only effective guidance provenance. The source locator is relative to the private host root and must never enter a model-facing catalog result.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": ["doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md"],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "setting/address", "source/provenance", "source/locator", "source-set/revision", "guidance/digest", "configuration/explain"],
+  "properties": {
+    "schema": {"const": "capability-guidance-overlay-inspection.local.v1"},
+    "setting/address": {"$ref": "configuration-common.v1.schema.json#/$defs/settingAddress"},
+    "source/provenance": {"enum": ["none", "provider-default", "operator-overlay"]},
+    "source/locator": {"type": ["string", "null"], "maxLength": 256},
+    "source-set/revision": {"$ref": "configuration-common.v1.schema.json#/$defs/digest"},
+    "guidance/digest": {"oneOf": [{"$ref": "configuration-common.v1.schema.json#/$defs/digest"}, {"type": "null"}]},
+    "configuration/explain": {"$ref": "config-explain.response.v1.schema.json"}
+  }
+}

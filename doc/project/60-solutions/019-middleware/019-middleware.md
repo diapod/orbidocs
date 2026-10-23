@@ -182,6 +182,34 @@ template config is therefore a thin middleware instance with its own identity,
 bindings, limits, trace surface, operator status, and lifecycle, even when the
 code executing it is the shared daemon-hosted JSON-e executor.
 
+P091's scoped 2026-10-23 implementation connects an existing node-file Flow
+instance's `limits.max_flow_steps` to shared configuration resolution and exact
+native executor consumption. The original file loader supplies host-only origin
+metadata; package-owned and programmatic profiles keep their existing owners
+and are not implicitly migrated. A managed source refusal cannot select a
+legacy profile. Redacted operator save/reset uses the shared temporal writer;
+separate process restart and durable instance/resolution/generation ACK precede
+an Active claim. Neither save nor inspection runs a workflow or renews authority.
+The proof uses actual bounded native execution, not a model or hardware run.
+Other settings, generic controls, installed/supervised Python migration and full
+UI/platform acceptance remain open. See
+`node:configuration-flow/README.md` and
+`node:docs/audits/P091-FLOW-FILE-TO-CONSUMPTION-2026-10-23.md`.
+
+P091's supervised Arca startup pilot (2026-10-23) additionally resolves the one
+`catalog_peer_max` facet from ordinary files, privately provisions before channel
+creation and confirms actual Python consumption through the existing authenticated
+P080 read edge and channel-only receipt. Only the host's durable exact
+instance/resolution/generation ACK supports current consumption, independently
+of component readiness. Save/reset and explicit component restart are separate;
+reads and receipts cannot run workflows or renew authority. Managed refusal has
+no legacy fallback. The 16 KiB carrier, explicit compatibility profile and one
+public address do not complete installed-helper delivery, other Python owners
+or live Arca definition/run migration. Candidate-bound browser/WebView evidence
+and limits are recorded in
+`node:docs/audits/P091-ARCA-MANAGED-CATALOG-2026-10-23.md`; whole P091 remains
+partial.
+
 Observed Flow results carry host-owned provenance outside template values
 (P090-006d). The opt-in P090-006d1 recovery checkpoint journals exact call
 sources before aggregation, pins the admitted invocation/configuration and
@@ -612,8 +640,13 @@ test fixture does not prove a signed source or verified launch integrity.
 Use existing host-capability invocation over P080 and the common Rust/Python
 clients. Routing `lookup` keeps its current meaning. No per-module prompt
 executor, startup/shutdown inference hook or extra channel is introduced.
-P091-GUIDE-001 later adds guidance-only operator overlays; P093-GUIDE-001 later
-adds private-package visibility. Neither follow-up blocks the first local slice.
+P091-GUIDE-001 now adds a host-owned, guidance-only operator overlay through the
+P091 resolver and explicit plan/commit boundary. Middleware still supplies its
+own optional default and never acquires operator authority from that overlay.
+Focused C/H evidence is in
+`node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
+P093-GUIDE-001 later adds private-package visibility; neither follow-up blocks
+the first local catalog slice.
 
 ## Host Capabilities
 

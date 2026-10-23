@@ -294,6 +294,21 @@ Reuses (gated against the registry, not changed): `capability-passport.v1`,
   contract and operator overlay; P072 remains authoritative for every base id and
   use-specific eligibility flag.
 
+### Assessment Exposure Is Not Capability Admission
+
+The planned [P026 host projection](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection)
+reuses caller-scoped identity/authority resolution rather than adding a parallel
+capability registry. `admit` answers whether a read is authorized; `expose`
+determines its current viewer-safe representation. Catalog availability or a read
+grant cannot reveal hidden assessments or authorize an explicit skip.
+
+P026-005/007 audit existing read, detail, export and observation capabilities.
+Reuse them where their contracts can carry the projection; register and schema-gate
+only genuinely new operations. An Agent acting for a viewer cannot select a raw
+relay/operator path as an implicit fallback. Privileged replication/inspection
+remains explicitly outside `local-display-only`, not an invisible second read
+path. This is a planned consumer binding, not a new implemented registry entry.
+
 ### Planned Local Device Discovery Admission
 
 [P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
@@ -465,10 +480,23 @@ An unknown id, a hidden id, and a private package id share the same externally
 observable `not-found` result. Authorization and disclosure precede descriptor
 or guidance dereference. Results are lower-trust data with classification and
 source digests; current P090 inference-egress admission runs before each model
-continuation, including reuse. Cancellation prevents continuation at the next
-synchronous boundary; this slice does not preempt an already blocked read or
-inference call. Timeouts, exhausted
-budgets, stale scope/revision, and invalid guidance are terminal for this
+continuation, including reuse. A catalog read projects locally retained,
+admitted provider reports; it does not invoke the provider over the middleware
+channel. The controller attaches an internal read correlation to the host
+result and consumes only its first matching delivery. At delivery it checks
+current Agent lifecycle, binding, grants and deadline before parsing the
+result body, then rechecks disclosed scope before adding an observation and
+again before the next inference. The result-admission unit ignores foreign and
+repeated deliveries without parsing them. A mismatch at the synchronous
+controller's own handoff violates its host invariant and stops the action
+without retry. A matching result after stop, withdrawal of a required grant or
+deadline terminates this passage without exposing its body. Suspend and resume
+invalidate the old passage through its captured lifecycle epoch, even if the
+Agent is Running again. Cancellation is logical at the next
+synchronous boundary: this slice does not preempt an already blocked read or
+inference call, and an inference already admitted before withdrawal remains
+in flight. No new channel frame or result transport follows from this rule.
+Timeouts, exhausted budgets, stale scope/revision, and invalid guidance are terminal for this
 continuation. No automatic retry or fallback to remote lookup occurs.
 
 Inquirium's current role vocabulary has no correlated native tool call for a
@@ -681,12 +709,16 @@ to finish unrelated work in any of those proposals.
 | --- | --- | --- | --- |
 | P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | done | Four schema-gated DTOs, registry flag matrix, numeric limits, disclosure and transition rules; contract evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 | P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Supervised host HTTP covers two conflicting providers, explicit operation selection, per-operation readiness through loss and restart, describe-only visibility, identical hidden/unknown/private refusals and stale revision. A later supervised run withdraws a single Agent grant and observes reduced visibility before and after daemon restart. Earlier injected host fetch resolver and artifact sink record zero attempts across misses and rejected `doc/url`. Signed-source provenance remains open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. Earlier DNS/artifact and trace observers retain their focused scope. In-flight call preemption, separately delivered late results, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. A focused host-route test holds an actual catalog result for admission after stop, grant withdrawal or deadline; its admission unit ignores foreign/duplicate correlations, while a mismatch in the synchronous controller stops the action. Two supervised suspend/resume cases invalidate old initial and continued passages through the lifecycle epoch. Earlier DNS/artifact and trace observers retain their focused scope. Physical preemption, independently asynchronous delivery, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.
 [P091](091-file-backed-configuration-and-explainable-composition.md#planned-capability-guidance-overlays)
-owns operator overlays; [P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
+owns the now implemented local guidance-only operator overlay, with focused
+C/H evidence in `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
+It changes effective documentation only after a reviewed P091 commit; it does
+not close this catalog's separate model or signed-source qualification.
+[P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
 and [P085](085-operator-sovereign-extensibility-and-experiment-packages.md#capability-guidance-package-boundary)
 own private-package admission constraints. These follow-ups are not prerequisites
 for the first slice: initially exclude private package ids and accept only
@@ -861,3 +893,16 @@ Those are intentionally separate proposal tracks, as decided in §2.
 - [d] Operator-local derived capability sets and experiment-package composition belong
   to P085. They must not become an alternate path for adding base capability ids or
   bypassing registry admission.
+
+
+## Generic scheduled module jobs (S020)
+
+The host-only `scheduled-job.invoke` operation and the schema-gated
+`scheduled-module-job-request.v1` / `scheduled-module-job-result.v1` contracts are
+a separate execution surface. Operator-approved S020 configuration binds component,
+executor, operation and bounded launch budget. Every dispatch rechecks current
+admission and activation; a read capability or a package fragment cannot invoke
+or authorize this surface. No evidence-specific host capability is registered.
+The [S020 contract](../60-solutions/020-scheduler/020-scheduler.md#generic-module-job-authority-deadline-and-failure-contract)
+owns deadlines, `Transient`/`AuthorizationDenied` meanings, unknown outcomes and
+consumer recovery duties. The evidence-supervision module is an opt-in consumer.

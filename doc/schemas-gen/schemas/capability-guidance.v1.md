@@ -2,11 +2,12 @@
 
 Source schema: [`doc/schemas/capability-guidance.v1.schema.json`](../../schemas/capability-guidance.v1.schema.json)
 
-Optional lower-trust documentation from an operator-admitted signed local provider, bound to one exact capability contract. Notes describe use, not executable instructions. The host validates structure and provenance, not semantic intent; schema, grants and host policy retain authority.
+Optional lower-trust documentation from an admitted local provider or a host-owned operator overlay, bound to one exact capability contract. Notes describe use, not executable instructions. The host validates structure and provenance, not semantic intent; schema, grants and host policy retain authority. Signed-package provenance is a separate qualification.
 
 ## Governing Basis
 
 - [`doc/project/40-proposals/072-capability-registry.md`](../../project/40-proposals/072-capability-registry.md)
+- [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](../../project/40-proposals/091-file-backed-configuration-and-explainable-composition.md)
 
 ## Project Lineage
 

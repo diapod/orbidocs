@@ -22,7 +22,7 @@ Strict outer application frame for one accepted middleware channel session.
 | [`session/epoch`](#field-session-epoch) | `yes` | ref: `middleware-channel-frame.v1.schema.json#/properties/session~1epoch` |  |
 | [`frame/seq`](#field-frame-seq) | `yes` | ref: `middleware-channel-frame.v1.schema.json#/properties/frame~1seq` |  |
 | [`message/kind`](#field-message-kind) | `yes` | ref: `middleware-channel-frame.v1.schema.json#/properties/message~1kind` |  |
-| [`operation`](#field-operation) | `yes` | ref: `middleware-channel-frame.v1.schema.json#/properties/operation` |  |
+| [`operation`](#field-operation) | `yes` | enum: `middleware.init`, `middleware.invoke`, `middleware.observe`, `middleware.trace.report`, `module-http.invoke`, `request.cancel`, `host-capability.invoke`, `heartbeat`, `session.shutdown`, `scheduled-job.invoke` |  |
 | [`request/id`](#field-request-id) | `no` | ref: `middleware-channel-frame.v1.schema.json#/properties/request~1id` |  |
 | [`reply/to`](#field-reply-to) | `no` | ref: `middleware-channel-frame.v1.schema.json#/properties/reply~1to` |  |
 | [`deadline/at`](#field-deadline-at) | `no` | ref: `middleware-channel-frame.v1.schema.json#/properties/deadline~1at` |  |
@@ -75,7 +75,8 @@ Then:
         "middleware.init",
         "middleware.invoke",
         "module-http.invoke",
-        "host-capability.invoke"
+        "host-capability.invoke",
+        "scheduled-job.invoke"
       ]
     }
   }
@@ -126,7 +127,8 @@ Then:
         "middleware.init",
         "middleware.invoke",
         "module-http.invoke",
-        "host-capability.invoke"
+        "host-capability.invoke",
+        "scheduled-job.invoke"
       ]
     }
   }
@@ -500,6 +502,72 @@ Then:
 }
 ```
 
+### Rule 13
+
+When:
+
+```json
+{
+  "properties": {
+    "message/kind": {
+      "const": "request"
+    },
+    "operation": {
+      "const": "scheduled-job.invoke"
+    }
+  },
+  "required": [
+    "message/kind",
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload/schema": {
+      "const": "scheduled-module-job-request.v1"
+    }
+  }
+}
+```
+
+### Rule 14
+
+When:
+
+```json
+{
+  "properties": {
+    "message/kind": {
+      "const": "response"
+    },
+    "operation": {
+      "const": "scheduled-job.invoke"
+    }
+  },
+  "required": [
+    "message/kind",
+    "operation"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "payload/schema": {
+      "const": "scheduled-module-job-result.v1"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -542,7 +610,7 @@ Then:
 ## `operation`
 
 - Required: `yes`
-- Shape: ref: `middleware-channel-frame.v1.schema.json#/properties/operation`
+- Shape: enum: `middleware.init`, `middleware.invoke`, `middleware.observe`, `middleware.trace.report`, `module-http.invoke`, `request.cancel`, `host-capability.invoke`, `heartbeat`, `session.shutdown`, `scheduled-job.invoke`
 
 <a id="field-request-id"></a>
 ## `request/id`

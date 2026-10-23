@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **229** host-local / **261** ogółem; grupy właścicieli: **38**.
+Wpisy: **231** host-local / **263** ogółem; grupy właścicieli: **38**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -417,9 +417,11 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>agora.matrix.recovery.accept-gap</code> | <code>host/agora.matrix.recovery.accept-gap</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.attention.read</code> | <code>host/agora.matrix.recovery.attention.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.matrix.recovery.ignore-implausible-retry-after</code> | <code>host/agora.matrix.recovery.ignore-implausible-retry-after</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.matrix.recovery.inspect</code> | <code>host/agora.matrix.recovery.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.matrix.recovery.retry</code> | <code>host/agora.matrix.recovery.retry</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.retry-batch</code> | <code>host/agora.matrix.recovery.retry-batch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon operator settlement control</code>
 

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.orbiplex.ai/scheduled-module-job-result.v1.schema.json",
+  "title": "scheduled-module-job-result.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "scheduled-module-job-result.v1"
+    },
+    "job/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "launch/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "no-work",
+        "blocked"
+      ]
+    },
+    "records/seen": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256
+    },
+    "details": {
+      "type": "object",
+      "maxProperties": 32
+    }
+  },
+  "required": [
+    "schema",
+    "job/id",
+    "launch/id",
+    "status",
+    "records/seen",
+    "details"
+  ]
+}

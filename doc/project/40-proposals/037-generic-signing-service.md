@@ -997,6 +997,15 @@ particular artifact's adapter uses (primary vs proxy with a matching
 delegation) remains the adapter's responsibility — the engine only signs
 what it is told to sign.
 
+Artifact adapters SHOULD follow P032's
+[bounded verification-material guidance](032-key-delegation-passports.md#bounded-verification-material-across-artifact-families):
+assemble the existing public signer material and applicable inline proof within
+the artifact's budget and disclosure policy. The signer must not invent trust
+roots, fetch proof URLs or export private keys for this purpose. Preserve the
+artifact's canonical signing contract; attaching evidence does not silently
+change historical signed bytes. Consumer-specific offline acceptance verifies
+signature, authority and freshness outcomes separately.
+
 ### Proposal 035 (Agora Topic-Addressed Record Relay)
 
 Consumer. Agora's UI compose flow (P8 in Agora TODO) is now implemented in the

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agora-matrix-recovery-command-result:v1",
+  "title": "agora-matrix-recovery-command-result.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "request/id",
+    "items"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agora-matrix-recovery-command-result.v1"
+    },
+    "request/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_ref",
+          "expected_revision",
+          "action",
+          "status",
+          "reason",
+          "revision"
+        ],
+        "properties": {
+          "task_ref": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "action": {
+            "enum": [
+              "retry",
+              "accept-gap",
+              "ignore-implausible-retry-after"
+            ]
+          },
+          "status": {
+            "enum": [
+              "applied",
+              "rejected",
+              "not-attempted"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "revision": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

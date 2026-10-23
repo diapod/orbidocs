@@ -405,6 +405,28 @@ authoritative for mailbox delivery; the public handle can be mapped,
 verified, or marked suspicious locally, but it must not be used to prove
 or disprove the receiver route to the sender.
 
+The existing inline passport/delegation choices follow
+[P032's bounded verification-material guidance](032-key-delegation-passports.md#bounded-verification-material-across-artifact-families).
+Prefer the necessary public proof inline for small standalone envelopes when
+disclosure and size budgets permit. A `passport-ref`-only variant explicitly
+depends on locally available exact evidence or separately admitted acquisition;
+it is not automatically an offline-verifiable package. Keep receiver consent,
+sender-signature validity, issuer trust and revocation freshness separate. No
+offline inspection result relaxes the receive profile's freshness requirements,
+and no convenience proof may expose a private contact-nym binding. Reuse existing
+envelope, capability-binding and replay tests for network-disabled verification.
+
+The first concrete follow-up is
+[P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance):
+attach an existing signed issuance-status snapshot to the V2 receive-consent
+passport handoff, not to every `message-envelope.v1`. Reuse the existing
+notification builder, peer presentation consumer and durable observation owner.
+The offline gate covers cold-cache consumption without a status fetch, explicit
+missing/stale-proof refusals and restart/withdrawal monotonicity. The normal
+online path remains; disclosure/size limits may prohibit attaching the complete
+signed status. This planned task does not relax per-message receive admission,
+extend the status lease or claim offline delivery. P076 owns its tracker.
+
 ### 4. `messaging-receive@v1` Passport Profile
 
 The passport profile minted by Solution 025 Contact Request Admission on

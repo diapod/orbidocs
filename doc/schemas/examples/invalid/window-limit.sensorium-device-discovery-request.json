@@ -16,8 +16,8 @@
   },
   "idempotency/key": "request:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "budgets": {
-    "window/ms": 30001,
-    "deadline/ms": 15000,
+    "window/ms": 60001,
+    "deadline/ms": 90000,
     "candidate/count-max": 8,
     "candidate/bytes-max": 16384,
     "progress/interval-ms": 500,

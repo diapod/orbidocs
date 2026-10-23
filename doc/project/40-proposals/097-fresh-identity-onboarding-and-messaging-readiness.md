@@ -852,3 +852,55 @@ This closes P076-035 only. P076-033 custody and P076-034 final mixed qualificati
 remain open, with `full_candidate_qualified=false` and `release_ready=false`.
 Historical P076-032/MSG-ONB-007/008 measurements retain their original API-only
 individual-withdrawal scope.
+
+### P076 organization custody checkpoint (2026-10-23)
+
+The separate P076-033 gate is locally qualified: clean Node `16c39fa1` / Orbidocs
+`f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign
+phases and 42 browser cases. Threshold issuance and any-authorized issuer
+withdrawal add no sovereign authority to ordinary participants or custodians.
+Public proofs requalify identically before/after extraction at
+`node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`.
+This does not reopen historical MSG-ONB-007/008 or P076-035 scopes. P076-034
+and its extra A2 renewed-sender diagnosis remain open; full-candidate and release
+readiness are false. No model/VM execution is involved.
+
+### P076-034 continuation (2026-10-23)
+
+The final limited-grant candidate remains separate from the completed focused
+P097/MSG-ONB gates. A2's extra diagnostic selected an older same-peer/schema INAC
+offer; the observer now matches the exact current request/artifact generation and
+uses the actual local-contact projection. Mixed sovereign/delegated exchange is
+also being requalified. A third provider reaches host discovery but its challenge
+API initially required a local service token. P061 now adopts explicit operator
+opt-in for public challenge/redeem, with default-closed access and protected
+status/debug/lifecycle. The synthetic OTP delivery read uses only the provider's
+operator token; it is not shared with participants. Historical evidence and release status remain unchanged.
+
+The separate-provider case includes explicit provider-operator admission of the
+participant's signed public contact claim through the existing catalog API.
+Ordinary publication remains local; remote self-service publication is not
+claimed. Control proof, admission, public lookup and native contact addition are
+separate observations; no provider token is distributed to participants.
+
+The P076-034 review also coalesces each UI client's component preparation. Two
+wizard jobs observe eligibility inside a shared slot before one explicit enable,
+so the next job sees the committed choice instead of racing the supervisor's
+nonblocking configuration guard. Independent operator changes retain 409 refusal;
+conflicted or unknown writes are never automatically repeated. This is preparation
+coordination, not authority, runtime readiness or global configuration locking.
+
+Periodic source reconciliation shares that owner guard. Its exact pre-effect busy
+refusal has a typed UI audit reason; stale/unknown conflicts retain refusal.
+Acceptance preserves both competing results and accepts preparation only after
+an independent successful submission, or one newly measured explicit UI action
+when both original attempts were provably busy. This is bounded refusal handling,
+not automatic mutation retry or a relaxed authority decision. P076-034 remains
+in progress pending the complete retained candidate.
+
+P076-034 is paused at the operator's request for branch integration. Reviewed
+channel/report repairs are committed at Node `f84a3ef7` / `22b428f8` and Orbidocs
+`e38c581e`. Candidate12 completed conformance; strict Story-010 was deliberately
+interrupted before the ten final scenarios. Its original incomplete output is
+retained separately, with no full-candidate or release claim. Resume only after
+explicit continuation, with a fresh complete gate on clean integrated sources.

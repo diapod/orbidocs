@@ -78,8 +78,11 @@ constraints needed for ordinary-participant issuance.
   verified withdrawals are durable and serialized before a status can be signed.
   Re-registration cannot clear withdrawals. Clients persist revision high-water
   marks and known withdrawals; stale status cannot erase them.
-- Status is fetched over the grant's exact endpoint and verified against its exact
-  status key. Network errors, bad signature/context and stale status fail closed.
+- The current acquisition path reuses a fresh cached status or fetches it over the
+  grant's exact endpoint, verifying it against the grant's exact status key.
+  Planned [P076-036](#p076-036-bounded-status-presentation-and-offline-acceptance)
+  adds an attached-status input to the same verifier, not a second trust path.
+  Network errors, bad signature/context and stale status fail closed.
   Local child withdrawals remain immediate. For an honest service, already minted
   active observations can remain usable for at most their 300-second lease after
   a withdrawal commits. The online status key is an explicit trust assumption:
@@ -165,6 +168,102 @@ Multi-user Nodes, deeper delegation and longer offline revocation leases require
 separate decisions. None is a fallback
 for this bounded first implementation.
 
+## P076-036: Bounded status presentation and offline acceptance
+
+**Status: planned, not runtime-qualified (2026-10-23).** The first receiver of a
+V2 Messaging passport should be able to verify it without fetching status when
+the presentation carries a usable, existing `issuance-revocation-status.v1` and
+the receiver already has an independently admitted active root. This applies
+[P032's bounded verification-material rule](032-key-delegation-passports.md#bounded-verification-material-across-artifact-families)
+to the [P024 presentation boundary](024-capability-passports-and-network-ledger-delegation.md#implementation-notes)
+and the [P060 consent handoff](060-messaging-middleware.md#3-message-envelopev1-artifact).
+
+The slice extends the existing `capability-passport-present` contract and actual
+Messaging receive-consent handoff, not every advertisement or message envelope.
+The passport already carries its signed issuance delegation and status-authority
+binding. The missing portable input is its short-lived signed status. Attaching
+it changes neither the child's signed preimage nor the authority of any key.
+It does not import a root, grant membership, create consent or install a local
+issuance delegate. It does not make Messaging transport itself work offline.
+
+### Implementation recommendations and reuse
+
+1. **Contract before plumbing.** Add an optional typed attachment of the existing
+   status artifact to the presentation (candidate field: `issuance/status`).
+   Freeze the exact schema/version and unsupported-consumer behavior through
+   Schema Gate before implementation. Keep V1 passport semantics and the
+   existing no-attachment online path. Never advertise successful offline
+   verification when a consumer ignored or stripped the attachment.
+2. **Reuse the pure verifier.** Extend the carrier in
+   `node:capability/src/present.rs`; reuse status types in
+   `node:capability/src/issuance.rs` and `verify_issued_passport` /
+   `authorize_issued_consent` in `node:capability-binding/src/issuance.rs`.
+   Supply explicit time, the current locally admitted root, persisted minimum
+   revision and known withdrawals. Check exact federation, grant id/digest,
+   bound status key, signature, parent/child constraints and status validity.
+   The 300-second maximum lease and any stricter receive-profile limit remain
+   unchanged; presentation receipt time never refreshes a signed observation.
+3. **Reuse host ownership and transport.** The builder in
+   `node:daemon/src/notifications_host.rs` obtains the existing owner's signed
+   status snapshot and carries it through the existing peer-message handoff.
+   The consumer in
+   `node:daemon/src/endpoint_routes/federation_endorsements.rs` passes it through
+   `node:daemon/src/identity_host/messaging_port.rs` to the existing observation
+   path in `node:daemon/src/identity_host/messaging_issuance.rs`. Preserve peer
+   binding, current-root checks and the durable observation store. An observed
+   remote grant remains an observation, not a local delegate registration.
+   No new generic proof bundle, crypto crate, status service or transport.
+4. **One status state, two acquisition policies.** Attached and fetched evidence
+   pass the same checks and durable revision/withdrawal merge. A valid attachment
+   must not trigger a redundant fetch. In explicitly network-disabled
+   inspection/acceptance, missing usable local or attached evidence is a named
+   refusal, never a hidden fetch. Normal online acquisition retains its exact
+   endpoint, timeout and response bounds. Invalid attached evidence must produce
+   a diagnostic rather than a success attributed to that evidence; any allowed
+   online recovery is separately reported. Revalidate current authority and
+   freshness at consumption; a successful handoff is not a lasting authority
+   cache. Preserve restart/replay and concurrent withdrawal protections.
+5. **Bound and minimize disclosure.** Freeze byte and item limits within the
+   existing presentation/transport admission budgets, before parsing unbounded
+   input or verifying signatures. The status's revoked-child list can disclose
+   associations: attach only when the handoff's disclosure policy permits the
+   complete signed object. Never truncate, redact or re-sign it to fit. If it
+   exceeds the budget or disclosure is disallowed, report the omitted-proof
+   dependency explicitly and retain the ordinary online path; offline refuses
+   unless usable exact evidence is already local. Do not publish private
+   contact-nym bindings or generalize this to broadcast advertisements.
+
+### Offline acceptance gate
+
+Use existing issuance, capability-binding and Messaging handoff/replay fixtures,
+with a network-denying status-fetch adapter and a call counter. Retain both pure
+verification cases and a test of the real host presentation builder/consumer;
+a synthetic verifier alone does not close the task. No models, browser campaign
+or full two-node qualification are required for this bounded gate.
+
+| Case | Required evidence |
+|---|---|
+| Cold status cache, independently admitted root, valid attached status | Real handoff consumer accepts the bounded observation with zero status-fetch calls; expected consent authorization succeeds only under its normal profile. |
+| Missing proof without usable cache, revoked/expired/stale status, wrong grant/federation/key, or invalid signature | Distinguishable refusals with zero status-fetch calls in network-disabled mode; no successful consent admission. |
+| Status within its lease but beyond a stricter receive-profile freshness limit | Refuse authorization; neither attachment nor a new receipt timestamp refreshes the evidence. |
+| Revision rollback or known parent/child withdrawal, including after restart | Attachment cannot lower the high-water mark, clear withdrawal or resurrect consent; concurrent withdrawal is preserved. |
+| Root/custody changes between build, observation and use | Current local authority wins; neither attached root material nor a historical successful observation bypasses it. |
+| Byte/item overflow, prohibited disclosure, unsupported carrier | Bounded refusal or explicit omission/dependency; no silent stripping, partial signed object or offline-success claim. |
+| V1 and no-attachment online regressions | Existing presentation and bounded endpoint acquisition remain usable without widening authority or freshness. |
+
+Retain source-pinned inputs, explicit evaluation times, outcomes and fetch counts
+using the existing limited-Messaging evidence/qualification conventions. Update
+the Node ledger and MVP only for the measured presentation path. Passing this
+gate proves bounded offline verification with pre-existing trust, not long-term
+offline authorization, delivery availability or release readiness.
+
+Dependencies are the existing V2 delegation/status verifier, durable observation
+owner and scoped receive-consent handoff from P076-029–031. P076-034's full
+mixed candidate is not a prerequisite; its qualification is neither reopened nor
+claimed by this slice. Sequence implementation after contract freeze and owner
+review to avoid concurrent rewrites of the same handoff. S007 and S027 link here
+instead of duplicating a tracker or introducing another implementation owner.
+
 ## Implementation Tracker
 
 Work is vertical, with review and qualification at the end of each slice. A schema
@@ -177,9 +276,10 @@ or unit test alone never closes a runtime gate.
 | P076-030 | A | Status outage/revocation, retry/restart and first qualification | done | Same binary set: real 300-second status outage, explicit retry, durable withdrawal and strict sovereign Story-010 |
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
-| P076-033 | C | Explicit org issuance/revocation custody purposes | todo | Threshold issuance, any-authorized withdrawal and org qualification |
-| P076-034 | final | Mixed/sovereign regressions and documentation | todo | One clean-source, profile/binary-pinned candidate |
+| P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
+| P076-034 | final | Mixed/sovereign regressions and documentation | in-progress | Operator pause for branch integration (2026-10-23): reviewed A2/channel/report repairs committed; candidate12 conformance completed, strict interrupted, whole ten-scenario qualification still pending |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
+| P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | todo | Freeze carrier/version, size/disclosure bounds and acquisition policy; reuse the issuance verifier, observation owner and consent handoff; retain the [offline acceptance gate](#offline-acceptance-gate), including cold-cache real host consumption with zero status fetches, refusal/restart/rollback cases and unchanged V1/online behavior; synchronize P024/S007, P060/S027 and the scoped Node ledger/MVP evidence |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -224,9 +324,16 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Slice B's MSG-ONB-007/008 browser gates and the separate P076-035 focused gate
-are qualified. Continue with P076-033 org custody C and carry the focused P076-035
-regression into P076-034 final mixed qualification. Slice A and P076-031 retain
+Work is paused at the operator's request for branch integration. Resume only after
+an explicit continuation, with a fresh complete candidate on clean integrated
+sources and one pinned binary set. The partial candidate12 is not a passing
+strict/runtime qualification and must not be combined with earlier runs.
+
+Slice B's MSG-ONB-007/008 browser gates, P076-035 individual withdrawal and
+P076-033 organization custody are locally qualified. Continue with P076-034's
+full mixed/provider candidate, carrying the reviewed A2, channel and report-contract
+repairs and their regressions forward. The earlier 54-action focused report stays
+refused for its metadata collision. Slice A and P076-031 retain
 their separate qualified scopes. Review after
 each substantial slice, including the online authority's durable negative-proof
 semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
@@ -401,3 +508,131 @@ mutation fields are refused. Human labels explain authority and publication,
 while technical details retain exact codes. No execution authority or historical
 qualification changes; Node records this local regression checkpoint separately
 from the 2026-10-21 browser measurement.
+
+## P076-033 implementation checkpoint (2026-10-23)
+
+The active signed root carries one `federation-root` rule and an optional paired
+`capability-issuance` threshold / `capability-revocation` any-authorized policy.
+Purposes are unique and closed; pack signatures bind every rule. The root rule's
+mode/quorum is independent of the other purposes. Missing, duplicate, unpaired,
+wrong-mode and unachievable policies are refused. Key aliases count once.
+
+Node composes these exact policies into its existing issuance-proof verifier.
+Custodian refs authorize signatures for the org; they do not admit those
+participants, beneficiaries or delegates to sovereign authority. Grant templates,
+expiry, signed revocation status and current-root execution guards are unchanged.
+Root-draft tooling adds the pair only when explicitly requested, without signing
+or activating the result. Local conformance and review are recorded at
+`node:docs/audits/P076-ORG-CUSTODY-REVIEW-2026-10-23.md`.
+
+At this implementation/conformance checkpoint P076-033 was `in-progress`;
+the subsequent focused qualification is recorded below. P076-034 and release
+readiness remain separate.
+
+The P076-033 runtime gate is now defined as `candidate.py --scope p076-org`:
+closed conformance, strict sovereign Story-010, and the pinned-browser
+`delegated-org-custody` scenario from one clean source/binary set. It measures
+partial/duplicate/wrong-purpose signatures and custodian self-issuance refusals,
+full exchange with separate contact/INAC decisions, and one authorized custodian's
+parent withdrawal while fresh child consents are active. Bound-node self-withdrawal
+is a separate earlier phase. The offline qualifier rechecks public signed
+artifacts and the measured custody roles; it cannot claim the final mixed gate.
+The grant helper adds explicit offline authority-withdrawal draft/sign/verify
+commands. Publication is a separate operator action, never an implicit UI GET.
+
+### Organization gate boundary review (2026-10-23)
+
+The focused custody gate withdraws A's active parent immediately after a second
+B-to-A delivery on its independent receive consent. B's earlier child withdrawal
+applies only to the opposite direction. This proves issuer cascade without adding
+a separate parent-renewal ceremony or mistaking an already-withdrawn consent for
+an active one. The external issuer document is distinct from bound-node own-use
+withdrawal; local relationship history need not invent a local revocation event.
+Current host assessment, rather than the historical projection, denies receipt.
+
+The additional A2 renewed-sender cohort in diagnostic attempts 01–03 did not
+complete contact exchange. Attempt 03 had a new outgoing canonical request ID but
+still timed out; its cause remains unqualified. P076-034 must investigate this
+cohort before the full mixed candidate. It is not closed by the focused custody
+gate or by source-level inference.
+
+## P076-033 focused custody qualification (2026-10-23)
+
+The [retained Node gate](https://github.com/diapod/node/blob/master/docs/evidence/limited-messaging/2026-10-23-org-custody/README.md)
+qualifies slice C only: clean Node `16c39fa1` / Orbidocs `f7509ea6`, one unchanged
+six-binary set, 1423 conformance plus 123 capsule executions, 34 strict sovereign
+Story-010 phases and 42/42 actual-browser cases. Two keys issue each org grant;
+the third authorized custodian withdraws A's active parent after the independent
+reverse consent delivered. All children deny, compose returns actual HTTP 403
+without a new outbox ID, and B cannot deliver on that previously working consent.
+No custodian, ordinary beneficiary or delegate becomes sovereign.
+
+Fourteen public proof files requalify identically before/after extraction. The
+final offline pack is 131/131 without skips; its eight retained-proof tests were
+not counted as passing in the original 123-execution capsule step. Three failed
+attempts remain failed. Their extra A2 cohort is not qualified by this gate;
+P076-034 carries diagnosis and the full mixed/provider candidate. Historical
+007/008/035 scopes are unchanged. No model or VM ran; full-candidate and release
+readiness remain false.
+
+
+## P076-034 candidate contract and A2 diagnosis (2026-10-23)
+
+A2's additional diagnostic reproduced selection of an older A1 INAC notification
+by peer/schema while the new request's offer remained pending. The acceptance
+repair matches the current outbox request and generation to the exact locally
+observed offer, and chooses a UI local-contact projection rather than its
+participant alias. This corrects evidence collection, not runtime authority.
+Earlier failed P076-033 attempts retain their original result and scope.
+
+The final gate freezes one clean Node/Orbidocs source set and six binaries after
+conformance, then runs strict sovereign Story-010 and ten focused scenarios:
+sovereign onboarding/recovery, S027-008 fact recovery, HTML delegated receive,
+MSG-ONB-007/008, organization custody/child UI, explicit A2 renewal, mixed exchange
+and two ordinary participants using a third sovereign contact provider. Each
+scenario pins its profiles and public transport certificates. Signed public facts
+are requalified identically before/after archive extraction. A focused success or
+a development probe cannot substitute for this complete sequence.
+
+Q-03's separate-provider acceptance is included in this gate. Its synthetic
+provider has its own daemon, participant, node and leaf keys. The common transport
+CA only permits TLS verification of node-address advertisements; it is not a
+sovereign grant. Both Messaging beneficiaries stay outside root. OTP delivery uses
+the existing dev mailbox with `always-accepted` disabled. Grants still confer no
+contact-control attestation or Contact Catalog provider authority.
+
+The gate remains in progress until retained clean-source measurements exist.
+Local final-candidate qualification and release readiness remain distinct.
+Implementation review: `node:docs/audits/P076-A2-AND-FINAL-CANDIDATE-REVIEW-2026-10-23.md`.
+
+The separate-provider diagnostic reached verified host discovery but challenge
+creation returned 401 because the service expected its local client token. The
+operator adopted P061's explicit public challenge/redeem opt-in on 2026-10-23;
+status/debug and lifecycle remain protected, default access remains closed, and
+public replies carry no dev code. The provider token stays local. Synthetic
+acceptance substitutes only OTP delivery through protected operator status.
+P076-034 remains in progress until this complete path is measured.
+
+The Q-03 topology also distinguishes local publication from provider admission.
+The ordinary node signs and publishes its contact claim locally. The separate
+catalog operator admits that exact claim and the provider-issued control passport
+through its existing authenticated API. Public lookup and native contact addition
+then use that admitted route. This gate does not claim remote self-service claim
+publication; neither token distribution nor ordinary catalog-provider authority
+is introduced. The retained proof binds claim and control signatures to the
+operator admission.
+
+The HTML/API regression scenarios explicitly negotiate P095's current protected
+HTML representation, retaining session, CSRF, Origin and presentation-context
+checks. This is a server-side contract measurement, not JavaScript execution or
+browser-restoration evidence. Only the separately pinned Chromium scenarios
+establish the browser claims; no representation header grants authority.
+
+The retained final attempt10 measured A2 renewal54 on clean sources after the
+wrong-offer observer repair. It then refused mixed setup at component enabling,
+so this is an A2 runtime result inside an unsuccessful complete candidate, not
+P076-034 completion. The original first-ten attempt capsules preserve their
+results. The offline final gate is being strengthened to require the same closed
+case inventory as the runner and bind receive decisions to exact typed child
+consents and message/INAC observations; signatures alone do not establish the
+purpose of a child passport.

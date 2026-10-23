@@ -239,7 +239,9 @@ unchanged. Evidence:
 The subsequent 2026-10-20 review clarifies point-in-time mirror health and
 temporary-source durability without changing frozen evidence. P035-014 tracks
 periodic topology and fresh sample supervision with S039 degradation/recovery
-delivery; it remains todo. The separately authorized recovery/retention integration
+delivery. It qualified the optional session-bound profile on 2026-10-23 through
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`;
+no off-session coverage or release readiness follows. The separately authorized recovery/retention integration
 prerequisite is now validated against the actual primary baselines, preserving
 frozen evidence, budgets and unrelated capability work. See
 `node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md` for full/scoped repository checks

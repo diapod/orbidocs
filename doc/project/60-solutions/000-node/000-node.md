@@ -460,6 +460,10 @@ Responsibilities:
 - run both bundled modules as supervised Python middleware services rather than as
   unmanaged sidecars,
 - attach those modules through the host-owned `channel_json` connector/executor,
+- keep cancellation request-bound: a late cancel for an already terminal inbound
+  id in the current epoch's bounded history is a no-op, while never-admitted
+  targets and invalid frame correlation still fail closed; cancellation is not
+  rollback or permission to replay work,
 - expose `middleware.dator` and `middleware.arca` as operator-visible components
   with lifecycle, readiness, and restart state,
 - preserve middleware operator UI as a layered contract: packages may ship
