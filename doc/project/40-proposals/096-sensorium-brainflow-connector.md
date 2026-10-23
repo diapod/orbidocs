@@ -4241,3 +4241,28 @@ review and private manifest 482f2265 / archive 14f4fabb / fresh readback d8ef88f
 verify the closure. No Bluetooth, hardware, recovery, root migration or merge
 runs. P096-005 stays partial; current authority, exact-client permission and fresh
 interactive readiness precede new SCAN/BIND/REGISTER/WEAR. See node:docs/audits/REVIEW-SENSORIUM-R13-AUTHORITY-RETIREMENT-2026-10-23.md.
+
+
+### Revision-14 authority-loss campaign — 2026-10-23
+
+One freshly approved delegated-SSH campaign on source 93b575e8 / GUI f69d117c
+and package c73c8aae completes **8/8 selected rows**: seven native acquisitions
+plus the expired-authority refusal. All seven release with confirmed cleanup,
+exact executor exit and durable audit 2/2 before claim release. The 314184-ms
+run forwards 21 decisions and seven WEAR confirmations; reported SDK operations
+have zero timeouts/retries. Protected stop/logout/saturation receipt/fence is
+1/1 ms; exact exits are 4675–4807 ms under unchanged 626/250/10000-ms gates.
+The corrected deadline succeeds at the original 90-s end, with first fence
+8.791375 ms later; r13's partial refusal remains immutable. Target-only p21
+expiry reduction and the following refused admission are independently verified.
+
+Readback is journal 309/44, consent 30/26 with old fact prefixes preserved,
+zero claims/workers, unchanged controller/discovery and 289 old directories.
+R14 remains registered/stopped with expired acquisition authority and its original
+finite binding. The baseline's fenced configuration-refused warning (116 ms) is
+retained without inferring an initiating failure. All 51 reports / 65996 bytes
+are private under manifest b7b90989 / archive 4e7d6ce6 and readback b3461ea9.
+The branch succeeds operationally; formal report/qualification remain partial:
+origins null, historical firmware, unverified TCC attribution, alternative fault/restart and
+full-tuple evidence remain open. No repeat campaign, reset, recovery, authority
+renewal, migration or merge follows. See node:docs/audits/REVIEW-SENSORIUM-R14-CAMPAIGN-2026-10-23.md.
