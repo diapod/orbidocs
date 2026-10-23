@@ -3851,3 +3851,19 @@ BIND/REGISTER/WEAR decisions or renew authority. No permission probe, native
 manager, scan, acquisition, recovery, renewal, migration or merge occurs;
 revision 11 remains unregistered and P096-005 partial. See
 node:docs/audits/REVIEW-SENSORIUM-R11-COMPATIBLE-CLIENT-2026-10-23.md.
+
+### Revision-11 final helper runtime guard — 2026-10-23
+
+One approved campaign on compatible GUI c9200220 / source 4db636c8 stops during
+baseline SCAN; seven later rows are blocked and no BIND/REGISTER/WEAR/acquisition
+occurs. The final supervisor guard still rejects runtimes above 45 s, while the
+request is 50 s and the host ceiling 108 s. One shared supervisor constant now
+joins the final guard and helper profile without changing actual deadlines,
+worker budgets or authority. A real-spawn regression fails with the old guard;
+58 supervisor, five daemon profile and 29 console checks pass after correction.
+Closed readback links the new uncertain Case to held controller and discovery
+claims; journal is 207/30, previous grants/packages/history/custody are preserved.
+Permission-only allowed and remembered firmware provide no new qualification.
+The fix is local; no new target build, replay, recovery, reset, renewal, further
+headband action or merge occurs. P096-005 remains partial. See
+node:docs/audits/REVIEW-SENSORIUM-HELPER-RUNTIME-BOUND-2026-10-23.md.
