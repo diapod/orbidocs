@@ -773,3 +773,14 @@ this source job, and focused qualification at clean Node `885a78fd` / Orbidocs
 crash/restart idempotency and deadline inspection without automatic retry.
 See `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
 This consumer does not qualify the separate P035-014 mirror-supervision job.
+
+## Optional module jobs (P035-014, accepted 2026-10-23)
+
+The generic module-job adapter binds an admitted job to the currently active
+middleware module, operation and host-approved execution budget. Resolve current
+readiness/activation on each launch, including run-once, without holding the
+supervisor lock over I/O. Package fragments cannot claim another module's jobs.
+Module revocation stops new launches; ordinary node profiles are unchanged.
+`scheduled-module-job-request.v1` and `scheduled-module-job-result.v1` bind job,
+launch and budget. S020 knows no evidence-store paths, Python or qualifier logic.
+Implementation and runtime qualification are pending under P035-014.

@@ -278,3 +278,13 @@ recheck current authority; they never replace stale revisions with fresh ones.
 Identical source/legacy, extracted and fresh dual-store qualification is recorded
 in `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
 This closes P035-013, not OS delivery, generic notification readiness or P035-014.
+
+## Optional evidence-supervision consumer (P035-014)
+
+The opt-in module requests notifications through the ordinary `notification.create`
+and narrowly granted NotificationAllow policy. It owns a topology/freshness thread
+and separate store/bundle integrity threads, stable incidents/generations and a
+transactional outbox. Reading or handling an item never repairs or retires evidence.
+S039 acceptance precedes outbox confirmation. Missing daemon/package availability
+means no off-session alert; status/restart expose stale observations. This accepted
+consumer is not yet runtime-qualified and does not install an OS watchdog.
