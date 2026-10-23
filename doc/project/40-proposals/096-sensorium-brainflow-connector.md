@@ -3776,3 +3776,18 @@ sources and expired authority remain preserved; no reset proof or consumption
 was created. Helper termination and a fresh observation require a separate
 operator decision. P096-005 remains partial. See
 node:docs/audits/REVIEW-SENSORIUM-R11-BLUETOOTH-OBSERVATION-2026-10-23.md.
+
+After a separate explicit decision, exactly the two freshly reverified helpers
+ended with SIGTERM, without escalation. A new process probe found zero admitted
+or unverifiable processes. One fresh state-only SSH observation in real iTerm
+for v4 e79bd11c then completed: OFF for 3241 ms, four worker checks, native exit
+zero and captured-image removal. Proof 3a57b87b binds the exact administrator,
+observer, boot and raw v2 predecessor; its separate approval window ends at
+2026-10-23 04:30:41 CEST. Independent custody checks preserve 860 old file records,
+231 directory identities, eleven sources, journal 202/29 Cases and both
+quarantined claims; only the proof and ordinary read-store ctime differ.
+The first refusal remains frozen. Authority stays expired, revision 11 remains
+pre-binding/unregistered, and recovery has not executed. No scan, acquisition,
+release, renewal, migration or merge occurred. P096-005 stays partial; a separate
+RECOVER approval and fresh validation are still required. See
+node:docs/audits/REVIEW-SENSORIUM-R11-BLUETOOTH-OBSERVATION-RUN02-2026-10-23.md.
