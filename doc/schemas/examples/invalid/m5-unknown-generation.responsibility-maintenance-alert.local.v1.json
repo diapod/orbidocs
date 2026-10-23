@@ -1,0 +1,28 @@
+{
+  "schema": "responsibility-maintenance-alert.local.v1",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "alert/id": "fixture:alert",
+  "episode/id": "fixture:episode",
+  "generation": null,
+  "kind": "progress-blocked",
+  "sources": [],
+  "cause/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "recipient/binding": null,
+  "intent/id": "fixture:intent",
+  "state": "pending-recipient",
+  "notification/ref": null,
+  "observed-at": "2026-10-20T12:00:00Z"
+}

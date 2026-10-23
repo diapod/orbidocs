@@ -520,12 +520,6 @@
             "properties": {
               "kind": {
                 "const": "compact"
-              },
-              "generation": {
-                "type": "null"
-              },
-              "expected/head": {
-                "type": "null"
               }
             }
           }
@@ -965,9 +959,16 @@
           "$ref": "#/$defs/Id"
         },
         "generation": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "kind": {
           "enum": [
@@ -1030,6 +1031,12 @@
         },
         "safety": {
           "$ref": "#/$defs/Safety"
+        },
+        "generation/status": {
+          "enum": [
+            "pinned",
+            "unallocated"
+          ]
         }
       },
       "required": [
@@ -1089,6 +1096,32 @@
               },
               "notification/ref": {
                 "$ref": "#/$defs/Id"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "generation": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "generation/status"
+            ],
+            "properties": {
+              "generation/status": {
+                "const": "unallocated"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "generation/status": {
+                "const": "pinned"
               }
             }
           }

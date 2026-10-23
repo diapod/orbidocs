@@ -152,12 +152,6 @@ Then:
     },
     "target": {
       "const": "metadata-compacted"
-    },
-    "generation": {
-      "type": "null"
-    },
-    "initial/head": {
-      "type": "null"
     }
   }
 }

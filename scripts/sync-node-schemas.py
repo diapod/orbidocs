@@ -667,6 +667,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    'm5-unallocated.responsibility-maintenance-alert.local.v1.json',
+    'm5-unallocated.responsibility-maintenance-retention-hold.local.v1.json',
+
     'cpr-metadata.responsibility-maintenance-archive.local.v1.json',
     'cpr-metadata-only.responsibility-maintenance-plan.local.v1.json',
 
@@ -1266,6 +1269,10 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    'm5-unknown-generation.responsibility-maintenance-alert.local.v1.json',
+    'm5-false-pinned.responsibility-maintenance-alert.local.v1.json',
+    'm5-unallocated-address.responsibility-maintenance-retention-hold.local.v1.json',
+
     "unbounded.responsibility-maintenance-index.local.v1.json",
     "descriptor-scope.operator-consent.request.v1.json",
     'cpr-self-target.responsibility-maintenance-plan.local.v1.json',

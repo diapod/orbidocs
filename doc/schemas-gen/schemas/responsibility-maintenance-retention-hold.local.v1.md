@@ -27,7 +27,7 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`hold/id`](#field-hold-id) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Id` |  |
 | [`host/id`](#field-host-id) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Id` |  |
 | [`host/incarnation`](#field-host-incarnation) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Id` |  |
-| [`generation`](#field-generation) | `yes` | integer |  |
+| [`generation`](#field-generation) | `yes` | unspecified |  |
 | [`holder/kind`](#field-holder-kind) | `yes` | enum: `operation`, `alert`, `report` |  |
 | [`holder/ref`](#field-holder-ref) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Id` |  |
 | [`target/digest`](#field-target-digest) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest` |  |
@@ -37,6 +37,39 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`reason/ref`](#field-reason-ref) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Id` |  |
 | [`recorded-at`](#field-recorded-at) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Time` |  |
 | [`safety`](#field-safety) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety` |  |
+| [`generation/status`](#field-generation-status) | `no` | enum: `pinned`, `unallocated` |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "generation": {
+      "type": "null"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "generation/status"
+  ],
+  "properties": {
+    "generation/status": {
+      "const": "unallocated"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -67,7 +100,7 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 ## `generation`
 
 - Required: `yes`
-- Shape: integer
+- Shape: unspecified
 
 <a id="field-holder-kind"></a>
 ## `holder/kind`
@@ -122,3 +155,9 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 
 - Required: `yes`
 - Shape: ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety`
+
+<a id="field-generation-status"></a>
+## `generation/status`
+
+- Required: `no`
+- Shape: enum: `pinned`, `unallocated`

@@ -329,3 +329,16 @@ Owner conformance preserves original bytes, v1 authority and closed D7. M5 alert
 integration and Q runtime remain open; no wider tracker closure changes. See
 node:docs/development/RESPONSIBILITY-MAINTENANCE-RETENTION-CONTRACT.md and
 node:docs/audits/RESPONSIBILITY-MAINTENANCE-RETENTION-2026-10-23.md.
+
+### M5 recipient-bound alert owner checkpoint — 2026-10-23
+
+Node implements immutable bounded observations/intents, independent reserved control
+facts, S020 delivery and the existing S039 operator inbox with actual signed binding
+checks. General aliases, counts and SSE do not disclose these notices. Exact sealed
+archive/locator readback permits closed metadata reclamation without acknowledgment;
+metadata format 2 preserves historical hold projections. See
+`node:docs/development/RESPONSIBILITY-MAINTENANCE-ALERTS-CONTRACT.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M5-2026-10-23.md`.
+This is local owner conformance, not Q runtime or operator/release readiness.
+v1 remains authoritative, all five D7 fields false and rollout disabled by default.
+Broader P051-010/015/016 and the independent social/federated scopes remain partial.

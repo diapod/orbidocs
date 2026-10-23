@@ -25,9 +25,16 @@
       "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
     },
     "generation": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 9007199254740991
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "holder/kind": {
       "enum": [
@@ -72,6 +79,12 @@
     },
     "safety": {
       "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    },
+    "generation/status": {
+      "enum": [
+        "pinned",
+        "unallocated"
+      ]
     }
   },
   "required": [
@@ -89,5 +102,33 @@
     "reason/ref",
     "recorded-at",
     "safety"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "generation": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "generation/status"
+        ],
+        "properties": {
+          "generation/status": {
+            "const": "unallocated"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "generation/status": {
+            "const": "pinned"
+          }
+        }
+      }
+    }
   ]
 }

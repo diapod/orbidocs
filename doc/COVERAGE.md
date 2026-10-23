@@ -568,7 +568,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`responsibility-effect-request.v1.schema.json`](schemas-gen/schemas/responsibility-effect-request.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`responsibility-lifecycle-readiness.local.v1.schema.json`](schemas-gen/schemas/responsibility-lifecycle-readiness.local.v1.md) | `6` | `0` | `yes` | `yes` | `1` | `2` |
 | [`responsibility-maintenance-abandoned.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-abandoned.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
-| [`responsibility-maintenance-alert.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-alert.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
+| [`responsibility-maintenance-alert.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-alert.local.v1.md) | `0` | `0` | `yes` | `yes` | `2` | `3` |
 | [`responsibility-maintenance-archive.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-archive.local.v1.md) | `0` | `0` | `yes` | `yes` | `2` | `2` |
 | [`responsibility-maintenance-bindings.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-bindings.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `0` |
 | [`responsibility-maintenance-bindings.local.v2.schema.json`](schemas-gen/schemas/responsibility-maintenance-bindings.local.v2.md) | `20` | `0` | `yes` | `yes` | `1` | `0` |
@@ -581,7 +581,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`responsibility-maintenance-report.local.v2.schema.json`](schemas-gen/schemas/responsibility-maintenance-report.local.v2.md) | `8` | `0` | `yes` | `yes` | `1` | `1` |
 | [`responsibility-maintenance-request.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-request.local.v1.md) | `0` | `0` | `yes` | `yes` | `2` | `5` |
 | [`responsibility-maintenance-result.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-result.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `2` |
-| [`responsibility-maintenance-retention-hold.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-retention-hold.local.v1.md) | `14` | `0` | `yes` | `yes` | `1` | `1` |
+| [`responsibility-maintenance-retention-hold.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-retention-hold.local.v1.md) | `15` | `0` | `yes` | `yes` | `2` | `2` |
 | [`responsibility-mandate.v1.schema.json`](schemas-gen/schemas/responsibility-mandate.v1.md) | `0` | `0` | `no` | `yes` | `0` | `0` |
 | [`responsibility-policy.v1.schema.json`](schemas-gen/schemas/responsibility-policy.v1.md) | `0` | `0` | `no` | `yes` | `1` | `1` |
 | [`responsibility-signed-command.v1.schema.json`](schemas-gen/schemas/responsibility-signed-command.v1.md) | `0` | `0` | `no` | `yes` | `1` | `0` |
@@ -1668,5 +1668,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `728`
 - Generated schema docs: `728`
-- Positive examples: `735`
-- Negative examples: `741`
+- Positive examples: `737`
+- Negative examples: `744`
