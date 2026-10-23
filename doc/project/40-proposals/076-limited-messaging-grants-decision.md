@@ -431,3 +431,19 @@ is a separate earlier phase. The offline qualifier rechecks public signed
 artifacts and the measured custody roles; it cannot claim the final mixed gate.
 The grant helper adds explicit offline authority-withdrawal draft/sign/verify
 commands. Publication is a separate operator action, never an implicit UI GET.
+
+### Organization gate boundary review (2026-10-23)
+
+The focused custody gate withdraws A's active parent immediately after a second
+B-to-A delivery on its independent receive consent. B's earlier child withdrawal
+applies only to the opposite direction. This proves issuer cascade without adding
+a separate parent-renewal ceremony or mistaking an already-withdrawn consent for
+an active one. The external issuer document is distinct from bound-node own-use
+withdrawal; local relationship history need not invent a local revocation event.
+Current host assessment, rather than the historical projection, denies receipt.
+
+The additional A2 renewed-sender cohort in diagnostic attempts 01–03 did not
+complete contact exchange. Attempt 03 had a new outgoing canonical request ID but
+still timed out; its cause remains unqualified. P076-034 must investigate this
+cohort before the full mixed candidate. It is not closed by the focused custody
+gate or by source-level inference.
