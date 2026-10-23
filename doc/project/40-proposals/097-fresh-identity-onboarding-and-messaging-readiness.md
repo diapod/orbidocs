@@ -852,3 +852,15 @@ This closes P076-035 only. P076-033 custody and P076-034 final mixed qualificati
 remain open, with `full_candidate_qualified=false` and `release_ready=false`.
 Historical P076-032/MSG-ONB-007/008 measurements retain their original API-only
 individual-withdrawal scope.
+
+### P076 organization custody checkpoint (2026-10-23)
+
+The separate P076-033 gate is locally qualified: clean Node `16c39fa1` / Orbidocs
+`f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign
+phases and 42 browser cases. Threshold issuance and any-authorized issuer
+withdrawal add no sovereign authority to ordinary participants or custodians.
+Public proofs requalify identically before/after extraction at
+`node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`.
+This does not reopen historical MSG-ONB-007/008 or P076-035 scopes. P076-034
+and its extra A2 renewed-sender diagnosis remain open; full-candidate and release
+readiness are false. No model/VM execution is involved.

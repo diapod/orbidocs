@@ -442,3 +442,17 @@ and INAC decisions, remote-parent status budgets and execution guards retain
 the P076/P097 contract. The organization browser candidate and offline public
 proof verifier are implemented; runtime qualification is pending at this
 checkpoint. Historical participant-issuer and P076-035 evidence is unchanged.
+
+### Qualified organization custody gate (2026-10-23)
+
+P076-033 now has focused clean-source qualification at
+`node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`: 1423
+conformance plus 123 capsule executions, 34 strict sovereign phases and 42 real
+browser cases on six unchanged binaries. Org threshold issuance and separate
+any-authorized issuer withdrawal retain ordinary/custodian non-admission. The
+active reverse receive consent delivers before its parent is withdrawn, then
+current host assessment refuses all children and further delivery. Local history
+is retained without inventing a node-authored withdrawal. Fourteen signed-public
+proof files requalify identically before/after extraction; the final offline pack
+is 131/131. P076-034, its extra A2 cohort diagnosis, and release readiness remain
+open. Historical participant-issuer and individual-withdrawal gates keep scope.

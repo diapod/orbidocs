@@ -37,7 +37,11 @@ principal; it does not grant an ordinary participant authority to issue passport
 for another beneficiary. The new `capability-passport.v2` signs its complete
 issuance proof, without changing or extending the unsigned V1 `issuer_delegation`
 field. The encrypted local proxy-key vault is reusable storage, not the source of
-sovereign authority.
+sovereign authority. Organization-backed issuance in P076-033 additionally uses
+explicit `capability-issuance` threshold and `capability-revocation` any-authorized
+policies from the active root; neither root-signing custody nor a signing proxy
+substitutes for that issuance authority. The focused organization gate is
+qualified separately from P076-034's final mixed candidate.
 
 ## Problem
 

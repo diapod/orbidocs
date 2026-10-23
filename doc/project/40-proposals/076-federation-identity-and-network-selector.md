@@ -1154,4 +1154,7 @@ root-signature purpose and production root quorum remain unchanged; neither new
 purpose can activate a pack. The daemon verifies all policy shapes and projects
 only explicit grant purposes into issuance authority. Custodian participant refs
 remain signing identities, not additional sovereign subjects. The local Node
-implementation has conformance; its organization runtime gate is still pending.
+implementation and focused organization custody gate are now locally qualified
+(1423 conformance plus 123 capsule executions, 34 strict sovereign phases and
+42 browser cases); see `node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`.
+P076-034, its extra A2 cohort diagnosis, and release readiness remain separate.
