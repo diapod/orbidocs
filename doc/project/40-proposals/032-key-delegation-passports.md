@@ -37,7 +37,11 @@ principal; it does not grant an ordinary participant authority to issue passport
 for another beneficiary. The new `capability-passport.v2` signs its complete
 issuance proof, without changing or extending the unsigned V1 `issuer_delegation`
 field. The encrypted local proxy-key vault is reusable storage, not the source of
-sovereign authority.
+sovereign authority. Organization-backed issuance in P076-033 additionally uses
+explicit `capability-issuance` threshold and `capability-revocation` any-authorized
+policies from the active root; neither root-signing custody nor a signing proxy
+substitutes for that issuance authority. The focused organization gate is
+qualified separately from P076-034's final mixed candidate.
 
 ## Problem
 
@@ -294,6 +298,83 @@ The verifier does not need to fetch `key-delegation.v1` from the Seed Directory.
 If it also consumes revocation feeds it may reject an embedded
 `delegation_id` that appears there, but that is a revocation policy layer, not a
 dependency of signature verification.
+
+### Bounded Verification Material Across Artifact Families
+
+**Architectural guidance, 2026-10-23.** Generalize the existing inline-proof
+pattern, not its authority: where transmission budgets and disclosure policy
+permit, a signed artifact SHOULD carry the minimum public material needed to
+verify its signature and the applicable delegation without a remote lookup.
+This is guidance for artifact profiles and their adapters, not a new generic
+envelope, schema, runtime capability or completion claim.
+
+The minimum depends on the profile:
+
+- direct signatures can reuse the public key recoverable from a canonical
+  `did:key`; a second copy is not intrinsically necessary, and redundant copies
+  must agree with the expected signer;
+- delegated signatures carry the existing signed `DelegationProof`, including
+  principal/proxy keys, grants and expiry, rather than an unauthenticated key list;
+- organization or other authority profiles additionally need their admitted
+  policy/decision evidence. Carry only the applicable public proof or an exact
+  dependency already available locally, not the entire identity history.
+
+For small independent messages, prefer inline material. A bounded transport
+bundle may deduplicate evidence shared by several artifacts; references must
+identify exact bytes under the existing contract, not a mutable "latest" key.
+Reference-only profiles explicitly depend on a local cache or separately admitted
+acquisition. Missing material yields an explicit unresolved/refused result, not
+success, an unchecked alternative key, or an automatic fetch of attacker-chosen
+URLs. Define byte, item, chain-depth and verification-work bounds before enabling
+a profile. Future multi-hop proof bundles must reject cycles, unsupported key
+uses and scope expansion; this guidance **does not lift the current MVP
+single-hop restriction**.
+
+Keep four claims separate:
+
+| Claim | What the carried material can establish | Required external context |
+|---|---|---|
+| Signature validity | The signed bytes verify under a concrete key. | Accepted algorithm/canonicalization profile and expected signer binding. |
+| Delegation validity | The principal signed a scoped, time-bounded delegation to that key. | Required purpose/audience/scope, verifier time and supported delegation semantics. |
+| Trust/admission | The evidence matches a root or policy the receiver accepts. | The receiver's independently admitted trust anchors and current local policy; a bundled root cannot approve itself. |
+| Freshness | A signed status snapshot reports state within its declared interval. | Profile-specific maximum age, clock assumptions and known revocations. An offline receiver cannot discover a later revocation from the old bundle. |
+
+Verify whatever can be verified offline, but do not turn an unknown freshness or
+missing policy result into operation admission. Existing fail-closed consumers
+retain their rules; offline signature inspection does not imply offline delivery,
+execution or authorization. A sender timestamp is not independent proof that a
+historical signature preceded revocation. Historical-validity claims require
+their own admitted time/status evidence.
+
+Bind security-relevant metadata using each existing artifact's signed payload,
+separately signed proof or AAD contract. Do not casually change signed preimages
+or historical record ids to add a convenience field. Information-only labels
+remain information-only. Preserve algorithm, key-role, domain, subject, target
+and expiry checks; possession of a valid proof never grants an unrelated use.
+
+For encrypted artifacts, distinguish verification of a signed outer envelope
+from decryption or AEAD-tag verification. Carry only public parameters required
+by the admitted encryption/signature profile; never private keys or content keys
+as public verification material. Public keys alone do not make an AEAD ciphertext
+publicly verifiable. Disclose neither a pseudonym's principal nor recipient lists
+merely to make a public package self-contained. If disclosure policy conflicts
+with self-containment, use the existing protected channel, bounded local material
+or an explicit unavailable result rather than weakening privacy.
+
+Implementation stays with the existing domain adapters, canonicalization,
+signer, delegation verifier and local trust/revocation owners. P037 supplies
+signing mechanics; S014 owns the inline-proof semantics. P035/Agora and
+P060/Messaging bind these rules to their own envelopes. Do not introduce a
+second certificate format or require every consumer to fetch the same evidence.
+
+For each adopting profile, add a network-disabled acceptance fixture with an
+explicit local trust/status snapshot. Verify successful direct and delegated
+signatures without lookups; wrong signer, substituted key/proof, wrong scope,
+expired proof, stale or missing status, known revocation, missing referenced
+material, oversize/deep chains and privacy-forbidden evidence must retain their
+distinct outcomes. Network fallback must not occur. Reuse existing verifier and
+replay fixtures; new evidence must state which profile and offline operation it
+qualifies. Documentation alone does not extend existing runtime qualification.
 
 ### Extension to participant-signed artifacts
 

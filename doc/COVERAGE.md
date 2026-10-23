@@ -276,7 +276,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`federated-envelope-declaration.v1.schema.json`](schemas-gen/schemas/federated-envelope-declaration.v1.md) | `12` | `0` | `yes` | `yes` | `1` | `1` |
 | [`federated-envelope-declaration.v2.schema.json`](schemas-gen/schemas/federated-envelope-declaration.v2.md) | `13` | `0` | `yes` | `yes` | `1` | `1` |
 | [`federation-node.v1.schema.json`](schemas-gen/schemas/federation-node.v1.md) | `16` | `0` | `no` | `yes` | `0` | `0` |
-| [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `3` | `7` |
+| [`federation-root.v1.schema.json`](schemas-gen/schemas/federation-root.v1.md) | `12` | `12` | `yes` | `yes` | `4` | `10` |
 | [`federation-run.v1.schema.json`](schemas-gen/schemas/federation-run.v1.md) | `14` | `0` | `no` | `yes` | `0` | `0` |
 | [`federation-scenario.v1.schema.json`](schemas-gen/schemas/federation-scenario.v1.md) | `9` | `0` | `no` | `yes` | `2` | `0` |
 | [`federation-service-endorsement-revocation.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement-revocation.v1.md) | `10` | `10` | `yes` | `yes` | `1` | `0` |
@@ -342,7 +342,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`messaging-issuance-consent-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-consent-withdraw.local.v1.md) | `1` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-request-create.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-request-create.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-request-result.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-request-result.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
-| [`messaging-issuance-status.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-status.local.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `0` |
+| [`messaging-issuance-status.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-status.local.v1.md) | `5` | `1` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-unlock.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-unlock.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-withdraw.local.v1.md) | `1` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-mailbox-storage.local.v1.schema.json`](schemas-gen/schemas/messaging-mailbox-storage.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `1` |
@@ -1672,5 +1672,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `730`
 - Generated schema docs: `730`
-- Positive examples: `729`
-- Negative examples: `731`
+- Positive examples: `730`
+- Negative examples: `734`

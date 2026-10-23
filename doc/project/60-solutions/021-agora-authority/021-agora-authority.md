@@ -187,6 +187,14 @@ Implementation status:
   non-Rust middleware the same local admission explanation without publishing or
   persisting the record.
 
+The [P032 verification-material guideline](../../40-proposals/032-key-delegation-passports.md#bounded-verification-material-across-artifact-families)
+encourages bounded inline public proofs for these paths, not bundled authority
+that approves itself. S021 still resolves trust from independently admitted local
+roots/policies. Missing policy or stale revocation evidence cannot become an
+allow decision just because the envelope's signature verifies offline. Reuse the
+existing resolver and delegated verifier; preserve disclosure boundaries and
+record consumer-specific network-disabled qualification separately.
+
 ### 3. Operational Delegation and Derived Keys
 
 Authority roots SHOULD be long-lived anchors. They SHOULD NOT be used as ordinary

@@ -428,6 +428,22 @@ Responsibilities:
 
 Status: `done`.
 
+### Scoped P091 Resource Configuration — 2026-10-23
+
+Node implements the local production `classify/labels-max` facet through the
+shared file-configuration contracts. Inquirium/P085 remains the semantic owner
+of default/local/envelope/safety-range/task composition. The UI and CLI do not
+resolve profiles, issue envelopes or admit inference.
+
+A reviewed file save is `node-restart`, distinct from actual native profile
+consumption and fresh per-use authority. Durable instance/resolution/generation
+ACK records the former without renewing the latter. Common describe/explain
+are confined to an authenticated local operator and the exact setting address;
+module credentials cannot grant this read or dispatch control operations.
+The focused browser/no-JS/WebView and owner proofs are recorded in
+`node:docs/audits/P091-INQUIRIUM-P085-2026-10-23.md`. Other resource axes, generic
+P091 transports and complete operator/release qualification remain partial.
+
 ## May Implement
 
 ### Additional Runtime And Evaluator Profiles

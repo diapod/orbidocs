@@ -16,6 +16,52 @@ Source schema: [`doc/schemas/messaging-issuance-status.local.v1.schema.json`](..
 | [`participant_id`](#field-participant-id) | `yes` | string |  |
 | [`observed_at`](#field-observed-at) | `yes` | string |  |
 | [`grants`](#field-grants) | `yes` | array |  |
+| [`consent_window`](#field-consent-window) | `no` | object | Optional host-selected global window. Child IDs and withdrawal lists in each grant refer only to the selected window; passport_total counts all local children. No off-window scopes are serialized. |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "required": [
+    "consent_window"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "grants": {
+      "items": {
+        "required": [
+          "passport_total"
+        ],
+        "properties": {
+          "passports": {
+            "maxItems": 25
+          },
+          "passport_ids": {
+            "maxItems": 25
+          },
+          "withdrawn_passport_ids": {
+            "maxItems": 25
+          },
+          "withdrawal_publication_pending": {
+            "maxItems": 25
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -41,3 +87,11 @@ Source schema: [`doc/schemas/messaging-issuance-status.local.v1.schema.json`](..
 
 - Required: `yes`
 - Shape: array
+
+<a id="field-consent-window"></a>
+## `consent_window`
+
+- Required: `no`
+- Shape: object
+
+Optional host-selected global window. Child IDs and withdrawal lists in each grant refer only to the selected window; passport_total counts all local children. No off-window scopes are serialized.

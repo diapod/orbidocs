@@ -354,6 +354,16 @@ Ingest invariants:
      retroactively correlate nym records with the underlying
      participant on the substrate layer.
 
+For portable verification, reuse the envelope's existing `signature.key/public`
+and applicable `key/delegation` under
+[P032's bounded verification-material guidance](032-key-delegation-passports.md#bounded-verification-material-across-artifact-families).
+Opinion and public Whisper bodies do not need duplicate keys. Inline proof does
+not replace S021's locally admitted namespace/custody authority or fresh
+revocation checks. Preserve signed bytes through relay/replay, enforce envelope
+and transport budgets, and never reveal a private nym-to-principal binding merely
+to complete a public proof. Qualify offline verification per admitted record
+profile; do not infer it from generic relay availability.
+
 ### 3. Record Kinds and Content Schema Extension
 
 `record/kind` names the *what* of the record. `content/schema` names the

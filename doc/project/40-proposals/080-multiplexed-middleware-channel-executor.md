@@ -357,6 +357,24 @@ Frame invariants:
 - unknown replies, duplicate request ids, and sequence regressions are protocol
   violations.
 
+Cancellation can cross a completed response. An inbound cancellation target
+already admitted in the current session epoch's bounded request history is a
+terminal no-op if its request correlation is no longer active; it neither undoes
+an effect nor permits id reuse. A target never admitted in that epoch remains a protocol
+violation. This does not relax schema, direction, sequence, epoch or unknown-reply
+validation, and it requires no additional unbounded history.
+
+Local host-call timeouts retain bounded generation-qualified correlation: the
+Rust and Python clients share a 1,024-entry budget between active calls and
+timed-out reply markers. One valid late reply consumes its exact marker without
+delivery. Unknown, duplicate, malformed and stale-generation replies remain
+failures. Cancel publication precedes reusing remote in-flight credit. Exhaustion
+or failed cancel publication retires the generation through the existing bounded
+reconnect policy; no old effect is replayed and no history entry is evicted.
+One writer assigns frame sequences in publication order. Session cleanup releases
+pending host callbacks before joining module workers; this does not imply
+arbitrary handler preemption or rollback.
+
 V1 operations are:
 
 | Direction | Operation | Payload |
