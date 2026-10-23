@@ -3941,3 +3941,22 @@ claim release, consumption, generation installation, renewal, migration or merge
 occurs. P096-005 stays partial. RECOVER remains a separate approval with fresh
 proof/custody/window checks; no new runtime authority or consent is implied. See
 node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BLUETOOTH-OBSERVATION-2026-10-23.md.
+
+### Current revision-11 Bluetooth recovery completion — 2026-10-23
+
+After explicit RECOVER approval, fresh exact actor/signature, boot/window,
+review/proof, protected-source, claim/resource and process checks pass. One direct
+SSH commit on retained 4db636c8 / 8ff445ae consumes v4 ea635e8c and OFF/ON proof
+24831c70 for pre-binding Case 4e6f2774. Receipt v3 and completed marker 8baaaf7c
+bind the exact disposal: one discovery resource and old controller claim removed,
+reviewed next-policy bytes installed. Only generation changes; expiry 1792731542000
+stays expired. V4, v2 archive 0a5cfa9c, reset proof, journal 207/30, consent,
+grants, sources and historical uncertain Case remain unchanged. Root 912 to 913
+adds only completed marker; 910 full prior observations exact, resource DB data
+and ordinary read-store ctime are the two differences. All 909 other non-key
+hashes, two key-metadata records, 244 directories and parent custody are exact.
+Independent review passes; private manifest b45d7b2e and archive 13b5074d pass
+47-member and PRIMARY_EVIDENCE_STORE readback. No retry/resume, renewal, OFF/ON state observation,
+scan/acquisition, retirement, transition, migration or merge runs. P096-005 stays
+partial; future runtime authority and fresh headband approvals remain separate. See
+node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BLUETOOTH-COMPLETION-2026-10-23.md.
