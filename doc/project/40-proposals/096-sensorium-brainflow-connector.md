@@ -4036,3 +4036,18 @@ and fresh readiness for every pass; it neither starts nor qualifies a campaign.
 Run03 originals remain immutable under private manifest 2d7f9d6f / archive
 f45d06f4 with verified primary readback. P096-005 remains partial. See
 node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-LOOP-2026-10-23.md.
+
+### Signed ordinary diagnostic client — 2026-10-23
+
+Clean source e36eaeb1 / pin 1e593950 now has verified standalone f34d62e6,
+GUI 8536aeff and handoff 7907f90b on the nearby host. Twenty release files and
+75 kit inputs match; target runtime 246 plus exporter 42 tests pass without
+skips. The ordinary package de4f8cae is independently signed and distinct from
+campaign/fault scope. All 959 previous root observations, 252 directories,
+controller/grants and journal 217/32 stay exact; only fifteen capsule files in
+six directories appear. Claims/workers stay zero; revision 11 is unregistered.
+Private preparation manifest cee7e742 / archive 7b61b50f retain exact originals.
+No Bluetooth manager, permission probe, hardware, migration or merge runs.
+Fresh interactive readiness and this new image's permission observation precede
+the one-pass diagnosis; a formal campaign remains separate. P096-005 stays
+partial. See node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-LOOP-2026-10-23.md.
