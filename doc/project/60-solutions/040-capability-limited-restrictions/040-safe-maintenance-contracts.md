@@ -292,3 +292,15 @@ unchanged. The new preliminary profile passes twelve fixed internal-owner cost
 matrices (fsync/F_FULLFSYNC); historical one-second results remain immutable.
 Actual end-to-end v1 availability, M4/M5 delivery and final Q remain unqualified.
 See `node:docs/evidence/local-accountability/2026-10-23-maintenance-io-pre/README.md`.
+
+### Inactive M4a authority owner — 2026-10-23
+
+Node adds P066's narrow `remember-exact-descriptor` scope, exact allow-once
+reservation recovery and typed operator/binding/grant witnesses. Scoped epochs
+cover revocation and binding changes without owner I/O under admission. Agent
+spawn/bind/proposal/dispatch refuses maintenance even with a mistaken grant;
+its catalog hides those identifiers. This is inactive owner conformance, not
+public grant admission, M5 delivery or Q runtime qualification. Existing consent
+preimages remain unchanged; unsupported scope readers refuse the new enum.
+v1 remains authoritative and all D7 components stay false. See
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4A-2026-10-23.md`.

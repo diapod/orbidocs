@@ -411,7 +411,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`operator-attention-budget.v1.schema.json`](schemas-gen/schemas/operator-attention-budget.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `2` |
 | [`operator-consent-binding.v1.schema.json`](schemas-gen/schemas/operator-consent-binding.v1.md) | `10` | `0` | `no` | `yes` | `0` | `0` |
 | [`operator-consent-decision.v1.schema.json`](schemas-gen/schemas/operator-consent-decision.v1.md) | `12` | `0` | `yes` | `yes` | `0` | `0` |
-| [`operator-consent.request.v1.schema.json`](schemas-gen/schemas/operator-consent.request.v1.md) | `14` | `1` | `yes` | `yes` | `0` | `0` |
+| [`operator-consent.request.v1.schema.json`](schemas-gen/schemas/operator-consent.request.v1.md) | `14` | `1` | `yes` | `yes` | `1` | `1` |
 | [`operator-effective-policy-inspection-input.v1.schema.json`](schemas-gen/schemas/operator-effective-policy-inspection-input.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `0` |
 | [`operator-effective-policy-inspection.v1.schema.json`](schemas-gen/schemas/operator-effective-policy-inspection.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `1` |
 | [`operator-experiment-package.v1.schema.json`](schemas-gen/schemas/operator-experiment-package.v1.md) | `18` | `2` | `yes` | `yes` | `3` | `4` |
@@ -1668,5 +1668,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `728`
 - Generated schema docs: `728`
-- Positive examples: `732`
-- Negative examples: `736`
+- Positive examples: `733`
+- Negative examples: `737`

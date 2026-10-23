@@ -668,6 +668,7 @@ SCHEMA_WHITELIST = (
 
 EXAMPLE_WHITELIST = (
     "bounded.responsibility-maintenance-index.local.v1.json",
+    "maintenance-grant.operator-consent.request.v1.json",
     "closed.responsibility-maintenance-grant.local.v1.json",
     "closed.responsibility-maintenance-plan.local.v1.json",
     "evidence.responsibility-maintenance-retention-hold.local.v1.json",
@@ -1263,6 +1264,7 @@ EXAMPLE_WHITELIST = (
 
 INVALID_EXAMPLE_WHITELIST = (
     "unbounded.responsibility-maintenance-index.local.v1.json",
+    "descriptor-scope.operator-consent.request.v1.json",
     "unknown-scope.responsibility-maintenance-grant.local.v1.json",
     "wrong-grant.responsibility-maintenance-grant.local.v1.json",
     "expired.responsibility-maintenance-grant.local.v1.json",

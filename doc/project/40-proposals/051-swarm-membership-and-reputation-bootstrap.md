@@ -1793,6 +1793,13 @@ shadow runtime is claimed. v1 remains authoritative and all D7 components stay
 false. Historical acceptance and tracker scopes below remain unchanged. See
 node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md.
 
+M4a owner checkpoint (2026-10-23): Node now verifies typed local operator
+authority against P066 grants, exact plans and scoped revocation epochs, and
+refuses Agent maintenance grants/dispatch. Recoverable consent reservation is
+not work acceptance or execution. Ports remain inactive until M4b; this changes
+no tracker closure, v1 enforcement, D7 or runtime qualification. See
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4A-2026-10-23.md.
+
 ### Implementation Tracker
 
 Statuses: `todo`, `partial`, `done`, `deferred`. `done` requires the named evidence
