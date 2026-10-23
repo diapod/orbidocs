@@ -2123,7 +2123,44 @@ export private source paths to models. P064 alone owns prompt assembly.
 
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P091-GUIDE-001 | Expose guidance-only overlays through existing configuration contracts. | todo | P072-GUIDE-001 and the owning P091 resolver/write surfaces; prove default → operator overlay, explainable provenance, digest/cache invalidation, forbidden-field refusal and seed ≠ approval; no change to first-slice prerequisites. |
+| P091-GUIDE-001 | Expose guidance-only overlays through existing configuration contracts. | done (local C/H) | The bounded local source, Schema Gate, P091 preview/commit/recovery, exact provider-contract check and catalog projection pass focused owner and supervised daemon tests. Provenance and digest revisions change on commit, while an inert preview does not. Forbidden fields and stale pins refuse. Evidence: `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`. No concrete-model or signed-package qualification is inferred. |
+
+The implemented source is `capability-guidance-overlays.local.v1` at the
+host-confined `control/capability-guidance-overlays.json` path. It contains at
+most 16 entries and 64 KiB; each entry is at most 4 KiB, with at most 2 KiB
+of combined description and usage text. Its key is the canonical digest of
+capability id, provider id, local request-contract ref and exact schema digest.
+An operator can preview one set or reset through `config-change.plan.request.v1`,
+commit an unexpired plan through `config-change.commit.request.v1`, and inspect
+the current value through an operator-only explain response. Preview is inert;
+commit rechecks the provider report, source bytes and resolved plan under the
+shared P091 writer. An explicit, targetless local recovery request classifies
+only this source's retained intent without supplying bytes or starting a
+provider. The current file bytes must match the completed owner fact (or the
+expected prior bytes after a not-committed attempt). A manual edit or unowned
+file is refused as operator provenance; restoring the exact approved bytes is
+required before another preview. A pending intent needs explicit recovery.
+An old schema pin or an uninstalled provider does not make the whole document
+uneditable: the operator can reset that exact stored entry through the normal
+preview/commit path without treating its former pin as current authority.
+An older committed `plan/ref` returns its retained receipt without replaying
+the write or claiming that its bytes are current.
+
+An unavailable operator source does not disable capability discovery. The host
+omits optional guidance if source ownership, recovery or byte integrity fails,
+and omits only an affected binding when its contract or resolution fails. It
+retains a bounded refusal code and reason in the operator log; the exact
+operator inspection route returns a refusal for a stale selected binding.
+Provider default failures are likewise diagnostic, never catalog admission.
+
+Provider defaults remain module declarations; the operator source is a distinct
+`operator-component` contribution in the ordered resolver. The host validates
+the exact binding, schema and examples but does not judge the semantic intent
+of notes. The effective guidance and its digest enter only an already visible
+local catalog operation; source paths remain operator-only. Changes to
+documentation do not alter grants, effect metadata, provider readiness or
+prompt policy. The operator source is neither package provenance nor approval
+of a provider's original notes.
 
 ## Implementation Tracker
 
@@ -2331,13 +2368,13 @@ only when both explicitly delimit that narrower claim.
 | `P091-007a` | Wrap retained middleware on/off and repoint existing callers | `P091-005a`, `P091-007` | `partial` | Preserve the existing toggle/supervisor implementation and domain guards. Repoint handlers/UI/CLI to the shared contract with minimal helper extraction, no bypass writer, dual-file mirror or duplicate apply. Test eligibility, dependencies, operator-stopped, shadowing, saved-not-applied and restart; reads never materialize. 2026-10-07 scoped eligibility adapter implemented: exact private source pins, bounded opaque approval, shared commit/recovery journal and existing supervisor lifecycle guards; pending/third-party source changes withhold eligibility, explicit recovery does not start components, and committed replay does not repeat apply. The executable middleware security/owner checkpoint below gates exposure. Complete per-child configuration-consumption ACK remains open; physical source migration remains P091-010. **2026-10-18 delivery checkpoint:** Retained callers now use shared resolution, asymmetric observed admission, sparse exact set/remove/adopt and explicit recovery without implicit start; real browser/CLI/runtime regressions pass. |
 | `P091-007b` | Reconcile external sources and asymmetric decision admission | `P091-006`, `P091-007`, `P091-007a` | `partial` | Adopted 2026-10-18: reuse S020 for bounded file-configured one-second source observation; external false disables, true/enabling deletion requires exact-revision approval, unchanged keys remain eligible and malformed documents withhold their unit. Retain last valid ordinary application, expose stale/unavailable observation and record minimal temporal facts. Runtime tests cover edits, removal, restart, scheduler overload and recovery. **2026-10-18 delivery checkpoint:** S020 default-one-second bounded reconciliation and per-key false/true/enabling-removal rules are implemented. Actual edits, malformed sources, restart and scheduler-disabled staleness pass; wider scheduler-pressure qualification remains open.  **2026-10-19 scoped pressure checkpoint:** Admitted false is attempted before observation persistence; an unpersisted process-local baseline prevents later true from reviving old durable consent. Positive work waits for persistence. Explicit archive/reserve/recent-result flows pass real daemon/no-JS/browser-panel/WKWebView tests at 1,024 injected events. This is not general retention completion; one hardening JS error and historical attribution gaps remain open.  **Private-loader follow-up (2026-10-19):** The scoped undefined-rejection mechanism is now reproduced/fixed with pinned old/current assets and final browser/native regressions; unique attribution of the original missing trace remains unavailable. See the Node PRIVATE-LOADER-JS-20261019 report. Earlier campaign failures and broader partial gates are unchanged. |
 | `P091-008` | Project shared contracts into Node UI | `P091-005a`, `P091-007`, `P091-007a` | `partial` | Expose keys, files, projected derivation, source and predicted-value diffs, apply modes and per-instance receipts. No private setting store or implicit pinning; file/GUI changes agree after reload/restart. 2026-10-07 scoped middleware UI now reviews the owner's exact opaque approval and separately displays saved eligibility, actual supervisor launch instances and readiness. A saved acknowledgement renders without a second inventory request; bounded mutation transport does not retry an uncertain operation. Generic derivation/diff/reset and full application identity projections remain open. **2026-10-18 delivery checkpoint:** Full-page no-JS and first-pair panel clients expose owner inspection/preview/result, bindings, shadowing, observation freshness and separate lifecycle/readiness. Actual browser and native owner flows have distinct reports. |
-| `P091-009a` | Retain the early Arca non-Flow contract fixture | `P091-002`, `P091-004` | `todo` | Scope/owner/source/definition/run binding, normalization and refusal goldens work without a live UI/control stack or universal plan schema. Do not claim runtime consumption. |
-| `P091-009` | Bind workflow configuration to live domain owners | `P091-009a`, `P091-005a`, `P091-007` | `todo` | Live JSON-e Flow case plus retained Arca contract proof use existing definitions/validators and exact revisions. Wrong or ambiguous handlers and schemas refuse. No duplicate workflow store or closed thematic repertoire. |
+| `P091-009a` | Retain the early Arca non-Flow contract fixture | `P091-002`, `P091-004` | `done` | 2026-10-23 contract-only checkpoint: retained scope/owner/handler/source/definition/run pins, real Arca normalization, 30 refusal goldens and native P091/record/JCS/Flow-rejection checks work without a live stack. See the checkpoint below. P091-004 runtime/registry ports and P091-009 consumption remain open. |
+| `P091-009` | Bind workflow configuration to live domain owners | `P091-009a`, `P091-005a`, `P091-007` | `partial` | Live JSON-e Flow case plus retained Arca contract proof use existing definitions/validators and exact revisions. Wrong or ambiguous handlers and schemas refuse. No duplicate workflow store or closed thematic repertoire.  **2026-10-23 scoped checkpoint:** the existing executor max_flow_steps facet now composes full native-unit validation, shared setting resolution, source-pinned local operator preview/save/reset and durable instance/generation consumption; direct/deferred/package paths share the adapter. Owner-runtime restart/crash and built offline-helper proofs are distinct from full workflow/UI adoption. See the Flow checkpoint below. |
 | `P091-010` | Migrate first-slice sources and readers explicitly | `P091-001a`, `P091-003`, `P091-005a`, `P091-007a` | `partial` | Preview/protected backup/effective-value equivalence cover seeding, toggles, first-slice Python loading, env/CLI and optional legacy 90-to-80 migration. Test restoration against pinned pre-migration effective values and independently current authority; changed descriptors report incompatibility. Preserve factory/domain targets unless separately migrated. No read-time migration/workflow trigger. 2026-10-06 task-pack legacy adoption is explicit read-only preview plus exact five-minute plan approval and synced no-op receipt. It preserves filenames, original bytes and mutation counters, refuses changed/expired plans and rechecks current authority. No source relocation occurs, hence there is no displaced document to restore; other first-slice migrations and protected backups remain open. **2026-10-18 delivery checkpoint:** The selective-source v2 inheritance profile preserves edited seeds and does not synthesize consent. This does not perform general legacy source relocation/backups. |
 | `P091-010a` | Consolidate remaining configuration loaders and register legacy profiles | `P091-001b`, `P091-003`, `P091-005` | `todo` | Each configuration deep-merge/acquisition copy migrates to shared primitives/contracts or has a named legacy profile with owner/retirement evidence. Include Agora selection/skip-malformed semantics and listed Python copies. No unregistered local configuration merge outside approved seams; unrelated domain JSON patching is not banned. Remaining ordinary-setting gaps block P091-015 promotion. |
 | `P091-010b` | Selectively materialize factory seeds and preserve existing files | `P091-002`, `P091-003`, `P091-004`, `P091-006` | `partial` | Adopted 2026-10-18: preserve seed_config without a list; validate module-relative seed_config_pointers, full arrays, empty/escaped/nested pointers, duplicates/overlaps and finite limits before shared create-only publication. Disabled modules may be seeded without starting; existing declarations/files and operator deletions survive update/restart; seeded enabled is not a protected decision. P091-005a gates exposed operations and all seed acceptance cases are mandatory. **2026-10-18 delivery checkpoint:** Pure selection/limits and shared create-only publication are implemented, including omitted-enabled inheritance and metadata stripping. Existing edits, disabled seeding and actual intent/rename recovery pass; consult the explicit delivery-scope evidence rather than promote unrelated migrations. |
-| `P091-011` | Prove cross-process and standalone consumption | `P091-004`, `P091-005a`, `P091-007`, `P091-009`, `P091-010` | `todo` | Actual supervised Python and separate-process Rust consumers, plus daemon/Node UI, consume explained resolutions. Cover pre-channel inline/ref snapshots, acknowledgement, host denial/outage without fallback, pinned Rust helper and Python exports/injection. Histories retain descriptor/context evidence and no current-use grant is inferred. |
-| `P091-012` | Publish shared manual, component references and HOWTOs | `P091-002`, `P091-005`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `todo` | Exact keys/sources, four identity names, views, shadowed commits, restore/invalidation and apply modes agree across manual/navigation/CLI/UI. Separate proposed, legacy and supported behavior. |
+| `P091-011` | Prove cross-process and standalone consumption | `P091-004`, `P091-005a`, `P091-007`, `P091-009`, `P091-010` | `partial` | Actual supervised Python and separate-process Rust consumers, plus daemon/Node UI, consume explained resolutions. Cover pre-channel inline/ref snapshots, acknowledgement, host denial/outage without fallback, pinned Rust helper and Python exports/injection. Histories retain descriptor/context evidence and no current-use grant is inferred. **2026-10-23 partial proof:** a real built Rust one-shot helper and privately verified pinned Python transport consume the same named setting projection. The subsequent bounded Arca catalog pilot adds actual supervised Python pre-channel provisioning, P080 read and durable exact consumption ACK, with new-instance/high-water and no-fallback refusals; see its checkpoint below. Installed packaging, larger carriers, other Python owners and full multi-owner/client qualification remain open. |
+| `P091-012` | Publish shared manual, component references and HOWTOs | `P091-002`, `P091-005`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Exact keys/sources, four identity names, views, shadowed commits, restore/invalidation and apply modes agree across manual/navigation/CLI/UI. Separate proposed, legacy and supported behavior.  **2026-10-23 partial documentation:** node:configuration-flow/README.md documents the exact address, sources, operator projections, shared reads, restart/consumption distinction and offline helper. The complete shared manual and remaining owners stay open. |
 | `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. **2026-10-18 delivery checkpoint:** The bounded D1/D2 instruction and real CLI examples explain lexical order, seed inheritance, sparse decisions, receipts and recovery without requiring new JSONL history. |
 | `P091-014` | Retain the four-case operator slice and synchronize evidence | `P091-011`, `P091-012`, `P091-013` | `partial` | All cases complete locate/explain/edit/apply/restart/reset through files and interfaces. Update `node:docs/implementation-ledger.toml`, regenerate via `node:tools/generate-implementation-ledger.py`, reconcile `node:docs/MVP.md` for affected scope. Record usability obstacles, not universal cognitive-load reduction. **2026-10-18 delivery checkpoint:** Node contract/inventory/ledger/MVP and separate D1/D2 evidence are reconciled for this worktree. Historical baseline is unavailable-closed, current scripted baseline/v1 is frozen, and broader platform/release proofs remain gaps. |
 | `P091-015` | Close broad coverage and enforce drift/promotion gates | `P091-001`, `P091-010a`, `P091-014` | `todo` | `check-configuration-inventory.py --verify-current` and `check-config-source-boundaries.py` run in Node `.github/workflows/docs.yml`; `--promote` rejects unfinished required settings. Every ordinary durable setting has file-backed shared control; bootstrap/non-setting exceptions stay narrow. Reconcile ledger, generated view, affected MVP/manual coverage and schema indexes; hidden ordinary stores or partial same-surface ledger rows prevent done. |
@@ -2582,6 +2619,246 @@ root still refuses; unrelated product HTTP configuration does not.
 `reject_in_package_manifest` stays at its separate package-admission boundary. No
 production resolution path calls the policy yet: binding it together with host
 acquisition belongs to the remaining P091-003/004 seams.
+
+#### P091-009a Arca non-Flow contract checkpoint — 2026-10-23
+
+Node retains `protocol/contracts/golden/arca-non-flow-configuration.v1.golden.json`
+as an early owner-bound control. Its existing P091 descriptor/source DTOs and
+native definition/run/handler shapes bind workflow scope, owner, selected source
+declaration, definition, normalizer revision and run plan. The private test
+relation refuses missing, ambiguous or stale context before calling Arca's
+existing `normalize_plan_from_trigger`; it is not a production handler-selection
+or configuration adapter. A run view cannot fall back to definition-only context.
+
+The Python checks compare the real configured Arca registration report and
+array/map normalization, with 30 retained refusal goldens. Native checks admit
+the common contracts at Schema Gate, parse existing workflow records, verify
+all four content pins with production JCS and require the actual compiled Flow
+schema to reject the valid Arca plan. A payload marker cannot change the owner
+or choose Flow. Setup uses private temporary data and bundled factory config;
+no live UI/daemon, workflow creation or source writer is involved.
+
+P091-009a is complete only at this contract boundary. The fixture reads one
+explicitly selected declaration rather than defining a layered-source merge.
+It neither changes Arca's acquisition/storage nor proves current authority,
+provisioning, application, historical-store retention or actual separate-process
+consumption. At this contract-only checkpoint P091-004 was partial and P091-009
+had no live adapter. The later Flow checkpoint below records scoped partial
+implementation; migration, P091-011 and broader P091-014/015 remain separate.
+
+Review, source pins, measured regression results and development-fixture
+corrections are recorded in
+`node:docs/audits/P091-009A-ARCA-NON-FLOW-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/arca-non-flow-20261023.json`.
+The implementation guide stays with Arca at
+`node:middleware-modules/arca/docs/configuration-contract.md`.
+
+#### Scoped Flow file-to-consumption checkpoint — 2026-10-23
+
+Implementation and focused evidence are retained by Node commit `6cfc843f`
+on the isolated operator branch, without a merge to the primary worktree.
+
+The first live Flow setting is the existing executor instance's
+`limits.max_flow_steps`, not a new workflow store or an Arca-to-Flow conversion.
+Node's `configuration-flow` adapter validates the complete unit with the existing
+native Flow owner, then exposes only the public setting's selected declarations
+through the shared resolver and sealed builtin descriptor. Exact full-source,
+target-byte and unit pins remain private. Public setting identities cannot act
+as equality oracles for adjacent secrets. Node directory selection and the
+retired-middleware admission policy remain separate from pure composition.
+
+Authenticated operator preview/approval reuses the shared temporal file writer;
+the redacted **local operator projection** is not a claim that the entire generic
+`config.change.*` wire surface has migrated. Save, separate node restart,
+native executor consumption and workflow execution are different facts. The
+normal direct, deferred and package Flow constructors use the adapter for
+instances admitted by the node-file loader's host-only origin metadata. Other
+package/programmatic source profiles retain their owners without a P091 file
+claim; an admitted source refusal never selects a legacy fallback.
+An owner-local sequence persists allocation and exact instance/resolution/
+generation ACK; a process restart neither inherits Active nor reuses allocation.
+An interrupted pending attempt stays historical, and explicit history archive
+retains the allocation high-water. No read, save or ACK dispatches a workflow,
+renews consent/TTL, changes engine limits other than the approved declaration,
+or changes the existing stop boundary.
+
+Common describe/explain DTOs are scope-admitted before I/O; active explanation
+requires the exact durable consumption tuple. P080's existing module edge and
+capability allow-list still own caller admission, with additional owner-bound
+scope checks and no generic module control dispatch. A real built one-shot Rust
+helper and privately materialized image-pinned Python reader exercise the common
+offline/export contract. This is not installed distribution packaging or actual
+supervised Python launch/ACK qualification.
+
+The deterministic proof Flow has no host calls or models. Changing its limit
+from 32 to 1 changes actual engine execution only after a restart. Focused
+security, native consumption, restart, stale ACK, withdrawal and subprocess
+crash/recovery proofs are recorded separately from full daemon/UI acceptance in
+`node:docs/audits/P091-FLOW-FILE-TO-CONSUMPTION-2026-10-23.md`.
+The owner manual is `node:configuration-flow/README.md`. Arca's preceding
+contract-only checkpoint remains unchanged. General registry persistence,
+generic controls, other Flow keys, source migrations, installed/supervised
+cross-process consumers, live Arca, P085 and full four-case operator/release
+qualification remain open; P091-009/011/012 are partial, not complete.
+
+#### Scoped Inquirium/P085 labels checkpoint — 2026-10-23
+
+Implemented and qualified by Node commit `236eb9db0dc7ba81ee35c29590797fd440a3e3fd`
+on the isolated operator branch, without merging to the primary worktree.
+
+The isolated Node implementation adds the component scope
+`inquirium-profile:local:classify:production`, owner `inquirium`, pointer
+`/inquirium/resource_profile/limits/classify~1labels-max`, contract
+`inquirium-p085-labels:v1`. The existing P085 resource owner determines values:
+defaults, unsigned local narrowing, signed widening within distributor safety
+ranges, applicable envelope intersection and final task narrowing remain
+distinct. A pure shared domain-composition port delegates to that algebra;
+constraints do not pass through ordinary last-writer-wins JSON merge.
+
+Shared acquisition and whole native-unit validation precede the public numeric
+facet. Adjacent values and full-source equality hashes stay private; exact
+private source/descriptor/constraint pins still invalidate stale approvals.
+The sparse `config/80-operator.json` writer, exact review, durable outcome,
+result/recent reads and explicit recovery reuse the existing host. Creating a
+first local profile is explicit; editing an inherited profile does not pin its
+metadata. File application is `node-restart`, separate from P085 per-use admission.
+
+Only the actual native permit can confirm launch consumption. The durable
+instance/resolution/generation sequence survives restart without inheriting Active
+or reusing allocation. Inspection, approval, recovery, restart and consumption
+never renew envelope TTL, operator binding or inference authority. Fresh expiry
+and revocation checks remain mandatory, including after receipt persistence.
+Trusted loader origin selects adoption before acquisition; programmatic profiles
+retain their owner without a P091 file claim, not as fallback after refusal.
+
+Common describe/explain use the exact one-address operator adapter, actual token
+verification at both boundaries and module-credential denial before parse/I/O.
+The generic module dispatcher is not widened. Full-page UI and bounded CLI share
+owner results. Eight named security fixtures, native algebra/current-use tests,
+and browser/no-JS/actual WebView qualification are recorded with candidate pins
+in `node:docs/audits/P091-INQUIRIUM-P085-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/inquirium-labels-20261023.json`.
+The manual is `node:daemon/docs/INQUIRIUM-CONFIGURATION.md`.
+
+Tracker reconciliation: this scoped delivery extends P091-003/004, 005/005a,
+006/007/008 and 013/014; their whole-task statuses remain `partial`. It does not
+close general dependency evaluation/descriptor administration, generic control
+DTO adoption, installed/supervised P091-011 consumers, other resource axes,
+non-Unix acquisition, live Arca or the complete four-case/operator/release gates.
+P091-012 remains partial with this additional owner manual. The prior Arca and
+Flow evidence is unchanged; no merge to the primary branches is performed.
+
+#### Supervised Arca catalog startup checkpoint — 2026-10-23
+
+Implemented and qualified by Node commit `05738ffc45701649f0ba5a09e6328d7c3eaf6e54`
+on the isolated operator branch, without merging to the primary worktree.
+
+The isolated Node branch extends P091-011 with one actual supervised Python
+consumer, not just an offline DTO facade. Address `component:arca`, owner `arca`,
+pointer `/arca/catalog_peer_max`, contract `arca-catalog:v1` selects the compiled
+default 5, lexical module-home files and lexical node files. Shared confined
+acquisition and pure ordered resolution retain Arca-owned strict integer
+validation. Full JSON/retirement admission precedes the public facet; private
+startup neighbours and their equality hashes are not public explanation data.
+
+A host-installed port selects managed mode before acquisition and supplies one
+bounded private pre-channel snapshot. The supervisor owns its environment
+bindings, not the module or editable launch configuration. Python verifies the
+carrier before configuration-dependent construction and never falls back after
+managed refusal. A thin client uses the existing authenticated P080 edge for
+only the two exact read DTOs and this address; plan/commit/apply remain denied.
+The channel-only consumption resource compares the actual runtime constant with
+the named public resolution before returning the exact private launch receipt.
+Durable host generation allocation/ACK, connected instance observation and
+readiness remain separate. Stop/restart cannot inherit current Active or reuse a
+generation. No read or receipt grants authority or renews TTL.
+
+Sparse reviewed save/reset targets only `config/80-operator.json`, through the
+existing temporal writer. Explicit restart uses existing component controls;
+neither a save nor a historical outcome read restarts or runs a workflow. The
+managed carrier is limited to 16 KiB. Larger/reference carriers and installed
+offline helper distribution remain open. Explicit `legacy-v1` is selected before
+acquisition for non-migrated/standalone paths, never after managed failure.
+The preceding `/arca/workflow` non-Flow contract control is unchanged: this
+startup facet does not implement live definition/run migration.
+
+The staged review, eight named exposure fixtures and candidate-specific final
+client proofs are recorded in
+`node:docs/audits/P091-ARCA-MANAGED-CATALOG-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/arca-catalog-20261023.json`.
+The final candidate passes Chromium JS/no-JS and actual application WKWebView
+save, separate component restart, new-instance generation 1/2 consumption and
+reset without application. The shared Inquirium driver regression passes those
+three clients on the same images. Intermediate 406, lifecycle observation,
+restart-link and result-query failures retain separate causes and evidence;
+later green results are not their explanation. Private retention has a manifest
+and fresh retrieval check, not an independent-backup claim.
+The owner manual is `node:middleware-modules/arca/docs/managed-configuration.md`.
+P091-005/005a/007/009/010/011/012/013/014 remain partial as whole tasks;
+P091-010a/015, other Python owners, general registry/history, non-Unix and broad
+operator/release gates are not closed by this bounded pilot. The work remains
+on isolated branches without merge.
+
+#### Consumption availability review checkpoint — 2026-10-23
+
+The follow-up to the three consumption pilots confirms and repairs known
+Inquirium refusal-after-pending leakage, overbroad envelope acquisition, repeated
+warm composition, runtime contention on the nonblocking operator writer, the
+network-allow carrier request and conflated launch/consumption/restart projections.
+Known pre-consumption refusal closes exactly that attempt while preserving its
+allocation high-water; crash/unknown outcome is not automatically retried.
+The scoped envelope acquisition selects live `classify/production` facts before
+its bounded adapter limit. A private one-entry composition memo is invalidated
+by local/external registry writes and expiry; fresh P085 checks still own use.
+Runtime writer acquisition alone may wait for one second before any journal
+effect. Existing authority/TTL, stop and sandbox contracts are unchanged.
+
+`restart/required` compares current and launch resolution identities; separate
+launch value/identity and `consumption/state` distinguish missing ACK from changed
+configuration. Inquirium composes immutable launch file selection and current
+files under the same current P085 constraints. Arca still requires the connected
+exact instance for current Active, independently of historical consumption.
+Private context rotation with unchanged public resolution requires revalidation,
+not a new authority-bearing consumption record. ACK failure still fails attach
+closed; finite relaunch history is not an unbounded lifecycle guarantee.
+
+The bounded review and candidate-specific results are recorded in
+`node:docs/audits/P091-CONSUMPTION-AVAILABILITY-REVIEW-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/availability-review-20261023.json`.
+Earlier frozen qualification remains attached to its earlier candidate.
+The final focused checks pass 615 tests across owner, P085, channel, UI, Python
+client and tool suites, plus strict Clippy. The same daemon/UI/desktop images pass
+Arca and Inquirium in Chromium JS/no-JS and actual application WKWebView (six
+profiles). Source was frozen before documentation-only closeout; the private
+manifest and fresh retained-member readback do not claim independent backup.
+P091-009/011/012/014 remain partial. Explicit follow-ups are pending-application
+completion capacity/reconciliation, crash-safe private-carrier reclamation,
+Arca alias/multiplicity policy, cold I/O outside model-supervisor ownership,
+descriptor/range-derived choices and shared single-leaf/read/route adapters.
+The accepted closed v1 descriptor still justifies strict Python field admission.
+A dedicated P091 integration branch with fresh P072 dispatch comparison remains
+separate work; no primary-branch merge or rewrite is performed by this checkpoint.
+
+#### Primary-branch integration checkpoint — 2026-10-23
+
+The separately authorized integration joins the four scoped pilots and their
+consumption-availability review with current Node `master` and Orbidocs `main`.
+The retained source branch is integrated without rewriting history or deleting
+its isolated worktrees. This supersedes the earlier recommendation to prepare
+a dedicated integration branch; it does not close the remaining P091 tasks.
+
+The P072 comparison preserves local-control catalog dispatch as an absent module
+caller, not configuration-read authority. A merged-tree regression checks that
+the exact Flow owner/address cannot make that caller, a foreign module or the
+reserved `local-control` module identity pass the configuration boundary, while
+the authenticated owning module still succeeds. The bounded catalog continuation
+keeps its two-operation allowlist. Current channel cancellation semantics remain
+unchanged. Ledger and coverage projections are regenerated from merged sources.
+
+The integration record is
+`node:docs/audits/P091-BRANCH-INTEGRATION-2026-10-23.md`. Its focused checks do not
+renew the earlier pinned browser/WebView receipts or qualify a release. Unrelated
+local documentation edits in the primary worktree are outside this integration.
 
 ### Dependency-ordered slices
 

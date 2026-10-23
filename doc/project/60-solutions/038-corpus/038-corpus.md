@@ -404,6 +404,26 @@ Status:
   Matrix remains an optional Room bridge profile. Corpus adds no relay selection,
   NAT traversal, ordering, or carrier authority of its own.
 
+### Planned Sealed First-Judgment Profile
+
+Status: `planned`, tracked by
+[P069-AE-001](../../40-proposals/069-corpus.md#shared-sealed-round-binding).
+Reuse [P026's shared commitment and barrier mechanics](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#shared-commitment-and-barrier-contract)
+without adopting Agora's public opinion body or reputation semantics. Corpus
+retains its domain-separated preimage, Room policy/admission, finite eligible
+set, typed judgment and current owner/CAS/outbox. Barrier and reveal refs bind
+the closed set; authority and admission evidence, not relay timestamps, establish
+protocol qualification. Missing, invalid, equivocating or unresolved submissions
+are explicit outcomes, never silent zero votes.
+
+The elected-chair continuation needs this protocol, not merely UI hiding or
+parallel calls. Chair, Agent, summaries and notification routes share the same
+exposure boundary; urgent protective evidence and procedural rights remain
+available. Protocol-qualified first judgments do not prove psychological or
+model independence. Reuse the existing Corpus acceptance harness for negative,
+replay and disclosure tests; do not promote current requester-appointed/turn-order
+evidence or block the alpha path on this future profile.
+
 ### Agent-Assisted Chairing
 
 Operator preparation follow-up (2026-10-07, **implementation in qualification**):

@@ -33,6 +33,24 @@ class ResolveNodeRootTests(unittest.TestCase):
                 for name in names:
                     self.assertEqual((target / name).read_bytes(), (source / name).read_bytes())
 
+    def test_local_catalog_contracts_are_reproducible_node_mirrors(self) -> None:
+        families = (
+            "capability-catalog-request.v1.schema.json",
+            "capability-catalog-result.v1.schema.json",
+            "capability-catalog-refusal.v1.schema.json",
+            "capability-guidance-overlays.local.v1.schema.json",
+            "capability-guidance-overlay-inspection.local.v1.schema.json",
+            "capability-guidance-overlay-recovery.local.v1.schema.json",
+            "capability-guidance.v1.schema.json",
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary)
+            for name in families:
+                self.assertIn(name, SYNC.SCHEMA_WHITELIST)
+            SYNC.copy_files(families, SYNC.SCHEMAS_DIR, target)
+            for name in families:
+                self.assertEqual((target / name).read_bytes(), (SYNC.SCHEMAS_DIR / name).read_bytes())
+
     def test_panel_and_lifecycle_contracts_and_examples_are_reproducible_mirrors(self) -> None:
         families = tuple(sorted(
             path.name for path in SYNC.SCHEMAS_DIR.glob("*.schema.json")

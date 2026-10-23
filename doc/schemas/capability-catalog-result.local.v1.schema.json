@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-catalog-result.local:v1",
+  "title": "Local Capability Catalog Result Versions",
+  "description": "Exact local result variants. A request v1 receives result v1; a request v2 receives result v2. Both remain caller-scoped descriptive data.",
+  "oneOf": [
+    { "$ref": "capability-catalog-result.v1.schema.json" },
+    { "$ref": "capability-catalog-result.v2.schema.json" }
+  ],
+  "x-dia-basis": ["orbidocs:doc/project/40-proposals/068-api-surface-projection.md"]
+}

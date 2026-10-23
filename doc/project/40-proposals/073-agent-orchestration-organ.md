@@ -335,6 +335,26 @@ trace. Step facts and traces bind that evidence to the enclosing `agent/id`,
 binding auditable; the causal context preserves the source chain without retaining
 payload bytes.
 
+#### Assessment Observations
+
+**Planned, 2026-10-23.** A controller acting for a viewer consumes that viewer's
+[P026 exposure projection](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection),
+after ordinary capability admission. Reuse authenticated caller/delegation
+binding and the existing host observation resolver. Missing viewer identity or
+policy is unresolved/refused, never an operator identity or raw relay fallback.
+`withheld` is usable domain data, not an observation failure to bypass by another
+tool. Do not pass peer content, counts, cursors, popularity ordering or derived
+verdicts into prompts, summaries, traces or working memory before release.
+
+The Agent cannot manufacture a viewer's `explicit-skip`; propose that authorized
+action for explicit consent using the existing effect/approval path. A previously
+exposed Agent context cannot become independent by tightening a profile or hiding
+the next observation. Preserve scope/provenance across fork, resume and summaries;
+missing prior exposure evidence prevents independence claims. Corpus and panel
+roles additionally obey their sealed-round profile, without domain logic in
+`agent-core`. Urgent protective evidence remains subject to the shared admitted
+exception, not blanket suppression or model-authored urgency.
+
 #### Inference posture and execution provenance are not Agent identity
 
 Before an admitted passage or external-runtime turn, Agent Host exposes the
@@ -868,8 +888,9 @@ policy that cannot be derived from the frozen decisions above.
 [P072](072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns catalog semantics and the shared acceptance report;
 [S047](../60-solutions/047-agent/047-agent.md#planned-local-catalog-continuation)
-records the partially implemented controller responsibility. The first consumer is one bounded
-Agent, not a new autonomous Inquirium mode.
+records the partially implemented controller responsibility. A supervised
+provider now participates in one scripted local H run. The first consumer is
+one bounded Agent, not a new autonomous Inquirium mode.
 
 ### Implementation Recommendations
 
@@ -897,9 +918,82 @@ diagnostic and no effect. The subsequent effect proposal must pass ordinary
 Agent admission independently. Continuation time follows the remaining Agent wall-time
 budget, and PromptAssemblyPolicy enforces the selected instruction-token cap.
 
+The first catalog read remains synchronous and host-local. Its result is
+handled as a separate, internally correlated delivery, with these controller
+transitions:
+
+| State | Event and current admission | Next state | Consequence |
+| --- | --- | --- | --- |
+| Awaiting inference | One valid list/describe proposal | Pending read | Invoke only the selected local catalog operation. |
+| Pending read | First matching result; lifecycle, binding, grants and deadline current | Pending egress | Validate the result and disclosed scope before creating a classified observation. |
+| Pending read, admission seam | Foreign correlation | Pending read | Ignore the body; do not infer. This is a unit-level property of the result admission function. |
+| Pending read, synchronous controller handoff | Nonmatching result from its own dispatch | Stopped | Treat this as a host invariant failure; return an action error without retry or another inference. |
+| Pending read | Stop, suspension, required-grant withdrawal, expiry, refusal or deadline at delivery | Stopped | Do not parse or reuse the result body. Agent wall-time expiry is a limit response; other scope changes stop the action. |
+| Pending read or egress | Suspend and resume between checks changes the captured lifecycle epoch | Stopped | Reject the old passage even though the Agent is Running again; a fresh action starts from durable state. |
+| Pending read | Invalid JSON or schema, wrong operation, inadmissible classification, changed revision or disclosed grant withdrawn after parsing | Stopped | Refuse the result before adding it to context or starting another inference. |
+| Pending egress | Current scope and P090 admission; next inference completes | Awaiting inference | Accept that one continuation, then inspect its proposal. |
+| Pending egress | Stop, suspension, required-grant withdrawal or deadline before another read | Stopped | Discard a late inference result; start no further read or inference. |
+| Pending egress, awaiting inference or terminal, admission seam | Repeated or late result | Unchanged | Ignore it; never continue twice. The synchronous controller has no second result producer. |
+
+The admission immediately before each inference is the boundary for logical
+cancellation. Already admitted inference or host work may finish, but its
+late result cannot authorize another passage. This rule does not add a
+middleware channel call, detached controller worker or physical preemption.
+The currently synchronous handoff owns its correlation locally. Its unit-level
+inertness rule does not qualify an independently delivered result transport.
+The controller captures a process-local projection of durable lifecycle
+transitions. Every actual state transition advances the epoch once; paired
+`LifecycleCommand` and `State` facts reconstruct the same epoch on replay.
+Suspend/resume therefore invalidates a previously admitted passage. The Agent
+action commit checks this epoch and absolute expiry for every `CallInquirium`
+action, irrespective of catalog grants; the catalog controller adds checks
+between reads. No in-flight passage survives daemon restart. Wall-time expiry
+retains HTTP 429 and exposes the machine-readable `agent-wall-time-expired`
+reason; a transient store failure retains its retryable service failure class.
+
+### Durable single-grant withdrawal (follow-up contract)
+
+`agent.grant.revoke` is a host-local, non-advertised Agent-owner operation. Its
+authenticated caller must be local control or a module with the explicit Agent
+operation grant and ownership of the selected Agent. The request carries
+`agent/id`, exact `capability/id`, `idempotency/key` and `reason/code`; neither
+the model nor a catalog result may invoke it. The host records one
+`agent.grant-revocation.v1` fact with the canonical request digest, actor, time,
+resulting Agent state and `changed` bit only when the exact grant was present.
+The replay identity is `(agent/id, idempotency/key)`: replay of the same
+operation/key/body returns the retained decision, while reuse for another body
+of that Agent conflicts. The same key on another Agent is independent. An
+absent grant returns `changed=false`, `replayed=false` without writing a fact
+or reserving the key. Repeating that no-op while the Agent is active remains
+idempotent because this slice has no regrant operation. A no-op does not acquire
+a durable replay right after the Agent becomes terminal. The fact is monotonic
+for that Agent: no regrant operation exists in this slice.
+
+Withdrawal is allowed while Running or Suspended and leaves lifecycle state
+unchanged. An absent grant does not disclose whether that capability exists
+elsewhere. A terminal Agent refuses a new withdrawal; an exact replay of a
+recorded withdrawal remains valid. The original session and binding facts remain
+immutable. The current effective Agent spec and binding projection omit the
+withdrawn grant after replay and restart. Every catalog read/continuation and
+effect dispatch checks this projection at its current admission boundary;
+already admitted proposals confer no lasting dispatch authority. A dispatch
+that crossed the admission boundary before withdrawal is an in-flight action,
+not preempted by this operation. No automatic effect execution or wider tool
+allowlist follows from withdrawal.
+
+The revocation projection has no separate global idempotency capacity that can
+refuse an authority-reducing write. New durable facts are bounded by the
+original grants of their respective Agents: each exact grant can be removed
+once, and no-op requests write nothing. Historical `changed=false` facts from
+the earlier development implementation remain importable for replay. At host
+admission, `local-control` is reserved for authenticated local control and
+cannot be a middleware module id. Admitted channel module ids are at most 256
+UTF-8 bytes, matching the revocation fact's actor bound. A raw module id must
+never gain local-control authority through string equality.
+
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | Closed allowlist and correlation state machine are wired into `CallInquirium`; a daemon-process run with a scripted local HTTP adapter passes list → describe → next inference, then passes one ordinary effect proposal through unchanged and rejects a mixed proposal. Ordinary `agent.effect.propose` still performs separate admission. Mid-read cancellation/revocation, supervised middleware contribution and adversarial acceptance remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P073-GUIDE-001 | Integrate the two local catalog reads into one bounded controller continuation. | partial | The supervised H run passes list → guided describe → unguided describe → fourth scripted inference; ordinary effect admission remains separate. Page, read, byte and current Agent wall-time limits return 429 without dispatch. A completed request replays its retained product; a concurrent duplicate gets 409. Lifecycle stop and durable withdrawal of one grant prevent a pending continuation from inferring again. A focused host-route result-delivery test additionally holds a real list result until stop, withdrawal or expiry; current admission refuses it, while the admission unit ignores foreign and duplicate correlations; an impossible mismatch at the synchronous handoff stops the action without retry. Absolute Agent expiry is classified as a 429 limit even when accounting time remains. Two supervised process cases show that suspend/resume during the initial or second inference invalidates the captured lifecycle epoch without committing a new step or dispatching a role. Physical preemption, independently asynchronous delivery and automatic effect dispatch remain open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 
@@ -921,6 +1015,7 @@ Agent Core. It narrows, but does not close, the aggregate rows below.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
+| `assessment-exposure-observations` | Consume the represented viewer's assessment projection without fallback leaks. | `todo` | Depends on P026-005/006/007. Reuse caller-scoped host resolution and controller observation/effect paths; test missing/wrong viewer, withheld vs denied, alternate tools, prior context, fork/resume, traces and explicit-skip consent. Retain synthetic controller plus host evidence for P026-008; no model/full campaign is needed for these contract tests and no cognitive-independence claim follows. |
 | `agent-inference-execution-posture` | Expose scoped Proposal 090 posture for the selected built-in or external runtime binding without turning it into Agent identity or authority. | `partial` | P090-003a/006 implement scoped operator inspection and runtime/profile fingerprint checks; P090-004a adds independently scoped invocation preflight. The remaining Agent/Room exposure must reuse these foundations. Agent Host binds `inference-execution-posture.v1` to the assertion owner, exact Agent/runtime binding and profile generation, task/turn or Room-policy scope, validity, and processing-boundary ref. Agent Core carries only the bounded provider-neutral value. Missing, expired, invalid, contradictory, and unrelated-boundary posture remains `unknown` or non-match; posture grants no inference, egress, context, file lease, membership, floor, or effect authority and is never copied as realized evidence. Assistant and Room preflight conformance consume the same value. |
 | `agent-operational-context-framing` | Propagate source-owned operational impact into pre-inference Agent context without adding vertical vocabulary to `agent-core`. | `done` | `agent-core` carries only bounded generic qualifier refs and strict SHA-256 digests. The daemon resolver validates the complete current P082 read result, source generation, effective publication, schema, and digest before deriving those neutral qualifiers; stale, malformed, inconsistent, or superseded evidence fails closed without an Agent-owned TTL. The composition root computes a monotone local maximum across feeds, records host-owned provenance pairing each source class with its digest plus the local policy ref, floor, and selected class in both request metadata and the durable Inquirium trace, and supplies the versioned non-droppable P064 caution layer before feed-dependent inference. The trace receives that host projection directly rather than trusting caller metadata or provider output. Tests retain per-source evidence, prove order-independent maximum and provenance selection, and keep the at-most-512-byte source summary out of instructions and durable Agent payloads. |
 | `agent-inference-execution-provenance` | Preserve and monotonically compose Proposal 090 provenance across built-in Inquirium passages, external-runtime products, parent products, terminal selection, traces, `agent.outcome.v2` or compatible successors, and consumer projections. | `partial` | Agent Core carries only the provider-neutral descriptor/ref and pure join. Compatible V2 passage product/invoke response/terminal selection/trace/outcome contracts are implemented for the Inquirium inference-Flow path; exact parent mapping, monotone mixed/unknown composition, stripping refusal, stronger-fact-first persistence, interrupted-bundle repair, dirty restart, and replay without reinvocation or duplicate charge are tested. External-runtime products/outcomes have durable generic V2 sidecars, and an ordinary controller step preserves the exact external V2 commit through `agent.controller-execution-provenance.v1`, prompt-free trace evidence, and terminal `agent.outcome.v2`; recovery deterministically recomputes the bridge. Three-host Story-012 acceptance interrupts and resumes the real Codex-backed Reviewer Agent, binds evidence to each observed step even when the later status has advanced, and retains the final step-11 sidecar ref in the passing report. P090-006b/006c additionally close explicit host-owned supplied-input manifests and durable parent/effect composition for current controllers; P090-009d binds their signed synthesis, with P090-012b as the shared scoped gate. Broader posture/disclosure, additional source/effect families and full Room projections remain open; provider-native session/account/auth/endpoint data and runtime-specific vocabulary remain outside Agent Core. P090-004b2/004b2a additionally close the ordinary Inquirium text-controller source journal and 36-case write/refusal matrix. Current inline Assistant/Corpus publication paths are implemented; this does not close additional controller/source/effect families, remote-resolution or full Room projection work. |

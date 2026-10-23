@@ -1,0 +1,7 @@
+{
+  "schema": "scheduled-module-job-result.v1",
+  "job/id": "maintenance-a",
+  "status": "completed",
+  "records/seen": 1,
+  "details": {}
+}

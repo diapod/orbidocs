@@ -190,6 +190,24 @@ Status:
 - `done` for the MVP surfaces; first-class pod-user session UX remains product
   hardening.
 
+### Planned Assessment Exposure Rendering
+
+Status: `planned`, tracked once in
+[P057-014](../../40-proposals/057-user-and-operator-notifications.md#assessment-exposure-at-rendering-boundaries),
+using [P026's viewer-bound projection](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection).
+Render assessment notices from the current admitted recipient view, not a sender's
+raw verdict, title or claimed urgency. Reuse registered renderers/actions, caller
+binding and sealed storage; an unavailable view never falls back to peer content.
+Recheck deferred delivery and reads, including previews and future OS delivery.
+
+Hidden peer activity must not generate per-assessment queue rows, unread-count
+changes, SSE pings or version churn visible to that recipient. Existing minimal
+SSE payloads do not prove this stronger property. Preserve ordinary content
+arrival and admitted urgent protection as separate lanes; a protective kind cannot
+smuggle ratings or popularity aggregates. Retain refusal, restart, stale-queue and
+two-viewer fixtures in the common exposure acceptance. No duplicate notification
+transport or UI-only redaction is needed.
+
 ### Schema-Defined Actions
 
 Based on:
@@ -257,19 +275,45 @@ Status:
 - `notification-state-changed.v1` SSE payloads;
 - action result records.
 
-## Planned Matrix recovery source (P035-013)
-
-Durable account-history `blocked` and `awaiting-operator-retry` facts are a planned
-host-owned notification source. Emit idempotent lifecycle updates after the recovery
-transaction commits; do not expose pagination tokens or treat notification delivery
-as recovery success. A button resolves current local operator authority and a fresh
-inspected task revision. Credible Retry-After keeps its not-before; the implausible
-escape remains a separate action requiring a reason. A bounded bulk operation uses
-a CAS and result per task, including partial failures, and cannot clear other limits.
-
-P035-013 owns implementation and runtime evidence. This planned adapter does not
-claim active alerts, batch retry or authority granted by a notification.
-
 ## Related Capability Data
 
 - `039-notifications-caps.edn`
+
+## Matrix recovery attention (P035-013, 2026-10-23)
+
+The accepted additional consumer projects committed Agora recovery attention into
+this queue through a host-owned, durable, idempotent source adapter. It preserves
+recipient policy, metadata-only SSE, current authority and notification/task CAS.
+Acknowledgment does not retry history. Only ordinary retry is batchable; explicit
+gap acceptance and implausible-delay override remain single reasoned actions.
+Focused qualification passed on 2026-10-23 at clean Node `885a78fd` / Orbidocs
+`b16312f6`: 12 Synapse cases and five SQLite controls (four runtime, one separate
+conformance), with actual queue/API/private UI, reply-loss/crash, restart and
+carrier/S039 replay. The S039 guarded representation remains private; the new
+redacted recovery control page separately supports no-JS preview/confirmation.
+Actions preserve the originally inspected task CAS and notification version and
+recheck current authority; they never replace stale revisions with fresh ones.
+Identical source/legacy, extracted and fresh dual-store qualification is recorded
+in `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+This closes P035-013, not OS delivery, generic notification readiness or P035-014.
+
+## Optional evidence-supervision consumer (P035-014)
+
+The opt-in module requests notifications through the ordinary `notification.create`
+and narrowly granted NotificationAllow policy. It owns a topology/freshness thread
+and separate store/bundle integrity threads, stable incidents/generations and a
+transactional outbox. Reading or handling an item never repairs or retires evidence.
+S039 acceptance precedes outbox confirmation. Missing daemon/package availability
+means no off-session alert; status/restart expose stale observations. This accepted
+consumer is focused-runtime-qualified on 2026-10-23 through eleven real background/
+S020/S039/UI cases, crash-after-acceptance idempotency and projection replay. See
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`. It
+installs no permanent OS watchdog and does not change generic S039 readiness.
+
+
+Independent signed instances need no legacy module HTTP credential to consume
+`notification.create` through their authenticated channel. Before dispatch the
+host rechecks the exact current admitted registration and delegates to the same
+schema-gated notification owner. NotificationAllow remains mandatory; neither a
+claimed sender nor an allow rule authenticates an unregistered module. No new
+host capability, evidence-store knowledge or repair authority follows.

@@ -36,7 +36,19 @@
       "$ref": "middleware-channel-frame.v1.schema.json#/properties/message~1kind"
     },
     "operation": {
-      "$ref": "middleware-channel-frame.v1.schema.json#/properties/operation"
+      "type": "string",
+      "enum": [
+        "middleware.init",
+        "middleware.invoke",
+        "middleware.observe",
+        "middleware.trace.report",
+        "module-http.invoke",
+        "request.cancel",
+        "host-capability.invoke",
+        "heartbeat",
+        "session.shutdown",
+        "scheduled-job.invoke"
+      ]
     },
     "request/id": {
       "$ref": "middleware-channel-frame.v1.schema.json#/properties/request~1id"
@@ -85,7 +97,8 @@
               "middleware.init",
               "middleware.invoke",
               "module-http.invoke",
-              "host-capability.invoke"
+              "host-capability.invoke",
+              "scheduled-job.invoke"
             ]
           }
         }
@@ -126,7 +139,8 @@
               "middleware.init",
               "middleware.invoke",
               "module-http.invoke",
-              "host-capability.invoke"
+              "host-capability.invoke",
+              "scheduled-job.invoke"
             ]
           }
         }
@@ -395,6 +409,52 @@
         "properties": {
           "payload/schema": {
             "const": "middleware-channel-session-shutdown.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "request"
+          },
+          "operation": {
+            "const": "scheduled-job.invoke"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "scheduled-module-job-request.v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "message/kind": {
+            "const": "response"
+          },
+          "operation": {
+            "const": "scheduled-job.invoke"
+          }
+        },
+        "required": [
+          "message/kind",
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload/schema": {
+            "const": "scheduled-module-job-result.v1"
           }
         }
       }

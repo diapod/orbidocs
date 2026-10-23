@@ -484,19 +484,20 @@ Status:
   checks remain unqualified. The mirror shares one primary medium and has another
   separate online member, as explicitly accepted by the operator; shared host/site
   and mirror-management risks remain. Auxiliary originals retain their original
-  results without deletion, and no new Matrix runtime is claimed. P035-013 stays
-  open and Agora stays partial. Evidence:
+  results without deletion, and no new Matrix runtime is claimed. P035-013 was open
+  at that checkpoint; Agora remains partial. Evidence:
   `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`.
 
 The 2026-10-20 custody review explicitly limits P035-012 to observed mirror health
-and manual verification. P035-014 remains todo for periodic topology/sample checks,
-stale supervision and S039 notifications. Temporary originals are not durable
+and manual verification. P035-014 subsequently qualified optional session-bound topology/sample checks,
+stale supervision and S039 notifications on 2026-10-23; see
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`. Temporary originals are not durable
 second copies. The operator-authorized branch integration prerequisite is now
 validated against current primary baselines, with preserved frozen evidence,
 ledger/MVP ownership and budgets. Full workspace and affected fixture checks,
 documentation gates and fresh pre-closure evidence reads are recorded at
-`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. P035-013/014 remain open;
-repository integration does not renew runtime or release qualification.
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. P035-013/014 were open at that integration checkpoint; their later focused
+qualifications remain separate from repository integration and release readiness.
 The dated review supplement at
 `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-review/README.md`
 records a new clean-checkout sixteen-read rehearsal and a 336181-byte observed
@@ -688,6 +689,39 @@ Status:
   owns explicit carry-forward after retention. Broader discussion surfaces remain;
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
   tracks public-gossip related-link projection and navigation.
+
+### Planned Assessment Exposure and Round Projections
+
+Status: `planned`, owned by
+[P026 section 6 and P026-005–011](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
+The existing opinion runtime checkpoint does not implement this continuation.
+
+Keep `agora-service` read admission and exposure as separate steps:
+`admit -> expose -> render`. `node:agora-service/src/opinion_query.rs` already
+accepts a per-topic admission callback and consumes raw `OpinionPage` values;
+reuse this seam without encoding `withheld` as authorization refusal or leaking
+inaccessible record existence. Decide exposure before peer pagination, ranking
+and metadata construction. UI, CLI, Agent observations, details/by-id, search,
+exports and streams use the same viewer projection. Hidden peer data must not
+alter counts, cursors, ETags, ordering or notification activity. This remains a
+local-display guarantee, not confidentiality from other public relays.
+
+`agora-projections` remains rebuildable from admitted relay records. Private
+viewer encounter/unlock/release facts belong to a separate S028 service-owned
+temporal recovery domain, never to `ProjectionStore` or its rebuild/swap.
+Replay and retention must not manufacture an unseen/independent viewer.
+
+The later round projection verifies four dedicated assessment kinds, the signed
+barrier's exact set and per-commitment outcomes before emitting opinion views.
+Do not mutate `OpinionView` into a lifecycle engine or index unknown reveals as
+ordinary opinions. Reuse canonical-json/crypto, existing signer, kind contracts,
+admission, CAS/outbox and P035 transport binding; do not create another relay.
+Barrier references bind evidence but do not prove global publication time.
+Private panel/Corpus bindings need not publish their payloads into Agora.
+
+Track implementation and evidence only in P026-005–011; S008 retains this owner
+mapping, not a duplicate tracker. Urgent protection and appeal remain available
+through P026's admitted, rating-free exception paths.
 
 ### Agora M4: Story-005 Public Signal Closure
 
@@ -978,3 +1012,20 @@ Federated deployment layers on top without replacing the envelope or the
 signer contract: the same `agora-record.v1`, the same `agora.record.v1`
 signing domain, the same `record/id` formula. The only thing that grows is
 the number of relays and the topology that capability-routing resolves to.
+
+## Recovery attention focused qualification (2026-10-23)
+
+P035-013 is qualified at clean Node `885a78fd` / Orbidocs `b16312f6`: 12 focused
+stock Synapse room-10 cases and five SQLite controls (four runtime, one conformance).
+Agora owns transactional redacted attention facts and receipt-backed commands;
+the host S020 adapter projects them into S039 without granting authority. Current
+operator checks, original CAS, bounded partial batch results, credible floors,
+labelled crash/reply loss, restart and carrier/S039 replay pass. Exact author bytes
+and all 35 complete new PDUs retain separate Node/homeserver gates.
+
+The 357,068-byte XZ-128-MiB set has identical source/legacy, extracted and fresh
+qualification at both adopted stores; the original observed journal-lineage defect
+remains a cause-only refusal. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+This focused profile does not renew the historical 34-case Matrix transport
+qualification, qualify federation or OS notifications, close P035-014, or change
+Agora's global partial status or release readiness.

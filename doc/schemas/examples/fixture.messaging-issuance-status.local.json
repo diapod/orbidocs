@@ -53,7 +53,15 @@
             "withdraw"
           ]
         }
-      ]
+      ],
+      "passport_total": 1
     }
-  ]
+  ],
+  "consent_window": {
+    "page": 0,
+    "page_size": 25,
+    "previous_page": null,
+    "next_page": null,
+    "total": 1
+  }
 }

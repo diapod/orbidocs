@@ -354,6 +354,16 @@ Ingest invariants:
      retroactively correlate nym records with the underlying
      participant on the substrate layer.
 
+For portable verification, reuse the envelope's existing `signature.key/public`
+and applicable `key/delegation` under
+[P032's bounded verification-material guidance](032-key-delegation-passports.md#bounded-verification-material-across-artifact-families).
+Opinion and public Whisper bodies do not need duplicate keys. Inline proof does
+not replace S021's locally admitted namespace/custody authority or fresh
+revocation checks. Preserve signed bytes through relay/replay, enforce envelope
+and transport budgets, and never reveal a private nym-to-principal binding merely
+to complete a public proof. Qualify offline verification per admitted record
+profile; do not infer it from generic relay availability.
+
 ### 3. Record Kinds and Content Schema Extension
 
 `record/kind` names the *what* of the record. `content/schema` names the
@@ -1529,6 +1539,148 @@ procedure. Automatic maintenance, independent-host recovery, federation, all
 Whisper and release/production readiness remain outside this result. P035-013
 stays todo and global Agora stays partial. Existing retention budgets remain.
 
+### P035-013 recovery attention contract (2026-10-23)
+
+The accepted implementation slice keeps Agora recovery facts, daemon-owned S039
+attention and current local operator authority separate. Indexed redacted attention
+facts commit with recovery; the host reads at most 64 per page through
+`agora.matrix.recovery.attention.read`. S020 runs a nonoverlapping five-second
+source adapter with one page per launch. Durable S039 acceptance precedes cursor
+advancement; idempotency covers lost replies/restart. Existing blocks, deadline
+eligibility, resolution and reblocking remain recoverable without raw Matrix
+tokens or automatic retries.
+
+Only ordinary retry is batchable: `agora.matrix.recovery.retry-batch` accepts
+1..32 unique task/revision pairs and a request ID within 4096 input bytes. Each
+item has its own authority/CAS checks, transaction and durable outcome. Exact
+request replay returns prior outcomes; changed content refuses. Remaining work
+needs fresh authority and the original CAS. Accept-gap and implausible-delay
+exceptions remain reasoned single actions. Notifications never grant authority.
+
+Focused qualification passed on 2026-10-23 at clean Node `885a78fd` / Orbidocs
+`b16312f6`: 12 stock Synapse v1.162.0 room-10 cases and five SQLite cases (four
+runtime, one separate conformance). Actual S039 queue/API/private UI, no-JS
+redacted controls, current authority/original CAS, mixed-batch receipts, credible
+floors, labelled crash/reply-loss, restart and carrier/S039 replay pass. The 35
+complete PDUs retain separate Node and homeserver gates; 28 Node-created PDUs
+have maximum 1,880 bytes. Exact author bytes and ordinary source/legacy,
+loose/extracted and fresh dual-store qualification agree.
+
+The complete proof is 357,068 bytes at XZ 128 MiB. An actual journal-lineage defect
+was fixed and its original observed refusal remains a 22,098-byte cause-only
+capsule. The nine-set replica inventory was separately qualified under primary
+and previous-scratch read denial. Historical full campaigns retain their scope;
+Agora stays partial, and P035-014, OS notifications, federation and release
+readiness remain outside this result. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-23-recovery-attention/README.md`.
+Node contract: `node:agora-relay-matrix/docs/RECOVERY-ATTENTION.md`.
+
+### P035-014 optional supervision contract (2026-10-23)
+
+Accepted scope: an opt-in `evidence-supervision` middleware package owns developer
+retention supervision. It is absent from normal profiles. The daemon supplies only
+a generic, currently authorized S020 module-job adapter with host-approved per-job
+budgets. S039 is consumed through `notification.create`; status belongs to the
+module, not a new domain-specific host capability.
+
+This is session-bound supervision: it observes only while the daemon, S020 and
+package run. Off-session degradation is noticed on resumption, not by an external
+watchdog. Calendar age continues during downtime. A full fresh candidate-bound
+manual release verification remains mandatory.
+
+Topology is inspected every 15 minutes and expires after 30. Parse structural
+AppleRAID plist and check the adopted separate member as well as aggregate status
+and rebuilding. OS access denial is distinct from absence; TCC attribution needs
+additional evidence. Online is not a physical-member scrub.
+
+Sample at least min(N, max(2, ceil(N/7))) identities per store/day with rolling deadlines,
+six-day refresh eligibility and seven-day coverage, conditional on availability
+and a feasible budget. Admission reserves one failed attempt plus one success
+per pair and a finite six-hour backoff within the one-day margin; repeated or
+permanent denial is an explicit overdue result. Preserve
+per-store progress and backoff without starvation. One sample lease and OS lock
+cover scheduled/run-once/restart paths; expiry is interruption, never proof of
+reaping. A stale worker cannot commit after replacement.
+
+Before selecting budgets measure every selected set three times at each location.
+Class timeout is twice the observed maximum rounded up to 30 seconds, at most
+30 minutes, plus 30 seconds for S020 teardown. Scratch capacity is twice measured
+peak plus 64 MiB. Workers have OS-enforced read-only store/tool access, scratch-only
+writes and no network. Qualifiers requiring Git use explicitly declared
+`integrity-only:release-context-required`; periodic sampling never creates a Git
+checkout and never silently weakens an ordinary qualification.
+
+Keep topology/freshness incidents separate from each store/bundle integrity
+incident. Freeze semantic events and notification outbox atomically; duplicate
+requests retain the same payload/key. Recovery requires the separate member back
+in the adopted online/not-rebuilding state, current observations, no overdue
+coverage and successful rechecks of failed samples. Acknowledgment grants no
+repair authority. A monthly operator maintenance record describes method/scope;
+filesystem verification is not called a mirror-member scrub.
+
+Known preparation failures after an attempt is acquired, OS failures and malformed
+worker results become durable `unknown` observations, release completed sample
+leases and preserve finite backoff. They cannot reuse an earlier healthy result.
+Native probes reserve cleanup/output time inside their outer worker deadline.
+Measured class budgets and the existing 16/1/4 MiB and cumulative limits stay unchanged.
+
+Focused qualification completed on 2026-10-23 at clean Node `62bea078` and
+Orbidocs `c43352b6`: eleven launchd/daemon/S020/S039/Node-UI cases and all eighteen
+store/identity pairs (ten ordinary qualifications, eight cause-only checks).
+Actual 15-minute topology, stale heartbeat, injected raw-plist/media access and
+byte failures, worker/daemon interruption, idempotent S039 redelivery and both
+projection replays pass. All thirty-six package and nine harness controls pass.
+The 84137-byte original retained set and 96361-byte public archive/review directory
+stay within unchanged budgets; new Git metadata is 23709 bytes. Loose/extracted
+and fresh primary/mirrored-store qualifications are identical. The proof uses
+an allowed small self-contained archive, preserving the existing nine-identity
+adoption without a supervisor-proof self-reference. Earlier failures keep their
+original reports and refusals, not a new passing classification.
+
+Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md`.
+Review: `node:docs/audits/P035-014-REVIEW-2026-10-23.md`.
+P035-014 is done for this optional session-bound profile. No permanent watchdog,
+off-session coverage, physical-member scrub, transport/federation renewal or
+release readiness follows; full manual candidate-bound verification remains
+mandatory and global Agora/S039 remain partial.
+
+### P035-014 post-qualification identity correction (2026-10-23)
+
+Keep the completed session-bound proof immutable. New supervision provisioning
+uses an explicitly adopted `public-evidence-media.v2` binding: IORegistry hardware
+serial/product identity for physical distinctness, and AppleRAID set/member UUIDs
+for mirror membership. Attachment path, port/hub and BSD names are observation
+locators, not identity. Missing/ambiguous serials refuse; replacement requires
+reviewed adoption. The original path-based adoption is retained as history.
+
+The exact daemon executable is a separate OS-access qualification baseline.
+Compare the actual launching parent at startup and topology refresh; a changed
+binary produces `os-access-qualified-binary-changed`, with unknown protection and
+instructions to repeat background qualification. A pre-launch check remains
+available when OS denial prevents loading the module. Ad-hoc signatures may need
+a renewed OS grant after rebuild; no EPERM-to-TCC inference or automatic grant
+is permitted. Stable signing can preserve a requirement but is not provisioned by
+this developer package.
+
+Calendar overdue pairs after downtime share one freshness incident, including the
+count. Per-pair integrity incidents require an actual failed verification. Manual
+maintenance age becomes informational at 35 days and does not alter protection.
+The generic module-job deadline/failure contract is owned by S020 and referenced
+by P072. See `node:docs/audits/P035-014-IDENTITY-REVIEW-2026-10-23.md` for distinct
+conformance, fresh retrieval and runtime-delta evidence.
+
+The review delta passes at clean Node `3a4be8ee` / Orbidocs `c93d5261` using the
+unchanged previously granted daemon: actual parent/native topology, explicitly
+injected digest mismatch with S039 and restored observation after restart. Its
+ordinary qualifier declares only `identity-review-delta-only`; original failed
+fixture diagnostics remain preserved. The 16489-byte original retained delta
+qualifies identically loose/extracted and after fresh reads at both stores. The
+new active media-v2 adoption separately verifies all nine release identities at
+both locations, including actual primary/previous-scratch read denial on secondary.
+Forty-four package, fourteen harness/qualifier, twenty-four replica and twenty-six
+storage controls pass. See
+`node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-identity-review/README.md`.
+No rebuilt-daemon TCC refusal or full eleven-case renewal is inferred.
+
 ### P035-012 review boundaries and P035-014 follow-up (2026-10-20)
 
 The adopted mirror protection is a point-in-time observation. There is no
@@ -1569,6 +1721,49 @@ S039 notification owners rather than a new storage-owned scheduler:
   retire evidence or repair storage automatically, and do not block emergency
   retrieval of intact bytes on healthy-topology checks.
 
+### Current-primary integration checkpoint (2026-10-23)
+
+The next operator-authorized integration joins Node primary `606800b7` and
+Orbidocs primary `9bd95e6e` with the reviewed recovery/supervision branches.
+P091 configuration ownership, planned P026 assessment-exposure bindings and
+P076's current readiness/refusal state are preserved alongside P035-013/014.
+The dispatcher retains current local-operator authority for recovery mutations;
+notifications grant no authority. All frozen evidence identities, adopted stable
+media and retention budgets remain unchanged. See
+`node:docs/audits/WHISPER-INTEGRATION-2026-10-23.md` for conflict resolutions,
+baseline comparison and focused merged-tree verification.
+
+The complete workspace attempt retains the primary's reproduced Story-009 Arca
+completion-order refusal. Setup-specific fixture failures are separated, and the
+pre-existing HostObservation enum-inventory omission is corrected after explicit
+review. The original failed gate is not relabelled as passed. Focused owner,
+corrective and light gates plus fresh selected-evidence reads are recorded in the
+integration audit; full workspace/release readiness is not promoted.
+
+Follow-up Arca repair (2026-10-23): Node `4852af43` / Orbidocs `4f370aef`
+derives step order from the dependency graph, without changing the original
+Story-009 assertions. A separate full workspace command passes: 8309 passing test
+executions, zero failures and 108 existing ignored entries. All six Story-009
+scenarios pass without ignored cases. The prior failed command remains unchanged historical
+evidence. See `node:docs/audits/ARCA-COMPLETION-ORDER-2026-10-23.md`. This does not
+renew P035 runtime profiles, release qualification or overall Agora readiness.
+
+Current-primary Arca integration (2026-10-23): clean Node `4b36264a` /
+Orbidocs `c173bdb1` passes the full workspace command with 8324 passing test
+executions, zero failures and 108 existing ignored entries, including all six
+unchanged Story-009 cases. The first combined gate's three fixture failures
+remain recorded separately; reviewed test-only setup corrections preserve
+assertions and production policy. Both primary branches advance by fast-forward;
+primary Node light and Orbidocs checks pass. This supersedes no historical
+P035 runtime result and adds no release authorization.
+
+P035-013/014 remain done for their recorded focused and optional session-bound
+profiles. This integration does not renew their historical runtime evidence,
+transport/federation scope or release readiness. Agora and S039 remain partial;
+source worktrees are retained and push remains a separate action.
+
+### Historical integration checkpoint (2026-10-20)
+
 The operator-authorized local integration prerequisite for P035-013 is validated
 on 2026-10-20. The review reconciles ledger/MVP, all frozen evidence and policy
 budgets, P095 and S039 against the actual primary baselines. The full workspace,
@@ -1576,8 +1771,8 @@ affected fixture follow-up, documentation gates and fresh pre-closure reads pass
 the exact candidates and original baseline failures are recorded in
 `node:docs/audits/WHISPER-INTEGRATION-2026-10-20.md`. Retained worktrees support
 future isolated changes under `node:docs/development/WHISPER-BRANCH-INTEGRATION.md`.
-P035-013/014 stay todo, Agora stays partial, and no historical Matrix/runtime or
-release qualification is renewed by this integration. Git push is a separate action.
+At that checkpoint P035-013/014 remained todo and Agora remained partial; no
+historical Matrix/runtime or release qualification was renewed by that integration. Git push is a separate action.
 
 The review now retains a fresh-checkout manual rehearsal at clean Node `16f20d0e`
 / Orbidocs `c02653b2`: sixteen new per-location retrievals, actual outer retention
@@ -1602,8 +1797,8 @@ or required dependency was relaxed. Evidence:
 | P035-010 | Bound excessive history Retry-After through explicit operator policy | done | P035-007; Matrix rate-limit semantics; P072 local operator authority | Historical 15000-ms out-of-policy floor remains qualified in the frozen full profile. Reviewed focused proof at clean Node ac386090 / Orbidocs fbba8e73 qualifies four cases on stock Synapse: checked 24 h credibility, exact u64/ten-year delay, durable implausible account block and reasoned per-task CAS escape, with unchanged credible floor, continuing live confidence-0.5 publication, restart and source replay. Active binding/current revision required, including after rebind; other tasks remain held. Qualified/retrieved 142758-byte proof at `node:docs/evidence/matrix-opaque-envelope/2026-10-19-delay-credibility-focused/README.md`; full PDU gates not rerun. |
 | P035-011 | Deduplicate observations at the evidence source before larger campaigns | done | P035-008; P035-009 | Qualified 2026-10-20 at clean Node ee64042f / Orbidocs a2addea1: 34 Matrix/five SQLite, same-capture legacy/source facts and exact author/PDU bytes, identical ordinary loose/extracted/fresh-retrieved results. Retains all 2048 PDUs plus 2048 stored-row artifacts; 2041 Node PDUs, maximum 49927 within 65536. Runtime tool total 15220597 bytes at the default 128 MiB dictionary; conservative whole collection 15264203 within 16 MiB. Tar 164802560 bytes/289 members, compact Git controls 5878 bytes versus prior 2282442. Historical gate and supplemental category facts remain separate. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-source-observations/README.md`. Existing budgets, one-homeserver/volume scope, Agora partial and P035-012/013 remain unchanged. |
 | P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
-| P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | todo | P035-010; S039; S020; P072 | Host-owned source adapter emits idempotent lifecycle updates for blocked/awaiting-operator state after commit, without tokens. Notification action resolves fresh authority/task CAS and is enabled only at the credible not-before; implausible override remains a distinct reasoned action. Batches are bounded, retain a CAS per item and report partial results without erasing other limits; notification delivery failure cannot change recovery state. |
-| P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | todo | P035-012; S020; S039; reviewed operator job policy | Periodic topology/member and stale-job checks plus rotating fresh verification at both stores deliver real idempotent degradation/recovery notifications. Qualify loss/rebuild, corruption, unavailability, missed checks and notification failure. Preserve full manual pre-release verification, private locators, emergency recovery and explicit retirement; a past receipt cannot establish continuous protection. |
+| P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | done | P035-010; S039; S020; P072 | Qualified 2026-10-23 at 885a78fd/b16312f6: 12 focused Synapse cases, four SQLite runtime and one conformance; real S039/API/private UI, no-JS redacted controls, original CAS/current authority, durable receipts, crash/restart/replay and dual-store retention. Full historical transport, OS notifications and global readiness are unchanged; see the focused qualification above. |
+| P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | done | P035-012; S020; S039; reviewed operator job policy | Qualified 2026-10-23 at clean Node 62bea078 / Orbidocs c43352b6: eleven real background/S020/S039/UI cases, eighteen fresh pairs, periodic topology, stale checks, failures, restart/replay and exact dual-store retained qualification. See node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md. Opt-in session-bound scope; mandatory manual release verification, private locators and accepted overlapping-mirror limits remain unchanged.  Portable identity/OS-access review adds a separately qualified three-case delta and fresh stable-media dual reads; the original eleven-case proof remains historical. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but

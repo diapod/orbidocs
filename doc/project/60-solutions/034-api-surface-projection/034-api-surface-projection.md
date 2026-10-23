@@ -145,14 +145,26 @@ The current Node implementation projects:
 Module-local or not-yet-frozen response shapes remain inline until their narrow
 contracts become stable enough to promote into canonical schemas.
 
-P068-GUIDE-001 now contributes a partial, local catalog projection of exact
-capability–operation–schema bindings. Trusted local schema snapshots close at
-most one bounded local reference; deeper, remote or provider-inline schemas
-remain unresolved. Operation ambiguity needs explicit selection,
-default describe presents required/type/enum summaries and explicit
-`include: "schema"` presents the complete trusted local contract,
-and endpoint paths are not part of catalog results. Deeper closure
-and live provider-conflict acceptance remain open in
+P068-GUIDE-001 contributes the completed operator-admitted local catalog
+projection of exact capability–operation–schema bindings. Trusted local schema
+snapshots close up to three transitive levels and a shared 16-distinct-snapshot
+budget per describe, under 16 KiB source, cumulative per-root expansion and
+final bounds. The temporary resolver memoizes sources and context-independent
+closure outcomes; ancestor-dependent cycle failures are recomputed. Stable
+provider/route order allocates the budget independently of the opaque
+operation selector. Cyclic, unknown, remote or provider-inline schemas remain
+unresolved, with a closed reason in result v2. Operation ambiguity needs
+explicit selection. Default describe presents required/type/enum summaries;
+explicit `include: "schema"` presents the complete trusted local contract.
+The bounded catalog closure accepts nested references only as simple local
+`*.schema.json` filenames; a nested URN or URL is reported as a constraint or
+remote reference, respectively, without network access. This limit belongs to
+the local catalog projection, not to the general descriptor `schema_ref` rule.
+Endpoint paths are not part of catalog results. The original closed v1
+operation shape remains the v1 response; explicit request/result v2 carries
+per-operation readiness. One supervised Python provider's two exact role
+operations and two conflicting live provider reports pass the host describe
+path, including loss and restart; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 ## Implementation References
@@ -189,7 +201,7 @@ Reference implementation lives in the Node repository:
 
 ## Planned Model-facing Contract Projection
 
-Partially implemented [P068-GUIDE-001](../../40-proposals/068-api-surface-projection.md#planned-capability-contract-projection)
+Completed local [P068-GUIDE-001](../../40-proposals/068-api-surface-projection.md#planned-capability-contract-projection)
 supplies exact operation/schema bindings to
 [P072 list/describe](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery).
 This is not part of the completed OpenAPI baseline.
@@ -200,6 +212,9 @@ explicit; neither prose nor an endpoint name determines the executable contract.
 A missing effect declaration is not evidence of read-only behavior. The model
 projection omits internal endpoints and auth material, resolves only admitted
 local refs within bounds, and remains descriptive rather than authoritative.
+The supervised local fixture proves projection of two exact provider operations
+and conflicting providers through the host route. Signed package provenance
+and remote acquisition remain separate work.
 P072-GUIDE-003 retains the shared first-slice evidence.
 
 ## Next Actions

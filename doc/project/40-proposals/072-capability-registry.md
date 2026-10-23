@@ -294,6 +294,21 @@ Reuses (gated against the registry, not changed): `capability-passport.v1`,
   contract and operator overlay; P072 remains authoritative for every base id and
   use-specific eligibility flag.
 
+### Assessment Exposure Is Not Capability Admission
+
+The planned [P026 host projection](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection)
+reuses caller-scoped identity/authority resolution rather than adding a parallel
+capability registry. `admit` answers whether a read is authorized; `expose`
+determines its current viewer-safe representation. Catalog availability or a read
+grant cannot reveal hidden assessments or authorize an explicit skip.
+
+P026-005/007 audit existing read, detail, export and observation capabilities.
+Reuse them where their contracts can carry the projection; register and schema-gate
+only genuinely new operations. An Agent acting for a viewer cannot select a raw
+relay/operator path as an implicit fallback. Privileged replication/inspection
+remains explicitly outside `local-display-only`, not an invisible second read
+path. This is a planned consumer binding, not a new implemented registry entry.
+
 ### Planned Local Device Discovery Admission
 
 [P045 local device discovery continuation](045-sensorium-local-enaction-stratum.md#local-device-discovery-continuation)
@@ -325,10 +340,11 @@ P072 tracker status.
 
 ## Planned Local Capability Guidance and Controller Discovery
 
-Design continuation (2026-10-18), not an implementation claim. The promoted
-registry baseline remains unchanged. This continuation supports knowledge
-symmetry and human agency by making existing contracts understandable without
-turning documentation into authority.
+This section began as a design continuation on 2026-10-18; the local contract
+freeze and focused implementation checkpoint are recorded separately below.
+The promoted registry baseline remains unchanged. This continuation supports
+knowledge symmetry and human agency by making existing contracts
+understandable without turning documentation into authority.
 
 A capability is the unit of description; middleware is a provider, not the unit
 of tool identity. The host owns the caller-scoped read projection. Inquirium
@@ -338,10 +354,9 @@ for this slice.
 
 ### Minimal Contract and Authority Boundaries
 
-Plan two registered host operations: `capability.catalog.list` and
-`capability.catalog.describe`. These names and the shapes below are design
-targets, not currently registered operations or shipped schemas. Registration
-must precede runtime dispatch: `host-local`, `dispatchable: true`,
+The first local implementation registers two host operations:
+`capability.catalog.list` and `capability.catalog.describe`. Registration
+precedes runtime dispatch: `host-local`, `dispatchable: true`,
 `host-route: true`, `docs.human-registry: true`; advertisement, Passport,
 signing-domain and federated-discovery flags remain false. Neither operation
 grants access to the capabilities it describes.
@@ -350,20 +365,25 @@ grants access to the capabilities it describes.
 | --- | --- |
 | Optional `capability-guidance.v1` | Exact `capability/id`, pinned `contract/ref` and `contract/digest`, `description` and `lang` (English by default). Optional `usage/when`, `usage/avoid`, bounded `usage/notes` or pinned `usage/ref`, and schema-checked examples. Reuse S007 profile vocabulary rather than inventing a second description taxonomy. |
 | List request/result | Optional simple filters, bounded `limit` and opaque `cursor`; stable ordering, authorized summaries, `catalog/revision` and explicit continuation. No embedding search or total count of hidden entries. |
-| Describe request/result | Exact capability id and, where necessary, an explicit operation selector. Return canonical request/response schema bindings, optional guidance and its digest, source provenance, classification, and separately observed provider availability and authorization requirements. |
+| Describe request/result | Exact capability id and, where necessary, an explicit opaque operation selector. Return canonical request/response schema bindings, optional guidance and its digest, source provenance, classification, and separately observed provider availability and authorization requirements. |
 | Honest states | Distinguish visible-but-unavailable, unknown availability, missing guidance, unresolved/ambiguous contract and stale revision. Unknown and unauthorized ids share an externally non-disclosing response where existence is private. No single `available` boolean implies execution permission. |
 
 Guidance is optional: its absence does not make a valid capability unusable.
 Missing or ambiguous machine contracts must not be reconstructed from prose.
 Provider usage notes stay bound to their exact admitted provider and contract;
-several providers must not yield an arbitrary winning description. A signed
-package and current operator admission establish source provenance, not semantic
-review of the notes. The host never treats their text as authority.
+several providers must not yield an arbitrary winning description. A verified
+signed package and current operator admission would establish source
+provenance, not semantic review of the notes. The host never treats their text
+as authority.
 
 ### Local Contract Freeze (2026-10-19)
 
 The first local slice uses `capability-catalog-request.v1`,
 `capability-catalog-result.v1`, and optional `capability-guidance.v1`.
+The v1 request continues to receive the original closed v1 result. An explicit
+`capability-catalog-request.v2` selects `capability-catalog-result.v2` for
+per-operation readiness. The controller uses v2; both versions keep the same
+caller-scoped host admission and the same two catalog operations.
 `list` accepts an optional exact capability-id prefix, a page limit, and an
 opaque continuation cursor. `describe` requires an exact registered capability
 id and accepts an operation selector only when the admitted descriptor binds
@@ -386,6 +406,7 @@ binding; a mismatched or absent binding receives a refusal.
 | Local instruction/schema reference depth | 1, with at most 16 KiB resolved bytes |
 | Controller catalog reads / inference rounds | 3 / 4 |
 | Controller catalog pages / total catalog context | 2 / 64 KiB |
+| Rendered host-observation envelope | 64 KiB, also subject to the selected prompt-token cap |
 | Controller wall time | Current remaining Agent wall-time budget; no separate 30-second cutoff |
 
 The PromptAssemblyPolicy instruction-token cap remains authoritative for
@@ -395,43 +416,100 @@ result that exceeds the selected prompt cap refuses continuation. No global cap
 is raised to make catalog reads fit.
 
 The list order is ascending canonical `capability/id`, after current caller
-visibility is evaluated. It returns no total count. Its revision is a digest of
-the visible, sanitized projection; hidden changes do not alter the caller's
-revision. Transient provider readiness changes `availability` but do not change
-the consistency revision. A cursor binds the authenticated Agent/actor scope, filter, limit,
-visible revision, next position, and an expiry no later than five minutes. Each page
-rechecks current authority. A foreign, expired, malformed, or stale cursor is a
-non-retryable `stale-cursor` refusal; a new list call without cursor begins a
-fresh traversal. No cache of catalog results is required.
+visibility is evaluated. It returns no total count. `catalog/revision` is a
+domain-separated, host-keyed HMAC-SHA256 over the canonical visible catalog
+snapshot; its `sha256:` wire prefix does not mean an unkeyed digest. Hidden
+changes do not alter that snapshot. Transient provider readiness changes
+`availability` but do not change the consistency revision. Each `operation/id`
+is a separate domain-separated, host-keyed HMAC-SHA256 over the revision plus
+the selected provider's routing, contract and effect fields. The selector is
+opaque; it neither exposes nor authorizes its provider endpoint. Both values
+use the host-owned cursor key and change when that key is replaced, including
+after restart. A cursor binds the authenticated Agent/actor scope, filter,
+limit, visible revision, next position, and an expiry no later
+than five minutes. Each page rechecks current authority. A foreign, expired,
+malformed, or stale cursor is a non-retryable `stale-cursor` refusal; a new list
+call without cursor begins a fresh traversal. No cache of catalog results is
+required.
+
+The signed cursor payload is base64url-encoded, not encrypted. Its scope field
+`s` is a third domain-separated HMAC with the same host key over the canonical
+actor, Agent, binding and visible-capability scope; it contains none of those
+raw identifiers. The cursor is an opaque continuation token for callers, not a
+confidentiality envelope for its filter, position or expiry fields.
 
 `describe` projects only exact admitted operation bindings and known effect
 metadata. Missing effect metadata is `unknown`, never `read-only`. Multiple
 operations require an explicit selector; conflicting descriptors remain
 `ambiguous-contract`. Provider readiness is `ready`, `unavailable`, or
-`unknown`, independent of visibility and authorization requirements. Guidance
-is absent unless its provider and contract ref/digest match exactly. Multiple
+`unknown`, independent of visibility and authorization requirements. Each
+described operation carries its own provider availability. The top-level
+availability summarizes all providers when the contract is ambiguous, and
+reflects the selected provider after an explicit operation selection.
+The original closed `capability-catalog-result.v1` operation shape has no
+per-operation `availability`; request v1 still emits that exact shape.
+`capability-catalog-result.v2` requires the field for every described operation.
+It also requires `unresolved/reason` on an unresolved operation binding:
+`missing`, `untrusted`, `unknown`, `remote`, `cycle`, `constraint`, `limit`, or
+`budget`. `budget` means that this describe exhausted its 16 distinct trusted
+local source snapshots; `limit` means its depth or byte bounds prevented
+closure. The reason is intentionally closed and omits private refs and paths.
+The result v1 binding remains unchanged. A repeated source uses the same
+temporary resolution result, and source order rather than the keyed operation
+selector decides which distinct source receives a finite slot.
+An absent field in v1 gives no basis to infer readiness or execution permission.
+No consumer outside the checked Node/Orbidocs repositories has been verified;
+explicit version selection preserves the old v1 wire shape. Guidance is absent unless its provider
+and contract ref/digest match exactly. Multiple
 eligible provider contributions do not select a winner. The first slice admits
 request examples only, validated against the exact request contract. Invalid
 examples or an unresolved local instruction ref exclude that guidance without
 disclosing provider diagnostics;
 they never trigger network retrieval. `doc/url` is never dereferenced.
+Guidance `contract/digest` pins the admitted source schema snapshot;
+`operations[].request.schema/digest` describes the canonical locally closed
+schema projection. They are equal when closure leaves the schema unchanged,
+but may differ when a trusted local `$ref` is expanded. A projection digest
+must not be presented as the source pin.
+The compact summary preserves `type`, `enum`, and `const` through a local
+`$ref` with annotation-only siblings. Other composed `allOf` contracts stay
+opaque in the summary and set `truncated: true`; callers request
+`include: "schema"` for the complete contract.
 
 An unknown id, a hidden id, and a private package id share the same externally
 observable `not-found` result. Authorization and disclosure precede descriptor
 or guidance dereference. Results are lower-trust data with classification and
 source digests; current P090 inference-egress admission runs before each model
-continuation, including reuse. Cancellation prevents continuation at the next
-synchronous boundary; this slice does not preempt an already blocked read or
-inference call. Timeouts, exhausted
-budgets, stale scope/revision, and invalid guidance are terminal for this
+continuation, including reuse. A catalog read projects locally retained,
+admitted provider reports; it does not invoke the provider over the middleware
+channel. The controller attaches an internal read correlation to the host
+result and consumes only its first matching delivery. At delivery it checks
+current Agent lifecycle, binding, grants and deadline before parsing the
+result body, then rechecks disclosed scope before adding an observation and
+again before the next inference. The result-admission unit ignores foreign and
+repeated deliveries without parsing them. A mismatch at the synchronous
+controller's own handoff violates its host invariant and stops the action
+without retry. A matching result after stop, withdrawal of a required grant or
+deadline terminates this passage without exposing its body. Suspend and resume
+invalidate the old passage through its captured lifecycle epoch, even if the
+Agent is Running again. Cancellation is logical at the next
+synchronous boundary: this slice does not preempt an already blocked read or
+inference call, and an inference already admitted before withdrawal remains
+in flight. No new channel frame or result transport follows from this rule.
+Timeouts, exhausted budgets, stale scope/revision, and invalid guidance are terminal for this
 continuation. No automatic retry or fallback to remote lookup occurs.
 
-Inquirium's current role vocabulary has no tool-result role. The host therefore
-renders the classified catalog result as an exact `User` postamble marked as
-untrusted data. That role marker is not an injection defense: guidance can still
-influence a model within otherwise permitted behavior. Host policy, grants and
-effect admission remain the enforcement boundary; model-level resistance to
-hostile notes is not qualified by the deterministic controller test.
+Inquirium's current role vocabulary has no correlated native tool call for a
+tool-result role. The supervised checkpoint binds classified catalog data to a
+host-owned, canonical `inquirium.host-observation.v1` envelope in a required,
+fixed operation postamble. It carries source, opaque read ref, result digest and
+JSON data, with explicit `transport: user-text` and adapter `user`-role
+admission; [P064](064-inquirium-implementation-recommendations.md#planned-progressive-capability-guidance)
+owns the exact assembly contract. This is structural provenance, not an
+injection defense: guidance can still influence a model within otherwise
+permitted behavior. Host policy, grants and effect admission remain the
+enforcement boundary; model-level resistance to hostile notes is not qualified
+by a deterministic controller test.
 
 An invalid model proposal terminates the current controller action with a
 non-retryable `agent_model_proposal_rejected` diagnostic (HTTP 422); it does not
@@ -537,6 +615,85 @@ inference. [P024](024-capability-passports-and-network-ledger-delegation.md),
 [S007](../60-solutions/007-capability-advertisement/007-capability-advertisement.md#local-guidance-is-not-federated-discovery)
 remain separate federation owners.
 
+### Supervised Local Acceptance Checkpoint (2026-10-19)
+
+This checkpoint composes the existing owners rather than changing catalog
+identity or adding execution authority. Use one operator-admitted, supervised
+local middleware report with two registered capabilities: one with an exact
+pinned operation contract and admitted `capability-guidance.v1`, and one
+with the same contract discipline but no guidance. Describe a mutation-capable
+operation; the catalog controller must not invoke it. Record the admitted
+provider, contract and guidance revisions, including an explicit
+absent-guidance state. Record package signature and launch-integrity evidence
+separately; an operator-configured test module without such verification does
+not prove signed-package provenance.
+The current bounded fixture selects the registered provider-owned local ids
+`role.example.execute` (guided and effectful) and
+`role.example-summarizer.execute` (no guidance), with the admitted local
+`node:middleware/schemas/role-task-execute-request.schema.json` request
+contract. Fixture selection is test evidence, not a new domain rule or grant.
+
+Run the ordinary middleware channel and host routes in one bounded local
+acceptance scenario. An Agent bound to the authenticated principal has both
+catalog grants and one independently admitted effect grant. Its scripted
+inference reads list, then describe, then proposes the effect. A single
+non-catalog proposal must leave the catalog controller unchanged and reach
+ordinary Agent effect admission. An ambiguous mixed catalog/effect proposal
+must stop with its model-proposal diagnostic and no effect. Observe the generic
+host effect-dispatch boundary: catalog reads and descriptions cause zero effect
+dispatches, while any later effect execution requires the ordinary admission
+and consent path. Merely describing a mutation is not proof of its execution
+authority.
+
+The retained P072-GUIDE-003 report must separate three evidence classes:
+
+| Class | Required observation | Claim excluded |
+| --- | --- | --- |
+| Contract/projection | Exact admitted report and schema/guidance binding, visibility, absence and ambiguity states, bounded summaries and cursor behavior. | A pure projection test does not prove live channel or controller behavior. |
+| Local host path | Supervised report attach, channel carriage, host list/describe, Agent continuation and separate effect admission in one run; boundary observers for generic effect dispatch, federation and remote fetch, P090 inference egress, and redacted trace. | A scripted adapter does not prove autonomous model use. |
+| Concrete model | Only a separately bounded trial on an already available local runtime, with model/provider identity and prompt policy recorded. | A deterministic provider does not qualify model behavior. |
+
+In the local host-path run, exercise revocation between reads, provider loss and
+ambiguity, unknown/hidden/private ids, mismatched guidance, stale or foreign
+cursors, hostile notes, egress refusal before context reuse, read/round, page,
+byte and wall-time budgets, cancellation, late and repeated results. Observe
+catalog misses, `doc/url` and unresolved refs at federation and remote-fetch
+boundaries to establish that they caused no such calls. Inspect returned
+bodies, errors and trace for private identifiers, endpoints, paths and
+credentials. Record each case as passed, failed or unmeasured, with the
+observation point and revision. Do not promote partial rows from code presence
+or a configuration assertion.
+
+The host-observation envelope and explicit `User`-transport admission must be
+tested with the selected adapter, including an adapter without `user` support
+that refuses before inference. Assert that each exported observation ref is
+fresh and independent of the private controller correlation. The envelope
+proves the host's source and result binding, not semantic isolation from
+provider instructions. It grants no tools and cannot weaken host policy,
+classification, egress or effect admission. The shared report remains the only
+GUIDE acceptance owner. This checkpoint does not change MVP, alpha, federation
+or release status.
+
+The measured local H scenario started an operator-configured supervised Python
+module over the existing channel. Its admitted report contributed both fixture
+capabilities; host list and describe showed their exact contract, distinct
+effect metadata and guidance presence or absence. The controller passed three
+catalog observations into four scripted local inference calls. Its non-catalog
+effect proposal remained inert until a separate `agent.effect.propose` request
+reached ordinary admission and was deferred for human review. The role handler
+was not invoked during the catalog loop or effect proposal; a separate explicit
+host invocation confirmed channel dispatch. Missing or invalid control tokens
+returned 401 before catalog disclosure, and a wrong Agent binding returned 403.
+This H result does not establish signed package provenance, autonomous model
+behavior, automatic Agent effect dispatch, or the unmeasured adversarial rows
+in the shared report.
+Current catalog visibility is derived from the intersection of Agent spec and
+binding capability grants. The process Agent therefore holds grants for both
+visible provider capabilities, while only the guided mutating effect is
+proposed. Visibility still does not establish readiness or completed effect
+admission, but a separate describe-only visibility permission is not yet
+implemented. That grant separation remains an open boundary.
+
 ### Continuation Tracker
 
 Statuses below follow the focused implementation checkpoint; historical
@@ -551,13 +708,17 @@ to finish unrelated work in any of those proposals.
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
 | P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | done | Four schema-gated DTOs, registry flag matrix, numeric limits, disclosure and transition rules; contract evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Registered projection and host route pass focused tests; supervised provider loss and separately observed no-network fallback remain open: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | A daemon-process test passes local list → describe → next inference with a scripted adapter. Combined supervised middleware/host/controller acceptance, adversarial boundary observations and real-model behavior remain open in the shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Supervised host HTTP covers two conflicting providers, explicit operation selection, per-operation readiness through loss and restart, describe-only visibility, identical hidden/unknown/private refusals and stale revision. A later supervised run withdraws a single Agent grant and observes reduced visibility before and after daemon restart. Earlier injected host fetch resolver and artifact sink record zero attempts across misses and rejected `doc/url`. Signed-source provenance remains open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. A focused host-route test holds an actual catalog result for admission after stop, grant withdrawal or deadline; its admission unit ignores foreign/duplicate correlations, while a mismatch in the synchronous controller stops the action. Two supervised suspend/resume cases invalidate old initial and continued passages through the lifecycle epoch. Earlier DNS/artifact and trace observers retain their focused scope. Physical preemption, independently asynchronous delivery, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.
 [P091](091-file-backed-configuration-and-explainable-composition.md#planned-capability-guidance-overlays)
-owns operator overlays; [P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
+owns the now implemented local guidance-only operator overlay, with focused
+C/H evidence in `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
+It changes effective documentation only after a reviewed P091 commit; it does
+not close this catalog's separate model or signed-source qualification.
+[P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
 and [P085](085-operator-sovereign-extensibility-and-experiment-packages.md#capability-guidance-package-boundary)
 own private-package admission constraints. These follow-ups are not prerequisites
 for the first slice: initially exclude private package ids and accept only
@@ -732,3 +893,16 @@ Those are intentionally separate proposal tracks, as decided in §2.
 - [d] Operator-local derived capability sets and experiment-package composition belong
   to P085. They must not become an alternate path for adding base capability ids or
   bypassing registry admission.
+
+
+## Generic scheduled module jobs (S020)
+
+The host-only `scheduled-job.invoke` operation and the schema-gated
+`scheduled-module-job-request.v1` / `scheduled-module-job-result.v1` contracts are
+a separate execution surface. Operator-approved S020 configuration binds component,
+executor, operation and bounded launch budget. Every dispatch rechecks current
+admission and activation; a read capability or a package fragment cannot invoke
+or authorize this surface. No evidence-specific host capability is registered.
+The [S020 contract](../60-solutions/020-scheduler/020-scheduler.md#generic-module-job-authority-deadline-and-failure-contract)
+owns deadlines, `Transient`/`AuthorizationDenied` meanings, unknown outcomes and
+consumer recovery duties. The evidence-supervision module is an opt-in consumer.

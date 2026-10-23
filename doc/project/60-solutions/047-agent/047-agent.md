@@ -826,9 +826,10 @@ owns the first consumer of
 Status: partial local implementation, separate from completed controller/effect
 baselines. A closed two-operation continuation and correlated transition state
 are wired into `CallInquirium`; the built-in host/controller loop passes a
-deterministic process test, while supervised middleware and model behavior
-remain unqualified. A single non-catalog proposal passes through as inert
-output; mixed catalog/effect proposals are rejected. See
+deterministic process test. A second process test includes a supervised Python
+module, two provider-owned capabilities and four scripted inference calls;
+real-model behavior remains unqualified. A single non-catalog proposal passes
+through as inert output; mixed catalog/effect proposals are rejected. See
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse typed controller actions, host ports, admitted Agent binding, budgets,
@@ -837,9 +838,38 @@ catalog-read proposals, feeds a classified result into the next inference and
 stops on refusal, cancellation or exhausted budget. It does not interpret
 documentation as authority or recursively invoke arbitrary tools. Describing a
 mutation-capable capability never invokes it.
+The supervised run reaches ordinary `agent.effect.propose` admission through a
+separate request tied to the retained model proposal and receives a deferred
+human-review outcome. An independent direct host invocation proves channel
+dispatch; the Agent effect itself is not automatically dispatched.
 
-Retain real host/controller evidence under P072-GUIDE-003, including duplicates,
-late results, revocation, hostile guidance, provider loss and no network fallback.
+The supervised resilience checkpoint observes page, read, byte and Agent
+wall-time exhaustion, replay of a completed controller request, refusal of a
+concurrent duplicate, and no further inference after lifecycle stop and a late
+repeat. The Agent owner now also records an immutable single-grant revocation
+fact; the current Agent spec and binding projections narrow on replay. A
+supervised process test withdraws one provider capability grant between catalog
+reads, refuses the pending continuation without effect dispatch, and observes
+the reduced scope after daemon restart. A focused host-route test holds an
+actual list result until stop, grant withdrawal or expiry; the controller
+refuses its late delivery. The result-admission unit ignores foreign or duplicate
+correlations; a correlation mismatch at the synchronous host handoff is an
+internal invariant failure that stops the action without another inference.
+The daemon controller also binds one catalog passage to the current Agent
+lifecycle epoch. Suspend/resume during an in-flight inference invalidates the
+old passage after the model returns, even when the Agent is Running again;
+the durable step remains the starting point for a fresh action.
+The synchronous catalog route reads host-retained reports and does not block on
+a provider-channel response. An already admitted inference is not preempted;
+an independently asynchronous delivery transport remains unqualified.
+The revised replay key is scoped to the Agent. A request for an absent grant is
+an unpersisted no-op, so repeated arbitrary keys cannot consume a global
+revocation projection. Current Agent grants still gate dispatch after a proposal
+was admitted. Middleware admission reserves `local-control` for the authenticated
+host principal; a module cannot claim that id.
+
+Retain real host/controller evidence under P072-GUIDE-003 for the remaining
+boundaries; the shared report separates the observed cases from open ones.
 The initial delivery excludes federation and private package ids; Assistant
 Channel consumption follows under P066-GUIDE-001 with existing escalation gates.
 

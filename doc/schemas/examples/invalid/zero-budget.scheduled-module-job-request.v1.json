@@ -1,0 +1,10 @@
+{
+  "schema": "scheduled-module-job-request.v1",
+  "job/id": "maintenance-a",
+  "launch/id": "launch-a",
+  "owner/module-id": "example-module",
+  "operation": "maintenance",
+  "scheduled/for-ms": 0,
+  "started/at-ms": 1,
+  "budget/remaining-ms": 0
+}

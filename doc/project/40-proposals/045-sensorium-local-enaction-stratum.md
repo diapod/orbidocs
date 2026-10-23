@@ -2062,11 +2062,183 @@ P045-DISC-002 through P045-DISC-007 retain their existing completion gates;
 device-free diagnostics do not qualify a BLE/native launch tuple, protected-stop
 matrix or product exposure.
 
-Next actions: integrate the frozen 001/P055-10 contracts through
+##### Four-thread preflight follow-up (partial)
+
+The separate `ca894112` diagnostic image reproduces the mature four-thread
+retained-image timeout without increasing its one-second lifetime or three-second
+observer guard. A test-only witness is written after exact stdin validation and
+before phase-file I/O on the actual verified launch path. Four ps-only cohorts
+retain 14/16 failures before that witness. Counterbalanced live-ps off/on controls
+retain 10/16 versus 12/16 failures; polling is not necessary. A separate no-live-ps
+count-one/count-four comparison retains 0/4 versus 5/16, with successful first
+frames as late as 994.161 ms. Concurrent setup/worker/helper work changes together;
+the specific shared resource is not isolated.
+
+The sampled dyld/Mach wait belongs to an exactly correlated but passing child.
+It neither assigns the failed children's OS waits nor identifies the notification
+recipient. Diagnostic blind spots and private collector cleanup have checked
+software corrections; no production startup repair, serialization, retry,
+deadline-origin shift or native qualification is claimed. Historical failures
+stay unassigned and DISC-002 through DISC-007 retain their gates. Detailed cohort,
+review, regression and private-retention evidence is owned by
+`node:docs/audits/SENSORIUM-NATIVE-PREFLIGHT-FOUR-THREADS-2026-10-20.md`.
+
+The same frozen image's full daemon library passes 2,548 tests with 71 ignored
+in 421.17 seconds; strict workspace/all-target Clippy, 54 supervisor tests and
+248 Python tests (19 skipped) pass. These regressions do not explain the red
+cohorts or close startup, physical/native or release qualification.
+
+##### Exact failed-child OS follow-up (partial)
+
+A subsequent fixed twelve-process device-free campaign on the same frozen image
+retains 39 focused cases: 36 pass and three fail. Two actively sampled failures
+are now exactly joined through case/instance, validated owned helper and tool
+header to the final deadline SIGKILL, with no entry witness, phase file or
+drained frame. Their 189 and 15 positive samples resolve only `_dyld_start + 0`;
+neither identifies a deeper OS wait or notification recipient. The second uses
+coarser sampling without immediate symbol capture. Passing-neighbour Mach
+stacks remain separate, and active sampling/survivor bias remains explicit.
+
+Public `spindump -onlyTarget` on an owned non-Sensorium process refuses root
+permission. No security setting, sandbox, timer or authority changed. No
+production defect or justified startup repair was confirmed; root permission is
+a missing diagnostic prerequisite, not a timeout explanation. Checked private
+collector corrections and tests establish diagnostic hygiene only. All prior
+failures and DISC/P096/native gates remain unchanged. Source, raw evidence,
+review and regressions are owned by
+`node:docs/audits/SENSORIUM-FAILED-HELPER-OS-WAIT-2026-10-20.md`.
+
+##### Durable-sync and capture discriminator (partial)
+
+The 2026-10-20 follow-up distinguishes the installed Rust Apple full-sync
+barriers from Python's ordinary fsync. An explicit full-sync pressure arm
+reproduces new 4.108/5.149-second F02 qualification refusals without changing
+SQLite durability or deterministic owner-work guards. That is not attribution
+of a Sensorium OS wait. Test-only one-child controls measure actual retained
+capture's file and directory syncs separately; the signed domain fixture
+measures its whole verification span before the unchanged helper clock.
+
+Sixteen immediate/prepared primitive launches and twelve single-fixture signed
+launches pass, including same-device full-sync, ordinary-fsync and CPU pressure.
+Two primitive observations lose diagnostic metrics and remain unqualified for
+phase coverage; another capture window has no measured worker progress. Passing
+controls do not repair or explain the retained four-fixture failures. The first
+two requested sampler arms actually start no sampler and are not a sampler
+comparison. Direct bash changes invocation mode as well as bypassing the sh
+selector, so no shim-only causal claim follows. Exact observations and subsequent
+explicit observer controls belong to
+`node:docs/audits/DURABLE-SYNC-AND-HELPER-CAPTURE-2026-10-20.md`.
+The separately frozen first-validation observer ABBA control really starts both
+selected samplers. All four helpers pass; same-instance positive dyld/Mach graphs
+belong to the passing children, not a failed wait or an identified recipient.
+No production sync, sandbox, freshness, timeout or native gate is changed.
+
+##### Four-fixture full-sync follow-up (partial)
+
+Four actual fixture threads under four full-sync writers reproduce both
+zero-entry deadline failures and post-entry failures with two frames but no
+terminal response. The frozen primary comparison stops at its seventh cell on
+pressure cleanup refusal: six admitted process clusters retain 18 passes and
+six panics; five declared cells remain unexecuted. This is not a complete
+comparative incidence campaign. Final absent groups cannot erase an earlier
+PermissionError whose old trace lacks the actual syscall/errno.
+
+A separately frozen observer off/on/on/off supplement completes four clusters,
+without replacing the stopped comparison. Its sampled failed instance has 690
+positive `_dyld_start + 0` observations, no entry/frame and confirmed deadline
+SIGKILL; deeper Mach graphs belong to seven passing neighbours. All four writers
+actually advance in the failed instance's admitted windows. One passing case
+loses optional metrics and does not qualify its phase coverage. The exact deeper
+OS wait and notification recipient remain unassigned. Private outcome/proof and
+cleanup call-site diagnostics are corrected, not the production startup path.
+No timeout, sandbox, proof freshness, TTL or durability change follows; DISC and
+P096/native gates stay partial/open. Review, regressions and private retention:
+`node:docs/audits/SENSORIUM-FOUR-FIXTURE-FULLFLUSH-2026-10-20.md`.
+
+##### Retained-byte fixture budget decision (2026-10-21)
+
+A fixed 2x2 contrast separates the original shell from a variant adding only two
+stdout markers, and a 1 s lifetime from 5 s. Four actual fixtures run under four
+bounded same-device `F_FULLFSYNC` writers in each of sixteen fixed cohorts. Both
+1 s variants refuse full code-zero completion in 10/16 cases; both 5 s variants
+complete 16/16. Marker-only instrumentation neither creates nor removes this
+observed budget sensitivity. The latest original first snapshot is observed at
+4.648 s; 5 s is a pragmatic fixture default, not a universal platform guarantee.
+
+The ordinary retained-byte fixture now uses 5 s, with a separate unchanged 1 s
+watchdog refusal test. Historical diagnostic selectors retain their original
+timing. Two predeclared four-fixture cohorts on the adopted default pass 8/8;
+one optional metric loss leaves only 7/8 full pressure-window qualifications.
+These are software observations, not native BLE or release qualification.
+
+The operator accepts sub-5-second startup as exposed to macOS block-device sync,
+sandbox and loader delays. This is an accepted engineering risk model, **not**
+an attribution of a particular historical failure to one of those mechanisms.
+Further historical syscall/wait attribution is closed as outside the practical
+project scope; retained failures and diagnostic gaps remain immutable. No new
+trace, reset, security change or production deadline change is required for this
+closure. A typed early-entry signal remains a separate protocol/design change:
+it must not renew total time, authority, consent or TTL, or imply readiness or
+release. Production startup headroom must remain distinct from the observation
+window and bounded cleanup. See
+`node:docs/audits/SENSORIUM-RETAINED-BYTES-BUDGET-2026-10-21.md`.
+
+##### Initial discovery startup headroom (2026-10-21)
+
+The separately approved Node UI policy now constructs a new discovery request
+with its observation window plus **5 s startup headroom and the existing 5 s
+cleanup allowance**. The 10/30 s UI choices therefore request 20/40 s totals,
+inside the unchanged 45 s portable ceiling. This is one initial total, not a
+renewable startup phase or a new native readiness signal. Current grant, consent
+and profile restrictions still apply independently.
+
+The new operation's requested deferred TTL follows that initial total. Existing
+operations keep their original handle, expiry and monotonic deadline; an exact
+retry cannot add headroom, and a changed total under the same idempotency key
+refuses. Explicit legacy 15/35 s requests remain valid; the host does not silently
+rewrite caller budgets. Candidate TTL, acquisition first-data/permit limits,
+protected stop and cleanup capped by the original operation deadline do not
+change. Repeated cancellation cannot replenish its 5 s cleanup lane.
+
+The worker's 2 s authenticated-session wait remains unchanged. It starts after
+spawn and PID-file publication, whereas the helper's watchdog starts before
+spawn. A read-only reduction of 72 retained null-helper fixture observations
+finds whole executor-start spans of 349–442 ms, all successful; these spans also
+include work outside that wait. This supports retaining the present ceiling in
+this slice, not a cross-host 2 s guarantee or native qualification. No new OS
+trace or historical-cause investigation is required. Review and candidate-bound
+software regressions:
+`node:docs/audits/SENSORIUM-DISCOVERY-STARTUP-BUDGET-2026-10-21.md`.
+
+Next actions: retain the startup limitation and exact failed-child samples as
+historical evidence, not a blocking OS-research task; independently integrate
+the frozen 001/P055-10 contracts through
 002/003/004 and P055-11/005, before provider exposure. P096-017
 depends on the common path; P096-018 supplies first-provider qualification and
 only then closes DISC-007. Existing P096-009 manual setup and P096-015 initial
 acquisition qualification do not depend on completing this optional extension.
+
+##### Scoped browser and actual-WebView budget qualification (2026-10-21)
+
+Clean Node `38dfa2a2` passes both 20/40 s initial totals in pinned Chromium and
+actual Tauri WKWebView, one fresh root per client/choice. Real rendered start,
+poll and repeated-stop actions reach the production `DiscoveryHost`/SQLite in
+an explicitly ignored test binary. Provider effects/disposal, identity absence
+and HTTP/file transport are fixtures, not ordinary deployment/native admission.
+Exact original handle/deadline, grant/candidate expiry, one provider start and
+the nonrenewable 5 s cleanup lane remain unchanged. Separate owner replay probes
+are not counted as UI actions; final simulated cleanup is observed by both
+the owner and rendered client.
+
+The actual browser finds a UI defect: Poll/Stop nested the complete returned
+document inside the current main element. Explicit main-fragment selection and
+outer replacement repair that representation boundary without changing stop,
+TTL, authority, CSP or protocol. Original failed reports, source/binary pins,
+negative tests and final four-case evidence are retained in
+`node:docs/audits/SENSORIUM-DISCOVERY-CLIENT-BUDGETS-2026-10-21.md`.
+These early-stop cases close only the scoped client-budget gate. They are not a
+full-window timing distribution, universal startup bound, BLE or physical
+controller-release qualification, and do not promote DISC-007/P096 native gates.
 
 ## Implementation Sketch
 
