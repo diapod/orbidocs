@@ -1748,6 +1748,15 @@ scenarios pass without ignored cases. The prior failed command remains unchanged
 evidence. See `node:docs/audits/ARCA-COMPLETION-ORDER-2026-10-23.md`. This does not
 renew P035 runtime profiles, release qualification or overall Agora readiness.
 
+Current-primary Arca integration (2026-10-23): clean Node `4b36264a` /
+Orbidocs `c173bdb1` passes the full workspace command with 8324 passing test
+executions, zero failures and 108 existing ignored entries, including all six
+unchanged Story-009 cases. The first combined gate's three fixture failures
+remain recorded separately; reviewed test-only setup corrections preserve
+assertions and production policy. Both primary branches advance by fast-forward;
+primary Node light and Orbidocs checks pass. This supersedes no historical
+P035 runtime result and adds no release authorization.
+
 P035-013/014 remain done for their recorded focused and optional session-bound
 profiles. This integration does not renew their historical runtime evidence,
 transport/federation scope or release readiness. Agora and S039 remain partial;
