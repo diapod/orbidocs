@@ -66,6 +66,14 @@ passports to be issued.
 Challenge redemption is single-use. Expired, already redeemed, or attempt-limit
 exhausted challenges fail terminally.
 
+A valid redemption durably consumes its challenge before host passport issuance.
+Concurrent requests cannot start another issuance. If a crash or failed/lost host
+reply leaves its outcome unresolved, restart and repeated redemption MUST NOT
+retry that issuance. The caller explicitly creates a fresh challenge and proves
+control again. Consumed unresolved attempts do not occupy pending-challenge
+quota; protected operator status reports them separately. This conservative
+failure contract avoids issuing twice after an unknown effect.
+
 ### Separate-provider access
 
 The provider operator MAY explicitly enable unauthenticated challenge creation
