@@ -190,6 +190,24 @@ Status:
 - `done` for the MVP surfaces; first-class pod-user session UX remains product
   hardening.
 
+### Planned Assessment Exposure Rendering
+
+Status: `planned`, tracked once in
+[P057-014](../../40-proposals/057-user-and-operator-notifications.md#assessment-exposure-at-rendering-boundaries),
+using [P026's viewer-bound projection](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection).
+Render assessment notices from the current admitted recipient view, not a sender's
+raw verdict, title or claimed urgency. Reuse registered renderers/actions, caller
+binding and sealed storage; an unavailable view never falls back to peer content.
+Recheck deferred delivery and reads, including previews and future OS delivery.
+
+Hidden peer activity must not generate per-assessment queue rows, unread-count
+changes, SSE pings or version churn visible to that recipient. Existing minimal
+SSE payloads do not prove this stronger property. Preserve ordinary content
+arrival and admitted urgent protection as separate lanes; a protective kind cannot
+smuggle ratings or popularity aggregates. Retain refusal, restart, stale-queue and
+two-viewer fixtures in the common exposure acceptance. No duplicate notification
+transport or UI-only redaction is needed.
+
 ### Schema-Defined Actions
 
 Based on:
