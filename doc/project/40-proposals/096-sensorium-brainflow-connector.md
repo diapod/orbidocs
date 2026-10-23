@@ -4021,3 +4021,18 @@ archive 37fb5ba0 pass 170-member retrieval and seven-file primary-copy readback.
 Historical run02 and its unknown scan cause remain unchanged. No permission
 probe, Bluetooth manager, headband work, renewal, recovery, transition, migration
 or merge runs. P096-005 remains partial. See node:docs/audits/REVIEW-SENSORIUM-REPORTING-CLIENT-PREPARATION-2026-10-23.md.
+
+### Ordinary diagnostic loop after revision-11 run03 — 2026-10-23
+
+One freshly approved campaign on source 5f2aeda0 / GUI 47a5cf76 stops at SCAN
+with exact host `incomplete-released / case-discovery-authority-refused` and
+confirmed controller release. No BIND/REGISTER/WEAR or provider session exists;
+revision 11 remains unregistered, journal 217/32, claims/workers zero. The accepted
+626 ms v3 live-validation wait now replaces a stale discovery-only 250 ms wait;
+250 ms scheduling cadence and fail-closed pending-check semantics remain. A
+redundant second signed-plan walk is removed without caching current authority.
+The short diagnostic route uses one ordinary Case, exact pins, private reports
+and fresh readiness for every pass; it neither starts nor qualifies a campaign.
+Run03 originals remain immutable under private manifest 2d7f9d6f / archive
+f45d06f4 with verified primary readback. P096-005 remains partial. See
+node:docs/audits/REVIEW-SENSORIUM-DIAGNOSTIC-LOOP-2026-10-23.md.
