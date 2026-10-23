@@ -182,6 +182,20 @@ template config is therefore a thin middleware instance with its own identity,
 bindings, limits, trace surface, operator status, and lifecycle, even when the
 code executing it is the shared daemon-hosted JSON-e executor.
 
+P091's scoped 2026-10-23 implementation connects an existing node-file Flow
+instance's `limits.max_flow_steps` to shared configuration resolution and exact
+native executor consumption. The original file loader supplies host-only origin
+metadata; package-owned and programmatic profiles keep their existing owners
+and are not implicitly migrated. A managed source refusal cannot select a
+legacy profile. Redacted operator save/reset uses the shared temporal writer;
+separate process restart and durable instance/resolution/generation ACK precede
+an Active claim. Neither save nor inspection runs a workflow or renews authority.
+The proof uses actual bounded native execution, not a model or hardware run.
+Other settings, generic controls, installed/supervised Python migration and full
+UI/platform acceptance remain open. See
+`node:configuration-flow/README.md` and
+`node:docs/audits/P091-FLOW-FILE-TO-CONSUMPTION-2026-10-23.md`.
+
 Observed Flow results carry host-owned provenance outside template values
 (P090-006d). The opt-in P090-006d1 recovery checkpoint journals exact call
 sources before aggregation, pins the admitted invocation/configuration and
