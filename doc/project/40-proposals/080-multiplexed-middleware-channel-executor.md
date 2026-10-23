@@ -1369,3 +1369,13 @@ No new listener, frame family, recurring discovery or startup inference is neede
    successful runtime lookups.
 7. Treat live launch-credential rotation and re-authentication as a separate protocol
    hardening slice; do not weaken per-launch identity binding with ad hoc refresh.
+
+
+### Optional host scheduled jobs (P035-014, 2026-10-23)
+
+Frame v2 additionally carries host-only `scheduled-job.invoke` requests and their
+schema-bound scheduled-module-job results. Ordinary middleware invocation and
+module HTTP reads cannot select this operation. Current host admission and the
+registered component/module tuple precede dispatch; payload claims confer no
+scheduler authority. The optional evidence-supervision package is a consumer,
+not part of the transport kernel. Frame v1 remains a historical contract.

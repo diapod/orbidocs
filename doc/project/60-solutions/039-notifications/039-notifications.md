@@ -288,3 +288,11 @@ transactional outbox. Reading or handling an item never repairs or retires evide
 S039 acceptance precedes outbox confirmation. Missing daemon/package availability
 means no off-session alert; status/restart expose stale observations. This accepted
 consumer is not yet runtime-qualified and does not install an OS watchdog.
+
+
+Independent signed instances need no legacy module HTTP credential to consume
+`notification.create` through their authenticated channel. Before dispatch the
+host rechecks the exact current admitted registration and delegates to the same
+schema-gated notification owner. NotificationAllow remains mandatory; neither a
+claimed sender nor an allow rule authenticates an unregistered module. No new
+host capability, evidence-store knowledge or repair authority follows.

@@ -784,3 +784,11 @@ Module revocation stops new launches; ordinary node profiles are unchanged.
 `scheduled-module-job-request.v1` and `scheduled-module-job-result.v1` bind job,
 launch and budget. S020 knows no evidence-store paths, Python or qualifier logic.
 Implementation and runtime qualification are pending under P035-014.
+
+
+The accepted module-job channel uses host-only `scheduled-job.invoke` frames,
+with the scheduled request/result contracts. It is distinct from ordinary
+`middleware.invoke` and the read-only module HTTP bridge: a caller cannot turn a
+status capability into a probe by supplying a scheduler-shaped body. The job
+owner is the admitted component ID; the authenticated target determines its
+separate module ID. Existing v1 frames are unchanged; v2 declares the new operation.
