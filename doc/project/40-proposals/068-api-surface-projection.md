@@ -739,10 +739,11 @@ Transitive local schema refs close with a maximum depth of three and a shared
 budget of 16 **distinct trusted source snapshots** per describe, with 16 KiB
 for each source, each root's cumulative expansion and final closed schema.
 One temporary resolver memoizes trusted sources by ref and completed closure
-by source digest and remaining depth; unsuccessful closures are retained for
-that describe, so repeated bindings produce the same outcome without repeated
-quota consumption. Resolution order is stable by provider ID, method and path,
-using admitted descriptor order for an exact tie, never by the host-keyed
+by source digest and remaining depth. Context-independent failures are retained
+for that describe; a cycle depends on active ancestors and is recomputed rather
+than cached. Repeated top-level bindings produce the same outcome without
+repeated quota consumption. Resolution order is stable by provider ID, method
+and path, using admitted descriptor order for an exact tie, never by the host-keyed
 operation selector. Untrusted, unknown and remote refs do not consume snapshot
 slots. A cycle, unknown or remote ref stays unresolved; no network fetch is
 attempted.

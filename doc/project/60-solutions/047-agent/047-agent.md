@@ -850,9 +850,18 @@ repeat. The Agent owner now also records an immutable single-grant revocation
 fact; the current Agent spec and binding projections narrow on replay. A
 supervised process test withdraws one provider capability grant between catalog
 reads, refuses the pending continuation without effect dispatch, and observes
-the reduced scope after daemon restart. The synchronous controller still
-cannot preempt an already blocked provider or inference call; separately
-delivered late results remain unqualified.
+the reduced scope after daemon restart. A focused host-route test holds an
+actual list result until stop, grant withdrawal or expiry; the controller
+refuses its late delivery. The result-admission unit ignores foreign or duplicate
+correlations; a correlation mismatch at the synchronous host handoff is an
+internal invariant failure that stops the action without another inference.
+The daemon controller also binds one catalog passage to the current Agent
+lifecycle epoch. Suspend/resume during an in-flight inference invalidates the
+old passage after the model returns, even when the Agent is Running again;
+the durable step remains the starting point for a fresh action.
+The synchronous catalog route reads host-retained reports and does not block on
+a provider-channel response. An already admitted inference is not preempted;
+an independently asynchronous delivery transport remains unqualified.
 The revised replay key is scoped to the Agent. A request for an absent grant is
 an unpersisted no-op, so repeated arbitrary keys cannot consume a global
 revocation projection. Current Agent grants still gate dispatch after a proposal
