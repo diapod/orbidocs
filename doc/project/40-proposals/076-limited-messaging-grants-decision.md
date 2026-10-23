@@ -384,3 +384,20 @@ No model or VM ran. Historical P076-032/007/008 evidence retains its API-only
 individual-withdrawal scope. P076-033 and P076-034 remain `todo`; the retained
 qualification explicitly reports `full_candidate_qualified=false` and
 `release_ready=false`.
+
+### Child inventory read refinement (2026-10-23)
+
+The UI requests a host-selected global `consent_page` window, ordered by grant
+and child id, with at most 25 projected children. Selection precedes proof
+assessment and scope serialization; `consent_window` and `passport_total` describe
+the full local inventory without its off-window scopes. Local storage is bounded
+to 1024 children across grants. Exact `delegation_id`/`passport_id` selection
+supports bounded single-child withdrawal preflight on the same GET; it cannot
+substitute a sibling, peer observation or another owner.
+
+The form and refresh link preserve the validated page. Only this GET ignores
+unrelated navigation parameters; invalid/duplicate known selectors and unknown
+mutation fields are refused. Human labels explain authority and publication,
+while technical details retain exact codes. No execution authority or historical
+qualification changes; Node records this local regression checkpoint separately
+from the 2026-10-21 browser measurement.

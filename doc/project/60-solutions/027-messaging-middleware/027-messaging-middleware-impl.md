@@ -418,3 +418,16 @@ API-only individual-withdrawal evidence is unchanged. P076-035 is `done` as this
 focused gate; P076-033 organization custody and P076-034 final mixed qualification
 remain open. `full_candidate_qualified=false` and `release_ready=false` remain
 explicit.
+
+### Bounded inventory reads (2026-10-23)
+
+The P076-035 follow-up moves the 25-child window into the host, before proof
+assessment and scope serialization. The grant GET accepts either `consent_page`
+or an exact `delegation_id`/`passport_id` selection for withdrawal preflight.
+Window metadata reports full totals; returned child/withdrawal lists describe
+only the selection. UI caps are 1 MiB for a page and 128 KiB for a point read.
+Forms and refresh preserve page position, human labels retain technical codes,
+and unrelated GET navigation parameters are ignored. Known-selector validation,
+closed POST/CSRF/confirmation checks and independent execution authorization stay
+in force. The existing pinned browser evidence remains historical; this follow-up
+has its own local regressions in Node.
