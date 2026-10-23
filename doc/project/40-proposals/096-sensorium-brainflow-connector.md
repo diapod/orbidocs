@@ -4219,3 +4219,25 @@ No Bluetooth, headband, renewal, retirement, recovery, root migration or merge
 runs; P096-005 remains partial. Current authority, the stopped-registration
 lifecycle and fresh interactive readiness/permission precede another physical
 attempt. See node:docs/audits/REVIEW-SENSORIUM-DEADLINE-CLIENT-2026-10-23.md.
+
+
+### Four-hour authority renewal and released r13 retirement — 2026-10-23
+
+Explicitly delegated SSH on clean 6b9e3c94 / source 93b575e8 and administrator
+9acd625a completes renewal 29ee6538, preserving the stopped r13 sibling and all
+twelve protected slots. Controller-owner and discovery expiry is fixed at
+**2026-10-24 01:24:55 Europe/Warsaw** (1792797895000), 14400 seconds from prepare.
+Separate confirmed-release retirement a2b04bfb completes **13→14** through normal
+source owners and stopped-inventory application (`runtime/applied: true`).
+Revision 14 is reserved and unregistered, with no declaration, binding, p21 grant
+or reused consent. The exact historical r13 partial campaign remains unchanged.
+
+Journal 258/37, consent 23/19 lifecycle entries, resources, 89 historical controls,
+289 directory identities, 1090 old non-key hashes and two key-metadata observations
+are preserved; seven expected content changes and four new review/consumption
+files occur. Private wrapper/inspector corrections retain original scripts and
+the refused inspection without repeating effects or weakening gates. Independent
+review and private manifest 482f2265 / archive 14f4fabb / fresh readback d8ef88f0
+verify the closure. No Bluetooth, hardware, recovery, root migration or merge
+runs. P096-005 stays partial; current authority, exact-client permission and fresh
+interactive readiness precede new SCAN/BIND/REGISTER/WEAR. See node:docs/audits/REVIEW-SENSORIUM-R13-AUTHORITY-RETIREMENT-2026-10-23.md.
