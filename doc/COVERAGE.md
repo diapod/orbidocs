@@ -576,7 +576,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`responsibility-maintenance-generation.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-generation.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`responsibility-maintenance-grant.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-grant.local.v1.md) | `10` | `0` | `yes` | `yes` | `1` | `3` |
 | [`responsibility-maintenance-index.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-index.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
-| [`responsibility-maintenance-plan.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-plan.local.v1.md) | `18` | `0` | `yes` | `yes` | `1` | `2` |
+| [`responsibility-maintenance-plan.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-plan.local.v1.md) | `21` | `3` | `yes` | `yes` | `1` | `2` |
 | [`responsibility-maintenance-report.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-report.local.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`responsibility-maintenance-report.local.v2.schema.json`](schemas-gen/schemas/responsibility-maintenance-report.local.v2.md) | `8` | `0` | `yes` | `yes` | `1` | `1` |
 | [`responsibility-maintenance-request.local.v1.schema.json`](schemas-gen/schemas/responsibility-maintenance-request.local.v1.md) | `0` | `0` | `yes` | `yes` | `2` | `5` |

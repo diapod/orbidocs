@@ -41,6 +41,9 @@ Draft local maintenance contract. Shape validation grants no authority and does 
 | [`storage/transition`](#field-storage-transition) | `yes` | enum: `none`, `2-to-4`, `3-to-4` |  |
 | [`compatibility`](#field-compatibility) | `yes` | unspecified |  |
 | [`safety`](#field-safety) | `yes` | ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety` |  |
+| [`archive/index-root`](#field-archive-index-root) | `no` | unspecified | Exact archive index root for publication; absence means none. |
+| [`supersedes`](#field-supersedes) | `no` | unspecified | Explicit prior compaction command for authorized takeover; absence means none. |
+| [`shadow/query`](#field-shadow-query) | `no` | object | One bounded observational query; the run pins one host evaluation instant. |
 
 ## Conditional Rules
 
@@ -71,6 +74,30 @@ Then:
       ]
     }
   }
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "verify/mode": {
+      "const": "shadow"
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "shadow/query"
+  ]
 }
 ```
 
@@ -183,3 +210,27 @@ Then:
 
 - Required: `yes`
 - Shape: ref: `responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety`
+
+<a id="field-archive-index-root"></a>
+## `archive/index-root`
+
+- Required: `no`
+- Shape: unspecified
+
+Exact archive index root for publication; absence means none.
+
+<a id="field-supersedes"></a>
+## `supersedes`
+
+- Required: `no`
+- Shape: unspecified
+
+Explicit prior compaction command for authorized takeover; absence means none.
+
+<a id="field-shadow-query"></a>
+## `shadow/query`
+
+- Required: `no`
+- Shape: object
+
+One bounded observational query; the run pins one host evaluation instant.

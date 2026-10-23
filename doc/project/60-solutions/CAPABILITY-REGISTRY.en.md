@@ -185,12 +185,12 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
-| <code>responsibility.maintenance.abandon</code> | <code>host/responsibility.maintenance.abandon</code> | <code>reserved</code> | <code>host-local</code> | false | true | — |
-| <code>responsibility.maintenance.compact</code> | <code>host/responsibility.maintenance.compact</code> | <code>reserved</code> | <code>host-local</code> | false | true | — |
-| <code>responsibility.maintenance.inspect</code> | <code>host/responsibility.maintenance.inspect</code> | <code>reserved</code> | <code>host-local</code> | false | true | — |
-| <code>responsibility.maintenance.prepare</code> | <code>host/responsibility.maintenance.prepare</code> | <code>reserved</code> | <code>host-local</code> | false | true | — |
-| <code>responsibility.maintenance.reconcile</code> | <code>host/responsibility.maintenance.reconcile</code> | <code>reserved</code> | <code>host-local</code> | false | true | — |
-| <code>responsibility.maintenance.verify</code> | <code>host/responsibility.maintenance.verify</code> | <code>reserved</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.abandon</code> | <code>host/responsibility.maintenance.abandon</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.compact</code> | <code>host/responsibility.maintenance.compact</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.inspect</code> | <code>host/responsibility.maintenance.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.prepare</code> | <code>host/responsibility.maintenance.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.reconcile</code> | <code>host/responsibility.maintenance.reconcile</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.verify</code> | <code>host/responsibility.maintenance.verify</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>Sensorium Interfaces runtime</code>
 

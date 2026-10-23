@@ -95,7 +95,8 @@
         "rows": {
           "type": "integer",
           "minimum": 0,
-          "maximum": 8192
+          "maximum": 8192,
+          "description": "Maximum distinct source addresses in the generation. Copy/verify/clear visits are separately bounded by batch size and durable step/attempt limits."
         },
         "steps": {
           "type": "integer",
@@ -135,6 +136,75 @@
     },
     "safety": {
       "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    },
+    "archive/index-root": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Exact archive index root for publication; absence means none."
+    },
+    "supersedes": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command/id",
+            "request/digest"
+          ],
+          "properties": {
+            "command/id": {
+              "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+            },
+            "request/digest": {
+              "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Explicit prior compaction command for authorized takeover; absence means none."
+    },
+    "shadow/query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "operation"
+      ],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "operation": {
+          "enum": [
+            "procurement/request",
+            "procurement/offer",
+            "procurement/contract-accept",
+            "response/deliver",
+            "response/accept",
+            "response/reject",
+            "responsibility/inspect",
+            "responsibility/acknowledge",
+            "responsibility/appeal",
+            "core/messaging",
+            "keepalive",
+            "dispute/file",
+            "ubc/claim",
+            "signal-marker/send"
+          ]
+        }
+      },
+      "description": "One bounded observational query; the run pins one host evaluation instant."
     }
   },
   "required": [
@@ -182,6 +252,27 @@
           "verify/mode": {
             "type": "null"
           }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verify/mode": {
+            "const": "shadow"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "shadow/query"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "shadow/query"
+          ]
         }
       }
     }

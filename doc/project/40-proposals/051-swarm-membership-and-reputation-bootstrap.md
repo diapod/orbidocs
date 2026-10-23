@@ -1874,3 +1874,15 @@ explicit evidence scope; this proposal-only change is not an implementation clai
    evidence. Extend P051-008's broader matrix through separate explicit profiles;
    preserve historical reports and keep P051-009 deferred. Neither sequence nor
    reuse merges these acceptance scopes.
+
+
+### M4b closed-run owner checkpoint — 2026-10-23
+
+Node now implements disabled-by-default authenticated local maintenance API/CLI,
+P066 exact-plan reviews and recoverable reservations, immutable domain runs,
+S029 replay and bounded S020 execution. Actual owner/handler conformance covers
+checkpoint recovery and sealed archive/compaction; it does not qualify process/UI
+runtime. The first acknowledged host write uses storage v4. v1 remains authoritative
+and every D7 field remains false. CP-R retention, M5 delivery and final Q remain
+open; no wider tracker closure changes. See
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4B-2026-10-23.md.
