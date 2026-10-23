@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **223** host-local / **255** total; **37** owner groups.
+Entries: **225** host-local / **257** total; **37** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -404,9 +404,11 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>agora.matrix.recovery.accept-gap</code> | <code>host/agora.matrix.recovery.accept-gap</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.attention.read</code> | <code>host/agora.matrix.recovery.attention.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.matrix.recovery.ignore-implausible-retry-after</code> | <code>host/agora.matrix.recovery.ignore-implausible-retry-after</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.matrix.recovery.inspect</code> | <code>host/agora.matrix.recovery.inspect</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>agora.matrix.recovery.retry</code> | <code>host/agora.matrix.recovery.retry</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.matrix.recovery.retry-batch</code> | <code>host/agora.matrix.recovery.retry-batch</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon operator settlement control</code>
 
