@@ -3898,3 +3898,26 @@ exception is read-store ctime. All 244 directories, controller/parent, journal
 One new review appears, with no discarded predecessor, reset/proof/consumption,
 recovery, renewal, hardware, migration or merge. P096-005 stays partial. See
 node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BASELINE-2026-10-23.md.
+
+### Current revision-11 Bluetooth method review — 2026-10-23
+
+One SSH method preparation selects v4 ea635e8c for uncertain pre-binding Case
+4e6f2774 and archives baseline v2 0a5cfa9c byte-exact (8497 bytes). Retained
+administrator 8ff445ae / source 4db636c8 recognizes the Case source as current;
+its 5146 inventory entries, five-file target closure, strict signatures and
+rootless preflight are verified. The supported actor change leaves baseline
+actor d11afcd7 / d0d3b335 in the archive. No prior-source pin or production code
+changes. Only schema, creation time, candidate and radio witness change in v4;
+eleven fixed protected-source slots and the matching plan/grant are checked.
+Among 910 prior file observations, 908 are identical; canonical review becomes
+v4 and read-store ctime is the only other metadata difference. All 907 other
+non-key hashes, two key-metadata records, 244 directories, controller/parent,
+journal 207/30, held claims, resource tables and finite expiries stay exact.
+Private manifest 8f6f51bf and archive 25af43c1 pass 44-member retrieval and
+PRIMARY_EVIDENCE_STORE copy readback. Independent review corrects draft guidance:
+expired policy/grant bytes remain frozen cleanup custody; no renewal is required
+merely for a separately approved OFF/ON observation. V4 awaits that observation,
+with no proof or approval-window expiry yet. No observer, reset, recovery,
+claim release, grant renewal, hardware, migration or merge runs. P096-005 stays
+partial. See
+node:docs/audits/REVIEW-SENSORIUM-R11-CURRENT-BLUETOOTH-REVIEW-2026-10-23.md.
