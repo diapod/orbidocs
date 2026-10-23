@@ -1158,3 +1158,14 @@ implementation and focused organization custody gate are now locally qualified
 (1423 conformance plus 123 capsule executions, 34 strict sovereign phases and
 42 browser cases); see `node:docs/evidence/limited-messaging/2026-10-23-org-custody/README.md`.
 P076-034, its extra A2 cohort diagnosis, and release readiness remain separate.
+
+## Bounded offline Messaging proof follow-up
+
+[P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
+plans a bounded attachment of the existing signed issuance status to the Messaging
+V2 passport presentation. Reuse the current grant verifier and durable observation
+owner; require zero status fetches in the offline acceptance gate. The receiver
+still needs an independently admitted current root and fresh status. No new
+trust anchor, longer lease or general offline-delivery guarantee is introduced.
+Its task and acceptance are owned by the limited-grant decision, independently
+of P076-034; this is planned work, not an extension of existing qualification.
