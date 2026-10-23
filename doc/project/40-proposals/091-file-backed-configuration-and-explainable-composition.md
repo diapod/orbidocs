@@ -2336,7 +2336,7 @@ only when both explicitly delimit that narrower claim.
 | `P091-010` | Migrate first-slice sources and readers explicitly | `P091-001a`, `P091-003`, `P091-005a`, `P091-007a` | `partial` | Preview/protected backup/effective-value equivalence cover seeding, toggles, first-slice Python loading, env/CLI and optional legacy 90-to-80 migration. Test restoration against pinned pre-migration effective values and independently current authority; changed descriptors report incompatibility. Preserve factory/domain targets unless separately migrated. No read-time migration/workflow trigger. 2026-10-06 task-pack legacy adoption is explicit read-only preview plus exact five-minute plan approval and synced no-op receipt. It preserves filenames, original bytes and mutation counters, refuses changed/expired plans and rechecks current authority. No source relocation occurs, hence there is no displaced document to restore; other first-slice migrations and protected backups remain open. **2026-10-18 delivery checkpoint:** The selective-source v2 inheritance profile preserves edited seeds and does not synthesize consent. This does not perform general legacy source relocation/backups. |
 | `P091-010a` | Consolidate remaining configuration loaders and register legacy profiles | `P091-001b`, `P091-003`, `P091-005` | `todo` | Each configuration deep-merge/acquisition copy migrates to shared primitives/contracts or has a named legacy profile with owner/retirement evidence. Include Agora selection/skip-malformed semantics and listed Python copies. No unregistered local configuration merge outside approved seams; unrelated domain JSON patching is not banned. Remaining ordinary-setting gaps block P091-015 promotion. |
 | `P091-010b` | Selectively materialize factory seeds and preserve existing files | `P091-002`, `P091-003`, `P091-004`, `P091-006` | `partial` | Adopted 2026-10-18: preserve seed_config without a list; validate module-relative seed_config_pointers, full arrays, empty/escaped/nested pointers, duplicates/overlaps and finite limits before shared create-only publication. Disabled modules may be seeded without starting; existing declarations/files and operator deletions survive update/restart; seeded enabled is not a protected decision. P091-005a gates exposed operations and all seed acceptance cases are mandatory. **2026-10-18 delivery checkpoint:** Pure selection/limits and shared create-only publication are implemented, including omitted-enabled inheritance and metadata stripping. Existing edits, disabled seeding and actual intent/rename recovery pass; consult the explicit delivery-scope evidence rather than promote unrelated migrations. |
-| `P091-011` | Prove cross-process and standalone consumption | `P091-004`, `P091-005a`, `P091-007`, `P091-009`, `P091-010` | `partial` | Actual supervised Python and separate-process Rust consumers, plus daemon/Node UI, consume explained resolutions. Cover pre-channel inline/ref snapshots, acknowledgement, host denial/outage without fallback, pinned Rust helper and Python exports/injection. Histories retain descriptor/context evidence and no current-use grant is inferred.  **2026-10-23 partial proof:** a real built Rust one-shot helper and privately verified pinned Python transport consume the same named setting projection. Installed packaging, actual supervised Python pre-channel ACK and full multi-owner/client qualification remain open. |
+| `P091-011` | Prove cross-process and standalone consumption | `P091-004`, `P091-005a`, `P091-007`, `P091-009`, `P091-010` | `partial` | Actual supervised Python and separate-process Rust consumers, plus daemon/Node UI, consume explained resolutions. Cover pre-channel inline/ref snapshots, acknowledgement, host denial/outage without fallback, pinned Rust helper and Python exports/injection. Histories retain descriptor/context evidence and no current-use grant is inferred. **2026-10-23 partial proof:** a real built Rust one-shot helper and privately verified pinned Python transport consume the same named setting projection. The subsequent bounded Arca catalog pilot adds actual supervised Python pre-channel provisioning, P080 read and durable exact consumption ACK, with new-instance/high-water and no-fallback refusals; see its checkpoint below. Installed packaging, larger carriers, other Python owners and full multi-owner/client qualification remain open. |
 | `P091-012` | Publish shared manual, component references and HOWTOs | `P091-002`, `P091-005`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Exact keys/sources, four identity names, views, shadowed commits, restore/invalidation and apply modes agree across manual/navigation/CLI/UI. Separate proposed, legacy and supported behavior.  **2026-10-23 partial documentation:** node:configuration-flow/README.md documents the exact address, sources, operator projections, shared reads, restart/consumption distinction and offline helper. The complete shared manual and remaining owners stay open. |
 | `P091-013` | Complete refusal, concurrency and recovery evidence | `P091-005a`, `P091-007`, `P091-007a`, `P091-008`, `P091-009`, `P091-010`, `P091-011` | `partial` | Every failure row has retained executable evidence, including journal/file crash points, host-seed races, descriptor withdrawal/expiry, clock failures, shared-file conflict classification and replan, no-op/third-version recovery, secret redaction and evicted replay inputs. 2026-10-06 scoped task-pack proofs cover all eight security fixtures, real subprocess crash points (intent, partial staging, rename, outcome), old/new/third/no-op, event quota reservation, substituted heads and current-operator daemon restart. This does not close every general P091 refusal/concurrency/platform row. **2026-10-18 delivery checkpoint:** The bounded D1/D2 instruction and real CLI examples explain lexical order, seed inheritance, sparse decisions, receipts and recovery without requiring new JSONL history. |
 | `P091-014` | Retain the four-case operator slice and synchronize evidence | `P091-011`, `P091-012`, `P091-013` | `partial` | All cases complete locate/explain/edit/apply/restart/reset through files and interfaces. Update `node:docs/implementation-ledger.toml`, regenerate via `node:tools/generate-implementation-ledger.py`, reconcile `node:docs/MVP.md` for affected scope. Record usability obstacles, not universal cognitive-load reduction. **2026-10-18 delivery checkpoint:** Node contract/inventory/ledger/MVP and separate D1/D2 evidence are reconciled for this worktree. Historical baseline is unavailable-closed, current scripted baseline/v1 is frozen, and broader platform/release proofs remain gaps. |
@@ -2710,6 +2710,57 @@ DTO adoption, installed/supervised P091-011 consumers, other resource axes,
 non-Unix acquisition, live Arca or the complete four-case/operator/release gates.
 P091-012 remains partial with this additional owner manual. The prior Arca and
 Flow evidence is unchanged; no merge to the primary branches is performed.
+
+#### Supervised Arca catalog startup checkpoint — 2026-10-23
+
+Implemented and qualified by Node commit `05738ffc45701649f0ba5a09e6328d7c3eaf6e54`
+on the isolated operator branch, without merging to the primary worktree.
+
+The isolated Node branch extends P091-011 with one actual supervised Python
+consumer, not just an offline DTO facade. Address `component:arca`, owner `arca`,
+pointer `/arca/catalog_peer_max`, contract `arca-catalog:v1` selects the compiled
+default 5, lexical module-home files and lexical node files. Shared confined
+acquisition and pure ordered resolution retain Arca-owned strict integer
+validation. Full JSON/retirement admission precedes the public facet; private
+startup neighbours and their equality hashes are not public explanation data.
+
+A host-installed port selects managed mode before acquisition and supplies one
+bounded private pre-channel snapshot. The supervisor owns its environment
+bindings, not the module or editable launch configuration. Python verifies the
+carrier before configuration-dependent construction and never falls back after
+managed refusal. A thin client uses the existing authenticated P080 edge for
+only the two exact read DTOs and this address; plan/commit/apply remain denied.
+The channel-only consumption resource compares the actual runtime constant with
+the named public resolution before returning the exact private launch receipt.
+Durable host generation allocation/ACK, connected instance observation and
+readiness remain separate. Stop/restart cannot inherit current Active or reuse a
+generation. No read or receipt grants authority or renews TTL.
+
+Sparse reviewed save/reset targets only `config/80-operator.json`, through the
+existing temporal writer. Explicit restart uses existing component controls;
+neither a save nor a historical outcome read restarts or runs a workflow. The
+managed carrier is limited to 16 KiB. Larger/reference carriers and installed
+offline helper distribution remain open. Explicit `legacy-v1` is selected before
+acquisition for non-migrated/standalone paths, never after managed failure.
+The preceding `/arca/workflow` non-Flow contract control is unchanged: this
+startup facet does not implement live definition/run migration.
+
+The staged review, eight named exposure fixtures and candidate-specific final
+client proofs are recorded in
+`node:docs/audits/P091-ARCA-MANAGED-CATALOG-2026-10-23.md` and
+`node:docs/evidence/configuration-contracts/arca-catalog-20261023.json`.
+The final candidate passes Chromium JS/no-JS and actual application WKWebView
+save, separate component restart, new-instance generation 1/2 consumption and
+reset without application. The shared Inquirium driver regression passes those
+three clients on the same images. Intermediate 406, lifecycle observation,
+restart-link and result-query failures retain separate causes and evidence;
+later green results are not their explanation. Private retention has a manifest
+and fresh retrieval check, not an independent-backup claim.
+The owner manual is `node:middleware-modules/arca/docs/managed-configuration.md`.
+P091-005/005a/007/009/010/011/012/013/014 remain partial as whole tasks;
+P091-010a/015, other Python owners, general registry/history, non-Unix and broad
+operator/release gates are not closed by this bounded pilot. The work remains
+on isolated branches without merge.
 
 ### Dependency-ordered slices
 
