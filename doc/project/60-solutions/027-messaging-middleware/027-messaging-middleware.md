@@ -186,6 +186,18 @@ identities with clean contact/transport histories; it is not a new fresh-creatio
 or strict Story-010 run. See
 `node:docs/evidence/messaging-onboarding/2026-10-13-browser/README.md`.
 
+## Portable Verification Material
+
+Apply [P032's bounded inline-evidence guidance](../../40-proposals/032-key-delegation-passports.md#bounded-verification-material-across-artifact-families)
+through the existing [P060 envelope binding](../../40-proposals/060-messaging-middleware.md#3-message-envelopev1-artifact).
+Reuse `signature.key/public`, inline receive-consent passports and applicable
+delegation proofs; reference-only envelopes require exact local evidence or an
+explicit acquisition step. This is not a second credential format. Protect
+contact-nym correlations, retain all receive-authority/freshness checks, and
+distinguish offline signature inspection from authorization and delivery. Existing
+runtime checkpoints do not qualify every offline variant; add bounded
+network-disabled verifier/replay evidence when adopting a profile.
+
 ## Passport Profile
 
 `messaging-receive@v1` is the canonical receive-consent passport profile. The
