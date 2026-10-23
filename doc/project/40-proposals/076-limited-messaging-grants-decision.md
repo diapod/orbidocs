@@ -615,3 +615,9 @@ then use that admitted route. This gate does not claim remote self-service claim
 publication; neither token distribution nor ordinary catalog-provider authority
 is introduced. The retained proof binds claim and control signatures to the
 operator admission.
+
+The HTML/API regression scenarios explicitly negotiate P095's current protected
+HTML representation, retaining session, CSRF, Origin and presentation-context
+checks. This is a server-side contract measurement, not JavaScript execution or
+browser-restoration evidence. Only the separately pinned Chromium scenarios
+establish the browser claims; no representation header grants authority.
