@@ -4491,3 +4491,22 @@ separate exact current-authority approval remain necessary before actual use.
 P096-005 remains partial. No headband, Bluetooth, recovery, target-root transition
 or branch integration occurs. See
 node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R4-R5-2026-10-24.md.
+
+
+### Pinned client for the stopped Discovery 4 to 5 route — 2026-10-24
+
+Node `8499f824` records this preparation and review. Clean Node 3046d1ab / source b9bc971e now has a separately prepared nearby release
+219d532f, signed GUI be1d1560 and handoff daa80e7c containing the supported stopped
+4-to-5 owner. All 294 frozen target software tests pass without skips. Independent
+Git/source review and fresh signed-GUI retrieval verify the frozen artifacts;
+all four existing ordinary packages match the compiled closures without re-signing.
+All 1236 prior file observations and 308 directory identities remain exact, with
+only fifteen new client files/six directories. Private key content is not read.
+
+Discovery remains at operation-retries revision4; no grant renewal, transition,
+controller release, recovery, Bluetooth permission or hardware qualification is
+inferred. The new ad-hoc client has unobserved TCC access. P096-005 stays partial;
+no native operation or branch integration occurs. The initial count-checker
+refusal, corrected preservation check and preparation evidence are retained via
+`PRIMARY_EVIDENCE_STORE` under the private run locator. See
+node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R5-CLIENT-PREPARATION-2026-10-24.md.
