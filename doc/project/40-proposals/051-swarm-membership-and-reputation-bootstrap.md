@@ -1812,6 +1812,24 @@ The earlier bootstrap-first sequence remains useful for onboarding, but the pure
 policy kernel and restriction runtime now let the correction work proceed without
 waiting for a complete wizard, reputation engine or anti-collusion service.
 
+### M4/M5/V3/Q contract checkpoint — 2026-10-23
+
+Node CP0 reserves six maintenance capability names and adds draft grant, closed-run
+plan, retention-hold and v2 report/binding contracts. P066 owns future grants;
+S029 projects ledger-owned work. A separate fifty-case Q profile includes v1
+end-to-end availability and a ten-second full-wall gate, with unchanged CPU/work
+limits. No measured passage, active operator route, authority, S039 delivery or
+shadow runtime is claimed. v1 remains authoritative and all D7 components stay
+false. Historical acceptance and tracker scopes below remain unchanged. See
+node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md.
+
+M4a owner checkpoint (2026-10-23): Node now verifies typed local operator
+authority against P066 grants, exact plans and scoped revocation epochs, and
+refuses Agent maintenance grants/dispatch. Recoverable consent reservation is
+not work acceptance or execution. Ports remain inactive until M4b; this changes
+no tracker closure, v1 enforcement, D7 or runtime qualification. See
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4A-2026-10-23.md.
+
 ### Implementation Tracker
 
 Statuses: `todo`, `partial`, `done`, `deferred`. `done` requires the named evidence
@@ -1832,7 +1850,7 @@ they are not additional blanket completion prerequisites for P051-010–014.
 | P051-003 | Rust case core and durable middleware-hosted service / case domain | done | 002 | Pure responsibility-core and channel_json service with append-only SQLite facts, rebuildable projections, accepted handoff and atomic transition/intents. Ordered outboxes retain accepted narrowing through revocation, prepared evidence is preflighted and typed mirror desync fences later work without claiming success; reasons/listing survive, blocked mutations are explicit. Historical replay/transport and bound receipts have named regressions. Actual outage/restart is qualified; automatic cross-store desync repair/portable backup remain unqualified. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/host-tests.json and report.json. |
 | P051-004 | Targeted restriction and entry-policy integration / host-owned P018-S040 adapter | partial | 001, 003, P018-12, P018-13 | Targeted P018 host application/correction and independent expiry are implemented and locally qualified. A separately qualified admitted procurement subset now consumes the pure evaluator, composing with independent P018 sources. Full entry-policy admission, Agora publication/subscription and operation/value mappings still require P051-001. Evidence: node:docs/evidence/local-accountability/2026-10-14-admitted-entry/passage-4/report.json. No complete P051-004 claim. |
 | P051-005 | Participant notice, case inspection and appeal actions / case service consuming P057-S039 | done | 003 | S039 recipient-bound subject/appeal/handoff notices, direct reasons/acknowledgment/appeal and ParticipantSession UI use the same service. Actual default host signer emits verified domain proofs; UI preserves owner refusal/unavailable status and only bound withdrawal receipts show retracted. A/B/C UI list and exact second-policy reasons remain available with profile disabled, subject removed and policy revoked. CSRF, stale actions, independent acknowledgment/handling, sealed evidence and protected reserves pass; no notification or Room prerequisite. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/report.json. |
-| P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005, 015 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. After the 2026-10-14 checkpoint-B correction, the Node checkpoint has twenty-three procedure tests (also on Rust 1.88), three signed-input tests, a complete public draw golden and an independent framing/PRNG reference for the explicitly experimental `local-panel.tai-fixtures.v1` profile; current normative PL requires ELL2. Panel size (3, 5 or 7), reserves, pool and contributor minima, the proposal limit and phase windows are admitted policy, not the fixed default 3+2. A rejected proposal never implies `Uphold`, each party has one veto for the whole selection with reserves covering every party, and seat capacity is checked before the draw. §10.3 partial redraw is absent, so recusal or inactivity can still block the appeal with a typed supplemental-draw reason. Drawing only among revealing nodes is a recorded profile deviation from §4.4.1. DIA-PANEL-SEL-001 §4.1/§4.3 now define nonce and `reveals` encoding in PL and EN. Eleven canonical draft panel/input/lifecycle contracts and historical COI mirrors have structural Gate coverage. Six case-journal and four host-input conformance tests cover atomic facts, original bytes, independent admission, replay and corruption under the existing storage/write owners. Draft lifecycle V0/V1 adds four set/request/receipt/readiness contracts, required-stay unavailability preserving accepted appeal time, host owner refusals before any write and all-false readiness tied to the current host incarnation. Unavailable-stay UI and procedure-only dispositions have owner/rendering conformance; see node:docs/audits/RESPONSIBILITY-LIFECYCLE-V0-V1-REVIEW-2026-10-14.md. V2 adds inactive version-3 migration preparation: pinned raw history/sequence/digest and incarnation, resumable copy/verify checkpoints, terminal tombstones, typed quarantine and projection rebuild. V1 sources/readers/writers/CAS/receipts remain authoritative and every D7 readiness component remains false. The storage-owner tests are conformance, not runtime suspension qualification; see node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md. The subsequent V2 review withdrew the absence-of-P1/P2 claim: F01 canonical numeric comparison and F06 transaction-local pin/checkpoint replies are corrected; the draft quarantine retains typed scope, stable address, original diagnostic and typed tombstones. Failed deserialization never uses raw operations to narrow. V4s needs exact equality outside the two adopted fail-closed identity classes (invalid-subject, source-key-mismatch), a per-address report and qualified operator alerts; unlisted differences block the switch. F02 admission-gate cost is addressed by the internal WAL worker, rolling roots and bounded CAS commits, with local 500/1000/8192-source conformance/performance evidence only (node:docs/audits/RESPONSIBILITY-LIFECYCLE-F02-2026-10-19.md). M2 adds internal F04 foreign-incarnation history/current-pinning conformance (node:docs/audits/RESPONSIBILITY-MAINTENANCE-M2-2026-10-20.md); F04 public operator/runtime qualification, F05 abandonment/retention and public operator authorization remain open (node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-FINDINGS-2026-10-14.md). V3–V5 composition, writers, cutover and suspension runtime qualification remain open. This is conformance only: the journal and host input lane are internal, while endpoint/channel integration, supplementary orchestration, sealed VRF custody, protected panel UI, lifecycle application and runtime qualification remain open, so this row is not closed. |
+| P051-006 | Independent appeal and repair / case domain | todo | 003, 004, 005, 015 | Policy-bound pool with recusal/randomness evidence and applicable DIA-PANEL-SEL-001 safeguards; no self-review or reuse of original decision makers. Exercise AppealBlocked, explicit effect-stay policy and Council exits without a merits verdict from missing quorum; source-addressed correction survives restart. Agent/Corpus advice cannot decide sanctions. After the 2026-10-14 checkpoint-B correction, the Node checkpoint has twenty-three procedure tests (also on Rust 1.88), three signed-input tests, a complete public draw golden and an independent framing/PRNG reference for the explicitly experimental `local-panel.tai-fixtures.v1` profile; current normative PL requires ELL2. Panel size (3, 5 or 7), reserves, pool and contributor minima, the proposal limit and phase windows are admitted policy, not the fixed default 3+2. A rejected proposal never implies `Uphold`, each party has one veto for the whole selection with reserves covering every party, and seat capacity is checked before the draw. §10.3 partial redraw is absent, so recusal or inactivity can still block the appeal with a typed supplemental-draw reason. Drawing only among revealing nodes is a recorded profile deviation from §4.4.1. DIA-PANEL-SEL-001 §4.1/§4.3 now define nonce and `reveals` encoding in PL and EN. Eleven canonical draft panel/input/lifecycle contracts and historical COI mirrors have structural Gate coverage. Six case-journal and four host-input conformance tests cover atomic facts, original bytes, independent admission, replay and corruption under the existing storage/write owners. Draft lifecycle V0/V1 adds four set/request/receipt/readiness contracts, required-stay unavailability preserving accepted appeal time, host owner refusals before any write and all-false readiness tied to the current host incarnation. Unavailable-stay UI and procedure-only dispositions have owner/rendering conformance; see node:docs/audits/RESPONSIBILITY-LIFECYCLE-V0-V1-REVIEW-2026-10-14.md. V2 adds inactive version-3 migration preparation: pinned raw history/sequence/digest and incarnation, resumable copy/verify checkpoints, terminal tombstones, typed quarantine and projection rebuild. V1 sources/readers/writers/CAS/receipts remain authoritative and every D7 readiness component remains false. The storage-owner tests are conformance, not runtime suspension qualification; see node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md. The subsequent V2 review withdrew the absence-of-P1/P2 claim: F01 canonical numeric comparison and F06 transaction-local pin/checkpoint replies are corrected; the draft quarantine retains typed scope, stable address, original diagnostic and typed tombstones. Failed deserialization never uses raw operations to narrow. V4s needs exact equality outside the two adopted fail-closed identity classes (invalid-subject, source-key-mismatch), a per-address report and qualified operator alerts; unlisted differences block the switch. F02 admission-gate cost is addressed by the internal WAL worker, rolling roots and bounded CAS commits, with local 500/1000/8192-source conformance/performance evidence only (node:docs/audits/RESPONSIBILITY-LIFECYCLE-F02-2026-10-19.md). M2 adds internal F04 foreign-incarnation history/current-pinning conformance (node:docs/audits/RESPONSIBILITY-MAINTENANCE-M2-2026-10-20.md); M3 adds internal F05 abandonment/archival capacity recovery; M4, CP-R and M5 add disabled-by-default operator ownership, retention holds and alerts. The final Q passage now qualifies the separate named local fixture maintenance/shadow matrix (node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md). Authoritative composition, writers, cutover and suspension runtime qualification remain V4/V4s/V5 work. Panel procedure remains conformance only: the journal and host input lane are internal, while endpoint/channel integration, supplementary orchestration, sealed VRF custody, protected panel UI, lifecycle application and runtime qualification remain open, so this row is not closed. |
 | P051-007 | Bounded deadlines, ownership and contamination inputs / domain jobs | todo | 003 | Persist separate review/appeal/effect deadlines; shared S020 Scheduler launches bounded case-service actions through existing dispatch, not a private timer loop; use S029 for deferred individual operations where needed. Host admission enforces current validity. Prove outage with no proactive-notice claim, read-only overdue inspection and idempotent resumed reconciliation. Unavailable owner, dropped notice or failed job never extend a hold or imply guilt. Sweep signals enter review, not direct sanctions. |
 | P051-008 | Local-accountability acceptance / cross-component harness | partial | 004, 005, 006, 007, P018-14 | Node-local v2 report/qualifier qualifies exactly P051-002/003/005 and P018-12/13/14: 18 runtime cases plus two conformance bindings, 713 checks/15 suites and 27 qualifier tests (one positive, 26 negative), source/binary-bound original bytes. Historical v1 and failed review attempts remain immutable. Full acceptance including P051-001/006/007 is open; no historical scope promotion. Evidence: node:docs/evidence/local-accountability/2026-10-10-review/passage-3/qualification.json. |
 | P051-009 | Remote correction acceptance / case Artifact Delivery acceptor | deferred | 008 | Two-host authenticated decision/correction delivery, local admission, duplicate/reorder/restart and unreachable-recipient evidence; bounded P081 causal/replication primitives only where needed, no global sanction propagation. |
@@ -1841,8 +1859,8 @@ they are not additional blanket completion prerequisites for P051-010–014.
 | P051-012 | Repair inspection and participant actions / existing API, UI and S039 | todo | 011, 005 | Existing signed API and ParticipantSession UI expose authorized plan/acceptance/execution/outcome actions, return conditions and manual review with explicit overdue/blocked status. Notices remain minimal and recipient-bound; queueing is not acceptance. Verify mandate/COI checks, stale actions, protected access and cross-case privacy. No new UI-owned state machine. |
 | P051-013 | Scheduled repair outcome reviews / existing domain jobs and S020 | todo | 007, 011, 012 | Extend the shared scheduler-owned bounded jobs, not a private timer. Freshly check action authority and separate repair review from effect expiry. Retain runtime evidence for due review, scheduler/service outage, manual fallback and idempotent resumption; overdue work cannot renew restrictions or infer guilt. A manual-only acceptance report cannot satisfy this gate. |
 | P051-014 | Systemic-repair local acceptance / existing local-accountability harness | todo | 011, 012, P018-14 | Freeze a new explicit report/qualifier profile and run every Systemic-Repair Slice Acceptance case through real service, host, inspection and notice paths, including restart. Bind sources, policy, fixtures and receipts; reject incomplete/substituted evidence and historical-scope promotion. Include N/B/D repair integration regressions when present in the tested baseline; otherwise declare exclusions and required later requalification. Manual review is the first bounded scope; scheduled claims additionally require 013 evidence. No real-subject, federation or social-effectiveness qualification. |
-| P051-015 | Host-state normalization / S028 and existing Responsibility-P018 owners | partial | 003, P018-13 | Normalize projections and shared immutable authority material before panel facts. Preserve exact signed facts, source CAS, receipts and pending work; replay-gate resumable migration. Prove changed-record writes and subject/operation admission costs with a new N runtime report. Three runtime cases and two conformance bindings qualify N passage 4: node:docs/evidence/local-accountability/2026-10-14-normalization/passage-4/report.json. The original N report predates the internal panel-input lane and V2 inactive lifecycle preparation, which require separate qualification; V2 only adds storage-owner conformance with unchanged v1 enforcement (node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md); the A report predates N and cannot close this gate. Early 010 alignment confers no mandate and does not implement repair. |
-| P051-016 | Local maintenance, restore and retention / host and case-store owners | todo | 015, 003, 007 | Separate D scope after A–N–B–C: quiescent encrypted backup, fresh-directory restore with new incarnation, exact-byte reconciliation and retention preserving live appeals, pending outboxes, unfinished reviews and terminal fences. Safe manifests only in evidence; no distributed clone fencing or real-subject qualification. |
+| P051-015 | Host-state normalization / S028 and existing Responsibility-P018 owners | partial | 003, P018-13 | Normalize projections and shared immutable authority material before panel facts. Preserve exact signed facts, source CAS, receipts and pending work; replay-gate resumable migration. Prove changed-record writes and subject/operation admission costs with a new N runtime report. Three runtime cases and two conformance bindings qualify N passage 4: node:docs/evidence/local-accountability/2026-10-14-normalization/passage-4/report.json. The original N report predates the internal panel-input lane and V2 inactive lifecycle preparation, which require separate qualification; V2 only adds storage-owner conformance with unchanged v1 enforcement (node:docs/audits/RESPONSIBILITY-LIFECYCLE-V2-REVIEW-2026-10-14.md); the A report predates N and cannot close this gate. The separate fifty-case maintenance/shadow Q passage qualifies inactive lifecycle preparation, maintenance and observational comparison only (node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md); no authoritative v2 cutover or complete normalization/recovery claim follows. Early 010 alignment confers no mandate and does not implement repair. |
+| P051-016 | Local maintenance, restore and retention / host and case-store owners | partial | 015, 003, 007 | The separate final Q passage qualifies local operator maintenance, source-generation and closed metadata archival/retention, reserved capacity recovery, notices and observational shadow only: node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md. Quiescent encrypted full backup, fresh-directory restore with new incarnation, exact-byte reconciliation of authoritative stores and complete case retention preserving live appeals, pending outboxes, unfinished reviews and terminal fences remain open. Synthetic incarnation inputs do not qualify restore; local point-in-time custody is not replica/backup protection. v1 is authoritative, D7 remains false and rollout is disabled by default. No distributed clone fencing or real-subject qualification. |
 
 2026-10-20 (`P051-006`, F-02 follow-up): the
 [ordinary-regression/pinned-qualification contract](#f-02-ordinary-regression-and-pinned-latency-qualification)
@@ -1898,3 +1916,84 @@ different contracts.
    evidence. Extend P051-008's broader matrix through separate explicit profiles;
    preserve historical reports and keep P051-009 deferred. Neither sequence nor
    reuse merges these acceptance scopes.
+
+
+### M4b closed-run owner checkpoint — 2026-10-23
+
+Node now implements disabled-by-default authenticated local maintenance API/CLI,
+P066 exact-plan reviews and recoverable reservations, immutable domain runs,
+S029 replay and bounded S020 execution. Actual owner/handler conformance covers
+checkpoint recovery and sealed archive/compaction; it does not qualify process/UI
+runtime. The first acknowledged host write uses storage v4. v1 remains authoritative
+and every D7 field remains false. CP-R retention, M5 delivery and final Q remain
+open; no wider tracker closure changes. See
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4B-2026-10-23.md.
+
+
+### CP-R retention owner checkpoint — 2026-10-23
+
+Node adds explicit residency/retrievability facts, finite shadow/child-receipt
+counters and exact verified closed metadata retirement. Approved compact plans
+include specific command tuples and their own closed control history; a narrowly
+approved metadata-only escape handles unallocated work without a source baseline.
+Draft schemas distinguish metadata archives from source-generation indexes.
+Owner conformance preserves original bytes, v1 authority and closed D7. M5 alert
+integration and Q runtime remain open; no wider tracker closure changes. See
+node:docs/development/RESPONSIBILITY-MAINTENANCE-RETENTION-CONTRACT.md and
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-RETENTION-2026-10-23.md.
+
+### M5 recipient-bound alert owner checkpoint — 2026-10-23
+
+Node implements immutable bounded observations/intents, independent reserved control
+facts, S020 delivery and the existing S039 operator inbox with actual signed binding
+checks. General aliases, counts and SSE do not disclose these notices. Exact sealed
+archive/locator readback permits closed metadata reclamation without acknowledgment;
+metadata format 2 preserves historical hold projections. See
+`node:docs/development/RESPONSIBILITY-MAINTENANCE-ALERTS-CONTRACT.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M5-2026-10-23.md`.
+This is local owner conformance, not Q runtime or operator/release readiness.
+v1 remains authoritative, all five D7 fields false and rollout disabled by default.
+P051-010 and P051-016 retain their tracker `todo` status; P051-015 remains
+`partial`. Independent social/federated scopes remain unqualified.
+
+### V3b shadow owner checkpoint — 2026-10-23
+
+Node's closed host bridge performs incremental exact-byte observational comparison
+using the existing history/lane/prepared epoch guard and immutable audit. Warm
+corruption invalidates it; sequence and incarnation jointly determine freshness.
+The candidate measurement port includes actual P066 grants, holds and M5 rather
+than promoting the earlier internal-only F02 results. See
+`node:docs/audits/RESPONSIBILITY-SHADOW-V3B-2026-10-23.md`.
+Owner conformance is not final Q. v1 remains authoritative, all D7 fields false,
+rollout disabled by default and wider P051/P018/recovery/federation scopes open.
+
+
+### Final local maintenance/shadow Q passage — 2026-10-23
+
+The separately bound Q report passes fifty named cases: 30 runtime, ten
+conformance, five performance, two controlled-clock, one ordinary-wall-clock
+smoke and two fixture-bound inputs. It qualifies only the local fixture
+M4/M5/V3 maintenance/shadow paths, not the complete P051-008 matrix. Actual
+operator grants/plan reviews, closed runs, S020 continuation, S039 inbox access,
+archival capacity recovery and observational parity use their existing owners.
+The twelve fixed fsync/F_FULLFSYNC windows pass without observed contamination;
+ordinary/protected v1 command availability has its own runtime observations.
+
+Evidence: `node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+The original report is bound to Node
+`c876f63920ec8846d6ea805ee8a2790699d4518f` and Orbidocs
+`1a04ff0c1b3590ac71cbca438d7f53123acac8b6`; SHA-256 is
+`cfd5128627001f67f468af49531a333d0a33d76110a452113846887d1178b77e`.
+The three retained earlier formal refusals remain unqualified, including the
+foreign-build-contaminated runs. Historical reports and their evidence classes
+are unchanged.
+
+P051-016 becomes partial only for this maintenance/metadata-retention subset;
+portable backup/restore and broader recovery remain open. P051-015 remains partial,
+P051-010 stays todo, P051-006/007 and the full P051-008 remain incomplete, and
+P051-009 stays deferred. P051-002/003/005 and P018-12/13/14 keep their historical
+scopes. v1 remains authoritative, all five D7 components remain false and
+maintenance stays disabled by default. Draft contract maturity, hard-MVP and
+release readiness are unchanged. Synthetic suspension/incarnation and the
+acceptance-feature ordinary-clock smoke qualify no suspension writer, restore,
+independent social judgment or federation.

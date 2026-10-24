@@ -2240,6 +2240,34 @@ These early-stop cases close only the scoped client-budget gate. They are not a
 full-window timing distribution, universal startup bound, BLE or physical
 controller-release qualification, and do not promote DISC-007/P096 native gates.
 
+##### Common discovery admission headroom (2026-10-24)
+
+The prospective common admission policy extends the initial headroom rule to
+new discovery operations requested through API, CLI or UI. An explicitly
+supplied `budgets.deadline/ms` must be at least `budgets.window/ms + 5000` ms
+startup headroom `+ 5000` ms cleanup allowance, inside the unchanged portable
+contract ceilings. Insufficient totals refuse with HTTP 422 and
+`discovery-request-refused` before allocating a deferred operation, claiming a
+resource or starting provider effects. The host never augments caller budgets
+or rewrites signed request bytes. Raw API/CLI clients must supply the complete
+initial total; the existing UI's 20/40 s requests are unchanged.
+
+This supersedes the 2026-10-21 UI-only policy for new admissions, including its
+acceptance of newly submitted legacy 15/35 s totals. It does not reinterpret
+history: exact retries of already accepted requests retain their original
+bytes, handle, expiry and monotonic deadline, subject to current authority and
+retention checks. Status and stop do not add headroom. A changed budget under
+the same idempotency key still refuses. Portable schema/core validation remains
+the historical wire grammar; fresh admission owns the additional requirement.
+
+This is one initial total, not a separate renewable startup clock. Candidate,
+grant, consent, acquisition and protected-stop clocks, the existing bounded
+cleanup lane and worker attachment limits remain unchanged. Historical dated
+reports retain their original claims and sources. This policy does not qualify
+native discovery, hardware release or ordinary product exposure. Implementation
+review and scoped evidence belong to
+`node:docs/audits/SENSORIUM-DISCOVERY-API-CLI-STARTUP-2026-10-24.md`.
+
 ## Implementation Sketch
 
 Phase 0:

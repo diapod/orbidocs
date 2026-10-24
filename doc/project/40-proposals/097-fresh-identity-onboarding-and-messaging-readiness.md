@@ -904,3 +904,41 @@ channel/report repairs are committed at Node `f84a3ef7` / `22b428f8` and Orbidoc
 interrupted before the ten final scenarios. Its original incomplete output is
 retained separately, with no full-candidate or release claim. Resume only after
 explicit continuation, with a fresh complete gate on clean integrated sources.
+
+
+### P076-034 local final qualification (2026-10-24)
+
+Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, one unchanged six-binary set,
+`1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and all ten runtime scenarios.
+Exact signed public proofs qualify identically before/after archive extraction.
+`full_candidate_qualified=true`, `release_ready=false`; synthetic federation, no model/VM.
+See `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md`.
+
+The full sequence carries the focused onboarding, recovery, accepted-only contact
+history, child-consent and organization-custody regressions into the mixed/provider
+gate. A2 binds the exact current offer to its outbox artifact generation.
+
+Explicit contact and INAC decisions remain independent. Delegated beneficiaries,
+delegates and custodians receive no sovereign authority. The separate
+provider substitutes protected dev-mailbox OTP delivery and explicitly
+admits the participant-signed claim through its operator API. Actual
+email/SMS delivery and remote self-service publication are not qualified.
+Historical focused/refused runs retain their original source pins and
+results. P076-036 remains planned; production root activation and release
+readiness remain separate gates.
+The earlier 54-action focus remains a report-contract refusal. This fresh
+complete candidate does not retrospectively repair its reserved-field error
+or promote any earlier refused attempt or focused diagnostic.
+
+### Component preparation follow-up — 2026-10-24
+
+The explicit UI preparation cycle now has a 20-second total budget, including
+local coalescing, a bounded settings read and the existing bounded enable POST.
+The daemon owner waits up to one second for a reconciliation transition, then
+retains its approved-plan/source-CAS checks and idempotent no-op behavior. Two
+independent clients enabling an already-enabled component do not repeat its
+lifecycle. Exhausted busy, stale source and unknown mutation outcomes remain
+explicit refusals; no client blindly replays a write. Six UI and nine real-owner
+tests plus independent review qualify this follow-up, separately from the
+historical P076-034 candidate. Component eligibility still grants no Messaging
+or sovereign authority.

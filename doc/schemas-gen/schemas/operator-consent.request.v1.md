@@ -53,7 +53,48 @@ Source schema: [`doc/schemas/operator-consent.request.v1.schema.json`](../../sch
 | [`ref`](#def-ref) | string |  |
 | [`token`](#def-token) | string |  |
 | [`sha256`](#def-sha256) | string |  |
-| [`scope`](#def-scope) | enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry` |  |
+| [`scope`](#def-scope) | enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry`, `remember-exact-descriptor` |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "options": {
+      "contains": {
+        "properties": {
+          "consent/scope": {
+            "const": "remember-exact-descriptor"
+          }
+        },
+        "required": [
+          "consent/scope"
+        ]
+      }
+    }
+  },
+  "required": [
+    "options"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "descriptor": {
+      "$ref": "responsibility-maintenance-grant.local.v1.schema.json"
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -162,4 +203,4 @@ Adapter-specific redacted consent descriptor. Concrete descriptors are typed by 
 <a id="def-scope"></a>
 ## `$defs.scope`
 
-- Shape: enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry`
+- Shape: enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry`, `remember-exact-descriptor`

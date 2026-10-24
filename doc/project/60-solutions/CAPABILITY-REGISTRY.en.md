@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **225** host-local / **257** total; **37** owner groups.
+Entries: **231** host-local / **263** total; **38** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -180,6 +180,17 @@ have the `federated` surface, shown explicitly below.
 Neither an entry nor `active` status guarantees an installed handler, a running
 endpoint, or caller authorization. Runtime availability, grants, approvals and
 domain policy remain separate checks. Wire names are not endpoint URLs.
+
+### <code>Responsibility host / local operator maintenance</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>responsibility.maintenance.abandon</code> | <code>host/responsibility.maintenance.abandon</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.compact</code> | <code>host/responsibility.maintenance.compact</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.inspect</code> | <code>host/responsibility.maintenance.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.prepare</code> | <code>host/responsibility.maintenance.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.reconcile</code> | <code>host/responsibility.maintenance.reconcile</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.verify</code> | <code>host/responsibility.maintenance.verify</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>Sensorium Interfaces runtime</code>
 

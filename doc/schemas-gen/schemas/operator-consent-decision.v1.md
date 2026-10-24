@@ -51,7 +51,7 @@ Source schema: [`doc/schemas/operator-consent-decision.v1.schema.json`](../../sc
 | [`ref`](#def-ref) | string |  |
 | [`token`](#def-token) | string |  |
 | [`sha256`](#def-sha256) | string |  |
-| [`scope`](#def-scope) | enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry` |  |
+| [`scope`](#def-scope) | enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry`, `remember-exact-descriptor` |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -146,4 +146,4 @@ Source schema: [`doc/schemas/operator-consent-decision.v1.schema.json`](../../sc
 <a id="def-scope"></a>
 ## `$defs.scope`
 
-- Shape: enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry`
+- Shape: enum: `deny`, `allow-once`, `remember-exact-argv`, `remember-argv-prefix`, `remember-action-catalog-entry`, `remember-exact-descriptor`

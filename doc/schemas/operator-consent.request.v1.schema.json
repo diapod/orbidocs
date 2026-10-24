@@ -60,12 +60,43 @@
         "allow-once",
         "remember-exact-argv",
         "remember-argv-prefix",
-        "remember-action-catalog-entry"
+        "remember-action-catalog-entry",
+        "remember-exact-descriptor"
       ]
     }
   },
   "x-dia-basis": [
     "doc/project/40-proposals/071-sensorium-workbench.md",
     "doc/project/40-proposals/048-sensorium-os-connector-action-classes.md"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "options": {
+            "contains": {
+              "properties": {
+                "consent/scope": {
+                  "const": "remember-exact-descriptor"
+                }
+              },
+              "required": [
+                "consent/scope"
+              ]
+            }
+          }
+        },
+        "required": [
+          "options"
+        ]
+      },
+      "then": {
+        "properties": {
+          "descriptor": {
+            "$ref": "responsibility-maintenance-grant.local.v1.schema.json"
+          }
+        }
+      }
+    }
   ]
 }

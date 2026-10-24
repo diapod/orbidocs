@@ -86,7 +86,10 @@ issuance authority nor a bypass of contact-control proof.
 
 Status/debug and middleware lifecycle endpoints MUST always require their
 respective operator tokens, including when no token is configured. An absent
-authentication configuration fails closed. Health/readiness probes remain public.
+authentication configuration fails closed. Startup MUST refuse missing, invalid,
+empty or unreadable lifecycle and client/status token configuration before state
+creation, listener binding or publication. Client/status auth remains configured
+even when challenge/redeem is public. Health/readiness probes remain public.
 Public challenge responses MUST NOT contain the delivered code or a debug link
 carrying it. The local dev adapter may retain that information only behind the
 authenticated operator status surface; reading it is a substituted delivery
@@ -100,6 +103,45 @@ policy: the service refuses that configuration before creating challenge state.
 No provider token is distributed to participant nodes. This access decision was
 adopted for P076-034 on 2026-10-23; the proposal's remaining production delivery
 and federation qualification scope is unchanged.
+
+### Bounded admission and retention (2026-10-24)
+
+Public create/redeem MUST be bounded by a global pending-challenge limit, a
+rate limit for the accepted remote TCP address and a durable daily attempt
+budget per delivery adapter. Caller-declared subjects and forwarded-address
+headers do not establish source identity. A proxy-specific trust policy would
+be a separate decision. The source bucket map itself has bounded capacity and
+idle retention; it refuses new sources when full instead of resetting active
+depleted buckets through eviction.
+
+The existing SQLite write transaction reserves pending admission and adapter
+budget before the external effect. Delivery budgets also apply in private mode.
+An unknown or failed delivery reply MUST NOT automatically refund an attempt;
+SMTP/SMS may have produced a billable effect. Budget state survives restart and
+its UTC high-water mark survives pruning. Clock rollback cannot reopen spent
+windows. Admission refusal invokes no delivery adapter.
+
+The host client and original payload are checked before redemption reservation;
+expiry is part of its CAS. A proven pre-effect refusal is `redemption-not-attempted`.
+After reservation the outcome stays conservatively unknown on transport,
+validation or persistence failure, including a crash before actual dispatch.
+Neither restart nor the dev `always_accept` error path may erase that consumption.
+
+Bounded write-side cleanup replaces expired challenge/target/request/dev OTP data
+with redacted terminal tombstones atomically. Unknown-redemption status includes
+these tombstones; reads do not perform cleanup. Audit and tombstone retention is
+separate from pending quota. Implementation defaults and startup instructions
+live in `node:attestation-service/README.md`.
+
+| Follow-up | Status | Evidence boundary |
+| :--- | :--- | :--- |
+| F-02 global/source/adapter budgets and retention | done | Focused concurrency, reopen, UTC/rollback, lost delivery reply and cleanup tests; no real SMTP/SMS or production exposure qualification |
+| F-03 redemption preflight and expiry CAS | done | Known non-attempt stays unconsumed; a real fixture host's lost reply remains single-use after reopen |
+| F-04 fail-fast token configuration | done | Configuration refuses before bind; public create/redeem cannot access lifecycle or status |
+
+These changes retain the historical synthetic P076-034 evidence with its original
+source pins. The combined focused suite passes 28 tests; it does not enlarge that
+candidate's measured scope or establish production readiness.
 
 ### Local acceptance mode
 

@@ -1,0 +1,77 @@
+{
+  "schema": "responsibility-maintenance-plan.local.v1",
+  "command/id": "fixture:metadata-retirement",
+  "kind": "compact",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "operator/binding": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "grant": {
+    "id": "fixture:binding",
+    "revision": 1,
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "generation": null,
+  "initial/head": null,
+  "source/boundary": {
+    "sequence": 44,
+    "history/epoch": 1,
+    "history/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sources/revision": 2,
+    "sources/digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "projector/digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "verify/mode": null,
+  "target": "metadata-compacted",
+  "deadline/at": "2026-10-23T08:30:00Z",
+  "budget": {
+    "rows": 8192,
+    "steps": 1024,
+    "attempts-per-step": 8,
+    "batch-rows": 100
+  },
+  "storage/transition": "3-to-4",
+  "compatibility": {
+    "from/storage-version": 3,
+    "to/storage-version": 4,
+    "one-way": true,
+    "supported-binary/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "recovery-procedure": {
+      "id": "fixture:binding",
+      "revision": 1,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "acknowledgment": {
+      "id": "fixture:binding",
+      "revision": 1,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  },
+  "maintenance/scope": "closed-metadata",
+  "retention": {
+    "kind": "closed-maintenance-metadata",
+    "commands": [
+      {
+        "id": "fixture:closed-operation",
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "revision": 5
+      }
+    ],
+    "self/retire": true
+  }
+}

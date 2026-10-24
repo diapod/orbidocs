@@ -1,27 +1,34 @@
-# S040: inactive maintenance and shadow composition contracts
+# S040: safe maintenance and observational lifecycle composition
 
-Status: accepted local design, draft contracts; M0 offline and M1/M2/M3 internal-owner
-conformance only, without operator/runtime qualification.
-Date: 2026-10-21.
+Status: accepted local design and draft contracts. M0–M3, M4 operator ownership,
+CP-R retention, M5 alerts and V3a/V3b shadow owners have scoped conformance.
+Final Q qualifies the named fifty-case local fixture maintenance/shadow matrix;
+broader lifecycle and recovery remain open.
+Date: 2026-10-23.
 Based on: P051 sections 25–27 and its early P051-010 alignment, P018, P072/S037,
 S028 and S039. This page does not amend normative rights or grant operator power.
 
 ## Executive summary
 
-The bounded maintenance protocol now has M3 internal abandonment and archival
-recovery mechanics; operator APIs and shadow composition remain later stages. v1 remains authoritative for
-admission, scoring, diagnostics, writers, CAS and receipts. D7 stays closed in
-every component. M0 provides contracts and offline validation, no new runtime
-qualification. M2/M3 cover internal incarnation/capacity boundaries only;
-P051-010, F-04/F-05 operator qualification and the wider P051-015/016 remain open.
+The bounded maintenance protocol now has disabled-by-default local operator
+API/CLI ownership through P066, S029 and S020, verified metadata archival and
+retention holds, recipient-bound S039 alerts, and bounded observational shadow
+comparison. The separate final Q report qualifies these named local fixture paths
+and their runtime/I/O predicates, with evidence classes kept distinct. v1 remains
+authoritative for admission,
+scoring, diagnostics, writers, CAS and receipts. All five D7 components remain
+false. Wider P051-010/015/016, lifecycle cutover, portable backup/restore and
+real-participant use remain unqualified. See
+`node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+The dated checkpoints below retain their original evidence scope.
 
 ## Context and problem statement
 
 At the planning baseline, the F-02 worker removed replay/conversion from admission
 but continuous v1 writes could invalidate its coarse CAS. The M1 checkpoint below
 addresses that internal progress defect. M2 separates foreign generations from
-current-incarnation preparation; exhausted budgets still lack capacity escape
-paths. A maintenance protocol must preserve
+current-incarnation preparation; M3 subsequently adds reserved abandonment and
+verified archival capacity escape. A maintenance protocol must preserve
 source-local consequences and participant rights while leaving room for later
 repair reviews. Incidental SQLite/storage behavior must not become procedural
 authority or a finding of participant guilt.
@@ -236,17 +243,152 @@ No generic superset relation can replace exact v1/v2 composition comparison.
 
 M0 design choices are frozen as draft. M1's internal owner mechanics have scoped
 conformance/performance, and M2 has internal incarnation/history conformance.
-M3 has internal capacity-owner conformance; M4/M5, V3 and Q implementation/runtime qualification remain open. General repair
-contracts under P051-010 and portable
+M3 has internal capacity-owner conformance. M4, CP-R, M5 and V3a/V3b are
+implemented with scoped owner conformance and the separately qualified final Q
+local fixture matrix below. General repair contracts under P051-010 and portable
 backup/restore remain separate. A private `PRIMARY_EVIDENCE_STORE` configuration
-may select future capture storage but is neither a public path nor accountable
-external retention without the owner/retrieval/commitment policy in
+selects capture storage but is neither a public path nor accountable external
+retention without the owner/retrieval/commitment policy in
 `node:docs/evidence/RETENTION.md`.
 
 ## Next actions
 
-Implement M4 next. Register no maintenance capability or route before
-capacity recovery and M4 authorization gates; qualify delivery under M5 and shadow
-composition under V3/Q. The Node report profile freezes 37 **future** cases in
-six evidence classes; fixtures and offline checks are not completed runtime cases.
-Keep P051-006/007/008/015/016 incomplete, P051-009 deferred and hard-MVP unchanged.
+Preserve the exact final Q report, original failures and external custody proof;
+requalify when the named source/profile or execution owners change. The historical
+M0 checker stays contract-only. Development and owner fixtures do not inherit Q
+runtime status. Six registered host-local maintenance operations remain behind
+the disabled rollout gate and require exact current operator authority.
+
+Implement and qualify authoritative v2 readers, every writer and receipt before
+V4/V4s cutover, then assess whole-path D7 readiness through V5. Portable encrypted
+backup/restore and general case-store retention need separate evidence.
+P051-015/016 remain partial, P051-010 stays todo, P051-006/007/008 remain incomplete,
+P051-009 stays deferred, and hard-MVP/release readiness are unchanged.
+
+## M4/M5/V3/Q contract checkpoint — 2026-10-23
+
+The accepted Node execution revision 2 is
+node:docs/development/RESPONSIBILITY-MAINTENANCE-SHADOW-EXECUTION-2026-10-23.md.
+CP0 reserves six host-local capability identifiers; it adds no active policy,
+route, operator authority or runtime qualification. P066 owns exact-descriptor
+grants and recoverable allow-once plan reservations; the maintenance ledger
+owns work and S029 projects it. Scoped memory epochs replace registry I/O under
+admission. Shared operator:default inbox delivery/access binds a verified operator,
+not a guessed default identity. Maintenance-only retention holds can be satisfied
+by verified archives without notification acknowledgment.
+
+Five draft canonical/mirrored contracts add grant, closed-run plan, hold and v2
+bindings/report shapes. The new fifty-case profile preserves historical M0's
+37-case conformance scope. A new full-wall limit of less than ten seconds is
+conditional on host authorization below twelve and full v1 commands below fourteen
+seconds within the existing fifteen-second route. CPU/non-COMMIT guards stay below
+one second. These are new qualification gates, not passing measurements.
+Historical one-second reports are immutable. v1 remains authoritative and all D7
+components stay false; wider P051 and operator/runtime/release gates remain open.
+
+### Pure V3a checkpoint — 2026-10-23
+
+Node now provides read-only exact-instant lifecycle/quarantine composition, after
+a separate semantics-preserving v1 kernel extraction. Frozen-v1 differential and
+independent lifecycle arithmetic tests cover suspension, original expiry,
+terminal withdrawal and scoped quarantine. This is core conformance: daemon
+admission, scoring, writers and receipts still use v1. D7 remains closed; host
+shadow reads, operator delivery and Q qualification are not complete.
+
+### Preliminary I/O preparation — 2026-10-23
+
+Node adds FIFO admission around the existing host mutex, preserving queued v1
+service and maintenance progress. Live authority/governor time is read after the
+wait; explicit as-of diagnostics remain separate. The existing channel deadline
+reaches the Responsibility handler and clamps its authorization call to twelve
+seconds with a three-second route reserve. SQLite durability and v1 writers are
+unchanged. The new preliminary profile passes twelve fixed internal-owner cost
+matrices (fsync/F_FULLFSYNC); historical one-second results remain immutable.
+Actual end-to-end v1 availability, M4/M5 delivery and final Q remain unqualified.
+See `node:docs/evidence/local-accountability/2026-10-23-maintenance-io-pre/README.md`.
+
+### Inactive M4a authority owner — 2026-10-23
+
+Node adds P066's narrow `remember-exact-descriptor` scope, exact allow-once
+reservation recovery and typed operator/binding/grant witnesses. Scoped epochs
+cover revocation and binding changes without owner I/O under admission. Agent
+spawn/bind/proposal/dispatch refuses maintenance even with a mistaken grant;
+its catalog hides those identifiers. This is inactive owner conformance, not
+public grant admission, M5 delivery or Q runtime qualification. Existing consent
+preimages remain unchanged; unsupported scope readers refuse the new enum.
+v1 remains authoritative and all D7 components stay false. See
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4A-2026-10-23.md`.
+
+
+### M4b closed-run owner checkpoint — 2026-10-23
+
+Node now implements disabled-by-default authenticated local maintenance API/CLI,
+P066 exact-plan reviews and recoverable reservations, immutable domain runs,
+S029 replay and bounded S020 execution. Actual owner/handler conformance covers
+checkpoint recovery and sealed archive/compaction; it does not qualify process/UI
+runtime. The first acknowledged host write uses storage v4. v1 remains authoritative
+and every D7 field remains false. CP-R retention, M5 delivery and final Q remain
+open; no wider tracker closure changes. See
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-M4B-2026-10-23.md.
+
+
+### CP-R retention owner checkpoint — 2026-10-23
+
+Node adds explicit residency/retrievability facts, finite shadow/child-receipt
+counters and exact verified closed metadata retirement. Approved compact plans
+include specific command tuples and their own closed control history; a narrowly
+approved metadata-only escape handles unallocated work without a source baseline.
+Draft schemas distinguish metadata archives from source-generation indexes.
+Owner conformance preserves original bytes, v1 authority and closed D7. M5 alert
+integration and Q runtime remain open; no wider tracker closure changes. See
+node:docs/development/RESPONSIBILITY-MAINTENANCE-RETENTION-CONTRACT.md and
+node:docs/audits/RESPONSIBILITY-MAINTENANCE-RETENTION-2026-10-23.md.
+
+### M5 recipient-bound alert owner checkpoint — 2026-10-23
+
+Node implements immutable bounded observations/intents, independent reserved control
+facts, S020 delivery and the existing S039 operator inbox with actual signed binding
+checks. General aliases, counts and SSE do not disclose these notices. Exact sealed
+archive/locator readback permits closed metadata reclamation without acknowledgment;
+metadata format 2 preserves historical hold projections. See
+`node:docs/development/RESPONSIBILITY-MAINTENANCE-ALERTS-CONTRACT.md` and
+`node:docs/audits/RESPONSIBILITY-MAINTENANCE-M5-2026-10-23.md`.
+This is local owner conformance, not Q runtime or operator/release readiness.
+v1 remains authoritative, all five D7 fields false and rollout disabled by default.
+P051-010 and P051-016 retain their tracker `todo` status; P051-015 remains
+`partial`. Independent social/federated scopes remain unqualified.
+
+### V3b shadow owner checkpoint — 2026-10-23
+
+Node's closed host bridge performs incremental exact-byte observational comparison
+using the existing history/lane/prepared epoch guard and immutable audit. Warm
+corruption invalidates it; sequence and incarnation jointly determine freshness.
+The candidate measurement port includes actual P066 grants, holds and M5 rather
+than promoting the earlier internal-only F02 results. See
+`node:docs/audits/RESPONSIBILITY-SHADOW-V3B-2026-10-23.md`.
+Owner conformance is not final Q. v1 remains authoritative, all D7 fields false,
+rollout disabled by default and wider P051/P018/recovery/federation scopes open.
+
+
+### Final Q local fixture qualification — 2026-10-23
+
+The source-bound final passage qualifies fifty explicitly classified cases:
+30 runtime, ten conformance, five performance, two controlled-clock, one
+production-wall-clock smoke and two fixture-bound inputs. Actual daemon,
+channel_json service and Node UI paths exercise operator authority, closed runs,
+retention recovery, recipient-bound notices and observational shadow comparison.
+Twelve fixed fsync/F_FULLFSYNC cost windows pass without observed contamination;
+ordinary/protected v1 availability is a separate runtime predicate.
+
+Evidence: `node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+The original report digest is
+`sha256:cfd5128627001f67f468af49531a333d0a33d76110a452113846887d1178b77e`.
+The retained three prior formal refusals qualify no cases, including the two
+foreign-build-contaminated attempts. The final passage does not replace those
+bytes or the historical one-second profiles.
+
+Synthetic suspension/incarnation inputs do not qualify suspension writers or
+restore. The ordinary clock provider is exercised in the explicit acceptance
+consumer image, not a default/release binary. Custody is local point-in-time
+retrieval, not independent replica protection or backup. v1 remains authoritative,
+every D7 field stays false, draft maturity and disabled rollout are unchanged.

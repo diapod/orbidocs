@@ -49,7 +49,8 @@
         "allow-once",
         "remember-exact-argv",
         "remember-argv-prefix",
-        "remember-action-catalog-entry"
+        "remember-action-catalog-entry",
+        "remember-exact-descriptor"
       ]
     }
   },

@@ -1,0 +1,27 @@
+{
+  "schema": "responsibility-maintenance-retention-hold.local.v1",
+  "hold/id": "fixture:hold",
+  "host/id": "fixture:host",
+  "host/incarnation": "fixture:incarnation",
+  "generation": 1,
+  "holder/kind": "alert",
+  "holder/ref": "fixture:alert",
+  "target/digest": "/not-an-evidence-address",
+  "requirement": "retrievable-evidence",
+  "action": "acquire",
+  "predecessor/digest": null,
+  "reason/ref": "fixture:pending-alert",
+  "recorded-at": "2026-10-23T08:05:00Z",
+  "safety": {
+    "authority": "v1",
+    "d7": {
+      "storage": false,
+      "composition": false,
+      "writers": false,
+      "replay": false,
+      "receipts": false
+    },
+    "participant-effects": false,
+    "cutover": false
+  }
+}

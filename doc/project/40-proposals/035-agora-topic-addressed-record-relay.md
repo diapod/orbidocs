@@ -1681,6 +1681,24 @@ storage controls pass. See
 `node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-identity-review/README.md`.
 No rebuilt-daemon TCC refusal or full eleven-case renewal is inferred.
 
+### P035-014 deadline containment follow-up (2026-10-24)
+
+The integration review preserves the already adopted stable-media/OS-access,
+overdue-coverage and informational-maintenance corrections above. It additionally
+charges one monotonic deadline across the optional Python SDK ingress, worker
+queue, validation, controller preparation and child cleanup. A second topology
+worker cannot restart the spent budget; missing time records unknown. The generic
+host refuses submillisecond budget exhaustion before dispatch. Bounded channel
+response saturation retires the session without blocking teardown or replaying
+an effect. S020 owns these generic deadline/failure boundaries.
+
+Conformance and merged-tree regression are recorded in
+`node:docs/audits/RESPONSIBILITY-PRIMARY-INTEGRATION-2026-10-24.md`; they do not
+renew the original eleven-case supervision proof or its separate identity delta.
+P035-014 keeps its completed optional session-bound scope; actual cable moves,
+rebuilt-daemon OS permission, full fresh release verification and continuous
+supervision remain separate.
+
 ### P035-012 review boundaries and P035-014 follow-up (2026-10-20)
 
 The adopted mirror protection is a point-in-time observation. There is no

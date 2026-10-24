@@ -1169,3 +1169,17 @@ still needs an independently admitted current root and fresh status. No new
 trust anchor, longer lease or general offline-delivery guarantee is introduced.
 Its task and acceptance are owned by the limited-grant decision, independently
 of P076-034; this is planned work, not an extension of existing qualification.
+
+
+## Local limited-Messaging final gate (2026-10-24)
+
+Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, one unchanged six-binary set,
+`1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and all ten runtime scenarios.
+Exact signed public proofs qualify identically before/after archive extraction.
+`full_candidate_qualified=true`, `release_ready=false`; synthetic federation, no model/VM.
+See [the limited-Messaging decision](076-limited-messaging-grants-decision.md#p076-034-local-final-qualification-2026-10-24)
+and `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md`. The fresh mixed/provider gate includes explicit participant
+and organization issuance custody, with ordinary beneficiaries, delegates and
+custodians remaining outside the sovereign roster. The dated 2026-10-23 custody
+checkpoint retains its original scope. Production root activation and wider
+P076/release completion are separate; P076-036 remains planned.

@@ -536,3 +536,21 @@ is retained without inventing a node-authored withdrawal. Fourteen signed-public
 proof files requalify identically before/after extraction; the final offline pack
 is 131/131. P076-034, its extra A2 cohort diagnosis, and release readiness remain
 open. Historical participant-issuer and individual-withdrawal gates keep scope.
+
+
+### Full Messaging/INAC local checkpoint (2026-10-24)
+
+Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, one unchanged six-binary set,
+`1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and all ten runtime scenarios.
+Exact signed public proofs qualify identically before/after archive extraction.
+`full_candidate_qualified=true`, `release_ready=false`; synthetic federation, no model/VM.
+See `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md` and the
+[owning decision](../../40-proposals/076-limited-messaging-grants-decision.md#p076-034-local-final-qualification-2026-10-24).
+On the delegated path, explicit INAC acceptance creates a one-use invitation
+bound to the exact peer and contact-request artifact. A separate explicit contact
+decision issues scoped receive consent; neither authorization becomes a standing
+peer allowlist. The
+full sequence carries participant/org authority, withdrawal and mixed/provider
+regressions together, with exact public proof correlation. Historical focused
+measurements keep their scopes. This does not promote wider S017 completion or
+production/release readiness; P076-036 offline presentation remains planned.

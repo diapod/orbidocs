@@ -297,6 +297,19 @@ and protected stop, and repairs Poll/Stop main-fragment replacement. This is
 scoped software/UI evidence, not native provider admission or physical release.
 See [the P045 qualification boundary](../../40-proposals/045-sensorium-local-enaction-stratum.md#scoped-browser-and-actual-webview-budget-qualification-2026-10-21).
 
+Current private discovery admission policy (2026-10-24) requires new API, CLI
+and UI requests to supply one total of at least the observation window plus
+5 s startup headroom and 5 s cleanup allowance. Insufficient explicit totals
+refuse before deferred-operation allocation, resource claim or provider effects;
+caller and signed bytes are never augmented. Exact already-accepted legacy
+retries, status and stop retain their original bytes and clocks, with current
+authority checks. The UI's existing 20/40 s requests and portable schema/core
+wire grammar remain unchanged. This prospectively extends the earlier UI-only
+policy; it does not renew authority, candidate TTL or cleanup, nor qualify
+native provider admission or hardware release. See the
+[P045 common admission decision](../../40-proposals/045-sensorium-local-enaction-stratum.md#common-discovery-admission-headroom-2026-10-24)
+and `node:docs/audits/SENSORIUM-DISCOVERY-API-CLI-STARTUP-2026-10-24.md`.
+
 ### Local Agora Observation Publication
 
 Based on:

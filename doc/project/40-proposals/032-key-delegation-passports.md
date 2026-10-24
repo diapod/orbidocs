@@ -43,6 +43,14 @@ policies from the active root; neither root-signing custody nor a signing proxy
 substitutes for that issuance authority. The focused organization gate is
 qualified separately from P076-034's final mixed candidate.
 
+P076-034 local final qualification (2026-10-24) is recorded in the
+[limited-Messaging decision](076-limited-messaging-grants-decision.md#p076-034-local-final-qualification-2026-10-24)
+and `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md`: clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`,
+`1559 conformance plus 188 original capsule executions`, one six-binary set and the complete ten-scenario runtime.
+Signed public proofs qualify identically before/after extraction. This measures
+the bounded Messaging issuance edge; it does not qualify all P032 use cases,
+production root activation or release readiness. P076-036 remains planned.
+
 ## Problem
 
 The current architecture couples three concerns in a single key:

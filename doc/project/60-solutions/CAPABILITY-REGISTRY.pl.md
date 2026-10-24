@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **225** host-local / **257** ogółem; grupy właścicieli: **37**.
+Wpisy: **231** host-local / **263** ogółem; grupy właścicieli: **38**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -182,6 +182,17 @@ Wpis może mieć również powierzchnię `federated`, pokazaną jawnie w tabeli.
 Ani obecność wpisu, ani status `active` nie gwarantują zainstalowanego handlera,
 działającego endpointu lub uprawnienia wywołującego. Dostępność runtime, granty,
 zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są URL-ami endpointów.
+
+### <code>Responsibility host / local operator maintenance</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>responsibility.maintenance.abandon</code> | <code>host/responsibility.maintenance.abandon</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.compact</code> | <code>host/responsibility.maintenance.compact</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.inspect</code> | <code>host/responsibility.maintenance.inspect</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.prepare</code> | <code>host/responsibility.maintenance.prepare</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.reconcile</code> | <code>host/responsibility.maintenance.reconcile</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>responsibility.maintenance.verify</code> | <code>host/responsibility.maintenance.verify</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>Sensorium Interfaces runtime</code>
 

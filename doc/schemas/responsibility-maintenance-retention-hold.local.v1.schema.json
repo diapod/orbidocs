@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-retention-hold.local:v1",
+  "title": "responsibility-maintenance-retention-hold.local.v1",
+  "description": "Draft local maintenance contract. Shape validation grants no authority and does not open D7.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-maintenance-retention-hold.local.v1"
+    },
+    "hold/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/incarnation": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "generation": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "holder/kind": {
+      "enum": [
+        "operation",
+        "alert",
+        "report"
+      ]
+    },
+    "holder/ref": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "target/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "requirement": {
+      "enum": [
+        "resident",
+        "retrievable-evidence"
+      ]
+    },
+    "action": {
+      "enum": [
+        "acquire",
+        "release"
+      ]
+    },
+    "predecessor/digest": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reason/ref": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "recorded-at": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Time"
+    },
+    "safety": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    },
+    "generation/status": {
+      "enum": [
+        "pinned",
+        "unallocated"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "hold/id",
+    "host/id",
+    "host/incarnation",
+    "generation",
+    "holder/kind",
+    "holder/ref",
+    "target/digest",
+    "requirement",
+    "action",
+    "predecessor/digest",
+    "reason/ref",
+    "recorded-at",
+    "safety"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "generation": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "generation/status"
+        ],
+        "properties": {
+          "generation/status": {
+            "const": "unallocated"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "generation/status": {
+            "const": "pinned"
+          }
+        }
+      }
+    }
+  ]
+}

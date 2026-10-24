@@ -1,0 +1,48 @@
+{
+  "schema": "operator-consent.request.v1",
+  "operation/ref": "fixture:maintenance-grant",
+  "capability/id": "responsibility.maintenance.prepare",
+  "source/component": "responsibility-maintenance",
+  "requested/by": "operator",
+  "requester/ref": "fixture:binding",
+  "operation/digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "descriptor": {
+    "schema": "unrecognized-grant.v1",
+    "host/id": "fixture:host",
+    "host/incarnation": "fixture:incarnation",
+    "operator/binding": {
+      "id": "fixture:binding",
+      "revision": 1,
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "capability/id": "responsibility.maintenance.prepare",
+    "grant/id": "grant/responsibility.maintenance.prepare",
+    "revision": 1,
+    "issued-at": "2026-10-23T08:00:00Z",
+    "expires-at": "2026-10-23T09:00:00Z",
+    "safety": {
+      "authority": "v1",
+      "d7": {
+        "storage": false,
+        "composition": false,
+        "writers": false,
+        "replay": false,
+        "receipts": false
+      },
+      "participant-effects": false,
+      "cutover": false
+    }
+  },
+  "options": [
+    {
+      "consent/scope": "deny",
+      "label": "Deny"
+    },
+    {
+      "consent/scope": "remember-exact-descriptor",
+      "label": "Grant this exact maintenance capability"
+    }
+  ],
+  "default/on-timeout": "deny",
+  "expires/at": "2026-10-23T09:00:00Z"
+}

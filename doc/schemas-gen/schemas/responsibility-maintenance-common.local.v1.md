@@ -53,6 +53,7 @@ Draft M0 definitions only. None of these values is authenticated by shape valida
 | [`Report`](#def-report) | object |  |
 | [`ArchiveIndexEntry`](#def-archiveindexentry) | object |  |
 | [`ArchiveIndex`](#def-archiveindex) | object |  |
+| [`MaintenanceArchiveContext`](#def-maintenancearchivecontext) | object |  |
 ## Field Semantics
 
 ## Definition Semantics
@@ -184,5 +185,10 @@ Draft M0 definitions only. None of these values is authenticated by shape valida
 
 <a id="def-archiveindex"></a>
 ## `$defs.ArchiveIndex`
+
+- Shape: object
+
+<a id="def-maintenancearchivecontext"></a>
+## `$defs.MaintenanceArchiveContext`
 
 - Shape: object

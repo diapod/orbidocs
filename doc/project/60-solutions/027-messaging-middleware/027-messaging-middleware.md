@@ -672,3 +672,12 @@ refused and accepted-only history remains visible. No model or VM ran.
 This is a separate measurement from historical P076-032/007/008, whose individual
 withdrawal was API-only. P076-033 and P076-034 remain open; the focused result
 reports `full_candidate_qualified=false` and `release_ready=false`.
+
+
+### Final limited-Messaging qualification (2026-10-24)
+
+P076-034 locally qualifies the complete ten-scenario mixed/provider candidate.
+See [the implementation checkpoint](027-messaging-middleware-impl.md#p076-034-local-final-qualification-2026-10-24)
+and `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md` for exact sources, binaries, counts, public proofs and provider
+substitutions. Historical focused runs keep scope; P076-036 and production/release
+readiness remain separate gates.

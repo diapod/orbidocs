@@ -757,6 +757,23 @@ storage owns topology/integrity and the release owner still requires a complete
 fresh candidate-bound read. An absent or overdue job cannot report protection as
 healthy. No job or notification delivery is installed or qualified by this entry.
 
+## Responsibility maintenance consumer — 2026-10-23
+
+M4/M5 now reuse the host-owned S020 action path for bounded maintenance continuation
+and recipient-bound alert delivery. The maintenance ledger owns admitted commands,
+original deadlines, attempts, budgets, stop requests and outcomes; S029 is its
+rebuildable deferred read model. The scheduler launches bounded owner work and
+does not become a maintenance authority, retention owner or case-procedure timer.
+
+These adapters have scoped owner conformance; a separate final Q passage now
+qualifies its named local continuation, outage/restart, delivery and v1-availability
+cases. This entry does not close P051-007 case deadlines or P051-013 repair reviews.
+Maintenance remains disabled by default, v1 remains authoritative and all D7
+components remain false. See
+`node:docs/evidence/local-accountability/2026-10-23-maintenance-shadow/passage-1/README.md`.
+Synthetic clock/incarnation inputs and the maintenance consumer do not qualify
+case-procedure scheduling, portable restore or release readiness.
+
 ## Related Capability Data
 
 - `020-scheduler-caps.edn`
@@ -834,3 +851,27 @@ host adapter with portable native media, OS-access baseline mismatch/S039 and
 restart. It does not renew the full periodic/rotation profile; the original
 proof remains historical. Review evidence:
 `node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-identity-review/README.md`.
+
+### Local deadline and channel-containment follow-up — 2026-10-24
+
+The generic adapter refuses a remaining interval below one representable wire
+millisecond as `DeadlineExceeded` before schema admission or dispatch; it does
+not round up time or classify this as invalid operator configuration. The
+Python channel SDK has an explicit optional deadline-aware handler port. It
+converts the original frame deadline once before worker queueing, preserves the
+original payload and rechecks that same monotonic cut before invocation. Legacy
+handler signatures and normal scheduler budgets remain unchanged.
+
+The evidence-supervision consumer bounds its immutable launch deadline by both
+that ingress cut and the request's remaining budget. Validation, queueing,
+preparation, child startup, native work and cleanup spend that interval; another
+worker cannot receive a renewed slot. A store not observed within the slot stays
+unknown. The Rust channel's full response queue retires the existing session
+instead of blocking teardown; a lost response is an unknown outcome, never an
+automatic replay or evidence that a domain effect was rolled back.
+
+Regression results belong to
+`node:docs/audits/RESPONSIBILITY-PRIMARY-INTEGRATION-2026-10-24.md`.
+These are implementation/integration checks, not renewal of P035-014's historical
+session-bound runtime proof or Responsibility Q, and they do not qualify release
+readiness, native OS preemption or off-session supervision.

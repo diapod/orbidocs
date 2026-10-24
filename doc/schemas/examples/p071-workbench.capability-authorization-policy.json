@@ -120,6 +120,72 @@
       "autonomy/floor": "proposed-effect",
       "coi/policy": "operator-review-required",
       "notes": "Durable Sensorium OS action-catalog deltas require explicit operator consent and remain constrained by the action class, catalog validator, and host policy."
+    },
+    {
+      "capability/id": "responsibility.maintenance.inspect",
+      "required/grants": [
+        "grant/responsibility.maintenance.inspect"
+      ],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "read-only",
+      "coi/policy": "operator-review-required",
+      "notes": "Only the dedicated authenticated primary-operator boundary can execute. P066 remembers one exact descriptor; Agents and modules are refused even with this grant. Exact plan approval and disabled rollout gate remain independent."
+    },
+    {
+      "capability/id": "responsibility.maintenance.prepare",
+      "required/grants": [
+        "grant/responsibility.maintenance.prepare"
+      ],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Only the dedicated authenticated primary-operator boundary can execute. P066 remembers one exact descriptor; Agents and modules are refused even with this grant. Exact plan approval and disabled rollout gate remain independent."
+    },
+    {
+      "capability/id": "responsibility.maintenance.abandon",
+      "required/grants": [
+        "grant/responsibility.maintenance.abandon"
+      ],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Only the dedicated authenticated primary-operator boundary can execute. P066 remembers one exact descriptor; Agents and modules are refused even with this grant. Exact plan approval and disabled rollout gate remain independent."
+    },
+    {
+      "capability/id": "responsibility.maintenance.verify",
+      "required/grants": [
+        "grant/responsibility.maintenance.verify"
+      ],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Only the dedicated authenticated primary-operator boundary can execute. P066 remembers one exact descriptor; Agents and modules are refused even with this grant. Exact plan approval and disabled rollout gate remain independent."
+    },
+    {
+      "capability/id": "responsibility.maintenance.reconcile",
+      "required/grants": [
+        "grant/responsibility.maintenance.reconcile"
+      ],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Only the dedicated authenticated primary-operator boundary can execute. P066 remembers one exact descriptor; Agents and modules are refused even with this grant. Exact plan approval and disabled rollout gate remain independent."
+    },
+    {
+      "capability/id": "responsibility.maintenance.compact",
+      "required/grants": [
+        "grant/responsibility.maintenance.compact"
+      ],
+      "caller/posture": "host-grant-required",
+      "approval/mode": "operator-approved-by-default",
+      "autonomy/floor": "proposed-effect",
+      "coi/policy": "operator-review-required",
+      "notes": "Only the dedicated authenticated primary-operator boundary can execute. P066 remembers one exact descriptor; Agents and modules are refused even with this grant. Exact plan approval and disabled rollout gate remain independent."
     }
   ]
 }

@@ -46,6 +46,12 @@ NODE_SCHEMA_FILENAMES = {
 
 SCHEMA_WHITELIST = (
     "responsibility-maintenance-index.local.v1.schema.json",
+    "responsibility-maintenance-grant.local.v1.schema.json",
+    "responsibility-maintenance-plan.local.v1.schema.json",
+    "responsibility-maintenance-retention-hold.local.v1.schema.json",
+    "responsibility-maintenance-bindings.local.v2.schema.json",
+    "responsibility-maintenance-report.local.v2.schema.json",
+
     'responsibility-maintenance-abandoned.local.v1.schema.json',
     'responsibility-maintenance-alert.local.v1.schema.json',
     'responsibility-maintenance-archive.local.v1.schema.json',
@@ -664,7 +670,20 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    'm5-unallocated.responsibility-maintenance-alert.local.v1.json',
+    'm5-unallocated.responsibility-maintenance-retention-hold.local.v1.json',
+
+    'cpr-metadata.responsibility-maintenance-archive.local.v1.json',
+    'cpr-metadata-only.responsibility-maintenance-plan.local.v1.json',
+
     "bounded.responsibility-maintenance-index.local.v1.json",
+    "maintenance-grant.operator-consent.request.v1.json",
+    "closed.responsibility-maintenance-grant.local.v1.json",
+    "closed.responsibility-maintenance-plan.local.v1.json",
+    "evidence.responsibility-maintenance-retention-hold.local.v1.json",
+    "fixture.responsibility-maintenance-report.local.v2.json",
+    "fixture.responsibility-maintenance-bindings.local.v2.json",
+
     'busy.responsibility-maintenance-result.local.v1.json',
     'fixture.responsibility-maintenance-bindings.local.v1.json',
     'fixture.responsibility-maintenance-report.local.v1.json',
@@ -1253,7 +1272,24 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    'm5-unknown-generation.responsibility-maintenance-alert.local.v1.json',
+    'm5-false-pinned.responsibility-maintenance-alert.local.v1.json',
+    'm5-unallocated-address.responsibility-maintenance-retention-hold.local.v1.json',
+
     "unbounded.responsibility-maintenance-index.local.v1.json",
+    "descriptor-scope.operator-consent.request.v1.json",
+    'cpr-self-target.responsibility-maintenance-plan.local.v1.json',
+    'cpr-duplicate-address.responsibility-maintenance-plan.local.v1.json',
+    'cpr-wrong-member.responsibility-maintenance-archive.local.v1.json',
+    'cpr-no-retention.responsibility-maintenance-plan.local.v1.json',
+    "unknown-scope.responsibility-maintenance-grant.local.v1.json",
+    "wrong-grant.responsibility-maintenance-grant.local.v1.json",
+    "expired.responsibility-maintenance-grant.local.v1.json",
+    "missing-boundary.responsibility-maintenance-plan.local.v1.json",
+    "verify-mode.responsibility-maintenance-plan.local.v1.json",
+    "hold-address.responsibility-maintenance-retention-hold.local.v1.json",
+    "wrong-class.responsibility-maintenance-report.local.v2.json",
+
     'actor-field.responsibility-maintenance-request.local.v1.json',
     'inspection-approval.responsibility-maintenance-request.local.v1.json',
     'plaintext.responsibility-maintenance-archive.local.v1.json',

@@ -1,0 +1,378 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:responsibility-maintenance-plan.local:v1",
+  "title": "responsibility-maintenance-plan.local.v1",
+  "description": "Draft local maintenance contract. Shape validation grants no authority and does not open D7.",
+  "x-dia-status": "draft",
+  "x-dia-workflow": "project",
+  "x-dia-basis": [
+    "doc/project/40-proposals/051-swarm-membership-and-reputation-bootstrap.md",
+    "doc/project/40-proposals/072-capability-registry.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "responsibility-maintenance-plan.local.v1"
+    },
+    "command/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "kind": {
+      "enum": [
+        "prepare",
+        "abandon",
+        "verify",
+        "reconcile",
+        "compact"
+      ]
+    },
+    "host/id": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "host/incarnation": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+    },
+    "operator/binding": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+    },
+    "grant": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Binding"
+    },
+    "generation": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "initial/head": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Head"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source/boundary": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Boundary"
+    },
+    "projector/digest": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+    },
+    "verify/mode": {
+      "enum": [
+        null,
+        "integrity",
+        "archive-publication",
+        "shadow"
+      ]
+    },
+    "target": {
+      "enum": [
+        "verified",
+        "abandoned",
+        "archive-verified",
+        "compacted",
+        "reconciled",
+        "shadow-compared",
+        "metadata-compacted"
+      ]
+    },
+    "deadline/at": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Time"
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rows": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192,
+          "description": "Maximum distinct source addresses in the generation. Copy/verify/clear visits are separately bounded by batch size and durable step/attempt limits."
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "attempts-per-step": {
+          "const": 8
+        },
+        "batch-rows": {
+          "const": 100
+        }
+      },
+      "required": [
+        "rows",
+        "steps",
+        "attempts-per-step",
+        "batch-rows"
+      ]
+    },
+    "storage/transition": {
+      "enum": [
+        "none",
+        "2-to-4",
+        "3-to-4"
+      ]
+    },
+    "compatibility": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Compatibility"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "safety": {
+      "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Safety"
+    },
+    "archive/index-root": {
+      "anyOf": [
+        {
+          "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Exact archive index root for publication; absence means none."
+    },
+    "supersedes": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command/id",
+            "request/digest"
+          ],
+          "properties": {
+            "command/id": {
+              "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+            },
+            "request/digest": {
+              "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Explicit prior compaction command for authorized takeover; absence means none."
+    },
+    "shadow/query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "operation"
+      ],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "operation": {
+          "enum": [
+            "procurement/request",
+            "procurement/offer",
+            "procurement/contract-accept",
+            "response/deliver",
+            "response/accept",
+            "response/reject",
+            "responsibility/inspect",
+            "responsibility/acknowledge",
+            "responsibility/appeal",
+            "core/messaging",
+            "keepalive",
+            "dispute/file",
+            "ubc/claim",
+            "signal-marker/send"
+          ]
+        }
+      },
+      "description": "One bounded observational query; the run pins one host evaluation instant."
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "closed-maintenance-metadata"
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Id"
+              },
+              "digest": {
+                "$ref": "responsibility-maintenance-common.local.v1.schema.json#/$defs/Digest"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "digest",
+              "revision"
+            ]
+          }
+        },
+        "self/retire": {
+          "const": true
+        }
+      },
+      "required": [
+        "kind",
+        "commands",
+        "self/retire"
+      ]
+    },
+    "maintenance/scope": {
+      "const": "closed-metadata"
+    }
+  },
+  "required": [
+    "schema",
+    "command/id",
+    "kind",
+    "host/id",
+    "host/incarnation",
+    "operator/binding",
+    "grant",
+    "generation",
+    "initial/head",
+    "source/boundary",
+    "projector/digest",
+    "verify/mode",
+    "target",
+    "deadline/at",
+    "budget",
+    "storage/transition",
+    "compatibility",
+    "safety"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "verify"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verify/mode": {
+            "enum": [
+              "integrity",
+              "archive-publication",
+              "shadow"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "verify/mode": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verify/mode": {
+            "const": "shadow"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "shadow/query"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "shadow/query"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "retention"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "compact"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "maintenance/scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "retention"
+        ],
+        "properties": {
+          "kind": {
+            "const": "compact"
+          },
+          "target": {
+            "const": "metadata-compacted"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "const": "metadata-compacted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "maintenance/scope",
+          "retention"
+        ]
+      }
+    }
+  ]
+}
