@@ -490,3 +490,24 @@ interrupted; none of the ten final scenarios started. No full-candidate or relea
 qualification is claimed. Resume after explicit continuation with a fresh whole
 candidate from clean integrated sources. Historical qualified/refused scopes
 remain unchanged.
+
+
+### P076-034 local final qualification (2026-10-24)
+
+Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, one unchanged six-binary set,
+`1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and all ten runtime scenarios.
+Exact signed public proofs qualify identically before/after archive extraction.
+`full_candidate_qualified=true`, `release_ready=false`; synthetic federation, no model/VM.
+See `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md`.
+
+Explicit contact and INAC decisions remain independent. Delegated beneficiaries,
+delegates and custodians receive no sovereign authority. The separate
+provider substitutes protected dev-mailbox OTP delivery and explicitly
+admits the participant-signed claim through its operator API. Actual
+email/SMS delivery and remote self-service publication are not qualified.
+Historical focused/refused runs retain their original source pins and
+results. P076-036 remains planned; production root activation and release
+readiness remain separate gates.
+The earlier 54-action focus remains a report-contract refusal. This fresh
+complete candidate does not retrospectively repair its reserved-field error
+or promote any earlier refused attempt or focused diagnostic.

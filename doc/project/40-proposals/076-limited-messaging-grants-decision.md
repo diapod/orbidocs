@@ -277,7 +277,7 @@ or unit test alone never closes a runtime gate.
 | P076-031 | B | Scoped receive and explicit single-use INAC consent | done | Bidirectional delivery with two independent consents; passport-derived membership cannot outlive its authority |
 | P076-032 | B | UI, new MSG-ONB-007/008 delegated cases and qualification | done | 2026-10-18 clean-source candidate: 1308 conformance/capsule executions, 34 strict Story-010 phases, 32/41 browser cases; signed public proofs requalified before/after extraction |
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
-| P076-034 | final | Mixed/sovereign regressions and documentation | in-progress | Resumed after integration (2026-10-24): candidate13 host-initialization refusal retained; candidate14 lost orchestration after conformance/strict/onboarding, with no exit receipt for its recovery report; full ten-scenario qualification pending |
+| P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | todo | Freeze carrier/version, size/disclosure bounds and acquisition policy; reuse the issuance verifier, observation owner and consent handoff; retain the [offline acceptance gate](#offline-acceptance-gate), including cold-cache real host consumption with zero status fetches, refusal/restart/rollback cases and unchanged V1/online behavior; synchronize P024/S007, P060/S027 and the scoped Node ledger/MVP evidence |
 
@@ -324,26 +324,13 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-Work resumed after branch integration on 2026-10-24, on clean Node `8a940d48` /
-Orbidocs `26935579`. Candidate13 and the incomplete candidate14 are retained at
-`node:docs/evidence/limited-messaging/2026-10-24-final-attempt-13/README.md` and
-`node:docs/evidence/limited-messaging/2026-10-24-final-attempt-14/README.md`.
-Candidate14's parent did not record its last child's exit; a `passed` report
-written before cleanup does not supply that receipt. Continue through a fresh
-complete gate or an explicitly reviewed recovery contract; do not infer stage
-completion or splice historical runs. The earlier partial candidate12 keeps its
-date and scope.
-
-Slice B's MSG-ONB-007/008 browser gates, P076-035 individual withdrawal and
-P076-033 organization custody are locally qualified. Continue with P076-034's
-full mixed/provider candidate, carrying the reviewed A2, channel and report-contract
-repairs and their regressions forward. The earlier 54-action focused report stays
-refused for its metadata collision. Slice A and P076-031 retain
-their separate qualified scopes. Review after
-each substantial slice, including the online authority's durable negative-proof
-semantics and replay. Synchronize P032, P097, S027, INAC, schemas/mirrors, API
-registry, Node ledger and MVP. No model or VM is required; historical qualifications
-and release readiness remain distinct.
+P076-034 closes the local full mixed/provider candidate. Continue P076-036 as
+planned work: freeze its bounded status-presentation contract before implementation
+and qualify its own offline acceptance. Track remote-withdrawal outbox behavior
+and the separate lifecycle suite's ambient model-root isolation. Real email/SMS,
+remote self-service catalog publication, production root activation and release
+qualification remain separate. Review each substantial slice and preserve the
+historical focused/refused measurements and their declared scope.
 
 ## P076-032 browser implementation checkpoint (2026-10-18)
 
@@ -641,3 +628,24 @@ results. The offline final gate is being strengthened to require the same closed
 case inventory as the runner and bind receive decisions to exact typed child
 consents and message/INAC observations; signatures alone do not establish the
 purpose of a child passport.
+
+
+## P076-034 local final qualification (2026-10-24)
+
+Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, one unchanged six-binary set,
+`1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and all ten runtime scenarios.
+Exact signed public proofs qualify identically before/after archive extraction.
+`full_candidate_qualified=true`, `release_ready=false`; synthetic federation, no model/VM.
+See `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md`.
+
+Explicit contact and INAC decisions remain independent. Delegated beneficiaries,
+delegates and custodians receive no sovereign authority. The separate
+provider substitutes protected dev-mailbox OTP delivery and explicitly
+admits the participant-signed claim through its operator API. Actual
+email/SMS delivery and remote self-service publication are not qualified.
+Historical focused/refused runs retain their original source pins and
+results. P076-036 remains planned; production root activation and release
+readiness remain separate gates.
+The earlier 54-action focus remains a report-contract refusal. This fresh
+complete candidate does not retrospectively repair its reserved-field error
+or promote any earlier refused attempt or focused diagnostic.
