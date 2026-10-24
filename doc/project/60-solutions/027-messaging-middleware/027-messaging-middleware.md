@@ -211,11 +211,15 @@ clean-source local gate is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
 The marker-free clean-source local host gate is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`.
+One physical self.local/turbo.local WSS handoff reached the real peer importer
+and durable observation owner with zero issuance requests in the bounded
+presentation window; its limits are retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-two-host/README.md`.
 Neither this attachment nor its
 acceptance creates local issuance authority, admits roots, lengthens freshness
 or qualifies offline message delivery. Disclosure and wire budgets govern
 attachment; exact signed status is never trimmed. The bounded local host gate
-is tracked under P076-036; it does not qualify offline delivery. P060 and S007 reference the
+and physical supplement are tracked under P076-036; they do not qualify offline delivery. P060 and S007 reference the
 same P076 tracker; existing runtime checkpoints retain their original scope.
 
 ## Passport Profile

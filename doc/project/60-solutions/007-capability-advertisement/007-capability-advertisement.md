@@ -114,6 +114,9 @@ proofs. Independently admitted roots, durable revocation knowledge and freshness
 remain required. Its bounded zero-status-fetch peer-import gate passed on the
 marker-free clean source recorded at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`;
+one supplemental physical self.local/turbo.local handoff and durable observation
+with zero issuance requests in its bounded window are recorded at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-two-host/README.md`;
 the sole tracker, first incomplete diagnostics and corrected
 host-route evidence live in P076;
 advertisement implementation status does not expand this scoped path to

@@ -588,6 +588,10 @@ Receivers MAY additionally reject passports by local policy, such as:
   the now-removed unsigned marker is historical. The marker-free clean-source
   host gate is retained at
   `node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`.
+  A supplemental physical self.local/turbo.local peer handoff and durable
+  observation, with zero issuance requests in its bounded presentation window,
+  is retained at
+  `node:docs/evidence/limited-messaging/2026-10-24-portable-status-two-host/README.md`.
   This is not a new credential format or
   a completion claim for P024's already qualified foundation.
 - A host capability such as `capability.passport.sign` is a suitable operator
