@@ -745,6 +745,15 @@ counters. It documents the fixed margin, matching-carrier deployment requirement
 and shared V1 AD size limit. See
 [the Node follow-up review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-P076-036-FOLLOWUPS-2026-10-24.md).
 
+The separate `codex/self-contained-signatures` branch also retained a physical
+`self.local`/`turbo.local` handoff at Node `5a01ee95` / Orbidocs `3f573420`.
+Its [source-pinned report](https://github.com/diapod/node/blob/a265d334664e492859dea1932b2b9d4b46c8f451/docs/evidence/limited-messaging/2026-10-24-portable-status-two-host/README.md)
+records zero issuance requests in the bounded handoff window. That run measured
+the earlier V1 presentation carrier and its disclosure rule. It is historical
+evidence of that implementation, not qualification of the closed V2 carrier or
+the current owner-confirmed disclosure policy. The clean V2 capsule above remains
+the current P076-036 acceptance source.
+
 These changes have focused current-worktree regressions. The 276-test clean-source
 capsule above retains its original source, executable and temporal scope; no new
 browser/full candidate or release qualification is claimed. P076-037 remains todo.
