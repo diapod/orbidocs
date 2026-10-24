@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **233** host-local / **265** total; **39** owner groups.
+Entries: **236** host-local / **268** total; **40** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -538,6 +538,14 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | <code>workflow.orchestrate</code> | <code>host/workflow.orchestrate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.step.completed.publish</code> | <code>host/workflow.step.completed.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.test.trigger</code> | <code>host/workflow.test.trigger</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>identity host with P066 consent owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>identity.assessment-viewer.list</code> | <code>host/identity.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.request</code> | <code>host/identity.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.revoke</code> | <code>host/identity.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>inference-provenance-core through daemon host boundary</code>
 

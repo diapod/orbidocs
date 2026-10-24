@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-viewer-revoke:v1",
+  "title": "assessment-viewer-revoke.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval/ref"
+  ],
+  "properties": {
+    "approval/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    }
+  },
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-viewer-grants.md"
+  ]
+}

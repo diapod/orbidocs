@@ -1155,3 +1155,7 @@ or replace its retained three-host acceptance evidence.
   `agent.assistant-response-draft.v1`, `corpus-chair-admission.v1`,
   `corpus-agent-answer-draft.accept.request.v1`, and
   `corpus-agent-answer-draft.v1`.
+
+### P026-012a / 012b boundary
+
+The accepted [production viewer design](026-assessment-viewer-grants.md) splits provisioning from the consumer. 012a changes only authenticated ChannelJson module assessment reads. Its active projection grants no Agent observation, context, signing, inference or effect authority. The three identity.assessment-viewer management names are absent from the Agent catalogue and denied in Agent dispatch. 012b separately owns consumer binding, observation provenance, final inference admission and the context/fork/resume/alternate-tool matrix. Parent P026-012 and P073 remain partial until that qualification.

@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **233** host-local / **265** ogółem; grupy właścicieli: **39**.
+Wpisy: **236** host-local / **268** ogółem; grupy właścicieli: **40**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -540,6 +540,14 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>workflow.orchestrate</code> | <code>host/workflow.orchestrate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.step.completed.publish</code> | <code>host/workflow.step.completed.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.test.trigger</code> | <code>host/workflow.test.trigger</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>identity host with P066 consent owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>identity.assessment-viewer.list</code> | <code>host/identity.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.request</code> | <code>host/identity.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.revoke</code> | <code>host/identity.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>inference-provenance-core through daemon host boundary</code>
 
