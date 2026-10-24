@@ -192,8 +192,12 @@ issuance delegate. It does not make Messaging transport itself work offline.
 passport and optional `issuance/status` (`issuance-revocation-status.v1`). Signed
 documents and preimages are unchanged. V2 rejects signed subdocuments whose
 typed decoding would reorder arrays, insert defaults or discard fields; it never
-normalizes incoming signed material. V1 remains open and version-compatible;
-new delegated Messaging handoffs use V2, without automatic downgrade.
+normalizes incoming signed material. V1 input remains open and supports both
+passport versions. New delegated Messaging handoffs always use V2, including
+when status is omitted, without automatic downgrade. Pre-release deployments
+must use receivers implementing that carrier. Mixed older receivers explicitly
+refuse it; schema negotiation is outside this stage. The compatibility regression
+models the older V1 Schema Gate, not an old running binary.
 
 The canonical carrier budget is 65,536 bytes, checked after the existing bounded
 1 MiB frame decode and before cryptography/merge. Check final frame size too.
@@ -205,7 +209,12 @@ full-status`, default `omit`, including empty revoked-child lists. The operator
 sets it through `POST /v1/identity/messaging-issuance/grants/presentation-policy`;
 remote observations cannot grant this action. The existing inventory exposes the
 policy and allowed action. This metadata changes neither the signed grant nor
-issuance authority. No UI is added in this slice.
+issuance authority. The original qualified capsule excluded UI. Its review
+follow-up adds a confirmed owner form to the existing grant page. Policy and
+actor/node/time/old/new audit metadata commit atomically; identical assignment
+adds no event. Retain 64 changes per grant with explicit dropped-history count.
+Normal inventory windows show one latest change; exact-grant inspection combines
+`delegation_id` with a bounded `consent_page` and returns the retained history.
 
 The builder reads one owner snapshot without fetching/signing. Attach only a
 currently valid full status allowed by policy, fitting the budget, with at least
@@ -213,6 +222,10 @@ currently valid full status allowed by policy, fitting the budget, with at least
 Omission is a local typed diagnostic, not a peer-supplied policy label. It does
 not roll back an accepted contact. Policies affect new builds, not copies already
 disclosed.
+The 60-second margin is fixed. A profile budget of 60 seconds or less normally
+cannot supply that useful window; exact local observations or online fallback
+remain available. Repeated omissions
+under `full-status` receive bounded-frequency info diagnostics.
 
 The entire typed presentation crosses builder/dispatch/authenticated-peer/cache/
 issuance boundaries. Host context binds the beneficiary node to the actual peer;
@@ -220,6 +233,11 @@ trusted local import is explicit, never inferred from missing peer identity.
 Observation results distinguish observed, deferred and refused; a handled frame
 or transport receipt is not authority. Generic dispatch, AD/reference/batch and
 network-ledger consumers reject the new carrier. Present-request responses stay V1.
+Deferred/refused peer imports produce warnings and metadata-only local observation
+facts, independently of transport success. Inspection counters state their
+host-lifetime scope; neither counters nor diagnostic identifiers confer authority.
+Local observation capacity has its own `issuance-observation-capacity-exhausted`
+reason (unknown/503), distinct from an unavailable status source.
 
 ### Shared observation and online acquisition
 
@@ -716,3 +734,17 @@ This slice runs no browser, model, VM or full P076-034 candidate. It verifies
 bounded handoff/consumption, not delivery or a new grant ceremony, and keeps
 `full_candidate_qualified=false`, `release_ready=false`. Continue with the
 separate P076-037 policy prerequisites; production periodic queries still occur.
+
+### P076-036 review maintenance — 2026-10-24
+
+The live global retention blocker is closed through the recorded-source qualifier
+lookup, without changing any prior proof or pin. The follow-up implements the
+owner-confirmed disclosure form and atomic bounded history, typed local capacity
+unavailability, warning-level peer outcomes, metadata-only receipts and scoped
+counters. It documents the fixed margin, matching-carrier deployment requirement
+and shared V1 AD size limit. See
+[the Node follow-up review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-P076-036-FOLLOWUPS-2026-10-24.md).
+
+These changes have focused current-worktree regressions. The 276-test clean-source
+capsule above retains its original source, executable and temporal scope; no new
+browser/full candidate or release qualification is claimed. P076-037 remains todo.

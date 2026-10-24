@@ -518,3 +518,10 @@ with `capability-passport-present.v2` and optional signed status. It does not wi
 advertisement, settlement or generic dispatch authority. V1 request responses
 remain unchanged. A verified observation is an input to later current
 authorization, not a durable authorization result.
+
+The pre-release direct-handoff contract requires a receiver supporting V2 even
+when the status is omitted. Older V1-only receivers refuse the carrier; mixed
+version negotiation is outside this gate. A focused compatibility-contract test
+models that V1 Schema Gate refusal without claiming an old-binary runtime run.
+Observed/deferred/refused outcomes are inspectable separately from transport
+handling, including typed warnings and local metadata-only observation receipts.

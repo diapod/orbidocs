@@ -814,3 +814,10 @@ attempt. This is not a product NoFetch policy. The original signed lease, at mos
 Current root/custody, scope and time are checked at use. The attachment never
 installs authority or creates consent, and does not claim later offline delivery.
 See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).
+
+The review follow-up keeps a fixed 60-second builder margin, so profiles with
+budgets at or below that margin normally omit the attachment and rely on exact
+local observations or online fallback. Local observation
+store capacity has a distinct unavailable cause; it is neither issuer revocation
+nor a claim that the remote status authority is down. Owner policy changes are
+audited local metadata, not signed delegations, and create no authority.

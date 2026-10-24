@@ -214,6 +214,59 @@
                 "set-presentation-policy"
               ]
             }
+          },
+          "disclosure_history": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "actor_participant_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "node_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                "previous": {
+                  "enum": [
+                    "omit",
+                    "full-status"
+                  ]
+                },
+                "current": {
+                  "enum": [
+                    "omit",
+                    "full-status"
+                  ]
+                }
+              },
+              "required": [
+                "at",
+                "actor_participant_id",
+                "node_id",
+                "previous",
+                "current"
+              ]
+            },
+            "description": "Newest first; normal windows show one latest change. Exact delegation_id plus consent_page inspection returns up to 64 retained changes."
+          },
+          "disclosure_history_stored": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 64
+          },
+          "disclosure_history_dropped": {
+            "type": "integer",
+            "minimum": 0
           }
         },
         "required": [
@@ -237,7 +290,7 @@
     "consent_window": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Optional host-selected global window. Child IDs and withdrawal lists in each grant refer only to the selected window; passport_total counts all local children. No off-window scopes are serialized.",
+      "description": "Optional host-selected child window, global or restricted to the requested delegation_id. Child IDs and withdrawal lists refer only to this window; passport_total counts all local children of each selected grant. No off-window scopes are serialized.",
       "properties": {
         "page": {
           "type": "integer",
@@ -276,6 +329,53 @@
         "next_page",
         "total"
       ]
+    },
+    "presentation_observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "const": "host-lifetime"
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "observed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "deferred": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "refused": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "audit_failures": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "full_status_omissions": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "observed",
+            "deferred",
+            "refused",
+            "audit_failures",
+            "full_status_omissions"
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "counts"
+      ],
+      "description": "Optional host-lifetime metadata counters, not authorization or delivery counts. Omitted when the counter observation is unavailable."
     }
   },
   "required": [

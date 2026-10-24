@@ -701,3 +701,16 @@ Node `9b0a613e` / Orbidocs `8523cf2b`, with 264 conformance/regression and 12
 host capsule tests. Signature/correlation qualification matches after extraction.
 Its scope, controlled time and live global-retention baseline blocker are explicit;
 it does not replace S027 delivery evidence or P076-034's historical candidate.
+
+The subsequent review adds owner-confirmed disclosure controls on the existing
+grant page and bounded actor/time/old/new policy history. Normal windows expose
+one latest change per grant; exact-grant windows expose at most 64. Repeated
+assignment adds no event, and no action unlocks a delegate, resumes a message or
+changes a signed document. Presentation warnings/facts and host-lifetime counters
+separate observed, deferred and refused from transport success. Local capacity
+uses `issuance-observation-capacity-exhausted` (unknown/503).
+
+The historical retention-header blocker above is repaired in the live checker by
+verifying qualifier blobs at the adoption proof's recorded source commit. Prior
+proof bytes and source pins remain unchanged. This maintenance has focused local
+regressions; it does not rerun the historical full candidate or browser gate.

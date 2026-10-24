@@ -347,7 +347,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`messaging-issuance-presentation-policy.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-presentation-policy.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-request-create.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-request-create.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-request-result.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-request-result.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
-| [`messaging-issuance-status.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-status.local.v1.md) | `5` | `1` | `yes` | `yes` | `1` | `0` |
+| [`messaging-issuance-status.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-status.local.v1.md) | `6` | `2` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-unlock.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-unlock.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-issuance-withdraw.local.v1.schema.json`](schemas-gen/schemas/messaging-issuance-withdraw.local.v1.md) | `1` | `0` | `yes` | `yes` | `1` | `0` |
 | [`messaging-mailbox-storage.local.v1.schema.json`](schemas-gen/schemas/messaging-mailbox-storage.local.v1.md) | `2` | `0` | `yes` | `yes` | `1` | `1` |

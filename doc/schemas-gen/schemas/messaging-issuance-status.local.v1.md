@@ -16,7 +16,8 @@ Source schema: [`doc/schemas/messaging-issuance-status.local.v1.schema.json`](..
 | [`participant_id`](#field-participant-id) | `yes` | string |  |
 | [`observed_at`](#field-observed-at) | `yes` | string |  |
 | [`grants`](#field-grants) | `yes` | array |  |
-| [`consent_window`](#field-consent-window) | `no` | object | Optional host-selected global window. Child IDs and withdrawal lists in each grant refer only to the selected window; passport_total counts all local children. No off-window scopes are serialized. |
+| [`consent_window`](#field-consent-window) | `no` | object | Optional host-selected child window, global or restricted to the requested delegation_id. Child IDs and withdrawal lists refer only to this window; passport_total counts all local children of each selected grant. No off-window scopes are serialized. |
+| [`presentation_observations`](#field-presentation-observations) | `no` | object | Optional host-lifetime metadata counters, not authorization or delivery counts. Omitted when the counter observation is unavailable. |
 
 ## Conditional Rules
 
@@ -94,4 +95,12 @@ Then:
 - Required: `no`
 - Shape: object
 
-Optional host-selected global window. Child IDs and withdrawal lists in each grant refer only to the selected window; passport_total counts all local children. No off-window scopes are serialized.
+Optional host-selected child window, global or restricted to the requested delegation_id. Child IDs and withdrawal lists refer only to this window; passport_total counts all local children of each selected grant. No off-window scopes are serialized.
+
+<a id="field-presentation-observations"></a>
+## `presentation_observations`
+
+- Required: `no`
+- Shape: object
+
+Optional host-lifetime metadata counters, not authorization or delivery counts. Omitted when the counter observation is unavailable.

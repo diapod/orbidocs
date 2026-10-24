@@ -716,3 +716,27 @@ passport versions; present-request responses remain V1. This does not add V2
 installers for generic dispatch, AD, references, batches or network-ledger. Those
 consumers refuse the new carrier, including declared-schema/content mismatches.
 See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).
+
+### Presentation budget follow-up — 2026-10-24
+
+The Node AD acceptor's 65,536-byte materialization budget also applies to V1
+presentations, including infrastructure passports. Both raw inline/reference
+bytes and canonical carrier bytes are bounded; excess is refused before the
+sink, never truncated. This is an intentional pre-release bound replacing the
+previous unbounded AD materialization, not a new V2 acceptor.
+
+The current producer-contract fixtures fit the bound:
+
+| V1 fixture | Raw bytes | Compact JSON bytes |
+|---|---:|---:|
+| Sealer access | 1797 | 1378 |
+| Network ledger | 1223 | 1043 |
+| Community key access | 1797 | 1423 |
+| Memarium space access | 1806 | 1387 |
+| Memarium declassification | 1876 | 1461 |
+
+The acceptor regression exercises these fixtures and exactly 65,536 / 65,537
+bytes for both inline and file-backed artifacts. These are fixture measurements,
+not a maximum for arbitrary extension-bearing V1 documents. Every configured
+producer must respect the enforced budget. Delegated handoff requires the new
+receiver carrier implementation; no implicit downgrade is introduced.
