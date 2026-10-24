@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-viewer-intent:v1",
+  "title": "assessment-viewer-intent.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-viewer-grants.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "node/ref",
+    "daemon/boot",
+    "executor/ref",
+    "module/ref",
+    "component/ref",
+    "launch/ref",
+    "launch/alias",
+    "participant/ref",
+    "operator/binding",
+    "schema",
+    "purpose",
+    "operation",
+    "subjects",
+    "time/proposal-utc",
+    "time/deadline-utc",
+    "time/proposal-mono-ms",
+    "time/deadline-mono-ms",
+    "ttl/seconds",
+    "budget/attempts",
+    "budget/window-seconds",
+    "budget/in-flight",
+    "activation/ref"
+  ],
+  "properties": {
+    "node/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "daemon/boot": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "executor/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "module/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "component/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "launch/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "launch/alias": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "participant/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "operator/binding": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "schema": {
+      "const": "assessment-viewer-intent.v1"
+    },
+    "purpose": {
+      "const": "assessment-view"
+    },
+    "operation": {
+      "const": "agora.assessment.read"
+    },
+    "subjects": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "resource/kind",
+          "resource/id"
+        ],
+        "properties": {
+          "resource/kind": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "resource/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        }
+      }
+    },
+    "time/proposal-utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "time/deadline-utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "time/proposal-mono-ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "time/deadline-mono-ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ttl/seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 3600
+    },
+    "budget/attempts": {
+      "const": 30
+    },
+    "budget/window-seconds": {
+      "const": 60
+    },
+    "budget/in-flight": {
+      "const": 1
+    },
+    "activation/ref": {
+      "type": "string",
+      "minLength": 43,
+      "maxLength": 43
+    }
+  }
+}

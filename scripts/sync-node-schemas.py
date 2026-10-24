@@ -13,9 +13,6 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
-    "assessment-viewer-request.v1.schema.json",
-    "assessment-viewer-list.v1.schema.json",
-    "assessment-viewer-revoke.v1.schema.json",
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
     "sensorium-device-discovery-result.v1.schema.json",
@@ -48,6 +45,10 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "assessment-viewer-intent.v1.schema.json",
+    "assessment-viewer-request.v1.schema.json",
+    "assessment-viewer-list.v1.schema.json",
+    "assessment-viewer-revoke.v1.schema.json",
     "assessment-exposure-profile.v1.schema.json",
     "assessment-exposure-command.v1.schema.json",
     "assessment-exposure-fact.v1.schema.json",
@@ -1941,6 +1942,7 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "assessment-viewer-intent.v1.schema.json",
     "assessment-viewer-request.v1.schema.json",
     "assessment-viewer-list.v1.schema.json",
     "assessment-viewer-revoke.v1.schema.json",

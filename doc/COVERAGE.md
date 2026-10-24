@@ -21,12 +21,12 @@ Generated coverage snapshot for the current `doc/` structure.
 | `10-challenges` (Challenges) | `7` | `2` |
 | `20-memos` (Memos) | `46` | `11` |
 | `30-stories` (Stories) | `18` | `1` |
-| `40-proposals` (Proposals) | `101` | `88` |
+| `40-proposals` (Proposals) | `102` | `89` |
 | `50-requirements` (Requirements) | `17` | `15` |
 | `60-solutions` (Solutions) | `67` | `47` |
 
-- Total project markdown files: `266`
-- Proposals referencing source material: `88` / `101`
+- Total project markdown files: `267`
+- Proposals referencing source material: `89` / `102`
 - Requirements referencing source material: `15` / `17`
 
 ## Schema Workflow
@@ -97,6 +97,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`assessment-exposure-command.v1.schema.json`](schemas-gen/schemas/assessment-exposure-command.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`assessment-exposure-fact.v1.schema.json`](schemas-gen/schemas/assessment-exposure-fact.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `1` |
 | [`assessment-exposure-profile.v1.schema.json`](schemas-gen/schemas/assessment-exposure-profile.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
+| [`assessment-viewer-intent.v1.schema.json`](schemas-gen/schemas/assessment-viewer-intent.v1.md) | `22` | `0` | `yes` | `yes` | `0` | `0` |
+| [`assessment-viewer-list.v1.schema.json`](schemas-gen/schemas/assessment-viewer-list.v1.md) | `1` | `0` | `yes` | `yes` | `0` | `0` |
+| [`assessment-viewer-request.v1.schema.json`](schemas-gen/schemas/assessment-viewer-request.v1.md) | `3` | `0` | `yes` | `yes` | `0` | `0` |
+| [`assessment-viewer-revoke.v1.schema.json`](schemas-gen/schemas/assessment-viewer-revoke.v1.md) | `1` | `0` | `yes` | `yes` | `0` | `0` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |
 | [`bounded-http-fetch-artifact-read-request.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-artifact-read-request.v1.md) | `7` | `0` | `no` | `yes` | `1` | `1` |
 | [`bounded-http-fetch-artifact-read-result.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-artifact-read-result.v1.md) | `8` | `0` | `no` | `yes` | `1` | `1` |
@@ -844,6 +848,10 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`assessment-exposure-command.v1.schema.json`](schemas-gen/schemas/assessment-exposure-command.v1.md) |  |  |
 | [`assessment-exposure-fact.v1.schema.json`](schemas-gen/schemas/assessment-exposure-fact.v1.md) |  |  |
 | [`assessment-exposure-profile.v1.schema.json`](schemas-gen/schemas/assessment-exposure-profile.v1.md) |  |  |
+| [`assessment-viewer-intent.v1.schema.json`](schemas-gen/schemas/assessment-viewer-intent.v1.md) |  |  |
+| [`assessment-viewer-list.v1.schema.json`](schemas-gen/schemas/assessment-viewer-list.v1.md) |  |  |
+| [`assessment-viewer-request.v1.schema.json`](schemas-gen/schemas/assessment-viewer-request.v1.md) |  |  |
+| [`assessment-viewer-revoke.v1.schema.json`](schemas-gen/schemas/assessment-viewer-revoke.v1.md) |  |  |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) |  | [`story-005-whisper-rumor-intake.md`](project/30-stories/story-005-whisper-rumor-intake.md) |
 | [`bounded-http-fetch-artifact-read-request.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-artifact-read-request.v1.md) |  |  |
 | [`bounded-http-fetch-artifact-read-result.v1.schema.json`](schemas-gen/schemas/bounded-http-fetch-artifact-read-result.v1.md) |  |  |
@@ -1592,6 +1600,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md`](project/40-proposals/023-federated-offer-distribution-and-catalog-listener.md) | [`offer-catalog-fetch-request.schema.json`](schemas-gen/schemas/offer-catalog-fetch-request.md), [`offer-catalog-fetch-response.schema.json`](schemas-gen/schemas/offer-catalog-fetch-response.md), [`service-offer-relay.v1.schema.json`](schemas-gen/schemas/service-offer-relay.v1.md) |
 | [`doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`](project/40-proposals/024-capability-passports-and-network-ledger-delegation.md) | [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md), [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md), [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md), [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md) |
 | [`doc/project/40-proposals/025-seed-directory-as-capability-catalog.md`](project/40-proposals/025-seed-directory-as-capability-catalog.md) | [`capability-passport-revocation.v1.schema.json`](schemas-gen/schemas/capability-passport-revocation.v1.md), [`capability-passport.v1.schema.json`](schemas-gen/schemas/capability-passport.v1.md), [`capability-proof-presentation-batch.v1.schema.json`](schemas-gen/schemas/capability-proof-presentation-batch.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md), [`federation-service-endorsement-revocation.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement-revocation.v1.md), [`federation-service-endorsement.v1.schema.json`](schemas-gen/schemas/federation-service-endorsement.v1.md), [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md), [`node-address-attestation.v1.schema.json`](schemas-gen/schemas/node-address-attestation.v1.md), [`node-operator-binding.v1.schema.json`](schemas-gen/schemas/node-operator-binding.v1.md), [`routing-subject-binding.v1.schema.json`](schemas-gen/schemas/routing-subject-binding.v1.md), [`seed-capability-registration.v1.schema.json`](schemas-gen/schemas/seed-capability-registration.v1.md), [`seed-directory-trust.v1.schema.json`](schemas-gen/schemas/seed-directory-trust.v1.md) |
+| [`doc/project/40-proposals/026-assessment-viewer-grants.md`](project/40-proposals/026-assessment-viewer-grants.md) | [`assessment-viewer-intent.v1.schema.json`](schemas-gen/schemas/assessment-viewer-intent.v1.md), [`assessment-viewer-list.v1.schema.json`](schemas-gen/schemas/assessment-viewer-list.v1.md), [`assessment-viewer-request.v1.schema.json`](schemas-gen/schemas/assessment-viewer-request.v1.md), [`assessment-viewer-revoke.v1.schema.json`](schemas-gen/schemas/assessment-viewer-revoke.v1.md) |
 | [`doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md`](project/40-proposals/026-resource-opinions-and-discussion-surfaces.md) | [`agora-record-authoring.v1.schema.json`](schemas-gen/schemas/agora-record-authoring.v1.md), [`agora-record.v1.schema.json`](schemas-gen/schemas/agora-record.v1.md), [`assessment-exposure-command.v1.schema.json`](schemas-gen/schemas/assessment-exposure-command.v1.md), [`assessment-exposure-fact.v1.schema.json`](schemas-gen/schemas/assessment-exposure-fact.v1.md), [`assessment-exposure-profile.v1.schema.json`](schemas-gen/schemas/assessment-exposure-profile.v1.md), [`public-gossip.v1.schema.json`](schemas-gen/schemas/public-gossip.v1.md), [`resource-assessment-view.v1.schema.json`](schemas-gen/schemas/resource-assessment-view.v1.md), [`resource-opinion.v1.schema.json`](schemas-gen/schemas/resource-opinion.v1.md), [`resource-ref.v1.schema.json`](schemas-gen/schemas/resource-ref.v1.md) |
 | [`doc/project/40-proposals/027-middleware-peer-message-dispatch.md`](project/40-proposals/027-middleware-peer-message-dispatch.md) | [`capability-schema-present.v1.schema.json`](schemas-gen/schemas/capability-schema-present.v1.md), [`capability-schema.v1.schema.json`](schemas-gen/schemas/capability-schema.v1.md), [`offer-catalog-fetch-request.schema.json`](schemas-gen/schemas/offer-catalog-fetch-request.md), [`offer-catalog-fetch-response.schema.json`](schemas-gen/schemas/offer-catalog-fetch-response.md) |
 | [`doc/project/40-proposals/030-identity-recovery-service.md`](project/40-proposals/030-identity-recovery-service.md) | [`key-delegation.v1.schema.json`](schemas-gen/schemas/key-delegation.v1.md) |
@@ -1695,7 +1704,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`](project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md) | [`middleware-channel-accepted.v2.schema.json`](schemas-gen/schemas/middleware-channel-accepted.v2.md), [`middleware-channel-frame.v2.schema.json`](schemas-gen/schemas/middleware-channel-frame.v2.md), [`middleware-channel-hello.v2.schema.json`](schemas-gen/schemas/middleware-channel-hello.v2.md), [`middleware-channel-host-capability-call.v2.schema.json`](schemas-gen/schemas/middleware-channel-host-capability-call.v2.md) |
 | [`doc/project/40-proposals/091-file-backed-configuration-and-explainable-composition.md`](project/40-proposals/091-file-backed-configuration-and-explainable-composition.md) | [`capability-guidance.v1.schema.json`](schemas-gen/schemas/capability-guidance.v1.md) |
 
-- Canonical schemas: `742`
-- Generated schema docs: `742`
+- Canonical schemas: `746`
+- Generated schema docs: `746`
 - Positive examples: `744`
 - Negative examples: `753`
