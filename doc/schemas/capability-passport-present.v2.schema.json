@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport-present:v2",
+  "title": "CapabilityPassportPresent v2",
+  "description": "Bounded V2 Messaging presentation; attached status is observation evidence, never authority. Canonical presentation limit: 65536 bytes. Typed admission must preserve signed subdocuments exactly as JSON values; forms that would normalize signed arrays/defaults/fields are refused.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "passport"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-passport-present.v2"
+    },
+    "passport": {
+      "$ref": "capability-passport.v2.schema.json"
+    },
+    "issuance/status": {
+      "$ref": "issuance-revocation-status.v1.schema.json"
+    }
+  }
+}

@@ -1601,6 +1601,12 @@ schema_for_file() {
     *.capability-advertisement.json)
       echo "$SCHEMAS_DIR/capability-advertisement.v1.schema.json"
       ;;
+    *.capability-passport-present.v2.json)
+      echo "$SCHEMAS_DIR/capability-passport-present.v2.schema.json"
+      ;;
+    *.messaging-issuance-presentation-policy.local.json)
+      echo "$SCHEMAS_DIR/messaging-issuance-presentation-policy.local.v1.schema.json"
+      ;;
     *.capability-passport-present.json)
       echo "$SCHEMAS_DIR/capability-passport-present.v1.schema.json"
       ;;

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-issuance-presentation-policy.local:v1",
+  "title": "Messaging issuance presentation policy",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "delegation_id",
+    "status_disclosure"
+  ],
+  "properties": {
+    "delegation_id": {
+      "type": "string",
+      "minLength": 21,
+      "maxLength": 128,
+      "pattern": "^delegation:issuance:[A-Za-z0-9:_-]+$"
+    },
+    "status_disclosure": {
+      "enum": [
+        "omit",
+        "full-status"
+      ]
+    }
+  }
+}

@@ -186,76 +186,94 @@ it changes neither the child's signed preimage nor the authority of any key.
 It does not import a root, grant membership, create consent or install a local
 issuance delegate. It does not make Messaging transport itself work offline.
 
-### Implementation recommendations and reuse
+### Frozen presentation contract — 2026-10-24
 
-1. **Contract before plumbing.** Add an optional typed attachment of the existing
-   status artifact to the presentation (candidate field: `issuance/status`).
-   Freeze the exact schema/version and unsupported-consumer behavior through
-   Schema Gate before implementation. Keep V1 passport semantics and the
-   existing no-attachment online path. Never advertise successful offline
-   verification when a consumer ignored or stripped the attachment.
-2. **Reuse the pure verifier.** Extend the carrier in
-   `node:capability/src/present.rs`; reuse status types in
-   `node:capability/src/issuance.rs` and `verify_issued_passport` /
-   `authorize_issued_consent` in `node:capability-binding/src/issuance.rs`.
-   Supply explicit time, the current locally admitted root, persisted minimum
-   revision and known withdrawals. Check exact federation, grant id/digest,
-   bound status key, signature, parent/child constraints and status validity.
-   The 300-second maximum lease and any stricter receive-profile limit remain
-   unchanged; presentation receipt time never refreshes a signed observation.
-3. **Reuse host ownership and transport.** The builder in
-   `node:daemon/src/notifications_host.rs` obtains the existing owner's signed
-   status snapshot and carries it through the existing peer-message handoff.
-   The consumer in
-   `node:daemon/src/endpoint_routes/federation_endorsements.rs` passes it through
-   `node:daemon/src/identity_host/messaging_port.rs` to the existing observation
-   path in `node:daemon/src/identity_host/messaging_issuance.rs`. Preserve peer
-   binding, current-root checks and the durable observation store. An observed
-   remote grant remains an observation, not a local delegate registration.
-   No new generic proof bundle, crypto crate, status service or transport.
-4. **One status state, two acquisition policies.** Attached and fetched evidence
-   pass the same checks and durable revision/withdrawal merge. A valid attachment
-   must not trigger a redundant fetch. In explicitly network-disabled
-   inspection/acceptance, missing usable local or attached evidence is a named
-   refusal, never a hidden fetch. Normal online acquisition retains its exact
-   endpoint, timeout and response bounds. Invalid attached evidence must produce
-   a diagnostic rather than a success attributed to that evidence; any allowed
-   online recovery is separately reported. Revalidate current authority and
-   freshness at consumption; a successful handoff is not a lasting authority
-   cache. Preserve restart/replay and concurrent withdrawal protections.
-5. **Bound and minimize disclosure.** Freeze byte and item limits within the
-   existing presentation/transport admission budgets, before parsing unbounded
-   input or verifying signatures. The status's revoked-child list can disclose
-   associations: attach only when the handoff's disclosure policy permits the
-   complete signed object. Never truncate, redact or re-sign it to fit. If it
-   exceeds the budget or disclosure is disallowed, report the omitted-proof
-   dependency explicitly and retain the ordinary online path; offline refuses
-   unless usable exact evidence is already local. Do not publish private
-   contact-nym bindings or generalize this to broadcast advertisements.
+`capability-passport-present.v2` is a closed carrier containing only a V2
+passport and optional `issuance/status` (`issuance-revocation-status.v1`). Signed
+documents and preimages are unchanged. V2 rejects signed subdocuments whose
+typed decoding would reorder arrays, insert defaults or discard fields; it never
+normalizes incoming signed material. V1 remains open and version-compatible;
+new delegated Messaging handoffs use V2, without automatic downgrade.
 
-### Offline acceptance gate
+The canonical carrier budget is 65,536 bytes, checked after the existing bounded
+1 MiB frame decode and before cryptography/merge. Check final frame size too.
+There is one status and at most 4096 signed revoked-child identifiers. Never
+truncate, redact or re-sign the status.
 
-Use existing issuance, capability-binding and Messaging handoff/replay fixtures,
-with a network-denying status-fetch adapter and a call counter. Retain both pure
-verification cases and a test of the real host presentation builder/consumer;
-a synthetic verifier alone does not close the task. No models, browser campaign
-or full two-node qualification are required for this bounded gate.
+Disclosure is explicit per owned local grant: `status_disclosure = omit |
+full-status`, default `omit`, including empty revoked-child lists. The operator
+sets it through `POST /v1/identity/messaging-issuance/grants/presentation-policy`;
+remote observations cannot grant this action. The existing inventory exposes the
+policy and allowed action. This metadata changes neither the signed grant nor
+issuance authority. No UI is added in this slice.
+
+The builder reads one owner snapshot without fetching/signing. Attach only a
+currently valid full status allowed by policy, fitting the budget, with at least
+60 seconds of useful validity after profile and parent/child expiry bounds.
+Omission is a local typed diagnostic, not a peer-supplied policy label. It does
+not roll back an accepted contact. Policies affect new builds, not copies already
+disclosed.
+
+The entire typed presentation crosses builder/dispatch/authenticated-peer/cache/
+issuance boundaries. Host context binds the beneficiary node to the actual peer;
+trusted local import is explicit, never inferred from missing peer identity.
+Observation results distinguish observed, deferred and refused; a handled frame
+or transport receipt is not authority. Generic dispatch, AD/reference/batch and
+network-ledger consumers reject the new carrier. Present-request responses stay V1.
+
+### Shared observation and online acquisition
+
+All status acquisition uses one bounded `IssuanceStatusSource`: the signed
+endpoint, 5 seconds, 1 MiB, no redirects. Import, presentation, pending retries and
+manual/periodic refresh share this port and merge. Invalid root/grant registration
+never selects a network endpoint.
+
+There is **no product NoFetch mode**. Check an attachment's signature and binding
+even if local cache is valid; malformed evidence refuses without fetch or write.
+Authentic stale evidence contributes negative knowledge. Use exact current local
+or attached evidence when sufficient; otherwise attempt exactly one online fetch,
+including when an authentic attachment is stale. Never retry that fetch implicitly.
+After acquisition, obtain one explicit evaluation time `at` and pass it through
+verification and merge; a status minted during fetch must not be evaluated against
+the earlier request time. Later authorization remains a separate current check
+without hidden I/O.
+
+Merge is monotonic: maximum revision, union of known child withdrawals and
+permanent parent withdrawal. Lower revisions do not change state. Within one
+revision retain the latest signed `as_of` with deterministic ties; freshness-only
+changes are not equivocation. Different withdrawal semantics at equal revision
+retain their union and bounded equivocation diagnostics. Keep the signed snapshot
+separate from local knowledge; never fabricate a joined signed status. At 4096
+known revoked children, overflow persists a local unavailable guard rather than
+dropping negative facts. Refresh cannot clear it. Recheck under the owner's atomic
+update and preserve knowledge through restart/replay. Cache only cryptography.
+
+### Bounded host-path acceptance gate
+
+Conformance and real host-path evidence are distinct. Use synthetic federation,
+controlled authority time and a counting, network-denying source adapter. Do not
+add a daemon configuration test mode. Control the fixture refresh loop separately
+from the measured presentation; production refresh continues normally.
 
 | Case | Required evidence |
 |---|---|
-| Cold status cache, independently admitted root, valid attached status | Real handoff consumer accepts the bounded observation with zero status-fetch calls; expected consent authorization succeeds only under its normal profile. |
-| Missing proof without usable cache, revoked/expired/stale status, wrong grant/federation/key, or invalid signature | Distinguishable refusals with zero status-fetch calls in network-disabled mode; no successful consent admission. |
-| Status within its lease but beyond a stricter receive-profile freshness limit | Refuse authorization; neither attachment nor a new receipt timestamp refreshes the evidence. |
-| Revision rollback or known parent/child withdrawal, including after restart | Attachment cannot lower the high-water mark, clear withdrawal or resurrect consent; concurrent withdrawal is preserved. |
-| Root/custody changes between build, observation and use | Current local authority wins; neither attached root material nor a historical successful observation bypasses it. |
-| Byte/item overflow, prohibited disclosure, unsupported carrier | Bounded refusal or explicit omission/dependency; no silent stripping, partial signed object or offline-success claim. |
-| V1 and no-attachment online regressions | Existing presentation and bounded endpoint acquisition remain usable without widening authority or freshness. |
+| Cold status cache, admitted root, usable attached status | Actual builder-to-peer-to-observation handoff and normal consent authorization; zero fetch attempts |
+| Exact useful local evidence, no attachment | Accepted from cache; zero fetch attempts |
+| Missing or authentic stale evidence | Exactly one attempt; typed unavailable/stale with denied adapter, success with a fresh source response |
+| Status signed during fetch | Final evaluation uses time after acquisition and accepts a valid new as_of |
+| Invalid attachment, grant, root or peer | Refusal without fetch/store pollution, even with useful cache |
+| Known withdrawals, rollback, restart and concurrent merge | No lost negative knowledge or resurrected consent |
+| Equal-revision refresh/equivocation and capacity overflow | Deterministic snapshot, union/diagnostics and persistent bounded guard |
+| Time/profile/root/custody changes | Current locally admitted authority and original signed lease win at use; staged root changes nothing |
+| Disclosure, 60-second margin, byte/item limits and unsupported consumers | Exact boundary cases and typed omission/refusal; no downgrade, stripping or generic authority installation |
+| V1/no-attachment online regressions | Existing authority scope and bounded acquisition preserved |
 
-Retain source-pinned inputs, explicit evaluation times, outcomes and fetch counts
-using the existing limited-Messaging evidence/qualification conventions. Update
-the Node ledger and MVP only for the measured presentation path. Passing this
-gate proves bounded offline verification with pre-existing trust, not long-term
-offline authorization, delivery availability or release readiness.
+Evidence pins clean sources, test executable, fixtures, evaluation times, digests,
+outcomes and fetch counts. Retain exact public documents and compare qualification
+before/after extraction. No browser campaign, model, VM or new full P076-034 run.
+This proves bounded verification during a signed lease (at most 300 seconds,
+potentially shorter by profile), not long-term offline authorization or delivery.
+Full-candidate and release flags remain false. Source-query privacy remains open.
 
 Dependencies are the existing V2 delegation/status verifier, durable observation
 owner and scoped receive-consent handoff from P076-029–031. P076-034's full
@@ -279,7 +297,8 @@ or unit test alone never closes a runtime gate.
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
-| P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | todo | Freeze carrier/version, size/disclosure bounds and acquisition policy; reuse the issuance verifier, observation owner and consent handoff; retain the [offline acceptance gate](#offline-acceptance-gate), including cold-cache real host consumption with zero status fetches, refusal/restart/rollback cases and unchanged V1/online behavior; synchronize P024/S007, P060/S027 and the scoped Node ledger/MVP evidence |
+| P076-036 | Portable-proof follow-up | Bounded V2 status presentation | partial | Contract frozen on 2026-10-24; implementation follows the five gates below, with explicit online fallback and per-grant opt-in; no product NoFetch or runtime claim yet |
+| P076-037 | Future acquisition policy | Product offline/privacy policy | todo | Requires offline-lease decision, source-query privacy rationale, one-port P091 setting and refresh migration to S020; outside P076-036 |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -649,3 +668,13 @@ readiness remain separate gates.
 The earlier 54-action focus remains a report-contract refusal. This fresh
 complete candidate does not retrospectively repair its reserved-field error
 or promote any earlier refused attempt or focused diagnostic.
+
+### P076-036 implementation gates
+
+| Task | Gate | Status |
+|---|---|---|
+| P076-036-01 | Carrier/schema/policy contract, mirrors and boundary fixtures | done |
+| P076-036-02 | Single source, explicit evaluation time and durable monotonic merge | todo |
+| P076-036-03 | Actual builder/peer/context plumbing and unsupported-consumer refusals | todo |
+| P076-036-04 | Source-pinned bounded host-path qualification and review | todo |
+| P076-036-05 | Retention equality, scoped documentation/ledger/MVP closeout | todo |
