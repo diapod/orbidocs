@@ -510,3 +510,11 @@ This solution keeps the core small:
 - advertisements provide the live presentation,
 - Seed Directory provides optional indexing,
 - and consumers retain local policy authority over trust.
+
+### Bounded Messaging presentation
+
+P076-036 extends only the direct authenticated Messaging receive-consent handoff
+with `capability-passport-present.v2` and optional signed status. It does not widen
+advertisement, settlement or generic dispatch authority. V1 request responses
+remain unchanged. A verified observation is an input to later current
+authorization, not a durable authorization result.

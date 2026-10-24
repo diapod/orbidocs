@@ -681,3 +681,16 @@ See [the implementation checkpoint](027-messaging-middleware-impl.md#p076-034-lo
 and `node:docs/evidence/limited-messaging/2026-10-24-final-candidate/README.md` for exact sources, binaries, counts, public proofs and provider
 substitutions. Historical focused runs keep scope; P076-036 and production/release
 readiness remain separate gates.
+
+### P076-036 status observation
+
+The direct receive-consent handoff preserves the complete V2 presentation. Its
+optional signed status uses owner-local per-grant disclosure policy, default
+omit, and at least a 60-second remaining usable lease at build. The receiver
+shares one bounded acquisition/monotonic observation owner with import and
+refresh; stale/absent evidence permits exactly one online acquisition attempt.
+There is no product NoFetch setting. Actual peer identity, locally admitted root,
+current custody and exact consent scope are still required. A status attachment
+does not create membership/consent, elevate assurance or resume blocked messages.
+The scoped acceptance capsule excludes browser, model, VM and full-candidate
+reruns; historical evidence and release readiness retain their separate scope.

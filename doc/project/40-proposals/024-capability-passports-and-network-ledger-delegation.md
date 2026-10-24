@@ -705,3 +705,14 @@ with arbitrary network lookup or alter Network Ledger request/reply transport.
 - Define the full `network-ledger` scope model: richer account selectors,
   per-operation limits, maximum hold lifetime, accepted receipt classes, and
   settlement policy refs.
+
+## P076-036 presentation boundary
+
+The closed `capability-passport-present.v2` carrier adds optional complete signed
+issuance status to delegated Messaging receive-consent handoff. It changes no
+signed passport/grant/status preimage. Local root/custody, exact scope and original
+leases still establish authority. V1 remains open and accepts its existing
+passport versions; present-request responses remain V1. This does not add V2
+installers for generic dispatch, AD, references, batches or network-ledger. Those
+consumers refuse the new carrier, including declared-schema/content mismatches.
+See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).

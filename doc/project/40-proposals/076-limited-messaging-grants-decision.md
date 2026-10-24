@@ -170,7 +170,7 @@ for this bounded first implementation.
 
 ## P076-036: Bounded status presentation and offline acceptance
 
-**Status: planned, not runtime-qualified (2026-10-23).** The first receiver of a
+**Status: implemented, qualification pending (2026-10-24).** The first receiver of a
 V2 Messaging passport should be able to verify it without fetching status when
 the presentation carries a usable, existing `issuance-revocation-status.v1` and
 the receiver already has an independently admitted active root. This applies
@@ -233,7 +233,8 @@ even if local cache is valid; malformed evidence refuses without fetch or write.
 Authentic stale evidence contributes negative knowledge. Use exact current local
 or attached evidence when sufficient; otherwise attempt exactly one online fetch,
 including when an authentic attachment is stale. Never retry that fetch implicitly.
-After acquisition, obtain one explicit evaluation time `at` and pass it through
+After acquisition and acquisition of the state writer, obtain one explicit
+evaluation time `at` and pass it through
 verification and merge; a status minted during fetch must not be evaluated against
 the earlier request time. Later authorization remains a separate current check
 without hidden I/O.
@@ -245,7 +246,11 @@ changes are not equivocation. Different withdrawal semantics at equal revision
 retain their union and bounded equivocation diagnostics. Keep the signed snapshot
 separate from local knowledge; never fabricate a joined signed status. At 4096
 known revoked children, overflow persists a local unavailable guard rather than
-dropping negative facts. Refresh cannot clear it. Recheck under the owner's atomic
+dropping negative facts. The same capacity-safe merger is used by presentation,
+import and refresh. Full positive-receipt admission cannot roll back a verified
+negative join. Store overflow records a sticky local unavailable guard; a bounded
+unknown-grant admission guard also applies to later imports. These are not issuer
+revocations, and refresh cannot clear them. Recheck under the owner's atomic
 update and preserve knowledge through restart/replay. Cache only cryptography.
 
 ### Bounded host-path acceptance gate
@@ -674,7 +679,7 @@ or promote any earlier refused attempt or focused diagnostic.
 | Task | Gate | Status |
 |---|---|---|
 | P076-036-01 | Carrier/schema/policy contract, mirrors and boundary fixtures | done |
-| P076-036-02 | Single source, explicit evaluation time and durable monotonic merge | todo |
-| P076-036-03 | Actual builder/peer/context plumbing and unsupported-consumer refusals | todo |
+| P076-036-02 | Single source, explicit evaluation time and durable monotonic merge | partial |
+| P076-036-03 | Actual builder/peer/context plumbing and unsupported-consumer refusals | partial |
 | P076-036-04 | Source-pinned bounded host-path qualification and review | todo |
 | P076-036-05 | Retention equality, scoped documentation/ledger/MVP closeout | todo |

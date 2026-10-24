@@ -198,6 +198,22 @@
             "minimum": 0,
             "maximum": 1024,
             "description": "Total locally issued children of this exact grant before window/point selection."
+          },
+          "status_disclosure": {
+            "enum": [
+              "omit",
+              "full-status"
+            ],
+            "description": "Local opt-in only; absence is omit, never inferred permission."
+          },
+          "allowed_actions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "set-presentation-policy"
+              ]
+            }
           }
         },
         "required": [

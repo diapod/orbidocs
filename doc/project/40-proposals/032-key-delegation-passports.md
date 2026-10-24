@@ -801,3 +801,16 @@ Proposal 031's key encryption layer, avoiding parallel implementations.
   optionally triggers an SSE event.
 - **Cross-node proxy key sync**: a signed export bundle that can be imported on
   a sibling node, with the provenance of the original node recorded.
+
+## P076-036 bounded observation material
+
+Messaging V2 presentation may carry one existing signed revocation status under
+explicit per-grant disclosure opt-in. The receiver authenticates this material
+even with useful cached evidence. Shared monotonic local knowledge preserves
+withdrawals separately from the selected signed snapshot. Useful attached/local
+evidence avoids acquisition; missing or stale evidence permits one bounded online
+attempt. This is not a product NoFetch policy. The original signed lease, at most
+300 seconds from `as_of` and possibly shorter by profile, remains authoritative.
+Current root/custody, scope and time are checked at use. The attachment never
+installs authority or creates consent, and does not claim later offline delivery.
+See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).

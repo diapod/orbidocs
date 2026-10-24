@@ -1200,3 +1200,16 @@ tables in this project (see Proposal 057 §Tracking and Proposal 058
 | P060-035 | Story-010 two-node acceptance scaffold | done | `node/tools/acceptance/story-010-operator/` contains profile generation, Node A/B daemon launchers, UI launch/stop helpers, a runbook, `story-smoke`, and self-contained `ad-smoke` for the two-node Seed Directory + Attestation Service + Contact Catalog + Messaging topology. Strict `ad-smoke` is also the top-level Contact Catalog E2E gate: it reports provider publish/trust, admission, projection, lookup, provider sync, private lookup mode, and route-set v1 phases while still exercising attestation challenge/redeem, contactability publish with passport-bound signed contact claims and supervised Contact Catalog admission, shared Contact Catalog lookup, contact request delivery, operator accept, route-only or pairwise-nym-constrained `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, a second recorded message, Node B Agora Vault storage, public ciphertext lookup by opaque artifact id, and authorized list/get/delete by opaque vault subject. |
 | P060-036 | `messaging.accept` capability advertisement for messaging-capable nodes | done | Registered in `doc/project/60-solutions/CAPABILITY-REGISTRY.en.md` / `.pl.md` and node `capability` mapping as `app/messaging.accept`. Solution 007 documents it as an application advertisement tied to the canonical `messaging-receive@v1` profile and `privacy = private-direct`; lookup consumers may filter candidates by it, while admission still requires a concrete `messaging-receive` passport and local `contacts` policy. |
 | P060-037 | Recorded messaging over generic Agora Vault | done | `message-envelope.v1` has optional `recording`; `agora-vault-entry.v1` and `agora-vault-ref.v1` are schema-gated and mirrored into Node protocol contracts; `messaging-core` validates recorded envelope invariants and lineage policy; `messaging-service` persists recording/vault status in SQLite, refuses replies to known recorded parents when the flag is missing, best-effort stores encrypted message-envelope artifacts through `agora.vault.put`, and retries due `vault.failed-retryable` jobs from the outbox worker; `agora-service` stores encrypted generic vault artifacts, exposes filtered public lookup by opaque `artifact/id`, scoped list/get/delete by opaque `vault/subject`, and rejects plaintext vault entries. |
+
+## P076-036 receive-consent handoff
+
+Delegated receive consent uses the strict V2 presentation carrier with an optional
+full signed issuance status. Disclosure defaults to omit and requires operator
+opt-in per locally owned grant, including empty withdrawal lists. The builder
+reads one owner snapshot, neither fetches nor signs, and requires at least 60
+seconds of useful validity plus the 65,536-byte canonical carrier budget. Missing,
+unusable or oversized attachments are omitted whole. Contact acceptance stays
+committed. The host-only authenticated peer handoff preserves the full carrier;
+transport delivery is separate from accepted/deferred/refused observation.
+Generic AD/reference/batch and ledger paths do not gain support for V2 carriers.
+The attachment creates no relationship, consent, delegate, root trust or retry.
