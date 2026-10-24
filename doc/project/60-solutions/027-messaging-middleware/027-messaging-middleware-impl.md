@@ -518,10 +518,12 @@ The private V2 receive-consent builder now creates a complete signed
 `issuance-revocation-status.v1` attachment when its disclosure and wire budgets
 allow it. The first focused tests covered this builder and the separate AD
 acceptor, but at that source pin the actual peer-runtime import handler dropped
-the attachment. The corrected handler now forwards the complete presentation;
-its clean-source requalification remains pending.
+the attachment. The corrected handler now forwards the complete presentation.
+Its clean-source local host acceptance is retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`;
+the unsigned wire-marker decision remains open.
 Those diagnostics, including local refusal and restart checks, are pinned at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`.
-The actual peer-import offline gate remains open. This does not qualify
+The P076-036 tracker remains in progress for the wire-marker decision. This does not qualify
 offline message delivery, full two-node runtime, production root activation or
 release readiness, and does not revise P076-034's historical qualification.

@@ -422,10 +422,12 @@ attach an existing signed issuance-status snapshot as `issuance/status` in the
 `capability-passport-present.v1` V2 receive-consent handoff, not to every
 `message-envelope.v1`. Reuse the existing notification builder, peer
 presentation consumer and durable observation owner.
-The bounded local offline gate remains open: first focused diagnostics at
+The first focused diagnostics at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
-did not traverse the real peer-runtime import path; the corrected route awaits
-clean-source requalification. The normal
+did not traverse the real peer-runtime import path. The corrected route's
+clean-source local gate is retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
+The normal
 online path remains; `issuance/status-dependency = online-required` names a
 withheld or unavailable proof. Disclosure/size limits may prohibit attaching the
 complete signed status. This bounded task does not relax per-message receive

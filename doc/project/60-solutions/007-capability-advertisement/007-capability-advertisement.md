@@ -111,8 +111,9 @@ existing signed issuance status as `issuance/status` when size and disclosure
 budgets permit, with `issuance/status-dependency = online-required` on omission.
 It does not add status to every `capabilities/presented` assertion or broadcast private
 proofs. Independently admitted roots, durable revocation knowledge and freshness
-remain required. Its bounded zero-status-fetch peer-import gate remains open;
-the sole tracker and first focused diagnostics live in P076;
+remain required. Its bounded zero-status-fetch peer-import gate passed on clean
+local sources; the sole tracker, first incomplete diagnostics and corrected
+host-route evidence live in P076;
 advertisement implementation status does not expand this scoped path to
 broadcast assertions.
 

@@ -204,10 +204,11 @@ owns the first bounded slice: an existing signed issuance status attached as
 handoff, with `issuance/status-dependency = online-required` on omission. Reuse
 the notification builder, peer-message consumer, capability-binding verifier
 and durable issuance observation store.
-The bounded local host-path gate remains open: the first focused diagnostics
+The first focused diagnostics
 at `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
-did not traverse the real peer-runtime import path. The corrected route awaits
-clean-source requalification.
+did not traverse the real peer-runtime import path. The corrected route's
+clean-source local gate is retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
 Neither this attachment nor its
 acceptance creates local issuance authority, admits roots, lengthens freshness
 or qualifies offline message delivery. Disclosure and wire budgets govern

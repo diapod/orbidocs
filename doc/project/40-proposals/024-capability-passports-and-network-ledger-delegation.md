@@ -581,12 +581,12 @@ Receivers MAY additionally reject passports by local policy, such as:
   the private consent producer withholds a nonempty list. Reuse the V2
   grant/status verifier and durable observation owner; do not change the V1
   verification rules above, the child's
-  signed preimage or local root admission. The bounded local offline gate remains
-  open: the first focused evidence at
+  signed preimage or local root admission. The first focused evidence at
   `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
-  did not traverse the real peer-runtime import path. P076 owns the corrected
-  route and its clean-source requalification.
-  This is not a new credential format or
+  did not traverse the real peer-runtime import path. P076's corrected route
+  has clean-source local acceptance at
+  `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`;
+  the unsigned marker decision remains open. This is not a new credential format or
   a completion claim for P024's already qualified foundation.
 - A host capability such as `capability.passport.sign` is a suitable operator
   interface for passport issuance.
