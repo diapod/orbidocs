@@ -1298,10 +1298,11 @@ warmup per hardware mode before rate thresholds, without treating it as a
 quality measurement. Real samples, even anonymized, are not synthetic fixtures:
 public vectors preserve observed layout using newly generated values and times.
 
-The following initial finite budgets are design defaults, not measurements.
-P096-002 binds their revision and digest before any acceptance run; changing
-them invalidates affected reports. Count complete messages, copies and every
-preset, including base64 expansion and metadata.
+The following finite budgets are declared defaults, not measurements.
+P096-002 binds their revision and digest before any acceptance run. A changed
+policy requires fresh qualification of the affected candidate; historical
+reports retain their original budgets and scope. Count complete messages,
+copies and every preset, including base64 expansion and metadata.
 
 | Surface | Initial bound |
 | --- | --- |
@@ -1309,16 +1310,30 @@ preset, including base64 expansion and metadata.
 | Worker drain / aggregation | 25 ms / at most 100 ms |
 | Normalized block | 32 channels × 128 samples, split before encoding |
 | Native capacity | 2,048 samples per preset; checked combined allocation at most 2 MiB |
-| Channel message / worker-host queue | 64 KiB / 16 blocks, 512 KiB or 1 second, first limit wins |
+| Channel message | 64 KiB / at most 16 original blocks per RPC |
+| Native worker-host queue (reader-pause revision 1, 2026-10-24) | 256 FIFO batches / at most 512 original blocks, 16 MiB or 20 seconds residence at disclosure, first limit wins |
 | Transient source retention | 5 seconds, 256 blocks or 1 MiB, first limit wins |
 | Local consumers / read batch | 4 per source / 8 frames or 64 KiB; one in-flight read per reader |
 | Carrier output / read revocation visibility | 8 blocks, 64 KiB or 1 second / at most 100 ms |
 | Memory | 512 MiB worker RSS; 16 MiB host slice buffers |
-| Drain-to-local-receipt latency | p95 ≤ 250 ms, p99 ≤ 500 ms, maximum ≤ 1 second |
+| Drain-to-local-receipt latency under steady consumption | p95 ≤ 250 ms, p99 ≤ 500 ms, maximum ≤ 1 second |
 | Protected stop (budget revision 3, adopted 2026-10-21) | receipt ≤ 626 ms; output fence ≤ 250 ms from host decision; process exit ≤ 10 seconds |
 | Cleanup / recovery (budget revision 3) | after 20 seconds unproven native cleanup becomes uncertain and holds the claim; recovery after pressure ≤ 10 seconds |
 | Surviving-worker reconnect | at most three serial operation attempts after returned timeouts within the original 90-second session and current authority; unconfirmed disposal retains the claim; killed workers require manual restart |
 | Hardware acceptance | three 300-second runs per mode; observed rates within 5% of confirmed nominal rates |
+
+The reader-pause revision is adopted prospectively on 2026-10-24: a running,
+ordinarily drained native worker must retain at least 15 seconds of new data
+while its reader pauses and its independent control/authority remain current.
+The 20-second / 256-batch / 16-MiB bounds include recovery headroom. Catch-up keeps
+each original value, clock and sequence, uses the existing bounded RPC size and
+never silently discards a tail. Deliberate-pause retention/recovery is a separate
+workload from steady-consumption latency qualification. First-required-data,
+consent/grant, Case, validation and protected stop deadlines retain their scopes;
+this is not a whole-host freeze allowance. Native queue retention does not
+replace the independent source/P082 and carrier retention/gap contracts.
+Historical package generations and reports remain bound to their original
+budgets; new worker bytes require new immutable package identities and pins.
 
 Muse 2 plus a synthetic instance proves process, claim and stop isolation only.
 It reports `concurrency.device/count: 1`. P096-011b independently requires two
@@ -4395,3 +4410,24 @@ The device-free proof retains 33 controls under manifest `e281b221`, archive
 `b384d31e` and fresh primary readback `a92fb9b1`, with originals preserved and no
 archived producer execution. This is evidence-processing conformance/custody,
 not renewed native qualification.
+
+
+### Native reader-pause queue revision — 2026-10-24
+
+The operator authorizes at least fifteen seconds without reader calls. The common
+worker's prospective default becomes 20 seconds / 256 FIFO batches / 16 MiB;
+per-RPC admission/cardinality/bytes remain eight batches / sixteen original blocks
+/ 49152 B payload / 65536 B envelope. Queue age, count and byte budgets are raised
+together; bounded catch-up preserves every original value, clock and sequence.
+The declared budget table and Node owner contract reflect this separate native
+retention workload. Initial data, authority, heartbeat and protected stop clocks
+remain independent; deliberate pauses do not become steady-state latency passes.
+
+Software checks cover fifteen-second pauses with full 128-sample matrices,
+exact age/count boundaries, FIFO recovery and STOP. The final real-time fake-Board
+probe retains all 276 queued blocks after 15058.767 ms without reads; this is not
+Muse/SDK or full native qualification. New immutable package identities include
+the shared-source Synthetic family. Historical packages/reports remain exact;
+a new target build and normal Author/Sign are required before production use of
+the new generation. No hardware, target mutation or merge occurs. P096-005 stays
+partial. See node:docs/audits/REVIEW-SENSORIUM-QUEUE-RETENTION-2026-10-24.md.
