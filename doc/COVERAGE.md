@@ -119,7 +119,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`capability-issuance-request.v1.schema.json`](schemas-gen/schemas/capability-issuance-request.v1.md) | `13` | `0` | `yes` | `yes` | `1` | `0` |
 | [`capability-passport-lookup.v1.schema.json`](schemas-gen/schemas/capability-passport-lookup.v1.md) | `6` | `0` | `yes` | `yes` | `0` | `0` |
 | [`capability-passport-preparation.local.v1.schema.json`](schemas-gen/schemas/capability-passport-preparation.local.v1.md) | `4` | `0` | `yes` | `yes` | `0` | `0` |
-| [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `4` | `3` | `yes` | `yes` | `5` | `0` |
+| [`capability-passport-present.v1.schema.json`](schemas-gen/schemas/capability-passport-present.v1.md) | `3` | `2` | `yes` | `yes` | `5` | `0` |
 | [`capability-passport-publication-desired-state.v1.schema.json`](schemas-gen/schemas/capability-passport-publication-desired-state.v1.md) | `8` | `0` | `no` | `yes` | `0` | `0` |
 | [`capability-passport-publication-status-list.v1.schema.json`](schemas-gen/schemas/capability-passport-publication-status-list.v1.md) | `5` | `0` | `no` | `yes` | `0` | `0` |
 | [`capability-passport-publication-status.v1.schema.json`](schemas-gen/schemas/capability-passport-publication-status.v1.md) | `8` | `0` | `no` | `yes` | `0` | `0` |

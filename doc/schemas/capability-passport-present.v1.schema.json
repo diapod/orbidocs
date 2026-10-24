@@ -48,24 +48,11 @@
         }
       ],
       "description": "Exact signed status artifact for a V2 Messaging receive-consent handoff. Its serialized bytes are limited to 65536 by the carrier."
-    },
-    "issuance/status-dependency": {
-      "const": "online-required",
-      "description": "Informational omission marker. Online acquisition or an exact usable local observation is required; it never grants authority."
     }
   },
   "if": {
-    "anyOf": [
-      {
-        "required": [
-          "issuance/status"
-        ]
-      },
-      {
-        "required": [
-          "issuance/status-dependency"
-        ]
-      }
+    "required": [
+      "issuance/status"
     ]
   },
   "then": {
@@ -80,14 +67,7 @@
           }
         }
       },
-      "issuance/status": {},
-      "issuance/status-dependency": {}
-    },
-    "not": {
-      "required": [
-        "issuance/status",
-        "issuance/status-dependency"
-      ]
+      "issuance/status": {}
     }
   }
 }

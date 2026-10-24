@@ -428,8 +428,8 @@ did not traverse the real peer-runtime import path. The corrected route's
 clean-source local gate is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
 The normal
-online path remains; `issuance/status-dependency = online-required` names a
-withheld or unavailable proof. Disclosure/size limits may prohibit attaching the
+online path remains; the producer records a local omission reason when no
+disclosable, usable status is attached. Disclosure/size limits may prohibit attaching the
 complete signed status. This bounded task does not relax per-message receive
 admission,
 extend the status lease or claim offline delivery. P076 owns its tracker.

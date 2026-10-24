@@ -170,8 +170,7 @@ for this bounded first implementation.
 
 ## P076-036: Bounded status presentation and offline acceptance
 
-**Status: clean-source local peer-import gate passed; unsigned wire-marker
-decision remains open (2026-10-24).** The first receiver of a
+**Status: marker-free carrier under local requalification (2026-10-24).** The first receiver of a
 V2 Messaging passport should be able to verify it without fetching status when
 the presentation carries a usable, existing `issuance-revocation-status.v1` and
 the receiver already has an independently admitted active root. This applies
@@ -191,18 +190,19 @@ issuance delegate. It does not make Messaging transport itself work offline.
 
 The existing `capability-passport-present.v1` remains the discriminator. For a
 `capability-passport.v2` with `capability_id = messaging-receive`, it may contain
-exactly one of two optional, typed top-level fields:
+one optional, typed top-level field:
 
 - `issuance/status`: the complete, unchanged `issuance-revocation-status.v1`
   signed object, interpreted only against the child's embedded delegation and
-  the receiver's independently admitted local root;
-- `issuance/status-dependency = online-required`: an explicit indication that
-  the producer withheld or could not obtain a disclosable, usable status. It
-  is an unsigned informational hint, used only for diagnosis. It conveys no
-  identity or authority and permits only exact usable local evidence or the
-  existing online acquisition policy.
+  the receiver's independently admitted local root.
 
-V1 presentations carry neither field. External consumers that do not understand
+Absence of `issuance/status` leaves the existing local-evidence or online
+acquisition policy in force. The producer records its precise omission reason
+locally; the receiver records `status/carrier: attached | absent` and the
+verifier class in its presentation fact. No unsigned omission label crosses the
+wire or contributes authority.
+
+V1 presentations carry no issuance field. External consumers that do not understand
 the optional V2 extension may continue their old online verification path, but
 may not claim offline acceptance from a field they ignored. The built-in peer
 importer refuses a portable carrier it cannot handle. The new host refuses
@@ -215,8 +215,8 @@ defends the receiving implementation; the local producer attaches only an empty
 list under its private disclosure policy. These limits apply before signature
 work; the AD raw admission remains capped at its
 transport budget. The private consent handoff attaches a status only when its
-signed revoked-child list is empty. Otherwise it emits `online-required`; it
-never trims, redacts or re-signs the list. The network-disabled acceptance
+signed revoked-child list is empty. Otherwise it records a local omission reason;
+it never trims, redacts or re-signs the list. The network-disabled acceptance
 adapter refuses missing usable evidence without calling the status endpoint;
 the installed peer host uses the online policy, but a usable attachment prevents
 its fetch. Normal online consumption retains the existing bounded fetch when no
@@ -326,7 +326,7 @@ or unit test alone never closes a runtime gate.
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
-| P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | in progress | Clean-source local peer-import gate at Node `c2e5ae55` / Orbidocs `11ceed7e`: `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md` proves zero-fetch attachment and consent authorization through the real handler/host importer. The earlier focused evidence remains incomplete. Resolve the unsigned wire-marker decision before `done`; no offline delivery or full runtime/release claim |
+| P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | in progress | The former marker-bearing peer-import gate is retained at Node `c2e5ae55` / Orbidocs `11ceed7e`: `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`. The unsigned omission marker was removed by explicit decision before release; requalify the final carrier on clean source before `done`. No offline delivery or full runtime/release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -374,9 +374,11 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 P076-034 closes the local full mixed/provider candidate. P076-036's first
 focused diagnostics at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
-do not close the actual peer-import offline gate. The corrected path's
+do not close the actual peer-import offline gate. The corrected path's earlier
 clean-source local acceptance is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
+Its former omission marker was removed before release, so the final carrier
+requires its own clean-source acceptance.
 Track remote-withdrawal outbox behavior
 and the separate lifecycle suite's ambient model-root isolation. Real email/SMS,
 remote self-service catalog publication, production root activation and release

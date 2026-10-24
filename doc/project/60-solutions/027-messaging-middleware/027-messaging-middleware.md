@@ -201,7 +201,7 @@ network-disabled verifier/replay evidence when adopting a profile.
 [P076-036](../../40-proposals/076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
 owns the first bounded slice: an existing signed issuance status attached as
 `issuance/status` to `capability-passport-present.v1` for the V2 consent-passport
-handoff, with `issuance/status-dependency = online-required` on omission. Reuse
+handoff; omission reasons stay in the producer's local trace. Reuse
 the notification builder, peer-message consumer, capability-binding verifier
 and durable issuance observation store.
 The first focused diagnostics

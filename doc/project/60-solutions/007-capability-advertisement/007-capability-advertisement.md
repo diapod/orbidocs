@@ -108,7 +108,7 @@ Receivers must verify the presented credential under:
 The bounded [P076-036 presentation slice](../../40-proposals/076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
 reuses this verification boundary for V2 Messaging consent handoff, attaching the
 existing signed issuance status as `issuance/status` when size and disclosure
-budgets permit, with `issuance/status-dependency = online-required` on omission.
+budgets permit; the producer records an omission reason locally.
 It does not add status to every `capabilities/presented` assertion or broadcast private
 proofs. Independently admitted roots, durable revocation knowledge and freshness
 remain required. Its bounded zero-status-fetch peer-import gate passed on clean

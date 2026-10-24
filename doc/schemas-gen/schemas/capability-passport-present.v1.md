@@ -36,7 +36,6 @@ Wire presentation retaining the complete signed passport proof. For V2 Messaging
 | [`schema`](#field-schema) | `yes` | const: `capability-passport-present.v1` | Schema discriminator. Must equal `capability-passport-present.v1`. |
 | [`passport`](#field-passport) | `yes` | unspecified |  |
 | [`issuance/status`](#field-issuance-status) | `no` | unspecified | Exact signed status artifact for a V2 Messaging receive-consent handoff. Its serialized bytes are limited to 65536 by the carrier. |
-| [`issuance/status-dependency`](#field-issuance-status-dependency) | `no` | const: `online-required` | Informational omission marker. Online acquisition or an exact usable local observation is required; it never grants authority. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -60,11 +59,3 @@ Schema discriminator. Must equal `capability-passport-present.v1`.
 - Shape: unspecified
 
 Exact signed status artifact for a V2 Messaging receive-consent handoff. Its serialized bytes are limited to 65536 by the carrier.
-
-<a id="field-issuance-status-dependency"></a>
-## `issuance/status-dependency`
-
-- Required: `no`
-- Shape: const: `online-required`
-
-Informational omission marker. Online acquisition or an exact usable local observation is required; it never grants authority.
