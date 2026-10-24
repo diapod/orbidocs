@@ -585,7 +585,10 @@ Receivers MAY additionally reject passports by local policy, such as:
   did not traverse the real peer-runtime import path. P076's corrected route
   has clean-source local acceptance at
   `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`;
-  the now-removed unsigned marker is historical. This is not a new credential format or
+  the now-removed unsigned marker is historical. The marker-free clean-source
+  host gate is retained at
+  `node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`.
+  This is not a new credential format or
   a completion claim for P024's already qualified foundation.
 - A host capability such as `capability.passport.sign` is a suitable operator
   interface for passport issuance.

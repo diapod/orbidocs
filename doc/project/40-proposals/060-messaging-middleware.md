@@ -427,6 +427,8 @@ The first focused diagnostics at
 did not traverse the real peer-runtime import path. The corrected route's
 clean-source local gate is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
+The marker-free clean-source host gate is retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`.
 The normal
 online path remains; the producer records a local omission reason when no
 disclosable, usable status is attached. Disclosure/size limits may prohibit attaching the

@@ -111,8 +111,10 @@ existing signed issuance status as `issuance/status` when size and disclosure
 budgets permit; the producer records an omission reason locally.
 It does not add status to every `capabilities/presented` assertion or broadcast private
 proofs. Independently admitted roots, durable revocation knowledge and freshness
-remain required. Its bounded zero-status-fetch peer-import gate passed on clean
-local sources; the sole tracker, first incomplete diagnostics and corrected
+remain required. Its bounded zero-status-fetch peer-import gate passed on the
+marker-free clean source recorded at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`;
+the sole tracker, first incomplete diagnostics and corrected
 host-route evidence live in P076;
 advertisement implementation status does not expand this scoped path to
 broadcast assertions.

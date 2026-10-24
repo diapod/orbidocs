@@ -522,9 +522,11 @@ the attachment. The corrected handler now forwards the complete presentation.
 Its clean-source local host acceptance is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`;
 the marker-bearing contract at that pin is historical. The explicitly approved
-marker-free carrier is under clean-source requalification.
+marker-free carrier passed its clean-source local host gate at Node `2ce1eebd` /
+Orbidocs `007d47e9`; its bounded evidence is retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`.
 Those diagnostics, including local refusal and restart checks, are pinned at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`.
-The P076-036 tracker remains in progress until that gate passes. This does not qualify
+The P076-036 tracker is done for that bounded gate. This does not qualify
 offline message delivery, full two-node runtime, production root activation or
 release readiness, and does not revise P076-034's historical qualification.

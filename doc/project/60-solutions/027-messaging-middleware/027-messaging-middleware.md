@@ -209,6 +209,8 @@ at `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
 did not traverse the real peer-runtime import path. The corrected route's
 clean-source local gate is retained at
 `node:docs/evidence/limited-messaging/2026-10-24-portable-status-peer-route/README.md`.
+The marker-free clean-source local host gate is retained at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status-marker-free/README.md`.
 Neither this attachment nor its
 acceptance creates local issuance authority, admits roots, lengthens freshness
 or qualifies offline message delivery. Disclosure and wire budgets govern
