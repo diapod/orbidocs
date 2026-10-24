@@ -122,10 +122,14 @@ its UTC high-water mark survives pruning. Clock rollback cannot reopen spent
 windows. Admission refusal invokes no delivery adapter.
 
 The host client and original payload are checked before redemption reservation;
-expiry is part of its CAS. A proven pre-effect refusal is `redemption-not-attempted`.
+expiry is part of its CAS. The admission timestamp is observed after acquiring
+the SQLite writer; time spent waiting for a writer cannot extend the OTP lease.
+The reservation commits before host I/O. A proven pre-effect refusal is `redemption-not-attempted`.
 After reservation the outcome stays conservatively unknown on transport,
 validation or persistence failure, including a crash before actual dispatch.
-Neither restart nor the dev `always_accept` error path may erase that consumption.
+Neither restart, the dev `always_accept` error path nor a delivery-error cleanup
+may erase that consumption. The OTP may already have been redeemed concurrently
+before a provider reports its delivery error.
 
 Bounded write-side cleanup replaces expired challenge/target/request/dev OTP data
 with redacted terminal tombstones atomically. Unknown-redemption status includes
@@ -141,7 +145,10 @@ live in `node:attestation-service/README.md`.
 
 These changes retain the historical synthetic P076-034 evidence with its original
 source pins. The combined focused suite passes 28 tests; it does not enlarge that
-candidate's measured scope or establish production readiness.
+candidate's measured scope or establish production readiness. A final review
+added two real writer/provider-barrier regressions; the resulting 30-test suite
+also proves expiry across writer contention and preservation of concurrent
+redemption after a lost delivery reply.
 
 ### Local acceptance mode
 
