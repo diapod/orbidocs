@@ -2699,3 +2699,15 @@ If adopted, the next artifacts should be:
    alongside signer and sealer in the daemon's trust-boundary zone and
    is consumable by every component that needs to ask "is this author
    attested under a passport I currently accept", not only Agora.
+
+### Historical qualifier lookup repair — 2026-10-24
+
+Node's global retention checker again validates the unchanged Story-008 replica
+adoption after current tool headers changed. Historical qualifier pins are read
+from regular Git blobs at the adoption proof's exact source commit, bounded and
+hashed without executing archived code or automatically fetching missing history.
+Current policy, reference and inventory bindings remain enforced. Fresh retrieval
+still requires its exact current executable; this repair renews neither runtime
+evidence nor storage custody. Header maintenance refuses changes to qualifiers
+named in public evidence/release JSON pin metadata. See
+[the Node review](https://github.com/diapod/node/blob/master/docs/audits/REVIEW-P076-036-RETENTION-2026-10-24.md).
