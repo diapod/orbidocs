@@ -13,9 +13,11 @@ rebuild, with retained SQLite and Matrix evidence. Rich discussion surfaces and
 Agora P17 navigation remain future work; this qualification does not establish
 production readiness or cross-homeserver federation.
 
-The assessment-exposure and sealed-round continuation added on 2026-10-23 is
-**planned**, not covered by that qualification. Its prospective contracts and
-tasks below do not change existing schema or runtime status.
+The assessment-exposure continuation has a bounded local-SQLite pilot, qualified
+on 2026-10-24 as recorded in the local evidence checkpoint below. Its contract
+freeze, implementation, focused component tests and real host/browser acceptance
+are separate claims. The wider consumer continuation remains partial; sealed
+rounds remain planned. The P026-001–003 qualification retains its original scope.
 
 ## Date
 
@@ -569,7 +571,8 @@ from tool availability. A skip requires that viewer's authorized, explicit choic
 
 The first local slice freezes `assessment-exposure-profile.v1`,
 `assessment-exposure-fact.v1`, `assessment-exposure-command.v1` and
-`resource-assessment-view.v1`. Runtime qualification remains a separate gate.
+`resource-assessment-view.v1`. Runtime qualification is recorded separately in
+the local evidence checkpoint; the freeze does not establish runtime completion.
 Each own/released-peer entry retains its admitted open `opinion` body, including
 rumor credibility and rejection overlays; the legacy `opinions.v2` projection is
 unchanged. This preserves P013's typed content rather than reducing every opinion
@@ -615,6 +618,37 @@ their own implementation and evidence before introduction. Existing typed rumor
 propagation, protection and appeal owners retain their admitted paths. The
 protective opinion exception list is empty until concrete closed kind contracts
 are admitted; sender urgency or a generic moderation marker cannot populate it.
+
+#### Local Pilot Evidence Checkpoint (2026-10-24)
+
+The accepted local freeze covers four closed profile/fact/command/view contracts.
+Node implements the pure policy, separate private S028 fact store and authenticated
+host projection, with bounded UI, CLI, registered Agent and notification adapters.
+Focused component tests cover clock uncertainty, failed writes, retention gaps,
+idempotency, profile changes, viewer isolation and replay. A common-view regression
+releases a view, revokes its topic admission, verifies omitted peer content and
+retains the same durable release summary after reopen/replay. Agent-controller and
+notification-owner fixtures use scripted owner responses and retain that scope.
+
+The original `2026-10-24-local-04` report pins clean Node `63ece2a4` and Orbidocs
+`7cf59bf4`. Nine real local-SQLite host/API/UI/CLI cases passed, including authenticated
+caller refusals, byte-stable withheld views after hidden judgment changes, rumor
+body withholding/release, accepted own judgment, process restart and Agora projection
+rebuild. Actual Chrome runs cover JavaScript enabled and disabled. Independent
+qualification verifies the retained original witness bytes and hashes; negative
+verifier regressions use copies of that passed report. Evidence and the two prior
+refused attempts are retained under `node:docs/evidence/agent-runtime/2026-10-24-rate-exposure/README.md`.
+
+This checkpoint qualifies the bounded local display pilot. P026-005 remains partial
+because round/protective-kind contracts have separate gates. P026-007/008 retain
+wider consumer acceptance work, including the complete P013, notification and Agent
+matrices. The rumor fixture preserves opinion extension fields through the common
+view; it does not introduce a standalone rumor-overlay admission schema or qualify
+the complete Whisper curation/propagation workflow. Registered notices remain
+informational and polling-only, without an automatic assessment-notification
+producer. Matrix/federation, sealed rounds, P051/P069, real models, full campaigns,
+psychological independence, social effectiveness and release readiness remain
+outside this evidence.
 
 #### Shared Commitment and Barrier Contract
 
@@ -1125,14 +1159,16 @@ and navigation remain the single-source task
 [Agora P17](../60-solutions/008-agora/008-agora-backlog.md#p17-public-gossip-resource-links),
 which can proceed independently and must not block basic open-namespace support.
 
-### Assessment-exposure continuation (planned)
+<a id="assessment-exposure-continuation-planned"></a>
+
+### Assessment-exposure continuation
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
-| P026-005 | Freeze shared exposure and round contracts | todo | Existing P026 identity and admission contracts; P091; S028 | Audit all read/notification/ranking/raw-access paths; freeze closed policy/fact/view shapes, authenticated viewer and encounter/release semantics, limits, protected-kind bindings and Q-02/Q-03. Freeze typed domain bindings, exact commitment bytes, authority/receipt/clock/fork rules and secret retention for rounds separately. Add Schema Gate positive/negative fixtures; no new runtime capability claim from schema presence. |
-| P026-006 | Local exposure policy and private temporal facts | todo | 005 local contracts | Pure policy with explicit time, durable encounter/unlock/release facts and replayable bounded summaries; use S028 mechanics outside ProjectionStore. Prove restart, idempotency, authorization revocation, profile change, retention gaps, clock uncertainty and failed-write behavior. |
-| P026-007 | Viewer projection across Agora consumers | todo | 006 | Compose admit/expose in the service; gate every audited list/detail/search/export/ranking/stream/CLI/Agent surface without changing authorization. No peer-derived cursors, ETags, counts or zero placeholders while withheld; own/protective lanes remain bounded. Register only actual new operations through P072 if existing operations cannot carry the contract. |
-| P026-008 | Local exposure acceptance | todo | 007; P013-AE-001; P057-014; P073 assessment-exposure-observations | Source-pinned host/API/no-JS and JS browser evidence passes the local cases above, including notifications, Agent identity, leak matrix, rebuild and retention. Local-display-only scope remains explicit; no sealed-round or social-effectiveness claim. |
+| P026-005 | Freeze shared exposure and round contracts | partial | Existing P026 identity and admission contracts; P091; S028 | Audit all read/notification/ranking/raw-access paths; freeze closed policy/fact/view shapes, authenticated viewer and encounter/release semantics, limits, protected-kind bindings and Q-02/Q-03. Freeze typed domain bindings, exact commitment bytes, authority/receipt/clock/fork rules and secret retention for rounds separately. Add Schema Gate positive/negative fixtures; no new runtime capability claim from schema presence. Local checkpoint 2026-10-24: the four local contracts and their Schema Gate fixtures are frozen. Round authority/receipts/commitment bytes and concrete protective-kind bindings remain deferred; the local exemption list is empty. |
+| P026-006 | Local exposure policy and private temporal facts | done | 005 local contracts | Pure policy with explicit time, durable encounter/unlock/release facts and replayable bounded summaries; use S028 mechanics outside ProjectionStore. Prove restart, idempotency, authorization revocation, profile change, retention gaps, clock uncertainty and failed-write behavior. Local checkpoint 2026-10-24: pure/core and private-store tests cover the stated local gates; the common-view revocation regression preserves durable release while omitting denied content. Original run 04 adds real process restart and projection rebuild evidence. This closes local policy/private facts only. |
+| P026-007 | Viewer projection across Agora consumers | partial | 006 | Compose admit/expose in the service; gate every audited list/detail/search/export/ranking/stream/CLI/Agent surface without changing authorization. No peer-derived cursors, ETags, counts or zero placeholders while withheld; own/protective lanes remain bounded. Register only actual new operations through P072 if existing operations cannot carry the contract. Local checkpoint 2026-10-24: the bounded view (up to 100 entries per own/peer lane) and registered adapters are implemented; mixed raw reads/streams/reference-signing probes refuse unbound access. Rich pagination, wider consumer qualification and separately privileged viewer-safe inspection remain future work. |
+| P026-008 | Local exposure acceptance | partial | 007; P013-AE-001; P057-014; P073 assessment-exposure-observations | Source-pinned host/API/no-JS and JS browser evidence passes the local cases above, including notifications, Agent identity, leak matrix, rebuild and retention. Local-display-only scope remains explicit; no sealed-round or social-effectiveness claim. Original run 04 qualifies nine local host/API/UI/CLI cases and real JS/no-JS browsers. Component/synthetic-host Agent and notification fixtures are recorded separately. The full joint P013/P057/P073 matrix and wider transport/profile qualification remain open. |
 | P026-009 | Shared commitment and barrier mechanics | todo | 005 round contracts | Reuse canonical JSON/crypto, signer and durable owner primitives. Prove salt/domain isolation, exact transport bytes, bounded accepted-set closure, admission receipts, forks/equivocation, explicit deadlines and replay. Library mechanics do not count as an implemented domain publication barrier. |
 | P026-010 | Agora sealed-round owner and projections | todo | 009; 007 | Implement four admitted record kinds, owner/CAS/outbox, protected local body/salt retention and round-aware projection with per-commitment outcomes. Unknown kinds remain unindexed by legacy opinion consumers; no private governance/Room payload is forced into public Agora. |
 | P026-011 | Sealed-round adversarial acceptance | todo | 010 | Retain round cases above through real signer, relay, owner and viewer APIs; test cutoff races, omitted receipted entries, forked authority, abort, missing history, restart and bounds. Public transport qualification remains scoped; P051/P069 bindings require their own evidence and are not prerequisites for local-gate delivery. |

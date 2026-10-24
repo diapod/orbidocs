@@ -269,11 +269,18 @@ Status:
   Direct and daemon-hosted Story-005 smoke coverage proves the same path with a
   real daemon HostSigner.
 
-### Planned Assessment Exposure in Curation
+<a id="planned-assessment-exposure-in-curation"></a>
+
+### Local Assessment Exposure in Curation
 
 The [P013 profile and tracker](../../40-proposals/013-whisper-social-signal-exchange.md#assessment-exposure-profile)
 bind rumor judgments to [P026's shared gate](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
-Status is `planned` (`P013-AE-001/002`), separate from implemented Whisper M4.
+P013-AE-001 is `partial`; P013-AE-002 remains planned, separate from implemented
+Whisper M4. The [P026 local checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+qualifies withholding and later rendering of rumor-shaped credibility/rejection
+extension fields through the shared view on a generic open resource reference.
+That evidence does not introduce a standalone rumor-overlay admission schema or
+qualify the complete real Whisper curation, propagation and attention workflow.
 Reuse opinion identity/overlay validation and the Agora host's viewer projection;
 do not add a Whisper-specific blind-vote store or hide ratings only in UI.
 Peer credibility, rationales, counts and popularity ordering remain withheld

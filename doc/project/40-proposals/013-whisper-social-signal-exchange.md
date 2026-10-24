@@ -541,7 +541,12 @@ ingest policy both remain authoritative at each reship.
 
 ### Assessment Exposure Profile
 
-**Planned continuation, 2026-10-23; not covered by the existing M4 qualification.**
+**Partial local continuation, 2026-10-24; separate from the existing M4
+qualification.** The [P026 local checkpoint](026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+records the bounded common-view implementation and its real local host/browser
+acceptance. The runtime fixture preserves rumor-shaped credibility/rejection
+fields on a generic open resource reference. It does not qualify a new standalone
+rumor-overlay schema or the full Whisper curation and propagation workflow.
 Rumor credibility/rejection judgments already use `resource-opinion.v1` with
 rumor-specific fields. They therefore select the shared
 [P026 exposure contract](026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds),
@@ -847,7 +852,7 @@ association-room lifecycle policy as post-MVP questions.
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
-| P013-AE-001 | Bind rumor curation to the common local gate | todo | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. |
+| P013-AE-001 | Bind rumor curation to the common local gate | partial | P026-005/006/007; P057-014 | Reuse the opinion subject key, overlay validation and host projection for curation, Agent, search and attention paths. Retain fixtures proving peer scores/counts/order cannot leak while ordinary rumor delivery, propagation suppression and urgent protection still work. No new rumor-review store or client-only hiding; feed joint evidence into P026-008. The 2026-10-24 P026 local checkpoint proves withholding and later rendering of rumor extension fields through the shared view. Standalone overlay admission and the complete real Whisper curation/Agent/attention/propagation matrix remain outside that qualification; existing M4 evidence is unchanged. |
 | P013-AE-002 | Optional sealed rumor-assessment profile | todo | P026-010/011 | Select an admitted round/opener policy and reuse the four Agora kinds; test missing reveal, duplicates, partial history and independent propagation. This is separate from local-gate completion and not an alpha dependency. |
 
 ## Next Actions

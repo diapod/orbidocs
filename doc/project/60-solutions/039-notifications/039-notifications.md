@@ -202,9 +202,11 @@ Status:
 - `done` for the MVP surfaces; first-class pod-user session UX remains product
   hardening.
 
-### Planned Assessment Exposure Rendering
+<a id="planned-assessment-exposure-rendering"></a>
 
-Status: `planned`, tracked once in
+### Local Assessment Exposure Rendering
+
+Status: `partial`, tracked once in
 [P057-014](../../40-proposals/057-user-and-operator-notifications.md#assessment-exposure-at-rendering-boundaries),
 using [P026's viewer-bound projection](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection).
 Render assessment notices from the current admitted recipient view, not a sender's
@@ -219,6 +221,18 @@ arrival and admitted urgent protection as separate lanes; a protective kind cann
 smuggle ratings or popularity aggregates. Retain refusal, restart, stale-queue and
 two-viewer fixtures in the common exposure acceptance. No duplicate notification
 transport or UI-only redaction is needed.
+
+The first registered `resource-assessment.v1` adapter retains an Agora-owned
+subject reference and resolves the current recipient view at rendering time.
+It strips old sender body/title/actions/urgency; withheld rendering creates no
+queue, idempotency, rate-limit or SSE effect. These informational notices remain
+polling-only and are excluded from generic unread/priority counts and the global
+SSE bus even after release. Existing admitted protective paths retain their owner.
+Focused store/renderer and synthetic-owner host fixtures cover this adapter;
+[P026's checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+records real common-view host/browser acceptance separately. An automatic notice
+producer, recipient-partitioned event delivery and complete cross-recipient
+end-to-end qualification remain open.
 
 ### Schema-Defined Actions
 
