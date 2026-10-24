@@ -594,13 +594,12 @@ assertion or independence credential is added to an opinion.
 
 Encounter and unlock are explicit authenticated commands. Reading a view is pure;
 an elapsed window or open policy needs a durable release transition before peer
-content can be returned. A fresh encounter command may record that transition;
-replaying an old command preserves its original idempotency meaning. A local
+content can be returned. An explicit encounter may record that transition, including a repeated command evaluated with a new explicit time (the reviewed monotone semantics below). A local
 encounter names an opaque subject and neither probes record existence nor grants
 record access. Every rendered record still passes the ordinary topic admission.
 The private service-owned S028 store is independent of relay projection rebuild.
 It retains sufficient summaries through compaction and records unknown history
-after loss, with bounded subject, event and idempotency populations.
+after loss, with bounded subject and event populations.
 
 The first implementation profile requires the explicit local-SQLite backend;
 Matrix startup refuses while exposure is configured until publication-receipt
@@ -618,6 +617,44 @@ their own implementation and evidence before introduction. Existing typed rumor
 propagation, protection and appeal owners retain their admitted paths. The
 protective opinion exception list is empty until concrete closed kind contracts
 are admitted; sender urgency or a generic moderation marker cannot populate it.
+
+#### Local Pilot Review Amendment (2026-10-24)
+
+The operator accepted two review amendments before implementation. Local command
+idempotency is monotone per viewer/subject/command kind, grounded in retained facts;
+repeated encounters evaluate a new explicit `now`. Client request keys are
+correlation references, not permanent request-result receipts. Balanced/minimal
+S028 retention compacts sufficient summaries at the event bound. No compaction
+removes release/history facts or creates an independence credential. Full-audit
+retains its no-pruning rule and an explicit capacity refusal.
+
+A diagnosed opinion is quarantined rather than vetoing its whole subject. The
+released lane uses deterministic bounded author contributions; its conservative
+`degraded: true` marker always denotes bounded/incomplete coverage, not a count or
+health oracle for denied topics. This marker is absent while peers are withheld.
+The first candidate policy takes up to 64 topics per author (4096 total candidates)
+and up to 16 admitted opinions per author, round-robin before the 100-entry limit.
+It does not claim global completeness, Sybil resistance or constant database cost.
+Whole opinion entries may be omitted to satisfy the host response byte bound;
+fields within a retained opinion are never silently truncated.
+
+An open/out-of-selector read with no release fact returns
+`disclosure-not-recorded`, empty withholding/unlock lists and `peers: null` until
+an explicit encounter records disclosure. Withheld views may show the viewer's
+own window origin/deadline/state. A probe-only read distinguishes an exact
+`exposure-not-configured` refusal from closed/active state without resolving a
+viewer or reading that viewer's assessments. UI authentication precedes a real
+viewer query. Product routes use an audited allowlist with default refusal;
+record-target moderation markers and state-probing POSTs cannot bypass exposure.
+Rendered UI/CLI commands may pin the displayed `profile/digest`; a mismatch
+refuses before effects. Client keys do not grant authorization. The private store
+uses SQLite FULL as a disclosure-before-content durability floor; this is not
+physical power-loss qualification. Its stopped-owner local inspection/compaction
+utility exposes private capacity counters, never a viewer-facing history export.
+Capacity, forbidden unlock and transient storage failure have distinct status and
+retryability contracts; scope and full-audit bounds remain operator-visible.
+These contract amendments do not renew the earlier runtime checkpoint; their
+implementation and new acceptance evidence are recorded separately.
 
 #### Local Pilot Evidence Checkpoint (2026-10-24)
 

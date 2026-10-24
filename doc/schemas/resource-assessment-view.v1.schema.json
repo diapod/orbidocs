@@ -46,7 +46,8 @@
         "state": {
           "enum": [
             "withheld",
-            "released"
+            "released",
+            "disclosure-not-recorded"
           ]
         },
         "profile/digest": {
@@ -83,6 +84,67 @@
         },
         "guarantee": {
           "const": "local-display-only"
+        },
+        "degraded": {
+          "const": true,
+          "description": "Released bounded-selection coverage marker, always true in this pilot. It does not report hidden or denied-data health/counts, and never asserts completeness."
+        },
+        "window": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "not-started",
+                "running",
+                "elapsed",
+                "history-unknown",
+                "clock-uncertain"
+              ]
+            },
+            "started/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            "ends/at": {
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "required": [
+                  "state"
+                ],
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "running",
+                      "elapsed"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "started/at",
+                  "ends/at"
+                ]
+              },
+              "else": {
+                "properties": {
+                  "started/at": false,
+                  "ends/at": false
+                }
+              }
+            }
+          ]
         }
       }
     },
@@ -214,7 +276,50 @@
             ],
             "properties": {
               "state": {
-                "const": "withheld"
+                "const": "released"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "peers": {
+            "type": "array"
+          },
+          "exposure": {
+            "required": [
+              "degraded"
+            ],
+            "properties": {
+              "withheld": {
+                "maxItems": 0
+              },
+              "unlock/options": {
+                "maxItems": 0
+              },
+              "window": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "exposure"
+        ],
+        "properties": {
+          "exposure": {
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "enum": [
+                  "withheld",
+                  "disclosure-not-recorded"
+                ]
               }
             }
           }
@@ -224,14 +329,35 @@
         "properties": {
           "peers": {
             "type": "null"
+          },
+          "exposure": {
+            "properties": {
+              "degraded": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "exposure"
+        ],
+        "properties": {
+          "exposure": {
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "const": "disclosure-not-recorded"
+              }
+            }
           }
         }
       },
-      "else": {
+      "then": {
         "properties": {
-          "peers": {
-            "type": "array"
-          },
           "exposure": {
             "properties": {
               "withheld": {
@@ -239,7 +365,8 @@
               },
               "unlock/options": {
                 "maxItems": 0
-              }
+              },
+              "window": false
             }
           }
         }

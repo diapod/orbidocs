@@ -94,7 +94,7 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`artifact-mailbox-sealed.v1.schema.json`](schemas-gen/schemas/artifact-mailbox-sealed.v1.md) | `7` | `0` | `no` | `yes` | `0` | `0` |
 | [`artifact-object-pointer.v1.schema.json`](schemas-gen/schemas/artifact-object-pointer.v1.md) | `14` | `2` | `yes` | `yes` | `1` | `1` |
 | [`artifact-source.v1.schema.json`](schemas-gen/schemas/artifact-source.v1.md) | `17` | `0` | `yes` | `yes` | `2` | `6` |
-| [`assessment-exposure-command.v1.schema.json`](schemas-gen/schemas/assessment-exposure-command.v1.md) | `4` | `0` | `yes` | `yes` | `1` | `1` |
+| [`assessment-exposure-command.v1.schema.json`](schemas-gen/schemas/assessment-exposure-command.v1.md) | `0` | `0` | `yes` | `yes` | `1` | `1` |
 | [`assessment-exposure-fact.v1.schema.json`](schemas-gen/schemas/assessment-exposure-fact.v1.md) | `8` | `0` | `yes` | `yes` | `1` | `1` |
 | [`assessment-exposure-profile.v1.schema.json`](schemas-gen/schemas/assessment-exposure-profile.v1.md) | `9` | `0` | `yes` | `yes` | `1` | `1` |
 | [`association-room-proposal.v1.schema.json`](schemas-gen/schemas/association-room-proposal.v1.md) | `14` | `13` | `yes` | `yes` | `1` | `1` |

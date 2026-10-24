@@ -38,7 +38,60 @@ When:
       ],
       "properties": {
         "state": {
-          "const": "withheld"
+          "const": "released"
+        }
+      }
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "peers": {
+      "type": "array"
+    },
+    "exposure": {
+      "required": [
+        "degraded"
+      ],
+      "properties": {
+        "withheld": {
+          "maxItems": 0
+        },
+        "unlock/options": {
+          "maxItems": 0
+        },
+        "window": false
+      }
+    }
+  }
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "required": [
+    "exposure"
+  ],
+  "properties": {
+    "exposure": {
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "withheld",
+            "disclosure-not-recorded"
+          ]
         }
       }
     }
@@ -53,6 +106,55 @@ Then:
   "properties": {
     "peers": {
       "type": "null"
+    },
+    "exposure": {
+      "properties": {
+        "degraded": false
+      }
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "required": [
+    "exposure"
+  ],
+  "properties": {
+    "exposure": {
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "const": "disclosure-not-recorded"
+        }
+      }
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "exposure": {
+      "properties": {
+        "withheld": {
+          "maxItems": 0
+        },
+        "unlock/options": {
+          "maxItems": 0
+        },
+        "window": false
+      }
     }
   }
 }
