@@ -712,6 +712,28 @@ complete/Sybil-resistant coverage, Matrix/federation or release readiness is
 qualified. P026-005/007/008 and P013/P057/P073 continuation statuses remain partial;
 P026-006 remains done only for local policy/private facts.
 
+#### Q-02 Bounded Qualification Contract (2026-10-24)
+
+Accepted scope: the module-as-viewer case uses a harness-admitted `CallerBinding`
+inserted into the daemon's existing resolver through its normal owner API. No
+resolver replacement, viewer assertion from a module, or production provisioning
+surface is admitted. The insertion/removal hook exists only under an explicit
+acceptance build feature; evidence binds that feature set, source and executable.
+These cases have class `fixture-bound-input`, separate from production-path
+`runtime` cases. The ordinary `module:*` binding must return `viewer-unbound`,
+without operator fallback, raw observation fallback or automatic skip.
+
+Expiry and revocation must refuse the next read while preserving durable release
+facts. Restart must not restore the harness lease; re-admission may demonstrate
+that the original release facts survived. Agent qualification uses existing local
+control, independently of the harness binding. A deterministic test adapter may
+exercise its actual controller/observation/trace path without a real model; it is
+not inference, prior-context completeness or cognitive-independence qualification.
+
+The module path is qualified only with a harness-admitted binding. Production
+modules cannot be assessment viewers until the separate identity-host provisioning
+slice exists. P026-005/007 remain partial. This contract is not runtime evidence.
+
 #### Shared Commitment and Barrier Contract
 
 The shared primitive is `salted-sha256-jcs-v1`: SHA-256 of an exact JCS preimage
@@ -1234,6 +1256,7 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-009 | Shared commitment and barrier mechanics | todo | 005 round contracts | Reuse canonical JSON/crypto, signer and durable owner primitives. Prove salt/domain isolation, exact transport bytes, bounded accepted-set closure, admission receipts, forks/equivocation, explicit deadlines and replay. Library mechanics do not count as an implemented domain publication barrier. |
 | P026-010 | Agora sealed-round owner and projections | todo | 009; 007 | Implement four admitted record kinds, owner/CAS/outbox, protected local body/salt retention and round-aware projection with per-commitment outcomes. Unknown kinds remain unindexed by legacy opinion consumers; no private governance/Room payload is forced into public Agora. |
 | P026-011 | Sealed-round adversarial acceptance | todo | 010 | Retain round cases above through real signer, relay, owner and viewer APIs; test cutoff races, omitted receipted entries, forked authority, abort, missing history, restart and bounds. Public transport qualification remains scoped; P051/P069 bindings require their own evidence and are not prerequisites for local-gate delivery. |
+| P026-012 | Provision represented local callers | todo | Identity host; P073; P066; P026-005 | Freeze the accountable participant, authenticated module selector, consent/delegation basis, exact permitted scope, bounded expiry, revocation and restart semantics before implementation. Reuse caller-binding ownership, never trust module-supplied participant/ref or a passport merely sharing a key. Retain real operator admission/revocation evidence and audit without exposing secrets. Q-02 harness admission does not close this gate. |
 
 ## Open Questions
 
