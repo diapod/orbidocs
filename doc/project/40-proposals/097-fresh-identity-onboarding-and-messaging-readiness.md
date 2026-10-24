@@ -929,3 +929,16 @@ readiness remain separate gates.
 The earlier 54-action focus remains a report-contract refusal. This fresh
 complete candidate does not retrospectively repair its reserved-field error
 or promote any earlier refused attempt or focused diagnostic.
+
+### Component preparation follow-up — 2026-10-24
+
+The explicit UI preparation cycle now has a 20-second total budget, including
+local coalescing, a bounded settings read and the existing bounded enable POST.
+The daemon owner waits up to one second for a reconciliation transition, then
+retains its approved-plan/source-CAS checks and idempotent no-op behavior. Two
+independent clients enabling an already-enabled component do not repeat its
+lifecycle. Exhausted busy, stale source and unknown mutation outcomes remain
+explicit refusals; no client blindly replays a write. Six UI and nine real-owner
+tests plus independent review qualify this follow-up, separately from the
+historical P076-034 candidate. Component eligibility still grants no Messaging
+or sovereign authority.
