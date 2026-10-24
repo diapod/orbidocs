@@ -529,6 +529,7 @@ The proposed `resource-assessment-view.v1` has this illustrative withheld shape
 ```json
 {
   "schema": "resource-assessment-view.v1",
+  "viewer/ref": "participant:viewer-placeholder",
   "subject/key": "url:https://example.org/article",
   "exposure": {
     "state": "withheld",
@@ -569,12 +570,18 @@ from tool availability. A skip requires that viewer's authorized, explicit choic
 The first local slice freezes `assessment-exposure-profile.v1`,
 `assessment-exposure-fact.v1`, `assessment-exposure-command.v1` and
 `resource-assessment-view.v1`. Runtime qualification remains a separate gate.
-The view additionally binds `viewer/ref`; the authenticated host derives that
+Each own/released-peer entry retains its admitted open `opinion` body, including
+rumor credibility and rejection overlays; the legacy `opinions.v2` projection is
+unchanged. This preserves P013's typed content rather than reducing every opinion
+to the optional generic scalar. The view additionally binds `viewer/ref`; the authenticated host derives that
 value from its current caller binding. Public commands contain only a subject,
 an optional admitted transition, idempotency key and accepted-record cause.
 An asserted viewer, module identity or Agent `participant_ref` alone grants no
 viewer authority. The existing authenticated host/middleware channel carries the
-resolved binding to the service; the product's shared token cannot represent it.
+resolved binding to the service; the product's shared token cannot represent it. The
+first browser binding requires explicit operator authentication; a loopback UI
+without authentication or a regular user session cannot borrow the backend's
+operator control identity.
 
 The pilot withholds all six rating/rationale/aggregate/count/order/badge items;
 `peer-discussion` remains an explicit optional selection. The local profile's

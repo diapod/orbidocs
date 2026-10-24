@@ -96,7 +96,8 @@
           "record_id",
           "subject/kind",
           "subject/id",
-          "subject/key"
+          "subject/key",
+          "opinion"
         ],
         "properties": {
           "record_id": {
@@ -129,6 +130,10 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 5
+          },
+          "opinion": {
+            "$ref": "resource-opinion.v1.schema.json",
+            "description": "The admitted open opinion body, including typed rumor overlays. Present only in the own lane or after peer release."
           }
         }
       }
@@ -151,7 +156,8 @@
               "record_id",
               "subject/kind",
               "subject/id",
-              "subject/key"
+              "subject/key",
+              "opinion"
             ],
             "properties": {
               "record_id": {
@@ -184,6 +190,10 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 5
+              },
+              "opinion": {
+                "$ref": "resource-opinion.v1.schema.json",
+                "description": "The admitted open opinion body, including typed rumor overlays. Present only in the own lane or after peer release."
               }
             }
           }
