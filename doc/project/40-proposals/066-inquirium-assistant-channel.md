@@ -1882,3 +1882,5 @@ They are intentionally excluded from the MVP readiness percentage.
 ### P026-012a assessment viewer activation
 
 The accepted [012a contract](026-assessment-viewer-grants.md) reuses P066 proposals, decisions, allow-once consumption and revocation as the sole durable authority. Allow-once activates one exact boot/launch-bound bounded read grant, not one read. The pending question deadline and the frozen grant deadline are distinct; question expiry after activation does not truncate it. No additional persistent grant registry or historical auto-activation is authorized. Implementation and measured acceptance remain separate tracker claims.
+
+P026-012a integration clarification (2026-10-25): the P066 question reference survives deny/timeout, while the scope-specific approval reference can be rekeyed. The identity projection follows the stable question and publishes only an exact granted/consumed allow-once activation. This records existing P066 semantics, not a new grant store or a change to archived evidence.
