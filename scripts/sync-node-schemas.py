@@ -45,6 +45,10 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "assessment-exposure-profile.v1.schema.json",
+    "assessment-exposure-command.v1.schema.json",
+    "assessment-exposure-fact.v1.schema.json",
+    "resource-assessment-view.v1.schema.json",
     "responsibility-maintenance-index.local.v1.schema.json",
     "responsibility-maintenance-grant.local.v1.schema.json",
     "responsibility-maintenance-plan.local.v1.schema.json",
@@ -670,6 +674,10 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "local.assessment-exposure-profile.json",
+    "local.assessment-exposure-fact.json",
+    "local.assessment-exposure-command.json",
+    "local.resource-assessment-view.json",
     'm5-unallocated.responsibility-maintenance-alert.local.v1.json',
     'm5-unallocated.responsibility-maintenance-retention-hold.local.v1.json',
 
@@ -1272,6 +1280,10 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "unknown-field.assessment-exposure-profile.json",
+    "unknown-field.assessment-exposure-fact.json",
+    "unknown-field.assessment-exposure-command.json",
+    "unknown-field.resource-assessment-view.json",
     'm5-unknown-generation.responsibility-maintenance-alert.local.v1.json',
     'm5-false-pinned.responsibility-maintenance-alert.local.v1.json',
     'm5-unallocated-address.responsibility-maintenance-retention-hold.local.v1.json',
@@ -1926,6 +1938,10 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "assessment-exposure-profile.v1.schema.json",
+    "assessment-exposure-command.v1.schema.json",
+    "assessment-exposure-fact.v1.schema.json",
+    "resource-assessment-view.v1.schema.json",
     "agora-record-authoring.v1.schema.json",
     "resource-ref.v1.schema.json",
     "seed-capability-registration.v1.schema.json",

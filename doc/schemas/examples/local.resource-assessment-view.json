@@ -1,0 +1,26 @@
+{
+  "schema": "resource-assessment-view.v1",
+  "viewer/ref": "participant:fixture",
+  "subject/key": "url:https://example.org/article",
+  "exposure": {
+    "state": "withheld",
+    "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "withheld": [
+      "peer-ratings",
+      "peer-rationales",
+      "aggregates",
+      "counts",
+      "rating-order",
+      "popularity-badges"
+    ],
+    "unlock/options": [
+      "own-first-judgment",
+      "explicit-skip",
+      "subject-window-elapsed"
+    ],
+    "guarantee": "local-display-only"
+  },
+  "own": [],
+  "exempt": [],
+  "peers": null
+}

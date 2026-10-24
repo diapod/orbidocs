@@ -170,7 +170,7 @@ Regenerate both languages with `make capability-registry-docs`.
 Includes every entry with the `host-local` surface, regardless of lifecycle status
 or `docs.human-registry` (which selects only the curated table above).
 
-Entries: **231** host-local / **263** total; **38** owner groups.
+Entries: **233** host-local / **265** total; **39** owner groups.
 
 Grouped by the exact registry `owner`, then sorted by `capability/id`.
 `dispatchable` and `host-route` are independent eligibility flags; the last column
@@ -343,6 +343,13 @@ domain policy remain separate checks. Wire names are not endpoint URLs.
 | capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
 |---|---|---|---|---|---|---|
 | <code>http.fetch.bounded</code> | <code>host/http.fetch.bounded</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon caller binding with Agora assessment owner</code>
+
+| capability_id | Wire name | Status | Surfaces | `dispatchable` | `host-route` | Other enabled flags |
+|---|---|---|---|---|---|---|
+| <code>agora.assessment.read</code> | <code>host/agora.assessment.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.assessment.transition</code> | <code>host/agora.assessment.transition</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon capability host capability</code>
 

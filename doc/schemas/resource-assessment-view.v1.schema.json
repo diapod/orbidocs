@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+  ],
+  "$id": "urn:orbiplex:schema:resource-assessment-view:v1",
+  "title": "Viewer-bound resource assessment view v1",
+  "required": [
+    "schema",
+    "viewer/ref",
+    "subject/key",
+    "exposure",
+    "own",
+    "exempt",
+    "peers"
+  ],
+  "properties": {
+    "schema": {
+      "const": "resource-assessment-view.v1"
+    },
+    "viewer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "subject/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2113
+    },
+    "exposure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "profile/digest",
+        "withheld",
+        "unlock/options",
+        "guarantee"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "withheld",
+            "released"
+          ]
+        },
+        "profile/digest": {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        "withheld": {
+          "type": "array",
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "peer-ratings",
+              "peer-rationales",
+              "aggregates",
+              "counts",
+              "rating-order",
+              "popularity-badges",
+              "peer-discussion"
+            ]
+          }
+        },
+        "unlock/options": {
+          "type": "array",
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "own-first-judgment",
+              "explicit-skip",
+              "subject-window-elapsed"
+            ]
+          }
+        },
+        "guarantee": {
+          "const": "local-display-only"
+        }
+      }
+    },
+    "own": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "record_id",
+          "subject/kind",
+          "subject/id",
+          "subject/key"
+        ],
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "subject/kind": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "subject/id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "subject/key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2113
+          },
+          "opinion_text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8192
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        }
+      }
+    },
+    "exempt": {
+      "const": []
+    },
+    "peers": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "record_id",
+              "subject/kind",
+              "subject/id",
+              "subject/key"
+            ],
+            "properties": {
+              "record_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "subject/kind": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "subject/id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "subject/key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2113
+              },
+              "opinion_text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8192
+              },
+              "rating": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "exposure"
+        ],
+        "properties": {
+          "exposure": {
+            "required": [
+              "state"
+            ],
+            "properties": {
+              "state": {
+                "const": "withheld"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "peers": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "peers": {
+            "type": "array"
+          },
+          "exposure": {
+            "properties": {
+              "withheld": {
+                "maxItems": 0
+              },
+              "unlock/options": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -564,6 +564,51 @@ guarantee and must be identified as such, not silently used by a viewer's Agent.
 An Agent inherits the represented viewer's scope; it cannot synthesize a skip
 from tool availability. A skip requires that viewer's authorized, explicit choice.
 
+#### Local Pilot Contract Freeze (2026-10-24)
+
+The first local slice freezes `assessment-exposure-profile.v1`,
+`assessment-exposure-fact.v1`, `assessment-exposure-command.v1` and
+`resource-assessment-view.v1`. Runtime qualification remains a separate gate.
+The view additionally binds `viewer/ref`; the authenticated host derives that
+value from its current caller binding. Public commands contain only a subject,
+an optional admitted transition, idempotency key and accepted-record cause.
+An asserted viewer, module identity or Agent `participant_ref` alone grants no
+viewer authority. The existing authenticated host/middleware channel carries the
+resolved binding to the service; the product's shared token cannot represent it.
+
+The pilot withholds all six rating/rationale/aggregate/count/order/badge items;
+`peer-discussion` remains an explicit optional selection. The local profile's
+resource-kind selectors remain open. Sealed-round mode is recognized and refused
+until its separate owner contracts and acceptance exist. No public exposure
+assertion or independence credential is added to an opinion.
+
+Encounter and unlock are explicit authenticated commands. Reading a view is pure;
+an elapsed window or open policy needs a durable release transition before peer
+content can be returned. A fresh encounter command may record that transition;
+replaying an old command preserves its original idempotency meaning. A local
+encounter names an opaque subject and neither probes record existence nor grants
+record access. Every rendered record still passes the ordinary topic admission.
+The private service-owned S028 store is independent of relay projection rebuild.
+It retains sufficient summaries through compaction and records unknown history
+after loss, with bounded subject, event and idempotency populations.
+
+The first implementation profile requires the explicit local-SQLite backend;
+Matrix startup refuses while exposure is configured until publication-receipt
+metadata is independently qualified. Reference-bearing parent/supersedes signing
+also refuses until it can use viewer-bound admission. Signed-record ingest and
+operator projection rebuild are explicit transport/maintenance operations outside
+the viewer display guarantee and cannot be observation fallbacks for an Agent.
+
+The initial viewer projection is bounded to 100 entries per lane. Mixed raw relay
+pages and raw record inspection using only the shared product token refuse while
+the profile is configured; their relay cursors, counts and SSE cannot safely be
+reused as viewer metadata. Consumers use the host projection instead. Rich
+viewer-safe pagination and a separately privileged raw inspection interface need
+their own implementation and evidence before introduction. Existing typed rumor
+propagation, protection and appeal owners retain their admitted paths. The
+protective opinion exception list is empty until concrete closed kind contracts
+are admitted; sender urgency or a generic moderation marker cannot populate it.
+
 #### Shared Commitment and Barrier Contract
 
 The shared primitive is `salted-sha256-jcs-v1`: SHA-256 of an exact JCS preimage

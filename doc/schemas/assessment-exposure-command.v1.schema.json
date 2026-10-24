@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"
+  ],
+  "$id": "urn:orbiplex:schema:assessment-exposure-command:v1",
+  "title": "Authenticated assessment exposure request v1",
+  "description": "Viewer is bound by the host caller resolver, never supplied by the caller. Read rejects transition fields; transition requires event and idempotency/key. Own judgment is checked against an admitted signed record.",
+  "required": [
+    "subject"
+  ],
+  "properties": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource/kind",
+        "resource/id"
+      ],
+      "properties": {
+        "resource/kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "resource/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "event": {
+      "enum": [
+        "encounter",
+        "explicit-skip",
+        "own-first-judgment"
+      ]
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "cause/record-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "event"
+        ]
+      },
+      "then": {
+        "required": [
+          "idempotency/key"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "event"
+        ],
+        "properties": {
+          "event": {
+            "const": "own-first-judgment"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "cause/record-id"
+        ]
+      }
+    }
+  ]
+}

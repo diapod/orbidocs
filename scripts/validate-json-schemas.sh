@@ -1191,6 +1191,18 @@ schema_for_file() {
     *.resource-ref.json)
       echo "$SCHEMAS_DIR/resource-ref.v1.schema.json"
       ;;
+    *.assessment-exposure-profile.json)
+      echo "$SCHEMAS_DIR/assessment-exposure-profile.v1.schema.json"
+      ;;
+    *.assessment-exposure-fact.json)
+      echo "$SCHEMAS_DIR/assessment-exposure-fact.v1.schema.json"
+      ;;
+    *.assessment-exposure-command.json)
+      echo "$SCHEMAS_DIR/assessment-exposure-command.v1.schema.json"
+      ;;
+    *.resource-assessment-view.json)
+      echo "$SCHEMAS_DIR/resource-assessment-view.v1.schema.json"
+      ;;
     *.resource-opinion.json)
       echo "$SCHEMAS_DIR/resource-opinion.v1.schema.json"
       ;;
