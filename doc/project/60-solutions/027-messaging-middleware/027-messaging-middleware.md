@@ -694,3 +694,10 @@ current custody and exact consent scope are still required. A status attachment
 does not create membership/consent, elevate assurance or resume blocked messages.
 The scoped acceptance capsule excludes browser, model, VM and full-candidate
 reruns; historical evidence and release readiness retain their separate scope.
+
+The [P076-036 bounded capsule](https://github.com/diapod/node/blob/master/docs/evidence/limited-messaging/2026-10-24-portable-status/README.md)
+qualifies the actual cold-cache handoff and zero source acquisitions on clean
+Node `9b0a613e` / Orbidocs `8523cf2b`, with 264 conformance/regression and 12
+host capsule tests. Signature/correlation qualification matches after extraction.
+Its scope, controlled time and live global-retention baseline blocker are explicit;
+it does not replace S027 delivery evidence or P076-034's historical candidate.

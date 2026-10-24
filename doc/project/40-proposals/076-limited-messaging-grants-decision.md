@@ -80,7 +80,7 @@ constraints needed for ordinary-participant issuance.
   marks and known withdrawals; stale status cannot erase them.
 - The current acquisition path reuses a fresh cached status or fetches it over the
   grant's exact endpoint, verifying it against the grant's exact status key.
-  Planned [P076-036](#p076-036-bounded-status-presentation-and-offline-acceptance)
+  Qualified [P076-036](#p076-036-bounded-status-presentation-and-offline-acceptance)
   adds an attached-status input to the same verifier, not a second trust path.
   Network errors, bad signature/context and stale status fail closed.
   Local child withdrawals remain immediate. For an honest service, already minted
@@ -170,7 +170,7 @@ for this bounded first implementation.
 
 ## P076-036: Bounded status presentation and offline acceptance
 
-**Status: implemented, qualification pending (2026-10-24).** The first receiver of a
+**Status: bounded gate qualified (2026-10-24).** The first receiver of a
 V2 Messaging passport should be able to verify it without fetching status when
 the presentation carries a usable, existing `issuance-revocation-status.v1` and
 the receiver already has an independently admitted active root. This applies
@@ -302,7 +302,7 @@ or unit test alone never closes a runtime gate.
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
-| P076-036 | Portable-proof follow-up | Bounded V2 status presentation | partial | Contract frozen on 2026-10-24; implementation follows the five gates below, with explicit online fallback and per-grant opt-in; no product NoFetch or runtime claim yet |
+| P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Future acquisition policy | Product offline/privacy policy | todo | Requires offline-lease decision, source-query privacy rationale, one-port P091 setting and refresh migration to S020; outside P076-036 |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
@@ -348,10 +348,11 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-P076-034 closes the local full mixed/provider candidate. Continue P076-036 as
-planned work: freeze its bounded status-presentation contract before implementation
-and qualify its own offline acceptance. Track remote-withdrawal outbox behavior
-and the separate lifecycle suite's ambient model-root isolation. Real email/SMS,
+P076-034 closes the local full mixed/provider candidate; P076-036 closes its
+separate bounded status-presentation gate. Continue with the P076-037 acquisition
+policy prerequisites, without extending the measured lease or privacy claims.
+Track remote-withdrawal outbox behavior and the separate lifecycle suite's ambient
+model-root isolation. Real email/SMS,
 remote self-service catalog publication, production root activation and release
 qualification remain separate. Review each substantial slice and preserve the
 historical focused/refused measurements and their declared scope.
@@ -679,7 +680,39 @@ or promote any earlier refused attempt or focused diagnostic.
 | Task | Gate | Status |
 |---|---|---|
 | P076-036-01 | Carrier/schema/policy contract, mirrors and boundary fixtures | done |
-| P076-036-02 | Single source, explicit evaluation time and durable monotonic merge | partial |
-| P076-036-03 | Actual builder/peer/context plumbing and unsupported-consumer refusals | partial |
-| P076-036-04 | Source-pinned bounded host-path qualification and review | todo |
-| P076-036-05 | Retention equality, scoped documentation/ledger/MVP closeout | todo |
+| P076-036-02 | Single source, explicit evaluation time and durable monotonic merge | done |
+| P076-036-03 | Actual builder/peer/context plumbing and unsupported-consumer refusals | done |
+| P076-036-04 | Source-pinned bounded host-path qualification and review | done |
+| P076-036-05 | Retention equality, scoped documentation/ledger/MVP closeout | done |
+
+### P076-036 measured closeout — 2026-10-24
+
+The [retained Node capsule](https://github.com/diapod/node/blob/master/docs/evidence/limited-messaging/2026-10-24-portable-status/README.md)
+pins clean Node `9b0a613e01a3f66748d306f7fa8b46963daf317a` / Orbidocs
+`8523cf2b099643ac792e35a01f2367213d3ec05b` and eight unchanged Rust test
+executables. Twelve suites pass 276 tests: 264 conformance/regression and 12 host
+capsule tests. One is the actual two-daemon authenticated WSS handoff with cold
+status cache, zero acquisition attempts and normal consent authorization within
+the controlled signed lease; it refuses at expiry. Public root, complete carrier
+and bounded correlation/counters are retained. Loose/extracted qualification is
+identical. Eight separate active verifier tests (positive and refusal) pass.
+
+Independent reviews closed typed signed-array normalization, writer-time expiry,
+negative-knowledge capacity rollback in every acquisition path, unknown-grant
+readmission, current root/custody cache, generic-dispatch and AD/reference/batch
+consumer gaps, and qualifier temporal/inventory/correlation gaps. Failed dirty
+development probes retain their failure classification and disclosed source
+limits; the clean capsule passes on its first attempt.
+
+The live repository-wide retention checker has an earlier Story-008 qualifier
+header pin mismatch from Node `34d68537`, also present in the clean pre-retention
+baseline. A data-only isolated control restoring the exact already-pinned
+historical helper bytes passes all storage/frozen-tree checks including this
+new run. The live helpers, policy, frozen evidence and pins are unchanged; the
+primary-checkout blocker needs separate replica-policy reconciliation. This
+limitation does not become a full-candidate or release claim.
+
+This slice runs no browser, model, VM or full P076-034 candidate. It verifies
+bounded handoff/consumption, not delivery or a new grant ceremony, and keeps
+`full_candidate_qualified=false`, `release_ready=false`. Continue with the
+separate P076-037 policy prerequisites; production periodic queries still occur.

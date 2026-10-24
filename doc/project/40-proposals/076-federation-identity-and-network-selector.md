@@ -1183,3 +1183,15 @@ and organization issuance custody, with ordinary beneficiaries, delegates and
 custodians remaining outside the sovereign roster. The dated 2026-10-23 custody
 checkpoint retains its original scope. Production root activation and wider
 P076/release completion are separate; P076-036 remains planned.
+
+### P076-036 bounded portable-status checkpoint — 2026-10-24
+
+[P076-036](076-limited-messaging-grants-decision.md#p076-036-measured-closeout--2026-10-24)
+is locally qualified from clean Node `9b0a613e` / Orbidocs `8523cf2b`: 264
+conformance/regression plus 12 host capsule tests, an actual authenticated
+cold-cache handoff with zero status acquisitions, and identical loose/extracted
+verification. Root trust remains local and independently admitted; attachment
+adds no issuance, membership or assurance. No product network-disabled mode,
+full-candidate rerun or release qualification is introduced. The pre-existing
+global retention header-pin blocker and exact-data storage control are disclosed.
+P076-037 remains future work under its four policy/runtime prerequisites.
