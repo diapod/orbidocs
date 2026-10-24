@@ -4533,3 +4533,31 @@ P096-005 stays partial, with fresh permission/readiness and SCAN/BIND/REGISTER/W
 still required for native revision15. No hardware, reset, recovery or branch
 integration occurs. See
 node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R5-AUTHORITY-TRANSITION-2026-10-24.md.
+
+
+### Revision-15 authority-loss branch on queue-retention-20s — 2026-10-24
+
+Node checkpoint `3313c0f7` records the measured result and reviewed closeout.
+A freshly approved SSH campaign on Node source 3046d1ab / pin b9bc971e, signed GUI
+be1d1560 and package 7b815bbb completes eight selected operational rows and seven
+released native acquisitions in 312702 ms. Protected receipt/fence measures 1/1 ms;
+maximum exact owned exit is 4822 ms. Durable audit 2/2 precedes every claim release.
+The original 90-second deadline and 2048/626/250/10000-ms control gates remain;
+2988 SDK drains report no timeouts or retries. This uses the current signed
+twenty-second queue closure without qualifying an injected native-reader pause.
+
+Final journal 360 / 51 Cases and zero claims/processes are independently read back;
+Discovery r5, finite owner/discovery authority, custody and previous consent
+prefixes are preserved. R15 remains registered/stopped with only its acquisition
+expiry reduced. All 51 reports / 65995 bytes and the 149-control private proof
+(manifest 208158de, archive 84a18a44) pass fresh primary-store retrieval. Review uses
+separate same-assistant algorithms, not a second reviewer. Local mode 0644 input
+refusal is corrected to 0600 before the sole child launch; no hardware retry occurs.
+
+The raw-support inventory confirms partial support for seven of ten safety types,
+with hung-worker, retained-claim and actual-restart types still missing. Historical
+firmware 1.0.25, unverified TCC attribution, missing full formal context and remaining
+case-specific owner facts prevent qualification. P096-005/P096-011a and release
+readiness stay partial; no reset, recovery, renewal, migration or branch integration
+occurs. Earlier evidence is unchanged. See
+node:docs/audits/REVIEW-SENSORIUM-R15-CAMPAIGN-2026-10-24.md.
