@@ -4510,3 +4510,26 @@ no native operation or branch integration occurs. The initial count-checker
 refusal, corrected preservation check and preparation evidence are retained via
 `PRIMARY_EVIDENCE_STORE` under the private run locator. See
 node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R5-CLIENT-PREPARATION-2026-10-24.md.
+
+
+### Renewed authority and completed stopped Discovery 4 to 5 — 2026-10-24
+
+Node `c8d20ba8` records the verified operation and owner-ordering correction. The explicit delegated renewal 2ec54f0d completed with the unchanged four-hour
+ceiling, through 2026-10-24 22:27:53 Europe/Warsaw. The operator separately approved
+expired p21 revision14 retirement f6a0d8c8, reserving revision15 without new grant
+or consent. The new pinned daemon then completed Discovery 4-to-5 c823439b on
+signed channel-lifecycle package revision1, applying a stopped snapshot with
+unchanged expiry and no native worker. Independent readback verifies the exact
+rebind, eleven protected sources, retained journal309 / 44 Cases and zero claims.
+
+The observed process guard, expired-sibling refusal and partial retirement apply
+remain evidence. External helper maintenance had its own interactive approval.
+The new administrator refuses the remaining old Discovery compiled closure;
+source-verified retained administrator 6b9e3c94 resumes only the same approved
+retirement, and the new administrator subsequently commits its r5 transition.
+No marker edit, source-check bypass or grant relaxation is used. Old reports,
+consent and package history are preserved. This is metadata/operational evidence:
+P096-005 stays partial, with fresh permission/readiness and SCAN/BIND/REGISTER/WEAR
+still required for native revision15. No hardware, reset, recovery or branch
+integration occurs. See
+node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R5-AUTHORITY-TRANSITION-2026-10-24.md.
