@@ -4561,3 +4561,43 @@ case-specific owner facts prevent qualification. P096-005/P096-011a and release
 readiness stay partial; no reset, recovery, renewal, migration or branch integration
 occurs. Earlier evidence is unchanged. See
 node:docs/audits/REVIEW-SENSORIUM-R15-CAMPAIGN-2026-10-24.md.
+
+
+### Device-free preparation of the remaining safety branch — 2026-10-24
+
+Node `2723ef32` records this source/conformance checkpoint.
+Prospective v2 retained-claim and restart observations now record their own
+wall/monotonic probe interval, exact held-state reads and ordinary inert refusal.
+Restart measurement belongs to the new boot and cannot be inferred from Bluetooth
+reset. Historical v1 remains strictly readable without new default facts; this
+changes private observation output, not root/checkpoint persistence or authority.
+A read-only deriver and existing exporter bind the same actual counts, full
+context and both wall endpoints under unchanged qualification schemas and budgets.
+
+The remaining-emergency plan selects only baseline and one controlled native
+fault, with retained-claim and separately observed actual restart as derived rows.
+Plan construction performs no operation and grants no stage decision. Software
+checks pass 102 Python tests, four restart-owner and two fault-owner Rust tests,
+plus two compiled-C/fake-Board cases. This is preparation/conformance only: no
+nearby root, grant, controller or hardware is touched; no reset, recovery, native
+qualification or integration occurs. R15 and earlier evidence stay exact. A new
+pinned client, supported stopped lifecycle and fresh physical approval remain
+necessary. Full P096-005 remains partial, including missing context and remaining
+control/consent witnesses. See
+node:docs/audits/REVIEW-SENSORIUM-EMERGENCY-EVIDENCE-2026-10-24.md.
+
+
+### Physical readiness checkpoint — 2026-10-24
+
+The next physical trial is blocked until device-free end-to-end tests prove that
+the runner actually collects every required field. Schema acceptance or fixtures
+with manually supplied facts do not establish collector completeness. The target
+is one ordinary flow and one emergency flow, followed by a separately approved
+actual host restart. Fresh interactive headband readiness remains required.
+
+This software slice is not that readiness decision. The timed quarantine/restart
+probes close two measurement-production gaps. Full context and remaining positive
+authority/control/consent owner witnesses, including post-return emissions,
+post-fence reconnects, foreign-launch terminations and shown/demonstrated consent
+controls, remain explicitly unresolved. Missing fields block progression; do not
+fill them with defaults or repeat hardware runs to discover collector omissions.
