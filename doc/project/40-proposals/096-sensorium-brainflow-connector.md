@@ -3057,6 +3057,18 @@ provider, BLE or physical release gate above is closed by this result. See
 [the P045 client-budget checkpoint](045-sensorium-local-enaction-stratum.md#scoped-browser-and-actual-webview-budget-qualification-2026-10-21)
 and `node:docs/audits/SENSORIUM-DISCOVERY-CLIENT-BUDGETS-2026-10-21.md`.
 
+The prospective [2026-10-24 common admission policy](045-sensorium-local-enaction-stratum.md#common-discovery-admission-headroom-2026-10-24)
+requires new API/CLI/UI discovery requests to supply at least the observation
+window plus 5 s startup headroom and 5 s cleanup allowance. An insufficient
+explicit total refuses with HTTP 422 / `discovery-request-refused` before a
+deferred operation, claim or provider effect; the host does not augment caller
+or signed bytes. Exact already-accepted legacy retries, status and stop retain
+their original clocks. This prospectively supersedes the earlier UI-only
+admission policy without rewriting its historical evidence. Existing 20/40 s UI
+requests, portable wire grammar, authority and native/hardware qualification
+remain unchanged; P096-005/009/017 stay `partial` and the other gates above stay
+open. See `node:docs/audits/SENSORIUM-DISCOVERY-API-CLI-STARTUP-2026-10-24.md`.
+
 The 2026-10-15 terminal observation subsequently passed fresh SCAN, BIND,
 REGISTER and WEAR p21, then ended `uncertain` during acquisition observation.
 Discovery cleanup was confirmed; acquisition cleanup and controller release
