@@ -4468,3 +4468,26 @@ executes; P096-005 remains partial. The private manifest 99a10dd3, archive fd7d2
 and fresh readback fa4b123c retain preparation evidence through
 `PRIMARY_EVIDENCE_STORE`, without a published physical path. See
 node:docs/audits/REVIEW-SENSORIUM-QUEUE20-CLIENT-PREPARATION-2026-10-24.md.
+
+
+### Supported stopped Discovery revision 4 to 5 — 2026-10-24
+
+Node `3046d1ab` implements the software route. The Node acceptance owner now supports the exact stopped operation-retries
+revision 4 to channel-lifecycle revision 5 transition through its existing normal
+prepare/commit/discard protocol. Fresh channel approval/consumption/discard slots
+and a distinct r5 declaration preserve all three earlier hop pairs as immutable
+protected history. The current hop cannot reuse an old approval or hide an
+interrupted historical publication. Normal signer/runtime/limits/expiry, the
+180-second remaining-lifetime floor, sibling admission and source-CAS checks
+remain unchanged; the complete stopped runtime snapshot starts no worker.
+
+All 163 ordinary owner tests and two explicit normal-key conformance tests pass,
+including five crash phases, retained-history byte binding and sibling/expiry
+preservation. The fresh temporary roots are device-free; the constructed history
+binds receipts without claiming earlier package execution. This is an
+implementation checkpoint, not execution of the transition on the operator's root. It does not create or extend authority, consent or qualification,
+and does not release controller or resource claims. A new pinned client and
+separate exact current-authority approval remain necessary before actual use.
+P096-005 remains partial. No headband, Bluetooth, recovery, target-root transition
+or branch integration occurs. See
+node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-R4-R5-2026-10-24.md.
