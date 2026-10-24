@@ -572,14 +572,21 @@ Receivers MAY additionally reject passports by local policy, such as:
 
 ## Implementation Notes
 
-- **Planned V2 Messaging presentation follow-up:**
+- **Bounded V2 Messaging presentation follow-up:**
   [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
-  owns the bounded optional attachment of `issuance-revocation-status.v1` to the
-  existing passport presentation. Reuse the V2 grant/status verifier and durable
-  observation owner; do not change the V1 verification rules above, the child's
-  signed preimage or local root admission. The offline gate requires an
-  independently admitted root, usable fresh evidence and zero status fetches,
-  including refusal and restart cases. This is not a new credential format or
+  owns the optional `issuance/status` attachment of the existing signed
+  `issuance-revocation-status.v1` to `capability-passport-present.v1`, or the
+  explicit `issuance/status-dependency = online-required` omission marker.
+  The carrier is limited to 128 KiB, status to 64 KiB and 128 revoked-child IDs;
+  the private consent producer withholds a nonempty list. Reuse the V2
+  grant/status verifier and durable observation owner; do not change the V1
+  verification rules above, the child's
+  signed preimage or local root admission. The bounded local offline gate remains
+  open: the first focused evidence at
+  `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
+  did not traverse the real peer-runtime import path. P076 owns the corrected
+  route and its clean-source requalification.
+  This is not a new credential format or
   a completion claim for P024's already qualified foundation.
 - A host capability such as `capability.passport.sign` is a suitable operator
   interface for passport issuance.

@@ -418,13 +418,18 @@ envelope, capability-binding and replay tests for network-disabled verification.
 
 The first concrete follow-up is
 [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance):
-attach an existing signed issuance-status snapshot to the V2 receive-consent
-passport handoff, not to every `message-envelope.v1`. Reuse the existing
-notification builder, peer presentation consumer and durable observation owner.
-The offline gate covers cold-cache consumption without a status fetch, explicit
-missing/stale-proof refusals and restart/withdrawal monotonicity. The normal
-online path remains; disclosure/size limits may prohibit attaching the complete
-signed status. This planned task does not relax per-message receive admission,
+attach an existing signed issuance-status snapshot as `issuance/status` in the
+`capability-passport-present.v1` V2 receive-consent handoff, not to every
+`message-envelope.v1`. Reuse the existing notification builder, peer
+presentation consumer and durable observation owner.
+The bounded local offline gate remains open: first focused diagnostics at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
+did not traverse the real peer-runtime import path; the corrected route awaits
+clean-source requalification. The normal
+online path remains; `issuance/status-dependency = online-required` names a
+withheld or unavailable proof. Disclosure/size limits may prohibit attaching the
+complete signed status. This bounded task does not relax per-message receive
+admission,
 extend the status lease or claim offline delivery. P076 owns its tracker.
 
 ### 4. `messaging-receive@v1` Passport Profile

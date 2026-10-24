@@ -80,7 +80,7 @@ constraints needed for ordinary-participant issuance.
   marks and known withdrawals; stale status cannot erase them.
 - The current acquisition path reuses a fresh cached status or fetches it over the
   grant's exact endpoint, verifying it against the grant's exact status key.
-  Planned [P076-036](#p076-036-bounded-status-presentation-and-offline-acceptance)
+  [P076-036](#p076-036-bounded-status-presentation-and-offline-acceptance)
   adds an attached-status input to the same verifier, not a second trust path.
   Network errors, bad signature/context and stale status fail closed.
   Local child withdrawals remain immediate. For an honest service, already minted
@@ -170,7 +170,8 @@ for this bounded first implementation.
 
 ## P076-036: Bounded status presentation and offline acceptance
 
-**Status: planned, not runtime-qualified (2026-10-23).** The first receiver of a
+**Status: implementation partial; corrected peer import route awaits clean-source
+offline host requalification (2026-10-24).** The first receiver of a
 V2 Messaging passport should be able to verify it without fetching status when
 the presentation carries a usable, existing `issuance-revocation-status.v1` and
 the receiver already has an independently admitted active root. This applies
@@ -186,10 +187,56 @@ it changes neither the child's signed preimage nor the authority of any key.
 It does not import a root, grant membership, create consent or install a local
 issuance delegate. It does not make Messaging transport itself work offline.
 
+### Frozen carrier and bounded acquisition (2026-10-24)
+
+The existing `capability-passport-present.v1` remains the discriminator. For a
+`capability-passport.v2` with `capability_id = messaging-receive`, it may contain
+exactly one of two optional, typed top-level fields:
+
+- `issuance/status`: the complete, unchanged `issuance-revocation-status.v1`
+  signed object, interpreted only against the child's embedded delegation and
+  the receiver's independently admitted local root;
+- `issuance/status-dependency = online-required`: an explicit indication that
+  the producer withheld or could not obtain a disclosable, usable status. It
+  is an unsigned informational hint, used only for diagnosis. It conveys no
+  identity or authority and permits only exact usable local evidence or the
+  existing online acquisition policy.
+
+V1 presentations carry neither field. External consumers that do not understand
+the optional V2 extension may continue their old online verification path, but
+may not claim offline acceptance from a field they ignored. The built-in peer
+importer refuses a portable carrier it cannot handle. The new host refuses
+unknown `issuance/*` carriers instead of silently stripping them. The complete
+presentation is limited to 128 KiB, the attached status to 64 KiB, and its
+revoked-child list to 128 items, below the existing 256 KiB peer frame. These
+values explicitly supersede the earlier planning bound of 64 KiB for the whole
+presentation: 64 KiB now bounds only the signed status. The 128-item list limit
+defends the receiving implementation; the local producer attaches only an empty
+list under its private disclosure policy. These limits apply before signature
+work; the AD raw admission remains capped at its
+transport budget. The private consent handoff attaches a status only when its
+signed revoked-child list is empty. Otherwise it emits `online-required`; it
+never trims, redacts or re-signs the list. The network-disabled acceptance
+adapter refuses missing usable evidence without calling the status endpoint;
+the installed peer host uses the online policy, but a usable attachment prevents
+its fetch. Normal online consumption retains the existing bounded fetch when no
+exact usable local or
+attached status exists, including when an authentic attachment has expired or
+exceeds the child's stricter profile freshness. Both sources enter the same
+durable revision and known-withdrawal merge. At equal revision a status replaces
+the stored one only with a later signed `as_of`; all authenticated withdrawals
+are accumulated even from older views. No receipt timestamp renews the signed
+lease.
+The verifier keeps distinct local refusal classes for missing evidence,
+context mismatch (federation/grant/digest), status-authority key mismatch,
+invalid status signature, revision rollback, revoked authority, expired lease
+and narrower-profile stale observation. The outer Messaging readiness response may coarsen malformed
+proofs, while the retained presentation fact records the verifier class.
+
 ### Implementation recommendations and reuse
 
-1. **Contract before plumbing.** Add an optional typed attachment of the existing
-   status artifact to the presentation (candidate field: `issuance/status`).
+1. **Contract before plumbing.** The optional typed attachment of the existing
+   status artifact to the presentation is `issuance/status`.
    Freeze the exact schema/version and unsupported-consumer behavior through
    Schema Gate before implementation. Keep V1 passport semantics and the
    existing no-attachment online path. Never advertise successful offline
@@ -279,7 +326,7 @@ or unit test alone never closes a runtime gate.
 | P076-033 | C | Explicit org issuance/revocation custody purposes | done | 2026-10-23 focused gate: clean Node `16c39fa1` / Orbidocs `f7509ea6`, 1423 conformance plus 123 capsule executions, 34 strict sovereign phases and 42 browser cases; threshold issuance and separate one-custodian withdrawal, public proofs identical before/after extraction |
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
-| P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | todo | Freeze carrier/version, size/disclosure bounds and acquisition policy; reuse the issuance verifier, observation owner and consent handoff; retain the [offline acceptance gate](#offline-acceptance-gate), including cold-cache real host consumption with zero status fetches, refusal/restart/rollback cases and unchanged V1/online behavior; synchronize P024/S007, P060/S027 and the scoped Node ledger/MVP evidence |
+| P076-036 | Portable-proof follow-up | Bounded signed issuance status in the existing V2 Messaging passport presentation | in progress | First focused logs at `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md` test separate builder and AD acceptor seams. The peer-runtime route, monotonic freshness and online recovery have been corrected; retain clean-source end-to-end acceptance before `done`. No offline delivery or full runtime/release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -324,9 +371,12 @@ one peer and one nonempty artifact id; omitted/default values are refused.
 
 ## Next Actions
 
-P076-034 closes the local full mixed/provider candidate. Continue P076-036 as
-planned work: freeze its bounded status-presentation contract before implementation
-and qualify its own offline acceptance. Track remote-withdrawal outbox behavior
+P076-034 closes the local full mixed/provider candidate. P076-036's first
+focused diagnostics at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
+do not close the actual peer-import offline gate; the corrected path needs its
+own clean-source acceptance.
+Track remote-withdrawal outbox behavior
 and the separate lifecycle suite's ambient model-root isolation. Real email/SMS,
 remote self-service catalog publication, production root activation and release
 qualification remain separate. Review each substantial slice and preserve the
@@ -644,7 +694,7 @@ provider substitutes protected dev-mailbox OTP delivery and explicitly
 admits the participant-signed claim through its operator API. Actual
 email/SMS delivery and remote self-service publication are not qualified.
 Historical focused/refused runs retain their original source pins and
-results. P076-036 remains planned; production root activation and release
+results. At that P076-034 checkpoint, P076-036 remained planned; production root activation and release
 readiness remain separate gates.
 The earlier 54-action focus remains a report-contract refusal. This fresh
 complete candidate does not retrospectively repair its reserved-field error

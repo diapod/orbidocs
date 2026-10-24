@@ -2,12 +2,13 @@
 
 Source schema: [`doc/schemas/capability-passport-present.v1.schema.json`](../../schemas/capability-passport-present.v1.schema.json)
 
-Wire presentation retaining the complete, self-describing signed passport proof. Consumers select the version-specific verifier and never downgrade V2.
+Wire presentation retaining the complete signed passport proof. For V2 Messaging receive consent only, an optional bounded signed issuance status permits verification against an independently admitted local root without status acquisition. Unsupported consumers must not claim offline acceptance.
 
 ## Governing Basis
 
 - [`doc/project/40-proposals/014-node-transport-and-discovery-mvp.md`](../../project/40-proposals/014-node-transport-and-discovery-mvp.md)
 - [`doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md`](../../project/40-proposals/024-capability-passports-and-network-ledger-delegation.md)
+- [`doc/project/40-proposals/076-limited-messaging-grants-decision.md`](../../project/40-proposals/076-limited-messaging-grants-decision.md)
 - [`doc/project/50-requirements/requirements-006-node-networking-mvp.md`](../../project/50-requirements/requirements-006-node-networking-mvp.md)
 - [`doc/project/60-solutions/007-capability-advertisement/007-capability-advertisement.md`](../../project/60-solutions/007-capability-advertisement/007-capability-advertisement.md)
 - [`doc/project/60-solutions/000-node/000-node.md`](../../project/60-solutions/000-node/000-node.md)
@@ -34,6 +35,8 @@ Wire presentation retaining the complete, self-describing signed passport proof.
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `capability-passport-present.v1` | Schema discriminator. Must equal `capability-passport-present.v1`. |
 | [`passport`](#field-passport) | `yes` | unspecified |  |
+| [`issuance/status`](#field-issuance-status) | `no` | unspecified | Exact signed status artifact for a V2 Messaging receive-consent handoff. Its serialized bytes are limited to 65536 by the carrier. |
+| [`issuance/status-dependency`](#field-issuance-status-dependency) | `no` | const: `online-required` | Informational omission marker. Online acquisition or an exact usable local observation is required; it never grants authority. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -49,3 +52,19 @@ Schema discriminator. Must equal `capability-passport-present.v1`.
 
 - Required: `yes`
 - Shape: unspecified
+
+<a id="field-issuance-status"></a>
+## `issuance/status`
+
+- Required: `no`
+- Shape: unspecified
+
+Exact signed status artifact for a V2 Messaging receive-consent handoff. Its serialized bytes are limited to 65536 by the carrier.
+
+<a id="field-issuance-status-dependency"></a>
+## `issuance/status-dependency`
+
+- Required: `no`
+- Shape: const: `online-required`
+
+Informational omission marker. Online acquisition or an exact usable local observation is required; it never grants authority.

@@ -105,13 +105,16 @@ Receivers must verify the presented credential under:
 - revocation state,
 - and local policy.
 
-The planned [P076-036 presentation slice](../../40-proposals/076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
+The bounded [P076-036 presentation slice](../../40-proposals/076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
 reuses this verification boundary for V2 Messaging consent handoff, attaching the
-existing signed issuance status when size and disclosure budgets permit. It does
-not add status to every `capabilities/presented` assertion or broadcast private
+existing signed issuance status as `issuance/status` when size and disclosure
+budgets permit, with `issuance/status-dependency = online-required` on omission.
+It does not add status to every `capabilities/presented` assertion or broadcast private
 proofs. Independently admitted roots, durable revocation knowledge and freshness
-remain required. Its zero-status-fetch acceptance and sole tracker live in P076;
-current advertisement implementation status does not qualify that planned path.
+remain required. Its bounded zero-status-fetch peer-import gate remains open;
+the sole tracker and first focused diagnostics live in P076;
+advertisement implementation status does not expand this scoped path to
+broadcast assertions.
 
 ### Routing Projection
 

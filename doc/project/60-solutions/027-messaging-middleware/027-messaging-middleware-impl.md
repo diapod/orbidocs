@@ -506,8 +506,22 @@ provider substitutes protected dev-mailbox OTP delivery and explicitly
 admits the participant-signed claim through its operator API. Actual
 email/SMS delivery and remote self-service publication are not qualified.
 Historical focused/refused runs retain their original source pins and
-results. P076-036 remains planned; production root activation and release
+results. At this P076-034 checkpoint, P076-036 remained planned; production root activation and release
 readiness remain separate gates.
 The earlier 54-action focus remains a report-contract refusal. This fresh
 complete candidate does not retrospectively repair its reserved-field error
 or promote any earlier refused attempt or focused diagnostic.
+
+### P076-036 portable-status host gate under correction (2026-10-24)
+
+The private V2 receive-consent builder now creates a complete signed
+`issuance-revocation-status.v1` attachment when its disclosure and wire budgets
+allow it. The first focused tests covered this builder and the separate AD
+acceptor, but at that source pin the actual peer-runtime import handler dropped
+the attachment. The corrected handler now forwards the complete presentation;
+its clean-source requalification remains pending.
+Those diagnostics, including local refusal and restart checks, are pinned at
+`node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`.
+The actual peer-import offline gate remains open. This does not qualify
+offline message delivery, full two-node runtime, production root activation or
+release readiness, and does not revise P076-034's historical qualification.

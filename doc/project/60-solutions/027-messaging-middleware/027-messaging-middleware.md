@@ -199,14 +199,20 @@ runtime checkpoints do not qualify every offline variant; add bounded
 network-disabled verifier/replay evidence when adopting a profile.
 
 [P076-036](../../40-proposals/076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance)
-owns the first planned slice: a bounded existing signed issuance status attached
-to the V2 consent-passport handoff. Reuse the notification builder, peer-message
-consumer, capability-binding verifier and durable issuance observation store.
-Require a cold-cache host-path test with zero status fetches plus stale-proof,
-rollback, withdrawal and restart refusals. Neither this attachment nor its
+owns the first bounded slice: an existing signed issuance status attached as
+`issuance/status` to `capability-passport-present.v1` for the V2 consent-passport
+handoff, with `issuance/status-dependency = online-required` on omission. Reuse
+the notification builder, peer-message consumer, capability-binding verifier
+and durable issuance observation store.
+The bounded local host-path gate remains open: the first focused diagnostics
+at `node:docs/evidence/limited-messaging/2026-10-24-portable-status/README.md`
+did not traverse the real peer-runtime import path. The corrected route awaits
+clean-source requalification.
+Neither this attachment nor its
 acceptance creates local issuance authority, admits roots, lengthens freshness
 or qualifies offline message delivery. Disclosure and wire budgets govern
-attachment; exact signed status is never trimmed. P060 and S007 reference the
+attachment; exact signed status is never trimmed. The bounded local host gate
+is tracked under P076-036; it does not qualify offline delivery. P060 and S007 reference the
 same P076 tracker; existing runtime checkpoints retain their original scope.
 
 ## Passport Profile
