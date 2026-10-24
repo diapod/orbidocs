@@ -703,7 +703,7 @@ real local host/API/UI/CLI cases and JavaScript/no-JavaScript Chrome acceptance.
 Agent and notification owner fixtures retain their component/scripted-host scope.
 P026-006 is done for local policy/private facts; P026-005/007/008 remain partial,
 and sealed rounds remain planned. Earlier SQLite/Matrix opinion qualification
-retains its original scope.
+retains its original scope. The [review checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-review-evidence-checkpoint-2026-10-24) records monotone commands, bounded author isolation, default route refusal and the new source-pinned local runtime; wider qualification remains partial.
 
 Keep `agora-service` read admission and exposure as separate steps:
 `admit -> expose -> render`. `node:agora-service/src/opinion_query.rs` already

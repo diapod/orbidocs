@@ -282,7 +282,7 @@ extension fields through the shared view on a generic open resource reference.
 That evidence does not introduce a standalone rumor-overlay admission schema or
 qualify the complete real Whisper curation, propagation and attention workflow.
 Reuse opinion identity/overlay validation and the Agora host's viewer projection;
-do not add a Whisper-specific blind-vote store or hide ratings only in UI.
+do not add a Whisper-specific blind-vote store or hide ratings only in UI. The [review checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-review-evidence-checkpoint-2026-10-24) requalifies the common local view and preserves the complete Whisper workflow exclusion.
 Peer credibility, rationales, counts and popularity ordering remain withheld
 consistently across curation, Agent, search and S039 attention surfaces.
 

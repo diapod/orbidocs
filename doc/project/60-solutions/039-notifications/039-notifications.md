@@ -232,7 +232,7 @@ Focused store/renderer and synthetic-owner host fixtures cover this adapter;
 [P026's checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
 records real common-view host/browser acceptance separately. An automatic notice
 producer, recipient-partitioned event delivery and complete cross-recipient
-end-to-end qualification remain open.
+end-to-end qualification remain open. The [review checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-review-evidence-checkpoint-2026-10-24) retains one shared generic-attention exclusion policy and synthetic-owner refusal/restart tests; no producer or multi-user promotion follows.
 
 ### Schema-Defined Actions
 
