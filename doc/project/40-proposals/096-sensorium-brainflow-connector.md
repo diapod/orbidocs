@@ -4443,3 +4443,28 @@ the shared-source Synthetic family. Historical packages/reports remain exact;
 a new target build and normal Author/Sign are required before production use of
 the new generation. No hardware, target mutation or merge occurs. P096-005 stays
 partial. See node:docs/audits/REVIEW-SENSORIUM-QUEUE-RETENTION-2026-10-24.md.
+
+
+### Twenty-second target preparation and complete package closure — 2026-10-24
+
+Clean Node c4910f8b / source 4081a4b1 now has a separately retained nearby release
+f8be4782 and signed GUI c7e87d32. The ordinary, campaign and shared-source Synthetic
+queue-retention generations are normally signed; merged shared-channel lifecycle
+repairs additionally require a distinct `ble-discovery.channel-lifecycle` package.
+Closed kinds and revision 1 remain unchanged. All 294 frozen target software
+checks pass without skips, with independent source/package and fresh-retrieval
+review. An exact duplicate-descriptor regression also verifies explicit final
+Case-writer release while live holders and the Unclosed journal preserve fencing.
+No native cleanup qualification follows from that software ownership evidence.
+
+Existing signed/registered predecessors, consent/history and authority are
+preserved. One SQLite ctime-only footprint consistent with normal permission enforcement is
+recorded with all content/identity/mode checks retained. The new packages and
+client are artifacts, not an installed registration transition: the current fixed
+3→4 owner cannot yet advance discovery revision 4 to 5. That supported hop remains
+separate, as do expired authority and unobserved Bluetooth access for the new
+ad-hoc client identity. No hardware, recovery, root migration or branch merge
+executes; P096-005 remains partial. The private manifest 99a10dd3, archive fd7d244c
+and fresh readback fa4b123c retain preparation evidence through
+`PRIMARY_EVIDENCE_STORE`, without a published physical path. See
+node:docs/audits/REVIEW-SENSORIUM-QUEUE20-CLIENT-PREPARATION-2026-10-24.md.
