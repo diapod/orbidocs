@@ -4709,3 +4709,34 @@ This checkpoint does not establish full collector readiness or qualification.
 
 Node checkpoint `118dc0f5` records this production wiring and focused review.
 It does not close the actual-owner/whole-run execution requirement.
+
+
+### Automatic safety capture checkpoint — 2026-10-24
+
+The actual finite runner now retains boundary-derived captures after immutable
+raw episodes, plus separate restart support/capture in the new boot's own clock
+interval. Missing observations remain explicit. Owner-derived acquiring-state
+reads, provider transition, listener metrics and measured absence of progress
+in the controlled drain-thread C fault close producer gaps. Explicit firmware/
+TCC observations bind the actual owner context; automatic conversion still runs
+the complete episode, existing exporter, Schema Gate and unchanged semantics.
+An unarmed injector does not establish zero SDK hangs without confirmed native
+cleanup and a sealed complete call ledger with every entry returned.
+
+Device-free verification covers all ten shapes, finite-runner capture retention,
+read-only isolated CLI and real inert Init/Author/Sign/Register source collection.
+These are component/composition checks, not whole-run collector completeness.
+The actual owner/runner/worker/consumer composition across both terminal branches
+and the restart observer must still prove every field without manually supplied
+facts before another physical trial. P096-005 remains partial. No SSH, headband,
+Bluetooth, target migration, recovery, restart or merge occurs. See
+node:docs/audits/REVIEW-SENSORIUM-AUTOMATIC-COLLECTOR-2026-10-24.md.
+
+Verification passes 405 Python, 112 acquisition-owner and 28 private-owner tests,
+with explicit opt-in exclusions; real inert registration is executed separately.
+The private 34-member software archive passes bounded extraction and every member
+hash check (manifest `d9fe15d5baa285aa8be5d8a2a34a8caa7fb96dd373eb7fa9eceaa57eb4451cbf`,
+archive `3b75edbe6b04b842ce5bbf5c6cb73bb8dd95452b0d1a8a149258b7bd99030a45`).
+Its control explicitly leaves whole-run collector completeness false. Node
+checkpoint `fe5d50d8` contains this implementation and review; neither full
+P096-005 nor the physical-readiness checkpoint is closed.
