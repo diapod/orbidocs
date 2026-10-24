@@ -4676,3 +4676,36 @@ retained evidence remains exact; no native qualification is inferred.
 
 Node checkpoint `8c2d5de1` carries this implementation and review; full-run
 collector readiness and P096-005 remain open.
+
+
+### Prospective actual-owner qualification context — 2026-10-24
+
+The private enrolled Case captures owner-only tuple fields before SDK effects:
+current registered plan/configuration/integrity, exact instance/binding/generation,
+profile/mode, the pinned runtime's binding/native manifests and verified host
+build/launch identity. The full admitted integrity still covers auxiliary fault
+assets. Raw context is bound to its actual operation and Target; the client and
+exporter reject grafting available witnesses to a foreign context or tuple.
+
+Firmware and TCC are separate explicit operator observations. Composition keeps
+their original status/source/time, rejects historical/unverified/future/stale or
+rebound facts, and invents no defaults or approval. The complete independent
+qualifier remains required with unchanged issuance/freshness, origin and timing
+gates. Baseline comparison over 1450 fixture mutations finds no full-tuple
+semantic acceptance drift; this is reconciliation evidence, not native proof.
+
+Actual execution of the wired owner path, automatic all-case assembly and
+whole-run device-free field completeness remain blocking before another physical
+trial. P096-005 stays partial; no SSH, device, target mutation, recovery or merge
+occurs. See node:docs/audits/REVIEW-SENSORIUM-OWNER-CONTEXT-2026-10-24.md.
+
+
+Focused verification passes 396 Python, 27 private-owner and three runtime tests,
+with explicit runtime exclusions. A verified 24-member private software archive
+(manifest `bb36eec7c9c97390447fec65b75f10b3d9cca4ccdffe49636dc7f6c42096a833`,
+archive `8fd1d98259d502150fea5aadb27f33e7a6034b57014055012a396113e0152fd5`)
+explicitly records that the complete owner-context path has not yet executed.
+This checkpoint does not establish full collector readiness or qualification.
+
+Node checkpoint `118dc0f5` records this production wiring and focused review.
+It does not close the actual-owner/whole-run execution requirement.
