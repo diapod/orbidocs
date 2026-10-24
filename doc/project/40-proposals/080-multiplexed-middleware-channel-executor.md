@@ -1276,6 +1276,28 @@ reload without masking a dead host for long; the 60-second ceiling permits
 deliberately slower local environments and is not a network-failure retry budget.
 This tuning does not change shutdown deadlines.
 
+## Canceled host calls after local deadline (2026-10-24)
+
+A local deadline releases logical RPC credit only after publishing `Cancel`.
+Cancellation does not undo host effects. The server retains a bounded
+`canceled-awaiting-result` state and sends one ordinary terminal response when
+the worker completes, allowing the client to consume its generation-bound timeout
+marker exactly once. A repeated cancel of an admitted terminal ID remains a
+no-op; an unknown ID, duplicate response or reused request ID is refused.
+
+Actual worker permits outlive cancellation and session replacement. Both the
+per-session worker gate and a server-instance gate bound still-running work;
+reconnecting cannot multiply hung workers. A worker that never returns can still
+exhaust that bounded capacity. Reconnect is a containment fallback, not effect
+rollback or transparent replay. The separate 65,536-ID session-history limit
+continues to apply.
+
+Fixed diagnostic events expose the first retirement reason and bounded counters
+for active calls, canceled calls awaiting results and consumed late results.
+They contain no payloads, credentials, raw error prose or private paths. The
+one-hour renewal follow-up is scoped separately from the historical full P076-034
+candidate; it requires unchanged processes/sessions and ordinary-call continuity.
+
 ## Open Questions
 
 None for the hard-MVP contract. Credential lifetime, persistent-stdio scope,
@@ -1364,6 +1386,7 @@ No new listener, frame family, recurring discovery or startup inference is neede
 | P080-041 | Add daemon-level shared-listener flap acceptance | done | Supervisor and real-daemon acceptance stop and restore the same bound listener while the child remains alive, then prove unchanged pid/launch, advanced epoch, renewed init/report plus heartbeat, restored routing/readiness, and no old-session completion. Full daemon restart provisions a new launch at epoch one. |
 | P080-042 | Measure and freeze the generated reconnect grace default | done | Generated factory and Story profiles now use 5 seconds; config admission accepts only `1..=60000` milliseconds. Authentication and protocol failures fail immediately rather than consuming reconnect grace, while transport loss retains bounded retry and unchanged shutdown escalation. |
 | P080-043 | Preserve no-transparent-replay across reconnect | done | Pending maps, outbound frames, cancellation state, and worker responses are bound to a monotonic session generation in Rust and Python. Lost-session calls fail terminally, detached calls fail fast, late results are discarded, and effect tests prove reconnect does not execute or deliver an old request again. |
+| P080-047 | Drain canceled host-call results without accumulating timeout markers | partial | Rust and Python real-server regressions each cover 2048 timeout/cancel/completion sequences in one epoch; bounded actual workers survive reconnect accounting. Independent review and focused tests pass. A source/binary-pinned one-hour synthetic renewal soak with terminal counters remains required; no model/VM or release claim. |
 | P080-046 | Admit isolated environments with a confirmed `environment.destroy` disposer | done | 2026-09-27, for `P094-018`: `middleware-component-contract.v1` admits `isolated-environment` with `environment.destroy` as an additive amendment of its closed enums and pairing; `middleware-runtime` validates the pair and refuses a mismatched operation, kind, or non-host-local scope. The completion contract (durable intent, idempotent confirmation, restart completion) is recorded above and implemented by Sensorium Virt. |
 
 ## Next Actions
