@@ -144,8 +144,8 @@ live in `node:attestation-service/README.md`.
 | F-04 fail-fast token configuration | done | Configuration refuses before bind; public create/redeem cannot access lifecycle or status |
 
 These changes retain the historical synthetic P076-034 evidence with its original
-source pins. The combined focused suite passes 28 tests; it does not enlarge that
-candidate's measured scope or establish production readiness. A final review
+source pins. The initial combined focused suite passed 28 tests; it does not
+enlarge that candidate's measured scope or establish production readiness. A final review
 added two real writer/provider-barrier regressions; the resulting 30-test suite
 also proves expiry across writer contention and preservation of concurrent
 redemption after a lost delivery reply.
