@@ -63,3 +63,11 @@ source loss on restart prevents recovery from reactivating execution. Generic
 controller journaling is unchanged. A fresh resume request may reuse an aborted
 step coordinate while its manifest, outcome and observation qualifier bind the
 distinct request. These corrections change no authority, scope or deadline.
+
+
+Private producer boundary: the old Inquirium controller receipt continues to
+require exact producer-response bytes and an object-store reference. The private
+RAM envelope has a separate Node-local receipt binding the actual Inquirium
+producer, exact request manifest, authority dependencies and private product
+commitment. It asserts derivation, never byte identity or additional P090 context
+ancestry. Its history cannot restore the RAM bytes or source authority on restart.
