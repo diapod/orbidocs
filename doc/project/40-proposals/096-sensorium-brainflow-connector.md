@@ -5199,3 +5199,23 @@ requiring new consent. Explicit 33-member/two-image primary readback passes.
 This proves software completeness only: SDK/discovery, firmware/TCC and kernel
 restart remain explicit fixtures. Native full-tuple/current-image facts and a
 separately approved actual host restart still block P096-005 completion.
+
+
+### Full terminal metadata boundary — 2026-10-25
+
+A subsequent no-device egress check finds that the actual software fault Case
+with its normal checkpoint assignment is 17,514 bytes, exceeding the old 16-KiB
+terminal capture, SSH reader and copier. The earlier six-owner/ten-record proof
+covered record collection, not this full transport boundary; it stays unchanged.
+Terminal metadata now has an explicit bounded 64-KiB path through real captures,
+closed parser, relay and actual owned copier. Four new regressions and the full
+software replay pass, as do 430 pinned Python tests with three explicit skips.
+Control/nonce/stderr limits, samples, clocks and all qualification criteria remain
+unchanged. See node:docs/audits/REVIEW-SENSORIUM-TERMINAL-METADATA-2026-10-25.md.
+
+A superseding pinned signed target client must precede physical fault use.
+The private two-pass draft gates fault on seven validated ordinary records and
+restart review on two actual fault records plus checkpoint. It preserves exact
+raw support hashes and a shared STOP; fresh human readiness and per-run pins are
+mandatory. It contains no restart, reset, recovery or renewal executor. P096-005
+remains partial; no native proof, root migration or merge is claimed.
