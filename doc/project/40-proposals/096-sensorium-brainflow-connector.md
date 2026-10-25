@@ -5082,3 +5082,28 @@ pre-WEAR browser clicks. Native ordinary/emergency measurements, current-image
 OS/TCC facts and separately approved actual host restart remain required. The
 already fresh firmware observation keeps its original time. No device, permission
 probe, reset, recovery, migration or merge occurred in this lifecycle step.
+
+
+### R17 physical observations and frozen gate refusals — 2026-10-25
+
+One freshly approved ordinary pass completes five native sessions with confirmed
+release and no SDK retry. The separately approved emergency preserves the parent
+grant ceiling, then closes 68 ms after its expiry before START permit or fault.
+It is released, without quarantine or a restart checkpoint; no retry/reset/recovery
+or host restart occurs. Actual firmware and TCC observations bind one full tuple.
+
+Five of ten P096-005 records pass the unchanged schema/semantic gates: four control
+records (receipt/fence 1/1 ms; exit 4,671–4,771 ms) and the expired-authority refusal.
+The raw authority/consent records are complete but exceed their frozen 10-second
+budgets at 13,133/10,534 ms; three emergency/restart records remain missing. Full
+safety export correctly refuses. No measurement interval or original verdict is
+revised. Source review must reconcile the timing domains without weakening the
+owning requirements or thresholds and avoid unnecessary emergency dispatch waits.
+
+Journal 412/58 Cases, zero resource/controller claims, no pending recovery and
+unchanged controller files are verified. R17 binding retains its actual expiry;
+future supported retirement/readiness remain separate. Private report retention
+uses an explicit 81-member allowlist with fresh primary readback, excluding SSH
+configuration, approval inputs, launchers and full root/configuration snapshots.
+See node:docs/audits/REVIEW-SENSORIUM-R17-PHYSICAL-2026-10-25.md.
+P096-005 stays partial; no qualification, migration or merge is claimed.
