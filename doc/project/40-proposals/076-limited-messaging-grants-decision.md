@@ -307,7 +307,7 @@ instead of duplicating a tracker or introducing another implementation owner.
 
 ## P076-037: Status acquisition policy and contact renewal
 
-**Status: decision adopted; implementation and host acceptance open.** A local
+**Status: decision adopted; focused implementation and host acceptance done.** A local
 node-scope P091 setting `/messaging/issuance/status-acquisition` has three closed
 values: `online` (default), `scheduled-only`, and
 `no-observed-grant-query`. The setting is live and applies at each status-source
@@ -354,9 +354,17 @@ prerequisites for renewal; this is not offline message delivery. S020 owns the
 60-second status-refresh cadence with a bounded stable jitter and skip-missed
 behavior. A distinct durable withdrawal-publication retry worker is independent
 of S020. Pausing status refresh is visible in readiness but does not invalidate
-otherwise current signed evidence. P076-037 closes only after targeted actual
+otherwise current signed evidence. The P076-037 close gate required targeted
 host-path, policy, peer, scheduler, INAC, AD and send regressions with exact
 source-pinned evidence; full-candidate and release flags remain separate.
+The 2026-10-25 focused capsule pins clean Node
+`c08f3b46adae0cd4d4436e5c376463e1651158cd` and Orbidocs
+`e2ab1f27075902bd91748f5c2ea3c72adf0b4dcb`; its public synthetic inputs
+and results are retained in
+`/Volumes/BIGBOY/ORBIPLEX/retained-evidence/p076-status-acquisition-20261025`.
+Actual WSS renewal records zero holder queries and one permitted presenter
+query. The same binary passed one short synthetic two-peer probe on each of
+`self.local` and `turbo.local`; this is not cross-machine delivery evidence.
 
 ## Implementation Tracker
 
@@ -374,7 +382,7 @@ or unit test alone never closes a runtime gate.
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
-| P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | in-progress | Actual peer-to-peer renewal and send authorization, typed no-query refusals, independent withdrawal retry, paused-scheduler diagnostics and focused retained host acceptance; no lease extension or offline delivery claim |
+| P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Focused WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry, paused-scheduler diagnostics and retained acceptance on clean commits; no lease extension, offline delivery, full candidate or release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
