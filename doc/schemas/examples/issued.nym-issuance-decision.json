@@ -1,0 +1,59 @@
+{
+  "schema": "nym-issuance-decision.v1",
+  "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "exchange/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "issuer/id": "council:did:key:z123",
+  "reply/recipient": "participant:did:key:z789",
+  "decision": "issued",
+  "decided/at": "2025-10-25T00:01:00Z",
+  "certificate": {
+    "schema/v": 1,
+    "nym/id": "nym:did:key:z456",
+    "epoch": 2912,
+    "issued-at": "2025-10-25T00:00:00Z",
+    "expires-at": "2025-10-26T00:00:00Z",
+    "issuer/id": "council:did:key:z123",
+    "whisper/source": {
+      "schema": "whisper-source-descriptor.v1",
+      "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "federation/id": "federation:example",
+      "issuer/id": "council:did:key:z123",
+      "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "epoch": 2912,
+      "epoch/start": "2025-10-20T00:00:00Z",
+      "epoch/end": "2025-10-27T00:00:00Z",
+      "source/ref": "source:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "source/derivation": "issuer-derived-v1",
+      "status/min-revision": 1
+    },
+    "privacy/linkability": "context-scoped",
+    "privacy/context-domain": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "scope/audiences": [
+      "whisper-contextual-authorship"
+    ],
+    "scope/context-domains": [
+      "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    ],
+    "signature": {
+      "alg": "ed25519",
+      "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "scope/federation-id": "federation:example",
+    "scope/topic-patterns": [
+      "ai.orbiplex.whispers/workplace-load"
+    ],
+    "scope/record-kinds": [
+      "whisper-signal"
+    ],
+    "scope/content-schemas": [
+      "whisper-signal.v2"
+    ],
+    "scope/disclosure-scopes": [
+      "federation-scoped"
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

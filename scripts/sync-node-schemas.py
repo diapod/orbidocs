@@ -45,6 +45,14 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "nym-exchange-key-offer.v1.schema.json",
+    "whisper-source-profile.v1.schema.json",
+    "whisper-source-descriptor.v1.schema.json",
+    "whisper-source-certificate.v1.schema.json",
+    "nym-issuance-request.v1.schema.json",
+    "nym-issuance-decision.v1.schema.json",
+    "nym-source-status.v1.schema.json",
+    "nym-exchange-sealed.v1.schema.json",
     "responsibility-maintenance-index.local.v1.schema.json",
     "responsibility-maintenance-grant.local.v1.schema.json",
     "responsibility-maintenance-plan.local.v1.schema.json",
@@ -672,6 +680,12 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "production.whisper-source-profile.json",
+    "contextual.whisper-source-descriptor.json",
+    "contextual.whisper-source-certificate.json",
+    "initial.nym-issuance-request.json",
+    "issued.nym-issuance-decision.json",
+
     'm5-unallocated.responsibility-maintenance-alert.local.v1.json',
     'm5-unallocated.responsibility-maintenance-retention-hold.local.v1.json',
 
@@ -1920,6 +1934,7 @@ SEMANTIC_INVALID_EXAMPLE_WHITELIST = (
 )
 
 GOLDEN_WHITELIST = (
+    "nym-certificate-signing.v1.golden.json",
     "artifact-acquisition-identity-v1.golden.json",
     "artifact-acquisition-refusal-v1.golden.json",
     "golden-room-projection-input.json",

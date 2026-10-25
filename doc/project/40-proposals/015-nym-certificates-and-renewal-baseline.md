@@ -310,6 +310,14 @@ artifact-local embedding pattern wherever artifacts are nym-authored. Each adopt
 should remain schema-gated in its own family rather than introducing a generic shared
 nym envelope prematurely.
 
+## Contextual Whisper continuation (2026-10-25)
+
+The accepted [contextual authorship profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
+adds private exchange, cumulative source revocation, backend-proven publication
+time, lazy renewal and bounded issuer erasure. It supersedes public-continuation
+as the default only for that Whisper profile; the generic baseline and historical
+evidence retain their scope. Its two runtime gates remain pending.
+
 ## P081 Scoped-Claim Adoption
 
 The certificate baseline now has one reusable, suite-neutral verification adapter in
@@ -357,13 +365,14 @@ bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
 
 ### Delivery Integration Tracker
 
-These rows describe unimplemented delivery integration, not the existing P081
-verification adapter. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
+These rows track the contextual continuation separately from the existing P081
+verification adapter. The 2026-10-25 schema and pure-verifier foundation does not
+qualify issuer/applicant runtime or either acceptance gate. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
 implementation evidence exists.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-001 | Freeze private issuance/renewal exchange binding | todo | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
+| P015-001 | Freeze private issuance/renewal exchange binding | partial | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
 | P015-002 | Wire issuer and applicant acceptors | todo | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
 | P015-003 | Prove two-node issue/renew/reject recovery | todo | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
 

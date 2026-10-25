@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-source-certificate:v1",
+  "title": "Whisper source certificate profile of NymCertificate v1",
+  "description": "Strict NFC-only contextual profile of the existing nym-certificate.v1 signing format; no extra signature framing.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "required": [
+    "schema/v",
+    "nym/id",
+    "epoch",
+    "issued-at",
+    "expires-at",
+    "issuer/id",
+    "signature",
+    "whisper/source",
+    "privacy/linkability",
+    "privacy/context-domain",
+    "scope/audiences",
+    "scope/context-domains",
+    "scope/federation-id",
+    "scope/topic-patterns",
+    "scope/record-kinds",
+    "scope/content-schemas",
+    "scope/disclosure-scopes"
+  ],
+  "properties": {
+    "schema/v": {
+      "const": 1,
+      "description": "Schema version."
+    },
+    "nym/id": {
+      "type": "string",
+      "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Certified nym identity."
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Epoch number of this pseudonym line."
+    },
+    "issued-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Issue timestamp of the certificate."
+    },
+    "expires-at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End of ordinary validity for application-message signing."
+    },
+    "leniency-until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "End of grace semantics for continuity work. After this moment the old line is dead."
+    },
+    "issuer/id": {
+      "type": "string",
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Issuing council identity in canonical `council:did:key:z...` form."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    },
+    "whisper/source": {
+      "$ref": "whisper-source-descriptor.v1.schema.json"
+    },
+    "privacy/linkability": {
+      "const": "context-scoped"
+    },
+    "privacy/context-domain": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "scope/audiences": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "const": "whisper-contextual-authorship"
+      }
+    },
+    "scope/context-domains": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      }
+    },
+    "scope/federation-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "scope/topic-patterns": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512,
+        "pattern": "^[^*]+$"
+      }
+    },
+    "scope/record-kinds": {
+      "const": [
+        "whisper-signal"
+      ]
+    },
+    "scope/content-schemas": {
+      "const": [
+        "whisper-signal.v2"
+      ]
+    },
+    "scope/disclosure-scopes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "federation-scoped",
+          "cross-federation",
+          "public-aggregate-only"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  }
+}

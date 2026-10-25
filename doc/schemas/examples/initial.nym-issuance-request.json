@@ -1,0 +1,24 @@
+{
+  "schema": "nym-issuance-request.v1",
+  "operation": "issue",
+  "applicant/id": "participant:did:key:z789",
+  "issuer/id": "council:did:key:z123",
+  "reply/recipient": "participant:did:key:z789",
+  "reply/key": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "context/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "epoch": 2912,
+  "nym/id": "nym:did:key:z456",
+  "request/nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "issued/at": "2025-10-25T00:00:00Z",
+  "expires/at": "2025-10-25T00:15:00Z",
+  "nym/proof": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  },
+  "topic/key": "ai.orbiplex.whispers/workplace-load"
+}

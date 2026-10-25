@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-exchange-sealed:v1",
+  "title": "nym-exchange-sealed.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "required": [
+    "schema",
+    "exchange/digest",
+    "payload/schema",
+    "recipient/key-ref",
+    "sender/ephemeral-key",
+    "nonce",
+    "ciphertext"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-exchange-sealed.v1"
+    },
+    "exchange/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "payload/schema": {
+      "enum": [
+        "nym-issuance-request.v1",
+        "nym-issuance-decision.v1"
+      ]
+    },
+    "recipient/key-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "sender/ephemeral-key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32,
+      "pattern": "^[A-Za-z0-9_-]{32}$"
+    },
+    "ciphertext": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 131072,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    }
+  }
+}

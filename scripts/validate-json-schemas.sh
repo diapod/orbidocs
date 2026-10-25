@@ -1535,6 +1535,21 @@ schema_for_file() {
     *.nym-succession.json)
       echo "$SCHEMAS_DIR/nym-succession.v1.schema.json"
       ;;
+    *.whisper-source-profile.json)
+      echo "$SCHEMAS_DIR/whisper-source-profile.v1.schema.json"
+      ;;
+    *.whisper-source-descriptor.json)
+      echo "$SCHEMAS_DIR/whisper-source-descriptor.v1.schema.json"
+      ;;
+    *.whisper-source-certificate.json)
+      echo "$SCHEMAS_DIR/whisper-source-certificate.v1.schema.json"
+      ;;
+    *.nym-issuance-request.json)
+      echo "$SCHEMAS_DIR/nym-issuance-request.v1.schema.json"
+      ;;
+    *.nym-issuance-decision.json)
+      echo "$SCHEMAS_DIR/nym-issuance-decision.v1.schema.json"
+      ;;
     *.nym-certificate.json)
       echo "$SCHEMAS_DIR/nym-certificate.v1.schema.json"
       ;;

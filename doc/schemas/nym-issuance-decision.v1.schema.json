@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-decision:v1",
+  "title": "nym-issuance-decision.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "required": [
+    "schema",
+    "request/digest",
+    "exchange/digest",
+    "issuer/id",
+    "reply/recipient",
+    "decision",
+    "decided/at",
+    "signature"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nym-issuance-decision.v1"
+    },
+    "request/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "exchange/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "reply/recipient": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "decision": {
+      "enum": [
+        "issued",
+        "refused",
+        "reset-required"
+      ]
+    },
+    "decided/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "certificate": {
+      "$ref": "whisper-source-certificate.v1.schema.json"
+    },
+    "reason": {
+      "enum": [
+        "policy-denied",
+        "request-expired",
+        "binding-unavailable",
+        "context-unavailable",
+        "capacity-exceeded",
+        "reset-required"
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "issued"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "required": [
+          "certificate"
+        ],
+        "not": {
+          "required": [
+            "reason"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "reason"
+        ],
+        "not": {
+          "required": [
+            "certificate"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "reset-required"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "reason": {
+            "const": "reset-required"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "reason": {
+            "not": {
+              "const": "reset-required"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

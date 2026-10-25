@@ -96,7 +96,6 @@
         "epoch",
         "issued-at",
         "expires-at",
-        "leniency-until",
         "issuer/id",
         "signature"
       ],

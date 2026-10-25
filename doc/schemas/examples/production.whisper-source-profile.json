@@ -1,0 +1,21 @@
+{
+  "schema": "whisper-source-profile.v1",
+  "profile/kind": "production",
+  "federation/id": "federation:example",
+  "issuer/id": "council:did:key:z123",
+  "epoch/anchor": "1970-01-05T00:00:00Z",
+  "source/derivation": "issuer-derived-v1",
+  "renewal/default": "on-demand",
+  "key/active-limit": 4096,
+  "renewal/consent-limit": 7,
+  "clock/skew-seconds": 5,
+  "epoch/seconds": 604800,
+  "certificate/ttl-seconds": 86400,
+  "request/ttl-seconds": 900,
+  "status/collection-max-age-seconds": 3600,
+  "status/emission-max-age-seconds": 300,
+  "retention/identifying-seconds": 86400,
+  "retention/reset-buffer-seconds": 300,
+  "retention/tombstone-seconds": 604800,
+  "epoch/certificate-limit": 2048
+}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-source-profile:v1",
+  "title": "whisper-source-profile.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "required": [
+    "schema",
+    "profile/kind",
+    "federation/id",
+    "issuer/id",
+    "epoch/anchor",
+    "source/derivation",
+    "renewal/default",
+    "key/active-limit",
+    "renewal/consent-limit",
+    "clock/skew-seconds",
+    "epoch/seconds",
+    "certificate/ttl-seconds",
+    "request/ttl-seconds",
+    "status/collection-max-age-seconds",
+    "status/emission-max-age-seconds",
+    "retention/identifying-seconds",
+    "retention/reset-buffer-seconds",
+    "retention/tombstone-seconds",
+    "epoch/certificate-limit"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-source-profile.v1"
+    },
+    "profile/kind": {
+      "enum": [
+        "production",
+        "acceptance-fixture"
+      ]
+    },
+    "federation/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "epoch/anchor": {
+      "const": "1970-01-05T00:00:00Z"
+    },
+    "source/derivation": {
+      "const": "issuer-derived-v1"
+    },
+    "renewal/default": {
+      "const": "on-demand"
+    },
+    "key/active-limit": {
+      "const": 4096
+    },
+    "renewal/consent-limit": {
+      "const": 7
+    },
+    "clock/skew-seconds": {
+      "const": 5
+    },
+    "epoch/seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 604800
+    },
+    "certificate/ttl-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 86400
+    },
+    "request/ttl-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 900
+    },
+    "status/collection-max-age-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600
+    },
+    "status/emission-max-age-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300
+    },
+    "retention/identifying-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 86400
+    },
+    "retention/reset-buffer-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300
+    },
+    "retention/tombstone-seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 604800
+    },
+    "epoch/certificate-limit": {
+      "const": 2048
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "profile/kind": {
+            "const": "production"
+          }
+        },
+        "required": [
+          "profile/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "epoch/seconds": {
+            "const": 604800
+          },
+          "certificate/ttl-seconds": {
+            "const": 86400
+          },
+          "request/ttl-seconds": {
+            "const": 900
+          },
+          "status/collection-max-age-seconds": {
+            "const": 3600
+          },
+          "status/emission-max-age-seconds": {
+            "const": 300
+          },
+          "retention/identifying-seconds": {
+            "const": 86400
+          },
+          "retention/reset-buffer-seconds": {
+            "const": 300
+          },
+          "retention/tombstone-seconds": {
+            "const": 604800
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "profile/kind": {
+            "const": "acceptance-fixture"
+          }
+        },
+        "required": [
+          "profile/kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "epoch/seconds": {
+            "const": 600
+          },
+          "certificate/ttl-seconds": {
+            "const": 120
+          },
+          "request/ttl-seconds": {
+            "const": 60
+          },
+          "status/collection-max-age-seconds": {
+            "const": 60
+          },
+          "status/emission-max-age-seconds": {
+            "const": 30
+          },
+          "retention/identifying-seconds": {
+            "const": 60
+          },
+          "retention/reset-buffer-seconds": {
+            "const": 10
+          },
+          "retention/tombstone-seconds": {
+            "const": 600
+          }
+        }
+      }
+    }
+  ]
+}

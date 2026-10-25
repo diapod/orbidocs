@@ -921,3 +921,12 @@ association-room lifecycle policy as post-MVP questions.
     artifact cap, prunes the local metadata read model after 30 days by default,
     and verifies in smoke that public and private traces use their declared
     Agora and INAC carriers without private projection leakage.
+
+## Contextual participant-source authorship (2026-10-25)
+
+The accepted [P015 contextual profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
+introduces v2 signals and aggregate threshold/proposal artifacts. It counts
+council-admitted participant sources within one rumor context and epoch, with
+no fallback to a source node, author string or record/about. This is a new
+qualification; historical node-counting M4 results remain unchanged. Runtime
+Gate A (certification) and Gate B (ordinary host authoring) remain pending.
