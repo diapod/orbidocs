@@ -5245,3 +5245,18 @@ native evidence. P096-005 remains partial. Fresh finite authority and interactiv
 headband readiness, actual current-image native/TCC facts and separately approved
 actual host restart remain required; no device, permission probe, renewal,
 recovery, root migration or merge is performed by this preparation.
+
+
+### R18 authority renewal — 2026-10-25
+
+Normal exact review `54d5924f` was prepared, independently verified, explicitly
+human-approved and committed once via the pinned administrator. Only the same
+controller/discovery scope is renewed, to 2026-10-25T23:29:32Z. Complete closed
+write-set review preserves 1570 old file observations/372 directories, twelve
+protected inputs, journal 412/58, consent/history and zero claims; an ordinary
+read-store ctime-only change is disclosed. Discovery stays r5 and reserved r18
+has no p21 grant or consent. Seven selected proof members pass primary-store
+readback. See node:docs/audits/REVIEW-SENSORIUM-R18-AUTHORITY-2026-10-25.md.
+P096-005 stays partial: fresh interactive readiness, current-image TCC/native
+facts and a separately approved actual host restart remain. No hardware,
+reset, recovery, migration or merge is performed by this metadata renewal.
