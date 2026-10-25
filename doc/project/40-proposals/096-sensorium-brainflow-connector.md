@@ -5397,3 +5397,18 @@ pass full primary readback. Stopped r18 remains registered. No permission probe,
 manager, native run, retirement, renewal, recovery, migration or merge follows;
 P096-005 stays partial. Fresh native/two-pass consent and separate actual restart
 remain required. See the review at node:docs/audits/REVIEW-SENSORIUM-JOURNAL-CAPACITY-CLIENT-2026-10-25.md.
+
+
+### Released-r18 retirement review prepared, not consumed — 2026-10-26
+
+Verified administrator `905715d0` prepared exact normal released-Case review
+`20574413` for r18→r19. Independent canonical digest, four target-only source
+projections, expired host/runtime grants and binding, completed predecessor,
+journal/consent/controller and idle resources pass. R18 remains registered;
+r19 is not reserved and RETIRE-P21 approval is pending. All 1638 old content/key
+observations and 394 directory identities remain; only the review is added.
+A sole SQLite ctime change preserves all other fields and is consistent with
+the normal permission path, without an OS-traced cause. Journal 421/59/zero claims
+and finite expiry remain unchanged. Four closed proof members pass primary
+readback; raw configs and snapshots are excluded. No retirement, new grant,
+hardware, renewal, recovery, migration or merge; P096-005 partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R18-RETIREMENT-PREPARED-2026-10-26.md.
