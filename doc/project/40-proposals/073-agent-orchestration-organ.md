@@ -1181,7 +1181,7 @@ The [closed consumer checkpoint](026-assessment-agent-consumer.md#measured-close
 The [accepted correction](026-assessment-agent-consumer-r1.md) versions private
 HMAC commitments and explicit unmetered consent, separates read-only inspection
 from first-holder consumption, and retains possible-disclosure manifests after
-failed dispatch. Its new qualification remains pending. Original run-10 evidence
+failed dispatch. Its [measured r1 checkpoint](026-assessment-agent-consumer-r1.md#measured-checkpoint-2026-10-25) passes ten cases and 93 controls normal/-O loose/extracted. Original run-10 evidence
 is historical and unchanged. Shared assessment observation rendering deliberately
 uses User/Postamble HostObservation for new generic Q-02 passages too; replaying
 its pinned older source and rerunning current source are different prompt claims.

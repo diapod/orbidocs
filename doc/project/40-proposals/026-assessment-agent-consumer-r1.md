@@ -1,6 +1,6 @@
 # P026-012b-r1: private commitment and activation corrections
 
-Status: accepted correction design; implementation and qualification pending.
+Status: implemented and measured for the closed profile; parent P026-012/P073 remain partial.
 Basis: P026-012b review F-01 through F-12; P066 ownership; P073 lifecycle.
 
 ## Frozen corrections
@@ -80,3 +80,20 @@ First-holder consumption retains P066's existing unexpired allow-once rule: it
 must occur before the frozen question expiry. Once consumed, the response window
 does not shorten the activated grant. Unconsumed expired approval is blocked,
 not silently consumed by management or recovered from the archive.
+
+
+## Measured checkpoint (2026-10-25)
+
+Ordinary run 04 at Node `f5838744` / Orbidocs `4cc2f494` passes ten cases and
+36 browser screenshots without models or the acceptance feature. Current
+qualifier `f8b061f0` refuses 93 mutations normally/-O before and after safe
+extraction (372 refusals). See
+`node:docs/evidence/agent-runtime/2026-10-25-p026-012b-r1/README.md` for full hashes,
+source/build/cleanup pins, incomplete runs and separate native evidence.
+
+Full projection testing additionally caught the 512-character P066 prompt bound
+after the v2 summary fix. The accepted prompt is 454 characters. The initial
+verifier incorrectly assumed unique session counters across boots; qualification
+now binds restart to launch/alias and replaced process, retaining the refusal.
+No runtime or cleanup source changed after the pin. Post-transport crash/storage
+gaps, historical metadata growth, unmetered cost and the 012c boundary remain.

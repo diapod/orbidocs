@@ -1908,4 +1908,4 @@ a zero monetary budget. Listing approved consent is read-only. Only the exact
 authenticated channel holder may consume it on first use; witness publication
 occurs after durable consumption and fresh admission. Approval and activation are
 one-to-one within the frozen boot/launch/Agent descriptor, not a generic P066
-identity rule. New evidence is required for the changed wire and consumption time.
+identity rule. The [measured r1 checkpoint](026-assessment-agent-consumer-r1.md#measured-checkpoint-2026-10-25) verifies the changed wire and first-use consumption, including read-only approved inspection and a complete bounded question projection.
