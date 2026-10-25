@@ -521,6 +521,16 @@ Responsibilities:
   name;
 - route sensitive effects through host-owned human-in-loop gates.
 
+For bounded task-pack passages, Corpus owns the exact source selection and
+immutable evidence manifest. Projection revisions 1 and 2 retain their historical
+full-document rendering. Explicit revision 3 presents task data and checked
+relationships to the model while excluding only the declared authority envelope
+in [P094](../../40-proposals/094-operator-task-packs-for-bounded-problem-solving.md).
+The manifest still commits to complete sources, phase basis and provenance;
+unknown task data remains intact and required oversized content refuses.
+Model-free projection/input tests establish neither successful model calibration
+nor current Room authority or completed operator qualification.
+
 Status:
 
 - `done` for the requester-appointed node-local Agent-chair path through locally

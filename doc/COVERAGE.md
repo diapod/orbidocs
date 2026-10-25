@@ -198,8 +198,8 @@ Generated coverage snapshot for the current `doc/` structure.
 | [`corpus-local-round.preview.v1.schema.json`](schemas-gen/schemas/corpus-local-round.preview.v1.md) | `11` | `1` | `yes` | `yes` | `1` | `0` |
 | [`corpus-passage-evidence-binding.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-binding.v1.md) | `13` | `1` | `no` | `yes` | `1` | `1` |
 | [`corpus-passage-evidence-inspection.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-inspection.v1.md) | `3` | `0` | `no` | `yes` | `1` | `1` |
-| [`corpus-passage-evidence-manifest.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-manifest.v1.md) | `15` | `0` | `no` | `yes` | `1` | `3` |
-| [`corpus-passage-evidence.prepare.request.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence.prepare.request.v1.md) | `6` | `0` | `no` | `yes` | `2` | `3` |
+| [`corpus-passage-evidence-manifest.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence-manifest.v1.md) | `15` | `0` | `no` | `yes` | `2` | `4` |
+| [`corpus-passage-evidence.prepare.request.v1.schema.json`](schemas-gen/schemas/corpus-passage-evidence.prepare.request.v1.md) | `6` | `0` | `no` | `yes` | `3` | `3` |
 | [`corpus-reasoning-answer.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v1.md) | `19` | `4` | `yes` | `yes` | `1` | `0` |
 | [`corpus-reasoning-answer.v2.schema.json`](schemas-gen/schemas/corpus-reasoning-answer.v2.md) | `5` | `1` | `yes` | `yes` | `0` | `0` |
 | [`corpus-reasoning-bid-state.v1.schema.json`](schemas-gen/schemas/corpus-reasoning-bid-state.v1.md) | `7` | `1` | `yes` | `yes` | `1` | `0` |
@@ -1693,5 +1693,5 @@ Generated coverage snapshot for the current `doc/` structure.
 
 - Canonical schemas: `740`
 - Generated schema docs: `740`
-- Positive examples: `742`
-- Negative examples: `749`
+- Positive examples: `744`
+- Negative examples: `750`
