@@ -5107,3 +5107,20 @@ uses an explicit 81-member allowlist with fresh primary readback, excluding SSH
 configuration, approval inputs, launchers and full root/configuration snapshots.
 See node:docs/audits/REVIEW-SENSORIUM-R17-PHYSICAL-2026-10-25.md.
 P096-005 stays partial; no qualification, migration or merge is claimed.
+
+
+### Finite emergency dispatch preparation — 2026-10-25
+
+A private local operator adapter prepares immediate transition after five
+released ordinary sessions and four exact emergency responses: REUSE, GRANT-P21,
+WEAR p21 and FAULT. Thirteen device-free tests pass, including real local pipes
+and preservation of the actual r17 refusal through its frozen parser. Existing
+signed-client review/nonce checks, both browser actions, normal authority and
+separate host-restart approval remain. No budget, grant or original result changes.
+
+This is harness preparation; future per-run artifact/fresh-delegation binding
+remains before native use. Proposed 15-second budgets for the two refused cases
+and seven-minute fresh p21 grants await explicit adoption. P096-005 and the r17
+five-of-ten result stay partial. The six-member private proof passes fresh primary
+readback; see node:docs/audits/REVIEW-SENSORIUM-EMERGENCY-DISPATCH-2026-10-25.md.
+No SSH, device, root change, recovery or merge occurred.
