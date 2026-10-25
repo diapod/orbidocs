@@ -4941,3 +4941,24 @@ from an incorrectly selected P094 row; historical evidence remains immutable.
 See node:docs/audits/REVIEW-SENSORIUM-RUNTIME-GRANT-TARGET-PREPARATION-2026-10-25.md.
 P096-005 stays partial. Actual SDK/OS/TCC and native containment plus a separately
 approved actual host restart remain required after software/package readiness.
+
+
+### Immutable safety-boundary package generation — 2026-10-25
+
+Current normal authoring now gives the three updated BrainFlow closures new
+`safety-boundaries` package ids (including a separate campaign package). It
+preserves earlier queue-retention packages/reviews/signatures, closed kind
+spellings, manifest revision 1, exact replay, runtime and every consent/native
+and qualification gate. Discovery remains on its matching channel-lifecycle
+identity. Author/sign creates no grant, registration, permit or WEAR.
+
+Two pure generation and three explicitly executed real inert normal-owner cases
+pass. The actual common-root software runner/client still produces ten safety
+records under one exact full tuple over six Cases, with no missing fields, in
+106.44 s. Production checking passes; physical-origin promotion refuses and the
+SDK/controller/approval/restart fixtures remain explicitly synthetic. The failed
+launcher/output-directory attempt is retained and no threshold is changed.
+See node:docs/audits/REVIEW-SENSORIUM-SAFETY-BOUNDARY-PACKAGES-2026-10-25.md.
+Target release, normal signing/admission and current finite authority remain
+required before a fresh interactive hardware decision. P096-005 remains partial;
+no existing target root, device, recovery, migration or merge changes here.
