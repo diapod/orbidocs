@@ -1174,3 +1174,18 @@ The accepted [closed assessment consumer](026-assessment-agent-consumer.md) adds
 ### P026-012b bounded measured checkpoint (2026-10-25)
 
 The [closed consumer checkpoint](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25) qualifies separate P066 consumption, exact ChannelJson holder/session, P073 binding and fresh context, final witness admission and module-private RAM results. Nine ordinary cases pass at Node ea9138ba / Orbidocs 6097c43b; the current inert-data verifier rejects 77 controls normally/optimized before and after extraction. Owner faults and queued clocks remain component evidence. P066 keeps sole durable consent ownership; authority dependencies do not promote P090 genealogy. No actual model or product module is qualified. Only the closed 012b profile closes; 012c remains deferred, while parent P026-012/P073 and release readiness remain partial. Historical Q-02/012a evidence is unchanged.
+
+
+### P026-012b-r1 review boundary
+
+The [accepted correction](026-assessment-agent-consumer-r1.md) versions private
+HMAC commitments and explicit unmetered consent, separates read-only inspection
+from first-holder consumption, and retains possible-disclosure manifests after
+failed dispatch. Its new qualification remains pending. Original run-10 evidence
+is historical and unchanged. Shared assessment observation rendering deliberately
+uses User/Postamble HostObservation for new generic Q-02 passages too; replaying
+its pinned older source and rerunning current source are different prompt claims.
+Committed products are binding/launch-owned and may be issued to a reconnected
+current session; stale passages cannot commit. Closed lifecycle operations retain
+local-control/record-owner authority. Historical metadata retention remains open
+before 012c, irrespective of the direct product index.

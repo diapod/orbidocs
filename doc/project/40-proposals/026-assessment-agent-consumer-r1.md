@@ -74,3 +74,9 @@ adapter error leaves a durable manifest without an outcome, including restart.
 Keep native failure/lock/clock/fence/legacy-reader proofs separate. Qualify normal
 and optimized, loose and safely extracted; retain failed attempts. Only measured
 results may update the tracker and ledger. No merge or push.
+
+
+First-holder consumption retains P066's existing unexpired allow-once rule: it
+must occur before the frozen question expiry. Once consumed, the response window
+does not shorten the activated grant. Unconsumed expired approval is blocked,
+not silently consumed by management or recovered from the archive.

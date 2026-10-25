@@ -29,6 +29,8 @@ choose_validator() {
 
 schema_for_file() {
   case "$1" in
+    *.agent-outcome.v4.json) echo "$SCHEMAS_DIR/agent.outcome.v4.schema.json" ;;
+    *.agent-supplied-input-manifest.v3.json) echo "$SCHEMAS_DIR/agent.supplied-input-manifest.v3.schema.json" ;;
     *.agent-binding.v3.json)
       echo "$SCHEMAS_DIR/agent.binding.v3.schema.json"
       ;;

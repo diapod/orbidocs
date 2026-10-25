@@ -13,14 +13,6 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
-    "agent.supplied-input-manifest.v3.schema.json",
-    "agent.outcome.v4.schema.json",
-    "agent.product.read.request.v3.schema.json",
-    "agent.product.read.response.v3.schema.json",
-    "agent.private-module-result.v2.schema.json",
-    "assessment-agent-run-result.v2.schema.json",
-    "assessment-agent-intent.v2.schema.json",
-    "agent.controller-execution-provenance.v2.schema.json",
 
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
@@ -54,6 +46,15 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "agent.supplied-input-manifest.v3.schema.json",
+    "agent.outcome.v4.schema.json",
+    "agent.product.read.request.v3.schema.json",
+    "agent.product.read.response.v3.schema.json",
+    "agent.private-module-result.v2.schema.json",
+    "assessment-agent-run-result.v2.schema.json",
+    "assessment-agent-intent.v2.schema.json",
+    "agent.controller-execution-provenance.v2.schema.json",
+
     "assessment-agent-run-result.v1.schema.json",
     "agent.product.read.request.v2.schema.json",
     "agent.product.read.response.v2.schema.json",
@@ -702,6 +703,8 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "fixture.agent-outcome.v4.json",
+    "fixture.agent-supplied-input-manifest.v3.json",
     "fixture.agent-supplied-input-manifest.v2.json",
     "fixture.agent-binding.v3.json",
     "fixture.agent-outcome.v3.json",
@@ -1312,6 +1315,8 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "wrong-label.agent-outcome.v4.json",
+    "wrong-label.agent-supplied-input-manifest.v3.json",
     "missing-dependencies.agent-supplied-input-manifest.v2.json",
     "overflow-dependencies.agent-supplied-input-manifest.v2.json",
     "recall.agent-binding.v3.json",
