@@ -417,7 +417,9 @@
             "properties": {
               "artifact_ids": {
                 "items": {
-                  "pattern": "^urn:orbiplex:nym-exchange:nym-key-request-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-key-request-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 95,
+                  "maxLength": 95
                 }
               },
               "grants": {
@@ -449,7 +451,9 @@
             "properties": {
               "artifact_ids": {
                 "items": {
-                  "pattern": "^urn:orbiplex:nym-exchange:nym-key-offer-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-key-offer-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 93,
+                  "maxLength": 93
                 }
               },
               "grants": {
@@ -481,7 +485,9 @@
             "properties": {
               "artifact_ids": {
                 "items": {
-                  "pattern": "^urn:orbiplex:nym-exchange:nym-issuance-request-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-issuance-request-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 100,
+                  "maxLength": 100
                 }
               },
               "grants": {
@@ -513,7 +519,9 @@
             "properties": {
               "artifact_ids": {
                 "items": {
-                  "pattern": "^urn:orbiplex:nym-exchange:nym-issuance-decision-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+                  "pattern": "^urn:orbiplex:nym-exchange:nym-issuance-decision-sealed\\.v1:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+                  "minLength": 101,
+                  "maxLength": 101
                 }
               },
               "grants": {
