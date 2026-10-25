@@ -4848,3 +4848,26 @@ See node:docs/audits/REVIEW-SENSORIUM-RUNTIME-REGISTRATION-OWNER-2026-10-25.md.
 No target operation, device, recovery, migration or merge occurs. P096-005 stays
 partial. The earlier data-only note's stale original-native-expiry ceiling is
 corrected to match the already reviewed implementation; it is not a new grant.
+
+### Affine Case owner for separate fresh runtime authority — 2026-10-25
+
+Node now implements an internal grant stage after checked registration reuse and
+before enrollment for the emergency branch following live revocation. It needs
+a released same-basis/Target/boot Case, exact original reduction history and
+current normal registration/controller observations. Separate GRANT-P21 approval
+names a concrete review digest. A durable one-use consumption entry precedes one
+atomic policy replacement; frozen parent/five-minute limits are unchanged.
+
+This settles a narrower mechanism than the earlier exploratory general pending
+administrative corridor: existing affine Case ownership protects one authority
+file, and failures leave a complete approved before or after value. Consumption
+is never retried or deleted to restore authority. Existing unresolved-Case and
+claim fences remain after a process crash; no cleanup/recovery proof is invented.
+New eligibility does not revive the old run or substitute for a fresh WEAR.
+
+Ordinary entry selection is still None; no argv route or client autoapproval is
+provided. Actual common-root ordinary/emergency factory/client composition,
+complete collector output and old-token/permit denial remain blocking before a
+physical question. See Node audit REVIEW-SENSORIUM-RUNTIME-AUTHORITY-CASE-OWNER-2026-10-25.
+P096-005 stays partial; no hardware, target operation, reset, recovery, migration
+or merge occurs.
