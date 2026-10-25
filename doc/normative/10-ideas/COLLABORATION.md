@@ -1,6 +1,6 @@
 # Distributed Intelligence Agency Collaboration Card (Orbiplex Program)
 
-Version: 0.2 (2026-02-21)
+Version: 0.3 (2026-10-25)
 
 Goal: build distributed AI + community + a prompt marketplace
 (without lock-in and without attention/upside asymmetry).
@@ -22,9 +22,22 @@ Goal: build distributed AI + community + a prompt marketplace
 
 ## 2) Licensing and IP
 
-- Core/Commons: **Apache-2.0** (default repo license), possibly dual-licensing with GPL/LGPL.
+- Reference Node implementation, host services, product middleware, UI and internal
+  libraries, including domain `*-core` crates: **AGPL-3.0-only** by default.
+- Explicitly selected integration surfaces (SDKs, protocol clients, helpers and
+  copyable public contracts): **Apache-2.0** only within approved, reviewed scopes.
+  A `core` name or a pure implementation does not establish an Apache grant.
+- Architecture documents, manuals and protocol prose: **CC-BY-4.0**; mark copyable
+  code separately. Third-party material retains its applicable licenses and notices.
 - Community contributions: clear `AUTHORS.md` + attribution (metadata).
 - Prompts: authors keep authorship; the marketplace stores content/metadata under agreed terms (see 6).
+
+This replaces the earlier blanket Apache/GPL/LGPL recommendation in this card;
+it does not itself relicense files or revoke valid prior grants. The artifact
+split and exception review are defined in
+[P001](../../project/40-proposals/001-licensing-proposal.md); current Node grants
+are mapped in `node:LICENSING.md`. Name/logo permissions are separate from software
+licensing; see `node:TRADEMARKS.md` and the exact asset scope in `node:BRAND-ASSETS.md`.
 
 ## 3) Example roles and responsibilities (simple)
 
@@ -113,7 +126,10 @@ If the other party declines:
 
 - Either party may exit with a 31-day handover period (access, docs,
   obligations).
-- Forking is allowed (Apache-2.0), with no impersonation of official accounts/brand.
+- Forking is allowed under the applicable software licenses, including their
+  source and notice obligations, with no impersonation of official accounts/brand.
+  Brand approval is not a condition of exercising software-license rights;
+  independent modified products can fork and rebrand under the separate name/logo policy.
 
 ## Success after 120 days (a concrete test)
 
