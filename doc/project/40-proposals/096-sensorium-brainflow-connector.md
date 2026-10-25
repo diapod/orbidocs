@@ -5027,3 +5027,22 @@ This is metadata readiness only. P096-005 remains partial: actual native SDK,
 OS/TCC, fresh firmware facts, emergency containment and separately approved real
 host restart remain required. Fresh interactive headband approval precedes device
 work. No hardware, reset, recovery, migration or merge occurred.
+
+### R16 preview boundary and UI correction — 2026-10-25
+
+The fresh target pass completed discovery, binding and registration but stopped
+before WEAR during incomplete protected-view demonstration. The Case is released,
+with zero resource/controller claims and no pending recovery; the emergency pass
+was not attempted. A stale active preview after failed control requests was
+confirmed and corrected. Two browser actions are now explicit, unavailable state
+disables preview controls without inventing cleanup, and independent Stop remains
+available. The existing 30-second demonstration/parent clocks remain unchanged.
+
+An actual protected-owner/real-browser loss-restoration test and real HTTP refusal
+checks pass, along with 424 isolated client tests (three opt-in skips). These are
+software UI checks; no SDK entry or durable consent is created. The private proof
+passed 77-member primary readback. See
+node:docs/audits/REVIEW-SENSORIUM-WEARER-VIEW-R16-2026-10-25.md.
+P096-005 stays partial. A new pinned signed artifact and supported stopped-r16
+lifecycle precede fresh headband approval; actual host restart still needs its
+own later approval. No retry, reset, recovery or merge occurred.
