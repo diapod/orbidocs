@@ -314,7 +314,7 @@ values: `online` (default), `scheduled-only`, and
 call. It changes acquisition timing, never the signed lease, V2 preimage,
 verifier, durable high-water mark, locally admitted root, or current-use check.
 
-| Mode | Observed grant at presentation/pending retry | Observed grant in S020 refresh | Owned `LocalDelegate` refresh | Explicit verified local grant import |
+| Mode | Observed grant at presentation or operator refresh | Observed grant in S020 refresh, including pending retry | Owned `LocalDelegate` refresh | Explicit verified local grant import |
 |---|---|---|---|---|
 | `online` | allowed | allowed | allowed | allowed |
 | `scheduled-only` | refused before I/O | allowed | allowed | allowed |
@@ -329,6 +329,11 @@ Unavailable policy resolution fails closed for observed-grant queries. An
 acquisition already admitted before a live setting change may finish and merge;
 its diagnostic records the `resolution/id` used at admission. The source returns
 a typed `AcquisitionDisabled`, distinct from source outage or stale evidence.
+The resolver still reads every bounded node configuration source at a decision;
+it reuses a successful parse only for the exact unchanged source bytes. A broken
+unrelated source therefore also closes observed-grant queries until repaired.
+Operator `refresh` is an on-demand decision and follows the presentation column;
+only S020 `refresh-status` may perform the scheduled-only observed query.
 
 When a delegated `messaging-receive` observation becomes too old, Messaging may
 make one bounded request to the original authenticated presenting peer before a
@@ -347,24 +352,49 @@ handoff retains its 60-second margin. Missing peer, disclosure, status or time
 refuses without manufacturing evidence or widening lease. No raw child-revocation
 list or status URL enters policy diagnostics.
 
+The renewal budgets are nested: the presenter's own HTTP status attempt has a
+2-second timeout, the holder waits up to 8 seconds for the authenticated peer
+response after a peer-session dial capped at 8 seconds, and the local Messaging
+preflight waits up to 24 seconds. A lane can wait at most 3 seconds for a
+concurrent renewal. These bounds do not extend the signed status lease.
+The presenter handles the request synchronously on a peer-session worker, so an
+allowed own-grant fetch can occupy that worker for up to 2 seconds. At most four
+such fetches run concurrently per host. A failed fetch is suppressed for 5
+seconds per bound peer, in a bounded in-memory cache; no status or permission is
+cached by that mechanism. An unknown passport and a passport not bound to the
+authenticated peer have the same `passport-unavailable` refusal. After a fresh
+fetch, known revocation or passport expiry is a definitive refusal, not
+`status-too-old`; an exact send waiting on that passport stops retrying.
+
 The direct holder's lack of authority queries is a narrow privacy claim. The
 presenter may query the status authority on demand, so that authority may infer
 the timing of a peer request. Peer connectivity and owner disclosure remain
 prerequisites for renewal; this is not offline message delivery. S020 owns the
 60-second status-refresh cadence with a bounded stable jitter and skip-missed
 behavior. A distinct durable withdrawal-publication retry worker is independent
-of S020. Pausing status refresh is visible in readiness but does not invalidate
-otherwise current signed evidence. The P076-037 close gate required targeted
+of S020. Pausing the status job or disabling the whole scheduler is visible in
+readiness but does not invalidate otherwise current signed evidence. Without
+another refresh, owned grants also lose fresh presentable status when their
+signed evidence passes the profile limit. The S020 worker checks stop and
+execution budget between pending observations and four-fetch groups; an
+in-flight HTTP attempt has its own five-second bound. The P076-037 close gate required targeted
 host-path, policy, peer, scheduler, INAC, AD and send regressions with exact
 source-pinned evidence; full-candidate and release flags remain separate.
 The 2026-10-25 focused capsule pins clean Node
 `c08f3b46adae0cd4d4436e5c376463e1651158cd` and Orbidocs
 `e2ab1f27075902bd91748f5c2ea3c72adf0b4dcb`; its public synthetic inputs
-and results are retained in
-`/Volumes/BIGBOY/ORBIPLEX/retained-evidence/p076-status-acquisition-20261025`.
+and results are in retained capsule `p076-status-acquisition-20261025`, identified by its
+`inputs.json` SHA-256 `a27f0a5929f5bcb67191c36bf1547d30b04c5dabfb24916d3f2d55ade7f46919`
+and `host-path.json` SHA-256 `98fc0ff97781f3389b1883484d97b97dee04ca243f7cee7cd40af52a6af7f861`.
 Actual WSS renewal records zero holder queries and one permitted presenter
 query. The same binary passed one short synthetic two-peer probe on each of
-`self.local` and `turbo.local`; this is not cross-machine delivery evidence.
+two distinct test hosts; this is not cross-machine delivery evidence.
+
+The P091 setting and local readiness/request schemas extend `.local` contracts
+within this unmerged slice. They are not signed passport fields or a change to
+remote V1 semantics. Their closed local value enums were expanded in place
+before a released producer or consumer existed; future released wire changes
+require a new contract version.
 
 ## Implementation Tracker
 

@@ -30,7 +30,7 @@ Typed refusal of an exact-passport peer renewal.
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `capability-passport-present.refusal.v2` |  |
 | [`status`](#field-status) | `yes` | const: `refused` |  |
-| [`reason`](#field-reason) | `yes` | enum: `unsupported-carrier`, `invalid-request`, `passport-unavailable`, `peer-mismatch`, `disclosure-disabled`, `root-unavailable`, `status-unavailable`, `status-too-old`, `limit-exceeded` |  |
+| [`reason`](#field-reason) | `yes` | enum: `unsupported-carrier`, `invalid-request`, `passport-unavailable`, `disclosure-disabled`, `root-unavailable`, `status-unavailable`, `status-too-old`, `limit-exceeded` |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -49,4 +49,4 @@ Typed refusal of an exact-passport peer renewal.
 ## `reason`
 
 - Required: `yes`
-- Shape: enum: `unsupported-carrier`, `invalid-request`, `passport-unavailable`, `peer-mismatch`, `disclosure-disabled`, `root-unavailable`, `status-unavailable`, `status-too-old`, `limit-exceeded`
+- Shape: enum: `unsupported-carrier`, `invalid-request`, `passport-unavailable`, `disclosure-disabled`, `root-unavailable`, `status-unavailable`, `status-too-old`, `limit-exceeded`

@@ -22,7 +22,7 @@ if [ "${#files[@]}" -eq 0 ]; then
   exit 0
 fi
 
-if grep -nH -E '/Users/|/home/users/' "${files[@]}"; then
+if grep -nH -E '/Users/|/home/users/|/Volumes/|/mnt/|/private/(tmp|var|Users|home)/[[:alnum:]]' "${files[@]}"; then
   echo
   echo "Forbidden local absolute path reference detected."
   echo "Use repository-relative paths or github.com/diapod/... locators instead."

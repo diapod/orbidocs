@@ -303,10 +303,10 @@
     "issuance/status-refresh": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["state", "job_id"],
+      "required": ["state", "job/id"],
       "properties": {
         "state": {"enum": ["running", "paused", "disabled"]},
-        "job_id": {"const": "messaging-issuance-status-refresh"}
+        "job/id": {"const": "messaging-issuance-status-refresh"}
       }
     },
     "federation_issuer_status": {

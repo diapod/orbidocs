@@ -28,7 +28,6 @@
         "unsupported-carrier",
         "invalid-request",
         "passport-unavailable",
-        "peer-mismatch",
         "disclosure-disabled",
         "root-unavailable",
         "status-unavailable",
