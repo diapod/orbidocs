@@ -8,13 +8,16 @@ Proposed
 
 The artifact split below is the revised design direction. This document is not
 a license grant, contributor-rights clearance, or authorization to change source
-licenses. The 2026-10-20 revision changes documentation only.
+licenses. The 2026-10-20 revision changes documentation only. The 2026-10-25
+revision records the owner-authorized name/logo policy and its exact Node asset
+permission; this proposal itself does not grant those rights or clear earlier
+recipient history.
 
 ## Date
 
 2026-02-22
 
-Revised: 2026-10-20
+Revised: 2026-10-20; 2026-10-25 (name/logo boundary)
 
 ## Executive Summary
 
@@ -37,7 +40,8 @@ Orbiplex Swarm includes multiple artifact classes with different legal and ecosy
 - runtime software (`swarm-node`, `orchestrator`, GUI assistant),
 - machine-readable protocol artifacts (schemas, test vectors, reference implementations),
 - documentation artifacts (protocol prose, manuals, runbooks),
-- UI font assets.
+- UI font assets,
+- project name and logo, separately from software and prose permissions.
 
 The upstream concerns are reciprocity, human agency, open interfaces and the
 ability to exit or fork; see
@@ -66,6 +70,13 @@ The dated dependency investigation belongs in Node:
 revisions, candidate closures, packaging dependencies and evidence limits, not
 a legal opinion or a new implementation-completion claim.
 
+`Update, 2026-10-25`: subsequently approved file-level grants are mapped in
+`node:LICENSING.md`; the 161-package observation above is historical, not a
+current count or denial of those grants. The separate name/logo investigation is
+`node:docs/audits/BRAND-ASSETS-PRIOR-SHARING-2026-10-25.md`. It confirms current
+private GitHub visibility but cannot establish complete recipient or grant
+history.
+
 ## Proposed Model / Decision
 
 ### Options considered
@@ -91,6 +102,7 @@ to license, not permission to replace third-party notices.
 | Explicitly selected SDKs, protocol clients and helpers for independent middleware | `Apache-2.0` | Only after their production/build dependency closure and bundled assets are cleared. |
 | Machine-readable protocol schemas, public registry vocabulary, reference vectors and executable integration examples intended for copying | `Apache-2.0` | Select public contract material; this does not make every runtime fixture, configuration, registry policy or generated artifact permissive. |
 | Manuals, architecture documents and protocol prose | `CC-BY-4.0` | Mark copyable code separately under a software license. |
+| Project name and exact owner-confirmed logo assets | Reserved name/logo rights; `LicenseRef-Orbiplex-Brand-Assets-1.0` for the two identified graphics | Paweł Wilk is the current holder/contact. Restricted artwork permission, not FLOSS; statutory rights and earlier applicable grants remain unaffected. |
 | Project-owned font software | `OFL-1.1` where appropriate | Third-party fonts retain their original terms. |
 | Third-party code, artwork, models, weights and datasets | Their applicable licenses | Keep provenance and notices; inclusion in an AGPL repository is not relicensing authority. |
 
@@ -123,6 +135,37 @@ Permitting closed independent integrations is an intentional trade-off.
 Software licensing does not grant access to private data, host capabilities,
 models or the network. It does not make Creator Credits, donations or community
 membership conditions of exercising the software license.
+
+### Name and logo: independent of software freedom
+
+The current rights holder/contact named by the owner is **Paweł Wilk
+<pw@gnu.org>**. No successor organization is designated. A later transfer requires
+its own valid legal act; a role, repository permission or document edit does not
+transfer ownership. No trademark registration or exclusive worldwide protection
+is claimed without evidence.
+
+`node:TRADEMARKS.md` owns the name/logo policy. `node:BRAND-ASSETS.md` identifies
+the desktop PNG and ICNS by path and SHA-256, and
+`node:LICENSES/LicenseRef-Orbiplex-Brand-Assets-1.0.txt` contains their offered
+permission. These exact companions, not Cargo metadata or a directory default,
+define the new asset scope. The square spike icon is explicitly excluded: its
+origin/license is unresolved, so it must not acquire Paweł Wilk attribution or
+this asset license by proximity.
+
+Allow truthful references, informational logo use, private development, source
+mirrors/forks and permitted unmodified redistribution, including paid uses under
+the policy. Independent modified products use their own public name/icon unless
+separately permitted or otherwise entitled by law or existing rights. Branding
+approval must not become permission to exercise AGPL/Apache software rights.
+Preserve the ability to fork and rebrand without membership, donations or project
+approval. This is an asset/identity boundary, not a runtime admission mechanism.
+
+Current private hosting does not prove that no license was previously granted to
+a recipient. The older repository carried AGPL notices before the icons arrived.
+The bounded audit preserves that uncertainty; the new policy/permission cannot
+revoke an earlier applicable grant. Public release clearance, actual packaging
+of notices and any protection/registration work remain separate from this
+completed documentation step.
 
 ### Integration-surface selection
 
@@ -157,6 +200,8 @@ code, CC BY for prose and OFL for fonts. The 2026-10-20 revision replaces the
 runtime and internal-library recommendation with AGPL, retains the permissive
 integration goal, and makes extraction conditional on evidence and authorization.
 The older challenge remains historical option analysis, not a competing baseline.
+The 2026-10-25 revision separates the owner-confirmed name/logo policy from code
+and prose defaults, without changing earlier software grants or historical assets.
 
 ## Trade-offs
 
@@ -178,6 +223,8 @@ The older challenge remains historical option analysis, not a competing baseline
 | Cargo graph is clean but `include_str!`, generated code, schemas or copied helpers import uncleared material | Inventory compile-time files, recursive schema references, templates and distribution contents. |
 | Root license or a copyright header overwrites third-party provenance | File-level exceptions, original notices and dependency-license review. |
 | A new foundation is assumed to own every contribution | Review actual rights and contributor terms before any alternate grant. |
+| Private repository is taken as proof that nobody received earlier rights | Record inspected distribution surfaces and unavailable history; preserve valid earlier grants and assess ambiguous recipients separately. |
+| Package/software defaults silently relicense the logo, or branding rules restrict software forks | Keep an exact asset companion and independent name/logo policy; test notice packaging and rebranding separately from code licensing. |
 | SDK license is mistaken for host authorization or a general exception to AGPL | Document independent-client scope and keep admission at existing owners. |
 
 ## Open Questions
@@ -188,6 +235,10 @@ The older challenge remains historical option analysis, not a competing baseline
    surfaces? Do not assume a DCO transfers copyright or grants arbitrary relicensing.
 3. Which target/feature/package matrix will be supported for the first standalone
    Rust and Python SDK releases?
+4. What earlier recipients or distributions, if any, establish applicable rights
+   in the logo? The bounded audit leaves this unresolved. What name/logo
+   protection and package-specific notice/rebranding checks are needed before
+   an intended public branded release?
 
 ## Next Actions
 
@@ -210,6 +261,8 @@ Statuses: `todo`, `partial`, `done`. Audit completion is not licensing completio
 | P001-004 | todo | Apply the approved license map | P001-002; P001-003 for the Rust channel SDK | Separate authorized change updates package/file metadata, license texts and notices; unselected implementation remains AGPL and third-party notices survive. |
 | P001-005 | todo | Gate package and dependency drift | P001-002, P001-003 | Supported target/features and normal/build closures are checked; distribution assets and dev harnesses are classified; an accidental AGPL dependency in the selected Apache surface fails. |
 | P001-006 | todo | Publish integration and release licensing guidance | P001-004, P001-005 | Examples, contributor terms, source-offer/release procedures and a machine-readable third-party inventory match actual packages, not just this proposal. |
+| P001-007 | done | Document current name/logo ownership and bounded prior-sharing audit | Owner confirmation | Node policy, exact two-file companion, restricted permission and licensing map name Paweł Wilk; current visibility and historical uncertainty are distinguished, prior valid grants preserved, square placeholder excluded and asset bytes unchanged. Documentation/audit completion only, not legal or release clearance. |
+| P001-008 | todo | Clear branding and notices for the intended public distribution | P001-007 | Review material prior grants and intended-market name/logo protection; audit the actual shipped asset set, include its notices, and demonstrate replacing public name/icon using existing packaging controls. Clear or exclude the square placeholder if shipped. No automatic restriction on existing software rights. |
 
 ### Implementation recommendations
 
@@ -234,3 +287,16 @@ Statuses: `todo`, `partial`, `done`. Audit completion is not licensing completio
 7. Reconcile implementation ledgers only when ownership or implementation
    evidence actually changes. This documentation revision changes neither
    runtime behavior nor capability completion.
+
+8. Reuse existing Tauri icon/configuration and package-notice mechanisms. Keep
+   name/logo terms in `node:TRADEMARKS.md`, exact hashes/attribution in
+   `node:BRAND-ASSETS.md` and navigation in `node:LICENSING.md`. Do not duplicate
+   the license into every component or add a brand-authorization runtime service.
+   Verify notices against a selected distribution; a root Markdown link alone
+   does not include them in a binary package.
+9. Preserve asset bytes and historical evidence. The source-header inventory may
+   record companion-only exclusions and exact permission metadata; its software
+   default must not assign a license to excluded artwork. Rebranding tests use
+   disposable copies and existing configuration, without rewriting archived
+   sources, digests or qualifiers. Unresolved third-party placeholders stay
+   outside owner-confirmed grants.
