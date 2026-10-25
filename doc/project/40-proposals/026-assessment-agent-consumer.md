@@ -1,6 +1,6 @@
 # P026-012b: closed Agent consumer of a viewer activation
 
-Status: accepted design (2026-10-25); implementation and runtime qualification pending.
+Status: accepted design (2026-10-25); implementation present; clean runtime qualification pending.
 Basis: P026 section 6; P066 consent ownership; P073 consumer/lifecycle boundaries; P080 authenticated ChannelJson; P090 provenance.
 
 ## Decision
@@ -38,3 +38,17 @@ The qualifier requires source activation -> consumer consent/consumption -> bind
 ## Deferred work and completion
 
 P026-012c separately owns durable memory/recall/history, dependent forks and additional recipients. A bounded 012b result cannot close their matrix, parent P026-012, broader P073, cognition, physical cancellation or release readiness. Freeze contracts first, implement, obtain clean acceptance, then update the ledger and measured claims.
+
+Implementation freeze clarification: a private invocation is identified by Agent plus request ref; the existing observation passage ref remains its controller step coordinate. The manifest/outcome bind both. Failed or lifecycle-invalidated invocations cannot replay inference under the same request ref; a new explicit request starts a fresh context after resume. Final admission sees the assembled adapter input and uses atomic lifecycle/session/authority witnesses. Metadata is retained after execution, outside the runtime lock; boot-local bounded dispatch reservations prevent same-request reinvocation, and restart loses source authority.
+
+Private product reads use agent.product.read.request.v2 and response.v2 on the existing operation. Historical v1 accepts only generic content-store refs and is unchanged. The v2 response preserves explicit authority dependencies.
+
+
+## Implementation checkpoint
+
+The Node closed consumer composes the P066 owner, source viewer, P073 controller
+and local Inquirium transport. Its final callback receives the fully mapped HTTP
+body immediately before send; queued/prompt assembly work precedes the witness
+check. Closed-path HTTP content telemetry is suppressed independently of capture
+interest. Immutable manifests/outcomes retain only metadata and private commitments.
+Implementation is not measured acceptance; qualification remains pending here.

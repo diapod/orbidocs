@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **236** host-local / **268** ogółem; grupy właścicieli: **40**.
+Wpisy: **240** host-local / **272** ogółem; grupy właścicieli: **40**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -545,6 +545,10 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
+| <code>agent.assessment-viewer.list</code> | <code>host/agent.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.request</code> | <code>host/agent.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.revoke</code> | <code>host/agent.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.run</code> | <code>host/agent.assessment-viewer.run</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.assessment-viewer.list</code> | <code>host/identity.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.assessment-viewer.request</code> | <code>host/identity.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 | <code>identity.assessment-viewer.revoke</code> | <code>host/identity.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |

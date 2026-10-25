@@ -1,0 +1,53 @@
+{
+  "schema": "agent.binding.v3",
+  "binding/id": "binding:fixture-module",
+  "agent/ref": "agent:fixture-module",
+  "consumer/kind": "local-module",
+  "consumer/ref": "module:fixture",
+  "session-source/ref": "activation:fixture-source",
+  "output-sink/kind": "module-private-result",
+  "grants": [
+    {
+      "capability/id": "inquirium.generate"
+    },
+    {
+      "capability/id": "agent.status"
+    }
+  ],
+  "budget": {
+    "max_tokens": 8192,
+    "max_cost_micros": 0,
+    "max_wall_time_ms": 60000,
+    "max_steps": 8
+  },
+  "memory-policy": {
+    "schema": "inquirium.memory-policy.v1",
+    "pinned-facts": [],
+    "recall-refs": [
+      "memory:foreign"
+    ],
+    "window/limit-tokens": 256,
+    "drop-policy": "drop_oldest_unpinned"
+  },
+  "participant/ref": "participant:fixture-operator",
+  "consumer-policy/ref": "assessment-agent-policy:fixture",
+  "consumer-policy/digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "authority-evidence/refs": [
+    "activation:fixture-source",
+    "consent:fixture-consumer"
+  ],
+  "human-in-loop": "before_effects",
+  "idempotency/key": "binding:fixture-key",
+  "request/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "at": "2026-10-25T12:00:00Z",
+  "by": "local-control",
+  "observation-bindings": [
+    {
+      "need/ref": "need:fixture",
+      "source/ref": "assessment:fixture:one",
+      "payload/schema-ref": "urn:orbiplex:schema:resource-assessment-view:v1",
+      "age/max-ms": 5000,
+      "bytes/max": 65536
+    }
+  ]
+}

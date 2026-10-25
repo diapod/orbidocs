@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.binding:v3",
+  "title": "agent.binding.v3",
+  "description": "Closed P026-012b contract. Authority dependencies grant nothing and do not establish inference ancestry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer.md",
+    "doc/project/40-proposals/073-agent-orchestration-organ.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "binding/id",
+    "agent/ref",
+    "consumer/ref",
+    "session-source/ref",
+    "participant/ref",
+    "consumer-policy/ref",
+    "idempotency/key",
+    "request/digest",
+    "at",
+    "by",
+    "consumer/kind",
+    "output-sink/kind",
+    "grants",
+    "budget",
+    "memory-policy",
+    "observation-bindings",
+    "consumer-policy/digest",
+    "authority-evidence/refs",
+    "human-in-loop"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.binding.v3"
+    },
+    "binding/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "agent/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "consumer/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "session-source/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "participant/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "consumer-policy/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "idempotency/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "request/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "at": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "by": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "consumer/kind": {
+      "const": "local-module"
+    },
+    "output-sink/kind": {
+      "const": "module-private-result"
+    },
+    "grants": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capability/id"
+        ],
+        "properties": {
+          "capability/id": {
+            "enum": [
+              "inquirium.generate",
+              "agent.status"
+            ]
+          }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_tokens",
+        "max_cost_micros",
+        "max_wall_time_ms",
+        "max_steps"
+      ],
+      "properties": {
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "max_cost_micros": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "max_wall_time_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "max_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        }
+      }
+    },
+    "memory-policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "pinned-facts",
+        "recall-refs",
+        "window/limit-tokens",
+        "drop-policy"
+      ],
+      "properties": {
+        "schema": {
+          "const": "inquirium.memory-policy.v1"
+        },
+        "pinned-facts": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "rolling-summary": {
+          "type": "null"
+        },
+        "recall-refs": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "window/limit-tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "drop-policy": {
+          "type": "string"
+        }
+      }
+    },
+    "observation-bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "consumer-policy/digest": {
+      "type": "string",
+      "pattern": "^sha256:([A-Za-z0-9_-]{43}|[0-9a-fA-F]{64})$"
+    },
+    "authority-evidence/refs": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "human-in-loop": {
+      "const": "before_effects"
+    }
+  }
+}

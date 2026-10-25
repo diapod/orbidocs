@@ -45,6 +45,21 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "assessment-agent-run-result.v1.schema.json",
+    "agent.product.read.request.v2.schema.json",
+    "agent.product.read.response.v2.schema.json",
+
+    "agent.binding.v3.schema.json",
+    "agent.context-authority.v1.schema.json",
+    "agent.outcome.v3.schema.json",
+    "agent.private-module-result.v1.schema.json",
+    "agent.supplied-input-manifest.v2.schema.json",
+    "assessment-agent-intent.v1.schema.json",
+    "assessment-agent-list.v1.schema.json",
+    "assessment-agent-request.v1.schema.json",
+    "assessment-agent-revoke.v1.schema.json",
+    "assessment-agent-run.v1.schema.json",
+
     "assessment-viewer-intent.v1.schema.json",
     "assessment-viewer-request.v1.schema.json",
     "assessment-viewer-list.v1.schema.json",
@@ -678,6 +693,10 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "fixture.agent-supplied-input-manifest.v2.json",
+    "fixture.agent-binding.v3.json",
+    "fixture.agent-outcome.v3.json",
+
     "local.assessment-exposure-profile.json",
     "local.assessment-exposure-fact.json",
     "local.assessment-exposure-command.json",
@@ -1284,6 +1303,11 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-dependencies.agent-supplied-input-manifest.v2.json",
+    "overflow-dependencies.agent-supplied-input-manifest.v2.json",
+    "recall.agent-binding.v3.json",
+    "invented-ancestry.agent-supplied-input-manifest.v2.json",
+
     "unknown-field.assessment-exposure-profile.json",
     "unknown-field.assessment-exposure-fact.json",
     "unknown-field.assessment-exposure-command.json",
@@ -1942,6 +1966,21 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "assessment-agent-run-result.v1.schema.json",
+    "agent.product.read.request.v2.schema.json",
+    "agent.product.read.response.v2.schema.json",
+
+    "agent.binding.v3.schema.json",
+    "agent.context-authority.v1.schema.json",
+    "agent.outcome.v3.schema.json",
+    "agent.private-module-result.v1.schema.json",
+    "agent.supplied-input-manifest.v2.schema.json",
+    "assessment-agent-intent.v1.schema.json",
+    "assessment-agent-list.v1.schema.json",
+    "assessment-agent-request.v1.schema.json",
+    "assessment-agent-revoke.v1.schema.json",
+    "assessment-agent-run.v1.schema.json",
+
     "assessment-viewer-intent.v1.schema.json",
     "assessment-viewer-request.v1.schema.json",
     "assessment-viewer-list.v1.schema.json",

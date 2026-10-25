@@ -1,0 +1,38 @@
+{
+  "schema": "agent.supplied-input-manifest.v2",
+  "manifest/ref": "agent-input-manifest-v2:sha256:2yrx7qhYA7bF5H01n3HCfyp2623dy1k1y19g1DWjNL0",
+  "agent/id": "agent:fixture-module",
+  "agent-binding/ref": "binding:fixture-module",
+  "passage/ref": "agent-passage:agent:fixture-module:1",
+  "request/ref": "request:fixture-one",
+  "request/digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "context/authority-dependencies": [
+    "authority:0",
+    "authority:1",
+    "authority:2",
+    "authority:3",
+    "authority:4",
+    "authority:5",
+    "authority:6",
+    "authority:7",
+    "authority:8",
+    "authority:9",
+    "authority:10",
+    "authority:11",
+    "authority:12",
+    "authority:13",
+    "authority:14",
+    "authority:15",
+    "authority:16"
+  ],
+  "inputs": [
+    {
+      "input/ref": "observation:fixture",
+      "content/digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "context/authority-dependencies": [
+        "activation:fixture-source",
+        "consent:fixture-consumer"
+      ]
+    }
+  ]
+}
