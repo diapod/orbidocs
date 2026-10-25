@@ -5064,3 +5064,21 @@ approval of actual emergency host restart. See
 node:docs/audits/REVIEW-SENSORIUM-WEARER-VIEW-CLIENT-2026-10-25.md.
 No permission manager, hardware, authority/registration transition, reset, recovery,
 migration or merge occurred in this preparation.
+
+
+### Released r16 lifecycle completed — 2026-10-25
+
+The corrected pinned client completed supported expired/released retirement
+`12bfa83d` r16→r17. Discovery remains r5; no r17 declaration, grant or wearer
+consent exists. Exact source/marker readback and closed write-set review preserve
+Case journal 368/52 Cases, consent and controller files. Claims and pending recovery
+are absent. Normal database writes and the exact read-store ctime-only change are
+scoped in node:docs/audits/REVIEW-SENSORIUM-R16-RETIREMENT-2026-10-25.md.
+The 29-member private proof passed fresh primary-store readback. Pure r17 driver
+frames/refusals pass without SSH; no new readiness or permission fact is created.
+
+P096-005 remains partial. Fresh interactive headband readiness must explain both
+pre-WEAR browser clicks. Native ordinary/emergency measurements, current-image
+OS/TCC facts and separately approved actual host restart remain required. The
+already fresh firmware observation keeps its original time. No device, permission
+probe, reset, recovery, migration or merge occurred in this lifecycle step.
