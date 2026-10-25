@@ -5281,3 +5281,37 @@ claims/controller preservation pass; seventeen retrieved reports and an explicit
 37-member selected proof pass primary readback. See
 node:docs/audits/REVIEW-SENSORIUM-R18-PHYSICAL-2026-10-25.md.
 P096-005 stays partial; no retry, reset, recovery, retirement or merge occurs.
+
+
+### Protected executor-exit window correction — 2026-10-25
+
+Source review confirms that native cooperative release used the twenty-second
+completion clock despite the separate ten-second protected-exit gate. The owner
+now freezes both original clocks before Stop publication and carries exact
+operation-fence/launch identity and absolute cutoffs through channel lookup/RPC,
+registry locks and forced process disposal. It preserves 7.3 seconds for normal
+native release, the original twenty-second completion/audit cap, actual
+post-return exit timestamps and retained ownership on unknown exit or unfinished
+finalization. Neither legacy shutdown grace nor a replacement executor can
+supply release proof. Review fixes bounded snapshot acquisition, stale session
+projection and reuse after failed lifecycle publication.
+
+Tests pass 117 acquisition, ten supervisor-host, 147 private-owner, nineteen
+transport and 76 supervisor cases; opt-in exclusions remain explicit. Five real
+owned synthetic-process tests include five-second release and nonreturning
+release with retained claim. The exact pinned software image completes six
+actual-owner episodes in 101.50 s, all ten records in one tuple, zero missing;
+all unchanged records independently pass the frozen Schema Gate and policy-v4
+checks. An explicit 45-member proof plus three images passes primary readback.
+See the review at node:docs/audits/REVIEW-SENSORIUM-PROTECTED-EXIT-2026-10-25.md.
+
+This is prospective software evidence. R18's two native records and 10255-ms
+observation remain unchanged; a different image needs its own full native tuple.
+P096-005 stays partial pending current-image native/TCC and a separately approved
+actual host restart. No hardware, SSH, reset, recovery, retirement, renewal or merge.
+
+
+Independent post-commit review reads all 5407 source blobs of Node `fa1ec48c`
+and reproduces `sha256:5ca01fce9d906f4423ed49d510236d5222b4cd9bb1c0960d058303f9c64a00b2`,
+matching the frozen test image. The original selected archive is unchanged;
+a separate source-confirmation manifest `dfc19ef0` passes primary-store readback.
