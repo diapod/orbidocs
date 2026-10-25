@@ -5358,3 +5358,22 @@ and a whole-six-session preflight. Implementation and a superseding pinned
 client remain pending; this prepared image still has the original limits. Stopped r18, finite authority
 and old native evidence remain unchanged. P096-005 stays partial; no hardware,
 permission probe, retirement, renewal, recovery, migration or merge occurs.
+
+
+### Prospective private journal capacity and whole-six preflight — 2026-10-25
+
+The operator-adopted limit is implemented at 128 Cases / 1 MiB without changing
+journal v1, historical bytes, qualification gates or finite grants. Conservative
+6144-byte records plus envelope account for future disposal growth; all 128 fit
+787584 reserved bytes. Read-only closed metadata rejects unknown history.
+Scheduler/client/host checks precede adapter, socket and supervisor effects;
+five ordinary plus one emergency Case check remaining capacity 6→1. Snapshot
+accounting is not a reservation across processes. Affine prepare remains one-use.
+
+Review corrected narrow visibility, an oversized fixture and surplus-argument
+truncation; 152 owner/10 entry/443 Python tests and production daemon check pass,
+with opt-in exclusions retained. Twenty selected software members pass primary
+readback. The private wrapper remains explicitly unarmed. A superseding pinned
+client and actual read-only target preflight are next; the old prepared image
+still has its original limits. No target/root rewrite, native test, renewal,
+retirement, reset, recovery or merge; P096-005 remains partial. See the review at node:docs/audits/REVIEW-SENSORIUM-JOURNAL-CAPACITY-2026-10-25.md.
