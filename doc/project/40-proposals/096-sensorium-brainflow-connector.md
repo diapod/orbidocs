@@ -5046,3 +5046,21 @@ node:docs/audits/REVIEW-SENSORIUM-WEARER-VIEW-R16-2026-10-25.md.
 P096-005 stays partial. A new pinned signed artifact and supported stopped-r16
 lifecycle precede fresh headband approval; actual host restart still needs its
 own later approval. No retry, reset, recovery or merge occurred.
+
+### Repaired wearer-view artifact prepared — 2026-10-25
+
+The corrected client is actually built and signed from clean `aab178ea`, with
+independent full-source pin `16cb5ff0`. Source blobs, four existing exact signed
+package closures, 263 frozen inputs, 424 target tests (three opt-in skips),
+rootless launchd preflight and fresh image/primary readback pass. All 1468 old file
+observations/metadata (1466 non-key hashes plus two metadata-only key records) and
+349 directory identities remain exact without exception; only the new sixteen-file
+capsule/six directories are added. No package or active configuration changes.
+
+Stopped r16 is preserved; supported retirement must wait for its still-live binding
+rather than shorten expiry. P096-005 remains partial. Fresh readiness must include
+both pre-WEAR browser clicks, new-image Bluetooth observation and separate later
+approval of actual emergency host restart. See
+node:docs/audits/REVIEW-SENSORIUM-WEARER-VIEW-CLIENT-2026-10-25.md.
+No permission manager, hardware, authority/registration transition, reset, recovery,
+migration or merge occurred in this preparation.
