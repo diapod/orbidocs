@@ -368,7 +368,8 @@ bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
 These rows track the contextual continuation separately from the existing P081
 verification adapter. The 2026-10-25 schema, pure-verifier and erasable custody
 foundation does not qualify issuer/applicant runtime or either acceptance gate.
-The optional Node issuer currently provides key custody and encrypted-image
+The optional Node issuer currently provides ciphertext-only phase preparation,
+a durable metadata-only offer bootstrap, key custody and encrypted-image
 preflight; domain acceptors, decisions, status delivery and scheduled cleanup
 remain pending. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
 implementation evidence exists.

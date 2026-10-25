@@ -234,8 +234,15 @@ exact peer/family/artifact request and reply invitations remain mandatory.
 
 D opens only the key-request metadata with that bootstrap-purpose key. It
 verifies the applicant signature and deadline before preparing one per-exchange
-recipient key. D durably freezes the exact applicant/reply/deadline tuple and the
-signed offer before replying. Same digest with changed tuple is a conflict;
+recipient key. D durably reserves the exact signed applicant/reply/deadline tuple before
+creating any recipient key. Its keystore pins that input identity and immutable
+deadline independently of application DB restore. Saved bootstrap metadata binds
+the exact recipient handle and role through AEAD AAD. D stores the exact sealed
+offer with its companion references in one SQL transaction, then fences its
+output digest in the keystore before returning bytes for AD. Startup/retry can
+finish the same committed result; an old DB missing a committed result refuses
+new encryption. Domain clock observations use the provider's durable high-water,
+not an application-DB-restorable clock floor. Same digest with changed tuple is a conflict;
 duplicates recover the original offer/key. The offer itself is encrypted to the
 signed applicant reply key. The eventual full issuance request must match that
 frozen tuple. Bootstrap metadata may expose private peer activity to D, but never
