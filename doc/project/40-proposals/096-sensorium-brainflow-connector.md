@@ -5260,3 +5260,24 @@ readback. See node:docs/audits/REVIEW-SENSORIUM-R18-AUTHORITY-2026-10-25.md.
 P096-005 stays partial: fresh interactive readiness, current-image TCC/native
 facts and a separately approved actual host restart remain. No hardware,
 reset, recovery, migration or merge is performed by this metadata renewal.
+
+
+### R18 physical partial proof — 2026-10-25
+
+The newly approved source `1ed03697`/GUI `fde8657d` sequence reaches fresh
+SCAN/BIND/REGISTER r18 and one WEAR. During native prepare an authenticated
+protected withdrawal ends baseline incomplete-released with durable audit,
+confirmed native/executor/controller cleanup. The operator reports switching
+Safari to ChatGPT; the served visibility handler is consistent with that event,
+without inventing an independently captured browser event. No later ordinary
+or fault session runs. Configuration validation is 149/2048 ms, not a timeout.
+
+The unchanged current collector/Schema Gate/policy-v4 gates accept two actual
+full-tuple records: authority 13407 ms and consent 8748 ms against 15000 ms each.
+Eight safety types remain missing and full export refuses. Actual Stop-to-exact
+exit observation is 10255 ms against the unchanged 10000-ms gate, requiring
+investigation before another physical attempt. Journal 421/59 Cases and zero
+claims/controller preservation pass; seventeen retrieved reports and an explicit
+37-member selected proof pass primary readback. See
+node:docs/audits/REVIEW-SENSORIUM-R18-PHYSICAL-2026-10-25.md.
+P096-005 stays partial; no retry, reset, recovery, retirement or merge occurs.
