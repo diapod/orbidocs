@@ -5334,3 +5334,27 @@ proof members pass primary readback; see the
 review at node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-FIXTURE-2026-10-25.md.
 A new clean source pin/client is required; earlier software/native evidence stays
 frozen and P096-005 partial. No hardware, renewal, recovery, migration or merge.
+
+
+### Protected-exit target client prepared; journal capacity pending — 2026-10-25
+
+Clean Node `5ebce37e`, source `0b29a069`, standalone `950db254`/109911504 bytes,
+signed GUI `b89d7677` and handoff `4e30d075` pass independent Git, signature,
+loaded-section and target-byte review. All 267 frozen inputs and 430 target Python
+tests (three explicit skips) pass; four existing signed worker closures stay
+exact without Author/Sign. Rootless check/real launchd context pass, with no
+manager or permission observation. Earlier local Rust/full-owner software proof
+remains at its own original image; no native result is inferred for this client.
+
+All 1606 old files/382 directory identities/controller/parent state and journal
+421/59 Cases remain exact, with only sixteen new GUI files/six directories.
+Fourteen selected report/manifest members and four artifacts pass primary
+readback. See the review at node:docs/audits/REVIEW-SENSORIUM-PROTECTED-EXIT-CLIENT-2026-10-25.md.
+
+Before another physical sequence, resolve journal capacity: 59/64 Cases and
+236696/262144 bytes leave fewer than the six required slots. Retirement does not
+free them. The operator subsequently adopted prospective 128 Cases / 1 MiB
+and a whole-six-session preflight. Implementation and a superseding pinned
+client remain pending; this prepared image still has the original limits. Stopped r18, finite authority
+and old native evidence remain unchanged. P096-005 stays partial; no hardware,
+permission probe, retirement, renewal, recovery, migration or merge occurs.
