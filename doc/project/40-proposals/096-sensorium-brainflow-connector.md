@@ -4815,8 +4815,8 @@ The ordinary terminal branch loses its acquisition authority. Subsequent
 emergency testing requires a separately approved fresh grant and fresh WEAR;
 old consent or a scenario label cannot supply either. A new private data-only
 projection reproduces the exact reduction, preserves scope/siblings and bounds
-one proposed expiry by the original native grant, unchanged HostGrant and five
-minutes. Seven projection and five reduction tests pass; no writer or route is
+one proposed expiry by the unchanged live HostGrant and five minutes from
+fresh approval. The original runtime expiry bounds only its historical reduction. Seven projection and five reduction tests pass; no writer or route is
 present and no grant is created.
 
 The full qualification tuple and operational Target are distinct. Dynamic
@@ -4832,3 +4832,19 @@ unchanged full tuples, fresh consent and complete actual captures before any
 physical question. Data fixtures are not owner observations or qualification.
 No nearby host, Bluetooth, grant publication, recovery, migration or merge was
 performed; P096-005 stays partial.
+
+### Current registration owner for runtime-authority review — 2026-10-25
+
+The Node projection now obtains current Target/typed HostGrant, operator and
+kernel boot through the normal registered-source owners. Existing signature,
+plan/integrity, binding, profile and sandbox checks remain shared; no launch
+context, executor or Bluetooth probe is needed for this metadata observation.
+The result is neither native admission nor consent or controller-idle evidence.
+
+Publication still needs released history, sole controller custody and separate
+digest-bound approval; fresh WEAR and exact old-session fences remain required.
+The common-root ordinary/emergency run remains open before physical readiness.
+See node:docs/audits/REVIEW-SENSORIUM-RUNTIME-REGISTRATION-OWNER-2026-10-25.md.
+No target operation, device, recovery, migration or merge occurs. P096-005 stays
+partial. The earlier data-only note's stale original-native-expiry ceiling is
+corrected to match the already reviewed implementation; it is not a new grant.
