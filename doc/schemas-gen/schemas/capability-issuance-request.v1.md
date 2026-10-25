@@ -5,6 +5,7 @@ Source schema: [`doc/schemas/capability-issuance-request.v1.schema.json`](../../
 ## Governing Basis
 
 - [`doc/project/40-proposals/076-limited-messaging-grants-decision.md`](../../project/40-proposals/076-limited-messaging-grants-decision.md)
+- [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md`](../../project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
 
 ## Project Lineage
 
@@ -25,6 +26,60 @@ Source schema: [`doc/schemas/capability-issuance-request.v1.schema.json`](../../
 | [`root_digest`](#field-root-digest) | `yes` | string |  |
 | [`root_version`](#field-root-version) | `yes` | integer |  |
 | [`signatures`](#field-signatures) | `yes` | array |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "templates": {
+      "contains": {
+        "properties": {
+          "template": {
+            "const": "nym-bootstrap-consent"
+          }
+        },
+        "required": [
+          "template"
+        ]
+      }
+    }
+  },
+  "required": [
+    "templates"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "templates": {
+      "maxItems": 1,
+      "items": {
+        "properties": {
+          "template": {
+            "const": "nym-bootstrap-consent"
+          },
+          "issuance_caller": {
+            "const": "host:nym-bootstrap.accept"
+          },
+          "max_passport_ttl_seconds": {
+            "maximum": 900
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>

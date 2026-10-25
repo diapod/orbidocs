@@ -5,6 +5,7 @@ Source schema: [`doc/schemas/capability-passport.v2.schema.json`](../../schemas/
 ## Governing Basis
 
 - [`doc/project/40-proposals/076-limited-messaging-grants-decision.md`](../../project/40-proposals/076-limited-messaging-grants-decision.md)
+- [`doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md`](../../project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md)
 
 ## Project Lineage
 
@@ -33,6 +34,249 @@ Source schema: [`doc/schemas/capability-passport.v2.schema.json`](../../schemas/
 | [`messagingLocalSendProfileV1`](#def-messaginglocalsendprofilev1) | object | P097 local preparation evidence, distinct from INAC push and recipient consent. Stage A does not enforce this profile at outbound execution. |
 | [`messagingReceiveProfileV1`](#def-messagingreceiveprofilev1) | object |  |
 | [`inacInvitationProfileV1`](#def-inacinvitationprofilev1) | object |  |
+
+## Conditional Rules
+
+### Rule 1
+
+When:
+
+```json
+{
+  "properties": {
+    "issuance_authority": {
+      "properties": {
+        "delegation": {
+          "properties": {
+            "templates": {
+              "contains": {
+                "properties": {
+                  "template": {
+                    "const": "nym-bootstrap-consent"
+                  }
+                },
+                "required": [
+                  "template"
+                ]
+              }
+            }
+          },
+          "required": [
+            "templates"
+          ]
+        }
+      },
+      "required": [
+        "delegation"
+      ]
+    }
+  },
+  "required": [
+    "issuance_authority"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "allOf": [
+    {
+      "properties": {
+        "capability_id": {
+          "const": "inac.invitation"
+        }
+      }
+    },
+    {
+      "properties": {
+        "scope": {
+          "properties": {
+            "profiles": {
+              "items": {
+                "properties": {
+                  "profile": {
+                    "const": "inac-invitation@v1"
+                  },
+                  "artifact_schemas": {
+                    "items": {
+                      "enum": [
+                        "nym-key-request-sealed.v1",
+                        "nym-key-offer-sealed.v1",
+                        "nym-issuance-request-sealed.v1",
+                        "nym-issuance-decision-sealed.v1"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "profile",
+                  "artifact_schemas"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "issuance_authority": {
+          "properties": {
+            "issuance_caller": {
+              "const": "host:nym-bootstrap.accept"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+### Rule 2
+
+When:
+
+```json
+{
+  "properties": {
+    "scope": {
+      "properties": {
+        "profiles": {
+          "contains": {
+            "properties": {
+              "artifact_schemas": {
+                "items": {
+                  "enum": [
+                    "nym-key-request-sealed.v1",
+                    "nym-key-offer-sealed.v1",
+                    "nym-issuance-request-sealed.v1",
+                    "nym-issuance-decision-sealed.v1"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "artifact_schemas"
+            ]
+          }
+        }
+      },
+      "required": [
+        "profiles"
+      ]
+    }
+  },
+  "required": [
+    "scope"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "allOf": [
+    {
+      "properties": {
+        "issuance_authority": {
+          "properties": {
+            "issuance_caller": {
+              "const": "host:nym-bootstrap.accept"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "issuance_authority": {
+          "properties": {
+            "delegation": {
+              "properties": {
+                "templates": {
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "template": {
+                        "const": "nym-bootstrap-consent"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "issuance_authority": {
+      "properties": {
+        "issuance_caller": {
+          "const": "host:nym-bootstrap.accept"
+        }
+      }
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "allOf": [
+    {
+      "properties": {
+        "issuance_authority": {
+          "properties": {
+            "issuance_caller": {
+              "const": "host:nym-bootstrap.accept"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "issuance_authority": {
+          "properties": {
+            "delegation": {
+              "properties": {
+                "templates": {
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "template": {
+                        "const": "nym-bootstrap-consent"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>

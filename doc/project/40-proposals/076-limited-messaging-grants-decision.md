@@ -150,7 +150,12 @@ passport types preserve the distinction between two authority proofs.
 Delegation permits bounded renewal without continuously exposing the sovereign
 signing key, but adds a revocable authority edge and additional proof validation.
 Direct issuance remains a useful alternative if that complexity is unnecessary.
-Multiple delegation levels, hosted multi-participant Nodes and grants for non-Messaging capabilities remain outside this decision.
+Multiple delegation levels and hosted multi-participant Nodes remain outside this decision.
+Non-Messaging grants remain outside this original decision and its qualification.
+The later [P015 contextual bootstrap profile](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#narrow-bootstrap-delegation-and-local-consent)
+adopts one separate singleton nym-only template. It preserves beneficiary equality
+and existing root/status verification, requires independent host-owned local
+consent and confers no Messaging readiness, send/receive or sovereignty.
 
 ## Failure Modes and Mitigations
 

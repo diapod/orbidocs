@@ -168,6 +168,20 @@ of a nonce-free decision projection is not an allowed replacement tombstone.
 Request nonces also remain private. The issuer draws decision entropy
 independently of public nonces, timestamps and key references.
 
+Key use and key retention have different deadlines. Fixed request-recipient
+keys retain their fixed expiry. A binding or transition awaiting a required
+revocation publication must instead carry provider-local `awaiting-publication`
+state, the exact committed scope/snapshot and its retention rule. An acknowledged
+signed status plus matching readback fixes the first ACK time and resulting
+destruction deadline; duplicate ACKs cannot replace it with a later time. This
+never extends issuance beyond the context epoch. Pending-publication keys count
+toward the same capacity ceiling and require bounded reconciliation and visible
+operator attention. If ACK never arrives, this rule supplies no absolute calendar
+destruction deadline; the implementation must expose that limitation, not invent
+an infinite timestamp or silently use epoch-end plus retention. Publication-link
+metadata is held with the erasable key, not in retained destruction receipts.
+The current fixed-deadline custody primitive alone does not implement this phase.
+
 Destruction durably retires a key, fences and drains operations, removes the key
 file, fsyncs its directory and persists a receipt. Provider-local lifecycle
 metadata prevents old DB restore from undoing retirement. Startup finishes due
@@ -326,3 +340,57 @@ gates, not assumptions of completion.
    <=64 KiB new Git metadata. Preserve equal loose/extracted/two-store results.
    The fixture's 10-minute epoch and 2-minute certificate prove mechanics;
    controlled-clock conformance proves production seven-day/24-hour bounds.
+
+
+### Local issuer state recovery
+
+The issuer's temporal store appends encrypted transaction/event facts and derives
+its current context projection, following S028. Each exact profile, issuer,
+context and epoch has an independent lookup key and provider-local revision
+commitment. State revisions are local recovery counters, distinct from signed
+source-status revisions. A checkpoint contains public facts and opaque keyed
+lookups/handles/ciphertexts only. Independently erasable binding and transition
+keys protect identifying payloads; an epoch-wide key cannot preserve a private
+reset's predecessor link.
+
+Commit the exact event, opaque payload and projection in SQL, then CAS the
+provider's previous revision/digest to the new revision/digest before exposing
+output. Interrupted recovery may finish that exact saved successor. A database
+behind the provider refuses; it cannot regenerate decisions or resurrect sources.
+Rebuilding a projection replays immutable ciphertext facts without re-signing,
+opening erased payloads or applying today's issuance policy. No provider, media,
+signing or network work runs inside the SQL write transaction. The reference
+implementation bounds an opaque context checkpoint at 32 MiB and its local event
+history at 65,536 entries; each key seal/open keeps its own 64 KiB budget. These
+are local capacity refusals, not an increase in public status or artifact limits.
+This foundation alone does not qualify either runtime gate.
+
+
+### Narrow bootstrap delegation and local consent
+
+The root-admitted capability-issuance authority approves separate, beneficiary-
+bound nym-only delegations for ordinary A/B and D's receiver. The existing V2
+beneficiary equality is unchanged: a delegate issues only for its own participant
+and Node. D cannot issue consent on behalf of A/B. Council certification, root
+transport authority and local recipient consent remain independent.
+
+`nym-bootstrap-consent` is a singleton issuance template; it cannot share a grant
+with Messaging templates. Its host-resolved caller is `host:nym-bootstrap.accept`.
+It can issue only an `inac-invitation@v1` child, single-use, for exactly one peer,
+one P015 sealed family, one phase-qualified artifact ID, `application/json`, and
+a TTL no greater than 900 seconds or the parent's remaining validity. The exact
+INAC offer key (including the ciphertext digest) remains the consent reference.
+The four families are `nym-key-request-sealed.v1`, `nym-key-offer-sealed.v1`,
+`nym-issuance-request-sealed.v1` and `nym-issuance-decision-sealed.v1`.
+
+An active parent delegation is not local consent. A/B's host must bind incoming
+replies to a durable, approved local exchange intent, expected D peer, phase and
+digest. D's host uses its separately installed issuer-receive policy to approve
+the exact offered peer/phase/artifact; certificate admission is decided later.
+A module cannot assert the host caller or impersonate an explicit operator.
+Until these host adapters are implemented, the pure template alone cannot cause
+an invitation. No sovereign fallback exists on the nym path. Grant status retains
+its existing 300-second budget, independent of nym source-status freshness.
+Nym-only grants do not make Messaging issuance/readiness ready and cannot issue
+Messaging send or receive passports. This is the narrow P015 exception to P076's
+original Messaging-only decision, not an expansion of its historical evidence.
