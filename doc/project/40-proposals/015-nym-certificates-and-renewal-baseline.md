@@ -366,14 +366,17 @@ bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
 ### Delivery Integration Tracker
 
 These rows track the contextual continuation separately from the existing P081
-verification adapter. The 2026-10-25 schema and pure-verifier foundation does not
-qualify issuer/applicant runtime or either acceptance gate. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
+verification adapter. The 2026-10-25 schema, pure-verifier and erasable custody
+foundation does not qualify issuer/applicant runtime or either acceptance gate.
+The optional Node issuer currently provides key custody and encrypted-image
+preflight; domain acceptors, decisions, status delivery and scheduled cleanup
+remain pending. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
 implementation evidence exists.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P015-001 | Freeze private issuance/renewal exchange binding | partial | S023/S017 admission contracts | Existing artifacts are checked for request/reply correlation coverage; any additive or versioned schema changes and negative fixtures are explicit. Independent bootstrap authority, reply binding, expiry, replay key and privacy/retention budget are pinned before runtime exposure. |
-| P015-002 | Wire issuer and applicant acceptors | todo | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
+| P015-002 | Wire issuer and applicant acceptors | partial | P015-001 | Reuse hosted middleware, host signer and AD client/acceptor seams; issuance/refusal is a separately persisted domain decision. No new peer listener, issuer retry queue, implicit key export or public fallback. |
 | P015-003 | Prove two-node issue/renew/reject recovery | todo | P015-002 | Retain real private carrier evidence for initial issuance, renewal, private reset and refusal, duplicate request/reply, restart, lost reply, stale authority, wrong issuer/recipient and expiry. No second issuance or participant/predecessor leakage in public surfaces; delivery never displays as certificate approval. |
 
 ## Open Questions

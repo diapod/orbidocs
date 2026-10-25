@@ -81,7 +81,8 @@ most 3600 seconds. A status older than 300 seconds marks the current basis as
 The two limits are explicit profile fields, never added to clock tolerance.
 Missing/stale status is `deferred`, not a permanent rejection. Revocations are
 cumulative within the epoch; signed rollback and same-revision equivocation
-refuse. Durable high-water marks survive restart and rebuild. A certificate's
+refuse. Every change to a signed status payload, including refreshed timestamps, uses
+a new revision. Durable high-water marks survive restart and rebuild. A certificate's
 minimum revision prevents reset from counting old and replacement sources at
 once. Eligibility and the emission latch commit under the same status-revision
 CAS. Imported claims cannot replace local eligibility or first-emission facts.
@@ -182,6 +183,10 @@ The context preimage is exactly the JCS object with keys `domain` (constant
 profile's JCS. The binding MAC preimage is the JCS array
 `["orbiplex.whisper.source-binding.v1", participant, contextDigest, epoch]`.
 `source/ref` is `source:` followed by canonical base64url of that MAC.
+
+All new-profile Ed25519 verification is strict and refuses weak public keys,
+including new-nym proof of possession. This is an explicit profile rule, not a
+retroactive change to every historical v1 signature verifier.
 
 Signing preimages use a literal ASCII domain followed by one NUL byte and JCS:
 
