@@ -1894,3 +1894,8 @@ P026-012a critical-review checkpoint (2026-10-25): clean Node `9b2e3b47` / Orbid
 ### P026-012b closed consumer design (2026-10-25)
 
 The accepted [closed assessment consumer](026-assessment-agent-consumer.md) adds a separately consumed P066 consent for an exact P073 binding and live 012a activation. It freezes authority dependencies, witness-only final admission, a fresh host-constructed passage and RAM-only delivery to its authenticated module holder. Contract acceptance is not implementation or runtime evidence. Memory/recall/history, inherited forks and other recipients remain P026-012c; parent P026-012/P073 remain partial.
+
+
+### P026-012b bounded measured checkpoint (2026-10-25)
+
+The [closed consumer checkpoint](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25) qualifies separate P066 consumption, exact ChannelJson holder/session, P073 binding and fresh context, final witness admission and module-private RAM results. Nine ordinary cases pass at Node ea9138ba / Orbidocs 6097c43b; the current inert-data verifier rejects 77 controls normally/optimized before and after extraction. Owner faults and queued clocks remain component evidence. P066 keeps sole durable consent ownership; authority dependencies do not promote P090 genealogy. No actual model or product module is qualified. Only the closed 012b profile closes; 012c remains deferred, while parent P026-012/P073 and release readiness remain partial. Historical Q-02/012a evidence is unchanged.

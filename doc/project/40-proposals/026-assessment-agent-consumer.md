@@ -1,6 +1,6 @@
 # P026-012b: closed Agent consumer of a viewer activation
 
-Status: accepted design (2026-10-25); implementation present; clean runtime qualification pending.
+Status: accepted design (2026-10-25); bounded closed-profile implementation and qualification complete.
 Basis: P026 section 6; P066 consent ownership; P073 consumer/lifecycle boundaries; P080 authenticated ChannelJson; P090 provenance.
 
 ## Decision
@@ -44,7 +44,7 @@ Implementation freeze clarification: a private invocation is identified by Agent
 Private product reads use agent.product.read.request.v2 and response.v2 on the existing operation. Historical v1 accepts only generic content-store refs and is unchanged. The v2 response preserves explicit authority dependencies.
 
 
-## Implementation checkpoint
+## Implementation checkpoint before qualification
 
 The Node closed consumer composes the P066 owner, source viewer, P073 controller
 and local Inquirium transport. Its final callback receives the fully mapped HTTP
@@ -71,3 +71,27 @@ RAM envelope has a separate Node-local receipt binding the actual Inquirium
 producer, exact request manifest, authority dependencies and private product
 commitment. It asserts derivation, never byte identity or additional P090 context
 ancestry. Its history cannot restore the RAM bytes or source authority on restart.
+
+
+## Measured closed-profile checkpoint (2026-10-25)
+
+Ordinary run 10 at clean Node `ea9138ba` / Orbidocs `6097c43b` passes nine
+daemon/SDK/browser cases with 32 Chrome screenshots, pinned executable/feature
+graphs excluding the acceptance-only binding feature, and complete cleanup.
+Current inert-data qualifier `0d2bb939` agrees normally and under `-O`, loose and
+after extraction, rejecting 77 mutations per mode/location. Five diagnosed verifier gaps
+and incomplete runtime/native attempts remain retained. See
+`node:docs/evidence/agent-runtime/2026-10-25-p026-012b/README.md` and
+`node:docs/audits/P026-012B-2026-10-25.md`.
+
+The actual application owns its SDK calls; production P066 decisions and consumed
+authority bind the exact session and private Agent result. Foreign records remain
+signed-fixture-input through admission. The local HTTP adapter is deterministic;
+no product module, actual model, replication, physical-clock/hostile-OS/power-loss
+or cognitive guarantee is qualified. Native clocks, failures and queued witnesses
+are separate component evidence. Runtime input equality normalizes only declared
+request/passage coordinates; it is not raw-byte equality. P090 unknown execution
+characteristics remain unknown.
+
+P026-012b is done only for this closed profile. P026-012c remains deferred; parent P026-012/P073
+and release readiness remain partial; historical Q-02/012a is unchanged.
