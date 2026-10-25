@@ -4921,3 +4921,23 @@ question. SDK/OS/TCC/native containment/current operator observations and
 separately approved actual host restart remain required. No target operation,
 device, reset, recovery, migration or merge occurs. P096-005 remains partial.
 See Node audit REVIEW-SENSORIUM-RUNTIME-GRANT-CLIENT-2026-10-25.
+
+
+### Pinned runtime-grant target preparation — 2026-10-25
+
+Node `97d4dddf` now has a pinned release and signed nearby-host client. Its
+424 frozen Python tests pass with three explicit opt-in skips, as do rootless
+signed-client check/launchd observations. Independent Git-object, signature,
+fresh retrieval and external runtime-hash checks pass without SDK imports or a
+Bluetooth manager. All previous root/controller sources and identities remain
+unchanged; only the exact new client capsule is added. The prospective physical
+gate is not open: Discovery matches, while the three installed BrainFlow
+packages retain their earlier worker and require new immutable package generations
+for current boundary observations. Authority remains expired. No renewal, Case,
+root migration, transition, hardware, reset, recovery or merge occurs.
+
+The Node ledger's earlier P096 checkpoints are restored to the Sensorium owner
+from an incorrectly selected P094 row; historical evidence remains immutable.
+See node:docs/audits/REVIEW-SENSORIUM-RUNTIME-GRANT-TARGET-PREPARATION-2026-10-25.md.
+P096-005 stays partial. Actual SDK/OS/TCC and native containment plus a separately
+approved actual host restart remain required after software/package readiness.
