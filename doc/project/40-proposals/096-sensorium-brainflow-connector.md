@@ -4962,3 +4962,31 @@ See node:docs/audits/REVIEW-SENSORIUM-SAFETY-BOUNDARY-PACKAGES-2026-10-25.md.
 Target release, normal signing/admission and current finite authority remain
 required before a fresh interactive hardware decision. P096-005 remains partial;
 no existing target root, device, recovery, migration or merge changes here.
+
+
+### Normally signed safety-boundary packages on the target — 2026-10-25
+
+The pinned `b61a35c1` release, fresh signed client and three new normal-author/sign
+packages are prepared and verified on the nearby host. Discovery and all new
+BrainFlow closures exactly match the candidate; existing packages and approvals
+remain unchanged. Frozen target Python tests pass 424/three explicit opt-in
+skips; actual rootless signed launchd preflight and independent source, signature,
+image and primary-store retrieval checks pass without a manager or SDK acquisition.
+
+Sixty-one exact new files/twelve directories are the only additions. All 1355 non-key content hashes, two signing-key metadata-only observations
+and control/configuration/claim/history state are preserved. Signing-key content
+is not independently inspected or byte-qualified.
+A measured SQLite ctime-only change follows normal unconditional permission
+restriction; its exact frozen path/field/timestamps are separately disclosed,
+all other metadata is exact, and no P096 measurement gate is weakened.
+See node:docs/audits/REVIEW-SENSORIUM-SAFETY-BOUNDARY-TARGET-PREPARATION-2026-10-25.md.
+Authority remains expired and registrations unchanged. Current finite admission
+precedes fresh headband readiness; actual SDK/OS/TCC/containment and a separately
+approved actual restart remain open. P096-005 stays partial; no hardware, reset,
+recovery, authority renewal, root migration or merge is performed.
+
+The final Node gate also found canonical formatting of one shortened static
+package literal; its private launcher now checks every gate exit. This correction
+changes the source pin while leaving package bytes/values and all measurement
+gates identical. A fresh pinned client must precede physical use; the measured
+b61a35c1 artifact and both gate refusals remain unchanged.
