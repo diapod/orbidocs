@@ -5124,3 +5124,22 @@ and seven-minute fresh p21 grants await explicit adoption. P096-005 and the r17
 five-of-ten result stay partial. The six-member private proof passes fresh primary
 readback; see node:docs/audits/REVIEW-SENSORIUM-EMERGENCY-DISPATCH-2026-10-25.md.
 No SSH, device, root change, recovery or merge occurred.
+
+
+### R17 retirement and adopted prospective limits — 2026-10-25
+
+Supported released/expired retirement `ceb46889` completes r17→r18 without recovery.
+Six Cases are released; exact source/marker/predecessor checks preserve journal
+412/58 Cases, consent, controller and idle resources. Discovery remains r5; r18 is
+reserved without declaration, grant or consent. Closed normal write-set review
+and explicit eight-member private report readback pass. See
+node:docs/audits/REVIEW-SENSORIUM-R17-RETIREMENT-2026-10-25.md.
+
+The operator explicitly adopted 15 seconds only for current-authority-before-effects
+and mode-scoped-wearer-consent, and seven minutes for fresh p21 registration and
+matching new runtime-grant ceilings. This is prospective: existing grants and
+r17 verdicts stay unchanged, as do protected receipt/fence/exit limits 626/250/10000 ms
+and the 90-second session limit. Source changes, coherent Rust/Python boundary tests
+and a fresh pinned signed target client remain the next implementation slice.
+No device, reset, recovery, migration, merge or new qualification occurs here.
+P096-005 remains partial; physical and real-restart approvals remain separate.
