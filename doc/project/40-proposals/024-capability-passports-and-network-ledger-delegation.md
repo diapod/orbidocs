@@ -712,7 +712,11 @@ The closed `capability-passport-present.v2` carrier adds optional complete signe
 issuance status to delegated Messaging receive-consent handoff. It changes no
 signed passport/grant/status preimage. Local root/custody, exact scope and original
 leases still establish authority. V1 remains open and accepts its existing
-passport versions; present-request responses remain V1. This does not add V2
+passport versions; legacy present-request responses remain V1. P076-037 adds an
+explicit exact-passport V2 renewal request whose response must be V2 or a typed
+refusal. It does not change generic advertisement or grant authority. See
+[P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+This does not add V2
 installers for generic dispatch, AD, references, batches or network-ledger. Those
 consumers refuse the new carrier, including declared-schema/content mismatches.
 See [P076-036](076-limited-messaging-grants-decision.md#p076-036-bounded-status-presentation-and-offline-acceptance).

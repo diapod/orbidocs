@@ -305,6 +305,59 @@ claimed by this slice. Sequence implementation after contract freeze and owner
 review to avoid concurrent rewrites of the same handoff. S007 and S027 link here
 instead of duplicating a tracker or introducing another implementation owner.
 
+## P076-037: Status acquisition policy and contact renewal
+
+**Status: decision adopted; implementation and host acceptance open.** A local
+node-scope P091 setting `/messaging/issuance/status-acquisition` has three closed
+values: `online` (default), `scheduled-only`, and
+`no-observed-grant-query`. The setting is live and applies at each status-source
+call. It changes acquisition timing, never the signed lease, V2 preimage,
+verifier, durable high-water mark, locally admitted root, or current-use check.
+
+| Mode | Observed grant at presentation/pending retry | Observed grant in S020 refresh | Owned `LocalDelegate` refresh | Explicit verified local grant import |
+|---|---|---|---|---|
+| `online` | allowed | allowed | allowed | allowed |
+| `scheduled-only` | refused before I/O | allowed | allowed | allowed |
+| `no-observed-grant-query` | refused before I/O | refused before I/O | allowed | allowed |
+
+An owned grant is a durable `LocalDelegate` with its local encrypted key; endpoint
+location does not define ownership. An explicit import is bound to the current
+operator, grant registration and possession request before it selects the signed
+status endpoint. Publication and bounded retry of signed parent/child withdrawals
+are independent of this read policy and remain active when S020 is disabled.
+Unavailable policy resolution fails closed for observed-grant queries. An
+acquisition already admitted before a live setting change may finish and merge;
+its diagnostic records the `resolution/id` used at admission. The source returns
+a typed `AcquisitionDisabled`, distinct from source outage or stale evidence.
+
+When a delegated `messaging-receive` observation becomes too old, Messaging may
+make one bounded request to the original authenticated presenting peer before a
+send attempt, then re-read and authorize current consent. The existing
+`capability.passport.present.request/response` pair gains an explicit typed V2
+request for the exact `passport/id` and `cached-only` or `allow-owned-fetch`.
+Legacy V1 requests and responses retain their prior meaning; V1 cannot answer a
+V2 request. `scheduled-only` requests cached evidence only.
+`no-observed-grant-query` may authorize the presenter to make at most one status
+fetch for its **own** grant. The presenter must hold the exact local passport,
+current root and original authenticated handoff-peer binding, and the local
+`full-status` disclosure decision. An old local passport without that binding
+requires a new handoff. A requested response uses the unchanged closed V2 carrier
+and needs at least 15 seconds of useful signed validity; the original unsolicited
+handoff retains its 60-second margin. Missing peer, disclosure, status or time
+refuses without manufacturing evidence or widening lease. No raw child-revocation
+list or status URL enters policy diagnostics.
+
+The direct holder's lack of authority queries is a narrow privacy claim. The
+presenter may query the status authority on demand, so that authority may infer
+the timing of a peer request. Peer connectivity and owner disclosure remain
+prerequisites for renewal; this is not offline message delivery. S020 owns the
+60-second status-refresh cadence with a bounded stable jitter and skip-missed
+behavior. A distinct durable withdrawal-publication retry worker is independent
+of S020. Pausing status refresh is visible in readiness but does not invalidate
+otherwise current signed evidence. P076-037 closes only after targeted actual
+host-path, policy, peer, scheduler, INAC, AD and send regressions with exact
+source-pinned evidence; full-candidate and release flags remain separate.
+
 ## Implementation Tracker
 
 Work is vertical, with review and qualification at the end of each slice. A schema
@@ -321,7 +374,7 @@ or unit test alone never closes a runtime gate.
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
-| P076-037 | Future acquisition policy | Product offline/privacy policy | todo | Requires offline-lease decision, source-query privacy rationale, one-port P091 setting and refresh migration to S020; outside P076-036 |
+| P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | in-progress | Actual peer-to-peer renewal and send authorization, typed no-query refusals, independent withdrawal retry, paused-scheduler diagnostics and focused retained host acceptance; no lease extension or offline delivery claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
@@ -756,4 +809,5 @@ the current P076-036 acceptance source.
 
 These changes have focused current-worktree regressions. The 276-test clean-source
 capsule above retains its original source, executable and temporal scope; no new
-browser/full candidate or release qualification is claimed. P076-037 remains todo.
+browser/full candidate or release qualification is claimed. P076-037 was todo
+at that capsule's source revision; its current scope is tracked above.

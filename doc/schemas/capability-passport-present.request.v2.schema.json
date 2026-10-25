@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:capability-passport-present.request:v2",
+  "title": "CapabilityPassportPresentRequest v2",
+  "description": "Bounded exact-passport peer renewal request; legacy unschematized V1 request is unchanged.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "passport/id",
+    "status/acquisition"
+  ],
+  "properties": {
+    "schema": {
+      "const": "capability-passport-present.request.v2"
+    },
+    "passport/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "status/acquisition": {
+      "enum": [
+        "cached-only",
+        "allow-owned-fetch"
+      ]
+    }
+  }
+}

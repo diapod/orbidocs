@@ -1213,3 +1213,14 @@ committed. The host-only authenticated peer handoff preserves the full carrier;
 transport delivery is separate from accepted/deferred/refused observation.
 Generic AD/reference/batch and ledger paths do not gain support for V2 carriers.
 The attachment creates no relationship, consent, delegate, root trust or retry.
+
+P076-037 adds a local three-mode P091 status acquisition decision. When a
+receive consent becomes stale, the pending send may request one bounded V2
+presentation from the original authenticated contact, then reevaluate current
+authority. `scheduled-only` permits scheduled observed-grant queries but asks the
+contact only for cached evidence; `no-observed-grant-query` forbids holder queries
+and permits at most one presenter query for its own local delegate. S020 owns
+status refresh, while signed withdrawal publication retries independently.
+Contact connectivity and `full-status` disclosure remain prerequisites; this
+does not establish offline delivery. See
+[P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).

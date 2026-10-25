@@ -875,3 +875,15 @@ Regression results belong to
 These are implementation/integration checks, not renewal of P035-014's historical
 session-bound runtime proof or Responsibility Q, and they do not qualify release
 readiness, native OS preemption or off-session supervision.
+
+## P076-037 Messaging status refresh
+
+S020 owns the `messaging-issuance-status-refresh` job: a 60-second interval,
+60-second initial delay, stable jitter up to five seconds, skip-missed and
+skip-overlap behavior, rotating batches and at most four parallel status-source
+calls. The P091 Messaging acquisition policy is checked by the source on each
+call. Pausing or disabling this job is visible in Messaging readiness and does
+not revoke a signed lease that is still valid. Signed parent/child withdrawal
+publication has a distinct bounded retry worker outside S020 so that pausing
+status refresh cannot suppress protective publication. See
+[P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
