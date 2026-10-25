@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.controller-execution-provenance:v2",
+  "title": "agent.controller-execution-provenance.v2",
+  "description": "P026-012b-r1 successor. Historical versions are unchanged; private commitments have explicit HMAC labels.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer-r1.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "provenance/ref",
+    "agent/id",
+    "agent-binding/ref",
+    "execution-binding/ref",
+    "step/no",
+    "request/ref",
+    "product/ref",
+    "product/digest",
+    "execution/provenance"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.controller-execution-provenance.v2"
+    },
+    "provenance/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "agent/id": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "agent-binding/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "execution-binding/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "step/no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "request/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "product/ref": {
+      "$ref": "inference-provenance-common.v1.schema.json#/$defs/ref"
+    },
+    "product/digest": {
+      "type": "string",
+      "pattern": "^hmac-sha256:[0-9a-f]{64}$"
+    },
+    "execution/provenance": {
+      "$ref": "inference-execution-provenance.v1.schema.json"
+    },
+    "supplied/input-manifest": {
+      "$ref": "agent.supplied-input-manifest.v1.schema.json"
+    }
+  }
+}

@@ -13,6 +13,15 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+    "agent.supplied-input-manifest.v3.schema.json",
+    "agent.outcome.v4.schema.json",
+    "agent.product.read.request.v3.schema.json",
+    "agent.product.read.response.v3.schema.json",
+    "agent.private-module-result.v2.schema.json",
+    "assessment-agent-run-result.v2.schema.json",
+    "assessment-agent-intent.v2.schema.json",
+    "agent.controller-execution-provenance.v2.schema.json",
+
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
     "sensorium-device-discovery-result.v1.schema.json",
@@ -1966,6 +1975,15 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "agent.supplied-input-manifest.v3.schema.json",
+    "agent.outcome.v4.schema.json",
+    "agent.product.read.request.v3.schema.json",
+    "agent.product.read.response.v3.schema.json",
+    "agent.private-module-result.v2.schema.json",
+    "assessment-agent-run-result.v2.schema.json",
+    "assessment-agent-intent.v2.schema.json",
+    "agent.controller-execution-provenance.v2.schema.json",
+
     "assessment-agent-run-result.v1.schema.json",
     "agent.product.read.request.v2.schema.json",
     "agent.product.read.response.v2.schema.json",
