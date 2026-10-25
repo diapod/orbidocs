@@ -5010,3 +5010,20 @@ finite admission and the stopped p21 lifecycle precede interactive headband
 readiness. Actual SDK/OS/TCC/containment and separate real host-restart approval
 remain open. See node:docs/audits/REVIEW-SENSORIUM-CANONICAL-SAFETY-CLIENT-2026-10-25.md.
 P096-005 remains partial; no hardware, reset, recovery, renewal, migration or merge.
+
+### Finite authority and stopped p21 lifecycle reconciled — 2026-10-25
+
+The canonical pinned client completed same-scope delegated controller/discovery
+renewal for four hours through review `5ed0aac2` and supported retirement of
+released/expired p21 r15 through review `c57d1027`. Discovery stays r5; r16 is
+reserved without a grant or reused consent. Exact review/marker readback confirms
+four targeted source removals, unchanged Case journal and consent, and no claims
+or pending recovery. Standing delegation is recorded explicitly; no new human
+confirmation is manufactured. Expected owner writes and ctime-only metadata
+changes are disclosed in node:docs/audits/REVIEW-SENSORIUM-SAFETY-AUTHORITY-R16-2026-10-25.md.
+A private 68-member proof was read back through `PRIMARY_EVIDENCE_STORE`.
+
+This is metadata readiness only. P096-005 remains partial: actual native SDK,
+OS/TCC, fresh firmware facts, emergency containment and separately approved real
+host restart remain required. Fresh interactive headband approval precedes device
+work. No hardware, reset, recovery, migration or merge occurred.
