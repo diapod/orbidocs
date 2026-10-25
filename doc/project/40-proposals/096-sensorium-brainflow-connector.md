@@ -5219,3 +5219,29 @@ restart review on two actual fault records plus checkpoint. It preserves exact
 raw support hashes and a shared STOP; fresh human readiness and per-run pins are
 mandatory. It contains no restart, reset, recovery or renewal executor. P096-005
 remains partial; no native proof, root migration or merge is claimed.
+
+
+### Complete-terminal target preparation — 2026-10-25
+
+The superseding clean Node `7200df68` candidate is prepared and signed on the
+nearby host (source `1ed03697`, GUI `fde8657d`, exact handoff `1fa73814`). All
+5407 Git objects, 263 frozen inputs, four unchanged signed worker closures and
+430 target tests (three explicit skips) pass. Separate loaded-section/signature
+review and preservation of 1554 old file observations/366 directories/controller
+pass, with only sixteen new capsule files/six directories. Root journal 412/58,
+idle resources, reserved unregistered r18 and expired authority remain unchanged.
+
+The exact pin completes six actual-owner software episodes, ten automatic
+record types, one tuple and zero missing fields in 118.90 seconds. All ten
+untouched records pass the independent current Schema Gate/policy-v4 checks;
+the complete 17514-byte software Case/checkpoint passes the frozen captures,
+parser, nonce relay and actual copier byte for byte. Fourteen unarmed two-pass
+bridge tests and thirteen isolated dispatcher regressions pass. Explicit selected
+preparation/software proofs and their exact images pass full primary-store
+readback. See node:docs/audits/REVIEW-SENSORIUM-TERMINAL-METADATA-2026-10-25.md.
+
+Software SDK/discovery/firmware/TCC/kernel restart fixtures do not establish
+native evidence. P096-005 remains partial. Fresh finite authority and interactive
+headband readiness, actual current-image native/TCC facts and separately approved
+actual host restart remain required; no device, permission probe, renewal,
+recovery, root migration or merge is performed by this preparation.
