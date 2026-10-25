@@ -376,6 +376,11 @@ signed package and current operator admission would establish source
 provenance, not semantic review of the notes. The host never treats their text
 as authority.
 
+An admitted signed provider report may be read from host-retained state without
+invoking the provider handler. Package admission does not grant that module
+permission to call the host catalog: module-to-host invocation retains its
+own authenticated channel binding and the Agent's current caller scope.
+
 ### Local Contract Freeze (2026-10-19)
 
 The first local slice uses `capability-catalog-request.v1`,
@@ -684,8 +689,8 @@ reached ordinary admission and was deferred for human review. The role handler
 was not invoked during the catalog loop or effect proposal; a separate explicit
 host invocation confirmed channel dispatch. Missing or invalid control tokens
 returned 401 before catalog disclosure, and a wrong Agent binding returned 403.
-This H result does not establish signed package provenance, autonomous model
-behavior, automatic Agent effect dispatch, or the unmeasured adversarial rows
+That first H result alone did not establish signed package provenance,
+autonomous model behavior, automatic Agent effect dispatch, or the unmeasured adversarial rows
 in the shared report.
 Current catalog visibility is derived from the intersection of Agent spec and
 binding capability grants. The process Agent therefore holds grants for both
@@ -708,8 +713,8 @@ to finish unrelated work in any of those proposals.
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
 | P072-GUIDE-001 | Freeze local catalog and optional guidance contracts, ownership and numeric bounds. | done | Four schema-gated DTOs, registry flag matrix, numeric limits, disclosure and transition rules; contract evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | partial | Supervised host HTTP covers two conflicting providers, explicit operation selection, per-operation readiness through loss and restart, describe-only visibility, identical hidden/unknown/private refusals and stale revision. A later supervised run withdraws a single Agent grant and observes reduced visibility before and after daemon restart. Earlier injected host fetch resolver and artifact sink record zero attempts across misses and rejected `doc/url`. Signed-source provenance remains open. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
-| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. A focused host-route test holds an actual catalog result for admission after stop, grant withdrawal or deadline; its admission unit ignores foreign/duplicate correlations, while a mismatch in the synchronous controller stops the action. Two supervised suspend/resume cases invalidate old initial and continued passages through the lifecycle epoch. Earlier DNS/artifact and trace observers retain their focused scope. Physical preemption, independently asynchronous delivery, signed-source provenance and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-002 | Implement caller-scoped local list/describe as a projection. | done | Supervised host HTTP covers two conflicting providers, explicit operation selection, per-operation readiness through loss and restart, describe-only visibility, identical hidden/unknown/private refusals and stale revision. A later supervised run withdraws a single Agent grant and observes reduced visibility before and after daemon restart. Injected host fetch resolver and artifact sink record zero attempts across misses and rejected `doc/url`. A separately materialized signed Python instance now passes current operator admission and launch integrity, reports one guided and one unguided capability, and projects both through scoped host list/describe without handler dispatch. This closes local signed-source provenance, not semantic guidance review or model behavior. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P072-GUIDE-003 | Qualify the local controller slice and reconcile documentation. | partial | The supervised H path covers Public-ceiling and P090 egress refusals, provider loss/restart, scope and cursor refusal, lifecycle stop, single-grant withdrawal between reads, read/page/byte/deadline exhaustion, completed-request replay and concurrent/late duplicate request refusal without double inference. A focused host-route test holds an actual catalog result for admission after stop, grant withdrawal or deadline; its admission unit ignores foreign/duplicate correlations, while a mismatch in the synchronous controller stops the action. Two supervised suspend/resume cases invalidate old initial and continued passages through the lifecycle epoch. DNS/artifact and trace observers retain their focused scope. Signed-source and module-channel cancellation H checkpoints are now measured under P072-GUIDE-002/P080-GUIDE-001. Physical inference preemption, independently asynchronous controller result delivery and concrete-model behavior remain open. Shared report: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 [P066](066-inquirium-assistant-channel.md#planned-assistant-catalog-consumption)
 owns a subsequent Assistant Channel consumer.
@@ -717,7 +722,8 @@ owns a subsequent Assistant Channel consumer.
 owns the now implemented local guidance-only operator overlay, with focused
 C/H evidence in `node:docs/audits/REVIEW-CAPABILITY-GUIDANCE-OVERLAY-2026-10-23.md`.
 It changes effective documentation only after a reviewed P091 commit; it does
-not close this catalog's separate model or signed-source qualification.
+not close this catalog's separate model qualification; signed-source evidence
+is now recorded under P072-GUIDE-002.
 [P093](093-package-scoped-private-capabilities.md#planned-scoped-capability-guidance)
 and [P085](085-operator-sovereign-extensibility-and-experiment-packages.md#capability-guidance-package-boundary)
 own private-package admission constraints. These follow-ups are not prerequisites

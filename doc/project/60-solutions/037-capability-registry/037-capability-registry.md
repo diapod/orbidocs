@@ -153,6 +153,12 @@ Agent spec/binding grant intersection, without a distinct provider-visibility
 grant. A describe-only catalog grant refuses list and exposes only the provider
 capabilities still visible through that intersection.
 
+The local source path is also qualified with one independently materialized
+signed Python instance: current operator admission and launch integrity precede
+its retained channel report, and scoped list/describe expose two registered
+capabilities without dispatching either handler. That source proof is distinct
+from a configured module's own host-call binding and from model behavior.
+
 ## Must Implement
 
 ### Machine Capability Registry

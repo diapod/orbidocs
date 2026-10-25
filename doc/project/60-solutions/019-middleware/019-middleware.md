@@ -619,13 +619,15 @@ module's domain-specific routes.
 [P072](../../40-proposals/072-capability-registry.md#planned-local-capability-guidance-and-controller-discovery)
 owns local catalog semantics;
 [P080-GUIDE-001](../../40-proposals/080-multiplexed-middleware-channel-executor.md#planned-local-capability-guidance-contributions)
-owns optional provider contributions and transport conformance. Status: partial
-local implementation. Module reports accept optional `capability/guidance`,
+owns optional provider contributions and transport conformance. Status: done
+for the local GUIDE slice. Module reports accept optional `capability/guidance`,
 and attach admission checks provider, exact request schema and examples. A
 supervised Python module's channel report now contributes one guided and one
 unguided capability to actual host list/describe; a separate direct host call
-confirms handler carriage. Cancellation and signed-source provenance remain
-open; see
+confirms handler carriage. A separate signed, operator-admitted instance now
+proves report provenance through launch integrity and scoped host projection.
+The configured Python channel client proves one canceled in-flight host catalog
+call and one consumed late result under its existing host binding; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse existing report descriptions and `api/surface`; an optional pinned guidance
@@ -633,9 +635,16 @@ artifact belongs to an already admitted capability/provider/contract binding.
 Missing guidance is valid. Admission rejects foreign or malformed bindings and
 resolves content only through bounded local artifact/package access, never
 arbitrary paths or URLs. The package does not acquire registration or execution
-authority by supplying usage notes. A signed, operator-admitted source would
-establish provenance, not a semantic review of the notes. The operator-configured
-test fixture does not prove a signed source or verified launch integrity.
+authority by supplying usage notes. A signed, operator-admitted source can
+establish provenance, not a semantic review of the notes. The original
+operator-configured fixture alone did not prove a signed source; the separate
+independently materialized instance now supplies that evidence.
+
+Independent instance admission binds the package, operator decision and
+launched process to its reported provider identity. It does not create a
+module-to-host capability binding. A configured channel module's catalog call
+uses its existing authenticated host binding and the Agent's caller scope;
+transport cancellation cannot grant the caller access to the result.
 
 Use existing host-capability invocation over P080 and the common Rust/Python
 clients. Routing `lookup` keeps its current meaning. No per-module prompt

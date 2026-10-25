@@ -1322,10 +1322,12 @@ Add only an optional validated binding to `capability-guidance.v1` for a
 capability the provider already legitimately declares. Absence remains valid.
 Bind content to the admitted package/provider and exact contract revision.
 `usage/notes` and optional `usage/ref` describe use and are not host commands;
-a verified signed package plus operator admission would establish source
+a verified signed package plus operator admission establishes source
 provenance, not semantic review of that prose.
-The supervised test fixture is operator-configured; it has no verified package
-signature or launch-integrity evidence and does not qualify that provenance.
+The original operator-configured supervised fixture does not qualify signed
+provenance. A later independently materialized instance does: its package,
+operator grant, read-only capsule and launch integrity are checked before its
+report reaches the host projection.
 Use bounded local artifact resolution, never an arbitrary file path or remote
 `doc/url`. Reject malformed or foreign bindings with a diagnostic; do not
 promote a declaration to registration or grant.
@@ -1335,9 +1337,17 @@ and Rust/Python clients, preserving correlation, deadlines, cancellation and
 revocation. Existing `lookup` remains provider routing, not list/describe.
 No new listener, frame family, recurring discovery or startup inference is needed.
 
+An independently materialized signed instance may contribute an admitted
+report after package verification, current operator admission and launch
+integrity. That source proof does not mint a module-to-host capability binding.
+The existing configured-channel binding is still required when a Python
+module invokes the host catalog over `channel_json`; its Agent scope is checked
+against the authenticated module actor. These are separate authority edges,
+even when one fixture package supplies the same report bytes to both tests.
+
 | ID | Work | Status | Depends on / completion gate |
 | --- | --- | --- | --- |
-| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | partial | Two supervised Python channel reports now claim one capability: host describe requires an operation selector and never chooses guidance arbitrarily. Loss of one provider changes only its operation availability; `OnFailure` restart restores it without revising the contract. A separate direct invocation proves handler carriage, while catalog reads leave both handler journals empty. Signed-source provenance and in-flight channel cancellation remain open; the earlier injected fetch boundary records no calls on misses. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
+| P080-GUIDE-001 | Admit optional local guidance contributions and carry catalog reads. | done | Two supervised Python channel reports claim one capability: describe requires an operation selector and never chooses guidance arbitrarily. Loss/restart changes availability without revising the contract. A signed, independently materialized Python instance contributes two scoped entries through the admitted host report. Separately, a configured Python channel client with its ordinary host binding calls `capability.catalog.list`; a held host worker outlives the client deadline, and the real channel observes one Cancel and one consumed late result. Catalog reads leave effect-handler journals empty. The injected fetch boundary records no calls on misses. Signed admission does not itself grant module-to-host invocation. Shared evidence: `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`. |
 
 ## Implementation Tracker
 
