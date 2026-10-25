@@ -5167,3 +5167,35 @@ Rust/Python boundary and actual-owner software completeness tests precede a fres
 pinned signed client. R18 remains reserved; r17's five-of-ten result is frozen.
 P096-005 remains partial; fresh hardware and separate actual-restart approvals
 remain required. No merge is performed.
+
+
+### Prepared policy-v4 target client — 2026-10-25
+
+A clean offline release and signed nearby client from Node `8c66f7ad` carry the
+prospective two 15-second proof windows and seven-minute new p21 grant ceilings.
+Independent review matches 5407 Git blobs, 263 frozen inputs, signatures and loaded
+sections; target recheck passes 426 tests with three explicit skips. The original
+unchanged fixed-180-ms fixture failure is retained separately, not silently
+replaced. Four existing signed worker source closures match, so no new package
+is authored or installed. All 1538 prior file observations, 360 directories and
+controller files remain exact; only a fresh 16-file client capsule is added.
+
+Explicit selected report/artifact retention passes primary-store fresh readback.
+R18 remains reserved without authority or consent; journal 412/58 and idle
+resources stay unchanged. Finite controller/discovery authority is expired and
+not renewed. Fresh current-image Bluetooth facts and interactive device readiness
+remain separate from this no-effects preparation. See
+node:docs/audits/REVIEW-SENSORIUM-POLICY-V4-TARGET-2026-10-25.md.
+P096-005 remains partial. No device, permission probe, reset, recovery, actual
+restart, root migration or merge occurs.
+
+
+The same policy-v4 pin now completes the actual-owner ordinary→fresh-grant→
+emergency software composition: six episodes, ten automatically collected
+records, one tuple, zero missing fields, 98.80 seconds. All ten untouched records
+also pass the fresh Schema Gate and v4 measurement caps. The real normal client
+separately reviews and approves runtime authority, preserving the parent and
+requiring new consent. Explicit 33-member/two-image primary readback passes.
+This proves software completeness only: SDK/discovery, firmware/TCC and kernel
+restart remain explicit fixtures. Native full-tuple/current-image facts and a
+separately approved actual host restart still block P096-005 completion.
