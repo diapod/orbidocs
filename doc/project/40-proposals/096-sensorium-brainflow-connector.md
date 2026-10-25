@@ -5377,3 +5377,23 @@ readback. The private wrapper remains explicitly unarmed. A superseding pinned
 client and actual read-only target preflight are next; the old prepared image
 still has its original limits. No target/root rewrite, native test, renewal,
 retirement, reset, recovery or merge; P096-005 remains partial. See the review at node:docs/audits/REVIEW-SENSORIUM-JOURNAL-CAPACITY-2026-10-25.md.
+
+
+### Journal-capacity client and actual six-Case preflight — 2026-10-25
+
+Clean `905715d0`/source `6fa1dd72`, standalone `45ccc16c` (110312432 bytes),
+signed GUI `19de691d` and handoff `ee6aaed1` pass independent pin/signature/byte
+review. All 5409 Git blobs, 270 frozen inputs and 443 target Python tests/three
+explicit skips pass; four signed worker closures remain exact without Author/Sign.
+Actual frozen-SSH metadata agrees with independent accounting: 59/128 Cases,
+69 available, six requested, projected 400449/1048576 bytes including full-record
+growth, with no reservation or journal write. The private observer's initial
+system-Python API refusal is preserved and corrected without rebuilding product.
+
+All 1622 old file observations/388 directory identities/controller remain exact;
+only sixteen new GUI files/six directories are added. Journal 421/59, zero claims
+and finite authority stay unchanged. Nineteen selected members/four artifacts
+pass full primary readback. Stopped r18 remains registered. No permission probe,
+manager, native run, retirement, renewal, recovery, migration or merge follows;
+P096-005 stays partial. Fresh native/two-pass consent and separate actual restart
+remain required. See the review at node:docs/audits/REVIEW-SENSORIUM-JOURNAL-CAPACITY-CLIENT-2026-10-25.md.
