@@ -149,8 +149,11 @@ the desktop PNG and ICNS by path and SHA-256, and
 `node:LICENSES/LicenseRef-Orbiplex-Brand-Assets-1.0.txt` contains their offered
 permission. These exact companions, not Cargo metadata or a directory default,
 define the new asset scope. The square spike icon is explicitly excluded: its
-origin/license is unresolved, so it must not acquire Paweł Wilk attribution or
-this asset license by proximity.
+procedural generator was recovered from the development conversation, and the
+owner separately dedicated that exact placeholder under CC0-1.0 on 2026-10-25.
+`node:spikes/tauri-htmx-app-protocol/icons/PROVENANCE.md` records the digest and
+scope. This does not assert Paweł Wilk's graphic authorship or extend CC0 to the
+project name or the two logos.
 
 Allow truthful references, informational logo use, private development, source
 mirrors/forks and permitted unmodified redistribution, including paid uses under
@@ -262,7 +265,7 @@ Statuses: `todo`, `partial`, `done`. Audit completion is not licensing completio
 | P001-005 | todo | Gate package and dependency drift | P001-002, P001-003 | Supported target/features and normal/build closures are checked; distribution assets and dev harnesses are classified; an accidental AGPL dependency in the selected Apache surface fails. |
 | P001-006 | todo | Publish integration and release licensing guidance | P001-004, P001-005 | Examples, contributor terms, source-offer/release procedures and a machine-readable third-party inventory match actual packages, not just this proposal. |
 | P001-007 | done | Document current name/logo ownership and bounded prior-sharing audit | Owner confirmation | Node policy, exact two-file companion, restricted permission and licensing map name Paweł Wilk; current visibility and historical uncertainty are distinguished, prior valid grants preserved, square placeholder excluded and asset bytes unchanged. Documentation/audit completion only, not legal or release clearance. |
-| P001-008 | todo | Clear branding and notices for the intended public distribution | P001-007 | Review material prior grants and intended-market name/logo protection; audit the actual shipped asset set, include its notices, and demonstrate replacing public name/icon using existing packaging controls. Clear or exclude the square placeholder if shipped. No automatic restriction on existing software rights. |
+| P001-008 | todo | Clear branding and notices for the intended public distribution | P001-007 | Review material prior grants and intended-market name/logo protection; audit the actual shipped asset set, include its notices, and demonstrate replacing public name/icon using existing packaging controls. Include the square placeholder's exact CC0 companion/text if shipped; do not confuse it with the restricted logo scope. No automatic restriction on existing software rights. |
 
 ### Implementation recommendations
 
