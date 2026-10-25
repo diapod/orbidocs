@@ -22,6 +22,7 @@ Source schema: [`doc/schemas/nym-issuance-decision.v1.schema.json`](../../schema
 | [`certificate`](#field-certificate) | `no` | ref: `whisper-source-certificate.v1.schema.json` |  |
 | [`reason`](#field-reason) | `no` | enum: `policy-denied`, `request-expired`, `binding-unavailable`, `context-unavailable`, `capacity-exceeded`, `reset-required` |  |
 | [`signature`](#field-signature) | `yes` | object |  |
+| [`decision/nonce`](#field-decision-nonce) | `yes` | string | Fresh private 256-bit entropy, signed and retained only inside the erasable decision payload; prevents retained decision digests from becoming identity-mapping oracles. |
 
 ## Conditional Rules
 
@@ -147,3 +148,11 @@ Then:
 
 - Required: `yes`
 - Shape: object
+
+<a id="field-decision-nonce"></a>
+## `decision/nonce`
+
+- Required: `yes`
+- Shape: string
+
+Fresh private 256-bit entropy, signed and retained only inside the erasable decision payload; prevents retained decision digests from becoming identity-mapping oracles.

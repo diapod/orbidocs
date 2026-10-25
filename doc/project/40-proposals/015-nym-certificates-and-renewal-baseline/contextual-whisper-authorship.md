@@ -155,7 +155,18 @@ revocation publication/readback plus 300 seconds. The active replacement map
 has no predecessor. Other identifying data retires 24 hours after the maximum
 of epoch end, last certificate/request expiry and revocation publication ACK.
 Duplicate requests never extend that deadline. Nonidentifying digest-to-digest
-tombstones and aggregate counters can remain seven days.
+tombstones and aggregate counters can remain seven days. Each decision includes a fresh, uniformly random 256-bit
+`decision/nonce`, covered by its signature and held only in the encrypted private
+payload. The council must never retain that nonce in tombstones or logs. Without
+it, the public certificate, known applicant/request digest and retained council
+signing key could reconstruct a candidate decision and test its tombstone digest,
+undoing erasure. A duplicate reuses the frozen nonce and exact ciphertext; it
+never generates a new decision. The applicant keeps its own authorized copy.
+The result link is limited to request digest → digest of the full signed,
+nonce-bearing decision. A certificate digest, source/nym reference or digest
+of a nonce-free decision projection is not an allowed replacement tombstone.
+Request nonces also remain private. The issuer draws decision entropy
+independently of public nonces, timestamps and key references.
 
 Destruction durably retires a key, fences and drains operations, removes the key
 file, fsyncs its directory and persists a receipt. Provider-local lifecycle

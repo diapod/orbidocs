@@ -17,7 +17,8 @@
     "reply/recipient",
     "decision",
     "decided/at",
-    "signature"
+    "signature",
+    "decision/nonce"
   ],
   "properties": {
     "schema": {
@@ -89,6 +90,13 @@
           "pattern": "^[A-Za-z0-9_-]{86}$"
         }
       }
+    },
+    "decision/nonce": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$",
+      "minLength": 43,
+      "maxLength": 43,
+      "description": "Fresh private 256-bit entropy, signed and retained only inside the erasable decision payload; prevents retained decision digests from becoming identity-mapping oracles."
     }
   },
   "allOf": [
