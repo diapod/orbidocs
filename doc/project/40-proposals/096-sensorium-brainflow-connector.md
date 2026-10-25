@@ -5315,3 +5315,22 @@ Independent post-commit review reads all 5407 source blobs of Node `fa1ec48c`
 and reproduces `sha256:5ca01fce9d906f4423ed49d510236d5222b4cd9bb1c0960d058303f9c64a00b2`,
 matching the frozen test image. The original selected archive is unchanged;
 a separate source-confirmation manifest `dfc19ef0` passes primary-store readback.
+
+
+### Discovery fixture startup observation — 2026-10-25
+
+Nearby preparation of source `5ca01fce`/GUI `098c7d8f` passes signatures and
+rootless context checks, then its 430-test software suite errors because a fixed
+180-ms test sleep assumes a first child snapshot is already available. The
+original refusal is retained; no native manager or hardware runs. All 1590 old
+files/376 directories/controller bytes and journal 421/59 Cases remain exact,
+with only sixteen new GUI files/six directories and zero claims.
+
+The test now observes actual revision one before releasing revision two through
+a scoped barrier, under the original 1200-ms request deadline. Production code,
+protocol and qualification limits are unchanged. Twenty-five repetitions, forced
+250-ms delay and 26 provider tests (one explicit skip) pass. Fourteen selected
+proof members pass primary readback; see the
+review at node:docs/audits/REVIEW-SENSORIUM-DISCOVERY-FIXTURE-2026-10-25.md.
+A new clean source pin/client is required; earlier software/native evidence stays
+frozen and P096-005 partial. No hardware, renewal, recovery, migration or merge.
