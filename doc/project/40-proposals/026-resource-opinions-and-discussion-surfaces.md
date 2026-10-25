@@ -820,6 +820,14 @@ P026-012 remains todo, and P026-005/007/008 plus the full P073 matrix remain par
 There is no new browser, notification-producer, model, federation, sealed-round,
 independence or release claim.
 
+#### P026-012a Production ChannelJson Checkpoint (2026-10-25)
+
+The [accepted grant contract](026-assessment-viewer-grants.md) is implemented and qualified within its bounded local profile. Run 06 at clean Node `e726624c` / Orbidocs `2e73ed3a` passes eight ordinary-daemon/application/browser cases with empty Cargo feature sets and confirmed cleanup/source-image agreement. The application itself calls the authenticated SDK; the harness never reads its credentials. Operator consent and P066 consumption precede use. Module HTTP reads and self-answer refuse. Real expiry, revoke, module/daemon restart and reset/replay preserve private exposure facts without retaining activation. Foreign records are `signed-fixture-input` through real admission.
+
+Separate component checks at Node `5d6200a1` cover paired-time and persistence failures, concurrency, session retirement and the authenticated old frame queued before owner admission while a new launch receives a production-owner/P066 grant. This is not a forced-queue or global query-meter observation in the ordinary daemon. The current qualifier binds the full causal chain and rejects 59 rehashed mutations normally/under `-O` both loose and after extraction. Original Q-02 and refused attempts remain unchanged; source snapshots are never executed. See `node:docs/evidence/agent-runtime/2026-10-24-p026-012a/README.md` and `node:docs/audits/P026-012A-2026-10-25.md`.
+
+P026-012a is done only for one local operator, one node and the acceptance application. Parent P026-012/P073 and P026-005/007/008 remain partial; 012b separately owns positive Agent consumer policy, observation provenance and final inference/context/fork/resume/alternate-tool qualification. There is no product-module, replication, physical-clock, power-loss, hostile-OS, model, round or release claim. Earlier statements that production provisioning is absent describe their dated historical checkpoints.
+
 #### Shared Commitment and Barrier Contract
 
 The shared primitive is `salted-sha256-jcs-v1`: SHA-256 of an exact JCS preimage
@@ -1343,7 +1351,7 @@ which can proceed independently and must not block basic open-namespace support.
 | P026-010 | Agora sealed-round owner and projections | todo | 009; 007 | Implement four admitted record kinds, owner/CAS/outbox, protected local body/salt retention and round-aware projection with per-commitment outcomes. Unknown kinds remain unindexed by legacy opinion consumers; no private governance/Room payload is forced into public Agora. |
 | P026-011 | Sealed-round adversarial acceptance | todo | 010 | Retain round cases above through real signer, relay, owner and viewer APIs; test cutoff races, omitted receipted entries, forked authority, abort, missing history, restart and bounds. Public transport qualification remains scoped; P051/P069 bindings require their own evidence and are not prerequisites for local-gate delivery. |
 | P026-012 | Provision represented local callers | partial | Identity host; P073; P066; P026-005 | Accepted 2026-10-24 v2 split: 012a is production ChannelJson module provisioning; 012b owns the separate P073 consumer. See [the frozen 012a contract](026-assessment-viewer-grants.md). Historical Q-02 remains fixture-bound evidence. |
-| P026-012a | Provision an operator's assessment viewer over ChannelJson | in-progress | P066; identity host; P080 | Freeze exact launch/session authority, consent activation, bounded scope/time/budget and revocation, then implement and qualify an ordinary daemon and an application sending its own SDK calls. No production completion claim from contract freeze. |
+| P026-012a | Provision an operator's assessment viewer over ChannelJson | done | P066; identity host; P080 | Bounded checkpoint 2026-10-25: run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases with no acceptance feature, actual SDK calls, P066 consumption, privacy, budget and lifecycle. Separate component proofs cover captured queued origin, clocks, persistence and concurrency. Current normal/-O/extracted qualification and 59 negative controls per location agree. See the checkpoint above and the frozen contract; no product module, positive P073 consumer or release claim. |
 | P026-012b | Bind the P073 consumer to production viewer authority | todo | 012a; P073 | Separately freeze consumer policy, observation provenance and final inference admission; qualify context/fork/resume and alternate tools. An active module grant gives Agent no additional authority in 012a. |
 
 ## Open Questions

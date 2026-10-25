@@ -1,6 +1,6 @@
 # P026-012a: production assessment viewer grants
 
-Status: accepted design; implementation and acceptance tracked separately. Date: 2026-10-24.
+Status: accepted design (2026-10-24); bounded P026-012a implementation and qualification complete (2026-10-25). Parent 012/P073 remain partial and 012b remains todo.
 Based on: [P026 §6 and tracker](026-resource-opinions-and-discussion-surfaces.md), P066 operator consent, P073 consumer boundaries and P080 authenticated ChannelJson sessions.
 
 ## Executive Summary
@@ -42,3 +42,7 @@ No contract decision blocks 012a. Positive P073 consumer semantics and supervise
 ## Acceptance and Next Actions
 
 Freeze contracts first, implement, obtain clean acceptance, then update measured status. One ordinary daemon must have pinned Cargo features excluding assessment-exposure-acceptance. The application itself sends channel calls; the harness never reads or uses its token. Exercise browser consent/revoke, refusal/timeout/wrong actor/CSRF/modified intent, stale module/launch/session including a queued pre-restart request, exact scope, transition refusal, byte-identical withheld privacy, 31st attempt and concurrency, rolling reset without lease extension, actual expiry, revoke, module/daemon restart, replay and durable exposure rebuild. Component evidence separately covers paired clocks, delayed I/O and persistence failures. Agent operations remain hidden and denied. Qualifier binds proposal → P066 decision → consumption → session → result → usage/lifecycle; removing/substituting each link must refuse normally, under Python -O and after extraction. Label foreign records signed-fixture-input. Preserve historical Q-02 evidence. Parent 012 and P073 remain partial until separate 012b qualification.
+
+### Measured checkpoint (2026-10-25)
+
+Run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases, empty Cargo feature sets, actual SDK-originated calls and source/image agreement after cleanup. Component checks at Node 5d6200a1 separately cover authenticated queued origin, wrong actor/modified intent, persistence faults, paired clocks and concurrency; these are not forced-queue or independent query-meter measurements in the ordinary process. Current normal/-O and loose/extracted qualification agrees, with 59 negative controls per location. See `node:docs/evidence/agent-runtime/2026-10-24-p026-012a/README.md`. The bounded 012a tracker closes; product-module/replication, physical clock/power loss, positive Agent consumer and release qualification remain outside this result. Historical Q-02 is unchanged.
