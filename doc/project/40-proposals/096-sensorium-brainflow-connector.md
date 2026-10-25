@@ -4990,3 +4990,23 @@ package literal; its private launcher now checks every gate exit. This correctio
 changes the source pin while leaving package bytes/values and all measurement
 gates identical. A fresh pinned client must precede physical use; the measured
 b61a35c1 artifact and both gate refusals remain unchanged.
+
+
+### Canonical-source replacement client verified — 2026-10-25
+
+The clean formatting-corrected `9458b4b1` source is actually rebuilt and signed
+on the target, with independently verified full pin `920c0ec4`. All four existing
+package closures remain exact; no Author/Sign action occurs. Frozen target Python
+tests pass 424 with three explicit opt-in skips, along with rootless signed launchd
+preflight, all 5407 Git blobs, strict signatures and independent image/primary-store
+readback. The original generation/common-root proofs remain bound to their actual
+b61a35c1 source; only the same static-literal block's canonical form changed.
+
+All 1416 non-key hashes, two key metadata-only observations and every prior file
+metadata/directory identity are exact without exception. Only sixteen capsule
+files/six directories are added; policies, grants, registration, consent, journal,
+claims and historical artifacts remain unchanged. Authority is expired; current
+finite admission and the stopped p21 lifecycle precede interactive headband
+readiness. Actual SDK/OS/TCC/containment and separate real host-restart approval
+remain open. See node:docs/audits/REVIEW-SENSORIUM-CANONICAL-SAFETY-CLIENT-2026-10-25.md.
+P096-005 remains partial; no hardware, reset, recovery, renewal, migration or merge.
