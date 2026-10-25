@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "$id": "urn:orbiplex:schema:nym-bootstrap-recipient:v1",
+  "title": "nym-bootstrap-recipient.v1",
+  "properties": {
+    "schema": {
+      "const": "nym-bootstrap-recipient.v1"
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "profile/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "recipient/node-id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^node:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "purpose": {
+      "const": "nym-exchange-key-request.v1"
+    },
+    "recipient/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "recipient/key-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "issuer/id",
+    "profile/digest",
+    "recipient/node-id",
+    "purpose",
+    "recipient/key",
+    "recipient/key-ref",
+    "issued/at",
+    "expires/at",
+    "signature"
+  ]
+}

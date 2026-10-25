@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-decision-sealed:v1",
+  "title": "nym-issuance-decision-sealed.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "allOf": [
+    {
+      "$ref": "nym-exchange-sealed.v1.schema.json"
+    },
+    {
+      "properties": {
+        "schema": {
+          "const": "nym-issuance-decision-sealed.v1"
+        },
+        "payload/schema": {
+          "const": "nym-issuance-decision.v1"
+        }
+      }
+    }
+  ]
+}

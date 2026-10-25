@@ -13,6 +13,13 @@ INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "invalid"
 SEMANTIC_INVALID_EXAMPLES_DIR = EXAMPLES_DIR / "semantic-invalid"
 GOLDEN_DIR = SCHEMAS_DIR / "golden"
 MIDDLEWARE_SCHEMA_WHITELIST = (
+    "nym-exchange-key-request.v1.schema.json",
+    "nym-bootstrap-recipient.v1.schema.json",
+    "nym-key-request-sealed.v1.schema.json",
+    "nym-key-offer-sealed.v1.schema.json",
+    "nym-issuance-request-sealed.v1.schema.json",
+    "nym-issuance-decision-sealed.v1.schema.json",
+
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
     "sensorium-device-discovery-result.v1.schema.json",

@@ -218,6 +218,47 @@ the offer is outside its signed bytes, avoiding a digest cycle. Key ref hashes
 the 32 raw public-key bytes. Replies use the applicant's signed `reply/key` from
 the accepted request. No unbound reply address or key is accepted.
 
+The offer bootstrap is a separate private exchange, not a plaintext AD reply.
+A prepares the complete signed issuance request first. A then signs the narrow
+`nym-exchange-key-request.v1`: applicant, approved profile/issuer, exact issuance
+request digest, signed reply key/recipient, issue time and expiry. It contains no
+nym, context, source, predecessor or certificate. Its signature preimage is
+`orbiplex.nym-exchange-key-request.v1` + NUL + JCS minus `signature`.
+
+A uses an independently adopted `nym-bootstrap-recipient.v1`, signed by the
+profile's council, binding its separate X25519 bootstrap key/ref, exact profile,
+peer node, purpose and validity (at most 24 hours). Its signature preimage is
+`orbiplex.nym-bootstrap-recipient.v1` + NUL + JCS minus `signature`. Council
+signature verifies the descriptor, but grants no AD/INAC authority. Root-admitted,
+exact peer/family/artifact request and reply invitations remain mandatory.
+
+D opens only the key-request metadata with that bootstrap-purpose key. It
+verifies the applicant signature and deadline before preparing one per-exchange
+recipient key. D durably freezes the exact applicant/reply/deadline tuple and the
+signed offer before replying. Same digest with changed tuple is a conflict;
+duplicates recover the original offer/key. The offer itself is encrypted to the
+signed applicant reply key. The eventual full issuance request must match that
+frozen tuple. Bootstrap metadata may expose private peer activity to D, but never
+carries the participant-to-context/nym mapping. A bootstrap-purpose key cannot
+open issuance requests, offers or decisions, even with otherwise valid ciphertext.
+
+Each encrypted payload has its own outer AD family: `nym-key-request-sealed.v1`,
+`nym-key-offer-sealed.v1`, `nym-issuance-request-sealed.v1`, and
+`nym-issuance-decision-sealed.v1`. The common `nym-exchange-sealed.v1` schema
+checks their closed outer/inner pairing; it is not a grant for every direction.
+Before AD submission, each phase durably freezes its exact canonical sealed
+envelope, including ephemeral public key, nonce and ciphertext. Retransmission
+reuses those bytes; it never re-encrypts even identical plaintext under the same
+artifact/idempotency id. AD alone owns transport retries.
+
+An invitation names one exact family and deterministic artifact id derived from
+request digest and the exact phase/family (direction alone collides between
+bootstrap and issuance). Both artifact id and AD idempotency key are exactly
+`urn:orbiplex:nym-exchange:<outer-family>:<unprefixed-request-digest>`.
+Malformed family pairing never tries another key
+purpose, decryptor or admission policy. This refines an unqualified, prerelease
+codec; it makes no claim about deployed-state compatibility.
+
 For `nym-exchange-sealed.v1`, the header is the complete envelope minus
 `ciphertext`. All base64url strings are canonical, unpadded. The ephemeral sender
 key and 24-byte nonce are random and never reused. HKDF-SHA256 uses the existing

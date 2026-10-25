@@ -20,7 +20,12 @@
   ],
   "properties": {
     "schema": {
-      "const": "nym-exchange-sealed.v1"
+      "enum": [
+        "nym-key-request-sealed.v1",
+        "nym-key-offer-sealed.v1",
+        "nym-issuance-request-sealed.v1",
+        "nym-issuance-decision-sealed.v1"
+      ]
     },
     "exchange/digest": {
       "type": "string",
@@ -30,6 +35,8 @@
     },
     "payload/schema": {
       "enum": [
+        "nym-exchange-key-request.v1",
+        "nym-exchange-key-offer.v1",
         "nym-issuance-request.v1",
         "nym-issuance-decision.v1"
       ]
@@ -58,5 +65,47 @@
       "maxLength": 131072,
       "pattern": "^[A-Za-z0-9_-]+$"
     }
-  }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "schema": {
+          "const": "nym-key-request-sealed.v1"
+        },
+        "payload/schema": {
+          "const": "nym-exchange-key-request.v1"
+        }
+      }
+    },
+    {
+      "properties": {
+        "schema": {
+          "const": "nym-key-offer-sealed.v1"
+        },
+        "payload/schema": {
+          "const": "nym-exchange-key-offer.v1"
+        }
+      }
+    },
+    {
+      "properties": {
+        "schema": {
+          "const": "nym-issuance-request-sealed.v1"
+        },
+        "payload/schema": {
+          "const": "nym-issuance-request.v1"
+        }
+      }
+    },
+    {
+      "properties": {
+        "schema": {
+          "const": "nym-issuance-decision-sealed.v1"
+        },
+        "payload/schema": {
+          "const": "nym-issuance-decision.v1"
+        }
+      }
+    }
+  ]
 }

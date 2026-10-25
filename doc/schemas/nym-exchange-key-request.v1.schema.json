@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "$id": "urn:orbiplex:schema:nym-exchange-key-request:v1",
+  "title": "nym-exchange-key-request.v1",
+  "properties": {
+    "schema": {
+      "const": "nym-exchange-key-request.v1"
+    },
+    "issuer/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^council:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "profile/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "applicant/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "exchange/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "reply/recipient": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180,
+      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "reply/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "issued/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "issuer/id",
+    "profile/digest",
+    "applicant/id",
+    "exchange/digest",
+    "reply/recipient",
+    "reply/key",
+    "issued/at",
+    "expires/at",
+    "signature"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-key-offer-sealed:v1",
+  "title": "nym-key-offer-sealed.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "allOf": [
+    {
+      "$ref": "nym-exchange-sealed.v1.schema.json"
+    },
+    {
+      "properties": {
+        "schema": {
+          "const": "nym-key-offer-sealed.v1"
+        },
+        "payload/schema": {
+          "const": "nym-exchange-key-offer.v1"
+        }
+      }
+    }
+  ]
+}
