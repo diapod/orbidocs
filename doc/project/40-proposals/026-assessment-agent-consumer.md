@@ -52,3 +52,14 @@ body immediately before send; queued/prompt assembly work precedes the witness
 check. Closed-path HTTP content telemetry is suppressed independently of capture
 interest. Immutable manifests/outcomes retain only metadata and private commitments.
 Implementation is not measured acceptance; qualification remains pending here.
+
+
+Encoding/owner clarification: input commitments preserve the existing observation
+owner's `hmac-sha256` form as well as SHA-256; a private HMAC is not relabelled as
+an unkeyed content hash. The observation also carries a qualifier for its exact
+request-bound v2 manifest. The closed path uses its bounded per-request RAM
+dispatch reservation rather than the generic controller's step-keyed paid journal;
+source loss on restart prevents recovery from reactivating execution. Generic
+controller journaling is unchanged. A fresh resume request may reuse an aborted
+step coordinate while its manifest, outcome and observation qualifier bind the
+distinct request. These corrections change no authority, scope or deadline.

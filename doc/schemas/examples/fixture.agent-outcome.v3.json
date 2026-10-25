@@ -4,7 +4,7 @@
   "binding/ref": "binding:fixture-module",
   "passage/ref": "agent-passage:agent:fixture-module:1",
   "request/ref": "request:fixture-one",
-  "manifest/ref": "agent-input-manifest-v2:sha256:2yrx7qhYA7bF5H01n3HCfyp2623dy1k1y19g1DWjNL0",
+  "manifest/ref": "agent-input-manifest-v2:sha256:2F0ETnVt1kC_ZkDlTHmlfdz4EKfABcUbArcQeKLeVQQ",
   "product/ref": "agent-private-result:sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "product/digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
   "lifecycle/epoch": 1,
