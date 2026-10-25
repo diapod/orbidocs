@@ -1889,3 +1889,8 @@ P026-012a measured checkpoint (2026-10-25): eight ordinary-daemon/application/br
 
 
 P026-012a critical-review checkpoint (2026-10-25): clean Node `9b2e3b47` / Orbidocs `298671c5` qualifies eight ordinary-daemon/application/browser cases after repairing terminal clock loss on P066 failure, post-consumption activation/status admission and fresh source checks. Sixteen owner and nine source-pin tests pass; normal/-O and loose/extracted verification agrees with 67 negative controls per location. Four older verifier gaps and initial failures remain retained. Native clock/SQLite/queued-origin proofs remain separate from ordinary-process observations. See `node:docs/evidence/agent-runtime/2026-10-25-p026-012a-review/README.md` and `node:docs/audits/REVIEW-P026-012A-2026-10-25.md`. This enforces the accepted contract without adding authority; old receipts are not retroactively promoted to stronger source-freshness claims. P026-012a stays done within the local profile; parent P026-012/P073 remain partial and 012b remains todo.
+
+
+### P026-012b closed consumer design (2026-10-25)
+
+The accepted [closed assessment consumer](026-assessment-agent-consumer.md) adds a separately consumed P066 consent for an exact P073 binding and live 012a activation. It freezes authority dependencies, witness-only final admission, a fresh host-constructed passage and RAM-only delivery to its authenticated module holder. Contract acceptance is not implementation or runtime evidence. Memory/recall/history, inherited forks and other recipients remain P026-012c; parent P026-012/P073 remain partial.
