@@ -396,6 +396,21 @@ remote V1 semantics. Their closed local value enums were expanded in place
 before a released producer or consumer existed; future released wire changes
 require a new contract version.
 
+The corrective review on clean Node
+`235c23543245db1644b1cd8949ec3101f3a274f8` and Orbidocs
+`d9f91bfc19e5292a7037af1985248e8191a58ffc` is recorded in Node
+`docs/audits/REVIEW-P076-037-CORRECTIONS-2026-10-25.md`. Its retained
+capsule `p076-status-acquisition-review-repairs-20261025` is identified by
+`manifest.json` SHA-256
+`ebf0574ca8ee2280b764fa660a80f68287333818c2ed1b0348121d8e7030bd5b`.
+The corrected local WSS gate observes 0 holder and 1 presenter status
+query. The same corrected binary passed one named WSS test on a second host,
+using that host's existing distribution resources. The remote-probe record
+has SHA-256
+`7aef5bd7347bf73444553ae9af320126489f97b712688ad7d5fe219255a30998`;
+it retains setup refusals and confirmation that the temporary binary was
+removed. This is not cross-machine message-delivery evidence.
+
 ## Implementation Tracker
 
 Work is vertical, with review and qualification at the end of each slice. A schema
@@ -412,7 +427,7 @@ or unit test alone never closes a runtime gate.
 | P076-034 | final | Mixed/sovereign regressions and documentation | done | Clean Node `f38b821c6259b8c4a321025f650aced21e1dd963` / Orbidocs `afe06116c6172e19398a50977577baf72975c7cd`, `1559 conformance plus 188 original capsule executions`, strict sovereign Story-010 and the complete ten-scenario runtime on six unchanged binaries; signed proofs qualify identically before/after extraction. Local qualification only |
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
-| P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Focused WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry, paused-scheduler diagnostics and retained acceptance on clean commits; no lease extension, offline delivery, full candidate or release claim |
+| P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
