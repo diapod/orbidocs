@@ -444,6 +444,13 @@ reason. The v3 host send alias retains the existing Messaging capability
 binding. The local renewal preflight uses v2 for a typed activation time;
 legacy v1 remains available.
 
+An explicit local grant import that receives an authentic future status returns
+`status-not-yet-valid` with its signed `retry/at`. It has already persisted the
+revision and revocation knowledge. Retrying the same verified grant at that
+time reuses the valid observed status, recorded as `grant-import` /
+`explicit-import` / `cache-reuse`, instead of fetching a newly future-dated
+status. This retry does not create local delegation before verification passes.
+
 The two independent query witnesses are the daemon's bounded process-epoch
 acquisition counters and a loopback-only acceptance forwarder on each host.
 Counters record closed role, reason and decision/HTTP stages, plus sent and
@@ -461,8 +468,13 @@ builds ordinary product processes from the same clean source revision via a
 private Git bundle; no origin push is required. Mode windows are sequential
 because P091 is node-scoped. Owner counter snapshots and `resolution/id`
 bound each window to events; S020 stays active and its queries are classified
-by reason. Signed short-profile fixtures age naturally. The gate includes
-role reversal, receiver-side receipt, restart of each role, durable withdrawal
+by reason. Production 300-second child profiles age naturally; in the
+`scheduled-only` window the holder's loopback status forwarder explicitly
+returns counted 503 responses so S020 cannot refresh the observation. The
+window ends when owner readiness reports stale status for that passport. The
+qualifier reads the profile limit from the issued consent bytes, not a harness
+constant. The gate includes role reversal, receiver-side receipt, restart of
+each role, durable withdrawal
 and signed status-revision rollback. It excludes directory rollback and power
 loss. Source and evidence commits remain separate, and the tracker closes only
 after the complete two-host gate and evidence-retention checks.

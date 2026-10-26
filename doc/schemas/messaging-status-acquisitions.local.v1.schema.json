@@ -101,6 +101,7 @@
           },
           "stage": {
             "enum": [
+              "cache-reuse",
               "policy-allowed",
               "policy-denied",
               "policy-unavailable",
