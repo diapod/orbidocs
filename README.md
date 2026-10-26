@@ -120,7 +120,10 @@ make test-document-privacy
 make check-no-absolute-local-paths
 ```
 
-After `make html-i18n`, run `make check-published-privacy` before publication.
+After `make html-i18n`, run `make check-published-privacy` before publication. The
+validation workflow runs both commands on `main` and pull requests affecting
+documentation or its build inputs, without uploading or deploying the site.
+Deployment remains in the separate Pages workflow for `public`.
 
 ### JSON Schema syntax only
 
