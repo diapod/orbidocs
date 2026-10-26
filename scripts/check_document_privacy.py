@@ -28,6 +28,10 @@ PATTERNS = {
                                 r"|/Volumes/[^\s<>\"'`|\[\]{}()\\.,;:]+"),
 }
 HOST_PSEUDONYM = re.compile(r"host-[A-Z]+\.local\Z")
+# Explicit project-wide exceptions approved for documentation examples. Keep
+# these exact: neither subdomains nor adjacent addresses inherit the exception.
+EXAMPLE_HOSTS = frozenset({"orbiplex.local"})
+EXAMPLE_IPV4 = frozenset({"1.3.2.1"})  # Also appears as the upstream zlib version.
 SCHEMA_URN = re.compile(r"urn:orbiplex:schema:[A-Za-z0-9._-]+:v[0-9]+")
 # Keep the old source-like scope, including extensionless text and diagrams.
 TEXT_SUFFIXES = {".md", ".markdown", ".toml", ".yml", ".yaml", ".json", ".py", ".sh",
@@ -62,10 +66,14 @@ def candidates(text: str) -> list[Finding]:
                     continue
                 if address.version == 4 and int(address) == 0:
                     continue
+                if kind == "IPv4" and value in EXAMPLE_IPV4:
+                    continue
                 # Regex non-capturing group containing a literal colon, not an IP.
                 if value == ":" * 2 and text[max(0, match.start()-2):match.start()] == "(?":
                     continue
             if kind == "local-host":
+                if value.lower() in EXAMPLE_HOSTS:
+                    continue
                 if HOST_PSEUDONYM.fullmatch(value):
                     continue
                 if any(a <= match.start() and match.end() <= b for a, b in urns):

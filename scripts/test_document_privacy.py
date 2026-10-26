@@ -79,11 +79,30 @@ class DetectorTests(unittest.TestCase):
         self.assertTrue(gate.inspect('Host: ' + token, 'fixture.json', [rule]))
         self.assertTrue(gate.inspect(context + '\nHost: ' + token, 'fixture.json', [rule]))
 
-    def test_version_number_requires_context_not_global_whitelist(self):
-        token = ipv4(1, 3, 2, 1)
+    def test_explicit_example_tokens_are_exact(self):
+        for token in [hostname('orbiplex'), hostname('ORBIPLEX').upper(), ipv4(1, 3, 2, 1)]:
+            for text in [token, token + '.', 'https://' + token + '/a', 'user@' + token]:
+                self.assertEqual(self.values(text), [])
+        for token in [hostname('other.orbiplex'), hostname('other-orbiplex'),
+                      ipv4(1, 3, 2, 10), ipv4(11, 3, 2, 1),
+                      ':' * 2 + 'ffff:' + ipv4(1, 3, 2, 1)]:
+            self.assertTrue(self.values(token))
+
+    def test_other_version_numbers_require_context(self):
+        token = ipv4(1, 3, 2, 2)
         rule = dict(path='versions.md', value=token, context='version ' + token, reason='Version')
         self.assertEqual(gate.inspect('version ' + token, 'versions.md', [rule]), [])
         self.assertTrue(gate.inspect('connect ' + token, 'versions.md', [rule]))
+
+    def test_example_exceptions_apply_to_rendered_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            site = Path(directory)
+            text = hostname('orbiplex') + ' ' + ipv4(1, 3, 2, 1)
+            (site / 'index.html').write_text('<a href="https://' + hostname('orbiplex') + '/">' + text + '</a>')
+            (site / 'search_index.json').write_text(json.dumps({'docs': [
+                {'title': 'Examples', 'text': text, 'location': 'index.html'}]}))
+            (site / 'example.txt').write_text(text)
+            self.assertEqual(gate.check_site(site, []), 0)
 
     def test_html_spans_and_attributes(self):
         parser = gate.VisibleHTML()

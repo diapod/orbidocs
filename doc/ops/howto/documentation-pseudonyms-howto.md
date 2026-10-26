@@ -77,11 +77,18 @@ The explicit exclusions are:
   the form `IPADDR-[A-Z]+`; suffixes must not extend them into another name;
 - a bare `/Volumes` or `/Volumes/` prefix without a concrete path component.
 
+Two additional project-wide exceptions are the exact example hostname
+`orbiplex.local` (case-insensitive) and the exact IPv4-shaped token `1.3.2.1`,
+which also occurs as an upstream zlib version. These exceptions apply to sources,
+rendered pages, search indexes and text downloads. They do not admit subdomains,
+neighboring addresses or IPv4-mapped IPv6 forms. They are explicit documentation
+policy, not a claim that either token could never identify a real endpoint.
+
 All other syntactically valid IP addresses require review, including addresses
 used in examples. An IPv4 address embedded in IPv6 is counted once. Schema URNs
 are identifiers, not DNS hostnames. A double colon inside a regex non-capturing
 group is syntax; a standalone unspecified IPv6 address is not globally exempt.
-Version/section numbers, SVG coordinates and other code syntax resembling IPs
+Apart from the explicit token above, version/section numbers, SVG coordinates and other code syntax resembling IPs
 require contextual qualification, not a global allowlist of those numbers.
 
 Reviewed exceptions are kept in `scripts/document-privacy-exceptions.json` as
