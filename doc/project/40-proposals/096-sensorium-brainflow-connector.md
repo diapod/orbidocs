@@ -5554,3 +5554,24 @@ retention/restoration/replicas left unknown. Native r19 stays nine records with
 its missing checkpoint and unknown historical refusal; no software/new-candidate
 record can fill that tuple. No device, target mutation, restart, recovery or merge.
 P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-CHECKPOINT-CUSTODY-2026-10-26.md.
+
+
+### Pinned checkpoint-custody target client — 2026-10-26
+
+Node preparation checkpoint: `18e6f023`; compiled source remains `cb98a5df`.
+
+Clean `cb98a5df` now supplies target source `e44497a1`, standalone `03f0d476`,
+actual signed GUI `7d2b8ae6` and handoff `886d530c`. Independent 5409-Git-blob,
+loaded-payload/signature checks and 270 frozen target inputs pass; 445 target
+tests pass with three explicit skips. Existing four signed worker closures match
+and are unchanged. Rootless signed launchd preflight creates no Bluetooth manager
+or authority; this image's Bluetooth permission remains unknown. All 1695 old
+files/399 directory identities/controller observations are exact; only a new
+16-file/six-directory capsule is added. Root journal465/65 Cases, one held claim
+and expired authority remain unchanged; no admission/capacity claim follows.
+The 399-member private preparation set passes byte readback (`a4e3400a` /
+`d02bc430`), with unresolved retention facts left unknown. No device, renewal,
+recovery, retirement, migration or merge. Native r19 remains nine records;
+P096-005 stays partial. Fresh authority and separately approved reconciliation
+precede fresh physical readiness and an actual separately approved restart.
+See node:docs/audits/REVIEW-SENSORIUM-CHECKPOINT-TARGET-2026-10-26.md.
