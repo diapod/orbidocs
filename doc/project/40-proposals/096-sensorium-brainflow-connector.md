@@ -5713,3 +5713,13 @@ facts stay protected. Native tuple `83aaf244` remains incomplete. Fresh headband
 readiness and a separately approved actual restart remain required; P096-005
 stays partial. See node:docs/audits/REVIEW-SENSORIUM-LEGACY-COLLECTOR-COMPLETENESS-2026-10-26.md
 and node:docs/audits/REVIEW-SENSORIUM-R21-READINESS-2026-10-26.md.
+
+
+The r21 execution plan remains unarmed. All 47 software guard and post-restart
+collector checks pass on the fresh legacy reports; a stale fixture import path
+is corrected without relaxing exact-import validation. Read-only capacity has
+57 Cases available for six required and projects 474189/1048576 bytes. Exact
+release/GUI files and strict signatures pass metadata-only verification without
+a permission manager. The 32-member private set passes every-member readback
+with unknown custody facts protected. Fresh hardware readiness and current
+Bluetooth permission remain required; P096-005 is partial.
