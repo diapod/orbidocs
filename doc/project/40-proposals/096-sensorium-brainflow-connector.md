@@ -5433,3 +5433,19 @@ R19 stays proposed and the recorded authority expiry has passed; actual normal
 retirement, renewed authority, fresh readiness/TCC/native scope, separately approved
 actual restart and independent final native export remain. P096-005 stays partial.
 See the review at node:docs/audits/REVIEW-SENSORIUM-R19-UNARMED-COLLECTOR-2026-10-26.md.
+
+
+### Independent two-pass safety export — 2026-10-26
+
+An offline extension connects the reviewed unarmed r19 collection to the normal
+store/export owner and separately invoked frozen safety qualifier. Eleven local
+checks pass. Canonical JSON comparison closes Python bool/numeric aliases in
+saved evidence and completed reports. The normal exporter writes six source
+Cases and ten exact records in nineteen store files, preserving synthetic origin
+and tuple `f844ccf0`; the independent qualifier correctly refuses native acceptance,
+including a source-label-only relabel. A handoff is kept outside the closed store.
+Thirty-seven source/test/example/refusal members pass primary readback (`950a7275` /
+`a1a01cce`). Prior preparation/releases and all thresholds remain unchanged.
+No SSH, hardware, authority change, retirement, reset, recovery, migration or
+merge occurs; actual native/full-tuple/separately approved restart and passing
+independent real-device qualification remain. P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-INDEPENDENT-EXPORT-2026-10-26.md.
