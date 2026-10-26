@@ -5467,3 +5467,19 @@ readback (`c55d3098` / `b578bf89`). No manager, scan, acquisition, retirement, r
 recovery, migration or merge occurs. Separate exact approval/live checks and
 supported retirement refresh remain before any fresh physical delegation.
 P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-AUTHORITY-PREPARED-2026-10-26.md.
+
+
+### Approved r19 authority renewal — 2026-10-26
+
+Expired `43a37121` was preserved without execution. Fresh exact review `984224f0`
+was independently checked, explicitly human-approved and committed once by the
+pinned administrator. Same-scope controller/discovery authority expires
+2026-10-26T13:28:18Z (14:28:18 CET), anchored to the reviewed preparation.
+Closed writes, all 1641 prior observations/394 directory identities, twelve
+protected positions and expired p21 sibling preservation pass; the SQLite
+ctime-only exception is disclosed. Journal 421/59, consent, zero claims and
+unconsumed r18 review `20574413` remain. R19 is not reserved. Seven closed proof
+members pass primary readback (`aad5055b` / `60c594bb`). No p21 grant, retirement,
+Bluetooth, reset, recovery, migration or merge occurs. Supported retirement
+review refresh and its separate approval precede fresh physical delegation;
+P096-005 remains partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-AUTHORITY-RENEWED-2026-10-26.md.
