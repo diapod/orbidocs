@@ -5803,3 +5803,28 @@ the next diagnostic step. P096-005 stays partial. No headband, normal-root write
 grant update, recovery, reset or merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-RUNTIME-INTEGRITY-PROFILE-2026-10-26.md.
 
 Node read-only profile checkpoint: `c33f7531`; native P096-005 remains partial.
+
+
+### Bounded startup-stage observations — 2026-10-26
+
+The existing Node acquisition trace now records ten immutable first-entry slots
+and nine fixed adjacent monotonic durations. Missing or reversed clocks stay
+unknown. The optional closed diagnostic is engineering data, never authority or
+a replacement qualification clock; the 15-second before-effects gate stays
+unchanged. Owner documentation distinguishes local intervals from cross-process
+clocks and excludes pre-entry scheduling from this projection.
+
+Software tests and one six-session production-owner composition prove collection:
+all ten records under one synthetic tuple and all nine startup intervals in each
+session. Independent recapture uses the actual Schema Gate and unchanged
+semantic evaluator. The original r21 native inputs and 21829/15000 ms refusal
+stay immutable. This does not prove a native speedup or permit integrity caching.
+A fresh pinned client and separately approved native trial remain prospective;
+fault cleanup and actual host-restart evidence stay open. P096-005 remains
+partial. See node:docs/audits/REVIEW-SENSORIUM-R21-STARTUP-INTERVALS-2026-10-26.md.
+
+The private 84-member software proof passes every-member byte readback; owner,
+minimum retention, complete holds/dependencies, restoration and replica floor
+remain unknown and protected. No public-retention or native qualification follows.
+
+Node startup diagnostic checkpoint: `3a13f8cc`; native P096-005 remains partial.
