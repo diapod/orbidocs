@@ -5828,3 +5828,24 @@ minimum retention, complete holds/dependencies, restoration and replica floor
 remain unknown and protected. No public-retention or native qualification follows.
 
 Node startup diagnostic checkpoint: `3a13f8cc`; native P096-005 remains partial.
+
+
+### Prepared startup diagnostic client — 2026-10-26
+
+Clean Node `3a13f8cc`, source pin `45b365d2`, is now prepared nearby with the
+bounded startup diagnostic projection and matching strict client. Standalone
+`947c558c` / GUI `8a4ec1c4` pass strict signatures and rootless launchd checks.
+The actual target verifies 270 frozen inputs and runs 446 software tests (443
+pass, three explicit opt-ins skip). Four existing package signatures and exact
+worker source closures pass without package mutation. Every prior root file
+observation and journal546/76 stay intact; only the fresh client capsule is added.
+
+The 428-member private proof passes every-member byte readback; unknown custody
+and retention facts stay protected. No Bluetooth permission, device operation,
+registration change, recovery, restart or native speedup is claimed. Stopped r21
+must use its supported separately approved transition before fresh readiness and
+WEAR. The native 21829/15000 ms refusal and missing fault/restart evidence remain
+unchanged; P096-005 stays partial. See
+node:docs/audits/REVIEW-SENSORIUM-STARTUP-DIAGNOSTIC-CLIENT-2026-10-26.md.
+
+Node prepared-client evidence checkpoint: `ef5ac216`; the executable source remains `3a13f8cc`.
