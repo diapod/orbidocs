@@ -5483,3 +5483,20 @@ members pass primary readback (`aad5055b` / `60c594bb`). No p21 grant, retiremen
 Bluetooth, reset, recovery, migration or merge occurs. Supported retirement
 review refresh and its separate approval precede fresh physical delegation;
 P096-005 remains partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-AUTHORITY-RENEWED-2026-10-26.md.
+
+
+### Approved r18→r19 retirement — 2026-10-26
+
+Supported archival preserves stale `20574413` byte-for-byte and prepares fresh
+`eedd2720` against current controller policy. The operator separately approves
+that exact review; one normal commit completes and reserves r19. Four live source
+projections and durable marker match; normal inventory is applied. Only expired
+r18 grant/plan/binding/receipt are removed; discovery r5/authority remain unchanged.
+Journal 421/59, consent and zero claims remain. Normal configuration/binding
+journals advance intentionally; no raw SQLite byte-identity claim is made.
+Other source observations and 394 directory identities are preserved, with the
+usual disclosed SQLite ctime exception. Prepared six-member and completed
+four-member proofs pass primary readback (`819d029d` / `9d423ed5`). No p21 grant,
+consent, hardware, reset, recovery, migration or merge occurs. R19 is reserved,
+unregistered; fresh execution-copy/readiness/TCC/native and separately approved
+actual restart remain. P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R18-RETIREMENT-COMPLETED-2026-10-26.md.
