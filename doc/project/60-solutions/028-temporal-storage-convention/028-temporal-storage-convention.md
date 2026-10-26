@@ -22,6 +22,18 @@ v1 durability/connection policy. This is internal owner conformance, not a new
 general retention service, restore protocol or authority switch. See the
 [S040 checkpoint](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md#m1-internal-progress-checkpoint-2026-10-20).
 
+## Responsibility snapshot admission split (2026-10-26)
+
+The storage owner retains its FIFO mutation reservation and unchanged SQLite
+transaction through durable COMMIT, but releases the short cached-state mutex
+before WAL synchronization. Immutable authoritative v1 restriction snapshots
+remain readable; inactive maintenance never updates that cache. The bounded
+in-transaction identity/epoch/head CAS and receipt writes are unchanged, and no
+success is returned before durability. Subsequent mutators wait before sampling
+authority time. See the [S040 ownership boundary](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md#cached-state-admission-and-durable-writer-ownership-2026-10-26).
+This separates storage latency from short snapshot admission without changing
+S028 fact authority or granting a lifecycle cutover.
+
 ## Responsibility M3 archive boundary (2026-10-21)
 
 The [S040 internal capacity owner](../040-capability-limited-restrictions/040-safe-maintenance-contracts.md#m3-internal-capacity-checkpoint-2026-10-21)
