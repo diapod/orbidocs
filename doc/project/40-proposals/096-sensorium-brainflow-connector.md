@@ -5449,3 +5449,21 @@ Thirty-seven source/test/example/refusal members pass primary readback (`950a727
 No SSH, hardware, authority change, retirement, reset, recovery, migration or
 merge occurs; actual native/full-tuple/separately approved restart and passing
 independent real-device qualification remain. P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-INDEPENDENT-EXPORT-2026-10-26.md.
+
+
+### R19 authority review prepared, awaiting approval — 2026-10-26
+
+Fresh SSH metadata confirms expired authority, journal 421/59, zero claims,
+stopped registered r18 and unconsumed retirement `20574413`; r19 is unreserved.
+Verified administrator `905715d0` prepares exact renewal review `43a37121` for
+the same controller/discovery scope, TTL 14400 s and prospective expiry
+2026-10-26T12:20:11Z. The approval window elapsed at 08:35:11Z without agent
+consumption; a fresh review/approval is required. No renewal is executed. Independent
+canonical review checks twelve protected positions, including four explicit
+absences, and preserves the expired p21 sibling. All 1639 prior file observations/
+394 directory identities/controller remain, with the disclosed SQLite ctime-only
+exception; only the review is added. Seven closed proof members pass primary
+readback (`c55d3098` / `b578bf89`). No manager, scan, acquisition, retirement, reset,
+recovery, migration or merge occurs. Separate exact approval/live checks and
+supported retirement refresh remain before any fresh physical delegation.
+P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R19-AUTHORITY-PREPARED-2026-10-26.md.
