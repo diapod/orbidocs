@@ -14,7 +14,6 @@ Source schema: [`doc/schemas/nym-issuance-decision.v1.schema.json`](../../schema
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `nym-issuance-decision.v1` |  |
 | [`request/digest`](#field-request-digest) | `yes` | string |  |
-| [`exchange/digest`](#field-exchange-digest) | `yes` | string |  |
 | [`issuer/id`](#field-issuer-id) | `yes` | string |  |
 | [`reply/recipient`](#field-reply-recipient) | `yes` | string |  |
 | [`decision`](#field-decision) | `yes` | enum: `issued`, `refused`, `reset-required` |  |
@@ -23,6 +22,8 @@ Source schema: [`doc/schemas/nym-issuance-decision.v1.schema.json`](../../schema
 | [`reason`](#field-reason) | `no` | enum: `policy-denied`, `request-expired`, `binding-unavailable`, `context-unavailable`, `capacity-exceeded`, `reset-required` |  |
 | [`signature`](#field-signature) | `yes` | object |  |
 | [`decision/nonce`](#field-decision-nonce) | `yes` | string | Fresh private 256-bit entropy, signed and retained only inside the erasable decision payload; prevents retained decision digests from becoming identity-mapping oracles. |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string | Independent opaque 256-bit transport correlation; never the private signed request digest. |
+| [`status/min-revision`](#field-status-min-revision) | `no` | integer | Private minimum status generation required by this issued decision. The public certificate floor stays one. |
 
 ## Conditional Rules
 
@@ -48,7 +49,8 @@ Then:
 ```json
 {
   "required": [
-    "certificate"
+    "certificate",
+    "status/min-revision"
   ],
   "not": {
     "required": [
@@ -97,12 +99,6 @@ Then:
 
 <a id="field-request-digest"></a>
 ## `request/digest`
-
-- Required: `yes`
-- Shape: string
-
-<a id="field-exchange-digest"></a>
-## `exchange/digest`
 
 - Required: `yes`
 - Shape: string
@@ -156,3 +152,19 @@ Then:
 - Shape: string
 
 Fresh private 256-bit entropy, signed and retained only inside the erasable decision payload; prevents retained decision digests from becoming identity-mapping oracles.
+
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
+
+- Required: `yes`
+- Shape: string
+
+Independent opaque 256-bit transport correlation; never the private signed request digest.
+
+<a id="field-status-min-revision"></a>
+## `status/min-revision`
+
+- Required: `no`
+- Shape: integer
+
+Private minimum status generation required by this issued decision. The public certificate floor stays one.

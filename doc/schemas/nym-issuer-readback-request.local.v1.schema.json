@@ -10,14 +10,14 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "exchange/digest": {
+    "exchange/handle": {
       "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      "minLength": 52,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$"
     }
   },
   "required": [
-    "exchange/digest"
+    "exchange/handle"
   ]
 }

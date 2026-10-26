@@ -1,7 +1,6 @@
 {
   "schema": "nym-issuance-decision.v1",
   "request/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-  "exchange/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   "issuer/id": "council:did:key:z123",
   "reply/recipient": "participant:did:key:z789",
   "decision": "issued",
@@ -24,7 +23,8 @@
       "epoch/end": "2025-10-27T00:00:00Z",
       "source/ref": "source:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
       "source/derivation": "issuer-derived-v1",
-      "status/min-revision": 1
+      "status/min-revision": 1,
+      "activation/not-before": "2025-10-25T00:00:00Z"
     },
     "privacy/linkability": "context-scoped",
     "privacy/context-domain": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -56,5 +56,7 @@
     "alg": "ed25519",
     "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   },
-  "decision/nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  "decision/nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "exchange/handle": "exchange:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "status/min-revision": 1
 }

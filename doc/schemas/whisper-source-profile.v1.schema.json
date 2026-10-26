@@ -30,7 +30,8 @@
     "retention/tombstone-seconds",
     "epoch/certificate-limit",
     "publication/matrix-time-policy",
-    "publication/sqlite-time-policy"
+    "publication/sqlite-time-policy",
+    "source/activation-policy"
   ],
   "properties": {
     "schema": {
@@ -119,6 +120,9 @@
     },
     "publication/sqlite-time-policy": {
       "const": "signed-admitted-relay-receipt-v1"
+    },
+    "source/activation-policy": {
+      "const": "post-reset-collection-drain-v1"
     }
   },
   "allOf": [

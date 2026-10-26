@@ -33,6 +33,7 @@ Source schema: [`doc/schemas/whisper-source-profile.v1.schema.json`](../../schem
 | [`epoch/certificate-limit`](#field-epoch-certificate-limit) | `yes` | const: `2048` |  |
 | [`publication/matrix-time-policy`](#field-publication-matrix-time-policy) | `yes` | const: `authenticated-admitted-homeserver-v1` |  |
 | [`publication/sqlite-time-policy`](#field-publication-sqlite-time-policy) | `yes` | const: `signed-admitted-relay-receipt-v1` |  |
+| [`source/activation-policy`](#field-source-activation-policy) | `yes` | const: `post-reset-collection-drain-v1` |  |
 
 ## Conditional Rules
 
@@ -263,3 +264,9 @@ Then:
 
 - Required: `yes`
 - Shape: const: `signed-admitted-relay-receipt-v1`
+
+<a id="field-source-activation-policy"></a>
+## `source/activation-policy`
+
+- Required: `yes`
+- Shape: const: `post-reset-collection-drain-v1`

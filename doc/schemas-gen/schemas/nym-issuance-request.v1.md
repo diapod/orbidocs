@@ -29,6 +29,9 @@ Source schema: [`doc/schemas/nym-issuance-request.v1.schema.json`](../../schemas
 | [`nym/proof`](#field-nym-proof) | `yes` | object |  |
 | [`signature`](#field-signature) | `yes` | object |  |
 | [`topic/key`](#field-topic-key) | `yes` | string |  |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string | Independent opaque 256-bit transport correlation; never the private signed request digest. |
+| [`bootstrap/key-public`](#field-bootstrap-key-public) | `yes` | string | Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key. |
+| [`bootstrap/proof`](#field-bootstrap-proof) | `yes` | object |  |
 
 ## Conditional Rules
 
@@ -164,3 +167,25 @@ Then:
 
 - Required: `yes`
 - Shape: string
+
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
+
+- Required: `yes`
+- Shape: string
+
+Independent opaque 256-bit transport correlation; never the private signed request digest.
+
+<a id="field-bootstrap-key-public"></a>
+## `bootstrap/key-public`
+
+- Required: `yes`
+- Shape: string
+
+Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key.
+
+<a id="field-bootstrap-proof"></a>
+## `bootstrap/proof`
+
+- Required: `yes`
+- Shape: object

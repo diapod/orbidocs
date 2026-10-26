@@ -12,11 +12,11 @@ Source schema: [`doc/schemas/nym-issuer-readback-request.local.v1.schema.json`](
 
 | Field | Required | Shape | Description |
 |---|---|---|---|
-| [`exchange/digest`](#field-exchange-digest) | `yes` | string |  |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
 ## Field Semantics
 
-<a id="field-exchange-digest"></a>
-## `exchange/digest`
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
 
 - Required: `yes`
 - Shape: string

@@ -25,7 +25,10 @@
     "expires/at",
     "nym/proof",
     "signature",
-    "topic/key"
+    "topic/key",
+    "exchange/handle",
+    "bootstrap/key-public",
+    "bootstrap/proof"
   ],
   "properties": {
     "schema": {
@@ -147,6 +150,39 @@
       "minLength": 1,
       "maxLength": 512,
       "pattern": "^[^*]+$"
+    },
+    "exchange/handle": {
+      "type": "string",
+      "minLength": 52,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "description": "Independent opaque 256-bit transport correlation; never the private signed request digest."
+    },
+    "bootstrap/key-public": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key."
+    },
+    "bootstrap/proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "value"
+      ],
+      "properties": {
+        "alg": {
+          "const": "ed25519"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 86,
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      }
     }
   },
   "allOf": [

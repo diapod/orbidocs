@@ -12,25 +12,19 @@
   "required": [
     "schema",
     "request/digest",
-    "exchange/digest",
     "issuer/id",
     "reply/recipient",
     "decision",
     "decided/at",
     "signature",
-    "decision/nonce"
+    "decision/nonce",
+    "exchange/handle"
   ],
   "properties": {
     "schema": {
       "const": "nym-issuance-decision.v1"
     },
     "request/digest": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
-    },
-    "exchange/digest": {
       "type": "string",
       "minLength": 1,
       "maxLength": 50,
@@ -97,6 +91,18 @@
       "minLength": 43,
       "maxLength": 43,
       "description": "Fresh private 256-bit entropy, signed and retained only inside the erasable decision payload; prevents retained decision digests from becoming identity-mapping oracles."
+    },
+    "exchange/handle": {
+      "type": "string",
+      "minLength": 52,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "description": "Independent opaque 256-bit transport correlation; never the private signed request digest."
+    },
+    "status/min-revision": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Private minimum status generation required by this issued decision. The public certificate floor stays one."
     }
   },
   "allOf": [
@@ -113,7 +119,8 @@
       },
       "then": {
         "required": [
-          "certificate"
+          "certificate",
+          "status/min-revision"
         ],
         "not": {
           "required": [
@@ -126,8 +133,17 @@
           "reason"
         ],
         "not": {
-          "required": [
-            "certificate"
+          "anyOf": [
+            {
+              "required": [
+                "certificate"
+              ]
+            },
+            {
+              "required": [
+                "status/min-revision"
+              ]
+            }
           ]
         }
       }

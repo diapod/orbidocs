@@ -22,7 +22,8 @@ Source schema: [`doc/schemas/whisper-source-descriptor.v1.schema.json`](../../sc
 | [`epoch/end`](#field-epoch-end) | `yes` | string |  |
 | [`source/ref`](#field-source-ref) | `yes` | string |  |
 | [`source/derivation`](#field-source-derivation) | `yes` | const: `issuer-derived-v1` |  |
-| [`status/min-revision`](#field-status-min-revision) | `yes` | integer |  |
+| [`status/min-revision`](#field-status-min-revision) | `yes` | const: `1` | Stable public profile/epoch floor, independent of individual issuance or reset generations. |
+| [`activation/not-before`](#field-activation-not-before) | `yes` | string | Signed source activation floor. Both publication and actual first receipt must reach it within the profile clock skew; issued-at remains the real issuance time. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -89,4 +90,14 @@ Source schema: [`doc/schemas/whisper-source-descriptor.v1.schema.json`](../../sc
 ## `status/min-revision`
 
 - Required: `yes`
-- Shape: integer
+- Shape: const: `1`
+
+Stable public profile/epoch floor, independent of individual issuance or reset generations.
+
+<a id="field-activation-not-before"></a>
+## `activation/not-before`
+
+- Required: `yes`
+- Shape: string
+
+Signed source activation floor. Both publication and actual first receipt must reach it within the profile clock skew; issued-at remains the real issuance time.

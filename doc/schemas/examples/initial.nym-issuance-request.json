@@ -20,5 +20,11 @@
     "alg": "ed25519",
     "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   },
-  "topic/key": "ai.orbiplex.whispers/workplace-load"
+  "topic/key": "ai.orbiplex.whispers/workplace-load",
+  "exchange/handle": "exchange:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "bootstrap/key-public": "z123",
+  "bootstrap/proof": {
+    "alg": "ed25519",
+    "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
 }

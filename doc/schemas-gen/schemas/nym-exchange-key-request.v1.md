@@ -15,13 +15,12 @@ Source schema: [`doc/schemas/nym-exchange-key-request.v1.schema.json`](../../sch
 | [`schema`](#field-schema) | `yes` | const: `nym-exchange-key-request.v1` |  |
 | [`issuer/id`](#field-issuer-id) | `yes` | string |  |
 | [`profile/digest`](#field-profile-digest) | `yes` | string |  |
-| [`applicant/id`](#field-applicant-id) | `yes` | string |  |
-| [`exchange/digest`](#field-exchange-digest) | `yes` | string |  |
-| [`reply/recipient`](#field-reply-recipient) | `yes` | string |  |
 | [`reply/key`](#field-reply-key) | `yes` | string |  |
 | [`issued/at`](#field-issued-at) | `yes` | string |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
 | [`signature`](#field-signature) | `yes` | object |  |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string | Independent opaque 256-bit transport correlation; never the private signed request digest. |
+| [`bootstrap/key-public`](#field-bootstrap-key-public) | `yes` | string | Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key. |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -38,24 +37,6 @@ Source schema: [`doc/schemas/nym-exchange-key-request.v1.schema.json`](../../sch
 
 <a id="field-profile-digest"></a>
 ## `profile/digest`
-
-- Required: `yes`
-- Shape: string
-
-<a id="field-applicant-id"></a>
-## `applicant/id`
-
-- Required: `yes`
-- Shape: string
-
-<a id="field-exchange-digest"></a>
-## `exchange/digest`
-
-- Required: `yes`
-- Shape: string
-
-<a id="field-reply-recipient"></a>
-## `reply/recipient`
 
 - Required: `yes`
 - Shape: string
@@ -83,3 +64,19 @@ Source schema: [`doc/schemas/nym-exchange-key-request.v1.schema.json`](../../sch
 
 - Required: `yes`
 - Shape: object
+
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
+
+- Required: `yes`
+- Shape: string
+
+Independent opaque 256-bit transport correlation; never the private signed request digest.
+
+<a id="field-bootstrap-key-public"></a>
+## `bootstrap/key-public`
+
+- Required: `yes`
+- Shape: string
+
+Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key.

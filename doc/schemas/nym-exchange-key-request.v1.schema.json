@@ -25,24 +25,6 @@
       "maxLength": 50,
       "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
     },
-    "applicant/id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 180,
-      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
-    },
-    "exchange/digest": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
-    },
-    "reply/recipient": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 180,
-      "pattern": "^participant:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
-    },
     "reply/key": {
       "type": "string",
       "minLength": 1,
@@ -75,18 +57,31 @@
           "pattern": "^[A-Za-z0-9_-]{86}$"
         }
       }
+    },
+    "exchange/handle": {
+      "type": "string",
+      "minLength": 52,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$",
+      "description": "Independent opaque 256-bit transport correlation; never the private signed request digest."
+    },
+    "bootstrap/key-public": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+      "description": "Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key."
     }
   },
   "required": [
     "schema",
     "issuer/id",
     "profile/digest",
-    "applicant/id",
-    "exchange/digest",
-    "reply/recipient",
     "reply/key",
     "issued/at",
     "expires/at",
-    "signature"
+    "signature",
+    "exchange/handle",
+    "bootstrap/key-public"
   ]
 }

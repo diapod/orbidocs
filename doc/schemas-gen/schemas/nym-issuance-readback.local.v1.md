@@ -18,7 +18,7 @@ Source schema: [`doc/schemas/nym-issuance-readback.local.v1.schema.json`](../../
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
 | [`reply/key-offer`](#field-reply-key-offer) | `yes` | unspecified |  |
 | [`reply/decision`](#field-reply-decision) | `yes` | unspecified |  |
-| [`request/ref`](#field-request-ref) | `yes` | unspecified |  |
+| [`request/ref`](#field-request-ref) | `yes` | unspecified | Digest of the exact privately signed issuance request; never a transport handle or public AD identifier. |
 | [`state`](#field-state) | `yes` | enum: `preparing`, `reconciliation-required`, `preview-expired`, `awaiting-recovery`, `document-prepared`, `key-request-prepared`, `key-request-delivered`, `request-prepared`, `request-delivered`, `decision-received` |  |
 | [`nym/id`](#field-nym-id) | `yes` | unspecified |  |
 | [`key-request/delivery`](#field-key-request-delivery) | `yes` | enum: `not-requested`, `prepared`, `delivered` |  |
@@ -31,8 +31,11 @@ Source schema: [`doc/schemas/nym-issuance-readback.local.v1.schema.json`](../../
 | [`recovery/current`](#field-recovery-current) | `yes` | boolean |  |
 | [`status/collection-freshness`](#field-status-collection-freshness) | `yes` | enum: `fresh`, `unknown` |  |
 | [`status/emission-freshness`](#field-status-emission-freshness) | `yes` | enum: `fresh`, `unknown` |  |
-| [`certificate/eligibility`](#field-certificate-eligibility) | `yes` | enum: `accepted`, `revoked`, `unknown` |  |
+| [`certificate/eligibility`](#field-certificate-eligibility) | `yes` | enum: `accepted`, `revoked`, `activation-pending`, `unknown` |  |
 | [`status/minimum-revision`](#field-status-minimum-revision) | `no` | integer |  |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
+| [`source/activation-not-before`](#field-source-activation-not-before) | `no` | string |  |
+| [`reply/decision-consent-until`](#field-reply-decision-consent-until) | `yes` | string | Maximum original result-reception policy horizon (target epoch end plus tombstone retention), not evidence of current issuer availability. |
 
 ## Conditional Rules
 
@@ -70,7 +73,11 @@ Then:
     "state": {
       "const": "decision-received"
     }
-  }
+  },
+  "required": [
+    "status/minimum-revision",
+    "source/activation-not-before"
+  ]
 }
 ```
 
@@ -100,6 +107,39 @@ Then:
       "not": {
         "const": "decision-received"
       }
+    }
+  }
+}
+```
+
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "certificate/eligibility": {
+      "enum": [
+        "accepted",
+        "revoked",
+        "activation-pending"
+      ]
+    }
+  }
+}
+```
+
+Then:
+
+```json
+{
+  "properties": {
+    "decision": {
+      "const": "issued"
+    },
+    "certificate": {
+      "type": "object"
     }
   }
 }
@@ -148,6 +188,8 @@ Then:
 
 - Required: `yes`
 - Shape: unspecified
+
+Digest of the exact privately signed issuance request; never a transport handle or public AD identifier.
 
 <a id="field-state"></a>
 ## `state`
@@ -225,10 +267,30 @@ Then:
 ## `certificate/eligibility`
 
 - Required: `yes`
-- Shape: enum: `accepted`, `revoked`, `unknown`
+- Shape: enum: `accepted`, `revoked`, `activation-pending`, `unknown`
 
 <a id="field-status-minimum-revision"></a>
 ## `status/minimum-revision`
 
 - Required: `no`
 - Shape: integer
+
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-source-activation-not-before"></a>
+## `source/activation-not-before`
+
+- Required: `no`
+- Shape: string
+
+<a id="field-reply-decision-consent-until"></a>
+## `reply/decision-consent-until`
+
+- Required: `yes`
+- Shape: string
+
+Maximum original result-reception policy horizon (target epoch end plus tombstone retention), not evidence of current issuer availability.

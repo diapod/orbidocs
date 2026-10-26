@@ -20,7 +20,8 @@
     "epoch/end",
     "source/ref",
     "source/derivation",
-    "status/min-revision"
+    "status/min-revision",
+    "activation/not-before"
   ],
   "properties": {
     "schema": {
@@ -71,8 +72,13 @@
       "const": "issuer-derived-v1"
     },
     "status/min-revision": {
-      "type": "integer",
-      "minimum": 1
+      "const": 1,
+      "description": "Stable public profile/epoch floor, independent of individual issuance or reset generations."
+    },
+    "activation/not-before": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Signed source activation floor. Both publication and actual first receipt must reach it within the profile clock skew; issued-at remains the real issuance time."
     }
   }
 }

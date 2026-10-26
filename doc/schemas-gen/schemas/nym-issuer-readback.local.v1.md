@@ -13,9 +13,9 @@ Source schema: [`doc/schemas/nym-issuer-readback.local.v1.schema.json`](../../sc
 | Field | Required | Shape | Description |
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `nym-issuer-readback.local.v1` |  |
-| [`exchange/digest`](#field-exchange-digest) | `yes` | string |  |
-| [`state`](#field-state) | `yes` | enum: `decision-prepared`, `not-found-or-expired` |  |
+| [`state`](#field-state) | `yes` | enum: `decision-prepared`, `not-found-or-expired`, `result-expired` |  |
 | [`artifact/digest`](#field-artifact-digest) | `yes` | unspecified |  |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string |  |
 
 ## Conditional Rules
 
@@ -27,7 +27,10 @@ When:
 {
   "properties": {
     "state": {
-      "const": "not-found-or-expired"
+      "enum": [
+        "not-found-or-expired",
+        "result-expired"
+      ]
     }
   }
 }
@@ -53,20 +56,20 @@ Then:
 - Required: `yes`
 - Shape: const: `nym-issuer-readback.local.v1`
 
-<a id="field-exchange-digest"></a>
-## `exchange/digest`
-
-- Required: `yes`
-- Shape: string
-
 <a id="field-state"></a>
 ## `state`
 
 - Required: `yes`
-- Shape: enum: `decision-prepared`, `not-found-or-expired`
+- Shape: enum: `decision-prepared`, `not-found-or-expired`, `result-expired`
 
 <a id="field-artifact-digest"></a>
 ## `artifact/digest`
 
 - Required: `yes`
 - Shape: unspecified
+
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
+
+- Required: `yes`
+- Shape: string

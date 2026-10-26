@@ -36,8 +36,10 @@ immutable admission decisions and a separate current eligibility projection.
 `whisper-source-profile.v1` is content addressed using JCS, with NFC required
 before signing. The context is the JCS digest of federation, exact profile digest,
 council identity, topic class and similarity key. The digest is not a secret.
-A public certificate carries only its opaque source reference, profile/context,
-epoch and minimum status revision. It carries no participant, source node,
+A public certificate carries its opaque source reference, profile/context,
+epoch, signed `activation/not-before` and stable `status/min-revision = 1`.
+The profile requires `source/activation-policy = post-reset-collection-drain-v1`,
+so adopting this correction changes its content digest. It carries no participant, source node,
 request/reply reference or private predecessor.
 
 Production epochs are half-open seven-day intervals anchored at
@@ -168,9 +170,12 @@ current annotation, not a globally distributed retraction artifact.
 ### Private exchange and authority
 
 Use `nym-issuance-request.v1` and `nym-issuance-decision.v1`. The exact signed
-request digest identifies the exchange and idempotent decision. Bind applicant
-proof, proof of the new nym key, council, permitted reply recipient, operation,
-nonce and deadline. Requests expire within 15 minutes and before epoch end.
+request digest identifies the idempotent domain decision inside erasable
+custody. A separately random `ExchangeHandle` (`exchange:` plus canonical
+base64url of 32 random bytes) identifies transport; it is not derived from that
+digest, a participant, nym, nonce, context or source. Bind applicant proof,
+proof of the new nym key, an independent ephemeral bootstrap proof, council,
+permitted reply recipient, operation, nonce and deadline. Requests expire within 15 minutes and before epoch end.
 Persist the decision and prepared reply before AD sends it. Readback by request
 reference never repeats issuance. Duplicate delivery returns the retained result.
 
@@ -238,7 +243,8 @@ operator attention. If ACK never arrives, this rule supplies no absolute calenda
 destruction deadline; the implementation must expose that limitation, not invent
 an infinite timestamp or silently use epoch-end plus retention. Publication-link
 metadata is held with the erasable key, not in retained destruction receipts.
-The current fixed-deadline custody primitive alone does not implement this phase.
+The optional issuer implements this lifecycle with provider fences and bounded
+S020 reconciliation. It still needs real Gate A qualification.
 
 ### Opaque private snapshots and factual publication readback (2026-10-26)
 
@@ -333,38 +339,48 @@ Signing preimages use a literal ASCII domain followed by one NUL byte and JCS:
 
 | Signature | Domain | Removed top-level fields |
 |---|---|---|
-| New nym proof of possession | `orbiplex.nym-issuance-proof.v1` | `nym/proof`, `signature` |
-| Participant request | `orbiplex.nym-issuance-request.v1` | `signature` (includes the nym proof) |
+| New nym proof of possession | `orbiplex.nym-issuance-proof.v1` | `nym/proof`, `signature`, `bootstrap/proof` |
+| Participant request | `orbiplex.nym-issuance-request.v1` | `signature`, `bootstrap/proof` (includes the nym proof) |
+| Full request bootstrap possession | `orbiplex.nym-issuance-bootstrap-proof.v1` | `bootstrap/proof` (includes both prior signatures) |
 | Issuer decision | `orbiplex.nym-issuance-decision.v1` | `signature` |
 | Source status | `orbiplex.nym-source-status.v1` | `signature` |
 | Issuer exchange-key offer | `orbiplex.nym-exchange-key-offer.v1` | `signature` |
 
 The certificate preserves v1: JCS of the certificate minus `signature`, **no
 prefix**. Requiring NFC makes both existing certificate canonicalizers agree.
-Verify the new nym PoP before the participant signature; verify both before any
-issuance effect. The request digest hashes the complete canonical signed request
-bytes, including both signatures. `exchange/digest` equals this request digest;
-there is no independently chosen exchange identifier. Decision recipient and
-issuer must equal the request's exact bindings. The certified nym/profile/context,
+Verify the new nym PoP, then the participant signature, then the ephemeral
+bootstrap proof before any issuance effect. The request digest hashes the
+complete canonical signed request, including all three proofs. The private
+request and decision bind `exchange/handle`; outer ciphertexts and AD artifact
+IDs carry that handle, never the real signed-request digest. The private issued
+decision carries its actual `status/min-revision`; the public certificate's
+constant floor cannot substitute for it. Decision recipient and issuer must
+equal the request's exact bindings. The certified nym/profile/context,
 epoch and route must equal that request. A fresh nym may not reuse the applicant's
 primary public key. A certificate must carry mandatory compatible Agora scope
 restrictions: exact topic key, federation, record kind `whisper-signal`, content
 schema `whisper-signal.v2`, and its supported disclosure scopes. The contextual
 profile cannot be accepted through the generic verifier as an unrestricted nym.
 
-D supplies a signed `nym-exchange-key-offer.v1` for a prepared request digest,
-requesting participant, recipient D, public X25519 key/ref and expiry. Preparing
-an offer does not decide issuance. The request already exists before the offer;
-the offer is outside its signed bytes, avoiding a digest cycle. Key ref hashes
-the 32 raw public-key bytes. Replies use the applicant's signed `reply/key` from
-the accepted request. No unbound reply address or key is accepted.
+D supplies a signed `nym-exchange-key-offer.v1` for the anonymous first leg:
+exact handle, ephemeral bootstrap public key, signed reply public key, digest
+of that first-leg request, recipient X25519 key/ref and expiry. Preparing an
+offer does not decide issuance. It does not contain the participant, actual
+nym, context or real signed-request digest. The offer is outside the full
+request's signed bytes, avoiding a digest cycle. Its private verifier pins the
+actual full request in memory before sealing it. Key ref hashes the 32 raw
+public-key bytes. No unbound reply address or key is accepted.
 
-The offer bootstrap is a separate private exchange, not a plaintext AD reply.
-A prepares the complete signed issuance request first. A then signs the narrow
-`nym-exchange-key-request.v1`: applicant, approved profile/issuer, exact issuance
-request digest, signed reply key/recipient, issue time and expiry. It contains no
-nym, context, source, predecessor or certificate. Its signature preimage is
+A freezes one random handle and operation nonce before minting. Inside the
+Vault, a separate HKDF domain and that nonce derive an ephemeral Ed25519
+bootstrap key E from protected nym material. E differs from the primary and
+actual nym public keys. The narrow `nym-exchange-key-request.v1` contains only
+handle, approved profile/issuer, E public key, reply X25519 public key and validity;
+it is signed by E. It carries no applicant, actual nym, context, predecessor,
+certificate, reply participant or real signed-request digest. Its preimage is
 `orbiplex.nym-exchange-key-request.v1` + NUL + JCS minus `signature`.
+The full private request includes the same handle, E key and reply key, with
+the third E proof binding the already participant/nym-signed candidate.
 
 A uses an independently adopted `nym-bootstrap-recipient.v1`, signed by the
 profile's council, binding its separate X25519 bootstrap key/ref, exact profile,
@@ -373,22 +389,42 @@ peer node, purpose and validity (at most 24 hours). Its signature preimage is
 signature verifies the descriptor, but grants no AD/INAC authority. Root-admitted,
 exact peer/family/artifact request and reply invitations remain mandatory.
 
-D opens only the key-request metadata with that bootstrap-purpose key. It
-verifies the applicant signature and deadline before preparing one per-exchange
-recipient key. D durably reserves the exact signed applicant/reply/deadline tuple before
-creating any recipient key. Its keystore pins that input identity and immutable
-deadline independently of application DB restore. Saved bootstrap metadata binds
-the exact recipient handle and role through AEAD AAD. D stores the exact sealed
-offer with its companion references in one SQL transaction, then fences its
-output digest in the keystore before returning bytes for AD. Startup/retry can
-finish the same committed result; an old DB missing a committed result refuses
-new encryption. Domain clock observations use the provider's durable high-water,
-not an application-DB-restorable clock floor. Same digest with changed tuple is a conflict;
-duplicates recover the original offer/key. The offer itself is encrypted to the
-signed applicant reply key. The eventual full issuance request must match that
-frozen tuple. Bootstrap metadata may expose private peer activity to D, but never
-carries the participant-to-context/nym mapping. A bootstrap-purpose key cannot
-open issuance requests, offers or decisions, even with otherwise valid ciphertext.
+D opens only anonymous first-leg metadata with the global bootstrap-purpose
+key. It verifies E possession and validity before preparing one per-handle
+recipient key. The real participant and nym proofs are checked only after
+opening the full private request under that recipient. Exact encrypted-input
+identities, handle and finite deadline are reserved before effects. Random
+per-purpose allocation identifiers remain inside a separate erasable sealed
+payload; retained provider operation bindings do not carry the real request
+digest. A restored database missing frozen output refuses reconciliation rather
+than encrypting a replacement under the same artifact ID.
+
+The independent provider response fence binds handle, closed phase, exact
+input-ciphertext digest, output-ciphertext digest and immutable replay deadline.
+KeyOffer and Decision have distinct slots; an internal sealed allocation slot
+is not a new wire phase or delivery queue. A preexisting reservation may finish
+its frozen output commitment after recipient-key destruction, without new key
+use. Global SQL ciphertext rows are retained replay source, not disposable
+context projections. Their lookup needs no surviving private map or scan of
+context membership. Private maps hold real request-digest/reply membership and
+quota; outer checkpoints do not expose those joins. Expired provider markers
+retain only opaque identity/deadline and cannot reopen an old exchange.
+
+Domain clocks use the provider's durable high-water, not an application-DB-
+restorable clock floor. A changed ciphertext under the same handle/phase
+conflicts; duplicates reuse exact frozen bytes. Bootstrap metadata still exposes
+peer activity to its authorized receivers, but not a participant-to-nym/context
+mapping. The global bootstrap key cannot open full requests, offers or decisions.
+A fresh operator-approved Decision reply invitation can retrieve an already
+prepared historical result within its finite retention horizon after request
+expiry. It cannot authorize a new expired issuance or extend key/record validity.
+KeyOffer consent retains the original request deadline.
+
+The earlier unqualified candidate used the signed-request digest as the transport
+identifier and a primary-signed metadata first leg. This decision was superseded
+on 2026-10-26 after the exact reset-link counterexample; its source-specific
+findings remain in Node's certification component audit. Neither candidate is
+promoted to Gate A by schema or software conformance alone.
 
 Each encrypted payload has its own outer AD family: `nym-key-request-sealed.v1`,
 `nym-key-offer-sealed.v1`, `nym-issuance-request-sealed.v1`, and
@@ -400,9 +436,10 @@ reuses those bytes; it never re-encrypts even identical plaintext under the same
 artifact/idempotency id. AD alone owns transport retries.
 
 An invitation names one exact family and deterministic artifact id derived from
-request digest and the exact phase/family (direction alone collides between
-bootstrap and issuance). Both artifact id and AD idempotency key are exactly
-`urn:orbiplex:nym-exchange:<outer-family>:<unprefixed-request-digest>`.
+the random exchange handle H and exact phase/family (direction alone collides
+between bootstrap and issuance). Both artifact id and AD idempotency key are
+exactly `urn:orbiplex:nym-exchange:<outer-family>:<unprefixed-exchange-handle>`.
+No signed-request digest appears in that public transport identity.
 Malformed family pairing never tries another key
 purpose, decryptor or admission policy. This refines an unqualified, prerelease
 codec; it makes no claim about deployed-state compatibility.
@@ -410,7 +447,7 @@ codec; it makes no claim about deployed-state compatibility.
 For `nym-exchange-sealed.v1`, the header is the complete envelope minus
 `ciphertext`. All base64url strings are canonical, unpadded. The ephemeral sender
 key and 24-byte nonce are random and never reused. HKDF-SHA256 uses the existing
-X25519 primitive, UTF-8 `exchange/digest` as salt, and the bytes
+X25519 primitive, UTF-8 `exchange/handle` as salt, and the bytes
 `orbiplex.nym-exchange-sealed.v1` + NUL + header JCS as info. Reject the all-zero
 shared secret. XChaCha20-Poly1305 uses that derived 32-byte key, header JCS as AAD,
 and the exact canonical plaintext. Decryption checks expected exchange, payload

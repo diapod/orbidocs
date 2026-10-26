@@ -13,16 +13,11 @@
     "schema": {
       "const": "nym-issuer-readback.local.v1"
     },
-    "exchange/digest": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
-    },
     "state": {
       "enum": [
         "decision-prepared",
-        "not-found-or-expired"
+        "not-found-or-expired",
+        "result-expired"
       ]
     },
     "artifact/digest": {
@@ -37,11 +32,17 @@
           "type": "null"
         }
       ]
+    },
+    "exchange/handle": {
+      "type": "string",
+      "minLength": 52,
+      "maxLength": 52,
+      "pattern": "^exchange:[A-Za-z0-9_-]{43}$"
     }
   },
   "required": [
     "schema",
-    "exchange/digest",
+    "exchange/handle",
     "state",
     "artifact/digest"
   ],
@@ -50,7 +51,10 @@
       "if": {
         "properties": {
           "state": {
-            "const": "not-found-or-expired"
+            "enum": [
+              "not-found-or-expired",
+              "result-expired"
+            ]
           }
         }
       },

@@ -18,5 +18,7 @@
   "recovery/current": false,
   "status/collection-freshness": "unknown",
   "status/emission-freshness": "unknown",
-  "certificate/eligibility": "unknown"
+  "certificate/eligibility": "unknown",
+  "exchange/handle": "exchange:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "reply/decision-consent-until": "2026-11-09T00:00:00Z"
 }

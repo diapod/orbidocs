@@ -19,5 +19,6 @@
   "retention/tombstone-seconds": 604800,
   "epoch/certificate-limit": 2048,
   "publication/matrix-time-policy": "authenticated-admitted-homeserver-v1",
-  "publication/sqlite-time-policy": "signed-admitted-relay-receipt-v1"
+  "publication/sqlite-time-policy": "signed-admitted-relay-receipt-v1",
+  "source/activation-policy": "post-reset-collection-drain-v1"
 }

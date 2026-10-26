@@ -14,13 +14,16 @@ Source schema: [`doc/schemas/nym-exchange-key-offer.v1.schema.json`](../../schem
 |---|---|---|---|
 | [`schema`](#field-schema) | `yes` | const: `nym-exchange-key-offer.v1` |  |
 | [`issuer/id`](#field-issuer-id) | `yes` | string |  |
-| [`requester/id`](#field-requester-id) | `yes` | string |  |
-| [`exchange/digest`](#field-exchange-digest) | `yes` | string |  |
 | [`recipient/key`](#field-recipient-key) | `yes` | string |  |
 | [`recipient/key-ref`](#field-recipient-key-ref) | `yes` | string |  |
 | [`issued/at`](#field-issued-at) | `yes` | string |  |
 | [`expires/at`](#field-expires-at) | `yes` | string |  |
 | [`signature`](#field-signature) | `yes` | object |  |
+| [`exchange/handle`](#field-exchange-handle) | `yes` | string | Independent opaque 256-bit transport correlation; never the private signed request digest. |
+| [`bootstrap/key-public`](#field-bootstrap-key-public) | `yes` | string | Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key. |
+| [`profile/digest`](#field-profile-digest) | `yes` | string |  |
+| [`bootstrap/request-digest`](#field-bootstrap-request-digest) | `yes` | string | Digest of the anonymous ephemeral-proof key request, never the domain issuance request. |
+| [`reply/key`](#field-reply-key) | `yes` | string |  |
 ## Field Semantics
 
 <a id="field-schema"></a>
@@ -31,18 +34,6 @@ Source schema: [`doc/schemas/nym-exchange-key-offer.v1.schema.json`](../../schem
 
 <a id="field-issuer-id"></a>
 ## `issuer/id`
-
-- Required: `yes`
-- Shape: string
-
-<a id="field-requester-id"></a>
-## `requester/id`
-
-- Required: `yes`
-- Shape: string
-
-<a id="field-exchange-digest"></a>
-## `exchange/digest`
 
 - Required: `yes`
 - Shape: string
@@ -76,3 +67,39 @@ Source schema: [`doc/schemas/nym-exchange-key-offer.v1.schema.json`](../../schem
 
 - Required: `yes`
 - Shape: object
+
+<a id="field-exchange-handle"></a>
+## `exchange/handle`
+
+- Required: `yes`
+- Shape: string
+
+Independent opaque 256-bit transport correlation; never the private signed request digest.
+
+<a id="field-bootstrap-key-public"></a>
+## `bootstrap/key-public`
+
+- Required: `yes`
+- Shape: string
+
+Domain-separated ephemeral Ed25519 bootstrap proof key; not the participant or nym public key.
+
+<a id="field-profile-digest"></a>
+## `profile/digest`
+
+- Required: `yes`
+- Shape: string
+
+<a id="field-bootstrap-request-digest"></a>
+## `bootstrap/request-digest`
+
+- Required: `yes`
+- Shape: string
+
+Digest of the anonymous ephemeral-proof key request, never the domain issuance request.
+
+<a id="field-reply-key"></a>
+## `reply/key`
+
+- Required: `yes`
+- Shape: string
