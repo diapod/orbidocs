@@ -5575,3 +5575,23 @@ recovery, retirement, migration or merge. Native r19 remains nine records;
 P096-005 stays partial. Fresh authority and separately approved reconciliation
 precede fresh physical readiness and an actual separately approved restart.
 See node:docs/audits/REVIEW-SENSORIUM-CHECKPOINT-TARGET-2026-10-26.md.
+
+
+### R19 Bluetooth reconciliation and same-scope renewal — 2026-10-26
+
+Node checkpoint: `c43cf4b6`; P096-005 remains partial.
+
+The original compatible pinned administrator preserves baseline `4b8e99cc`,
+prepares v4 `1c97486c` and, after one refused observation and a separately approved
+new one, records OFF/ON proof `5d5bcdc1` (2998 ms off). Separately approved recovery
+completes marker `1f1b72de`: only the exact acquisition resource/old claim are
+removed, generation changes and expired policy remains unchanged. Renewal must
+follow reconciliation; it cannot bypass the unresolved Case. The new pinned
+client prepares/commits separately approved review `2d32bad7` after unexecuted
+`9bacacc7` expires. Same-scope owner/discovery expiry is 20:23:56 CET; expired p21
+r19, journal465/65, consents and history are preserved. Controller/resources are
+free; no p21 retirement/grant, scan, acquisition, host restart or merge occurs.
+The private 459-member proof passes byte readback (`71150e83` / `651c264f`), with
+unknown retention facts and a disclosed read-store ctime-only exception. Original
+native nine-record tuple stays incomplete; P096-005 remains partial.
+See node:docs/audits/REVIEW-SENSORIUM-R19-RADIO-RECONCILIATION-2026-10-26.md.
