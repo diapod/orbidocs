@@ -5782,3 +5782,24 @@ a slow function. P096-005 stays partial; no reset, actual restart, sequence retr
 or merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-NATIVE-2026-10-26.md.
 
 Node native checkpoint: `21940ebe`; exactly five WEAR sessions executed, fault pass unexecuted, P096-005 partial.
+
+
+### r21 device-free runtime-integrity measurement — 2026-10-26
+
+A generic ignored supervisor test calls the unchanged production integrity
+verifier three times on hash-matched r21 runtime data. Release measurements are
+1099/554/548 ms for 820 explicit files and two trees containing 2413 files.
+Initial cache state and the actual startup's full-verification count remain
+unknown. This measures one primitive, not the complete host admission path or
+native preparation, and changes no qualification window or threshold.
+
+Eight software controls and release clippy pass. Review makes profile input
+nonblocking/no-follow before bounded regular-file parsing. No interpreter, SDK,
+worker, controller or Bluetooth manager is invoked. Expired registration data
+is read as data and supplies no authority. The private 56-member proof passes
+fresh every-member readback with unknown custody/retention facts protected.
+The existing r21 native refusal remains immutable; startup-stage intervals are
+the next diagnostic step. P096-005 stays partial. No headband, normal-root write,
+grant update, recovery, reset or merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-RUNTIME-INTEGRITY-PROFILE-2026-10-26.md.
+
+Node read-only profile checkpoint: `c33f7531`; native P096-005 remains partial.
