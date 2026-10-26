@@ -2002,7 +2002,7 @@ native gate stays closed until its prerequisite is actually qualified.
 
 ### P096-005 candidate preparation checkpoint (2026-10-19)
 
-A new clean production release `af692fed` is frozen on turbo.local with source
+A new clean production release `af692fed` is frozen on host-B.local with source
 `4fc1405e` (4948 tracked files), release image `56fa8251` and distinct post-sign
 GUI image `e8989103`/handoff `8c00d7d4`. The private reader now accepts optional
 closed audit durability metadata and `audit-unconfirmed` while preserving
@@ -2109,7 +2109,7 @@ fixture and regenerating the combined ledger. No integration occurs in this work
 ### Corrected nearby preparation (2026-10-19)
 
 Node clean `3775bf56` freezes the reviewed source `cbb85050` as production release
-`dfcf60f5` and a separate signed GUI `d153b457`/handoff `5205c163` on turbo.local.
+`dfcf60f5` and a separate signed GUI `d153b457`/handoff `5205c163` on host-B.local.
 Exact closure/signature checks, 52 frozen-client tests and rootless actual
 `launchd` preflight pass. All 248 previous root files, controller namespace,
 journal 81/twelve Cases and zero claims are preserved; only the new capsule's
@@ -2124,7 +2124,7 @@ branches remain separate. See
 ### Merged-source preparation (2026-10-20)
 
 Node clean merged `a176fdd2` freezes source `7a500816` as final signed deployment
-`92f7ba9b` and GUI `0baa4846`/handoff `83f75e0d` on turbo.local. The oversized
+`92f7ba9b` and GUI `0baa4846`/handoff `83f75e0d` on host-B.local. The oversized
 compiler image was refused; explicit signing-container normalization preserves
 the original and independently verifies payload equivalence within the unchanged
 128-MiB deployment bound. All 52 frozen-client checks, signatures and rootless
@@ -2139,7 +2139,7 @@ branches continue separately after the earlier merge. See
 
 ### Merged-source authority renewal (2026-10-20)
 
-Exact delegated review `60ea3f0d` completed on turbo.local using merged commit
+Exact delegated review `60ea3f0d` completed on host-B.local using merged commit
 `a176fdd2`, source `7a500816` and deployment image `92f7ba9b`. The declared
 `operator/control` is `delegated-ssh`; its 14400-second TTL was fixed at prepare,
 with absolute controller/discovery expiry **2026-10-20 05:27:23 CEST**
@@ -3496,7 +3496,7 @@ until a real lab observation supplies verified layout.
 Operator-supplied hardware fact: Muse 2 firmware `1.0.25`, read from the Muse iOS
 application on 2026-10-13. Reconfirm before each observation; an update creates a
 new qualification tuple. Hardware laboratory work is assigned to the nearby
-`turbo.local` host. Terminal, SSH, supervisor-terminal and supervisor-SSH launch
+`host-B.local` host. Terminal, SSH, supervisor-terminal and supervisor-SSH launch
 contexts remain separate TCC observations. No inter-node raw delivery is needed
 for this early probe. Neither firmware attestation nor prepared probe code is
 measured Bluetooth/runtime acceptance.
@@ -4443,3 +4443,11 @@ the shared-source Synthetic family. Historical packages/reports remain exact;
 a new target build and normal Author/Sign are required before production use of
 the new generation. No hardware, target mutation or merge occurs. P096-005 stays
 partial. See node:docs/audits/REVIEW-SENSORIUM-QUEUE-RETENTION-2026-10-24.md.
+
+## Host pseudonyms
+
+Host names in this document use stable documentation pseudonyms. The private
+reverse mapping is maintained at `orbidocs:local/host-pseudonyms.json` and is not
+distributed. See the [documentation pseudonym convention](../../ops/howto/documentation-pseudonyms-howto.md).
+Original evidence bytes, signatures and digests remain unchanged; these labels
+only change the documentary presentation.

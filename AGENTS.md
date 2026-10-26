@@ -65,6 +65,11 @@ fixture.
    `orbidocs:...` (when referring orbidocs) or `node:...` (when referring node
    component). This is checked in CI.
 
+6. Use stable documentation pseudonyms for private hosts and IP addresses. Follow
+   [the pseudonym convention](doc/ops/howto/documentation-pseudonyms-howto.md), keep its
+   reverse map ignored and local, and preserve historical evidence bytes. Run
+   `make check-no-absolute-local-paths`; it also checks hosts and IPs.
+
 ## 4. Document Quality Contract
 
 Every substantial document should include, in this order:

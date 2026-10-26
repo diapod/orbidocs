@@ -35,6 +35,12 @@ PDF_OUTPUTS := $(patsubst %.md,$(OUTPUT_DIR)/pdf/%.pdf,$(PDF_SOURCES))
 check-json-syntax:
 	./scripts/validate-json-schemas.sh --syntax-only
 
+test-document-privacy:
+	$(PYTHON) -m unittest discover -s scripts -p 'test_document_privacy.py'
+
+check-published-privacy:
+	$(PYTHON) scripts/check_document_privacy.py --site "$(OUTPUT_DIR)/html-i18n"
+
 check-no-absolute-local-paths:
 	./scripts/check-no-absolute-local-paths.sh
 
@@ -155,3 +161,5 @@ $(OUTPUT_DIR)/pdf/%.pdf: %.md $(PDF_CSS)
 $(OUTPUT_DIR)/pdf/%.pl.pdf: PANDOC_LANG = pl-PL
 $(OUTPUT_DIR)/pdf/%.en.pdf: PANDOC_LANG = en-US
 $(OUTPUT_DIR)/pdf/%.pl.pdf: PANDOC_FILTERS = --lua-filter=styles/polish-typography.lua
+
+.PHONY: test-document-privacy check-published-privacy
