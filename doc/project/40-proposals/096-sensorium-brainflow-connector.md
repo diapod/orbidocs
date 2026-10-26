@@ -5500,3 +5500,19 @@ four-member proofs pass primary readback (`819d029d` / `9d423ed5`). No p21 grant
 consent, hardware, reset, recovery, migration or merge occurs. R19 is reserved,
 unregistered; fresh execution-copy/readiness/TCC/native and separately approved
 actual restart remain. P096-005 stays partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R18-RETIREMENT-COMPLETED-2026-10-26.md.
+
+
+### Conditional r19 preparation after completed retirement — 2026-10-26
+
+The new `5d9ee9eb` plan binds actual completed retirement `eedd2720`, current
+source/image/package/handoff and four copied harness hashes. Immutable unarmed
+`6477ab8c` remains unchanged; normalized operational AST bodies are identical.
+Review fixes isolated helper import resolution; nine guard tests pass, including
+actual isolated entry and refusal before SSH without fresh delegation. A separate
+metadata-only SSH read matches 1644 files/394 directories/controller after
+retirement: claims zero, journal 421/59, authority to 2026-10-26T13:28:18Z. No live
+approval, permission, operator facts or native output is inferred. The 25-member
+private capsule passes primary readback (`ae99ef9c` / `9bc3b85e`). Fresh readiness,
+firmware/TCC and actual six-session/restart/native qualification remain open;
+P096-005 stays partial. No product rebuild, thresholds, hardware, recovery,
+migration or branch merge. See node:docs/audits/REVIEW-SENSORIUM-R19-CONDITIONAL-PREPARATION-2026-10-26.md.
