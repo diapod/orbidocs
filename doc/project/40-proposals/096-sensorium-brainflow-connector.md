@@ -2884,7 +2884,7 @@ remaining completion gates still apply.
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
-| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Both device-free six-session compositions (control0700/tuple `1ae924f9`, legacy0755/tuple `e631599d`) collect ten of ten records without migration. Independent recapture, Schema Gate and semantics pass; synthetic boot/SDK evidence remains explicit and separate. Target-only r20 recovery, approved renewal `f9019882` and retirement `ccfc1484` complete with controller free, r21 reserved, discovery r5, journal 509/71 and history/consent preserved. Authority ends 2026-10-27 00:48:18 CET; no p21 grant or WEAR is created. The prepared client has identical non-test inputs to the software proof; old native tuple `83aaf244` remains nine of ten. Fresh headband readiness, exact-client permission and actual host-restart proof remain required. See the dated [legacy composition](#legacy-control-completeness-and-r21-readiness--2026-10-26) and preceding native/recovery checkpoints. |
+| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Both device-free six-session compositions (control0700/tuple `1ae924f9`, legacy0755/tuple `e631599d`) collect ten of ten records without migration. Independent recapture, Schema Gate and semantics pass; synthetic boot/SDK evidence remains explicit and separate. Target-only r20 recovery, approved renewal `f9019882` and retirement `ccfc1484` complete with controller free, r21 reserved, discovery r5, journal 509/71 and history/consent preserved. Authority ends 2026-10-27 00:48:18 CET; no p21 grant or WEAR is created. The prepared client has identical non-test inputs to the software proof; old native tuple `83aaf244` remains nine of ten. The separately approved prepared-client permission preflight is now allowed with confirmed cleanup/exit and six current exact-client OS attribution events. Root/controller and journal remain exact. Fresh headband readiness, firmware source and separately approved actual host-restart proof remain required. See the dated [legacy composition](#legacy-control-completeness-and-r21-readiness--2026-10-26) and preceding native/recovery checkpoints. |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `done` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
@@ -5723,3 +5723,33 @@ release/GUI files and strict signatures pass metadata-only verification without
 a permission manager. The 32-member private set passes every-member readback
 with unknown custody facts protected. Fresh hardware readiness and current
 Bluetooth permission remain required; P096-005 is partial.
+
+
+### r21 permission-only observation — 2026-10-26
+
+A fresh one-use approval runs the normal prepared `6aedb062` / signed GUI
+`76aee865` permission-only SSH command, after exact release/closure and signature
+checks. Bluetooth is allowed, manager cleanup and observer exit are confirmed,
+and no SCAN, headband acquisition, registration, reset or recovery occurs.
+The immutable output's unverified responsible-process projection remains intact;
+six separate current OS attribution events identify the exact Orbiplex client
+within the actual invocation interval. No system-wide process inventory is
+collected; selected private events contain ephemeral PIDs.
+
+Read-only comparison preserves all root/controller observations, journal 509/71,
+zero claims, discovery r5 and reserved unregistered r21. Authority remains valid
+through 2026-10-27 00:48:18 CET. The 25-member private proof passes fresh archive
+readback with explicit unknown custody/retention facts protected. Software
+preparation remains 47/47; the plan is unarmed, and fresh interactive headband
+readiness/firmware plus a separately approved actual restart remain mandatory.
+P096-005 stays partial; no native tuple or release readiness is promoted and no
+branch merge occurs. See node:docs/audits/REVIEW-SENSORIUM-R21-PERMISSION-2026-10-26.md.
+
+Node's complete light gate records a pre-existing cumulative Git-history refusal
+in the host-control evidence area: 1079179 bytes against 1048576. This permission
+checkpoint adds no governed payload and changes no policy, checker or historical
+ref. Focused ledger/header/path and Orbidocs JSON/schema-sync checks pass; full
+workspace retention qualification is not claimed. The dated Node review retains
+this separate repository blocker without weakening any limit.
+
+Node permission checkpoint: `bf2c6563`; P096-005 remains partial.
