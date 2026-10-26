@@ -25,6 +25,14 @@ admission, certification policy, permission to sign and eligibility to count are
 four different decisions. The optional issuer service owns policy and decisions;
 the host owns private nym keys; AD owns delivery of already encrypted bytes.
 
+The host bounds each AD submission by the adopted profile's request TTL. This
+is a transport lifetime covering discovery, exact invitation consent and retry,
+not the duration of one scheduler pass. AD preserves the first submission's
+bytes, plan and expiry on retry. This budget neither extends the signed request
+or certificate nor grants late issuance; the original domain and consent
+validity checks remain decisive. A retained result uses its separately bounded
+readback/consent contract.
+
 Knowledge minimization and participant agency require bounded private mappings,
 explicit renewal consent and no public reset linkage. Reproducibility requires
 immutable admission decisions and a separate current eligibility projection.
