@@ -504,6 +504,73 @@ records a new clean-checkout sixteen-read rehearsal and a 336181-byte observed
 retention-refusal capsule, also freshly verified at both stores. The original
 successful runtime result and initial capsule publication refusal remain unchanged.
 
+### Public Evidence Retirement Lifecycle
+
+Based on:
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md#predictable-evidence-retirement-contract-2026-10-26`
+
+P035-015 separates three storage effects: cleanup of non-evidence derived material,
+retirement of one evidence replica, and retirement of the last retrievable evidence
+bundle. The Node public-evidence retention maintainer owns the exact catalogue and
+may propose digest-bound dry-run plans. Claim and release owners own their dependency
+bindings and holds. A reviewed local operator decision may authorize one exact plan;
+the executor gains no general selection authority.
+
+The catalogue and its append-only plan, decision and receipt facts must preserve
+immutable evidence identities and historical outcomes. Missing classification,
+dependency coverage, replacement qualification, current protection or active-use
+facts fail closed. Age, size, failed/refused status and informal usefulness may
+trigger review but cannot authorize deletion.
+
+S020 may schedule bounded catalogue checks, dry runs or plan verification, but it does not interpret
+evidence, release holds, approve retirement or repair storage. Node provides the
+bounded deterministic read-only catalogue, dry-run, exact-plan and structural
+decision/receipt validators. The separate opt-in local operator runtime authenticates
+owner/reviewer signatures, binds the executor to adopted OS custody, durably consumes
+one exact plan and decision, applies bounded physical effects and independently
+observes their outcome. Reviewed complete membership inventories derive the strongest
+classification; incomplete coverage, current holds and unknown facts refuse.
+
+P035-015 is complete for the qualified local operator profile recorded in
+`node:docs/evidence/evidence-retirement/README.md`. Real filesystem retirement,
+quarantine/restore, ordinary replacement qualification, replica reads, separate
+post-action verification and process-death/restart inspection run on the recorded
+macOS host with synthetic fixture bytes. The final-delete policy clock and selected
+fault cuts are controlled. Exact working-source digests are retained; a clean
+committed checkout or acceptance on every supported operating system is not claimed.
+
+The authority-adoption chain retains one consumed namespace across key/tool renewal
+and rejects superseded authority. Partial or missing receipts preserve uncertainty
+and require a new reconciliation catalog and decision. The local administrative
+profile assumes exclusive custody among cooperating processes under one OS uid;
+hostile same-uid/root processes and hardware power loss are outside its qualification.
+Legacy production stores retain P035-009 protection until their owners supply the
+relevant complete sources, trust adoption and exact signed plans. Software completion
+does not classify or retire their existing bytes, renew transport evidence or promote
+global Agora/release readiness.
+
+Recurring policy may propose already classified cache or reproducible-derivative
+candidates. S020 may execute only a separately approved, unexpired exact plan;
+elapsed time or policy match is never standing deletion authority. Quarantine is
+a reversible, verified terminal state for that plan. Final deletion requires a
+fresh catalogue, plan and decision after the bound not-before time.
+
+Creation-time producer metadata is now automatic in the shared archive-retention,
+cause-capsule and store-publication helpers. It binds membership, identities,
+campaign, recording time and explicit ownership; custody remains a separate fact.
+Incomplete dependency/hold coverage and unresolved recovery stay protected. These
+facts prepare review, not adoption or approval. A pre-production executor review
+also adds a post-effect replacement-refusal regression: a failed final ordinary
+check must retain `partial`, even when all physical deletions already happened.
+See `node:docs/audits/EVIDENCE-RETIREMENT-REVIEW-2026-10-26.md` and the new qualification
+supplement linked from the evidence index; earlier reports keep their source scope.
+
+The Agora topic-record sweep below is a separate product-data lifecycle. Its
+`max_age_secs`, `max_count` and periodic eviction authority apply only to admitted
+Agora records under per-topic policy. They MUST NOT select, classify or delete public
+acceptance evidence, evidence replicas, refusal capsules or unknown filesystem
+material.
+
 ### Retention Policy Sweep
 
 Based on:

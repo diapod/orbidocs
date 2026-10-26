@@ -1739,6 +1739,100 @@ S039 notification owners rather than a new storage-owned scheduler:
   retire evidence or repair storage automatically, and do not block emergency
   retrieval of intact bytes on healthy-topology checks.
 
+### Predictable evidence retirement contract (2026-10-26)
+
+**Status:** accepted design; Node local operator implementation is qualified under P035-015. This
+extends P035-009's reviewed-retirement rule without changing any historical
+evidence identity, qualification result, release claim or active hold.
+
+Retirement uses three distinct operations:
+
+- `purge-derived` removes reconstructible runtime views or cache bytes
+  that are not members of an immutable evidence inventory;
+- `retire-replica` removes one retained location while the remaining verified
+  locations still satisfy the adopted protection policy;
+- `retire-evidence` removes the last retrievable representation of a bundle and
+  therefore also retires, rebinds or makes unavailable every dependent claim.
+
+Every managed object has exactly one closed retention class: `evidence-member`,
+`authority-asset`, `reproducible-derivative`, `cache` or `unknown`. Replica count
+and failure-domain topology are separate state, not classes. Inventory membership,
+content identity and the object's role determine the class; directory placement,
+age, size, a `failed`/`refused` result or an operator's informal usefulness
+judgement do not. Classification follows the closed precedence below; `unknown`
+is protected and fails closed.
+
+The class/action matrix is closed: `purge-derived` accepts only
+`reproducible-derivative` or `cache`; `retire-replica` and `retire-evidence`
+accept only `evidence-member` or `authority-asset`; `unknown` accepts no action.
+Incomplete or contradictory coverage yields `unknown`. Otherwise evidence
+inventory membership takes precedence, then a proven interpretation/retrieval/
+qualification dependency yields `authority-asset`; only material excluded from
+both sets may be classified as a derivative or cache.
+
+The retention catalogue records the exact bundle or object identity, owner,
+class, locations, dependent cases/claims/releases, active holds, earliest review
+time, replacement relation and policy revision. An earliest review time queues a
+review; it is never deletion authority. A candidate is eligible only when all
+operation-specific predicates hold:
+
+1. `purge-derived` requires proof that the object is absent from every evidence
+   inventory, has an exact reconstruction source and recipe, has no active hold,
+   and is covered by an explicit cleanup policy.
+2. `retire-replica` requires a fresh read and integrity check of the remaining
+   locations plus proof that their current topology still meets the adopted
+   protection policy.
+3. `retire-evidence` requires every dependency to be closed or rebound to a
+   freshly retrieved and ordinarily qualified replacement. Without a replacement,
+   the owning claim/release surface must first record that its acceptance is
+   unavailable. An open case, current release, unresolved incident, legal/policy
+   hold or explicit manual hold refuses retirement.
+4. Execution rechecks exact inventory, policy, dependency snapshot, store/media
+   identity and active-use/lease state. Missing, stale, changed or contradictory
+   facts refuse the operation; absence is not inferred as successful deletion.
+
+The lifecycle is represented by append-only facts whose current projection is:
+
+```text
+protected -> proposed -> reviewed-eligible -> authorized -> executed -> verified
+
+protected -> proposed -> reviewed-eligible -> authorized
+          -> quarantined -> quarantine-verified
+
+quarantine-verified -> proposed (new final-delete plan)
+                    -> reviewed-eligible -> authorized -> executed -> verified
+```
+
+`Refused`, `expired` and `cancelled` terminate the corresponding plan or
+decision. `Partial` or executed-without-verification is an incident requiring a
+fresh reconciliation; it is never a successful retirement.
+`Quarantine-verified` proves only the reversible move and recovery path. It does
+not retire the logical identity or authorize final deletion.
+
+The candidate plan binds the operation, exact identities, dependency snapshot,
+policy and tool revisions, estimated bytes and a finite approval expiry. Private
+locators remain outside public metadata. A separate reviewed decision identifies
+the accountable owner/reviewer, reason, holds discharged, replacement or explicit
+claim-unavailability action, and approved plan digest. Approval expires on any
+identity, policy, dependency, topology or lease change. The execution receipt
+records the immutable decision/plan digests, before/after inventories, checks
+performed, partial or complete outcome and exact logical bytes/files affected.
+Any physical-space measurement remains best-effort because clones, reflinks,
+snapshots, compression and filesystem accounting may share storage. Quarantine
+is reversible staging, not proof of retirement or reclaimed capacity; final
+deletion requires a fresh plan after its policy-bound `final-delete-not-before`.
+
+The public-evidence retention maintainer may catalogue objects and propose exact
+plans. Claim/release owners control their dependencies and holds. A reviewed local
+operator decision authorizes one exact plan; the executor has no wider selection
+authority. S020 or another scheduler may launch bounded catalogue and dry-run work,
+but may not classify evidence, release a hold, approve a plan or infer deletion.
+A recurring policy may automatically propose explicitly classified `cache` or
+`reproducible-derivative` material, and a scheduler may invoke an already approved
+exact plan within its validity window. Policy match and elapsed time never become
+standing deletion authority. Generic cleanup must exclude evidence, authority
+assets and `unknown` objects.
+
 ### Current-primary integration checkpoint (2026-10-23)
 
 The next operator-authorized integration joins Node primary `606800b7` and
@@ -1817,6 +1911,7 @@ or required dependency was relaxed. Evidence:
 | P035-012 | Qualify a retained-evidence replica and verification procedure | done | P035-009; P035-011; operator-adopted protection profile | Qualified 2026-10-20: clean Node dc996b24 / Orbidocs 83c77609, eight exact bundles and 32517795 original file bytes per logical store, OS-enforced primary/previous-capture denial and identical fresh secondary qualifications. Operator explicitly adopted an overlapping mirror with a separate second member; no disjoint-media/host claim. Clean 70d507cb release rehearsal freshly verifies both locations, binds the exact candidate/attempt/policy/inventory and is accepted by the v2 outer gate; another attempt refuses and other release checks stay unqualified. Small custody/procedure proofs qualify equally after extraction. Auxiliary originals deduplicate without deletion or outcome changes; oversized refused input stays private. Evidence: `node:docs/evidence/matrix-opaque-envelope/2026-10-20-replica-recovery/README.md`. Global partial scope, shared risks and existing budgets remain. |
 | P035-013 | Notify the operator of durable history blocks and support bounded batch CAS | done | P035-010; S039; S020; P072 | Qualified 2026-10-23 at 885a78fd/b16312f6: 12 focused Synapse cases, four SQLite runtime and one conformance; real S039/API/private UI, no-JS redacted controls, original CAS/current authority, durable receipts, crash/restart/replay and dual-store retention. Full historical transport, OS notifications and global readiness are unchanged; see the focused qualification above. |
 | P035-014 | Supervise adopted evidence-replica health and bounded fresh samples | done | P035-012; S020; S039; reviewed operator job policy | Qualified 2026-10-23 at clean Node 62bea078 / Orbidocs c43352b6: eleven real background/S020/S039/UI cases, eighteen fresh pairs, periodic topology, stale checks, failures, restart/replay and exact dual-store retained qualification. See node:docs/evidence/matrix-opaque-envelope/2026-10-23-replica-supervision/README.md. Opt-in session-bound scope; mandatory manual release verification, private locators and accepted overlapping-mirror limits remain unchanged.  Portable identity/OS-access review adds a separately qualified three-case delta and fresh stable-media dual reads; the original eleven-case proof remains historical. |
+| P035-015 | Implement predictable public-evidence retirement | done | P035-009; P035-012; retention and claim/release owners | Qualified 2026-10-26 for the explicitly adopted local operator profile: complete reviewed fixture sources, deterministic catalogue/dry-run/exact plans, inventory-derived classification, real owner/reviewer signatures, OS-bound executor authority and a pinned append-only single-use journal. Real derivative, replica and last-copy retirement, exclusive quarantine/restore, ordinary replacement retrieval/qualification and independent post-action reads pass. Authority renewal preserves consumption and rejects superseded trust; expiry, holds, inventory/replica drift, partial unlink, destination races, deadline exhaustion and process death refuse or require reconciliation. The dated report pins exact working sources rather than claiming a clean checkout: `node:docs/evidence/evidence-retirement/README.md`. Final-delete policy time is controlled; filesystem effects, signatures and crash/restart inspection are real on the recorded macOS host. Legacy production stores still require their own complete source, trust adoption and exact signed decisions. The result grants no standing cleanup authority and does not qualify hostile root/same-uid writers, hardware power loss, unmeasured platforms, global Agora or release readiness. The pre-production review fixes false completion after a failed final replacement check and adds automatic protected producer metadata to shared archive/capsule/store helpers; see `node:docs/audits/EVIDENCE-RETIREMENT-REVIEW-2026-10-26.md`. |
 
 The envelope is backend-neutral. A later native Orbiplex transport may
 replace Matrix for topics that must not leave the Orbiplex federation, but
