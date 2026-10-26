@@ -5412,3 +5412,24 @@ the normal permission path, without an OS-traced cause. Journal 421/59/zero clai
 and finite expiry remain unchanged. Four closed proof members pass primary
 readback; raw configs and snapshots are excluded. No retirement, new grant,
 hardware, renewal, recovery, migration or merge; P096-005 partial. See the review at node:docs/audits/REVIEW-SENSORIUM-R18-RETIREMENT-PREPARED-2026-10-26.md.
+
+
+### Unarmed r19 plan and post-restart collector — 2026-10-26
+
+Private preparation binds existing `905715d0` / source `6fa1dd72`, GUI `19de691d`
+and handoff `ee6aaed1`; both launch barriers remain unarmed. Review fixes marker-to-
+reservation inference, unchecked saved prior results, frozen dependency coverage,
+closed plan boundaries and blocking special-file reads. The complete offline
+entry preserves stored inputs and refuses output reuse. Forty-seven local tests
+pass without errors/failures/skips. All ten records share the retained software
+tuple `f844ccf0`, with nine earlier records byte-equivalent and one restart record
+added; source `5ca01fce` / software image `af176f24` remain synthetic. This does not
+execute the current GUI image or prove an actual new kernel restart.
+
+Forty-nine selected source/test/proof members pass primary readback (`a102d7c3` /
+`aa2fb02d`); original refusals and before-review bytes/modes remain. No SSH,
+retirement, renewal, native run, reset, recovery, migration or merge occurs.
+R19 stays proposed and the recorded authority expiry has passed; actual normal
+retirement, renewed authority, fresh readiness/TCC/native scope, separately approved
+actual restart and independent final native export remain. P096-005 stays partial.
+See the review at node:docs/audits/REVIEW-SENSORIUM-R19-UNARMED-COLLECTOR-2026-10-26.md.
