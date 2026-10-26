@@ -5607,3 +5607,10 @@ the ten original records in software; no new native or actual-restart evidence
 is inferred. P096-005 remains partial, with fresh interactive headband/firmware,
 exact-client access, one complete new native tuple and separate actual-restart
 approval still required. See node:docs/audits/REVIEW-SENSORIUM-R20-CONDITIONAL-PREPARATION-2026-10-26.md.
+
+
+The independent r20 emergency Case's later restart observation uses the existing
+read-only GUI observer, rather than the formal campaign-directory adapter. Its
+inert recipe has software coverage only; separate actual-restart approval and
+measured native completion remain open. See the follow-up in
+node:docs/audits/REVIEW-SENSORIUM-R20-CONDITIONAL-PREPARATION-2026-10-26.md.
