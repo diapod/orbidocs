@@ -1189,3 +1189,8 @@ Committed products are binding/launch-owned and may be issued to a reconnected
 current session; stale passages cannot commit. Closed lifecycle operations retain
 local-control/record-owner authority. Historical metadata retention remains open
 before 012c, irrespective of the direct product index.
+
+
+### P026 primary integration checkpoint (2026-10-26)
+
+The merged local profile passes ten ordinary-process cases at clean Node `660c4a1d` / Orbidocs `4a8a6d4e`, with normal/-O qualification before and after extraction and 93 negative controls per variant (372 refusals). See `node:docs/evidence/agent-runtime/2026-10-26-rate-exposure-integration/README.md` and `node:docs/audits/P026-PRIMARY-INTEGRATION-2026-10-26.md`. Current builders select the exact Cargo binary; two earlier attempts remain unqualified, including an unresolved UI hydration timeout and a correctly rejected wrong-binary receipt. Historical evidence and the retained feature branches are unchanged. This checkpoint does not promote parent P026-012/P073, 012c, replication, models or release readiness.
