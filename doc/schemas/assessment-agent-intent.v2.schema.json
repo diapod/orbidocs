@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-agent-intent:v2",
+  "title": "assessment-agent-intent.v2",
+  "description": "P026-012b-r1 successor. Historical versions are unchanged; private commitments have explicit HMAC labels.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer-r1.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "agent/ref",
+    "binding/ref",
+    "consumer-policy/ref",
+    "source/approval-ref",
+    "source/intent-digest",
+    "source/activation-ref",
+    "launch/alias",
+    "daemon/boot",
+    "executor/ref",
+    "module/ref",
+    "component/ref",
+    "participant/ref",
+    "operator/binding",
+    "subject",
+    "runtime/ref",
+    "task/ref",
+    "time/deadline-utc",
+    "budget",
+    "memory",
+    "fork",
+    "output/sink",
+    "result/max-bytes",
+    "cost/mode"
+  ],
+  "properties": {
+    "schema": {
+      "const": "assessment-agent-intent.v2"
+    },
+    "agent/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "binding/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "consumer-policy/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "source/approval-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "source/intent-digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "source/activation-ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "launch/alias": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "daemon/boot": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "executor/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "module/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "component/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "participant/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "operator/binding": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resource/kind",
+        "resource/id"
+      ],
+      "properties": {
+        "resource/kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "resource/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "runtime/ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 512
+    },
+    "task/ref": {
+      "const": "assessment-agent-review:v1"
+    },
+    "time/deadline-utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_tokens",
+        "max_wall_time_ms",
+        "max_steps"
+      ],
+      "properties": {
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "max_wall_time_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "max_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        }
+      }
+    },
+    "memory": {
+      "const": "none"
+    },
+    "fork": {
+      "const": "deny"
+    },
+    "output/sink": {
+      "const": "module-private-result"
+    },
+    "result/max-bytes": {
+      "const": 262144
+    },
+    "cost/mode": {
+      "const": "unmetered"
+    }
+  }
+}

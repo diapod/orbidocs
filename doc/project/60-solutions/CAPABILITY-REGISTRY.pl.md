@@ -172,7 +172,7 @@ Obie wersje językowe odświeża `make capability-registry-docs`.
 Katalog obejmuje każdy wpis z powierzchnią `host-local`, niezależnie od statusu
 i `docs.human-registry` (ta flaga wybiera tylko ręczną tabelę powyżej).
 
-Wpisy: **231** host-local / **263** ogółem; grupy właścicieli: **38**.
+Wpisy: **240** host-local / **272** ogółem; grupy właścicieli: **40**.
 
 Grupowanie zachowuje dokładne wartości `owner` z rejestru; wpisy są sortowane po `capability/id`.
 `dispatchable` i `host-route` to niezależne flagi kwalifikacji; ostatnia kolumna
@@ -345,6 +345,13 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
 |---|---|---|---|---|---|---|
 | <code>http.fetch.bounded</code> | <code>host/http.fetch.bounded</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>daemon caller binding with Agora assessment owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>agora.assessment.read</code> | <code>host/agora.assessment.read</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+| <code>agora.assessment.transition</code> | <code>host/agora.assessment.transition</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 
 ### <code>daemon capability host capability</code>
 
@@ -533,6 +540,18 @@ zgody i polityka domenowa pozostają odrębnymi kontrolami. Nazwy wire nie są U
 | <code>workflow.orchestrate</code> | <code>host/workflow.orchestrate</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.step.completed.publish</code> | <code>host/workflow.step.completed.publish</code> | <code>active</code> | <code>host-local</code> | true | true | — |
 | <code>workflow.test.trigger</code> | <code>host/workflow.test.trigger</code> | <code>active</code> | <code>host-local</code> | true | true | — |
+
+### <code>identity host with P066 consent owner</code>
+
+| capability_id | Nazwa wire | Status | Powierzchnie | `dispatchable` | `host-route` | Pozostałe włączone flagi |
+|---|---|---|---|---|---|---|
+| <code>agent.assessment-viewer.list</code> | <code>host/agent.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.request</code> | <code>host/agent.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.revoke</code> | <code>host/agent.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>agent.assessment-viewer.run</code> | <code>host/agent.assessment-viewer.run</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.list</code> | <code>host/identity.assessment-viewer.list</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.request</code> | <code>host/identity.assessment-viewer.request</code> | <code>active</code> | <code>host-local</code> | false | true | — |
+| <code>identity.assessment-viewer.revoke</code> | <code>host/identity.assessment-viewer.revoke</code> | <code>active</code> | <code>host-local</code> | false | true | — |
 
 ### <code>inference-provenance-core through daemon host boundary</code>
 

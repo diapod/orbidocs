@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:assessment-agent-revoke:v1",
+  "title": "assessment-agent-revoke.v1",
+  "description": "Closed P026-012b contract. Authority dependencies grant nothing and do not establish inference ancestry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer.md",
+    "doc/project/40-proposals/073-agent-orchestration-organ.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval/ref"
+  ],
+  "properties": {
+    "approval/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    }
+  }
+}

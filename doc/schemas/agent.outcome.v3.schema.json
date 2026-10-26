@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:agent.outcome:v3",
+  "title": "agent.outcome.v3",
+  "description": "Closed P026-012b contract. Authority dependencies grant nothing and do not establish inference ancestry.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "accepted",
+  "x-dia-basis": [
+    "doc/project/40-proposals/026-assessment-agent-consumer.md",
+    "doc/project/40-proposals/073-agent-orchestration-organ.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "agent/id",
+    "binding/ref",
+    "passage/ref",
+    "manifest/ref",
+    "product/ref",
+    "product/digest",
+    "context/authority-dependencies",
+    "lifecycle/epoch",
+    "request/ref"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent.outcome.v3"
+    },
+    "agent/id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "binding/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "passage/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "manifest/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "product/ref": {
+      "type": "string",
+      "pattern": "^agent-private-result:sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "product/digest": {
+      "type": "string",
+      "pattern": "^sha256:([A-Za-z0-9_-]{43}|[0-9a-fA-F]{64})$"
+    },
+    "context/authority-dependencies": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "lifecycle/epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18446744073709551615
+    },
+    "request/ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    }
+  }
+}

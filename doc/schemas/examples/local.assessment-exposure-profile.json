@@ -1,0 +1,29 @@
+{
+  "schema": "assessment-exposure-profile.v1",
+  "profile/id": "local-assessment-pilot.v1",
+  "mode": "blind-until-own-judgment",
+  "applies-to": {
+    "record-kinds": [
+      "opinion"
+    ],
+    "subject-kinds": [
+      "*"
+    ]
+  },
+  "withheld": [
+    "peer-ratings",
+    "peer-rationales",
+    "aggregates",
+    "counts",
+    "rating-order",
+    "popularity-badges"
+  ],
+  "unlock": [
+    "own-first-judgment",
+    "explicit-skip",
+    "subject-window-elapsed"
+  ],
+  "subject-window/seconds": 172800,
+  "exempt/record-kinds": [],
+  "guarantee": "local-display-only"
+}

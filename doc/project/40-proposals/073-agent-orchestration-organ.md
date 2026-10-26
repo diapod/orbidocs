@@ -337,7 +337,8 @@ payload bytes.
 
 #### Assessment Observations
 
-**Planned, 2026-10-23.** A controller acting for a viewer consumes that viewer's
+**Partial local continuation, 2026-10-24.** A controller acting for a viewer
+consumes that viewer's
 [P026 exposure projection](026-resource-opinions-and-discussion-surfaces.md#viewer-bound-api-projection),
 after ordinary capability admission. Reuse authenticated caller/delegation
 binding and the existing host observation resolver. Missing viewer identity or
@@ -354,6 +355,42 @@ missing prior exposure evidence prevents independence claims. Corpus and panel
 roles additionally obey their sealed-round profile, without domain logic in
 `agent-core`. Urgent protective evidence remains subject to the shared admitted
 exception, not blanket suppression or model-authored urgency.
+
+The first implementation registers the exact `assessment:<kind:id>` source and
+view schema with the host observation resolver. Current caller and represented
+participant bindings must agree; a module identity or an asserted participant
+alone does not supply viewer authority. Focused host fixtures include a synthetic
+controller crossing that boundary and refusal of implicit skip. They retain their
+scripted owner scope; the [P026 local checkpoint](026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+records real Agora host/browser acceptance separately. The complete prior-context,
+fork/resume, alternate-tool and represented-viewer matrix remains open. No model
+or cognitive-independence qualification follows.
+
+The separate [Q-02 checkpoint](026-resource-opinions-and-discussion-surfaces.md#q-02-bounded-evidence-checkpoint-2026-10-24)
+qualifies actual local-control Agent controller/observation passages against real
+Agora at clean Node 4e29d5d3 / Orbidocs 48282704. The ordinary daemon runs without
+the acceptance feature: withheld, explicit operator release and suspend/resume
+preserve matching source-version metadata; wrong represented participant refuses.
+A missing operational-context qualifier found on this real path was repaired
+through the shared validated contract, without bypassing the caution gate or
+lowering the local floor. Generation is the existing deterministic adapter, with
+no real model. Positive module cases are separately `fixture-bound-input` with a
+finite CallerBinding admitted through the real owner, not production delegation.
+Production participant provisioning remains todo in P026-012 (identity host,
+P073, P066). Full prior-context/fork/alternate-tool and cognitive-independence
+qualification remain open. See
+`node:docs/evidence/agent-runtime/2026-10-24-rate-exposure-q02/README.md`.
+
+The [critical Q-02 review](026-resource-opinions-and-discussion-surfaces.md#q-02-critical-review-evidence-checkpoint-2026-10-24)
+adds v2 ordered-witness qualification at clean Node 6abf71df / Orbidocs d09d1035.
+The actual local-control binding/participant, deterministic setup, request/response
+Agent and binding refs, steps 1/2/3, explicit operator skip, changed suspend/resume
+states and identity-specific refusal must agree. Source and images are rechecked
+after cleanup; all 42 verifier negatives refuse normally, under `-O` and after
+extraction. Earlier v1 checks alone did not establish all those relationships;
+their archive and tools remain unchanged. Positive module HTTP is driven by the
+credential-bearing harness, not its fixture application's own behavior or
+production provisioning. Full prior-context/fork/alternate-tool scope remains open.
 
 #### Inference posture and execution provenance are not Agent identity
 
@@ -1015,7 +1052,7 @@ Agent Core. It narrows, but does not close, the aggregate rows below.
 
 | ID | Work item | Status | Done criteria / evidence |
 | :--- | :--- | :--- | :--- |
-| `assessment-exposure-observations` | Consume the represented viewer's assessment projection without fallback leaks. | `todo` | Depends on P026-005/006/007. Reuse caller-scoped host resolution and controller observation/effect paths; test missing/wrong viewer, withheld vs denied, alternate tools, prior context, fork/resume, traces and explicit-skip consent. Retain synthetic controller plus host evidence for P026-008; no model/full campaign is needed for these contract tests and no cognitive-independence claim follows. |
+| `assessment-exposure-observations` | Consume the represented viewer's assessment projection without fallback leaks. | `partial` | Depends on P026-005/006/007. Reuse caller-scoped host resolution and controller observation/effect paths; test missing/wrong viewer, withheld vs denied, alternate tools, prior context, fork/resume, traces and explicit-skip consent. Retain synthetic controller plus host evidence for P026-008; no model/full campaign is needed for these contract tests and no cognitive-independence claim follows. The 2026-10-24 implementation registers the caller-bound assessment source and refuses implicit skip; focused controller/host fixtures use scripted owner responses. Real P026 run 04 qualifies the Agora view separately. The complete prior-context, fork/resume, alternate-tool and represented-viewer matrix remains open. Review fixtures refuse wrong/missing represented participants and lower classification before owner reads. Review run 01 remains a real operator Agora-view checkpoint, not delegated or full Agent runtime qualification. Q-02 run 07 separately qualifies ordinary local-control controller/real Agora withheld/released and suspend/resume passages with a deterministic adapter, plus wrong-participant refusal. Three module cases remain fixture-bound-input; production provisioning is P026-012 todo under identity host/P073/P066. Full history/fork/alternate-tool matrices remain open. Critical Q-02 review run 02 qualifies ordered real local-control identity/lifecycle witnesses with final source/image pins and 42 normal/-O/extracted negative cases. Harness-driven module HTTP does not qualify application behavior or provisioning; full matrices remain open. |
 | `agent-inference-execution-posture` | Expose scoped Proposal 090 posture for the selected built-in or external runtime binding without turning it into Agent identity or authority. | `partial` | P090-003a/006 implement scoped operator inspection and runtime/profile fingerprint checks; P090-004a adds independently scoped invocation preflight. The remaining Agent/Room exposure must reuse these foundations. Agent Host binds `inference-execution-posture.v1` to the assertion owner, exact Agent/runtime binding and profile generation, task/turn or Room-policy scope, validity, and processing-boundary ref. Agent Core carries only the bounded provider-neutral value. Missing, expired, invalid, contradictory, and unrelated-boundary posture remains `unknown` or non-match; posture grants no inference, egress, context, file lease, membership, floor, or effect authority and is never copied as realized evidence. Assistant and Room preflight conformance consume the same value. |
 | `agent-operational-context-framing` | Propagate source-owned operational impact into pre-inference Agent context without adding vertical vocabulary to `agent-core`. | `done` | `agent-core` carries only bounded generic qualifier refs and strict SHA-256 digests. The daemon resolver validates the complete current P082 read result, source generation, effective publication, schema, and digest before deriving those neutral qualifiers; stale, malformed, inconsistent, or superseded evidence fails closed without an Agent-owned TTL. The composition root computes a monotone local maximum across feeds, records host-owned provenance pairing each source class with its digest plus the local policy ref, floor, and selected class in both request metadata and the durable Inquirium trace, and supplies the versioned non-droppable P064 caution layer before feed-dependent inference. The trace receives that host projection directly rather than trusting caller metadata or provider output. Tests retain per-source evidence, prove order-independent maximum and provenance selection, and keep the at-most-512-byte source summary out of instructions and durable Agent payloads. |
 | `agent-inference-execution-provenance` | Preserve and monotonically compose Proposal 090 provenance across built-in Inquirium passages, external-runtime products, parent products, terminal selection, traces, `agent.outcome.v2` or compatible successors, and consumer projections. | `partial` | Agent Core carries only the provider-neutral descriptor/ref and pure join. Compatible V2 passage product/invoke response/terminal selection/trace/outcome contracts are implemented for the Inquirium inference-Flow path; exact parent mapping, monotone mixed/unknown composition, stripping refusal, stronger-fact-first persistence, interrupted-bundle repair, dirty restart, and replay without reinvocation or duplicate charge are tested. External-runtime products/outcomes have durable generic V2 sidecars, and an ordinary controller step preserves the exact external V2 commit through `agent.controller-execution-provenance.v1`, prompt-free trace evidence, and terminal `agent.outcome.v2`; recovery deterministically recomputes the bridge. Three-host Story-012 acceptance interrupts and resumes the real Codex-backed Reviewer Agent, binds evidence to each observed step even when the later status has advanced, and retains the final step-11 sidecar ref in the passing report. P090-006b/006c additionally close explicit host-owned supplied-input manifests and durable parent/effect composition for current controllers; P090-009d binds their signed synthesis, with P090-012b as the shared scoped gate. Broader posture/disclosure, additional source/effect families and full Room projections remain open; provider-native session/account/auth/endpoint data and runtime-specific vocabulary remain outside Agent Core. P090-004b2/004b2a additionally close the ordinary Inquirium text-controller source journal and 36-case write/refusal matrix. Current inline Assistant/Corpus publication paths are implemented; this does not close additional controller/source/effect families, remote-resolution or full Room projection work. |
@@ -1118,3 +1155,37 @@ or replace its retained three-host acceptance evidence.
   `agent.assistant-response-draft.v1`, `corpus-chair-admission.v1`,
   `corpus-agent-answer-draft.accept.request.v1`, and
   `corpus-agent-answer-draft.v1`.
+
+### P026-012a / 012b boundary
+
+The accepted [production viewer design](026-assessment-viewer-grants.md) splits provisioning from the consumer. 012a changes only authenticated ChannelJson module assessment reads. Its active projection grants no Agent observation, context, signing, inference or effect authority. The three identity.assessment-viewer management names are absent from the Agent catalogue and denied in Agent dispatch. 012b separately owns consumer binding, observation provenance, final inference admission and the context/fork/resume/alternate-tool matrix. Parent P026-012 and P073 remain partial until that qualification.
+
+P026-012a measured checkpoint (2026-10-25): eight ordinary-daemon/application/browser cases and separate component fault/session proofs qualify only the bounded ChannelJson module grant. P066 remains the sole durable consent/consumption/revoke owner. See [the grant checkpoint](026-assessment-viewer-grants.md#measured-checkpoint-2026-10-25) and `node:docs/evidence/agent-runtime/2026-10-24-p026-012a/README.md`. P026-012b positive P073 consumer policy/observation/final inference admission remains todo; parent P026-012/P073 stay partial.
+
+
+P026-012a critical-review checkpoint (2026-10-25): clean Node `9b2e3b47` / Orbidocs `298671c5` qualifies eight ordinary-daemon/application/browser cases after repairing terminal clock loss on P066 failure, post-consumption activation/status admission and fresh source checks. Sixteen owner and nine source-pin tests pass; normal/-O and loose/extracted verification agrees with 67 negative controls per location. Four older verifier gaps and initial failures remain retained. Native clock/SQLite/queued-origin proofs remain separate from ordinary-process observations. See `node:docs/evidence/agent-runtime/2026-10-25-p026-012a-review/README.md` and `node:docs/audits/REVIEW-P026-012A-2026-10-25.md`. This enforces the accepted contract without adding authority; old receipts are not retroactively promoted to stronger source-freshness claims. P026-012a stays done within the local profile; parent P026-012/P073 remain partial and 012b remains todo.
+
+
+### P026-012b closed consumer design (2026-10-25)
+
+The accepted [closed assessment consumer](026-assessment-agent-consumer.md) adds a separately consumed P066 consent for an exact P073 binding and live 012a activation. It freezes authority dependencies, witness-only final admission, a fresh host-constructed passage and RAM-only delivery to its authenticated module holder. Contract acceptance is not implementation or runtime evidence. Memory/recall/history, inherited forks and other recipients remain P026-012c; parent P026-012/P073 remain partial.
+
+
+### P026-012b bounded measured checkpoint (2026-10-25)
+
+The [closed consumer checkpoint](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25) qualifies separate P066 consumption, exact ChannelJson holder/session, P073 binding and fresh context, final witness admission and module-private RAM results. Nine ordinary cases pass at Node ea9138ba / Orbidocs 6097c43b; the current inert-data verifier rejects 77 controls normally/optimized before and after extraction. Owner faults and queued clocks remain component evidence. P066 keeps sole durable consent ownership; authority dependencies do not promote P090 genealogy. No actual model or product module is qualified. Only the closed 012b profile closes; 012c remains deferred, while parent P026-012/P073 and release readiness remain partial. Historical Q-02/012a evidence is unchanged.
+
+
+### P026-012b-r1 review boundary
+
+The [accepted correction](026-assessment-agent-consumer-r1.md) versions private
+HMAC commitments and explicit unmetered consent, separates read-only inspection
+from first-holder consumption, and retains possible-disclosure manifests after
+failed dispatch. Its [measured r1 checkpoint](026-assessment-agent-consumer-r1.md#measured-checkpoint-2026-10-25) passes ten cases and 93 controls normal/-O loose/extracted. Original run-10 evidence
+is historical and unchanged. Shared assessment observation rendering deliberately
+uses User/Postamble HostObservation for new generic Q-02 passages too; replaying
+its pinned older source and rerunning current source are different prompt claims.
+Committed products are binding/launch-owned and may be issued to a reconnected
+current session; stale passages cannot commit. Closed lifecycle operations retain
+local-control/record-owner authority. Historical metadata retention remains open
+before 012c, irrespective of the direct product index.

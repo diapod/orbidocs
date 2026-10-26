@@ -1,0 +1,9 @@
+{
+  "subject": {
+    "resource/kind": "url",
+    "resource/id": "https://example.org/article"
+  },
+  "event": "encounter",
+  "idempotency/key": "encounter:1",
+  "unknown/field": true
+}

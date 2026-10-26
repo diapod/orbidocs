@@ -1,0 +1,9 @@
+{
+  "schema": "assessment-exposure-fact.v1",
+  "viewer/ref": "participant:fixture",
+  "subject/key": "url:https://example.org/article",
+  "event": "subject-first-seen",
+  "profile/digest": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "recorded/at": "2026-10-24T00:00:00Z",
+  "idempotency/key": "encounter:1"
+}

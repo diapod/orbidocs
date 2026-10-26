@@ -20,6 +20,7 @@ MIDDLEWARE_SCHEMA_WHITELIST = (
     "nym-issuance-request-sealed.v1.schema.json",
     "nym-issuance-decision-sealed.v1.schema.json",
 
+
     "sensorium-device-discovery.request.v1.schema.json",
     "sensorium-device-discovery-candidate.v1.schema.json",
     "sensorium-device-discovery-result.v1.schema.json",
@@ -60,6 +61,39 @@ SCHEMA_WHITELIST = (
     "nym-issuance-decision.v1.schema.json",
     "nym-source-status.v1.schema.json",
     "nym-exchange-sealed.v1.schema.json",
+
+    "agent.supplied-input-manifest.v3.schema.json",
+    "agent.outcome.v4.schema.json",
+    "agent.product.read.request.v3.schema.json",
+    "agent.product.read.response.v3.schema.json",
+    "agent.private-module-result.v2.schema.json",
+    "assessment-agent-run-result.v2.schema.json",
+    "assessment-agent-intent.v2.schema.json",
+    "agent.controller-execution-provenance.v2.schema.json",
+
+    "assessment-agent-run-result.v1.schema.json",
+    "agent.product.read.request.v2.schema.json",
+    "agent.product.read.response.v2.schema.json",
+
+    "agent.binding.v3.schema.json",
+    "agent.context-authority.v1.schema.json",
+    "agent.outcome.v3.schema.json",
+    "agent.private-module-result.v1.schema.json",
+    "agent.supplied-input-manifest.v2.schema.json",
+    "assessment-agent-intent.v1.schema.json",
+    "assessment-agent-list.v1.schema.json",
+    "assessment-agent-request.v1.schema.json",
+    "assessment-agent-revoke.v1.schema.json",
+    "assessment-agent-run.v1.schema.json",
+
+    "assessment-viewer-intent.v1.schema.json",
+    "assessment-viewer-request.v1.schema.json",
+    "assessment-viewer-list.v1.schema.json",
+    "assessment-viewer-revoke.v1.schema.json",
+    "assessment-exposure-profile.v1.schema.json",
+    "assessment-exposure-command.v1.schema.json",
+    "assessment-exposure-fact.v1.schema.json",
+    "resource-assessment-view.v1.schema.json",
     "responsibility-maintenance-index.local.v1.schema.json",
     "responsibility-maintenance-grant.local.v1.schema.json",
     "responsibility-maintenance-plan.local.v1.schema.json",
@@ -693,6 +727,17 @@ EXAMPLE_WHITELIST = (
     "initial.nym-issuance-request.json",
     "issued.nym-issuance-decision.json",
 
+
+    "fixture.agent-outcome.v4.json",
+    "fixture.agent-supplied-input-manifest.v3.json",
+    "fixture.agent-supplied-input-manifest.v2.json",
+    "fixture.agent-binding.v3.json",
+    "fixture.agent-outcome.v3.json",
+
+    "local.assessment-exposure-profile.json",
+    "local.assessment-exposure-fact.json",
+    "local.assessment-exposure-command.json",
+    "local.resource-assessment-view.json",
     'm5-unallocated.responsibility-maintenance-alert.local.v1.json',
     'm5-unallocated.responsibility-maintenance-retention-hold.local.v1.json',
 
@@ -1299,6 +1344,17 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "wrong-label.agent-outcome.v4.json",
+    "wrong-label.agent-supplied-input-manifest.v3.json",
+    "missing-dependencies.agent-supplied-input-manifest.v2.json",
+    "overflow-dependencies.agent-supplied-input-manifest.v2.json",
+    "recall.agent-binding.v3.json",
+    "invented-ancestry.agent-supplied-input-manifest.v2.json",
+
+    "unknown-field.assessment-exposure-profile.json",
+    "unknown-field.assessment-exposure-fact.json",
+    "unknown-field.assessment-exposure-command.json",
+    "unknown-field.resource-assessment-view.json",
     'm5-unknown-generation.responsibility-maintenance-alert.local.v1.json',
     'm5-false-pinned.responsibility-maintenance-alert.local.v1.json',
     'm5-unallocated-address.responsibility-maintenance-retention-hold.local.v1.json',
@@ -1955,6 +2011,38 @@ GOLDEN_WHITELIST = (
 )
 
 SCHEMA_GATE_AGORA_SCHEMA_WHITELIST = (
+    "agent.supplied-input-manifest.v3.schema.json",
+    "agent.outcome.v4.schema.json",
+    "agent.product.read.request.v3.schema.json",
+    "agent.product.read.response.v3.schema.json",
+    "agent.private-module-result.v2.schema.json",
+    "assessment-agent-run-result.v2.schema.json",
+    "assessment-agent-intent.v2.schema.json",
+    "agent.controller-execution-provenance.v2.schema.json",
+
+    "assessment-agent-run-result.v1.schema.json",
+    "agent.product.read.request.v2.schema.json",
+    "agent.product.read.response.v2.schema.json",
+
+    "agent.binding.v3.schema.json",
+    "agent.context-authority.v1.schema.json",
+    "agent.outcome.v3.schema.json",
+    "agent.private-module-result.v1.schema.json",
+    "agent.supplied-input-manifest.v2.schema.json",
+    "assessment-agent-intent.v1.schema.json",
+    "assessment-agent-list.v1.schema.json",
+    "assessment-agent-request.v1.schema.json",
+    "assessment-agent-revoke.v1.schema.json",
+    "assessment-agent-run.v1.schema.json",
+
+    "assessment-viewer-intent.v1.schema.json",
+    "assessment-viewer-request.v1.schema.json",
+    "assessment-viewer-list.v1.schema.json",
+    "assessment-viewer-revoke.v1.schema.json",
+    "assessment-exposure-profile.v1.schema.json",
+    "assessment-exposure-command.v1.schema.json",
+    "assessment-exposure-fact.v1.schema.json",
+    "resource-assessment-view.v1.schema.json",
     "agora-record-authoring.v1.schema.json",
     "resource-ref.v1.schema.json",
     "seed-capability-registration.v1.schema.json",

@@ -690,21 +690,33 @@ Status:
   [Agora P17](008-agora-backlog.md#p17-public-gossip-resource-links) separately
   tracks public-gossip related-link projection and navigation.
 
-### Planned Assessment Exposure and Round Projections
+<a id="planned-assessment-exposure-and-round-projections"></a>
 
-Status: `planned`, owned by
-[P026 section 6 and P026-005–011](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
-The existing opinion runtime checkpoint does not implement this continuation.
+### Local Assessment Exposure and Deferred Round Projections
+
+The bounded local-SQLite exposure pilot is implemented and qualified separately
+from the earlier opinion runtime checkpoint. The wider continuation is `partial`,
+owned by [P026 section 6 and P026-005–011](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#6-assessment-exposure-and-sealed-rounds).
+The [2026-10-24 checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-evidence-checkpoint-2026-10-24)
+separates the four frozen contracts, implementation and focused tests from nine
+real local host/API/UI/CLI cases and JavaScript/no-JavaScript Chrome acceptance.
+Agent and notification owner fixtures retain their component/scripted-host scope.
+P026-006 is done for local policy/private facts; P026-005/007/008 remain partial,
+and sealed rounds remain planned. Earlier SQLite/Matrix opinion qualification
+retains its original scope. The [review checkpoint](../../40-proposals/026-resource-opinions-and-discussion-surfaces.md#local-pilot-review-evidence-checkpoint-2026-10-24) records monotone commands, bounded author isolation, default route refusal and the new source-pinned local runtime; wider qualification remains partial.
 
 Keep `agora-service` read admission and exposure as separate steps:
 `admit -> expose -> render`. `node:agora-service/src/opinion_query.rs` already
 accepts a per-topic admission callback and consumes raw `OpinionPage` values;
 reuse this seam without encoding `withheld` as authorization refusal or leaking
 inaccessible record existence. Decide exposure before peer pagination, ranking
-and metadata construction. UI, CLI, Agent observations, details/by-id, search,
-exports and streams use the same viewer projection. Hidden peer data must not
-alter counts, cursors, ETags, ordering or notification activity. This remains a
-local-display guarantee, not confidentiality from other public relays.
+and metadata construction. The first slice exposes a viewer projection with up to 100 entries per own/peer
+lane to UI, CLI and registered Agent/notification adapters. Mixed raw
+reads, details/search/exports and streams refuse access without a viewer-safe
+binding; richer pagination and inspection require separate qualification. Hidden
+peer data must not alter counts, cursors, ETags, ordering or notification activity.
+The active profile currently requires local SQLite. This remains a local-display
+guarantee, not confidentiality from other public relays.
 
 `agora-projections` remains rebuildable from admitted relay records. Private
 viewer encounter/unlock/release facts belong to a separate S028 service-owned

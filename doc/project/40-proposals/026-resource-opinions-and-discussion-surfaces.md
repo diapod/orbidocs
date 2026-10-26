@@ -13,9 +13,11 @@ rebuild, with retained SQLite and Matrix evidence. Rich discussion surfaces and
 Agora P17 navigation remain future work; this qualification does not establish
 production readiness or cross-homeserver federation.
 
-The assessment-exposure and sealed-round continuation added on 2026-10-23 is
-**planned**, not covered by that qualification. Its prospective contracts and
-tasks below do not change existing schema or runtime status.
+The assessment-exposure continuation has a bounded local-SQLite pilot, qualified
+on 2026-10-24 as recorded in the local evidence checkpoint below. Its contract
+freeze, implementation, focused component tests and real host/browser acceptance
+are separate claims. The wider consumer continuation remains partial; sealed
+rounds remain planned. The P026-001–003 qualification retains its original scope.
 
 ## Date
 
@@ -529,6 +531,7 @@ The proposed `resource-assessment-view.v1` has this illustrative withheld shape
 ```json
 {
   "schema": "resource-assessment-view.v1",
+  "viewer/ref": "participant:viewer-placeholder",
   "subject/key": "url:https://example.org/article",
   "exposure": {
     "state": "withheld",
@@ -563,6 +566,267 @@ replication and explicitly privileged inspection remain outside the local-displa
 guarantee and must be identified as such, not silently used by a viewer's Agent.
 An Agent inherits the represented viewer's scope; it cannot synthesize a skip
 from tool availability. A skip requires that viewer's authorized, explicit choice.
+
+#### Local Pilot Contract Freeze (2026-10-24)
+
+The first local slice freezes `assessment-exposure-profile.v1`,
+`assessment-exposure-fact.v1`, `assessment-exposure-command.v1` and
+`resource-assessment-view.v1`. Runtime qualification is recorded separately in
+the local evidence checkpoint; the freeze does not establish runtime completion.
+Each own/released-peer entry retains its admitted open `opinion` body, including
+rumor credibility and rejection overlays; the legacy `opinions.v2` projection is
+unchanged. This preserves P013's typed content rather than reducing every opinion
+to the optional generic scalar. The view additionally binds `viewer/ref`; the authenticated host derives that
+value from its current caller binding. Public commands contain only a subject,
+an optional admitted transition, idempotency key and accepted-record cause.
+An asserted viewer, module identity or Agent `participant_ref` alone grants no
+viewer authority. The existing authenticated host/middleware channel carries the
+resolved binding to the service; the product's shared token cannot represent it. The
+first browser binding requires explicit operator authentication; a loopback UI
+without authentication or a regular user session cannot borrow the backend's
+operator control identity.
+
+The pilot withholds all six rating/rationale/aggregate/count/order/badge items;
+`peer-discussion` remains an explicit optional selection. The local profile's
+resource-kind selectors remain open. Sealed-round mode is recognized and refused
+until its separate owner contracts and acceptance exist. No public exposure
+assertion or independence credential is added to an opinion.
+
+Encounter and unlock are explicit authenticated commands. Reading a view is pure;
+an elapsed window or open policy needs a durable release transition before peer
+content can be returned. An explicit encounter may record that transition, including a repeated command evaluated with a new explicit time (the reviewed monotone semantics below). A local
+encounter names an opaque subject and neither probes record existence nor grants
+record access. Every rendered record still passes the ordinary topic admission.
+The private service-owned S028 store is independent of relay projection rebuild.
+It retains sufficient summaries through compaction and records unknown history
+after loss, with bounded subject and event populations.
+
+The first implementation profile requires the explicit local-SQLite backend;
+Matrix startup refuses while exposure is configured until publication-receipt
+metadata is independently qualified. Reference-bearing parent/supersedes signing
+also refuses until it can use viewer-bound admission. Signed-record ingest and
+operator projection rebuild are explicit transport/maintenance operations outside
+the viewer display guarantee and cannot be observation fallbacks for an Agent.
+
+The initial viewer projection is bounded to 100 entries per lane. Mixed raw relay
+pages and raw record inspection using only the shared product token refuse while
+the profile is configured; their relay cursors, counts and SSE cannot safely be
+reused as viewer metadata. Consumers use the host projection instead. Rich
+viewer-safe pagination and a separately privileged raw inspection interface need
+their own implementation and evidence before introduction. Existing typed rumor
+propagation, protection and appeal owners retain their admitted paths. The
+protective opinion exception list is empty until concrete closed kind contracts
+are admitted; sender urgency or a generic moderation marker cannot populate it.
+
+#### Local Pilot Review Amendment (2026-10-24)
+
+The operator accepted two review amendments before implementation. Local command
+idempotency is monotone per viewer/subject/command kind, grounded in retained facts;
+repeated encounters evaluate a new explicit `now`. Client request keys are
+correlation references, not permanent request-result receipts. Balanced/minimal
+S028 retention compacts sufficient summaries at the event bound. No compaction
+removes release/history facts or creates an independence credential. Full-audit
+retains its no-pruning rule and an explicit capacity refusal.
+
+A diagnosed opinion is quarantined rather than vetoing its whole subject. The
+released lane uses deterministic bounded author contributions; its conservative
+`degraded: true` marker always denotes bounded/incomplete coverage, not a count or
+health oracle for denied topics. This marker is absent while peers are withheld.
+The first candidate policy takes up to 64 topics per author (4096 total candidates)
+and up to 16 admitted opinions per author, round-robin before the 100-entry limit.
+It does not claim global completeness, Sybil resistance or constant database cost.
+Whole opinion entries may be omitted to satisfy the host response byte bound;
+fields within a retained opinion are never silently truncated.
+
+An open/out-of-selector read with no release fact returns
+`disclosure-not-recorded`, empty withholding/unlock lists and `peers: null` until
+an explicit encounter records disclosure. Withheld views may show the viewer's
+own window origin/deadline/state. A probe-only read distinguishes an exact
+`exposure-not-configured` refusal from closed/active state without resolving a
+viewer or reading that viewer's assessments. UI authentication precedes a real
+viewer query. Product routes use an audited allowlist with default refusal;
+record-target moderation markers and state-probing POSTs cannot bypass exposure.
+Rendered UI/CLI commands may pin the displayed `profile/digest`; a mismatch
+refuses before effects. Client keys do not grant authorization. The private store
+uses SQLite FULL as a disclosure-before-content durability floor; this is not
+physical power-loss qualification. Its stopped-owner local inspection/compaction
+utility exposes private capacity counters, never a viewer-facing history export.
+Capacity, forbidden unlock and transient storage failure have distinct status and
+retryability contracts; scope and full-audit bounds remain operator-visible.
+These contract amendments do not renew the earlier runtime checkpoint; their
+implementation and new acceptance evidence are recorded separately.
+
+#### Local Pilot Evidence Checkpoint (2026-10-24)
+
+The accepted local freeze covers four closed profile/fact/command/view contracts.
+Node implements the pure policy, separate private S028 fact store and authenticated
+host projection, with bounded UI, CLI, registered Agent and notification adapters.
+Focused component tests cover clock uncertainty, failed writes, retention gaps,
+idempotency, profile changes, viewer isolation and replay. A common-view regression
+releases a view, revokes its topic admission, verifies omitted peer content and
+retains the same durable release summary after reopen/replay. Agent-controller and
+notification-owner fixtures use scripted owner responses and retain that scope.
+
+The original `2026-10-24-local-04` report pins clean Node `63ece2a4` and Orbidocs
+`7cf59bf4`. Nine real local-SQLite host/API/UI/CLI cases passed, including authenticated
+caller refusals, byte-stable withheld views after hidden judgment changes, rumor
+body withholding/release, accepted own judgment, process restart and Agora projection
+rebuild. Actual Chrome runs cover JavaScript enabled and disabled. Independent
+qualification verifies the retained original witness bytes and hashes; negative
+verifier regressions use copies of that passed report. Evidence and the two prior
+refused attempts are retained under `node:docs/evidence/agent-runtime/2026-10-24-rate-exposure/README.md`.
+
+This checkpoint qualifies the bounded local display pilot. P026-005 remains partial
+because round/protective-kind contracts have separate gates. P026-007/008 retain
+wider consumer acceptance work, including the complete P013, notification and Agent
+matrices. The rumor fixture preserves opinion extension fields through the common
+view; it does not introduce a standalone rumor-overlay admission schema or qualify
+the complete Whisper curation/propagation workflow. Registered notices remain
+informational and polling-only, without an automatic assessment-notification
+producer. Matrix/federation, sealed rounds, P051/P069, real models, full campaigns,
+psychological independence, social effectiveness and release readiness remain
+outside this evidence.
+
+#### Local Pilot Review Evidence Checkpoint (2026-10-24)
+
+Review run `2026-10-24-review-01` pins clean Node `91babeb0` and Orbidocs
+`414acd72`. Nine bounded real-process cases pass, including byte-identical hidden
+views with the viewer's own running window, a viewer-free closed probe, default
+new-route refusal, record-marker queries, identical known/missing POST refusals,
+stale profile consent without effects, CLI parity, restart/rebuild and Chrome
+JavaScript/no-JavaScript window/deadline rendering. Cleanup is confirmed.
+Independent v2 qualification agrees normally, with Python `-O` and after archive
+extraction; all 38 evidence mutations refuse. Historical reports and the v1
+qualifier remain unchanged. See
+`node:docs/evidence/agent-runtime/2026-10-24-rate-exposure-review/README.md` and
+`node:docs/audits/REVIEW-RATE-EXPOSURE-2026-10-24.md`.
+
+Migration from full legacy receipts, the exact event-capacity boundary, full-audit
+refusal, offline maintenance, 4,097-topic author isolation, open/unselected state
+and explicit-time expiry remain component evidence. The current real UI/CLI
+viewer is the node operator. Other represented participants and Agent/notification
+bindings retain synthetic-host scope, including pre-read identity/classification
+refusal and centralized attention exclusions. No actual assessment notification
+producer, full Agent prior-context matrix, multi-user runtime, physical power-loss,
+complete/Sybil-resistant coverage, Matrix/federation or release readiness is
+qualified. P026-005/007/008 and P013/P057/P073 continuation statuses remain partial;
+P026-006 remains done only for local policy/private facts.
+
+#### Q-02 Bounded Qualification Contract (2026-10-24)
+
+Accepted scope: the module-as-viewer case uses a harness-admitted `CallerBinding`
+inserted into the daemon's existing resolver through its normal owner API. No
+resolver replacement, viewer assertion from a module, or production provisioning
+surface is admitted. The insertion/removal hook exists only under an explicit
+acceptance build feature; evidence binds that feature set, source and executable.
+These cases have class `fixture-bound-input`, separate from production-path
+`runtime` cases. The ordinary `module:*` binding must return `viewer-unbound`,
+without operator fallback, raw observation fallback or automatic skip.
+
+Expiry and revocation must refuse the next read while preserving durable release
+facts. Restart must not restore the harness lease; re-admission may demonstrate
+that the original release facts survived. Agent qualification uses existing local
+control, independently of the harness binding. A deterministic test adapter may
+exercise its actual controller/observation/trace path without a real model; it is
+not inference, prior-context completeness or cognitive-independence qualification.
+
+The module path is qualified only with a harness-admitted binding. Production
+modules cannot be assessment viewers until the separate identity-host provisioning
+slice exists. P026-005/007 remain partial. This contract is not runtime evidence.
+
+#### Q-02 Bounded Evidence Checkpoint (2026-10-24)
+
+Run `2026-10-24-q02-07` pins clean Node `4e29d5d3` and Orbidocs `48282704`.
+Seven cases pass with confirmed cleanup. Four have class `runtime`: real identity
+creation, ordinary module refusal, production local-control Agent passages and
+Agent suspend/resume with wrong-participant refusal. Three have class
+`fixture-bound-input`: module viewer isolation, release plus expiry/revocation,
+and restart/reset/replay. Their `origin: synthetic-input` cannot become a production
+provisioning claim. Actual Cargo feature receipts and executable hashes bind the
+ordinary daemon (no features), the acceptance-only variant and real Agora owner.
+
+The supervised module on B represents A's real participant only after the harness
+inserts a finite CallerBinding through the same owner API as startup. No resolver
+is replaced. Ordinary `module:*` reads return `viewer-unbound`; claimed viewers,
+bound/unbound module skip and raw fallback refuse without starting operator history.
+After release, expiry/removal refuses the next read. Restart loses the fixture
+lease; explicit re-admission and Agora reset/replay retain durable release facts.
+The two-second window is a bounded fixture setting, not scheduler qualification.
+
+The Agent runs independently on the ordinary binary and existing local control.
+Three actual controller passages use withheld, explicitly released, then resumed
+released views; metadata source-version digests match the real Agora views. The
+first passage does not encounter or skip. The existing deterministic Story-011
+adapter loads no model. Runtime testing exposed a missing operational-context
+qualifier in the adapter: the repair uses the shared validated context contract,
+keeps its read-only research source class and preserves the controller's monotone
+local caution floor. Module replies also gained missing private cache headers.
+No common admission or caution gate was weakened.
+
+Independent qualification agrees normally, with `-O` and after extraction. All 21
+evidence mutations refuse in both modes (44 invocations), including on extracted
+evidence. Six incomplete original attempts remain retained with their distinct
+causes; the sixth records the controller adapter defect. See
+`node:docs/evidence/agent-runtime/2026-10-24-rate-exposure-q02/README.md` and
+`node:docs/audits/Q02-RATE-EXPOSURE-2026-10-24.md`.
+
+Production modules still cannot become participant viewers: P026-012 provisioning
+belongs to identity host/P073/P066 and remains todo. P026-005/007/008 and the full
+P073 history/fork/alternate-tool matrix remain partial. Multi-user UI, actual
+assessment notification production, wider transports, sealed rounds, models,
+social/cognitive independence and release readiness are not qualified. Earlier
+browser/pilot evidence is unchanged; this checkpoint adds no browser run.
+
+#### Q-02 Critical Review Evidence Checkpoint (2026-10-24)
+
+Review run `2026-10-24-q02-review-02` pins clean Node `6abf71df` and Orbidocs
+`d09d1035`, passes seven cases and confirms cleanup plus source/image agreement
+after process shutdown. Four cases remain `runtime`; the three positive module
+cases remain `fixture-bound-input`. The ordinary binary has no acceptance feature;
+only B's binary enables the hook. Production provisioning remains absent.
+
+Review found that serde's unit revoke variant accepted extra fields. The closed
+empty struct variant now refuses them without removing the binding; malformed
+resolver state also refuses instead of silently bootstrapping. Only an unknown
+removed selector permits re-admission. Actual HTTP invalid-revoke/lease witnesses
+and native regressions pass. No caller authority or exposure policy was widened.
+
+Six manipulated copies still qualified with the historical verifier: omitted
+admission/mutation/restart reads, another Agent refusal cause, reversed lifecycle
+and encounter replaced by skip. They diagnose verification gaps, not observed
+runtime bypasses. V2 retains unchanged v1 structural checks and adds ordered
+identity creation, signed admission and peer changes, same-viewer binding loss,
+completed reset/replay and Agent identity/step/lifecycle witnesses. Final source
+and selected-image drift cannot produce a passed runtime report. Build failure
+removes stale receipts; clean Orbidocs revision changes during build also refuse.
+
+Normal/-O and loose/extracted v2 results agree. All 42 evidence manipulations
+refuse in both modes (86 invocations), including after final archive extraction.
+Twelve daemon assessment tests, nine source/image/receipt guard tests and Clippy
+pass. A first review runtime passed but remains refused at qualification because
+the verifier incorrectly expected HTTP 201 from existing HTTP 200 identity
+creation. That attempt, the initial native regression and the historical Q-02
+archive/tools retain their separate causes and meaning. See
+`node:docs/evidence/agent-runtime/2026-10-24-rate-exposure-q02-review/README.md` and
+`node:docs/audits/REVIEW-Q02-RATE-EXPOSURE-2026-10-24.md`.
+
+The module HTTP client is the trusted harness using the supervised fixture's
+credentials. The real HTTP authentication/resolver path is qualified; the module
+application's own request-generation behavior, consent and signed delegation are
+not. Binding expiry follows existing host UTC; clock rollback/long-duration
+qualification remains outside this short case. Data-only verification is not a
+third-party execution attestation or standalone offline signature verification.
+P026-012 remains todo, and P026-005/007/008 plus the full P073 matrix remain partial.
+There is no new browser, notification-producer, model, federation, sealed-round,
+independence or release claim.
+
+#### P026-012a Production ChannelJson Checkpoint (2026-10-25)
+
+The [accepted grant contract](026-assessment-viewer-grants.md) is implemented and qualified within its bounded local profile. Run 06 at clean Node `e726624c` / Orbidocs `2e73ed3a` passes eight ordinary-daemon/application/browser cases with empty Cargo feature sets and confirmed cleanup/source-image agreement. The application itself calls the authenticated SDK; the harness never reads its credentials. Operator consent and P066 consumption precede use. Module HTTP reads and self-answer refuse. Real expiry, revoke, module/daemon restart and reset/replay preserve private exposure facts without retaining activation. Foreign records are `signed-fixture-input` through real admission.
+
+Separate component checks at Node `5d6200a1` cover paired-time and persistence failures, concurrency, session retirement and the authenticated old frame queued before owner admission while a new launch receives a production-owner/P066 grant. This is not a forced-queue or global query-meter observation in the ordinary daemon. The current qualifier binds the full causal chain and rejects 59 rehashed mutations normally/under `-O` both loose and after extraction. Original Q-02 and refused attempts remain unchanged; source snapshots are never executed. See `node:docs/evidence/agent-runtime/2026-10-24-p026-012a/README.md` and `node:docs/audits/P026-012A-2026-10-25.md`.
+
+P026-012a is done only for one local operator, one node and the acceptance application. Parent P026-012/P073 and P026-005/007/008 remain partial; 012b separately owns positive Agent consumer policy, observation provenance and final inference/context/fork/resume/alternate-tool qualification. There is no product-module, replication, physical-clock, power-loss, hostile-OS, model, round or release claim. Earlier statements that production provisioning is absent describe their dated historical checkpoints.
 
 #### Shared Commitment and Barrier Contract
 
@@ -1073,17 +1337,23 @@ and navigation remain the single-source task
 [Agora P17](../60-solutions/008-agora/008-agora-backlog.md#p17-public-gossip-resource-links),
 which can proceed independently and must not block basic open-namespace support.
 
-### Assessment-exposure continuation (planned)
+<a id="assessment-exposure-continuation-planned"></a>
+
+### Assessment-exposure continuation
 
 | ID | Task | Status | Dependencies | Completion gate |
 |---|---|---|---|---|
-| P026-005 | Freeze shared exposure and round contracts | todo | Existing P026 identity and admission contracts; P091; S028 | Audit all read/notification/ranking/raw-access paths; freeze closed policy/fact/view shapes, authenticated viewer and encounter/release semantics, limits, protected-kind bindings and Q-02/Q-03. Freeze typed domain bindings, exact commitment bytes, authority/receipt/clock/fork rules and secret retention for rounds separately. Add Schema Gate positive/negative fixtures; no new runtime capability claim from schema presence. |
-| P026-006 | Local exposure policy and private temporal facts | todo | 005 local contracts | Pure policy with explicit time, durable encounter/unlock/release facts and replayable bounded summaries; use S028 mechanics outside ProjectionStore. Prove restart, idempotency, authorization revocation, profile change, retention gaps, clock uncertainty and failed-write behavior. |
-| P026-007 | Viewer projection across Agora consumers | todo | 006 | Compose admit/expose in the service; gate every audited list/detail/search/export/ranking/stream/CLI/Agent surface without changing authorization. No peer-derived cursors, ETags, counts or zero placeholders while withheld; own/protective lanes remain bounded. Register only actual new operations through P072 if existing operations cannot carry the contract. |
-| P026-008 | Local exposure acceptance | todo | 007; P013-AE-001; P057-014; P073 assessment-exposure-observations | Source-pinned host/API/no-JS and JS browser evidence passes the local cases above, including notifications, Agent identity, leak matrix, rebuild and retention. Local-display-only scope remains explicit; no sealed-round or social-effectiveness claim. |
+| P026-005 | Freeze shared exposure and round contracts | partial | Existing P026 identity and admission contracts; P091; S028 | Audit all read/notification/ranking/raw-access paths; freeze closed policy/fact/view shapes, authenticated viewer and encounter/release semantics, limits, protected-kind bindings and Q-02/Q-03. Freeze typed domain bindings, exact commitment bytes, authority/receipt/clock/fork rules and secret retention for rounds separately. Add Schema Gate positive/negative fixtures; no new runtime capability claim from schema presence. Local checkpoint 2026-10-24: the four local contracts and their Schema Gate fixtures are frozen. Round authority/receipts/commitment bytes and concrete protective-kind bindings remain deferred; the local exemption list is empty. Review amendment: monotone command facts, new explicit encounter time, bounded degraded coverage, disclosure-pending/window and probe shapes are adopted; this does not close round contracts. Q-02 freezes feature-bound owner admission as fixture input, distinct from production provisioning (P026-012); runtime evidence does not close the deferred contracts. Critical Q-02 review enforces the existing closed hook contract without changing domain semantics; provisioning and round gates remain separate. |
+| P026-006 | Local exposure policy and private temporal facts | done | 005 local contracts | Pure policy with explicit time, durable encounter/unlock/release facts and replayable bounded summaries; use S028 mechanics outside ProjectionStore. Prove restart, idempotency, authorization revocation, profile change, retention gaps, clock uncertainty and failed-write behavior. Local checkpoint 2026-10-24: pure/core and private-store tests cover the stated local gates; the common-view revocation regression preserves durable release while omitting denied content. Original run 04 adds real process restart and projection rebuild evidence. This closes local policy/private facts only. Review boundary/migration tests cover full legacy receipts, atomic balanced/minimal compaction, full-audit refusal and stopped-owner maintenance while retaining disclosure/history. |
+| P026-007 | Viewer projection across Agora consumers | partial | 006 | Compose admit/expose in the service; gate every audited list/detail/search/export/ranking/stream/CLI/Agent surface without changing authorization. No peer-derived cursors, ETags, counts or zero placeholders while withheld; own/protective lanes remain bounded. Register only actual new operations through P072 if existing operations cannot carry the contract. Local checkpoint 2026-10-24: the bounded view (up to 100 entries per own/peer lane) and registered adapters are implemented; mixed raw reads/streams/reference-signing probes refuse unbound access. Rich pagination, wider consumer qualification and separately privileged viewer-safe inspection remain future work. Review implementation uses a default-deny route allowlist, record-marker/POST refusal, pre-read UI/Agent admission and one attention exclusion policy; bounded coverage remains explicit. Q-02 run 07 qualifies real harness-bound module isolation/loss/restart and ordinary local-control Agent passages; production module viewers remain unavailable until P026-012. Critical review closes extra-field revoke and malformed-owner fallback in the acceptance-only hook; module HTTP remains driven by the credential-bearing harness. |
+| P026-008 | Local exposure acceptance | partial | 007; P013-AE-001; P057-014; P073 assessment-exposure-observations | Source-pinned host/API/no-JS and JS browser evidence passes the local cases above, including notifications, Agent identity, leak matrix, rebuild and retention. Local-display-only scope remains explicit; no sealed-round or social-effectiveness claim. Original run 04 qualifies nine local host/API/UI/CLI cases and real JS/no-JS browsers. Component/synthetic-host Agent and notification fixtures are recorded separately. The full joint P013/P057/P073 matrix and wider transport/profile qualification remain open. Review run 01 adds the new refusal/window witnesses at clean Node 91babeb0 / Orbidocs 414acd72; independent v2 and 38 negative verifier cases agree before and after extraction. Q-02 run 07 adds seven bounded real-process cases at Node 4e29d5d3 / Orbidocs 48282704: four runtime and three fixture-bound-input, including real Agent suspend/resume. Normal/-O/extracted qualification and 21 negative verifier cases agree; six incomplete attempts remain retained. Full matrices and provisioning stay open. Q-02 review run 02 at Node 6abf71df / Orbidocs d09d1035 adds final source/image agreement and v2 ordered authority/Agent witnesses; all 42 negatives refuse normal/-O and after extraction. The initial qualification refusal remains retained. |
 | P026-009 | Shared commitment and barrier mechanics | todo | 005 round contracts | Reuse canonical JSON/crypto, signer and durable owner primitives. Prove salt/domain isolation, exact transport bytes, bounded accepted-set closure, admission receipts, forks/equivocation, explicit deadlines and replay. Library mechanics do not count as an implemented domain publication barrier. |
 | P026-010 | Agora sealed-round owner and projections | todo | 009; 007 | Implement four admitted record kinds, owner/CAS/outbox, protected local body/salt retention and round-aware projection with per-commitment outcomes. Unknown kinds remain unindexed by legacy opinion consumers; no private governance/Room payload is forced into public Agora. |
 | P026-011 | Sealed-round adversarial acceptance | todo | 010 | Retain round cases above through real signer, relay, owner and viewer APIs; test cutoff races, omitted receipted entries, forked authority, abort, missing history, restart and bounds. Public transport qualification remains scoped; P051/P069 bindings require their own evidence and are not prerequisites for local-gate delivery. |
+| P026-012 | Provision represented local callers | partial | Identity host; P073; P066; P026-005 | Accepted 2026-10-24 v2 split: 012a is production ChannelJson module provisioning; 012b owns the separate P073 consumer. See [the frozen 012a contract](026-assessment-viewer-grants.md). Historical Q-02 remains fixture-bound evidence. |
+| P026-012a | Provision an operator's assessment viewer over ChannelJson | done | P066; identity host; P080 | Bounded checkpoint 2026-10-25: run 06 at clean Node e726624c / Orbidocs 2e73ed3a qualifies eight ordinary-daemon/application/browser cases with no acceptance feature, actual SDK calls, P066 consumption, privacy, budget and lifecycle. Separate component proofs cover captured queued origin, clocks, persistence and concurrency. Current normal/-O/extracted qualification and 59 negative controls per location agree. Critical review run 01 at Node 9b2e3b47 / Orbidocs 298671c5 additionally qualifies lifecycle/source repairs with eight runtime cases, 16 owner/nine pin tests and 67 controls normally/-O/extracted. See the checkpoints and frozen contract; no product module, positive P073 consumer or release claim. |
+| P026-012b | Bind a closed P073 consumer to production viewer authority | done | 012a; P073; P066 | Bounded 2026-10-25 checkpoint: [closed consumer](026-assessment-agent-consumer.md#measured-closed-profile-checkpoint-2026-10-25), nine ordinary cases at Node ea9138ba / Orbidocs 6097c43b; separate component faults and 77 normal/-O loose/extracted controls. Fresh host context, exact holder, independent consent and RAM-only result. No model/product-module/012c/release claim. |
+| P026-012c | Extend dependent Agent context and recipients | todo | 012b; P073; P066 | Separately freeze and qualify durable memory/recall/history, inherited forks and other recipients. No capability is supplied by 012b contract acceptance. |
 
 ## Open Questions
 
@@ -1166,3 +1436,8 @@ it is not evidence that the new consumer tasks are complete:
 10. Require future forum/thread/channel discussion artifacts to mark human-authored
     versus agent-authored contributions through explicit authorship/origin flags,
     reusing the P004/P011 provenance pattern.
+
+
+P026-012a critical-review checkpoint (2026-10-25): clean Node `9b2e3b47` / Orbidocs `298671c5` qualifies eight ordinary-daemon/application/browser cases after repairing terminal clock loss on P066 failure, post-consumption activation/status admission and fresh source checks. Sixteen owner and nine source-pin tests pass; normal/-O and loose/extracted verification agrees with 67 negative controls per location. Four older verifier gaps and initial failures remain retained. Native clock/SQLite/queued-origin proofs remain separate from ordinary-process observations. See `node:docs/evidence/agent-runtime/2026-10-25-p026-012a-review/README.md` and `node:docs/audits/REVIEW-P026-012A-2026-10-25.md`. This enforces the accepted contract without adding authority; old receipts are not retroactively promoted to stronger source-freshness claims. P026-012a stays done within the local profile; parent P026-012/P073 remain partial and 012b remains todo.
+
+P026-012b-r1 review corrections are frozen in [the revision contract](026-assessment-agent-consumer-r1.md). Its run-04 new-wire checkpoint passes ten cases and 93 controls normal/-O loose/extracted (372 refusals), at Node `f5838744` / Orbidocs `4cc2f494`; see `node:docs/evidence/agent-runtime/2026-10-25-p026-012b-r1/README.md`. Run 10 remains historical evidence for its original source and profile. Historical metadata retention stays open before 012c; no parent/release promotion follows.
