@@ -114,6 +114,16 @@ to another epoch or fall back to the predecessor. The fixture uses its own
 short collection lease; this proves the same boundary, not a one-hour runtime
 observation. This replaces the earlier per-reset public-revision barrier.
 
+Let `U` be the greatest collection expiry of every published status before the
+reset. Choose the replacement certificate's `not-before >= U + 5 seconds`.
+Both its trusted publication anchor and actual local reception must satisfy
+that lower validity bound with at most the same five-second tolerance. Testing
+only the publication anchor would apply the future-publication allowance a
+second time and permit an early local admission. At the earliest permitted
+local receipt `r = U`, the old collection lease (`r < U`) has already ended.
+Public validity timestamps still permit temporal inference; this profile does
+not claim timing anonymity or hide the council's contemporaneous knowledge.
+
 Previously accepted contributions survive natural certificate expiry, but cease
 to count after source revocation or epoch end. Historical admission facts do not
 change during replay; replay verifies their stored proof and policy identity,
