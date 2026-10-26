@@ -5516,3 +5516,21 @@ private capsule passes primary readback (`ae99ef9c` / `9bc3b85e`). Fresh readine
 firmware/TCC and actual six-session/restart/native qualification remain open;
 P096-005 stays partial. No product rebuild, thresholds, hardware, recovery,
 migration or branch merge. See node:docs/audits/REVIEW-SENSORIUM-R19-CONDITIONAL-PREPARATION-2026-10-26.md.
+
+
+### R19 native two-pass result — 2026-10-26
+
+Fresh scoped readiness, firmware 1.0.25 from Muse iOS, exact-client allowed
+permission and bounded TCC attribution precede six actual WEAR decisions. Five
+ordinary sessions release and yield seven records; the controlled native fault
+exits its worker, keeps its claim and supplies two more valid records under one
+full tuple (`cf22826c`). All original gates pass for those nine records. Overall
+unmodified collection still exits 2: no restart checkpoint; only
+restart-unclosed-marker is missing. Checkpoint failure details were discarded, so the exact historical refusal is
+unknown. A retained, hash-verified real-controller test proves a lock-lifetime
+hazard in the entry whenever unresolved owners still hold custody. Software used a borrowed cfg(test)
+view and did not cover that entry mismatch. Root journal is 465/65 Cases, one
+claim retained; 44 target reports are retrieved exactly. The 83-member private
+capsule passes primary readback (`572b5726` / `f531c376`). No native retry, restart,
+reset, recovery or merge. P096-005 remains partial; prospective production-path
+fix and device-free regression remain next. See node:docs/audits/REVIEW-SENSORIUM-R19-PARTIAL-NATIVE-2026-10-26.md.
