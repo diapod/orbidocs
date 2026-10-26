@@ -5534,3 +5534,23 @@ claim retained; 44 target reports are retrieved exactly. The 83-member private
 capsule passes primary readback (`572b5726` / `f531c376`). No native retry, restart,
 reset, recovery or merge. P096-005 remains partial; prospective production-path
 fix and device-free regression remain next. See node:docs/audits/REVIEW-SENSORIUM-R19-PARTIAL-NATIVE-2026-10-26.md.
+
+
+### Production checkpoint custody regression — 2026-10-26
+
+Node implementation checkpoint: `cb98a5df`.
+
+Prospective restart capture borrows the existing controller and affine Case
+writer, verifies exact fenced history and preserves closed refusal diagnostics.
+The first actual software regression exposed a second writer re-acquisition;
+that defect is fixed without changing any qualification gate. The normal runner
+now passes six software episodes/ten records/one synthetic tuple (`7e0f6aaf`) in
+144.35 s, using its production-generated checkpoint. One hundred standard Rust
+checks, the explicit full composition, 445 Python checks (three skipped) and
+non-test compilation pass; eight ordinary owner opt-ins remain explicitly skipped
+in that filter. Private 108-member proof passes byte readback (`b1c4cfe9` /
+`4c4d4350`), with current retention metadata and unresolved ownership/holds/minimum
+retention/restoration/replicas left unknown. Native r19 stays nine records with
+its missing checkpoint and unknown historical refusal; no software/new-candidate
+record can fill that tuple. No device, target mutation, restart, recovery or merge.
+P096-005 stays partial. See node:docs/audits/REVIEW-SENSORIUM-CHECKPOINT-CUSTODY-2026-10-26.md.
