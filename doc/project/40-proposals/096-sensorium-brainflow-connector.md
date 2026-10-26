@@ -5595,3 +5595,15 @@ The private 459-member proof passes byte readback (`71150e83` / `651c264f`), wit
 unknown retention facts and a disclosed read-store ctime-only exception. Original
 native nine-record tuple stays incomplete; P096-005 remains partial.
 See node:docs/audits/REVIEW-SENSORIUM-R19-RADIO-RECONCILIATION-2026-10-26.md.
+
+
+### R20 operational prerequisite and collector readiness — 2026-10-26
+
+Node checkpoint: `377511b8`.
+
+Supported, separately approved retirement of expired r19 has reserved r20 while
+preserving consent, recovery and Case history. Reused collection contracts cover
+the ten original records in software; no new native or actual-restart evidence
+is inferred. P096-005 remains partial, with fresh interactive headband/firmware,
+exact-client access, one complete new native tuple and separate actual-restart
+approval still required. See node:docs/audits/REVIEW-SENSORIUM-R20-CONDITIONAL-PREPARATION-2026-10-26.md.
