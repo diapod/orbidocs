@@ -416,6 +416,57 @@ has SHA-256
 it retains setup refusals and confirmation that the temporary binary was
 removed. This is not cross-machine message-delivery evidence.
 
+## P076-038: Two physical host consent renewal qualification
+
+**Status: contract adopted; implementation and qualification in progress.** The
+claim `acceptance-claim:p076-038-two-physical-host-renewal-v1` requires exactly
+two logical nodes on two distinct physical hosts, independent synthetic root
+admissions, separate storage and direct product WSS. It qualifies recipient-side
+receipt after V2 renewal under all three P091 modes. It does not establish
+offline message delivery, production HTTPS status retrieval, or release readiness.
+The holder's mode governs whether it queries an observed grant; the presenter
+obeys the `cached-only` or `allow-owned-fetch` choice in the request, even when
+its own P091 mode is more permissive. An authority may infer when a presenter
+makes an allowed own-grant query. A local `status_disclosure=omit` cannot silently
+produce an offline-ready consent.
+
+A signed `issuance-revocation-status.v1` with `as_of` in `(now, now+5 s]` can
+advance durable revision high-water marks and known revocations. It cannot
+authorize before its signed `as_of`. More than five seconds of future offset
+is a refusal. The existing 300-second lease, `valid_until`, and narrower child
+profile still use the issuer's signed times and are never lengthened by this
+tolerance. A pending send receives the typed local `status-not-yet-valid`
+reason and signed `retry/at`; at that time the owner rechecks the current root,
+custody, revocations and freshness using retained status, without a new peer
+request or status HTTP call. The old local readiness/send v2 projections retain
+`revocation-view-stale`; new closed v3 read and send decisions expose the new
+reason. The v3 host send alias retains the existing Messaging capability
+binding. The local renewal preflight uses v2 for a typed activation time;
+legacy v1 remains available.
+
+The two independent query witnesses are the daemon's bounded process-epoch
+acquisition counters and a loopback-only acceptance forwarder on each host.
+Counters record closed role, reason and decision/HTTP stages, plus sent and
+handled peer-renewal counts; they contain no grant, peer, endpoint or status
+content. The read-only owner route also exposes the current P091 mode and
+`resolution/id`, or explicit unavailability. The forwarders use one fixed
+upstream on a synthetic authority and count each status request including 503.
+The identical loopback endpoint is placed in both grants before signing; the
+status signature provides integrity, while this profile makes no TLS or DNS
+claim. A discrepancy between owner and network counts is a finding to resolve.
+
+The profile uses the P074 physical harness for SSH control, revision pins,
+leases, storage isolation, clock offsets and `federation-run.v1`. Each host
+builds ordinary product processes from the same clean source revision via a
+private Git bundle; no origin push is required. Mode windows are sequential
+because P091 is node-scoped. Owner counter snapshots and `resolution/id`
+bound each window to events; S020 stays active and its queries are classified
+by reason. Signed short-profile fixtures age naturally. The gate includes
+role reversal, receiver-side receipt, restart of each role, durable withdrawal
+and signed status-revision rollback. It excludes directory rollback and power
+loss. Source and evidence commits remain separate, and the tracker closes only
+after the complete two-host gate and evidence-retention checks.
+
 ## Implementation Tracker
 
 Work is vertical, with review and qualification at the end of each slice. A schema
@@ -433,6 +484,7 @@ or unit test alone never closes a runtime gate.
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
+| P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | in progress | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 

@@ -887,3 +887,8 @@ not revoke a signed lease that is still valid. Signed parent/child withdrawal
 publication has a distinct bounded retry worker outside S020 so that pausing
 status refresh cannot suppress protective publication. See
 [P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+P076-038 keeps this job active during physical mode windows and attributes its
+status queries by the owner-recorded acquisition reason. A scheduled query is
+separate from the send-triggered peer preflight, so a window can have zero
+holder queries on demand even when S020 performs its allowed refresh.

@@ -3095,3 +3095,8 @@ resolution fails closed for those queries; an in-flight query may complete
 through the ordinary verifier. This is a consumer-specific application of P091,
 not a change to the general resolver or signed lease. See
 [P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+P076-038 reads the current mode and `resolution/id` through a read-only owner
+projection alongside bounded acquisition counters. Physical acceptance changes
+the isolated file source atomically and observes the new resolution before each
+mode window; a copied configuration label cannot prove that a decision used it.

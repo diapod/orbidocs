@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-status-acquisitions.local:v1",
+  "title": "Messaging status acquisition process counters",
+  "description": "Read-only process epoch counters. A counter is an observation, not a grant or a durable receipt.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "process/epoch",
+    "policy",
+    "counts",
+    "peer-renewal"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-status-acquisitions.local.v1"
+    },
+    "process/epoch": {
+      "type": "string",
+      "pattern": "^epoch:[0-9a-f]{1,32}$"
+    },
+    "policy": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "mode",
+            "resolution/id"
+          ],
+          "properties": {
+            "state": {
+              "const": "resolved"
+            },
+            "mode": {
+              "enum": [
+                "online",
+                "scheduled-only",
+                "no-observed-grant-query"
+              ]
+            },
+            "resolution/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "const": "unavailable"
+            }
+          }
+        }
+      ]
+    },
+    "counts": {
+      "type": "array",
+      "maxItems": 144,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason",
+          "role",
+          "stage",
+          "count"
+        ],
+        "properties": {
+          "reason": {
+            "enum": [
+              "presentation",
+              "grant-import",
+              "refresh",
+              "scheduled-pending-observation",
+              "operator-refresh",
+              "operator-pending-observation",
+              "peer-renewal",
+              "local-reevaluation"
+            ]
+          },
+          "role": {
+            "enum": [
+              "local-delegate",
+              "observation",
+              "explicit-import"
+            ]
+          },
+          "stage": {
+            "enum": [
+              "policy-allowed",
+              "policy-denied",
+              "policy-unavailable",
+              "http-attempt",
+              "http-success",
+              "http-failure"
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          }
+        }
+      }
+    },
+    "peer-renewal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sent",
+        "handled"
+      ],
+      "properties": {
+        "sent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "handled": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

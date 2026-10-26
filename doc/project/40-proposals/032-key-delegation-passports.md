@@ -821,3 +821,10 @@ local observations or online fallback. Local observation
 store capacity has a distinct unavailable cause; it is neither issuer revocation
 nor a claim that the remote status authority is down. Owner policy changes are
 audited local metadata, not signed delegations, and create no authority.
+
+P076-038 keeps the signed `as_of` as the first possible authorization time.
+Within five seconds of local clock lead, a signed status can advance durable
+revision and withdrawal knowledge while use remains pending. The local retry at
+`as_of` rechecks the current root and profile without another status acquisition.
+This tolerance never extends `valid_until` or the 300-second lease. See
+[P076-038](076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).

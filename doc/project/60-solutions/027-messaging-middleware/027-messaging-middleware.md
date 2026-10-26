@@ -717,6 +717,15 @@ publication retries independently of S020; pausing status refresh is visible
 without invalidating a still-current lease. This is not message delivery offline.
 See [P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
 
+P076-038 separates signed-time verification, owner-local deferred observation,
+send retry scheduling and physical transport. A status up to five seconds ahead
+of the local clock is retained as negative knowledge but cannot authorize use
+until `as_of`; the next local retry rechecks active trust and uses no new fetch.
+The v3 readiness/send views expose `status-not-yet-valid` while old v2 views
+project it to `revocation-view-stale`. The P074 profile must prove receiver-side
+receipt and distinct holder/presenter authority-query counts. See
+[P076-038](../../40-proposals/076-limited-messaging-grants-decision.md#p076-038-two-physical-host-consent-renewal-qualification).
+
 The subsequent review adds owner-confirmed disclosure controls on the existing
 grant page and bounded actor/time/old/new policy history. Normal windows expose
 one latest change per grant; exact-grant windows expose at most 64. Repeated
