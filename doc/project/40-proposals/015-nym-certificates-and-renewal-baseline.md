@@ -368,10 +368,14 @@ bound applicant-to-nym mappings in logs, ledgers, status and retained artifacts.
 These rows track the contextual continuation separately from the existing P081
 verification adapter. The 2026-10-25 schema, pure-verifier and erasable custody
 foundation does not qualify issuer/applicant runtime or either acceptance gate.
-The optional Node issuer currently provides ciphertext-only phase preparation,
-a durable metadata-only offer bootstrap, key custody and encrypted-image
-preflight; domain acceptors, decisions, status delivery and scheduled cleanup
-remain pending. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
+The optional Node issuer foundation now includes ciphertext-only phase preparation,
+metadata-only offer bootstrap, key custody, encrypted-image preflight and the
+context-scoped decision/status lifecycle. Its ordinary applicant and issuer host
+adapters and closed local API contracts are being integrated on the authorship
+branch. Software conformance does not qualify the two-daemon AD/INAC path: actual
+issue/renew/reject/reset, host signing, cleanup, restart and replay still require
+Gate A/B runtime evidence. The new public v2 content contracts do not renew the
+historical node-counting M4 qualification. Follow `node:DEV-GUIDELINES.md` and update Node's ledger when
 implementation evidence exists.
 
 | ID | Task | Status | Depends on | Completion gate |

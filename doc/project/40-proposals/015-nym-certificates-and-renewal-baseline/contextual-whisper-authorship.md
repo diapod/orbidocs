@@ -61,15 +61,28 @@ The receiving relay must first admit the record strictly before epoch end; skew
 does not extend an epoch. A publication time after local receipt plus skew is
 refused. A valid certificate can therefore expire before history reaches C.
 
-For Matrix the evidence is a full PDU with verified content hash, event reference
-hash and server signature, bound to room, event, sender and exact author bytes.
-The configured server/key is an explicit time authority for this profile.
-Verification of a signature alone does not establish an objective clock. The
-runtime must request federation-format events; a Client-Server timestamp without
-verified PDU evidence is insufficient. The qualified Synapse profile supports
-federation-format `/sync` and `/messages`; unsupported adapters defer rather than
-substituting the author's timestamp. Full PDU exports used by an acceptance
-qualifier do not constitute runtime verification.
+The immutable profile binds `publication/matrix-time-policy =
+authenticated-admitted-homeserver-v1` and `publication/sqlite-time-policy =
+signed-admitted-relay-receipt-v1`; changing either policy changes the profile
+digest. This draft refinement invalidates no released certificate or Gate A/B
+result, because those runtime gates are not yet qualified.
+
+For Matrix, the phase-1 policy explicitly trusts `origin_server_ts` supplied
+by the configured, independently admitted homeserver over an authenticated
+Client-Server connection. The trusted network adapter binds that observation to
+the account, room, event, sender and exact author bytes; a timestamp inside the
+carrier or author document cannot supply it. Persist this backend observation
+with admission for restart/replay. No author timestamp, unsigned relay stamp or
+unadmitted server is a fallback clock authority.
+
+This is authenticated homeserver-time evidence, not runtime verification of a
+server-signed full PDU. Full-PDU hashes/signatures/size remain independent
+acceptance evidence. Matrix supports federation-format events through a `/sync`
+filter, but this policy does not require that optional runtime verifier or a
+Server-Server API identity. Neither TLS authentication nor an event signature
+establishes an objective clock or an honest homeserver. The operator accepts the
+named server's clock for this phase; the fixture's explicit isolated loopback
+HTTP channel is a fixture-only trust profile, never a production TLS substitute.
 
 For SQLite use an allowlisted relay's signed durable admission receipt binding
 record digest, exact author-byte digest, relay identity and acceptance time.
@@ -82,15 +95,47 @@ The two limits are explicit profile fields, never added to clock tolerance.
 Missing/stale status is `deferred`, not a permanent rejection. Revocations are
 cumulative within the epoch; signed rollback and same-revision equivocation
 refuse. Every change to a signed status payload, including refreshed timestamps, uses
-a new revision. Durable high-water marks survive restart and rebuild. A certificate's
-minimum revision prevents reset from counting old and replacement sources at
-once. Eligibility and the emission latch commit under the same status-revision
-CAS. Imported claims cannot replace local eligibility or first-emission facts.
+a new revision. Durable high-water marks survive restart and rebuild. Public
+certificates use the profile/epoch's stable status floor, not a per-request or
+per-reset revision that would identify a revoked predecessor. The private
+issuance decision binds the actual minimum publication revision. Eligibility
+and the emission latch commit under the same status-revision CAS. Imported
+claims cannot replace local eligibility or first-emission facts.
+
+On 2026-10-26 the operator accepted an activation quarantine for private reset.
+The replacement source cannot be used while any status from before the reset
+could still be admitted under the collection lease. The binding retains this
+activation boundary through renewal, restart and another node's request. The
+certificate's earliest tolerated publication time must be no earlier than that
+boundary; subtracting the five-second certificate tolerance must not create an
+overlap. A reset too late to leave a nonempty certificate interval before epoch
+end refuses explicitly. It does not silently activate, carry the contribution
+to another epoch or fall back to the predecessor. The fixture uses its own
+short collection lease; this proves the same boundary, not a one-hour runtime
+observation. This replaces the earlier per-reset public-revision barrier.
 
 Previously accepted contributions survive natural certificate expiry, but cease
 to count after source revocation or epoch end. Historical admission facts do not
 change during replay; replay verifies their stored proof and policy identity,
 not today's clock. The current view uses the current verified status separately.
+
+The narrow P081 bridge keeps request audience `agora-ingest` and a one-shot
+presentation bound to the exact unsigned Agora candidate. Its certificate has
+the fixed `whisper-contextual-authorship` audience and rumor-context digest.
+Only the concrete verified `whisper-signal.v2` profile bridges these contexts;
+this is not a generic audience rewrite. Outer and presentation certificates must
+be byte-equivalent under JCS and identify the same certified nym/source.
+
+The presentation's `revocation/evidence-ref` is a stable scope locator:
+`nym-source-status-scope:` followed by base64url SHA-256 of the JCS object with
+`schema = nym-source-status-scope.v1`, `profile/digest`, `issuer/id`,
+`context/digest` and `epoch`. It is not a snapshot or freshness lease. The owner
+fetches and verifies the current signed scope status independently. No complete
+revocation inventory is copied into each author envelope. P081 possession and
+certificate validity use the independently trusted publication anchor; nonce
+reservation uses actual local reception and remains through epoch end. Signal
+preview/signing uses the collection lease, while the separate first aggregate
+emission requires the stricter emission lease.
 
 ### Renewal, preview and first emission
 
@@ -142,7 +187,10 @@ are reused with explicit purpose and AAD; no new cryptographic construction.
 outside DB/WAL, application backups, logs and retained evidence. Each context/epoch permits at most 2048 issued certificates, including renewals
 and replacements. Reserve this quota before effects, including the capacity to
 revoke all issued certificates/sources. Cumulative status arrays allow 4096
-entries each; retirement does not replenish issuance quota. The active plus
+entries each; retirement does not replenish issuance quota. Their public signed
+status has a separate 512 KiB canonical-JSON byte ceiling, sufficient for both
+full inventories. This does not raise the private P015 plaintext (64 KiB), sealed
+exchange (96 KiB), Agora envelope or Matrix PDU budgets. The active plus
 retiring key cap is separately 4096; capacity refusal precedes minting or issuance effects.
 The provider pins its instance and encrypted volume. Missing mount is a typed
 refusal, never directory creation on an underlying unencrypted filesystem.
@@ -182,11 +230,69 @@ an infinite timestamp or silently use epoch-end plus retention. Publication-link
 metadata is held with the erasable key, not in retained destruction receipts.
 The current fixed-deadline custody primitive alone does not implement this phase.
 
+### Opaque private snapshots and factual publication readback (2026-10-26)
+
+The stable context/epoch key fences the opaque journal. It must not encrypt
+identifying maps or expose stable participant lookup deltas next to public reset
+revocation deltas. Each full private current-state snapshot instead uses a fresh,
+independently random erasable snapshot key. The outer checkpoint contains only
+opaque key/chunk references, ciphertext, public signed status and nonidentifying
+nonce-bearing decision commitments/prepared encrypted replies. Identifying lookup
+maps remain inside that snapshot; the current map has no predecessor/reset link.
+This uses the existing bounded checkpoint, not an unbounded historical map cache.
+
+A reset's publication ACK retires every prior private snapshot key that could
+recover the old map, the old binding key and all issuer-side request/bootstrap/
+transition keys that retain the reset link, within the profile reset buffer.
+The current independent snapshot remains readable. Retaining the epoch fencing
+key or restoring an old DB/WAL must not recover those old maps. Obsolete key
+references may remain opaque for bounded reconciliation; permanent destruction
+receipts contain no participant, source or publication-link metadata. This
+protects controlled retained bytes, not outside timing inference or the council's
+prior knowledge. Pending keys count toward the same provider capacity ceiling.
+
+Key creation enters awaiting-publication before a domain snapshot references it.
+The exact committed head is then attached by provider CAS before exposing an
+output. Finalization stops future use without inventing a destruction timestamp;
+normal minimum end-of-use remains the epoch boundary, while reset finalization
+uses the accepted shorter reset rule. A duplicate operation cannot choose new
+keys, deadlines or bytes after a crash.
+
+Publication ACK is a durable historical fact, not a collection/emission lease.
+The owner selects the exact prepared signed status and committed head; its trusted
+publisher adapter reads that publication back. The verifier checks signature,
+canonical exact bytes, scope, minimum revision and required revocations, with an
+observed time no earlier than status issuance. Status expiry or epoch end does
+not invalidate factual readback completed later. It does not renew status
+freshness for admission or emission.
+The verified readback time and its exact signed status are committed under a
+provider-fenced Ready head before cleanup. Reopening that head must finish key
+acknowledgements locally even when the publisher is now offline; it cannot
+repeat network I/O as a prerequisite for the already acknowledged retirement.
+The frozen time cannot move forward on a restart.
+ Equality/crypto conformance alone proves no
+backend I/O; real publication/readback remains a runtime Gate A obligation.
+
 Destruction durably retires a key, fences and drains operations, removes the key
 file, fsyncs its directory and persists a receipt. Provider-local lifecycle
 metadata prevents old DB restore from undoing retirement. Startup finishes due
 destruction before decrypting private state. A missing key never invokes
 get-or-create or mints a replacement counting source.
+
+Normal epoch closure is an explicit owner transition even when no later request
+arrives. It fences a complete opaque key-handle set, verifies factual readback,
+commits Closed state and acknowledges the current map/bindings before the epoch
+fence key. Closing does not mint a post-epoch key or renew eligibility. The outer
+journal never exposes a cumulative epoch-keyed nym-tag history: such tags belong
+inside erasable full snapshots, because their deltas can reveal a reset successor.
+
+After the profile's finite replay-retention window, a bounded owner sweep removes
+closed-scope request/result markers and ciphertext caches. A provider-local
+metadata-only retirement revision fences the purge, so restoring an older database
+cannot revive lookup results. It does not reactivate a key. A lookup with no retained
+result means `not-found-or-expired`; it is never permission to reissue. Bootstrap
+exchanges that never reached a context decision need the same bounded sweep using
+their immutable verified epoch/deadline and expired recipient-key state.
 
 The guarantee covers logical unreadability of controlled database, WAL and app
 backup copies. It does not cover raw SSD/APFS blocks, snapshots or images that
@@ -394,3 +500,32 @@ its existing 300-second budget, independent of nym source-status freshness.
 Nym-only grants do not make Messaging issuance/readiness ready and cannot issue
 Messaging send or receive passports. This is the narrow P015 exception to P076's
 original Messaging-only decision, not an expansion of its historical evidence.
+
+
+### Qualification blockers found during implementation review (2026-10-26)
+
+The current private exchange draft requires another correction before Gate A.
+A still-live global bootstrap recipient can open historical first-leg metadata;
+that metadata must not contain the participant, actual nym, context or real
+signed-request digest. Use an independently random exchange handle and an
+unlinked ephemeral proof key for that anonymous first leg. The full request
+still carries the participant signature and actual nym proof inside its
+per-exchange encrypted recipient.
+
+Durable global replay binds the opaque handle and phase to the exact sealed
+input digest, exact sealed output, artifact identity and finite deadline. It
+must not retain a request-to-context/status/checkpoint join. Identifying reply
+membership, decision material and quota belong in independently erasable
+private snapshots; a phase-qualified provider fence preserves the same replay
+bytes without reopening an erased map. Domain idempotency still uses the real
+signed-request digest inside that private boundary. No pool of random handles
+or transport receipt grants council authority.
+
+A positive software attack probe reproduced the old bootstrap/checkpoint join.
+The current baseline also generated a public status revision for every request,
+which exposed a reset through the new certificate's unique minimum revision.
+Neither software conformance nor a passing workspace gate qualifies these
+privacy properties. Gate A remains pending until both counterexamples fail on
+the corrected design and the real private runtime is qualified. Gate B remains
+pending independently. Timing analysis, the issuer's contemporaneous knowledge
+and copies of its still-live keystore/image remain outside the erasure claim.

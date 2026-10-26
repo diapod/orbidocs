@@ -117,5 +117,6 @@
         }
       }
     }
-  }
+  },
+  "x-dia-maximum-canonical-bytes": 524288
 }

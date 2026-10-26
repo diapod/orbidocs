@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-readback.local:v1",
+  "title": "nym-issuance-readback.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "nym-issuance-readback.local.v1"
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "issuer/peer": {
+      "type": "string",
+      "pattern": "^node:",
+      "minLength": 6,
+      "maxLength": 256
+    },
+    "expires/at": {
+      "type": "string",
+      "format": "date-time",
+      "maxLength": 40
+    },
+    "reply/key-offer": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "peer": {
+              "type": "string",
+              "pattern": "^node:",
+              "minLength": 6,
+              "maxLength": 256
+            },
+            "family": {
+              "const": "nym-key-offer-sealed.v1"
+            },
+            "artifact/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "artifact/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "minLength": 50,
+              "maxLength": 50
+            }
+          },
+          "required": [
+            "peer",
+            "family",
+            "artifact/id",
+            "artifact/digest"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reply/decision": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "peer": {
+              "type": "string",
+              "pattern": "^node:",
+              "minLength": 6,
+              "maxLength": 256
+            },
+            "family": {
+              "const": "nym-issuance-decision-sealed.v1"
+            },
+            "artifact/id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "artifact/digest": {
+              "type": "string",
+              "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+              "minLength": 50,
+              "maxLength": 50
+            }
+          },
+          "required": [
+            "peer",
+            "family",
+            "artifact/id",
+            "artifact/digest"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "request/ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$",
+          "minLength": 50,
+          "maxLength": 50
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state": {
+      "enum": [
+        "preparing",
+        "reconciliation-required",
+        "preview-expired",
+        "awaiting-recovery",
+        "document-prepared",
+        "key-request-prepared",
+        "key-request-delivered",
+        "request-prepared",
+        "request-delivered",
+        "decision-received"
+      ]
+    },
+    "nym/id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180,
+          "pattern": "^nym:did:key:z[1-9A-HJ-NP-Za-km-z]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "key-request/delivery": {
+      "enum": [
+        "not-requested",
+        "prepared",
+        "delivered"
+      ]
+    },
+    "request/delivery": {
+      "enum": [
+        "not-requested",
+        "prepared",
+        "delivered"
+      ]
+    },
+    "decision": {
+      "enum": [
+        null,
+        "issued",
+        "refused",
+        "reset-required"
+      ]
+    },
+    "decision/reason": {
+      "enum": [
+        null,
+        "policy-denied",
+        "request-expired",
+        "binding-unavailable",
+        "context-unavailable",
+        "capacity-exceeded",
+        "reset-required"
+      ]
+    },
+    "certificate": {
+      "anyOf": [
+        {
+          "$ref": "whisper-source-certificate.v1.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "certificate/state": {
+      "enum": [
+        null,
+        "present",
+        "expired"
+      ]
+    },
+    "status/freshness": {
+      "enum": [
+        "fresh",
+        "unknown"
+      ]
+    },
+    "recovery/current": {
+      "type": "boolean"
+    },
+    "status/collection-freshness": {
+      "enum": [
+        "fresh",
+        "unknown"
+      ]
+    },
+    "status/emission-freshness": {
+      "enum": [
+        "fresh",
+        "unknown"
+      ]
+    },
+    "certificate/eligibility": {
+      "enum": [
+        "accepted",
+        "revoked",
+        "unknown"
+      ]
+    },
+    "status/minimum-revision": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "schema",
+    "operation/id",
+    "issuer/peer",
+    "expires/at",
+    "reply/key-offer",
+    "reply/decision",
+    "request/ref",
+    "state",
+    "nym/id",
+    "key-request/delivery",
+    "request/delivery",
+    "decision",
+    "decision/reason",
+    "certificate",
+    "certificate/state",
+    "status/freshness",
+    "recovery/current",
+    "status/collection-freshness",
+    "status/emission-freshness",
+    "certificate/eligibility"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "issued"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "certificate": {
+            "type": "object"
+          },
+          "certificate/state": {
+            "enum": [
+              "present",
+              "expired"
+            ]
+          },
+          "decision/reason": {
+            "type": "null"
+          },
+          "state": {
+            "const": "decision-received"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "certificate": {
+            "type": "null"
+          },
+          "certificate/state": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "decision/reason": {
+            "type": "null"
+          },
+          "state": {
+            "not": {
+              "const": "decision-received"
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "state": {
+            "const": "decision-received"
+          }
+        }
+      }
+    }
+  ]
+}

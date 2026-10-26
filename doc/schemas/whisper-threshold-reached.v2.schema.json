@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:whisper-threshold-reached:v2",
+  "title": "whisper-threshold-reached.v2",
+  "description": "First contextual-source threshold claim. Frozen signed basis is historical; current eligibility and later source revocation are separate local facts. Distinct nym/node counts are never substituted for sources.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile/digest",
+    "context/digest",
+    "epoch",
+    "epoch/end",
+    "threshold/id",
+    "topic/class",
+    "signal/similarity-key",
+    "sources/distinct-count",
+    "threshold/minimum",
+    "status/revision",
+    "status/digest",
+    "basis/record-ids",
+    "created/at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "whisper-threshold-reached.v2"
+    },
+    "profile/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "context/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "epoch/end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "threshold/id": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "topic/class": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "signal/similarity-key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "sources/distinct-count": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 4096
+    },
+    "threshold/minimum": {
+      "const": 2
+    },
+    "status/revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status/digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "basis/record-ids": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4096,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+      }
+    },
+    "created/at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

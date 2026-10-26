@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuer-readback.local:v1",
+  "title": "nym-issuer-readback.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "nym-issuer-readback.local.v1"
+    },
+    "exchange/digest": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+    },
+    "state": {
+      "enum": [
+        "decision-prepared",
+        "not-found-or-expired"
+      ]
+    },
+    "artifact/digest": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "exchange/digest",
+    "state",
+    "artifact/digest"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "not-found-or-expired"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "artifact/digest": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "artifact/digest": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "pattern": "^sha256:[A-Za-z0-9_-]{43}$"
+          }
+        }
+      }
+    }
+  ]
+}

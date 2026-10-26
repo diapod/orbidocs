@@ -1,0 +1,5 @@
+{
+  "schema": "nym-issuance-error.local.v1",
+  "field": "operation",
+  "reason": "applicant-key-locked"
+}

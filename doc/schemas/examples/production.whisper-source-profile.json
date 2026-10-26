@@ -17,5 +17,7 @@
   "retention/identifying-seconds": 86400,
   "retention/reset-buffer-seconds": 300,
   "retention/tombstone-seconds": 604800,
-  "epoch/certificate-limit": 2048
+  "epoch/certificate-limit": 2048,
+  "publication/matrix-time-policy": "authenticated-admitted-homeserver-v1",
+  "publication/sqlite-time-policy": "signed-admitted-relay-receipt-v1"
 }

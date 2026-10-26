@@ -28,7 +28,9 @@
     "retention/identifying-seconds",
     "retention/reset-buffer-seconds",
     "retention/tombstone-seconds",
-    "epoch/certificate-limit"
+    "epoch/certificate-limit",
+    "publication/matrix-time-policy",
+    "publication/sqlite-time-policy"
   ],
   "properties": {
     "schema": {
@@ -111,6 +113,12 @@
     },
     "epoch/certificate-limit": {
       "const": 2048
+    },
+    "publication/matrix-time-policy": {
+      "const": "authenticated-admitted-homeserver-v1"
+    },
+    "publication/sqlite-time-policy": {
+      "const": "signed-admitted-relay-receipt-v1"
     }
   },
   "allOf": [

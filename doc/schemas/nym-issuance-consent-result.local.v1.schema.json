@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:nym-issuance-consent-result.local:v1",
+  "title": "nym-issuance-consent-result.local.v1",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "nym-issuance-consent-result.local.v1"
+    },
+    "operation/id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "state": {
+      "const": "invitation-accepted"
+    },
+    "offer/key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 54,
+      "pattern": "^inac:offer:[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "required": [
+    "schema",
+    "operation/id",
+    "state",
+    "offer/key"
+  ]
+}

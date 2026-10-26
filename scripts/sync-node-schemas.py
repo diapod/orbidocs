@@ -52,6 +52,32 @@ NODE_SCHEMA_FILENAMES = {
 }
 
 SCHEMA_WHITELIST = (
+    "whisper-signal-draft.local.v1.schema.json",
+    "nym-authorship-preview.local.v1.schema.json",
+    "nym-authorship-sign.local.v1.schema.json",
+    "nym-authorship-readback-request.local.v1.schema.json",
+    "nym-authorship-readback.local.v1.schema.json",
+    "nym-bootstrap-authority-request.local.v1.schema.json",
+    "nym-bootstrap-authority-result.local.v1.schema.json",
+    "nym-issuer-consent.local.v1.schema.json",
+    "nym-issuer-bootstrap-descriptor.local.v1.schema.json",
+    "nym-issuer-readback-request.local.v1.schema.json",
+    "nym-issuer-consent-result.local.v1.schema.json",
+    "nym-issuer-readback.local.v1.schema.json",
+    "nym-issuer-error.local.v1.schema.json",
+    "whisper-signal.v2.schema.json",
+    "whisper-threshold-reached.v2.schema.json",
+    "association-room-proposal.v2.schema.json",
+    "nym-issuance-prepare.local.v1.schema.json",
+    "nym-issuance-operation.local.v1.schema.json",
+    "nym-issuance-send.local.v1.schema.json",
+    "nym-issuance-reply-offer.local.v1.schema.json",
+    "nym-issuance-consent.local.v1.schema.json",
+    "nym-issuance-readback.local.v1.schema.json",
+    "nym-issuance-delivery.local.v1.schema.json",
+    "nym-issuance-consent-result.local.v1.schema.json",
+    "nym-issuance-error.local.v1.schema.json",
+    "agora-publication-receipt.local.v1.schema.json",
     "nym-exchange-key-offer.v1.schema.json",
     "whisper-source-profile.v1.schema.json",
     "whisper-source-descriptor.v1.schema.json",
@@ -687,6 +713,9 @@ SCHEMA_WHITELIST = (
 )
 
 EXAMPLE_WHITELIST = (
+    "prepare.nym-issuance-prepare.local.v1.json",
+    "pending.nym-issuance-readback.local.v1.json",
+    "locked.nym-issuance-error.local.v1.json",
     "production.whisper-source-profile.json",
     "contextual.whisper-source-descriptor.json",
     "contextual.whisper-source-certificate.json",
