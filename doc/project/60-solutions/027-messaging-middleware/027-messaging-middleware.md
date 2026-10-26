@@ -689,7 +689,7 @@ optional signed status uses owner-local per-grant disclosure policy, default
 omit, and at least a 60-second remaining usable lease at build. The receiver
 shares one bounded acquisition/monotonic observation owner with import and
 refresh; stale/absent evidence permits exactly one online acquisition attempt.
-There is no product NoFetch setting. Actual peer identity, locally admitted root,
+At the P076-036 checkpoint there was no product NoFetch setting. Actual peer identity, locally admitted root,
 current custody and exact consent scope are still required. A status attachment
 does not create membership/consent, elevate assurance or resume blocked messages.
 The scoped acceptance capsule excludes browser, model, VM and full-candidate
@@ -701,6 +701,21 @@ Node `9b0a613e` / Orbidocs `8523cf2b`, with 264 conformance/regression and 12
 host capsule tests. Signature/correlation qualification matches after extraction.
 Its scope, controlled time and live global-retention baseline blocker are explicit;
 it does not replace S027 delivery evidence or P076-034's historical candidate.
+
+### P076-037 acquisition and peer renewal
+
+The local P091 `/messaging/issuance/status-acquisition` setting selects `online`,
+`scheduled-only` or `no-observed-grant-query` per acquisition. Only S020 can
+query observed grants in `scheduled-only`; neither presentation nor S020 can do
+so in `no-observed-grant-query`. Local delegates and explicit verified imports
+retain their source access. A stale receive-consent send may request one exact
+V2 presentation from its authenticated contact and then repeat the pure lookup.
+The presenter may fetch its own grant once only in the last mode. The response
+needs 15 seconds of usable status, and the contact must have enabled
+`full-status`. An unavailable contact keeps the send pending. Signed withdrawal
+publication retries independently of S020; pausing status refresh is visible
+without invalidating a still-current lease. This is not message delivery offline.
+See [P076-037](../../40-proposals/076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
 
 The subsequent review adds owner-confirmed disclosure controls on the existing
 grant page and bounded actor/time/old/new policy history. Normal windows expose

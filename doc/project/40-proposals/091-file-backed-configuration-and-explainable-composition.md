@@ -3083,3 +3083,15 @@ contract-only coverage in `node:docs/implementation-ledger.toml`, regenerate via
 `node:tools/generate-implementation-ledger.py` and reconcile affected
 `node:docs/MVP.md` scope. P091-005a remains mandatory before route exposure:
 contract freeze does not claim runtime adoption or replace security evidence.
+
+## P076-037 Messaging status-acquisition consumer
+
+P076-037 admits a node-scoped, live-reload descriptor at
+`/messaging/issuance/status-acquisition`. Its closed values are `online`
+(compiled default), `scheduled-only`, and `no-observed-grant-query`. The
+Messaging status-source decorator reads the current P091 resolution and
+`resolution/id` before each observed-grant I/O decision. An unavailable
+resolution fails closed for those queries; an in-flight query may complete
+through the ordinary verifier. This is a consumer-specific application of P091,
+not a change to the general resolver or signed lease. See
+[P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).

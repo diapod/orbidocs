@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orbiplex:schema:messaging-consent-renew.local:v1",
+  "title": "MessagingConsentRenew local v1",
+  "description": "Host-only explicit preflight request for a matching receive passport; lookup and authorization remain pure.",
+  "x-dia-workflow": "project",
+  "x-dia-status": "draft",
+  "x-dia-basis": [
+    "doc/project/40-proposals/076-limited-messaging-grants-decision.md",
+    "doc/project/40-proposals/024-capability-passports-and-network-ledger-delegation.md"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "required/scope"
+  ],
+  "properties": {
+    "schema": {
+      "const": "messaging-consent-renew.local.v1"
+    },
+    "required/scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "purpose"
+      ],
+      "properties": {
+        "purpose": {
+          "const": "messaging"
+        },
+        "sender": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receiver": {
+          "type": "string",
+          "minLength": 1
+        },
+        "passport-ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "passport/id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    }
+  }
+}
