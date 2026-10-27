@@ -354,14 +354,17 @@ afterwards.
 v2 proves that the holder of an authorized predecessor key and the holder of
 the successor key agree on one transition. It does not prove that one person
 controls both keys: the two signatures may come from one participant or from
-two people agreeing to hand over control.
+two people agreeing to hand over control. No v2 purpose therefore identifies
+sources, and no counting authority merges two sources on the basis of a
+succession. Source equivalence would need a separate attestation by the
+issuer.
 
 | Field | Meaning |
 |---|---|
 | `schema` | Constant schema id |
 | `succession/id` | A random identifier; the replay key |
 | `succession/scope` | `line` (public continuation of a pseudonym line) or `case` (one matter) |
-| `succession/purpose` | A closed enum: `continue-line`, `continue-case` or `prove-same-source` |
+| `succession/purpose` | A closed enum: `continue-line` or `continue-case` |
 | `predecessor/nym` | The predecessor nym id |
 | `predecessor/anchor` | The predecessor certificate digest (`line`) or the digest of the original signed record (`case`) |
 | `authorization/mode` | `nym-key` or `continuity-key` |
@@ -387,8 +390,8 @@ two people agreeing to hand over control.
 - **Narrow schema.** No additional properties, closed enums and negative
   fixtures.
 - **Limits.** Succession renews no certificate, does not make the
-  predecessor's records valid now (historical verification is separate) and
-  never adds a counted source.
+  predecessor's records valid now (historical verification is separate), never
+  adds a counted source and never merges two sources.
 
 | Predecessor state | Treatment |
 |---|---|
@@ -408,7 +411,7 @@ post-MVP follow-up.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate and replay. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after` and a reused `succession/id`. |
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate and replay. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after` and a reused `succession/id`. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–007. |
 
 ## P081 Scoped-Claim Adoption
 

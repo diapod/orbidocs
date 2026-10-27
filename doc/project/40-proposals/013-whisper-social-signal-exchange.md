@@ -1315,10 +1315,13 @@ different epochs are never summed.
 - **N means other sources.** In the protected signal's epoch, the author's
   `source/ref` is known from the protected signal's certificate and is
   excluded exactly; the requirement is N. In each later epoch of the window the
-  author's source cannot be recognized, so the requirement is N + 1, unless the
-  author's node privately gives the counting authority a case-bound succession
-  proof with purpose `prove-same-source` for that epoch, which makes the
-  exclusion exact again (`P013-LLR-007`).
+  author's source cannot be recognized, so the requirement is N + 1. A
+  case-bound succession proof does not change this. It shows that the key
+  holders agreed to a transition, not that the later source belongs to the same
+  participant: the author may hand the case to another participant, whose
+  source stays distinct. Exact exclusion in later epochs would need a
+  source-equivalence attestation from the issuer, which remains open
+  (`P013-LLR-005`).
 - **Window.** `count/window-epochs` whole epochs starting with the protected
   signal's epoch. The proposed bound is 13 epochs, about 91 days under the
   production seven-day profile.
@@ -1892,9 +1895,15 @@ certificate and the erasure rules of P015, lets a seized device prove
 authorship of old rumors, and turns the compromise of an expired key into a
 takeover path.
 
-The design commits to the next authority in advance, in the manner of
-pre-rotation in KERI (background from general knowledge, not verified in this
-repository):
+The design anchors a case-scoped authority to continue in advance. The idea
+comes from pre-rotation in KERI, where a controller commits to its next keys
+and a sequenced key event log records each rotation (background:
+[KERI specification](https://trustoverip.github.io/kswg-keri-specification/)).
+Orbiplex takes a narrower pattern: one key committed at the start of a case
+and then used repeatedly, without a rotation chain for that key and without a
+key event log of its own. KERI's properties therefore do not carry over
+automatically. Compromise of the old nym key alone cannot take over a case,
+but compromise of the continuity key is critical and terminal for the case.
 
 - **Case continuity key.** When the author publishes the first signal of a
   case, the Pseudonym Vault generates a fresh Ed25519 key pair for that case,
@@ -1922,12 +1931,13 @@ repository):
   `not-after`, and that no closure signed by the continuity key ended the case.
 
 Effects stay inside the case. `continue-case` lets B act for the matter, for
-example by reaffirming it. `prove-same-source` lets a counting authority treat
-A's and B's sources as one, so the author's exclusion in later epochs becomes
-exact. Succession never carries reputation outside the case, never renews a
-certificate and never adds a counted source. It does not stop a dishonest
-author from hiding continuity in order to count twice; that remains the gap of
-`P013-LLR-005`.
+example by reaffirming it. Succession never carries reputation outside the
+case, never renews a certificate, never adds a counted source and never merges
+two sources. A counting authority that receives a succession proof keeps
+counting `source/ref` values as before, because the proof establishes consent
+of key holders, not that A and B belong to one participant. Succession also
+does not stop a dishonest author from hiding continuity in order to count
+twice. Both gaps belong to `P013-LLR-005`.
 
 | Predecessor state | Treatment |
 |---|---|
@@ -1950,6 +1960,6 @@ exchange path, and the author's editor names who will learn the link.
 | P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. |
 | P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
-| P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration; a proposal-grade review before any runtime work. |
+| P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
 | P013-LLR-006 | Case continuity key | todo | P013-ADC-001; S026 Pseudonym Vault | Generation per case in the Vault; `case/continuity-key-digest` in the first signed signal of a case; one key for condition amendments, release confirmations and succession; lifetime bounded by `case/not-after` and retention; deletion recorded as an erasure fact; opt-in recovery inclusion. Negative fixtures cover a mismatched commitment and a missing key. |
-| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate, private delivery to the declared audience, effects limited to `continue-case` and `prove-same-source`, closure handling, and refusal for each predecessor state in the table above. |
+| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
