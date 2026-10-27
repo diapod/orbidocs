@@ -417,3 +417,13 @@ publication-time evidence becomes an instance of the portable
 so other nodes can verify later that a record was admitted while its nym proof
 was valid. That historical validity grants no current authority and does not
 extend this profile's epoch or counting rules.
+
+Case-bound succession adds no public succession to this profile. Routine
+renewal still keeps the source without any succession artifact, and a private
+reset still publishes no successor. A participant who wants a later nym to
+continue one case uses
+[`nym-succession.v2`](../015-nym-certificates-and-renewal-baseline.md#succession-after-expiry-and-the-narrow-successor-2026-10-27)
+with scope `case`, authorized by a continuity key committed in the case's first
+signal and delivered privately to a named audience
+([P013-LLR-007](../013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)).
+The predecessor nym key is not kept for that purpose.

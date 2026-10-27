@@ -1215,7 +1215,7 @@ Four separations carry the design:
 
 | Role | Holds before release | May | Must not |
 |---|---|---|---|
-| Author node | Protected signal, release payload, condition control key | Narrow or withdraw the condition, confirm or decline a release | — |
+| Author node | Protected signal, release payload, control key (the case continuity key) | Narrow or withdraw the condition, confirm or decline a release | — |
 | Correlator (custodian) | Correlation payload; the release payload only in held custody | Match locally, propose context joins, pass the descriptor to the counting authority | Disclose protected material outside the correlation scope |
 | Counting authority | Protected signal and condition; signals of the context | Count sources and attest | Count anything other than the condition's context |
 | Recipient | Released record | Verify the release offline | Treat the count as evidence of truth |
@@ -1233,10 +1233,12 @@ The material is split into two payloads:
   custodian keeps it). This honours S011: a release publishes text that was
   redacted for its audience.
 
-The control key is a fresh key pair generated for one condition and kept in the
-Pseudonym Vault. It signs amendments, withdrawal and confirmations, so the
-condition remains controllable after the rumor nym rotates, without linking
-the condition to the participant.
+The control key is the
+[case continuity key](#case-continuity-key-and-case-bound-succession): a fresh
+key pair per case, kept in the Pseudonym Vault and committed in the protected
+signal. It signs amendments, withdrawal, confirmations and case-bound
+succession, so the condition remains controllable after the rumor nym rotates,
+without linking the condition to the participant.
 
 ### Same Matter: Descriptor, Grouping Rule and Key
 
@@ -1313,7 +1315,10 @@ different epochs are never summed.
 - **N means other sources.** In the protected signal's epoch, the author's
   `source/ref` is known from the protected signal's certificate and is
   excluded exactly; the requirement is N. In each later epoch of the window the
-  author's source cannot be recognized, so the requirement is N + 1.
+  author's source cannot be recognized, so the requirement is N + 1, unless the
+  author's node privately gives the counting authority a case-bound succession
+  proof with purpose `prove-same-source` for that epoch, which makes the
+  exclusion exact again (`P013-LLR-007`).
 - **Window.** `count/window-epochs` whole epochs starting with the protected
   signal's epoch. The proposed bound is 13 epochs, about 91 days under the
   production seven-day profile.
@@ -1532,7 +1537,7 @@ only on the composed Story 014 variant run.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P013-ADC-000 | Story 014 disclosure-condition variant acceptance | todo | P013-ADC-001–008; [P057-017](057-user-and-operator-notifications.md#tracking); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance); P013-DFR-001, P013-DFR-004 | One retained run of the [variant](../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition) proves S014-A12–A15. It scans correlator query endpoints, Agora, AD copies, notifications and logs for canaries, and covers the duplicate, later-epoch, withdrawal, stale-attestation and declined-confirmation paths. |
-| P013-ADC-001 | Freeze the disclosure condition contract | todo | P015 v2 signal | `whisper-disclosure-condition.v1` embedded in the protected v2 signal under the nym signature, `whisper-release-payload.v1` and `whisper-disclosure-amendment.v1`. The contract covers the control key, N as other sources with bounds, the epoch window, join policy, coordination participation, closed audiences and modes, custody, authority and freshness bounds. Golden fixtures; negative fixtures for widening amendments, unknown fields and expired conditions. |
+| P013-ADC-001 | Freeze the disclosure condition contract | todo | P015 v2 signal | `whisper-disclosure-condition.v1` embedded in the protected v2 signal under the nym signature, `whisper-release-payload.v1` and `whisper-disclosure-amendment.v1`. The contract covers the control key as the case continuity key (P013-LLR-006), N as other sources with bounds, the epoch window, join policy, coordination participation, closed audiences and modes, custody, authority and freshness bounds. Golden fixtures; negative fixtures for widening amendments, unknown fields and expired conditions. |
 | P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. |
 | P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
 | P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; direct exchange (Next Actions 9) | Per-epoch counting with exact author exclusion and the N + 1 rule; status freshness; publication-time evidence for privately carried v2 signals from the counting authority's durable admission receipt; `whisper-disclosure-attestation.v1` with its evidence commitment; one verifier library for custodians, author nodes and recipients; a design note on independently verifiable evidence. |
@@ -1861,7 +1866,9 @@ is not the same as counting them as two qualified sources in one epoch.
 - The author may author a new related signal under a fresh nym in the current
   epoch. By default it is not linked to the old record. An explicit `reaffirms`
   relation, which reveals that both come from the same author, is a separate,
-  warned choice.
+  warned choice backed by a
+  [case-bound succession proof](#case-continuity-key-and-case-bound-succession)
+  delivered only to the chosen audience.
 - A third-party holder of the old rumor can reach its author only through a
   `contact/ref` the rumor carries; otherwise the match stays local.
 - The cost is explicit: an unavailable author yields no current confirmation.
@@ -1875,13 +1882,74 @@ participant and case. Consent must cover the whole horizon explicitly. This is
 the same gap as the first open question of
 [author disclosure conditions](#author-disclosure-conditions-2026-10-27).
 
+### Case Continuity Key and Case-Bound Succession
+
+A later nym B may need to show that it continues a matter started by an earlier
+nym A: to reaffirm the old rumor, to amend its disclosure condition, or to be
+recognized as the same source. Signing with A's key a year later would require
+keeping A's private key that long. That contradicts the fresh key per
+certificate and the erasure rules of P015, lets a seized device prove
+authorship of old rumors, and turns the compromise of an expired key into a
+takeover path.
+
+The design commits to the next authority in advance, in the manner of
+pre-rotation in KERI (background from general knowledge, not verified in this
+repository):
+
+- **Case continuity key.** When the author publishes the first signal of a
+  case, the Pseudonym Vault generates a fresh Ed25519 key pair for that case,
+  and the signal commits to it through `case/continuity-key-digest` inside the
+  nym-signed bytes. The public key is revealed only when it is first used. The
+  case is identified by the original record's digest.
+- **One key per case.** The same key is the control key of an author
+  disclosure condition: it signs amendments, withdrawal, release confirmations
+  and succession. There is no second per-condition key.
+- **Lifetime.** The key lives until `case/not-after`, which may not exceed the
+  retention of the original record. The author may delete it earlier, which
+  ends the ability to continue or amend the case; the deletion is recorded as
+  an erasure fact. The key enters the recovery bundle only if the author opts
+  in, trading survival against seizure risk.
+- **Succession artifact.** Case-bound succession uses
+  [`nym-succession.v2`](015-nym-certificates-and-renewal-baseline.md#succession-after-expiry-and-the-narrow-successor-2026-10-27)
+  (`P015-004`) with scope `case` and authorization mode `continuity-key`. The
+  continuity key and nym B sign the same domain-separated bytes, which bind the
+  purpose, the anchored record, B's current certificate, the audience and a
+  short validity window.
+- **Verification.** The verifier checks both signatures over one preimage,
+  that the revealed public key matches the commitment in the anchored record,
+  that the anchored record verifies historically (`P013-LLR-002`), and that B's
+  certificate is valid now. It also checks the scope, purpose, audience and
+  `not-after`, and that no closure signed by the continuity key ended the case.
+
+Effects stay inside the case. `continue-case` lets B act for the matter, for
+example by reaffirming it. `prove-same-source` lets a counting authority treat
+A's and B's sources as one, so the author's exclusion in later epochs becomes
+exact. Succession never carries reputation outside the case, never renews a
+certificate and never adds a counted source. It does not stop a dishonest
+author from hiding continuity in order to count twice; that remains the gap of
+`P013-LLR-005`.
+
+| Predecessor state | Treatment |
+|---|---|
+| Certificate expired, continuity key retained | Succession signed by the continuity key and B |
+| Continuity key lost or deleted | No succession. The council keeps no participant mapping after its retention, so there is no recovery path; the author can only open a new, unlinked case |
+| Nym key A compromised or revoked | A's key never authorizes case succession, and the separate continuity key is still required. A compromised continuity key is terminal for the case: the author closes it with that key if possible, and verifiers refuse succession after a closure |
+
+The proof shows that the key holders consented to the transition, not that one
+person holds both keys. Every recipient learns the link between A and B, and
+the scope limits the permitted effects, not that knowledge. Case-bound
+successions therefore travel only to their audience through the private
+exchange path, and the author's editor names who will learn the link.
+
 ### Long-Lived Rumor Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004; P035-019; P041-001; P078-014 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
+| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–007; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
 | P013-LLR-001 | Four-period contract | todo | P015; P036-004 | Each period has a named field or policy and an owner; the consistency rules are fixed; an audit of existing contracts finds and corrects conflations, such as counting horizons longer than retention. |
 | P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. |
 | P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
-| P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation. |
+| P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration; a proposal-grade review before any runtime work. |
+| P013-LLR-006 | Case continuity key | todo | P013-ADC-001; S026 Pseudonym Vault | Generation per case in the Vault; `case/continuity-key-digest` in the first signed signal of a case; one key for condition amendments, release confirmations and succession; lifetime bounded by `case/not-after` and retention; deletion recorded as an erasure fact; opt-in recovery inclusion. Negative fixtures cover a mismatched commitment and a missing key. |
+| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate, private delivery to the declared audience, effects limited to `continue-case` and `prove-same-source`, closure handling, and refusal for each predecessor state in the table above. |

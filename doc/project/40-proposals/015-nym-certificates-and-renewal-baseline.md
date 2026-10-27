@@ -163,6 +163,11 @@ underlying participant.
 It is optional in the overall system, but required for the public-continuation
 path of Phase 1 renewal.
 
+Limitation (2026-10-27): v1 is a one-sided declaration that works after expiry
+only until `leniency-until`. It is replaced by the narrow
+[`nym-succession.v2`](#succession-after-expiry-and-the-narrow-successor-2026-10-27)
+(`P015-004`, MVP scope).
+
 ### 4. `nym-renew-request.v1`
 
 The participant asks the council to accept a public continuation into the next
@@ -317,6 +322,93 @@ adds private exchange, cumulative source revocation, backend-proven publication
 time, lazy renewal and bounded issuer erasure. It supersedes public-continuation
 as the default only for that Whisper profile; the generic baseline and historical
 evidence retain their scope. Its two runtime gates remain pending.
+
+## Succession After Expiry and the Narrow Successor (2026-10-27)
+
+### Current State
+
+- **Fact.** `nym-succession.v1` carries `old-nym/id`, `new-nym/id`, `epoch` and
+  one signature by the old nym. Its signing preimage is not defined, and the
+  example signature is a placeholder. It has no successor confirmation, scope,
+  purpose, identifier, nonce, validity bound, audience or binding to the
+  predecessor's certificate or records, and it allows additional properties.
+- **Fact.** After `expires-at` the old nym may sign only succession work, and
+  only until `leniency-until`. Without that field there is no grace at all. The
+  contextual verifier bounds `leniency-until` to at most 24 hours after expiry
+  and to the end of the epoch (`node:nym-core/src/status.rs`).
+- **Fact.** The contextual Whisper profile publishes no succession: routine
+  renewal keeps the source, and a private reset names no successor.
+- **Fact.** Node validates the v1 shape in Schema Gate; no semantic succession
+  verifier or renewal flow exists yet.
+- **Inference.** Succession after the grace window, for example a year later,
+  is impossible today, and v1 cannot express succession limited to one case.
+
+### Decision
+
+The narrow `nym-succession.v2` replaces v1 without a compatibility path, which
+is acceptable before the first release. The v1 schema, its example and its
+acceptance are removed. `line/succession` in `nym-certificate.v1` and
+`succession` in `nym-renew-request.v1` move to v2, and no node accepts v1
+afterwards.
+
+v2 proves that the holder of an authorized predecessor key and the holder of
+the successor key agree on one transition. It does not prove that one person
+controls both keys: the two signatures may come from one participant or from
+two people agreeing to hand over control.
+
+| Field | Meaning |
+|---|---|
+| `schema` | Constant schema id |
+| `succession/id` | A random identifier; the replay key |
+| `succession/scope` | `line` (public continuation of a pseudonym line) or `case` (one matter) |
+| `succession/purpose` | A closed enum: `continue-line`, `continue-case` or `prove-same-source` |
+| `predecessor/nym` | The predecessor nym id |
+| `predecessor/anchor` | The predecessor certificate digest (`line`) or the digest of the original signed record (`case`) |
+| `authorization/mode` | `nym-key` or `continuity-key` |
+| `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the anchored record |
+| `successor/nym` | The successor nym id |
+| `successor/certificate` | The digest of the successor's current certificate |
+| `audience` | The named recipients; `line` successions are public by nature |
+| `issued-at`, `not-after` | A short validity window |
+| `signatures` | Exactly two Ed25519 signatures, authorization and successor acceptance |
+
+- **Preimage.** Both signatures cover the same bytes: the ASCII domain
+  `orbiplex.nym-succession.v2`, one NUL byte and the JCS of the artifact
+  without `signatures`, following the contextual profile's signing rules and
+  strict Ed25519 verification. The successor signature is also its proof of
+  possession.
+- **Authorization modes.** `nym-key` is valid only for scope `line` and only
+  until the predecessor's `leniency-until`; it preserves Phase 1 public
+  continuation. `continuity-key` uses a key committed in advance and remains
+  usable after the grace window, for scope `case`
+  ([P013 case-bound succession](013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)).
+- **Successor.** The successor performs a new operation, so its certificate
+  must be valid now.
+- **Narrow schema.** No additional properties, closed enums and negative
+  fixtures.
+- **Limits.** Succession renews no certificate, does not make the
+  predecessor's records valid now (historical verification is separate) and
+  never adds a counted source.
+
+| Predecessor state | Treatment |
+|---|---|
+| Certificate expired, key still controlled | `nym-key` within grace; afterwards only `continuity-key` succession |
+| Key lost or deleted | No direct proof. With a retained continuity key, `case` succession still works; otherwise there is no succession, because the council keeps no mapping after its retention |
+| Key compromised or authority revoked | A signature by the predecessor nym key never suffices. A separate continuity key is required, and revocation of the case blocks succession |
+
+Disclosure is deliberate. A recipient of a succession proof learns the link
+between the two nyms, and a scope limits the permitted effects, not that
+knowledge. `case` successions therefore travel only to their audience over the
+private exchange path.
+
+### Succession Tracker
+
+`P015-004` is MVP scope: it must close before the MVP release, not as a
+post-MVP follow-up.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate and replay. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after` and a reused `succession/id`. |
 
 ## P081 Scoped-Claim Adoption
 
