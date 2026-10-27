@@ -2762,6 +2762,47 @@ links here rather than maintaining duplicate task status.
 | P035-002 | Migrate Node-owned publishers | todo | P035-001 | P026 compose/opinion/comment authoring, P067 Dator offer snapshots and accepted Seed facts use the same host delivery seam with explicit route configuration. UI reports pending versus confirmed publication. No duplicate sends or component-private transport retries; raw/unaccepted Seed requests are never published. Domain state survives delivery failure. |
 | P035-003 | Retain local and remote relay acceptance | todo | P035-002 | Exercise actual producer -> signer -> AD -> local/remote Agora -> query with unchanged record id/signature/about fields; outage, remote-accepted/lost-response, restart, duplicate retry, expired/revoked authority and denied topic fixtures pass. Private fallback is refused; Matrix federation and direct relay API compatibility remain intact. |
 
+## Decorrelated Bucket Pull (2026-10-27)
+
+Planned continuation for
+[P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
+exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
+The relay stays semantics-blind (section 1.1). Whisper owns the decorrelation
+vocabulary that selects topic keys.
+
+A reader that wants to discover rumors without revealing private interests
+pulls whole topic buckets: every record under one topic key within one time
+window. Section 5.1 already lists records by topic with an opaque cursor, but a
+cursor alone does not tell the reader that a time slice is complete, and the
+reader has no cheap way to decide whether pulling a whole prefix fits its
+budget.
+
+- **Windowed complete slices.** The topic listing accepts a half-open window
+  over relay receipt time (`relay/received-at`). Authored time is not trusted
+  and is not used. Pagination within a window is complete and stable, and
+  `agora-query-attestation.v1` binds the window and states completeness or
+  pruning.
+- **No fine filters required.** A relay MUST NOT require content filters for a
+  bucket pull and SHOULD NOT offer facet filtering for Whisper topics; `kind`
+  remains an admissible coarse filter.
+- **Volume summaries and prefix enumeration.** The relay reports record counts
+  and byte totals per topic key and window, and enumerates topic keys under a
+  prefix, so a reader can choose pull-all mode in a small federation. A summary
+  reveals the same bucket as the pull it precedes.
+- **Mirrors.** A reader may pull the same slice from several relays; record ids
+  deduplicate the results.
+- **Deferred.** Compact per-slice facet filters published by the relay and
+  tested locally, in the manner of BIP157/158 client-side filtering, may reduce
+  bandwidth later. They need a separate privacy review.
+
+### Decorrelated Pull Tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P035-016 | Windowed complete topic slices | todo | P013-DFR-001 | Listing by topic key and receipt-time window with complete, stable pagination; the attestation binds the window and states completeness or pruning. Fixtures cover empty, pruned and concurrently ingested windows, and the reference relays agree on slice contents. |
+| P035-017 | Slice volume summaries and prefix enumeration | todo | P035-016 | Per-topic and per-window counts and bytes; bounded enumeration of keys under `ai.orbiplex.whispers/`; budgets and typed refusals. A reader fixture chooses pull-all below its threshold. |
+| P035-018 | Compact slice facet filters | deferred | P035-016; privacy review | Relay-published per-slice filters matched locally. Reopen only after a measured bandwidth need. |
+
 ## Follow-Up
 
 If adopted, the next artifacts should be:

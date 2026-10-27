@@ -760,6 +760,116 @@ All rows remain `todo`; the completed local organ baseline is unchanged.
 | P036-002 | Compose replication source and acceptor | todo | P036-001 | Existing Memarium source/write ports, shared bounded replication and AD/INAC are composed without a new listener, merge engine or transport queue. One authoritative acceptor validates before effects and atomically/journaledly associates applied facts and progress. |
 | P036-003 | Retain multi-node replication acceptance | todo | P036-002 | Real authorized community and explicit public-P2P exchange survives outage, restart, duplicate/reordered batches and partial apply. Personal/crisis-policy violations, stale declassification, digest mismatch, tombstone resurrection and retention gaps refuse or surface the declared recovery state. Ledger/status distinguish delivered from applied. |
 
+## Fact Retention Horizons and Personal Records (2026-10-27)
+
+Planned continuation, owned jointly with
+[S002 Memarium](../60-solutions/002-memarium/002-memarium.md#fact-retention-horizons-and-personal-records).
+It is consumed by
+[P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27)
+and exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
+
+### Current State (2026-10-27)
+
+- **Fact.** `RetentionPolicy` in `node:memarium/src/lib.rs` is a qualitative
+  label (`operator_controlled`, `group_governed`, `constitutional_minimum`)
+  without a duration.
+- **Fact.** Runtime expiry exists only for cache entries
+  (`cache_max_ttl_seconds`, 300 seconds in personal space;
+  `node:memarium-runtime/src/lib.rs`).
+- **Fact.** `retention/max-duration-sec` in `node:memarium/src/export.rs` bounds
+  archival export packages, not stored facts.
+- **Inference.** Personal facts live until an explicit `memarium.forget`. The
+  30-day default seen in Whisper material belongs to the local metadata view of
+  `whisper-trace.v1`, not to Memarium.
+
+The gap is minimization rather than usefulness. Nothing expires unless someone
+remembers to forget it, and a participant cannot state that one record should
+outlive the usual horizon.
+
+### Retention Horizons
+
+1. **Resolution.** Two P091 node settings, class-keyed by space and record
+   kind in the manner of Inquirium's `ClassKeyed` configuration (P066
+   Decision 6), give a default horizon and a ceiling. The ceiling is a privacy
+   safeguard and follows the asymmetric P091 operator-decision rule: lowering
+   applies at once, raising waits for operator confirmation, and modules cannot
+   raise it.
+2. **Decision as fact.** `memarium-retention-decision.v1` records the target
+   ref, the requested horizon (a duration or `until-forget`), the effective
+   horizon, a clamped flag, the ceiling `resolution/id`, actor, reason and
+   time. The effective horizon is `min(requested, ceiling)`; `until-forget` is
+   effective only under an unbounded ceiling. Every capture writes a decision,
+   even when it only confirms the default, so later default changes neither
+   shorten nor extend existing records silently. The latest decision for a
+   target wins; earlier decisions remain history.
+3. **Clock.** A horizon counts from the record's `recorded/at`, never from a
+   claimed `event/at`.
+4. **Warnings.** A clamp is shown inline during manual or assistant-mediated
+   capture. Automatic capture emits a notice
+   ([P057-016](057-user-and-operator-notifications.md#tracking)).
+5. **Expiry.** An S020 job executes the space's ordinary forget path:
+   immediate erasure in personal space, a tombstone in public space. Community
+   expiry needs the governed path and crisis keeps its constitutional minimum,
+   so both stay outside v1 and are skipped with a typed reason.
+6. **Pre-expiry review.** A batched digest lists records that expire soon.
+   Extending a record writes a new decision, again bounded by the ceiling.
+7. **Derived artifacts.** Read-sidecar rows, indexes, embeddings, Harvester
+   interest terms, scores and link candidates carry `derived-from` references
+   and are purged no later than their source.
+8. **Lowered ceiling.** Records whose effective horizon exceeds a new ceiling
+   are re-clamped after a grace period, with a notice. The default grace period
+   is an open question.
+9. **Limitation.** Erasure in the live store does not erase existing backups or
+   archival exports; their own retention applies.
+
+### Personal Records
+
+`memarium-personal-record.v1` is a neutral record of something the participant
+did or experienced. It is not a rumor, opinion or trace. Memarium owns the
+schema because several producers share it: assistant capture (P066), manual UI
+entry, and future mail or file adapters. In line with Resolved Decision 5, the
+capture path validates the record before the write.
+
+- `record/kind` reuses the artifact verbs of `whisper-trace.v1`
+  (`artifact-created`, `artifact-dispatched`, `artifact-received`,
+  `artifact-held`) and admits open domain kinds.
+- `event/at` is a claim; `recorded/at` is host time. `provenance/class` is
+  `first-person-report` or `observed-source`, which carry different evidential
+  weight.
+- Counterparty, subject title and a free note describe the event.
+- Each attachment has a role (`original` or `text-representation`), the source
+  path as given, a SHA-256 digest of the bytes, media type and size. Content is
+  inline text, an embedded attachment, or a `memarium-blob.v1` reference;
+  inline and embedded forms are bounded by size limits.
+- The classification is `personal`; nothing leaves the node without
+  declassification.
+
+A recorded path is personal data and becomes stale when the file moves; the
+digest still identifies the bytes that were meant at capture time.
+
+### Fact–Rumor Link Decisions
+
+`memarium-fact-rumor-link.v1` records one decision about a link candidate: the
+record ref, the rumor `record/id`, the rumor context (`topic/class` plus
+`signal/similarity-key`, or the P015 context digest), the decision
+(`confirmed`, `rejected` or `deferred`), the rejection scope (`pair` or
+`rumor-context`), the finding ref, actor and time. One fact serves both
+projections: the record view and the P013 rumor curation view. The matcher
+treats rejections as suppression inputs. Link decisions derive from the record
+and expire with it.
+
+### Retention and Records Tracker
+
+All rows are post-MVP `todo`.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P036-004 | Freeze the fact retention horizon contract | todo | P091; S028 | `memarium-retention-decision.v1` schema; class-keyed default and ceiling descriptors with the asymmetric ceiling rule. Fixtures: clamp with warning, `until-forget` refused under a bounded ceiling, latest decision wins, history retained, clock from `recorded/at`. |
+| P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job erases expired personal records and tombstones public ones through the existing forget path. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
+| P036-006 | Cascade forget and expiry to derived artifacts | todo | P036-005; P078-013 | `derived-from` references on sidecar rows, indexes and Harvester artifacts; forget or expiry purges them. Negative fixture: the matcher cannot see an expired record. A lowered ceiling re-clamps after the grace period with a notice. |
+| P036-007 | Freeze the personal record contract | todo | P036-004; `memarium-blob.v1` | `memarium-personal-record.v1` with attachments, digests, the three content forms and size bounds. Capture validates before the write. A Story 014 record fixture passes, and diagnostics carry no path or content. |
+| P036-008 | Record fact–rumor link decisions | todo | P036-007; P013-DFR-003 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
+
 ## Next Actions
 
 1. Keep deployment telemetry on read-sidecar p95 and per-space row counts;

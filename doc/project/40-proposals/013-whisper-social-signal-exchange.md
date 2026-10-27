@@ -8,6 +8,8 @@ Based on:
 Related:
 - `doc/project/40-proposals/078-weak-signal-harvester.md`
 - `doc/project/40-proposals/079-cross-federation-alliance.md`
+- `doc/project/30-stories/story-014-dormant-contest-entry.md` (acceptance story
+  for [dormant-fact resonance](#dormant-fact-resonance-2026-10-27))
 
 ## Status
 
@@ -935,3 +937,227 @@ council-admitted participant sources within one rumor context and epoch, with
 no fallback to a source node, author string or record/about. This is a new
 qualification; historical node-counting M4 results remain unchanged. Runtime
 Gate A (certification) and Gate B (ordinary host authoring) remain pending.
+
+## Dormant-Fact Resonance (2026-10-27)
+
+Status: proposed post-MVP feature; no runtime claim. This section owns the
+feature and its grouping task `P013-DFR-000`. Mechanism tasks stay in the
+documents that own each mechanism. The acceptance scenario is
+[Story 014](../30-stories/story-014-dormant-contest-entry.md).
+
+### Summary
+
+People record ordinary facts without any social tension, such as "I sent my
+poem to a contest". Such a fact is neither a rumor nor an opinion. It may gain
+social significance later, when other people publish a rumor that the fact
+corroborates. Dormant-fact resonance lets a node discover that connection
+without publishing the fact or any query derived from its details:
+
+1. the fact is kept as a neutral personal record in Memarium;
+2. a local job generalizes it to terms of a closed decorrelation vocabulary;
+3. once per epoch, the node pulls complete coarse topic buckets from rumor
+   relays;
+4. the node scores pulled rumors against the full private fact, locally;
+5. the participant decides whether the rumor concerns the fact, and any
+   disclosure uses the existing Whisper paths.
+
+The guiding rule: bring shared questions to private memory rather than send
+private memory out as questions.
+
+### Context and Problem
+
+- **Fact.** Memarium can hold such records today, but personal facts have no
+  per-fact time horizon
+  ([P036](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)),
+  and nothing connects a later rumor to an earlier record.
+- **Inference.** Publishing every fact as a rumor adds noise and discloses
+  personal history. Push delivery requires the network to know who is
+  interested. Queries built from free keywords of a rare fact are fingerprints,
+  and digests of low-entropy fields such as institution and date can be
+  reversed by dictionary, as S022 already notes for derived data.
+- **Background, not verified in this repository.** The pattern resembles
+  information escrow (Ayres and Unkovic, 2012) and Callisto-style matching,
+  where a privately held report gains meaning when an independent report
+  matches it. Exposure-notification key download and BIP157/158 client-side
+  block filters illustrate that the safest query is a download of public data
+  that is matched locally.
+
+### Model
+
+| Layer | Owner | Resolution | Content | Leaves the node |
+|---|---|---|---|---|
+| 0. Personal record | Memarium ([P036-007](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)) | full | kind, counterparty, times, title, attachments, retention horizon | never through this feature |
+| 1. Interest profile | Harvester ([P078-011](078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27)) | coarse | vocabulary term ids derived from current records | never |
+| 2. Pull plan | Whisper (`P013-DFR-002`) | bucket | per-epoch real terms, decoys, windows, byte budget | term ids, window ids, cursors |
+| 3. Local match | Harvester ([P078-012](078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27)) | full | scores, explanations, link-candidate findings | never |
+| 4. Decision | Memarium and notifications ([P036-008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27), [P057-015](057-user-and-operator-notifications.md#tracking)) | full | confirmed, rejected or deferred link | never |
+| 5. Disclosure | Whisper with Story 005, P015 and P070 | chosen by the participant | related rumor, interest, room participation | only after an explicit act |
+
+#### Decorrelation Vocabulary
+
+Whisper owns the semantics of `topic/class`; the vocabulary makes a coarse,
+shared subset of it explicit. `whisper-decorrelation-vocabulary.v1`
+(`P013-DFR-001`) is a JSON document validated by JSON Schema, versioned, and
+digested over its JCS form. JSON matches P091 configuration files, the schema
+gate and the existing canonical digests. It is a node-scoped
+[P091 setting](091-file-backed-configuration-and-explainable-composition.md#p013-decorrelation-vocabulary-consumer):
+
+- **Factory source.** The Node distribution ships a versioned vocabulary as
+  the factory source of the setting. An upgrade replaces that source, never
+  local layers.
+- **Local layers.** Operators and power users override it through ordinary
+  P091 layers. The vocabulary is an identified collection keyed by term id with
+  keyed composition. A layer may add terms; change labels, aliases or parents;
+  and retire a term through an explicit `term/status` of `retired`, because
+  `null` deletes nothing. A layer may also declare an empty base to build an
+  entirely own vocabulary. Each layer names the factory version it was written
+  against. After an upgrade, overrides of vanished terms produce a typed
+  diagnostic rather than a silent drop.
+- **Stable bindings.** A local layer cannot change the topic key of an
+  existing term id; that is refused, and a new id must be used instead. Local
+  term ids carry a local namespace prefix such as `local.`, so a later factory
+  term cannot collide with them.
+- **Application.** A changed resolution applies at the next epoch boundary,
+  and the pull plan records the `resolution/id` it used. An unavailable
+  resolution stops pull planning instead of falling back to a stale copy.
+
+Each term has an id, labels, aliases, an optional parent, its Agora topic key
+under the `ai.orbiplex.whispers/` prefix (P046) and its origin (`factory` or
+`local`; a federation-provided layer may follow later). Factory terms also carry
+a coarse population hint and a flag stating whether they meet the cardinality
+floor for pull plans.
+
+Customization has privacy consequences that the contract makes explicit:
+
+- The resolved vocabulary, its version and its digest stay local. They never
+  appear in pull requests or rumor records, because the digest of a customized
+  vocabulary would be a fingerprint. Rumors carry only the term id in
+  `topic/class`.
+- Local terms have no trusted population hint, so they are unrated. Pull plans
+  exclude unrated terms unless the operator admits them explicitly after a
+  warning that such pulls may identify the node. In pull-all mode the
+  restriction is moot.
+- Decoys are drawn only from rated terms.
+- Authoring with a local term warns that readers who use the factory
+  vocabulary will not pull that bucket.
+
+The same resolution serves both sides:
+
+- Authors label a rumor's `topic/class` with one term and keep the specific
+  details in `signal/text`, `context/facets` and `signal/similarity-key`. The
+  burden of specificity sits with the rumor, not with its readers.
+- Readers select term ids only. A local model may help choose ids but never
+  emits free-text queries. A term below the floor is replaced by its parent.
+
+#### Pull Plan and Buckets
+
+The pull plan (`P013-DFR-002`) is recomputed at epoch boundaries, not when a
+fact is written. It contains a bounded number of real terms and decoys sampled
+from the population hints, so every plan has the same shape. The node pulls
+complete `(term, window)` slices through the Agora listing extended by
+[P035-016](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27).
+An oversized bucket is split by time window or by vocabulary child, never by a
+private facet. When the whole Whisper prefix fits the budget, the node pulls
+everything and expresses no interest at all (P035-017).
+
+#### Conjunctions on the Wire
+
+Story 014 asks whether terms may be combined with AND. The v1 default is a
+union of single terms, with conjunctions applied locally after the pull:
+
+- in a bucket pull, AND saves bandwidth only if the relay filters inside the
+  buckets, and that requires sending the conjunction;
+- a conjunction denotes a smaller population than each of its terms, and the
+  same conjunction repeated across epochs eases intersection attacks;
+- a pre-composed vocabulary term that denotes an intersection is an ordinary
+  term with its own floor, so that option remains available.
+
+`P013-DFR-005` measures OR-only against pre-composed conjunction terms on a
+fixture corpus and records the decision here.
+
+#### Decisions and Disclosure
+
+A match is a hypothesis of relevance, recorded as a `weak-signal-finding.v1`
+candidate. It is not evidence and never counts toward a threshold. The
+participant confirms it, rejects it for this rumor or for the whole rumor
+context, or defers it. Memarium records the decision once, and both the record
+view and the rumor view project it. A confirmed link appears in a local "My
+rumors" view (`P013-DFR-003`) beside the participant's own rumors.
+
+Every further step is an ordinary disclosure: a related rumor authored through
+the Story 005 redaction flow under the P015 contextual profile
+(`P013-DFR-004`), an interest registration, or joining an association room and
+sharing material there (`P013-DFR-006`). A related rumor inherits the
+`topic/class` and `signal/similarity-key` of the rumor it relates to, so it
+joins that rumor context and counts as one more source, never more.
+
+### Invariants
+
+1. During discovery, no fact text, fine facet, attachment, path or digest of
+   fact fields leaves the node.
+2. The interest expression is epoch-bound and independent of the time a fact
+   is recorded.
+3. Discovery fetches complete slices. It never requests individual records
+   selected by a local match.
+4. Dormant facts never derive Agora topic-interest records
+   (see "Interest discovery and bounded private dissemination"); those records
+   are public eligibility statements.
+5. Matches are findings for review, never threshold input.
+6. Derived artifacts (terms, plans, scores, link candidates) expire no later
+   than their source record.
+7. Each disclosure is a separate explicit act through an existing path with
+   its own authorship, classification and consent controls.
+
+### Trade-offs
+
+- Coarse terms raise privacy and recall but cost bandwidth and local work;
+  budgets and the pull-all threshold make that cost explicit.
+- Epoch cadence delays discovery by hours or days. That suits weak signals;
+  this is not an emergency path.
+- The vocabulary becomes a coordination point. A poor vocabulary fragments
+  correlation, local customization can split readers from authors, and
+  mislabeled rumors land in buckets that readers may not pull.
+- Relays still learn coarse interests and their timing; decoys spend bandwidth
+  to blur them.
+- Authoring a related rumor reveals the participant's membership in that rumor
+  context to the contextual-authorship issuer, as already accepted by P015.
+
+### Failure Modes and Mitigations
+
+| Failure | Effect | Mitigation |
+|---|---|---|
+| A rare or local term identifies a participant | A relay links a node to a niche subject | Cardinality floor, parent fallback, unrated local terms excluded by default, pull-all mode |
+| A stable term set across epochs | Intersection fingerprint | Bounded plan size, decoys, slow plan change |
+| Distinguishable decoys | Real interests exposed | Decoys sampled from rated population hints with identical fetch behaviour |
+| Vocabulary digest sent on the wire | Customized nodes become unique | Version and digest stay local; records carry term ids only |
+| Alert fatigue | The participant ignores or disables the feature | Score threshold, batched notices, per-epoch cap, suppression after rejection |
+| Spurious model-assisted link | False alarm | Findings are advisory, explanations are shown, confirmation is required |
+| Crafted bait rumor | Elicits disclosures | Nothing is sent on a match; Story 005 redaction; relay and source labels shown |
+| Expired record still matched | Retention violated | Derived artifacts expire with their source; the matcher reads only current records |
+| The assistant records facts silently | Covert memory | Capture is an inert proposal executed by the host after acceptance (P066-DFR-003) |
+
+### Open Questions
+
+1. Population hints: how factory and later federation vocabularies estimate
+   them without surveilling readers, and how often they are revised.
+2. Cardinality floor values, the default epoch length and the pull-all
+   threshold.
+3. The conjunction rule, pending `P013-DFR-005`.
+4. Whether sources joined through an explicit relation should weigh
+   differently from independent discovery in production thresholds.
+
+### Dormant-Fact Resonance Tracker
+
+All rows are post-MVP `todo`. Mechanism rows close on their own evidence in
+their owning documents; the grouping row closes only on the composed Story 014
+run.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
+| P013-DFR-001 | Freeze the decorrelation vocabulary | todo | P091; P046 | `whisper-decorrelation-vocabulary.v1` JSON Schema and a factory JSON shipped with the Node distribution. A P091 descriptor provides keyed composition, explicit retirement, an empty-base replacement and immutable id-to-topic-key bindings; local ids are namespaced. Typed diagnostics follow factory upgrades, resolutions apply at epoch boundaries, and no vocabulary version or digest appears on the wire. Authoring and pulling validate against the same resolution; golden fixtures cover each rule. |
+| P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `dormant-fact-pull-plan.local.v1` per epoch: a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. |
+| P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P095 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. |
+| P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
+| P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
+| P013-DFR-006 | Association-room handoff with work sharing | todo | P070; S018; P036-007 | After opt-in, the Room handoff offers pasted text, a linked message thread and external links. Sharing a Memarium attachment requires explicit per-share declassification and shows the Room audience; external links carry an outside-guarantees warning. Joining a room shares nothing automatically. |

@@ -1785,6 +1785,44 @@ Return typed unavailability or refusal when no authorized continuation is bound.
 | --- | --- | --- | --- |
 | P066-GUIDE-001 | Bind Assistant catalog use to the shared controller contract. | todo | After P072-GUIDE-003; prove same-session isolation, no implicit Agent escalation, no repeated turn effects and no ambient tool execution; report Assistant-specific evidence separately from the first Agent slice. |
 
+## Dormant-Fact Capture and Rumor Suggestions (2026-10-27)
+
+Planned follow-up for
+[P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
+exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
+It preserves the
+[S045 invariants](../60-solutions/045-inquirium-assistant-channel/045-inquirium-assistant-channel.md#channel-not-counterparty):
+the assistant is a channel, not a counterparty, and it advises while
+host-owned paths perform effects.
+
+- **Recipient picker affordance** (`P066-DFR-001`). In Story 014 the
+  participant chooses the assistant from the contact list. The UI may render
+  the assistant affordance in the recipient picker beside contacts, visibly
+  marked as a channel. Selecting it opens an Assistant Channel turn and creates
+  no contact record, nym, Messaging envelope or route.
+- **File references** (`P066-DFR-002`). When a turn names a local file, the
+  host asks for a one-shot read grant. It then computes the SHA-256 digest,
+  media type, size and a bounded text representation with a host-owned
+  extractor. The model receives only what context grants and classification
+  admit.
+- **Capture proposals** (`P066-DFR-003`). The assistant returns an inert
+  proposal to record a `memarium-personal-record.v1` draft
+  ([P036-007](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)),
+  including the default or requested retention horizon. The UI shows the draft
+  and any clamp warning. On acceptance the host writes the record under the
+  participant's authority; the assistant never writes Memarium.
+- **Rumor suggestions** (`P066-DFR-004`). When a participant voices doubts or
+  confirms a resonance link, the assistant may propose drafting a rumor.
+  Acceptance opens the Story 005 redaction flow with any explicit relation
+  prefilled; the channel publishes nothing.
+
+| ID | Work | Status | Depends on / completion gate |
+| --- | --- | --- | --- |
+| P066-DFR-001 | Render the assistant in the recipient picker without a contact record. | todo | The picker entry is visibly a channel; fixtures prove that selection and turns create no contact, nym, route or Messaging dispatch. |
+| P066-DFR-002 | Resolve file references through host-owned grants. | todo | A one-shot read grant; digest, media type, size and bounded text extraction by the host; refusal without a grant; path and content absent from traces. |
+| P066-DFR-003 | Propose personal-record capture as an inert control proposal. | todo | After P036-004 and P036-007; the host writes only after acceptance, the clamp warning is shown, and replayed turns do not write twice. |
+| P066-DFR-004 | Propose rumor drafting into the Story 005 flow. | todo | After P013-DFR-004; a relation is prefilled only from a confirmed link; the channel publishes nothing and redaction review stays mandatory. |
+
 ## Implementation Tracking
 
 Status values:

@@ -22,6 +22,12 @@ Extended by:
 
 - `doc/project/40-proposals/090-inference-execution-provenance-and-non-local-disclosure.md`
 
+Exercised by:
+
+- `doc/project/30-stories/story-014-dormant-contest-entry.md` (association
+  room after dormant-fact resonance; the handoff is
+  [P013-DFR-006](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27))
+
 ## Status
 
 `promoted`

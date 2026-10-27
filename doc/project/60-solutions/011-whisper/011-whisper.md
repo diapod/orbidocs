@@ -329,6 +329,26 @@ Responsibilities:
 Status:
 - `optional`
 
+### Dormant-Fact Resonance
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/30-stories/story-014-dormant-contest-entry.md`
+
+Responsibilities:
+- resolve the versioned JSON decorrelation vocabulary (factory source plus
+  local P091 layers) and validate `topic/class` against it;
+- derive an epoch pull plan with decoys and pull complete coarse buckets;
+- project fact–rumor link decisions and a local "My rumors" view;
+- author related rumors that join an existing rumor context;
+- hand confirmed contexts to association rooms with explicit sharing controls.
+
+The feature owner and grouping task live in
+[P013 dormant-fact resonance](../../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27).
+
+Status:
+- `future`
+
 ## Out of Scope
 
 - transport-layer anonymity and relay topology

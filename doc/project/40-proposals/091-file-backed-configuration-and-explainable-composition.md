@@ -3095,3 +3095,26 @@ resolution fails closed for those queries; an in-flight query may complete
 through the ordinary verifier. This is a consumer-specific application of P091,
 not a change to the general resolver or signed lease. See
 [P076-037](076-limited-messaging-grants-decision.md#p076-037-status-acquisition-policy-and-contact-renewal).
+
+## P013 decorrelation vocabulary consumer
+
+Planned (2026-10-27). [P013-DFR-001](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27)
+admits a node-scoped descriptor for `whisper-decorrelation-vocabulary.v1`. The
+Node distribution ships a versioned JSON vocabulary as its factory source;
+ordinary layers may add, relabel, re-parent or explicitly retire terms, or
+declare an empty base for an entirely local vocabulary. The value is an
+identified collection keyed by term id with keyed composition and a declared
+retirement status, so `null` retains its schema meaning and deletes nothing.
+Changing the topic key bound to an existing term id is a typed refusal. The
+consumer applies a new resolution at the next Whisper epoch boundary and stops
+pull planning when resolution is unavailable. The resolved version and digest
+are local diagnostics and never leave the node.
+
+## P036 Memarium retention horizon consumer
+
+Planned (2026-10-27). [P036-004](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)
+admits two node-scoped descriptors, class-keyed by Memarium space and record
+kind: a default horizon and a ceiling. The ceiling is a safety limit and
+follows the asymmetric operator-decision rule: lowering applies at once,
+raising waits for operator confirmation, and modules cannot raise it. Memarium
+records the ceiling `resolution/id` in each retention decision it clamps.

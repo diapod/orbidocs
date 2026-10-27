@@ -487,6 +487,10 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-007 | Network-capable Harvester profile | deferred | Future Artifact Delivery handoff for explicitly configured remote sources; P084 owns changing web observation, P088 owns carrier-neutral artifact custody, and P078 consumes only explicitly admitted snapshots or derived intake artifacts under findings-only, bounded/quarantined semantics. |
 | P078-008 | Public Harvester Gateway profile | deferred | Separate future proposal for public web/API intake, attachment quarantine, receipt tokens, redacted finding promotion, and reviewer queue; P078 only keeps hook compatibility. |
 | P078-009 | Collector-submitted corroboration profile | deferred | Umbrella-operated collectors submit supporting/contradicting/context findings anchored to accepted phenomena or reviewer-approved queries. |
+| P078-010 | Memarium dormant-fact source profile | todo | Depends on P036-007 and a scoped `memarium.read` grant. A scheduled scan reads current personal records in rotating, budgeted batches with recall-oriented inclusion; it refuses expired or forgotten records and writes neither Memarium nor network artifacts. See [the profile](#memarium-dormant-fact-profile-2026-10-27). |
+| P078-011 | Vocabulary generalization to a local interest profile | todo | Depends on P078-010 and P013-DFR-001. Rules first; an optional model may choose vocabulary ids only. Below-floor terms fall back to their parent. Output is `dormant-fact-interest-profile.local.v1`; a canary fixture proves that no record token, path or digest appears in it. |
+| P078-012 | Local resonance scoring and link candidates | todo | Depends on P078-011, P013-DFR-002 and P036-008. Deterministic, explainable scores against the unnarrowed record projection; a configured threshold; `weak-signal-finding.v1` candidates that reference record and rumor; pair and context suppression; a per-epoch candidate cap. |
+| P078-013 | Dormant-fact derived artifact lifecycle | todo | Depends on P036-006. Profiles, scores and candidates carry `derived-from` references, expire with their source and are purged on forget; review-store retention is bounded. |
 
 ### Operator UI checkpoint (P084-012c)
 
@@ -499,6 +503,44 @@ exact replay does not create another draft. Other source classes keep their
 existing API review flow. See
 [P084 operator UI](084-sensorium-web-observation-connector.md#133-p084-012c-operator-review-ui)
 and `node:tools/acceptance/sensorium-web-review-ui/README.md` for acceptance.
+
+## Memarium Dormant-Fact Profile (2026-10-27)
+
+Planned continuation for
+[P013 dormant-fact resonance](013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
+exercised by [Story 014](../30-stories/story-014-dormant-contest-entry.md).
+The profile keeps the Harvester boundary: it reads explicitly granted sources
+and emits findings for review. It writes neither Memarium nor network
+artifacts. The host records the participant's decisions
+([P036-008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)),
+and Whisper performs the pulls (P013-DFR-002). This follows Resolved
+Question 3: accepted findings reach Memarium only through an explicit user
+action.
+
+1. **Scan** (`P078-010`). A scheduled module job reads current personal
+   records through `memarium.read` under an explicit grant, scoped to the
+   record kinds the participant enabled. Batches rotate and are budgeted.
+   Inclusion is recall-oriented: every current record is considered, and cheap
+   rules only order the work.
+2. **Generalize** (`P078-011`). Each record maps to term ids from the current
+   decorrelation vocabulary. Rules come first. An optional local model may
+   choose among ids, but its output is validated against the vocabulary and
+   any free text is discarded. A term below the cardinality floor falls back
+   to its parent. The output, `dormant-fact-interest-profile.local.v1`, is a
+   derived local artifact that Whisper's pull plan consumes; it never leaves
+   the node.
+3. **Score** (`P078-012`). After a pull completes, the job scores pulled
+   rumors from the local Whisper store against the unnarrowed record
+   projection. Features include counterparty and named-entity overlap, event
+   time against the rumor window, kind compatibility, title and facet tokens,
+   and link domains. v1 is deterministic and explainable; model-assisted
+   scoring stays with `P078-006` and embeddings with S022. A score above the
+   configured threshold yields a `weak-signal-finding.v1` link candidate. Its
+   source refs name the record and the rumor, and its group key is the rumor
+   context. Rejected pairs and contexts are suppressed.
+4. **Lifecycle** (`P078-013`). Profiles, scores and candidates carry
+   `derived-from` references, expire with their source and are purged on
+   forget.
 
 ## Next Actions
 
