@@ -371,6 +371,7 @@ issuer.
 | `authorization/public-key` | The authorizing public key; for `continuity-key` it must match the commitment in the anchored record |
 | `successor/nym` | The successor nym id |
 | `successor/certificate` | The digest of the successor's current certificate |
+| `case/revision`, `case/previous` | The case event order; required for scope `case` and forbidden for scope `line` |
 | `audience` | The named recipients; `line` successions are public by nature |
 | `issued-at`, `not-after` | A short validity window |
 | `signatures` | Exactly two Ed25519 signatures, authorization and successor acceptance |
@@ -387,6 +388,17 @@ issuer.
   ([P013 case-bound succession](013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)).
 - **Successor.** The successor performs a new operation, so its certificate
   must be valid now.
+- **Signature uses.** The successor's signature is a proof of possession inside
+  this domain-separated protocol. Only the succession verifier accepts it, with
+  a currently valid certificate; it is not a publication and needs no Agora
+  scope, and a publication verifier never accepts it. Any new nym publication,
+  such as a Whisper correlation notice, needs its record kind and schema listed
+  explicitly in the certificate scope
+  ([P013 signature uses](013-whisper-social-signal-exchange.md#signature-uses-and-certificate-scope)).
+- **Currency.** Offline verification shows that a `case` succession is
+  authentic, not that it is the current head of its case. Effects that need the
+  current state require the case status of
+  [P013 case state](013-whisper-social-signal-exchange.md#case-state-and-currency).
 - **Narrow schema.** No additional properties, closed enums and negative
   fixtures.
 - **Limits.** Succession renews no certificate, does not make the
@@ -397,7 +409,7 @@ issuer.
 |---|---|
 | Certificate expired, key still controlled | `nym-key` within grace; afterwards only `continuity-key` succession |
 | Key lost or deleted | No direct proof. With a retained continuity key, `case` succession still works; otherwise there is no succession, because the council keeps no mapping after its retention |
-| Key compromised or authority revoked | A signature by the predecessor nym key never suffices. A separate continuity key is required, and revocation of the case blocks succession |
+| Key compromised or authority revoked | A signature by the predecessor nym key never suffices. A separate continuity key is required, and a closed or conflicted case status blocks succession |
 
 Disclosure is deliberate. A recipient of a succession proof learns the link
 between the two nyms, and a scope limits the permitted effects, not that
@@ -411,7 +423,7 @@ post-MVP follow-up.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate and replay. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after` and a reused `succession/id`. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–007. |
+| P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/revision`/`case/previous` rules; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id`, a `case` succession without `case/revision` and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. |
 
 ## P081 Scoped-Claim Adoption
 

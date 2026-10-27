@@ -259,21 +259,31 @@ coordination threshold; Rant's embargo on his content is a separate condition.
    the attestation by condition id, and Rant gets a confirmation prompt
    (P057-017) with the criterion, count, audience and deadline. He confirms
    with the condition's control key.
-7. Rant's node publishes the release record to federation-scoped readers. It
-   carries the pre-redacted release payload, the condition, the attestation and
-   the confirmation, and readers verify it offline. The record states that
-   distinct sources are not evidence that the reports are true.
+7. Rant's node obtains a release-time recount from C, evaluated within 60
+   seconds of publication, and a fresh case status showing the case active. It
+   records the release decision and publishes the release record to
+   federation-scoped readers. The record carries the pre-redacted release
+   payload, the condition, the release-time attestation and the confirmation,
+   and readers verify it offline. It states that distinct sources are not
+   evidence that the reports are true.
 8. Negative paths:
    - Had Rant declined, or let the prompt expire, nothing would be released.
-   - Had a source been revoked before his confirmation, the attestation would
-     have aged out and the recount would have fallen below three.
+   - Had a source been revoked before the release, the release-time recount
+     would have fallen below three and nothing would have been released,
+     provided the revocation had reached C's source status. A revocation newer
+     than that status, which may be up to 300 seconds old, may not be
+     reflected.
+   - Had Rant withdrawn the condition after confirming, the fresh case status
+     would have shown the withdrawal and the release would have been refused.
+   - A second attestation after the release produces no second release for the
+     same audience.
    - A third source that appears only in a later epoch does not suffice; there
      the requirement is four distinct sources within that epoch.
 
 | ID | Assertion | Proves |
 |---|---|---|
 | S014-A12 | Before release, the correlation text reaches only C and the release payload does not leave Rant's node. C's query endpoints, Agora records, notices, notifications, logs and exports contain neither, and the public notice is content-free. | P013-ADC-003, P013-ADC-007 |
-| S014-A13 | The room proposal at two sources releases nothing. The release happens only after a fresh attestation of at least three other sources and Rant's signed confirmation. | P013-ADC-004, P013-ADC-005 |
+| S014-A13 | The room proposal at two sources releases nothing. The release happens only after Rant's signed confirmation, a release-time recount of at least three other sources within 60 seconds of publication and a fresh case status; a revocation already reflected in C's status blocks it, and a later attestation yields no second release. | P013-ADC-004, P013-ADC-005, P013-LLR-008 |
 | S014-A14 | Reposts and forwards by one source leave the count unchanged, and epochs after Rant's are evaluated separately under the N + 1 rule. | P013-ADC-004 |
 | S014-A15 | The release record verifies without contacting Rant's node, publishes only the release payload to the declared audience, and reveals no identity, private record, attachment or source material. | P013-ADC-005 |
 

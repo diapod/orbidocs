@@ -1228,7 +1228,8 @@ The material is split into two payloads:
   author named, and its forwarding budget admits no other holder.
 - **Release payload.** `whisper-release-payload.v1`, redacted through the
   Story 005 flow for the declared release audience when the rumor is authored,
-  signed by the author's nym and committed by digest in the condition. Custody
+  and committed by digest in the condition, which the protected signal's nym
+  signature covers. It carries no signature of its own. Custody
   is `withheld` (the author node keeps it) or `held-under-obligation` (a
   custodian keeps it). This honours S011: a release publishes text that was
   redacted for its audience.
@@ -1238,7 +1239,8 @@ The control key is the
 key pair per case, kept in the Pseudonym Vault and committed in the protected
 signal. It signs amendments, withdrawal, confirmations and case-bound
 succession, so the condition remains controllable after the rumor nym rotates,
-without linking the condition to the participant.
+without linking the condition to the participant. Every act of this key is a
+case event under the [case state](#case-state-and-currency) contract.
 
 ### Same Matter: Descriptor, Grouping Rule and Key
 
@@ -1356,18 +1358,28 @@ A releasing node verifies, in order:
 1. the protected signal: nym signature, contextual certificate and
    publication proof;
 2. the embedded condition and its control key;
-3. the attestation: an admitted authority, a binding to the condition and
-   context, an epoch inside the window, an observed count that meets the basis,
-   status freshness at evaluation, and an age at release time no greater than
-   `attestation/max-age-seconds` (proposed at most 900);
-4. the amendments: none withdraws the condition or narrows it below this
-   release;
-5. in confirm mode, the author's confirmation of this attestation and
-   audience;
-6. the release payload: its digest equals the condition's commitment, and its
-   nym signature verifies against the certificate valid at the protected
-   signal's publication;
-7. the audience: it equals, or is narrower than, the declared audience.
+3. the triggering attestation: an admitted authority, a binding to the
+   condition and context, an epoch inside the window, an observed count that
+   meets the basis and status freshness at evaluation. It may prompt the author
+   while it is no older than `attestation/max-age-seconds` (proposed at most
+   900), but it does not authorize publication by itself;
+4. the release-time recount: a second attestation by the same authority,
+   evaluated no earlier than 60 seconds before publication, that still meets
+   the requirement;
+5. the current case state: a fresh case status shows the case active, and no
+   case event up to its head revision withdraws the condition or narrows it
+   below this release;
+6. in confirm mode, the author's confirmation of this condition, audience and
+   triggering attestation, still within its `confirmation/not-after`;
+7. the release payload: its digest equals the condition's commitment, which the
+   protected signal's nym signature covers;
+8. the audience: it equals, or is narrower than, the declared audience.
+
+Freshness has a stated residual bound. The release-time recount reflects the
+revocations that have reached the counting authority, whose source status may
+be up to 300 seconds old (P015). A revocation issued less than that before the
+recount may therefore not stop a release, and the acceptance claims are bounded
+accordingly.
 
 Evidence that recipients can re-verify without trusting the counting authority
 remains to be designed in `P013-ADC-004`.
@@ -1378,14 +1390,25 @@ remains to be designed in `P013-ADC-004`.
   attestation by condition id through the private exchange path it used to
   submit the protected signal, so the authority stores no route to the author.
   The author sees a prompt and signs `whisper-disclosure-confirmation.v1` with
-  the control key, or declines. `pre-authorized` executes on a fresh
-  attestation without another prompt, only until `release/not-after`, and
-  notifies the author afterwards.
+  the control key, or declines. The confirmation binds the condition, the
+  audience, the triggering attestation and a short `confirmation/not-after`.
+  Publication still needs the release-time recount. If the recount falls short
+  or the confirmation expires, nothing is released, the condition returns to
+  `active`, and a later satisfying attestation needs a new confirmation.
+  `pre-authorized` publishes after a release-time recount without another
+  prompt, only until `release/not-after`, and notifies the author afterwards.
 - **Record.** `whisper-disclosure-release.v1` embeds the release payload, the
-  condition reference, the attestation and, in confirm mode, the confirmation.
-  The releasing node signs it. Its id is derived from the condition digest,
-  the attestation digest and the audience, so retries are idempotent and one
-  condition yields at most one release per audience.
+  condition reference, the release-time attestation and, in confirm mode, the
+  confirmation. The releasing node signs it. Its id is derived from the
+  condition digest and the audience only.
+- **One release per audience.** Before publication the releasing party
+  atomically records a release decision that freezes the first accepted
+  release-time attestation for `(condition digest, audience)`. Retries reuse
+  that decision, so a later attestation can never produce a second release for
+  the same condition and audience. Recording the decision is
+  `transactional-withheld`; publication is `irreversible-external`. A
+  recipient that sees two different releases with one id treats them as
+  equivocation: it keeps the first and flags the conflict.
 - **Audiences.** A closed set: `association-room` (P070), `federation-scoped`
   and `cross-federation`. Agora audiences require registering the record kind
   and content schema.
@@ -1406,8 +1429,10 @@ items. Any of them requires a separate consent.
 `whisper-disclosure-amendment.v1` is signed with the control key and can only
 narrow the condition: raise N, shorten the window, narrow the audience, switch
 `pre-authorized` to `confirm`, or withdraw. A wider condition requires a new
-condition on a new protected signal. Custodians apply amendments before every
-release decision. Withdrawal also erases a held release payload.
+condition on a new protected signal. Amendments and withdrawal are case events
+with `case/revision` and `case/previous`, so their order is explicit.
+Custodians apply the current case status before every release decision, and
+withdrawal also erases a held release payload.
 
 ### Custody Obligations
 
@@ -1442,7 +1467,9 @@ These are policy obligations backed by audit, not cryptography.
 
 With `descriptor/visibility = public-notice`, the author node publishes a
 content-free `whisper-correlation-notice.v1`, signed by the author's nym, in
-the vocabulary bucket of its `topic/class`. It carries the rendered descriptor,
+the vocabulary bucket of its `topic/class`. A notice is a publication of its
+own kind, so the certificate scope must list it explicitly
+([signature uses](#signature-uses-and-certificate-scope)). It carries the rendered descriptor,
 the grouping rule, the similarity key, N and an expiry. Dormant-fact readers
 can then find the matter, and their authors can join by keyed derivation. The
 notice is itself a disclosure that the matter exists, and the author's editor
@@ -1463,7 +1490,7 @@ or escrow-style encryption, is a separate cryptographic mechanism
 stateDiagram-v2
     [*] --> active
     active --> satisfied: fresh attestation meets the requirement
-    satisfied --> active: attestation ages out or the recount falls short
+    satisfied --> active: release-time recount falls short or confirmation expires
     satisfied --> awaiting_confirmation: confirm mode
     satisfied --> released: pre-authorized
     awaiting_confirmation --> released: author confirms
@@ -1515,9 +1542,10 @@ stateDiagram-v2
 | The author republishes in a later epoch | Self-triggered release | N + 1 outside the author's epoch |
 | Coordinated fake sources | Release triggered by a group | Council admission of sources (P015), an author-chosen N, confirm mode |
 | The authority attests a false count | Release on a false basis | Evidence commitment and entries for the author and custodian; confirm mode; committees later |
-| A stale attestation is used | Release after revocations | Status freshness at evaluation and a maximum age at release |
+| A stale attestation is used | Release after revocations | A release-time recount within 60 seconds of publication; residual staleness bounded by the 300-second status freshness |
+| A newer withdrawal or closure is missed | Release against current consent | A fresh case status before every release; a missing status defers |
 | The author is unreachable | Release blocked | Expiry; pre-authorized mode as an explicit choice |
-| Release retried or duplicated | Double publication | Deterministic release id, one release per audience |
+| Release retried, or a second attestation arrives | Double publication | Release id from condition and audience, an atomically recorded release decision, equivocation flagged by recipients |
 | A protected signal feeds a public threshold | The matter is exposed | `coordination/participation` defaults to `excluded` |
 
 ### Open Questions
@@ -1540,13 +1568,13 @@ only on the composed Story 014 variant run.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P013-ADC-000 | Story 014 disclosure-condition variant acceptance | todo | P013-ADC-001–008; [P057-017](057-user-and-operator-notifications.md#tracking); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance); P013-DFR-001, P013-DFR-004 | One retained run of the [variant](../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition) proves S014-A12–A15. It scans correlator query endpoints, Agora, AD copies, notifications and logs for canaries, and covers the duplicate, later-epoch, withdrawal, stale-attestation and declined-confirmation paths. |
-| P013-ADC-001 | Freeze the disclosure condition contract | todo | P015 v2 signal | `whisper-disclosure-condition.v1` embedded in the protected v2 signal under the nym signature, `whisper-release-payload.v1` and `whisper-disclosure-amendment.v1`. The contract covers the control key as the case continuity key (P013-LLR-006), N as other sources with bounds, the epoch window, join policy, coordination participation, closed audiences and modes, custody, authority and freshness bounds. Golden fixtures; negative fixtures for widening amendments, unknown fields and expired conditions. |
+| P013-ADC-001 | Freeze the disclosure condition contract | todo | P015 v2 signal | `whisper-disclosure-condition.v1` embedded in the protected v2 signal under the nym signature, `whisper-release-payload.v1` and `whisper-disclosure-amendment.v1`. The contract covers the control key as the case continuity key (P013-LLR-006), N as other sources with bounds, the epoch window, join policy, coordination participation, closed audiences and modes, custody, authority and freshness bounds. The release payload carries no signature of its own, and amendments and withdrawal are case events (P013-LLR-008). Golden fixtures; negative fixtures for widening amendments, unknown fields and expired conditions. |
 | P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. |
 | P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
-| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; direct exchange (Next Actions 9) | Per-epoch counting with exact author exclusion and the N + 1 rule; status freshness; publication-time evidence for privately carried v2 signals from the counting authority's durable admission receipt; `whisper-disclosure-attestation.v1` with its evidence commitment; one verifier library for custodians, author nodes and recipients; a design note on independently verifiable evidence. |
-| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P070 | `whisper-disclosure-confirmation.v1` and `whisper-disclosure-release.v1`; confirm and pre-authorized modes; a deterministic release id and one release per condition and audience; amendment and withdrawal checks before every release; delivery to rooms and Agora with kind registration; payload digest verification. |
+| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; direct exchange (Next Actions 9) | Per-epoch counting with exact author exclusion and the N + 1 rule; status freshness; publication-time evidence for privately carried v2 signals from the counting authority's durable admission receipt; `whisper-disclosure-attestation.v1` with its evidence commitment and a release-time recount mode; one verifier library for custodians, author nodes and recipients; a design note on independently verifiable evidence. |
+| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P070 | `whisper-disclosure-confirmation.v1` and `whisper-disclosure-release.v1`; confirm and pre-authorized modes with `confirmation/not-after`; a release-time recount within 60 seconds; a release id from the condition digest and audience; an atomically recorded release decision freezing the first release-time attestation, with recovery after a crash between decision and publication; a fresh case status (P013-LLR-008) before every release; delivery to rooms and Agora with kind registration; payload digest verification. |
 | P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
-| P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002 | `whisper-correlation-notice.v1`, signed by the author's nym, in the term bucket; content-free with an expiry; dormant-fact readers can match and join; the editor warns that a notice discloses the matter's existence. |
+| P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002 | `whisper-correlation-notice.v1`, signed by the author's nym, in the term bucket, with its kind and schema listed in the certificate scope (P015); content-free with an expiry; dormant-fact readers can match and join; the editor warns that a notice discloses the matter's existence. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | An editor for N, rule breadth with its rendering, window, audience, mode, custody, correlators, notice and coordination participation; condition state and count progress in "My rumors"; confirm prompts through P057-017; amendments and withdrawal. |
 | P013-ADC-009 | Sealed pre-threshold confidentiality | deferred | P013-ADC-004; cryptographic review | A mechanism in which no correlator can read protected material before N sources exist, for example threshold or escrow-style encryption. It needs a separate, proposal-grade review. |
 
@@ -1904,6 +1932,8 @@ and then used repeatedly, without a rotation chain for that key and without a
 key event log of its own. KERI's properties therefore do not carry over
 automatically. Compromise of the old nym key alone cannot take over a case,
 but compromise of the continuity key is critical and terminal for the case.
+Case events get a small ordering contract instead
+([case state](#case-state-and-currency)).
 
 - **Case continuity key.** When the author publishes the first signal of a
   case, the Pseudonym Vault generates a fresh Ed25519 key pair for that case,
@@ -1928,7 +1958,10 @@ but compromise of the continuity key is critical and terminal for the case.
   that the revealed public key matches the commitment in the anchored record,
   that the anchored record verifies historically (`P013-LLR-002`), and that B's
   certificate is valid now. It also checks the scope, purpose, audience and
-  `not-after`, and that no closure signed by the continuity key ended the case.
+  `not-after`, and that a fresh case status shows this succession as the
+  current case head of an active case. The successor's signature counts only
+  as proof of possession in this protocol
+  ([signature uses](#signature-uses-and-certificate-scope)).
 
 Effects stay inside the case. `continue-case` lets B act for the matter, for
 example by reaffirming it. Succession never carries reputation outside the
@@ -1951,15 +1984,74 @@ the scope limits the permitted effects, not that knowledge. Case-bound
 successions therefore travel only to their audience through the private
 exchange path, and the author's editor names who will learn the link.
 
+### Case State and Currency
+
+Signatures verified offline prove authenticity, not that no newer withdrawal or
+closure exists. Every act of the continuity key is therefore a case event in a
+small ordered contract. This is not a full key event log.
+
+- **Shared header.** Condition amendments and withdrawal, release
+  confirmations, case closure and `case`-scope successions carry `case/anchor`
+  (the original record digest), `case/revision` (a monotonic integer; the
+  anchor is revision 0) and `case/previous` (the digest of the previous event,
+  or of the anchor). Each artifact keeps its own body and authority; only the
+  header is shared, following the reusable-data-abstraction rule of
+  `node:DEV-GUIDELINES.md`.
+- **Status authority.** The first signal of a case commits to
+  `case/status-authority` beside the continuity-key digest. For a case with an
+  author disclosure condition it is the condition's counting authority;
+  otherwise the editor proposes the profile's projection authority, and the
+  choice is always committed explicitly. The author node submits each event to
+  it through the private exchange path. The authority serves a signed
+  `whisper-case-status.v1` with the head revision and digest, the state
+  (`active`, `closed` or `conflicted`), the current successor, if any, and the
+  issue time.
+- **Freshness.** An effect that depends on the case being current, such as a
+  release, an act of a successor or a reaffirmation, needs a case status no
+  older than 300 seconds, the same bound as P015 source status. A missing or
+  stale status defers the effect and never implies that the case is active.
+- **Ordering and conflicts.** The authority accepts only the next revision
+  with the matching `case/previous`, keeps a durable high-water mark and
+  refuses rollback. Two different events with the same revision and previous
+  digest are equivocation, and the case becomes `conflicted`. That state is
+  terminal, like a compromised continuity key, and verifiers that see
+  conflicting events refuse both.
+- **One current successor.** A succession names the current successor, and a
+  later succession at a higher revision replaces it. A second, different
+  succession at the same revision is a conflict, not a co-authorization; v1
+  supports no co-successors.
+- **Disclosure.** The status authority learns the timing of case events and the
+  successor nym, so it necessarily belongs to the audience of every succession.
+
+### Signature Uses and Certificate Scope
+
+The contextual certificate restricts nym publications to its exact topic key,
+record kind `whisper-signal` and schema `whisper-signal.v2` (P015). The
+artifacts of this proposal must not widen that scope implicitly. Each signature
+has one declared use:
+
+| Signature | Signer | Use | Requirement |
+|---|---|---|---|
+| Protected or related `whisper-signal.v2` | Nym | Publication | The existing contextual scope |
+| Commitments inside a signal: condition, release payload digest, `case/continuity-key-digest`, `case/status-authority` | Nym, as part of the signal | Part of that publication | The existing scope; no separate signature |
+| Release payload | None | Authenticated by the digest committed in the protected signal | None |
+| Correlation notice | Nym | A publication of its own kind | Its record kind and schema listed explicitly in the certificate scope |
+| Successor acceptance in `nym-succession.v2` | Successor nym | Proof of possession in a domain-separated auxiliary protocol | A currently valid certificate, checked only by the succession verifier; never accepted by a publication verifier |
+| Case events | Continuity key | Case control | None beyond the anchor commitment |
+| Disclosure attestations and case status | Counting or status authority | Authority claims | Admission of that authority |
+| Release record | Releasing node | The release act | Node identity |
+| Cover request | None | Authenticated by the peer session | None |
+
 ### Long-Lived Rumor Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–007; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
+| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–008; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
 | P013-LLR-001 | Four-period contract | todo | P015; P036-004 | Each period has a named field or policy and an owner; the consistency rules are fixed; an audit of existing contracts finds and corrects conflations, such as counting horizons longer than retention. |
 | P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. |
 | P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
-| P013-LLR-006 | Case continuity key | todo | P013-ADC-001; S026 Pseudonym Vault | Generation per case in the Vault; `case/continuity-key-digest` in the first signed signal of a case; one key for condition amendments, release confirmations and succession; lifetime bounded by `case/not-after` and retention; deletion recorded as an erasure fact; opt-in recovery inclusion. Negative fixtures cover a mismatched commitment and a missing key. |
-| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
+| P013-LLR-006 | Case continuity key | todo | P013-ADC-001; S026 Pseudonym Vault | Generation per case in the Vault; `case/continuity-key-digest` in the first signed signal of a case; one key for condition amendments, release confirmations and succession; lifetime bounded by `case/not-after` and retention; deletion recorded as an erasure fact; opt-in recovery inclusion; `case/status-authority` committed beside the key digest. Negative fixtures cover a mismatched commitment and a missing key. |
+| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, a fresh case status naming this succession as head, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
+| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; direct exchange (Next Actions 9) | The shared case event header; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and current successor; acceptance of only the next revision with the matching previous digest; a durable high-water mark refusing rollback; equivocation leading to `conflicted`; a 300-second freshness bound that defers effects; fixtures for a missed withdrawal, a forked revision, rollback, a replaced successor and a missing status. |
