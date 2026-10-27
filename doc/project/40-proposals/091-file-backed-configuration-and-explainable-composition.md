@@ -3108,7 +3108,11 @@ retirement status, so `null` retains its schema meaning and deletes nothing.
 Changing the topic key bound to an existing term id is a typed refusal. The
 consumer applies a new resolution at the next Whisper epoch boundary and stops
 pull planning when resolution is unavailable. The resolved version and digest
-are local diagnostics and never leave the node.
+are local diagnostics and never leave the node. The same document will also
+carry grouping rules for correlation descriptors
+([P013-ADC-002](013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27));
+they compose by rule id like terms, and a change to a rule's normalization
+requires a new rule version rather than an override of the existing one.
 
 ## P036 Memarium retention horizon consumer
 

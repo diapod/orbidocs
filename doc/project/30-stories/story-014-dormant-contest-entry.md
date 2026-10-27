@@ -2,7 +2,10 @@
 
 Status: Proposed acceptance story for
 [P013 dormant-fact resonance](../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
-grouping task `P013-DFR-000`. Nothing in this story is implemented yet. It
+grouping task `P013-DFR-000`. Its
+[variant](#variant-author-disclosure-condition) is the acceptance story for
+[P013 author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27),
+grouping task `P013-ADC-000`. Nothing in this story is implemented yet. It
 fixes the observable behaviour that the grouped tasks must prove together.
 
 Date: 2026-10-27
@@ -10,6 +13,8 @@ Date: 2026-10-27
 Related:
 
 - [Proposal 013: Whisper, dormant-fact resonance](../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27)
+- [Proposal 013: Whisper, author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+  (the [variant](#variant-author-disclosure-condition) below)
 - [Proposal 036: Memarium, fact retention horizons and personal records](../40-proposals/036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)
 - [Proposal 078: Weak Signal Harvester, Memarium dormant-fact profile](../40-proposals/078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27)
 - [Proposal 035: Agora, decorrelated bucket pull](../40-proposals/035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27)
@@ -218,6 +223,59 @@ This story assumes the current Orbiplex corpus where:
   term is unrated, so the pull plan leaves it out until the operator admits it
   after a warning (S014-A11). Authoring with that term would warn Rant that
   factory-vocabulary readers do not pull its bucket.
+
+## Variant: Author Disclosure Condition
+
+This variant exercises
+[P013 author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+and closes with `P013-ADC-000`. It changes steps 6 to 15 of the main path as
+described; everything else still holds. The room proposal at two sources is a
+coordination threshold; Rant's embargo on his content is a separate condition.
+
+1. In step 6, Rant decides to embargo his rumor. With his assistant he
+   approves a correlation descriptor under the grouping rule
+   `contest-assessment/v1`: doubts about how entries were assessed in the 2026
+   edition of contest K organized by O. He rejects the broader `contest/v1`,
+   which would also count unrelated reports about payouts or the entry form.
+2. He sets the condition: at least three other qualified sources, a window of
+   four epochs, the audience `federation-scoped`, mode `confirm`, custody
+   `withheld`, join policy `keyed-and-confirmed-joins`, coordination
+   participation `allowed` and descriptor visibility `public-notice`. The
+   Story 005 flow produces two redactions: a minimal correlation text and a
+   release payload for federation-scoped readers.
+3. Rant's node sends the protected signal privately to projection C, which is
+   both the counting authority and the only correlator. It also publishes a
+   content-free correlation notice in `culture.competitions`.
+4. Agnes's pull (step 9) finds the notice and her record matches it. She
+   confirms and authors a related signal in the same context (steps 11–14),
+   and C counts one other source. Because Rant allowed coordination
+   participation, the two sources reach the coordination threshold and C emits
+   the room proposal (step 15). Rant's content stays embargoed for wider
+   audiences.
+5. Agnes reposts her signal and a holder forwards it; the count stays at one.
+   Two more entrants find the notice and publish their own reports in the same
+   context during Rant's epoch, so the count reaches three.
+6. C attests three other sources under a fresh status. Rant's node retrieves
+   the attestation by condition id, and Rant gets a confirmation prompt
+   (P057-017) with the criterion, count, audience and deadline. He confirms
+   with the condition's control key.
+7. Rant's node publishes the release record to federation-scoped readers. It
+   carries the pre-redacted release payload, the condition, the attestation and
+   the confirmation, and readers verify it offline. The record states that
+   distinct sources are not evidence that the reports are true.
+8. Negative paths:
+   - Had Rant declined, or let the prompt expire, nothing would be released.
+   - Had a source been revoked before his confirmation, the attestation would
+     have aged out and the recount would have fallen below three.
+   - A third source that appears only in a later epoch does not suffice; there
+     the requirement is four distinct sources within that epoch.
+
+| ID | Assertion | Proves |
+|---|---|---|
+| S014-A12 | Before release, the correlation text reaches only C and the release payload does not leave Rant's node. C's query endpoints, Agora records, notices, notifications, logs and exports contain neither, and the public notice is content-free. | P013-ADC-003, P013-ADC-007 |
+| S014-A13 | The room proposal at two sources releases nothing. The release happens only after a fresh attestation of at least three other sources and Rant's signed confirmation. | P013-ADC-004, P013-ADC-005 |
+| S014-A14 | Reposts and forwards by one source leave the count unchanged, and epochs after Rant's are evaluated separately under the N + 1 rule. | P013-ADC-004 |
+| S014-A15 | The release record verifies without contacting Rant's node, publishes only the release payload to the declared audience, and reveals no identity, private record, attachment or source material. | P013-ADC-005 |
 
 ## Open Continuation
 

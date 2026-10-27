@@ -394,3 +394,16 @@ its existing 300-second budget, independent of nym source-status freshness.
 Nym-only grants do not make Messaging issuance/readiness ready and cannot issue
 Messaging send or receive passports. This is the narrow P015 exception to P076's
 original Messaging-only decision, not an expansion of its historical evidence.
+
+## Consumer: author disclosure conditions (2026-10-27)
+
+[P013 author disclosure conditions](../013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+count this profile's sources without changing the profile. They evaluate one
+epoch at a time and never sum epochs. In the protected signal's epoch they
+exclude the author's `source/ref` exactly; in later epochs they require one
+additional source, because the author cannot be recognized there. They use the
+same status freshness, revocation and publication-time rules as first emission.
+Privately carried v2 signals reach the counting authority without a relay, so
+their publication-time evidence must come from that authority's durable
+admission receipt. Gate B qualifies Agora carriage only; the private carriage
+belongs to `P013-ADC-004`.
