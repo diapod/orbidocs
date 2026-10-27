@@ -407,3 +407,13 @@ Privately carried v2 signals reach the counting authority without a relay, so
 their publication-time evidence must come from that authority's durable
 admission receipt. Gate B qualifies Agora carriage only; the private carriage
 belongs to `P013-ADC-004`.
+
+## Consumer: long-lived rumors (2026-10-27)
+
+[P013 long-lived rumors](../013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27)
+keep certificates short. The SQLite admission receipt used above as
+publication-time evidence becomes an instance of the portable
+[`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+so other nodes can verify later that a record was admitted while its nym proof
+was valid. That historical validity grants no current authority and does not
+extend this profile's epoch or counting rules.

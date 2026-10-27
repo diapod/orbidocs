@@ -393,6 +393,26 @@ The design and tracker live in
 Status:
 - `future`
 
+### Historical Authorship of Long-Lived Rumors
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/40-proposals/041-agora-ingest-attestation.md`
+
+Responsibilities:
+- keep certificate validity, retention, counting horizon and consent validity
+  as separate periods;
+- store portable admission receipts beside envelope bytes and verify
+  historical authorship separately from current status;
+- re-contact the author of an old rumor that meets a twin, instead of counting
+  the old rumor again.
+
+The design and tracker live in
+[P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27).
+
+Status:
+- `future`
+
 ## Out of Scope
 
 - transport-layer anonymity and relay topology

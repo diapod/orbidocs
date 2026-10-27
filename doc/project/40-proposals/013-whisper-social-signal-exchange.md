@@ -1775,3 +1775,113 @@ the measured claim.
 | P013-CIM-006 | Separation from memory and social signals | todo | P013-CIM-001 | Fixtures prove that cover and decoy entries never reach the interest profile, Memarium personal records, link candidates, thresholds or disclosure-condition counts. |
 | P013-CIM-007 | Effectiveness evaluation | todo | P013-CIM-001–005 | A multi-epoch simulation comparing cooperative cover with independent decoys at equal byte budgets against the three adversaries; parameter sweeps; a recorded bounded claim and recommended defaults. |
 | P013-CIM-008 | Operator settings and readiness | todo | P013-CIM-004–005; P091 | Initiation and acceptance settings, budgets and aggregate load per origin in readiness; diagnostics without request contents or sender lists. |
+
+## Long-Lived Rumors and Historical Authorship (2026-10-27)
+
+Status: proposed post-MVP clarification and feature; no runtime claim.
+
+### Summary
+
+Nym certificates live at most 24 hours, yet a rumor may need to meet its twin a
+year later. A short certificate need not mean a short-lived statement. The
+design separates historical authorship, current admission, the counting window
+and the author's consent. Certificates are not lengthened to make rumors live
+longer.
+
+### Context and Problem
+
+- **Fact.** P035 requires a currently valid `nym-authorship-proof.v1` at
+  ingest. The proof is part of the signed canonical bytes, while
+  `relay/received-at` is relay metadata outside the author's signature.
+- **Fact.** P041 refuses `nym_certificate_expired`, and redelivery ships a
+  byte-identical envelope that is evaluated against the current policy.
+- **Fact.** This proposal stores the signed envelope byte-identically in
+  Memarium with its lifecycle trace and privacy policy. No rule deletes it
+  because its author's certificate expired.
+- **Fact.** P015 keeps contributions after natural certificate expiry at the
+  counting authority, and proves publication time with verified Matrix PDUs or
+  an allowlisted relay's signed admission receipt.
+- **Inference.** A gate that demands current validity refuses an old envelope,
+  redelivery included. Replacing `author/nym-proof` would change the signed
+  bytes and the `record/id`, so renewing the author's authority and preserving
+  the original publication are separate operations.
+- **Fact.** Story 014's 10-minute epochs and 2-minute certificates are fixture
+  parameters, not production lifetimes, and that story tests a dormant fact
+  followed by a rumor, not two rumors a year apart.
+
+### Four Periods
+
+| Period | Question it answers | Owner |
+|---|---|---|
+| Nym certificate validity | May this nym perform a new operation now? | P015 |
+| Retention of the rumor and its verification material | How long do we keep this historical statement and the means to check its origin? | Memarium (P036) and the local rumor store |
+| Correlation and counting horizon | How far apart in time may reports be linked and counted toward one threshold? | This proposal (pull windows, disclosure-condition windows) |
+| Consent validity | Does the author still permit disclosure, contact or association? | Conditions, interests and room consents |
+
+No period is derived from another. A counting horizon may not exceed the
+retention of the evidence it counts, and recognizing a link between two rumors
+is not the same as counting them as two qualified sources in one epoch.
+
+### Historical Admission Evidence
+
+- **Receipt at first admission.** The admitting relay, or the counting
+  authority for private carriage, issues an
+  [`agora-admission-receipt.v1`](035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27).
+  It binds the record id, the author-byte digest, the nym certificate digest
+  and issuing council, the verification outcome, the gate policy, the relay
+  identity and the acceptance time, and the relay signs it as an explicitly
+  admitted time authority. A verified Matrix PDU is an equivalent proof under
+  P015. This generalizes the P015 publication-time evidence rather than adding
+  a second format.
+- **Storage.** Nodes keep receipts beside the envelope bytes in Memarium, under
+  the same retention.
+- **Historical verification.** "Was authorized then" means: verify the
+  signature; verify the nym proof against the certificate validity window at
+  the receipt's acceptance time, within five seconds of skew; verify that the
+  receipt signer is an admitted time authority; and evaluate revocation by its
+  effective time. The verifier returns two separate facts: historical validity
+  and current status. Neither `authored/at` nor a bare `relay/received-at`
+  suffices. RFC 3161 timestamping is a comparable general technique; it is not
+  an Orbiplex feature.
+- **Admission after expiry.** A gate may enable historical admission for
+  archival or redelivery topics
+  ([P041-001](041-agora-ingest-attestation.md#historical-nym-admission-2026-10-27)).
+  The default remains refusal.
+- **No automatic recount.** Historical admission makes an old rumor verifiable
+  and storable; it does not make it count again. Counting follows its own
+  horizon.
+
+### Meeting a Twin After a Year
+
+**Variant 1: re-contact (proposed default).**
+
+- The author's own node treats its authored rumors as dormant records in
+  dormant-fact matching ([P078-014](078-weak-signal-harvester.md#implementation-tracker)).
+  A new rumor that matches an old one produces a notice to the author.
+- The author may author a new related signal under a fresh nym in the current
+  epoch. By default it is not linked to the old record. An explicit `reaffirms`
+  relation, which reveals that both come from the same author, is a separate,
+  warned choice.
+- A third-party holder of the old rumor can reach its author only through a
+  `contact/ref` the rumor carries; otherwise the match stays local.
+- The cost is explicit: an unavailable author yields no current confirmation.
+
+**Variant 2: cumulative long-horizon counting (deferred research).** Counting
+across many epochs needs case-scoped distinctness or continuity that prevents
+one person under successive nyms from counting as several sources, without a
+public stable identifier. Candidates are issuer-retained case bindings for the
+case horizon, which lengthen issuer retention, or rate-limited blind tokens per
+participant and case. Consent must cover the whole horizon explicitly. This is
+the same gap as the first open question of
+[author disclosure conditions](#author-disclosure-conditions-2026-10-27).
+
+### Long-Lived Rumor Tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004; P035-019; P041-001; P078-014 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
+| P013-LLR-001 | Four-period contract | todo | P015; P036-004 | Each period has a named field or policy and an owner; the consistency rules are fixed; an audit of existing contracts finds and corrects conflations, such as counting horizons longer than retention. |
+| P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. |
+| P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
+| P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation. |
+| P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration; a proposal-grade review before any runtime work. |

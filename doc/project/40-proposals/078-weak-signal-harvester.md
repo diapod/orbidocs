@@ -491,6 +491,7 @@ Status values: `todo`, `in-progress`, `partial`, `done`, `deferred`.
 | P078-011 | Vocabulary generalization to a local interest profile | todo | Depends on P078-010 and P013-DFR-001. Rules first; an optional model may choose vocabulary ids only. Below-floor terms fall back to their parent. Output is `dormant-fact-interest-profile.local.v1`; a canary fixture proves that no record token, path or digest appears in it. |
 | P078-012 | Local resonance scoring and link candidates | todo | Depends on P078-011, P013-DFR-002 and P036-008. Deterministic, explainable scores against the unnarrowed record projection; a configured threshold; `weak-signal-finding.v1` candidates that reference record and rumor; pair and context suppression; a per-epoch candidate cap. |
 | P078-013 | Dormant-fact derived artifact lifecycle | todo | Depends on P036-006. Profiles, scores and candidates carry `derived-from` references, expire with their source and are purged on forget; review-store retention is bounded. |
+| P078-014 | Authored rumors as dormant records | todo | Depends on P078-010 and P013-LLR-003. The dormant-fact profile also reads the participant's own authored rumors from Memarium, so a later twin can be matched for re-contact ([P013 long-lived rumors](013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27)). Authored-rumor matches produce findings for the author only; they never count as sources or re-publish the old record. |
 
 ### Operator UI checkpoint (P084-012c)
 

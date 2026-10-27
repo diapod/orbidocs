@@ -2803,6 +2803,35 @@ budget.
 | P035-017 | Slice volume summaries and prefix enumeration | todo | P035-016 | Per-topic and per-window counts and bytes; bounded enumeration of keys under `ai.orbiplex.whispers/`; budgets and typed refusals. A reader fixture chooses pull-all below its threshold. |
 | P035-018 | Compact slice facet filters | deferred | P035-016; privacy review | Relay-published per-slice filters matched locally. Reopen only after a measured bandwidth need. |
 
+## Portable Admission Receipts (2026-10-27)
+
+Planned continuation for
+[P013 long-lived rumors](013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27).
+`relay/received-at` is relay metadata outside the author's signature, so it
+cannot by itself show when a record was admitted, or that its nym proof was
+valid then. P015 already relies on an allowlisted relay's signed durable
+admission receipt as publication-time evidence. This section makes that
+receipt a portable artifact instead of adding a second format.
+
+`agora-admission-receipt.v1`, signed by the admitting relay, binds:
+
+- the `record/id` and the digest of the exact author bytes;
+- the digest of the nym certificate or passport used, and its issuer;
+- the verification outcome and the ingest gate policy that applied;
+- the relay identity and the acceptance time.
+
+The relay acts as an explicitly admitted time authority for the profiles that
+accept its receipts; no verifier infers that authority from a relay label. The
+receipt never enters the signed record. It travels beside the byte-identical
+envelope: in readback metadata, in custodial redelivery requests and in local
+Memarium storage. A verified Matrix PDU remains an equivalent proof under P015.
+
+### Admission Receipt Tracker
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P035-019 | Portable admission receipts | todo | P015 Gate B; P041 | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. |
+
 ## Follow-Up
 
 If adopted, the next artifacts should be:
