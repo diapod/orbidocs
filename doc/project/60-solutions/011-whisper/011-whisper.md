@@ -349,6 +349,30 @@ The feature owner and grouping task live in
 Status:
 - `future`
 
+### Author Disclosure Conditions
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/30-stories/story-014-dormant-contest-entry.md`
+
+Responsibilities:
+- embed and verify author-signed disclosure conditions in protected v2
+  signals;
+- derive similarity keys from author-approved correlation descriptors under
+  versioned grouping rules;
+- keep protected material within the correlation scope under custody
+  obligations;
+- count distinct contextual sources per epoch and attest the result;
+- release pre-redacted payloads after a fresh attestation and, by default,
+  the author's confirmation;
+- keep disclosure conditions separate from coordination thresholds.
+
+The design and tracker live in
+[P013 author disclosure conditions](../../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27).
+
+Status:
+- `future`
+
 ## Out of Scope
 
 - transport-layer anonymity and relay topology

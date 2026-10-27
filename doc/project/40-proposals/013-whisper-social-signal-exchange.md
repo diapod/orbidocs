@@ -1161,3 +1161,383 @@ run.
 | P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
 | P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
 | P013-DFR-006 | Association-room handoff with work sharing | todo | P070; S018; P036-007 | After opt-in, the Room handoff offers pasted text, a linked message thread and external links. Sharing a Memarium attachment requires explicit per-share declassification and shows the Room audience; external links carry an outside-guarantees warning. Joining a room shares nothing automatically. |
+
+## Author Disclosure Conditions (2026-10-27)
+
+Status: proposed post-MVP feature; no runtime claim. This section owns the
+feature and its tracker. The acceptance scenario is the
+[author disclosure condition variant of Story 014](../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition).
+
+### Summary
+
+An author may make wider disclosure of a rumor conditional: "do not show this
+content beyond the correlators I chose until at least N other qualified sources
+report the same matter". The condition is part of the author's consent. It is
+signed together with the rumor and binds every node that holds the material;
+it is not a hint to a server.
+
+Four separations carry the design:
+
+1. **Same matter is a context.** Reports count together only when they share a
+   `topic/class` and a `signal/similarity-key` derived by a versioned grouping
+   rule from a correlation descriptor that the author approved. The counter
+   compares identifiers; it does not interpret meaning.
+2. **Sources, not copies.** Counting uses P015 contextual sources per epoch.
+   Copies, forwards and republications by one source count once.
+3. **Release is verifiable.** A release publishes a payload that was redacted
+   for the release audience when the rumor was authored. It requires a fresh
+   attestation by an admitted counting authority and, by default, the author's
+   final confirmation.
+4. **Disclosure is not coordination.** The disclosure condition answers "when
+   may this content be shown?". The coordination threshold of section 5
+   answers "when should joint action be proposed?". The two never imply each
+   other.
+
+### Context and Problem
+
+- **Fact.** Section 5 defines a coordination threshold that leads to an
+  association-room proposal, and section 6 an explicit consent gate. Neither
+  lets an author define when content may reach wider audiences.
+- **Fact.** S011 Layer 7 resolved that `whisper-durable.v1` carries aggregates
+  and a content-addressed reference, and that text redacted under one scope is
+  never re-published under another.
+- **Fact.** P015 counts council-admitted participant sources per context and
+  epoch. `source/ref` is derived per participant, context and epoch, so
+  distinctness is defined only within one epoch, and contributions stop
+  counting after revocation or epoch end.
+- **Inference.** A number alone is not a condition. Without an exact criterion
+  of which reports count together, a node could reach the threshold by
+  widening the matter. If a semantic similarity score could move a report into
+  a group, it would change when a consent executes, not only how well search
+  works.
+
+### Roles and Payloads
+
+| Role | Holds before release | May | Must not |
+|---|---|---|---|
+| Author node | Protected signal, release payload, condition control key | Narrow or withdraw the condition, confirm or decline a release | — |
+| Correlator (custodian) | Correlation payload; the release payload only in held custody | Match locally, propose context joins, pass the descriptor to the counting authority | Disclose protected material outside the correlation scope |
+| Counting authority | Protected signal and condition; signals of the context | Count sources and attest | Count anything other than the condition's context |
+| Recipient | Released record | Verify the release offline | Treat the count as evidence of truth |
+
+The material is split into two payloads:
+
+- **Correlation payload.** The protected v2 signal with `disclosure/scope =
+  private-correlation`, the embedded condition and the correlation
+  descriptor. Its text may be minimal. It travels only to the correlators the
+  author named, and its forwarding budget admits no other holder.
+- **Release payload.** `whisper-release-payload.v1`, redacted through the
+  Story 005 flow for the declared release audience when the rumor is authored,
+  signed by the author's nym and committed by digest in the condition. Custody
+  is `withheld` (the author node keeps it) or `held-under-obligation` (a
+  custodian keeps it). This honours S011: a release publishes text that was
+  redacted for its audience.
+
+The control key is a fresh key pair generated for one condition and kept in the
+Pseudonym Vault. It signs amendments, withdrawal and confirmations, so the
+condition remains controllable after the rumor nym rotates, without linking
+the condition to the participant.
+
+### Same Matter: Descriptor, Grouping Rule and Key
+
+The author approves a `whisper-correlation-descriptor.v1`: a grouping rule
+plus typed, normalized fields, rendered as a sentence the author can judge.
+An illustrative descriptor, not a frozen field list:
+
+| Field | Value |
+|---|---|
+| Grouping rule | `contest-assessment/v1` |
+| Organizer | Organizer O, identified by its website domain |
+| Event | Contest K, identified by its canonical page URL |
+| Edition | `2026` |
+| Issue kind | `assessment-integrity-doubt` |
+| Rendering | "Doubts about how entries were assessed in the 2026 edition of contest K organized by O." |
+
+Grouping rules live in the decorrelation vocabulary document beside its terms
+([P013-DFR-001](#dormant-fact-resonance-2026-10-27)) and reach nodes the same
+way: a factory JSON source with local P091 layers. Each rule has an id, a
+version, applicable terms, a closed field list with admissible identifier types
+(domain, canonical URL, registry id, normalized text, closed enums), the
+canonicalization and a rendering template. A local rule produces keys that
+other nodes do not derive, and the UI says so.
+
+The similarity key is the domain-separated digest of the normalized
+descriptor:
+
+```text
+signal/similarity-key = "gk1:" || base64url(sha256(JCS([
+  "orbiplex.whisper.grouping.v1", rule-id, rule-version, normalized-fields
+])))
+```
+
+Changing a rule's normalization or field set requires a new version. The
+condition binds the rule id, version and digest, so no node can substitute a
+broader rule.
+
+Breadth is the author's decision. `contest/v1` counts any report about the
+contest; `contest-assessment/v1` counts only doubts about assessment, and
+excludes, for example, payout or form problems. The key is the outcome of
+agreeing on meaning, not a mechanism that discovers it: two different
+descriptors remain different after hashing.
+
+### Ambiguous Reports: Proposals, Not Merges
+
+People describe one event differently: an official name, a colloquial name, or
+no name at all. Correlators may look for such candidates, and a model may help,
+but its output is a proposal:
+
+1. When the condition's join policy is `keyed-and-confirmed-joins`, a
+   correlator may send a content-free `whisper-context-join-proposal.v1` to the
+   candidate's author through that signal's reply path. It shows only the
+   rendered target descriptor, never other rumors.
+2. The candidate's author accepts by authoring a related signal in the target
+   context (P013-DFR-004). The keyed counting rule then counts it.
+
+No node merges contexts on its own, and no similarity score opens an embargo.
+Under the default join policy `keyed-only`, only reports that derive the same
+key count.
+
+### Counting Rule
+
+For each epoch `e` of the window, the counting authority computes the number of
+distinct `source/ref` values among admitted signals that:
+
+- carry the condition's context digest and were admitted in epoch `e`;
+- had certificates valid at their authenticated publication time (P015);
+- belong to sources that are not revoked under a status no older than
+  300 seconds.
+
+Copies, forwards and republications of one source count once. Counts of
+different epochs are never summed.
+
+- **N means other sources.** In the protected signal's epoch, the author's
+  `source/ref` is known from the protected signal's certificate and is
+  excluded exactly; the requirement is N. In each later epoch of the window the
+  author's source cannot be recognized, so the requirement is N + 1.
+- **Window.** `count/window-epochs` whole epochs starting with the protected
+  signal's epoch. The proposed bound is 13 epochs, about 91 days under the
+  production seven-day profile.
+- **Limitation.** Reports that trickle in across epochs do not satisfy the
+  condition unless one epoch alone reaches the requirement. Longer counting
+  needs a longer-epoch profile (the issuer then retains bindings longer) or a
+  cryptographic cross-epoch linkage.
+- **Meaning.** Distinct sources are a consent trigger. They do not show that
+  the reports are true.
+
+### Attestation and Verification
+
+The condition names exactly one counting authority in v1: the projection
+authority that federation policy admits for the contextual profile and context
+(the P015 role C). Committees with quorum proofs may follow, as section 5
+already anticipates.
+
+`whisper-disclosure-attestation.v1`, signed by that authority, binds:
+
+- the condition digest and the protected signal reference;
+- the context digest, the epoch and the counting basis
+  (`author-epoch-exact` or `later-epoch-conservative`);
+- the required and observed counts;
+- the status revisions used and the evaluation time;
+- a commitment over the sorted evidence entries. An entry holds the
+  `source/ref`, certificate digest, signal digest and admission-proof digest.
+  It holds no content, and the entries themselves go only to the author and
+  the named custodian.
+
+A releasing node verifies, in order:
+
+1. the protected signal: nym signature, contextual certificate and
+   publication proof;
+2. the embedded condition and its control key;
+3. the attestation: an admitted authority, a binding to the condition and
+   context, an epoch inside the window, an observed count that meets the basis,
+   status freshness at evaluation, and an age at release time no greater than
+   `attestation/max-age-seconds` (proposed at most 900);
+4. the amendments: none withdraws the condition or narrows it below this
+   release;
+5. in confirm mode, the author's confirmation of this attestation and
+   audience;
+6. the release payload: its digest equals the condition's commitment, and its
+   nym signature verifies against the certificate valid at the protected
+   signal's publication;
+7. the audience: it equals, or is narrower than, the declared audience.
+
+Evidence that recipients can re-verify without trusting the counting authority
+remains to be designed in `P013-ADC-004`.
+
+### Release
+
+- **Modes.** `confirm` is the default. The author node retrieves the
+  attestation by condition id through the private exchange path it used to
+  submit the protected signal, so the authority stores no route to the author.
+  The author sees a prompt and signs `whisper-disclosure-confirmation.v1` with
+  the control key, or declines. `pre-authorized` executes on a fresh
+  attestation without another prompt, only until `release/not-after`, and
+  notifies the author afterwards.
+- **Record.** `whisper-disclosure-release.v1` embeds the release payload, the
+  condition reference, the attestation and, in confirm mode, the confirmation.
+  The releasing node signs it. Its id is derived from the condition digest,
+  the attestation digest and the audience, so retries are idempotent and one
+  condition yields at most one release per audience.
+- **Audiences.** A closed set: `association-room` (P070), `federation-scoped`
+  and `cross-federation`. Agora audiences require registering the record kind
+  and content schema.
+- **Releasing party.** The author node in withheld custody, the custodian in
+  held custody. A counting authority that is also the custodian concentrates
+  trust; confirm mode keeps the author's final word.
+- **Irreversibility.** A release cannot be recalled. Revocations after a
+  release change the current annotation, as P015 does for first emissions, but
+  not the released record.
+
+The release discloses only the release payload, plus the rendered criterion and
+the attested count unless the author chose to omit the criterion. The author's
+identity, private records, attachments and source materials are never release
+items. Any of them requires a separate consent.
+
+### Amendments and Withdrawal
+
+`whisper-disclosure-amendment.v1` is signed with the control key and can only
+narrow the condition: raise N, shorten the window, narrow the audience, switch
+`pre-authorized` to `confirm`, or withdraw. A wider condition requires a new
+condition on a new protected signal. Custodians apply amendments before every
+release decision. Withdrawal also erases a held release payload.
+
+### Custody Obligations
+
+Correlators advertise the custody profile `whisper-embargo-custody:v1`, and an
+author selects correlators only among them. A custodian:
+
+- labels protected material through `classification.v1`, so the existing
+  egress guards refuse it;
+- never includes it in Agora records, topic or subject query responses,
+  aggregate notices, holder availability beacons, redistribution offers, room
+  frames, notification previews, exports, logs or remote model egress;
+- may use it for local matching and context-join proposals, and may pass the
+  descriptor to the counting authority;
+- erases its custody copy at release, withdrawal, expiry or
+  `release/not-after`.
+
+These are policy obligations backed by audit, not cryptography.
+
+### Coordination Independence
+
+- Disclosure conditions and coordination thresholds have separate state and
+  separate artifacts. `coordination/participation` defaults to `excluded`: a
+  protected signal then feeds no public threshold or proposal record. With
+  `allowed`, a room proposal can form while the content stays embargoed for
+  wider audiences, as in the Story 014 variant.
+- A room is a release audience only when the condition names it. Room
+  membership alone grants nothing.
+- The author can always disclose their own material by a new, explicit act.
+  The condition binds custodians and automation, not the author.
+
+### Optional Public Notice
+
+With `descriptor/visibility = public-notice`, the author node publishes a
+content-free `whisper-correlation-notice.v1`, signed by the author's nym, in
+the vocabulary bucket of its `topic/class`. It carries the rendered descriptor,
+the grouping rule, the similarity key, N and an expiry. Dormant-fact readers
+can then find the matter, and their authors can join by keyed derivation. The
+notice is itself a disclosure that the matter exists, and the author's editor
+says so. The default is `correlators-only`.
+
+### Confidentiality from Correlators
+
+In the basic variant a correlator can read what it holds and is obliged not to
+disclose it. Withheld custody keeps the release payload at the author node
+until release, but needs that node at release time. A variant in which no node
+can read the protected material before N sources exist, for example threshold
+or escrow-style encryption, is a separate cryptographic mechanism
+(`P013-ADC-009`). Disclosure policy alone cannot provide it.
+
+### Condition States
+
+```mermaid
+stateDiagram-v2
+    [*] --> active
+    active --> satisfied: fresh attestation meets the requirement
+    satisfied --> active: attestation ages out or the recount falls short
+    satisfied --> awaiting_confirmation: confirm mode
+    satisfied --> released: pre-authorized
+    awaiting_confirmation --> released: author confirms
+    awaiting_confirmation --> declined: author declines
+    active --> withdrawn: control-key withdrawal
+    awaiting_confirmation --> withdrawn: control-key withdrawal
+    active --> expired: window or release/not-after ends
+    awaiting_confirmation --> expired: release/not-after ends
+```
+
+### Invariants
+
+1. Before release, protected material leaves the author node only toward the
+   named correlators and the counting authority.
+2. No correlator discloses protected material through any surface listed under
+   custody obligations.
+3. Group membership follows the context digest only. No semantic score
+   changes it.
+4. One source counts once per epoch; epochs are never summed.
+5. A release requires a fresh attestation by the named authority and, in
+   confirm mode, the author's confirmation.
+6. A release publishes only the pre-redacted release payload to the declared
+   audience.
+7. Amendments only narrow.
+8. Disclosure conditions and coordination thresholds are independent.
+9. Release records state that distinct sources are not evidence of truth.
+
+### Trade-offs
+
+- Per-epoch counting is exact and unlinkable, but misses reports that trickle
+  in over several epochs.
+- Confirm mode preserves the author's agency, but an absent author blocks the
+  release. Pre-authorized mode releases in the author's absence, but trusts
+  custodians and the authority more.
+- Withheld custody exposes less, but needs the author node at release.
+- A single counting authority is a trust concentration. Evidence commitments,
+  confirm mode and later committees reduce it.
+- Keyed-only counting avoids false merges, but reaches N more slowly than
+  confirmed joins.
+- A public notice speeds discovery, but reveals that the matter exists.
+
+### Failure Modes and Mitigations
+
+| Failure | Effect | Mitigation |
+|---|---|---|
+| A correlator leaks protected material | Disclosure without consent | Custody profile, classification guards, audit; withheld custody; sealed variant later |
+| A node widens the matter to reach N | Early release | Rule id, version and digest bound in the condition; joins need the candidate author's act |
+| One source republishes or is forwarded | Inflated count | Distinct `source/ref` per epoch |
+| The author republishes in a later epoch | Self-triggered release | N + 1 outside the author's epoch |
+| Coordinated fake sources | Release triggered by a group | Council admission of sources (P015), an author-chosen N, confirm mode |
+| The authority attests a false count | Release on a false basis | Evidence commitment and entries for the author and custodian; confirm mode; committees later |
+| A stale attestation is used | Release after revocations | Status freshness at evaluation and a maximum age at release |
+| The author is unreachable | Release blocked | Expiry; pre-authorized mode as an explicit choice |
+| Release retried or duplicated | Double publication | Deterministic release id, one release per audience |
+| A protected signal feeds a public threshold | The matter is exposed | `coordination/participation` defaults to `excluded` |
+
+### Open Questions
+
+1. Multi-epoch accumulation: a longer-epoch profile with longer issuer
+   retention, or a cryptographic cross-epoch linkage.
+2. Evidence that recipients can re-verify without trusting the counting
+   authority, and committee attestation.
+3. Defaults and bounds: maximum N, window length, attestation age and the
+   pre-authorized horizon.
+4. Whether release records should carry the evidence commitment publicly.
+5. How a confirm-mode author stays reachable without exposing a route to the
+   counting authority, beyond pulling over the private exchange path.
+
+### Author Disclosure Condition Tracker
+
+All rows are post-MVP `todo` unless marked otherwise. The grouping row closes
+only on the composed Story 014 variant run.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P013-ADC-000 | Story 014 disclosure-condition variant acceptance | todo | P013-ADC-001–008; [P057-017](057-user-and-operator-notifications.md#tracking); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance); P013-DFR-001, P013-DFR-004 | One retained run of the [variant](../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition) proves S014-A12–A15. It scans correlator query endpoints, Agora, AD copies, notifications and logs for canaries, and covers the duplicate, later-epoch, withdrawal, stale-attestation and declined-confirmation paths. |
+| P013-ADC-001 | Freeze the disclosure condition contract | todo | P015 v2 signal | `whisper-disclosure-condition.v1` embedded in the protected v2 signal under the nym signature, `whisper-release-payload.v1` and `whisper-disclosure-amendment.v1`. The contract covers the control key, N as other sources with bounds, the epoch window, join policy, coordination participation, closed audiences and modes, custody, authority and freshness bounds. Golden fixtures; negative fixtures for widening amendments, unknown fields and expired conditions. |
+| P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. |
+| P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
+| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; direct exchange (Next Actions 9) | Per-epoch counting with exact author exclusion and the N + 1 rule; status freshness; publication-time evidence for privately carried v2 signals from the counting authority's durable admission receipt; `whisper-disclosure-attestation.v1` with its evidence commitment; one verifier library for custodians, author nodes and recipients; a design note on independently verifiable evidence. |
+| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P070 | `whisper-disclosure-confirmation.v1` and `whisper-disclosure-release.v1`; confirm and pre-authorized modes; a deterministic release id and one release per condition and audience; amendment and withdrawal checks before every release; delivery to rooms and Agora with kind registration; payload digest verification. |
+| P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
+| P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002 | `whisper-correlation-notice.v1`, signed by the author's nym, in the term bucket; content-free with an expiry; dormant-fact readers can match and join; the editor warns that a notice discloses the matter's existence. |
+| P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | An editor for N, rule breadth with its rendering, window, audience, mode, custody, correlators, notice and coordination participation; condition state and count progress in "My rumors"; confirm prompts through P057-017; amendments and withdrawal. |
+| P013-ADC-009 | Sealed pre-threshold confidentiality | deferred | P013-ADC-004; cryptographic review | A mechanism in which no correlator can read protected material before N sources exist, for example threshold or escrow-style encryption. It needs a separate, proposal-grade review. |
