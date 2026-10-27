@@ -3122,3 +3122,14 @@ kind: a default horizon and a ceiling. The ceiling is a safety limit and
 follows the asymmetric operator-decision rule: lowering applies at once,
 raising waits for operator confirmation, and modules cannot raise it. Memarium
 records the ceiling `resolution/id` in each retention decision it clamps.
+
+## P013 cooperative interest masking consumer
+
+Planned (2026-10-27). [P013-CIM-004 and P013-CIM-005](013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27)
+admit node-scoped settings for cooperative cover: initiation and acceptance as
+separate switches, both off by default; the accepted sender class (`contacts`,
+`allowlist` or `advertised`); and limits for active cover terms, bytes per
+epoch, request duration and requests per sender per epoch. Limits are safety
+values composed with the domain-owned `min` relation, so a later layer can
+tighten but not silently widen a stricter one. Changes apply to new requests and
+the next plan; already accepted requests keep their bounds until they expire.

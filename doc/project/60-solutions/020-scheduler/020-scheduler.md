@@ -891,16 +891,24 @@ status refresh cannot suppress protective publication. See
 ## Dormant-fact resonance jobs
 
 Planned (2026-10-27). [Story 014](../../30-stories/story-014-dormant-contest-entry.md)
-needs three consumer-owned jobs. S020 owns only their clock and launch policy;
-each owner keeps its budgets, refusal reasons and readiness reporting.
+and its follow-ups need four consumer-owned jobs. S020 owns only their clock
+and launch policy; each owner keeps its budgets, refusal reasons and readiness
+reporting.
 
 | Job | Owner | Cadence | Task |
 |---|---|---|---|
 | Retention expiry | Memarium | Daily, skip-missed | [P036-005](../../40-proposals/036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27) |
 | Dormant-fact scan, generalization and scoring | Weak Signal Harvester module | Per epoch; scoring after a completed pull | [P078-010–012](../../40-proposals/078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27) |
 | Bucket pull | Whisper | Epoch boundary with stable jitter, skip-overlap | [P013-DFR-002](../../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27) |
+| Minimal-trace purge | Artifact Delivery | After the retry horizon, skip-missed | [S023-002](../023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) |
 
 The pull job reads the interest profile and vocabulary resolution current at
 the epoch boundary, so writing a fact never triggers network activity.
 Pausing any of these jobs is visible in its owner's readiness; pausing expiry
 postpones erasure rather than skipping it.
+
+The bucket pull executes every plan entry, whatever its `need`, `decoy` or
+`cover` origin, at a time drawn by the shared `cover-schedule/v1` rule
+([P013-CIM-003](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27)).
+The S020 launch only opens the epoch's pull window; the per-entry offsets
+belong to the Whisper job, so the scheduler sees no origin.

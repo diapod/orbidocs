@@ -1156,7 +1156,7 @@ run.
 |---|---|---|---|---|
 | P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
 | P013-DFR-001 | Freeze the decorrelation vocabulary | todo | P091; P046 | `whisper-decorrelation-vocabulary.v1` JSON Schema and a factory JSON shipped with the Node distribution. A P091 descriptor provides keyed composition, explicit retirement, an empty-base replacement and immutable id-to-topic-key bindings; local ids are namespaced. Typed diagnostics follow factory upgrades, resolutions apply at epoch boundaries, and no vocabulary version or digest appears on the wire. Authoring and pulling validate against the same resolution; golden fixtures cover each rule. |
-| P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `dormant-fact-pull-plan.local.v1` per epoch: a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. |
+| P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `whisper-pull-plan.local.v1` per epoch, one entry abstraction whose local `origin` is `need`, `decoy` or `cover` ([P013-CIM-001](#cooperative-interest-masking-2026-10-27)): a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. |
 | P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P095 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. |
 | P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
 | P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
@@ -1541,3 +1541,237 @@ only on the composed Story 014 variant run.
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002 | `whisper-correlation-notice.v1`, signed by the author's nym, in the term bucket; content-free with an expiry; dormant-fact readers can match and join; the editor warns that a notice discloses the matter's existence. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | An editor for N, rule breadth with its rendering, window, audience, mode, custody, correlators, notice and coordination participation; condition state and count progress in "My rumors"; confirm prompts through P057-017; amendments and withdrawal. |
 | P013-ADC-009 | Sealed pre-threshold confidentiality | deferred | P013-ADC-004; cryptographic review | A mechanism in which no correlator can read protected material before N sources exist, for example threshold or escrow-style encryption. It needs a separate, proposal-grade review. |
+
+## Cooperative Interest Masking (2026-10-27)
+
+Status: proposed post-MVP feature; no runtime claim. It extends the
+[dormant-fact pull plan](#dormant-fact-resonance-2026-10-27) and adds no
+transport.
+
+### Summary
+
+A relay that serves bucket pulls learns which node reads which coarse topic,
+and when. Local decoys blur that, but a node with a real interest can remain
+the only stable reader of a term over many epochs. Cooperative interest masking
+lets a node ask selected peers to "also pull X" for a bounded period. It never
+asks them to "pull X for me": every participant performs its own ordinary pull,
+keeps its own response and reports nothing back. This is neither brokering nor
+onion routing.
+
+The promise is bounded. Reads become a weaker indicator of interest. The
+mechanism does not hide the reader's address or identity, and it does not make
+it impossible to learn who is really interested.
+
+### Context and Problem
+
+- **Fact.** The epoch pull plan (P013-DFR-002) mixes real terms with decoys
+  sampled from rated vocabulary terms, and pulls complete slices.
+- **Inference.** Independent decoys are uncorrelated across nodes and rotate.
+  A real interest persists, so across epochs the persistent reader of a term
+  stands out. Cooperative cover adds other persistent readers of the same term.
+- **Constraint.** A helper learns what it is asked to read. Requests therefore
+  mix real and decoy terms and carry no motive, so that knowledge stays
+  ambiguous.
+- **Constraint.** Artifact Delivery leaves durable state (S023). Using it is not
+  traceless; it needs a dedicated retention profile before exposure.
+
+### One Plan, Three Origins
+
+Following the reusable-data-abstraction rule of `node:DEV-GUIDELINES.md`, the
+DFR plan becomes the general `whisper-pull-plan.local.v1` rather than gaining a
+parallel structure. It has one entry abstraction:
+
+| Field | Meaning |
+|---|---|
+| `term` | A rated vocabulary term id |
+| `window` | The epoch and its pull window |
+| `origin` | `need` (interest profile), `decoy` (local draw) or `cover` (accepted request) |
+| `origin/ref` | The local source: profile revision, draw id or request id |
+| `expires-at` | The end of the entry's validity |
+
+`origin` is local data. The executor ignores it, the relay never sees it, and
+diagnostics show only aggregate counts per origin. One executor serves every
+entry: the same relays and mirrors, endpoints, headers, pagination, complete
+download, retry budget and storage path. A cover pull never aborts early and
+never carries a marker. Its results enter the ordinary local rumor store under
+ordinary retention, and whether they were useful is reported to no one.
+
+### Cover Requests
+
+`whisper-cover-request.v1` is deliberately small:
+
+| Field | Meaning |
+|---|---|
+| `schema` | Constant schema id |
+| `request/id` | A random 128-bit id; the idempotency key per sender |
+| `cover/terms` | 1–8 rated factory vocabulary term ids |
+| `cover/from-epoch` | The first covered epoch |
+| `cover/epochs` | 1–8 whole epochs |
+| `schedule/rule` | The shared timing rule, `cover-schedule/v1` |
+
+The schema has `additionalProperties: false` and a 2 KiB bound. It deliberately
+omits a motive, a real-or-decoy marker, the initiator's profile, a result
+route, forwarding fields, URLs or addresses, and any vocabulary version or
+digest.
+
+- **Composition.** The initiator builds requests from its plan by a rule that
+  includes real terms only probabilistically and also sends requests with no
+  real term. Every term is drawn from the same rated distribution as local
+  decoys.
+- **No own signature.** Authenticity comes from the authenticated peer session
+  and AD admission, so a helper holds no transferable signed proof of what the
+  initiator asked. Whether INAC session authentication actually has that
+  property must be verified (`P013-CIM-002`); if not, the claim narrows.
+- **No cancellation.** Requests expire. A cancellation sent when a real need
+  ends would itself reveal the need.
+- **No recursion.** A helper never forwards a request, and the schema has no
+  field that could ask it to.
+
+### Delivery Through Artifact Delivery
+
+```text
+Node A cover component
+  -> whisper-cover-request.v1
+  -> Artifact Delivery A (private route, inac-direct)
+  -> INAC over an authenticated peer session
+  -> Artifact Delivery B (admission)
+  -> cover component B (single authoritative acceptor):
+     local consent, budget, validity, deduplication, prior execution
+  -> B's pull plan and S020 job, at a locally drawn time
+  -> ordinary Agora topic read; results stay at B
+```
+
+AD is the component interface and `inac-direct` the carrier, per S023 and
+`node:DEV-GUIDELINES.md`. Delivery authority is not control authority. The
+acceptor checks consent, budget, validity and prior execution before any state
+change, and it refuses generically, without telling the sender why.
+
+AD records deliveries and admissions durably, and AD does not store arbitrary
+artifacts in Memarium. The absence of a Memarium entry therefore does not mean
+the absence of data on disk. Before runtime exposure this consumer requires the
+[minimal-trace delivery profile](../60-solutions/023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile)
+(`S023-001`, `S023-002`). Validity and retention are different things: an
+expired request is not an erased request.
+
+### Shared Timing
+
+Under `cover-schedule/v1`, every participant, the initiator included, draws for
+each plan entry and epoch an independent uniform offset within the epoch's pull
+window and fetches at that time. Entries of every origin follow the same rule,
+so a real interest produces no "interested first" or "interested last"
+pattern. The window bounds and any additional jitter are profile values, tuned
+by `P013-CIM-007`.
+
+### Multi-Epoch Cover
+
+A request covers whole epochs, and a helper keeps an accepted term for the
+whole period. The initiator keeps its helper set for a term stable during the
+term's cover period. It starts cover together with the need and keeps it after
+the need ends (tail padding). Helpers and terms rotate only by rules evaluated
+on multi-epoch histories (`P013-CIM-007`), because drawing new helpers for every
+read can leave the interested node as the only constant reader.
+
+### Participation and Budgets
+
+Participation is voluntary and bounded by P091 settings:
+
+- initiation and acceptance are separate settings, both off by default;
+- acceptance admits senders from `contacts`, an `allowlist` or `advertised`
+  peers;
+- limits cover active cover terms, bytes per epoch, request duration in epochs
+  and requests per sender per epoch;
+- helper selection reuses AD recipient selectors: explicit node lists, or
+  `capability-many` with `max/nodes` against peers advertising
+  `whisper.cover.v1`. Advertising participation is itself a disclosure and is
+  opt-in.
+
+A helper accepts only rated vocabulary terms: no arbitrary addresses, no
+recursion, and no obligation beyond the request's expiry.
+
+### Not Memory, Not Support
+
+Cover and decoy entries never enter the interest profile, Memarium personal
+records or link-candidate claims. A cover pull creates no rumor, no
+confirmation and no source counted toward a coordination threshold or an author
+disclosure condition. The mechanism masks observable behaviour; it does not
+falsify personal memory or reports.
+
+### Effect Recovery Classes
+
+| Effect | Class | Owner | Point of no return |
+|---|---|---|---|
+| Sending a cover request | `irreversible-external` | Initiator cover component through AD | AD hands the bytes to INAC |
+| Accepting a request into the plan | `transactional-withheld` | Helper cover component | The plan commit |
+| A cover pull | `irreversible-external` | Whisper pull job | The relay observes the read |
+
+### Effectiveness Must Be Measured
+
+`P013-CIM-007` compares cooperative cover with independent decoys at the same
+byte budget, on multi-epoch histories, against three adversaries:
+
+1. relays that see node, term and time;
+2. relays together with helpers that reveal the requests they received;
+3. a federation-wide passive observer.
+
+Metrics include how accurately real interests per node can be inferred, the
+rank of true terms and the number of epochs until identification, across helper
+counts, request mixes, durations and timing parameters. The documentation may
+claim only what these measurements show.
+
+### Invariants
+
+1. Each participant pulls for itself; nothing is relayed to the initiator.
+2. `origin` never leaves the node and never changes how a pull is executed.
+3. Requests carry no motive, no marker and no forwarding instruction.
+4. All participants follow the same timing rule.
+5. Acceptance follows local consent and budgets; delivery grants no control.
+6. Requests expire, are never cancelled and never recurse.
+7. Cover never becomes interest, memory, a rumor or a counted source.
+8. Runtime exposure requires the minimal-trace delivery profile.
+
+### Trade-offs
+
+- Cover costs bandwidth that independent decoys could also spend. Its value
+  must be demonstrated on equal budgets.
+- Helpers learn request contents. Mixing makes that knowledge ambiguous, not
+  absent.
+- Stable helper sets help against persistence analysis but concentrate
+  knowledge in fewer helpers.
+- Tail padding prolongs cost after a need ends.
+
+### Failure Modes and Mitigations
+
+| Failure | Effect | Mitigation |
+|---|---|---|
+| A helper reveals requests to an observer | The initiator's candidate terms are exposed | Mixed requests without motive, no portable signature, evaluation with colluding helpers |
+| A cover pull behaves differently | Cover is recognizable | One executor, complete download, no markers, the shared timing rule |
+| Rotating helpers every read | The interested node remains the only constant reader | Stable sets per cover period, tail padding, history-based rotation rules |
+| Requests used for amplification | Load on relays or helpers | Rated terms only, per-sender and per-epoch budgets, no recursion |
+| Durable AD traces | Requests reconstructable from disk | Minimal-trace profile with scheduled purge |
+| Cancellation timing | Reveals the end of a need | No cancellation; expiry only |
+
+### Open Questions
+
+1. Default request mix, helper count and cover duration, pending
+   `P013-CIM-007`.
+2. Whether a deniable request carrier is available on every private-safe
+   adapter, or only on INAC sessions.
+3. Whether helpers should also pad their own acceptance so that refusal under
+   load does not reveal their capacity.
+
+### Cooperative Interest Masking Tracker
+
+All rows are post-MVP `todo`. The grouping row closes on the composed run and
+the measured claim.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P013-CIM-000 | Cooperative masking acceptance and bounded claim | todo | P013-CIM-001–008; [S023-001–002](../60-solutions/023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) | A retained three-node run (initiator, two helpers, relay with a mirror) shows identical pull behaviour across origins, expiry without cancellation and purged traces; the claim in this section is restated from `P013-CIM-007` results. |
+| P013-CIM-001 | Generalize the pull plan | todo | P013-DFR-002 | `whisper-pull-plan.local.v1` with one origin-tagged entry abstraction and one executor; origin never leaves the node; fixtures prove identical requests, pagination and completion for every origin. |
+| P013-CIM-002 | Freeze the cover request contract | todo | P013-DFR-001 | `whisper-cover-request.v1` with closed fields and bounds; the composition rule, including requests without real terms; no own signature, no cancellation and no forwarding fields. Verify whether the INAC session gives helpers no transferable proof; negative fixtures for extra fields and unrated terms. |
+| P013-CIM-003 | Shared timing rule | todo | P013-CIM-001; S020 | `cover-schedule/v1` with independent uniform offsets per entry and epoch from a CSPRNG for all origins and the initiator; profile parameters; order-statistic tests showing no stable first or last reader. |
+| P013-CIM-004 | Helper acceptor | todo | P013-CIM-002; S023-001; P091 | One authoritative AD acceptor that checks consent, sender class, budgets, validity, deduplication and prior execution before any state change. It refuses generically, follows a transition table and keeps bounded state purged at expiry, and its tests cover refusal, replay and bounded growth. |
+| P013-CIM-005 | Initiator helper selection and multi-epoch maintenance | todo | P013-CIM-002; S023 selectors | Stable helper sets per cover period, tail padding and rotation rules; reuse of AD recipient selectors and the `whisper.cover.v1` advertisement; P091 initiation settings. |
+| P013-CIM-006 | Separation from memory and social signals | todo | P013-CIM-001 | Fixtures prove that cover and decoy entries never reach the interest profile, Memarium personal records, link candidates, thresholds or disclosure-condition counts. |
+| P013-CIM-007 | Effectiveness evaluation | todo | P013-CIM-001–005 | A multi-epoch simulation comparing cooperative cover with independent decoys at equal byte budgets against the three adversaries; parameter sweeps; a recorded bounded claim and recommended defaults. |
+| P013-CIM-008 | Operator settings and readiness | todo | P013-CIM-004–005; P091 | Initiation and acceptance settings, budgets and aggregate load per origin in readiness; diagnostics without request contents or sender lists. |

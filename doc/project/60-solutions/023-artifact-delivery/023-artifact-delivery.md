@@ -77,6 +77,7 @@ review. Existing completed delivery profiles retain their status.
 | Template sharing | Private INAC or explicit public profile; inert template acceptor | [P029-001–003](../../40-proposals/029-workflow-template-catalog.md#sharing-integration-tracker) |
 | Outbound privacy provider | Privacy-aware route selection; no assumed INAC anonymity | [S010-001–003](../010-anon/010-anon.md#privacy-integration-tracker) |
 | Alliance policy distribution | Independent bootstrap grant; private INAC or admitted acquisition | [P079-005a–005c](../../40-proposals/079-cross-federation-alliance.md#implementation-tracker) |
+| Whisper cooperative cover requests | Private AD `inac-direct`; one cover acceptor; the [minimal-trace profile](#minimal-trace-delivery-profile) | [P013-CIM-001–008](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27), [S023-001–002](#minimal-trace-delivery-profile) |
 
 Shared implementation constraints:
 
@@ -1741,6 +1742,46 @@ Responsibilities:
 Status:
 
 - `optional`
+
+### Minimal-Trace Delivery Profile
+
+Based on:
+
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+  (cooperative interest masking)
+- `doc/project/60-solutions/028-temporal-storage-convention/028-temporal-storage-convention.md`
+
+Planned (2026-10-27). Delivery leaves durable state: the sender's delivery
+ledger, the receiver's admission and refusal ledger, the peer artifact cache,
+object-store payloads and deferred-operation status. A request TTL does not
+erase any of them. Some consumers, first the Whisper cover requests of
+[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27),
+need a declared profile that minimizes these traces. The profile is a route
+property chosen by the domain owner, not a per-call flag.
+
+Responsibilities:
+
+- accept only inline payloads within a small bound, with no object-store
+  indirection and no peer artifact cache entry;
+- keep payload bytes only until the acceptor's decision, and keep ledger rows
+  reduced to delivery or admission id, schema id, outcome class and times;
+- purge those rows on a scheduled, indexed cleanup after the retry horizon, so
+  that cleanup never removes active work;
+- restrict observers and logs to metadata without payload, sender lists or
+  domain correlation;
+- report the profile, its bounds and the time of the last purge in AD status.
+
+Validity and retention stay distinct: a payload's expiry does not erase its
+traces, and only the scheduled purge does.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| S023-001 | Define the minimal-trace route profile | todo | S028 | Route configuration declares the profile; admission refuses non-inline or oversized payloads; no peer-cache or object-store writes occur; ledger rows carry only the reduced fields; schema-gated fixtures cover refusal paths. |
+| S023-002 | Scheduled purge of minimal-trace rows | todo | S023-001; S020 | An S020 job purges delivery and admission rows after the retry horizon using indexed cleanup that spares active work; restart is idempotent; status shows the last purge; a disk scan after purge finds no request payload in AD stores. |
+
+Status:
+
+- `future`
 
 ## Out of Scope
 

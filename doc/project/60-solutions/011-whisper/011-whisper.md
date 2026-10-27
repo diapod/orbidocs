@@ -373,6 +373,26 @@ The design and tracker live in
 Status:
 - `future`
 
+### Cooperative Interest Masking
+
+Based on:
+- `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
+- `doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md`
+
+Responsibilities:
+- keep one origin-tagged pull plan whose `need`, `decoy` and `cover` entries
+  share one executor and one timing rule;
+- send and accept bounded, motive-free cover requests through private Artifact
+  Delivery under the minimal-trace profile;
+- keep cover out of interest profiles, personal memory and source counts;
+- support the measured comparison with independent decoys.
+
+The design and tracker live in
+[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27).
+
+Status:
+- `future`
+
 ## Out of Scope
 
 - transport-layer anonymity and relay topology
