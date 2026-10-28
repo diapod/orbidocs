@@ -5905,3 +5905,16 @@ separately approved actual restart are still required. See
 node:docs/audits/REVIEW-SENSORIUM-R22-STARTUP-DIAGNOSTIC-2026-10-28.md.
 
 Node native-diagnostic checkpoint: `3adb00be`; executable source remains `3a13f8cc`.
+
+
+The following read-only signed-client six-Case capacity gate passes: 77/128 used,
+51 available and 511059 projected bytes below 1 MiB. No capacity is reserved.
+A prospective unarmed 5+1 plan preserves the ten required origins, reuses the
+future baseline for the fault Case and requires separate actual restart approval.
+R23 remains unreserved and execution unapproved; supported r22 handling must wait
+for the observed binding expiry at 12:10:37 CET. Missing approvals, firmware and
+future source/checkpoint references remain absent. The 24-member private proof
+(manifest 9034c438 / archive 18b0d910) passes byte readback with unknown custody
+protected. P096-005 remains partial; no new device session or source change occurs.
+
+Node unarmed-follow-up checkpoint: `a084c4bb`; executable source remains `3a13f8cc`.
