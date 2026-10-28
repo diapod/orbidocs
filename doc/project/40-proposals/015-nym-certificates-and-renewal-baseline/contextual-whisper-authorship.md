@@ -417,7 +417,7 @@ original Messaging-only decision, not an expansion of its historical evidence.
 
 ## Consumer: author disclosure conditions (2026-10-27)
 
-[P013 author disclosure conditions](../013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+[P013 author disclosure conditions](../013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
 count this profile's sources without changing the profile. They evaluate one
 epoch at a time and never sum epochs. In the protected signal's epoch they
 exclude the author's `source/ref` exactly; in later epochs they require one
@@ -430,7 +430,7 @@ belongs to `P013-ADC-004`.
 
 ## Consumer: long-lived rumors (2026-10-27)
 
-[P013 long-lived rumors](../013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27)
+[P013 long-lived rumors](../013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship)
 keep certificates short. The SQLite admission receipt used above as
 publication-time evidence becomes an instance of the portable
 [`agora-admission-receipt.v1`](../035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
@@ -445,5 +445,5 @@ continue one case uses
 [`nym-succession.v2`](../015-nym-certificates-and-renewal-baseline.md#succession-after-expiry-and-the-narrow-successor-2026-10-27)
 with scope `case`, authorized by a continuity key committed in the case's first
 signal and delivered privately to a named audience
-([P013-LLR-007](../013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)).
+([P013-LLR-007](../013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)).
 The predecessor nym key is not kept for that purpose.

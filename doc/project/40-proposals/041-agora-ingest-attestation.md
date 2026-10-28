@@ -659,7 +659,7 @@ If adopted, the next artifacts should be:
 ## Historical Nym Admission (2026-10-27)
 
 Planned continuation for
-[P013 long-lived rumors](013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27).
+[P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 Section 7 keeps redelivery byte-identical and evaluates it against the current
 policy. For nym-authored records this means that an envelope whose certificate
 has since expired is refused with `nym_certificate_expired`, even when it was

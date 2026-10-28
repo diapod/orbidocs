@@ -2036,7 +2036,7 @@ checks do not qualify every carrier, captured product or fresh physical topology
 ## Whisper Embargo Release Consumer
 
 Planned (2026-10-28), owned and qualified by
-[P013-ADC-005/000](013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27).
+[P013-ADC-005/000](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
 Reuse the existing Room identity, membership checks, history policy and AD
 handoff. A release audience is a concrete canonical descriptor containing the
 room identity and consented history-access policy revision; its identity excludes

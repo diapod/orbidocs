@@ -4,7 +4,7 @@ Status: Proposed acceptance story for
 [P013 dormant-fact resonance](../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27),
 grouping task `P013-DFR-000`. Its
 [variant](#variant-author-disclosure-condition) is the acceptance story for
-[P013 author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27),
+[P013 author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions),
 grouping task `P013-ADC-000`. Nothing in this story is implemented yet. It
 fixes the observable behaviour that the grouped tasks must prove together.
 
@@ -13,7 +13,7 @@ Date: 2026-10-27
 Related:
 
 - [Proposal 013: Whisper, dormant-fact resonance](../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27)
-- [Proposal 013: Whisper, author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+- [Proposal 013: Whisper, author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
   (the [variant](#variant-author-disclosure-condition) below)
 - [Proposal 036: Memarium, fact retention horizons and personal records](../40-proposals/036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27)
 - [Proposal 078: Weak Signal Harvester, Memarium dormant-fact profile](../40-proposals/078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27)
@@ -227,7 +227,7 @@ This story assumes the current Orbiplex corpus where:
 ## Variant: Author Disclosure Condition
 
 This variant exercises
-[P013 author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+[P013 author disclosure conditions](../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
 and closes with `P013-ADC-000`. It changes steps 6 to 15 of the main path as
 described; everything else still holds. The room proposal at two sources is a
 coordination threshold; Rant's embargo on his content is a separate condition.

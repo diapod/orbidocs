@@ -369,7 +369,7 @@ Responsibilities:
 - keep disclosure conditions separate from coordination thresholds.
 
 The design and tracker live in
-[P013 author disclosure conditions](../../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27).
+[P013 author disclosure conditions](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
 
 Status:
 - `future`
@@ -389,7 +389,7 @@ Responsibilities:
 - support the measured comparison with independent decoys.
 
 The design and tracker live in
-[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27).
+[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking).
 
 Status:
 - `future`
@@ -413,7 +413,7 @@ Responsibilities:
   the chosen audience.
 
 The design and tracker live in
-[P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27).
+[P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 
 The portable receipt format and authenticated admission claim are owned by
 [P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),

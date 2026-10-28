@@ -2806,7 +2806,7 @@ budget.
 ## Portable Admission Receipts (2026-10-27)
 
 Planned continuation for
-[P013 long-lived rumors](013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27).
+[P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship).
 `relay/received-at` is relay metadata outside the author's signature, so it
 cannot by itself show when a record was admitted, or that its nym proof was
 valid then. P015 already relies on an allowlisted relay's signed durable
@@ -2829,7 +2829,7 @@ Memarium storage. A verified Matrix PDU remains an equivalent proof under P015.
 ### Detached Embargo Manifest Binding
 
 Planned consumer profile (2026-10-28), qualified by P035-019 and
-[P013-ADC-001](013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27).
+[P013-ADC-001](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions).
 For a private Whisper anchor, the counting authority verifies the complete
 signal and its separately nym-signed embargo manifest, then signs a receipt
 binding the signal's `record/id`, the exact author-byte digest **and** the

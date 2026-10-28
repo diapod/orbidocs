@@ -890,7 +890,7 @@ All rows are post-MVP `todo`.
 ## Historical Whisper Verification Material
 
 Planned consumer integration (2026-10-28). The contract owner is
-[P013 long-lived rumors](013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27);
+[P013 long-lived rumors](013-whisper-social-signal-exchange/long-lived-rumors.md#long-lived-rumors-and-historical-authorship);
 [P035-019](035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27)
 owns portable receipts. **P013-LLR-003** qualifies keeping the exact envelope,
 certificate and admitted receipt/proof material together under the same bounded

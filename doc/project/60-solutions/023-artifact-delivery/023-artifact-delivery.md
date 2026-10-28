@@ -77,7 +77,7 @@ review. Existing completed delivery profiles retain their status.
 | Template sharing | Private INAC or explicit public profile; inert template acceptor | [P029-001–003](../../40-proposals/029-workflow-template-catalog.md#sharing-integration-tracker) |
 | Outbound privacy provider | Privacy-aware route selection; no assumed INAC anonymity | [S010-001–003](../010-anon/010-anon.md#privacy-integration-tracker) |
 | Alliance policy distribution | Independent bootstrap grant; private INAC or admitted acquisition | [P079-005a–005c](../../40-proposals/079-cross-federation-alliance.md#implementation-tracker) |
-| Whisper cooperative cover requests | Private AD `inac-direct`; one cover acceptor; the [minimal-trace profile](#minimal-trace-delivery-profile) | [P013-CIM-001–008](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27), [S023-001–002](#minimal-trace-delivery-profile) |
+| Whisper cooperative cover requests | Private AD `inac-direct`; one cover acceptor; the [minimal-trace profile](#minimal-trace-delivery-profile) | [P013-CIM-001–008](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking), [S023-001–002](#minimal-trace-delivery-profile) |
 
 Shared implementation constraints:
 
@@ -1755,7 +1755,7 @@ Planned (2026-10-27). Delivery leaves durable state: the sender's delivery
 ledger, the receiver's admission and refusal ledger, the peer artifact cache,
 object-store payloads and deferred-operation status. A request TTL does not
 erase any of them. Some consumers, first the Whisper cover requests of
-[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27),
+[P013 cooperative interest masking](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking),
 need a declared profile that minimizes these traces. The profile is a route
 property chosen by the domain owner, not a per-call flag.
 
@@ -1880,7 +1880,7 @@ Status:
 ## Planned Whisper Embargo Execution Consumer
 
 [P013-PEX-001](../../40-proposals/013-whisper-social-signal-exchange.md#private-exchange-tracker)
-qualifies the private carrier; [P013-ADC-005](../../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+qualifies the private carrier; [P013-ADC-005](../../40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions)
 owns the immutable release intent, authority commit and executor journal. AD
 receives the final receipt-bearing envelope as frozen bytes with one delivery id.
 It neither counts sources nor re-evaluates the author's domain consent. Its own

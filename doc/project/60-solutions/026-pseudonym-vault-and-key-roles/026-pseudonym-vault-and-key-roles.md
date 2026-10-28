@@ -478,7 +478,7 @@ linkage part of the wire protocol.
 
 ## Planned Whisper Case-Key Consumer
 
-[P013-LLR-006](../../40-proposals/013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)
+[P013-LLR-006](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)
 owns the case continuity key commitment, uses and lifetime; S026 owns custody.
 Reuse existing host keystore and recovery-bundle mechanisms. Generate one fresh
 case key (closed Ed25519 Phase 1 profile), not a global identity or reusable nym

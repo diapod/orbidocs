@@ -908,7 +908,7 @@ postpones erasure rather than skipping it.
 
 The bucket pull executes every plan entry, whatever its `need`, `decoy` or
 `cover` origin, at a time drawn by the shared `cover-schedule/v1` rule
-([P013-CIM-003](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27)).
+([P013-CIM-003](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)).
 The S020 launch only opens the epoch's pull window; the per-entry offsets
 belong to the Whisper job, so the scheduler sees no origin.
 

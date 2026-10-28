@@ -3110,7 +3110,7 @@ consumer applies a new resolution at the next Whisper epoch boundary and stops
 pull planning when resolution is unavailable. The resolved version and digest
 are local diagnostics and never leave the node. The same document will also
 carry grouping rules for correlation descriptors
-([P013-ADC-002](013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27));
+([P013-ADC-002](013-whisper-social-signal-exchange/author-disclosure-conditions.md#author-disclosure-conditions));
 they compose by rule id like terms, and a change to a rule's normalization
 requires a new rule version rather than an override of the existing one.
 
@@ -3125,7 +3125,7 @@ records the ceiling `resolution/id` in each retention decision it clamps.
 
 ## P013 cooperative interest masking consumer
 
-Planned (2026-10-27). [P013-CIM-004 and P013-CIM-005](013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27)
+Planned (2026-10-27). [P013-CIM-004 and P013-CIM-005](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)
 admit node-scoped settings for cooperative cover: initiation and acceptance as
 separate switches, both off by default; the accepted sender class (`contacts`,
 `allowlist` or `advertised`); and limits for active cover terms, bytes per

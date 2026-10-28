@@ -394,7 +394,7 @@ issuer.
   until the predecessor's `leniency-until`; it preserves Phase 1 public
   continuation. `continuity-key` uses a key committed in advance and remains
   usable after the grace window, for scope `case`
-  ([P013 case-bound succession](013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)).
+  ([P013 case-bound succession](013-whisper-social-signal-exchange/long-lived-rumors.md#case-continuity-key-and-case-bound-succession)).
 - **Successor.** The successor performs a new operation, so its certificate
   must be valid now.
 - **Signature uses.** The successor's signature is a proof of possession inside
@@ -403,11 +403,11 @@ issuer.
   scope, and a publication verifier never accepts it. Any new nym publication,
   such as a Whisper correlation notice, needs its bound kind/schema/topic/scope
   tuple explicitly authorized by the post-MVP P015-005 profile
-  ([P013 signature uses](013-whisper-social-signal-exchange.md#signature-uses-and-certificate-scope)).
+  ([P013 signature uses](013-whisper-social-signal-exchange/long-lived-rumors.md#signature-uses-and-certificate-scope)).
 - **Currency.** Offline verification shows that a `case` succession is
   authentic, not that it is still the effective succession of its case. That
   requires the case status of
-  [P013 case state](013-whisper-social-signal-exchange.md#case-state-and-currency),
+  [P013 case state](013-whisper-social-signal-exchange/long-lived-rumors.md#case-state-and-currency),
   whose `case/current-succession` must name this event.
 - **Narrow schema.** No additional properties, closed enums and negative
   fixtures.
