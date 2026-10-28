@@ -750,3 +750,13 @@ now uses the existing immutable output/provider/expiry checks without taking the
 runtime mutation fence. Channel-gated concurrency conformance and all 123 issuer
 cases pass. Neither this owner repair nor either private probe qualifies the
 complete lifecycle or contextual relay/aggregate runtime.
+
+
+The clean `bd825b2e` cycle completed ordinary issue and renewal, with a new nym,
+the same source and exact signed readback. Reset retained expiry after repeated
+AD retry collisions with maintenance. A bounded, transient ingress hint now
+allows a turn between work slots while preserving hard freshness backpressure,
+ordinary maintenance attempts and the original signed request deadline. The hint
+is neither an admission fact nor a new transport queue. Conformance passes 126
+issuer and seven issuer-host cases; actual complete lifecycle and Gate B remain
+unqualified.
