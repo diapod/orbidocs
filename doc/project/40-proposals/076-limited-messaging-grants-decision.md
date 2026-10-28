@@ -492,6 +492,23 @@ and signed status-revision rollback. It excludes directory rollback and power
 loss. Source and evidence commits remain separate, and the tracker closes only
 after the complete two-host gate and evidence-retention checks.
 
+
+P076-038 checkpoint (2026-10-28): clean Node source `6b9d99f4` passed a
+three-mode diagnostic run with exact recipient receipt, zero holder on-demand
+observed-grant queries in both private modes, one PeerRenewal per non-online
+window, and agreement of daemon/forwarder counts. This is not the complete
+claim. The next harness stage adds reverse-direction renewal, blocked-then-retried
+child and parent withdrawal publication with paused status refresh, and term/kill
+restart of each role. Its independent qualifier checks exact signed facts,
+monotonic negative knowledge, source/binary pins and clock uncertainty. Full
+physical qualification and retained evidence remain pending.
+
+The portable-verification clarifications adopted upstream in Orbidocs
+`85df98fc` preserve this scope: the receiver supplies independently admitted trust
+and expected context; signature validity, durable status knowledge, current
+consent and recipient delivery remain separate facts. P076 does not introduce
+a universal proof wrapper or import Whisper lifecycle/status semantics.
+
 ## Implementation Tracker
 
 Work is vertical, with review and qualification at the end of each slice. A schema
