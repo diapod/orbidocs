@@ -745,6 +745,16 @@ do not close any row, change a historical qualification or establish release
 readiness. Node's [core contract](node:messaging-core/README.md#delivery-identity-and-recovery)
 records repository-local responsibilities without a second tracker.
 
+The subsequent owner-store fragment reserves and freezes exact prepared attempts,
+fences first admission and retains an explicit body-free tombstone variant. Local
+AD 404 pauses without creating a generation. A separately bound positive observation
+checks the persisted attempt key, generation, envelope digest and AD ID before
+confirming through that pause; generic refresh remains unable to resume it.
+`rejected` requires preserved typed refusal evidence in both schema and Rust.
+These focused tests do not yet prove authenticated own/foreign/missing INAC reads,
+mandatory transport reservation, retention/deletion writers or browser recovery.
+All five tracker rows remain `todo` until their complete gates are measured.
+
 ## References
 
 - `doc/project/40-proposals/060-messaging-middleware.md`
