@@ -742,3 +742,11 @@ cannot extend the admission boundary. These scheduling rules neither alter the
 profile digest and validity limits nor turn a stale status into emission authority.
 Full certification lifecycle and contextual relay/aggregate qualification remain
 required before closing the two gates.
+
+
+The subsequent clean `4777ccd5` private repeat reached renewal's full-request
+invitation but retained consent-busy refusal. Prepared ciphertext/readback lookup
+now uses the existing immutable output/provider/expiry checks without taking the
+runtime mutation fence. Channel-gated concurrency conformance and all 123 issuer
+cases pass. Neither this owner repair nor either private probe qualifies the
+complete lifecycle or contextual relay/aggregate runtime.
