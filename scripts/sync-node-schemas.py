@@ -1355,6 +1355,7 @@ EXAMPLE_WHITELIST = (
 )
 
 INVALID_EXAMPLE_WHITELIST = (
+    "missing-refusal.inac-admission-status.result.json",
     "missing-admission-id.inac-admission-status.result.json",
     "wrong-label.agent-outcome.v4.json",
     "wrong-label.agent-supplied-input-manifest.v3.json",

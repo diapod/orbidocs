@@ -118,6 +118,23 @@
           ]
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "rejected"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "refusal"
+        ]
+      }
     }
   ]
 }

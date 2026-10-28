@@ -95,6 +95,33 @@ Then:
 }
 ```
 
+### Rule 3
+
+When:
+
+```json
+{
+  "properties": {
+    "outcome": {
+      "const": "rejected"
+    }
+  },
+  "required": [
+    "outcome"
+  ]
+}
+```
+
+Then:
+
+```json
+{
+  "required": [
+    "refusal"
+  ]
+}
+```
+
 ## Field Semantics
 
 <a id="field-schema"></a>
