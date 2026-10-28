@@ -892,3 +892,12 @@ P076-038 keeps this job active during physical mode windows and attributes its
 status queries by the owner-recorded acquisition reason. A scheduled query is
 separate from the send-triggered peer preflight, so a window can have zero
 holder queries on demand even when S020 performs its allowed refresh.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+P076-038 left S020 refresh active in physical policy windows and attributed its
+HTTP attempts by acquisition reason. The scheduled-only holder's exact observed
+grant was blocked at its forwarder while own-grant refresh remained available.
+Child/parent withdrawals each passed counted publication failure and independent
+worker retry with refresh paused. This preserves the two lifecycle owners; see
+P076-038 and `node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for exact pins.

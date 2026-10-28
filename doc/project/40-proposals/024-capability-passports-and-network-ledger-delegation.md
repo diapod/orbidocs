@@ -751,3 +751,11 @@ bytes for both inline and file-backed artifacts. These are fixture measurements,
 not a maximum for arbitrary extension-bearing V1 documents. Every configured
 producer must respect the enforced budget. Delegated handoff requires the new
 receiver carrier implementation; no implicit downgrade is introduced.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The focused P076-038 physical gate passed on 2026-10-28. Attached and fetched
+status still share one verifier and durable revision/revocation knowledge;
+independent local root admission remains required. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for the exact qualified
+carrier and pins. This does not qualify every capability advertisement.

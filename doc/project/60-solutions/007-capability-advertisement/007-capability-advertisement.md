@@ -530,3 +530,12 @@ version negotiation is outside this gate. A focused compatibility-contract test
 models that V1 Schema Gate refusal without claiming an old-binary runtime run.
 Observed/deferred/refused outcomes are inspectable separately from transport
 handling, including typed warnings and local metadata-only observation receipts.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+P076-038 qualified the bounded V2 Messaging presentation and peer-renewal path
+across two physical hosts. Presented material supplies verification inputs;
+independent expected subject/route context and local root admission remain
+consumer responsibilities. No generic advertisement carrier or trust admission
+was added. See P076-038 and
+`node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` for source pins and evidence.

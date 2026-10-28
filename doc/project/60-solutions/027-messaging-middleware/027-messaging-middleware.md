@@ -738,3 +738,12 @@ The historical retention-header blocker above is repaired in the live checker by
 verifying qualifier blobs at the adoption proof's recorded source commit. Prior
 proof bytes and source pins remain unchanged. This maintenance has focused local
 regressions; it does not rerun the historical full candidate or browser gate.
+
+### P076-038 qualification checkpoint — 2026-10-28
+
+The P076-038 physical gate passed five policy/role windows, exact receiver
+observations and eight term/kill role restarts after child/parent withdrawal.
+Private holders made zero observed-grant HTTP queries; independent owner/network
+witnesses agreed. Runtime and trusted qualifier sources are pinned separately in
+P076-038 and `node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md`. This bounded
+qualification does not establish offline message delivery or release readiness.

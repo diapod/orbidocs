@@ -418,7 +418,7 @@ removed. This is not cross-machine message-delivery evidence.
 
 ## P076-038: Two physical host consent renewal qualification
 
-**Status: contract adopted; implementation and qualification in progress.** The
+**Status: qualified within the bounded P076-038 profile on 2026-10-28.** The
 claim `acceptance-claim:p076-038-two-physical-host-renewal-v1` requires exactly
 two logical nodes on two distinct physical hosts, independent synthetic root
 admissions, separate storage and direct product WSS. It qualifies recipient-side
@@ -509,6 +509,25 @@ and expected context; signature validity, durable status knowledge, current
 consent and recipient delivery remain separate facts. P076 does not introduce
 a universal proof wrapper or import Whisper lifecycle/status semantics.
 
+
+P076-038 qualification (2026-10-28): clean Node
+`7cd94d4438deaf2270c83cba19d12cd47b6da6aa` / Orbidocs
+`4f7c85906e2af26dcf8d4c948d38f038eebb188b` passed five physical mode/role
+windows with recipient bytes and matching causal/network witnesses. Private
+holders made zero observed-grant queries. Child and parent withdrawal retry with
+paused status refresh and eight term/kill role restarts preserved revocations.
+Trusted qualifier `f7bae5ab5589b7be9b27165695325e152e4b6a00` separately strengthens
+the unchanged runtime evidence with Schema Gate, persistent observation roles and
+independent expected sender/route context; all fifteen injected mutations refuse.
+Loose, extracted and freshly retrieved results match bundle SHA-256
+`90f33c6659ed654041646cb7f170a2acfd3f1f41c2b1abf5ad716f69846a58d9`.
+See `node:docs/audits/ACCEPTANCE-P076-038-2026-10-28.md` and
+`node:docs/evidence/limited-messaging/2026-10-28-physical-renewal-qualified/README.md`.
+The existing store custodian is separate from unknown evidence ownership, holds,
+minimum-retention date and replica/recovery requirements. These remain protected.
+This does not expand P076-034, qualify status HTTPS/DNS, offline delivery,
+power-loss survival, directory rollback or release readiness.
+
 ## Implementation Tracker
 
 Work is vertical, with review and qualification at the end of each slice. A schema
@@ -526,7 +545,7 @@ or unit test alone never closes a runtime gate.
 | P076-035 | UI follow-up | Child-consent inventory and individual withdrawal | done | 2026-10-21: 38/38 focused actual-browser cases on clean Node `baaef9d8` / Orbidocs `a889d11c`, six unchanged binaries and identical signed-public-proof qualification before/after extraction. Explicit idempotent child withdrawal preserves parent/siblings; no automatic authority or full-candidate/release claim |
 | P076-036 | Portable-proof follow-up | Bounded V2 status presentation | done | Clean Node 9b0a613e / Orbidocs 8523cf2b; 264 conformance/regression plus 12 host capsule tests, actual cold-cache WSS handoff with zero status fetches and identical loose/extracted qualification. Scoped gate only; primary global retention baseline blocker disclosed; no full-candidate or release claim |
 | P076-037 | Product acquisition policy | Three live P091 modes, bounded peer renewal and S020 status refresh | done | Corrected local WSS host renewal, send preflight, typed no-query refusals, independent withdrawal retry and paused-scheduler diagnostics pass on clean commits; the same corrected binary passed the named second-host probe. No lease extension, cross-machine or offline delivery, full candidate or release claim |
-| P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | in progress | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
+| P076-038 | Physical qualification | Two-host V2 renewal, bounded time skew and independent query witnesses | done | Clean, identical revisions on two physical hosts; direct WSS, recipient receipt, mode matrix, restarts/revocation, two counter witnesses and retained P074 claim. No offline delivery or release claim |
 
 The first vertical gate retains 1025 conformance/capsule test executions, 23 real browser cases, strict sovereign Story-010 and signed public proof requalification at `node:docs/evidence/limited-messaging/2026-10-16-participant-local-send/README.md`. No model or VM ran. This completed slice A only; receive/INAC and later gates were outside that measurement, as recorded in the subsequent checkpoints below.
 
