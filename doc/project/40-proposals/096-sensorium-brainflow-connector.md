@@ -2884,7 +2884,7 @@ remaining completion gates still apply.
 | `P096-002` | Register contracts, report shapes and limits | `P096-001` | `done` | Generic middleware-instance-plan and qualification-tuple draft schemas plus remaining shapes/mirrors/Schema Gate/fixtures; binary buffers and host digest vectors; uniform refs; declared/admitted/resolved/active ownership; Personal classification; full state/stop tables, protected control budgets, Node report/qualifier classes and recovery; structured live-delivery profiles/results with predeclared finite latency, pressure, recovery and revocation budgets; no production activation yet |
 | `P096-003` | Implement independent BrainFlow instance creation and restoration | `P096-002` | `done` | Independent creation/exact replay/stopped restoration without OS/Workbench; supported update/delete and generation semantics belong to P096-009. Current private host policy, exact declaration/package bytes, authentic signed source capsule, bounded operator preview/commit/apply/import/recover API, whole supervisor configuration application and daemon reopen; journal CAS, explicit external-edit import, unique bindings, sibling/stopped-state preservation and actual owner-process crashes at five boundaries. Initial creation has no dependencies; nonempty imported dependency plans refuse runtime application until provider mappings exist. Host pre-spawn integrity covers launcher, framework/libpython, stdlib, selected dependencies and worker material; self-check remains diagnostic. Registration grants no acquisition and never starts a worker |
 | `P096-004` | Implement profile catalogue, validation and device binding | `P096-002` | `done` | Pure pinned synthetic/Muse 2 native BLE catalogue, numeric exact revisions/digests and readable form data; per-mode signals including motion, three declared PPG rows with two varying in scoped lab observations and unknown PPG continuity. Operator-only private selector confirmations over shared CAS/journal, stable opaque ids separate from names, exact-instance/profile/mode/expiry validation and empty/ambiguous/conflicting selector refusals; actual API, sibling/replay/reopen and five owner-crash tests. Discovery unavailable and actual real-profile start refused until 005; other models/transports remain under 016 |
-| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `partial` | Both software compositions retain ten-record completeness, separate from native evidence. Fresh r21 source `6aedb062` / GUI `76aee865` executes five ordinary WEAR sessions with cleanup/exit/durable audit and a negative expired-grant probe. The sixth WEAR/fault session never starts: the original full batch refuses `current-authority-before-effects` at 21829/15000 ms. Six other records pass unchanged individual diagnostic checks under tuple `5cfb9ba6`; three fault/restart records are unexecuted. Journal 546/76, zero claims, free controller and registered r21 with expired grant are observed. No threshold or historical observation changes. See the dated [r21 review](#r21-native-ordinary-sequence-and-budget-refusal--2026-10-26). |
+| `P096-005` | Enforce real acquisition authority, protected stop and claims | `P096-003`, `P096-004` | `done` | Qualified 2026-10-28 for exact r24 Muse 2 BLE p21 / macOS arm64 / signed GUI-LaunchServices tuple `6bae3b37`, source `12b0c29b` / GUI `da7bf9bc`. Five ordinary sessions, one controlled native fault and a separately approved actual host restart produce all ten compatible rows (six physical-native, two controlled-native-fault, two host-software). The current exporter, real Schema Gate and pinned isolated safety qualifier pass unchanged thresholds; nine records preserved, one new-boot row added. Journal 614/85 and retained fault claim stay unchanged. No recovery, exposure, root adoption or broader device/mode/launch-context qualification. Historical refusals remain exact. See the dated [qualification review](#p096-005-qualified-for-the-exact-r24-tuple--2026-10-28). |
 | `P096-006b` | Add admitted real-device worker path | `P096-005`, `P096-006a` | `todo` | Reuse BrainFlow prepare/configure/start/stop/release; native partial-start/hang cleanup, session epochs, current-authority reconnect, external-busy/unknown-open distinction; deployment permission path proven |
 | `P096-007a` | Implement common binary stream normalization | `P096-006a` | `done` | Independent preset metadata, one destructive reader, typed endian buffers/missing masks, checked size limits, host-computed digest golden vectors, monotonic clocks/epochs, explicit simulation provenance and gaps |
 | `P096-007b` | Qualify real transport metadata and continuity | `P096-006b`, `P096-007a` | `todo` | Actual mode/rate/unit mapping, repeated Muse counters, source-time provenance/NTP steps, optional versus required stream health, overflow uncertainty and cleanup outcomes |
@@ -6091,3 +6091,31 @@ The operator separately approves actual host restart, still unobserved here;
 `restart-unclosed-marker` remains missing. P096-005 stays partial. No whole-run
 retry, reset, recovery, claim release, renewal or merge. See the Node
 [review](node:docs/audits/REVIEW-SENSORIUM-R24-NATIVE-NINE-RECORDS-2026-10-28.md).
+
+### P096-005 qualified for the exact r24 tuple — 2026-10-28
+
+The actual five-ordinary-plus-one-fault run is completed by a separately approved
+real host restart. The unchanged owner observes a new kernel boot-session,
+retained marker/controller/resource claim and the ordinary Case-open refusal,
+without any native resume or unknown-disposal release. Its new-boot probe is
+217/20000 ms. The tested collector preserves nine original records and adds
+exactly one `restart-unclosed-marker`; all ten share tuple 6bae3b37 with the
+required six physical-native / two controlled-native-fault / two host-software
+origins. Source 12b0c29b and GUI da7bf9bc stay fixed.
+
+Existing source-export APIs and the pinned isolated P096 safety qualifier with
+the real Schema Gate validate the complete source d19aae9b and produce decision
+e0c72c74. The source deliberately excludes native exposure, P096-011a/015, p51,
+publication, recording, contact quality, radio concurrency and P082. This closes
+P096-005 for the exact self-wearer Muse 2 BLE p21 / macOS arm64 / signed GUI
+LaunchServices scope, leaving broader Sensorium and hard-MVP work partial.
+
+Missing restart, synthetic-origin substitution and automatic-resume copies
+refuse. A supplemental readback corrects its transient cross-boot st_dev
+assumption; persistent volume/root custody remains checked by the unchanged
+owner, and all content/inode/mode/mtime/ctime observations stay exact. Journal
+614/85, the held claim and all 79 older Cases remain preserved. The complete
+188-member private proof 1ecb0c4d/3490dc06 passes full primary readback with unknown
+custody protected. No recovery, claim release, new native session, root adoption,
+threshold relaxation or merge follows. Node owns the detailed
+[qualification review](node:docs/audits/REVIEW-SENSORIUM-P096-005-QUALIFIED-2026-10-28.md).
