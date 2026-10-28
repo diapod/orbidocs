@@ -5950,3 +5950,26 @@ separately approved actual restart qualify. See
 node:docs/audits/REVIEW-SENSORIUM-R23-UNARMED-RUNNER-2026-10-28.md.
 
 Node current unarmed-runner checkpoint: `bbbeb86d`; executable source remains `3a13f8cc`.
+
+
+### Expired r22 retirement and configured r23 recipe — 2026-10-28
+
+After observed binding expiry, one bounded foreground task prepares exact review
+1565525a. Independent four-source/release/history/consent checks pass. The operator
+separately approves it and one signed-client commit completes r22 retirement,
+reserving r23 without grant or consent. Four final documents match the proposal;
+journal 555/77, consent, predecessor and idle claims remain exact, with the explicit
+read-store ctime-only exception. Controller/discovery authority remains finite
+through 14:39:38 CET and is not renewed by retirement.
+
+The configured current-pin 5+1 recipe binds the real completed receipt. Fresh
+operator delegation, firmware, permission and readiness inputs remain absent;
+three actual isolated entries refuse before SSH/native effects. The earlier
+48-test unarmed/software proof remains separate and no synthetic approval is
+copied. Private 44/55-member sets (manifests 75eb7a52/f9c6c6af) pass byte readback
+with unknown custody protected. No device session, recovery, actual restart or
+merge occurs. P096-005 remains partial; full compatible native ordinary/fault
+records and separately approved actual restart still need qualification. See
+node:docs/audits/REVIEW-SENSORIUM-R22-RETIREMENT-R23-CONFIGURED-2026-10-28.md.
+
+Node r22-retirement/r23-configuration checkpoint: `d1964824`; executable source remains `3a13f8cc`.
