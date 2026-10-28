@@ -466,7 +466,7 @@ constraints for the existing trackers, not additional implemented capabilities.
 
 ## Related Capability Data
 
-- `whisper-caps.edn`
+- [Structured capability catalogue](011-whisper-caps.edn)
 
 ## Notes
 

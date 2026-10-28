@@ -1,11 +1,12 @@
 {:component/id :orbiplex/whisper
  :component/title "Orbiplex Whisper"
  :component/type :node-attached-module
- :component/status :done
+ :component/status :partial
 
  :summary
- "Node-attached social-signal exchange component for rumor intake, redaction,
- thresholding, and opt-in association bootstrap."
+ "Node-attached social-signal exchange with implemented Agora M4 intake,
+ redaction, thresholding, opt-in association bootstrap and artifact traces;
+ partial local assessment exposure and planned privacy/authorship continuations."
 
  :must-implement
  [{:cap/id :rumor-intake-and-publication
@@ -20,8 +21,9 @@
     "Run bounded local redaction, paraphrase, and idiolect reduction"
     "Require user approval before publication"
     "Implement intake/redaction as a supervised Rust middleware package with its own operator UI surface"
-    "Store raw user input and intermediate redaction drafts only in local/private Memarium state before public publication"
+    "Keep raw input and drafts private; seal intake stages through host sealer.seal and persist personal Memarium facts through memarium.write with explicit retention, quarantine and idempotent retry"
     "Allow the sanitizing step to be supplied by another configured middleware package without changing the downstream publishable `whisper-signal.v1` contract"
+    "Use whisper.redaction.prepare as a provider-only draft boundary; the host and operator retain approval and publication authority"
     "Emit `whisper-signal` artifacts with explicit epistemic class and routing/privacy intent"
     "Use `whisper-signal.v1` directly for the Agora M4 public/federated smoke, with nym-authored Agora envelope identity and inline-first nym proof"
     "Use Agora only for disclosure-safe public or federation-scoped signals"
@@ -46,7 +48,23 @@
     "Prevent derived-record loops with deterministic ids, source-kind exclusion, and derivation refs"
     "Preserve opt-in enrollment and never auto-enroll humans"
     "Expose threshold/proposal state for the Story-005 three-node smoke"]
-   :status :done}]
+   :status :done}
+
+  {:cap/id :local-assessment-exposure-in-curation
+   :title "Local Assessment Exposure in Curation"
+   :kind :protocol
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+              "doc/project/40-proposals/026-resource-opinions-and-discussion-surfaces.md"]
+   :schemas ["resource-opinion.v1"
+             "assessment-exposure-profile.v1"
+             "assessment-exposure-command.v1"
+             "assessment-exposure-fact.v1"]
+   :responsibilities
+   ["Reuse opinion identity, overlay validation and the shared host viewer projection rather than a Whisper-specific blind-vote store"
+    "Withhold peer credibility, rationales, assessment counts and popularity ordering consistently across curation, Agent, search and attention surfaces"
+    "Keep rumor arrival counts distinct from assessment counts and keep propagation, anti-spam and urgent protection independent of presentation policy"
+    "Reuse optional signed sealed-round outcomes without delaying rumor delivery awaiting quorum"]
+   :status :partial}]
 
  :may-implement
  [{:cap/id :artifact-trace-statements
@@ -73,10 +91,67 @@
    :responsibilities
    ["Emit coarse aggregate notices after threshold crossing"
     "Keep aggregate discovery hints weaker than case disclosure"]
-   :status :optional}]
+   :status :optional}
+
+  {:cap/id :dormant-fact-resonance
+   :title "Dormant-Fact Resonance"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange.md"
+              "doc/project/30-stories/story-014-dormant-contest-entry.md"]
+   :schemas []
+   :responsibilities
+   ["Resolve the versioned decorrelation vocabulary with local P091 layers and validate topic/class"
+    "Use one epoch pull plan with decoys and complete coarse-bucket pulls"
+    "Project fact-rumor link decisions and a local My rumors view; author related rumors in existing contexts"
+    "Hand confirmed contexts to opt-in association rooms with explicit sharing controls"]
+   :status :future}
+
+  {:cap/id :author-disclosure-conditions
+   :title "Author Disclosure Conditions"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange/author-disclosure-conditions.md"
+              "doc/project/30-stories/story-014-dormant-contest-entry.md"]
+   :schemas []
+   :responsibilities
+   ["Verify nym-signed embargo manifests and protected-signal/admission bindings without exposing protected text to package verifiers"
+    "Derive similarity keys from author-approved correlation descriptors under versioned grouping rules and preserve correlation-scope custody obligations"
+    "Count distinct contextual sources per epoch and attest the result separately from coordination thresholds"
+    "Release pre-redacted payloads only after a case-authority-accepted release commit and normally author confirmation, at most once per concrete consented audience independently of delivery routes"]
+   :status :future}
+
+  {:cap/id :cooperative-interest-masking
+   :title "Cooperative Interest Masking"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md"
+              "doc/project/60-solutions/023-artifact-delivery/023-artifact-delivery.md"]
+   :schemas []
+   :responsibilities
+   ["Keep need, decoy and cover origins in one pull plan with a shared executor and timing rule"
+    "Exchange bounded motive-free cover requests through private Artifact Delivery under the minimal-trace profile"
+    "Keep cover out of interest profiles, personal memory and source counts; compare effectiveness with independent decoys"
+    "Preserve session-authenticated cover requests without adding publication signatures"]
+   :status :future}
+
+  {:cap/id :historical-authorship-of-long-lived-rumors
+   :title "Historical Authorship of Long-Lived Rumors"
+   :kind :optional
+   :based-on ["doc/project/40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md"
+              "doc/project/40-proposals/015-nym-certificates-and-renewal-baseline.md"
+              "doc/project/40-proposals/035-agora-topic-addressed-record-relay.md"
+              "doc/project/40-proposals/041-agora-ingest-attestation.md"
+              "doc/project/40-proposals/032-key-delegation-passports.md"]
+   :schemas []
+   :responsibilities
+   ["Separate certificate validity, retention, counting horizon and consent validity"
+    "Retain portable admission receipts beside envelope bytes and verify historical authorship separately from current status"
+    "Re-contact the author of an old matching rumor without counting that rumor again"
+    "Use one continuity key per case, ordered case events and fresh case status for audience-bounded nym succession"
+    "Reuse P015/P035 proof owners for bounded zero-fetch succession verification; separate historical anchors, authentic succession and current case authority without disclosing a private anchor to complete a package"]
+   :status :future}]
 
  :out-of-scope
  ["Transport-layer anonymity and relay topology"
+  "Final governance or adjudication"
   "Automatic exposure of identities to one another"
   "Hard semantic duplicate suppression in v1"
   "Using Agora for private-correlation or direct-only whisper bodies"]
@@ -93,8 +168,13 @@
   "association-room-proposal.v1"]
 
  :notes
- ["Whisper intake/redaction is a supervised channel_json middleware service with a separately owned intake/trace/operator HTTP surface; shared transport-independent semantics belong in `whisper-core`."
+ ["Component status includes the partial local assessment continuation; the existing Agora M4 and artifact-trace capabilities remain done, and the four optional continuations remain future."
+  "P013-AE-001 qualifies only the bounded common local view on a generic open resource reference; P013-AE-002 and the full Whisper curation, propagation and attention workflow remain planned."
+  "Whisper intake/redaction is a supervised channel_json middleware service with a separately owned intake/trace/operator HTTP surface; shared transport-independent semantics belong in `whisper-core`."
   "Post-M4 productization adds a host-owned provider-policy shape for Inquirium/model-runtime redaction providers and a secretless simulator acceptance bridge without making adapters publication authorities."
+  "P090-006e binds exact observed-result bytes and retains private result/draft readback; unknown ancestry, full Memarium transport/recovery and deferred/terminal lifecycle qualification remain explicit gaps."
+  "Planned continuations reuse one epoch pull executor, a contextual contribution evaluator with separate coordination/disclosure policies, one ordered case owner and P015/P035 proof verification; Artifact Delivery owns delivery and retry. Proposed DTO details and trackers remain with the linked proposal owners, not additional implemented capabilities."
+  "Transport qualification belongs to P035-007/009/010 and does not qualify every Whisper/issuance flow, homeserver federation, independent backups or production readiness."
   "`whisper-core` carries production-shaped source, routing, privacy, correlation, association-room, and public-gossip promotion contracts; concrete UI and relay runtime layers consume those contracts later."
   "Callers of outbound privacy should declare intent, not name a concrete relay module."
   "Agora M4 uses Story-005 as the three-node public/federated smoke: node A and node B submit similar sanitized signals, node C runs the Agora relay/server, and threshold/proposal state is rebuilt from accepted public records."]}
