@@ -164,7 +164,8 @@ It is optional in the overall system, but required for the public-continuation
 path of Phase 1 renewal.
 
 Limitation (2026-10-27): v1 is a one-sided declaration that works after expiry
-only until `leniency-until`. It is replaced by the narrow
+only until `leniency-until`. This remains the current schema baseline until
+P015-004 closes; it is planned to be replaced by the narrow
 [`nym-succession.v2`](#succession-after-expiry-and-the-narrow-successor-2026-10-27)
 (`P015-004`, MVP scope).
 
@@ -345,11 +346,13 @@ evidence retain their scope. Its two runtime gates remain pending.
 
 ### Decision
 
-The narrow `nym-succession.v2` replaces v1 without a compatibility path, which
-is acceptable before the first release. The v1 schema, its example and its
-acceptance are removed. `line/succession` in `nym-certificate.v1` and
-`succession` in `nym-renew-request.v1` move to v2, and no node accepts v1
-afterwards.
+The planned narrow `nym-succession.v2` will replace v1 without a compatibility
+path before the first release, when P015-004 closes. That single migration will
+remove the v1 schema, example and acceptance, move `line/succession` in
+`nym-certificate.v1` and `succession` in `nym-renew-request.v1` to v2, and update
+all references, generated COVERAGE/schema pages and Node acceptance together.
+The existing v1 artifacts and section 3 are the current baseline, not evidence
+that this migration has happened.
 
 v2 proves that the holder of an authorized predecessor key and the holder of
 the successor key agree on one transition. It does not prove that one person
@@ -374,8 +377,14 @@ issuer.
 | `case/anchor` | The original signed record digest, from the shared case request header of P013; required for scope `case` and forbidden for scope `line`. The order of a `case` succession comes from the case authority's acceptance, not from this artifact |
 | `audience` | The named recipients; `line` successions are public by nature |
 | `issued-at`, `not-after` | A short validity window |
-| `signatures` | Exactly two Ed25519 signatures, authorization and successor acceptance |
+| `signatures` | Exactly two semantic authorizations: predecessor authorization and successor acceptance; both Ed25519 in Phase 1 |
 
+- **Suite boundary.** The first wire profile uses strict Ed25519 for both
+  authorizations and the continuity key. P081 separates verification from its
+  suite, but does not make this artifact algorithm-agile. No free-form `alg`
+  field is admitted; another suite needs a versioned, allowlisted profile and
+  new golden/refusal vectors. The two-authorization semantics stay independent
+  of that choice.
 - **Preimage.** Both signatures cover the same bytes: the ASCII domain
   `orbiplex.nym-succession.v2`, one NUL byte and the JCS of the artifact
   without `signatures`, following the contextual profile's signing rules and
@@ -392,8 +401,8 @@ issuer.
   this domain-separated protocol. Only the succession verifier accepts it, with
   a currently valid certificate; it is not a publication and needs no Agora
   scope, and a publication verifier never accepts it. Any new nym publication,
-  such as a Whisper correlation notice, needs its record kind and schema listed
-  explicitly in the certificate scope
+  such as a Whisper correlation notice, needs its bound kind/schema/topic/scope
+  tuple explicitly authorized by the post-MVP P015-005 profile
   ([P013 signature uses](013-whisper-social-signal-exchange.md#signature-uses-and-certificate-scope)).
 - **Currency.** Offline verification shows that a `case` succession is
   authentic, not that it is still the effective succession of its case. That
@@ -425,6 +434,19 @@ post-MVP follow-up.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P015-004 | Replace `nym-succession.v1` with the narrow v2 successor (MVP) | todo | P015-001 | `nym-succession.v2` schema with the fields, closed enums and the two-signature preimage above; v1 schema, example and acceptance removed; references in `nym-certificate.v1` and `nym-renew-request.v1` moved. A semantic verifier in Node covers both authorization modes, the grace bound for `nym-key`, the current successor certificate, replay and the `case/anchor` rule; the successor signature is accepted only on this possession-only path. Negative fixtures: one signature only, signatures over different bytes, `nym-key` after grace, continuity-key mismatch, extra fields, expired `not-after`, a reused `succession/id`, a `case` succession without `case/anchor`, a `line` succession with it, and a successor signature presented to a publication verifier. MVP covers `continuity-key` mode only at the verifier level: a pure decision over a given anchor commitment and revealed key, with golden vectors. Vault custody of continuity keys, case state, private delivery and the Whisper flows are post-MVP in P013-LLR-006–008. |
+
+### Embargo Authorship Scope Tracker
+
+Post-MVP; independent of the narrow MVP verifier in P015-004. The existing
+contextual profile remains restricted to `whisper-signal`/`whisper-signal.v2`.
+A key's ability to sign is not permission to publish another kind.
+
+| ID | Task | Status | Depends on | Completion gate |
+|---|---|---|---|---|
+| P015-005 | Issue and verify explicit notice and manifest scopes | todo | P015-001 | Freeze and version a closed contextual profile with authorized **tuples** of `(record/kind, schema, topic, disclosure/scope)`, never independent lists granting their Cartesian product. Issuance requests, issuer policy, certificates and receiving verifiers preserve the same tuple. A separate domain-bound auxiliary use permits `whisper-embargo-manifest.v1`, checked against its declared publication context, key and validity at admission; it grants no Agora publication by itself. Reuse P015/P081 signature and scope verifiers. Negative fixtures substitute kind/schema/topic/scope, present a manifest signature as publication, and use an ordinary signal-only certificate for notice or manifest. Positive fixtures admit an explicitly scoped notice and manifest while keeping the predecessor narrow profile unchanged. ADC consumes this grant; this task does not depend on ADC runtime. |
+
+The profile contract is owned here and detailed in the
+[contextual continuation](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#notice-and-embargo-manifest-scope-extension).
 
 ## P081 Scoped-Claim Adoption
 

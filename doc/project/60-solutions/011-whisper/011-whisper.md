@@ -356,8 +356,8 @@ Based on:
 - `doc/project/30-stories/story-014-dormant-contest-entry.md`
 
 Responsibilities:
-- embed and verify author-signed disclosure conditions in protected v2
-  signals;
+- verify nym-signed embargo manifests and their protected-signal/admission
+  bindings; recipients verify the public package without protected text;
 - derive similarity keys from author-approved correlation descriptors under
   versioned grouping rules;
 - keep protected material within the correlation scope under custody
@@ -365,7 +365,7 @@ Responsibilities:
 - count distinct contextual sources per epoch and attest the result;
 - release pre-redacted payloads after a release commit accepted by the case
   authority and, by default, the author's confirmation, at most once per
-  audience;
+  concrete consented audience descriptor, independently of delivery routes;
 - keep disclosure conditions separate from coordination thresholds.
 
 The design and tracker live in
@@ -399,6 +399,7 @@ Status:
 Based on:
 - `doc/project/40-proposals/013-whisper-social-signal-exchange.md`
 - `doc/project/40-proposals/041-agora-ingest-attestation.md`
+- `doc/project/40-proposals/035-agora-topic-addressed-record-relay.md`
 
 Responsibilities:
 - keep certificate validity, retention, counting horizon and consent validity
@@ -406,13 +407,18 @@ Responsibilities:
 - store portable admission receipts beside envelope bytes and verify
   historical authorship separately from current status;
 - re-contact the author of an old rumor that meets a twin, instead of counting
-  the old rumor again.
+  the old rumor again;
 - keep one continuity key per case, ordered case events and a fresh case
   status, and support case-bound succession of a later nym, delivered only to
   the chosen audience.
 
 The design and tracker live in
 [P013 long-lived rumors](../../40-proposals/013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27).
+
+The portable receipt format and authenticated admission claim are owned by
+[P035-019](../../40-proposals/035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27),
+not by a second Whisper receipt implementation. The unchanged aggregate-only
+promotion rule is in [implementation Layer 7](011-whisper-impl.md#layer-7-threshold-detection-and-durable-promotion).
 
 Status:
 - `future`

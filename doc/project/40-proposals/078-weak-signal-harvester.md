@@ -551,3 +551,13 @@ action.
    before public gateway work.
 3. Keep network-capable and public gateway profiles deferred until their
    quarantine, receipt, and reviewer contracts are first-class.
+
+### Notice-Only Dormant-Fact Match
+
+The optional [P013-ADC-007 notice](013-whisper-social-signal-exchange.md#optional-public-notice)
+is a separate public record. A finding preserves its public record/id and closed
+target kind (`whisper-correlation-notice` rather than `whisper-signal`), plus the
+permitted grouping key. P078-012 and P013-DFR-004 qualify a reader who has only the
+notice: acceptance authors a related signal targeting that notice without
+fetching, guessing or publishing any protected signal id. A finding remains a
+local proposal; the author still confirms both the link and new publication.

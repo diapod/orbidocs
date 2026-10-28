@@ -2,6 +2,16 @@
 
 Snapshot date: 2026-09-05.
 
+MVP scope amendment — 2026-10-28: [P015-004](../40-proposals/015-nym-certificates-and-renewal-baseline.md#succession-tracker)
+is an open MVP gate (`todo`): the narrow `nym-succession.v2` schema and pure
+semantic verifier, both authorization modes, Phase 1 suite and negative vectors,
+plus removal/migration of v1 schemas, references and acceptance together. In
+continuity-key mode this is a pure check over supplied anchor/key evidence.
+Vault custody, current case state, private delivery and the composed LLR/ADC flow
+remain post-MVP. Node tracks the identical boundary in `docs/MVP.md` and the
+`nym-succession-v2-verifier` implementation-ledger row. The older snapshot tables
+and historical M4 qualification below do not close or measure this new gate.
+
 Task-pack closure checkpoint — 2026-10-07: `P094-014/014a/015a` complete the
 bilingual operator walkthrough and executable owner-refusal gate. All thirteen
 Story 013 cases/twenty-six variants map to exact passed tests; missing, renamed,

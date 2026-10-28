@@ -475,3 +475,19 @@ This component is intentionally local-first. The public contracts expose
 pseudonymous authorship and routing subjects; the private vault preserves the
 secret continuity needed to operate those surfaces without making participant
 linkage part of the wire protocol.
+
+## Planned Whisper Case-Key Consumer
+
+[P013-LLR-006](../../40-proposals/013-whisper-social-signal-exchange.md#case-continuity-key-and-case-bound-succession)
+owns the case continuity key commitment, uses and lifetime; S026 owns custody.
+Reuse existing host keystore and recovery-bundle mechanisms. Generate one fresh
+case key (closed Ed25519 Phase 1 profile), not a global identity or reusable nym
+key; commit its public-key digest and authority in the anchor. Refuse missing or
+mismatched keys rather than recovering through an issuer mapping.
+
+The key expires no later than the anchor/evidence retention horizon and can be
+erased earlier with an erasure fact. Recovery bundles include it only after
+explicit opt-in explaining takeover and seizure risks; default bundles omit it.
+P013-LLR-006 qualifies creation, key/anchor binding, expiry, deletion and recovery
+inclusion/exclusion. LLR-007/008 own succession and ordered case effects; this
+note is planned integration, not implementation evidence.

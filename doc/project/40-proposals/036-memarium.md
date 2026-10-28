@@ -866,9 +866,9 @@ All rows are post-MVP `todo`.
 |---|---|---|---|---|
 | P036-004 | Freeze the fact retention horizon contract | todo | P091; S028 | `memarium-retention-decision.v1` schema; class-keyed default and ceiling descriptors with the asymmetric ceiling rule. Fixtures: clamp with warning, `until-forget` refused under a bounded ceiling, latest decision wins, history retained, clock from `recorded/at`. |
 | P036-005 | Expire through the ordinary forget path | todo | P036-004; S020 | An S020 job erases expired personal records and tombstones public ones through the existing forget path. Community and crisis records are skipped with a typed reason. Restart is idempotent, a sidecar rebuild shows no resurrection, and receipts carry no content. |
-| P036-006 | Cascade forget and expiry to derived artifacts | todo | P036-005; P078-013 | `derived-from` references on sidecar rows, indexes and Harvester artifacts; forget or expiry purges them. Negative fixture: the matcher cannot see an expired record. A lowered ceiling re-clamps after the grace period with a notice. |
+| P036-006 | Cascade forget and expiry to derived artifacts | todo | P036-005 | `derived-from` references on sidecar rows, indexes and Harvester artifacts; forget or expiry purges them. Negative fixture: the matcher cannot see an expired record. A lowered ceiling re-clamps after the grace period with a notice. |
 | P036-007 | Freeze the personal record contract | todo | P036-004; `memarium-blob.v1` | `memarium-personal-record.v1` with attachments, digests, the three content forms and size bounds. Capture validates before the write. A Story 014 record fixture passes, and diagnostics carry no path or content. |
-| P036-008 | Record fact–rumor link decisions | todo | P036-007; P013-DFR-003 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
+| P036-008 | Record fact–rumor link decisions | todo | P036-007 | `memarium-fact-rumor-link.v1`; decisions are idempotent and both projections show them. Pair and context suppression is proven over two epochs, and decisions expire with the record. |
 
 ## Next Actions
 
@@ -886,3 +886,24 @@ All rows are post-MVP `todo`.
    explicit labels; `stamp-then-warn` remains an explicit operator opt-out.
 3. Treat richer Node UI batch affordances for quarantine, declassification, and
    archival handoff inspection as UX work, not as blockers for Proposal 036 v1.
+
+## Historical Whisper Verification Material
+
+Planned consumer integration (2026-10-28). The contract owner is
+[P013 long-lived rumors](013-whisper-social-signal-exchange.md#long-lived-rumors-and-historical-authorship-2026-10-27);
+[P035-019](035-agora-topic-addressed-record-relay.md#portable-admission-receipts-2026-10-27)
+owns portable receipts. **P013-LLR-003** qualifies keeping the exact envelope,
+certificate and admitted receipt/proof material together under the same bounded
+retention, including the detached embargo manifest binding when present. Attach
+proof beside the envelope; do not rewrite signed or historically qualified bytes.
+
+Missing proof produces an explicit incomplete historical-verification result.
+Expiry/forget removes the corresponding local projections and derived material;
+retaining bytes alone cannot claim retained verification. The case-key lifetime
+in S026 cannot exceed the anchor's evidence horizon. User-selected horizons and
+ceilings remain governed by P036-004–006, not by certificate validity or a count
+window. Test co-retention, partial bundle loss, expiry and redelivery offline.
+
+P036-006 and P036-008 own lifecycle/link contracts before their consumers:
+P078-013 and P013-DFR-003 respectively. Consumer acceptance must prove the joined
+behavior, but it is not a reverse implementation dependency of these contracts.

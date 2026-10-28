@@ -53,6 +53,26 @@ The council is a dependency for a first context and for certificate renewal;
 an already usable certificate does not need a fresh issuance round trip.
 Acceptance records the complete request-to-decision latency, not just AD ACK.
 
+### Notice and embargo manifest scope extension
+
+Planned post-MVP (2026-10-28), owned by
+[P015-005](../015-nym-certificates-and-renewal-baseline.md#embargo-authorship-scope-tracker).
+The current signal-only profile does not authorize correlation notices or
+separately signed embargo manifests. Its replacement/extension must bind exact
+`(record/kind, schema, topic, disclosure/scope)` tuples; independent kind, schema
+and topic arrays must never produce an implicit Cartesian product of grants.
+Issuance and receiving-side verification both enforce the tuple and the issuer's
+admitted profile. Unsupported profiles refuse instead of silently downgrading.
+
+The manifest is a separately domain-bound auxiliary signing use, explicitly
+listed by this profile, with the same certified key/context and authenticated
+admission-time bounds. It does not grant a new publication kind. The full
+protected signal references its digest; the admission receipt binds the two.
+The recipient verifies the manifest and receipt without retrieving that signal.
+This does not let a detached signature stand in for the full envelope signature.
+P015-005 owns positive and cross-kind/cross-scope refusal fixtures; ADC-001/007
+own application use. None of this expands the already-qualified narrow baseline.
+
 ### Publication time and status freshness
 
 Certificate, request and presentation validity are checked at an authenticated

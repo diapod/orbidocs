@@ -2033,6 +2033,24 @@ checks do not qualify every carrier, captured product or fresh physical topology
   local plus non-local, non-local plus unknown, provider redaction, legacy absence,
   participant runtime changes, and a receiver that must not upgrade peer evidence.
 
+## Whisper Embargo Release Consumer
+
+Planned (2026-10-28), owned and qualified by
+[P013-ADC-005/000](013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27).
+Reuse the existing Room identity, membership checks, history policy and AD
+handoff. A release audience is a concrete canonical descriptor containing the
+room identity and consented history-access policy revision; its identity excludes
+transport routes. The same room reached through two routes consumes one release
+slot, whereas two rooms require separately consented descriptors and slots.
+
+Before accepting the release, verify the detached author manifest/admission
+package, payload, release-intent digest and authority commit receipt. No protected
+correlation text is fetched. Room membership does not authorize a broader release.
+History access, including later members, must stay within the consented descriptor;
+a changed history policy needs a fresh compatible authorization, never implicit
+reuse of old consent. ADC acceptance covers two rooms, route aliasing, unauthorized
+membership/history access and offline proof failure. This adds no Room protocol.
+
 ## Open Questions
 
 No unresolved question blocks Phase 6A, Phase 6B, or Phase 8. MLS, QUIC, and

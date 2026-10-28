@@ -891,7 +891,7 @@ status refresh cannot suppress protective publication. See
 ## Dormant-fact resonance jobs
 
 Planned (2026-10-27). [Story 014](../../30-stories/story-014-dormant-contest-entry.md)
-and its follow-ups need four consumer-owned jobs. S020 owns only their clock
+and its follow-ups need three consumer-owned jobs. S020 owns only their clock
 and launch policy; each owner keeps its budgets, refusal reasons and readiness
 reporting.
 
@@ -899,8 +899,7 @@ reporting.
 |---|---|---|---|
 | Retention expiry | Memarium | Daily, skip-missed | [P036-005](../../40-proposals/036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27) |
 | Dormant-fact scan, generalization and scoring | Weak Signal Harvester module | Per epoch; scoring after a completed pull | [P078-010–012](../../40-proposals/078-weak-signal-harvester.md#memarium-dormant-fact-profile-2026-10-27) |
-| Bucket pull | Whisper | Epoch boundary with stable jitter, skip-overlap | [P013-DFR-002](../../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27) |
-| Minimal-trace purge | Artifact Delivery | After the retry horizon, skip-missed | [S023-002](../023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) |
+| Bucket pull | Whisper | Open the epoch window, skip-overlap; execute persisted Whisper-owned offsets | [P013-DFR-002](../../40-proposals/013-whisper-social-signal-exchange.md#dormant-fact-resonance-2026-10-27) |
 
 The pull job reads the interest profile and vocabulary resolution current at
 the epoch boundary, so writing a fact never triggers network activity.
@@ -912,3 +911,14 @@ The bucket pull executes every plan entry, whatever its `need`, `decoy` or
 ([P013-CIM-003](../../40-proposals/013-whisper-social-signal-exchange.md#cooperative-interest-masking-2026-10-27)).
 The S020 launch only opens the epoch's pull window; the per-entry offsets
 belong to the Whisper job, so the scheduler sees no origin.
+
+No second jitter or offset draw is applied by S020 on replay or retry.
+
+## Artifact Delivery maintenance jobs
+
+Minimal-trace cleanup is an AD retention obligation, independent of dormant-fact
+resonance. S020 dispatches the due work; AD owns holds, erasure and diagnostics.
+
+| Job | Owner | Cadence | Task |
+|---|---|---|---|
+| Minimal-trace purge | Artifact Delivery | After the retry horizon, skip-missed | [S023-002](../023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) |

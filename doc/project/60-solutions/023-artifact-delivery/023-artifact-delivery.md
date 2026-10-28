@@ -1876,3 +1876,20 @@ Status:
 ## Related Capability Data
 
 - `023-artifact-delivery-caps.edn`
+
+## Planned Whisper Embargo Execution Consumer
+
+[P013-PEX-001](../../40-proposals/013-whisper-social-signal-exchange.md#private-exchange-tracker)
+qualifies the private carrier; [P013-ADC-005](../../40-proposals/013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27)
+owns the immutable release intent, authority commit and executor journal. AD
+receives the final receipt-bearing envelope as frozen bytes with one delivery id.
+It neither counts sources nor re-evaluates the author's domain consent. Its own
+recipient/transport authority, expiry and resource checks still apply: a commit
+receipt is not a transport capability.
+
+Reuse existing submission, status/readback and phase recovery. Unknown delivery
+outcome never proves no submission. Abandonment requires authoritative absence;
+it leaves the logical release slot consumed. The protected-holder union includes
+a separately named counting authority, but transport budget never admits a new
+holder. PEX-001 and ADC-005 acceptance cover recipient refusal, lost reply,
+restart before submission and exact-byte/id replay, without a new AD retry owner.

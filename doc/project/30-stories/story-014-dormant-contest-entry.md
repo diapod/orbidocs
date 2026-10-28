@@ -245,9 +245,16 @@ coordination threshold; Rant's embargo on his content is a separate condition.
    release payload for federation-scoped readers.
 3. Rant's node sends the protected signal privately to projection C, which is
    both the counting authority and the only correlator. It also publishes a
-   content-free correlation notice in `culture.competitions`.
+   content-free correlation notice in `culture.competitions`, under the exact
+   P015-005 publication tuple. The author first signs an embargo manifest; the
+   protected signal references its digest. C's admission receipt binds both.
+   A companion fixture uses a separate correlator D: the named protected-holder
+   set is {C, D}, with role-specific grants, not a larger forwarding budget.
 4. Agnes's pull (step 9) finds the notice and her record matches it. She
-   confirms and authors a related signal in the same context (steps 11–14),
+   confirms and authors a related signal in the same context (steps 11–14).
+   Its typed `signal/related-to` points to the public notice's `record/id`
+   (`target/kind = whisper-correlation-notice`), never to the unseen protected
+   signal. She needs no private signal lookup or id. The context key is inherited,
    and C counts one other source. Because Rant allowed coordination
    participation, the two sources reach the coordination threshold and C emits
    the room proposal (step 15). Rant's content stays embargoed for wider
@@ -260,17 +267,26 @@ coordination threshold; Rant's embargo on his content is a separate condition.
    (P057-017) with the criterion, count, audience and deadline. He confirms
    with the condition's control key, and C accepts the confirmation as a case
    event.
-7. Rant's node prepares the release record and submits a release commit to C.
-   The commit binds the exact record, the federation-scoped topic key and
-   route, Rant's node as executor and a hand-over deadline. C accepts it
-   because the case is active, the slot for this audience is free and its count
-   under a source status no older than 300 seconds still meets three. Rant's
-   node then hands the committed bytes to AD for federation-scoped readers.
-   The record carries the pre-redacted release payload, the condition, the
-   commit receipt and the confirmation, and readers verify it offline. It
-   states that distinct sources are not evidence that the reports are true.
+7. Rant's node freezes an embargo release intent, then submits a commit to C.
+   It binds the exact intent digest (payload and prepared public proofs, without
+   the future commit receipt), canonical federation/topic/access descriptor,
+   executor, route and hand-over deadline. C atomically checks active consent,
+   the slot keyed by original condition and audience digests and a count under
+   a source status at most 300 seconds old. The signed receipt binds this intent.
+   Rant's node journals the final release envelope, now containing the receipt,
+   before AD receives its frozen bytes and delivery id. Agora's content-addressed
+   `record/id` is separate from the logical per-slot `release/id`.
+   Readers verify the manifest, certificate, admission claim, author confirmation,
+   commit and payload offline, including when retrieval of the protected signal
+   is explicitly denied. They trust C's admission/count claims about hidden data;
+   the record states that distinct sources are not evidence of truth.
 8. Negative paths:
    - Had Rant declined, or let the prompt expire, nothing would be released.
+     Decline suppresses that proposal across restart; the active condition does
+     not cause another prompt without explicit retry or a consented bounded rule.
+   - In pre-authorized mode, withdrawal or expiry after a satisfying attestation
+     but before commit still refuses. `satisfied` is a derived predicate, never
+     an irrevocable reservation or a persisted case state.
    - Had a source been revoked before the commit, C's count would have fallen
      below three and C would have refused the commit, provided the revocation
      had reached C's source status. A revocation newer than that status, which
@@ -286,16 +302,49 @@ coordination threshold; Rant's embargo on his content is a separate condition.
    - A second attestation after the release produces no second release for the
      same audience.
    - A third source that appears only in a later epoch does not suffice; there
-     the requirement is four distinct sources within that epoch.
+     the requirement is four distinct sources within that epoch, even when
+     Rant publishes nothing in it. The UI shows that conservative effective threshold.
 
 | ID | Assertion | Proves |
 |---|---|---|
-| S014-A12 | Before release, the correlation text reaches only C and the release payload does not leave Rant's node. C's query endpoints, Agora records, notices, notifications, logs and exports contain neither, and the public notice is content-free. | P013-ADC-003, P013-ADC-007 |
+| S014-A12 | Before release, the correlation text reaches only named holders (C alone in the baseline, C and D in the split-role fixture) and the release payload does not leave Rant's node. C's query endpoints, Agora records, notices, notifications, logs and exports contain neither, and the public notice is content-free. | P013-ADC-003, P013-ADC-007 |
 | S014-A13 | The room proposal at two sources releases nothing. The release happens only after Rant's confirmation and a commit accepted by C, counting at least three other sources at the commit point. A revocation already reflected in C's status or a withdrawal accepted earlier refuses the commit, while a withdrawal accepted later does not cancel it. A lost commit response recovers the same commit, a crash after the commit hands over the same bytes and delivery id, and a later attestation yields no second release. | P013-ADC-004, P013-ADC-005, P013-LLR-008 |
-| S014-A14 | Reposts and forwards by one source leave the count unchanged, and epochs after Rant's are evaluated separately under the N + 1 rule. | P013-ADC-004 |
-| S014-A15 | The release record verifies without contacting Rant's node, publishes only the release payload to the declared audience, and reveals no identity, private record, attachment or source material. | P013-ADC-005 |
+| S014-A14 | Reposts and forwards by one source leave the count unchanged; later epochs require N + 1 both with and without Rant, and succession changes no count. | P013-ADC-004 |
+| S014-A15 | The offline release exposes only the approved payload, criterion/count metadata and minimal verification package. It reveals no participant identity, correlation text, private facets, source lists or contact route; nym/case linkage carried by approved proof is explicitly previewed. | P013-ADC-001, P013-ADC-005 |
+| S014-A16 | Two routes to one room reserve one slot. Two different rooms reserve two only with consent for both; a third or widened history audience refuses. Logical release/id and Agora record/id are different identities. | P013-ADC-005, P070 |
+| S014-A17 | Receiver verification succeeds with no protected body and with its retrieval denied. Changing the manifest, certificate scope, admission binding, intent or payload refuses. No digest commits an envelope containing that same digest's receipt. | P013-ADC-001/005, P035-019, P015-005 |
+| S014-A18 | With C and D separate, both explicitly admitted holders receive only their role-authorized material. An unnamed node refuses even when hop budget remains. | P013-PEX-001, P013-ADC-003 |
+| S014-A19 | Both pre-commit withdrawal/expiry paths work in pre-authorized mode; declined prompts remain suppressed after restart. No durable case status claims satisfied. | P013-ADC-005/008, P013-LLR-008 |
+| S014-A20 | Narrowing keeps the original condition id/slots. Widening creates a new anchor/case/consent; it neither withdraws the old case nor leaks an automatic link. | P013-ADC-001, P013-LLR-006 |
+| S014-A21 | Agnes sees only the notice and authors a relation to its public id and typed kind. Wrong notice publication tuples refuse; no hidden signal id appears in the finding, relation or wire trace. | P013-DFR-004, P013-ADC-007, P015-005, P078-012 |
+
+### Variant Evidence Ownership
+
+These are required future proofs, not results. ADC-000 owns the composed report;
+no producer can mark that row done from isolated schema tests. Its report maps
+every assertion to the exact source revisions, fixture, observed outcome and
+retained artifact/qualifier. Missing evidence remains pending.
+
+| Assertion(s) | Prerequisite task(s) | Required evidence |
+|---|---|---|
+| S014-A1–A3, A11 (pull and local match) | P013-DFR-001/002; P078-010/011/012; P035-016/017 | Bounded pull trace and canary scan; no fact-specific wire query |
+| S014-A4–A7 (decision and My rumors) | P036-008; P013-DFR-003; P066-DFR-003; P057-015/016 | Retained local decisions/read views; no autonomous publication |
+| S014-A8, A21 (notice-related signal) | P013-DFR-004; P013-ADC-007; P015-005; P015 Gate B | Notice-only authoring, exact certificate tuple and distinct-source result |
+| S014-A9/A10, A16 (coordination and rooms) | P013-DFR-006; P070; P013-ADC-005 | No release at proposal time; room consent/history and slot tests |
+| S014-A12, A18 (custody) | P013-PEX-001; P013-ADC-003 | Two-node private exchange, separate holder roles and all-surface canary scan |
+| S014-A13/A14/A19 (ordering and execution) | P013-ADC-004/005/008; P013-LLR-008; P057-017 | Both race orders, author absent/present, lost reply, crash-before-AD and declined-prompt replay |
+| S014-A15/A17/A20 (proof and case identity) | P013-ADC-001/005; P035-019; P013-LLR-006; P015-005 | Offline package with private retrieval refused, tamper vectors and new-case/narrowing tests |
+
 
 ## Open Continuation
+
+The variant proves the current single-epoch, single-authority contract only.
+It does not close ADC's cross-epoch accumulation or confirm-mode author
+reachability questions. Withheld custody also requires the author at release;
+authority-independent verification of hidden counts and committee authorization
+remain open. A missing author/status/proof defers or expires the operation,
+never authorizes a public fallback.
+
 
 - The wire conjunction rule (P013-DFR-005).
 - Vocabulary governance, cardinality floors and epoch length (P013 open

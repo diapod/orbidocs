@@ -2826,11 +2826,30 @@ receipt never enters the signed record. It travels beside the byte-identical
 envelope: in readback metadata, in custodial redelivery requests and in local
 Memarium storage. A verified Matrix PDU remains an equivalent proof under P015.
 
+### Detached Embargo Manifest Binding
+
+Planned consumer profile (2026-10-28), qualified by P035-019 and
+[P013-ADC-001](013-whisper-social-signal-exchange.md#author-disclosure-conditions-2026-10-27).
+For a private Whisper anchor, the counting authority verifies the complete
+signal and its separately nym-signed embargo manifest, then signs a receipt
+binding the signal's `record/id`, the exact author-byte digest **and** the
+manifest digest and verified signing-use profile. The manifest precedes the
+signal and never hashes the signal back. No generic Agora signature is checked
+against a body with omitted fields.
+
+A recipient given only the public manifest and this receipt can verify the
+manifest and the authority's private-admission claim. It explicitly trusts the
+admitted receipt signer for the hidden publication; it does not independently
+verify the hidden body's signature. The receipt profile's closed public fields
+must not expose correlation text, source lists, contact routes or unapproved
+private facets. Wrong manifest binding or absent profile authorization refuses.
+This reuses the portable receipt carrier, not another timestamp service.
+
 ### Admission Receipt Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | todo | P015 Gate B; P041 | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. |
+| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle; positive offline and wrong-manifest/scope refusal vectors qualify that profile. |
 
 ## Follow-Up
 
