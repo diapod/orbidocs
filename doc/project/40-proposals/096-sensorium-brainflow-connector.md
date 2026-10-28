@@ -6017,3 +6017,16 @@ and actual fault/restart evidence requires fresh separate decisions. See
 node:docs/audits/REVIEW-SENSORIUM-PREVIEW-RECOVERY-CLIENT-2026-10-28.md.
 
 Node fixed-client preparation checkpoint: `dae6853d`; its executable source is `12b0c29b`.
+
+
+A later separate exact approval permits one permission-only observation of this
+new GUI: allowed, confirmed not-scanning cleanup and observer exit, with all
+1915 root files / 439 directory identities and controller state preserved.
+Four current correlated TCC log records separately establish responsible-image
+attribution; their original event time and the raw preflight's unverified field
+are preserved. The additional private 32-member proof e10a46e6/f32a2d41 passes
+full byte readback with unknown custody protected. No SCAN, WEAR, retirement,
+authority renewal or recovery is implied. P096-005 remains partial. See the
+separately approved permission addendum in the linked Node review.
+
+Node permission observation checkpoint: `4589b0df`; executable source remains `12b0c29b`.
