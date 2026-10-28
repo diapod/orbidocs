@@ -598,3 +598,26 @@ privacy properties. Gate A remains pending until both counterexamples fail on
 the corrected design and the real private runtime is qualified. Gate B remains
 pending independently. Timing analysis, the issuer's contemporaneous knowledge
 and copies of its still-live keystore/image remain outside the erasure claim.
+
+
+### Current implementation checkpoint (2026-10-28)
+
+The dated 2026-10-26 counterexamples above remain historical review findings.
+The Node foundation now has software regressions for anonymous first-leg
+metadata, independent erasable reply membership, and the post-reset collection
+lease drain. They are not substitutes for the complete runtime privacy gate.
+
+A clean-source private diagnostic has exercised issue, renewal with a new nym
+and the same contextual source, ordinary protected host signing, and exact
+certificate/authoring readback after applicant and issuer restart. The following
+private reset expired during processing and remains an original refusal. No
+request window was extended and no complete Gate A/B result is claimed.
+
+The implementation now authenticates a sealed request and binds its custody from
+one immutable allocation, removing repeated metadata decryption and provider
+inspection. Controlled-media conformance measures 16 versus 8 attestations for
+that input path. Actual key leases, media checks and request/signing/commit
+expiry rules remain intact; the measurement does not promise a latency bound.
+A new clean-candidate reset probe and the full two-gate qualification are still
+required. See `node:nym-issuer-service/README.md` and the Node implementation
+ledger for repository-local implementation status.
