@@ -545,7 +545,7 @@ historical S027-001–008 qualifications.
 | S027-005 | Node UI messaging surface | done | Node UI renders `/admin/messaging` with contactability draft controls, provider challenge/redeem controls, compose, local-contact based unknown-recipient warning, inbox, read/unread actions, outbox, diagnostics, and message detail. User UI also renders a contact chat modal as a bounded read-model over the messaging-service mailbox/outbox stores: it hydrates text bodies through bounded body endpoints, merges inbound and outbound rows through the shared `local-relationship-core::route_key` canonicalizer, refreshes history through `messaging-mailbox-changed` SSE plus polling fallback, and marks rendered unread inbound rows through an explicit mailbox-scoped flag mutation. Relationship/conversation subject precedence is separated from delivery-route precedence so `participant/id` is not hidden by a transport route, and active local-contact route-key matching preserves schema-safe pairwise contact nyms while excluding blocked contacts. |
 | S027-006 | Story-010 acceptance pack | done | `node/tools/acceptance/story-010-operator/` provides two-node profile generation, launchers, UI helpers, `story-smoke`, and self-contained `ad-smoke`. Strict `ad-smoke` now defaults to the no-scaffold path: `contact-request.v1` is admitted through the schema-scoped INAC preflight/policy gate, then the receiver sees the contact-request notification and explicitly accepts the relationship before any `message-envelope.v1` delivery authority exists. It also covers local `always_accept` Attestation Service acquisition through daemon contactability endpoints, daemon contactability publish, supervised Contact Catalog admission, shared remote lookup, contact request delivery, operator accept, `messaging-receive@v1` passport handoff, private-direct `message-envelope.v1` delivery, delivered inbox/outbox state, `messaging.flag.v1` read/unread replay, and a second recorded message stored as an encrypted generic artifact in Node B's Agora Vault. The old peer allowlist/preissued transport passport path and explicit INAC operator-approval path are retained only as acceptance debug/policy variants. |
 | S027-007 | User-mode messaging readiness wizard | done | Node UI has five welcome steps: participant identity, key unlock phrase, operator binding, Messaging issuance authority (sovereign or bounded grant) and Messaging. The latter two can be durably deferred to enter `/app` with visible status. The step can enable `messaging-service`, checks Local Relationship owner/storage readiness and `messaging-send` readiness, creates/reuses a Pseudonym Vault routing subject, and saves either explicit `pseudonymous-only` contactability or a `public-handle-draft`. It does not mint a global messaging nym; pairwise contact nyms remain acceptance-time relationship facts. |
-| S027-009 | Recipient-consent loss and duplicate-safe delivery recovery | todo | Planned only; the [single-source tracker](#consent-loss-recovery-tracker) requires contracts, insert-once admission, historical INAC reconciliation, explicit retry/UI and retained qualification. |
+| S027-009 | Recipient-consent loss and duplicate-safe delivery recovery | todo | Development foundations exist; the [single-source tracker](#consent-loss-recovery-tracker) still requires complete contracts, insert-once admission, historical INAC reconciliation, explicit retry/UI and retained qualification. |
 
 ### Bounded Memarium Recovery (S027-008)
 
@@ -754,6 +754,16 @@ confirming through that pause; generic refresh remains unable to resume it.
 These focused tests do not yet prove authenticated own/foreign/missing INAC reads,
 mandatory transport reservation, retention/deletion writers or browser recovery.
 All five tracker rows remain `todo` until their complete gates are measured.
+
+AD now atomically binds Messaging component/key/input digest to the first resolved
+plan, recovering it without another route resolution after a lost reply or restart.
+Missing or inconsistent retained bindings fail closed. A separate INAC owner-store
+fragment adds body-free peer/key/digest reservations, fenced finalization, bounded
+exact reads and protected terminal retention. Component tests exercise actual
+SQLite own/foreign/missing queries; they do not qualify authenticated network
+reads. The INAC push/query handlers still need these operations installed before
+exposure, together with current-permission checks, typed AD outcomes and negotiated
+deduplication continuity. No runtime or browser gate is claimed by this checkpoint.
 
 ## References
 
