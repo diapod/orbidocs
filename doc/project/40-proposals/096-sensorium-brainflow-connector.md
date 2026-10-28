@@ -5849,3 +5849,31 @@ unchanged; P096-005 stays partial. See
 node:docs/audits/REVIEW-SENSORIUM-STARTUP-DIAGNOSTIC-CLIENT-2026-10-26.md.
 
 Node prepared-client evidence checkpoint: `ef5ac216`; the executable source remains `3a13f8cc`.
+
+
+### Released r21 review after resume — 2026-10-28
+
+Historical review b223f641 passes independent source/release/history checks and
+seven refusal controls, preserving one explicit read-store ctime exception.
+After separate current approvals, exact 24-helper SIGTERM maintenance, same-scope
+renewal d56a0b48 and fresh retirement 2aa65f18 complete. The old review is archived
+byte for byte; r21 is retired and r22 reserved without a p21 grant or consent.
+Four reviewed source projections match; journal 546/76, consent, predecessor and
+idle resources remain exact. Owner/discovery expire at 2026-10-28 14:39:38 CET.
+
+One separately approved permission-only preflight of prepared GUI 8a4ec1c4 reports
+allowed, confirmed cleanup and observer exit. All 1863 root file observations,
+425 directory identities and controller state remain exact. Its TCC responsible
+attribution remains unverified. No SCAN, acquisition, recovery, host restart or
+merge occurs. Four additive private sets (52/114/43/44 members) pass fresh byte
+readback; unknown custody and retention facts stay protected.
+
+P096-005 remains partial. This lifecycle/permission evidence does not change the
+native 21829/15000 ms refusal, identify a startup speedup, qualify missing native
+fault cleanup or substitute for the separately approved actual host restart.
+Fresh headband readiness precedes any physical diagnostic. The bounded convergence
+review keeps release/recovery, historical/current authority, renewal/retirement
+and diagnostic/qualification contracts separate while reusing existing owners.
+See node:docs/audits/REVIEW-SENSORIUM-R21-RELEASED-RETIREMENT-2026-10-28.md.
+
+Node operational evidence checkpoint: `af2fc218`; executable source remains `3a13f8cc`.
