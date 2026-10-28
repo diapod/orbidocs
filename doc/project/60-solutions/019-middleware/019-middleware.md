@@ -627,7 +627,10 @@ unguided capability to actual host list/describe; a separate direct host call
 confirms handler carriage. A separate signed, operator-admitted instance now
 proves report provenance through launch integrity and scoped host projection.
 The configured Python channel client proves one canceled in-flight host catalog
-call and one consumed late result under its existing host binding; see
+call and one consumed late result under its existing host binding. The
+supervisor-owned test verifies the successful host list response before holding
+its delivery at the channel adapter; client readiness and complete observation
+publication are explicit. This proves delayed delivery, not host preemption; see
 `node:docs/audits/REVIEW-LOCAL-CAPABILITY-GUIDANCE-2026-10-19.md`.
 
 Reuse existing report descriptions and `api/surface`; an optional pinned guidance
