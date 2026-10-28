@@ -134,6 +134,12 @@ local receipt `r = U`, the old collection lease (`r < U`) has already ended.
 Public validity timestamps still permit temporal inference; this profile does
 not claim timing anonymity or hide the council's contemporaneous knowledge.
 
+A deferred live admission preserves its first-receipt time but evaluates current
+status, revocations and epoch closure at the actual decision time. It cannot
+borrow the receipt's older clock to refresh status or admit after epoch end.
+Retained facts distinguish publication, first receipt and admission; clock
+rollback refuses. This is separate from replaying an already committed decision.
+
 Previously accepted contributions survive natural certificate expiry, but cease
 to count after source revocation or epoch end. Historical admission facts do not
 change during replay; replay verifies their stored proof and policy identity,
