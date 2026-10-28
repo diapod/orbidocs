@@ -2837,6 +2837,14 @@ manifest digest and verified signing-use profile. The manifest precedes the
 signal and never hashes the signal back. No generic Agora signature is checked
 against a body with omitted fields.
 
+The profile's verified outcome includes equality of the continuity-key digest,
+case status authority and `case/not-after` in the manifest and private signal.
+This check allows the same receipt and manifest to establish the original
+binding for [P013-LLR-009's portable succession profile](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification).
+Both digests being present is insufficient without this declared, checked
+admission outcome. The receipt establishes historical admission; fresh case
+authority and the successor certificate remain separate LLR/P015 inputs.
+
 A recipient given only the public manifest and this receipt can verify the
 manifest and the authority's private-admission claim. It explicitly trusts the
 admitted receipt signer for the hidden publication; it does not independently
@@ -2845,11 +2853,36 @@ must not expose correlation text, source lists, contact routes or unapproved
 private facets. Wrong manifest binding or absent profile authorization refuses.
 This reuses the portable receipt carrier, not another timestamp service.
 
+### Admission Receipt Implementation Recommendations
+
+Use `PublicationTimeVerifier` in `node:nym-core/src/lib.rs` as the existing behavior
+port for a record digest plus exact author-byte digest yielding a verified time
+and evidence digest. It currently has pure/test consumers; a portable production
+adapter is still P035-019 work. Matrix PDU and signed-receipt verification must
+share binding-law fixtures, not duplicate historical validation in every relay,
+Memarium reader and Whisper consumer.
+
+The existing `AdmissionEvidence` in `node:agora-matrix/src/recovery.rs` is a local
+policy/evaluation fact. Neither that struct nor a row retained by
+`retain_local_admission` is automatically a portable signed time proof. The
+adapter must verify an admitted signer, exact byte bindings and the profile's
+time claim before producing the port's result. Keep immutable evidence beside
+the envelope; projection rebuild does not turn today's evaluation into the
+original admission time.
+
+The detached-manifest adapter additionally returns a verified manifest/admission
+binding after checking its closed profile. It shares the receipt verifier but
+does not synthesize `SignalBinding` for unseen private text. Bounded offline
+resolution reports missing evidence explicitly and performs no private-body
+fetch. See the [P013 reuse contract](013-whisper-social-signal-exchange.md#implementation-reuse)
+and [ADC proof paths](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations).
+P035-019's gate includes these adapter-law and local-fact-is-not-proof cases.
+
 ### Admission Receipt Tracker
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle; positive offline and wrong-manifest/scope refusal vectors qualify that profile. |
+| P035-019 | Portable admission receipts | todo | P015 publication-time evidence contract | `agora-admission-receipt.v1` schema and relay signing at admission; carriage beside the envelope in readback and redelivery; verification against admitted time authorities; negative fixtures for altered bytes, unknown authorities and skew. The P015 SQLite receipt becomes an instance of this contract. The detached-manifest profile binds the verified signal and manifest without a hash cycle and attests checked equality of their case key, authority and lifetime; positive offline and wrong-manifest/scope/case-binding refusal vectors qualify that profile. Implement the shared publication-evidence port and adapter-law fixtures described above; local unsigned admission metadata cannot satisfy it. |
 
 ## Follow-Up
 

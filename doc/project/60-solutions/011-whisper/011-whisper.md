@@ -420,8 +420,29 @@ The portable receipt format and authenticated admission claim are owned by
 not by a second Whisper receipt implementation. The unchanged aggregate-only
 promotion rule is in [implementation Layer 7](011-whisper-impl.md#layer-7-threshold-detection-and-durable-promotion).
 
+[P013-LLR-009](../../40-proposals/013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification)
+plans bounded portable succession verification through those P015/P035 owners.
+It keeps historical anchor proof, authentic succession and current case authority
+separate, with zero-fetch acceptance and no disclosure of a private anchor merely
+to complete a package. It applies P032's cross-artifact verification rule;
+P076 is one qualified consumer example, not the owner of the Whisper profile.
+The [family matrix](../../40-proposals/013-whisper-social-signal-exchange.md#portable-verification-profiles)
+also covers signals, notices, embargo proofs and case control without adding
+signatures to CIM's intentionally session-authenticated cover requests.
+
 Status:
 - `future`
+
+### Shared Implementation Boundaries
+
+The planned continuations share mechanisms according to
+[P013's reuse dispositions](../../40-proposals/013-whisper-social-signal-exchange.md#implementation-reuse):
+one epoch pull executor, one contextual contribution evaluator with separate
+coordination/disclosure policies, one ordered case owner, and P015/P035 proof
+verification. AD retains delivery and retry ownership. The recommendations also
+identify small head-comparison and prepared-output reuse boundaries without
+merging issuer custody, case authority or transport status. These are design
+constraints for the existing trackers, not additional implemented capabilities.
 
 ## Out of Scope
 

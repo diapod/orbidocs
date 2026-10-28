@@ -116,8 +116,9 @@ expired request is not an erased request.
 ## Shared Timing {#shared-timing}
 
 Under `cover-schedule/v1`, every participant, the initiator included, draws for
-each plan entry and epoch an independent uniform offset within the epoch's pull
-window and fetches at that time. Entries of every origin follow the same rule,
+each executable bucket job and epoch an independent uniform offset within the
+epoch's pull window and fetches at that time. Duplicate planning entries are
+coalesced first, as specified in the [implementation recommendations](#implementation-recommendations). Entries of every origin follow the same rule,
 so a real interest produces no "interested first" or "interested last"
 pattern. The window bounds and any additional jitter are profile values, tuned
 by `P013-CIM-007`.
@@ -219,6 +220,46 @@ claim only what these measurements show.
 3. Whether helpers should also pad their own acceptance so that refusal under
    load does not reveal their capacity.
 
+## Implementation Recommendations {#implementation-recommendations}
+
+The [shared-mechanism dispositions](../013-whisper-social-signal-exchange.md#implementation-reuse)
+choose DFR's plan and executor as the single owner. Keep local planning causes
+separate from executable jobs:
+
+```text
+PlanEntry = (term, window, origin, origin_ref, expires_at)
+PullJob = (topic_key, window, relay_profile_ref, scheduled_at, budget_ref)
+```
+
+`compile_pull_jobs` consumes the immutable epoch vocabulary resolution and all
+admitted entries. It maps terms to topic keys, coalesces identical bucket/window/
+relay-profile requests, checks bounded work and byte budgets, and persists the
+jobs before dispatch. Several origins may explain one job; retain those causes
+locally within the plan's retention, never as request fields or executor branches.
+This prevents a need and a cover entry for the same bucket from causing a second
+revealing fetch. Different windows remain different jobs. Pull-all uses the same
+listing/pagination executor, not a second acquisition implementation.
+
+Draw one offset per executable job and epoch using `cover-schedule/v1`, after
+coalescing, for every origin alike. Save the sampled time: restart and S020 retry
+must not draw it again. S020 executes the persisted deadline, without an additional
+jitter layer. An accepted cover cause survives until its original expiry even
+when a matching local need disappears. Late inputs do not cause an immediate,
+origin-specific fetch; epoch planning owns their admission to the schedule.
+
+The executor receives only jobs. It uses the same completion, pagination, mirror
+deduplication and budget handling for all of them. Budget exhaustion, pruning or
+missing pages yield an explicit incomplete result, not an empty complete slice;
+there is no early exit because a local match was found. Results enter the ordinary
+rumor store. The planner never promotes a cover cause into personal interest.
+
+CIM-001/003/004 fixtures cover mixed-origin duplicate buckets, deterministic
+replay of saved offsets, changed request bytes under one sender/request id,
+bounded plan growth and expiry without cancellation. Compare emitted requests
+and completion behavior after erasing local provenance from otherwise equal
+plans. This proves path equivalence, not anonymity: CIM-007 still owns the
+multi-epoch effectiveness experiment.
+
 ## Cooperative Interest Masking Tracker {#cooperative-interest-masking-tracker}
 
 All rows are post-MVP `todo`. The grouping row closes on the composed run and
@@ -227,9 +268,9 @@ the measured claim.
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P013-CIM-000 | Cooperative masking acceptance and bounded claim | todo | P013-CIM-001–008; [S023-001–002](../../60-solutions/023-artifact-delivery/023-artifact-delivery.md#minimal-trace-delivery-profile) | A retained three-node run (initiator, two helpers, relay with a mirror) shows identical pull behaviour across origins, expiry without cancellation and purged traces; the claim in this section is restated from `P013-CIM-007` results. |
-| P013-CIM-001 | Generalize the pull plan | todo | P013-DFR-002 | `whisper-pull-plan.local.v1` with one origin-tagged entry abstraction and one executor; origin never leaves the node; fixtures prove identical requests, pagination and completion for every origin. |
+| P013-CIM-001 | Generalize the pull plan | todo | P013-DFR-002 | `whisper-pull-plan.local.v1` with one origin-tagged entry abstraction and one executor; origin never leaves the node; fixtures prove identical requests, pagination and completion for every origin. Coalesce mixed-origin duplicate buckets into one job; retain bounded local causes without leaking them or changing completion behavior. |
 | P013-CIM-002 | Freeze the cover request contract | todo | P013-DFR-001 | `whisper-cover-request.v1` with closed fields and bounds; the composition rule, including requests without real terms; no own signature, no cancellation and no forwarding fields. Verify whether the INAC session gives helpers no transferable proof; negative fixtures for extra fields and unrated terms. |
-| P013-CIM-003 | Shared timing rule | todo | P013-CIM-001; S020 | `cover-schedule/v1` with independent uniform offsets per entry and epoch from a CSPRNG for all origins and the initiator; profile parameters; order-statistic tests showing no stable first or last reader. |
+| P013-CIM-003 | Shared timing rule | todo | P013-CIM-001; S020 | `cover-schedule/v1` with independent uniform offsets per compiled job and epoch from a CSPRNG for all origins and the initiator; profile parameters; order-statistic tests showing no stable first or last reader. Persist offsets after coalescing and replay them unchanged; no extra S020 draw or immediate late-origin fetch. |
 | P013-CIM-004 | Helper acceptor | todo | P013-CIM-002; S023-001; P091 | One authoritative AD acceptor that checks consent, sender class, budgets, validity, deduplication and prior execution before any state change. It refuses generically, follows a transition table and keeps bounded state purged at expiry, and its tests cover refusal, replay and bounded growth. |
 | P013-CIM-005 | Initiator helper selection and multi-epoch maintenance | todo | P013-CIM-002; S023 selectors | Stable helper sets per cover period, tail padding and rotation rules; reuse of AD recipient selectors and the `whisper.cover.v1` advertisement; P091 initiation settings. |
 | P013-CIM-006 | Separation from memory and social signals | todo | P013-CIM-001 | Fixtures prove that cover and decoy entries never reach the interest profile, Memarium personal records, link candidates, thresholds or disclosure-condition counts. |

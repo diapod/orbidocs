@@ -76,9 +76,10 @@ The material is split into two payloads and an independently verifiable manifest
   prohibition on reusing text under a different disclosure scope.
 - **Release manifest.** `whisper-embargo-manifest.v1` carries the original
   `whisper-embargo-condition.v1`, the release-payload digest, the case continuity
-  public-key commitment, the counting/status authority and the approved public
-  metadata policy (count/proof required, rendered criterion optional). A nym signature covers its domain-separated
-  canonical bytes. Its auxiliary signing use must be explicitly permitted by
+  public-key commitment, `case/not-after`, the counting/status authority and the
+  approved public metadata policy (count/proof required, rendered criterion
+  optional). A nym signature covers its domain-separated canonical bytes.
+  Its auxiliary signing use must be explicitly permitted by
   the P015-005 profile; possession of a nym key alone does not permit it.
 
 The manifest is created first. It includes neither the protected signal's body
@@ -120,7 +121,14 @@ The control key is the
 [case continuity key](long-lived-rumors.md#case-continuity-key-and-case-bound-succession), owned by
 P013-LLR-006 and stored by S026. One fresh key per case signs amendments,
 withdrawal, confirmations and case-bound succession. The anchor and manifest
-must commit the same key and authority. The key does not identify the participant;
+must commit the same key, authority and case lifetime. P035-019's admission
+profile verifies that equality before attesting the binding; a receipt over
+two digests alone must not imply that an unchecked case binding was verified.
+The manifest and that receipt can then serve as the detached anchor proof in
+[LLR's portable succession profile](long-lived-rumors.md#portable-case-succession-verification),
+when their disclosure is permitted to that audience. This reuses existing ADC
+material; it neither requires an embargo for every case nor exposes the private
+signal. The key does not identify the participant;
 its uses can link actions inside the case. All such actions follow the
 [case state](long-lived-rumors.md#case-state-and-currency) contract.
 
@@ -569,19 +577,92 @@ stateDiagram-v2
 5. How a confirm-mode author stays reachable without exposing a route to the
    counting authority, beyond pulling over the private exchange path.
 
+## Implementation Recommendations {#implementation-recommendations}
+
+Follow the [shared-mechanism dispositions](../013-whisper-social-signal-exchange.md#implementation-reuse).
+The following are internal value shapes, not new wire schemas or completed APIs:
+
+```text
+ContextEpoch = (profile_digest, issuer, context_digest, epoch)
+Contribution = (context_epoch, source_ref, record_id,
+                certificate_digest, admission_proof_digest)
+CountBasis = (context_epoch, source_status_revision, source_status_digest,
+              evaluated_at, eligible_sources, evidence_commitment)
+ReleaseSlot = (original_condition_digest, canonical_audience_digest)
+PreparedRelease = (release_id, intent_digest, commit_receipt_digest,
+                   envelope_bytes, envelope_digest, delivery_id, hand_over_by)
+```
+
+Keep `eligible_sources` and its evidence private. One bounded map from
+`source_ref` to eligible contributions serves both contextual coordination and
+disclosure counting, within one `ContextEpoch`. Never count map entries from
+different epochs or issuers together. Evaluate admission evidence and the P015
+current-source rules before deduplicating; repeated copies add no source, and
+natural certificate expiry does not erase a contribution admitted while valid.
+If one source has several eligible records, choose a deterministic representative
+for its evidence entry by canonical record-id ordering, without discarding the
+other retained evidence. A revoked or otherwise ineligible record cannot replace
+an eligible representative. Rebuild and incremental updates must agree.
+
+`evaluate_epoch_sources` yields either a complete, revision-bound basis over its
+pinned locally admitted view or an explicit unavailable/incomplete result, never
+a guessed zero. Completeness here does not claim knowledge of all reports in the
+federation. Coordination uses
+its own participation filter and emission latch. `evaluate_disclosure_condition`
+uses the same source evaluator over the condition's admitted holder view, then
+excludes the exact author source in the original epoch, or compares the full
+later-epoch set against checked `N + 1`. The count supplies no publication right.
+The authority re-evaluates it at release commit under the same source-status
+revision fence as eligibility; the triggering attestation is not a cached permit.
+
+Use two typed proof inputs: `FullPrivateAnchor` and `DetachedManifestAdmission`.
+They have different trust claims and meet only after their own signature, scope
+and binding checks. The shared tail checks the condition, accepted narrowing,
+confirmation if required, intent, commit receipt, audience and payload binding.
+The public path consumes only the bounded offline proof package and never calls
+a private-body loader. P035 owns the receipt carrier and verification adapter;
+ADC adds its manifest-binding profile rather than a second receipt format.
+
+Release execution uses the [LLR case owner](long-lived-rumors.md#implementation-recommendations):
+one acceptance reserves `ReleaseSlot` and binds the evaluated source basis and
+intent. The executor then freezes the final envelope and its delivery identity
+before AD hand-over. Recovery reads the saved phase: recover an unknown commit
+outcome by request id, finish the committed envelope once, or resubmit the saved
+bytes to AD. It never recounts to replace an accepted commit or reuses its slot.
+No cryptography, key-provider call or network I/O belongs inside the SQL write
+transaction; signature preparation and result exposure must preserve the atomic
+acceptance boundary and be covered by crash fixtures.
+
+ADC-004/005 must exercise duplicate/forwarded records, representative replacement,
+source revocation, natural certificate expiry, missing status, both epoch bases,
+two consented rooms, one room over two routes, and commit/withdrawal in both
+orders. A permutation/replay fixture must produce the same eligible-source set
+and evidence commitment from the same admitted inputs. Historical M4 counting
+and ids stay unchanged.
+
 ## Author Disclosure Condition Tracker {#author-disclosure-condition-tracker}
 
 All rows are post-MVP `todo` unless marked otherwise. The grouping row closes
 only on the composed Story 014 variant run.
 
+ADC-001/005 also freeze and qualify the embargo row of the
+[portable verification matrix](../013-whisper-social-signal-exchange.md#portable-verification-profiles):
+minimum public proof, exact bindings, numerical byte/item/depth/work limits and
+disclosure policy. ADC-005's completion requires a producer/consumer test with
+all allowed proof bytes carried, independently admitted local trust and a
+network-denying resolver whose fetch counter remains zero. Reuse P032's common
+law fixtures and compare evidence-access/accounting helpers with LLR-009 at
+whichever implementation lands second. That is a convergence checkpoint, not
+an execution dependency of ADC-005 on LLR-009.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
 | P013-ADC-000 | Story 014 disclosure-condition variant acceptance | todo | P013-ADC-001–008; P057-017; P015 Gates A and B; P015-005; P013-PEX-001; P013-DFR-001–004; P013-DFR-006 | One retained run of the [variant](../../30-stories/story-014-dormant-contest-entry.md#variant-author-disclosure-condition) proves S014-A12–A21 and its assertion-to-task matrix. Canary scans cover queries, Agora, AD copies, notifications and logs. Required cases include receiver verification without private-body retrieval, separate correlator and counting authority, two rooms versus two routes, later-epoch author present/absent, both commit/withdrawal orders, pre-authorized expiry, declined-prompt suppression, lost commit response and restart before AD hand-over. |
-| P013-ADC-001 | Freeze embargo manifest and condition contracts | todo | P015 v2 signal; P015-005; P013-LLR-006; P035-019 | `whisper-embargo-manifest.v1`, `whisper-embargo-condition.v1`, `whisper-release-payload.v1` and `whisper-embargo-amendment.v1`; acyclic manifest -> protected signal -> admission receipt construction, one anchor/at most one original condition, identical key/authority commitments and closed public proof fields. Preserve original condition identity through narrowing; widening creates a new case without silently withdrawing the old. Explicit authorized holder set; role-bound custody; per-descriptor consent. Golden and refusal fixtures cover offline verification without protected text, forbidden proof fields, substituted manifest/payload/authority, widening, unknown fields and expiry. LLR-006 owns the key contract; this row consumes it. |
-| P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. |
+| P013-ADC-001 | Freeze embargo manifest and condition contracts | todo | P015 v2 signal; P015-005; P013-LLR-006; P035-019 | `whisper-embargo-manifest.v1`, `whisper-embargo-condition.v1`, `whisper-release-payload.v1` and `whisper-embargo-amendment.v1`; acyclic manifest -> protected signal -> admission receipt construction, one anchor/at most one original condition, identical key/authority/case-lifetime commitments and closed public proof fields. P035 admission verifies their equality, supporting LLR-009's detached anchor proof without a new signature carrier. Preserve original condition identity through narrowing; widening creates a new case without silently withdrawing the old. Explicit authorized holder set; role-bound custody; per-descriptor consent. Golden and refusal fixtures cover offline verification without protected text, forbidden proof fields, substituted manifest/payload/authority/case lifetime, widening, unknown fields and expiry. LLR-006 owns the key contract; this row consumes it. |
+| P013-ADC-002 | Grouping rules, descriptors and similarity keys | todo | P013-DFR-001 | Grouping rules in the vocabulary document with typed fields, canonicalization and rendering templates; `whisper-correlation-descriptor.v1`; the domain-separated key derivation with golden vectors; a version bump on every normalization change; warnings for local rules; the breadth choice rendered for the author. Reuse one vocabulary-bound normalization/key function for authoring, notice creation and holder validation; display rendering never feeds the hash, and semantic-model suggestions never bypass author approval. |
 | P013-ADC-003 | Correlator custody obligations | todo | P013-ADC-001; S018 | The `whisper-embargo-custody:v1` profile and its advertisement; classification-based refusal on every listed egress surface; bounded custody retention; a canary test for each surface. |
-| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; P013-PEX-001 | Per-epoch counting with exact original-epoch exclusion and conservative N + 1 thereafter, with author-present and author-absent fixtures and UI effective-threshold explanation. `whisper-embargo-attestation.v1`, status freshness, publication receipt and counting at commit. Share bounded primitives between full-private and detached-public verifier paths; recipient verification never fetches protected text and explicitly trusts the admitted counter. Independently verifiable counts remain a separate open design. |
-| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-LLR-008; P070 | `whisper-embargo-confirmation.v1`, `whisper-embargo-release-intent.v1`, `whisper-release-commit.v1` and `whisper-embargo-release.v1`. Receipt binds pre-commit intent, not its own final envelope. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. |
+| P013-ADC-004 | Counting and attestation | todo | P013-ADC-001; P015 Gate B; P013-PEX-001 | Per-epoch counting with exact original-epoch exclusion and conservative N + 1 thereafter, with author-present and author-absent fixtures and UI effective-threshold explanation. `whisper-embargo-attestation.v1`, status freshness, publication receipt and counting at commit. Share bounded primitives between full-private and detached-public verifier paths; recipient verification never fetches protected text and explicitly trusts the admitted counter. Independently verifiable counts remain a separate open design. Reuse the contextual contribution evaluator with separate coordination/disclosure policies; qualify permutation/replay parity, duplicate sources and evidence-representative replacement without altering M4. |
+| P013-ADC-005 | Release execution | todo | P013-ADC-003–004; P013-LLR-008; P070 | `whisper-embargo-confirmation.v1`, `whisper-embargo-release-intent.v1`, `whisper-release-commit.v1` and `whisper-embargo-release.v1`. Receipt binds pre-commit intent, not its own final envelope. Slot/logical release id binds original condition and canonical audience digests; Agora record/id remains content-addressed. Same room/two routes uses one slot; two consented rooms use two; unauthorized room refuses. Atomic count/consent/slot acceptance, both commit/withdrawal orders, pre-authorized withdrawal/expiry after attestation, per-request outcomes, exact-byte replay, lost reply and crash before AD hand-over; AD unknown never means absent. Abandonment leaves the slot consumed. Offline recipient package verifies without the protected signal; closure evidence follows Story 014. Use LLR-008's acceptance owner and the shared prepared-output recovery laws; no parallel embargo case database or AD retry loop. |
 | P013-ADC-006 | Context-join proposals | todo | P013-ADC-002; P013-DFR-004 | Content-free `whisper-context-join-proposal.v1` from correlators to candidate authors, only under `keyed-and-confirmed-joins`; acceptance authors a related signal in the target context; model output stays advisory. A fixture proves that no context merges without the candidate author's act. |
 | P013-ADC-007 | Optional public correlation notice | todo | P013-ADC-002; P013-DFR-002; P015-005 | `whisper-correlation-notice.v1` is signed under an explicitly admitted publication tuple, content-free, expiring and discoverable through the term bucket. The editor warns about disclosure of the matter. Related signals point to the public notice record/id with a closed target kind; no hidden signal id is required or leaked. Tests refuse wrong kind/schema/topic/scope tuples and verify a notice-only reader can author a related signal. |
 | P013-ADC-008 | Author condition editor and status | todo | P013-ADC-001–002; P013-DFR-003; P057-017 | Render N and its effective epoch threshold, public criterion and proof disclosure, window, concrete audiences, mode, authorized holders, notice and coordination participation. Keep condition, proposal and per-slot execution states separate. Declining suppresses that proposal across restart; no renewed prompt without an explicit retry or consented bounded policy. Show widening as a new independent case and withdrawal as effective only after authority acceptance. |

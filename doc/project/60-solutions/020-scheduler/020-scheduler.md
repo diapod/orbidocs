@@ -906,11 +906,14 @@ the epoch boundary, so writing a fact never triggers network activity.
 Pausing any of these jobs is visible in its owner's readiness; pausing expiry
 postpones erasure rather than skipping it.
 
-The bucket pull executes every plan entry, whatever its `need`, `decoy` or
-`cover` origin, at a time drawn by the shared `cover-schedule/v1` rule
+The bucket pull executes the compiled jobs for all plan entries, whatever their
+`need`, `decoy` or `cover` origin, at a time drawn by the shared `cover-schedule/v1` rule
 ([P013-CIM-003](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)).
-The S020 launch only opens the epoch's pull window; the per-entry offsets
-belong to the Whisper job, so the scheduler sees no origin.
+Whisper coalesces duplicate bucket/window requests before sampling and persisting
+one offset per executable job, as specified in its
+[plan recommendations](../../40-proposals/013-whisper-social-signal-exchange/cooperative-interest-masking.md#implementation-recommendations).
+The S020 launch only opens the epoch's pull window; these offsets belong to the
+Whisper job, so the scheduler sees no origin.
 
 No second jitter or offset draw is applied by S020 on replay or retry.
 

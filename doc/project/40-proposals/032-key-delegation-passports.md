@@ -375,6 +375,15 @@ signing mechanics; S014 owns the inline-proof semantics. P035/Agora and
 P060/Messaging bind these rules to their own envelopes. Do not introduce a
 second certificate format or require every consumer to fetch the same evidence.
 
+Whisper's separately owned
+[portable case-succession profile (P013-LLR-009)](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification)
+applies this rule through P015's nym verifier and P035's admission evidence.
+It carries the case binding, successor certificate, accepted succession and
+fresh case status within explicit bounds. It does not reuse the Messaging
+passport carrier or treat a carried case authority as locally admitted trust.
+The profile is planned; this cross-reference changes no existing grant or
+runtime qualification.
+
 For each adopting profile, add a network-disabled acceptance fixture with an
 explicit local trust/status snapshot. Verify successful direct and delegated
 signatures without lookups; wrong signer, substituted key/proof, wrong scope,
@@ -383,6 +392,57 @@ material, oversize/deep chains and privacy-forbidden evidence must retain their
 distinct outcomes. Network fallback must not occur. Reuse existing verifier and
 replay fixtures; new evidence must state which profile and offline operation it
 qualifies. Documentation alone does not extend existing runtime qualification.
+
+#### Shared Verification Operations and Family Profiles {#shared-verification-operations}
+
+**Design refinement, 2026-10-28.** This is a cross-artifact contract, not a
+generalization of Messaging's carrier. P024 passports, P035 Agora records
+(including opinions and Whisper), P060 Messaging and P013/P015 case artifacts
+are consumers of this rule. P037 supplies signing mechanics; P081 supplies a
+scoped-claim verifier/admission separation where a request-bound claim is needed.
+No one consumer owns the others' evidence format, authority or freshness policy.
+
+The reusable abstraction is a **bounded view of exact evidence with explicit
+verification context**. Representations may remain inline proofs, attached
+certificates or a family-specific presentation. The context is supplied by the
+receiver: expected subject/use/audience, admitted profiles and trust, evaluation
+time and locally retained status knowledge. Carried material cannot supply its
+own expected authority. Keep domain context types distinct where their semantics
+differ; this is not a universal map of optional security fields.
+
+| Layer / operation | Reuse and preserved boundary |
+|---|---|
+| Signed bytes and signatures | Existing `canonical-json`, `crypto` and P037 signing/domain primitives; family adapters retain exact preimages, domains and key roles. Do not rewrap old signatures into a new universal format. |
+| Bounded evidence access | Resolve an exact artifact from attached material or an explicitly supplied local store; account for bytes, items, nesting and verification work; reject substitution and cycles. Missing material stays explicit; acquiring it is a separate authorized effect. A reference/digest is not a trust assertion. |
+| Proof semantics | Reuse existing small ports where they fit: P032 `DelegationProof`, Agora's `DelegationProofVerifier`, P015 `PublicationTimeVerifier`, and P081's suite verifier for scoped claims. A case commitment and an issuance delegation may share byte checks, but they remain different authorizations. |
+| Domain interpretation | Check required use, audience, historical admission and current status through the owning profile. Keep authentic signature, valid delegation, historical admission and current permission as separate results. |
+| Effects | The existing domain owner makes the admission/commit decision and rechecks its time/revision fences. No proof-view helper grants a capability or performs delivery. |
+
+This table defines reusable operations and laws, not an already implemented
+generic verifier API. During P013-LLR-009/ADC-005, compare the two Whisper
+consumers and existing inline-proof adapters before adding helpers. Share
+identical bounded resolution/accounting code at a substrate-free owner when
+the contracts match; otherwise share law fixtures and record the concrete
+reason for separation. No new crate, network resolver, global proof registry or
+generic signing endpoint is required merely to adopt the rule. P037's signer
+must not acquire a proof-fetching responsibility.
+
+Each family profile specifies which claim it proves, the minimum evidence,
+allowed representations and disclosure, exact binding rules, resource budgets,
+required local trust/time/status inputs and missing/stale/conflicting outcomes.
+Its tests reuse the common laws: byte preservation, no silent lookup, no trust
+bootstrap from a bundled root, no successful fallback around bad supplied proof,
+bounded work and no upgrade from signature validity to current authority.
+Current permission is evaluated again when its required evidence expires or the
+local authority/status view changes; a cached cryptographic result is not a
+cached authorization. Numerical limits and revocation merge rules stay per profile.
+
+[P013's family matrix](013-whisper-social-signal-exchange.md#portable-verification-profiles)
+applies this contract to the new Whisper mechanisms. P076 is one existing
+qualification precedent for a bounded carrier and a zero-fetch consumer test;
+it is neither the source of the cross-artifact rule nor a prerequisite for all
+Whisper verification. P081's nonce-bound claim presentation is likewise not a
+replacement for a retained, audience-bound succession artifact.
 
 ### Extension to participant-signed artifacts
 

@@ -175,6 +175,15 @@ for this bounded first implementation.
 
 ## P076-036: Bounded status presentation and offline acceptance
 
+**Separate consumer profile, proposed 2026-10-28:**
+[P013-LLR-009 / P015 define portable Whisper case succession](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification).
+They reuse the bounded-verification sequence, exact signed-subdocument handling,
+independent local trust and zero-fetch acceptance pattern. Their carrier and
+case-status semantics stay with Whisper: `issuance-revocation-status.v1` cannot
+establish current case authority, and its revocation-union rule is not a case
+history merge. This is a design cross-reference only; it extends neither
+P076-036's qualification nor P076-038's implementation scope.
+
 **Status: bounded gate qualified (2026-10-24).** The first receiver of a
 V2 Messaging passport should be able to verify it without fetching status when
 the presentation carries a usable, existing `issuance-revocation-status.v1` and

@@ -149,10 +149,12 @@ Case events get a small ordering contract instead
   purpose, the `case/anchor` record, B's current certificate, the audience and a
   short validity window.
 - **Verification.** The verifier checks both signatures over one preimage,
-  that the revealed public key matches the commitment in the `case/anchor`
-  record, that this record verifies historically (`P013-LLR-002`), and that
-  B's certificate is valid now. It also checks the scope, purpose, audience and
-  `not-after`. The successor's signature counts only as proof of possession in
+  that the revealed public key matches the verified original `case/anchor`
+  commitment, its historical admission (`P013-LLR-002`), and that B's certificate
+  is valid now. The [portable profile](#portable-case-succession-verification)
+  distinguishes a full-anchor check from reliance on an admitted detached proof.
+  It also checks the case lifetime, scope, purpose, audience and `not-after`.
+  The successor's signature counts only as proof of possession in
   this protocol ([signature uses](#signature-uses-and-certificate-scope)).
 - **Authenticity versus authority.** These checks show that the succession
   document is authentic. Whether B is still the authorized successor is a
@@ -183,6 +185,149 @@ person holds both keys. Every recipient learns the link between A and B, and
 the scope limits the permitted effects, not that knowledge. Case-bound
 successions therefore travel only to their audience through the private
 exchange path, and the author's editor names who will learn the link.
+
+## Portable Case-Succession Verification {#portable-case-succession-verification}
+
+**Proposed profile, 2026-10-28; post-MVP, P013-LLR-009.** Apply
+[P032's shared verification contract](../032-key-delegation-passports.md#shared-verification-operations)
+to Whisper's own evidence, alongside the other
+[Whisper family profiles](../013-whisper-social-signal-exchange.md#portable-verification-profiles).
+Reuse exact-evidence access, verification mechanics and acceptance laws.
+P076 provides a qualified consumer example, not the common contract or a carrier
+for Whisper. Its grant status and authority resolver cannot establish case
+currency; P076-038 gains no Whisper scope. P015-004 remains the narrow pure MVP
+verifier; this presentation and its host path belong to the LLR continuation.
+
+The proposed closed `whisper-case-succession-presentation.v1` carries the
+following roles. Each signed artifact keeps its existing schema, domain and
+exact signed bytes; the carrier is not a new signature or a source of trust.
+
+| Role | Minimum material and binding |
+|---|---|
+| `succession` | The exact `nym-succession.v2` with scope `case`, both signatures, the revealed continuity public key and the declared audience. |
+| `proof/anchor` | One of the two anchor-proof variants below, binding `case/anchor`, the original continuity-key digest, `case/status-authority` and `case/not-after`. |
+| `proof/certificates` | The original and successor nym certificates and the bounded public council/profile evidence their existing verifiers require. Expected roots and permitted profiles come from the receiver. Deduplicate identical evidence; a bare public key is not a certificate. |
+| `proof/acceptance` | The authority-signed `whisper-case-acceptance.v1` for these exact succession bytes; together they identify the accepted succession event. |
+| `proof/case-status` | A signed `whisper-case-status.v1` from the committed, locally admitted case authority, naming that event as the effective succession of an active case. |
+| `proof/source-status` | The signed nym/source status evidence required by P015 for the successor's current use, and any historical evidence required by the anchor verifier. Source status and case status cannot replace one another. |
+
+The **full-anchor** variant carries the complete original signed signal and its
+P035 receipt or profile-permitted verified Matrix PDU. It is available only to
+an audience authorized to see that signal. The **detached-manifest** variant,
+for a case that already has ADC, carries its separately nym-signed
+`whisper-embargo-manifest.v1` and P035's signed manifest/admission binding. That
+receipt attests that the manifest's case key, authority and lifetime match the
+private anchor. The verifier checks the manifest and the admitted receipt
+signer; it does not claim to verify the unseen signal's signature independently.
+The manifest contains no anchor id; the later receipt binds it to the anchor,
+preserving the acyclic construction.
+
+No embargo is required merely to have a case. A non-ADC case without an
+authorized full anchor or exact retained local proof yields **missing anchor
+evidence** for that receiver; v1 invents no detachable proof by deleting fields
+from a signed signal. A reference to an unavailable private body is not a
+self-contained presentation. Even the detached variant discloses case/nyms,
+condition metadata and timing: the builder checks the declared audience and
+disclosure policy for every included artifact before delivery. If the manifest
+is unsuitable for that audience, report unavailable rather than exporting it.
+Private keys, participant bindings and correlation text do not enter a public
+proof package. Use PEX-001's protected delivery for audience-limited packages.
+
+### Bounds and Representation
+
+Initial v1 budgets to freeze and qualify in LLR-009: at most **65,536 encoded
+carrier bytes**, **65,536 total unique decoded proof bytes**, **16 evidence
+items**, **8 levels of JSON nesting**, and **32 signature checks** including
+certificate/authority verification. Count nested and locally resolved evidence
+toward the same budgets; deduplication must not multiply work. These are proposed
+Whisper limits, not a consequence of P076's similarly sized carrier. Check size
+and nesting before expensive parsing/cryptography, and preflight the work budget.
+Oversize or unsupported evidence refuses explicitly, without truncating a
+certificate, authority proof or signed status to make it fit. Fixtures must
+demonstrate that the supported Phase 1 council profile fits these bounds.
+
+Use role-specific closed fields and existing signed-artifact encodings. A small
+evidence table may share an exact artifact between roles; its byte digest is
+distinct from an Agora `record/id`. References resolve only inside the bounded
+presentation or an explicitly supplied local exact-byte store. Reject cycles,
+conflicting copies, wrong artifact families and unknown signing uses. No URL,
+mutable `latest` reference, network discovery or attacker-selected fetch is part
+of verification. Acquisition, when separately authorized, belongs to the existing
+owner and must produce a new explicit verification input. A locally complete
+view and a fully carried presentation have different evidence claims.
+
+Preserve raw signed subdocuments when building and parsing; typed round-tripping
+must not insert defaults, discard extensions or reorder signed arrays. Reuse
+`canonical-json`, `nym-core`'s per-use byte checks, P035's publication-evidence
+adapters and P015-004's two-signature verifier. Add only a Whisper presentation
+adapter and a verified anchor-binding value recording which proof variant was
+used; do not turn a detached receipt into `SignalBinding` for a body never seen.
+
+### Verification Order and Results
+
+The verifier receives the expected case, operation and audience, independently
+admitted trust/profile inputs, explicit evaluation time and durable local
+status knowledge. Then:
+
+1. Bound and validate the presentation, resolve its exact local evidence and
+   check all role bindings. Missing required material is `unresolved`; malformed,
+   substituted or contradictory supplied material is `refused`. A valid cached
+   alternative must not conceal bad evidence supplied in this presentation.
+2. Verify the original anchor binding historically at its **admitted publication
+   time**, using the appropriate full or detached P035/P015 adapter. A sender's
+   timestamp does not establish that time. A carried root or authority cannot
+   admit itself; today's certificate check cannot replace historical admission.
+3. Verify the successor's current certificate/source status and call P015-004
+   with the verified key commitment, case lifetime, audience and current time.
+   The two signatures establish `AuthenticSuccession`, not continuing authority.
+4. Verify the exact authority acceptance and fresh case status, including the
+   same case/authority, active state, acceptance revision no later than the
+   status head and `case/current-succession` equal to this accepted event.
+   Compare against the receiver's retained head and negative knowledge before
+   accepting any effect. A newer local closure, conflict or different successor
+   cannot be replaced by an older attached `active` status.
+5. Return separate historical-anchor, succession-authenticity and current-case
+   results, bound to the evaluated evidence and time. The effect owner rechecks
+   the applicable time/status fences at its admission boundary; a saved positive
+   result is not a timeless permission.
+
+Case freshness remains LLR-008's **300-second** bound, including its clock and
+rollback rules. P015's source-status policy remains separate. Share only the
+authenticated-head comparison described below: P076's union of revocation ids
+is not a case-history merge algorithm. Do not synthesize a signed status from
+several snapshots. Missing or stale currency defers current effects even when
+historical authenticity is established. An offline result cannot detect an
+unseen later revocation or an unreported key compromise.
+
+For example, a package received at T can establish the old anchor's historical
+authorship and B's current case authority. Rechecking it after the status exceeds
+its freshness bound can still establish the historical result, but must defer
+the current effect. If the receiver already knows of a newer closure, even a
+still-fresh older `active` status cannot authorize B.
+
+This current-succession check does not retroactively gate an ADC release already
+committed by its authority. That receiver verifies the historical release commit
+and its approved public proof package under ADC-005; it does not fetch a current
+case status to undo the commit.
+
+### Offline Acceptance
+
+LLR-009 supplies a counting, network-denying resolver and an explicit local trust
+snapshot. Both full-anchor and detached-manifest cases must verify with **zero
+fetches**, with all positive proof bytes carried. In the detached case the
+private signal is absent and its retrieval is denied. This qualifies a verifier
+and its consumer adapter, not offline transport or unconditional authorization.
+
+Negative fixtures cover missing anchor/receipt/certificate/acceptance/status;
+changed continuity key or case lifetime; wrong case, audience, signer or profile;
+unsupported signature use; expired successor; stale or future-dated status;
+substituted succession bytes; unknown self-supplied root; known revocation;
+newer local closure/successor; rollback/equivocation across restart; all resource
+bounds; and privacy-forbidden evidence. Missing local-reference evidence stays
+unresolved without a fetch. A valid cache plus an invalid carried artifact still
+refuses. A refreshed status at the same accepted head must retain LLR-008's
+non-equivocation behavior. Historical authorship can remain established while
+current authority is deferred or refused.
 
 ## Case State and Currency {#case-state-and-currency}
 
@@ -285,6 +430,8 @@ has one declared use:
    verifier cannot detect an unreported compromise.
 6. Two semantic authorizations remain distinct from the Phase 1 Ed25519 suite.
    P081's suite-neutral adapter does not silently upgrade this wire format.
+7. Portable proof cannot bootstrap trust, replace case currency with Messaging
+   grant status, or disclose a private anchor to obtain self-containment.
 
 ## Trade-offs {#trade-offs}
 
@@ -297,6 +444,9 @@ has one declared use:
   public chain or participant identity should be inferred from it.
 - Receipts and keys cost retention. Erasure can make a later historical check
   impossible; the result is missing evidence, not invalidity or fresh authority.
+- A bounded presentation reduces lookups but duplicates some evidence and can
+  expire in transit. Detached proof adds reliance on the admitted receipt signer;
+  an unavailable safe proof is preferable to revealing the private anchor.
 
 ## Failure Modes and Mitigations {#failure-modes-and-mitigations}
 
@@ -309,6 +459,7 @@ has one declared use:
 | Receipts purged before retained bytes | Authorship cannot be rechecked | Co-retain verification bundle and bytes; diagnose incomplete evidence (LLR-003) |
 | Lost response or restart | Duplicate/re-decided event | Durable request digest/outcome; reject id reuse with changed bytes (LLR-008) |
 | Succession sent to wrong audience | Unwanted nym linkage | Recipient-bound AD/INAC; no public fallback (PEX-001/LLR-007) |
+| Incomplete/oversize presentation or forbidden anchor disclosure | No safe portable verification | Typed unresolved/refused result; no silent fetch, truncation or trust import (LLR-009) |
 
 ## Open Questions {#open-questions}
 
@@ -319,19 +470,88 @@ has one declared use:
 - An independently authorized recovery/compromise process would change the trust
   model and is outside v1. No authority is invented when a key is lost.
 
+## Implementation Recommendations {#implementation-recommendations}
+
+Use the [shared-mechanism dispositions](../013-whisper-social-signal-exchange.md#implementation-reuse).
+One pure case fold and one transactional case owner serve every operation below;
+do not add separate current-state stores for succession and embargo. Suggested
+internal values retain the existing wire contracts:
+
+```text
+CaseHead = (case_anchor, authority, revision, accepted_event_digest)
+CaseRequest = { case_anchor, request_id, body: typed operation }
+AcceptedCaseEvent = (request, acceptance)
+StoredOutcome = (case_anchor, request_id, request_digest, exact_result)
+```
+
+The closed operation variants are amendment, withdrawal, confirmation, closure,
+succession, release commit and abandonment. Their signatures and preconditions
+stay operation-specific. `fold_case_event(state, accepted_event)` checks the
+chain and derives the next immutable state without I/O. In particular, an
+amendment does not replace the current successor and a withdrawal does not free
+an already committed release slot. A corrupt or incomplete chain is unavailable,
+never a newly active empty case.
+
+The acceptance owner first authenticates the caller and exact request binding.
+Within its durable acceptance boundary it retrieves any saved outcome, refuses
+changed bytes under the same `(case_anchor, request_id)`, or checks the current
+head and evaluates the new operation with explicit current time and evidence.
+It appends the accepted event, advances the projection, reserves any release
+slot and records the outcome together. A duplicate returns its stored result;
+it is not evaluated against today's state. Serialize competing requests or use
+an expected-head CAS; after a conflict, re-evaluate against the new head.
+Unauthenticated traffic must not reserve ids or read private saved outcomes.
+
+Reuse S028 facts/projections and the recovery laws demonstrated by
+`node:nym-issuer-service/src/revision_store.rs`, without importing its
+issuer-specific database/key-provider coupling. Keep signing, media probes and
+network calls outside SQL write transactions. Prepared signatures/results may
+be exposed only after their exact input/head checks and durable acceptance;
+a failed CAS discards the candidate, not an already accepted event. LLR-008 owns
+fixtures for this seam, including a crash before result exposure.
+
+Extract only the shared head comparison from `nym-core::StatusCursor` when
+implementing the case cursor: a verified scope plus revision and identity digest
+compares as initial, unchanged, advanced, rollback, equivocation or wrong scope.
+Scope includes the artifact family and admitted authority as well as the domain's
+context/epoch or case anchor; equal numeric revisions across scopes are unrelated.
+The **identity digest differs by domain**: source status uses its signed payload;
+case status compares the accepted-history head. Refreshing a case status's issue
+time without changing that head is not equivocation. Each adapter separately
+checks its timestamp, authority and semantic claims. P015 keeps cumulative
+revocations; LLR keeps chain validity and terminal conflict behavior. Persist
+the accepted high-water mark with the decision that relies on it; a pure
+comparison alone does not protect a restored database.
+
+LLR-002 must return historical admission and current eligibility as separate
+results, using the P035/P015 publication-evidence port. Do not call the existing
+live `Certificate::admit` with an old clock value to simulate historical
+verification. LLR-007 calls P015-004's pure succession verifier, then checks
+accepted membership and fresh case currency; it does not implement another
+two-signature verifier. Shared law fixtures cover wrong scope, same head with a
+refreshed status, rollback, same revision/different accepted head and restart;
+domain fixtures retain missed withdrawal, conflicting history and key loss.
+
 ## Long-Lived Rumor Tracker {#long-lived-rumor-tracker}
 
 All rows remain planned or deferred. These gates qualify implementation; the
 design and its review do not supply that evidence.
 
+LLR-009 includes P032's common verification-law fixtures and a convergence
+review with ADC-005's evidence-access/accounting path. Share the mechanisms
+when their contracts match, or retain a concrete reason for separation. Do not
+make either proof-package consumer wait for the other's runtime merely to
+extract a generic library; the later implementation owns that comparison.
+
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–008; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
+| P013-LLR-000 | Controlled-clock twin acceptance | todo | P013-LLR-001–004, P013-LLR-006–009; P035-019; P041-001; P078-014; P015-004 | A rumor admitted at T with a receipt; after its certificate expires, redelivery at T + 1 year is accepted by a historical-mode relay and refused by a strict relay with `nym_certificate_expired`. A twin at T + 1 year is matched on the author's node, and the author reaffirms in the current epoch with a case-bound succession proof delivered only to the chosen audience. Its LLR-009 presentation verifies with no proof fetch and keeps authenticity separate from current authority. Succession signed by the expired nym key outside its grace window refuses. The old rumor is not counted toward the current threshold, and disclosure conditions are unaffected. |
 | P013-LLR-001 | Four-period contract | todo | P015; P036-004 | Each period has a named field or policy and an owner; the consistency rules are fixed; an audit of existing contracts finds and corrects conflations, such as counting horizons longer than retention. |
-| P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. |
+| P013-LLR-002 | Historical verifier | todo | P035-019; P015 | One library for relays, custodians and counting authorities with separate historical-validity and current-status outputs. Golden vectors cover revocation before and after admission, skew and unknown time authorities. Reuse P035's publication-evidence adapters and binding-law fixtures; a local admission row is not a signed proof. |
 | P013-LLR-003 | Admission evidence in Memarium | todo | P035-019; P036 | Receipts are stored beside envelope bytes under the same retention; redelivery carries them beside, never inside, the signed bytes. |
 | P013-LLR-004 | Re-contact for authored rumors | todo | P078-014; P013-DFR-004; P057-015; P013-LLR-007 | A notice when a new rumor matches an old authored one; a new related signal that is unlinked by default; an optional, warned `reaffirms` relation backed by a case-bound succession proof. |
 | P013-LLR-005 | Long-horizon distinct-source counting | deferred | P013-ADC-004; cryptographic review | Case-scoped distinctness or continuity across epochs without a public stable identifier, with explicit consent duration. Candidates include a source-equivalence attestation by the issuer while both bindings are still retained, which would also allow exact author exclusion in later epochs. A proposal-grade review comes before any runtime work. |
 | P013-LLR-006 | Case continuity key | todo | P015 v2 signal; S026 Pseudonym Vault | Single owner of the case key commitment, Phase 1 suite, lifetime and uses. Generate one key per case in the Vault; commit case/continuity-key-digest and case/status-authority in the first signed signal, independently of whether ADC is used. One key for amendments, confirmations and succession; bounded lifetime, deletion erasure fact and explicit opt-in recovery. Fixtures cover missing key, wrong commitment, deletion/recovery exclusion and independent cases. ADC-001 consumes this contract; no execution dependency points back to ADC. |
-| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. |
-| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; P013-PEX-001 | Case requests with `case/anchor` and `request/id`, and `whisper-case-acceptance.v1` assigning revision and previous digest; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; one durable transaction per acceptance that checks the head, evaluates the request, appends the event and stores the outcome by `request/id`; a durable high-water mark refusing rollback; `conflicted` only for contradictory accepted histories; a 300-second freshness bound that defers effects. Fixtures cover a missed withdrawal, competing requests that are not conflicts, a lost commit response followed by a withdrawal, rollback, an authority equivocation, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. |
+| P013-LLR-007 | Case-bound succession | todo | P015-004; P013-LLR-002; P013-LLR-006; P013-LLR-008 | Whisper use of `nym-succession.v2` with scope `case`: two signatures over one preimage, the commitment check, historical verification of the anchor, a current successor certificate used only as proof of possession, membership of the succession in the accepted case history and a fresh case status naming it as `case/current-succession`, private delivery to the declared audience, effects limited to `continue-case` with no source merging, closure handling, and refusal for each predecessor state in the table above. Call the P015-004 verifier; do not duplicate its cryptographic or mode/scope logic. |
+| P013-LLR-008 | Case state and currency | todo | P013-LLR-006; P013-PEX-001 | Case requests with `case/anchor` and `request/id`, and `whisper-case-acceptance.v1` assigning revision and previous digest; the `case/status-authority` commitment; a signed `whisper-case-status.v1` with head, state and `case/current-succession`; one durable transaction per acceptance that checks the head, evaluates the request, appends the event and stores the outcome by `request/id`; a durable high-water mark refusing rollback; `conflicted` only for contradictory accepted histories; a 300-second freshness bound that defers effects. Fixtures cover a missed withdrawal, competing requests that are not conflicts, a lost commit response followed by a withdrawal, rollback, an authority equivocation, a missing status, an amendment after a succession that leaves the successor authorized, a succession from B to C that ends B's authority, and a withdrawal racing a release commit on both orders. One fold/store serves all typed case operations. Share only authenticated-head comparison with P015; test refreshed case-status timestamps at an unchanged history head, source-status regression parity and crashes before signed result exposure. |
+| P013-LLR-009 | Bounded portable succession verification | todo | P013-LLR-002; P013-LLR-006–008; P013-ADC-001; P015-004; P035-019 | Freeze `whisper-case-succession-presentation.v1` and qualify the [portable profile](#portable-case-succession-verification): exact signed subdocuments, both authorized anchor-proof variants, certificate/source evidence, accepted succession and current case status; explicit size/item/depth/work bounds and typed missing-proof refusal to authorize. Reuse P015-004, P035 adapters and LLR-008's case cursor. Retain zero-fetch evidence for full and detached variants with independent local trust; all negative/privacy/cache-conflict/restart cases listed above pass. No protected-body fetch, generic certificate carrier, source merge, or P076-038/MVP scope expansion. |

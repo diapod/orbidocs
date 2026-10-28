@@ -423,6 +423,11 @@ epoch at a time and never sum epochs. In the protected signal's epoch they
 exclude the author's `source/ref` exactly; in later epochs they require one
 additional source, because the author cannot be recognized there. They use the
 same status freshness, revocation and publication-time rules as first emission.
+Implement these consumers over one revision-bound contribution evaluator, with
+separate coordination participation/latch and disclosure-consent decisions;
+[P013's implementation recommendations](../013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations)
+own its count/evidence shape and replay fixtures. The existing M4 node-counting
+path is not a contextual-source implementation and keeps its historical ids.
 Privately carried v2 signals reach the counting authority without a relay, so
 their publication-time evidence must come from that authority's durable
 admission receipt. Gate B qualifies Agora carriage only; the private carriage

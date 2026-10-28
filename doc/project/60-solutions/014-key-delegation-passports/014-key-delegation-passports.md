@@ -14,6 +14,13 @@ dependencies, preserve pseudonym privacy and qualify their network-disabled
 verification separately. Current `done` rows below do not establish every
 consumer's offline readiness, and the single-hop guard remains unchanged.
 
+[P032's shared verification operations](../../40-proposals/032-key-delegation-passports.md#shared-verification-operations)
+make this a common contract for family adapters, including
+[Whisper signals, embargo proofs and case succession](../../40-proposals/013-whisper-social-signal-exchange.md#portable-verification-profiles).
+They share evidence-access and verification laws without treating a nym
+certificate or case-key commitment as a `DelegationProof`. This planned adoption
+adds no delegation hop or universal proof carrier.
+
 ## Purpose
 
 The component is responsible for:

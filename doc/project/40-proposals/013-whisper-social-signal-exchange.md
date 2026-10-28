@@ -933,6 +933,128 @@ association-room lifecycle policy as post-MVP questions.
     and verifies in smoke that public and private traces use their declared
     Agora and INAC carriers without private projection leakage.
 
+## Implementation Recommendations: Shared Mechanisms {#implementation-reuse}
+
+Design refinement, 2026-10-28. The reusable-data-abstraction and retrospective
+convergence rules in `node:DEV-GUIDELINES.md` apply to the contextual, DFR, ADC,
+CIM and LLR continuations together. The decisions below reuse inspected Node
+primitives or consolidate two named consumers in the proposed design. They do
+not claim that the continuations are implemented or reopen historical M4 evidence.
+
+The objective is a small vocabulary with several operations over it. Keep pure
+Whisper rules in `whisper-core`, nym verification in `nym-core`, and effects in
+the existing hosted component/adapters. A common function or a small internal
+module is preferable to a new crate or universal record hierarchy. Dependency
+direction must remain valid; a pure owner must not import an issuer service,
+database, transport or UI to obtain a helper.
+
+### Reuse Dispositions
+
+| Shared mechanism and evidence | Receiving abstraction and preserved boundary | Consumers and completion owner |
+|---|---|---|
+| `node:canonical-json/src/lib.rs`, `node:crypto/src/lib.rs` and the existing per-use signing functions in `node:nym-core/src/lib.rs` | Canonical bytes and strict signature verification, with a closed per-artifact preimage/signing-use wrapper. Preserve the exact domain, omitted signature fields, key role and byte bounds; cryptographic validity adds no authority. | P015-004/005 and ADC-001/004: reuse the primitives and one set of byte-law fixtures; keep purpose-specific admission. |
+| `nym-core::PublicationTimeVerifier`, `PublicationAnchor` and `SignalBinding` | A verified record/author-byte/time binding behind a small behavior port. Matrix PDU and portable-receipt adapters must satisfy the same binding laws. Only a port and test implementations exist in `nym-core`; production backend qualification remains open. | P035-019, LLR-002 and ADC-004: share proof verification, with the detached-manifest extension owned by P035. Never fabricate a full-signal binding from a public manifest. |
+| P032's cross-artifact verification contract; existing inline-proof consumers and P076's qualified carrier as examples | Bounded exact evidence, independent local trust, separate historical/current results and zero-fetch acceptance. The shared operations are below family adapters; case authority and freshness remain Whisper-owned. | [The Whisper profile matrix](#portable-verification-profiles) applies across signal, embargo and case artifacts. LLR-009 composes P015-004, P035-019 and LLR-008; ADC-005 is the other proof-package consumer. No private-body disclosure or P076-038 scope expansion. |
+| P015 contextual eligibility and the two P013 consumers of source counts | One bounded per-context/epoch contribution view, followed by separate coordination and disclosure decisions. Preserve source identity and evidence; reduce repeated copies to one eligible source. No truth claim, cross-epoch identity or consent follows from that reduction. | P015 Gate B and ADC-004: one contribution evaluator, separate emission latch and release-commit policy; [counting details](013-whisper-social-signal-exchange/author-disclosure-conditions.md#implementation-recommendations). |
+| Scope/revision/digest comparison inside `node:nym-core/src/status.rs` (`StatusCursor::advance`) and LLR's case-status high-water rule | A small pure authenticated-head comparison, reused by two domain cursors. Preserve scope, equality, rollback and equivocation laws; leave cumulative revocations, chain continuity, freshness and terminal effects with their owners. | LLR-008 extracts only that comparison when adding the second consumer, retaining P015 regression vectors; [case details](013-whisper-social-signal-exchange/long-lived-rumors.md#implementation-recommendations). |
+| LLR case succession/control and ADC amendments, confirmations and release commits | One case request header, acceptance record, fold and transactional acceptance owner. Typed operation bodies keep distinct signers and preconditions. A common revision orders effects; it does not authorize them. | LLR-008 owns ordering and replay; ADC-005 contributes the release transition to that owner, not a second state store. |
+| DFR need/decoy plans and CIM accepted cover requests | One local plan-entry abstraction and one executable bucket-job shape. Local causes inform planning but are discarded at the network boundary; only the coarse topic/window survives. | DFR-002 owns the executor; CIM-001/003 add inputs and scheduling through it; [plan details](013-whisper-social-signal-exchange/cooperative-interest-masking.md#implementation-recommendations). |
+| `node:nym-issuer-service/src/prepared_exchange.rs` (`PreparedPhase`, `prepare`), plus AD's `InboundArtifactAcceptor` | Reuse AD's acceptor/runtime directly. Reuse the prepared-output law: exact input identity binds one retained byte sequence before hand-over. `PreparedPhase` itself is issuance-family-specific, not a generic Whisper carrier. | PEX-001 and ADC-005 reuse the law and recovery fixtures. Consider extracting only storage mechanics when both concrete adapters exist; no copy of the issuer's key-custody policy or second retry owner. |
+
+PEX-001 also starts from `node:whisper-intake/src/lib.rs`'s
+`artifact_delivery_envelope_for_private_record` and `admit_private_agora_record`,
+and its existing host-mediated AD acceptor invocation. These are concrete seams
+for the current private signal/trace families, not admission for v2 embargo,
+case or cover payloads. Extend family-specific adapters and refusal fixtures
+behind that boundary; preserve old-family behavior and do not route arbitrary
+new messages through a permissive legacy signal parser.
+
+The last row intentionally retains separate domain records. Its extraction
+checkpoint is PEX-001/ADC-005 implementation: either share a transaction-borrowing
+primitive with both adapters, or record the concrete contract/cost reason for
+separation. The issuer's `RevisionStore` also couples its SQL journal to an
+independent key-provider fence; it is a recovery precedent, not a ready-made
+case database. A database revision, signed source-status revision and case
+revision are different counters.
+
+### Portable Verification Profiles {#portable-verification-profiles}
+
+The owner of the general rule is
+[P032's shared verification contract](032-key-delegation-passports.md#shared-verification-operations),
+also referenced by S014 and `node:DEV-GUIDELINES.md`. Whisper applies it to each
+signed family, not only to succession. Existing public keys, nym certificates,
+delegation proofs and receipts remain the vocabulary. Prefer a family adapter
+over a new wrapper for every artifact; reuse an enclosing admitted bundle when
+it already carries the exact required evidence within the same audience.
+
+| Family / completion owner | Minimum portable verification material | Claim that remains separate |
+|---|---|---|
+| Contextual signals and correlation notices (P015-001/005, P013-ADC-007) | Existing nym-authorship/certificate material with the permitted publication-use tuple; council verification material under local admission. Add the existing P035 admission proof when claiming historical validity. | A valid nym publication does not make its content true or count it as a current distinct source. A private signal cannot be attached to a public notice. |
+| Embargo manifests and released records (P013-ADC-001/004/005, P035-019) | Nym-signed manifest and its certificate/use proof, signed admission binding, approved release payload, count attestation and accepted release commit; public signer/delegation evidence only as permitted by each artifact's profile. | The admitted counter attests hidden inputs; the receiver does not independently verify the private body. Historical commit validity is distinct from today's case status and AD delivery. |
+| Case control requests and accepted events (P013-LLR-006/008) | The continuity public key with the verified original anchor binding; each request's own signed bytes. Accepted events additionally carry the authority's exact request-bound acceptance and its permitted public signer evidence. | A valid command signature is not ordered acceptance. The case owner still checks current state and operation-specific preconditions; portable proof never commits a transition. |
+| Case succession (P013-LLR-007/009, P015-004) | The bounded [succession presentation](013-whisper-social-signal-exchange/long-lived-rumors.md#portable-case-succession-verification): anchor binding, both signatures, successor certificate/source evidence, exact acceptance and fresh case status. | Historical authorship, authentic succession and current case authority are independent results. No source-identity merge or reputation transfer follows. |
+| Cooperative cover requests (P013-CIM-001) | Existing authenticated private exchange/session evidence; the request remains unsigned at the application/nym layer. | The general preference for portable signatures does not require adding a public signature or durable identity link to an intentionally session-authenticated request. |
+
+Freeze each new family's byte/item/depth/work limits, supported evidence forms,
+disclosure rule and typed missing/stale outcomes in its owning contract task.
+Current M4 wire bytes and qualifications stay unchanged. The same pure operations
+can serve several representations: exact local resolution, budget accounting,
+canonical signature checks and verified binding comparison. Before duplicating
+these operations in ADC and LLR, use the P032 convergence checkpoint and retain
+shared law fixtures. Current authority, counting, freshness policy, retained
+negative knowledge and permission to disclose remain domain decisions.
+
+P081's `ScopedClaimSuiteVerifier` is appropriate when a caller actually asks for
+its request/nonce-bound predicates. It is not a generic verifier of arbitrary
+stored signatures; succession is not silently converted into a new scoped claim.
+P076's tests provide one useful zero-fetch precedent, while Agora's inline nym
+and delegation verifiers provide others. None requires a dependency on Messaging.
+
+### Small Operations, Explicit Evidence
+
+Suggested internal operations are `verify_publication_evidence`,
+`evaluate_epoch_sources`, `evaluate_disclosure_condition`, `fold_case_event`
+and `compile_pull_jobs`. These are design names, not claims about existing APIs.
+Use ordinary functions over validated values/iterators; introduce a trait only
+where actual representations need the same operations, as with publication-time
+evidence. Give ids distinct types where confusing a case, condition, audience,
+request or delivery would violate a contract. Do not model all artifacts as one
+map with optional authority fields.
+
+Schema Gate remains at wire/middleware boundaries. Pure operations receive
+explicit evaluation time, admitted policy and verified evidence; they neither
+fetch missing proof nor read the clock. Their outputs bind the evaluated inputs
+and distinguish refusal, insufficient evidence and a satisfied predicate. A
+satisfied predicate is not an authorized external effect. Owners recheck time
+and relevant revisions at the effect's specified commit point.
+
+Do not consolidate these apparent similarities:
+
+- M4 `WhisperContributor.node_id` and contextual `source/ref`: distinct units
+  of counting. Reuse collection operations, never substitute one identity for
+  the other or reinterpret retained threshold ids.
+- Full-private publication proof and detached-public receipt: the latter
+  trusts an admitted authority for hidden content. It cannot claim independent
+  verification of that content's signature.
+- Certificate validity, counting epoch, retention, consent deadline and AD
+  hand-over deadline: reuse time arithmetic, keep separate policy fields.
+- Nym/source status, case status and AD delivery status: independent authority
+  and recovery domains. A newer status or a delivery receipt is not consent.
+- P015 sealed issuance and CIM cover requests: the former uses signed private
+  exchanges, the latter deliberately avoids a transferable application signature.
+  Reusing AD must not silently add one or broaden an issuance crypto domain.
+
+### Milestone Convergence Gate
+
+Before closing P015-004, DFR-000, ADC-000, CIM-000 or LLR-000, review the delivered
+functions and data abstractions against this table and their existing counterparts.
+Record consolidation, an intentional difference, or an owned deferred extraction
+in that milestone's evidence. Run shared law fixtures for each participating
+adapter, including wrong scope/purpose, changed bytes under one id, replay after
+restart and missing evidence. Domain refusal fixtures remain mandatory. This is
+an implementation-closeout check, not an additional runtime service or an alpha
+dependency on the post-MVP continuations.
+
 ## Private Exchange Tracker
 
 Proposed carrier integration; no new transport. This task makes Next Actions 9
@@ -942,7 +1064,7 @@ success never means case acceptance, source admission or consent to disclose.
 
 | ID | Task | Status | Depends on | Completion gate |
 |---|---|---|---|---|
-| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. |
+| P013-PEX-001 | Recipient-bound private Whisper exchange | todo | S023/S017 admission contracts; P015 private exchange binding | Two-node AD/INAC evidence for protected signals and bounded request/reply profiles, named recipient/role admission, replay, restart, lost reply and expiry. Reuse one carrier/acceptor path; encrypt before AD custody. Wrong recipient or scope refuses; logs, notifications, relay queries and fallback paths expose no protected text or author route. No public fallback, new listener or second retry owner. The carrier gate does not depend on ADC/LLR consumers. Use the existing Whisper Intake AD invocation seam with closed family adapters; preserve legacy private-signal/trace refusal tests and bind saved bytes to exact request identity before hand-over. |
 
 ## Contextual participant-source authorship (2026-10-25)
 
@@ -1173,7 +1295,7 @@ run.
 |---|---|---|---|---|
 | P013-DFR-000 | Story 014 grouped acceptance | todo | P013-DFR-001–006; [P036-004–008](036-memarium.md#fact-retention-horizons-and-personal-records-2026-10-27); [P078-010–013](078-weak-signal-harvester.md#implementation-tracker); [P035-016–017](035-agora-topic-addressed-record-relay.md#decorrelated-bucket-pull-2026-10-27); [P057-015–016](057-user-and-operator-notifications.md#tracking); [P066-DFR-001–004](066-inquirium-assistant-channel.md#dormant-fact-capture-and-rumor-suggestions-2026-10-27); [P015 Gates A and B](015-nym-certificates-and-renewal-baseline/contextual-whisper-authorship.md#next-actions-and-acceptance) | One retained [Story 014](../30-stories/story-014-dormant-contest-entry.md) run on its fixture profile, over a SQLite relay and a mirror, proves S014-A1 to S014-A11. It includes canary scans of every egress surface and durable AD copy, and the not-related, expiry, below-floor, mislabeled, local-term and pull-all variants. |
 | P013-DFR-001 | Freeze the decorrelation vocabulary | todo | P091; P046 | `whisper-decorrelation-vocabulary.v1` JSON Schema and a factory JSON shipped with the Node distribution. A P091 descriptor provides keyed composition, explicit retirement, an empty-base replacement and immutable id-to-topic-key bindings; local ids are namespaced. Typed diagnostics follow factory upgrades, resolutions apply at epoch boundaries, and no vocabulary version or digest appears on the wire. Authoring and pulling validate against the same resolution; golden fixtures cover each rule. |
-| P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `whisper-pull-plan.local.v1` per epoch, one entry abstraction whose local `origin` is `need`, `decoy` or `cover` ([P013-CIM-001](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)): a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. |
+| P013-DFR-002 | Epoch pull plan and scheduled bucket pull | todo | P013-DFR-001; P078-011; P035-016–017; S020 | `whisper-pull-plan.local.v1` per epoch, one entry abstraction whose local `origin` is `need`, `decoy` or `cover` ([P013-CIM-001](013-whisper-social-signal-exchange/cooperative-interest-masking.md#cooperative-interest-masking)): a bounded real-term count, decoys from rated terms, a byte budget and pull-all when eligible volume fits. An S020 job pulls complete slices from configured relays and mirrors into the local rumor store. Tests prove independence from fact-write timing and indistinguishable decoy fetches. Compile coalesced jobs once per epoch; keep local causes outside the executor, persist sampled offsets and cover mixed-origin/restart/incomplete-slice fixtures from the shared implementation recommendations. |
 | P013-DFR-003 | "My rumors" view and rumor-side link projection | todo | P036-008; P095 | A local view lists authored rumors and rumors confirmed as concerning the participant's records, with threshold, proposal, room and curation state. The received-rumor curation view shows link decisions keyed by `record/id`. Link data never enters outbound propagation. |
 | P013-DFR-004 | Related-rumor authoring | todo | P015 Gate B; Story 005 | The v2 signal carries a bounded `signal/related-to` list, set only by an explicit author action. Each relation binds a public record/id and a closed target kind (`whisper-signal` or `whisper-correlation-notice`). A notice-only reader targets the notice, never a hidden signal id. A related draft inherits `topic/class` and `signal/similarity-key`, so its context digest matches. The relation adds no weight beyond one source, and derivation rules prevent counting a rumor's own derived records. |
 | P013-DFR-005 | Decide the wire conjunction rule | todo | P013-DFR-001; P078-011–012 | A fixture-corpus comparison of OR-only and pre-composed conjunction terms reports local match recall and precision, bytes per epoch and an estimated anonymity-set size per query. The decision is recorded in this section; OR-only remains the default until then. |
